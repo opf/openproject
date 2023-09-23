@@ -1907,6 +1907,7 @@ sl:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Odpri meni"
   label_open_work_packages: "odpri"
   label_open_work_packages_plural: "odpri"
@@ -2494,11 +2495,12 @@ sl:
   query_fields:
     active_or_archived: "Aktivno ali arhivirano"
     assigned_to_role: "Pooblaščenčeva vloga"
-    member_of_group: "Pooblaščenčeva skupina"
     assignee_or_group: "Prejemnik ali pripadajoča skupina"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Samo podprojekt"
+    member_of_group: "Pooblaščenčeva skupina"
     name_or_identifier: "Ime ali identifikator"
+    only_subproject_id: "Samo podprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'at %{identifier}'
     atom_revision_feed: 'Atom revizijski vir'

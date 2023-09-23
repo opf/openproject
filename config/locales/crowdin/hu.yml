@@ -1865,6 +1865,7 @@ hu:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Menü megnyitása"
   label_open_work_packages: "nyitott"
   label_open_work_packages_plural: "nyitott"
@@ -2447,11 +2448,12 @@ hu:
   query_fields:
     active_or_archived: "Aktív vagy archivált"
     assigned_to_role: "Hozzárendelt szerepkör"
-    member_of_group: "Hozzárendelt csoport"
     assignee_or_group: "Megbízott, vagy a hozzá tartozó csoport"
-    subproject_id: "Beleértve az alprojektet"
-    only_subproject_id: "Csak alprojekt"
+    member_of_group: "Hozzárendelt csoport"
     name_or_identifier: "Név vagy azonosító"
+    only_subproject_id: "Csak alprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Beleértve az alprojektet"
   repositories:
     at_identifier: '%{identifier} -n'
     atom_revision_feed: 'Atom felülvizsgálat jelzés'

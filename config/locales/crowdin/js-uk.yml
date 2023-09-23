@@ -983,6 +983,7 @@ uk:
         recently_created: "Нещодавно створений"
         all_open: "Всі відкрити"
         summary: "Резюме"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Перейти до розбиття таблиці на сторінки"
         label_pagination: "Клацніть тут, щоб пропустити пакунки робіт і перейти до розбивки на сторінки"

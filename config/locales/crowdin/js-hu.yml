@@ -981,6 +981,7 @@ hu:
         recently_created: "Nemrégiben létrehozott"
         all_open: "Nyitottak"
         summary: "Összegzés"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Ugrás a táblázat lapszámozásához"
         label_pagination: "Kattints ide, hogy átugorj a munkacsomag táblán és a lapszámozáshoz menj"

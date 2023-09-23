@@ -982,6 +982,7 @@ ru:
         recently_created: "Недавно созданное"
         all_open: "Все открытые"
         summary: "Сводка"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Перейти вёрстке таблицы"
         label_pagination: "Кликните здесь чтобы пропустить таблицу рабочих пакетов и перейти к вёрстке"

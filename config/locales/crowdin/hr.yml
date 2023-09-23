@@ -1889,6 +1889,7 @@ hr:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Otvori izbornik"
   label_open_work_packages: "otvori"
   label_open_work_packages_plural: "otvori"
@@ -2474,11 +2475,12 @@ hr:
   query_fields:
     active_or_archived: "Aktivno ili arhivirano"
     assigned_to_role: "Rola opunomoćenog korisnika"
-    member_of_group: "Grupa opunomoćenog korisnika"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Grupa opunomoćenog korisnika"
     name_or_identifier: "Ime ili identifikator"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'pri %{identifier}'
     atom_revision_feed: 'Atom revizija sadržaja'

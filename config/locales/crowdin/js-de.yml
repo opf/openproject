@@ -980,6 +980,7 @@ de:
         recently_created: "Kürzlich erstellt"
         all_open: "Alle offenen"
         summary: "Zusammenfassung"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Zur Seitennavigation springen"
         label_pagination: "Hier klicken, um über die Tabelle der Arbeitspakete hinweg zur Seitennavigation zu springen"
