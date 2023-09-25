@@ -33,6 +33,9 @@ class RolesController < ApplicationController
 
   before_action :require_admin, except: [:autocomplete_for_role]
 
+  menu_item :roles, except: :report
+  menu_item :permissions_report, only: :report
+
   def index
     @roles = roles_scope
              .page(page_param)
