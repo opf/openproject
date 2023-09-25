@@ -27,8 +27,6 @@
 # ++
 
 require 'spec_helper'
-require 'support/pages/work_packages/full_work_package'
-require 'support/components/work_packages/share_modal'
 
 RSpec.describe 'Work package sharing', :js do
   let(:sharer_role) do
