@@ -84,7 +84,7 @@ RSpec.describe 'edit users', :js, :with_cuprite do
     end
   end
 
-  def have_tab_visible(label)
+  def have_visible_tab(label)
     have_selector('.op-tab-row--link', text: label.upcase)
   end
 
@@ -93,7 +93,7 @@ RSpec.describe 'edit users', :js, :with_cuprite do
       another_admin = create(:admin)
       visit edit_user_path(another_admin)
 
-      expect(page).to have_tab_visible('GENERAL')
+      expect(page).to have_visible_tab('GENERAL')
     end
   end
 
@@ -104,7 +104,7 @@ RSpec.describe 'edit users', :js, :with_cuprite do
     it 'can too edit the user' do
       visit edit_user_path(user)
 
-      expect(page).to have_tab_visible('GENERAL')
+      expect(page).to have_visible_tab('GENERAL')
 
       expect(page).not_to have_selector('.admin-overview-menu-item', text: 'Overview')
       expect(page).not_to have_selector('.users-and-permissions-menu-item', text: 'Users and permissions')
@@ -146,8 +146,8 @@ RSpec.describe 'edit users', :js, :with_cuprite do
     it 'can not edit attributes of an admin user' do
       visit edit_user_path(admin)
 
-      expect(page).to have_tab_visible('PROJECTS')
-      expect(page).not_to have_tab_visible('GENERAL')
+      expect(page).to have_visible_tab('PROJECTS')
+      expect(page).not_to have_visible_tab('GENERAL')
     end
   end
 end
