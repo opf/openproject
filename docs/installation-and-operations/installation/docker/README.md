@@ -264,7 +264,7 @@ The default scenario is to have OpenProject serve the whole virtual host.
 This requires no further configuration for the docker container beyond what is
 described above.
 
-Let's assume we want OpenProject to be accessed under https://openproject.example.com.
+Let's assume we want OpenProject to be accessed under `https://openproject.example.com`.
 
 The **apache** configuration for this looks as follows.
 

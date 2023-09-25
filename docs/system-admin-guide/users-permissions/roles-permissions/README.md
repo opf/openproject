@@ -50,7 +50,7 @@ A user can have one or more roles which grant permissions on different levels.
 
 ### Non-member
 
-**Non member** is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../user-guide/projects/#set-a-project-to-public)** in the project settings.<br />
+**Non member** is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../../../user-guide/projects/#set-a-project-to-public)** in the project settings.<br />
 
 **Note:** The *Non-member* role cannot be deleted. 
 
@@ -95,13 +95,13 @@ To create the new role, click on the grey *Create* button at the bottom of the p
 
 Administrators can create new global roles in *Administration* > *Users and permissions* > *Roles and permissions*. In the creation form check the box **Global role**. The form now shows the available global permissions which can be assigned to the new global role:
 
-- **[Create projects](../../getting-started/projects/#create-a-new-project)**
+- **[Create projects](../../../getting-started/projects/#create-a-new-project)**
 
   > **Note:** To create a subproject for an existing project it requires also the project permission "Create subprojects".
 
-- **[Create backups](../backup/)**
+- **[Create backups](../../backup/)**
 
-- **[Create users](../users-permissions/users/#create-users)**
+- **[Create users](../../users-permissions/users/#create-users)**
 
 - **[Edit users](../users/)**
 
