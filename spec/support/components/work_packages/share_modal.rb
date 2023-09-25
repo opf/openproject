@@ -58,6 +58,12 @@ module Components
         end
       end
 
+      def remove_user(user)
+        within user_row(user) do
+          click_button 'Remove'
+        end
+      end
+
       def expect_shared_with(user)
         within active_list do
           expect(page)
@@ -75,6 +81,11 @@ module Components
       def expect_shared_count_of(count)
         expect(active_list)
           .to have_selector('[data-test-selector="op-share-wp-active-count"]', text: "#{count} members")
+      end
+
+      def user_row(user)
+        modal_element
+          .find("[data-test-selector=\"op-share-wp-active-user-#{user.id}\"]")
       end
 
       def active_list

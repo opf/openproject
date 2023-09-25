@@ -445,6 +445,8 @@ OpenProject::Application.routes.draw do
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
     get '/bulk' => 'bulk#destroy'
+
+    resources :shares, only: %i[destroy]
   end
 
   resources :work_packages, only: [:index] do

@@ -29,7 +29,8 @@
 class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
 
-  before_action :find_work_package
+  before_action :find_work_package, only: %i[index create]
+  before_action :find_share, only: %i[destroy]
 
   # Todo: access control
 
@@ -45,6 +46,24 @@ class WorkPackages::SharesController < ApplicationController
             user_id: params[:member][:user_id],
             roles: Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER))
 
+    respond_with_update_modal
+  end
+
+  def destroy
+    # TODO: handle having an non existing id
+    #       error handling
+    WorkPackageMembers::DeleteService
+      .new(user: current_user, model: @share)
+      .call
+
+    respond_with_update_modal
+  end
+
+  # Todo: Update
+
+  private
+
+  def respond_with_update_modal
     replace_via_turbo_stream(
       component: WorkPackages::Share::ModalComponent.new(work_package: @work_package)
     )
@@ -52,11 +71,13 @@ class WorkPackages::SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  # Todo: Delete
-
-  private
-
   def find_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
+  end
+
+  def find_share
+    # TODO: move into scope
+    @share = Member.where(entity_type: WorkPackage.name).find(params[:id])
+    @work_package = @share.entity
   end
 end

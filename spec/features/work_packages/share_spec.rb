@@ -73,7 +73,6 @@ RSpec.describe 'Work package sharing', :js do
   # TODO:
   #   - Check title
   #   - Check roles
-  #   - Delete case
   it 'allows seeing and administrating sharing' do
     work_package_page.visit!
 
@@ -99,5 +98,12 @@ RSpec.describe 'Work package sharing', :js do
     share_modal.expect_shared_with(not_shared_yet_with_user)
 
     share_modal.expect_shared_count_of(5)
+
+    # Removing a share will lead to that user being removed from the list of shared with users.
+    share_modal.remove_user(edit_user)
+
+    share_modal.expect_not_shared_with(edit_user)
+
+    share_modal.expect_shared_count_of(4)
   end
 end
