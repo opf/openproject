@@ -2,8 +2,8 @@
   if allowed_to_share?
     primer_form_with(
       model: @member,
-      method: @method,
-      url: @submit_path
+      method: :post,
+      url: work_package_shares_path(@work_package)
     ) do |form|
       flex_layout do |new_user_row|
         new_user_row.with_column(flex: :auto, mr: 2) do

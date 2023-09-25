@@ -5,12 +5,9 @@
     turbo_frame_tag "work_package_share_list" do
       flex_layout(data: { turbo: true }) do |modal_content|
         modal_content.with_row do
-          # Todo: Simplify attributes
           render(WorkPackages::Share::InviteUserFormComponent.new(
             member: Member.new(entity: @work_package),
-            work_package: @work_package,
-            method: :post,
-            submit_path: work_package_shares_path(@work_package)))
+            work_package: @work_package))
         end
 
         if shared_users.empty?

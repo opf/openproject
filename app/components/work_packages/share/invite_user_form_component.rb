@@ -33,13 +33,11 @@ module WorkPackages
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(member:, work_package:, method:, submit_path:)
+      def initialize(member:, work_package:)
         super
 
         @member = member
         @work_package = work_package
-        @method = method
-        @submit_path = submit_path
       end
 
       def allowed_to_share?
