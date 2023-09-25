@@ -28,7 +28,7 @@ A user can have one or more roles which grant permissions on different levels.
 
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Application-level: Full control of all aspects of the application | - Assign administration privileges to other users<br />- Create and restore backups in the web interface<br />- Create and configure an OAuth app<br />- Configure custom fields<br />- Archive projects/restore projects<br />- Configure global roles<br />- Configure project roles | Cannot be changed | 
+| Application-level: Full control of all aspects of the application | - Assign administration privileges to other users<br />- Create and restore backups in the web interface<br />- Create and configure an OAuth app<br />- Configure custom fields<br />- Archive projects/restore projects<br />- Configure global roles<br />- Configure project roles | Cannot be changed |
 
 ### Global role
 
@@ -52,7 +52,7 @@ A user can have one or more roles which grant permissions on different levels.
 
 **Non member** is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../user-guide/projects/#set-a-project-to-public)** in the project settings.<br />
 
-**Note:** The *Non-member* role cannot be deleted. 
+**Note:** The *Non-member* role cannot be deleted.
 
 
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
@@ -70,7 +70,7 @@ OpenProject allows to share project information with **anonymous** users which a
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Project-level: Permissions scoped to individual projects for users which are <u>not</u> logged in | - View work packages for users that are not logged in        | Assign different permissions to the role *Anonymous*         |
 
-## Customize roles with individual permissions 
+## Customize roles with individual permissions
 
 Administrators can add new roles with custom permissions or configure existing ones in *Administration* > *Users and permissions* > *Roles and permissions*.
 
@@ -105,7 +105,7 @@ Administrators can create new global roles in *Administration* > *Users and perm
 
 - **[Edit users](../users/)**
 
-	> **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator).  
+	> **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator). These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
 
 - **[Create, edit, and delete placeholder users](../placeholder-users/)**
 
@@ -115,7 +115,7 @@ Administrators can create new global roles in *Administration* > *Users and perm
 
 To edit an existing role, click on the role name in the roles overview table. Make your changes and save the update by clicking on the *Save* button at the bottom of the overview page.
 
-To delete an existing role click on the **delete icon** next to a role in the list. 
+To delete an existing role click on the **delete icon** next to a role in the list.
 
 > **Note:**  Roles that are assigned to a user cannot be deleted.
 
@@ -125,11 +125,15 @@ To delete an existing role click on the **delete icon** next to a role in the li
 
 No, only Administrators can delete other users.
 
+### Can a user with "Edit users" global permission change administrators attributes?
+
+No, only Administrators can update other Administrators attributes like name or email. This is to prevent the possibility of a user with "Edit users" global permission to impersonate an Administrator by changing the email address to match theirs.
+
 ### Can I set a default role for a user that creates a new project?
 
 You can set a [default role](../../system-settings/project-system-settings/#settings-for-new-projects) that users with this permission will have in a project they created.
 
-### Users do not see the action *Create project* in the main navigation even though they have the create project permission? 
+### Users do not see the action *Create project* in the main navigation even though they have the create project permission?
 
 This is UX bug tracked in [#50123](https://community.openproject.org/wp/50123).
 
