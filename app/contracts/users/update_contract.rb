@@ -39,7 +39,6 @@ module Users
     # - the user has the global manage_user permission and is not editing an admin
     def user_allowed_to_update
       return if editing_themself?
-      return if user.admin?
       return if can_manage_this_user?
 
       errors.add :base, :error_unauthorized
@@ -49,8 +48,10 @@ module Users
       user == model
     end
 
+    # Only admins can edit other admins
+    # Only users with manage_user permission can edit other users
     def can_manage_this_user?
-      user.allowed_to_globally?(:manage_user) && !model.admin?
+      user.allowed_to_globally?(:manage_user) && (user.admin? || !model.admin?)
     end
   end
 end
