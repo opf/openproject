@@ -520,7 +520,7 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-gmail_v1 (0.31.0)
+    google-apis-gmail_v1 (0.32.0)
       google-apis-core (>= 0.11.0, < 2.a)
     googleauth (1.8.1)
       faraday (>= 0.17.3, < 3.a)
