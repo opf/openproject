@@ -93,7 +93,7 @@ module MigrationStatementTimeout
         when /\A\d+h\z/
           timeout.to_i * 1000 * 60 * 60
         else
-          raise "Unrecognized statement timeout duration #{timeout.inspect}"
+          raise ArgumentError, "Unrecognized statement timeout duration #{timeout.inspect}"
         end
       end
     end
