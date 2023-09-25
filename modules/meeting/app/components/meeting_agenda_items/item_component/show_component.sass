@@ -1,0 +1,17 @@
+.op-meeting-agenda-item
+  display: grid
+  grid-template-columns: 20px max-content 1fr max-content 50px
+  grid-template-areas: "drag_handle duration content author actions" ". notes notes notes notes"
+
+  &--drag_handle,
+  &--duration,
+  &--content,
+  &--author
+    align-self: center
+
+  &--actions
+    justify-self: end
+
+  @media screen and (max-width: $breakpoint-lg)
+    grid-template-columns: 20px auto 1fr 50px
+    grid-template-areas: "drag_handle content content actions" ". duration author author" ". notes notes notes"

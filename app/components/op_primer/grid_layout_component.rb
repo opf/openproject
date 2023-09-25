@@ -28,17 +28,31 @@
 
 module OpPrimer
   class GridLayoutComponent < Primer::Component
-    def initialize(**)
+    attr_reader :css_class
+
+    def initialize(css_class, **args)
       super
 
-      @system_arguments = deny_tag_argument(**) || {}
+      @css_class = css_class
+      @system_arguments = args
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        css_class
+      )
     end
 
-    renders_many :areas, lambda { |area_name, component = ::Primer::BaseComponent, **system_arguments, &block|
-      system_arguments[:style] ||= ''
-      system_arguments[:style] = join_style_arguments(system_arguments[:style], "grid-area: #{area_name}")
+    renders_many :areas, lambda { |area_name, component = ::Primer::BaseComponent, **sysargs, &block|
+      styles = [
+        "grid-area: #{area_name}",
+        sysargs[:justify_self] ? "justify-self: #{sysargs[:justify_self]}" : nil,
+      ]
+      sysargs[:style] = join_style_arguments(sysargs[:style], *styles)
+      sysargs[:classes] = class_names(
+        sysargs[:classes],
+        "#{css_class}--#{area_name}"
+      )
 
-      render(component.new(**system_arguments), &block)
+      render(component.new(**sysargs), &block)
     }
   end
 end

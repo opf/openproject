@@ -32,8 +32,8 @@ module OpPrimer
       render(OpPrimer::FlexLayoutComponent.new(**), &)
     end
 
-    def grid_layout(**, &)
-      render(OpPrimer::GridLayoutComponent.new(**), &)
+    def grid_layout(css_class, **, &)
+      render(OpPrimer::GridLayoutComponent.new(css_class, **), &)
     end
 
     def box_collection(**, &)

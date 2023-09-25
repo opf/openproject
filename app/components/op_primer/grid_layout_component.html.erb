@@ -26,8 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% if areas.any? %>
+<% if @system_arguments[:tag] %>
+  <%= render Primer::BaseComponent.new(**@system_arguments) do %>
+    <% areas.each do |row| %>
+      <%= row %>
+    <% end %>
+  <% end %>
+<% else %>
   <% areas.each do |row| %>
     <%= row %>
   <% end %>
+
 <% end %>
