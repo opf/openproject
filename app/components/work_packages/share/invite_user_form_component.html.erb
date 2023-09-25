@@ -11,7 +11,7 @@
         end
 
         new_user_row.with_column(mr: 2) do
-          render(WorkPackages::Share::PermissionButtonComponent.new(shown_value: I18n.t('work_package.sharing.permissions.comment')))
+          render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: Role::BUILTIN_WORK_PACKAGE_COMMENTER))
         end
 
         new_user_row.with_column do

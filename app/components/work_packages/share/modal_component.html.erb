@@ -26,9 +26,9 @@
                       render(Users::AvatarComponent.new(user: user, size: :medium))
                     end
 
-                    user_row_container.with_column(color: :subtle, style: "width: 150px;") do
+                    user_row_container.with_column(text_align: :right, color: :subtle, style: "width: 150px;") do
                       # ToDo: real permission
-                      render(WorkPackages::Share::PermissionButtonComponent.new(shown_value: I18n.t('work_package.sharing.permissions.comment')))
+                      render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: 4))
                     end
 
                     user_row_container.with_column(text_align: :right, style: "width: 100px;") do

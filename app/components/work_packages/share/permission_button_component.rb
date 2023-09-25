@@ -32,12 +32,10 @@ module WorkPackages
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
 
-      def initialize(shown_value:)
+      def initialize(permission_value:)
         super
 
-        # Todo: Connect value with options
-
-        @shown_value = shown_value
+        @permission_value = permission_value
       end
 
       private
@@ -48,6 +46,10 @@ module WorkPackages
           { label: I18n.t('work_package.sharing.permissions.edit'), value: Role::BUILTIN_WORK_PACKAGE_EDITOR },
           { label: I18n.t('work_package.sharing.permissions.view'), value: Role::BUILTIN_WORK_PACKAGE_VIEWER }
         ]
+      end
+
+      def permission_name(value)
+        options.select { |option| option[:value] == value }
       end
     end
   end
