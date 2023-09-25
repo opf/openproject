@@ -3154,6 +3154,7 @@ en:
         one: "1 member"
         other: "%{count} members"
       invite: "Invite"
+      label_search: "Search for users to invite"
       permissions:
         comment: "Comment"
         denied: "You don't have permissions to share work packages."

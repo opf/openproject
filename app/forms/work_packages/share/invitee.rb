@@ -30,7 +30,7 @@ module  WorkPackages::Share
     form do |user_invite_form|
       user_invite_form.autocompleter(
         name: :user_id,
-        label: 'Todo',
+        label: I18n.t('work_package.sharing.label_search'),
         visually_hide_label: true,
         autocomplete_options: {
           id: "op-share-wp-user-autocomplete",
