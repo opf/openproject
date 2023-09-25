@@ -85,7 +85,7 @@ RSpec.describe 'edit users', :js, :with_cuprite do
   end
 
   def have_visible_tab(label)
-    have_selector('.op-tab-row--link', text: label.upcase)
+    have_css('.op-tab-row--link', text: label.upcase)
   end
 
   context 'as admin' do
