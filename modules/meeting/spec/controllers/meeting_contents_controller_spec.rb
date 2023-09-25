@@ -114,7 +114,7 @@ RSpec.describe MeetingContentsController do
         end
 
         it 'produces a flash message containing the mail addresses raising the error' do
-          put 'notify',  params: { meeting_id: meeting.id }
+          put 'notify', params: { meeting_id: meeting.id }
           meeting.participants.each do |participant|
             expect(flash[:error]).to include(participant.name)
           end
