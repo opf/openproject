@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,41 +24,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-# Create memberships like this:
-#
-#   project = create(:project)
-#   user    = create(:user)
-#   role    = create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
-#
-#   member = create(:member, user: user, project: project, roles: [role])
+module WorkPackageMembers
+  class SetAttributesService < ::BaseServices::SetAttributes
+    private
 
-FactoryBot.define do
-  factory :member do
-    project
-    entity { nil }
+    def set_attributes(params)
+      super
 
-    transient do
-      user { nil }
+      model.change_by_system do
+        model.project = model.entity&.project
+      end
     end
-
-    after(:build) do |member, evaluator|
-      member.principal ||= evaluator.user || build(:user)
-    end
-
-    after(:stub) do |member, evaluator|
-      member.principal ||= evaluator.user || build_stubbed(:user)
-    end
-  end
-
-  factory :global_member, parent: :member do
-    project { nil }
-    entity { nil }
-  end
-
-  factory :work_package_member, parent: :member do
-    entity factory: %i[work_package]
-    project { entity.project }
   end
 end

@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,41 +26,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-# Create memberships like this:
-#
-#   project = create(:project)
-#   user    = create(:user)
-#   role    = create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
-#
-#   member = create(:member, user: user, project: project, roles: [role])
+require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
-FactoryBot.define do
-  factory :member do
-    project
-    entity { nil }
+RSpec.describe WorkPackageMembers::CreateService do
+  let(:user) { build_stubbed(:user) }
+  let(:role) { build_stubbed(:view_work_package_role) }
+  let(:work_package) { build_stubbed(:work_package) }
+  let(:instance) { described_class.new(user:) }
 
-    transient do
-      user { nil }
-    end
+  let(:params) { { principal: user, roles: [role], entity: work_package, project: work_package.project } }
 
-    after(:build) do |member, evaluator|
-      member.principal ||= evaluator.user || build(:user)
-    end
+  subject(:service_call) { instance.call(params) }
 
-    after(:stub) do |member, evaluator|
-      member.principal ||= evaluator.user || build_stubbed(:user)
-    end
-  end
-
-  factory :global_member, parent: :member do
-    project { nil }
-    entity { nil }
-  end
-
-  factory :work_package_member, parent: :member do
-    entity factory: %i[work_package]
-    project { entity.project }
+  it_behaves_like 'BaseServices create service' do
+    let(:model_class) { Member }
+    let(:call_attributes) { { principal: user, roles: [role], entity: work_package, project: work_package.project } }
   end
 end

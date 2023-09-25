@@ -38,10 +38,12 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    # Todo: Role selection, validation, error handling?
-    Member.create(entity: @work_package,
-                  user_id: params[:member][:user_id],
-                  roles: Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER))
+    # Todo: Role selection, error handling?
+    WorkPackageMembers::CreateService
+      .new(user: current_user)
+      .call(entity: @work_package,
+            user_id: params[:member][:user_id],
+            roles: Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER))
 
     replace_via_turbo_stream(
       component: WorkPackages::Share::ModalComponent.new(work_package: @work_package)

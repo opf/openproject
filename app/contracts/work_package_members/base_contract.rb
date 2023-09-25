@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,41 +24,54 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-# Create memberships like this:
-#
-#   project = create(:project)
-#   user    = create(:user)
-#   role    = create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
-#
-#   member = create(:member, user: user, project: project, roles: [role])
+module WorkPackageMembers
+  class BaseContract < ::ModelContract
+    delegate :project,
+             to: :model
 
-FactoryBot.define do
-  factory :member do
-    project
-    entity { nil }
+    attribute :roles
 
-    transient do
-      user { nil }
+    validate :user_allowed_to_manage
+    validate :role_grantable
+    validate :single_role
+    validate :principal_assignable
+    validate :project_set
+
+    private
+
+    def user_allowed_to_manage
+      errors.add :base, :error_unauthorized unless user_allowed_to_manage?
     end
 
-    after(:build) do |member, evaluator|
-      member.principal ||= evaluator.user || build(:user)
+    def user_allowed_to_manage?
+      user.allowed_to?(:share_work_packages,
+                       model.project)
     end
 
-    after(:stub) do |member, evaluator|
-      member.principal ||= evaluator.user || build_stubbed(:user)
+    def single_role
+      errors.add(:roles, :more_than_one) if active_roles.count > 1
     end
-  end
 
-  factory :global_member, parent: :member do
-    project { nil }
-    entity { nil }
-  end
+    def role_grantable
+      errors.add(:roles, :ungrantable) unless active_roles.all? { _1.is_a?(WorkPackageRole) }
+    end
 
-  factory :work_package_member, parent: :member do
-    entity factory: %i[work_package]
-    project { entity.project }
+    def principal_assignable
+      return if principal.nil?
+
+      if principal.builtin? || principal.locked?
+        errors.add(:principal, :unassignable)
+      end
+    end
+
+    def project_set
+      errors.add(:project, :blank) if project.nil?
+    end
+
+    def active_roles
+      model.member_roles.reject(&:marked_for_destruction?).map(&:role)
+    end
   end
 end
