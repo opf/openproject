@@ -611,12 +611,11 @@ RSpec.describe UsersController do
   end
 
   describe 'PATCH #update' do
-    let(:some_user) do
-      create(:user,
-             firstname: 'Firstname',
-             login: 'test_login',
-             force_password_change: false)
+    shared_let(:user_with_manage_user_global_permission) do
+      create(:user, login: 'human-resources', global_permissions: [:manage_user])
     end
+    shared_let(:some_user) { create(:user, firstname: 'User being updated') }
+    shared_let(:some_admin) { create(:admin, firstname: 'Admin being updated') }
 
     context 'when updating fields as an admin' do
       current_user { admin }
@@ -704,35 +703,88 @@ RSpec.describe UsersController do
       end
     end
 
-    context 'when updating the "admin" field' do
-      let(:params) do
-        {
-          id: some_user.id,
+    shared_examples 'it can update field' do |field:, value:, edited_user:, current_user:|
+      it "can change field #{field} " \
+         "of #{edited_user.to_s.humanize(capitalize: false)} " \
+         "as #{current_user.to_s.humanize(capitalize: false)}" do
+        login_as send(current_user)
+        params = {
+          id: send(edited_user).id,
           user: {
-            admin: true
+            field => value
           }
         }
-      end
-
-      context 'as an admin' do
-        current_user { admin }
-
-        it do
-          expect { put :update, params: }
-            .to change { some_user.reload.admin }
-            .from(false).to(true)
-        end
-      end
-
-      context 'as a user' do
-        current_user { user }
-
-        it do
-          expect { put :update, params: }
-            .not_to change { some_user.reload.admin }
-        end
+        expect { put :update, params: }
+          .to change { send(edited_user).reload.send(field) }
+          .to(value)
       end
     end
+
+    shared_examples 'it cannot update field' do |field:, value:, edited_user:, current_user:|
+      it "cannot change field #{field} " \
+         "of #{edited_user.to_s.humanize(capitalize: false)} " \
+         "as #{current_user.to_s.humanize(capitalize: false)}" do
+        login_as send(current_user)
+        params = {
+          id: send(edited_user).id,
+          user: {
+            field => value
+          }
+        }
+
+        expect { put :update, params: }
+          .not_to change { send(edited_user).reload.send(field) }
+      end
+    end
+
+    # admin field
+    include_examples 'it can update field',
+                     field: :admin,
+                     value: true,
+                     edited_user: :some_user,
+                     current_user: :admin
+    include_examples 'it can update field',
+                     field: :admin,
+                     value: false,
+                     edited_user: :some_admin,
+                     current_user: :admin
+    include_examples 'it cannot update field',
+                     field: :admin,
+                     value: true,
+                     edited_user: :some_user,
+                     current_user: :user
+    include_examples 'it cannot update field',
+                     field: :admin,
+                     value: true,
+                     edited_user: :some_user,
+                     current_user: :user_with_manage_user_global_permission
+
+    # email field
+    include_examples 'it can update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_user,
+                     current_user: :admin
+    include_examples 'it can update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_admin,
+                     current_user: :admin
+    include_examples 'it can update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_user,
+                     current_user: :user_with_manage_user_global_permission
+    include_examples 'it cannot update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_admin,
+                     current_user: :user_with_manage_user_global_permission
+    include_examples 'it cannot update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_user,
+                     current_user: :user
 
     context 'with external authentication' do
       let(:some_user) { create(:user, identity_url: 'some:identity') }
@@ -917,7 +969,7 @@ RSpec.describe UsersController do
       it 'includes the number of reported work packages' do
         label = Regexp.escape(I18n.t(:label_reported_work_packages))
 
-        expect(response.body).to have_selector('p', text: /#{label}.*42/)
+        expect(response.body).to have_css('p', text: /#{label}.*42/)
       end
     end
   end

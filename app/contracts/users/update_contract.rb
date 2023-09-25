@@ -35,12 +35,22 @@ module Users
     ##
     # Users can only be updated when
     # - the user is editing herself
-    # - the user has the global manage_user permission
     # - the user is an admin
+    # - the user has the global manage_user permission and is not editing an admin
     def user_allowed_to_update
-      unless user == model || user.allowed_to_globally?(:manage_user)
-        errors.add :base, :error_unauthorized
-      end
+      return if editing_themself?
+      return if user.admin?
+      return if can_manage_this_user?
+
+      errors.add :base, :error_unauthorized
+    end
+
+    def editing_themself?
+      user == model
+    end
+
+    def can_manage_this_user?
+      user.allowed_to_globally?(:manage_user) && !model.admin?
     end
   end
 end
