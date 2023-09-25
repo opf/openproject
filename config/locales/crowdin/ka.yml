@@ -1868,6 +1868,7 @@ ka:
   label_operator_none: "ცარიელია"
   label_operator_equals_or: "არის (ან)"
   label_operator_equals_all: "არის (და)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "მენიუს გახსნა"
   label_open_work_packages: "გახსნა"
   label_open_work_packages_plural: "გახსნა"
@@ -2451,11 +2452,12 @@ ka:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
-    member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'at %{identifier}'
     atom_revision_feed: 'Atom revision feed'

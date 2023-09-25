@@ -310,8 +310,8 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.825.0)
-    aws-sdk-core (3.182.0)
+    aws-partitions (1.826.0)
+    aws-sdk-core (3.183.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -319,7 +319,7 @@ GEM
     aws-sdk-kms (1.71.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.134.0)
+    aws-sdk-s3 (1.135.0)
       aws-sdk-core (~> 3, >= 3.181.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.6)
@@ -476,7 +476,7 @@ GEM
       concurrent-ruby (~> 1.1)
       webrick (~> 1.7)
       websocket-driver (>= 0.6, < 0.8)
-    ffi (1.15.5)
+    ffi (1.16.1)
     flamegraph (0.9.5)
     fog-aws (3.19.0)
       fog-core (~> 2.1)
@@ -520,9 +520,9 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-gmail_v1 (0.30.0)
+    google-apis-gmail_v1 (0.32.0)
       google-apis-core (>= 0.11.0, < 2.a)
-    googleauth (1.8.0)
+    googleauth (1.8.1)
       faraday (>= 0.17.3, < 3.a)
       jwt (>= 1.4, < 3.0)
       multi_json (~> 1.11)
@@ -588,7 +588,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.4.11)
+    lefthook (1.5.0)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -680,7 +680,7 @@ GEM
       actionview
       openproject-octicons (= 19.7.0)
       railties
-    openproject-primer_view_components (0.10.0)
+    openproject-primer_view_components (0.11.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
       openproject-octicons (>= 19.7.0)
@@ -739,7 +739,7 @@ GEM
       eventmachine_httpserver
       http_parser.rb (~> 0.6.0)
       multi_json
-    puma (6.3.1)
+    puma (6.4.0)
       nio4r (~> 2.0)
     puma-plugin-statsd (2.5.0)
       puma (>= 5.0, < 7)
@@ -870,9 +870,9 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
-    rubocop-capybara (2.18.0)
+    rubocop-capybara (2.19.0)
       rubocop (~> 1.41)
-    rubocop-factory_bot (2.23.1)
+    rubocop-factory_bot (2.24.0)
       rubocop (~> 1.33)
     rubocop-performance (1.19.1)
       rubocop (>= 1.7.0, < 2.0)
@@ -881,7 +881,7 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rspec (2.24.0)
+    rubocop-rspec (2.24.1)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
@@ -1114,7 +1114,7 @@ DEPENDENCIES
   openproject-octicons (~> 19.7.0)
   openproject-octicons_helper (~> 19.7.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.10.0)
+  openproject-primer_view_components (~> 0.11.0)
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!

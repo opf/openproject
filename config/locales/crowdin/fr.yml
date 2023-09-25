@@ -1868,6 +1868,7 @@ fr:
   label_operator_none: "est vide"
   label_operator_equals_or: "est (OU)"
   label_operator_equals_all: "est (ET)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Ouvrir le menu"
   label_open_work_packages: "ouverts"
   label_open_work_packages_plural: "ouverts"
@@ -2451,11 +2452,12 @@ fr:
   query_fields:
     active_or_archived: "Actif ou archivé"
     assigned_to_role: "Rôle du Destinataire"
-    member_of_group: "Groupe du Destinataire"
     assignee_or_group: "Cessionnaire ou groupe d’appartenance"
-    subproject_id: "Inclure le sous-projet"
-    only_subproject_id: "Seulement le sous-projet"
+    member_of_group: "Groupe du Destinataire"
     name_or_identifier: "Nom ou identifiant"
+    only_subproject_id: "Seulement le sous-projet"
+    shared_with_user: "Shared with user"
+    subproject_id: "Inclure le sous-projet"
   repositories:
     at_identifier: '%{identifier}'
     atom_revision_feed: 'Flux Atom des révisions'

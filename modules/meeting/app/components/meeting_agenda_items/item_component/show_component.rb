@@ -111,13 +111,7 @@ module MeetingAgendaItems
     end
 
     def drag_handler_partial
-      render(Primer::Beta::Octicon.new(
-               color: :subtle,
-               classes: "handle",
-               style: "cursor: move;",
-               size: :small,
-               icon: :grabber
-             ))
+      render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
     end
 
     def work_package_title_partial

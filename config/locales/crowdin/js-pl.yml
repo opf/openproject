@@ -983,6 +983,7 @@ pl:
         recently_created: "Utworzone niedawno"
         all_open: "Wszystkie otwarte"
         summary: "Podsumowanie"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Przejdź do stronicowania tabeli"
         label_pagination: "Kliknij tutaj, aby pominąć tablicę zadań i przejść do stronicowania"

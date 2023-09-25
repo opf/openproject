@@ -1847,6 +1847,7 @@ zh-TW:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "開啟選單"
   label_open_work_packages: "打開"
   label_open_work_packages_plural: "打開"
@@ -2427,11 +2428,12 @@ zh-TW:
   query_fields:
     active_or_archived: "啟用或封存"
     assigned_to_role: "負責執行者的角色"
-    member_of_group: "負責執行者的群組"
     assignee_or_group: "被指派或所屬的人或群組"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "負責執行者的群組"
     name_or_identifier: "名稱或識別碼"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: '在 %{identifier}'
     atom_revision_feed: '單一修訂串流'

@@ -415,7 +415,7 @@ de:
     label_filename: "Datei"
     label_filesize: "Größe"
     label_general: "Allgemein"
-    label_global_roles: "Global roles"
+    label_global_roles: "Globale Rollen"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
     label_group_by: "Gruppieren nach"
@@ -980,6 +980,7 @@ de:
         recently_created: "Kürzlich erstellt"
         all_open: "Alle offenen"
         summary: "Zusammenfassung"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Zur Seitennavigation springen"
         label_pagination: "Hier klicken, um über die Tabelle der Arbeitspakete hinweg zur Seitennavigation zu springen"

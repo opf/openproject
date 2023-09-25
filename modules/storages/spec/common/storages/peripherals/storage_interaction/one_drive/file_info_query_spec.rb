@@ -45,12 +45,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
   let(:not_found_json) { not_found_response }
   let(:forbidden_json) { forbidden_response }
 
-  before do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}")
-      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .to_return(status: 200, body: read_json('folder_drive_item'), headers: {})
-  end
-
   it 'responds to .call' do
     expect(described_class).to respond_to(:call)
 
@@ -59,6 +53,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
   end
 
   it 'returns a storage file info object' do
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
+      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
+      .to_return(status: 200, body: read_json('folder_drive_item'), headers: {})
+
     storage_file_info = described_class.call(storage:, user:, file_id:).result
 
     # rubocop:disable Layout/LineLength
@@ -84,7 +82,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
 
   describe 'error handling' do
     it 'returns a notfound error if the API call returns a 404' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 404, body: not_found_json, headers: {})
 
@@ -96,7 +94,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
     end
 
     it 'returns a forbidden error if the API call returns a 403' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 403, body: forbidden_json, headers: {})
 

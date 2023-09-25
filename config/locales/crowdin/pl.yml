@@ -1907,6 +1907,7 @@ pl:
   label_operator_none: "jest puste"
   label_operator_equals_or: "jest (OR)"
   label_operator_equals_all: "jest (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Otwórz menu"
   label_open_work_packages: "Otwarte"
   label_open_work_packages_plural: "Otwarte"
@@ -2493,11 +2494,12 @@ pl:
   query_fields:
     active_or_archived: "Aktywne lub zarchiwizowane"
     assigned_to_role: "Przypisany do roli"
-    member_of_group: "Przypisany do grupy"
     assignee_or_group: "Przypisana osoba lub przynależna grupa"
-    subproject_id: "Uwzględniając podprojekt"
-    only_subproject_id: "Tylko podprojekt"
+    member_of_group: "Przypisany do grupy"
     name_or_identifier: "Nazwa lub identyfikator"
+    only_subproject_id: "Tylko podprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Uwzględniając podprojekt"
   repositories:
     at_identifier: 'w %{identifier}'
     atom_revision_feed: 'Przegląd wersji Atom''a'

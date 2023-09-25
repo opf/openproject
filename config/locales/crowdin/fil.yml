@@ -1868,6 +1868,7 @@ fil:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Buksan ang pagpipilian"
   label_open_work_packages: "buksan"
   label_open_work_packages_plural: "buksan"
@@ -2451,11 +2452,12 @@ fil:
   query_fields:
     active_or_archived: "Aktibo o naka-archieve"
     assigned_to_role: "Naitalagang tungkulin"
-    member_of_group: "Itinalagang grupo"
     assignee_or_group: "Nakatakda o pag-aari ng grupo"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Itinalagang grupo"
     name_or_identifier: "Pangalan o pagkakakilanlan"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'sa %{identifier}'
     atom_revision_feed: 'Atom revision feed'

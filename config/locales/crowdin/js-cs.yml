@@ -983,6 +983,7 @@ cs:
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
         summary: "Souhrn"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Přejít na stránku tabulky"
         label_pagination: "Kliknutím sem přeskočíte tabulku pracovních balíčků a přejděte na stránku"

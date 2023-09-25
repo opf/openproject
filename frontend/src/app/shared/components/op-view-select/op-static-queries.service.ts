@@ -44,11 +44,13 @@ interface IStaticQuery extends IOpSidemenuItem {
 export class StaticQueriesService {
   private staticQueries:IStaticQuery[] = [];
 
-  constructor(private readonly I18n:I18nService,
+  constructor(
+    private readonly I18n:I18nService,
     private readonly $state:StateService,
     private readonly CurrentProject:CurrentProjectService,
     private readonly PathHelper:PathHelperService,
-    private readonly CurrentUser:CurrentUserService) {
+    private readonly CurrentUser:CurrentUserService,
+  ) {
     this.staticQueries = this.buildQueries();
   }
 
@@ -65,6 +67,7 @@ export class StaticQueriesService {
     assigned_to_me: this.I18n.t('js.work_packages.default_queries.assigned_to_me'),
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
+    shared_with_users: this.I18n.t('js.work_packages.default_queries.shared_with_users'),
     summary: this.I18n.t('js.work_packages.default_queries.summary'),
     overdue: this.I18n.t('js.notifications.date_alerts.overdue'),
   };
@@ -220,6 +223,15 @@ export class StaticQueriesService {
         uiParams: {
           query_id: '',
           query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
+        },
+        view: 'WorkPackagesTable',
+      },
+      {
+        title: this.text.shared_with_users,
+        uiSref: 'work-packages',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","project"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"sharedWithUser","o":"*","v":[]}]}',
         },
         view: 'WorkPackagesTable',
       },

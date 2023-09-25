@@ -1864,6 +1864,7 @@ ca:
   label_operator_none: "està buit"
   label_operator_equals_or: "és (OR)"
   label_operator_equals_all: "és (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Obrir menú"
   label_open_work_packages: "obrir"
   label_open_work_packages_plural: "obrir"
@@ -2442,11 +2443,12 @@ ca:
   query_fields:
     active_or_archived: "Actiu o arxivat"
     assigned_to_role: "Rol de l'assignat"
-    member_of_group: "Grup de l'assignat"
     assignee_or_group: "Assignat o part d'un grup"
-    subproject_id: "Incloent subprojectes"
-    only_subproject_id: "Només subprojecte"
+    member_of_group: "Grup de l'assignat"
     name_or_identifier: "Nom o identificador"
+    only_subproject_id: "Només subprojecte"
+    shared_with_user: "Shared with user"
+    subproject_id: "Incloent subprojectes"
   repositories:
     at_identifier: 'a %{identifier}'
     atom_revision_feed: 'Feed de revisió d''Atom'

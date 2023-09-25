@@ -1910,6 +1910,7 @@ cs:
   label_operator_none: "je prázdný"
   label_operator_equals_or: "je (OR)"
   label_operator_equals_all: "je (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
@@ -2496,11 +2497,12 @@ cs:
   query_fields:
     active_or_archived: "Aktivní nebo archivované"
     assigned_to_role: "Řešitelova role"
-    member_of_group: "Řešitelova skupina"
     assignee_or_group: "Přiřazený nebo patřící skupině"
-    subproject_id: "Včetně podprojektu"
-    only_subproject_id: "Pouze podprojekt"
+    member_of_group: "Řešitelova skupina"
     name_or_identifier: "Jméno nebo identifikátor"
+    only_subproject_id: "Pouze podprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Včetně podprojektu"
   repositories:
     at_identifier: 'v %{identifier}'
     atom_revision_feed: 'Atom kanál pro revizi'

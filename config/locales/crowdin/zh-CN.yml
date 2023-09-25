@@ -1843,6 +1843,7 @@ zh-CN:
   label_operator_none: "为空"
   label_operator_equals_or: "是 (OR)"
   label_operator_equals_all: "是 (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "打开菜单"
   label_open_work_packages: "打开"
   label_open_work_packages_plural: "打开"
@@ -2420,11 +2421,12 @@ zh-CN:
   query_fields:
     active_or_archived: "激活或已存档"
     assigned_to_role: "受理人角色"
-    member_of_group: "受理人用户组"
     assignee_or_group: "受理人或所属组"
-    subproject_id: "包括子项目"
-    only_subproject_id: "仅子项目"
+    member_of_group: "受理人用户组"
     name_or_identifier: "名称或标识符"
+    only_subproject_id: "仅子项目"
+    shared_with_user: "Shared with user"
+    subproject_id: "包括子项目"
   repositories:
     at_identifier: '在 %{identifier}'
     atom_revision_feed: 'Atom 修订 feed'

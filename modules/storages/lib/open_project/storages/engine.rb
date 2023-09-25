@@ -35,6 +35,7 @@ module OpenProject::Storages
     def self.permissions
       @permissions ||= Storages::GroupFolderPropertiesSyncService::PERMISSIONS_KEYS
     end
+
     # engine name is used as a default prefix for module tables when generating
     # tables with the rails command.
     # It may also be used in other places, please investigate.
@@ -158,10 +159,11 @@ module OpenProject::Storages
           User.current.allowed_to?(:view_file_links, project)
           project.project_storages.each do |project_storage|
             storage = project_storage.storage
-            href = if project_storage.project_folder_inactive?
-                     storage.host
+            href = project_storage.open_link
+            icon = if storage.provider_type_nextcloud?
+                     'nextcloud-circle'
                    else
-                     ::Storages::Peripherals::StorageUrlHelper.storage_url_open_file(storage, project_storage.project_folder_id)
+                     'hosting'
                    end
 
             menu.push(
@@ -169,8 +171,8 @@ module OpenProject::Storages
               href,
               caption: storage.name,
               before: :members,
-              icon: "#{storage.short_provider_type}-circle",
-              icon_after: "external-link",
+              icon:,
+              icon_after: 'external-link',
               skip_permissions_check: true
             )
           end

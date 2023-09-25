@@ -1863,6 +1863,7 @@ de:
   label_operator_none: "ist leer"
   label_operator_equals_or: "ist (ODER)"
   label_operator_equals_all: "ist (UND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Menü öffnen"
   label_open_work_packages: "Offen"
   label_open_work_packages_plural: "offen"
@@ -2101,8 +2102,8 @@ de:
     zero: "Keine Projekte"
   label_yesterday: "gestern"
   label_role_type: "Typ"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Projektrolle"
+  label_global_role: "Globale Rolle"
   label_not_changeable: "(nicht veränderbar)"
   label_global: "Global"
   label_seeded_from_env_warning: Dieser Datensatz wurde durch eine Konfigurationsrichtlinie oder Umgebungsvariable erstellt. Er kann nicht über die Benutzeroberfläche bearbeitet werden.
@@ -2330,7 +2331,7 @@ de:
   permission_add_work_package_notes: "Kommentare hinzufügen"
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
-  permission_add_project: "Create projects"
+  permission_add_project: "Projekte erstellen"
   permission_archive_project: "Projekt archivieren"
   permission_create_user: "Benutzer erstellen"
   permission_manage_user: "Benutzer bearbeiten"
@@ -2446,11 +2447,12 @@ de:
   query_fields:
     active_or_archived: "Aktiv oder archiviert"
     assigned_to_role: "Rolle der zugewiesenen Person"
-    member_of_group: "Gruppe der zugewiesenen Person"
     assignee_or_group: "Zugewiesen an Nutzer oder dessen Gruppe"
-    subproject_id: "Einschließlich Unterprojekt"
-    only_subproject_id: "Nur Unterprojekt"
+    member_of_group: "Gruppe der zugewiesenen Person"
     name_or_identifier: "Name oder Kennung"
+    only_subproject_id: "Nur Unterprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Einschließlich Unterprojekt"
   repositories:
     at_identifier: 'auf %{identifier}'
     atom_revision_feed: 'Revisionen als Atom Feed'

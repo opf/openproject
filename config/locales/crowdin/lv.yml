@@ -1176,6 +1176,7 @@ lv:
     errors: "Error"
     project_custom_fields: 'Custom fields on project'
     x_objects_of_this_type:
+      zero: 'No objects of this type'
       one: 'One object of this type'
       other: '%{count} objects of this type'
     text:
@@ -1888,6 +1889,7 @@ lv:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Atvērt izvēlni"
   label_open_work_packages: "aktīvi"
   label_open_work_packages_plural: "aktīvi"
@@ -2111,15 +2113,19 @@ lv:
   label_x_closed_work_packages_abbr:
     one: "%{count} slēgts"
     other: "%{count} slēgti"
+    zero: "0 closed"
   label_x_comments:
     one: "%{count} komentārs"
     other: "%{count} komentāri"
+    zero: "no comments"
   label_x_open_work_packages_abbr:
     one: "%{count} atvērts"
     other: "%{count} atvērti"
+    zero: "0 open"
   label_x_projects:
     one: "%{count} projekts"
     other: "%{count} projekti"
+    zero: "no projects"
   label_yesterday: "yesterday"
   label_role_type: "Veids"
   label_member_role: "Project role"
@@ -2469,11 +2475,12 @@ lv:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
-    member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Assignee's group"
     name_or_identifier: "Nosaukumu vai identifikatoru"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'pie %{identifier}'
     atom_revision_feed: 'Atom revision feed'

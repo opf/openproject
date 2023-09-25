@@ -981,6 +981,7 @@ es:
         recently_created: "Creado recientemente"
         all_open: "Todo abierto"
         summary: "Resumen"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Saltar a la paginación de la tabla"
         label_pagination: "Haga clic aquí para omitir la tabla de paquetes de trabajo e ir a la paginación"

@@ -1907,6 +1907,7 @@ lt:
   label_operator_none: "yra tuščias"
   label_operator_equals_or: "yra (ARBA)"
   label_operator_equals_all: "yra (IR)"
+  label_operator_shared_with_user_any: "bet kuris"
   label_open_menu: "Atidaryti meniu"
   label_open_work_packages: "atidarytas"
   label_open_work_packages_plural: "atidarytas"
@@ -2492,11 +2493,12 @@ lt:
   query_fields:
     active_or_archived: "Aktyvus arba suarchyvuotas"
     assigned_to_role: "Priskirtojo asmens vaidmuo"
-    member_of_group: "Priskirtojo asmens grupė"
     assignee_or_group: "Paskirtas ar priklausanti grupė"
-    subproject_id: "Įtraukti sub-projektus"
-    only_subproject_id: "Tik sub-projektai"
+    member_of_group: "Priskirtojo asmens grupė"
     name_or_identifier: "Pavadinimas arba identifikatorius"
+    only_subproject_id: "Tik sub-projektai"
+    shared_with_user: "Bendrinamas su naudotoju"
+    subproject_id: "Įtraukti sub-projektus"
   repositories:
     at_identifier: '%{identifier}'
     atom_revision_feed: 'Atominių pakeitimų naujienų srautas'
