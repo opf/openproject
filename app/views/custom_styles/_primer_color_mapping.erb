@@ -5,16 +5,6 @@
       --body-background: var(--color-canvas-default);
       --body-font-color: var(--color-fg-default);
       --color-accent-fg: var(--content-link-color) !important;
-
-    <% DesignColor.overwritten.each do |design_color| %>
-      <% if design_color.variable == "alternative-color" %>
-          --color-btn-primary-bg:  <%= design_color.hexcode %> !important;
-          --color-btn-primary-hover-bg:  <%= design_color.darken 0.18 %> !important;
-      <% end %>
-      <% if design_color.variable == "content-link-color" %>
-          --color-accent-fg: <%= design_color.hexcode %> !important;
-      <% end %>
-    <% end %>
   }
   [data-light-theme=light_high_contrast]{
     --button--alt-highlight-background-hover-color: var(--color-btn-primary-hover-bg);
@@ -34,7 +24,6 @@
     --ck-color-toolbar-border: var(--color-border-default);
     --ck-color-base-border: var(--color-border-default);
     --button--active-border-color: var(--color-border-default);
-    --full-calendar-border-color: var(--color-border-muted);
     --button--background-hover-color: var(--color-btn-hover-bg);
     --button--background-color: var(--color-btn-bg);
   }
