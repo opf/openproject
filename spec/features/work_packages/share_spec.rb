@@ -51,10 +51,10 @@ RSpec.describe 'Work package sharing', :js, :with_cuprite do
   end
   let(:work_package) do
     create(:work_package, project:) do |wp|
-      create(:member, entity: wp, user: view_user, roles: [view_work_package_role])
-      create(:member, entity: wp, user: comment_user, roles: [comment_work_package_role])
-      create(:member, entity: wp, user: edit_user, roles: [edit_work_package_role])
-      create(:member, entity: wp, user: shared_project_user, roles: [edit_work_package_role])
+      create(:work_package_member, entity: wp, user: view_user, roles: [view_work_package_role])
+      create(:work_package_member, entity: wp, user: comment_user, roles: [comment_work_package_role])
+      create(:work_package_member, entity: wp, user: edit_user, roles: [edit_work_package_role])
+      create(:work_package_member, entity: wp, user: shared_project_user, roles: [edit_work_package_role])
     end
   end
 
