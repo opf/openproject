@@ -127,7 +127,7 @@ No, only Administrators can delete other users.
 
 ### Can a user with "Edit users" global permission change administrators attributes?
 
-No, only Administrators can update other Administrators attributes like name or email. This is to prevent the possibility of a user with "Edit users" global permission to impersonate an Administrator by changing the email address to match theirs.
+No, only Administrators can update other Administrators attributes like name or email. This is to prevent the possibility of a user with "Edit users" global permission impersonating an Administrator by changing the email address to match theirs.
 
 ### Can I set a default role for a user that creates a new project?
 
