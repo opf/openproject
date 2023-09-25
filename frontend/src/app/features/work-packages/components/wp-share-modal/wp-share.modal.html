@@ -3,7 +3,9 @@
 >
   <div
     class="spot-modal--header"
-  >TODO</div>
+    [textContent]="this.text.title"
+  >
+  </div>
 
   <div class="spot-modal--body spot-container">
     <turbo-frame id="work_package_share_list" src="{{this.frameSrc}}">

@@ -11,6 +11,7 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
   templateUrl: './wp-share.modal.html',
@@ -20,17 +21,21 @@ export class WorkPackageShareModalComponent extends OpModalComponent implements 
   private workPackage:WorkPackageResource;
   public frameSrc:string;
 
+  text = {
+    title: this.I18n.t('js.work_packages.sharing.title'),
+  };
+
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
+    protected pathHelper:PathHelperService,
   ) {
     super(locals, cdRef, elementRef);
 
     this.workPackage = this.locals.workPackage as WorkPackageResource;
-    // TODO: put into path helper
-    this.frameSrc = `/work_packages/${this.workPackage.id as string}/shares`;
+    this.frameSrc = this.pathHelper.workPackageSharePath(this.workPackage.id as string);
   }
 
   ngOnInit() {

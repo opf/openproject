@@ -34,6 +34,7 @@ module  WorkPackages::Share
         visually_hide_label: true,
         autocomplete_options: {
           id: "op-share-wp-user-autocomplete",
+          placeholder: I18n.t('work_package.sharing.label_search_placeholder'),
           data: {
             'test-selector': 'op-share-wp-user-autocomplete'
           },
