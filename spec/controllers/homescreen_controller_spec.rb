@@ -102,7 +102,7 @@ RSpec.describe HomescreenController do
         end
 
         it 'renders the text' do
-          expect(response.body).to have_selector('[data-qa-selector="op-widget-box--header"]',
+          expect(response.body).to have_selector('[data-test-selector="op-widget-box--header"]',
                                                  text: 'Woohoo!')
         end
       end

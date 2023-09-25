@@ -2,7 +2,7 @@
   <button
     *ngFor="let tile of tiles"
     class="op-tile-block--tile button button_no-margin"
-    data-qa-selector="op-tile-block"
+    data-test-selector="op-tile-block"
     type="button"
     [disabled]="tile.disabled || disable"
     (click)="created(tile.attribute)"
@@ -10,7 +10,7 @@
     <img [src]="tile.image" class="op-tile-block--image"/>
     <div>
       <span
-        data-qa-selector="op-tile-block-title"
+        data-test-selector="op-tile-block-title"
         class="op-tile-block--title"
       >{{ tile.text }}</span>
       <p class="op-tile-block--description" [textContent]="tile.description"></p>

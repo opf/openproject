@@ -51,7 +51,6 @@ module API::V3::Storages
     # LinkedResource module defines helper methods to describe attributes
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
-    include Storages::Peripherals::StorageUrlHelper
 
     module ClassMethods
       private
@@ -149,7 +148,7 @@ module API::V3::Storages
     end
 
     link :open do
-      { href: storage_url_open(represented) }
+      { href: represented.open_link }
     end
 
     link :authorizationState do
@@ -178,12 +177,14 @@ module API::V3::Storages
     end
 
     associated_resource :oauth_application,
-                        skip_render: ->(*) { !current_user.admin? },
+                        skip_render: ->(*) { !represent_oauth_application? },
                         getter: ->(*) {
+                          next unless represent_oauth_application?
+
                           ::API::V3::OAuth::OAuthApplicationsRepresenter.create(represented.oauth_application, current_user:)
                         },
                         link: ->(*) {
-                          next unless current_user.admin?
+                          next unless represent_oauth_application?
 
                           {
                             href: api_v3_paths.oauth_application(represented.oauth_application.id),
@@ -208,6 +209,10 @@ module API::V3::Storages
     end
 
     private
+
+    def represent_oauth_application?
+      current_user.admin? && represented.provider_type_nextcloud?
+    end
 
     def storage_projects(storage)
       storage.projects.merge(Project.allowed_to(current_user, :manage_file_links))

@@ -76,7 +76,7 @@ See COPYRIGHT and LICENSE files for more details.
       </thead>
 
       <tbody
-        data-qa-selector="dragula-container"
+        data-test-selector="dragula-container"
         data-admin--custom-fields-target="dragContainer">
       <% custom_field.custom_options.each_with_index do |custom_option, i| %>
         <%= f.fields_for :custom_options, custom_option do |co_f| %>

@@ -85,7 +85,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
 
         # On work packages move page
         expect(page).to have_selector('#new_project_id')
-        select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+        select_autocomplete page.find_test_selector('new_project_id'),
                             query: 'Target',
                             select_text: 'Target',
                             results_selector: 'body'
@@ -101,7 +101,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
         it 'copies them in the background and shows a status page', :with_cuprite do
           click_on 'Move and follow'
           wait_for_reload
-          page.find('[data-qa-selector="job-status--header"]')
+          page.find_test_selector('job-status--header')
 
           expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
@@ -217,7 +217,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
       context_menu.choose 'Bulk change of project'
 
       # On work packages move page
-      select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+      select_autocomplete page.find_test_selector('new_project_id'),
                           query: project2.name,
                           select_text: project2.name,
                           results_selector: 'body'

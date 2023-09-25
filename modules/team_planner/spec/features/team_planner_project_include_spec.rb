@@ -57,13 +57,13 @@ RSpec.describe 'Team planner project include', js: true, with_ee: %i[team_planne
 
       retry_block do
         work_package_view.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         work_package_view.select_user_to_add user.name
       end
 
       retry_block do
         work_package_view.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         work_package_view.select_user_to_add other_user.name
       end
 

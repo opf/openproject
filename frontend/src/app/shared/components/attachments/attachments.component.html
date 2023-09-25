@@ -22,7 +22,7 @@
 <button
   *ngIf="allowUploading && resource.canAddAttachments"
   [attr.aria-label]="text.uploadLabel"
-  data-qa-selector="op-attachments--drop-box"
+  data-test-selector="op-attachments--drop-box"
   [ngClass]="{
     'hide-when-print': true,
     'op-file-section--drop-box': true,
@@ -59,7 +59,7 @@
     type="button"
     class="spot-link"
     (click)="triggerFileInput()"
-    data-qa-selector="op-attachments--upload-button"
+    data-test-selector="op-attachments--upload-button"
   >
     <span class="spot-icon spot-icon_add-attachment"></span>
     <span [textContent]="text.uploadLabel"></span>

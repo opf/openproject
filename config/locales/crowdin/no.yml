@@ -721,9 +721,9 @@
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'overlapp.'
+          outside: 'er utenfor rutenett.'
+          end_before_start: 'sluttverdien må være større enn startverdien.'
         ical_token_query_assignment:
           attributes:
             name:
@@ -1868,6 +1868,7 @@
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Åpne meny"
   label_open_work_packages: "åpne"
   label_open_work_packages_plural: "åpne"
@@ -2406,6 +2407,7 @@
   permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "Vis rapporteringer"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Vis tidsbruk"
   permission_view_timelines: "Vis tidslinjer"
   permission_view_wiki_edits: "Vis wiki-historikk"
@@ -2450,11 +2452,12 @@
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Deltakers rolle"
-    member_of_group: "Deltakers gruppe"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Deltakers gruppe"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'at %{identifier}'
     atom_revision_feed: 'Atom revision feed'

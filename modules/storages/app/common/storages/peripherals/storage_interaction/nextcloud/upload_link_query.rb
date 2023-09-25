@@ -83,12 +83,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             result: JSON.parse(response.body, object_class: OpenStruct) # rubocop:disable Style/OpenStructUse
           )
         else
-          Util.error(:not_authorized, 'Outbound request not authorized!')
+          Util.error(:unauthorized, 'Outbound request not authorized!')
         end
       when Net::HTTPNotFound
         Util.error(:not_found, 'Outbound request destination not found!', response)
       when Net::HTTPUnauthorized
-        Util.error(:not_authorized, 'Outbound request not authorized!', response)
+        Util.error(:unauthorized, 'Outbound request not authorized!', response)
       else
         Util.error(:error, 'Outbound request failed!')
       end

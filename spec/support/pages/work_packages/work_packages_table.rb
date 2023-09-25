@@ -152,7 +152,7 @@ module Pages
       # there is a delay on travis where inline create can be clicked.
       sleep 3
 
-      container.find('[data-qa-selector="op-wp-inline-create"]').click
+      container.find('[data-test-selector="op-wp-inline-create"]').click
       expect(container).to have_selector('.wp-inline-create-row', wait: 10)
     end
 

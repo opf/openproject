@@ -981,6 +981,7 @@ nl:
         recently_created: "Onlangs gecreëerd"
         all_open: "Alles open"
         summary: "Samenvatting"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Ga naar de tabelpaginering"
         label_pagination: "Klik hier om de tabel werk pakketten over te slaan en ga naar paginering"

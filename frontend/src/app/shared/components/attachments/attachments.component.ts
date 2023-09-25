@@ -67,7 +67,7 @@ export const attachmentsSelector = 'op-attachments';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @HostBinding('attr.data-qa-selector') public qaSelector = 'op-attachments';
+  @HostBinding('attr.data-test-selector') public testSelector = 'op-attachments';
 
   @HostBinding('class.op-file-section') public className = true;
 

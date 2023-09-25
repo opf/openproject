@@ -84,53 +84,52 @@ RSpec.describe OpenProject::AccessControl do
   end
 
   describe '.remove_modules_permissions' do
-    let!(:all_former_permissions) { described_class.permissions }
-    let!(:former_repository_permissions) do
-      described_class.modules_permissions(%w[repository])
-                     .select { |permission| permission.project_module == :repository }
-    end
-
-    subject { described_class }
-
-    def reset_former_permissions_and_clear_caches
-      described_class.instance_variable_set(:@mapped_permissions, all_former_permissions)
-      described_class.clear_caches
+    RSpec::Matchers.define :not_belong_to_project_module do |project_module|
+      match do |actual|
+        actual.project_module != project_module
+      end
     end
 
     around do |example|
-      described_class.remove_modules_permissions(:repository)
+      raise 'Test outdated. @mapped_permissions is not defined' unless
+        described_class.instance_variable_defined?(:@mapped_permissions)
+
+      previous_permissions = described_class.instance_variable_get(:@mapped_permissions)
 
       example.run
     ensure
-      raise 'Test outdated. @mapped_permissions is not defined after example run' unless
-        described_class.instance_variable_defined?(:@mapped_permissions)
+      described_class.instance_variable_set(:@mapped_permissions, previous_permissions)
+      described_class.clear_caches
+    end
 
-      reset_former_permissions_and_clear_caches
+    subject do
+      described_class.remove_modules_permissions(:repository)
+      described_class
     end
 
     it 'removes from permissions' do
       expect(subject.permissions)
-        .not_to include(former_repository_permissions)
+        .to all(not_belong_to_project_module(:repository))
     end
 
     it 'removes from global permissions' do
       expect(subject.global_permissions)
-        .not_to include(former_repository_permissions)
+        .to all(not_belong_to_project_module(:repository))
     end
 
     it 'removes from public permissions' do
       expect(subject.public_permissions)
-        .not_to include(former_repository_permissions)
+        .to all(not_belong_to_project_module(:repository))
     end
 
     it 'removes from members-only permissions' do
       expect(subject.members_only_permissions)
-        .not_to include(former_repository_permissions)
+        .to all(not_belong_to_project_module(:repository))
     end
 
     it 'removes from loggedin-only permissions' do
       expect(subject.loggedin_only_permissions)
-        .not_to include(former_repository_permissions)
+        .to all(not_belong_to_project_module(:repository))
     end
 
     it 'disables repository module' do

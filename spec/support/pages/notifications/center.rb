@@ -45,7 +45,7 @@ module Pages
 
       def mark_notification_as_read(notification)
         within_item(notification) do
-          page.find('[data-qa-selector="mark-as-read-button"]').click
+          page.find('[data-test-selector="mark-as-read-button"]').click
         end
       end
 
@@ -69,7 +69,7 @@ module Pages
       end
 
       def within_item(notification, &)
-        page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']", &)
+        page.within("[data-test-selector='op-ian-notification-item-#{notification.id}']", &)
       end
 
       def expect_item(notification, expected_text = notification.subject)
@@ -81,23 +81,23 @@ module Pages
       def expect_no_item(*notifications)
         notifications.each do |notification|
           expect(page)
-            .not_to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}']")
+            .not_to have_selector("[data-test-selector='op-ian-notification-item-#{notification.id}']")
         end
       end
 
       def expect_read_item(notification)
         expect(page)
-          .to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
+          .to have_selector("[data-test-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
       end
 
       def expect_item_not_read(notification)
         expect(page)
-          .not_to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
+          .not_to have_selector("[data-test-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
       end
 
       def expect_item_selected(notification)
         expect(page)
-          .to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-selected]")
+          .to have_selector("[data-test-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-selected]")
       end
 
       def expect_work_package_item(*notifications)
@@ -124,22 +124,22 @@ module Pages
 
       def expect_number_of_notifications(count)
         if count == 0
-          expect(page).not_to have_selector('[data-qa-selector^="op-ian-notification-item-"]')
+          expect(page).not_to have_selector('[data-test-selector^="op-ian-notification-item-"]')
         else
-          expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count:, wait: 10)
+          expect(page).to have_selector('[data-test-selector^="op-ian-notification-item-"]', count:, wait: 10)
         end
       end
 
       def expect_bell_count(count)
         if count == 0
-          expect(page).not_to have_selector('[data-qa-selector="op-ian-notifications-count"]')
+          expect(page).not_to have_selector('[data-test-selector="op-ian-notifications-count"]')
         else
-          expect(page).to have_selector('[data-qa-selector="op-ian-notifications-count"]', text: count, wait: 10)
+          expect(page).to have_selector('[data-test-selector="op-ian-notifications-count"]', text: count, wait: 10)
         end
       end
 
       def bell_element
-        page.find('op-in-app-notification-bell [data-qa-selector="op-ian-bell"]')
+        page.find('op-in-app-notification-bell [data-test-selector="op-ian-bell"]')
       end
 
       def expect_no_toaster

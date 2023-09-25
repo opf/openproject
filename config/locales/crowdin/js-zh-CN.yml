@@ -350,7 +350,7 @@ zh-CN:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
       description: "您可以使用 URL (iCalendar) 在外部客户端中订阅此日历，并从外部客户端查看最新工作包信息。"
-      warning: "请勿与其他用户分享此 URL。拥有此链接的任何人都可以查看工作包的详细信息，无需帐户或密码。"
+      warning: "请不要与其他用户共享此 URL 。拥有这个链接的任何人都可以在没有帐户或密码的情况下查看工作包的详细信息。"
       token_name_label: "您将在哪里使用它？"
       token_name_placeholder: "输入名称，例如“Phone”"
       token_name_description_text: "如果您从多个设备订阅此日历，此名称将有助于在<a href=\"my/access_token\", target=\"_blank\">访问令牌</a>列表中区分它们。"
@@ -979,6 +979,7 @@ zh-CN:
         recently_created: "最近创建"
         all_open: "全部打开"
         summary: "摘要"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "跳转到表格分页"
         label_pagination: "单击此处跳过工作包表格并转到分页"

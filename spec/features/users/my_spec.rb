@@ -131,7 +131,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
           within '#api-token-section' do
             expect(page).to have_content('API tokens are not enabled by the administrator.')
-            expect(page).not_to have_selector("[data-qa-selector='api-token-add']", text: 'API token')
+            expect(page).not_to have_test_selector('api-token-add', text: 'API token')
           end
         end
       end
@@ -143,8 +143,8 @@ RSpec.describe 'my', js: true, with_cuprite: true do
           expect(page).not_to have_content('API tokens are not enabled by the administrator.')
 
           within '#api-token-section' do
-            expect(page).to have_selector("[data-qa-selector='api-token-add']", text: 'API token')
-            find("[data-qa-selector='api-token-add']").click
+            expect(page).to have_test_selector('api-token-add', text: 'API token')
+            find_test_selector("api-token-add").click
           end
 
           expect(page).to have_content 'A new API token has been generated. Your access token is'
@@ -154,13 +154,13 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
           # only one API token can be created
           within '#api-token-section' do
-            expect(page).not_to have_selector("[data-qa-selector='api-token-add']", text: 'API token')
+            expect(page).not_to have_test_selector('api-token-add', text: 'API token')
           end
 
           # revoke API token
           within '#api-token-section' do
             accept_confirm do
-              find("[data-qa-selector='api-token-revoke']").click
+              find_test_selector("api-token-revoke").click
             end
           end
 
@@ -171,7 +171,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
           # API token can be created again
           within '#api-token-section' do
-            expect(page).to have_selector("[data-qa-selector='api-token-add']", text: 'API token')
+            expect(page).to have_test_selector('api-token-add', text: 'API token')
           end
         end
       end
@@ -184,7 +184,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
           within '#rss-token-section' do
             expect(page).to have_content('RSS tokens are not enabled by the administrator.')
-            expect(page).not_to have_selector("[data-qa-selector='rss-token-add']", text: 'RSS token')
+            expect(page).not_to have_test_selector('rss-token-add', text: 'RSS token')
           end
         end
       end
@@ -196,8 +196,8 @@ RSpec.describe 'my', js: true, with_cuprite: true do
           expect(page).not_to have_content('RSS tokens are not enabled by the administrator.')
 
           within '#rss-token-section' do
-            expect(page).to have_selector("[data-qa-selector='rss-token-add']", text: 'RSS token')
-            find("[data-qa-selector='rss-token-add']").click
+            expect(page).to have_test_selector('rss-token-add', text: 'RSS token')
+            find_test_selector("rss-token-add").click
           end
 
           expect(page).to have_content 'A new RSS token has been generated. Your access token is'
@@ -207,13 +207,13 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
           # only one RSS token can be created
           within '#rss-token-section' do
-            expect(page).not_to have_selector("[data-qa-selector='rss-token-add']", text: 'RSS token')
+            expect(page).not_to have_test_selector('rss-token-add', text: 'RSS token')
           end
 
           # revoke RSS token
           within '#rss-token-section' do
             accept_confirm do
-              find("[data-qa-selector='rss-token-revoke']").click
+              find_test_selector("rss-token-revoke").click
             end
           end
 
@@ -224,7 +224,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
           # RSS token can be created again
           within '#rss-token-section' do
-            expect(page).to have_selector("[data-qa-selector='rss-token-add']", text: 'RSS token')
+            expect(page).to have_test_selector('rss-token-add', text: 'RSS token')
           end
         end
       end
@@ -274,9 +274,9 @@ RSpec.describe 'my', js: true, with_cuprite: true do
                 token_name = ical_token.ical_token_query_assignment.name
                 query = ical_token.ical_token_query_assignment.query
 
-                expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-name']", text: token_name)
-                expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-query-name']", text: query.name)
-                expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-project-name']",
+                expect(page).to have_test_selector("ical-token-row-#{ical_token.id}-name", text: token_name)
+                expect(page).to have_test_selector("ical-token-row-#{ical_token.id}-query-name", text: query.name)
+                expect(page).to have_test_selector("ical-token-row-#{ical_token.id}-project-name",
                                               text: query.project.name)
               end
             end
@@ -287,7 +287,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
             within '#icalendar-token-section' do
               accept_confirm do
-                find("[data-qa-selector='ical-token-row-#{ical_token_for_query.id}-revoke']").click
+                find_test_selector("ical-token-row-#{ical_token_for_query.id}-revoke").click
               end
             end
 
@@ -297,7 +297,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
             visit my_access_token_path
 
             within '#icalendar-token-section' do
-              expect(page).not_to have_selector("[data-qa-selector='ical-token-row-#{ical_token_for_query.id}-revoke']")
+              expect(page).not_to have_test_selector('ical-token-row-#{ical_token_for_query.id}-revoke')
             end
           end
         end
@@ -344,8 +344,8 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
             [app, second_app].each do |app|
               within '#oauth-token-section' do
-                expect(page).to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-name']", text: app.name)
-                expect(page).to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-name']", text: '(one active token)')
+                expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: app.name)
+                expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: '(one active token)')
               end
             end
           end
@@ -356,7 +356,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
             [app, second_app].each do |app|
               within '#oauth-token-section' do
                 accept_confirm do
-                  find("[data-qa-selector='oauth-token-row-#{app.id}-revoke']").click
+                  find_test_selector("oauth-token-row-#{app.id}-revoke").click
                 end
               end
             end
@@ -366,7 +366,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
             [app, second_app].each do |app|
               within '#oauth-token-section' do
-                expect(page).not_to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-revoke']")
+                expect(page).not_to have_test_selector("oauth-token-row-#{app.id}-revoke")
               end
             end
           end
@@ -389,8 +389,8 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
             [app, second_app].each do |app|
               within '#oauth-token-section' do
-                expect(page).to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-name']", text: app.name)
-                expect(page).to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-name']", text: '(2 active token)')
+                expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: app.name)
+                expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: '(2 active token)')
               end
             end
           end
@@ -400,7 +400,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
             within '#oauth-token-section' do
               accept_confirm do
-                find("[data-qa-selector='oauth-token-row-#{app.id}-revoke']").click
+                find_test_selector("oauth-token-row-#{app.id}-revoke").click
               end
             end
 
@@ -408,7 +408,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
             visit my_access_token_path
 
             within '#oauth-token-section' do
-              expect(page).not_to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-revoke']")
+              expect(page).not_to have_test_selector("oauth-token-row-#{app.id}-revoke")
             end
           end
         end

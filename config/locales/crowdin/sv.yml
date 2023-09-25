@@ -1867,6 +1867,7 @@ sv:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Öppna meny"
   label_open_work_packages: "öppna"
   label_open_work_packages_plural: "öppna"
@@ -2334,7 +2335,7 @@ sv:
   permission_add_work_package_notes: "Lägg till anteckningar"
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
-  permission_add_project: "Create projects"
+  permission_add_project: "Skapa projekt"
   permission_archive_project: "Arkivera projekt"
   permission_create_user: "Skapa användare"
   permission_manage_user: "Redigera användare"
@@ -2405,6 +2406,7 @@ sv:
   permission_view_news: "View news"
   permission_view_members: "Visa medlemmar"
   permission_view_reportings: "Visa rapporter"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Visa förbrukad tid"
   permission_view_timelines: "Visa tidslinjer"
   permission_view_wiki_edits: "Visa historik över wiki"
@@ -2449,11 +2451,12 @@ sv:
   query_fields:
     active_or_archived: "Aktiv eller arkiverad"
     assigned_to_role: "Tilldelades roll"
-    member_of_group: "Den tilldelades grupp"
     assignee_or_group: "Tilldelad eller tillhörandegrupp"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Den tilldelades grupp"
     name_or_identifier: "Namn eller identifierare"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'på %{identifier}'
     atom_revision_feed: 'Atom revisionsflöde'

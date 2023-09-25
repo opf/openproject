@@ -119,7 +119,12 @@ Rails.application.reloader.to_prepare do
       map.permission :share_work_packages,
                      {},
                      permissible_on: :project,
-                     dependencies: :edit_work_packages,
+                     dependencies: %i[edit_work_packages view_shared_work_packages],
+                     require: :member
+
+      map.permission :view_shared_work_packages,
+                     {},
+                     permissible_on: :project,
                      require: :member
 
       map.permission :view_members,

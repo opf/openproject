@@ -75,7 +75,7 @@ RSpec.describe 'BIM navigation spec',
         model_page.model_viewer_shows_a_toolbar true
         model_page.page_shows_a_toolbar true
         model_tree.sidebar_shows_viewer_menu true
-        expect(page).to have_selector('[data-qa-selector="op-wp-card-view"]')
+        expect(page).to have_test_selector('op-wp-card-view')
         card_view.expect_work_package_listed work_package
       end
 
@@ -104,13 +104,13 @@ RSpec.describe 'BIM navigation spec',
         model_page.switch_view 'Viewer'
 
         model_page.model_viewer_visible true
-        expect(page).not_to have_selector('[data-qa-selector="op-wp-card-view"]')
+        expect(page).not_to have_test_selector('op-wp-card-view')
 
         # Go to list only
         model_page.switch_view 'Cards'
 
         model_page.model_viewer_visible false
-        expect(page).to have_selector('[data-qa-selector="op-wp-card-view"]')
+        expect(page).to have_test_selector('op-wp-card-view')
         card_view.expect_work_package_listed work_package
 
         # Go to details view

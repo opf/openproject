@@ -406,6 +406,9 @@ module API
           index :global_role, 'roles'
           show :global_role, 'role'
 
+          index :work_package_role, 'roles'
+          show :work_package_role, 'roles'
+
           def self.show_revision(project_id, identifier)
             show_revision_project_repository_path(project_id, identifier)
           end

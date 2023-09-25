@@ -979,6 +979,7 @@ vi:
         recently_created: "Đã được tạo gần đây"
         all_open: "Mở tất cả"
         summary: "Tóm tắt"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Viet nam"
         label_pagination: "Viet Nam"

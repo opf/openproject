@@ -1849,6 +1849,7 @@ vi:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Mở trình đơn"
   label_open_work_packages: "mở"
   label_open_work_packages_plural: "mở"
@@ -2385,6 +2386,7 @@ vi:
   permission_view_news: "View news"
   permission_view_members: "Xem thành viên"
   permission_view_reportings: "View reportings"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
@@ -2429,11 +2431,12 @@ vi:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
-    member_of_group: "Assignee's group"
     assignee_or_group: "Người chuyển hoặc thuộc nhóm"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'at %{identifier}'
     atom_revision_feed: 'Atom revision feed'

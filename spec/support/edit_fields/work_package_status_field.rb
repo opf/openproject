@@ -3,7 +3,7 @@ require_relative './edit_field'
 class WorkPackageStatusField < EditField
   def initialize(context)
     @context = context
-    @selector = "[data-qa-selector='op-wp-status-button']"
+    @selector = "[data-test-selector='op-wp-status-button']"
   end
 
   def input_selector

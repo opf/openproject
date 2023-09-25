@@ -340,7 +340,7 @@ cs:
       no_results_content_text: Přidat nový stav
   themes:
     light: "Světlý"
-    light_high_contrast: "Light high contrast"
+    light_high_contrast: "Světlý kontrast"
     dark: "Tmavý"
     dark_dimmed: "Dark dimmed"
     dark_high_contrast: "Tmavý vysoký kontrast"
@@ -459,13 +459,13 @@ cs:
         attr_mail: "Email (atribut)"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Automatické vytváření uživatele"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitář"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hex kód"
       comment:
         commented: "Komentované" #an object that this comment belongs to
       custom_action:
@@ -964,12 +964,12 @@ cs:
       'doorkeeper/application': "OAuth aplikace"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
+      one: "Došlo k potížím s následujícím polem:"
       few: "There were problems with the following fields:"
       many: "There were problems with the following fields:"
       other: "There were problems with the following fields:"
     header_additional_invalid_fields:
-      one: "Additionally, there was a problem with the following field:"
+      one: "Navíc došlo k potížím s následujícím polem:"
       few: "Additionally, there were problems with the following fields:"
       many: "Additionally, there were problems with the following fields:"
       other: "Additionally, there were problems with the following fields:"
@@ -1490,7 +1490,7 @@ cs:
     changes_retracted: "Změny byly staženy."
     caused_changes:
       dates_changed: "Data změněna"
-      system_update: "OpenProject system update:"
+      system_update: "Aktualizace systému OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1553,7 +1553,7 @@ cs:
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       storages:
-        title: "File Storages"
+        title: "Úložiště souborů"
         text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
         empty_text_hint: "There is no storage access linked to your account."
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
@@ -1910,6 +1910,7 @@ cs:
   label_operator_none: "je prázdný"
   label_operator_equals_or: "je (OR)"
   label_operator_equals_all: "je (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
@@ -2393,7 +2394,7 @@ cs:
   permission_comment_news: "Komentování novinek"
   permission_commit_access: "Čtěte/zapisovat přístup do repozitáře (commit)"
   permission_copy_projects: "Kopírovat projekty"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Kopírovat pracovní balíčky"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Smazat sledující uživatele"
   permission_delete_work_packages: "Odstranit pracovní balíčky"
@@ -2421,7 +2422,7 @@ cs:
   permission_log_time: "Čas záznamu pro ostatní uživatele"
   permission_manage_forums: "Správa fór"
   permission_manage_categories: "Spravovat kategorie pracovního balíčku"
-  permission_manage_dashboards: "Manage dashboards"
+  permission_manage_dashboards: "Spravovat dashboardy"
   permission_manage_work_package_relations: "Spravovat vztahy pracovních balíčků"
   permission_manage_members: "Správa členů"
   permission_manage_news: "Spravovat novinky"
@@ -2439,26 +2440,27 @@ cs:
   permission_search_project: "Search project"
   permission_select_custom_fields: "Vybrat vlastní pole"
   permission_select_project_modules: "Vyberte moduly projektu"
-  permission_share_work_packages: "Share work packages"
+  permission_share_work_packages: "Sdílet pracovní balíčky"
   permission_manage_types: "Vyberte typy"
-  permission_view_project: "View projects"
+  permission_view_project: "Zobrazit projekty"
   permission_view_changesets: "Zobrazit revize repozitáře v OpenProject"
   permission_view_commit_author_statistics: "Zobrazit statistiky autora commitu"
-  permission_view_dashboards: "View dashboards"
+  permission_view_dashboards: "Zobrazit dashboardy"
   permission_view_work_package_watchers: "Zobrazit seznam sledujících"
   permission_view_work_packages: "Zobrazit pracovní balíčky"
   permission_view_messages: "Zobrazit zprávy"
-  permission_view_news: "View news"
+  permission_view_news: "Zobrazit novinky"
   permission_view_members: "Zobrazit členy"
   permission_view_reportings: "Zobrazit přehledy"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Zobrazit strávený čas"
   permission_view_timelines: "Zobrazit časové osy"
   permission_view_wiki_edits: "Zobrazit historii wiki"
   permission_view_wiki_pages: "Zobrazit wiki"
   permission_work_package_assigned: "Staňte se řešitelem/odpovědným"
   permission_work_package_assigned_explanation: "Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu"
-  permission_view_project_activity: "View project activity"
-  permission_save_bcf_queries: "Save BCF queries"
+  permission_view_project_activity: "Zobrazit aktivitu projektu"
+  permission_save_bcf_queries: "Uložit dotazy BCF"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
@@ -2495,11 +2497,12 @@ cs:
   query_fields:
     active_or_archived: "Aktivní nebo archivované"
     assigned_to_role: "Řešitelova role"
-    member_of_group: "Řešitelova skupina"
     assignee_or_group: "Přiřazený nebo patřící skupině"
-    subproject_id: "Včetně podprojektu"
-    only_subproject_id: "Pouze podprojekt"
+    member_of_group: "Řešitelova skupina"
     name_or_identifier: "Jméno nebo identifikátor"
+    only_subproject_id: "Pouze podprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Včetně podprojektu"
   repositories:
     at_identifier: 'v %{identifier}'
     atom_revision_feed: 'Atom kanál pro revizi'

@@ -61,6 +61,8 @@ RSpec.describe 'Attribute help texts',
         editor.attachments_list.expect_attached('image.png')
         click_button 'Save'
 
+        expect(page).to have_current_path attribute_help_texts_path(tab: :WorkPackage)
+
         expect(instance.help_text).to include 'My attribute help text'
         expect(instance.help_text).to match /\/api\/v3\/attachments\/\d+\/content/
       end
@@ -100,7 +102,7 @@ RSpec.describe 'Attribute help texts',
 
         # Expect files section to be present
         expect(modal.modal_container).to have_selector('.form--fieldset-legend', text: 'ATTACHMENTS')
-        expect(modal.modal_container).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
+        expect(modal.modal_container).to have_test_selector('op-files-tab--file-list-item-title')
 
         modal.close!
 

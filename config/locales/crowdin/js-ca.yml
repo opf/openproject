@@ -981,6 +981,7 @@ ca:
         recently_created: "Creat recentment"
         all_open: "Tots els oberts"
         summary: "Resum"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Saltar a la paginació de la taula"
         label_pagination: "Fes clic aquí per saltar per sobre la taula de paquets de treball i anar a paginació"

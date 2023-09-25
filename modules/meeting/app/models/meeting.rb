@@ -37,6 +37,7 @@ class Meeting < ApplicationRecord
   has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
   has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
+  has_many :agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
 
   default_scope do
     order("#{Meeting.table_name}.start_time DESC")
@@ -95,6 +96,11 @@ class Meeting < ApplicationRecord
 
   after_initialize :set_initial_values
 
+  enum state: {
+    open: 0, # 0 -> default, leave values for future states between open and closed
+    closed: 5
+  }
+
   ##
   # Return the computed start_time when changed
   def start_time
@@ -138,6 +144,10 @@ class Meeting < ApplicationRecord
   # Returns true if user or current user is allowed to view the meeting
   def visible?(user = nil)
     (user || User.current).allowed_to?(:view_meetings, project)
+  end
+
+  def invited_or_attended_participants
+    participants.where(invited: true).or(participants.where(attended: true))
   end
 
   def all_changeable_participants
@@ -214,6 +224,16 @@ class Meeting < ApplicationRecord
       participant['_destroy'] = true if !(participant['attended'] || participant['invited'])
     end
     self.original_participants_attributes = attrs
+  end
+
+  def calculate_agenda_item_time_slots
+    current_time = start_time
+    agenda_items.order(:position).each do |top|
+      start_time = current_time
+      current_time += top.duration_in_minutes&.minutes || 0.minutes
+      end_time = current_time
+      top.update_columns(start_time:, end_time:) # avoid callbacks, infinite loop otherwise
+    end
   end
 
   protected

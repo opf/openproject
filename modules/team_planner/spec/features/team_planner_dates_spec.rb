@@ -41,7 +41,7 @@ RSpec.describe 'Team planner working days', js: true, with_ee: %i[team_planner_v
       team_planner.expect_empty_state
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 

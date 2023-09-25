@@ -983,6 +983,7 @@ lt:
         recently_created: "Neseniai sukurti"
         all_open: "Visi atviri"
         summary: "Santrauka"
+        shared_with_users: "Bendrinamas su naudotojais"
       jump_marks:
         pagination: "Pereiti į lentelės laužymą puslapiais"
         label_pagination: "Paspauskite čia, kad praleistumėte darbų paketų lentelės peržiūrą ir patektumėte į atvaizdavimą puslapiais"
