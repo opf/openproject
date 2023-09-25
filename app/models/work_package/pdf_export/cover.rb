@@ -67,14 +67,15 @@ module WorkPackage::PDFExport::Cover
   def validate_cover_text_color
     return nil if CustomStyle.current.blank?
 
-    color = CustomStyle.current.export_cover_text_color
-    return nil if color.blank?
+    hexcode = CustomStyle.current.export_cover_text_color
+    return nil if hexcode.blank?
+
+    color = Color.new({ hexcode: })
+    color.normalize_hexcode
+    return nil if color.hexcode.blank?
 
     # pdf hex colors are defined without leading hash
-    color = color.sub('#', '')
-    # prawn does not support short notation like #000
-    color = color + color if color.size == 3
-    color
+    color.hexcode.sub('#', '')
   end
 
   def write_hero_title(top, width)
