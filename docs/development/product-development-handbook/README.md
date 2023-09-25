@@ -116,7 +116,7 @@ The [OpenProject Wish List](https://community.openproject.com/projects/openproje
 Requirements should be captured as a **Feature** or **Epic** (for larger features which we can be broken down into smaller features) and focus on describing the customer’s problem rather than jumping ahead to a solution.
 For a guideline on how to report feature requests, refer to the [Feature request guideline](../../development/submit-feature-idea/). Technical maintenance issues and refactorings can be tracked as **Code Maintenance**.
 
-**Bugs** are [reported aside from the feature/epic track](../../development/report-a-bug/) as they are oftentimes not subject to an elaborate specification. On the other hand, sometimes bugs turn out to be caused by either the functionality implemented not meeting the users' expectations or by a not implemented feature. Upon identifying a bug to be such a case, it is treated as a feature. But most of the bugs upon collecting find their way into the [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491). Those are then picked up in the [Building phase 5: Stabilization](#325-building-phase-5-stabilization).
+**Bugs** are [reported aside from the feature/epic track](../../development/report-a-bug/) as they are oftentimes not subject to an elaborate specification. On the other hand, sometimes bugs turn out to be caused by either the functionality implemented not meeting the users' expectations or by a not implemented feature. Upon identifying a bug to be such a case, it is treated as a feature. But most of the bugs upon collecting find their way into the [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491). Those are then picked up in the [Building phase 5: Stabilization](#335-building-phase-5-stabilization).
 
 ### 3.1.2 Evaluation phase 2: Pre-evaluation
 
@@ -325,7 +325,7 @@ The entire team documents possible improvements for the next release.
 
 ### 4.1 Version/Release
 
-A version is the name given to a collection of features and/or bugfixes. A release is the publicly available version of the OpenProject software. More information is provided on the [release page](./releases/).
+A version is the name given to a collection of features and/or bugfixes. A release is the publicly available version of the OpenProject software. More information is provided on the [release page](../releases/).
 
 ### 4.2 RICE Score
 
