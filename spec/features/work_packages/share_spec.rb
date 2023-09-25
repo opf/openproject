@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package sharing', :js do
+RSpec.describe 'Work package sharing', :js, :with_cuprite do
   let(:sharer_role) do
     # TODO: Remove necessity to have manage_members permission
     create(:role,
