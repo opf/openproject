@@ -24,6 +24,8 @@
   <%= render(::Storages::Admin::StorageListCssGridComponent.new(@storages)) %>
   <h1>CSS + concat</h1>
   <%= render(::Storages::Admin::StorageListCssConcatComponent.new(@storages)) %>
+  <h1>System Arguments CSS + ERB</h1>
+  <%= render(::Storages::Admin::StorageListSysArgsCssComponent.new(@storages)) %>
 
 <% else %>
   <%= toolbar title: t("project_module_storages") do %>
