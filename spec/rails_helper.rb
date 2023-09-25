@@ -27,6 +27,7 @@
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
+require 'factory_bot'
 require 'factory_bot_rails'
 require 'rspec/rails'
 require 'shoulda/matchers'

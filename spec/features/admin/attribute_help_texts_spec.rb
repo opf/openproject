@@ -61,6 +61,8 @@ RSpec.describe 'Attribute help texts',
         editor.attachments_list.expect_attached('image.png')
         click_button 'Save'
 
+        expect(page).to have_current_path attribute_help_texts_path(tab: :WorkPackage)
+
         expect(instance.help_text).to include 'My attribute help text'
         expect(instance.help_text).to match /\/api\/v3\/attachments\/\d+\/content/
       end

@@ -1889,6 +1889,7 @@ ro:
   label_operator_none: "este gol"
   label_operator_equals_or: "este (SAU)"
   label_operator_equals_all: "este (ȘI)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Deschidere meniu"
   label_open_work_packages: "deschise"
   label_open_work_packages_plural: "deschise"
@@ -2473,11 +2474,12 @@ ro:
   query_fields:
     active_or_archived: "Activ sau arhivat"
     assigned_to_role: "Rolul executantului"
-    member_of_group: "Grupul executantului"
     assignee_or_group: "Destinatarul sau grupul de apartenență"
-    subproject_id: "Inclusiv subproiectul"
-    only_subproject_id: "Numai subproiect"
+    member_of_group: "Grupul executantului"
     name_or_identifier: "Nume sau identificator"
+    only_subproject_id: "Numai subproiect"
+    shared_with_user: "Shared with user"
+    subproject_id: "Inclusiv subproiectul"
   repositories:
     at_identifier: 'la %{identifier}'
     atom_revision_feed: 'Lista de revizii Atom'

@@ -91,7 +91,7 @@ gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 6.0.2'
+gem 'sanitize', '~> 6.1.0'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4', require: %w[rinku rails_rinku]
 # Version parsing with semver
@@ -210,6 +210,11 @@ gem 'view_component'
 # Lookbook
 gem 'lookbook', '~> 2.0.5'
 
+# Require factory_bot for usage with openproject plugins testing
+gem 'factory_bot', '~> 6.2.0', require: false
+# require factory_bot_rails for convenience in core development
+gem 'factory_bot_rails', '~> 6.2.0', require: false
+
 gem 'turbo-rails', "~> 1.1"
 
 group :test do
@@ -288,10 +293,6 @@ end
 
 group :development, :test do
   gem 'dotenv-rails'
-  # Require factory_bot for usage with openproject plugins testing
-  gem 'factory_bot', '~> 6.2.0'
-  # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 6.2.0'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false
@@ -311,6 +312,10 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-performance', require: false
+
+  # erb linting
+  gem "erb_lint", require: false
+  gem "erblint-github", require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.0.0'
@@ -358,6 +363,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-primer_view_components", '~>0.9.1'
+gem "openproject-primer_view_components", '~>0.11.0'
 gem "openproject-octicons", '~>19.7.0'
 gem "openproject-octicons_helper", '~>19.7.0'

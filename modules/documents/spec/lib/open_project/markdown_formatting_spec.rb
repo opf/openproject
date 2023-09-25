@@ -78,7 +78,8 @@ RSpec.describe OpenProject::TextFormatting,
       link_to(
         'My document',
         { controller: '/documents', action: 'show', id: document.id, only_path: true },
-        class: 'document op-uc-link'
+        class: 'document op-uc-link',
+        target: '_top'
       )
     end
 

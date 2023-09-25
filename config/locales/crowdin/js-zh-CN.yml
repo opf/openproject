@@ -979,6 +979,7 @@ zh-CN:
         recently_created: "最近创建"
         all_open: "全部打开"
         summary: "摘要"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "跳转到表格分页"
         label_pagination: "单击此处跳过工作包表格并转到分页"

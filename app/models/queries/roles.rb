@@ -28,6 +28,7 @@
 
 module Queries::Roles
   ::Queries::Register.register(RoleQuery) do
+    filter Filters::AllowsBecomingAssigneeFilter
     filter Filters::GrantableFilter
     filter Filters::UnitFilter
   end

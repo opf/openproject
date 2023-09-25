@@ -1868,6 +1868,7 @@ si:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "මෙනුව විවෘත කරන්න"
   label_open_work_packages: "විවෘත"
   label_open_work_packages_plural: "විවෘත"
@@ -2451,11 +2452,12 @@ si:
   query_fields:
     active_or_archived: "සක්රීය හෝ සංරක්ෂිත"
     assigned_to_role: "ඇසිග්නීගේ භූමිකාව"
-    member_of_group: "අස්සිග්නි කණ්ඩායම"
     assignee_or_group: "Assignee හෝ අයත් පිරිසක්"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "අස්සිග්නි කණ්ඩායම"
     name_or_identifier: "නම හෝ හඳුනාගැනීමේ"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: '%{identifier}දී'
     atom_revision_feed: 'පරමාණු සංශෝධනය පෝෂණය'

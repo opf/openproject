@@ -46,9 +46,9 @@ class ::OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook:
     controller = context[:controller]
 
     active_nextcloud_storages_hosts = ::Storages::NextcloudStorage
-      .where(id: ::Storages::ProjectStorage.select(:storage_id))
-      .pluck(:host)
-      .map(&method(:remove_uri_path))
+                                        .where(id: ::Storages::ProjectStorage.select(:storage_id))
+                                        .pluck(:host)
+                                        .map(&method(:remove_uri_path))
 
     if active_nextcloud_storages_hosts.present?
       controller.append_content_security_policy_directives(
@@ -60,9 +60,10 @@ class ::OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook:
       project_id: Project.allowed_to(User.current, :manage_file_links)
     ).select(:storage_id)
     storages_hosts = ::Storages::Storage
-      .where(id: storage_ids)
-      .pluck(:host)
-      .map(&method(:remove_uri_path))
+                       .where(id: storage_ids)
+                       .where.not(host: nil)
+                       .pluck(:host)
+                       .map(&method(:remove_uri_path))
 
     if storages_hosts.present?
       # secure_headers gem provides this helper method to append to the current content security policy

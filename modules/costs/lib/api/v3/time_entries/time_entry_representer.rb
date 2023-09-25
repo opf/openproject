@@ -132,6 +132,11 @@ module API
                                                                          'hours',
                                                                          allow_nil: true)
         end
+
+        self.to_eager_load = [:work_package,
+                              :user,
+                              :activity,
+                              { project: :enabled_modules }]
       end
     end
   end

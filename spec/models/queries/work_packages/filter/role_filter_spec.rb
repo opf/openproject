@@ -30,6 +30,27 @@ require 'spec_helper'
 
 RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
   let(:role) { build_stubbed(:role) }
+  let(:all_roles_relation) { [role] }
+
+  def mock_roles_query_chain(return_value)
+    project_role_relation = instance_double(ActiveRecord::Relation)
+    allow(Role)
+      .to receive(:givable)
+            .and_return(project_role_relation)
+
+    role_and_global_role_relation = instance_double(ActiveRecord::Relation)
+    allow(project_role_relation)
+      .to receive(:or)
+            .with(GlobalRole.givable)
+            .and_return(role_and_global_role_relation)
+
+    allow(role_and_global_role_relation)
+      .to receive(:or)
+            .with(WorkPackageRole.givable)
+            .and_return(return_value)
+
+    return_value
+  end
 
   it_behaves_like 'basic query filter' do
     let(:type) { :list_optional }
@@ -37,37 +58,41 @@ RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
     let(:name) { I18n.t('query_fields.assigned_to_role') }
 
     describe '#available?' do
-      it 'is true if any givable role exists' do
-        allow(Role).to receive(:givable)
-        allow(Role.givable).to receive(:or).with(GlobalRole.givable)
-        allow(Role.givable.or(GlobalRole.givable))
-          .to receive(:exists?)
-          .and_return true
+      context 'when any givable role exists' do
+        before do
+          givable_roles_relation = instance_double(ActiveRecord::Relation)
+          allow(givable_roles_relation)
+            .to receive(:exists?)
+                  .and_return(true)
 
-        expect(instance).to be_available
+          mock_roles_query_chain(givable_roles_relation)
+        end
+
+        it { expect(instance).to be_available }
       end
 
-      it 'is false if no givable role exists' do
-        allow(Group)
-          .to receive_message_chain(:givable, :exists?)
-          .and_return false
+      context 'when no givable role exists' do
+        before do
+          givable_roles_relation = instance_double(ActiveRecord::Relation)
+          allow(givable_roles_relation)
+            .to receive(:exists?)
+                  .and_return(false)
 
-        expect(instance).not_to be_available
+          mock_roles_query_chain(givable_roles_relation)
+        end
+
+        it { expect(instance).not_to be_available }
       end
     end
 
     describe '#allowed_values' do
       before do
-        allow(Role).to receive(:givable)
-        allow(Role.givable)
-          .to receive(:or)
-          .with(GlobalRole.givable)
-          .and_return [role]
+        mock_roles_query_chain([role])
       end
 
       it 'is an array of role values' do
         expect(instance.allowed_values)
-          .to match_array [[role.name, role.id.to_s]]
+          .to contain_exactly [role.name, role.id.to_s]
       end
     end
 
@@ -79,20 +104,16 @@ RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
     end
 
     describe '#value_objects' do
-      let(:role2) { build_stubbed(:role) }
+      let(:other_role) { build_stubbed(:role) }
 
       before do
-        allow(Role).to receive(:givable)
-        allow(Role.givable)
-          .to receive(:or)
-          .with(GlobalRole.givable)
-          .and_return([role, role2])
-        instance.values = [role.id.to_s, role2.id.to_s]
+        mock_roles_query_chain([role, other_role])
+        instance.values = [role.id.to_s, other_role.id.to_s]
       end
 
       it 'returns an array of projects' do
         expect(instance.value_objects)
-          .to match_array([role, role2])
+          .to contain_exactly(role, other_role)
       end
     end
   end

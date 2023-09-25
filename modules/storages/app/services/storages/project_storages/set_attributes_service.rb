@@ -30,10 +30,13 @@
 module Storages::ProjectStorages
   class SetAttributesService < ::BaseServices::SetAttributes
     def set_default_attributes(_params)
-      model.creator ||= user
+      project_storage = model
+      storage = project_storage.storage
 
-      model.project_folder_mode ||=
-        if model.storage.present? && model.storage.automatically_managed?
+      project_storage.creator ||= user
+
+      project_storage.project_folder_mode ||=
+        if storage.present? && storage.provider_type_nextcloud? && storage.automatically_managed?
           "automatic"
         else
           "inactive"

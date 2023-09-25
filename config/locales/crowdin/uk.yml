@@ -1905,6 +1905,7 @@ uk:
   label_operator_none: "не вказано"
   label_operator_equals_or: "є (АБО)"
   label_operator_equals_all: "є (І)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Відкрити меню"
   label_open_work_packages: "відкрити"
   label_open_work_packages_plural: "відкрити"
@@ -2489,11 +2490,12 @@ uk:
   query_fields:
     active_or_archived: "Активний або архівований"
     assigned_to_role: "Роль виконавця"
-    member_of_group: "Група виконавця"
     assignee_or_group: "Правонаступник або приналежність до групи"
-    subproject_id: "Включно з підпроєктом"
-    only_subproject_id: "Лише підпроєкт"
+    member_of_group: "Група виконавця"
     name_or_identifier: "Ім'я або ідентифікатор"
+    only_subproject_id: "Лише підпроєкт"
+    shared_with_user: "Shared with user"
+    subproject_id: "Включно з підпроєктом"
   repositories:
     at_identifier: 'на %{identifier}'
     atom_revision_feed: 'Atom-канал'

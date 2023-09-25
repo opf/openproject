@@ -130,7 +130,7 @@ RSpec.describe 'API v3 file links resource' do
 
     context 'when all embedded file link elements are valid' do
       it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
-        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:elements) { Storages::FileLink.order(id: :asc) }
         let(:expected_status_code) { 201 }
       end
 
@@ -267,7 +267,7 @@ RSpec.describe 'API v3 file links resource' do
 
     context 'when all embedded file link elements are valid' do
       it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
-        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:elements) { Storages::FileLink.order(id: :asc) }
         let(:expected_status_code) { 201 }
       end
 
@@ -330,7 +330,7 @@ RSpec.describe 'API v3 file links resource' do
       end
 
       it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
-        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:elements) { Storages::FileLink.order(id: :asc) }
         let(:expected_status_code) { 201 }
       end
 
@@ -354,7 +354,7 @@ RSpec.describe 'API v3 file links resource' do
       end
 
       it_behaves_like 'API V3 collection response', 3, 3, 'FileLink' do
-        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:elements) { Storages::FileLink.order(id: :asc) }
         let(:expected_status_code) { 201 }
       end
 
@@ -580,7 +580,7 @@ RSpec.describe 'API v3 file links resource' do
       end
 
       describe 'due to authorization failure' do
-        let(:error) { :not_authorized }
+        let(:error) { :unauthorized }
 
         it { expect(subject.status).to be(500) }
       end

@@ -34,7 +34,12 @@ module Storages
       module OneDrive
         Queries = Dry::Container::Namespace.new('queries') do
           namespace('one_drive') do
+            register(:download_link, DownloadLinkQuery)
             register(:files, FilesQuery)
+            register(:file_info, FileInfoQuery)
+            register(:files_info, FilesInfoQuery)
+            register(:open_link, OpenLinkQuery)
+            register(:open_drive_link, OpenDriveLinkQuery)
           end
         end
       end

@@ -1,0 +1,11 @@
+<%= render(FormControl.new(input: @input)) do %>
+  <%= angular_component_tag 'opce-autocompleter',
+                            data: @autocomplete_options.delete(:data) { {} },
+                            inputs: @autocomplete_options.merge({
+                              classes: "ng-select--primerized #{@input.invalid? ? '-error' : ''}",
+                              inputName: builder.field_name(@input.name),
+                              inputValue: builder.object.send(@input.name),
+                              defaultData: 'true'
+                            })
+  %>
+<% end %>

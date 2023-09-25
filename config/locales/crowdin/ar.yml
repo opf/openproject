@@ -1203,6 +1203,7 @@ ar:
     errors: "خطأ"
     project_custom_fields: 'Custom fields on project'
     x_objects_of_this_type:
+      zero: 'No objects of this type'
       one: 'One object of this type'
       other: '%{count} objects of this type'
     text:
@@ -1951,6 +1952,7 @@ ar:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "فتح القائمة"
   label_open_work_packages: "افتح"
   label_open_work_packages_plural: "افتح"
@@ -2174,15 +2176,19 @@ ar:
   label_x_closed_work_packages_abbr:
     one: "1 مغلقة"
     other: "%{count} مغلق"
+    zero: "0 closed"
   label_x_comments:
     one: "1 comment"
     other: "%{count} تعليقات"
+    zero: "no comments"
   label_x_open_work_packages_abbr:
     one: "1 open"
     other: "%{count} مفتوح"
+    zero: "0 open"
   label_x_projects:
     one: "1 project"
     other: "%{count} مشاريع"
+    zero: "no projects"
   label_yesterday: "الأمس"
   label_role_type: "النّوع"
   label_member_role: "Project role"
@@ -2538,11 +2544,12 @@ ar:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "دور الموكل إليه"
-    member_of_group: "مجموعة الموكل إليه"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "مجموعة الموكل إليه"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'في %{identifier}'
     atom_revision_feed: 'مراجعة تغذية ذرية'

@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :meeting do |m|
+  factory :meeting, class: 'Meeting' do |m|
     author factory: :user
     project
     start_time { Date.tomorrow + 10.hours }
@@ -37,6 +37,10 @@ FactoryBot.define do
 
     after(:create) do |meeting, evaluator|
       meeting.project = evaluator.project if evaluator.project
+    end
+
+    factory :structured_meeting, class: 'StructuredMeeting' do |m|
+      m.sequence(:title) { |n| "Structured meeting #{n}" }
     end
   end
 end

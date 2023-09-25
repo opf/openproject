@@ -980,6 +980,7 @@ id:
         recently_created: "Recently created"
         all_open: "Semua terbuka"
         summary: "Ringkasan"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"

@@ -1909,6 +1909,7 @@ ru:
   label_operator_none: "пусто"
   label_operator_equals_or: "ИЛИ"
   label_operator_equals_all: "И"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Открыть меню"
   label_open_work_packages: "открыто"
   label_open_work_packages_plural: "открыт"
@@ -2495,11 +2496,12 @@ ru:
   query_fields:
     active_or_archived: "активно или в архиве"
     assigned_to_role: "Роль назначенного"
-    member_of_group: "Группа назначенного"
     assignee_or_group: "Назначенец или его группа"
-    subproject_id: "Включая подпроект"
-    only_subproject_id: "Только подпроект"
+    member_of_group: "Группа назначенного"
     name_or_identifier: "Имя или идентификатор"
+    only_subproject_id: "Только подпроект"
+    shared_with_user: "Shared with user"
+    subproject_id: "Включая подпроект"
   repositories:
     at_identifier: 'в %{identifier}'
     atom_revision_feed: 'Atom-канал'

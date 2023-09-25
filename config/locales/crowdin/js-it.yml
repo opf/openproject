@@ -981,6 +981,7 @@ it:
         recently_created: "Creato di recente"
         all_open: "Apri tutto"
         summary: "Sommario"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Salta alla impaginazione tabella"
         label_pagination: "Clicca qui per saltare la tabella macro-attività e passare alla impaginazione"

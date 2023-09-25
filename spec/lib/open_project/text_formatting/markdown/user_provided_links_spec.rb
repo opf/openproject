@@ -37,14 +37,14 @@ RSpec.describe OpenProject::TextFormatting,
     it_behaves_like 'format_text produces' do
       let(:raw) do
         <<~RAW
-          this is a <a style="display:none;" href="http://malicious">
+          this is a <a style="display:none;" target="_top" href="http://malicious">
         RAW
       end
 
       let(:expected) do
         <<~EXPECTED
           <p class="op-uc-p">
-            this is a <a href="http://malicious" rel="noopener noreferrer" class="op-uc-link">
+            this is a <a href="http://malicious" target="_top" rel="noopener noreferrer" class="op-uc-link">
           </p>
         EXPECTED
       end
@@ -101,7 +101,7 @@ RSpec.describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Link to <a href="/foo/bar" class="op-uc-link" rel="noopener noreferrer">relative path</a>
+              Link to <a href="/foo/bar" target="_top" class="op-uc-link" rel="noopener noreferrer">relative path</a>
             </p>
           EXPECTED
         end
@@ -121,7 +121,7 @@ RSpec.describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Link to <a href="http://openproject.org/foo/bar" class="op-uc-link" rel="noopener noreferrer">relative path</a>
+              Link to <a href="http://openproject.org/foo/bar" target="_top" class="op-uc-link" rel="noopener noreferrer">relative path</a>
             </p>
           EXPECTED
         end

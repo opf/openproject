@@ -125,24 +125,10 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
-    describe 'originOpen' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'originOpen' }
-        let(:href) { "#{storage.host}/index.php/f/#{file_link.origin_id}?openfile=1" }
-      end
-    end
-
     describe 'staticOriginOpen' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'staticOriginOpen' }
         let(:href) { "/api/v3/file_links/#{file_link.id}/open" }
-      end
-    end
-
-    describe 'originOpenLocation' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'originOpenLocation' }
-        let(:href) { "#{storage.host}/index.php/f/#{file_link.origin_id}?openfile=0" }
       end
     end
 

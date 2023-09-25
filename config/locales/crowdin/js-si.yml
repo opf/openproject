@@ -981,6 +981,7 @@ si:
         recently_created: "මෑතකදී නිර්මාණය"
         all_open: "සියල්ල විවෘතයි"
         summary: "සාරාංශය"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "මේසය පේනීම වෙත පනින්න"
         label_pagination: "වැඩ පැකේජ වගුව හරහා මඟ හැරීමට සහ පේනිෂන් වෙත යන්න මෙහි ක්ලික් කරන්න"

@@ -69,9 +69,15 @@ RSpec.describe 'API v3 Render resource' do
 
             it_behaves_like 'valid response' do
               let(:text) do
-                '<p class="op-uc-p">Hello World! This <em>is</em> markdown with a ' +
-                  '<a href="http://community.openproject.org" rel="noopener noreferrer" class="op-uc-link">link</a> ' +
-                  'and ümläutß.</p>'
+                <<~HTML
+                  <p class="op-uc-p">
+                    Hello World! This <em>is</em> markdown with a
+                    <a target="_top"
+                       href="http://community.openproject.org"
+                       rel="noopener noreferrer"
+                       class="op-uc-link">link</a>
+                    and ümläutß.</p>
+                HTML
               end
             end
           end
@@ -81,9 +87,14 @@ RSpec.describe 'API v3 Render resource' do
             let(:id) { work_package.id }
             let(:href) { "/work_packages/#{id}" }
             let(:text) do
-              '<p class="op-uc-p">Hello World! Have a look at <a ' \
-                "class=\"issue work_package preview-trigger op-uc-link\" " \
-                "href=\"#{href}\">##{id}</a></p>"
+              <<~HTML
+                <p class="op-uc-p">
+                  Hello World! Have a look at
+                  <a class="issue work_package preview-trigger op-uc-link"
+                     target="_top"
+                     href="#{href}">##{id}</a>
+                </p>
+              HTML
             end
 
             context 'with work package context' do

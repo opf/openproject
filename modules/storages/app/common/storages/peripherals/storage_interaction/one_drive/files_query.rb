@@ -33,9 +33,10 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesQuery
-          FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder"
+          FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
 
           using ServiceResultRefinements
+
           def self.call(storage:, user:, folder:)
             new(storage).call(user:, folder:)
           end
@@ -46,7 +47,7 @@ module Storages
           end
 
           def call(user:, folder: nil)
-            result = using_user_token(user) do |token|
+            result = Util.using_user_token(@storage, user) do |token|
               # Make the Get Request to the necessary endpoints
               response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
                 http.get(uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
@@ -67,56 +68,77 @@ module Storages
             when Net::HTTPNotFound
               ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
             when Net::HTTPUnauthorized
-              ServiceResult.failure(result: :not_authorized, errors: ::Storages::StorageError.new(code: :not_authorized))
+              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
             else
               ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
             end
           end
 
           def uri_path_for(folder)
-            return "/v1.0/me/drive/root/children" unless folder
+            return "/v1.0/drives/#{@storage.drive_id}/root/children" unless folder
 
             "/v1.0/drives/#{@storage.drive_id}/items/#{folder}/children"
           end
 
           def storage_files(json_files)
-            json_files.map do |json|
+            files = json_files.map { |json| storage_file(json) }
+
+            parent_reference = json_files.first[:parentReference]
+
+            StorageFiles.new(files, parent(parent_reference), forge_ancestors(parent_reference))
+          end
+
+          def storage_file(json_file)
+            StorageFile.new(
+              id: json_file[:id],
+              name: json_file[:name],
+              size: json_file[:size],
+              mime_type: Util.mime_type(json_file),
+              created_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :createdDateTime)),
+              last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
+              created_by_name: json_file.dig(:createdBy, :user, :displayName),
+              last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
+              location: extract_location(json_file[:parentReference], json_file[:name]),
+              permissions: nil
+            )
+          end
+
+          def extract_location(parent_reference, file_name = '')
+            location = parent_reference[:path].gsub(/.*root:/, '')
+
+            location.empty? ? "/#{file_name}" : "#{location}/#{file_name}"
+          end
+
+          def parent(parent_reference)
+            _, _, name = parent_reference[:path].gsub(/.*root:/, '').rpartition '/'
+
+            if name.empty?
+              root(parent_reference[:id])
+            else
               StorageFile.new(
-                id: json[:id],
-                name: json[:name],
-                size: json[:size],
-                mime_type: mime_type(json),
-                created_at: DateTime.parse(json.dig(:fileSystemInfo, :createdDateTime)),
-                last_modified_at: DateTime.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
-                created_by_name: json.dig(:createdBy, :user, :displayName),
-                last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
-                location: json[:webUrl],
-                permissions: nil
+                id: parent_reference[:id],
+                name:,
+                location: extract_location(parent_reference)
               )
             end
           end
 
-          def mime_type(json)
-            json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
+          def forge_ancestors(parent_reference)
+            path_elements = parent_reference[:path].gsub(/.+root:/, '').split('/')
+
+            path_elements[0..-2].map do |component|
+              next root(Digest::SHA256.hexdigest('i_am_root')) if component.blank?
+
+              StorageFile.new(
+                id: Digest::SHA256.hexdigest(component),
+                name: component,
+                location: "/#{component}"
+              )
+            end
           end
 
-          def using_user_token(user, &block)
-            connection_manager = ::OAuthClients::ConnectionManager
-              .new(user:, configuration: @storage.oauth_configuration)
-
-            connection_manager
-              .get_access_token
-              .match(
-                on_success: ->(token) do
-                  connection_manager.request_with_token_refresh(token) { block.call(token) }
-                end,
-                on_failure: ->(_) do
-                  ServiceResult.failure(
-                    result: :not_authorized,
-                    message: 'Query could not be created! No access token found!'
-                  )
-                end
-              )
+          def root(id)
+            StorageFile.new(name: "Root", location: "/", id:)
           end
         end
       end

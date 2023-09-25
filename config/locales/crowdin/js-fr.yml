@@ -981,6 +981,7 @@ fr:
         recently_created: "Créé récemment"
         all_open: "Tous les ouverts"
         summary: "Résumé"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Passer à la pagination du tableau"
         label_pagination: "Cliquez ici pour sauter le tableau des lots de travaux et accéder à la pagination"

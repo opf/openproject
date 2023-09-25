@@ -128,6 +128,16 @@ module Components
         close_autocompleter(id)
       end
 
+      def expect_missing_filter(name)
+        target_dropdown = search_autocomplete(page.find('.advanced-filters--add-filter-value'),
+                                              query: name,
+                                              results_selector: '.ng-dropdown-panel-items')
+
+        within target_dropdown do
+          expect(page).not_to have_selector('.ng-option', text: name)
+        end
+      end
+
       def expect_filter_by(name, operator, value, selector = nil)
         id = selector || name.downcase
 

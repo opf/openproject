@@ -1865,6 +1865,7 @@ nl:
   label_operator_none: "is leeg"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Menu openen"
   label_open_work_packages: "Open"
   label_open_work_packages_plural: "Open"
@@ -2447,11 +2448,12 @@ nl:
   query_fields:
     active_or_archived: "Actieve of gearchiveerde"
     assigned_to_role: "Werknemer's rol"
-    member_of_group: "Werknemer's groep"
     assignee_or_group: "Toegekend aan of hoort bij groep"
-    subproject_id: "Inclusief subproject"
-    only_subproject_id: "Alleen subproject"
+    member_of_group: "Werknemer's groep"
     name_or_identifier: "Naam of id"
+    only_subproject_id: "Alleen subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Inclusief subproject"
   repositories:
     at_identifier: 'op %{identifier}'
     atom_revision_feed: 'Atom wijzigingsfeed'

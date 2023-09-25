@@ -1843,6 +1843,7 @@ ja:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "メニューを開く"
   label_open_work_packages: "未完了"
   label_open_work_packages_plural: "未完了"
@@ -2424,11 +2425,12 @@ ja:
   query_fields:
     active_or_archived: "アクティブまたはアーカイブ"
     assigned_to_role: "担当者のロール"
-    member_of_group: "担当者のグループ"
     assignee_or_group: "担当者または所属グループ"
-    subproject_id: "Including subproject"
-    only_subproject_id: "サブプロジェクトのみ"
+    member_of_group: "担当者のグループ"
     name_or_identifier: "名前または ID"
+    only_subproject_id: "サブプロジェクトのみ"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: '%{identifier} で'
     atom_revision_feed: 'Atom リビジョンフィード'

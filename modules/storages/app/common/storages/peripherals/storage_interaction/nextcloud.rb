@@ -36,12 +36,14 @@ module Storages
           namespace('nextcloud') do
             register(:download_link, DownloadLinkQuery)
             register(:file_ids, FileIdsQuery)
+            register(:file_info, FileInfoQuery)
             register(:files_info, FilesInfoQuery)
             register(:files, FilesQuery)
             register(:folder_files_file_ids_deep_query, FolderFilesFileIdsDeepQuery)
             register(:propfind, Internal::PropfindQuery)
             register(:group_users, GroupUsersQuery)
             register(:upload_link, UploadLinkQuery)
+            register(:open_link, OpenLinkQuery)
           end
         end
 

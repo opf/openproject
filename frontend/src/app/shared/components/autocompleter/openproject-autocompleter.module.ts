@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FormsModule,
@@ -26,6 +26,7 @@ import { OpAutocompleterHeaderTemplateDirective } from 'core-app/shared/componen
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
 import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 import { OpSearchHighlightDirective } from 'core-app/shared/directives/search-highlight.directive';
+import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -60,4 +61,8 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   exports: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,
   declarations: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,
 })
-export class OpenprojectAutocompleterModule { }
+export class OpenprojectAutocompleterModule {
+  constructor(injector:Injector) {
+    registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
+  }
+}

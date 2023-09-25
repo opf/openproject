@@ -68,5 +68,6 @@ RSpec.describe 'bcf view management',
   it_behaves_like 'module specific query view management' do
     let(:module_page) { bcf_page }
     let(:default_name) { 'All open' }
+    let(:initial_filter_count) { 0 }
   end
 end
