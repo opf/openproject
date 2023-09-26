@@ -76,11 +76,11 @@ export default class extends Controller {
   addNotes() {
     this.notesInputTarget.classList.remove('d-none');
     this.notesAddButtonTarget.classList.add('d-none');
-    const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[notes]"]');
     setTimeout(() => {
-      if (textarea) {
-        (textarea as HTMLInputElement).focus();
+      const ckContent = this.element.querySelector<HTMLElement>('.ck-content');
+      if (ckContent) {
+        ckContent.focus();
       }
-    }, 100);
+    }, 50);
   }
 }
