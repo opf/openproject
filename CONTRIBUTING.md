@@ -10,7 +10,7 @@ Please get in touch with us using our [develompment forum](https://community.ope
 
 We eat our own ice cream so we use OpenProject for roadmap planning and team collaboration. Please have a look at the following pages:
 
-- [Product roadmap](https://community.openproject.org/projects/openproject/work_packages?query_id=1993)
+- [Product roadmap](https://community.openproject.org/projects/openproject/roadmap)
 - [Wish list](https://community.openproject.org/projects/openproject/work_packages?query_id=180)
 - [Bug backlog board](https://community.openproject.org/projects/openproject/boards/2905)
 - [Report a bug](https://www.openproject.org/docs/development/report-a-bug/)
@@ -110,7 +110,7 @@ which are not labelled as `work in progress` by us.
 
 ## Security
 
-If you notice a security issue in OpenProject, please send us a gpg encrypted email to security@openproject.com and describe the issue you found. Download our public gpg key [here](https://pgp.mit.edu/pks/lookup?op=get&search=0x7D669C6D47533958).
+If you notice a security issue in OpenProject, please send us a gpg encrypted email to security@openproject.com and describe the issue you found. [Download OpenProject security team public gpg key](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958).
 
 Please include a description on how to reproduce the issue if possible. Our security team will get your email and will attempt to reproduce and fix the issue as soon as possible.
 
