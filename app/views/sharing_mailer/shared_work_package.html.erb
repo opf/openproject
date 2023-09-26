@@ -1,5 +1,20 @@
-<h1>Sharing#shared_work_package</h1>
+<table>
+  <tr style="background-color: orange;">
+    <%= placeholder_cell('20px', vertical: false) %>
+  </tr>
+</table>
 
-<p>
-  <%= @greeting %>, find me in app/views/sharing_mailer/shared_work_package.html.erb
-</p>
+<table <%= placeholder_table_styles(width: '100%', style: 'width:100%;max-width:700px') %>>
+  <tr>
+    <%= placeholder_cell('12px', vertical: true) %>
+    <td>
+      <%= render partial: 'sharing_mailer/notification_mailer_header',
+                 locals: {
+                   headline: I18n.t('mail.sharing.work_packages.headline'),
+                   summary: I18n.t('mail.sharing.work_packages.summary'),
+                   work_package: @work_package
+                 } %>
+    </td>
+    <%= placeholder_cell('12px', vertical: true) %>
+  </tr>
+</table>

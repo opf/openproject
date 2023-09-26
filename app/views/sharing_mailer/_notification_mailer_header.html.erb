@@ -1,0 +1,60 @@
+<!-- TODO: Remove development background set below -->
+<table <%= placeholder_table_styles(width:'100%',style: "background-color:green;width:100%;min-width:100%") %>>
+  <tr>
+    <td>
+      <!-- TODO: Remove development background set below -->
+      <table <%= placeholder_table_styles(style: 'background-color:lightblue;') %>>
+        <tr>
+          <td>
+            <!-- Content -->
+            <!--Start headline -->
+            <!-- TODO: Remove development background set below -->
+            <table <%= placeholder_table_styles(width:'100%',style: "width:100%;background-color:orange;") %>>
+              <tr>
+                <td>
+                  <table <%= placeholder_table_styles(style: 'font-size:24px;font-weight:bold') %>>
+                    <tr>
+                      <td style="white-space: nowrap;">
+                        <%= headline %>
+                      </td>
+                      <%= placeholder_cell('4px', vertical: true) %>
+                      <td style="color: <%= type_color(work_package.type, '#333333') %>;white-space: nowrap;">
+                        <%= work_package.type.to_s.upcase %>
+                      </td>
+                      <%= placeholder_cell('4px', vertical: true) %>
+                      <td width="100%" style="color: #333333;">
+                        #<%= work_package.id %>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <%= placeholder_cell('8px', vertical: false) %>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-size:16px; color: #1A67A3; font-weight: bold;">
+                     <%= summary %>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <%= placeholder_cell('40px', vertical: false) %>
+              </tr>
+            </table>
+            <!-- End headline -->
+          </td>
+
+          <!-- Logo -->
+          <td>
+            <%= image_tag 'icon_logo.png', style: 'height: 48px;' %>
+          </td>
+
+          <!-- End logo -->
+          <%= placeholder_cell('16px', vertical: true) %>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

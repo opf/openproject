@@ -2257,6 +2257,8 @@ en:
     sharing:
       work_packages:
         subject: 'You have been shared work package #%{id}'
+        headline: 'Invitation to'
+        summary: 'This work package has been shared with you'
 
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
