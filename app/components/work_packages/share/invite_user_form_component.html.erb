@@ -11,7 +11,9 @@
         end
 
         new_user_row.with_column(mr: 2) do
-          render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: Role::BUILTIN_WORK_PACKAGE_COMMENTER, form: form))
+          render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
+                                                                    form_arguments: { builder: form, name: "role_id" },
+                                                                    data: { 'test-selector': 'op-share-wp-invite-role' }))
         end
 
         new_user_row.with_column do

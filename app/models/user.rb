@@ -77,6 +77,12 @@ class User < Principal
            inverse_of: :user,
            dependent: :destroy
 
+  has_many :work_package_shares,
+           -> { where(entity_type: WorkPackage.name) },
+           class_name: 'Member',
+           dependent: :delete_all,
+           inverse_of: :principal
+
   has_many :notification_settings, dependent: :destroy
 
   # Users blocked via brute force prevention

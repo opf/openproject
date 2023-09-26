@@ -1,5 +1,5 @@
 <%=
-  render(Primer::Alpha::ActionMenu.new(select_variant: :single, dynamic_label: true, color: :subtle, form_arguments: { builder: @form, name: "role_id" })) do |menu|
+  render(Primer::Alpha::ActionMenu.new(**@system_arguments.merge(select_variant: :single, dynamic_label: true, color: :subtle))) do |menu|
     menu.with_show_button do |button|
       button.with_trailing_action_icon(icon: :"triangle-down")
       permission_name(@permission_value)

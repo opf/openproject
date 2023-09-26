@@ -32,11 +32,11 @@ module WorkPackages
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
 
-      def initialize(permission_value:, form: nil)
+      def initialize(permission_value:, **system_arguments)
         super
 
         @permission_value = permission_value
-        @form = form
+        @system_arguments = system_arguments
       end
 
       private

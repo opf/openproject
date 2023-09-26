@@ -82,10 +82,10 @@ RSpec.describe 'Work package sharing', :js, :with_cuprite do
     click_button 'Share'
 
     share_modal.expect_open
-    share_modal.expect_shared_with(view_user)
-    share_modal.expect_shared_with(comment_user)
-    share_modal.expect_shared_with(edit_user)
-    share_modal.expect_shared_with(shared_project_user)
+    share_modal.expect_shared_with(view_user, 'View')
+    share_modal.expect_shared_with(comment_user, 'Comment')
+    share_modal.expect_shared_with(edit_user, 'Edit')
+    share_modal.expect_shared_with(shared_project_user, 'Edit')
 
     share_modal.expect_not_shared_with(non_shared_project_user)
     share_modal.expect_not_shared_with(not_shared_yet_with_user)
@@ -93,9 +93,9 @@ RSpec.describe 'Work package sharing', :js, :with_cuprite do
     share_modal.expect_shared_count_of(4)
 
     # Inviting a user will lead to that user being listed together with the rest of the shared with users.
-    share_modal.invite_user(not_shared_yet_with_user)
+    share_modal.invite_user(not_shared_yet_with_user, 'View')
 
-    share_modal.expect_shared_with(not_shared_yet_with_user)
+    share_modal.expect_shared_with(not_shared_yet_with_user, 'View')
 
     share_modal.expect_shared_count_of(5)
 

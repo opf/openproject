@@ -32,6 +32,10 @@
               end
 
               shared_users.each do |user|
+                share = user.work_package_shares.first
+                # TODO: handle having multiple roles e.g. from a group
+                role = share.roles.first
+
                 invited_user_list.with_row(data: { 'test-selector': "op-share-wp-active-user-#{user.id}" }) do
                   flex_layout(align_items: :center) do |user_row_container|
                     user_row_container.with_column(flex: :auto) do
@@ -39,13 +43,11 @@
                     end
 
                     user_row_container.with_column(text_align: :right, color: :subtle, style: "width: 150px;") do
-                      # ToDo: real permission
-                      render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: 4))
+                      render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: role.builtin))
                     end
 
                     user_row_container.with_column(text_align: :right, style: "width: 100px;") do
-                      # ToDo: find the correct membership to delete
-                      form_with url: work_packages_share_path(user.memberships.where(entity_type: 'WorkPackage').first), method: :delete do
+                      form_with url: work_packages_share_path(share), method: :delete do
                         render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
                       end
                     end

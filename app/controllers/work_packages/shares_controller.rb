@@ -50,8 +50,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def destroy
-    # TODO: handle having an non existing id
-    #       error handling
+    # TODO: error handling
     WorkPackageMembers::DeleteService
       .new(user: current_user, model: @share)
       .call

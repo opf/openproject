@@ -47,7 +47,10 @@ module WorkPackages
       private
 
       def shared_users
-        @shared_users ||= User.having_entity_membership(@work_package)
+        @shared_users ||= User
+                            .having_entity_membership(@work_package)
+                            .includes(work_package_shares: :roles)
+                            .where(work_package_shares: { entity: @work_package })
       end
     end
   end

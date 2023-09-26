@@ -45,13 +45,19 @@ module Components
         @work_package = work_package
       end
 
-      # TODO: add role selection
-      def invite_user(user)
+      def invite_user(user, role_name)
         # Adding a user to the list of shared users
-        select_autocomplete page.find('[data-test-selector="op-share-wp-user-autocomplete"]'),
+        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
                             query: user.firstname,
                             select_text: user.name,
                             results_selector: 'body'
+
+        within modal_element.find('[data-test-selector="op-share-wp-invite-role"]') do
+          # Open the ActionMenu
+          click_button 'Comment'
+
+          find('.ActionListContent', text: role_name).click
+        end
 
         within modal_element do
           click_button 'Invite'
@@ -64,10 +70,15 @@ module Components
         end
       end
 
-      def expect_shared_with(user)
+      def expect_shared_with(user, role_name)
         within active_list do
           expect(page)
             .to have_text(user.name)
+        end
+
+        within user_row(user) do
+          expect(page)
+            .to have_button(role_name)
         end
       end
 

@@ -33,10 +33,10 @@ module  WorkPackages::Share
         label: I18n.t('work_package.sharing.label_search'),
         visually_hide_label: true,
         autocomplete_options: {
-          id: "op-share-wp-user-autocomplete",
+          id: "op-share-wp-invite-autocomplete",
           placeholder: I18n.t('work_package.sharing.label_search_placeholder'),
           data: {
-            'test-selector': 'op-share-wp-user-autocomplete'
+            'test-selector': 'op-share-wp-invite-autocomplete'
           },
           # Use the principal API as that requires less permissions than the user API
           # but restrict the type of the principal to users only. Subject to change
