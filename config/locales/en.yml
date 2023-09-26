@@ -2259,6 +2259,12 @@ en:
         subject: 'You have been shared work package #%{id}'
         headline: 'Invitation to'
         summary: 'This work package has been shared with you'
+        salutation: 'Hello,'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        support_text: 'If you have any questions, please %{contact_us_link}. We are always ready to help.'
+        signature: 'Sincerely<br/>The OpenProject Team'
 
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"

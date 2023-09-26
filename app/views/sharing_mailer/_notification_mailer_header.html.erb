@@ -1,15 +1,10 @@
-<!-- TODO: Remove development background set below -->
-<table <%= placeholder_table_styles(width:'100%',style: "background-color:green;width:100%;min-width:100%") %>>
+<table <%= placeholder_table_styles(width:'100%', style: "width:100%;min-width:100%") %>>
   <tr>
     <td>
-      <!-- TODO: Remove development background set below -->
-      <table <%= placeholder_table_styles(style: 'background-color:lightblue;') %>>
+      <table <%= placeholder_table_styles %>>
         <tr>
           <td>
-            <!-- Content -->
-            <!--Start headline -->
-            <!-- TODO: Remove development background set below -->
-            <table <%= placeholder_table_styles(width:'100%',style: "width:100%;background-color:orange;") %>>
+            <table <%= placeholder_table_styles(width:'100%',style: "width:100%;") %>>
               <tr>
                 <td>
                   <table <%= placeholder_table_styles(style: 'font-size:24px;font-weight:bold') %>>
@@ -39,22 +34,19 @@
                   </span>
                 </td>
               </tr>
-              <tr>
-                <%= placeholder_cell('40px', vertical: false) %>
-              </tr>
             </table>
-            <!-- End headline -->
           </td>
 
-          <!-- Logo -->
           <td>
-            <%= image_tag 'icon_logo.png', style: 'height: 48px;' %>
+            <%= image_tag 'icon_logo.png',
+                          size: '48x48',
+                          style: 'width:48px;height:48px;' %>
           </td>
-
-          <!-- End logo -->
-          <%= placeholder_cell('16px', vertical: true) %>
         </tr>
       </table>
     </td>
+  </tr>
+  <tr>
+    <%= placeholder_cell('40px', vertical: false) %>
   </tr>
 </table>

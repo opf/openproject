@@ -1,5 +1,5 @@
 <table>
-  <tr style="background-color: orange;">
+  <tr>
     <%= placeholder_cell('20px', vertical: false) %>
   </tr>
 </table>
@@ -16,5 +16,22 @@
                  } %>
     </td>
     <%= placeholder_cell('12px', vertical: true) %>
+  </tr>
+  <tr>
+    <%= placeholder_cell('12px', vertical: true) %>
+    <td>
+      <%= render partial: 'sharing_mailer/notification_mailer_body',
+                 locals: {
+                   sharer: @sharer,
+                   salutation: I18n.t('mail.sharing.work_packages.salutation'),
+                   role_rights: @role_rights,
+                   work_package: @work_package,
+                   allowed_work_package_actions: @allowed_work_package_actions
+                 } %>
+    </td>
+    <%= placeholder_cell('12px', vertical: true) %>
+  </tr>
+  <tr>
+    <%= placeholder_cell('72px', vertical: false) %>
   </tr>
 </table>
