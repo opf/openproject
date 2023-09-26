@@ -45,21 +45,19 @@ RSpec.describe 'Appendix of default CSP for external file storage hosts' do
     context 'when logged in' do
       current_user { create(:user, member_in_project: project, member_with_permissions: %i[manage_file_links]) }
 
-      it 'appends storage host to the connect-src and frame-ancestors CSP' do
+      it 'appends storage host to the connect-src CSP' do
         get '/'
 
         csp = parse_csp(last_response.headers['Content-Security-Policy'])
-        expect(csp['frame-ancestors']).to eq(["'self'", storage.host])
         expect(csp['connect-src']).to include(storage.host)
       end
     end
 
     context 'when not logged in' do
-      it 'appends storage host to frame-ancestors CSP only' do
+      it 'does not append host to connect-src CSP' do
         get '/'
 
         csp = parse_csp(last_response.headers['Content-Security-Policy'])
-        expect(csp['frame-ancestors']).to eq(["'self'", storage.host])
         expect(csp['connect-src']).not_to include(storage.host)
       end
     end

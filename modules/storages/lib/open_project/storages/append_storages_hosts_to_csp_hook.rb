@@ -43,31 +43,18 @@ class ::OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook:
   # places of OpenProject, and we want to be able to upload in all those places
   # (work packages module, BCF module, notification center, boards, ...).
   def application_controller_before_action(context)
-    controller = context[:controller]
-
-    active_nextcloud_storages_hosts = ::Storages::NextcloudStorage
-                                        .where(id: ::Storages::ProjectStorage.select(:storage_id))
-                                        .pluck(:host)
-                                        .map(&method(:remove_uri_path))
-
-    if active_nextcloud_storages_hosts.present?
-      controller.append_content_security_policy_directives(
-        frame_ancestors: active_nextcloud_storages_hosts
-      )
-    end
-
     storage_ids = ::Storages::ProjectStorage.where(
-      project_id: Project.allowed_to(User.current, :manage_file_links)
+      project_id: Project.allowed_to(User.current, :manage_file_links),
     ).select(:storage_id)
     storages_hosts = ::Storages::Storage
-                       .where(id: storage_ids)
-                       .where.not(host: nil)
-                       .pluck(:host)
-                       .map(&method(:remove_uri_path))
+      .where(id: storage_ids)
+      .where.not(host: nil)
+      .pluck(:host)
+      .map(&method(:remove_uri_path))
 
     if storages_hosts.present?
       # secure_headers gem provides this helper method to append to the current content security policy
-      controller.append_content_security_policy_directives(connect_src: storages_hosts)
+      context[:controller].append_content_security_policy_directives(connect_src: storages_hosts)
     end
   end
 
