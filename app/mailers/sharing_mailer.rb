@@ -10,8 +10,10 @@ class SharingMailer < ApplicationMailer
     role = membership.roles.first
     @role_rights = derive_role_rights(role)
     @allowed_work_package_actions = derive_allowed_work_package_actions(role)
-
     recipient = membership.principal
+
+    set_open_project_headers(@work_package)
+    message_id(membership, sharer)
 
     with_locale_for(recipient) do
       mail to: recipient.mail,
@@ -51,5 +53,11 @@ class SharingMailer < ApplicationMailer
     end
 
     allowed_actions.to_sentence
+  end
+
+  def set_open_project_headers(work_package)
+    open_project_headers 'Project' => work_package.project.identifier,
+                         'WorkPackage-Id' => work_package.id,
+                         'Type' => 'WorkPackage'
   end
 end

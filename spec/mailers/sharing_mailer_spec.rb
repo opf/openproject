@@ -35,6 +35,7 @@ RSpec.describe SharingMailer do
   let(:work_package) do
     build_stubbed(:work_package,
                   type: build_stubbed(:type_standard),
+                  author: build_stubbed(:user),
                   project:)
   end
   let(:shared_with_user) { build_stubbed(:user) }
@@ -62,6 +63,28 @@ RSpec.describe SharingMailer do
       expect(mail.subject)
         .to eq(I18n.t('mail.sharing.work_packages.subject',
                       id: work_package.id))
+    end
+
+    it 'has a project header' do
+      expect(mail['X-OpenProject-Project'].value)
+        .to eq(project.identifier)
+    end
+
+    it 'has a work package id header' do
+      expect(mail['X-OpenProject-WorkPackage-Id'].value)
+        .to eq(work_package.id.to_s)
+    end
+
+    it 'has a type header' do
+      expect(mail['X-OpenProject-Type'].value)
+        .to eq('WorkPackage')
+    end
+
+    it 'has a message id header' do
+      Timecop.freeze(Time.current) do
+        expect(mail.message_id)
+          .to eq("op.member-#{work_package_member.id}.#{Time.current.strftime('%Y%m%d%H%M%S')}.#{current_user.id}@example.net")
+      end
     end
   end
 end
