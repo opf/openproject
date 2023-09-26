@@ -11,7 +11,19 @@
         end
 
         if shared_users.empty?
-          # Todo: show empty state?
+          modal_content.with_row(mt: 3) do
+            render(Primer::Beta::Blankslate.new(border: true)) do |component|
+              component.with_visual_icon(icon: :people, size: :medium)
+              component.with_heading(tag: :h2).with_content(I18n.t('work_package.sharing.text_empty_state_header') )
+              component.with_description do
+                flex_layout do |flex|
+                  flex.with_row(mb: 2) do
+                    render(Primer::Beta::Text.new(color: :subtle)) { I18n.t('work_package.sharing.text_empty_state_description') }
+                  end
+                end
+              end
+            end
+          end
         else
           modal_content.with_row(mt: 3, data: { 'test-selector': 'op-share-wp-active-list'}) do
             render(Primer::Beta::BorderBox.new) do |invited_user_list|

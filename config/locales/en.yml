@@ -3166,6 +3166,8 @@ en:
         edit: "Edit"
         view: "View"
       remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
 
   working_days:
     info: >
