@@ -9,21 +9,21 @@ lt:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: Savaitiniai
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Geros naujienos
             item_1:
-              title: Updates from development team
+              title: Vystymo komandos naujienos
             item_2:
-              title: Updates from product team
+              title: Produkto komandos naujienos
             item_3:
-              title: Updates from marketing team
+              title: Marketingo komandos naujienos
             item_4:
-              title: Updates from sales team
+              title: Pardavimų komandos naujienos
             item_5:
-              title: Review of quarterly goals
+              title: Ketvirčio tikslų apžvalga
             item_6:
-              title: Core values feedback
+              title: Pagrindinių vertybių atsiliepimai
             item_7:
-              title: General topics
+              title: Bendros temos

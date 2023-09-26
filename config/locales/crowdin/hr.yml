@@ -1610,11 +1610,13 @@ hr:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentifikacija"
-  label_available_project_work_package_categories: 'Dostupne kategorije radnih paketa'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Dostupne verzije'
-  label_available_project_repositories: 'Dostupni repozitoriji'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Dostupni repozitoriji"
+  label_available_project_versions: "Dostupne verzije"
+  label_available_project_work_package_categories: "Dostupne kategorije radnih paketa"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentacija"
   label_backup: "Backup"
   label_between: "između"

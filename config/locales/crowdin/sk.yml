@@ -1631,11 +1631,13 @@ sk:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentifikácia"
-  label_available_project_work_package_categories: 'Dostupné kategórie pracovných balíčkov'
-  label_available_project_work_package_types: 'Dostupné kategórie pracovných balíčkov'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Dostupné verzie'
-  label_available_project_repositories: 'Dosupné úložíská'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Dosupné úložíská"
+  label_available_project_versions: "Dostupné verzie"
+  label_available_project_work_package_categories: "Dostupné kategórie pracovných balíčkov"
+  label_available_project_work_package_types: "Dostupné kategórie pracovných balíčkov"
+  label_available_projects: "Available projects"
   label_api_documentation: "Dokumentácia API"
   label_backup: "Backup"
   label_between: "medzi"

@@ -1588,11 +1588,13 @@ sv:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentisering"
-  label_available_project_work_package_categories: 'Tillgängliga arbetspaketkategorier'
-  label_available_project_work_package_types: 'Tillgängliga typer för arbetspaket'
-  label_available_project_forums: 'Tillgängliga forum'
-  label_available_project_versions: 'Tillgängliga versioner'
-  label_available_project_repositories: 'Tillgängliga databaser'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Tillgängliga forum"
+  label_available_project_repositories: "Tillgängliga databaser"
+  label_available_project_versions: "Tillgängliga versioner"
+  label_available_project_work_package_categories: "Tillgängliga arbetspaketkategorier"
+  label_available_project_work_package_types: "Tillgängliga typer för arbetspaket"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-dokumentation"
   label_backup: "Backup"
   label_between: "mellan"

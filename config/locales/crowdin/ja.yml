@@ -1564,11 +1564,13 @@ ja:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "認証"
-  label_available_project_work_package_categories: '有効なワークパッケージのカテゴリ'
-  label_available_project_work_package_types: '利用可能なワークパッケージのタイプ'
-  label_available_project_forums: '利用可能なフォーラム'
-  label_available_project_versions: '利用できるバージョン'
-  label_available_project_repositories: '使用できるリポジトリ'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "利用可能なフォーラム"
+  label_available_project_repositories: "使用できるリポジトリ"
+  label_available_project_versions: "利用できるバージョン"
+  label_available_project_work_package_categories: "有効なワークパッケージのカテゴリ"
+  label_available_project_work_package_types: "利用可能なワークパッケージのタイプ"
+  label_available_projects: "Available projects"
   label_api_documentation: "APIドキュメント"
   label_backup: "バックアップ"
   label_between: "次の範囲内"

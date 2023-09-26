@@ -1586,11 +1586,13 @@ es:
   label_ldap_auth_source: "Conexión LDAP"
   label_ldap_auth_source_plural: "Conexiones LDAP"
   label_authentication: "Autentificación"
-  label_available_project_work_package_categories: 'Categorias de paquetes de trabjo disponibles'
-  label_available_project_work_package_types: 'Tipos de paquete de trabajo disponibles'
-  label_available_project_forums: 'Foros disponibles'
-  label_available_project_versions: 'Versiones disponibles'
-  label_available_project_repositories: 'Repositorios disponibles'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Foros disponibles"
+  label_available_project_repositories: "Repositorios disponibles"
+  label_available_project_versions: "Versiones disponibles"
+  label_available_project_work_package_categories: "Categorias de paquetes de trabjo disponibles"
+  label_available_project_work_package_types: "Tipos de paquete de trabajo disponibles"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentación de la API"
   label_backup: "Copia de seguridad"
   label_between: "entre"
