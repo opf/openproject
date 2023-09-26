@@ -32,7 +32,7 @@ $arrow-left-width: 40px
 @mixin main-menu-hover
   background: var(--main-menu-bg-hover-background)
   color: var(--main-menu-hover-font-color)
-  box-shadow: inset 0 0 0 1px var(--main-menu-hover-box-shadow-color)
+  border: 1px solid var(--main-menu-hover-border-color)
 
 @mixin main-menu-selected
   background: var(--main-menu-bg-selected-background)
@@ -137,6 +137,7 @@ $arrow-left-width: 40px
     @include main-menu-hover
 
   a
+    border: 1px solid transparent
     &.selected, &.selected + a
       @include main-menu-selected
 
