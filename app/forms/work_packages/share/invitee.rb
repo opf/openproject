@@ -38,7 +38,7 @@ module  WorkPackages::Share
           data: {
             'test-selector': 'op-share-wp-user-autocomplete'
           },
-          resource: 'principals',
+          resource: 'users',
           searchKey: 'any_name_attribute',
           focusDirectly: true,
           disabled: @disabled

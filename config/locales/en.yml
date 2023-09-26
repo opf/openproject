@@ -3154,9 +3154,9 @@ en:
       title: "Delete the work package"
     sharing:
       count:
-        zero: "0 members"
-        one: "1 member"
-        other: "%{count} members"
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
       invite: "Invite"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user, group or email address"
