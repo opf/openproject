@@ -41,18 +41,20 @@ module WorkPackageMeetingsTab
     end
 
     def call
-      component_wrapper do
-        primer_form_with(
-          model: @meeting_agenda_item,
-          method: :post,
-          url: work_package_meeting_agenda_items_path(@work_package)
-        ) do |f|
-          component_collection do |collection|
-            collection.with_component(Primer::Alpha::Dialog::Body.new(test_selector: 'op-add-work-package-to-meeting-dialog-body')) do
-              form_content_partial(f)
-            end
-            collection.with_component(Primer::Alpha::Dialog::Footer.new) do
-              form_actions_partial
+      content_tag("turbo-frame", id: "add-work-package-to-meeting-dialog-frame") do
+        component_wrapper do
+          primer_form_with(
+            model: @meeting_agenda_item,
+            method: :post,
+            url: work_package_meeting_agenda_items_path(@work_package)
+          ) do |f|
+            component_collection do |collection|
+              collection.with_component(Primer::Alpha::Dialog::Body.new(test_selector: 'op-add-work-package-to-meeting-dialog-body')) do
+                form_content_partial(f)
+              end
+              collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+                form_actions_partial
+              end
             end
           end
         end
@@ -67,11 +69,9 @@ module WorkPackageMeetingsTab
           base_error_partial
         end
         flex.with_row do
-          # TODO: Autocomplete based on Rails rendered options needed here
           render(MeetingAgendaItem::MeetingForm.new(form))
         end
         flex.with_row(mt: 3) do
-          # TODO: RTE toolbar not properly rendered
           render(MeetingAgendaItem::Notes.new(form))
         end
       end
@@ -85,7 +85,11 @@ module WorkPackageMeetingsTab
 
     def form_actions_partial
       component_collection do |collection|
-        collection.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "add-work-package-to-meeting-dialog" })) do
+        collection.with_component(Primer::ButtonComponent.new(
+                                    data: {
+                                      'close-dialog-id': "add-work-package-to-meeting-dialog"
+                                    }
+                                  )) do
           t("button_cancel")
         end
         collection.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do

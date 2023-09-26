@@ -39,6 +39,7 @@ OpenProject::Application.routes.draw do
     end
     resources :meeting_agenda_items, only: %i[] do
       collection do
+        get :dialog, controller: 'work_package_meetings_tab', action: :add_work_package_to_meeting_dialog
         post :create, controller: 'work_package_meetings_tab', action: :add_work_package_to_meeting
       end
     end

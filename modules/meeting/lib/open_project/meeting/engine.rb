@@ -54,7 +54,7 @@ module OpenProject::Meeting
                    {
                      meetings: %i[edit cancel_edit update update_title update_details update_participants],
                      meeting_agenda_items: %i[new cancel_new create edit cancel_edit update destroy drop move],
-                     work_package_meetings_tab: %i[add_work_package_to_meeting]
+                     work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting]
                    },
                    permissible_on: :project,
                    require: :member

@@ -65,16 +65,17 @@ module WorkPackageMeetingsTab
 
     def add_to_meeting_partial
       # we need to render a dialog with size :xlarge as the RTE requires this size to be able to render the toolbar properly
-      render(Primer::Alpha::Dialog.new(
-               id: "add-work-package-to-meeting-dialog", title: t("label_add_work_package_to_meeting_dialog_title"),
-               size: :xlarge
-             )) do |dialog|
-        dialog.with_show_button(test_selector: "op-add-work-package-to-meeting-dialog-trigger") do |button|
-          button.with_leading_visual_icon(icon: :plus)
-          t("label_add_work_package_to_meeting_dialog_button")
-        end
-        render(WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(work_package: @work_package))
-      end
+      render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
+               id: "add-work-package-to-meeting-dialog",
+               src: dialog_work_package_meeting_agenda_items_path(@work_package),
+               size: :xlarge,
+               title: t("label_add_work_package_to_meeting_dialog_title"),
+               button_icon: :plus,
+               button_text: t("label_add_work_package_to_meeting_dialog_button"),
+               button_attributes: {
+                 test_selector: "op-add-work-package-to-meeting-dialog-trigger"
+               }
+             ))
     end
   end
 end

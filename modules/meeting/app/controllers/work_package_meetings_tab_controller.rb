@@ -50,6 +50,10 @@ class WorkPackageMeetingsTabController < ApplicationController
     )
   end
 
+  def add_work_package_to_meeting_dialog
+    render(WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(work_package: @work_package), layout: false)
+  end
+
   def add_work_package_to_meeting
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
