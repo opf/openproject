@@ -76,9 +76,7 @@ Administrators can add new roles with custom permissions or configure existing o
 
 ### Permissions report
 
-The permissions report is a good starting point to get an overview of the current configuration of roles and permissions. There are two ways to open the permissions report:
-1. Navigate to *Administration* > *Users and permissions* > *Permissions report*.
-2. Navigate to the overview table of existing *Roles* and click on the link *Permissions report* below the table.
+The permissions report is a good starting point to get an overview of the current configuration of roles and permissions. To open the permissions report, navigate to *Administration* > *Users and permissions* > *Permissions report*.
 
 ### Create a new project roles
 
