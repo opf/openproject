@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,47 +26,42 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 require 'spec_helper'
 
-RSpec.describe TabsHelper do
-  include described_class
+RSpec.describe 'Menu items',
+               'User and permissions' do
+  shared_current_user { create(:admin) }
 
-  let(:given_tab) do
-    { name: 'avatar',
-      partial: 'avatars/users/avatar_tab',
-      path: ->(params) { edit_user_path(params[:user], tab: :avatar) },
-      label: :label_avatar }
-  end
-
-  let(:expected_tab) do
-    { name: 'avatar',
-      partial: 'avatars/users/avatar_tab',
-      path: '/users/2/edit/avatar',
-      label: :label_avatar }
-  end
-
-  describe 'render_extensible_tabs' do
-    let(:current_user) { build(:user) }
-    let(:user) { build(:user, id: 2) }
-
+  context "when I visit the /users path" do
     before do
-      allow_any_instance_of(TabsHelper)
-        .to receive(:render_tabs)
-        .with([expected_tab])
-        .and_return [expected_tab]
-
-      allow(OpenProject::Ui::ExtensibleTabs)
-        .to receive(:enabled_tabs)
-        .with(:user, a_hash_including(user:, current_user:))
-        .and_return [given_tab]
+      visit(users_path)
     end
 
-    it "returns an evaluated path" do
-      tabs = render_extensible_tabs(:user, user:)
-      expect(response).to have_http_status :ok
-      expect(tabs).to eq([expected_tab])
+    it 'renders the "Users and permissions" menu with its children entries', :aggregate_failures do
+      within '#menu-sidebar' do
+        expect(page)
+          .to have_link(I18n.t(:label_user_and_permission))
+
+        expect(page)
+          .to have_link(I18n.t(:label_users_settings))
+
+        expect(page)
+          .to have_link(I18n.t(:label_placeholder_user_plural))
+
+        expect(page)
+          .to have_link(I18n.t(:label_group_plural))
+
+        expect(page)
+          .to have_link(I18n.t(:label_role_and_permissions))
+
+        expect(page)
+          .to have_link(I18n.t(:label_permissions_report))
+
+        expect(page)
+          .to have_link(I18n.t(:label_avatar_plural))
+      end
     end
   end
 end

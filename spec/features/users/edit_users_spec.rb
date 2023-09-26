@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'edit users', js: true, with_cuprite: true do
+RSpec.describe 'edit users', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let(:user) { create(:user, mail: 'foo@example.com') }
@@ -84,12 +84,27 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
     end
   end
 
+  def have_visible_tab(label)
+    have_css('.op-tab-row--link', text: label.upcase)
+  end
+
+  context 'as admin' do
+    it 'can edit attributes of an admin user' do
+      another_admin = create(:admin)
+      visit edit_user_path(another_admin)
+
+      expect(page).to have_visible_tab('GENERAL')
+    end
+  end
+
   context 'as global user' do
     shared_let(:global_manage_user) { create(:user, global_permission: %i[manage_user create_user]) }
     let(:current_user) { global_manage_user }
 
     it 'can too edit the user' do
       visit edit_user_path(user)
+
+      expect(page).to have_visible_tab('GENERAL')
 
       expect(page).not_to have_selector('.admin-overview-menu-item', text: 'Overview')
       expect(page).not_to have_selector('.users-and-permissions-menu-item', text: 'Users and permissions')
@@ -110,7 +125,7 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
       firstname_field.set 'NewName'
       select auth_source.name, from: 'user[ldap_auth_source_id]'
 
-      click_on 'Save'
+      click_button 'Save'
 
       expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
 
@@ -123,9 +138,16 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
     it 'can reinvite the user' do
       visit edit_user_path(user)
 
-      click_on 'Send invitation'
+      click_button 'Send invitation'
 
       expect(page).to have_selector('.op-toast.-success', text: 'An invitation has been sent to foo@example.com')
+    end
+
+    it 'can not edit attributes of an admin user' do
+      visit edit_user_path(admin)
+
+      expect(page).to have_visible_tab('PROJECTS')
+      expect(page).not_to have_visible_tab('GENERAL')
     end
   end
 end
