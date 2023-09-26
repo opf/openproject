@@ -39,6 +39,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-share-button',
   templateUrl: './wp-share-button.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
