@@ -117,13 +117,17 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { members: %i[create update destroy] }
 
       map.permission :share_work_packages,
-                     {},
+                     {
+                       'work_packages/shares': %i[index create destroy]
+                     },
                      permissible_on: :project,
                      dependencies: %i[edit_work_packages view_shared_work_packages],
                      require: :member
 
       map.permission :view_shared_work_packages,
-                     {},
+                     {
+                       'work_packages/shares': %i[index]
+                     },
                      permissible_on: :project,
                      require: :member
 

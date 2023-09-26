@@ -31,8 +31,8 @@ class WorkPackages::SharesController < ApplicationController
 
   before_action :find_work_package, only: %i[index create]
   before_action :find_share, only: %i[destroy]
-
-  # Todo: access control
+  before_action :find_project
+  before_action :authorize
 
   def index
     render WorkPackages::Share::ModalComponent.new(work_package: @work_package), layout: nil
@@ -79,5 +79,9 @@ class WorkPackages::SharesController < ApplicationController
     # TODO: move into scope
     @share = Member.where(entity_type: WorkPackage.name).find(params[:id])
     @work_package = @share.entity
+  end
+
+  def find_project
+    @project = @work_package.project
   end
 end
