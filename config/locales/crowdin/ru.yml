@@ -1630,11 +1630,13 @@ ru:
   label_ldap_auth_source: "Подключение к LDAP"
   label_ldap_auth_source_plural: "Соединения LDAP"
   label_authentication: "Аутентификация"
-  label_available_project_work_package_categories: 'Доступные категории рабочих пакетов'
-  label_available_project_work_package_types: 'Доступные типы пакетов работ'
-  label_available_project_forums: 'Доступные форумы'
-  label_available_project_versions: 'Имеющиеся этапы проекта'
-  label_available_project_repositories: 'Доступные репозитории'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Доступные форумы"
+  label_available_project_repositories: "Доступные репозитории"
+  label_available_project_versions: "Имеющиеся этапы проекта"
+  label_available_project_work_package_categories: "Доступные категории рабочих пакетов"
+  label_available_project_work_package_types: "Доступные типы пакетов работ"
+  label_available_projects: "Available projects"
   label_api_documentation: "Документация по API"
   label_backup: "Резервное копирование"
   label_between: "между"

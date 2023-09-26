@@ -1561,11 +1561,13 @@ id:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Otentikasi"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Jenis paket pekerjaan yang tersedia'
-  label_available_project_forums: 'Forums tersedia'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Forums tersedia"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Jenis paket pekerjaan yang tersedia"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Cadangan"
   label_between: "antara"

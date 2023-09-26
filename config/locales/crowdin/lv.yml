@@ -1176,6 +1176,7 @@ lv:
     errors: "Error"
     project_custom_fields: 'Custom fields on project'
     x_objects_of_this_type:
+      zero: 'No objects of this type'
       one: 'One object of this type'
       other: '%{count} objects of this type'
     text:
@@ -1609,11 +1610,13 @@ lv:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Pieejamās darbu kompleksu kategorijas'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Pieejamās versijas'
-  label_available_project_repositories: 'Pieejamās krātuves'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Pieejamās krātuves"
+  label_available_project_versions: "Pieejamās versijas"
+  label_available_project_work_package_categories: "Pieejamās darbu kompleksu kategorijas"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentācija"
   label_backup: "Backup"
   label_between: "between"
@@ -2111,15 +2114,19 @@ lv:
   label_x_closed_work_packages_abbr:
     one: "%{count} slēgts"
     other: "%{count} slēgti"
+    zero: "0 closed"
   label_x_comments:
     one: "%{count} komentārs"
     other: "%{count} komentāri"
+    zero: "no comments"
   label_x_open_work_packages_abbr:
     one: "%{count} atvērts"
     other: "%{count} atvērti"
+    zero: "0 open"
   label_x_projects:
     one: "%{count} projekts"
     other: "%{count} projekti"
+    zero: "no projects"
   label_yesterday: "yesterday"
   label_role_type: "Veids"
   label_member_role: "Project role"

@@ -1586,11 +1586,13 @@ nl:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Verificatie"
-  label_available_project_work_package_categories: 'Beschikbare werkpakket categorieën'
-  label_available_project_work_package_types: 'Beschikbare werkpakkettypes'
-  label_available_project_forums: 'Beschikbare forums'
-  label_available_project_versions: 'Beschikbare versies'
-  label_available_project_repositories: 'Beschikbare opslagplaatsen'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Beschikbare forums"
+  label_available_project_repositories: "Beschikbare opslagplaatsen"
+  label_available_project_versions: "Beschikbare versies"
+  label_available_project_work_package_categories: "Beschikbare werkpakket categorieën"
+  label_available_project_work_package_types: "Beschikbare werkpakkettypes"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentatie"
   label_backup: "Back-up"
   label_between: "tussen"

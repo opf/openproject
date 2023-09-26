@@ -1589,11 +1589,13 @@ fi:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Kirjautuminen"
-  label_available_project_work_package_categories: 'Olemassa olevat tehtäväluokat'
-  label_available_project_work_package_types: 'Olemassa olevat tehtävätyypit'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Saatavana olevat versiot'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Saatavana olevat versiot"
+  label_available_project_work_package_categories: "Olemassa olevat tehtäväluokat"
+  label_available_project_work_package_types: "Olemassa olevat tehtävätyypit"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-dokumentaatio"
   label_backup: "Backup"
   label_between: "välillä"

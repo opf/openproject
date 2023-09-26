@@ -1585,11 +1585,13 @@ el:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Ταυτοποίηση"
-  label_available_project_work_package_categories: 'Διαθέσιμες κατηγορίες πακέτων εργασίας'
-  label_available_project_work_package_types: 'Διαθέσιμοι τύποι εργασιών'
-  label_available_project_forums: 'Διαθέσιμα φόρουμ'
-  label_available_project_versions: 'Διαθέσιμες εκδόσεις'
-  label_available_project_repositories: 'Διαθέσιμα αποθετήρια'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Διαθέσιμα φόρουμ"
+  label_available_project_repositories: "Διαθέσιμα αποθετήρια"
+  label_available_project_versions: "Διαθέσιμες εκδόσεις"
+  label_available_project_work_package_categories: "Διαθέσιμες κατηγορίες πακέτων εργασίας"
+  label_available_project_work_package_types: "Διαθέσιμοι τύποι εργασιών"
+  label_available_projects: "Available projects"
   label_api_documentation: "Τεκμηρίωση API"
   label_backup: "Αντίγραφο Ασφαλείας"
   label_between: "μεταξύ"
