@@ -51,6 +51,7 @@ module WorkPackages
                             .having_entity_membership(@work_package)
                             .includes(work_package_shares: :roles)
                             .where(work_package_shares: { entity: @work_package })
+                            .order('work_package_shares.updated_at DESC')
       end
     end
   end
