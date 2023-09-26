@@ -30,7 +30,10 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package sharing', :js, :with_cuprite do
+RSpec.describe 'Work package sharing',
+               :js,
+               :with_cuprite,
+               with_flag: { work_package_sharing: true } do
   let(:sharer_role) do
     create(:role,
            permissions: %i(view_work_packages

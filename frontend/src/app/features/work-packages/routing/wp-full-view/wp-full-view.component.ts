@@ -41,6 +41,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -61,6 +62,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayTimerButton = false;
 
+  public displayShareButton = false;
+
   public watchers:any;
 
   public text = {
@@ -76,7 +79,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     public wpTableSelection:WorkPackageViewSelectionService,
     public recentItemsService:RecentItemsService,
     readonly $state:StateService,
-    // private readonly i18n:I18nService,
+    private readonly configurationService:ConfigurationService,
   ) {
     super(injector, $state.params.workPackageId);
   }
@@ -102,6 +105,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     this.isWatched = Object.prototype.hasOwnProperty.call(wp, 'unwatch');
     this.displayWatchButton = Object.prototype.hasOwnProperty.call(wp, 'unwatch') || Object.prototype.hasOwnProperty.call(wp, 'watch');
     this.displayTimerButton = Object.prototype.hasOwnProperty.call(wp, 'logTime');
+    this.displayShareButton = this.configurationService.activeFeatureFlags.includes('workPackageSharing')
 
     // watchers
     if (wp.watchers) {

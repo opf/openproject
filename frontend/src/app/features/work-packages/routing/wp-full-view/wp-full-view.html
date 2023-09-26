@@ -25,7 +25,7 @@
             [stateName$]="stateName$">
           </wp-create-button>
         </li>
-        <li class="toolbar-item">
+        <li class="toolbar-item" *ngIf="displayShareButton">
           <wp-share-button [workPackage]="workPackage">
           </wp-share-button>
         </li>
