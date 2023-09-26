@@ -1630,11 +1630,13 @@ ru:
   label_ldap_auth_source: "Подключение к LDAP"
   label_ldap_auth_source_plural: "Соединения LDAP"
   label_authentication: "Аутентификация"
-  label_available_project_work_package_categories: 'Доступные категории рабочих пакетов'
-  label_available_project_work_package_types: 'Доступные типы пакетов работ'
-  label_available_project_forums: 'Доступные форумы'
-  label_available_project_versions: 'Имеющиеся этапы проекта'
-  label_available_project_repositories: 'Доступные репозитории'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Доступные форумы"
+  label_available_project_repositories: "Доступные репозитории"
+  label_available_project_versions: "Имеющиеся этапы проекта"
+  label_available_project_work_package_categories: "Доступные категории рабочих пакетов"
+  label_available_project_work_package_types: "Доступные типы пакетов работ"
+  label_available_projects: "Available projects"
   label_api_documentation: "Документация по API"
   label_backup: "Резервное копирование"
   label_between: "между"
@@ -2147,8 +2149,8 @@ ru:
     zero: "нет проектов"
   label_yesterday: "вчера"
   label_role_type: "Тип"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Роль в проекте"
+  label_global_role: "Глобальная роль"
   label_not_changeable: "(неизменяемая)"
   label_global: "Глобальная"
   label_seeded_from_env_warning: Эта запись была создана с помощью параметра / переменной среды. Она не может редактироваться через пользовательский интерфейс.
@@ -2379,7 +2381,7 @@ ru:
   permission_add_work_package_notes: "Добавлять комментарии"
   permission_add_work_packages: "Добавление пакетов работ"
   permission_add_messages: "Написать сообщения"
-  permission_add_project: "Create projects"
+  permission_add_project: "Создание проектов"
   permission_archive_project: "Архивировать проект"
   permission_create_user: "Создать пользователей"
   permission_manage_user: "Изменить пользователей"
@@ -2392,7 +2394,7 @@ ru:
   permission_comment_news: "Комментировать новость"
   permission_commit_access: "Возможность чтения/записи в репозиторий (commit)"
   permission_copy_projects: "Копировать проект"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "Создание резервных копий"
   permission_delete_work_package_watchers: "Удалить наблюдателей"
   permission_delete_work_packages: "Удалить пакеты работ"
   permission_delete_messages: "Удалить сообщения"
@@ -3206,8 +3208,8 @@ ru:
       unexpected: "Получен неожиданный ответ."
   you: вы
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    name: "Плагины аутентификации OpenProject"
+    description: "Интеграция поставщиков стратегий OmniAuth для аутентификации в Openproject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML / Однозначный вход"
+    description: "Добавляет поставщика OmniAuth SAML в OpenProject"

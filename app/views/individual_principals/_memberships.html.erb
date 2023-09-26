@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   .new(@individual_principal.memberships.build, current_user)
   .assignable_projects
   .order(Arel.sql('lft')) %>
-<% memberships = @individual_principal.memberships.visible(current_user) %>
+<% memberships = @individual_principal.memberships.where(id: Member.visible(current_user)) %>
 
 <div class="grid-block">
   <div class="grid-content">
@@ -144,7 +144,7 @@ See COPYRIGHT and LICENSE files for more details.
                                     url: polymorphic_path([@individual_principal, :memberships]),
                                     html: {id: "new_project_membership"}) do %>
         <fieldset class="form--fieldset">
-          <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
+          <legend class="form--fieldset-legend"><%=t(:label_available_projects)%></legend>
           <% principal_project_ids = @individual_principal.projects.ids  %>
           <% filter = [['active', '=', 't']] %>
           <% filter << ['id', '!', principal_project_ids.map(&:to_s)] if principal_project_ids.any? %>

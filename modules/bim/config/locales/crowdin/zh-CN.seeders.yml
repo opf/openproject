@@ -82,14 +82,14 @@ zh-CN:
 
           此外，您可以创建一个空白的 [新项目]({{opSetting:base_url}}/projects/new) 。
 
-          永不停止协作。拥抱开源和开放的思想。
+          永不停止协作，秉承开源和开放的心态。
 
           您可以在 [此处]({{opSetting:base_url}}/admin/settings/general) 更改此欢迎文本。
       projects:
         demo-construction-project:
           name: "(演示) 建筑项目"
           status_explanation: 所有任务和子项目都在日程表上了。参与者知道他们的任务。系统已经完全建立。
-          description: 这是该（演示）建筑项目的简短目标摘要。
+          description: 这是对此演示建筑项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
@@ -150,7 +150,7 @@ zh-CN:
                   name: 里程碑
         demo-planning-constructing-project:
           name: "(演示) 规划和建设"
-          status_explanation: 所有任务都已按期完成。参与者知道他们的任务。系统已经完全建立。
+          status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
           description: 这是该演示规划和建筑项目的简短目标总结。
           news:
             item_0:
@@ -425,7 +425,7 @@ zh-CN:
         demo-bim-project:
           name: "(演示) BIM项目"
           status_explanation: 所有任务和子项目都在日程表上了。参与者知道他们的任务。系统已经完全搭建。
-          description: 这是该（演示）BIM项目目标的简短摘要。
+          description: 这是对此演示 BIM 项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
@@ -689,8 +689,8 @@ zh-CN:
               description: 希望您喜欢您的建筑 :)
         demo-bcf-management-project:
           name: "（演示）BCF 管理"
-          status_explanation: 所有任务都已按期完成。参与者知道他们的任务。系统已经完全建立。
-          description: 这是这个演示 BCF 管理项目目标的简短摘要。
+          status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
+          description: 这是对此演示 BCF 管理项目目标的简短摘要。
           ifc_models:
             item_0:
               name: 医院 - 建筑设计 (cc-by-sa-3.0 Autodesk Inc.)

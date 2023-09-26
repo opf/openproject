@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="grid-content" id="available_principal_roles">
   <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend"><%= Role.model_name.human(count: 2) %></legend>
+    <legend class="form--fieldset-legend"><%= t(:label_available_global_roles) %></legend>
     <% if available_roles.empty? %>
       <span id="no_additional_principal_roles">
         <%= no_results_box %>

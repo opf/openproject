@@ -1,7 +1,7 @@
 #English strings go here
 cs:
   plugin_openproject_calendar:
-    name: "OpenProject Calendar"
+    name: "OpenProject kalendář"
     description: "Provides calendar views."
   label_calendar: "Kalendář"
   label_calendar_plural: "Kalendáře"

@@ -1203,6 +1203,7 @@ ar:
     errors: "خطأ"
     project_custom_fields: 'Custom fields on project'
     x_objects_of_this_type:
+      zero: 'No objects of this type'
       one: 'One object of this type'
       other: '%{count} objects of this type'
     text:
@@ -1672,11 +1673,13 @@ ar:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "المصادقة"
-  label_available_project_work_package_categories: 'فئات مجموعة العمل المتاحة'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'الإصدارات المتوفرة'
-  label_available_project_repositories: 'مستودعات البيانات المتوفرة'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "مستودعات البيانات المتوفرة"
+  label_available_project_versions: "الإصدارات المتوفرة"
+  label_available_project_work_package_categories: "فئات مجموعة العمل المتاحة"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "توثيق API"
   label_backup: "Backup"
   label_between: "بين"
@@ -2174,15 +2177,19 @@ ar:
   label_x_closed_work_packages_abbr:
     one: "1 مغلقة"
     other: "%{count} مغلق"
+    zero: "0 closed"
   label_x_comments:
     one: "1 comment"
     other: "%{count} تعليقات"
+    zero: "no comments"
   label_x_open_work_packages_abbr:
     one: "1 open"
     other: "%{count} مفتوح"
+    zero: "0 open"
   label_x_projects:
     one: "1 project"
     other: "%{count} مشاريع"
+    zero: "no projects"
   label_yesterday: "الأمس"
   label_role_type: "النّوع"
   label_member_role: "Project role"

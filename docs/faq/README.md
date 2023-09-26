@@ -49,7 +49,7 @@ Here are resources to get to know OpenProject:
 - Our [English demo video](https://www.youtube.com/watch?v=un6zCm8_FT4) or [German demo video](https://www.youtube.com/watch?v=doVtVArSSvk) to get an overview of Openproject. There are additional videos explaining certain features to be found on our [YouTube channel](https://www.youtube.com/c/OpenProjectCommunity/videos), too.
 - The [Getting started guide](../getting-started) and the [User guide](../user-guide)
 - Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to [start.openproject.com](https://start.openproject.com) for the Enterprise cloud.
-- Our [development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=1993) (to get to know future features)
+- Our [development roadmap](https://community.openproject.com/projects/openproject/roadmap) (to get to know future features)
 - Our [training and consulting offers](https://www.openproject.org/training-and-consulting)
 
 ### Can I run OpenProject as a single user?
@@ -181,7 +181,7 @@ Apart from that, you can use [placeholder users](../system-admin-guide/users-per
 
 ### Can I get a notification when a deadline approaches?
 
-Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and email reminders about upcoming deadlines and overdue tasks. Please refer to [this guide](../user-guide/notifications/) for more details. 
+Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and email reminders about upcoming deadlines and overdue tasks. Please refer to [this guide](../user-guide/notifications/) for more details.
 
 ### Does OpenProject offer resource management?
 
@@ -191,7 +191,7 @@ More infomation regarding resource management in OpenProject can be found in the
 
 ### Does OpenProject offer portfolio management?
 
-For portfolio management or custom reporting, you can use either the project list, or the global work package table. Both views can be used to create optimal reports via filtering, sorting and other configuration options. 
+For portfolio management or custom reporting, you can use either the project list, or the global work package table. Both views can be used to create optimal reports via filtering, sorting and other configuration options.
 
 For more information on portfolio management options in OpenProject please refer to this [Use Case](../use-cases/portfolio-management).
 

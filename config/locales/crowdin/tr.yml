@@ -1588,11 +1588,13 @@ tr:
   label_ldap_auth_source: "LDAP bağlantısı"
   label_ldap_auth_source_plural: "LDAP bağlantıları"
   label_authentication: "Kimlik Doğrulaması"
-  label_available_project_work_package_categories: 'Uygun iş paketi kategorileri'
-  label_available_project_work_package_types: 'Uygun iş paketi tipleri'
-  label_available_project_forums: 'Mevcut forumlar'
-  label_available_project_versions: 'Uygun sürümler'
-  label_available_project_repositories: 'Uygun depolar'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Mevcut forumlar"
+  label_available_project_repositories: "Uygun depolar"
+  label_available_project_versions: "Uygun sürümler"
+  label_available_project_work_package_categories: "Uygun iş paketi kategorileri"
+  label_available_project_work_package_types: "Uygun iş paketi tipleri"
+  label_available_projects: "Available projects"
   label_api_documentation: "API belgelendirmesi"
   label_backup: "Destek olmak"
   label_between: "arasında"

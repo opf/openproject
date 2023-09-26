@@ -1567,11 +1567,13 @@ ko:
   label_ldap_auth_source: "LDAP 연결"
   label_ldap_auth_source_plural: "LDAP 연결"
   label_authentication: "인증"
-  label_available_project_work_package_categories: '사용 가능한 작업 패키지 카테고리'
-  label_available_project_work_package_types: '사용 가능한 작업 패키지 유형'
-  label_available_project_forums: '사용 가능한 포럼'
-  label_available_project_versions: '사용 가능한 버전'
-  label_available_project_repositories: '사용 가능한 저장소'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "사용 가능한 포럼"
+  label_available_project_repositories: "사용 가능한 저장소"
+  label_available_project_versions: "사용 가능한 버전"
+  label_available_project_work_package_categories: "사용 가능한 작업 패키지 카테고리"
+  label_available_project_work_package_types: "사용 가능한 작업 패키지 유형"
+  label_available_projects: "Available projects"
   label_api_documentation: "API 설명서"
   label_backup: "백업"
   label_between: "사이에"

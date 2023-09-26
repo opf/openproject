@@ -13,13 +13,13 @@ In [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-e
 Placeholder users can be used to plan a project with or for users who haven't been added to that project yet. This way you can set up projects before staffing them.
 Another use case would be to include customers, vendors or partners in your planning without them knowing it.
 
-Placeholder users can be managed by system admins and by users with the [role](../roles-permissions/#global-roles) "Create, edit and delete placeholder users".
+Placeholder users can be managed by system admins and by users with the [role](../roles-permissions/#global-role) "Create, edit and delete placeholder users".
 
 
-| Topic                                                        | Content                                              |
-| ------------------------------------------------------------ | ---------------------------------------------------- |
-| [Placeholder user list](#placeholder-user-list)              | Manage placeholder users in OpenProject.             |
-| [Create placeholder users](#create-placeholder-users)        | Add new placeholder users.                           |
+| Topic                                                                 | Content                                              |
+|-----------------------------------------------------------------------|------------------------------------------------------|
+| [Placeholder user list](#placeholder-user-list)                       | Manage placeholder users in OpenProject.             |
+| [Create placeholder users](#create-placeholder-users)                 | Add new placeholder users.                           |
 | [Manage placeholder user settings](#manage-placeholder-user-settings) | Change names and add placeholders users to projects. |
 
 

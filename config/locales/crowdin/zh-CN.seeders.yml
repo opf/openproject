@@ -124,21 +124,21 @@ zh-CN:
       welcome:
         title: 欢迎使用 OpenProject！
         text: |
-          选择一个演示项目开始使用我们为您准备的演示数据。
+          选择一个演示项目以开始使用我们为您准备的演示数据。
 
-          * [演示项目]({{opSetting:base_url}}/projects/demo-project): 获取关于典型项目管理的概述。
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): 了解Agile 和 Scrum项目的管理。
+          * [演示项目]({{opSetting:base_url}}/projects/demo-project): 获取关于典型项目管理的概览。
+          * [Scrum 项目]({{opSetting:base_url}}/projects/your-scrum-project): 了解 Agile 和 Scrum 项目的管理。
 
-          您也可以创建一个空[新项目]({{opSetting:base_url}}/projects/new)。
+          您也可以创建一个空白的[新项目]({{opSetting:base_url}}/projects/new)。
 
-          永不停止合作。 本着开源和开诚布公的心态。
+          永不停止协作，秉承开源和开放的心态。
 
-          您可以更改此欢迎文本 [here]({{opSetting:base_url}}/admin/settings/general).
+          您可以在[这里]({{opSetting:base_url}}/admin/settings/general)更改此欢迎文本。
       projects:
         demo-project:
           name: 演示项目
-          status_explanation: 所有任务都已按期完成。参与者知道他们的任务。系统已经完全建立。
-          description: 这是一个演示Scrum项目目标的简短摘要。
+          status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
+          description: 这是对此演示 Scrum 项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
@@ -240,8 +240,8 @@ zh-CN:
               subject: 项目结束
         scrum-project:
           name: Scrum 项目
-          status_explanation: 所有任务都已按期完成。参与者知道他们的任务。系统已经完全建立。
-          description: 这是一个演示Scrum项目目标的简短摘要。
+          status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
+          description: 这是对此演示 Scrum 项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的 Scrum 演示项目

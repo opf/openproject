@@ -10,7 +10,28 @@ sidebar_navigation:
 install and upgrade on your servers. However, contrary to the manual or package-based installation, your machine needs to have the Docker Engine
 installed first, which usually requires a recent operating system. Please see the [Docker Engine installation page](https://docs.docker.com/install) if you don't have Docker installed.
 
-OpenProject with Docker can be launched in two ways:
+***
+
+**Supported architectures**
+
+Starting with OpenProject 12.5.6 we publish our containers for three architectures.
+
+1. AMD64 (x86)
+2. ARM64
+3. PPC64
+
+The OpenProject **BIM Edition** is only supported on AMD64, however.
+
+***
+
+**Limitations**
+
+Note that the docker container setup does not allow for integration of repositories within OpenProject. You can reference external repositories, but cannot set them up through OpenProject itself.
+For that feature to work, you need to use the packaged installation method.
+
+**Overview**
+
+OpenProject's docker setup can be launched in two ways:
 
 1. Multiple containers (recommended), each with a single process inside, using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
 
@@ -71,7 +92,7 @@ Please see the [advanced configuration guide's docker paragraphs](../../configur
 
 #### BIM edition
 
-In order to install or change to BIM inside a Docker environment, please navigate to the [Docker Installation for OpenProject BIM](../../bim-edition/#docker-installation-openproject-bim) paragraph at the BIM edition documentation. 
+In order to install or change to BIM inside a Docker environment, please navigate to the [Docker Installation for OpenProject BIM](../../bim-edition/#docker-installation-openproject-bim) paragraph at the BIM edition documentation.
 
 ## All-in-one container
 
@@ -141,7 +162,7 @@ data will be stored across container restarts, and start the container with
 those directories mounted:
 
 ```shell
-sudo mkdir -p /var/lib/openproject/{pgdata,assets} 
+sudo mkdir -p /var/lib/openproject/{pgdata,assets}
 
 docker run -d -p 8080:80 --name openproject \
   -e OPENPROJECT_HOST__NAME=openproject.example.com \
@@ -243,7 +264,7 @@ The default scenario is to have OpenProject serve the whole virtual host.
 This requires no further configuration for the docker container beyond what is
 described above.
 
-Let's assume we want OpenProject to be accessed under https://openproject.example.com.
+Let's assume we want OpenProject to be accessed under `https://openproject.example.com`.
 
 The **apache** configuration for this looks as follows.
 
@@ -577,8 +598,8 @@ x-op-app: &app
     OPENPROJECT_ATTACHMENTS__STORAGE: "fog"
     OPENPROJECT_FOG_DIRECTORY: "«s3-bucket-name»"
     OPENPROJECT_FOG_CREDENTIALS_PROVIDER: "AWS"
-    OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID: "«access-key-id»" 
-    OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY: "«secret-access-key»" 
+    OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID: "«access-key-id»"
+    OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY: "«secret-access-key»"
     OPENPROJECT_FOG_CREDENTIALS_REGION: "«us-east-1»" # Must be the region that you created your bucket in
 ```
 
@@ -596,8 +617,8 @@ x-op-app: &app
     OPENPROJECT_FOG_DIRECTORY: "«s3-bucket-name»"
     OPENPROJECT_FOG_CREDENTIALS_PROVIDER: "aws" # Minio is S3 compliant, so we can use the AWS provider
     OPENPROJECT_FOG_CREDENTIALS_ENDPOINT: "«https://minio-host.domain.tld»" # URI for your MinIO instance
-    OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID: "«access-key-id»" 
-    OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY: "«secret-access-key»" 
+    OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID: "«access-key-id»"
+    OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY: "«secret-access-key»"
     OPENPROJECT_FOG_CREDENTIALS_PATH__STYLE: "true"
 ```
 
@@ -656,12 +677,12 @@ Once this has finished you should see something like this when running `docker s
 ```shell
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
-kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:13   
-cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:13                
+kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:13
+cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:13
 uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:13   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:13   
-canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:13   
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:13
+canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:13
 7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:13
 ```
 
@@ -699,12 +720,12 @@ This will take a moment to converge. Once done you should see something like the
 ```shell
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
-kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:13   
-cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
+kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:13
+cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10
 uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:13   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:13   
-canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:13   
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:13
+canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:13
 7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:13
 ```
 

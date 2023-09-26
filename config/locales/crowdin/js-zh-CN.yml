@@ -345,12 +345,12 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li>基线比较，以轻松跟踪更改。</li> <li>PDF 导出，以报告工作计划。</li> <li>通过 URL (iCalendar) 订阅项目日历。</li> <li>具有文档模板的项目文件夹，以集成 Nextcloud。</li> <li>所有种子数据的本地化种子。</li> <li>全局模块在新的索引页中列出。</li> </ul>
+                此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li>基线比较，以轻松跟踪更改。</li> <li>PDF 导出，以报告工作计划。</li> <li>通过 URL (iCalendar) 订阅项目日历。</li> <li>具有文档模板的项目文件夹，以集成 Nextcloud。</li> <li>所有种子数据均已本地化。</li> <li>在新的索引页中列出全局模块。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
       description: "您可以使用 URL (iCalendar) 在外部客户端中订阅此日历，并从外部客户端查看最新工作包信息。"
-      warning: "请勿与其他用户分享此 URL。拥有此链接的任何人都可以查看工作包的详细信息，无需帐户或密码。"
+      warning: "请不要与其他用户共享此 URL 。拥有这个链接的任何人都可以在没有帐户或密码的情况下查看工作包的详细信息。"
       token_name_label: "您将在哪里使用它？"
       token_name_placeholder: "输入名称，例如“Phone”"
       token_name_description_text: "如果您从多个设备订阅此日历，此名称将有助于在<a href=\"my/access_token\", target=\"_blank\">访问令牌</a>列表中区分它们。"
@@ -415,7 +415,7 @@ zh-CN:
     label_filename: "文件"
     label_filesize: "大小"
     label_general: "通用"
-    label_global_roles: "Global roles"
+    label_global_roles: "全局角色"
     label_greater_or_equal: ">="
     label_group: '组'
     label_group_by: "分组按照"

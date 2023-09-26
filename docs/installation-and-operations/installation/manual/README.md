@@ -410,7 +410,7 @@ Restart the OpenProject server afterwards:
 
 The next web-request to the server will take longer (as the application is restarted). All subsequent request should be as fast as always.
 
-We encourage you to extend OpenProject yourself by writing a plug-in. Please, read the [plugin-contributions](https://community.openproject.org/projects/openproject/wiki/Developing_Plugins) guide for more information.
+We encourage you to extend OpenProject yourself by writing a plug-in. Please, read the [plugin creation guide](../../../development/create-openproject-plugin/) for more information.
 
 ## Troubleshooting
 
