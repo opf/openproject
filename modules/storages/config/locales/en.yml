@@ -75,10 +75,6 @@ en:
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
       configure: "Configure"
-    count:
-      zero: "0 storages"
-      one: "1 storage"
-      other: "%{count} storages"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."

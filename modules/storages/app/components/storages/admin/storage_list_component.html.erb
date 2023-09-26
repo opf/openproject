@@ -3,7 +3,7 @@
     component.with_header(color: :subtle) do
       flex_layout(align_items: :center) do |header_container|
         header_container.with_column(flex: :auto) do
-          I18n.t('storages.count', count: storages.size)
+          helpers.pluralize(storages.size, I18n.t("storages.label_storage").downcase)
         end
         #header_container.with_column(text_align: :right, style: "width: 100px;") { I18n.t('storages.label_provider') }
         #header_container.with_column(text_align: :right, style: "width: 100px;") { I18n.t('storages.label_creator') }
