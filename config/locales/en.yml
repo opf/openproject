@@ -1000,6 +1000,7 @@ en:
       custom_action: "Custom action"
       custom_field: "Custom field"
       group: "Group"
+      global_role: "Global role"
       category: "Category"
       status: "Work package status"
       member: "Member"
