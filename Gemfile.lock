@@ -573,7 +573,7 @@ GEM
       bindata
       faraday (~> 2.0)
       faraday-follow_redirects
-    json-schema (4.0.0)
+    json-schema (4.1.1)
       addressable (>= 2.8)
     json_schemer (2.0.0)
       hana (~> 1.3)
