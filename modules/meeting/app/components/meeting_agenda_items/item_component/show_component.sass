@@ -1,7 +1,9 @@
+@import 'helpers'
+
 .op-meeting-agenda-item
   display: grid
-  grid-template-columns: 20px max-content 1fr max-content 50px
-  grid-template-areas: "drag_handle duration content author actions" ". notes notes notes notes"
+  grid-template-columns: 20px fit-content(70%) auto max-content 40px
+  grid-template-areas: "drag_handle content duration author actions" ". notes notes notes notes"
 
   &--drag_handle,
   &--duration,
@@ -12,6 +14,16 @@
   &--actions
     justify-self: end
 
+  &--content
+    @include text-shortener
+
   @media screen and (max-width: $breakpoint-lg)
     grid-template-columns: 20px auto 1fr 50px
-    grid-template-areas: "drag_handle content content actions" ". duration author author" ". notes notes notes"
+    grid-template-areas: "drag_handle content content actions" ". author author duration" ". notes notes notes"
+
+    &--duration
+      justify-self: end
+
+  @media screen and (min-width: $breakpoint-lg)
+    &--author
+      justify-self: end
