@@ -38,7 +38,11 @@ module  WorkPackages::Share
           data: {
             'test-selector': 'op-share-wp-user-autocomplete'
           },
-          resource: 'users',
+          # Use the principal API as that requires less permissions than the user API
+          # but restrict the type of the principal to users only. Subject to change
+          # as we want to support groups soon.
+          resource: 'principals',
+          filters: [{ name: 'type', operator: '=', values: ['User'] }],
           searchKey: 'any_name_attribute',
           focusDirectly: true,
           disabled: @disabled

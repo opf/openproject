@@ -3159,7 +3159,7 @@ en:
         other: "%{count} users"
       invite: "Invite"
       label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user, group or email address"
+      label_search_placeholder: "Search by user or email address"
       permissions:
         comment: "Comment"
         denied: "You don't have permissions to share work packages."
