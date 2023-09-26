@@ -53,11 +53,10 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
   end
 
   shared_examples 'content security policy directives' do
-    it 'adds CSP connect_src and frame_ancestors directives' do
+    it 'adds CSP connect_src directives' do
       trigger_application_controller_before_action_hook
 
-      expect(controller).to have_received(:append_content_security_policy_directives).with(frame_ancestors: [storage.host]).ordered
-      expect(controller).to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host]).ordered
+      expect(controller).to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host])
     end
   end
 
@@ -85,10 +84,9 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     context 'when current user is a member of the project without permission to manage file links' do
       current_user { create(:user, member_in_project: project, member_with_permissions: []) }
 
-      it 'adds CSP frame_ancestors directive only' do
+      it 'does not add CSP connect_src directive' do
         trigger_application_controller_before_action_hook
 
-        expect(controller).to have_received(:append_content_security_policy_directives).with(frame_ancestors: [storage.host]).once
         expect(controller).not_to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host])
       end
     end
@@ -100,10 +98,9 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
         project.update(active: false)
       end
 
-      it 'adds CSP frame_ancestors directive only' do
+      it 'does not add CSP connect_src directive' do
         trigger_application_controller_before_action_hook
 
-        expect(controller).to have_received(:append_content_security_policy_directives).with(frame_ancestors: [storage.host])
         expect(controller).not_to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host])
       end
     end
