@@ -32,11 +32,9 @@ require 'spec_helper'
 
 RSpec.describe 'Work package sharing', :js, :with_cuprite do
   let(:sharer_role) do
-    # TODO: Remove necessity to have manage_members permission
     create(:role,
            permissions: %i(view_work_packages
-                           share_work_packages
-                           manage_members))
+                           share_work_packages))
   end
   let(:view_work_package_role) { create(:view_work_package_role) }
   let(:comment_work_package_role) { create(:comment_work_package_role) }
@@ -72,7 +70,6 @@ RSpec.describe 'Work package sharing', :js, :with_cuprite do
 
   # TODO:
   #   - Check title
-  #   - Check roles
   it 'allows seeing and administrating sharing' do
     work_package_page.visit!
 
