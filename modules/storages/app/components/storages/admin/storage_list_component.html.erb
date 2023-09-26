@@ -10,38 +10,50 @@
       end
     end
 
-    storages.map do |storage|
-      component.with_row(scheme: :default, id: storage_row_css_id(storage)) do
-        flex_layout(align_items: :center) do |storage_row_container|
-          storage_row_container.with_column(flex: :auto) do
-            flex_layout do |storage_details|
-              storage_details.with_row do
-                flex_layout(font_weight: :bold) do |storage_name|
-                  unless storage.configured?
+    if storages.present?
+      storages.map do |storage|
+        component.with_row(scheme: :default, id: storage_row_css_id(storage)) do
+          flex_layout(align_items: :center) do |storage_row_container|
+            storage_row_container.with_column(flex: :auto) do
+              flex_layout do |storage_details|
+                storage_details.with_row do
+                  flex_layout(font_weight: :bold) do |storage_name|
+                    unless storage.configured?
+                      storage_name.with_column do
+                        render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe, classes: 'mr-2'))
+                      end
+                    end
+
                     storage_name.with_column do
-                      render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe, classes: 'mr-2'))
+                      storage.name
                     end
                   end
-
-                  storage_name.with_column do
-                    storage.name
-                  end
+                end
+                storage_details.with_row(color: :subtle) do
+                  I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize
                 end
               end
-              storage_details.with_row(color: :subtle) do
-                I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize
-              end
+            end
+
+            storage_row_container.with_column(color: :subtle, style: "width: 180px;") do
+              render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true))
+            end
+
+            storage_row_container.with_column(text_align: :right, color: :subtle, style: "width: 100px;") do
+              render(Primer::Beta::Truncate.new) { storage.short_provider_type }
+            end
+
+            storage_row_container.with_column(text_align: :right, color: :subtle, style: "width: 240px;") do
+              render(Primer::Beta::Truncate.new) { storage.host }
             end
           end
-          storage_row_container.with_column(color: :subtle, style: "width: 180px;") do
-             render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true))
-          end
-          storage_row_container.with_column(text_align: :right, color: :subtle, style: "width: 100px;") do
-            render(Primer::Beta::Truncate.new) { storage.short_provider_type }
-          end
-          storage_row_container.with_column(text_align: :right, color: :subtle, style: "width: 240px;") do
-            render(Primer::Beta::Truncate.new) { storage.host }
-          end
+        end
+      end
+    else
+      component.with_row(scheme: :default) do
+        render Primer::Beta::Blankslate.new(narrow: true, spacious: false, border: false) do |component|
+          component.with_heading(tag: :h2).with_content(I18n.t('storages.storage_list_blank_slate.heading'))
+          component.with_description { I18n.t('storages.storage_list_blank_slate.description') }
         end
       end
     end
