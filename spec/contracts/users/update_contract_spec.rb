@@ -41,7 +41,9 @@ RSpec.describe Users::UpdateContract do
         firstname: user_firstname,
         lastname: user_lastname,
         login: user_login,
-        mail: user_mail
+        mail: user_mail,
+        password: nil,
+        password_confirmation: nil
       }
     end
 
@@ -50,13 +52,16 @@ RSpec.describe Users::UpdateContract do
 
       describe 'can lock the user' do
         before do
-          # needed for the stub
-          user.password = user.password_confirmation = nil
-
           user.status = Principal.statuses[:locked]
         end
 
         it_behaves_like 'contract is valid'
+      end
+
+      describe 'cannot update an administrator' do
+        let(:user) { build_stubbed(:admin, attributes) }
+
+        it_behaves_like 'contract is invalid'
       end
     end
 
@@ -68,9 +73,6 @@ RSpec.describe Users::UpdateContract do
 
       context 'when setting status' do
         before do
-          # needed for the stub
-          user.password = user.password_confirmation = nil
-
           user.status = Principal.statuses[:locked]
         end
 
