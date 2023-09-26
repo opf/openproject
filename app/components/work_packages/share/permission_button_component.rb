@@ -32,18 +32,19 @@ module WorkPackages
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
 
-      def initialize(permission_value:)
+      def initialize(permission_value:, form: nil)
         super
 
         @permission_value = permission_value
+        @form = form
       end
 
       private
 
       def options
         [
-          { label: I18n.t('work_package.sharing.permissions.comment'), value: Role::BUILTIN_WORK_PACKAGE_COMMENTER },
           { label: I18n.t('work_package.sharing.permissions.edit'), value: Role::BUILTIN_WORK_PACKAGE_EDITOR },
+          { label: I18n.t('work_package.sharing.permissions.comment'), value: Role::BUILTIN_WORK_PACKAGE_COMMENTER },
           { label: I18n.t('work_package.sharing.permissions.view'), value: Role::BUILTIN_WORK_PACKAGE_VIEWER }
         ]
       end

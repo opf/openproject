@@ -39,12 +39,12 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    # Todo: Role selection, error handling?
+    # Todo: error handling?
     WorkPackageMembers::CreateService
       .new(user: current_user)
       .call(entity: @work_package,
             user_id: params[:member][:user_id],
-            roles: Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER))
+            roles: Role.where(builtin: params[:member][:role_id]))
 
     respond_with_update_modal
   end

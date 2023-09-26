@@ -44,7 +44,8 @@
                     end
 
                     user_row_container.with_column(text_align: :right, style: "width: 100px;") do
-                      form_with url: work_packages_share_path(user.memberships.first), method: :delete do
+                      # ToDo: find the correct membership to delete
+                      form_with url: work_packages_share_path(user.memberships.where(entity_type: 'WorkPackage').first), method: :delete do
                         render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
                       end
                     end
