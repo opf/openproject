@@ -6,8 +6,6 @@ $user-avatar-medium-height: 28px
 $user-avatar-mini-border-radius: 50%
 $user-avatar-mini-width: 20px
 $user-avatar-mini-height: 20px
-$user-avatar-default-bg-color: white
-
 
 .op-avatar
   border-radius: var(--user-avatar-border-radius)
@@ -21,11 +19,10 @@ $user-avatar-default-bg-color: white
   vertical-align: middle
   cursor: inherit
   user-select: none
-  background-color: $user-avatar-default-bg-color
   // Default size
   line-height: 36px
   font-size: 16px
-  box-shadow: 0 0 0 1px var(--avatar-border-color)
+  border: 1px solid var(--avatar-border-color)
 
   // Fallback avatar if no img tag gets rendered
   &--fallback
