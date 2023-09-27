@@ -4,7 +4,7 @@ RSpec.describe 'Manual scheduling', js: true do
   let(:project) { create(:project, types: [type]) }
   let(:type) { create(:type) }
 
-  let(:user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:user) { create(:user, member_with_roles: { project => role }) }
 
   let!(:parent) do
     create(:work_package,

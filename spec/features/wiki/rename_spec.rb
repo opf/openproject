@@ -28,13 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wiki page', js: true do
+RSpec.describe 'Wiki page', :js do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_wiki_pages
-                                       rename_wiki_pages])
+    create(:user, member_with_permissions: { project => %i[view_wiki_pages rename_wiki_pages] })
   end
   let!(:wiki_page) do
     create(:wiki_page, wiki: project.wiki, title: initial_name)

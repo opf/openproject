@@ -68,7 +68,7 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
            roles: [create(:role, permissions: [])])
   end
 
-  current_user { create(:user, member_in_project: project, member_through_role: role) }
+  current_user { create(:user, member_with_roles: { project => role }) }
 
   subject(:response) do
     get get_path

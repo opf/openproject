@@ -34,9 +34,7 @@ RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:project) { create(:project, public: false) }
   let(:work_package) do

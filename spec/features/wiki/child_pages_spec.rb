@@ -28,14 +28,12 @@
 
 require 'spec_helper'
 
-RSpec.describe 'wiki child pages', js: true do
+RSpec.describe 'wiki child pages', :js do
   let(:project) do
     create(:project)
   end
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) do
     create(:role,

@@ -529,7 +529,7 @@ RSpec.describe PermittedParams do
       end
 
       context 'for a non-admin with global :create_user permission' do
-        let(:user) { create(:user, global_permission: :create_user) }
+        let(:user) { create(:user, global_permissions: [:create_user]) }
         let(:hash) { all_permissions.zip(all_permissions).to_h }
 
         it 'permits default permissions and "login"' do

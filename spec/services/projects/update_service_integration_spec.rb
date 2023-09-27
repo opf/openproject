@@ -30,9 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Projects::UpdateService, 'integration', type: :model do
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) do
     create(:role,

@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './expected_markdown'
+require_relative 'expected_markdown'
 
 RSpec.describe OpenProject::TextFormatting,
                'in tool links' do
@@ -45,8 +45,7 @@ RSpec.describe OpenProject::TextFormatting,
 
     shared_let(:project_member) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
     shared_let(:work_package) do
       create(:work_package,
@@ -368,7 +367,7 @@ RSpec.describe OpenProject::TextFormatting,
         it {
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
                                                                        target: '_top',
-                                                                       class: 'project op-uc-link',)}</p>")
+                                                                       class: 'project op-uc-link')}</p>")
         }
       end
 

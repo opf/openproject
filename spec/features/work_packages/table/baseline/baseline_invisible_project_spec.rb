@@ -39,8 +39,7 @@ RSpec.describe 'baseline with a work package moved to an invisible project',
     create(:user,
            firstname: 'Itsa',
            lastname: 'Me',
-           member_in_project: visible_project,
-           member_with_permissions: %i[view_work_packages edit_work_packages work_package_assigned assign_versions])
+           member_with_permissions: { visible_project => %i[view_work_packages edit_work_packages work_package_assigned assign_versions] })
   end
 
   shared_let(:wp_bug) do

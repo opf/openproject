@@ -41,7 +41,7 @@ RSpec.describe 'API v3 Work package resource',
   let(:extra_permissions) { [] }
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   describe 'POST /api/v3/work_packages' do
@@ -77,8 +77,7 @@ RSpec.describe 'API v3 Work package resource',
     describe 'notifications' do
       let(:other_user) do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: permissions,
+               member_with_permissions: { project => permissions },
                notification_settings: [
                  build(:notification_setting,
                        work_package_created: true)

@@ -52,9 +52,7 @@ RSpec.describe API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
   let(:select) { { '*' => {} } }
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   context 'when rendering all supported properties' do

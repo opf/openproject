@@ -102,8 +102,7 @@ RSpec.describe 'Logging time within the work package view', js: true do
         create(:user,
                firstname: 'Loggable',
                lastname: 'User',
-               member_in_project: project,
-               member_with_permissions: %i[view_work_packages edit_work_packages work_package_assigned])
+               member_with_permissions: { project => %i[view_work_packages edit_work_packages work_package_assigned] })
       end
 
       it 'can log time for that user' do
@@ -154,8 +153,7 @@ RSpec.describe 'Logging time within the work package view', js: true do
   context 'as a user who cannot log time' do
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[view_time_entries view_work_packages edit_work_packages])
+             member_with_permissions: { project => %i[view_time_entries view_work_packages edit_work_packages] })
     end
 
     before do
@@ -173,8 +171,7 @@ RSpec.describe 'Logging time within the work package view', js: true do
   context 'as a user who can only log own time' do
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[view_time_entries view_work_packages log_own_time])
+             member_with_permissions: { project => %i[view_time_entries view_work_packages log_own_time] })
     end
 
     before do

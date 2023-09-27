@@ -51,7 +51,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
   end
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   before do
@@ -67,8 +67,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
   describe 'notifications' do
     let(:other_user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i(view_work_packages),
+             member_with_permissions: { project => %i(view_work_packages) },
              notification_settings: [
                build(:notification_setting,
                      work_package_created: true)

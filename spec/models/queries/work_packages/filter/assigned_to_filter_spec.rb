@@ -51,7 +51,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssignedToFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssignedToFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
 
       it 'returns the corrected value object' do
@@ -124,7 +124,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssignedToFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -203,7 +203,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssignedToFilter do
       it 'remove the invalid value' do
         instance.valid_values!
 
-        expect(instance.values).to match_array [user.id.to_s]
+        expect(instance.values).to contain_exactly(user.id.to_s)
       end
     end
 
@@ -310,9 +310,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssignedToFilter do
       context 'when being logged in' do
         it 'returns the me value and the available users and groups' do
           expect(instance.allowed_values)
-            .to match_array([[I18n.t(:label_me), 'me'],
-                             [nil, user.id.to_s],
-                             [nil, group.id.to_s]])
+            .to contain_exactly([I18n.t(:label_me), 'me'], [nil, user.id.to_s], [nil, group.id.to_s])
         end
       end
 
@@ -321,8 +319,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssignedToFilter do
 
         it 'returns the available users' do
           expect(instance.allowed_values)
-            .to match_array([[nil, user.id.to_s],
-                             [nil, group.id.to_s]])
+            .to contain_exactly([nil, user.id.to_s], [nil, group.id.to_s])
         end
       end
     end

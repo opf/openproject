@@ -29,14 +29,13 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Upload attachment to forum message', js: true do
+RSpec.describe 'Upload attachment to forum message', :js do
   let(:forum) { create(:forum) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_messages
-                                       add_messages
-                                       edit_messages])
+           member_with_permissions: { project => %i[view_messages
+                                                    add_messages
+                                                    edit_messages] })
   end
   let(:project) { forum.project }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }

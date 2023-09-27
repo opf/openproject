@@ -35,9 +35,7 @@ RSpec.describe 'API v3 Custom Options resource', :aggregate_failures do
 
   shared_let(:project) { create(:project) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) { create(:role, permissions:) }
 

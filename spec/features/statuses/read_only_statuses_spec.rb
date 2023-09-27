@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Read-only statuses affect work package editing',
-               js: true, with_ee: %i[readonly_work_packages] do
+RSpec.describe 'Read-only statuses affect work package editing', :js, with_ee: %i[readonly_work_packages] do
   let(:locked_status) { create(:status, name: 'Locked', is_readonly: true) }
   let(:unlocked_status) { create(:status, name: 'Unlocked', is_readonly: false) }
   let(:cf_all) do
@@ -47,9 +46,7 @@ RSpec.describe 'Read-only statuses affect work package editing',
 
   let(:role) { create(:role, permissions: %i[edit_work_packages view_work_packages]) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let!(:workflow1) do

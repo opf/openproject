@@ -34,8 +34,7 @@ RSpec.describe Notifications::Scopes::Visible do
 
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
 
     let(:notification) do

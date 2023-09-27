@@ -930,7 +930,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       # expecting to have first user role changed from `other_role` to `another_role`
       # and second user role extended from `[other_role]` to `[other_role, another_role]` because has direct role
       let(:group) do
-        create(:group, member_in_project: project, member_through_role: other_role, members: users)
+        create(:group, member_with_roles: { project => other_role }, members: users)
       end
       let(:principal) { group }
       let(:users) { create_list(:user, 2) }
@@ -1030,7 +1030,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
       context 'when updating global role permission as admin' do
         let(:group) do
-          create(:group, global_role: other_role, members: users)
+          create(:group, global_roles: [other_role], members: users)
         end
         let(:current_user) { admin }
         let(:project) { nil }
@@ -1200,7 +1200,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
     context 'with a group' do
       let(:group) do
-        create(:group, member_in_project: project, member_through_role: other_role, members: users)
+        create(:group, member_with_roles: { project => other_role }, members: users)
       end
       let(:principal) { group }
       let(:users) do

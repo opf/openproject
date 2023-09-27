@@ -160,7 +160,7 @@ RSpec.describe WorkPackage do
   end
 
   describe '#category' do
-    let(:user_2) { create(:user, member_in_project: project) }
+    let(:user_2) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
     let(:category) do
       create(:category,
              project:,
@@ -628,7 +628,7 @@ RSpec.describe WorkPackage do
     let(:project) { create(:project) }
     let(:role) { create(:role, permissions: [:move_work_packages]) }
     let(:user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
 
     context 'when having the move_work_packages permission' do
@@ -652,7 +652,7 @@ RSpec.describe WorkPackage do
     let(:project) { create(:project) }
     let(:role) { create(:role, permissions: [:add_work_packages]) }
     let(:user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
 
     context 'when having the add_work_packages permission' do

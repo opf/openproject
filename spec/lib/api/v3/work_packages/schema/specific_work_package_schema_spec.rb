@@ -156,7 +156,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     it 'returns all categories of the project' do
-      expect(subject.assignable_values(:category, current_user)).to match_array([category])
+      expect(subject.assignable_values(:category, current_user)).to contain_exactly(category)
     end
   end
 

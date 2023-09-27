@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'create users', with_cuprite: true do
+RSpec.describe 'create users', :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let!(:auth_source) { create(:ldap_auth_source) }
@@ -97,7 +97,7 @@ RSpec.describe 'create users', with_cuprite: true do
     end
   end
 
-  context 'with external authentication', js: true do
+  context 'with external authentication', :js do
     before do
       new_user_page.visit!
 
@@ -118,7 +118,7 @@ RSpec.describe 'create users', with_cuprite: true do
     end
 
     it_behaves_like 'successful user creation' do
-      describe 'activation', js: true do
+      describe 'activation', :js do
         before do
           allow(User).to receive(:current).and_call_original
 
@@ -156,7 +156,7 @@ RSpec.describe 'create users', with_cuprite: true do
   end
 
   context 'as global user (with only create_user permission)' do
-    shared_let(:global_create_user) { create(:user, global_permission: %i[create_user]) }
+    shared_let(:global_create_user) { create(:user, global_permissions: %i[create_user]) }
     let(:current_user) { global_create_user }
 
     context 'with internal authentication' do
@@ -200,7 +200,7 @@ RSpec.describe 'create users', with_cuprite: true do
   end
 
   context 'as global user (with manage_user and create_user permission)' do
-    shared_let(:global_create_user) { create(:user, global_permission: %i[create_user manage_user]) }
+    shared_let(:global_create_user) { create(:user, global_permissions: %i[create_user manage_user]) }
     let(:current_user) { global_create_user }
 
     context 'with internal authentication' do

@@ -192,7 +192,7 @@ RSpec.describe WorkPackages::UpdateContract do
       let(:target_permissions) { [] }
 
       it 'is invalid' do
-        expect(contract.errors.symbols_for(:project_id)).to match_array([:error_readonly])
+        expect(contract.errors.symbols_for(:project_id)).to contain_exactly(:error_readonly)
       end
     end
   end
@@ -258,7 +258,7 @@ RSpec.describe WorkPackages::UpdateContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:ignore_non_working_days))
-          .to match_array([:error_readonly])
+          .to contain_exactly(:error_readonly)
       end
     end
 

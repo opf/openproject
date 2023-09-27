@@ -189,7 +189,7 @@ RSpec.describe Project do
       project_work_package
       other_project_work_package
 
-      expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
+      expect(project.types_used_by_work_packages).to contain_exactly(project_work_package.type)
     end
   end
 

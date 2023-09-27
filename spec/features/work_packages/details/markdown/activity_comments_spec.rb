@@ -284,7 +284,7 @@ RSpec.describe 'activity comments', js: true do
   end
 
   context 'with no permission' do
-    let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
+    let(:current_user) { create(:user, member_with_roles: { project => role }) }
     let(:role) { create(:role, permissions: %i(view_work_packages)) }
 
     before do

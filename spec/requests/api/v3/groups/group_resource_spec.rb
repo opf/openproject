@@ -37,13 +37,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
 
   shared_let(:project) { create(:project) }
   let(:group) do
-    create(:group,
-           member_in_project: project,
-           member_through_role: role).tap do |g|
-      members.each do |members|
-        GroupUser.create group_id: g.id, user_id: members.id
-      end
-    end
+    create(:group, member_with_roles: { project => role }, members:)
   end
   let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_members manage_members] }
@@ -54,8 +48,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   describe 'GET api/v3/groups/:id' do
@@ -81,7 +74,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
           .at_path('name')
 
         expect(JSON::parse(subject.body).dig('_links', 'members').map { |link| link['href'] })
-          .to match_array members.map { |m| api_v3_paths.user(m.id) }
+          .to match_array(members.map { |m| api_v3_paths.user(m.id) })
       end
     end
 
@@ -180,8 +173,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
     let(:another_role) { create(:role) }
     let(:another_user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: another_role,
+             member_with_roles: { project => another_role },
              notification_settings: [
                build(:notification_setting,
                      membership_added: true,
@@ -236,7 +228,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
         group.reload
 
         expect(group.users)
-          .to match_array [members.last, another_user]
+          .to contain_exactly(members.last, another_user)
 
         # Altering only the members still updates the group's timestamp
         expect(group.updated_at > group_updated_at)
@@ -260,7 +252,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
 
         # includes the memberships the group has applied to the added user
         expect(other_project.reload.users)
-          .to match_array [members.last, another_user]
+          .to contain_exactly(members.last, another_user)
       end
 
       it 'sends mails notifying of the added and updated project memberships to the added user' do
@@ -271,10 +263,8 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
           .to match_array another_user.mail
 
         expect(ActionMailer::Base.deliveries.map(&:subject).flatten)
-          .to match_array [
-            I18n.t(:'mail_member_updated_project.subject', project: project.name),
-            I18n.t(:'mail_member_added_project.subject', project: other_project.name)
-          ]
+          .to contain_exactly(I18n.t(:'mail_member_updated_project.subject', project: project.name),
+                              I18n.t(:'mail_member_added_project.subject', project: other_project.name))
       end
     end
 
@@ -375,10 +365,10 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
 
       it 'deletes the memberships of the members but keeps the ones a user had independently of the group' do
         expect(other_project.users)
-          .to match_array([members.first])
+          .to contain_exactly(members.first)
 
         expect(Member.find_by(principal: members.first).roles)
-          .to match_array([another_role])
+          .to contain_exactly(another_role)
       end
 
       context 'for a non-existent group' do
