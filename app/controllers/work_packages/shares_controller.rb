@@ -35,7 +35,7 @@ class WorkPackages::SharesController < ApplicationController
   before_action :authorize
 
   def index
-    render WorkPackages::Share::ModalComponent.new(work_package: @work_package), layout: nil
+    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package), layout: nil
   end
 
   def create
@@ -64,7 +64,7 @@ class WorkPackages::SharesController < ApplicationController
 
   def respond_with_update_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalComponent.new(work_package: @work_package)
+      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
     )
 
     respond_with_turbo_streams

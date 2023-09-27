@@ -28,7 +28,7 @@
 
 module WorkPackages
   module Share
-    class ModalComponent < ApplicationComponent
+    class ModalBodyComponent < ApplicationComponent
       include ApplicationHelper
       include Turbo::FramesHelper
       include OpTurbo::Streamable
