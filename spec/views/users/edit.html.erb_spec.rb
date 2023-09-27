@@ -84,8 +84,8 @@ RSpec.describe 'users/edit' do
       end
     end
 
-    context 'for a non-admin' do
-      let(:non_admin) { create(:user) }
+    context 'for a non-admin with manage_user global permission' do
+      let(:non_admin) { create(:user, global_permissions: [:manage_user]) }
 
       before do
         allow(view).to receive(:current_user).and_return(non_admin)

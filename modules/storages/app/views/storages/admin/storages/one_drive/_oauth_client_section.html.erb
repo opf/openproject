@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
                                    { key: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}",
                                      value: short_secret(@storage.oauth_client.client_secret) },
                                    { key: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_REDIRECT_URI}",
-                                     value: oauth_client_redirect_uri(@storage.oauth_client) }
+                                     value: @storage.oauth_client.redirect_uri }
                                  ]) %>
 
     <%= link_to(t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@storage.short_provider_type}.name")),

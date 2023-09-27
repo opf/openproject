@@ -1628,11 +1628,13 @@ pl:
   label_ldap_auth_source: "Połączenie LDAP"
   label_ldap_auth_source_plural: "Połączenia LDAP"
   label_authentication: "Uwierzytelnianie"
-  label_available_project_work_package_categories: 'Dostępne kategorie Zadań'
-  label_available_project_work_package_types: 'Dostępne typy pakietów roboczych'
-  label_available_project_forums: 'Dostępne fora'
-  label_available_project_versions: 'Dostępne wersje'
-  label_available_project_repositories: 'Dostępne repozytoria'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Dostępne fora"
+  label_available_project_repositories: "Dostępne repozytoria"
+  label_available_project_versions: "Dostępne wersje"
+  label_available_project_work_package_categories: "Dostępne kategorie Zadań"
+  label_available_project_work_package_types: "Dostępne typy pakietów roboczych"
+  label_available_projects: "Available projects"
   label_api_documentation: "Dokumentacja API"
   label_backup: "Kopia zapasowa"
   label_between: "pomiędzy"
@@ -1837,6 +1839,10 @@ pl:
   label_login: "Logowanie"
   label_custom_logo: "Własne logo"
   label_custom_export_logo: "Logotyp eksportu niestandardowego"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Własny favicon"
   label_custom_touch_icon: "Własny touch icon"
   label_logout: "Wyloguj"
@@ -1907,6 +1913,7 @@ pl:
   label_operator_none: "jest puste"
   label_operator_equals_or: "jest (OR)"
   label_operator_equals_all: "jest (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Otwórz menu"
   label_open_work_packages: "Otwarte"
   label_open_work_packages_plural: "Otwarte"
@@ -2493,11 +2500,12 @@ pl:
   query_fields:
     active_or_archived: "Aktywne lub zarchiwizowane"
     assigned_to_role: "Przypisany do roli"
-    member_of_group: "Przypisany do grupy"
     assignee_or_group: "Przypisana osoba lub przynależna grupa"
-    subproject_id: "Uwzględniając podprojekt"
-    only_subproject_id: "Tylko podprojekt"
+    member_of_group: "Przypisany do grupy"
     name_or_identifier: "Nazwa lub identyfikator"
+    only_subproject_id: "Tylko podprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Uwzględniając podprojekt"
   repositories:
     at_identifier: 'w %{identifier}'
     atom_revision_feed: 'Przegląd wersji Atom''a'
@@ -2810,6 +2818,8 @@ pl:
     Na bezbarwnym tle zaleca się stosowanie białego logo. Najlepsze rezultaty - zarówno na tradycyjnych jak i wyświetlaczach retina - są dla obrazów o rozdzielczości 460x60 px.
   text_custom_export_logo_instructions: >
     To jest logotyp widniejący w eksportach plików PDF. Musi to być plik PNG lub JPEG. Zalecane jest stosowanie czarnego lub kolorowego logotypu na przezroczystym lub białym tle.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Jest to mała ikona, która pojawia się w oknie/karcie przeglądarki obok tytułu strony. Musi to być plik kwadratowego obrazu PNG o rozmiarze 32 na 32 piksele z przezroczystym tłem.
   text_custom_touch_icon_instructions: >

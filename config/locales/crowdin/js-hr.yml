@@ -982,6 +982,7 @@ hr:
         recently_created: "Recently created"
         all_open: "Svi otvoreni"
         summary: "Sažetak"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Skok na numeriranje stranica tabele"
         label_pagination: "Click here to skip over the work packages table and go to pagination"

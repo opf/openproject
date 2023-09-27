@@ -99,6 +99,7 @@ import {
   StorageInformationService,
 } from 'core-app/shared/components/storages/storage-information/storage-information.service';
 import { storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
+import { storageIconMappings } from 'core-app/shared/components/storages/icons.mapping';
 
 @Component({
   selector: 'op-storage',
@@ -130,6 +131,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   draggingOverDropZone = false;
 
   dragging = 0;
+
+  icon = {
+    storageHeader: (storageType:string) => storageIconMappings[storageType] || storageIconMappings.default,
+  };
 
   text = {
     actions: {

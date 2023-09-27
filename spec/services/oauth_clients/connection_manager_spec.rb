@@ -31,6 +31,8 @@
 require 'spec_helper'
 
 RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
+  using Storages::Peripherals::ServiceResultRefinements
+
   let(:user) { create(:user) }
 
   let(:host) { "https://example.org" }
@@ -105,7 +107,7 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
 
     context 'with no OAuthClientToken present' do
       it 'returns a redirection URL' do
-        expect(subject.success).to be_falsey
+        expect(subject.success).to be_falsy
         expect(subject.result).to be_a String
         # Details of string are tested above in section #get_authorization_uri
       end
@@ -117,7 +119,7 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
       it 'returns the redirect URL' do
         allow(configuration).to receive(:scope).and_return(%w[email])
 
-        expect(subject.success).to be_falsey
+        expect(subject.success).to be_falsy
         expect(subject.result).to be_a String
         expect(subject.result).to include oauth_client.integration.host
         expect(subject.result).to include "&state=some_state"
@@ -183,10 +185,9 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
 
       shared_examples 'OAuth2 error response' do
         it 'returns a specific error message' do
-          expect(subject.success).to be_falsey
-          expect(subject.result).to eq error_message
-          expect(subject.errors[:base].count).to be(1)
-          expect(subject.errors[:base].first).to include I18n.t("oauth_client.errors.rack_oauth2.#{error_message}")
+          expect(subject.success).to be_falsy
+          expect(subject.result).to eq(:bad_request)
+          expect(subject.error_payload[:error]).to eq(error_message)
         end
       end
 
@@ -203,22 +204,6 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
       end
     end
 
-    context 'with known reply invalid_grant' do
-      before do
-        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-          .to_return(status: 400,
-                     body: { error: "invalid_grant" }.to_json,
-                     headers: { "content-type" => "application/json; charset=utf-8" })
-      end
-
-      it 'returns a specific error message' do
-        expect(subject.success).to be_falsey
-        expect(subject.result).to eq 'invalid_grant'
-        expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.rack_oauth2.invalid_grant')
-      end
-    end
-
     context 'with unknown reply' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
@@ -227,11 +212,12 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
                      headers: { "content-type" => "application/json; charset=utf-8" })
       end
 
-      it 'returns an unspecific error message' do
-        expect(subject.success).to be_falsey
-        expect(subject.result).to eq 'invalid_requesttt'
-        expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_error')
+      it 'returns an error wrapping the unknown response' do
+        expect(subject.success).to be_falsy
+        expect(subject.result).to eq(:bad_request)
+        expect(subject.error_payload[:error]).to eq('invalid_requesttt')
+        expect(subject.error_source).to be_a(described_class)
+        expect(subject.errors.log_message).to include I18n.t('oauth_client.errors.oauth_returned_error')
       end
     end
 
@@ -245,11 +231,12 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
           )
       end
 
-      it 'returns an unspecific error message' do
-        expect(subject.success).to be_falsey
-        expect(subject.result).to eq "unexpected token at 'some: very, invalid> <json}'"
-        expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
+      it 'returns an error wrapping the parsing error' do
+        expect(subject.success).to be_falsy
+        expect(subject.result).to eq(:internal_server_error)
+        expect(subject.error_payload.class).to be(Faraday::ParsingError)
+        expect(subject.error_source).to be_a(described_class)
+        expect(subject.errors.log_message).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
     end
 
@@ -259,11 +246,10 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
           .to_return(status: 500)
       end
 
-      it 'returns an unspecific error message' do
-        expect(subject.success).to be_falsey
-        expect(subject.result).to eq 'Unknown :: '
-        expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_error')
+      it 'returns an error wrapping the empty error' do
+        expect(subject.success).to be_falsy
+        expect(subject.result).to eq(:bad_request)
+        expect(subject.error_payload[:error]).to eq('Unknown')
       end
     end
 
@@ -272,11 +258,12 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_raise(Faraday::ConnectionFailed)
       end
 
-      it 'returns an unspecific error message' do
-        expect(subject.success).to be_falsey
-        expect(subject.result).to eq("Exception from WebMock")
-        expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
+      it 'returns an error wrapping the server error' do
+        expect(subject.success).to be_falsy
+        expect(subject.result).to eq(:internal_server_error)
+        expect(subject.error_payload.class).to be(Faraday::ConnectionFailed)
+        expect(subject.error_source).to be_a(described_class)
+        expect(subject.errors.log_message).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
     end
 
@@ -285,11 +272,12 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_raise(Faraday::SSLError)
       end
 
-      it 'returns an unspecific error message' do
-        expect(subject.success).to be_falsey
-        expect(subject.result).to eq("Exception from WebMock")
-        expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
+      it 'returns an error wrapping the server error' do
+        expect(subject.success).to be_falsy
+        expect(subject.result).to eq(:internal_server_error)
+        expect(subject.error_payload.class).to be(Faraday::SSLError)
+        expect(subject.error_source).to be_a(described_class)
+        expect(subject.errors.log_message).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
     end
 
@@ -298,11 +286,12 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_timeout
       end
 
-      it 'returns an unspecific error message' do
-        expect(subject.success).to be_falsey
-        expect(subject.result).to eq("execution expired")
-        expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
+      it 'returns an error wrapping the server timeout' do
+        expect(subject.success).to be_falsy
+        expect(subject.result).to eq(:internal_server_error)
+        expect(subject.error_payload.class).to be(Faraday::ConnectionFailed)
+        expect(subject.error_source).to be_a(described_class)
+        expect(subject.errors.log_message).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
     end
   end
@@ -312,8 +301,9 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
 
     context 'without existing OAuthClientToken' do
       it 'returns an error message' do
-        expect(subject.success).to be_falsey
-        expect(subject.errors[:base].first)
+        expect(subject.success).to be_falsy
+        expect(subject.result).to eq(:error)
+        expect(subject.errors.log_message)
           .to include I18n.t('oauth_client.errors.refresh_token_called_without_existing_token')
       end
     end
@@ -364,8 +354,10 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
           end
 
           it 'returns dependent error from model validation', :webmock do
-            expect(subject.success).to be_falsey
-            expect(subject.errors.size).to be(1)
+            expect(subject.success).to be_falsy
+            expect(subject.result).to eq(:error)
+            expect(subject.error_payload.class).to be(AttrRequired::AttrMissing)
+            expect(subject.error_payload.message).to include("'access_token' required.")
           end
         end
 
@@ -378,8 +370,9 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
           end
 
           it 'returns a server error', :webmock do
-            expect(subject.success).to be_falsey
-            expect(subject.errors.size).to be(1)
+            expect(subject.success).to be_falsy
+            expect(subject.result).to eq(:bad_request)
+            expect(subject.error_payload[:error]).to eq('invalid_request')
           end
         end
 
@@ -390,14 +383,16 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
               .to_timeout
           end
 
-          it 'returns a valid ClientToken object', :webmock do
-            expect(subject.success).to be_falsey
-            expect(subject.result).to eq("execution expired")
-            expect(subject.errors.size).to be(1)
+          it 'returns an error wrapping a timeout', :webmock do
+            expect(subject.success).to be_falsy
+            expect(subject.result).to eq(:internal_server_error)
+            expect(subject.error_payload.class).to be(Faraday::ConnectionFailed)
+            expect(subject.error_source).to be_a(described_class)
+            expect(subject.errors.log_message).to include('Faraday::ConnectionFailed: execution expired')
           end
         end
 
-        context 'with parrallel requests for refresh', :aggregate_failures do
+        context 'with parallel requests for refresh', :aggregate_failures do
           after do
             Storages::Storage.destroy_all
             User.destroy_all
@@ -544,7 +539,11 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
         end
 
         context 'with invalid refresh token' do
-          let(:refresh_service_result) { ServiceResult.failure(result: 'invalid_request') }
+          let(:refresh_service_result) do
+            data = Storages::StorageErrorData.new(source: nil, payload: { error: 'invalid_request' })
+            ServiceResult.failure(result: :bad_request,
+                                  errors: Storages::StorageError.new(code: :bad_request, data:))
+          end
 
           it 'refreshes the access token and returns :failed_authorization' do
             expect(subject).to eq :failed_authorization
@@ -595,7 +594,7 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
       let(:yield_service_result) { ServiceResult.failure(result: :error) }
 
       it 'returns a ServiceResult with success, without refreshing the token' do
-        expect(subject.success).to be_falsey
+        expect(subject.success).to be_falsy
         expect(subject.result).to be :error
         expect(instance).not_to have_received(:refresh_token)
         expect(oauth_client_token).not_to have_received(:reload)
@@ -606,7 +605,7 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
       let(:yield_service_result) { ServiceResult.failure(result: :unauthorized) }
 
       it 'returns a ServiceResult with success, without refresh' do
-        expect(subject.success).to be_falsey
+        expect(subject.success).to be_falsy
         expect(subject.result).to be :unauthorized
         expect(instance).to have_received(:refresh_token)
         expect(oauth_client_token).to have_received(:reload)
@@ -615,10 +614,14 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
 
     context 'with yield returning :unauthorized and the refresh returning with a :failure' do
       let(:yield_service_result) { ServiceResult.failure(result: :unauthorized) }
-      let(:refresh_service_result) { ServiceResult.failure }
+      let(:refresh_service_result) do
+        data = Storages::StorageErrorData.new(source: nil, payload: { error: 'invalid_request' })
+        ServiceResult.failure(result: :error,
+                              errors: Storages::StorageError.new(code: :error, data:))
+      end
 
       it 'returns a ServiceResult with success, without refresh' do
-        expect(subject.success).to be_falsey
+        expect(subject.success).to be_falsy
         expect(subject.result).to be :error
         expect(instance).to have_received(:refresh_token)
         expect(oauth_client_token).not_to have_received(:reload)

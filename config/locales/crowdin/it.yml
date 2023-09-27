@@ -1586,11 +1586,13 @@ it:
   label_ldap_auth_source: "Connessione LDAP"
   label_ldap_auth_source_plural: "Connessioni LDAP"
   label_authentication: "Autenticazione"
-  label_available_project_work_package_categories: 'Categorie di macro-attività disponibili'
-  label_available_project_work_package_types: 'Tipi di pacchetti di lavoro disponibili'
-  label_available_project_forums: 'Forum disponibili'
-  label_available_project_versions: 'Versioni disponibili'
-  label_available_project_repositories: 'Archivi disponibili'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Forum disponibili"
+  label_available_project_repositories: "Archivi disponibili"
+  label_available_project_versions: "Versioni disponibili"
+  label_available_project_work_package_categories: "Categorie di macro-attività disponibili"
+  label_available_project_work_package_types: "Tipi di pacchetti di lavoro disponibili"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentazione API"
   label_backup: "Backup"
   label_between: "tra"
@@ -1795,6 +1797,10 @@ it:
   label_login: "Accedi"
   label_custom_logo: "Logo personalizzato"
   label_custom_export_logo: "Esportazione personalizzata logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Favicon personalizzata"
   label_custom_touch_icon: "Icona del touch personalizzata"
   label_logout: "Disconnetti"
@@ -1865,6 +1871,7 @@ it:
   label_operator_none: "è vuoto"
   label_operator_equals_or: "è (OR)"
   label_operator_equals_all: "è (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Apri menu"
   label_open_work_packages: "aperte"
   label_open_work_packages_plural: "aperte"
@@ -2448,11 +2455,12 @@ it:
   query_fields:
     active_or_archived: "Attivo o archiviato"
     assigned_to_role: "Ruolo dell'incaricato"
-    member_of_group: "Gruppo dell'incaricato"
     assignee_or_group: "Assegnatario o gruppo di appartenenza"
-    subproject_id: "Sottoprogetto incluso"
-    only_subproject_id: "Solo sottoprogetto"
+    member_of_group: "Gruppo dell'incaricato"
     name_or_identifier: "Nome o identificativo"
+    only_subproject_id: "Solo sottoprogetto"
+    shared_with_user: "Shared with user"
+    subproject_id: "Sottoprogetto incluso"
   repositories:
     at_identifier: 'presso %{identifier}'
     atom_revision_feed: 'Revisione di Atom feed'
@@ -2767,6 +2775,8 @@ it:
     Un logo bianco su sfondo trasparente è preferibile. Per ottenere i migliori risultati, sia su schermi convenzionali che ad alta risoluzione, assicurati che le dimensioni dell'immagine siano di 460x60 pixels.
   text_custom_export_logo_instructions: >
     Questo è il logo che appare nelle tue esportazioni PDF. Deve essere un file immagine PNG o JPEG. Si consiglia un logo nero o colorato su sfondo trasparente o bianco.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Questa è l'icona che appare nella scheda del tuo browser vicino al titolo della pagina. È necessario che questa sia un'immagine quadrata di dimensioni 32x32, in formato PNG e con sfondo trasparente.
   text_custom_touch_icon_instructions: >

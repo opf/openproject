@@ -982,6 +982,7 @@ lv:
         recently_created: "Recently created"
         all_open: "All open"
         summary: "Kopsavilkums"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
@@ -1151,9 +1152,11 @@ lv:
       hour:
         one: "1 h"
         other: "%{count} h"
+        zero: "0 h"
       day:
         one: "%{count} dienas"
         other: "%{count} dienām"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

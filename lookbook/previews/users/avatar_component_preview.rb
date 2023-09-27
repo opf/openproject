@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# @logical_path OpenProject
 module Users
+  # @logical_path OpenProject/Users
   class AvatarComponentPreview < Lookbook::Preview
 
     # Renders a user avatar using the OpenProject opce-principal web component

@@ -60,6 +60,8 @@ module OAuthClients
       ServiceResult.failure(result: @redirect_url)
     end
 
+    # rubocop:disable Metrics/AbcSize
+
     # The bearer/access token has expired or is due for renew for other reasons.
     # Talk to OAuth2 Authorization Server to exchange the renew_token for a new bearer token.
     def refresh_token
@@ -79,10 +81,16 @@ module OAuthClients
             ServiceResult.success(result: oauth_client_token)
           end
         else
-          service_result_with_error(I18n.t('oauth_client.errors.refresh_token_called_without_existing_token'))
+          storage_error = ::Storages::StorageError.new(
+            code: :error,
+            log_message: I18n.t('oauth_client.errors.refresh_token_called_without_existing_token')
+          )
+          ServiceResult.failure(result: :error, errors: storage_error)
         end
       end
     end
+
+    # rubocop:enable Metrics/AbcSize
 
     # Returns the URI of the "authorize" endpoint of the OAuth2 Authorization Server.
     # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
@@ -92,6 +100,8 @@ module OAuthClients
       client = rack_oauth_client # Configure and start the rack-oauth2 client
       client.authorization_uri(scope: @config.scope, state:)
     end
+
+    # rubocop:disable Metrics/AbcSize
 
     # Called by callback_page with a cryptographic "code" that indicates
     # that the user has successfully authorized the OAuth2 Authorization Server.
@@ -128,6 +138,8 @@ module OAuthClients
       ServiceResult.success(result: oauth_client_token)
     end
 
+    # rubocop:enable Metrics/AbcSize
+
     # Called by StorageRepresenter to inquire about the status of the OAuth2
     # authentication server.
     # Returns :connected/:authorization_failed or :error for a general error.
@@ -146,7 +158,7 @@ module OAuthClients
         service_result = refresh_token
         if service_result.success?
           :connected
-        elsif service_result.result == 'invalid_request'
+        elsif service_result.errors.data.payload[:error] == 'invalid_request'
           :failed_authorization
         else
           :error
@@ -167,11 +179,7 @@ module OAuthClients
 
       if yield_service_result.failure? && yield_service_result.result == :unauthorized
         refresh_service_result = refresh_token
-        if refresh_service_result.failure?
-          failed_service_result = ServiceResult.failure(result: :error)
-          failed_service_result.merge!(refresh_service_result)
-          return failed_service_result
-        end
+        return refresh_service_result if refresh_service_result.failure?
 
         oauth_client_token.reload
         yield_service_result = yield(oauth_client_token) # Should contain result=<data> in case of success
@@ -189,27 +197,29 @@ module OAuthClients
       OAuthClientToken.find_by(user_id: @user, oauth_client_id: @oauth_client.id)
     end
 
-    # Calls client.access_token!
-    # Convert the various exceptions into user-friendly error strings.
+    # rubocop:disable Metrics/AbcSize
     def request_new_token(options = {})
       rack_access_token = rack_oauth_client(options).access_token!(:body)
 
       ServiceResult.success(result: rack_access_token)
     rescue Rack::OAuth2::Client::Error => e
-      service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
+      service_result_with_error(:bad_request, e.response, i18n_rack_oauth2_error_message(e))
     rescue Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::ParsingError, Faraday::SSLError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}",
-        e.message
+        :internal_server_error,
+        e,
+        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}"
       )
     rescue StandardError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}",
-        e.message
+        :error,
+        e,
+        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}"
       )
     end
 
-    # Localize the error message
+    # rubocop:enable Metrics/AbcSize
+
     def i18n_rack_oauth2_error_message(rack_oauth2_client_exception)
       i18n_key = "oauth_client.errors.rack_oauth2.#{rack_oauth2_client_exception.message}"
       if I18n.exists? i18n_key
@@ -250,12 +260,10 @@ module OAuthClients
       end
     end
 
-    # Shortcut method to convert an error message into an unsuccessful
-    # ServiceResult with that error message
-    def service_result_with_error(message, result = nil)
-      ServiceResult.failure(result:).tap do |r|
-        r.errors.add(:base, message)
-      end
+    def service_result_with_error(code, data, log_message = nil)
+      error_data = ::Storages::StorageErrorData.new(source: self, payload: data)
+      ServiceResult.failure(result: code,
+                            errors: ::Storages::StorageError.new(code:, data: error_data, log_message:))
     end
   end
 end

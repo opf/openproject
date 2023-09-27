@@ -1626,11 +1626,13 @@ uk:
   label_ldap_auth_source: "LDAP-підключення"
   label_ldap_auth_source_plural: "LDAP-підключення"
   label_authentication: "Автентифікація"
-  label_available_project_work_package_categories: 'Доступні категорії робочих пакетів'
-  label_available_project_work_package_types: 'Доступні типи пакетів робіт'
-  label_available_project_forums: 'Доступні форуми'
-  label_available_project_versions: 'Доступні версії'
-  label_available_project_repositories: 'Доступні сховища'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Доступні форуми"
+  label_available_project_repositories: "Доступні сховища"
+  label_available_project_versions: "Доступні версії"
+  label_available_project_work_package_categories: "Доступні категорії робочих пакетів"
+  label_available_project_work_package_types: "Доступні типи пакетів робіт"
+  label_available_projects: "Available projects"
   label_api_documentation: "Документація API"
   label_backup: "Резервна копія"
   label_between: "між ними"
@@ -1835,6 +1837,10 @@ uk:
   label_login: "Увійти"
   label_custom_logo: "Спеціальний логотип"
   label_custom_export_logo: "Користувацький логотип експорту"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "призначені для користувача іконки"
   label_custom_touch_icon: "Призначений для користувача значок логотипу"
   label_logout: "Вийти"
@@ -1905,6 +1911,7 @@ uk:
   label_operator_none: "не вказано"
   label_operator_equals_or: "є (АБО)"
   label_operator_equals_all: "є (І)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Відкрити меню"
   label_open_work_packages: "відкрити"
   label_open_work_packages_plural: "відкрити"
@@ -2489,11 +2496,12 @@ uk:
   query_fields:
     active_or_archived: "Активний або архівований"
     assigned_to_role: "Роль виконавця"
-    member_of_group: "Група виконавця"
     assignee_or_group: "Правонаступник або приналежність до групи"
-    subproject_id: "Включно з підпроєктом"
-    only_subproject_id: "Лише підпроєкт"
+    member_of_group: "Група виконавця"
     name_or_identifier: "Ім'я або ідентифікатор"
+    only_subproject_id: "Лише підпроєкт"
+    shared_with_user: "Shared with user"
+    subproject_id: "Включно з підпроєктом"
   repositories:
     at_identifier: 'на %{identifier}'
     atom_revision_feed: 'Atom-канал'
@@ -2808,6 +2816,8 @@ uk:
     Рекомендується використовувати білий логотип з прозорим фоном. Для оптимального відображення на звичайних і retina-дисплеях розмір картинки повинен бути 460 на 110 пікселів.
   text_custom_export_logo_instructions: >
     Це логотип з’являється, що відображається у ваших експортах PDF. Він має бути у форматі файлу зображення PNG або JPEG. Рекомендується чорний або кольоровий логотип на прозорому чи білому фоні.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Це крихітний значок, який з’являється у вікні / на вкладці вашого браузера біля назви сторінки. Це має бути квадратний файл зображення 32 на 32 пікселі з прозорим фоном у форматі PNG.
   text_custom_touch_icon_instructions: >

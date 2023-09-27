@@ -30,7 +30,7 @@
 
 class API::V3::FileLinks::FileLinksDownloadAPI < API::OpenProjectAPI
   using Storages::Peripherals::ServiceResultRefinements
-  helpers Storages::Peripherals::StorageUrlHelper, Storages::Peripherals::StorageErrorHelper
+  helpers Storages::Peripherals::StorageErrorHelper
 
   resources :download do
     get do

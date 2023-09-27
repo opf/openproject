@@ -49,7 +49,7 @@ module Storages
                                             transaction: false) do
         where("provider_fields->>'automatically_managed' = 'true'")
           .includes(:oauth_client)
-          .each do |storage|
+          .find_each do |storage|
           GroupFolderPropertiesSyncService.new(storage).call
         end
         true
@@ -58,6 +58,10 @@ module Storages
 
     def oauth_configuration
       Peripherals::OAuthConfigurations::NextcloudConfiguration.new(self)
+    end
+
+    def open_link
+      File.join(uri.to_s, 'index.php/apps/files')
     end
 
     def automatic_management_unspecified?

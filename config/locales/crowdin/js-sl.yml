@@ -982,6 +982,7 @@ sl:
         recently_created: "Nedavno ustvarjeno"
         all_open: "Vse odprto"
         summary: "Povzetek"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Pojdi na stran s tabelo"
         label_pagination: "Kliknite tukaj, da preskočite tabelo delovnih paketov in pojdite na stran"
