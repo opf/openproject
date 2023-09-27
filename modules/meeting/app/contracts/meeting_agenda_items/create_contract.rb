@@ -38,7 +38,7 @@ module MeetingAgendaItems
       # the meeting and therefore the project is not set
       # in this case we only want to show the "Meeting can't be blank" error instead of a misleading permission base error
       # the error is added by the models presence validation
-      return if model.project.nil?
+      return if model.meeting.nil?
 
       unless user.allowed_to?(:edit_meetings, model.project)
         errors.add :base, :error_unauthorized
@@ -55,8 +55,8 @@ module MeetingAgendaItems
       # the error is added by the models presence validation
       return if model.meeting_id.nil?
 
-      unless Meeting.exists?(id: model.meeting_id)
-        errors.add :base, I18n.t(:text_meeting_not_present_anymore)
+      unless Meeting.visible(user).exists?(id: model.meeting_id)
+        errors.add :base, :does_not_exist
       end
     end
   end
