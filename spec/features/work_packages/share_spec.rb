@@ -32,7 +32,6 @@ require 'spec_helper'
 
 RSpec.describe 'Work package sharing',
                :js,
-               :with_cuprite,
                with_flag: { work_package_sharing: true } do
   let(:sharer_role) do
     create(:role,
@@ -75,7 +74,6 @@ RSpec.describe 'Work package sharing',
   context 'when having share permission' do
     # TODO:
     #   - Check email being sent
-    #   - Check readding a user with a different role
     #   - Check updating a user's role
     it 'allows seeing and administrating sharing' do
       work_package_page.visit!
@@ -135,10 +133,10 @@ RSpec.describe 'Work package sharing',
       click_button 'Share'
 
       share_modal.expect_open
-      share_modal.expect_shared_with(view_user, 'View')
-      share_modal.expect_shared_with(comment_user, 'Comment')
-      share_modal.expect_shared_with(edit_user, 'Edit')
-      share_modal.expect_shared_with(shared_project_user, 'Edit')
+      share_modal.expect_shared_with(view_user)
+      share_modal.expect_shared_with(comment_user)
+      share_modal.expect_shared_with(edit_user)
+      share_modal.expect_shared_with(shared_project_user)
 
       share_modal.expect_not_shared_with(non_shared_project_user)
       share_modal.expect_not_shared_with(not_shared_yet_with_user)

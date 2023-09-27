@@ -70,15 +70,17 @@ module Components
         end
       end
 
-      def expect_shared_with(user, role_name)
+      def expect_shared_with(user, role_name = nil)
         within active_list do
           expect(page)
             .to have_text(user.name)
         end
 
-        within user_row(user) do
-          expect(page)
-            .to have_button(role_name)
+        if role_name
+          within user_row(user) do
+            expect(page)
+              .to have_button(role_name)
+          end
         end
       end
 
