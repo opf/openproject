@@ -37,16 +37,16 @@
                 role = share.roles.first
 
                 invited_user_list.with_row(data: { 'test-selector': "op-share-wp-active-user-#{user.id}" }) do
-                  flex_layout(align_items: :center) do |user_row_container|
-                    user_row_container.with_column(flex: :auto) do
+                  grid_layout('op-share-wp-modal--user-row', tag: :div, align_items: :center, classes: 'ellipsis') do |user_row_grid|
+                    user_row_grid.with_area(:user, tag: :div, classes: 'ellipsis') do
                       render(Users::AvatarComponent.new(user: user, size: :medium))
                     end
 
-                    user_row_container.with_column(text_align: :right, color: :subtle, style: "width: 150px;") do
+                    user_row_grid.with_area(:button, tag: :div, color: :subtle) do
                       render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: role.builtin))
                     end
 
-                    user_row_container.with_column(text_align: :right, style: "width: 100px;") do
+                    user_row_grid.with_area(:remove, tag: :div) do
                       form_with url: work_packages_share_path(share), method: :delete do
                         render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
                       end
