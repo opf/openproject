@@ -45,6 +45,7 @@ module  WorkPackages::Share
           filters: [{ name: 'type', operator: '=', values: ['User'] }],
           searchKey: 'any_name_attribute',
           focusDirectly: true,
+          appendTo: 'body',
           disabled: @disabled
         }
       )

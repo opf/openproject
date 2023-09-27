@@ -13,7 +13,7 @@
             render(Primer::Beta::Flash.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
           end
         end
-          
+
         if shared_users.empty?
           modal_content.with_row(mt: 3) do
             render(Primer::Beta::Blankslate.new(border: true)) do |component|
