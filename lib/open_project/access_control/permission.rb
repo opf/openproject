@@ -33,7 +33,8 @@ module OpenProject
                   :controller_actions,
                   :contract_actions,
                   :project_module,
-                  :dependencies
+                  :dependencies,
+                  :permissible_on
 
       # @param public [Boolean] when true, the permission is granted to anybody
       # having at least one role in a project, regardless of the role's
@@ -72,15 +73,19 @@ module OpenProject
       end
 
       def work_package?
-        @permissible_on.include? :work_package
+        permissible_on? :work_package
       end
 
       def project?
-        @permissible_on.include? :project
+        permissible_on? :project
       end
 
       def global?
-        @permissible_on.include? :global
+        permissible_on? :global
+      end
+
+      def permissible_on?(context_type)
+        @permissible_on.include?(context_type)
       end
 
       def grant_to_admin?
