@@ -47,7 +47,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQu
       "https://graph.microsoft.com/v1.0/drives/b!~bunchOfLettersAndNumb3rs/items/LFHLUDSILANC:/it_is_a_trap.flac:/createUploadSession"
     ).with(
       headers: { 'Authorization' => "Bearer #{token.access_token}", 'Content-Type' => 'application/json' },
-      body: { item: { "@microsoft.graph.conflictBehavior" => "rename", name: query_payload[:fileName] } }
+      body: { item: { "@microsoft.graph.conflictBehavior" => "rename", name: query_payload['fileName'] } }
     ).to_return(
       status: 200,
       body: { uploadUrl: "https://sn3302.up.1drv.com/up/fe6987415ace7X4e1eF866337",
