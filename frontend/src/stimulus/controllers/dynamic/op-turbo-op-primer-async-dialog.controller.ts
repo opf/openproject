@@ -29,12 +29,13 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import { TurboElement } from '../../../typings/turbo';
 
 export default class extends Controller {
   static targets = ['frameElement'];
-  declare readonly frameElementTarget:HTMLInputElement;
+  declare readonly frameElementTarget:HTMLInputElement&TurboElement;
 
-  private initialState!: string;
+  private initialState:string;
 
   connect():void {
     this.initialState = this.frameElementTarget.innerHTML;
@@ -42,6 +43,6 @@ export default class extends Controller {
 
   reinitFrame():void {
     this.frameElementTarget.innerHTML = this.initialState;
-    (this.frameElementTarget as any).reload();
+    this.frameElementTarget.reload();
   }
 }
