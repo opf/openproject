@@ -37,7 +37,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
   templateUrl: './wp-details-toolbar.html',
 })
 export class WorkPackageSplitViewToolbarComponent {
-  @Input('workPackage') workPackage:WorkPackageResource;
+  @Input() workPackage:WorkPackageResource;
 
   @Input() displayNotificationsButton:boolean;
 
@@ -47,10 +47,11 @@ export class WorkPackageSplitViewToolbarComponent {
     button_more: this.I18n.t('js.button_more'),
   };
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     readonly halEditing:HalResourceEditingService,
-    readonly configurationService:ConfigurationService) {
-
-    this.displayShareButton = this.configurationService.activeFeatureFlags.includes('workPackageSharing')
+    readonly configurationService:ConfigurationService,
+  ) {
+    this.displayShareButton = this.configurationService.activeFeatureFlags.includes('workPackageSharing');
   }
 }
