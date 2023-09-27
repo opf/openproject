@@ -32,5 +32,17 @@ module WorkPackageMembers
     attribute :entity_id
     attribute :entity_type
     attribute :user_id
+
+    private
+
+    validate :principal_assignable
+
+    def principal_assignable
+      return if principal.nil?
+
+      if principal.builtin? || principal.locked?
+        errors.add(:principal, :unassignable)
+      end
+    end
   end
 end

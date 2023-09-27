@@ -27,49 +27,10 @@
 # ++
 
 module WorkPackageMembers
-  class BaseContract < ::ModelContract
-    delegate :project,
-             to: :model
-
-    attribute :roles
-
-    validate :user_allowed_to_manage
-    validate :role_grantable
-    validate :single_role
-    validate :project_set
-    validate :entity_set
-
-    attribute_alias(:user_id, :principal)
-
-    private
-
-    def user_allowed_to_manage
-      errors.add :base, :error_unauthorized unless user_allowed_to_manage?
-    end
-
-    def user_allowed_to_manage?
-      user.allowed_to?(:share_work_packages,
-                       model.project)
-    end
-
-    def single_role
-      errors.add(:roles, :more_than_one) if active_roles.count > 1
-    end
-
-    def role_grantable
-      errors.add(:roles, :ungrantable) unless active_roles.all? { _1.is_a?(WorkPackageRole) }
-    end
-
-    def project_set
-      errors.add(:project, :blank) if project.nil?
-    end
-
-    def active_roles
-      model.member_roles.reject(&:marked_for_destruction?).map(&:role)
-    end
-
-    def entity_set
-      errors.add(:entity, :blank) if entity_id.nil?
-    end
+  class UpdateContract < BaseContract
+    attribute :principal,
+              writable: false
+    attribute :entity_id,
+              writable: false
   end
 end

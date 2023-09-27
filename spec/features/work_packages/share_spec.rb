@@ -109,6 +109,11 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_not_shared_with(edit_user)
 
       share_modal.expect_shared_count_of(4)
+
+      # Adding a user multiple times will lead to the user's role being updated.
+      share_modal.invite_user(not_shared_yet_with_user, 'Edit')
+
+      share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit')
     end
   end
 

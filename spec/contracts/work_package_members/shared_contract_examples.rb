@@ -59,24 +59,6 @@ RSpec.shared_examples_for 'work package member contract' do
   describe 'validation' do
     it_behaves_like 'contract is valid'
 
-    context 'if the principal is nil' do
-      let(:member_principal) { nil }
-
-      it_behaves_like 'contract is invalid', principal: :blank
-    end
-
-    context 'if the principal is a builtin user' do
-      let(:member_principal) { build_stubbed(:anonymous) }
-
-      it_behaves_like 'contract is invalid', principal: :unassignable
-    end
-
-    context 'if the principal is a locked user' do
-      let(:member_principal) { build_stubbed(:locked_user) }
-
-      it_behaves_like 'contract is invalid', principal: :unassignable
-    end
-
     context 'if the roles are nil' do
       let(:member_roles) { [] }
 
@@ -105,20 +87,6 @@ RSpec.shared_examples_for 'work package member contract' do
       let(:permissions) { [:manage_members] }
 
       it_behaves_like 'contract is invalid', base: :error_unauthorized
-    end
-
-    context 'if the project is nil' do
-      let(:member_project) { nil }
-
-      it_behaves_like 'contract is invalid', project: :blank
-    end
-
-    context 'if the project is not set by the system' do
-      before do
-        member.project = build_stubbed(:project)
-      end
-
-      it_behaves_like 'contract is invalid', project_id: :error_readonly
     end
   end
 end
