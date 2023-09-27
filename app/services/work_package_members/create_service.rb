@@ -32,4 +32,20 @@ class WorkPackageMembers::CreateService < BaseServices::Create
   def instance_class
     Member
   end
+
+  def after_perform(service_call)
+    return service_call unless service_call.success?
+
+    work_package_member = service_call.result
+
+    send_notification(work_package_member)
+
+    service_call
+  end
+
+  def send_notification(work_package_member)
+    OpenProject::Notifications.send(OpenProject::Events::WORK_PACKAGE_SHARED,
+                                    work_package_member:,
+                                    send_notifications: true)
+  end
 end

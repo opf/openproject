@@ -41,8 +41,27 @@ RSpec.describe WorkPackageMembers::CreateService do
 
   subject(:service_call) { instance.call(params) }
 
+  def stub_notifications
+    allow(OpenProject::Notifications)
+      .to receive(:send)
+  end
+
+  before { stub_notifications }
+
   it_behaves_like 'BaseServices create service' do
     let(:model_class) { Member }
     let(:call_attributes) { { principal: user, roles: [role], entity: work_package, project: work_package.project } }
+
+    context 'when successful' do
+      it 'sends a notification' do
+        service_call
+
+        expect(OpenProject::Notifications)
+          .to have_received(:send)
+                .with(OpenProject::Events::WORK_PACKAGE_SHARED,
+                      work_package_member: model_instance,
+                      send_notifications: true)
+      end
+    end
   end
 end
