@@ -39,6 +39,10 @@ module WorkPackages
         @member = member
         @work_package = work_package
       end
+
+      def new_share
+        Member.new(roles: [Role.new(builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER)])
+      end
     end
   end
 end

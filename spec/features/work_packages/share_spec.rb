@@ -32,6 +32,7 @@ require 'spec_helper'
 
 RSpec.describe 'Work package sharing',
                :js,
+               :with_cuprite,
                with_flag: { work_package_sharing: true } do
   let(:sharer_role) do
     create(:role,
@@ -72,9 +73,6 @@ RSpec.describe 'Work package sharing',
   current_user { create(:user) }
 
   context 'when having share permission' do
-    # TODO:
-    #   - Check email being sent
-    #   - Check updating a user's role
     it 'allows seeing and administrating sharing' do
       work_package_page.visit!
 
@@ -113,9 +111,38 @@ RSpec.describe 'Work package sharing',
 
       share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit')
 
-      # Sent out email only on first share and not again when updating
+      # Sent out email only on first share and not again when updating.
       perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.size).to eq(1)
+
+      # Updating the share
+      share_modal.change_role(not_shared_yet_with_user, 'Comment')
+
+      share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment')
+
+      # Sent out email only on first share and not again when updating so the
+      # count should still be 1.
+      perform_enqueued_jobs
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
+
+      # Closing and reopening the modal will show the same state as before.
+      share_modal.close
+
+      click_button 'Share'
+
+      # These users were not changed
+      share_modal.expect_shared_with(view_user, 'View')
+      share_modal.expect_shared_with(comment_user, 'Comment')
+      share_modal.expect_shared_with(shared_project_user, 'Edit')
+      # This user's role was updated
+      share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment')
+      # This user's share was revoked
+      share_modal.expect_not_shared_with(edit_user)
+
+      # This user has never been added
+      share_modal.expect_not_shared_with(non_shared_project_user)
+
+      share_modal.expect_shared_count_of(4)
     end
   end
 

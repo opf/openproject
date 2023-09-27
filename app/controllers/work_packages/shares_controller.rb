@@ -30,7 +30,7 @@ class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
 
   before_action :find_work_package, only: %i[index create]
-  before_action :find_share, only: %i[destroy]
+  before_action :find_share, only: %i[destroy update]
   before_action :find_project
   before_action :authorize
 
@@ -44,9 +44,16 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user)
       .call(entity: @work_package,
             user_id: params[:member][:user_id],
-            # Role has a left join on permissions included leading to multiple ids being returned which
-            # is why we unscope.
-            role_ids: WorkPackageRole.unscoped.where(builtin: params[:member][:role_id]).pluck(:id))
+            role_ids: find_role_ids(params[:member][:role_id]))
+
+    respond_with_update_modal
+  end
+
+  def update
+    # TODO: error handling
+    WorkPackageMembers::UpdateService
+      .new(user: current_user, model: @share)
+      .call(role_ids: find_role_ids(params[:role_ids]))
 
     respond_with_update_modal
   end
@@ -59,8 +66,6 @@ class WorkPackages::SharesController < ApplicationController
 
     respond_with_update_modal
   end
-
-  # Todo: Update
 
   private
 
@@ -84,5 +89,11 @@ class WorkPackages::SharesController < ApplicationController
 
   def find_project
     @project = @work_package.project
+  end
+
+  def find_role_ids(builtin_value)
+    # Role has a left join on permissions included leading to multiple ids being returned which
+    # is why we unscope.
+    WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
   end
 end

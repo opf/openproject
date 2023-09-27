@@ -32,14 +32,28 @@ module WorkPackages
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
 
-      def initialize(permission_value:, **system_arguments)
+      def initialize(share:, **system_arguments)
         super
 
-        @permission_value = permission_value
+        @share = share
         @system_arguments = system_arguments
       end
 
+      # Switches the component to either update the share directly (by sending a PATCH to the share path)
+      # or be passive and work like a select inside a form.
+      def update_path
+        if share.persisted?
+          work_packages_share_path(share)
+        end
+      end
+
+      def option_active?(option)
+        option[:value] == active_role.builtin
+      end
+
       private
+
+      attr_reader :share
 
       def options
         [
@@ -47,6 +61,11 @@ module WorkPackages
           { label: I18n.t('work_package.sharing.permissions.comment'), value: Role::BUILTIN_WORK_PACKAGE_COMMENTER },
           { label: I18n.t('work_package.sharing.permissions.view'), value: Role::BUILTIN_WORK_PACKAGE_VIEWER }
         ]
+      end
+
+      def active_role
+        # TODO: handle having more than one role
+        share.roles.first
       end
 
       def permission_name(value)

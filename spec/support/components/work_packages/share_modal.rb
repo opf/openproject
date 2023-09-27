@@ -70,6 +70,18 @@ module Components
         end
       end
 
+      def change_role(user, role_name)
+        within user_row(user) do
+          find('[data-test-selector="op-share-wp-update-role"]').click
+
+          find('.ActionListContent', text: role_name).click
+        end
+      end
+
+      def close
+        modal_element.send_keys(:escape)
+      end
+
       def expect_shared_with(user, role_name = nil)
         within active_list do
           expect(page)

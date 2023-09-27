@@ -454,7 +454,7 @@ OpenProject::Application.routes.draw do
     # cover the functionality. Route is being used in work-package-service.js:331
     get '/bulk' => 'bulk#destroy'
 
-    resources :shares, only: %i[destroy]
+    resources :shares, only: %i[destroy update]
   end
 
   resources :work_packages, only: [:index] do

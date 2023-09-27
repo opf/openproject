@@ -118,7 +118,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :share_work_packages,
                      {
-                       'work_packages/shares': %i[index create destroy]
+                       'work_packages/shares': %i[index create destroy update]
                      },
                      permissible_on: :project,
                      dependencies: %i[edit_work_packages view_shared_work_packages],
