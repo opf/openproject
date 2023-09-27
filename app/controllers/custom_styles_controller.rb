@@ -66,13 +66,8 @@ class CustomStylesController < ApplicationController
   end
 
   def update_export_cover_text_color
+    @custom_style = get_or_create_custom_style
     color = params[:export_cover_text_color]
-
-    @custom_style = CustomStyle.current
-    if @custom_style.nil?
-      return render_404
-    end
-
     color_hexcode_regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
     color = nil if color.blank?
     if color.nil? || color.match(color_hexcode_regex)
