@@ -112,6 +112,10 @@ RSpec.describe 'Work package sharing',
       share_modal.invite_user(not_shared_yet_with_user, 'Edit')
 
       share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit')
+
+      # Sent out email only on first share and not again when updating
+      perform_enqueued_jobs
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end
 
