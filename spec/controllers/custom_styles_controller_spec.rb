@@ -528,8 +528,8 @@ RSpec.describe CustomStylesController do
           post :update_export_cover_text_color, params:
         end
 
-        it 'renders 404' do
-          expect(response).to have_http_status :not_found
+        it 'it is created' do
+          expect(response).to redirect_to action: :show
         end
       end
     end
