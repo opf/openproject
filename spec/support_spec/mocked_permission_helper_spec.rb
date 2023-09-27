@@ -74,7 +74,8 @@ RSpec.describe MockedPermissionHelper do
     before do
       mock_permissions_for(user) do |mock|
         mock.all_permissions_allowed!
-        mock.in_project :add_work_packages, project:
+        mock.globally :add_project
+        mock.in_project(:add_work_packages, project:)
 
         # this removes all permissions previously set
         mock.forbid_everything!
@@ -106,6 +107,24 @@ RSpec.describe MockedPermissionHelper do
       expect(user).to be_allowed_to_globally(:add_project)
       expect(user).to be_allowed_to_in_project(:add_work_packages, project)
       expect(user).to be_allowed_to_globally(:add_work_packages)
+    end
+  end
+
+  context 'when running the mock service multiple times' do
+    before do
+      mock_permissions_for(user) do |mock|
+        mock.globally :add_project
+      end
+
+      # this will overwrite the mocks from the first run
+      mock_permissions_for(user) do |mock|
+        mock.globally :manage_user
+      end
+    end
+
+    it 'only allows the permissions from the last run' do
+      expect(user).not_to be_allowed_globally(:add_project)
+      expect(user).to be_allowed_globally(:manage_user)
     end
   end
 

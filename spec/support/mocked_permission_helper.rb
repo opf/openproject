@@ -35,9 +35,7 @@ class PermissionMock
 
   def initialize(user)
     @user = user
-    @permitted_entities = Hash.new do |hash, entity_project_or_global|
-      hash[entity_project_or_global] = Array.new
-    end
+    reset_permitted_entities
     @allow_all_permissions = false
   end
 
@@ -47,7 +45,7 @@ class PermissionMock
 
   def forbid_everything!
     @allow_all_permissions = false
-    @permitted_entites = {}
+    reset_permitted_entities
   end
 
   def in_project(*permissions, project:)
@@ -74,6 +72,14 @@ class PermissionMock
     end
     permitted_entities[:global] += permissions
   end
+
+  private
+
+  def reset_permitted_entities
+    @permitted_entities = Hash.new do |hash, entity_project_or_global|
+      hash[entity_project_or_global] = Array.new
+    end
+  end
 end
 
 module MockedPermissionHelper
@@ -85,6 +91,7 @@ module MockedPermissionHelper
     # Instead of mocking directly on the user, we mock on the UserPermissibleService
     # Advantage is that we can handle the `allowed_in_entity?` calls correctly without needing to write
     # a mock for each of them
+
     permissible_service = user.send(:user_permissible_service) # access the private instance
 
     # Permission is allowed globally, when it has been given globally
