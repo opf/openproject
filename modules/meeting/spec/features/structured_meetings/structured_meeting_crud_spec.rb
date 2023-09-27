@@ -174,6 +174,26 @@ RSpec.describe 'Structured meetings CRUD',
     expect(page).to have_current_path project_meetings_path(project)
   end
 
+  context 'exporting as ICS' do
+    before do
+      @download_list = DownloadList.new
+    end
+
+    after do
+      DownloadList.clear
+    end
+
+    subject { @download_list.refresh_from(page).latest_download.to_s }
+
+    it 'can export the meeting as ICS' do
+      click_button('op-meetings-header-action-trigger')
+
+      click_link I18n.t(:label_icalendar_download)
+
+      expect(subject).to end_with ".ics"
+    end
+  end
+
   context 'with a work package reference to another' do
     let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
     let!(:other_project) { create(:project) }

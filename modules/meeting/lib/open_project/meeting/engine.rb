@@ -39,7 +39,7 @@ module OpenProject::Meeting
              bundled: true do
       project_module :meetings do
         permission :view_meetings,
-                   { meetings: %i[index show],
+                   { meetings: %i[index show download_ics],
                      meeting_agendas: %i[history show diff],
                      meeting_minutes: %i[history show diff] },
                    permissible_on: :project
