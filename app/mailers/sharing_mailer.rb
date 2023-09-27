@@ -49,11 +49,7 @@ class SharingMailer < ApplicationMailer
                         [I18n.t('work_package.sharing.permissions.view')]
                       end
 
-    allowed_actions = allowed_actions.map do |action|
-      "<span style=\"font-weight:bold;\">#{action.downcase}</span>"
-    end
-
-    allowed_actions.to_sentence
+    allowed_actions.map(&:downcase)
   end
 
   def set_open_project_headers(work_package)
