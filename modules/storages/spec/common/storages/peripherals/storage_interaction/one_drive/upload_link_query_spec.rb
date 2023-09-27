@@ -37,7 +37,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQu
   let(:user) { token.user }
 
   # Need to verify the actual object
-  let(:query_payload) { { parent: 'LFHLUDSILANC', fileName: 'it_is_a_trap.flac' } }
+  let(:query_payload) { { 'parent' => 'LFHLUDSILANC', 'fileName' => 'it_is_a_trap.flac' } }
 
   subject(:upload_query) { described_class.new(storage) }
 
