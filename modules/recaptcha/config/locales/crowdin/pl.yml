@@ -2,7 +2,7 @@
 pl:
   plugin_openproject_recaptcha:
     name: "OpenProject ReCaptcha"
-    description: "This module provides recaptcha checks during login."
+    description: "Ten moduł dostarcza funkcje ReCaptcha podczas logowania."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Czekaj...'
