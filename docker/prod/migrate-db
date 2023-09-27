@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+set -ex
+
+echo "Migrating database..."
+bundle exec rake db:migrate
+
+echo "Running seeders..."
+bundle exec rake db:seed

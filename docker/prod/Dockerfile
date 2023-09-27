@@ -125,6 +125,7 @@ COPY --chown=$APP_USER:$APP_USER . .
 
 USER $APP_USER
 RUN ln -s $APP_PATH/docker/prod/setup/.irbrc /home/$APP_USER/
+COPY docker/prod/migrate-db ./docker/prod/migrate-db
 
 EXPOSE 8080
 CMD ["./docker/prod/web"]
