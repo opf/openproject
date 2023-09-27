@@ -53,6 +53,10 @@ module WorkPackages
                             .where(work_package_shares: { entity: @work_package })
                             .order('work_package_shares.updated_at DESC')
       end
+
+      def sharing_enabled?
+        User.current.allowed_to?(:share_work_packages, @work_package.project)
+      end
     end
   end
 end

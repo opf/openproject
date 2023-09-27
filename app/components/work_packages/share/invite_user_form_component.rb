@@ -39,10 +39,6 @@ module WorkPackages
         @member = member
         @work_package = work_package
       end
-
-      def allowed_to_share?
-        User.current.allowed_to?(:share_work_packages, @work_package.project)
-      end
     end
   end
 end

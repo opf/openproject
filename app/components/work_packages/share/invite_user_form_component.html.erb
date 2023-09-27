@@ -1,27 +1,23 @@
 <%=
-  if allowed_to_share?
-    primer_form_with(
-      model: @member,
-      method: :post,
-      url: work_package_shares_path(@work_package)
-    ) do |form|
-      flex_layout do |new_user_row|
-        new_user_row.with_column(flex: :auto, mr: 2) do
-          render(WorkPackages::Share::Invitee.new(form))
-        end
+  primer_form_with(
+    model: @member,
+    method: :post,
+    url: work_package_shares_path(@work_package)
+  ) do |form|
+    flex_layout do |new_user_row|
+      new_user_row.with_column(flex: :auto, mr: 2) do
+        render(WorkPackages::Share::Invitee.new(form))
+      end
 
-        new_user_row.with_column(mr: 2) do
-          render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
-                                                                    form_arguments: { builder: form, name: "role_id" },
-                                                                    data: { 'test-selector': 'op-share-wp-invite-role' }))
-        end
+      new_user_row.with_column(mr: 2) do
+        render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
+                                                                  form_arguments: { builder: form, name: "role_id" },
+                                                                  data: { 'test-selector': 'op-share-wp-invite-role' }))
+      end
 
-        new_user_row.with_column do
-          render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { I18n.t('work_package.sharing.invite') }
-        end
+      new_user_row.with_column do
+        render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { I18n.t('work_package.sharing.invite') }
       end
     end
-  else
-    render(Primer::Beta::Flash.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
   end
 %>

@@ -5,11 +5,15 @@
     turbo_frame_tag "work_package_share_list" do
       flex_layout(data: { turbo: true }) do |modal_content|
         modal_content.with_row do
-          render(WorkPackages::Share::InviteUserFormComponent.new(
-            member: Member.new(entity: @work_package),
-            work_package: @work_package))
+          if sharing_enabled?
+            render(WorkPackages::Share::InviteUserFormComponent.new(
+              member: Member.new(entity: @work_package),
+              work_package: @work_package))
+          else
+            render(Primer::Beta::Flash.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
+          end
         end
-
+          
         if shared_users.empty?
           modal_content.with_row(mt: 3) do
             render(Primer::Beta::Blankslate.new(border: true)) do |component|
@@ -42,13 +46,17 @@
                       render(Users::AvatarComponent.new(user: user, size: :medium))
                     end
 
-                    user_row_grid.with_area(:button, tag: :div, color: :subtle) do
-                      render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: role.builtin))
+                    if sharing_enabled?
+                      user_row_grid.with_area(:button, tag: :div, color: :subtle) do
+                        render(WorkPackages::Share::PermissionButtonComponent.new(permission_value: role.builtin))
+                      end
                     end
 
-                    user_row_grid.with_area(:remove, tag: :div) do
-                      form_with url: work_packages_share_path(share), method: :delete do
-                        render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+                    if sharing_enabled?
+                      user_row_grid.with_area(:remove, tag: :div) do
+                        form_with url: work_packages_share_path(share), method: :delete do
+                          render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+                        end
                       end
                     end
                   end
