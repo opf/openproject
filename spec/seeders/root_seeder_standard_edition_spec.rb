@@ -120,6 +120,7 @@ RSpec.describe RootSeeder,
     include_examples 'it creates records', model: Status, expected_count: 14
     include_examples 'it creates records', model: TimeEntryActivity, expected_count: 6
     include_examples 'it creates records', model: Workflow, expected_count: 1172
+    include_examples 'it creates records', model: Meeting, expected_count: 1
   end
 
   describe 'demo data' do

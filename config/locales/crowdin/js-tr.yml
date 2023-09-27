@@ -980,6 +980,7 @@ tr:
         recently_created: "Son oluşturulanlar"
         all_open: "Tüm açık"
         summary: "Özet"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Tablo numaralandırmaya yönlendir"
         label_pagination: "İş paketleri tablosuna geçiş yapmak ve numaralandırma sayfasına gitmek için buraya tıklayın"

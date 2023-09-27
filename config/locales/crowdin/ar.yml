@@ -1203,6 +1203,7 @@ ar:
     errors: "خطأ"
     project_custom_fields: 'Custom fields on project'
     x_objects_of_this_type:
+      zero: 'No objects of this type'
       one: 'One object of this type'
       other: '%{count} objects of this type'
     text:
@@ -1672,11 +1673,13 @@ ar:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "المصادقة"
-  label_available_project_work_package_categories: 'فئات مجموعة العمل المتاحة'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'الإصدارات المتوفرة'
-  label_available_project_repositories: 'مستودعات البيانات المتوفرة'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "مستودعات البيانات المتوفرة"
+  label_available_project_versions: "الإصدارات المتوفرة"
+  label_available_project_work_package_categories: "فئات مجموعة العمل المتاحة"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "توثيق API"
   label_backup: "Backup"
   label_between: "بين"
@@ -1881,6 +1884,10 @@ ar:
   label_login: "تسجيل الدخول"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "تسجيل الخروج"
@@ -1951,6 +1958,7 @@ ar:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "فتح القائمة"
   label_open_work_packages: "افتح"
   label_open_work_packages_plural: "افتح"
@@ -2174,15 +2182,19 @@ ar:
   label_x_closed_work_packages_abbr:
     one: "1 مغلقة"
     other: "%{count} مغلق"
+    zero: "0 closed"
   label_x_comments:
     one: "1 comment"
     other: "%{count} تعليقات"
+    zero: "no comments"
   label_x_open_work_packages_abbr:
     one: "1 open"
     other: "%{count} مفتوح"
+    zero: "0 open"
   label_x_projects:
     one: "1 project"
     other: "%{count} مشاريع"
+    zero: "no projects"
   label_yesterday: "الأمس"
   label_role_type: "النّوع"
   label_member_role: "Project role"
@@ -2538,11 +2550,12 @@ ar:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "دور الموكل إليه"
-    member_of_group: "مجموعة الموكل إليه"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "مجموعة الموكل إليه"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'في %{identifier}'
     atom_revision_feed: 'مراجعة تغذية ذرية'
@@ -2855,6 +2868,8 @@ ar:
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

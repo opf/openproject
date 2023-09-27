@@ -44,8 +44,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
   let(:file_ids) do
     %w(
       01BYE5RZ5MYLM2SMX75ZBIPQZIHT6OAYPB
-      01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM
-      01BYE5RZ47DTJGHO73WBH2ONNXQZVNNILJ
+      01BYE5RZ7T3DFLFS6TCRH2QAPWXL5APDLE
+      01BYE5RZ4VAJVBMWSWINA2QYFFNZ2GL3O5
       not_existent
       forbidden
     )
@@ -54,19 +54,19 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
   let(:forbidden_json) { forbidden_response }
 
   before do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[0]}")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[0]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: read_json('folder_drive_item'), headers: {})
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[1]}")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[1]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: read_json('file_drive_item_1'), headers: {})
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[2]}")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[2]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: read_json('file_drive_item_2'), headers: {})
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[3]}")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[3]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 404, body: not_found_json, headers: {})
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[4]}")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[4]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 403, body: forbidden_json, headers: {})
   end
@@ -111,25 +111,23 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
   it 'returns a file storage file info object' do
     storage_file_info = described_class.call(storage:, user:, file_ids: file_ids.slice(1, 1)).result[0]
 
-    # rubocop:disable Layout/LineLength
     expect(storage_file_info.to_h).to eq({
                                            status: 'ok',
                                            status_code: 200,
-                                           id: '01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM',
-                                           name: 'All Japan Revenues By City.xlsx',
-                                           size: 20051,
+                                           id: '01BYE5RZ7T3DFLFS6TCRH2QAPWXL5APDLE',
+                                           name: 'Popular Mixed Drinks.xlsx',
+                                           size: 7064929,
                                            mime_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                                           created_at: Time.parse('2017-08-07T16:07:10Z'),
-                                           last_modified_at: Time.parse('2017-08-07T16:07:10Z'),
+                                           created_at: Time.parse('2017-08-07T16:16:53Z'),
+                                           last_modified_at: Time.parse('2017-08-07T16:16:53Z'),
                                            owner_name: 'Megan Bowen',
                                            owner_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
                                            last_modified_by_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
                                            last_modified_by_name: 'Megan Bowen',
                                            permissions: nil,
                                            trashed: false,
-                                           location: '/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:'
+                                           location: '/drive/root:/Business Data'
                                          })
-    # rubocop:enable Layout/LineLength
   end
 
   it 'returns an error storage file info object for not found' do

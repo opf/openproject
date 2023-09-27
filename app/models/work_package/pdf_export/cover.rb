@@ -60,41 +60,70 @@ module WorkPackage::PDFExport::Cover
     )
   end
 
+  def cover_text_color
+    @cover_text_color ||= validate_cover_text_color
+  end
+
+  def validate_cover_text_color
+    return nil if CustomStyle.current.blank?
+
+    hexcode = CustomStyle.current.export_cover_text_color
+    return nil if hexcode.blank?
+
+    color = Color.new({ hexcode: })
+    color.normalize_hexcode
+    return nil if color.hexcode.blank?
+
+    # pdf hex colors are defined without leading hash
+    color.hexcode.sub('#', '')
+  end
+
   def write_hero_title(top, width)
-    text_style = styles.cover_hero_title
-    formatted_text_box_measured(
-      [text_style.merge({ text: project.name, size: nil, leading: nil })],
-      size: text_style[:size], leading: text_style[:leading],
-      at: [0, top], width:, height: styles.cover_hero_title_max_height, overflow: :shrink_to_fit
+    write_hero_text(
+      top:, width:,
+      text: project.name,
+      text_style: styles.cover_hero_title,
+      height: styles.cover_hero_title_max_height
     ) + styles.cover_hero_title_spacing
   end
 
   def write_hero_heading(top, width)
-    max_title_height = available_title_height(top)
-    text_style = styles.cover_hero_heading
-    formatted_text_box_measured(
-      [text_style.merge({ text: heading, size: nil, leading: nil })],
-      size: text_style[:size], leading: text_style[:leading],
-      at: [0, top], width:, height: max_title_height, overflow: :shrink_to_fit
+    write_hero_text(
+      top:, width:,
+      text: heading,
+      text_style: styles.cover_hero_heading,
+      height: available_title_height(top)
     ) + styles.cover_hero_heading_spacing
   end
 
   def write_hero_subheading(top, width)
-    text_style = styles.cover_hero_subheading
-    pdf.formatted_text_box(
-      [text_style.merge({ text: User.current.name, size: nil, leading: nil })],
+    write_hero_text(
+      top:, width:,
+      text: User.current.name,
+      text_style: styles.cover_hero_subheading,
+      height: styles.cover_hero_subheading_max_height
+    )
+  end
+
+  def write_hero_text(top:, width:, text:, text_style:, height:)
+    formatted_text = text_style.merge({ text:, size: nil, leading: nil })
+    formatted_text[:color] = cover_text_color if cover_text_color.present?
+    formatted_text_box_measured(
+      [formatted_text],
       size: text_style[:size], leading: text_style[:leading],
-      at: [0, top], width:, height: styles.cover_hero_subheading_max_height, overflow: :shrink_to_fit
+      at: [0, top], width:, height:, overflow: :shrink_to_fit
     )
   end
 
   def write_cover_footer
+    text_style = styles.cover_footer
+    text_style[:color] = cover_text_color if cover_text_color.present?
     draw_text_multiline_left(
       text: footer_date,
       max_left: pdf.bounds.width / 2,
       max_lines: 1,
       top: pdf.bounds.bottom - styles.cover_footer_offset,
-      text_style: styles.cover_footer
+      text_style:
     )
   end
 
@@ -107,7 +136,8 @@ module WorkPackage::PDFExport::Cover
   end
 
   def cover_background_image
-    image_file = Rails.root.join("app/assets/images/pdf/cover.png")
+    image_file = custom_cover_image
+    image_file = Rails.root.join("app/assets/images/pdf/cover.png") if image_file.nil?
     image_obj, image_info = pdf.build_image_object(image_file)
     scale = pdf.bounds.width / image_info.width.to_f
     height = image_info.height.to_f * scale
@@ -115,12 +145,24 @@ module WorkPackage::PDFExport::Cover
     [image_obj, image_info, image_opts, height]
   end
 
+  def custom_cover_image
+    return unless CustomStyle.current.present? &&
+      CustomStyle.current.export_cover.present? && CustomStyle.current.export_cover.local_file.present?
+
+    image_file = CustomStyle.current.export_cover.local_file.path
+    content_type = OpenProject::ContentTypeDetector.new(image_file).detect
+    return unless pdf_embeddable?(content_type)
+
+    image_file
+  end
+
   def write_background_image
-    height = pdf.bounds.height / 2
+    half = pdf.bounds.height / 2
+    height = half
     pdf.canvas do
       image_obj, image_info, image_opts, height = cover_background_image
       pdf.embed_image image_obj, image_info, image_opts
     end
-    height - styles.cover_hero_padding[:top_padding]
+    height.clamp(half, pdf.bounds.height) - styles.cover_hero_padding[:top_padding]
   end
 end

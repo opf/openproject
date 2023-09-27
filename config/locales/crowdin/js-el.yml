@@ -980,6 +980,7 @@ el:
         recently_created: "Δημιουργήθηκαν πρόσφατα"
         all_open: "Όλα τα ανοιχτά"
         summary: "Περίληψη"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Μεταπήδηση στον πίνακα σελιδοποίησης"
         label_pagination: "Πατήστε εδώ για να προσπεράσετε τον πίνακα πακέτων εργασίας και να πάτε στην σελιδοποίηση"

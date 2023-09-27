@@ -31,7 +31,8 @@
 # WorkPackages in the project.
 # See also: file_link.rb and storage.rb
 class Storages::ProjectStorage < ApplicationRecord
-  # ProjectStorage sits between Project and Storage.
+  using Storages::Peripherals::ServiceResultRefinements
+
   belongs_to :project, touch: true
   belongs_to :storage, touch: true, class_name: 'Storages::Storage'
   belongs_to :creator, class_name: 'User'
@@ -63,11 +64,22 @@ class Storages::ProjectStorage < ApplicationRecord
     escaped_file_path.match?(%r|^/#{project_folder_path_escaped}|)
   end
 
+  def open_link
+    if project_folder_inactive?
+      storage.open_link
+    else
+      call = ::Storages::Peripherals::Registry.resolve("queries.#{storage.short_provider_type}.open_link")
+                                              .call(storage:, user: User.current, file_id: project_folder_id)
+      call.match(
+        on_success: ->(url) { url },
+        on_failure: ->(*) { storage.open_link }
+      )
+    end
+  end
+
   private
 
   def escape_path(path)
-    ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(
-      path
-    )
+    ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)
   end
 end

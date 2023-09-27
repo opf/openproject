@@ -1584,11 +1584,13 @@ de:
   label_ldap_auth_source: "LDAP-Verbindung"
   label_ldap_auth_source_plural: "LDAP-Verbindungen"
   label_authentication: "Authentifizierung"
-  label_available_project_work_package_categories: 'Verfügbare Arbeitspaket-Kategorien'
-  label_available_project_work_package_types: 'Verfügbare Arbeitspaket-Typen'
-  label_available_project_forums: 'Verfügbare Foren'
-  label_available_project_versions: 'Verfügbare Versionen'
-  label_available_project_repositories: 'Verfügbare Projektarchive'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Verfügbare Foren"
+  label_available_project_repositories: "Verfügbare Projektarchive"
+  label_available_project_versions: "Verfügbare Versionen"
+  label_available_project_work_package_categories: "Verfügbare Arbeitspaket-Kategorien"
+  label_available_project_work_package_types: "Verfügbare Arbeitspaket-Typen"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-Dokumentation"
   label_backup: "Backup"
   label_between: "zwischen"
@@ -1793,6 +1795,10 @@ de:
   label_login: "Anmelden"
   label_custom_logo: "Benutzerdefiniertes Logo"
   label_custom_export_logo: "Selbstdefiniertes Logo für PDF-Export"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Benutzerdefiniertes Favicon"
   label_custom_touch_icon: "Benutzerdefiniertes Touch-Icon"
   label_logout: "Abmelden"
@@ -1863,6 +1869,7 @@ de:
   label_operator_none: "ist leer"
   label_operator_equals_or: "ist (ODER)"
   label_operator_equals_all: "ist (UND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Menü öffnen"
   label_open_work_packages: "Offen"
   label_open_work_packages_plural: "offen"
@@ -2101,8 +2108,8 @@ de:
     zero: "Keine Projekte"
   label_yesterday: "gestern"
   label_role_type: "Typ"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Projektrolle"
+  label_global_role: "Globale Rolle"
   label_not_changeable: "(nicht veränderbar)"
   label_global: "Global"
   label_seeded_from_env_warning: Dieser Datensatz wurde durch eine Konfigurationsrichtlinie oder Umgebungsvariable erstellt. Er kann nicht über die Benutzeroberfläche bearbeitet werden.
@@ -2330,7 +2337,7 @@ de:
   permission_add_work_package_notes: "Kommentare hinzufügen"
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
-  permission_add_project: "Create projects"
+  permission_add_project: "Projekte erstellen"
   permission_archive_project: "Projekt archivieren"
   permission_create_user: "Benutzer erstellen"
   permission_manage_user: "Benutzer bearbeiten"
@@ -2446,11 +2453,12 @@ de:
   query_fields:
     active_or_archived: "Aktiv oder archiviert"
     assigned_to_role: "Rolle der zugewiesenen Person"
-    member_of_group: "Gruppe der zugewiesenen Person"
     assignee_or_group: "Zugewiesen an Nutzer oder dessen Gruppe"
-    subproject_id: "Einschließlich Unterprojekt"
-    only_subproject_id: "Nur Unterprojekt"
+    member_of_group: "Gruppe der zugewiesenen Person"
     name_or_identifier: "Name oder Kennung"
+    only_subproject_id: "Nur Unterprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Einschließlich Unterprojekt"
   repositories:
     at_identifier: 'auf %{identifier}'
     atom_revision_feed: 'Revisionen als Atom Feed'
@@ -2765,6 +2773,8 @@ de:
     Ein weißes Logo mit transparentem Hintergrund wird empfohlen. Für ein optimales Ergebnis für konventionelle und Retina-Displays sollte die Bildabmessungen 460 x 110 Pixel betragen.
   text_custom_export_logo_instructions: >
     Dies ist das Logo, das in Ihren PDF-Exporten erscheint. Es muss eine PNG- oder JPEG-Bilddatei sein. Ein schwarzes oder farbiges Logo auf transparentem oder weißem Hintergrund wird empfohlen.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Dies ist das kleine Symbol, das in Ihrem Browser-Fenster/Tab neben dem Seitentitel angezeigt wird. Es muss ein quadratisches 32 x 32 Pixel großes PNG mit transparentem Hintergrund sein.
   text_custom_touch_icon_instructions: >

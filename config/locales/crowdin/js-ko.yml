@@ -980,6 +980,7 @@ ko:
         recently_created: "최근에 만듦"
         all_open: "모두 열림"
         summary: "요약"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "테이블 페이지 매김으로 이동"
         label_pagination: "여기를 클릭하여 작업 패키지 테이블로 건너뛰고 페이지 매김으로 이동"

@@ -981,6 +981,7 @@ ja:
         recently_created: "最近作成された"
         all_open: "未完了"
         summary: "サマリ"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "表のページ設定に移動する"
         label_pagination: "ここをクリックすると、作業項目表をスキップしてページ設定に移動します"
