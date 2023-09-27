@@ -1626,11 +1626,13 @@ uk:
   label_ldap_auth_source: "LDAP-підключення"
   label_ldap_auth_source_plural: "LDAP-підключення"
   label_authentication: "Автентифікація"
-  label_available_project_work_package_categories: 'Доступні категорії робочих пакетів'
-  label_available_project_work_package_types: 'Доступні типи пакетів робіт'
-  label_available_project_forums: 'Доступні форуми'
-  label_available_project_versions: 'Доступні версії'
-  label_available_project_repositories: 'Доступні сховища'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Доступні форуми"
+  label_available_project_repositories: "Доступні сховища"
+  label_available_project_versions: "Доступні версії"
+  label_available_project_work_package_categories: "Доступні категорії робочих пакетів"
+  label_available_project_work_package_types: "Доступні типи пакетів робіт"
+  label_available_projects: "Available projects"
   label_api_documentation: "Документація API"
   label_backup: "Резервна копія"
   label_between: "між ними"

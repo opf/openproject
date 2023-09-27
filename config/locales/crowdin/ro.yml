@@ -1610,11 +1610,13 @@ ro:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentificare"
-  label_available_project_work_package_categories: 'Categorii de pachete de lucru disponibile'
-  label_available_project_work_package_types: 'Tipuri de pachete de lucru disponibile'
-  label_available_project_forums: 'Forumuri disponibile'
-  label_available_project_versions: 'Versiuni disponibile'
-  label_available_project_repositories: 'Arhive disponibile'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Forumuri disponibile"
+  label_available_project_repositories: "Arhive disponibile"
+  label_available_project_versions: "Versiuni disponibile"
+  label_available_project_work_package_categories: "Categorii de pachete de lucru disponibile"
+  label_available_project_work_package_types: "Tipuri de pachete de lucru disponibile"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentație API"
   label_backup: "Backup"
   label_between: "între"

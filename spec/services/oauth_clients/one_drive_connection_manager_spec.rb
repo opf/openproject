@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
+RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
   let(:user) { create(:user) }
   let(:storage) { create(:one_drive_storage, :with_oauth_client, tenant_id: 'consumers') }
   let(:token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
@@ -82,7 +82,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
       end
     end
 
-    context 'with access token present', webmock: true do
+    context 'with access token present', :webmock do
       before { token }
 
       context 'with access token valid' do

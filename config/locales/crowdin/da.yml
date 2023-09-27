@@ -1587,11 +1587,13 @@ da:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Godkendelse"
-  label_available_project_work_package_categories: 'Tilgængelige arbejdspakkekategorier'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Tilgængelige versioner'
-  label_available_project_repositories: 'Tilgængelige repositorier'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Tilgængelige repositorier"
+  label_available_project_versions: "Tilgængelige versioner"
+  label_available_project_work_package_categories: "Tilgængelige arbejdspakkekategorier"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-dokumentation"
   label_backup: "Backup"
   label_between: "mellem"

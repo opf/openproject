@@ -1628,11 +1628,13 @@ lt:
   label_ldap_auth_source: "LDAP jungtis"
   label_ldap_auth_source_plural: "LDAP jungtis"
   label_authentication: "Autentifikacija"
-  label_available_project_work_package_categories: 'Galimos darbų paketo kategorijos'
-  label_available_project_work_package_types: 'Galimi darbo paketų tipai'
-  label_available_project_forums: 'Galimi forumai'
-  label_available_project_versions: 'Galimos versijos'
-  label_available_project_repositories: 'Galimos saugyklos'
+  label_available_global_roles: "Galimi globalūs vaidmenys"
+  label_available_project_forums: "Galimi forumai"
+  label_available_project_repositories: "Galimos saugyklos"
+  label_available_project_versions: "Galimos versijos"
+  label_available_project_work_package_categories: "Galimos darbų paketo kategorijos"
+  label_available_project_work_package_types: "Galimi darbo paketų tipai"
+  label_available_projects: "Galimi projektai"
   label_api_documentation: "API dokumentacija"
   label_backup: "Atsarginė kopija"
   label_between: "tarp"
@@ -1837,10 +1839,10 @@ lt:
   label_login: "Prisijungti"
   label_custom_logo: "Savo sukurtas logotipas"
   label_custom_export_logo: "Savas eksporto logotipas"
-  label_custom_export_cover: "Custom export cover background"
-  label_custom_export_cover_overlay: "Custom export cover background overlay"
-  label_custom_export_cover_text_color: "Text color"
-  label_custom_pdf_export_settings: "Custom PDF export settings"
+  label_custom_export_cover: "Savas eksporto viršelio fonas"
+  label_custom_export_cover_overlay: "Savas eksporto viršelio fono perdengimas"
+  label_custom_export_cover_text_color: "Teksto spalva"
+  label_custom_pdf_export_settings: "Savi PDF eksporto nustatymai"
   label_custom_favicon: "Pasirinktinė piktograma"
   label_custom_touch_icon: "Pasirinktinė prisilietimo piktograma"
   label_logout: "Atsijungti"
@@ -2816,7 +2818,7 @@ lt:
   text_custom_export_logo_instructions: >
     Tai logotipas, kuris rodomas jūsų PDF eksportuose. Tai turi būti PNG arba JPEG piešinio failas. Rekomenduojamas juodas arba spalvotas logotipas ant permatomo balto fono.
   text_custom_export_cover_instructions: >
-    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
+    Tai yra nuotrauka, kuri rodoma jūsų PDF eksportų viršelio puslapio fone. Ji turi būti daugmaž 800px pločio ir 500px aukščio, PNG arba JPEG formato nuotrauka.
   text_custom_favicon_instructions: >
     Šis mažas paveikslėlis atsiranda Jūsų naršyklės lange, kortelėje šalia puslapio pavadinimo. Jis turi būti kvadratinis 32 pikselio ilgio ir pločio PNG paveikslėlis su permatomu fonu.
   text_custom_touch_icon_instructions: >

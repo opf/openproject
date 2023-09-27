@@ -90,7 +90,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
 
       expect(storage_files).to be_failure
       expect(storage_files.result).to eq(:not_found)
-      expect(storage_files.errors.data.to_json).to eq(not_found_json)
+      expect(storage_files.errors.data.payload.to_json).to eq(not_found_json)
     end
 
     it 'returns a forbidden error if the API call returns a 403' do
@@ -102,7 +102,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
 
       expect(storage_files).to be_failure
       expect(storage_files.result).to eq(:forbidden)
-      expect(storage_files.errors.data.to_json).to eq(forbidden_json)
+      expect(storage_files.errors.data.payload.to_json).to eq(forbidden_json)
     end
   end
 end

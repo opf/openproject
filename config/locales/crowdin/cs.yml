@@ -1631,11 +1631,13 @@ cs:
   label_ldap_auth_source: "Připojení LDAP"
   label_ldap_auth_source_plural: "Připojení LDAP"
   label_authentication: "Ověření"
-  label_available_project_work_package_categories: 'Dostupné kategorie pracovních balíčků'
-  label_available_project_work_package_types: 'Dostupné kategorie pracovních balíčků'
-  label_available_project_forums: 'Dostupná fóra'
-  label_available_project_versions: 'Dostupné verze'
-  label_available_project_repositories: 'Dostupné repozitáře'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Dostupná fóra"
+  label_available_project_repositories: "Dostupné repozitáře"
+  label_available_project_versions: "Dostupné verze"
+  label_available_project_work_package_categories: "Dostupné kategorie pracovních balíčků"
+  label_available_project_work_package_types: "Dostupné kategorie pracovních balíčků"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentace"
   label_backup: "Záloha"
   label_between: "mezi"

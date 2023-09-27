@@ -1628,11 +1628,13 @@ pl:
   label_ldap_auth_source: "Połączenie LDAP"
   label_ldap_auth_source_plural: "Połączenia LDAP"
   label_authentication: "Uwierzytelnianie"
-  label_available_project_work_package_categories: 'Dostępne kategorie Zadań'
-  label_available_project_work_package_types: 'Dostępne typy pakietów roboczych'
-  label_available_project_forums: 'Dostępne fora'
-  label_available_project_versions: 'Dostępne wersje'
-  label_available_project_repositories: 'Dostępne repozytoria'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Dostępne fora"
+  label_available_project_repositories: "Dostępne repozytoria"
+  label_available_project_versions: "Dostępne wersje"
+  label_available_project_work_package_categories: "Dostępne kategorie Zadań"
+  label_available_project_work_package_types: "Dostępne typy pakietów roboczych"
+  label_available_projects: "Available projects"
   label_api_documentation: "Dokumentacja API"
   label_backup: "Kopia zapasowa"
   label_between: "pomiędzy"
