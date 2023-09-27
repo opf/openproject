@@ -94,6 +94,13 @@ module Components
           .to have_selector('[data-test-selector="op-share-wp-active-count"]', text: "#{count} users")
       end
 
+      def expect_no_invite_option
+        within modal_element do
+          expect(page)
+            .to have_text(I18n.t('work_package.sharing.permissions.denied'))
+        end
+      end
+
       def user_row(user)
         modal_element
           .find("[data-test-selector=\"op-share-wp-active-user-#{user.id}\"]")

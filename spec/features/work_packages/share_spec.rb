@@ -37,6 +37,7 @@ RSpec.describe 'Work package sharing',
   let(:sharer_role) do
     create(:role,
            permissions: %i(view_work_packages
+                           view_shared_work_packages
                            share_work_packages))
   end
   let(:view_work_package_role) { create(:view_work_package_role) }
@@ -71,39 +72,75 @@ RSpec.describe 'Work package sharing',
 
   current_user { create(:user) }
 
-  # TODO:
-  #   - Check title
-  it 'allows seeing and administrating sharing' do
-    work_package_page.visit!
+  context 'when having share permission' do
+    # TODO:
+    #   - Check email being sent
+    #   - Check readding a user with a different role
+    #   - Check updating a user's role
+    it 'allows seeing and administrating sharing' do
+      work_package_page.visit!
 
-    # Clicking on the share button opens a modal which lists all of the users a work package
-    # is explicitly shared with.
-    # Project members are not listed unless the work package is also shared with them explicitly.
-    click_button 'Share'
+      # Clicking on the share button opens a modal which lists all of the users a work package
+      # is explicitly shared with.
+      # Project members are not listed unless the work package is also shared with them explicitly.
+      click_button 'Share'
 
-    share_modal.expect_open
-    share_modal.expect_shared_with(view_user, 'View')
-    share_modal.expect_shared_with(comment_user, 'Comment')
-    share_modal.expect_shared_with(edit_user, 'Edit')
-    share_modal.expect_shared_with(shared_project_user, 'Edit')
+      share_modal.expect_open
+      share_modal.expect_shared_with(view_user, 'View')
+      share_modal.expect_shared_with(comment_user, 'Comment')
+      share_modal.expect_shared_with(edit_user, 'Edit')
+      share_modal.expect_shared_with(shared_project_user, 'Edit')
 
-    share_modal.expect_not_shared_with(non_shared_project_user)
-    share_modal.expect_not_shared_with(not_shared_yet_with_user)
+      share_modal.expect_not_shared_with(non_shared_project_user)
+      share_modal.expect_not_shared_with(not_shared_yet_with_user)
 
-    share_modal.expect_shared_count_of(4)
+      share_modal.expect_shared_count_of(4)
 
-    # Inviting a user will lead to that user being listed together with the rest of the shared with users.
-    share_modal.invite_user(not_shared_yet_with_user, 'View')
+      # Inviting a user will lead to that user being listed together with the rest of the shared with users.
+      share_modal.invite_user(not_shared_yet_with_user, 'View')
 
-    share_modal.expect_shared_with(not_shared_yet_with_user, 'View')
+      share_modal.expect_shared_with(not_shared_yet_with_user, 'View')
 
-    share_modal.expect_shared_count_of(5)
+      share_modal.expect_shared_count_of(5)
 
-    # Removing a share will lead to that user being removed from the list of shared with users.
-    share_modal.remove_user(edit_user)
+      # Removing a share will lead to that user being removed from the list of shared with users.
+      share_modal.remove_user(edit_user)
 
-    share_modal.expect_not_shared_with(edit_user)
+      share_modal.expect_not_shared_with(edit_user)
 
-    share_modal.expect_shared_count_of(4)
+      share_modal.expect_shared_count_of(4)
+    end
+  end
+
+  context 'when lacking share permission' do
+    let(:sharer_role) do
+      create(:role,
+             permissions: %i(view_work_packages
+                             view_shared_work_packages))
+    end
+
+    # TODO:
+    #  - Check not having update and delete capabilities
+    it 'allows seeing shares' do
+      work_package_page.visit!
+
+      # Clicking on the share button opens a modal which lists all of the users a work package
+      # is explicitly shared with.
+      # Project members are not listed unless the work package is also shared with them explicitly.
+      click_button 'Share'
+
+      share_modal.expect_open
+      share_modal.expect_shared_with(view_user, 'View')
+      share_modal.expect_shared_with(comment_user, 'Comment')
+      share_modal.expect_shared_with(edit_user, 'Edit')
+      share_modal.expect_shared_with(shared_project_user, 'Edit')
+
+      share_modal.expect_not_shared_with(non_shared_project_user)
+      share_modal.expect_not_shared_with(not_shared_yet_with_user)
+
+      share_modal.expect_shared_count_of(4)
+
+      share_modal.expect_no_invite_option
+    end
   end
 end
