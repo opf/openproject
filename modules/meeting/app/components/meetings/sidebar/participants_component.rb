@@ -157,9 +157,10 @@ module Meetings
 
     def participant_partial(participant)
       flex_layout(align_items: :center) do |flex|
-        flex.with_column do
+        flex.with_column(style: 'flex-shrink: 1; min-width: 0') do
           render(Users::AvatarComponent.new(user: participant.user,
-                                            size: :medium))
+                                            size: :medium,
+                                            classes: 'op-principal--flex'))
         end
         participant_state_partial(participant, flex)
       end
