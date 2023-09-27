@@ -34,6 +34,12 @@ module MeetingAgendaItems
     # Meeting agenda items can currently be only created
     # through the project permission :edit_meetings
     def user_allowed_to_add
+      # when creating a meeting agenda item from the work package tab and not selecting a meeting
+      # the meeting and therefore the project is not set
+      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading permission base error
+      # the error is added by the models presence validation
+      return if model.project.nil?
+
       unless user.allowed_to?(:edit_meetings, model.project)
         errors.add :base, :error_unauthorized
       end
@@ -43,6 +49,12 @@ module MeetingAgendaItems
     # A stale browser window might provide an already deleted meeting as an option when creating an agenda item from the
     # work package tab. This would lead to an 500 server error when trying to save the agenda item.
     def validate_meeting_existence
+      # when creating a meeting agenda item from the work package tab and not selecting a meeting
+      # the meeting and therefore the project is not set
+      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading not existance error
+      # the error is added by the models presence validation
+      return if model.meeting_id.nil?
+
       unless Meeting.exists?(id: model.meeting_id)
         errors.add :base, I18n.t(:text_meeting_not_present_anymore)
       end

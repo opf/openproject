@@ -53,6 +53,14 @@ RSpec.describe MeetingAgendaItems::CreateContract do
 
       it_behaves_like 'contract is invalid', base: I18n.t(:text_meeting_not_editable_anymore)
     end
+
+    context 'when :meeting is not present anymore' do
+      before do
+        meeting.destroy
+      end
+
+      it_behaves_like 'contract is invalid', base: I18n.t(:text_meeting_not_present_anymore)
+    end
   end
 
   context 'without permission' do
