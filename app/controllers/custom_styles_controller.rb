@@ -74,7 +74,8 @@ class CustomStylesController < ApplicationController
     end
 
     color_hexcode_regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
-    if !color.nil? && color.match(color_hexcode_regex)
+    color = nil if color.blank?
+    if color.nil? || color.match(color_hexcode_regex)
       @custom_style.export_cover_text_color = color
       @custom_style.save
     end
