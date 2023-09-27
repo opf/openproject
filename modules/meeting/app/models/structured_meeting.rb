@@ -28,4 +28,27 @@
 
 class StructuredMeeting < Meeting
   has_many :agenda_items, dependent: :destroy, foreign_key: 'meeting_id', class_name: 'MeetingAgendaItem'
+
+  # triggered by MeetingAgendaItem#after_create/after_destroy/after_save
+  def calculate_agenda_item_time_slots
+    current_time = start_time
+    agenda_items.order(:position).each do |top|
+      start_time = current_time
+      current_time += top.duration_in_minutes&.minutes || 0.minutes
+      end_time = current_time
+      top.update_columns(start_time:, end_time:) # avoid callbacks, infinite loop otherwise
+    end
+  end
+
+  def agenda_items_sum_duration_in_minutes
+    agenda_items.sum(:duration_in_minutes)
+  end
+
+  def duration_exceeded_by_agenda_items?
+    agenda_items_sum_duration_in_minutes > (duration*60 || 0)
+  end
+
+  def duration_exceeded_by_agenda_items_in_minutes
+    agenda_items_sum_duration_in_minutes - (duration*60 || 0)
+  end
 end

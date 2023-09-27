@@ -230,16 +230,6 @@ class Meeting < ApplicationRecord
     self.original_participants_attributes = attrs
   end
 
-  def calculate_agenda_item_time_slots
-    current_time = start_time
-    agenda_items.order(:position).each do |top|
-      start_time = current_time
-      current_time += top.duration_in_minutes&.minutes || 0.minutes
-      end_time = current_time
-      top.update_columns(start_time:, end_time:) # avoid callbacks, infinite loop otherwise
-    end
-  end
-
   protected
 
   # Participants of older meetings
