@@ -34,7 +34,8 @@ class FixInvalidJournals < ActiveRecord::Migration[7.0]
       # rubocop:disable Rails/Output
       puts "Cleaning up broken journals on #{journable_type}"
       # rubocop:enable Rails/Output
-      relation.destroy_all
+
+      destroy_journals relation
     end
   end
 
@@ -42,18 +43,44 @@ class FixInvalidJournals < ActiveRecord::Migration[7.0]
     # nothing to do
   end
 
+  def destroy_journals(journals)
+    journal_ids = journals.pluck(:id)
+
+    Journal::AttachableJournal.where(journal_id: journal_ids).delete_all
+    Journal::CustomizableJournal.where(journal_id: journal_ids).delete_all
+
+    journals.delete_all
+
+    # We delete manually the related journals here rather than
+    # relying on .destroy. This is because in the future (from
+    # the migration's perspective) new such journals may appear
+    # which do not yet exist at the point of this migration.
+    #
+    # This is to avoid errors such as the following:
+    #   PG::UndefinedTable: ERROR:  relation "storages_file_links_journals" does not exist
+    #     LINE 9:  WHERE a.attrelid = '"storages_file_links_journals"'::regcla...
+  end
+
   def get_broken_journals
-    Journal
-      .pluck('DISTINCT(journable_type)')
-      .compact
-      .to_h do |journable_type|
-      journal_class = journable_type.constantize.journal_class
+    journable_types
+      .index_with { |journable_type| get_journal_relation(journable_type) }
+  end
 
-      relation = Journal
-        .where(journable_type:)
-        .where.not(data_type: journal_class.to_s)
+  def journable_types
+    Journal.pluck('DISTINCT(journable_type)').compact
+  end
 
-      [journable_type, relation]
-    end
+  def get_journal_relation(journable_type)
+    journal_class = journable_type.constantize.journal_class
+
+    Journal.where(journable_type:).where.not(data_type: journal_class.to_s)
+  rescue NameError # the class has been removed in the meantime
+    # rubocop:disable Rails/Output
+    puts "Journable type '#{journable_type}' no longer exists. Removing all its journals."
+    # rubocop:enable Rails/Output
+
+    # the journable type (e.g. WikiContent) doesn't exist anymore
+    # so we can remove all remaining journals for it
+    Journal.where(journable_type:)
   end
 end
