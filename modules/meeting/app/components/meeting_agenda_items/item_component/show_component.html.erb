@@ -31,14 +31,14 @@
           I18n.t(:label_agenda_item_undisclosed_wp, id: @meeting_agenda_item.work_package_id)
         end
       else
-        render(Primer::Beta::Text.new(font_size: :normal, mr: 1, font_weight: :bold, test_selector: 'op-meeting-agenda-title')) do
+        render(Primer::Beta::Text.new(font_size: :normal, mr: 2, font_weight: :bold, test_selector: 'op-meeting-agenda-title')) do
           @meeting_agenda_item.title
         end
       end
     end
 
     if @meeting_agenda_item.duration_in_minutes.present? && @meeting_agenda_item.duration_in_minutes > 0
-      grid.with_area(:duration, Primer::Beta::Text, font_size: :small, color: :subtle, mr: 1) do
+      grid.with_area(:duration, Primer::Beta::Text, color: :subtle, mr: 1) do
         I18n.t('datetime.distance_in_words.x_min_abbreviated', count: @meeting_agenda_item.duration_in_minutes)
       end
     end
