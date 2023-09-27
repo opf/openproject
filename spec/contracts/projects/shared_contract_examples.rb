@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 RSpec.shared_examples_for 'project contract' do
-  let(:current_user) do
-    build_stubbed(:user)
-  end
-  let!(:allowed_to) do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
-      permissions.include?(permission) && project == permission_project
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.in_project(*permissions, project:)
+      mock.in_project :add_subprojects, project:
     end
   end
+
   let(:project_name) { 'Project name' }
   let(:project_identifier) { 'project_identifier' }
   let(:project_description) { 'Project description' }

@@ -37,25 +37,6 @@ RSpec.describe WorkPackages::BaseContract do
                   estimated_hours: 6.0,
                   project:)
   end
-  let(:type) { build_stubbed(:type, is_milestone:) }
-  let(:is_milestone) { false }
-
-  let(:member) do
-    u = build_stubbed(:user)
-
-    allow(u)
-      .to receive(:allowed_to?)
-      .and_return(false)
-
-    permissions.each do |permission|
-      allow(u)
-        .to receive(:allowed_to?)
-        .with(permission, project, global: project.nil?)
-        .and_return(true)
-    end
-
-    u
-  end
   let(:project) { build_stubbed(:project) }
   let(:current_user) { member }
   let(:permissions) do
@@ -71,6 +52,16 @@ RSpec.describe WorkPackages::BaseContract do
     )
   end
   let(:changed_values) { [] }
+  let(:type) { build_stubbed(:type, is_milestone:) }
+  let(:is_milestone) { false }
+
+  let(:member) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(member) do |mock|
+      mock.in_project *permissions, project:
+    end
+  end
 
   subject(:contract) { described_class.new(work_package, current_user) }
 

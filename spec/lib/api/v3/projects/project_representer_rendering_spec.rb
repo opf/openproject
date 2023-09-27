@@ -51,25 +51,6 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
               .and_return(version_custom_value)
     end
   end
-  let(:parent_project) do
-    build_stubbed(:project).tap do |parent|
-      allow(parent)
-        .to receive(:visible?)
-              .and_return(parent_visible)
-    end
-  end
-  let(:representer) { described_class.create(project, current_user: user, embed_links: true) }
-  let(:parent_visible) { true }
-  let(:ancestors) { [parent_project] }
-
-  let(:user) do
-    build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?) do |permission, context|
-        permissions.include?(permission) && context == project
-      end
-    end
-  end
 
   let(:int_custom_field) { build_stubbed(:integer_project_custom_field, visible: false) }
   let(:version_custom_field) { build_stubbed(:version_project_custom_field, visible: true) }
@@ -88,8 +69,25 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
               .and_return(version)
     end
   end
-
   let(:permissions) { %i[add_work_packages view_members] }
+  let(:parent_project) do
+    build_stubbed(:project).tap do |parent|
+      allow(parent)
+        .to receive(:visible?)
+              .and_return(parent_visible)
+    end
+  end
+  let(:representer) { described_class.create(project, current_user: user, embed_links: true) }
+  let(:parent_visible) { true }
+  let(:ancestors) { [parent_project] }
+
+  let(:user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(user) do |mock|
+      mock.in_project *permissions, project:
+    end
+  end
 
   it { is_expected.to include_json('Project'.to_json).at_path('_type') }
 

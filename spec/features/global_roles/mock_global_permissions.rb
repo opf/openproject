@@ -24,7 +24,7 @@ end
 
 def mock_global_permissions(permissions)
   mapped = permissions.map do |name, options|
-    mock_permissions(name, options.merge(permissible_on: :global))
+    build_mocked_permission(name, options.reverse_merge(permissible_on: :global))
   end
 
   mapped_modules = permissions.map do |_, options|

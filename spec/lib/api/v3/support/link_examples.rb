@@ -41,10 +41,6 @@ RSpec.shared_examples_for 'action link' do
 
   before do
     login_as(user)
-    allow(user)
-      .to receive(:allowed_to?) do |permission, _project|
-      permissions.include?(permission)
-    end
   end
 
   it { expect(subject).not_to have_json_path("_links/#{action}/href") }
@@ -73,9 +69,13 @@ RSpec.shared_context 'action link shared' do
 
   before do
     login_as(action_link_user)
-    allow(action_link_user)
-      .to receive(:allowed_to?) do |permission, _project|
-      permissions.include?(permission)
+
+    mock_permissions_for(action_link_user) do |mock|
+      permissions.each do |permission|
+        perm = OpenProject::AccessControl.permission(permission)
+        mock.globally perm.name if perm.global?
+        mock.in_project perm.name, project: project if perm.project?
+      end
     end
   end
 

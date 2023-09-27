@@ -131,10 +131,9 @@ RSpec.describe Project do
     let(:permission_granted) { true }
 
     before do
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:copy_projects, project)
-        .and_return(permission_granted)
+      mock_permissions_for(user) do |mock|
+        mock.in_project :copy_projects, project:
+      end
 
       login_as(user)
     end
@@ -146,7 +145,7 @@ RSpec.describe Project do
     end
 
     context 'without copy project permission' do
-      let(:permission_granted) { false }
+      before { mock_permissions_for(user, &:forbid_everything!) }
 
       it 'is false' do
         expect(project).not_to be_copy_allowed

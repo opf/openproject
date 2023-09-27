@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 RSpec.shared_examples_for 'wiki page contract' do
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && page_wiki.project == permission_project
-      end
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.in_project *permissions, project: page_wiki.project if page_wiki
     end
   end
+
   let(:page_wiki) { build_stubbed(:wiki) }
   let(:page_author) { current_user }
   let(:page_title) { 'Wiki title' }

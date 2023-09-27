@@ -39,10 +39,9 @@ RSpec.describe API::V3::Versions::VersionRepresenter, 'rendering' do
   subject(:generated) { representer.to_json }
 
   before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission, project|
-        project == version.project && permissions.include?(permission)
-      end
+    mock_permissions_for(user) do |mock|
+      mock.in_project *permissions, project: version.project
+    end
   end
 
   it { is_expected.to include_json('Version'.to_json).at_path('_type') }

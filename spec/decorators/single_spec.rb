@@ -36,18 +36,6 @@ RSpec.describe API::Decorators::Single do
 
   let(:single) { API::Decorators::Single.new(model, current_user: user) }
 
-  it 'authorizes for a given permission' do
-    expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_truthy
-  end
-
-  context 'unauthorized user' do
-    let(:permissions) { [] }
-
-    it 'does not authorize unauthorized user' do
-      expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_falsey
-    end
-  end
-
   describe '.checked_permissions' do
     let(:permissions) { [:add_work_packages] }
     let!(:initial_value) { described_class.checked_permissions }

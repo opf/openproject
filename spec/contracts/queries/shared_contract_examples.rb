@@ -39,14 +39,14 @@ RSpec.shared_context 'with queries contract' do
     build_stubbed(:query, project:, public:, user:, name:)
   end
 
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && project == permission_project
-      end
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.in_project *permissions, project:
     end
   end
+
   let(:contract) { described_class.new(query, current_user) }
 
   before do

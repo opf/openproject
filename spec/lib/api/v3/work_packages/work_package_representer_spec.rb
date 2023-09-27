@@ -111,9 +111,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   before do
     login_as current_user
 
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, _context|
-      permissions.include?(permission)
+    mock_permissions_for(current_user) do |mock|
+      permissions.each do |permission|
+        perm = OpenProject::AccessControl.permission(permission)
+        mock.globally perm.name if perm.global?
+        mock.in_project perm.name, project: project if perm.project?
+      end
     end
   end
 
