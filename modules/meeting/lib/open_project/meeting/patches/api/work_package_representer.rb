@@ -8,6 +8,8 @@ module OpenProject::Meeting
           ->(*) do
             link :meetings,
                  cache_if: -> { current_user.allowed_to?(:view_meetings, represented.project) } do
+              next if represented.new_record?
+
               {
                 href: "#{work_package_path(id: represented.id)}/tabs/meetings",
                 title: "meetings"
