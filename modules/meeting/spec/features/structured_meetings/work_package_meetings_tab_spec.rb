@@ -53,6 +53,13 @@ RSpec.describe 'Open the Meetings tab', :js do
       login_as(user)
     end
 
+    it 'shows the meetings tab when the user is allowed to see it' do
+      work_package_page.visit!
+      work_package_page.switch_to_tab(tab: 'meetings')
+
+      meetings_tab.expect_tab_content_rendered
+    end
+
     context 'when the user does not have the permissions to see the meetings tab' do
       let(:role) do
         create(:role,
@@ -76,17 +83,10 @@ RSpec.describe 'Open the Meetings tab', :js do
       end
     end
 
-    it 'shows the meetings tab when the user is allowed to see it' do
-      work_package_page.visit!
-      work_package_page.switch_to_tab(tab: 'meetings')
-
-      meetings_tab.expect_tab_content_rendered
-    end
-
     context 'when the work_package is not referenced in an upcoming meeting' do
       it 'shows an empty message within the upcoming meetings section' do
         work_package_page.visit!
-        work_package_page.switch_to_tab(tab: 'meetings')
+        switch_to_meetings_tab
 
         meetings_tab.expect_upcoming_counter_to_be(0)
 
@@ -97,7 +97,7 @@ RSpec.describe 'Open the Meetings tab', :js do
     context 'when the work_package is not referenced in a past meeting' do
       it 'shows an empty message within the past meetings section' do
         work_package_page.visit!
-        work_package_page.switch_to_tab(tab: 'meetings')
+        switch_to_meetings_tab
 
         meetings_tab.expect_past_counter_to_be(0)
         meetings_tab.switch_to_past_meetings_section
@@ -124,18 +124,18 @@ RSpec.describe 'Open the Meetings tab', :js do
 
       it 'shows the meeting agenda items in the upcoming meetings section grouped by meeting' do
         work_package_page.visit!
-        work_package_page.switch_to_tab(tab: 'meetings')
+        switch_to_meetings_tab
 
         meetings_tab.expect_upcoming_counter_to_be(2)
         meetings_tab.expect_past_counter_to_be(0)
 
-        within_test_selector("op-meeting-container-#{first_meeting.id}") do
+        page.within_test_selector("op-meeting-container-#{first_meeting.id}") do
           expect(page).to have_content(first_meeting.title)
           expect(page).to have_content(first_meeting_agenda_item_of_first_meeting.notes)
           expect(page).to have_content(second_meeting_agenda_item_of_first_meeting.notes)
         end
 
-        within_test_selector("op-meeting-container-#{second_meeting.id}") do
+        page.within_test_selector("op-meeting-container-#{second_meeting.id}") do
           expect(page).to have_content(second_meeting.title)
           expect(page).to have_content(meeting_agenda_item_of_second_meeting.notes)
         end
@@ -160,20 +160,20 @@ RSpec.describe 'Open the Meetings tab', :js do
 
       it 'shows the meeting agenda items in the past meetings section grouped by meeting' do
         work_package_page.visit!
-        work_package_page.switch_to_tab(tab: 'meetings')
+        switch_to_meetings_tab
 
         meetings_tab.expect_upcoming_counter_to_be(0)
         meetings_tab.expect_past_counter_to_be(2)
 
         meetings_tab.switch_to_past_meetings_section
 
-        within_test_selector("op-meeting-container-#{first_past_meeting.id}") do
+        page.within_test_selector("op-meeting-container-#{first_past_meeting.id}") do
           expect(page).to have_content(first_past_meeting.title)
           expect(page).to have_content(first_meeting_agenda_item_of_first_past_meeting.notes)
           expect(page).to have_content(second_meeting_agenda_item_of_first_past_meeting.notes)
         end
 
-        within_test_selector("op-meeting-container-#{second_past_meeting.id}") do
+        page.within_test_selector("op-meeting-container-#{second_past_meeting.id}") do
           expect(page).to have_content(second_past_meeting.title)
           expect(page).to have_content(meeting_agenda_item_of_second_past_meeting.notes)
         end
@@ -183,18 +183,89 @@ RSpec.describe 'Open the Meetings tab', :js do
     context 'when user is allowed to edit meetings' do
       it 'shows the add to meeting button' do
         work_package_page.visit!
-        work_package_page.switch_to_tab(tab: 'meetings')
+        switch_to_meetings_tab
 
         meetings_tab.expect_add_to_meeting_button_present
       end
 
       it 'opens the add to meeting dialog when clicking the add to meeting button' do
         work_package_page.visit!
-        work_package_page.switch_to_tab(tab: 'meetings')
+        switch_to_meetings_tab
 
         meetings_tab.open_add_to_meeting_dialog
 
         meetings_tab.expect_add_to_meeting_dialog_shown
+      end
+
+      context 'when open, upcoming meetings are visible for the user' do
+        let!(:past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
+        let!(:first_upcoming_meeting) { create(:structured_meeting, project:) }
+        let!(:second_upcoming_meeting) { create(:structured_meeting, project:) }
+        let!(:closed_upcoming_meeting) { create(:structured_meeting, project:, state: :closed) }
+
+        it 'enables the user to add the work package to multiple open, upcoming meetings' do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.expect_upcoming_counter_to_be(0)
+
+          meetings_tab.open_add_to_meeting_dialog
+
+          meetings_tab.fill_and_submit_meeting_dialog(
+            first_upcoming_meeting,
+            'A very important note added from the meetings tab to the first meeting!'
+          )
+
+          meetings_tab.expect_upcoming_counter_to_be(1)
+
+          page.within_test_selector("op-meeting-container-#{first_upcoming_meeting.id}") do
+            expect(page).to have_content('A very important note added from the meetings tab to the first meeting!')
+          end
+
+          meetings_tab.open_add_to_meeting_dialog
+
+          meetings_tab.fill_and_submit_meeting_dialog(
+            second_upcoming_meeting,
+            'A very important note added from the meetings tab to the second meeting!'
+          )
+
+          meetings_tab.expect_upcoming_counter_to_be(2)
+
+          page.within_test_selector("op-meeting-container-#{second_upcoming_meeting.id}") do
+            expect(page).to have_content('A very important note added from the meetings tab to the second meeting!')
+          end
+        end
+
+        it 'does not enable the user to select a past meeting' do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.open_add_to_meeting_dialog
+
+          fill_in('meeting_agenda_item_meeting_id', with: past_meeting.title)
+          expect(page).not_to have_selector('.ng-option-marked', text: past_meeting.title)
+        end
+
+        it 'does not enable the user to select a closed, upcoming meeting' do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.open_add_to_meeting_dialog
+
+          fill_in('meeting_agenda_item_meeting_id', with: closed_upcoming_meeting.title)
+          expect(page).not_to have_selector('.ng-option-marked', text: closed_upcoming_meeting.title)
+        end
+
+        it 'requires a meeting to be selected' do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.open_add_to_meeting_dialog
+
+          click_button('Save')
+
+          expect(page).to have_content('Meeting can\'t be blank')
+        end
       end
     end
 
@@ -212,7 +283,7 @@ RSpec.describe 'Open the Meetings tab', :js do
 
       it 'does not show the add to meeting button' do
         work_package_page.visit!
-        work_package_page.switch_to_tab(tab: 'meetings')
+        switch_to_meetings_tab
 
         meetings_tab.expect_add_to_meeting_button_not_present
       end
@@ -229,5 +300,10 @@ RSpec.describe 'Open the Meetings tab', :js do
     let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
 
     it_behaves_like 'a meetings tab'
+  end
+
+  def switch_to_meetings_tab
+    work_package_page.switch_to_tab(tab: 'meetings')
+    meetings_tab.expect_tab_content_rendered # wait for the tab to be rendered
   end
 end
