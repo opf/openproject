@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,10 +24,45 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Members
-  class SetAttributesService < ::BaseServices::SetAttributes
-    include Members::Concerns::RoleAssignment
+module Members::Concerns::RoleAssignment
+  private
+
+  def set_attributes(params)
+    assign_roles(params)
+
+    super
+  end
+
+  def assign_roles(params)
+    raise ArgumentError, 'Cannot handle changing `roles`. Use role_ids instead.' if model.persisted? && params.key?(:roles)
+
+    return unless params[:role_ids]
+
+    role_ids = params
+                 .delete(:role_ids)
+                 .select(&:present?)
+                 .map(&:to_i)
+
+    existing_ids = model.member_roles.map(&:role_id)
+
+    mark_roles_for_destruction(existing_ids - role_ids)
+    build_roles(role_ids - existing_ids)
+  end
+
+  def mark_roles_for_destruction(role_ids)
+    role_ids.each do |role_id|
+      model
+        .member_roles
+        .detect { |mr| mr.inherited_from.nil? && mr.role_id == role_id }
+        &.mark_for_destruction
+    end
+  end
+
+  def build_roles(role_ids)
+    role_ids.each do |role_id|
+      model.member_roles.build(role_id:)
+    end
   end
 end

@@ -142,5 +142,82 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
           .not_to have_received(:save)
       end
     end
+
+    context 'with changes to the roles do' do
+      let(:first_role) { build_stubbed(:role) }
+      let(:second_role) { build_stubbed(:role) }
+      let(:third_role) { build_stubbed(:role) }
+
+      let(:call_attributes) do
+        {
+          role_ids: [second_role.id, third_role.id]
+        }
+      end
+
+      context 'with a persisted record' do
+        let(:member) do
+          build_stubbed(:work_package_member, roles: [first_role, second_role]) do |m|
+            allow(m)
+              .to receive(:touch)
+          end
+        end
+
+        it 'adds the new role and marks the other for destruction' do
+          expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(first_role.id, second_role.id, third_role.id)
+          expect(subject.result.member_roles.detect { _1.role_id == first_role.id }).to be_marked_for_destruction
+        end
+      end
+
+      context 'with a new record' do
+        let(:member) do
+          Member.new
+        end
+
+        it 'adds the new role' do
+          expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(second_role.id, third_role.id)
+        end
+
+        context 'with role_ids not all being present' do
+          let(:call_attributes) do
+            {
+              role_ids: [nil, '', second_role.id, third_role.id]
+            }
+          end
+
+          it 'ignores the empty values' do
+            expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(second_role.id, third_role.id)
+          end
+        end
+      end
+
+      context 'with attempting to sent `roles`' do
+        let(:call_attributes) do
+          {
+            roles: [second_role, third_role]
+          }
+        end
+
+        context 'with a new record' do
+          let(:member) do
+            Member.new
+          end
+
+          it 'sets the new role' do
+            expect(subject.result.roles).to contain_exactly(second_role, third_role)
+          end
+        end
+
+        context 'with a persisted record' do
+          let(:member) do
+            build_stubbed(:work_package_member, roles: [second_role])
+          end
+
+          it 'raises an error' do
+            expect { subject }
+              .to raise_error(ArgumentError)
+          end
+        end
+      end
+    end
   end
 end

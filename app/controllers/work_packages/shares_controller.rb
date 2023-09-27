@@ -40,11 +40,13 @@ class WorkPackages::SharesController < ApplicationController
 
   def create
     # Todo: error handling?
-    WorkPackageMembers::CreateService
+    WorkPackageMembers::CreateOrUpdateService
       .new(user: current_user)
       .call(entity: @work_package,
             user_id: params[:member][:user_id],
-            roles: Role.where(builtin: params[:member][:role_id]))
+            # Role has a left join on permissions included leading to multiple ids being returned which
+            # is why we unscope.
+            role_ids: WorkPackageRole.unscoped.where(builtin: params[:member][:role_id]).pluck(:id))
 
     respond_with_update_modal
   end

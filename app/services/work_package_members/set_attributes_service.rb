@@ -28,6 +28,8 @@
 
 module WorkPackageMembers
   class SetAttributesService < ::BaseServices::SetAttributes
+    prepend Members::Concerns::RoleAssignment
+
     private
 
     def set_attributes(params)
