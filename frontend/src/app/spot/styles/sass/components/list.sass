@@ -21,7 +21,7 @@
       width: 100%
       background-color: transparent
       margin: 0
-      border: 0
+      border: 1px solid transparent
       cursor: pointer
       scroll-margin-top: $spot-spacing-5
 
@@ -32,7 +32,7 @@
         color: var(--content-link-color)
         background-color: $spot-color-basic-gray-6
         text-decoration: none
-        border: 1px solid var(--list-item-hover-color)
+        border-color: var(--list-item-hover-color)
 
       &_disabled
         &,
@@ -56,7 +56,7 @@
       &:focus-within
         background-color: $spot-color-basic-gray-6
         text-decoration: none
-        border: 1px solid var(--list-item-hover-color)
+        border-color: var(--list-item-hover-color)
 
       &_disabled
         color: $spot-color-basic-gray-1
@@ -112,7 +112,7 @@
     color: var(--content-link-color)
     background-color: $spot-color-basic-gray-6
     text-decoration: none
-    border: 1px solid var(--list-item-hover-color)
+    border-color: var(--list-item-hover-color)
 
 $item-list: ""
 @for $i from 0 through 10
