@@ -26,52 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Authorization::AbstractQuery
-  class_attribute :model
-  class_attribute :base_table
-
-  def self.query(*)
-    arel = transformed_query(*)
-
-    model.unscoped
-         .joins(joins(arel))
-         .where(wheres(arel))
-  end
-
-  def self.base_query
-    Arel::SelectManager
-      .new(nil)
-      .from(base_table || model.arel_table)
-  end
-
-  def self.transformed_query(*)
-    run_transformations(*)
-  end
-
-  class_attribute :transformations
-
-  self.transformations = ::Authorization::QueryTransformations.new
-
-  def self.inherited(subclass)
-    subclass.transformations = transformations.copy
-  end
-
-  def self.run_transformations(*args)
-    query = base_query
-
-    transformator = Authorization::QueryTransformationVisitor.new(transformations:,
-                                                                  args:)
-
-    transformator.accept(query)
-
-    query
-  end
-
-  def self.wheres(arel)
-    arel.ast.cores.last.wheres.last
-  end
-
-  def self.joins(arel)
-    arel.join_sources
+module Authorization
+  class IllegalPermissionContextError < StandardError
+    def initialize(permission, mapped_permissions, context)
+      super("Used permission \"#{permission}\" which maps to #{mapped_permissions.map(&:name).join(', ')} in #{context} context. Correct contexts for this permission are: #{mapped_permissions.flat_map(&:permissible_on).uniq.join(', ')}.")
+    end
   end
 end
