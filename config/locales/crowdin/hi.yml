@@ -1587,11 +1587,13 @@ hi:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "प्रमाणीकरण"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Backup"
   label_between: "between"
@@ -1796,6 +1798,10 @@ hi:
   label_login: "साइन इन करें"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "विशेष या कस्टम favicon"
   label_custom_touch_icon: "कस्टम प्रतीक चिह्न"
   label_logout: "Sign out"
@@ -2770,6 +2776,8 @@ hi:
     पारदर्शी पृष्ठभूमि पर एक सफेद लोगो की सिफारिश की है । दोनों, पारंपरिक और रेटिना प्रदर्शित करता है पर सबसे अच्छा परिणाम के लिए, सुनिश्चित करें कि आपकी छवि के आयामों 460px द्वारा 60px हैं ।
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

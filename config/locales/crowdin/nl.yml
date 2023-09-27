@@ -1586,11 +1586,13 @@ nl:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Verificatie"
-  label_available_project_work_package_categories: 'Beschikbare werkpakket categorieën'
-  label_available_project_work_package_types: 'Beschikbare werkpakkettypes'
-  label_available_project_forums: 'Beschikbare forums'
-  label_available_project_versions: 'Beschikbare versies'
-  label_available_project_repositories: 'Beschikbare opslagplaatsen'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Beschikbare forums"
+  label_available_project_repositories: "Beschikbare opslagplaatsen"
+  label_available_project_versions: "Beschikbare versies"
+  label_available_project_work_package_categories: "Beschikbare werkpakket categorieën"
+  label_available_project_work_package_types: "Beschikbare werkpakkettypes"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentatie"
   label_backup: "Back-up"
   label_between: "tussen"
@@ -1795,6 +1797,10 @@ nl:
   label_login: "Aanmelden"
   label_custom_logo: "Eigen logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Aangepaste favicon"
   label_custom_touch_icon: "Aangepaste touch-pictogram"
   label_logout: "Afmelden"
@@ -2768,6 +2774,8 @@ nl:
     Een wit logo op transparante achtergrond wordt aanbevolen. Voor de beste resultaten op zowel conventionele en retina displays, doet u door ervoor te zorgen dat uw afbeelding afmetingen zijn 460px bij 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

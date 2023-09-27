@@ -1564,11 +1564,13 @@ zh-CN:
   label_ldap_auth_source: "LDAP 连接"
   label_ldap_auth_source_plural: "LDAP 连接"
   label_authentication: "身份验证"
-  label_available_project_work_package_categories: '可用的工作包类别'
-  label_available_project_work_package_types: '可用的工作包类型'
-  label_available_project_forums: '可用论坛'
-  label_available_project_versions: '可用版本'
-  label_available_project_repositories: '可用存储库'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "可用论坛"
+  label_available_project_repositories: "可用存储库"
+  label_available_project_versions: "可用版本"
+  label_available_project_work_package_categories: "可用的工作包类别"
+  label_available_project_work_package_types: "可用的工作包类型"
+  label_available_projects: "Available projects"
   label_api_documentation: "API 文档"
   label_backup: "备份"
   label_between: "介于"
@@ -1773,6 +1775,10 @@ zh-CN:
   label_login: "登录"
   label_custom_logo: "自定义徽标"
   label_custom_export_logo: "自定义导出徽标"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "自定义图标"
   label_custom_touch_icon: "自定义触摸图标"
   label_logout: "注销"
@@ -2739,6 +2745,8 @@ zh-CN:
     建议使用透明背景的白色Logo。为了在普通及Retina显示屏上获得最佳效果，请确保图像尺寸为460像素 × 60像素。
   text_custom_export_logo_instructions: >
     这是在 PDF 导出文件中显示的徽标。它需要为 PNG 或 JPEG 图像文件。建议使用带有透明或白色背景的黑色或彩色徽标。
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     这是显示在浏览器窗口/选项卡中页面标题旁边的小图标。它是具有透明背景，大小为 32x32 像素的正方形 PNG 图像文件。
   text_custom_touch_icon_instructions: >

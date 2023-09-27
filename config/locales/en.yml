@@ -1305,6 +1305,9 @@ en:
       x_days:
         one: "1 day"
         other: "%{count} days"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minute"
         other: "%{count} minutes"
@@ -1674,11 +1677,13 @@ en:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Backup"
   label_between: "between"

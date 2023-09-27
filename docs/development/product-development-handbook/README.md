@@ -99,7 +99,7 @@ The phase for requirements collection and specification aims to get the best pos
 
 For new ideas and requirements which are not clearly understood yet and require specification, Product Managers (PM), User Experience Experts / designers (UX), and the requesting party (e.g. customer or community member) work together to validate the idea before moving on to the build phase.
 
-Product Managers and UX prepare the work together at least one version (~ 2 months) ahead, so that the development team in the build phase has always well-defined and validated requirements ready to start. Especially requirements with a level of confidence lower 80% (see [RICE Score](#34-rice-score)) should be clearly validated.
+Product Managers and UX prepare the work together at least one version (~ 2 months) ahead, so that the development team in the build phase has always well-defined and validated requirements ready to start. Especially requirements with a level of confidence lower 80% (see [RICE Score](#42-rice-score)) should be clearly validated.
 
 The specification phase may not be necessary for bug fixes, minor design changes, minor improvements of smaller code maintenance topics.
 
@@ -116,7 +116,7 @@ The [OpenProject Wish List](https://community.openproject.com/projects/openproje
 Requirements should be captured as a **Feature** or **Epic** (for larger features which we can be broken down into smaller features) and focus on describing the customer’s problem rather than jumping ahead to a solution.
 For a guideline on how to report feature requests, refer to the [Feature request guideline](../../development/submit-feature-idea/). Technical maintenance issues and refactorings can be tracked as **Code Maintenance**.
 
-**Bugs** are [reported aside from the feature/epic track](../../development/report-a-bug/) as they are oftentimes not subject to an elaborate specification. On the other hand, sometimes bugs turn out to be caused by either the functionality implemented not meeting the users' expectations or by a not implemented feature. Upon identifying a bug to be such a case, it is treated as a feature. But most of the bugs upon collecting find their way into the [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491). Those are then picked up in the [Building phase 5: Stabilization](#325-building-phase-5-stabilization).
+**Bugs** are [reported aside from the feature/epic track](../../development/report-a-bug/) as they are oftentimes not subject to an elaborate specification. On the other hand, sometimes bugs turn out to be caused by either the functionality implemented not meeting the users' expectations or by a not implemented feature. Upon identifying a bug to be such a case, it is treated as a feature. But most of the bugs upon collecting find their way into the [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491). Those are then picked up in the [Building phase 5: Stabilization](#335-building-phase-5-stabilization).
 
 ### 3.1.2 Evaluation phase 2: Pre-evaluation
 
@@ -148,7 +148,7 @@ Those features judged positively by the PM:
 4. PM changes feature status from “New” to “In Specification”.
 5. PM assigns the feature either to the Product Backlog or to an upcoming version. Only rarely and in consultation with Development should PM assign a feature to the currently developed version.
 
-For internal or customer requirements requirements may directly be created, evaluated based on the [RICE framework](#34-rice-score) and assigned to the product backlog.
+For internal or customer requirements requirements may directly be created, evaluated based on the [RICE framework](#42-rice-score) and assigned to the product backlog.
 
 
 ### 3.1.4 Evaluation phase 4: Requirement specification
@@ -325,7 +325,7 @@ The entire team documents possible improvements for the next release.
 
 ### 4.1 Version/Release
 
-A version is the name given to a collection of features and/or bugfixes. A release is the publicly available version of the OpenProject software. More information is provided on the [release page](./releases/).
+A version is the name given to a collection of features and/or bugfixes. A release is the publicly available version of the OpenProject software. More information is provided on the [release page](../releases/).
 
 ### 4.2 RICE Score
 

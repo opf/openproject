@@ -1585,11 +1585,13 @@ ca:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autenticació"
-  label_available_project_work_package_categories: 'Categories de paquet de treball disponibles'
-  label_available_project_work_package_types: 'Classes de paquet de treball disponibles'
-  label_available_project_forums: 'Fòrums disponibles'
-  label_available_project_versions: 'Versions disponibles'
-  label_available_project_repositories: 'Repositòris disponibles'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Fòrums disponibles"
+  label_available_project_repositories: "Repositòris disponibles"
+  label_available_project_versions: "Versions disponibles"
+  label_available_project_work_package_categories: "Categories de paquet de treball disponibles"
+  label_available_project_work_package_types: "Classes de paquet de treball disponibles"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentació d'API"
   label_backup: "Còpia de seguretat"
   label_between: "entre"
@@ -1794,6 +1796,10 @@ ca:
   label_login: "Iniciar sessió"
   label_custom_logo: "Logotips personalitzats"
   label_custom_export_logo: "Exportar logo personalitzat"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Favicon personalitzat"
   label_custom_touch_icon: "Icona \"touch\" personalitzada"
   label_logout: "Tancar sessió"
@@ -2761,6 +2767,8 @@ ca:
     Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
   text_custom_export_logo_instructions: >
     Aquest és logotip que apareix en les teves exportacions PDF. Necessita ser una imatge en format PNG o JPG. Es recomana un logotip negre o de color amb fons transparent o blanc.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Aquest és la icona petita que apareix a la pantalla del navegador just al costat del títol de la pàgina. Ha de ser un PNG de 32 per 32 píxels amb un fons transparent.
   text_custom_touch_icon_instructions: >

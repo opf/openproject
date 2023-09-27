@@ -1589,11 +1589,13 @@ fr:
   label_ldap_auth_source: "Connexion LDAP"
   label_ldap_auth_source_plural: "Connexions LDAP"
   label_authentication: "Authentification"
-  label_available_project_work_package_categories: 'Catégories de lots de travaux disponibles'
-  label_available_project_work_package_types: 'Types de paquet de travail disponible'
-  label_available_project_forums: 'Forums disponibles'
-  label_available_project_versions: 'Versions disponibles'
-  label_available_project_repositories: 'Dépôts disponibles'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Forums disponibles"
+  label_available_project_repositories: "Dépôts disponibles"
+  label_available_project_versions: "Versions disponibles"
+  label_available_project_work_package_categories: "Catégories de lots de travaux disponibles"
+  label_available_project_work_package_types: "Types de paquet de travail disponible"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentation de l'API"
   label_backup: "Sauvegarde"
   label_between: "entre"
@@ -1798,6 +1800,10 @@ fr:
   label_login: "Connexion"
   label_custom_logo: "Logo personnalisé"
   label_custom_export_logo: "Logo d'exportation personnalisé"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Favicon personnalisé"
   label_custom_touch_icon: "Icône de contact personnalisé"
   label_logout: "Déconnexion"
@@ -2772,6 +2778,8 @@ fr:
     Un logo blanc sur fond transparent est recommandé. Pour obtenir les meilleurs résultats sur les deux, affichage classique et retina, assurez-vous que les dimensions de votre image soient de 460px par 60px.
   text_custom_export_logo_instructions: >
     Il s'agit du logo qui apparaît dans vos exportations PDF. Il doit s'agir d'un fichier image PNG ou JPEG. Un logo noir ou coloré sur fond transparent ou blanc est recommandé.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Il s'agit de la petite icône qui apparaît dans la fenêtre/onglet de votre navigateur à côté du titre de la page. Il doit s'agir d'une image PNG carrée de 32 pixels x 32 pixels avec un fond transparent.
   text_custom_touch_icon_instructions: >

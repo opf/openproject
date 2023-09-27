@@ -1568,11 +1568,13 @@ zh-TW:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "身份驗證"
-  label_available_project_work_package_categories: '可用的工作項目類別'
-  label_available_project_work_package_types: '可用的工作包類型'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: '可用的版本'
-  label_available_project_repositories: '可用的版本庫'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "可用的版本庫"
+  label_available_project_versions: "可用的版本"
+  label_available_project_work_package_categories: "可用的工作項目類別"
+  label_available_project_work_package_types: "可用的工作包類型"
+  label_available_projects: "Available projects"
   label_api_documentation: "API文件"
   label_backup: "備份"
   label_between: "介於"
@@ -1777,6 +1779,10 @@ zh-TW:
   label_login: "登入"
   label_custom_logo: "自訂logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "自訂圖示"
   label_custom_touch_icon: "自訂觸控圖示"
   label_logout: "登出"
@@ -2748,6 +2754,8 @@ zh-TW:
     建議使用背景透明的白色標誌。為了確保在一般及視網膜螢幕上有最佳效果，請確保您的圖片解析度在 460px X 60px。
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
