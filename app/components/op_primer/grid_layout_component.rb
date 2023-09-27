@@ -27,21 +27,32 @@
 #++
 
 module OpPrimer
-  module ComponentHelpers
-    def flex_layout(**, &)
-      render(OpPrimer::FlexLayoutComponent.new(**), &)
+  class GridLayoutComponent < Primer::Component
+    attr_reader :css_class
+
+    def initialize(css_class, **args)
+      super
+
+      @css_class = css_class
+      @system_arguments = args
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        css_class
+      )
     end
 
-    def grid_layout(css_class, **, &)
-      render(OpPrimer::GridLayoutComponent.new(css_class, **), &)
-    end
+    renders_many :areas, lambda { |area_name, component = ::Primer::BaseComponent, **sysargs, &block|
+      styles = [
+        "grid-area: #{area_name}",
+        sysargs[:justify_self] ? "justify-self: #{sysargs[:justify_self]}" : nil,
+      ]
+      sysargs[:style] = join_style_arguments(sysargs[:style], *styles)
+      sysargs[:classes] = class_names(
+        sysargs[:classes],
+        "#{css_class}--#{area_name}"
+      )
 
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
-    end
-
-    def component_collection(**, &)
-      render(OpPrimer::ComponentCollectionComponent.new(**), &)
-    end
+      render(component.new(**sysargs), &block)
+    }
   end
 end
