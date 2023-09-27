@@ -1,0 +1,27 @@
+<%=
+  grid_layout('op-meeting-tab-agenda-item', tag: :div) do |grid|
+    grid.with_area('notes') do
+      render(Primer::Beta::Text.new(color: @meeting_agenda_item.notes.present? ? nil : :subtle)) do
+        if @meeting_agenda_item.notes.present?
+          ::OpenProject::TextFormatting::Renderer.format_text(@meeting_agenda_item.notes)
+        else
+          t("text_agenda_item_no_notes")
+        end
+      end
+    end
+
+    grid.with_area('authoring', tag: :div) do
+      flex_layout(align_items: :center) do |flex1|
+        flex1.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(color: :subtle)) { t("label_added_by", author: nil) }
+        end
+        flex1.with_column(mr: 1) do
+          render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini'))
+        end
+        flex1.with_column do
+          render(Primer::Beta::RelativeTime.new(color: :subtle, datetime: @meeting_agenda_item.created_at))
+        end
+      end
+    end
+  end
+%>

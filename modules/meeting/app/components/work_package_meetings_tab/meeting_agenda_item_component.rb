@@ -36,44 +36,5 @@ module WorkPackageMeetingsTab
 
       @meeting_agenda_item = meeting_agenda_item
     end
-
-    def call
-      flex_layout do |flex|
-        flex.with_row do
-          notes_partial
-        end
-        flex.with_row(mt: 3, font_size: :small) do
-          author_partial
-        end
-      end
-    end
-
-    private
-
-    def notes_partial
-      if @meeting_agenda_item.notes.present?
-        render(Primer::Beta::Text.new) do
-          ::OpenProject::TextFormatting::Renderer.format_text(@meeting_agenda_item.notes)
-        end
-      else
-        render(Primer::Beta::Text.new(color: :subtle)) do
-          t("text_agenda_item_no_notes")
-        end
-      end
-    end
-
-    def author_partial
-      flex_layout(align_items: :center) do |flex|
-        flex.with_column(mr: 2) do
-          render(Primer::Beta::Text.new(color: :subtle)) { t("label_added_by", author: nil) }
-        end
-        flex.with_column(mr: 1) do
-          render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini'))
-        end
-        flex.with_column do
-          render(Primer::Beta::RelativeTime.new(color: :subtle, datetime: @meeting_agenda_item.created_at))
-        end
-      end
-    end
   end
 end
