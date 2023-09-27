@@ -32,8 +32,6 @@ module OpTurbo
       include ApplicationHelper
       include ::OpPrimer::ComponentHelpers
 
-      renders_one :button_content
-
       def initialize(id:, src:, title:, button_icon: nil, button_text: nil, button_attributes: {}, size: :auto)
         super
 
