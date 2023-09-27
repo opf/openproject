@@ -8,30 +8,38 @@
   <tr>
     <%= placeholder_cell('12px', vertical: true) %>
     <td>
-      <%= render partial: 'sharing_mailer/notification_mailer_header',
+      <%= render partial: 'mailer/notification_mailer_header',
                  locals: {
-                   headline: I18n.t('mail.sharing.work_packages.headline'),
-                   summary: I18n.t('mail.sharing.work_packages.summary'),
-                   work_package: @work_package
+                   summary: I18n.t('mail.sharing.work_packages.summary', user: @sharer),
+                   button_href: shared_work_package_path(@work_package.id),
+                   button_text: I18n.t(:'mail.sharing.work_packages.see_in_open_project'),
+                   salutation: I18n.t(:'mail.salutation', user: @shared_with_user.firstname)
                  } %>
-    </td>
-    <%= placeholder_cell('12px', vertical: true) %>
-  </tr>
-  <tr>
-    <%= placeholder_cell('12px', vertical: true) %>
-    <td>
-      <%= render partial: 'sharing_mailer/notification_mailer_body',
+
+      <%= render layout: 'mailer/notification_row',
                  locals: {
-                   sharer: @sharer,
-                   salutation: I18n.t('mail.sharing.work_packages.salutation'),
-                   role_rights: @role_rights,
                    work_package: @work_package,
-                   allowed_work_package_actions: @allowed_work_package_actions
-                 } %>
+                   unique_reasons: [:shared],
+                   show_count: false,
+                   open_in_browser_path: shared_work_package_path(@work_package.id)
+                 } do %>
+        <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
+          <tr>
+            <td style="<%= placeholder_text_styles %>">
+              <%= t('mail.sharing.work_packages.allowed_actions', allowed_actions: @allowed_work_package_actions).html_safe %>
+            </td>
+          </tr>
+        </table>
+      <% end %>
+
+      <%= render partial: 'mailer/notification_settings_table' %>
+
+      <table>
+        <tr>
+          <%= placeholder_cell('40px', vertical: false) %>
+        </tr>
+      </table>
     </td>
     <%= placeholder_cell('12px', vertical: true) %>
-  </tr>
-  <tr>
-    <%= placeholder_cell('72px', vertical: false) %>
   </tr>
 </table>

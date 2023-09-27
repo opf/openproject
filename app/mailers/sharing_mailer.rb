@@ -5,18 +5,19 @@ class SharingMailer < ApplicationMailer
 
   def shared_work_package(sharer, membership)
     @sharer = sharer
+    @shared_with_user = membership.principal
     @work_package = membership.entity
 
     role = membership.roles.first
     @role_rights = derive_role_rights(role)
     @allowed_work_package_actions = derive_allowed_work_package_actions(role)
-    recipient = membership.principal
+    @shared_with_user = membership.principal
 
     set_open_project_headers(@work_package)
     message_id(membership, sharer)
 
-    with_locale_for(recipient) do
-      mail to: recipient.mail,
+    with_locale_for(@shared_with_user) do
+      mail to: @shared_with_user.mail,
            subject: I18n.t('mail.sharing.work_packages.subject',
                            id: @work_package.id)
     end
