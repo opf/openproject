@@ -103,4 +103,33 @@ FactoryBot.define do
           class: '::Storages::OneDriveStorage' do
     host { nil }
   end
+
+  factory :sharepoint_dev_drive_storage,
+          parent: :one_drive_storage do
+    transient do
+      oauth_client_token_user { association :user }
+    end
+
+    name { 'Sharepoint VCR drive' }
+    tenant_id { ENV.fetch('ONE_DRIVE_TEST_TENANT_ID', 'MISSING_ONE_DRIVE_TEST_TENANT_ID') }
+    drive_id { ENV.fetch('ONE_DRIVE_TEST_DRIVE_ID', 'MISSING_ONE_DRIVE_TEST_DRIVE_ID') }
+
+    after(:create) do |storage, evaluator|
+      create(:oauth_client,
+             client_id: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_ID', 'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ID'),
+             client_secret: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_SECRET',
+                                      'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_SECRET'),
+             integration: storage)
+
+      create(:oauth_client_token,
+             oauth_client: storage.oauth_client,
+             user: evaluator.oauth_client_token_user,
+             access_token: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN',
+                                     'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN'),
+             refresh_token: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN',
+                                      'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN'),
+             token_type: 'bearer',
+             origin_user_id: 'admin')
+    end
+  end
 end

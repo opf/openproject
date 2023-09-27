@@ -1,0 +1,93 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IlJTdHpqTVJNSGcxOTFMcHJoOVcwRG94a2VkZGZOX2RIMm42dEw1Wm1TSFUiLCJhbGciOiJSUzI1NiIsIng1dCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyIsImtpZCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDAiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNjk1ODE5NTA1LCJuYmYiOjE2OTU4MTk1MDUsImV4cCI6MTY5NTgyNDEyNCwiYWNjdCI6MSwiYWNyIjoiMSIsImFpbyI6IkFXUUFtLzhVQUFBQUw3MnhpOVlPcDdOZjRJTEo1Z1EvUWJrcXI0ZVBPWlRnSU0xR1N2OVptcUZ1OUN0NlpnTWpMWERLQXVLQytrOU5nb0l1Y3pLUUhvOC9IVnh6RENlak5YTUlzQUxrdENoaEFOaTFwVnRCY3pCK3AzZ0ZrbVJqcjZ0SjVvbGJ1cktwIiwiYWx0c2VjaWQiOiIxOmxpdmUuY29tOjAwMDM0MDAxNjA2Q0VEMTciLCJhbXIiOlsicHdkIl0sImFwcF9kaXNwbGF5bmFtZSI6Ik9wZW5Qcm9qZWN0IERldiBBcHAiLCJhcHBpZCI6IjQyNjJkZjJiLTc3YmItNDljMi1hNWRmLTI4MzU1ZGE2NzZkMiIsImFwcGlkYWNyIjoiMSIsImVtYWlsIjoiZXNjaHViZXJ0Lm9wQG91dGxvb2suY29tIiwiZmFtaWx5X25hbWUiOiJTY2h1YmVydCIsImdpdmVuX25hbWUiOiJFcmljIiwiaWRwIjoibGl2ZS5jb20iLCJpZHR5cCI6InVzZXIiLCJpcGFkZHIiOiIyMDAzOmY3OmE3MDQ6MjAwOjkyOGU6ZjFhNToxNzdjOjliNWEiLCJuYW1lIjoiRXJpYyBTY2h1YmVydCIsIm9pZCI6IjBhMGQzOGE5LWE1OWItNDI0NS05M2ZhLTBkMmNmNzI3ZjE3YSIsInBsYXRmIjoiOCIsInB1aWQiOiIxMDAzMjAwMkVEMkNBMDBFIiwicmgiOiIwLkFRa0FOcjlFVFZhYndFV0lCN3Z6aHQwRWZ3TUFBQUFBQUFBQXdBQUFBQUFBQUFBSkFLOC4iLCJzY3AiOiJEaXJlY3RvcnkuUmVhZFdyaXRlLkFsbCBGaWxlcy5SZWFkV3JpdGUuQWxsIFNpdGVzLlJlYWQuQWxsIFNpdGVzLlJlYWRXcml0ZS5BbGwgVXNlci5SZWFkIHByb2ZpbGUgb3BlbmlkIGVtYWlsIiwic2lnbmluX3N0YXRlIjpbImttc2kiXSwic3ViIjoiWUFYYjFTaUR3RjNCUHFyN2lXWVhGT2YzMGxKSG9PeGtrYzQ4Z0R3c1Q1TSIsInRlbmFudF9yZWdpb25fc2NvcGUiOiJFVSIsInRpZCI6IjRkNDRiZjM2LTliNTYtNDVjMC04ODA3LWJiZjM4NmRkMDQ3ZiIsInVuaXF1ZV9uYW1lIjoibGl2ZS5jb20jZXNjaHViZXJ0Lm9wQG91dGxvb2suY29tIiwidXRpIjoiM2w0WlVBVXlwRWlqZHo3Z21WUWlBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiODhkOGUzZTMtOGY1NS00YTFlLTk1M2EtOWI5ODk4Yjg4NzZiIiwiMTNiZDFjNzItNmY0YS00ZGNmLTk4NWYtMThkM2I4MGYyMDhhIl0sInhtc19zdCI6eyJzdWIiOiIwblA2VEVfQUhBeFM0dm5ibWFRcDFLZUEyUngzbXNBTXphRFQ4RTJ4RmpJIn0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.J0z20sVW7ClLpsTnGZRJ_vULwXuXAtESGeQ9BidcFrR_k8Pb3Z8DIlgAMAhzK8glbfHVIk3hAOott7GCkEFZ3cWYw2HDvgeHb7urZMuxvMQ9bIrXS8YJLlUP5ATBdy0Xp42i5VzK4xvSxTaihJJh8Sf97MlQL6JRSnh2CEezBGopBKsUW3W6HsvPsypDltRRDBCW5tqD6cPWjv-GkWp0boWSCcP8UGx7ShTILRjIpN6DTB0MqaMgVh3clwYOEYviIGp7yjD4tl_9sJSqImDTXNipg0taTEcR6b8kyQuNWSgJJ0n_cygR3Lh7LbqNQ1ibnOjvA_FcjeYSiYXRBAlEFQ
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Etag:
+      - '"{3D884033-B88B-4195-8F36-D30B41AB9234},5"'
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 8c910f5f-1f69-4386-9b77-720429c29c02
+      Client-Request-Id:
+      - 8c910f5f-1f69-4386-9b77-720429c29c02
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"003","RoleInstance":"FR1PEPF00000AB4"}}'
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Wed, 27 Sep 2023 13:04:30 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/items(id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference)/$entity","@odata.etag":"\"{3D884033-B88B-4195-8F36-D30B41AB9234},5\"","id":"01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU","name":"Document.docx","size":19408,"createdBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"lastModifiedBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Folder","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"file":{"mimeType":"application/vnd.openxmlformats-officedocument.wordprocessingml.document","hashes":{"quickXorHash":"siGSuezz5qa4hRCiJay8spMkl7o="}},"fileSystemInfo":{"createdDateTime":"2023-09-26T14:40:58Z","lastModifiedDateTime":"2023-09-26T14:42:03Z"}}'
+  recorded_at: Wed, 27 Sep 2023 13:04:31 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/not_existent?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IlJTdHpqTVJNSGcxOTFMcHJoOVcwRG94a2VkZGZOX2RIMm42dEw1Wm1TSFUiLCJhbGciOiJSUzI1NiIsIng1dCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyIsImtpZCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDAiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNjk1ODE5NTA1LCJuYmYiOjE2OTU4MTk1MDUsImV4cCI6MTY5NTgyNDEyNCwiYWNjdCI6MSwiYWNyIjoiMSIsImFpbyI6IkFXUUFtLzhVQUFBQUw3MnhpOVlPcDdOZjRJTEo1Z1EvUWJrcXI0ZVBPWlRnSU0xR1N2OVptcUZ1OUN0NlpnTWpMWERLQXVLQytrOU5nb0l1Y3pLUUhvOC9IVnh6RENlak5YTUlzQUxrdENoaEFOaTFwVnRCY3pCK3AzZ0ZrbVJqcjZ0SjVvbGJ1cktwIiwiYWx0c2VjaWQiOiIxOmxpdmUuY29tOjAwMDM0MDAxNjA2Q0VEMTciLCJhbXIiOlsicHdkIl0sImFwcF9kaXNwbGF5bmFtZSI6Ik9wZW5Qcm9qZWN0IERldiBBcHAiLCJhcHBpZCI6IjQyNjJkZjJiLTc3YmItNDljMi1hNWRmLTI4MzU1ZGE2NzZkMiIsImFwcGlkYWNyIjoiMSIsImVtYWlsIjoiZXNjaHViZXJ0Lm9wQG91dGxvb2suY29tIiwiZmFtaWx5X25hbWUiOiJTY2h1YmVydCIsImdpdmVuX25hbWUiOiJFcmljIiwiaWRwIjoibGl2ZS5jb20iLCJpZHR5cCI6InVzZXIiLCJpcGFkZHIiOiIyMDAzOmY3OmE3MDQ6MjAwOjkyOGU6ZjFhNToxNzdjOjliNWEiLCJuYW1lIjoiRXJpYyBTY2h1YmVydCIsIm9pZCI6IjBhMGQzOGE5LWE1OWItNDI0NS05M2ZhLTBkMmNmNzI3ZjE3YSIsInBsYXRmIjoiOCIsInB1aWQiOiIxMDAzMjAwMkVEMkNBMDBFIiwicmgiOiIwLkFRa0FOcjlFVFZhYndFV0lCN3Z6aHQwRWZ3TUFBQUFBQUFBQXdBQUFBQUFBQUFBSkFLOC4iLCJzY3AiOiJEaXJlY3RvcnkuUmVhZFdyaXRlLkFsbCBGaWxlcy5SZWFkV3JpdGUuQWxsIFNpdGVzLlJlYWQuQWxsIFNpdGVzLlJlYWRXcml0ZS5BbGwgVXNlci5SZWFkIHByb2ZpbGUgb3BlbmlkIGVtYWlsIiwic2lnbmluX3N0YXRlIjpbImttc2kiXSwic3ViIjoiWUFYYjFTaUR3RjNCUHFyN2lXWVhGT2YzMGxKSG9PeGtrYzQ4Z0R3c1Q1TSIsInRlbmFudF9yZWdpb25fc2NvcGUiOiJFVSIsInRpZCI6IjRkNDRiZjM2LTliNTYtNDVjMC04ODA3LWJiZjM4NmRkMDQ3ZiIsInVuaXF1ZV9uYW1lIjoibGl2ZS5jb20jZXNjaHViZXJ0Lm9wQG91dGxvb2suY29tIiwidXRpIjoiM2w0WlVBVXlwRWlqZHo3Z21WUWlBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiODhkOGUzZTMtOGY1NS00YTFlLTk1M2EtOWI5ODk4Yjg4NzZiIiwiMTNiZDFjNzItNmY0YS00ZGNmLTk4NWYtMThkM2I4MGYyMDhhIl0sInhtc19zdCI6eyJzdWIiOiIwblA2VEVfQUhBeFM0dm5ibWFRcDFLZUEyUngzbXNBTXphRFQ4RTJ4RmpJIn0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.J0z20sVW7ClLpsTnGZRJ_vULwXuXAtESGeQ9BidcFrR_k8Pb3Z8DIlgAMAhzK8glbfHVIk3hAOott7GCkEFZ3cWYw2HDvgeHb7urZMuxvMQ9bIrXS8YJLlUP5ATBdy0Xp42i5VzK4xvSxTaihJJh8Sf97MlQL6JRSnh2CEezBGopBKsUW3W6HsvPsypDltRRDBCW5tqD6cPWjv-GkWp0boWSCcP8UGx7ShTILRjIpN6DTB0MqaMgVh3clwYOEYviIGp7yjD4tl_9sJSqImDTXNipg0taTEcR6b8kyQuNWSgJJ0n_cygR3Lh7LbqNQ1ibnOjvA_FcjeYSiYXRBAlEFQ
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 79be8d99-9078-47b1-8f9b-cb5ab3d4f20a
+      Client-Request-Id:
+      - 79be8d99-9078-47b1-8f9b-cb5ab3d4f20a
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"003","RoleInstance":"FR1PEPF00000AB5"}}'
+      Date:
+      - Wed, 27 Sep 2023 13:04:30 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"itemNotFound","message":"Item not found","innerError":{"date":"2023-09-27T13:04:31","request-id":"79be8d99-9078-47b1-8f9b-cb5ab3d4f20a","client-request-id":"79be8d99-9078-47b1-8f9b-cb5ab3d4f20a"}}}'
+  recorded_at: Wed, 27 Sep 2023 13:04:31 GMT
+recorded_with: VCR 6.2.0
