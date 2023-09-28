@@ -45,7 +45,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
 
   def click_link_in_open_menu(title)
     within '.op-app-menu--dropdown[aria-expanded=true]' do
-      expect(page).not_to have_selector('[style~=overflow]')
+      expect(page).not_to have_css('[style~=overflow]')
 
       click_link(title)
     end
@@ -126,7 +126,6 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
 
     context 'as a regular user' do
       it 'only displays projects, activity and news' do
-        skip "Figure out why the news item is not shown here any more"
         has_menu_items? project_item, activity_item, news_item
       end
     end
@@ -141,14 +140,13 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       let(:user) { create(:anonymous) }
 
       it 'displays only projects, activity and news' do
-        skip "Figure out why the news item is not shown here any more"
         has_menu_items? project_item, activity_item, news_item
       end
     end
   end
 
   describe 'Projects' do
-    let(:top_menu) { find(:css, '#projects-menu') }
+    let(:top_menu) { find_by_id('projects-menu') }
 
     let(:all_projects) { I18n.t('js.label_project_list') }
     let(:add_project) { I18n.t('js.label_project') }
@@ -157,8 +155,8 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       let(:user) { create(:admin) }
 
       it 'displays all items' do
-        expect(page).to have_selector('a.button', exact_text: all_projects)
-        expect(page).to have_selector('a.button', exact_text: add_project)
+        expect(page).to have_css('a.button', exact_text: all_projects)
+        expect(page).to have_css('a.button', exact_text: add_project)
       end
 
       it 'visits the projects page' do
@@ -174,8 +172,8 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       end
 
       it 'does not display new_project' do
-        expect(page).to have_selector('a.button', exact_text: all_projects)
-        expect(page).not_to have_selector('a.button', exact_text: add_project)
+        expect(page).to have_css('a.button', exact_text: all_projects)
+        expect(page).not_to have_css('a.button', exact_text: add_project)
       end
     end
 
@@ -184,7 +182,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       let(:open_menu) { false }
 
       it 'does not show the menu' do
-        expect(page).not_to have_selector('#projects-menu')
+        expect(page).not_to have_css('#projects-menu')
       end
     end
   end
