@@ -42,7 +42,8 @@ module MeetingAgendaItems
 
     def call
       component_wrapper(data: wrapper_data_attributes) do
-        render(Primer::Beta::BorderBox.new) do |border_box|
+        # making the container of items position-relative
+        render(Primer::Beta::BorderBox.new(position: :relative)) do |border_box|
           if @meeting.agenda_items.empty? && @form_hidden
             empty_state_partial(border_box)
           else
