@@ -142,8 +142,12 @@ class Meeting < ApplicationRecord
   end
 
   # Returns true if user or current user is allowed to view the meeting
-  def visible?(user = nil)
-    (user || User.current).allowed_to?(:view_meetings, project)
+  def visible?(user = User.current)
+    user.allowed_to?(:view_meetings, project)
+  end
+
+  def editable?(user = User.current)
+    open? && user.allowed_to?(:edit_meetings, project)
   end
 
   def invited_or_attended_participants

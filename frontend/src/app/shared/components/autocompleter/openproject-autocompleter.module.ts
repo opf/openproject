@@ -64,5 +64,6 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
 export class OpenprojectAutocompleterModule {
   constructor(injector:Injector) {
     registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
+    registerCustomElement('opce-select-decoration', AutocompleteSelectDecorationComponent, { injector });
   }
 }

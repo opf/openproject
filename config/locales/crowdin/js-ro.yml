@@ -981,6 +981,7 @@ ro:
         recently_created: "Creat de"
         all_open: "Toate deschise"
         summary: "Descriere"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Salt la paginarea tabelului"
         label_pagination: "Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare"

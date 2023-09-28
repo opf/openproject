@@ -26,8 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'icalendar'
-require 'icalendar/tzinfo'
+
 
 class MeetingMailer < UserMailer
   def content_for_review(content, content_type, user)
@@ -55,8 +54,13 @@ class MeetingMailer < UserMailer
 
       @formatted_timezone = format_timezone_offset timezone, @meeting.start_time
 
-      attachments['meeting.ics'] = generate_ical timezone, @meeting, @content_type
-      mail(to: user.mail, subject: ical_subject(@meeting, @content_type))
+      ::Meetings::ICalService
+        .new(user:, meeting: @meeting)
+        .call
+        .on_success do |call|
+        attachments['meeting.ics'] = call.result
+        mail(to: user.mail, subject: "[#{@meeting.project.name}] #{I18n.t(:label_meeting)}: #{@meeting.title}")
+      end
     end
   end
 
@@ -71,41 +75,5 @@ class MeetingMailer < UserMailer
   def format_timezone_offset(timezone, time)
     offset = ::ActiveSupport::TimeZone.seconds_to_utc_offset time.utc_offest_for_timezone(timezone), true
     "(GMT#{offset}) #{timezone.name}"
-  end
-
-  def ical_subject(meeting, content_type)
-    "[#{meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{meeting.title}"
-  end
-
-  # rubocop:disable Metrics/AbcSize
-  def generate_ical(timezone, meeting, content_type)
-    calendar = ::Icalendar::Calendar.new
-
-    tzinfo = timezone.tzinfo
-    calendar.add_timezone tzinfo.ical_timezone(meeting.start_time)
-    tzid = tzinfo.canonical_identifier
-
-    calendar.event do |e|
-      e.dtstart = ical_datetime meeting.start_time, tzid
-      e.dtend = ical_datetime meeting.end_time, tzid
-      e.url = meeting_url(meeting)
-      e.summary = "[#{meeting.project.name}] #{meeting.title}"
-      e.description = ical_subject(meeting, content_type)
-      e.uid = "#{meeting.id}@#{meeting.project.identifier}"
-      e.organizer = ical_organizer meeting
-      e.location = meeting.location.presence
-    end
-
-    calendar.publish
-    calendar.to_ical
-  end
-  # rubocop:enable Metrics/AbcSize
-
-  def ical_datetime(time, timezone_id)
-    Icalendar::Values::DateTime.new time.in_time_zone(timezone_id), 'tzid' => timezone_id
-  end
-
-  def ical_organizer(meeting)
-    Icalendar::Values::CalAddress.new("mailto:#{meeting.author.mail}", cn: meeting.author.name)
   end
 end

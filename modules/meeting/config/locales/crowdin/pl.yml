@@ -22,7 +22,7 @@
 #English strings go here for Rails i18n
 pl:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "Spotkania OpenProject"
     description: >-
       This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
   activerecord:
@@ -31,7 +31,7 @@ pl:
         type: "Meeting type"
         location: "Lokalizacja"
         duration: "Czas trwania"
-        notes: "Notes"
+        notes: "Notatki"
         participants: "Uczestnicy"
         participants_attended: "Uczestnicy"
         participants_invited: "Zaproszone osoby"
@@ -40,10 +40,10 @@ pl:
         start_time: "Czas"
         start_time_hour: "Czas rozpoczęcia"
       meeting_agenda_items:
-        title: "Title"
+        title: "Tytuł"
         author: "Responsible"
         duration_in_minutes: "Duration in minutes"
-        description: "Notes"
+        description: "Notatki"
     errors:
       messages:
         invalid_time_format: "nie jest prawidłowy. Wymagany format to: GG:MM"
@@ -85,6 +85,7 @@ pl:
   label_author: "Twórca"
   label_notify: "Wyślij do przeglądu"
   label_icalendar: "Wyślij iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Wersja"
   label_time_zone: "Strefa czasowa"
   label_start_date: "Data rozpoczęcia"
@@ -136,7 +137,7 @@ pl:
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state_open: "Open"
-  label_meeting_state_closed: "Closed"
+  label_meeting_state_closed: "Zamknięte"
   label_meeting_reopen_action: "Reopen meeting"
   label_meeting_close_action: "Close meeting"
   text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
@@ -144,7 +145,7 @@ pl:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
-  label_meeting_add_participants: "Add participants"
+  label_meeting_add_participants: "Dodaj uczestników"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
-  label_add_work_package_to_meeting_dialog_title: "Add work package to meeting"
-  label_add_work_package_to_meeting_dialog_button: "Add to meeting"
+  label_add_work_package_to_meeting_dialog_title: "Dodaj pakiet roboczy do spotkania"
+  label_add_work_package_to_meeting_dialog_button: "Dodaj do spotkania"

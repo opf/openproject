@@ -49,4 +49,4 @@ OpenProject is distributed in [various formats](../../installation-and-operation
 
 ## Versions in the codebase
 
-The version is represented as [tags](../git-workflow#tags) and [branches](../git-workflow#branching-model) in the repository. The version is also manifested in the [version.rb](https://github.com/opf/openproject/blob/dev/lib/open_project/version.rb).
+The version is represented as [tags](../git-workflow#tagging) and [branches](../git-workflow#branching-model) in the repository. The version is also manifested in the [version.rb](https://github.com/opf/openproject/blob/dev/lib/open_project/version.rb).

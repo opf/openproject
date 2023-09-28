@@ -1259,6 +1259,9 @@ sv:
       x_days:
         one: "En dag"
         other: "%{count} dagar"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minut"
         other: "%{count} minuter"
@@ -1588,11 +1591,13 @@ sv:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentisering"
-  label_available_project_work_package_categories: 'Tillgängliga arbetspaketkategorier'
-  label_available_project_work_package_types: 'Tillgängliga typer för arbetspaket'
-  label_available_project_forums: 'Tillgängliga forum'
-  label_available_project_versions: 'Tillgängliga versioner'
-  label_available_project_repositories: 'Tillgängliga databaser'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Tillgängliga forum"
+  label_available_project_repositories: "Tillgängliga databaser"
+  label_available_project_versions: "Tillgängliga versioner"
+  label_available_project_work_package_categories: "Tillgängliga arbetspaketkategorier"
+  label_available_project_work_package_types: "Tillgängliga typer för arbetspaket"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-dokumentation"
   label_backup: "Backup"
   label_between: "mellan"
@@ -1797,6 +1802,10 @@ sv:
   label_login: "Logga in"
   label_custom_logo: "Anpassad logotyp"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Anpassad favicon"
   label_custom_touch_icon: "Anpassad touch-ikon"
   label_logout: "Logga ut"
@@ -1867,6 +1876,7 @@ sv:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Öppna meny"
   label_open_work_packages: "öppna"
   label_open_work_packages_plural: "öppna"
@@ -2334,7 +2344,7 @@ sv:
   permission_add_work_package_notes: "Lägg till anteckningar"
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
-  permission_add_project: "Create projects"
+  permission_add_project: "Skapa projekt"
   permission_archive_project: "Arkivera projekt"
   permission_create_user: "Skapa användare"
   permission_manage_user: "Redigera användare"
@@ -2450,11 +2460,12 @@ sv:
   query_fields:
     active_or_archived: "Aktiv eller arkiverad"
     assigned_to_role: "Tilldelades roll"
-    member_of_group: "Den tilldelades grupp"
     assignee_or_group: "Tilldelad eller tillhörandegrupp"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Den tilldelades grupp"
     name_or_identifier: "Namn eller identifierare"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'på %{identifier}'
     atom_revision_feed: 'Atom revisionsflöde'
@@ -2767,6 +2778,8 @@ sv:
     En vit logotyp på transparent bakgrund rekommenderas. För bästa resultat på både vanliga och Retina-skärmar bör bilden vara minst 460x60 px.
   text_custom_export_logo_instructions: >
     Det här är loggan som syns i dina PDF-exporter. Det behöver vara en PNG eller JPEG bildfil. En svart eller färglagd logga på en transparent eller vit bakgrund rekommenderas.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

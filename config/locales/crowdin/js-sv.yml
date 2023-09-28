@@ -980,6 +980,7 @@ sv:
         recently_created: "Nyligen skapade"
         all_open: "Alla öppna"
         summary: "Sammanfattning"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Gå till sidnumrering för tabell"
         label_pagination: "Klicka här för att hoppa arbetspaketets tabell och gå till sidnumrering"

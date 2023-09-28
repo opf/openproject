@@ -228,7 +228,7 @@ RSpec.describe CustomStylesController do
         get :export_logo_download, params: { digest: "1234", filename: "export_logo_image.png" }
       end
 
-      context "when logo is present" do
+      context "when export logo is present" do
         let(:custom_style) { build(:custom_style_with_export_logo) }
 
         it 'will send a file' do
@@ -261,11 +261,11 @@ RSpec.describe CustomStylesController do
       context 'if it exists' do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
-          allow(custom_style).to receive(:remove_logo).and_call_original
-          delete :logo_delete
+          allow(custom_style).to receive(:remove_export_logo).and_call_original
+          delete :export_logo_delete
         end
 
-        it 'removes the logo from custom_style' do
+        it 'removes the export logo from custom_style' do
           expect(response).to redirect_to action: :show
         end
       end
@@ -273,7 +273,68 @@ RSpec.describe CustomStylesController do
       context 'if it does not exist' do
         before do
           allow(CustomStyle).to receive(:current).and_return(nil)
-          delete :logo_delete
+          delete :export_logo_delete
+        end
+
+        it 'renders 404' do
+          expect(response).to have_http_status :not_found
+        end
+      end
+    end
+
+    describe "#export_cover_download" do
+      before do
+        allow(CustomStyle).to receive(:current).and_return(custom_style)
+        allow(controller).to receive(:send_file) { controller.head 200 }
+        get :export_cover_download, params: { digest: "1234", filename: "export_cover_image.png" }
+      end
+
+      context "when export cover is present" do
+        let(:custom_style) { build(:custom_style_with_export_cover) }
+
+        it 'will send a file' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context "when no custom style is present" do
+        let(:custom_style) { nil }
+
+        it 'renders with error' do
+          expect(controller).not_to have_received(:send_file)
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      context "when no export cover is present" do
+        let(:custom_style) { build_stubbed(:custom_style) }
+
+        it 'renders with error' do
+          expect(controller).not_to have_received(:send_file)
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    describe "#export_cover_delete", with_ee: %i[define_custom_style] do
+      let(:custom_style) { create(:custom_style_with_export_cover) }
+
+      context 'if it exists' do
+        before do
+          allow(CustomStyle).to receive(:current).and_return(custom_style)
+          allow(custom_style).to receive(:remove_cover).and_call_original
+          delete :export_cover_delete
+        end
+
+        it 'removes the export cover from custom_style' do
+          expect(response).to redirect_to action: :show
+        end
+      end
+
+      context 'if it does not exist' do
+        before do
+          allow(CustomStyle).to receive(:current).and_return(nil)
+          delete :export_cover_delete
         end
 
         it 'renders 404' do
@@ -400,6 +461,75 @@ RSpec.describe CustomStylesController do
 
         it 'renders 404' do
           expect(response).to have_http_status :not_found
+        end
+      end
+    end
+
+    describe "#update_export_cover_text_color", with_ee: %i[define_custom_style] do
+      let(:params) do
+        { export_cover_text_color: "#990000" }
+      end
+
+      context 'if CustomStyle exists' do
+        let(:custom_style) { CustomStyle.new }
+
+        before do
+          allow(CustomStyle).to receive(:current).and_return(custom_style)
+          allow(custom_style).to receive(:export_cover_text_color).and_call_original
+        end
+
+        context 'with valid parameter' do
+          before do
+            post :update_export_cover_text_color, params:
+          end
+
+          it "saves the color" do
+            expect(custom_style.export_cover_text_color).to eq("#990000")
+            expect(response).to redirect_to action: :show
+          end
+        end
+
+        context 'with valid empty parameter' do
+          let(:params) do
+            { export_cover_text_color: '' }
+          end
+
+          before do
+            custom_style.export_cover_text_color = "#990000"
+            custom_style.save
+            post :update_export_cover_text_color, params:
+          end
+
+          it "removes the color" do
+            expect(custom_style.export_cover_text_color).to be_nil
+            expect(response).to redirect_to action: :show
+          end
+        end
+
+        context 'with invalid parameter' do
+          let(:params) do
+            { export_cover_text_color: "red" } # we only accept hexcodes
+          end
+
+          before do
+            post :update_export_cover_text_color, params:
+          end
+
+          it "ignores the parameter" do
+            expect(custom_style.export_cover_text_color).to be_nil
+            expect(response).to redirect_to action: :show
+          end
+        end
+      end
+
+      context 'if CustomStyle does not exist' do
+        before do
+          allow(CustomStyle).to receive(:current).and_return(nil)
+          post :update_export_cover_text_color, params:
+        end
+
+        it 'it is created' do
+          expect(response).to redirect_to action: :show
         end
       end
     end

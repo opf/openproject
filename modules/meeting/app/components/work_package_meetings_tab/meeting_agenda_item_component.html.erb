@@ -1,0 +1,25 @@
+<%=
+  flex_layout do |flex|
+    flex.with_row do
+      render(Primer::Beta::Text.new(color: @meeting_agenda_item.notes.present? ? nil : :subtle)) do
+        if @meeting_agenda_item.notes.present?
+          ::OpenProject::TextFormatting::Renderer.format_text(@meeting_agenda_item.notes)
+        else
+          t("text_agenda_item_no_notes")
+        end
+      end
+    end
+
+    flex.with_row(mt: 3, font_size: :small, flex_layout: true, align_items: :center) do |authoring|
+      authoring.with_column(mr: 1, style: 'white-space: nowrap') do
+        render(Primer::Beta::Text.new(color: :subtle)) { t("label_added_by", author: nil) }
+      end
+      authoring.with_column(mr: 1, classes: 'ellipsis') do
+        render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini', classes: 'op-principal_flex'))
+      end
+      authoring.with_column do
+        render(Primer::Beta::RelativeTime.new(color: :subtle, datetime: @meeting_agenda_item.created_at))
+      end
+    end
+  end
+%>

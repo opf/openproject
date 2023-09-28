@@ -1294,6 +1294,11 @@ cs:
         few: "%{count} dní"
         many: "%{count} dní"
         other: "%{count} dní"
+      x_min_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuta"
         few: "%{count} minut"
@@ -1631,11 +1636,13 @@ cs:
   label_ldap_auth_source: "Připojení LDAP"
   label_ldap_auth_source_plural: "Připojení LDAP"
   label_authentication: "Ověření"
-  label_available_project_work_package_categories: 'Dostupné kategorie pracovních balíčků'
-  label_available_project_work_package_types: 'Dostupné kategorie pracovních balíčků'
-  label_available_project_forums: 'Dostupná fóra'
-  label_available_project_versions: 'Dostupné verze'
-  label_available_project_repositories: 'Dostupné repozitáře'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Dostupná fóra"
+  label_available_project_repositories: "Dostupné repozitáře"
+  label_available_project_versions: "Dostupné verze"
+  label_available_project_work_package_categories: "Dostupné kategorie pracovních balíčků"
+  label_available_project_work_package_types: "Dostupné kategorie pracovních balíčků"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentace"
   label_backup: "Záloha"
   label_between: "mezi"
@@ -1840,6 +1847,10 @@ cs:
   label_login: "Přihlásit se"
   label_custom_logo: "Vlastní logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Vlastní favicon"
   label_custom_touch_icon: "Vlastní ikona dotyku"
   label_logout: "Odhlásit se"
@@ -1910,6 +1921,7 @@ cs:
   label_operator_none: "je prázdný"
   label_operator_equals_or: "je (OR)"
   label_operator_equals_all: "je (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
@@ -2496,11 +2508,12 @@ cs:
   query_fields:
     active_or_archived: "Aktivní nebo archivované"
     assigned_to_role: "Řešitelova role"
-    member_of_group: "Řešitelova skupina"
     assignee_or_group: "Přiřazený nebo patřící skupině"
-    subproject_id: "Včetně podprojektu"
-    only_subproject_id: "Pouze podprojekt"
+    member_of_group: "Řešitelova skupina"
     name_or_identifier: "Jméno nebo identifikátor"
+    only_subproject_id: "Pouze podprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Včetně podprojektu"
   repositories:
     at_identifier: 'v %{identifier}'
     atom_revision_feed: 'Atom kanál pro revizi'
@@ -2815,6 +2828,8 @@ cs:
     Doporučuje se bílé logo na průhledném pozadí. Pro nejlepší výsledky na displejích klasického i retina se ujistěte, že rozměry vašeho obrázku jsou 460px do 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

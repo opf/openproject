@@ -1257,6 +1257,9 @@ hu:
       x_days:
         one: "1 napja"
         other: "%{count} napja"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 perce"
         other: "%{count} perce"
@@ -1586,11 +1589,13 @@ hu:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Hitelesítés"
-  label_available_project_work_package_categories: 'Rendelkezésre álló munkacsomag kategóriák'
-  label_available_project_work_package_types: 'Rendelkezésre álló munkacsomag típusok'
-  label_available_project_forums: 'Elérhető fórumok'
-  label_available_project_versions: 'Rendelkezésre álló verziók'
-  label_available_project_repositories: 'Rendelkezésre álló tárolók'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Elérhető fórumok"
+  label_available_project_repositories: "Rendelkezésre álló tárolók"
+  label_available_project_versions: "Rendelkezésre álló verziók"
+  label_available_project_work_package_categories: "Rendelkezésre álló munkacsomag kategóriák"
+  label_available_project_work_package_types: "Rendelkezésre álló munkacsomag típusok"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentáció"
   label_backup: "Biztonsági mentés"
   label_between: "között"
@@ -1795,6 +1800,10 @@ hu:
   label_login: "Bejelentkezés"
   label_custom_logo: "Egyedi logó"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Egyedi favicon"
   label_custom_touch_icon: "Egyedi \"touch-icon\""
   label_logout: "Kijelentkezés"
@@ -1865,6 +1874,7 @@ hu:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Menü megnyitása"
   label_open_work_packages: "nyitott"
   label_open_work_packages_plural: "nyitott"
@@ -2447,11 +2457,12 @@ hu:
   query_fields:
     active_or_archived: "Aktív vagy archivált"
     assigned_to_role: "Hozzárendelt szerepkör"
-    member_of_group: "Hozzárendelt csoport"
     assignee_or_group: "Megbízott, vagy a hozzá tartozó csoport"
-    subproject_id: "Beleértve az alprojektet"
-    only_subproject_id: "Csak alprojekt"
+    member_of_group: "Hozzárendelt csoport"
     name_or_identifier: "Név vagy azonosító"
+    only_subproject_id: "Csak alprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Beleértve az alprojektet"
   repositories:
     at_identifier: '%{identifier} -n'
     atom_revision_feed: 'Atom felülvizsgálat jelzés'
@@ -2766,6 +2777,8 @@ hu:
     Egy fehér logo átlátszó háttérrel ajánlott. A legjobb eredmény érdekében mint átlagos és retina kijelzőkön is biztosítsa, hogy a kép mérete 460px x 60px-es legyen.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

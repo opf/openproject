@@ -33,6 +33,8 @@ module Storages
     store_attribute :provider_fields, :tenant_id, :string, default: 'consumers'
     store_attribute :provider_fields, :drive_id, :string
 
+    using ::Storages::Peripherals::ServiceResultRefinements
+
     def configuration_checks
       { storage_oauth_client_configured: oauth_client.present? }
     end
@@ -43,6 +45,15 @@ module Storages
 
     def uri
       URI('https://graph.microsoft.com').normalize
+    end
+
+    def open_link
+      ::Storages::Peripherals::Registry.resolve("queries.one_drive.open_drive_link")
+                                       .call(storage: self, user: User.current)
+                                       .match(
+                                         on_success: ->(web_url) { web_url },
+                                         on_failure: ->(*) { '' }
+                                       )
     end
   end
 end

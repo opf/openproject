@@ -1259,6 +1259,9 @@ pt:
       x_days:
         one: "1 dia"
         other: "%{count} dias"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuto"
         other: "%{count} minutos"
@@ -1588,11 +1591,13 @@ pt:
   label_ldap_auth_source: "Conexão LDAP"
   label_ldap_auth_source_plural: "Conexões LDAP"
   label_authentication: "Autenticação"
-  label_available_project_work_package_categories: 'Categorias de pacote de trabalho disponíveis'
-  label_available_project_work_package_types: 'Tipos de pacote de trabalho disponíveis'
-  label_available_project_forums: 'Fóruns disponíveis'
-  label_available_project_versions: 'Versões disponíveis'
-  label_available_project_repositories: 'Repositórios disponíveis'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Fóruns disponíveis"
+  label_available_project_repositories: "Repositórios disponíveis"
+  label_available_project_versions: "Versões disponíveis"
+  label_available_project_work_package_categories: "Categorias de pacote de trabalho disponíveis"
+  label_available_project_work_package_types: "Tipos de pacote de trabalho disponíveis"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentação da API"
   label_backup: "Backup"
   label_between: "entre"
@@ -1797,6 +1802,10 @@ pt:
   label_login: "Fazer login"
   label_custom_logo: "Logotipo personalizado"
   label_custom_export_logo: "Logo de exportação personalizado"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Ícone personalizado"
   label_custom_touch_icon: "Ícone de toque personalizado"
   label_logout: "Desconectar"
@@ -1867,6 +1876,7 @@ pt:
   label_operator_none: "está vazio"
   label_operator_equals_or: "é (OR)"
   label_operator_equals_all: "é (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
   label_open_work_packages_plural: "aberto"
@@ -2448,11 +2458,12 @@ pt:
   query_fields:
     active_or_archived: "Ativo ou arquivado"
     assigned_to_role: "Atribuído ao papel"
-    member_of_group: "Atribuído ao grupo"
     assignee_or_group: "Responsável ou grupo"
-    subproject_id: "Incluindo Subprojeto"
-    only_subproject_id: "Apenas subprojeto"
+    member_of_group: "Atribuído ao grupo"
     name_or_identifier: "Nome ou identificador"
+    only_subproject_id: "Apenas subprojeto"
+    shared_with_user: "Shared with user"
+    subproject_id: "Incluindo Subprojeto"
   repositories:
     at_identifier: 'em %{identifier}'
     atom_revision_feed: 'Revisão de atom feed'
@@ -2767,6 +2778,8 @@ pt:
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
   text_custom_export_logo_instructions: >
     Este é o logotipo que aparece nas exportações de PDF. O arquivo de imagem precisa ser PNG ou JPEG. Recomenda-se um logotipo colorido ou preto em plano de fundo transparente ou branco.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Este é o ícone pequeno que aparece em sua janela/aba do navegador ao lado do título da página. O arquivo de imagem precisa ser PNG de 32 por 32 pixels com fundo transparente.
   text_custom_touch_icon_instructions: >

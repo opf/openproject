@@ -208,7 +208,7 @@ gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
 # Lookbook
-gem 'lookbook', '~> 2.0.5'
+gem 'lookbook', '~> 2.1.0'
 
 # Require factory_bot for usage with openproject plugins testing
 gem 'factory_bot', '~> 6.2.0', require: false
@@ -251,7 +251,7 @@ group :test do
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.14.3'
-  gem 'selenium-webdriver', '~> 4.12.0'
+  gem 'selenium-webdriver', '~> 4.13.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -312,6 +312,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-performance', require: false
+  gem 'rubocop-inflector', require: false
 
   # erb linting
   gem "erb_lint", require: false
@@ -363,6 +364,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-primer_view_components", '~>0.10.0'
+gem "openproject-primer_view_components", '~>0.11.0'
 gem "openproject-octicons", '~>19.7.0'
 gem "openproject-octicons_helper", '~>19.7.0'

@@ -37,6 +37,7 @@ module Storages
         def initialize(storage)
           @uri = storage.uri
           @oauth_client = storage.oauth_client.freeze
+          super()
         end
 
         def authorization_state_check(token)
@@ -64,6 +65,7 @@ module Storages
           Rack::OAuth2::Client.new(
             identifier: @oauth_client.client_id,
             secret: @oauth_client.client_secret,
+            redirect_uri: @oauth_client.redirect_uri,
             scheme: @uri.scheme,
             host: @uri.host,
             port: @uri.port,

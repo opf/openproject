@@ -85,6 +85,7 @@ et:
   label_author: "Creator"
   label_notify: "Saada ülevaatamisele"
   label_icalendar: "Send iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Versioon"
   label_time_zone: "Ajavöönd"
   label_start_date: "Alguskuupäev"

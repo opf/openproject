@@ -43,6 +43,7 @@ module Storages
             register(:propfind, Internal::PropfindQuery)
             register(:group_users, GroupUsersQuery)
             register(:upload_link, UploadLinkQuery)
+            register(:open_link, OpenLinkQuery)
           end
         end
 

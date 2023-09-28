@@ -33,57 +33,21 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FileInfoQuery
-          using ServiceResultRefinements
+          FIELDS = %w[id name fileSystemInfo file size createdBy lastModifiedBy parentReference].freeze
 
           def self.call(storage:, user:, file_id:)
             new(storage).call(user:, file_id:)
           end
 
           def initialize(storage)
-            @storage = storage
-            @uri = storage.uri
+            @delegate = Internal::DriveItemQuery.new(storage)
           end
 
           def call(user:, file_id:)
-            Util.using_user_token(@storage, user) do |token|
-              make_file_request(file_id, token).map(&storage_file_infos)
-            end
+            @delegate.call(user:, drive_item_id: file_id, fields: FIELDS).map(&storage_file_infos)
           end
 
           private
-
-          def make_file_request(file_id, token)
-            response_data = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-              http.get(uri_path_for(file_id), { 'Authorization' => "Bearer #{token.access_token}" })
-            end
-
-            handle_responses(response_data)
-          end
-
-          def handle_responses(response)
-            json = MultiJson.load(response.body, symbolize_keys: true)
-
-            case response
-            when Net::HTTPSuccess
-              ServiceResult.success(result: json)
-            when Net::HTTPNotFound
-              ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data: json))
-            when Net::HTTPForbidden
-              ServiceResult.failure(result: :forbidden,
-                                    errors: ::Storages::StorageError.new(code: :forbidden, data: json))
-            when Net::HTTPUnauthorized
-              ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: json))
-            else
-              ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data: json))
-            end
-          end
-
-          def uri_path_for(file_id)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
-          end
 
           def storage_file_infos
             ->(json) do
@@ -105,10 +69,6 @@ module Storages
                 location: json.dig(:parentReference, :path)
               )
             end
-          end
-
-          def parse_json(str)
-            MultiJson.load(str, symbolize_keys: true)
           end
         end
       end

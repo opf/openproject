@@ -1259,6 +1259,9 @@ tr:
       x_days:
         one: "1 gün"
         other: "%{count} gün"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 dakika"
         other: "%{count} dakika"
@@ -1588,11 +1591,13 @@ tr:
   label_ldap_auth_source: "LDAP bağlantısı"
   label_ldap_auth_source_plural: "LDAP bağlantıları"
   label_authentication: "Kimlik Doğrulaması"
-  label_available_project_work_package_categories: 'Uygun iş paketi kategorileri'
-  label_available_project_work_package_types: 'Uygun iş paketi tipleri'
-  label_available_project_forums: 'Mevcut forumlar'
-  label_available_project_versions: 'Uygun sürümler'
-  label_available_project_repositories: 'Uygun depolar'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Mevcut forumlar"
+  label_available_project_repositories: "Uygun depolar"
+  label_available_project_versions: "Uygun sürümler"
+  label_available_project_work_package_categories: "Uygun iş paketi kategorileri"
+  label_available_project_work_package_types: "Uygun iş paketi tipleri"
+  label_available_projects: "Available projects"
   label_api_documentation: "API belgelendirmesi"
   label_backup: "Destek olmak"
   label_between: "arasında"
@@ -1797,6 +1802,10 @@ tr:
   label_login: "Oturum aç"
   label_custom_logo: "Özel logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Özel favicon"
   label_custom_touch_icon: "Özel dokunma simgesi"
   label_logout: "Oturumu kapat"
@@ -1867,6 +1876,7 @@ tr:
   label_operator_none: "boş"
   label_operator_equals_or: "(VEYA) dır"
   label_operator_equals_all: "(VE) dir"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Menüyü Aç"
   label_open_work_packages: "açık"
   label_open_work_packages_plural: "açık"
@@ -2447,11 +2457,12 @@ tr:
   query_fields:
     active_or_archived: "Etkin veya arşivlenmiş"
     assigned_to_role: "Görev alanının rolü"
-    member_of_group: "Atama grubunun grubu"
     assignee_or_group: "Atanan veya ait olunan grup"
-    subproject_id: "Alt proje dahil"
-    only_subproject_id: "Sadece alt proje"
+    member_of_group: "Atama grubunun grubu"
     name_or_identifier: "İsim veya tanımlayıcı"
+    only_subproject_id: "Sadece alt proje"
+    shared_with_user: "Shared with user"
+    subproject_id: "Alt proje dahil"
   repositories:
     at_identifier: 'at% {tanıtıcı} %{identifier}'
     atom_revision_feed: 'Atom düzeltme feed''i'
@@ -2766,6 +2777,8 @@ tr:
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

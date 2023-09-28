@@ -85,6 +85,7 @@ ja:
   label_author: "Creator"
   label_notify: "レビュー用に送信"
   label_icalendar: "iCalendar を送信"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "バージョン"
   label_time_zone: "タイムゾーン"
   label_start_date: "開始日"

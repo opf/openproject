@@ -27,6 +27,11 @@
 #++
 
 module Storages::Peripherals
+  # rubocop:disable Lint/EmptyClass
+  class UnknownSource; end
+
+  # rubocop:enable Lint/EmptyClass
+
   module ServiceResultRefinements
     refine ServiceResult do
       def match(on_success:, on_failure:)
@@ -49,6 +54,18 @@ module Storages::Peripherals
         end
 
         bind(&other)
+      end
+
+      def error_source
+        if errors.is_a?(::Storages::StorageError) && errors.data&.source.present?
+          errors.data.source
+        else
+          UnknownSource
+        end
+      end
+
+      def error_payload
+        errors.data&.payload
       end
     end
   end

@@ -1239,6 +1239,8 @@ ja:
         other: "%{count}年間以上"
       x_days:
         other: "%{count}日間"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count}分間"
       x_months:
@@ -1564,11 +1566,13 @@ ja:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "認証"
-  label_available_project_work_package_categories: '有効なワークパッケージのカテゴリ'
-  label_available_project_work_package_types: '利用可能なワークパッケージのタイプ'
-  label_available_project_forums: '利用可能なフォーラム'
-  label_available_project_versions: '利用できるバージョン'
-  label_available_project_repositories: '使用できるリポジトリ'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "利用可能なフォーラム"
+  label_available_project_repositories: "使用できるリポジトリ"
+  label_available_project_versions: "利用できるバージョン"
+  label_available_project_work_package_categories: "有効なワークパッケージのカテゴリ"
+  label_available_project_work_package_types: "利用可能なワークパッケージのタイプ"
+  label_available_projects: "Available projects"
   label_api_documentation: "APIドキュメント"
   label_backup: "バックアップ"
   label_between: "次の範囲内"
@@ -1773,6 +1777,10 @@ ja:
   label_login: "ログイン"
   label_custom_logo: "カスタムロゴ"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "カスタムの favicon"
   label_custom_touch_icon: "カスタムのタッチアイコン"
   label_logout: "ログアウト"
@@ -1843,6 +1851,7 @@ ja:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "メニューを開く"
   label_open_work_packages: "未完了"
   label_open_work_packages_plural: "未完了"
@@ -2424,11 +2433,12 @@ ja:
   query_fields:
     active_or_archived: "アクティブまたはアーカイブ"
     assigned_to_role: "担当者のロール"
-    member_of_group: "担当者のグループ"
     assignee_or_group: "担当者または所属グループ"
-    subproject_id: "Including subproject"
-    only_subproject_id: "サブプロジェクトのみ"
+    member_of_group: "担当者のグループ"
     name_or_identifier: "名前または ID"
+    only_subproject_id: "サブプロジェクトのみ"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: '%{identifier} で'
     atom_revision_feed: 'Atom リビジョンフィード'
@@ -2743,6 +2753,8 @@ ja:
     透明な背景の白いロゴをお勧めします。 従来、および Retina ディスプレイの両方で最高の結果となるように、画像の寸法は、460px x 60px を確認してください。
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

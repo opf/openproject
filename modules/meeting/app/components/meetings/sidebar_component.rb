@@ -40,16 +40,10 @@ module Meetings
 
     def call
       component_wrapper do
-        flex_layout(pl: 1) do |flex|
-          flex.with_row(border: :bottom, pb: 2) do
-            details_partial
-          end
-          flex.with_row(mt: 3, border: :bottom, pb: 2) do
-            state_partial
-          end
-          flex.with_row(mt: 3) do
-            participants_partial
-          end
+        render(Primer::OpenProject::BorderGrid.new) do |border_grid|
+          border_grid.with_row { details_partial }
+          border_grid.with_row { state_partial }
+          border_grid.with_row { participants_partial }
         end
       end
     end

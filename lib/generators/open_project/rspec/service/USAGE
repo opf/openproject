@@ -1,0 +1,16 @@
+Description:
+    Creates a new service spec file for the given SERVICE_NAME
+    in the specified MODULE_NAME (if given). Otherwise, creates
+    the service spec file in the root /specs directory.
+
+Example:
+    bin/rails generate open_project:rspec:service Some::Service
+
+    This will create:
+        /specs/services/some/service_spec.rb
+
+Example:
+    bin/rails generate open_project:rspec:service Some::Service -m meetings
+
+    This will create:
+        /modules/meetings/specs/services/some/service_spec.rb

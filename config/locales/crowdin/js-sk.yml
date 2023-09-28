@@ -983,6 +983,7 @@ sk:
         recently_created: "Nedávno vytvorené"
         all_open: "Všetky otvorené"
         summary: "Zhrnutie"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Prejsť na stránkovanie tabuľky"
         label_pagination: "Kliknite sem pre preskočenie tabuľky pracovných balíčkov a zobrazenie stránkovania"

@@ -1176,6 +1176,7 @@ lv:
     errors: "Error"
     project_custom_fields: 'Custom fields on project'
     x_objects_of_this_type:
+      zero: 'No objects of this type'
       one: 'One object of this type'
       other: '%{count} objects of this type'
     text:
@@ -1276,6 +1277,10 @@ lv:
         zero: "%{count} dienām"
         one: "%{count} dienas"
         other: "%{count} dienām"
+      x_min_abbreviated:
+        zero: "%{count} mins"
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         zero: "%{count} minūtēm"
         one: "1 minūte"
@@ -1609,11 +1614,13 @@ lv:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Pieejamās darbu kompleksu kategorijas'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Pieejamās versijas'
-  label_available_project_repositories: 'Pieejamās krātuves'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Pieejamās krātuves"
+  label_available_project_versions: "Pieejamās versijas"
+  label_available_project_work_package_categories: "Pieejamās darbu kompleksu kategorijas"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentācija"
   label_backup: "Backup"
   label_between: "between"
@@ -1818,6 +1825,10 @@ lv:
   label_login: "Ienākt"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Izrakstīties"
@@ -1888,6 +1899,7 @@ lv:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Atvērt izvēlni"
   label_open_work_packages: "aktīvi"
   label_open_work_packages_plural: "aktīvi"
@@ -2111,15 +2123,19 @@ lv:
   label_x_closed_work_packages_abbr:
     one: "%{count} slēgts"
     other: "%{count} slēgti"
+    zero: "0 closed"
   label_x_comments:
     one: "%{count} komentārs"
     other: "%{count} komentāri"
+    zero: "no comments"
   label_x_open_work_packages_abbr:
     one: "%{count} atvērts"
     other: "%{count} atvērti"
+    zero: "0 open"
   label_x_projects:
     one: "%{count} projekts"
     other: "%{count} projekti"
+    zero: "no projects"
   label_yesterday: "yesterday"
   label_role_type: "Veids"
   label_member_role: "Project role"
@@ -2469,11 +2485,12 @@ lv:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
-    member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Assignee's group"
     name_or_identifier: "Nosaukumu vai identifikatoru"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'pie %{identifier}'
     atom_revision_feed: 'Atom revision feed'
@@ -2788,6 +2805,8 @@ lv:
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
