@@ -30,7 +30,6 @@ module WorkPackages
   module Share
     class ModalBodyComponent < ApplicationComponent
       include ApplicationHelper
-      include Turbo::FramesHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
