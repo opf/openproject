@@ -23,6 +23,7 @@ The product development process involves various roles during the different phas
 * Designer
 * QA/Tester
 * Developer
+* Security & Privacy engineers
 * DevOps
 * Customer
 * Marketing
@@ -210,9 +211,12 @@ Ideally the preparation of both QA and development happen at the same time so th
 2. Developer starting on a topic put their "Implementation" work package into the status "In development" and work on implementing the feature. Automated tests are added as well.
 3. Developer creates a pull request on GitHub where all automated tests are run.
 4. Developer hands over "Implementation" work package upon completion to another developer for review (status: “In review”).
-5. Developer (different from the one implementing the code) merges the pull request and closes the "Implementation" work package.
-6. The feature lead developer updates the status of the feature to "merged" once the feature is fully implemented. This can be done even with bugs still open that QA has already identified.
-7. Developer highlights features that require change in documentation if necessary (custom field “Requires doc change”).
+5. Developer (different from the one implementing the code) performs a review and, if changes are accepted according to the points mentioned below merges the pull request and closes the "Implementation" work package.
+   1. [Secure coding guidelines](https://www.openproject.org/docs/development/concepts/secure-coding/) have been evaluated for the proposed changes.
+   2. [Code review guidelines](https://www.openproject.org/docs/development/code-review-guidelines/) are followed by the submitter and reviewer
+   3. [Pull request targets the correct version](https://www.openproject.org/docs/development/git-workflow/#create-a-pull-request), and has a related work package that will form the changelog.
+7. The feature lead developer updates the status of the feature to "merged" once the feature is fully implemented. This can be done even with bugs still open that QA has already identified.
+8. Developer highlights features that require change in documentation if necessary (custom field “Requires doc change”).
 
 In case the requirements are identified to be unclear or incomplete during the implementation, the developer together with PM/Designer clarifies the requirements. The specification and other artifacts are updated accordingly.
 

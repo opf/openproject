@@ -289,7 +289,7 @@ class MeetingsController < ApplicationController
 
   def meeting_type(given_type)
     case given_type
-    when 'structured'
+    when 'dynamic'
       'StructuredMeeting'
     else
       'Meeting'
