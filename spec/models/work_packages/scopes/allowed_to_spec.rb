@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe WorkPackage, '.allowed_to' do
+  let(:user) { create(:user) }
+
   let!(:private_project) { create(:project, public: false, active: project_status) }
   let!(:public_project) { create(:project, public: true, active: project_status) }
   let(:project_status) { true }
@@ -48,12 +50,6 @@ RSpec.describe WorkPackage, '.allowed_to' do
 
   let(:non_member_permissions) { [] }
   let!(:non_member_role) { create(:non_member, permissions: non_member_permissions) }
-
-  let!(:user_without_membership) { create(:user) }
-  let!(:user_with_private_project_membership) { create(:user, member_with_roles: { private_project => project_role }) }
-  let!(:user_with_private_work_package_membership) do
-    create(:user, member_with_roles: { work_package_in_private_project => work_package_role })
-  end
 
   let(:action) { project_or_work_package_action }
   let(:project_or_work_package_action) { :view_work_packages }
@@ -85,8 +81,10 @@ RSpec.describe WorkPackage, '.allowed_to' do
 
   context 'when the user has the permission directly on the work package' do
     let(:work_package_permissions) { [action] }
-    let!(:user) do
-      create(:user, member_with_roles: { work_package_in_private_project => work_package_role })
+
+    before do
+      create(:member, project: private_project, entity: work_package_in_private_project,
+                      user:, roles: [work_package_role])
     end
 
     subject { described_class.allowed_to(user, action) }
@@ -99,8 +97,8 @@ RSpec.describe WorkPackage, '.allowed_to' do
   context 'when the user has the permission on the project the work package belongs to' do
     let(:project_permissions) { [action] }
 
-    let!(:user) do
-      create(:user, member_with_roles: { private_project => project_role })
+    before do
+      create(:member, project: private_project, user:, roles: [project_role])
     end
 
     subject { described_class.allowed_to(user, action) }
@@ -114,14 +112,25 @@ RSpec.describe WorkPackage, '.allowed_to' do
     let(:project_permissions) { [:view_work_packages] }
     let(:work_package_permissions) { %i[view_work_packages edit_work_packages] }
 
-    let(:user) do
-      create(:user, member_with_roles: { private_project => project_role, work_package_in_private_project => work_package_role })
+    before do
+      create(:member, project: private_project, entity: work_package_in_private_project, user:, roles: [work_package_role])
+      create(:member, project: private_project, user:, roles: [project_role])
     end
 
-    subject { described_class.allowed_to(user, :edit_work_packages) }
+    context 'and requesting a permission that is only granted on the single work package' do
+      subject { described_class.allowed_to(user, :edit_work_packages) }
 
-    it 'returns the authorized work packages' do
-      expect(subject).to contain_exactly(work_package_in_private_project)
+      it 'returns the authorized work packages' do
+        expect(subject).to contain_exactly(work_package_in_private_project)
+      end
+    end
+
+    context 'and requesting a permission that is granted on the project and the work package' do
+      subject { described_class.allowed_to(user, :view_work_packages) }
+
+      it 'returns the authorized work packages' do
+        expect(subject).to contain_exactly(work_package_in_private_project, other_work_package_in_private_project)
+      end
     end
   end
 
