@@ -120,9 +120,10 @@ module Meetings
 
     def exisiting_participant_form_checkboxes_partial(participant)
       flex_layout(align_items: :center) do |flex|
-        flex.with_column(flex: 1) do
+        flex.with_column(flex: 1, classes: 'ellipsis') do
           render(Users::AvatarComponent.new(
                    user: participant.user,
+                   classes: 'op-principal_flex'
                  ))
         end
         flex.with_column(style: "width: 90px;", text_align: :center) do
@@ -170,9 +171,10 @@ module Meetings
 
     def new_participant_form_partial(user)
       flex_layout(align_items: :center) do |flex|
-        flex.with_column(flex: 1) do
+        flex.with_column(flex: 1, classes: 'ellipsis') do
           render(Users::AvatarComponent.new(
                    user:,
+                   classes: 'op-principal_flex'
                  ))
         end
         flex.with_column(style: "width: 90px;", text_align: :center) do
