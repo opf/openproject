@@ -70,3 +70,7 @@ jobs:
       with:
         node-version: '14'
     - run: ./script/api/validate_spec
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
