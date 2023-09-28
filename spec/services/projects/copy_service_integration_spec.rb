@@ -419,7 +419,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         #  merged with the role the user already had.
         member = project_copy.members.last
         expect(member.principal).to eql(current_user)
-        expect(member.roles).to contain_exactly(role, new_project_role)
+        expect(member.roles.reload).to contain_exactly(role, new_project_role)
 
         expect(project_copy.project_storages.count).to eq(2)
         automatic_project_storage_copy = project_copy.project_storages.find_by(storage: storage1)
