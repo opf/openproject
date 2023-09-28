@@ -489,6 +489,23 @@ RSpec.describe CustomStylesController do
           end
         end
 
+        context 'with valid empty parameter' do
+          let(:params) do
+            { export_cover_text_color: '' }
+          end
+
+          before do
+            custom_style.export_cover_text_color = "#990000"
+            custom_style.save
+            post :update_export_cover_text_color, params:
+          end
+
+          it "removes the color" do
+            expect(custom_style.export_cover_text_color).to be_nil
+            expect(response).to redirect_to action: :show
+          end
+        end
+
         context 'with invalid parameter' do
           let(:params) do
             { export_cover_text_color: "red" } # we only accept hexcodes
@@ -511,8 +528,8 @@ RSpec.describe CustomStylesController do
           post :update_export_cover_text_color, params:
         end
 
-        it 'renders 404' do
-          expect(response).to have_http_status :not_found
+        it 'it is created' do
+          expect(response).to redirect_to action: :show
         end
       end
     end

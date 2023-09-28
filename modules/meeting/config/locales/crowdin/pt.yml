@@ -85,6 +85,7 @@ pt:
   label_author: "Criador"
   label_notify: "Enviar para revisão"
   label_icalendar: "Enviar iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Versão"
   label_time_zone: "Fuso horário"
   label_start_date: "Data de início"

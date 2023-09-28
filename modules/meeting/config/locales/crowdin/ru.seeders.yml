@@ -9,21 +9,21 @@ ru:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: Еженедельно
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Хорошие новости
             item_1:
-              title: Updates from development team
+              title: Обновления от команды разработчиков
             item_2:
-              title: Updates from product team
+              title: Обновления от команды продукта
             item_3:
-              title: Updates from marketing team
+              title: Обновления от команды маркетинга
             item_4:
-              title: Updates from sales team
+              title: Обновления от команды продаж
             item_5:
-              title: Review of quarterly goals
+              title: Обзор квартальных целей
             item_6:
-              title: Core values feedback
+              title: Обратная связь по основным значениям
             item_7:
-              title: General topics
+              title: Основные темы

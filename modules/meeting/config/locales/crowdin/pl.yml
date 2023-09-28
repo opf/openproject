@@ -85,6 +85,7 @@ pl:
   label_author: "Twórca"
   label_notify: "Wyślij do przeglądu"
   label_icalendar: "Wyślij iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Wersja"
   label_time_zone: "Strefa czasowa"
   label_start_date: "Data rozpoczęcia"

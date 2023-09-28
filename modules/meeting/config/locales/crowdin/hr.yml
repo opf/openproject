@@ -85,6 +85,7 @@ hr:
   label_author: "Creator"
   label_notify: "Šalji na pregled"
   label_icalendar: "Send iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Verzija"
   label_time_zone: "Vremenska zona"
   label_start_date: "Datum Početka"

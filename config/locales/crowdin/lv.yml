@@ -1277,6 +1277,10 @@ lv:
         zero: "%{count} dienām"
         one: "%{count} dienas"
         other: "%{count} dienām"
+      x_min_abbreviated:
+        zero: "%{count} mins"
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         zero: "%{count} minūtēm"
         one: "1 minūte"

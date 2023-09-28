@@ -85,6 +85,7 @@ uk:
   label_author: "Автор"
   label_notify: "Надіслати на розгляд"
   label_icalendar: "Надіслати iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Версія"
   label_time_zone: "Часовий пояс"
   label_start_date: "Дата початку"

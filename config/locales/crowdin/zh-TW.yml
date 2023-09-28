@@ -1243,6 +1243,8 @@ zh-TW:
         other: "超過 %{count} 年"
       x_days:
         other: "%{count} 天"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count} 分"
       x_months:

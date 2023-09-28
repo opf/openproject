@@ -1257,6 +1257,9 @@ es:
       x_days:
         one: "1 día"
         other: "%{count} días"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "un minuto"
         other: "%{count} minutos"

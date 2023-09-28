@@ -1236,6 +1236,8 @@ id:
         other: "lebih dari %{count} tahun"
       x_days:
         other: "%{count} hari"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count} menit"
       x_months:

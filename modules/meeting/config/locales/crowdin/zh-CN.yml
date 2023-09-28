@@ -85,6 +85,7 @@ zh-CN:
   label_author: "创建者"
   label_notify: "发送待审阅"
   label_icalendar: "发送 iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "版本"
   label_time_zone: "时区"
   label_start_date: "开始日期"

@@ -85,6 +85,7 @@ ar:
   label_author: "Creator"
   label_notify: "إرسال للمراجعة"
   label_icalendar: "إرسال iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "النسخة"
   label_time_zone: "المنطقة الزمنية"
   label_start_date: "تاريخ البدء"

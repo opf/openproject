@@ -1260,6 +1260,9 @@ ka:
       x_days:
         one: "1 დღე"
         other: "%{count} დღე"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 წუთი"
         other: "%{count} წუთი"
