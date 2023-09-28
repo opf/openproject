@@ -37,8 +37,7 @@ RSpec.describe 'model viewer',
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let!(:model) do
@@ -104,8 +103,7 @@ RSpec.describe 'model viewer',
     let(:view_role) { create(:role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
     let(:view_user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: view_role)
+             member_with_roles: { project => view_role })
     end
 
     before do
@@ -126,8 +124,7 @@ RSpec.describe 'model viewer',
     let(:no_permissions_role) { create(:role, permissions: %i[]) }
     let(:user_without_permissions) do
       create(:user,
-             member_in_project: project,
-             member_through_role: no_permissions_role)
+             member_with_roles: { project => no_permissions_role })
     end
 
     before do

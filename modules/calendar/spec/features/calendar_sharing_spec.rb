@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'shared_context'
 
-RSpec.describe 'Calendar sharing via ical', js: true do
+RSpec.describe 'Calendar sharing via ical', :js do
   include_context 'with calendar full access'
 
   shared_let(:status) { create(:default_status) }
@@ -37,13 +37,12 @@ RSpec.describe 'Calendar sharing via ical', js: true do
   let(:user_with_sharing_permission) do
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
+           member_with_permissions: { project => %w[
              view_work_packages
              save_queries
              view_calendar
              share_calendars
-           ])
+           ] })
   end
   let(:saved_query) do
     create(:query_with_view_work_packages_calendar,
@@ -58,18 +57,16 @@ RSpec.describe 'Calendar sharing via ical', js: true do
     # sharing via ical needs to be explicitly allowed
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
+           member_with_permissions: { project => %w[
              view_work_packages
              save_queries
              view_calendar
              manage_calendars
-           ])
+           ] })
   end
 
   shared_let(:admin) do
-    create(:admin,
-           member_in_project: project)
+    create(:admin, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
   end
 
   context 'without sufficient permissions and the ical_enabled setting enabled', with_settings: { ical_enabled: true } do
@@ -100,7 +97,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
       it 'shows disabled sharing menu item' do
         # wait for settings button to become visible
-        expect(page).to have_selector("#work-packages-settings-button")
+        expect(page).to have_css("#work-packages-settings-button")
 
         # click on settings button
         page.find_by_id('work-packages-settings-button').click
@@ -108,11 +105,11 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         # expect disabled sharing menu item
         within "#settingsDropdown" do
           # expect(page).to have_button("Subscribe to calendar", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to calendar")
+          expect(page).to have_css(".menu-item.inactive", text: "Subscribe to calendar")
           page.click_button("Subscribe to calendar")
 
           # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+          expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
         end
       end
     end
@@ -131,14 +128,13 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       let(:user_with_sharing_permission) do
         create(:user,
                firstname: 'Bernd',
-               member_in_project: project,
-               member_with_permissions: %w[
+               member_with_permissions: { project => %w[
                  view_work_packages
                  save_queries
                  view_calendar
                  manage_calendars
                  share_calendars
-               ])
+               ] })
       end
 
       it 'shows disabled sharing menu item' do
@@ -147,7 +143,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         click_link "Create new calendar"
 
         # wait for settings button to become visible
-        expect(page).to have_selector("#work-packages-settings-button")
+        expect(page).to have_css("#work-packages-settings-button")
 
         # click on settings button
         page.find_by_id('work-packages-settings-button').click
@@ -155,11 +151,11 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         # expect disabled sharing menu item
         within "#settingsDropdown" do
           # expect(page).to have_button("Subscribe to calendar", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to calendar")
+          expect(page).to have_css(".menu-item.inactive", text: "Subscribe to calendar")
           page.click_button("Subscribe to calendar")
 
           # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+          expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
         end
       end
     end
@@ -179,31 +175,31 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
       it 'shows an active menu item' do
         # wait for settings button to become visible
-        expect(page).to have_selector("#work-packages-settings-button")
+        expect(page).to have_css("#work-packages-settings-button")
 
         # click on settings button
         page.find_by_id('work-packages-settings-button').click
 
         # expect active sharing menu item
         within "#settingsDropdown" do
-          expect(page).to have_selector(".menu-item", text: "Subscribe to calendar")
+          expect(page).to have_css(".menu-item", text: "Subscribe to calendar")
         end
       end
 
       it 'shows a sharing modal' do
         open_sharing_modal
 
-        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).to have_css('.spot-modal--header', text: "Subscribe to calendar")
       end
 
       it 'closes the sharing modal when closed by user by clicking the close button' do
         open_sharing_modal
 
-        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).to have_css('.spot-modal--header', text: "Subscribe to calendar")
 
         click_button "Cancel"
 
-        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
       end
 
       it 'successfully requests a new tokenized iCalendar URL when a unique name is provided' do
@@ -214,7 +210,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         click_button "Copy URL"
 
         # implicitly testing for success -> modal is closed and fallback message is shown
-        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("/projects/#{saved_query.project.id}/calendars/#{saved_query.id}/ical?ical_token=")
 
         # explictly testing for success message is not working in test env, probably
@@ -235,7 +231,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         click_button "Copy URL"
 
         # modal is still shown and error message is shown
-        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).to have_css('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("Name is mandatory")
       end
 
@@ -246,7 +242,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
         click_button "Copy URL"
 
-        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("/projects/#{saved_query.project.id}/calendars/#{saved_query.id}/ical?ical_token=")
 
         # do the same thing again, now expect validation error
@@ -258,7 +254,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         click_button "Copy URL"
 
         # modal is still shown and error message is shown
-        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).to have_css('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("Name is already in use")
       end
     end
@@ -273,7 +269,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         click_link 'Calendars and dates'
       end
 
-      expect(page).to have_selector(".title-container", text: "Working days")
+      expect(page).to have_css(".title-container", text: "Working days")
       click_link I18n.t(:label_calendar_subscriptions)
 
       expect(page)
@@ -301,7 +297,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       loading_indicator_saveguard
 
       # wait for settings button to become visible
-      expect(page).to have_selector("#work-packages-settings-button")
+      expect(page).to have_css("#work-packages-settings-button")
 
       # click on settings button
       page.find_by_id('work-packages-settings-button').click
@@ -309,11 +305,11 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       # expect disabled sharing menu item
       within "#settingsDropdown" do
         # expect(page).to have_button("Subscribe to calendar", disabled: true) # disabled selector not working
-        expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to calendar")
+        expect(page).to have_css(".menu-item.inactive", text: "Subscribe to calendar")
         page.click_button("Subscribe to calendar")
 
         # modal should not be shown
-        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
       end
     end
   end
@@ -322,14 +318,14 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
   def open_sharing_modal
     # wait for settings button to become visible
-    expect(page).to have_selector("#work-packages-settings-button")
+    expect(page).to have_css("#work-packages-settings-button")
 
     # click on settings button
     page.find_by_id('work-packages-settings-button').click
 
     # expect disabled sharing menu item
     within "#settingsDropdown" do
-      expect(page).to have_selector(".menu-item", text: "Subscribe to calendar")
+      expect(page).to have_css(".menu-item", text: "Subscribe to calendar")
       page.click_button("Subscribe to calendar")
     end
   end

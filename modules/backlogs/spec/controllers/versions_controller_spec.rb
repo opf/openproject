@@ -45,8 +45,7 @@ RSpec.describe VersionsController do
 
   let(:current_user) do
     create(:user,
-           member_in_project: version.project,
-           member_with_permissions: [:manage_versions])
+           member_with_permissions: { version.project => [:manage_versions] })
   end
 
   before do

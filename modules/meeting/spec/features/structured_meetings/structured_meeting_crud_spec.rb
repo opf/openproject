@@ -43,8 +43,7 @@ RSpec.describe 'Structured meetings CRUD',
   shared_let(:user) do
     create(:user,
            lastname: 'First',
-           member_in_project: project,
-           member_with_permissions: %i[view_meetings create_meetings edit_meetings delete_meetings view_work_packages]).tap do |u|
+           member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings view_work_packages] }).tap do |u|
       u.pref[:time_zone] = 'utc'
 
       u.save!
@@ -53,8 +52,7 @@ RSpec.describe 'Structured meetings CRUD',
   shared_let(:other_user) do
     create(:user,
            lastname: 'Second',
-           member_in_project: project,
-           member_with_permissions: %i[view_meetings view_work_packages])
+           member_with_permissions: { project => %i[view_meetings view_work_packages] })
   end
   shared_let(:no_member_user) do
     create(:user,

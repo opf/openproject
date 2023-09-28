@@ -7,7 +7,7 @@ RSpec.describe 'Add an attachment to a meeting (agenda)', js: true, with_cuprite
   end
 
   let(:dev) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:project) { create(:project) }

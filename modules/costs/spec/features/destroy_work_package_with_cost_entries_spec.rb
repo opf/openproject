@@ -32,8 +32,7 @@ RSpec.describe 'Deleting time entries', js: true do
   let(:project) { work_package.project }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:role) do
     create(:role,

@@ -34,8 +34,7 @@ RSpec.describe 'boards onboarding tour',
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
     create(:admin,
-           member_in_project: demo_project,
-           member_through_role: role)
+           member_with_roles: { demo_project => role })
   end
   let(:permissions) do
     %i[

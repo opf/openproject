@@ -40,8 +40,7 @@ RSpec.describe 'BIM Revit Add-in navigation spec',
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   context "when logged in on model page" do

@@ -34,7 +34,7 @@ RSpec.describe 'API v3 Cost Entry resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:cost_entry) { create(:cost_entry, project:) }
   let(:role) { create(:role, permissions:) }

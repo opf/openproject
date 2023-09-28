@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'API v3 project storages resource', content_type: :json, webmock: true do
+RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:view_permissions) { %i(view_work_packages view_file_links) }
@@ -139,7 +139,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
 
     context 'as user with permissions' do
       let(:current_user) do
-        create(:user, member_in_projects: [project1, project3], member_with_permissions: view_permissions)
+        create(:user, member_with_permissions: { project1 => view_permissions, project3 => view_permissions })
       end
 
       it_behaves_like 'API V3 collection response', 4, 4, 'ProjectStorage', 'Collection' do
@@ -156,7 +156,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
 
     context 'as user without permissions' do
       let(:current_user) do
-        create(:user, member_in_projects: [project1, project2, project3], member_with_permissions: [])
+        create(:user, member_with_permissions: { project1 => [], project2 => [], project3 => [] })
       end
 
       it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
@@ -176,7 +176,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
     let(:project_storage_id) { project_storage.id }
     let(:path) { api_v3_paths.project_storage(project_storage_id) }
     let(:current_user) do
-      create(:user, member_in_project: project3, member_with_permissions: view_permissions)
+      create(:user, member_with_permissions: { project3 => view_permissions })
     end
 
     subject { last_response.body }
@@ -189,7 +189,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
 
     context 'if user has permission to see file storages in project' do
       let(:current_user) do
-        create(:user, member_in_project: project3, member_with_permissions: [])
+        create(:user, member_with_permissions: { project3 => [] })
       end
 
       it_behaves_like 'not found'

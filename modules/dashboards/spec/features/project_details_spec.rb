@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Project details widget on dashboard', js: true do
+RSpec.describe 'Project details widget on dashboard', :js do
   let!(:version_cf) { create(:version_project_custom_field) }
   let!(:bool_cf) { create(:boolean_project_custom_field) }
   let!(:user_cf) { create(:user_project_custom_field) }
@@ -73,12 +73,11 @@ RSpec.describe 'Project details widget on dashboard', js: true do
   end
 
   let(:read_only_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:editing_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: editing_permissions,
+           member_with_permissions: { project => editing_permissions },
            firstname: 'Cool',
            lastname: 'Guy')
   end
