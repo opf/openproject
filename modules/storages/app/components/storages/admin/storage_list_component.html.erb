@@ -5,28 +5,6 @@
         header_container.with_column(flex: :auto) do
           I18n.t('storages.count', count: storages.size)
         end
-
-        header_container.with_column(text_align: :right, style: "width: 100px;") do
-          render(Primer::Beta::Button.new(
-            scheme: :invisible,
-            size: :medium,
-            align_content: :center
-          )) do |component|
-            component.with_trailing_action_icon(icon: "triangle-down")
-            I18n.t('storages.label_provider')
-          end
-        end
-
-        header_container.with_column(text_align: :right, style: "width: 100px;") do
-          render(Primer::Beta::Button.new(
-            scheme: :invisible,
-            size: :medium,
-            align_content: :center
-          )) do |component|
-            component.with_trailing_action_icon(icon: "triangle-down")
-            I18n.t('storages.label_creator')
-          end
-        end
       end
     end
 
