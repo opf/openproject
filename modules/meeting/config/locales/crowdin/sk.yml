@@ -85,6 +85,7 @@ sk:
   label_author: "Creator"
   label_notify: "Odoslať na revíziu"
   label_icalendar: "Zaslať iKalendár"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Verzia"
   label_time_zone: "Časové pásmo"
   label_start_date: "Dátum začiatku"

@@ -1260,6 +1260,9 @@ fr:
       x_days:
         one: "un jour"
         other: "%{count} jours"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "une minute"
         other: "%{count} minutes"

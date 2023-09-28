@@ -1328,6 +1328,13 @@ ar:
         few: "%{count} يوم"
         many: "%{count} يوم"
         other: "%{count} يوم"
+      x_min_abbreviated:
+        zero: "%{count} mins"
+        one: "1 min"
+        two: "%{count} mins"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         zero: "دقائق %{count}"
         one: "1 minute"

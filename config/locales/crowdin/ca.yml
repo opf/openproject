@@ -1256,6 +1256,9 @@ ca:
       x_days:
         one: "Un dia"
         other: "%{count} dies"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "Un minut"
         other: "%{count} minuts"

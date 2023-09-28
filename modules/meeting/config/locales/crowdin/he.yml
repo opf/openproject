@@ -85,6 +85,7 @@ he:
   label_author: "Creator"
   label_notify: "שלח לבדיקה"
   label_icalendar: "שלח iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "גירסה"
   label_time_zone: "איזור זמן"
   label_start_date: "תאריך התחלה"

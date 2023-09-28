@@ -1277,6 +1277,10 @@ ro:
         one: "o zi"
         few: "%{count} zile"
         other: "%{count} zile"
+      x_min_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         one: "un minut"
         few: "%{count} minute"

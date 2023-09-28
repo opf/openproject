@@ -1260,6 +1260,9 @@ eo:
       x_days:
         one: "1 tago"
         other: "%{count} tagoj"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuto"
         other: "%{count} minutoj"
