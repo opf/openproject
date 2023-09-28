@@ -35,6 +35,12 @@ VCR.configure do |config|
   config.before_record do |i|
     i.response.body.force_encoding('UTF-8')
   end
+  config.filter_sensitive_data('<ACCESS_TOKEN>') do
+    ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN', 'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN')
+  end
+  config.filter_sensitive_data('<ACCESS_TOKEN>') do
+    ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN', 'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN')
+  end
 end
 
 VCR.turn_off!

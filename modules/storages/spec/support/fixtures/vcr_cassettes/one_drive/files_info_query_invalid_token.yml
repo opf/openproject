@@ -29,19 +29,19 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - bc75372b-8884-45cf-9453-f93226c16ee6
+      - 74a8934f-4307-47aa-a3c6-a2c38aceac18
       Client-Request-Id:
-      - bc75372b-8884-45cf-9453-f93226c16ee6
+      - 74a8934f-4307-47aa-a3c6-a2c38aceac18
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF0000016B"}}'
+      - '{"ServerInfo":{"DataCenter":"West Europe","Slice":"E","Ring":"5","ScaleUnit":"007","RoleInstance":"AM4PEPF000278F0"}}'
       Www-Authenticate:
       - Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize",
         client_id="00000003-0000-0000-c000-000000000000"
       Date:
-      - Wed, 27 Sep 2023 13:42:25 GMT
+      - Thu, 28 Sep 2023 15:13:43 GMT
     body:
       encoding: UTF-8
       string: '{"error":{"code":"InvalidAuthenticationToken","message":"CompactToken
-        parsing failed with error code: 80049217","innerError":{"date":"2023-09-27T13:42:25","request-id":"bc75372b-8884-45cf-9453-f93226c16ee6","client-request-id":"bc75372b-8884-45cf-9453-f93226c16ee6"}}}'
-  recorded_at: Wed, 27 Sep 2023 13:42:25 GMT
+        parsing failed with error code: 80049217","innerError":{"date":"2023-09-28T15:13:43","request-id":"74a8934f-4307-47aa-a3c6-a2c38aceac18","client-request-id":"74a8934f-4307-47aa-a3c6-a2c38aceac18"}}}'
+  recorded_at: Thu, 28 Sep 2023 15:13:43 GMT
 recorded_with: VCR 6.2.0
