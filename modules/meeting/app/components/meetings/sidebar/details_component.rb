@@ -121,20 +121,10 @@ module Meetings
     end
 
     def duration_partial
-      duration = Duration.new(seconds: @meeting.duration * 3600)
-
       meeting_attribute_row(:stopwatch) do
         flex_layout do |flex|
           flex.with_column do
-            if duration.hours > 0
-              render(Primer::Beta::Text.new) do
-                "#{duration.hours} h #{duration.minutes} min"
-              end
-            else
-              render(Primer::Beta::Text.new) do
-                "#{duration.minutes} min"
-              end
-            end
+            render OpenProject::Common::DurationComponent.new(@meeting.duration, :hours, abbreviated: true)
           end
           flex.with_column(ml: 2) do
             render(Primer::Beta::Text.new(color: :danger, font_size: :small)) do
