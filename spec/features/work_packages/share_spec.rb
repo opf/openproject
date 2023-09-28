@@ -153,9 +153,7 @@ RSpec.describe 'Work package sharing',
                              view_shared_work_packages))
     end
 
-    # TODO:
-    #  - Check not having update and delete capabilities
-    it 'allows seeing shares' do
+    it 'allows seeing shares but not editing' do
       work_package_page.visit!
 
       # Clicking on the share button opens a modal which lists all of the users a work package
@@ -164,10 +162,10 @@ RSpec.describe 'Work package sharing',
       click_button 'Share'
 
       share_modal.expect_open
-      share_modal.expect_shared_with(view_user)
-      share_modal.expect_shared_with(comment_user)
-      share_modal.expect_shared_with(edit_user)
-      share_modal.expect_shared_with(shared_project_user)
+      share_modal.expect_shared_with(view_user, editable: false)
+      share_modal.expect_shared_with(comment_user, editable: false)
+      share_modal.expect_shared_with(edit_user, editable: false)
+      share_modal.expect_shared_with(shared_project_user, editable: false)
 
       share_modal.expect_not_shared_with(non_shared_project_user)
       share_modal.expect_not_shared_with(not_shared_yet_with_user)
