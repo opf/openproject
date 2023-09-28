@@ -30,6 +30,12 @@ module MeetingAgendaItems
   class CreateContract < BaseContract
     validate :user_allowed_to_add, :validate_meeting_existence
 
+    def self.assignable_meetings(user)
+      StructuredMeeting
+        .open
+        .visible(user)
+    end
+
     ##
     # Meeting agenda items can currently be only created
     # through the project permission :edit_meetings

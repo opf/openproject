@@ -40,9 +40,8 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
         multiple: false
       }
     ) do |select|
-      StructuredMeeting
-        .open
-        .visible
+      MeetingAgendaItems::CreateContract
+        .assignable_meetings(User.current)
         .where('meetings.start_time >= ?', Time.zone.now)
         .find_each do |meeting|
         select.option(
