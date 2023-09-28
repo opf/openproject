@@ -45,6 +45,8 @@ module OpTurbo
         when :replace
           template = render_in(view_context)
         when :remove
+          @wrapper_only = true
+          render_in(view_context)
           template = nil
         else
           raise "Unsupported action #{action}"
@@ -79,6 +81,8 @@ module OpTurbo
         @component_wrapper_used = true
         if inner_html_only?
           capture(&block)
+        elsif wrapper_only?
+          content_tag(tag, id: wrapper_key, class:, data:, style:)
         else
           content_tag(tag, id: wrapper_key, class:, data:, style:, &block)
         end
@@ -86,6 +90,10 @@ module OpTurbo
 
       def inner_html_only?
         @inner_html_only == true
+      end
+
+      def wrapper_only?
+        !!@wrapper_only
       end
 
       def wrapper_key
