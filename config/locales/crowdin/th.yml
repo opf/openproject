@@ -1243,6 +1243,8 @@ th:
         other: "เกิน %{count} ปี"
       x_days:
         other: "%{count} วัน"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count} นาที"
       x_months:

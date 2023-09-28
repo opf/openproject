@@ -85,6 +85,7 @@
   label_author: "Skaper"
   label_notify: "Send till gjennomgang"
   label_icalendar: "Send til iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Versjon"
   label_time_zone: "Tidssone"
   label_start_date: "Startdato"

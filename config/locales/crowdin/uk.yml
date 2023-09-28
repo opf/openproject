@@ -1289,6 +1289,11 @@ uk:
         few: "%{count} днів"
         many: "%{count} днів"
         other: "%{count} днів"
+      x_min_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         one: "1 хвилина"
         few: "%{count} хвилин"

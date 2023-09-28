@@ -1242,6 +1242,8 @@ ko:
         other: "1년 이상\n%{count}년 이상"
       x_days:
         other: "1일\n%{count}일"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "1분\n%{count}분"
       x_months:

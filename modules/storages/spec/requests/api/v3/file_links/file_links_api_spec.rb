@@ -34,15 +34,15 @@ require_module_spec_helper
 RSpec.describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
 
-  def add_permissions(user, *permissions)
+  def add_permissions(user, *)
     role = Role.joins(members: :principal).where('users.id': user).first
-    role.add_permission!(*permissions)
+    role.add_permission!(*)
     user.reload # clear user's project_role_cache
   end
 
-  def remove_permissions(user, *permissions)
+  def remove_permissions(user, *)
     role = Role.joins(members: :principal).where('users.id': user).first
-    role.remove_permission!(*permissions)
+    role.remove_permission!(*)
     user.reload # clear user's project_role_cache
   end
 
@@ -59,7 +59,6 @@ RSpec.describe 'API v3 file links resource' do
   shared_association_default(:priority) { create(:priority) }
   shared_association_default(:status) { create(:status) }
 
-  let(:permissions) { %i(view_work_packages view_file_links) }
   shared_let(:project) { create(:project) }
 
   shared_let(:current_user) do
@@ -318,11 +317,11 @@ RSpec.describe 'API v3 file links resource' do
     end
 
     before(:all) do
-      add_permissions(current_user, :view_work_packages, :manage_file_links)
+      add_permissions(current_user, :manage_file_links)
     end
 
     after(:all) do
-      remove_permissions(current_user, :view_work_packages, :manage_file_links)
+      remove_permissions(current_user, :manage_file_links)
     end
 
     before do
@@ -337,9 +336,9 @@ RSpec.describe 'API v3 file links resource' do
       end
 
       it(
-        'creates corresponding FileLink records and '\
+        'creates corresponding FileLink records and ' \
         'provides a link to the collection of created file links',
-         :aggregate_failures
+        :aggregate_failures
       ) do
         expect(Storages::FileLink.count).to eq 2
         Storages::FileLink.find_each.with_index do |file_link, i|
@@ -402,7 +401,7 @@ RSpec.describe 'API v3 file links resource' do
       end
 
       it(
-        'does not create any new FileLink records for the already existing one and'\
+        'does not create any new FileLink records for the already existing one and' \
         'does not update the existing FileLink metadata from the POSTed one'
       ) do
         expect(Storages::FileLink.count).to eq 2
@@ -427,8 +426,8 @@ RSpec.describe 'API v3 file links resource' do
       end
 
       it(
-        'creates only one FileLink for all duplicates and '\
-        'uses metadata from the first item and '\
+        'creates only one FileLink for all duplicates and ' \
+        'uses metadata from the first item and ' \
         'replies with as many embedded elements as in the request, all identical'
       ) do
         expect(Storages::FileLink.count).to eq 1
@@ -554,7 +553,6 @@ RSpec.describe 'API v3 file links resource' do
 
   describe 'DELETE /api/v3/file_links/:file_link_id' do
     let(:path) { api_v3_paths.file_link(file_link.id) }
-    let(:permissions) { %i(view_file_links manage_file_links) }
 
     before(:all) { add_permissions(current_user, :manage_file_links) }
     after(:all) { remove_permissions(current_user, :manage_file_links) }
@@ -583,7 +581,7 @@ RSpec.describe 'API v3 file links resource' do
       it_behaves_like 'unauthorized access'
     end
 
-    context 'if no storage with that id exists' do
+    context 'if no file link with that id exists' do
       let(:path) { api_v3_paths.file_link(1337) }
 
       it_behaves_like 'not found'

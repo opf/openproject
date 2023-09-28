@@ -1294,6 +1294,11 @@ be:
         few: "%{count} days"
         many: "%{count} days"
         other: "%{count} days"
+      x_min_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minute"
         few: "%{count} minutes"

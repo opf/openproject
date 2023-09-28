@@ -1245,6 +1245,8 @@ vi:
         other: "hơn %{count} năm"
       x_days:
         other: "%{count} ngày"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count} phút"
       x_months:

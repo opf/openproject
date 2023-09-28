@@ -85,6 +85,7 @@ fi:
   label_author: "Creator"
   label_notify: "Lähetä tarkistettavaksi"
   label_icalendar: "Lähetä iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Versio"
   label_time_zone: "Aikavyöhyke"
   label_start_date: "Aloituspäivä"

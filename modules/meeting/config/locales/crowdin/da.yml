@@ -85,6 +85,7 @@ da:
   label_author: "Creator"
   label_notify: "Send til vurdering"
   label_icalendar: "Send iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Version"
   label_time_zone: "Tidszone"
   label_start_date: "Start dato"

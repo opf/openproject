@@ -85,6 +85,7 @@ ru:
   label_author: "Создатель"
   label_notify: "Отправка на рецензию"
   label_icalendar: "Отправить iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Версия"
   label_time_zone: "Часовой пояс"
   label_start_date: "Дата начала"

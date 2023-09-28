@@ -1257,6 +1257,9 @@ nl:
       x_days:
         one: "%{count} dag"
         other: "%{count} dagen"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuut"
         other: "%{count} minuten"
