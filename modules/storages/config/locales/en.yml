@@ -75,10 +75,6 @@ en:
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
       configure: "Configure"
-    count:
-      zero: "0 storages"
-      one: "1 storage"
-      other: "%{count} storages"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
@@ -148,12 +144,14 @@ en:
       description: "Add a storage to see them here."
     label_active: "Active"
     label_add_new_storage: "Add new storage"
+    label_add_storage: "Add storage"
     label_inactive: "Inactive"
     label_creator: "Creator"
     label_provider: "Provider"
     label_file_link: "File link"
     label_file_links: "File links"
     label_name: "Name"
+    label_host_short: "Host"
     label_host: "Host URL"
     label_managed_project_folders:
       automatically_managed_folders: "Automatically managed folders"
