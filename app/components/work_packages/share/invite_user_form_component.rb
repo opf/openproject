@@ -33,15 +33,14 @@ module WorkPackages
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(member:, work_package:)
+      def initialize(work_package:)
         super
 
-        @member = member
         @work_package = work_package
       end
 
       def new_share
-        Member.new(roles: [Role.new(builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER)])
+        @new_share ||= Member.new(entity: @work_package, roles: [Role.new(builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER)])
       end
     end
   end

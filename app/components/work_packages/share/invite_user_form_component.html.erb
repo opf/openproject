@@ -1,7 +1,6 @@
 <%=
   primer_form_with(
-    model: @member,
-    method: :post,
+    model: new_share,
     url: work_package_shares_path(@work_package)
   ) do |form|
     flex_layout do |new_user_row|

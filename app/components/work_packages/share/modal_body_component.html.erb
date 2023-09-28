@@ -7,7 +7,6 @@
         modal_content.with_row do
           if sharing_enabled?
             render(WorkPackages::Share::InviteUserFormComponent.new(
-              member: Member.new(entity: @work_package),
               work_package: @work_package))
           else
             render(Primer::Beta::Flash.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
