@@ -120,24 +120,46 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def attributes_data_by_wp(work_package)
-    keys = work_package.type.attribute_groups.map do |group|
-      group.attributes.map do |form_key|
-        form_key_to_column_keys(form_key.to_sym, work_package)
-      end
-    end.flatten
-    %i[id type status].concat(keys).map do |key|
-      { label: WorkPackage.human_attribute_name(key), name: key }
-    end
+    column_entries(%i[id type status])
+      .concat(form_configuration_columns(work_package))
   end
 
-  def form_key_to_column_keys(form_key, work_package)
+  def form_configuration_columns(work_package)
+    work_package
+      .type.attribute_groups
+      .filter { |group| group.is_a?(Type::AttributeGroup) }
+      .map do |group|
+      group.attributes.map do |form_key|
+        form_key_to_column_entries(form_key.to_sym, work_package)
+      end
+    end.flatten
+  end
+
+  def form_key_to_column_entries(form_key, work_package)
+    if CustomField.custom_field_attribute? form_key
+      id = form_key.to_s.sub('custom_field_', '').to_i
+      cf = CustomField.find_by(id:)
+      return [] if cf.nil? || cf.formattable?
+
+      return [{ label: cf.name || form_key, name: form_key }]
+    end
+
     if form_key == :date
-      %i[start_date due_date duration]
+      column_entries(%i[start_date due_date duration])
     elsif form_key == :bcf_thumbnail
       []
     else
-      [::API::Utilities::PropertyNameConverter.to_ar_name(form_key, context: work_package)]
+      column_name = ::API::Utilities::PropertyNameConverter.to_ar_name(form_key, context: work_package)
+      [column_entry(column_name)]
     end
+  end
+
+  def column_entries(column_names)
+    column_names.map { |key| column_entry(key) }
+  end
+
+  def column_entry(column_name)
+    { label: WorkPackage.human_attribute_name(column_name), name: column_name }
   end
 
   def build_columns_table_cells(attribute_data)
