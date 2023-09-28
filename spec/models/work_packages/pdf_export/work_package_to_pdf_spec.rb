@@ -106,7 +106,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         result << value if value.present?
         result
       end
-
+      # Joining the results for comparison since word wrapping leads to a different array for the same content
       expect(pdf[:strings].join(' ')).to eq([
                                     "#{type.name} ##{work_package.id} - #{work_package.subject}",
                                     *details,
