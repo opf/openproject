@@ -1294,6 +1294,11 @@ sk:
         few: "%{count} dní"
         many: "%{count} dní"
         other: "%{count} dní"
+      x_min_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minúta"
         few: "%{count} minút"

@@ -1256,6 +1256,9 @@ el:
       x_days:
         one: "1 ημέρα"
         other: "%{count} ημέρες"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 λεπτό"
         other: "%{count} λεπτά"

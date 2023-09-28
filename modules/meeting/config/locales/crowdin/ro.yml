@@ -85,6 +85,7 @@ ro:
   label_author: "Creator"
   label_notify: "Trimiteți pentru revizuire"
   label_icalendar: "Trimiteți iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Versiune"
   label_time_zone: "Fus orar"
   label_start_date: "Data de început"

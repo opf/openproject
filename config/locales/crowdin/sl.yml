@@ -1291,6 +1291,11 @@ sl:
         two: "%{count} dni"
         few: "%{count} dni"
         other: "%{count} dni"
+      x_min_abbreviated:
+        one: "1 min"
+        two: "%{count} mins"
+        few: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuta"
         two: "%{count} minut"

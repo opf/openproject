@@ -47,6 +47,7 @@ OpenProject::Application.routes.draw do
   resources :meetings do
     member do
       get :cancel_edit
+      get :download_ics
       put :update_title
       put :update_details
       put :update_participants

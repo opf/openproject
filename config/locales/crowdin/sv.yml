@@ -1259,6 +1259,9 @@ sv:
       x_days:
         one: "En dag"
         other: "%{count} dagar"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minut"
         other: "%{count} minuter"

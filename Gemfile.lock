@@ -874,6 +874,10 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.24.0)
       rubocop (~> 1.33)
+    rubocop-inflector (0.2.1)
+      activesupport
+      rubocop
+      rubocop-rspec
     rubocop-performance (1.19.1)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
@@ -1158,6 +1162,7 @@ DEPENDENCIES
   rspec-rails (~> 6.0.0)
   rspec-retry (~> 0.6.1)
   rubocop
+  rubocop-inflector
   rubocop-performance
   rubocop-rails
   rubocop-rspec

@@ -1239,6 +1239,8 @@ ja:
         other: "%{count}年間以上"
       x_days:
         other: "%{count}日間"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count}分間"
       x_months:

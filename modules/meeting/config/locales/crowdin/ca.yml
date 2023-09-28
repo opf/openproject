@@ -85,6 +85,7 @@ ca:
   label_author: "Creator"
   label_notify: "Envia per revisar"
   label_icalendar: "Envia iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Versió"
   label_time_zone: "Zona horària"
   label_start_date: "Data d'inici"

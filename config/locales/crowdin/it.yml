@@ -1257,6 +1257,9 @@ it:
       x_days:
         one: "1 giorno"
         other: "%{count} giorni"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuto"
         other: "%{count} minuti"

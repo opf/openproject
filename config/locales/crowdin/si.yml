@@ -1260,6 +1260,9 @@ si:
       x_days:
         one: "දින 1"
         other: "%{count} දින"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "විනාඩි 1"
         other: "විනාඩි%{count}"

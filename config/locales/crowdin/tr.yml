@@ -1259,6 +1259,9 @@ tr:
       x_days:
         one: "1 gün"
         other: "%{count} gün"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 dakika"
         other: "%{count} dakika"
