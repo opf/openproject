@@ -16,9 +16,8 @@ module Primer
         end
 
         def decorated_select?
-          !select_options.blank?
+          @autocomplete_options[:decorated]
         end
-
       end
     end
   end
