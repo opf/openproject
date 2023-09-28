@@ -39,7 +39,7 @@ RSpec.describe Projects::Settings::ModulesController, 'menu' do
   let(:params) { { project_id: project.id } }
 
   before do
-    mock_permissions_for(current_user, &:all_permissions_allowed!)
+    mock_permissions_for(current_user, &:allow_everything!)
     login_as(current_user)
   end
 

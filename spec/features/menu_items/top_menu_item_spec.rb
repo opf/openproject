@@ -59,7 +59,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
     if ex.metadata.key?(:allow_all_permissions)
       mock_permissions_for(user) do |mock|
         if ex.metadata[:allow_all_permissions]
-          mock.all_permissions_allowed!
+          mock.allow_everything!
         else
           mock.forbid_everything!
         end

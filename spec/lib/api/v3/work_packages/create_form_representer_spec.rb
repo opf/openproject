@@ -173,7 +173,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
     describe 'configureForm' do
       before do
-        mock_permissions_for(current_user, &:all_permissions_allowed!)
+        mock_permissions_for(current_user, &:allow_everything!)
       end
 
       context 'for an admin and with type' do

@@ -39,7 +39,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:current_user) { build_stubbed(:user) }
 
   before do
-    mock_permissions_for(current_user, &:all_permissions_allowed!)
+    mock_permissions_for(current_user, &:allow_everything!)
     login_as(current_user)
   end
 

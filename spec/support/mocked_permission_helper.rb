@@ -39,7 +39,7 @@ class PermissionMock
     @allow_all_permissions = false
   end
 
-  def all_permissions_allowed!
+  def allow_everything!
     @allow_all_permissions = true
   end
 

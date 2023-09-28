@@ -38,7 +38,7 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
 
   before do
     login_as(current_user)
-    mock_permissions_for(current_user, &:all_permissions_allowed!)
+    mock_permissions_for(current_user, &:allow_everything!)
   end
 
   it 'has the project set' do
