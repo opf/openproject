@@ -31,7 +31,7 @@
             end
 
             grid.with_area(:name, tag: :div, mr: 3) do
-              render(Primer::Beta::Link.new(href: edit_admin_settings_storage_path(storage), scheme: :primary, muted: true)) { storage.name }
+              render(Primer::Beta::Link.new(href: edit_admin_settings_storage_path(storage), scheme: :primary)) { storage.name }
             end
 
             grid.with_area(:time, tag: :div, color: :subtle, mr: 3) do
