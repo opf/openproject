@@ -89,7 +89,7 @@ module OpTurbo
       end
 
       def inner_html_only?
-        @inner_html_only == true
+        !!@inner_html_only
       end
 
       def wrapper_only?
