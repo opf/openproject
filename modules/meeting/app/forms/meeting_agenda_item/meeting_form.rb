@@ -26,20 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  module EditableItem
-    extend ActiveSupport::Concern
+class MeetingAgendaItem::MeetingForm < ApplicationForm
+  include Redmine::I18n
 
-    included do
-      validate :validate_editable
-    end
-
-    protected
-
-    def validate_editable
-      unless model.editable?
-        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
+  form do |agenda_item_form|
+    agenda_item_form.autocompleter(
+      name: :meeting_id,
+      required: true,
+      include_blank: false,
+      label: Meeting.model_name.human,
+      caption: I18n.t("label_meeting_selection_caption"),
+      autocomplete_options: {
+        multiple: false,
+        decorated: true,
+      }
+    ) do |select|
+      MeetingAgendaItems::CreateContract
+        .assignable_meetings(User.current)
+        .where('meetings.start_time >= ?', Time.zone.now)
+        .find_each do |meeting|
+        select.option(
+          label: "#{meeting.title} #{format_date(meeting.start_time)} #{format_time(meeting.start_time, false)}",
+          value: meeting.id
+        )
       end
     end
+  end
+
+  def initialize(disabled: false)
+    super()
+    @disabled = disabled
   end
 end

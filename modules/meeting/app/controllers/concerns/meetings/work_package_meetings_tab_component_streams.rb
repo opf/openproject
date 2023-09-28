@@ -26,19 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  module EditableItem
+module Meetings
+  module WorkPackageMeetingsTabComponentStreams
     extend ActiveSupport::Concern
 
     included do
-      validate :validate_editable
-    end
+      def update_heading_component_via_turbo_stream(work_package: @work_package)
+        update_via_turbo_stream(
+          component: WorkPackageMeetingsTab::HeadingComponent.new(
+            work_package:
+          )
+        )
+      end
 
-    protected
+      def update_add_to_meeting_form_component_via_turbo_stream(meeting_agenda_item:, work_package: @work_package,
+                                                                base_errors: nil)
+        update_via_turbo_stream(
+          component: WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(
+            meeting_agenda_item:,
+            work_package:,
+            base_errors:
+          )
+        )
+      end
 
-    def validate_editable
-      unless model.editable?
-        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
+      def update_index_component_via_turbo_stream(direction:, agenda_items_grouped_by_meeting:,
+                                                  upcoming_meetings_count:, past_meetings_count:, work_package: @work_package)
+        update_via_turbo_stream(
+          component: WorkPackageMeetingsTab::IndexComponent.new(
+            direction:,
+            agenda_items_grouped_by_meeting:,
+            upcoming_meetings_count:,
+            past_meetings_count:,
+            work_package:
+          )
+        )
       end
     end
   end

@@ -28,15 +28,46 @@
 
 module MeetingAgendaItems
   class CreateContract < BaseContract
-    validate :user_allowed_to_add
+    validate :user_allowed_to_add, :validate_meeting_existence
+
+    def self.assignable_meetings(user)
+      StructuredMeeting
+        .open
+        .visible(user)
+    end
 
     ##
     # Meeting agenda items can currently be only created
     # through the project permission :edit_meetings
     def user_allowed_to_add
+      # when creating a meeting agenda item from the work package tab and not selecting a meeting
+      # the meeting and therefore the project is not set
+      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading permission base error
+      # the error is added by the models presence validation
+      return unless visible?
+
       unless user.allowed_to?(:edit_meetings, model.project)
         errors.add :base, :error_unauthorized
       end
+    end
+
+    ##
+    # A stale browser window might provide an already deleted meeting as an option when creating an agenda item from the
+    # work package tab. This would lead to an 500 server error when trying to save the agenda item.
+    def validate_meeting_existence
+      # when creating a meeting agenda item from the work package tab and not selecting a meeting
+      # the meeting and therefore the project is not set
+      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading not existance error
+      # the error is added by the models presence validation
+      return if model.meeting.nil?
+
+      errors.add :base, :does_not_exist unless visible?
+    end
+
+    private
+
+    def visible?
+      @visible ||= model.meeting&.visible?(user)
     end
   end
 end

@@ -26,20 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  module EditableItem
-    extend ActiveSupport::Concern
+module WorkPackageMeetingsTab
+  class MeetingAgendaItemComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
 
-    included do
-      validate :validate_editable
-    end
+    def initialize(meeting_agenda_item:)
+      super
 
-    protected
-
-    def validate_editable
-      unless model.editable?
-        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
-      end
+      @meeting_agenda_item = meeting_agenda_item
     end
   end
 end

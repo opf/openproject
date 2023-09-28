@@ -13,8 +13,8 @@ import {
   zenModeComponentSelector,
 } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {
-  OpAttachmentsComponent,
   attachmentsSelector,
+  OpAttachmentsComponent,
 } from 'core-app/shared/components/attachments/attachments.component';
 import {
   UserAutocompleterComponent,
@@ -37,10 +37,7 @@ import {
   ToastsContainerComponent,
   toastsContainerSelector,
 } from 'core-app/shared/components/toaster/toasts-container.component';
-import {
-  OpSidemenuComponent,
-  sidemenuSelector,
-} from 'core-app/shared/components/sidemenu/sidemenu.component';
+import { OpSidemenuComponent, sidemenuSelector } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector,
@@ -62,10 +59,6 @@ import {
   addSectionDropdownSelector,
 } from 'core-app/shared/components/hide-section/add-section-dropdown/add-section-dropdown.component';
 import {
-  AutocompleteSelectDecorationComponent,
-  autocompleteSelectDecorationSelector,
-} from 'core-app/shared/components/autocompleter/autocomplete-select-decoration/autocomplete-select-decoration.component';
-import {
   ContentTabsComponent,
   contentTabsSelector,
 } from 'core-app/shared/components/tabs/content-tabs/content-tabs.component';
@@ -82,8 +75,8 @@ import {
   CollapsibleSectionComponent,
 } from 'core-app/shared/components/collapsible-section/collapsible-section.component';
 import {
-  OpHeaderProjectSelectComponent,
   headerProjectSelectSelector,
+  OpHeaderProjectSelectComponent,
 } from 'core-app/shared/components/header-project-select/header-project-select.component';
 import {
   ProjectAutocompleterComponent,
@@ -137,10 +130,7 @@ import {
   quickInfoMacroSelector,
   WorkPackageQuickinfoMacroComponent,
 } from 'core-app/shared/components/fields/macros/work-package-quickinfo-macro.component';
-import {
-  SpotSwitchComponent,
-  spotSwitchSelector,
-} from 'core-app/spot/components/switch/switch.component';
+import { SpotSwitchComponent, spotSwitchSelector } from 'core-app/spot/components/switch/switch.component';
 import { BackupComponent, backupSelector } from 'core-app/core/setup/globals/components/admin/backup.component';
 import {
   EnterpriseBaseComponent,
@@ -159,17 +149,14 @@ import {
   enterprisePageSelector,
 } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
 import {
-  OpNonWorkingDaysListComponent,
   nonWorkingDaysListSelector,
+  OpNonWorkingDaysListComponent,
 } from 'core-app/shared/components/op-non-working-days-list/op-non-working-days-list.component';
 import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
-import {
-  NoResultsComponent,
-  noResultsSelector,
-} from 'app/shared/components/no-results/no-results.component';
+import { NoResultsComponent, noResultsSelector } from 'app/shared/components/no-results/no-results.component';
 import {
   HomescreenNewFeaturesBlockComponent,
   homescreenNewFeaturesBlockSelector,
@@ -191,10 +178,7 @@ import {
   InAppNotificationBellComponent,
   opInAppNotificationBellSelector,
 } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
-import {
-  IanMenuComponent,
-  ianMenuSelector,
-} from 'core-app/features/in-app-notifications/center/menu/menu.component';
+import { IanMenuComponent, ianMenuSelector } from 'core-app/features/in-app-notifications/center/menu/menu.component';
 import {
   opTeamPlannerSidemenuSelector,
   TeamPlannerSidemenuComponent,
@@ -215,11 +199,17 @@ import {
   OpBasicSingleDatePickerComponent,
   opBasicSingleDatePickerSelector,
 } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
-import { SpotDropModalPortalComponent, spotDropModalPortalComponentSelector } from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
-import { StaticAttributeHelpTextComponent, staticAttributeHelpTextSelector } from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
 import {
-  StorageLoginButtonComponent,
+  SpotDropModalPortalComponent,
+  spotDropModalPortalComponentSelector,
+} from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
+import {
+  StaticAttributeHelpTextComponent,
+  staticAttributeHelpTextSelector,
+} from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
+import {
   opStorageLoginButtonSelector,
+  StorageLoginButtonComponent,
 } from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
 import {
   TimerAccountMenuComponent,
@@ -250,7 +240,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: hideSectionLinkSelector, cls: HideSectionLinkComponent },
   { selector: showSectionDropdownSelector, cls: ShowSectionDropdownComponent },
   { selector: addSectionDropdownSelector, cls: AddSectionDropdownComponent },
-  { selector: autocompleteSelectDecorationSelector, cls: AutocompleteSelectDecorationComponent },
   { selector: contentTabsSelector, cls: ContentTabsComponent },
   { selector: globalSearchTitleSelector, cls: GlobalSearchTitleComponent },
   { selector: copyToClipboardSelector, cls: CopyToClipboardComponent },
