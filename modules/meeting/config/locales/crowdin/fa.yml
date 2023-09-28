@@ -85,6 +85,7 @@ fa:
   label_author: "Creator"
   label_notify: "ارسال برای بازبینی"
   label_icalendar: "Send iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "نسخه"
   label_time_zone: "منطقه زمانی"
   label_start_date: "Start date"

@@ -1260,6 +1260,9 @@ mn:
       x_days:
         one: "1 day"
         other: "%{count} days"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minute"
         other: "%{count} minutes"

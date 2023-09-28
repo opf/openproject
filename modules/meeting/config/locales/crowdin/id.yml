@@ -85,6 +85,7 @@ id:
   label_author: "Creator"
   label_notify: "Kirim untuk ulasan"
   label_icalendar: "Kirim iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Versi"
   label_time_zone: "Zona waktu"
   label_start_date: "Tanggal mulai"

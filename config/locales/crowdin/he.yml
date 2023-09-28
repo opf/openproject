@@ -1294,6 +1294,11 @@ he:
         two: "%{count} ימים"
         many: "%{count} ימים"
         other: "%{count} ימים"
+      x_min_abbreviated:
+        one: "1 min"
+        two: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         one: "דקה אחת"
         two: "%{count} דקות"

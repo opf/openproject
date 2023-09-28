@@ -186,7 +186,7 @@ RSpec.describe MeetingMailer do
         expect(entry.dtstart.utc).to eq meeting.start_time
         expect(entry.dtend.utc).to eq meeting.start_time + 1.hour
         expect(entry.summary).to eq '[My project] Important meeting'
-        expect(entry.description).to eq "[My project] Agenda: Important meeting"
+        expect(entry.description).to eq "[My project] Meeting: Important meeting"
         expect(entry.location).to eq(meeting.location.presence)
       end
 

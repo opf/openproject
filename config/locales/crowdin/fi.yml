@@ -1260,6 +1260,9 @@ fi:
       x_days:
         one: "päivä"
         other: "%{count} päivää"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "minuutti"
         other: "%{count} minuuttia"

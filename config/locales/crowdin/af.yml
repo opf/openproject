@@ -1260,6 +1260,9 @@ af:
       x_days:
         one: "1 dag"
         other: "%{count} dae"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuut"
         other: "%{count} minute"

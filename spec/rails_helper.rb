@@ -39,6 +39,8 @@ require 'test_prof/recipes/rspec/let_it_be'
 require "test_prof/recipes/rspec/factory_default"
 # Encourages fixing factories as soon as possible
 require "test_prof/factory_prof/nate_heckler"
+# Allows sampling a random set of specs or example groups for profiling.
+require "test_prof/recipes/rspec/sample"
 
 # Add PaperTrail integration so that it is disabled by default
 # https://github.com/paper-trail-gem/paper_trail#7b-rspec

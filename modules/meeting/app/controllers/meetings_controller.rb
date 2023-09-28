@@ -200,6 +200,16 @@ class MeetingsController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def download_ics
+    ::Meetings::ICalService
+      .new(user: current_user, meeting: @meeting)
+      .call
+      .on_failure { |call| render_500(message: call.message) }
+      .on_success do |call|
+      send_data call.result, filename: filename_for_content_disposition("#{@meeting.title}.ics")
+    end
+  end
+
   private
 
   def load_query

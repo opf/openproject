@@ -1259,6 +1259,9 @@ pt:
       x_days:
         one: "1 dia"
         other: "%{count} dias"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuto"
         other: "%{count} minutos"
