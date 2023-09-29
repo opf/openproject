@@ -33,10 +33,11 @@ module WorkPackages
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(work_package:)
+      def initialize(work_package:, shared_users: nil)
         super
 
         @work_package = work_package
+        @shared_users = shared_users || find_shared_users
       end
 
       def self.wrapper_key
@@ -45,12 +46,14 @@ module WorkPackages
 
       private
 
-      def shared_users
-        @shared_users ||= User
-                            .having_entity_membership(@work_package)
-                            .includes(work_package_shares: :roles)
-                            .where(work_package_shares: { entity: @work_package })
-                            .order('work_package_shares.created_at DESC')
+      attr_reader :shared_users
+
+      def find_shared_users
+        User
+          .having_entity_membership(@work_package)
+          .includes(work_package_shares: :roles)
+          .where(work_package_shares: { entity: @work_package })
+          .order('work_package_shares.created_at DESC')
       end
 
       def sharing_manageable?
