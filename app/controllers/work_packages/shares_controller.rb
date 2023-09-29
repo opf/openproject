@@ -61,7 +61,13 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call
 
-    respond_with_update_modal
+    find_shared_users
+
+    if @shared_users.none?
+      respond_with_update_modal
+    else
+      respond_with_remove_share
+    end
   end
 
   private
@@ -69,6 +75,18 @@ class WorkPackages::SharesController < ApplicationController
   def respond_with_update_modal
     replace_via_turbo_stream(
       component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def respond_with_remove_share
+    remove_via_turbo_stream(
+      component: WorkPackages::Share::ShareRowComponent.new(share: @share)
+    )
+
+    update_via_turbo_stream(
+      component: WorkPackages::Share::ShareCounterComponent.new(count: @shared_users.size)
     )
 
     respond_with_turbo_streams
@@ -91,5 +109,13 @@ class WorkPackages::SharesController < ApplicationController
     # Role has a left join on permissions included leading to multiple ids being returned which
     # is why we unscope.
     WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
+  end
+
+  def find_shared_users
+    @shared_users = User
+                      .having_entity_membership(@work_package)
+                      .includes(work_package_shares: :roles)
+                      .where(work_package_shares: { entity: @work_package })
+                      .order('work_package_shares.created_at DESC')
   end
 end
