@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,16 +24,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 module Members::Scopes
-  module Of
+  module OfWorkPackage
     extend ActiveSupport::Concern
 
     class_methods do
-      # Find all members of a project
-      def of(project)
-        where(project_id: project)
+      # Find all members of a specific Work Package
+      def of_work_package(work_package)
+        where(entity: work_package)
       end
     end
   end

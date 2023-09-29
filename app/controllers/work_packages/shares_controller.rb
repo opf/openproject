@@ -79,8 +79,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def find_share
-    # TODO: move into scope
-    @share = Member.where(entity_type: WorkPackage.name).find(params[:id])
+    @share = Member.of_work_packages.find(params[:id])
     @work_package = @share.entity
   end
 
