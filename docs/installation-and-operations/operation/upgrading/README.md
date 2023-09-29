@@ -8,14 +8,13 @@ sidebar_navigation:
 
 > **Note**: We strongly recommend that you have backed up your installation before upgrading OpenProject to a newer version, especially when performing multiple upgrades at once. Please follow the [backup](../backing-up) instructions.
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Package-based installation](#package-based-installation-debrpm) | How to upgrade a package-based installation of OpenProject.  |
-| [Docker-based installation](#compose-based-installation)     | How to upgrade a Docker-based installation of OpenProject.   |
-| [Troubleshooting](#troubleshooting)                          | Solutions for common problems                                |
-| [Upgrade notes to 13.x](#upgrade-notes-to-13x)               | How to upgrade from OpenProject 9.x or greater to OpenProject 12.x. |
-| [Upgrade notes for 8.x to 9.x](#upgrade-notes-for-8x-to-9x)  | How to upgrade from OpenProject 8.x to OpenProject 9.x.      |
-| [Upgrade notes for 7.x to 8.x](#upgrade-notes-for-openproject-7x-to-8x) | How to upgrade from OpenProject 7.x to OpenProject 8.x.      |
+| Topic                                                        | Content                                                     |
+| ------------------------------------------------------------ | ----------------------------------------------------------- |
+| [Package-based installation](#package-based-installation-debrpm) | How to upgrade a package-based installation of OpenProject. |
+| [Docker-based installation](#compose-based-installation)      | How to upgrade a Docker-based installation of OpenProject.  |
+| [Upgrade notes to 12.x](#upgrade-notes-to-12x)  | How to upgrade from OpenProject 9.x or greater to OpenProject 12.x.     |
+| [Upgrade notes for 8.x to 9.x](#upgrade-notes-for-8x-to-9x)  | How to upgrade from OpenProject 8.x to OpenProject 9.x.     |
+| [Upgrade notes for 7.x to 8.x](#upgrade-notes-for-openproject-7x-to-8x) | How to upgrade from OpenProject 7.x to OpenProject 8.x.     |
 
 ## Package-based installation (DEB/RPM)
 
@@ -162,22 +161,9 @@ sudo chown -R 102 /volume1/openproject/*
 After that it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
 as described in the [installation section](../../installation/docker/#one-container-per-process-recommended).
 
+## Upgrade notes to 12.x
 
-
-## Troubleshooting
-
-**Question: My upgrade fails due to these errors: `PG::QueryCanceled: canceling statement due to statement timeout`** 
-
-Your migrations are exceeding the assigned statement timeout of your PostgreSQL database. The default time might vary from your installation, but you can customize the timeout for the duration of the migrations by setting the following environment variable (e.g., setting the value to 1 hour): 
-
-- **Packaged installations:** `openproject config:set POSTGRES_STATEMENT_TIMEOUT=60min` 
-- **Docker-based / Compose / Helm installations** Add `POSTGRES_STATEMENT_TIMEOUT=60min` to your environment.
-
-After you set the environment flag, re-deploy your containers or restart the failing upgrade command again.
-
-## Upgrade notes to 13.x
-
-Generally, there are no special steps or caveats when upgrading to OpenProject 13.x or higher from any version greater than 9.x. Simply follow the upgrade steps outlined above for your type of installation.
+Generally, there are no special steps or caveats when upgrading to OpenProject 12.x or higher from any version greater than 9.x. Simply follow the upgrade steps outlined above for your type of installation.
 
 If you are using Docker, you should mount your OpenProject volume at `/var/openproject/assets` instead of `/var/db/openproject`
 
