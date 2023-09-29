@@ -40,7 +40,7 @@ module WorkPackages
       end
 
       def new_share
-        @new_share ||= Member.new(entity: @work_package, roles: [Role.new(builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER)])
+        @new_share ||= Member.new(entity: @work_package, roles: [Role.new(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER)])
       end
     end
   end

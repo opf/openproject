@@ -54,7 +54,7 @@ module Components
 
         within modal_element.find('[data-test-selector="op-share-wp-invite-role"]') do
           # Open the ActionMenu
-          click_button 'Comment'
+          click_button 'View'
 
           find('.ActionListContent', text: role_name).click
         end
