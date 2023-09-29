@@ -22,7 +22,7 @@ We take all facets of security seriously at OpenProject. If you want to report a
 
 If you can, please send us a PGP-encrypted email using the following key:
 
-- Key ID: [0x7D669C6D47533958](https://pgp.mit.edu/pks/lookup?op=get&search=0x7D669C6D47533958) , 
+- Key ID: [0x7D669C6D47533958](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958),
 - Fingerprint BDCF E01E DE84 EA19 9AE1 72CE 7D66 9C6D 4753 3958
 - You may also find the key [attached in our OpenProject repository.](https://github.com/opf/openproject/blob/dev/docs/development/security/security-at-openproject.com.asc)
 
@@ -65,4 +65,3 @@ With the single sign-on feature you can securely access OpenProject. Control and
 
 
 Find out more about our [GDPR compliance](../../enterprise-guide/enterprise-cloud-guide/gdpr-compliance/).
-

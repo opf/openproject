@@ -919,13 +919,14 @@ ja:
     models:
       attachment: "ファイル"
       attribute_help_text: "属性のヘルプ テキスト"
-      forum: "フォーラム"
+      category: "カテゴリ"
       comment: "コメント"
       custom_action: "カスタムアクション"
       custom_field: "カスタムフィールド"
+      'doorkeeper/application': "OAuthアプリケーション"
+      forum: "フォーラム"
+      global_role: "Global role"
       group: "グループ"
-      category: "カテゴリ"
-      status: "ステータス名"
       member: "メンバー"
       news: "ニュース"
       notification:
@@ -935,14 +936,14 @@ ja:
       query: "ユーザのクエリ"
       role:
         other: "ロール"
+      status: "ステータス名"
       type: "タイプ"
       user: "ユーザ"
       version: "バージョン"
-      wiki: "Wiki"
-      wiki_page: "Wiki ページ"
       workflow: "ワークフロー"
       work_package: "ワーク パッケージ"
-      'doorkeeper/application': "OAuthアプリケーション"
+      wiki: "Wiki"
+      wiki_page: "Wiki ページ"
   errors:
     header_invalid_fields:
       other: "There were problems with the following fields:"
@@ -1528,6 +1529,7 @@ ja:
   label_add_related_work_packages: "関係するワークパッケージを追加"
   label_add_subtask: "子タスクを追加"
   label_added: "追加"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "%{author}が%{age}前に追加"
   label_additional_workflow_transitions_for_assignee: "ユーザーが担当者である場合、追加遷移を許可する"
   label_additional_workflow_transitions_for_author: "ユーザーが作成者である場合、追加遷移を許可する"

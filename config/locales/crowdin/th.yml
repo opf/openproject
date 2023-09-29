@@ -923,13 +923,14 @@ th:
     models:
       attachment: "ไฟล์"
       attribute_help_text: "Attribute help text"
-      forum: "ฟอรั่ม"
+      category: "ประเภท"
       comment: "ความคิดเห็น"
       custom_action: "Custom action"
       custom_field: "ฟิลด์ที่กำหนดเอง"
+      'doorkeeper/application': "OAuth application"
+      forum: "ฟอรั่ม"
+      global_role: "Global role"
       group: "กลุ่ม"
-      category: "ประเภท"
-      status: "สถานะของชุดภารกิจ"
       member: "สมาชิก"
       news: "ข่าวสาร"
       notification:
@@ -939,14 +940,14 @@ th:
       query: "การสอบถามที่กำหนดเอง"
       role:
         other: "บทบาท"
+      status: "สถานะของชุดภารกิจ"
       type: "ประเภท"
       user: "ผู้ใช้"
       version: "เวอร์ชัน"
-      wiki: "วิกิ"
-      wiki_page: "หน้าวิกิ"
       workflow: "กระบวนการทำงาน"
       work_package: "ชุดภารกิจ"
-      'doorkeeper/application': "OAuth application"
+      wiki: "วิกิ"
+      wiki_page: "หน้าวิกิ"
   errors:
     header_invalid_fields:
       other: "There were problems with the following fields:"
@@ -1532,6 +1533,7 @@ th:
   label_add_related_work_packages: "เพิ่มชุดภารกิจที่เกี่ยวข้อง"
   label_add_subtask: "เพิ่มงานย่อย"
   label_added: "เพิ่มแล้ว"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "ถูกเพิ่มโดย %{author} เมื่อ %{age} ที่ผ่านมา"
   label_additional_workflow_transitions_for_assignee: "ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้ได้รับมอบหมายความรับผิดชอบ"
   label_additional_workflow_transitions_for_author: "ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้สร้าง"
