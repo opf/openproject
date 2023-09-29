@@ -923,13 +923,14 @@ hu:
     models:
       attachment: "File"
       attribute_help_text: "Attribútum-súgószöveg"
-      forum: "Fórum"
+      category: "Kategória"
       comment: "Vélemény"
       custom_action: "Egyéni művelet"
       custom_field: "Választható mező"
+      'doorkeeper/application': "OAuth alkalmazás"
+      forum: "Fórum"
+      global_role: "Global role"
       group: "Csoport"
-      category: "Kategória"
-      status: "Feladatcsoport állapot"
       member: "Tag"
       news: "Hírek"
       notification:
@@ -941,14 +942,14 @@ hu:
       role:
         one: "Szerepkör"
         other: "Szerepkörök"
+      status: "Feladatcsoport állapot"
       type: "Típus"
       user: "Felhasználó"
       version: "Verzió"
-      wiki: "Wiki"
-      wiki_page: "Wiki oldal"
       workflow: "Munkafolyamat"
       work_package: "Feladatcsoport"
-      'doorkeeper/application': "OAuth alkalmazás"
+      wiki: "Wiki"
+      wiki_page: "Wiki oldal"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
