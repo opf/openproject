@@ -1598,6 +1598,7 @@ sk:
   label_add_related_work_packages: "Pridať naviazaný pracovný balíček"
   label_add_subtask: "Pridať podúlohu"
   label_added: "pridané"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Pridal %{author} %{age} vzad"
   label_additional_workflow_transitions_for_assignee: "Povolené dodatočné prechody, pokiaľ je užívateľ priradený"
   label_additional_workflow_transitions_for_author: "Povolené dodatočné prechody, pokiaľ je užívateľ autorom"

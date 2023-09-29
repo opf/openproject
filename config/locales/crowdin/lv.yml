@@ -1576,6 +1576,7 @@ lv:
   label_add_related_work_packages: "Pievienot saistītos pieteikumus"
   label_add_subtask: "Add subtask"
   label_added: "added"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Pievienoja %{author} pirms %{age}"
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"

@@ -1554,6 +1554,7 @@ et:
   label_add_related_work_packages: "Lisa seotud teemasid"
   label_add_subtask: "Lisa alamtoiming"
   label_added: "lisatud"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Lisatud %{author} poolt %{age} tagasi"
   label_additional_workflow_transitions_for_assignee: "Täiendavad üleminekud on lubatud juhul kui kasutaja on tööpaketi teostaja"
   label_additional_workflow_transitions_for_author: "Täiendavad üleminekud on lubatud juhul kui kasutaja on tööpaketi autor"

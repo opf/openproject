@@ -1551,6 +1551,7 @@ nl:
   label_add_related_work_packages: "Toevoegen van verwante werkpakketten"
   label_add_subtask: "Subtaak toevoegen"
   label_added: "toegevoegd"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Toegevoegd door %{author} %{age} geleden"
   label_additional_workflow_transitions_for_assignee: "Extra overgangen zijn toegestaan als de gebruiker de eigenaar is"
   label_additional_workflow_transitions_for_author: "Extra overgangen zijn toegestaan als de gebruiker de auteur is"

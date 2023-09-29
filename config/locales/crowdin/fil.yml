@@ -1554,6 +1554,7 @@ fil:
   label_add_related_work_packages: "Magdagdag ng nauugnay na work package"
   label_add_subtask: "Magdagdag ng subtask"
   label_added: "nadagdag"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Idinagdag ni %{author}%{age} ng nakaraan"
   label_additional_workflow_transitions_for_assignee: "Karagdagang transistion pinahintulutan kung ang gumagamit ay nakatalaga"
   label_additional_workflow_transitions_for_author: "Karagdagang transistion pinahintulutan kung ang gumagamit ay ang akda"

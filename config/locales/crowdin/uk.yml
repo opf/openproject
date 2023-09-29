@@ -1593,6 +1593,7 @@ uk:
   label_add_related_work_packages: "Додати відповідні робочі пакети"
   label_add_subtask: "Додати підзавдання"
   label_added: "додано"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Доданий %{author} %{age} назад"
   label_additional_workflow_transitions_for_assignee: "Додаткові переходи можна коли користувач є правонаступником"
   label_additional_workflow_transitions_for_author: "Додаткові переходи дозволені користувачу, який є автором"

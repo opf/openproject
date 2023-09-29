@@ -1554,6 +1554,7 @@ af:
   label_add_related_work_packages: "Voeg verwante werkspakkette by"
   label_add_subtask: "Voeg subtaak by"
   label_added: "bygevoeg"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Bygevoeg deur %{author} %{age} gelede"
   label_additional_workflow_transitions_for_assignee: "Bykomende oorgange toegelaat wanneer die gebruiker die gedelegeerde is"
   label_additional_workflow_transitions_for_author: "Bykomende oorgange toegelaat wanneer die gebruiker die outeur is"

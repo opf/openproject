@@ -1554,6 +1554,7 @@ bg:
   label_add_related_work_packages: "Добави свързани работни пакети"
   label_add_subtask: "Добави подзадача"
   label_added: "добавено"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Добавено от %{author} преди %{age}"
   label_additional_workflow_transitions_for_assignee: "Допълнителни промени са рарзрешени, когато потребителят е назначен към задачата"
   label_additional_workflow_transitions_for_author: "Допълнителни промени са рарзрешени, когато потребителят е автор"

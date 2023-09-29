@@ -1550,6 +1550,7 @@ ca:
   label_add_related_work_packages: "Afegir paquets de treball relacionats"
   label_add_subtask: "Afegir subtasca"
   label_added: "afegit"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Afegit per %{author} fa %{age}"
   label_additional_workflow_transitions_for_assignee: "Transicions addicionals permeses quan l'usuari és l'assignat"
   label_additional_workflow_transitions_for_author: "Transicions addicionals permeses quan l'usuari és l'autor"

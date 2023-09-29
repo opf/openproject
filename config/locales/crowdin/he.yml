@@ -1598,6 +1598,7 @@ he:
   label_add_related_work_packages: "הוסף חבילות עבודה קשורות"
   label_add_subtask: "הוסף תת משימה"
   label_added: "התווסף"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "נוסף על ידי %{author} לפני %{age}"
   label_additional_workflow_transitions_for_assignee: "מעברים נוספים מותר כאשר המשתמש הוא מקבל ההקצאה"
   label_additional_workflow_transitions_for_author: "מעברים נוספים מותר כאשר המשתמש הוא המחבר"

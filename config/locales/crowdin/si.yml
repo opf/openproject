@@ -1554,6 +1554,7 @@ si:
   label_add_related_work_packages: "අදාළ වැඩ පැකේජ එකතු කරන්න"
   label_add_subtask: "උප කාර්යය එකතු කරන්න"
   label_added: "එකතු"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "%{author} %{age} පෙර විසින් එකතු කරන ලදි"
   label_additional_workflow_transitions_for_assignee: "පරිශීලකයා වන විට අතිරේක සංක්රමණයන් අවසර දෙනු ලැබේ"
   label_additional_workflow_transitions_for_author: "පරිශීලකයා කතුවරයා වන විට අතිරේක සංක්රමණයන් අවසර දෙනු ලැබේ"

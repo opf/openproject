@@ -1595,6 +1595,7 @@ sl:
   label_add_related_work_packages: "Dodajte povezane delovne pakete"
   label_add_subtask: "Dodaj podrejeno nalogo"
   label_added: "Dodano"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Dodal %{author} %{age} nazaj"
   label_additional_workflow_transitions_for_assignee: "Dovoljeni so tako dodatni prehodi, kadar je uporabnik prejemnik"
   label_additional_workflow_transitions_for_author: "Dovoljeni so dodatni prehodi, ko je uporabnik avtor"

@@ -1553,6 +1553,7 @@ sv:
   label_add_related_work_packages: "Lägg till relaterade arbetspaket"
   label_add_subtask: "Lägg till deluppgift"
   label_added: "lagt till"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Lagts till av %{author} %{age} sen"
   label_additional_workflow_transitions_for_assignee: "Ytterligare övergångar tillåtna när användaren är tilldelad"
   label_additional_workflow_transitions_for_author: "Ytterligare övergångar tillåtna när användaren är författaren"

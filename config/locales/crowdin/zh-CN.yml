@@ -1528,6 +1528,7 @@ zh-CN:
   label_add_related_work_packages: "添加相关的工作包"
   label_add_subtask: "添加子任务"
   label_added: "已添加"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "由 %{author} %{age} 前添加"
   label_additional_workflow_transitions_for_assignee: "当用户是受理人时允许额外的转移"
   label_additional_workflow_transitions_for_author: "当用户是作者时允许额外转移"

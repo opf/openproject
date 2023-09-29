@@ -1549,6 +1549,7 @@ de:
   label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_add_subtask: "Unteraufgabe hinzufügen"
   label_added: "hinzugefügt"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Von %{author} vor %{age} hinzugefügt"
   label_additional_workflow_transitions_for_assignee: "Zusätzliche Workflow-Übergänge für den Nutzer, dem ein Arbeitspaket zugewiesen ist"
   label_additional_workflow_transitions_for_author: "Zusätzliche Workflow-Übergänge wenn der Nutzer der Autor des Arbeitspakets ist"

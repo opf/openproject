@@ -1554,6 +1554,7 @@ fi:
   label_add_related_work_packages: "Lisää tehtävän riippuvuudet"
   label_add_subtask: "Lisätä alitehtävä"
   label_added: "lisätty"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Lisännyt %{author} %{age} sitten"
   label_additional_workflow_transitions_for_assignee: "Vastuulliselle käyttäjälle on olemassa lisää siirtymiä"
   label_additional_workflow_transitions_for_author: "Aloittajalle on olemassa lisää siirtymiä"

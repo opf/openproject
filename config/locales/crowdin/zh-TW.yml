@@ -1532,6 +1532,7 @@ zh-TW:
   label_add_related_work_packages: "新增相關的工作項目"
   label_add_subtask: "新增子任務"
   label_added: "已新增"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "由%{author}於%{age}前新增"
   label_additional_workflow_transitions_for_assignee: "當使用者是被指派者，其他過度狀態是被允許的"
   label_additional_workflow_transitions_for_author: "當使用者是作者，其他過度狀態是被允許的"

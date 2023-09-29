@@ -1532,6 +1532,7 @@ th:
   label_add_related_work_packages: "เพิ่มชุดภารกิจที่เกี่ยวข้อง"
   label_add_subtask: "เพิ่มงานย่อย"
   label_added: "เพิ่มแล้ว"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "ถูกเพิ่มโดย %{author} เมื่อ %{age} ที่ผ่านมา"
   label_additional_workflow_transitions_for_assignee: "ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้ได้รับมอบหมายความรับผิดชอบ"
   label_additional_workflow_transitions_for_author: "ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้สร้าง"

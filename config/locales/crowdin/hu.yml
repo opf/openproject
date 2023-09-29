@@ -1551,6 +1551,7 @@ hu:
   label_add_related_work_packages: "Kapcsolódó feladatcsoport hozzáadása"
   label_add_subtask: "Alfeladat hozzáadása"
   label_added: "Hozzáadva"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Hozzáadva  %{author} %{age} ezelőtt."
   label_additional_workflow_transitions_for_assignee: "A következő státuszváltások engedélyezettek ha a felhasználó jogosult rá"
   label_additional_workflow_transitions_for_author: "A következő státuszváltások engedélyezettek a szerzők számára"

@@ -1552,6 +1552,7 @@ da:
   label_add_related_work_packages: "Tilføj relaterede arbejdspakker"
   label_add_subtask: "Tilføj underopgave"
   label_added: "tilføjet"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Tilføjet af %{author} for %{age} siden"
   label_additional_workflow_transitions_for_assignee: "Yderligere overgange tilladt når brugeren er opdragsgiveren"
   label_additional_workflow_transitions_for_author: "Yderligere overgange tilladt når brugeren er forfatteren"

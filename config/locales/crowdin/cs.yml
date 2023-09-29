@@ -1598,6 +1598,7 @@ cs:
   label_add_related_work_packages: "Přidání souvisejících pracovních balíčků"
   label_add_subtask: "Přidat podúkol"
   label_added: "přidáno"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Přidáno %{author} před %{age}"
   label_additional_workflow_transitions_for_assignee: "Povolené dodatečné přechody, pokud je uživatel přiřazený"
   label_additional_workflow_transitions_for_author: "Povolené dodatečné přechody, pokud je uživatel autor"

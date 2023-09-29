@@ -1531,6 +1531,7 @@ ko:
   label_add_related_work_packages: "관련 작업 패키지 추가"
   label_add_subtask: "하위 작업 추가"
   label_added: "추가됨"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "%{author}이(가) %{age} 전에 추가함"
   label_additional_workflow_transitions_for_assignee: "사용자가 담당자일 때 허용되는 추가 전환"
   label_additional_workflow_transitions_for_author: "사용자가 작성자일 때 허용되는 추가 전환"

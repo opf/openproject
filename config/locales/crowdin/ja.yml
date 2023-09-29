@@ -1528,6 +1528,7 @@ ja:
   label_add_related_work_packages: "関係するワークパッケージを追加"
   label_add_subtask: "子タスクを追加"
   label_added: "追加"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "%{author}が%{age}前に追加"
   label_additional_workflow_transitions_for_assignee: "ユーザーが担当者である場合、追加遷移を許可する"
   label_additional_workflow_transitions_for_author: "ユーザーが作成者である場合、追加遷移を許可する"

@@ -1576,6 +1576,7 @@ ro:
   label_add_related_work_packages: "Adăugare pachet de lucru asociat"
   label_add_subtask: "Adăugare sub-activitate"
   label_added: "adăugat"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Adăugat de %{author} acum %{age}"
   label_additional_workflow_transitions_for_assignee: "Tranziții suplimentare permise când utilizatorul este executantul"
   label_additional_workflow_transitions_for_author: "Tranziții suplimentare permise când utilizatorul este autorul"

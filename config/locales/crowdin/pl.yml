@@ -1595,6 +1595,7 @@ pl:
   label_add_related_work_packages: "Dodaj powiązane pakiety robocze"
   label_add_subtask: "Dodać zadanie podrzędne"
   label_added: "dodane"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Dodane przez %{author} %{age} temu"
   label_additional_workflow_transitions_for_assignee: "Dodatkowe przejścia dozwolone, gdy użytkownik jest cesjonariuszem"
   label_additional_workflow_transitions_for_author: "Dodatkowe przejścia dozwolone, gdy użytkownik jest autorem"

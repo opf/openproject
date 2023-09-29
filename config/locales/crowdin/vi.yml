@@ -1534,6 +1534,7 @@ vi:
   label_add_related_work_packages: "Thêm work package liên quan"
   label_add_subtask: "Thêm subtask"
   label_added: "đã thêm"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Thêm bởi %{author} cách đây %{age}"
   label_additional_workflow_transitions_for_assignee: "Chuyển đổi bổ sung được cho phép khi người sử dụng là người được gán"
   label_additional_workflow_transitions_for_author: "Các chuyển đổi bổ xung được phép khi người dùng là tác giả"

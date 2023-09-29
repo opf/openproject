@@ -1525,6 +1525,7 @@ id:
   label_add_related_work_packages: "Tambahkan Paket-Penugasan terkait"
   label_add_subtask: "Tambahkan Sub-Tugas"
   label_added: "ditambahkan"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Ditambahkan oleh %{author} %{age} yang lalu"
   label_additional_workflow_transitions_for_assignee: "Tambahan transisi diperbolehkan ketika user mendapat penugasan"
   label_additional_workflow_transitions_for_author: "Tambahan transisi diperbolehkan ketika user adalah Penulis"
