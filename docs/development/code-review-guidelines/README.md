@@ -18,7 +18,7 @@ The same is true for eslint. Your editor will likely have support for eslint che
 
 **Lefthook**
 
-For automatically linting your files on commiting them, please have a look at lefthook. https://github.com/evilmartians/lefthook/blob/master/docs/full_guide.md. You can install these rules by using `bundle exec lefthook install`.
+For automatically linting your files on commiting them, please have a look at [Lefthook](https://github.com/evilmartians/lefthook). You can install these rules by using `bundle exec lefthook install`.
 
 
 
@@ -145,7 +145,7 @@ When testing a feature or change, check out the code test at least the happy pat
 
 - Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock.
 
-  
+
 
 ## Readability
 
@@ -166,9 +166,9 @@ Once you've completed the review, you might have left feedback for the developer
 
 
 
-If there are no change requests, perform these steps: 
+If there are no change requests, perform these steps:
 
-- approve the pull request 
+- approve the pull request
 - merge it using the `Merge pull request` button.
 - If there is a linked ticket, set it to merged (or closed for an Implementation ticket) and unassign yourself or the developer.
 
