@@ -926,13 +926,14 @@ fa:
     models:
       attachment: "فایل"
       attribute_help_text: "Attribute help text"
-      forum: "تالار گفتگو"
+      category: "Category"
       comment: "نظر"
       custom_action: "اقدام سفارشی"
       custom_field: "فیلدهای سفارشی"
+      'doorkeeper/application': "OAuth application"
+      forum: "تالار گفتگو"
+      global_role: "Global role"
       group: "Group"
-      category: "Category"
-      status: "Work package status"
       member: "Member"
       news: "News"
       notification:
@@ -944,14 +945,14 @@ fa:
       role:
         one: "Role"
         other: "نقش‌ها"
+      status: "Work package status"
       type: "نوع"
       user: "User"
       version: "نسخه"
-      wiki: "دانشنامه"
-      wiki_page: "Wiki page"
       workflow: "Workflow"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "دانشنامه"
+      wiki_page: "Wiki page"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"

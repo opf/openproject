@@ -926,13 +926,14 @@ fil:
     models:
       attachment: "File"
       attribute_help_text: "Tekstong tulong na katangian"
-      forum: "Forum"
+      category: "Kategorya"
       comment: "Komento"
       custom_action: "Custom aksyon"
       custom_field: "Pasadyang patlang"
+      'doorkeeper/application': "OAuth application"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grupo"
-      category: "Kategorya"
-      status: "Estado ng pakete ng gumagawa"
       member: "Miyembro"
       news: "Mga balita"
       notification:
@@ -944,14 +945,14 @@ fil:
       role:
         one: "Tungkulin"
         other: "Mga tungkulin"
+      status: "Estado ng pakete ng gumagawa"
       type: "Uri"
       user: "Gumagamit"
       version: "Bersyon"
-      wiki: "Wiki"
-      wiki_page: "Pahina ng wiki"
       workflow: "Daloy ng trabaho"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Pahina ng wiki"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"

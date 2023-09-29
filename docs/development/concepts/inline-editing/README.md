@@ -7,7 +7,7 @@ keywords: development concepts, inline editing, edit forms
 
 # Development concept: Inline editing
 
-Inline editing is a core functionality of work packages and other attributes. 
+Inline editing is a core functionality of work packages and other attributes.
 
 ![Inline editing overview in the single view of a work package](single-view-inline-editing.gif)
 
@@ -33,7 +33,7 @@ In order to understand Inline Editing, you will need the following concepts:
 
 - [Changesets](../resource-changesets)
 
-  
+
 
 ## Components overview
 
@@ -81,7 +81,7 @@ With a resource and its schema present, there are multiple ways to render a disp
 
 #### Rendering in plain JavaScript: `DisplayFieldRenderer`
 
-Since parts of the application are rendered in plain JavaScript (such as the work package table), most display fields are actually rendered explicitly to a DOM element through the [`DisplayFieldRenderer#render`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts) method. You will only need the resource with its schema loaded and the attribute name. 
+Since parts of the application are rendered in plain JavaScript (such as the work package table), most display fields are actually rendered explicitly to a DOM element through the [`DisplayFieldRenderer#render`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts) method. You will only need the resource with its schema loaded and the attribute name.
 
 The `DisplayFieldRenderer` requires the Angular injector for injecting services such as the `DisplayFieldService`. It's instance will cache field types instantiated for performance reasons in large rendering contexts, such as the work package table.
 
@@ -92,22 +92,22 @@ Minimal example, rendering the status attribute of a work package to the element
 export class ExampleComponent implements OnInit {
     // The work package to render
     @Input() workPackageId:string;
-    
+
     constructor (private elementRef:ElementRef,
                  private injector:Injector,
                  private apiV3Service:ApiV3Service) {}
-    
+
     ngOnInit() {
         this
-            .apiV3Service               
+            .apiV3Service
             .work_packages
             .id(this.workPackageId)
             .get()
         	.subscribe(workPackage => {
-        
+
           const fieldRenderer = new DisplayFieldRenderer(injector, 'table');
 		  const displayElement = fieldRenderer.render(workPackage, 'status', null);
-          this.elementRef.nativeElement.appendChild(displayElement); 
+          this.elementRef.nativeElement.appendChild(displayElement);
         });
     }
 }
@@ -149,7 +149,7 @@ The `DisplayFieldComponent` will internally use the `DisplayFieldService` to fin
 
 The editable counterpart to a display field that renders the actual HTML form elements (A text or number input field, a boolean checkbox, or a WYSIWYG editor area).
 
-Edit fields are also working on a single attribute of a resource. The schema property `Type` will again determine the component type to render. 
+Edit fields are also working on a single attribute of a resource. The schema property `Type` will again determine the component type to render.
 
 
 
@@ -163,7 +163,7 @@ It is never directly used from within a template, but through a service that pas
 
 ### EditForm
 
-Inline-editing is usually connected to not only a single, but multiple fields of a resource. Each inline-editable field resides within a container that we call an `EditForm`. 
+Inline-editing is usually connected to not only a single, but multiple fields of a resource. Each inline-editable field resides within a container that we call an `EditForm`.
 
 The `EditForm` logically groups together multiple field elements very similar to how a `<form>` tag encapsulates a set of inputs. It is tied to a (HAL) `resource` input.
 
@@ -192,7 +192,7 @@ The EditableAttributeField basically contains only two HTML elements that it wra
 
 OpenProject often renders Angular components in manually rendered DOM, prominently so in the work package table for improved rendering time. This is from the time the project was still using AngularJS and large scale rendering components was quite slow.
 
-To easily mount an edit field over a manually rendered `DisplayField` (such as from the `DisplayFieldRenderer` above), OpenProject uses the `EditingPortalService` to create an [Angular CDK portal](https://material.angular.io/cdk/portal/overview). 
+To easily mount an edit field over a manually rendered `DisplayField` (such as from the `DisplayFieldRenderer` above), OpenProject uses the `EditingPortalService` to create an [Angular CDK portal](https://material.angular.io/cdk/portal/overview).
 
 The `EditingPortalService` will render a `EditFormPortalComponent` with some HTML form wrapping for correct handling of submit events and labels. This portal will in turn render the actual `EditFieldComponent`. The service will wire up these components automatically.
 
@@ -203,22 +203,22 @@ If you were to explicitly render an edit field, this would look as follows. Note
 export class ExampleComponent implements OnInit {
     // The work package to render
     @Input() workPackageId:string;
-    
+
     constructor (private elementRef:ElementRef,
                  private injector:Injector,
                  // Parent EditForm required
                  private editForm:EditFormComponent,
                  private apiV3Service:ApiV3Service) {}
-    
+
     ngOnInit() {
         this
-            .apiV3Service               
+            .apiV3Service
             .work_packages
             .id(this.workPackageId)
             .get()
         	.subscribe(workPackage => {
-        
-          
+
+
             return this.editingPortalService.create(
                 this.elementRef.nativeElement,
                 this.injector,
@@ -238,7 +238,7 @@ export class ExampleComponent implements OnInit {
 
 There is one more class involved in this stack, the `EditFieldHandler`. It implements an adapter pattern to break the connection between the input-only characteristics of the `EditFieldComponent` and the handling of events towards an outer wrapper such as the `EditForm`. They are regular classes that handle events from the `EditFieldComponent` to make them reusable in cases where, for example, an `EditForm` does not exist.
 
-Any user event that should trigger saving or resetting of the field is being handled by the `EditFieldHandler`, hence its name. For example, pressing <kbd>ESC</kbd> on a `TextEditFieldComponent` will trigger the `EditFieldHandler#handleUserCancel` method. The same is true for submit events on the field or form (e.g., pressing <kbd>ENTER</kbd> on the field), which trigger the `EditFieldHandler#handleUserSubmit` method. 
+Any user event that should trigger saving or resetting of the field is being handled by the `EditFieldHandler`, hence its name. For example, pressing <kbd>ESC</kbd> on a `TextEditFieldComponent` will trigger the `EditFieldHandler#handleUserCancel` method. The same is true for submit events on the field or form (e.g., pressing <kbd>ENTER</kbd> on the field), which trigger the `EditFieldHandler#handleUserSubmit` method.
 
 An example where this comes into play is the [`CustomText`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/grids/widgets/custom-text/custom-text.component.ts) widget of the dashboards and my page, which use the `<edit-form-portal>` manually and pass in a handler that handles saving of these widgets without access to an edit form.
 
@@ -247,14 +247,14 @@ An example where this comes into play is the [`CustomText`](https://github.com/o
 ### 🔗 Code references
 
 - [`EditForm`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.ts) base class
-- [`EditFormComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.component.ts#L28-L27) Angular `<edit-form>` component 
+- [`EditFormComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.component.ts#L28-L27) Angular `<edit-form>` component
 - [`EditableAttributeFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/field/editable-attribute-field.component.ts) Angular `<op-editable-attribute-field>` component for attributes within the edit form
 - [`DisplayField`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display) definitions containing all display fields and the service to instantiate them.
 - [`DisplayFieldRenderer`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts) to manually render display fields from JavaScript
 - [`DisplayFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display/display-field.component.ts) an Angular component to render display fields
 - [`EditFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/field-types) definitions containing all display fields and the service to instantiate them
 - [`EditingPortalService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/editing-portal/editing-portal-service.ts) service to create an edit field with event handling in code
-- [`WorkPackageFullViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work_packages/routing/wp-full-view/wp-full-view.html) Work package full view template that uses the `edit-form` attribute to create a form for the work package full view (as seen in the Gif above)
+- [`WorkPackageFullViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/wp-full-view/wp-full-view.html) Work package full view template that uses the `edit-form` attribute to create a form for the work package full view (as seen in the Gif above)
 - [`ProjectDetailsComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/grids/widgets/project-details/project-details.component.html) Exemplary widget template that uses the form for project attributes
 
 

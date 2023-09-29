@@ -922,13 +922,14 @@ el:
     models:
       attachment: "Aρχείο"
       attribute_help_text: "Κείμενο βοήθειας χαρακτηριστικών"
-      forum: "Φόρουμ"
+      category: "Κατηγορία"
       comment: "Σχόλιο"
       custom_action: "Προσαρμοσμένη ενέργεια"
       custom_field: "Προσαρμοσμένο πεδίο"
+      'doorkeeper/application': "OAuth εφαρμογή"
+      forum: "Φόρουμ"
+      global_role: "Global role"
       group: "Ομάδα"
-      category: "Κατηγορία"
-      status: "Κατάσταση εργασίας"
       member: "Μέλος"
       news: "Νέα"
       notification:
@@ -940,14 +941,14 @@ el:
       role:
         one: "Ρόλος"
         other: "Ρόλοι"
+      status: "Κατάσταση εργασίας"
       type: "Τύπος"
       user: "Χρήστης"
       version: "Έκδοση"
-      wiki: "Wiki"
-      wiki_page: "Σελίδα Wiki"
       workflow: "Ροή εργασιών"
       work_package: "Εργασία"
-      'doorkeeper/application': "OAuth εφαρμογή"
+      wiki: "Wiki"
+      wiki_page: "Σελίδα Wiki"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
