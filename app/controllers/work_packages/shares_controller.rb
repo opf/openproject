@@ -39,7 +39,6 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    # Todo: error handling?
     WorkPackageMembers::CreateOrUpdateService
       .new(user: current_user)
       .call(entity: @work_package,
@@ -50,7 +49,6 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def update
-    # TODO: error handling
     WorkPackageMembers::UpdateService
       .new(user: current_user, model: @share)
       .call(role_ids: find_role_ids(params[:role_ids]))
@@ -59,7 +57,6 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def destroy
-    # TODO: error handling
     WorkPackageMembers::DeleteService
       .new(user: current_user, model: @share)
       .call
