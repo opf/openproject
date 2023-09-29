@@ -43,7 +43,7 @@ module Storages
           end
 
           def call(user:, data:)
-            folder, filename = data.slice('parent', 'fileName').values
+            folder, filename = data.slice('parent', 'file_name').values
 
             Util.using_user_token(@storage, user) do |token|
               response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
