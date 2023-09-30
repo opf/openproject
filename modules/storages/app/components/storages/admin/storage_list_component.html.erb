@@ -35,7 +35,7 @@
             end
 
             grid.with_area(:time, tag: :div, color: :subtle, mr: 3) do
-              render(Primer::Beta::Text.new) { I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize }
+              render(Primer::Beta::Text.new(font_weight: :light)) { I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize }
             end
 
             grid.with_area(:user, tag: :div, color: :subtle, mr: 3) do
@@ -43,11 +43,11 @@
             end
 
             grid.with_area(:provider, tag: :div, color: :subtle, mr: 3) do
-              render(Primer::Beta::Truncate.new) { storage.short_provider_type }
+              render(Primer::Beta::Truncate.new(font_weight: :light)) { storage.short_provider_type }
             end
 
             grid.with_area(:host, tag: :div, color: :subtle) do
-              render(Primer::Beta::Truncate.new) { storage.host }
+              render(Primer::Beta::Truncate.new(font_weight: :light)) { storage.host }
             end
           end
         end

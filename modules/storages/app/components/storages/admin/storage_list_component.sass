@@ -3,6 +3,9 @@
   grid-template-columns: fit-content(20px) 1fr 180px 100px 240px
   grid-template-areas: "icon name user provider host" "time time user provider host"
 
+  .op-principal--name
+    @extend .text-light
+
   @media screen and (max-width: $breakpoint-md)
     grid-template-columns: fit-content(20px) 1fr
     grid-template-areas: "icon name" "time time" "user user" "host host"
