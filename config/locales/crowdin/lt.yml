@@ -935,7 +935,7 @@ lt:
       custom_field: "Kliento laukelis"
       'doorkeeper/application': "OAuth aplikacija"
       forum: "Forumas"
-      global_role: "Global role"
+      global_role: "Visuotinis vaidmuo"
       group: "Grupė"
       member: "Narys"
       news: "Naujienos"
