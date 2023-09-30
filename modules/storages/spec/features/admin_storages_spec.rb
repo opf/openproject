@@ -31,10 +31,63 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'Admin storages', :js, :storage_server_helpers do
+RSpec.describe 'Admin storages',
+               :js,
+               :storage_server_helpers do
   let(:admin) { create(:admin) }
 
   before { login_as admin }
+
+  describe 'Storages index page', with_flag: { storage_primer_design: true } do
+    context 'with storages' do
+      let(:complete_storage) { create(:nextcloud_storage_with_local_connection) }
+      let(:incomplete_storage) { create(:nextcloud_storage) }
+
+      before do
+        complete_storage
+        incomplete_storage
+      end
+
+      it 'renders a list of storages' do
+        visit admin_settings_storages_path
+
+        expect(page).to have_css('.op-storage-list--name', text: complete_storage.name)
+        expect(page).to have_css('.op-storage-list--name', text: incomplete_storage.name)
+
+        within "li#storages_nextcloud_storage_#{complete_storage.id}" do
+          expect(page).not_to have_css('.octicon-alert-fill')
+          expect(page).to have_link(complete_storage.name, href: edit_admin_settings_storage_path(complete_storage))
+          expect(page).to have_css('.op-principal--name', text: complete_storage.creator.name)
+          expect(page).to have_css('.op-storage-list--provider', text: 'Nextcloud')
+          expect(page).to have_css('.op-storage-list--host', text: complete_storage.host)
+        end
+
+        within "li#storages_nextcloud_storage_#{incomplete_storage.id}" do
+          expect(page).to have_css('.octicon-alert-fill')
+          expect(page).to have_css('.op-storage-list--name', text: incomplete_storage.name)
+          expect(page).to have_css('.op-storage-list--provider', text: 'Nextcloud')
+          expect(page).to have_css('.op-storage-list--host', text: incomplete_storage.host)
+          expect(page).to have_css('.op-principal--name', text: incomplete_storage.creator.name)
+        end
+      end
+    end
+
+    context 'with no storages' do
+      it 'renders a blank slate' do
+        visit admin_settings_storages_path
+
+        # Show empty storages list
+        expect(page).to have_title('File storages')
+        expect(page.find('.PageHeader-title')).to have_text('File storages')
+        expect(page).to have_text("You don't have any storages yet.")
+        # Show Add storage buttons
+        expect(page).to have_css("a[role='button'][aria-label='Add storage'][href='#{new_admin_settings_storage_path}']",
+                                 text: 'Add storage')
+        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
+                                 text: 'Storage')
+      end
+    end
+  end
 
   it 'creates, edits and deletes storages', :webmock do
     visit admin_settings_storages_path

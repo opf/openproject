@@ -43,7 +43,7 @@
             end
 
             grid.with_area(:provider, tag: :div, color: :subtle, mr: 3) do
-              render(Primer::Beta::Truncate.new(font_weight: :light)) { storage.short_provider_type }
+              render(Primer::Beta::Truncate.new(font_weight: :light)) { storage.short_provider_type.capitalize }
             end
 
             grid.with_area(:host, tag: :div, color: :subtle) do
