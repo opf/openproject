@@ -926,13 +926,14 @@ ka:
     models:
       attachment: "ფაილი"
       attribute_help_text: "Attribute help text"
-      forum: "ფორუმი"
+      category: "კატეგორია"
       comment: "კომენტარი"
       custom_action: "Custom action"
       custom_field: "Custom field"
+      'doorkeeper/application': "OAuth application"
+      forum: "ფორუმი"
+      global_role: "Global role"
       group: "ჯგუფი"
-      category: "კატეგორია"
-      status: "Work package status"
       member: "წევრი"
       news: "სიახლეები"
       notification:
@@ -944,14 +945,14 @@ ka:
       role:
         one: "როლი"
         other: "როლი"
+      status: "Work package status"
       type: "ტიპი"
       user: "მომხმარებელი"
       version: "ვერსია"
-      wiki: "ვიკი"
-      wiki_page: "ვიკი გვერდი"
       workflow: "სამუშაო პროცესი"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "ვიკი"
+      wiki_page: "ვიკი გვერდი"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1554,6 +1555,7 @@ ka:
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "დამატებულია"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Added by %{author} %{age} ago"
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"

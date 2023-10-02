@@ -9,7 +9,7 @@ keywords: queries, query space, work package views
 
 # Query
 
-The Query object is the concept of holding the configuration for a specific work package view as well as computing and outputting its results.  They are fundamental building blocks in OpenProject and used in many modules (Work packages, BIM, boards, timeline, embedded tables).  Their flexibility allows for building complex features with relatively little effort on the backend side. For an OpenProject developer who wants to improve or create new features it is fundamental to understand how queries work. 
+The Query object is the concept of holding the configuration for a specific work package view as well as computing and outputting its results.  They are fundamental building blocks in OpenProject and used in many modules (Work packages, BIM, boards, timeline, embedded tables).  Their flexibility allows for building complex features with relatively little effort on the backend side. For an OpenProject developer who wants to improve or create new features it is fundamental to understand how queries work.
 
 Most of the communication in OpenProject is organized in work packages. Work packages are managed and displayed in many different places, such as the work package table in the *Work packages* module, or as cards the *Boards* module, within the *Calendar* or in *My page* widgets, such as charts for instance. Even the list of child work packages within a work package is a query.
 
@@ -63,7 +63,7 @@ Queries are regular APIv3 grape endpoints that can be accessed through the `/api
 
 The default query `/api/v3/queries/default`  and `/api/v3/:project_id/queries/default` contains a default set of configuration (back-end and front-end) global and for the given project, respectively. They can only be modified administrators through some global settings.
 
-A number of parameters can be passed to the Query through parameters as elaborated on in [the respective APIv3 documentation](../../../api/endpoints/queries/).
+A number of parameters can be passed to the Query through parameters as elaborated on in [the APIv3 Queries documentation](../../../api/endpoints/queries/).
 
 Clients can define a query once, save it and use it later on to load the same set of filters, columns, and so on. When retrieved from the database (a query id is passed), the query has been previously stored. Saved properties may be overridden through URL parameters, which override the existing saved query.
 
@@ -71,7 +71,7 @@ Clients can define a query once, save it and use it later on to load the same se
 
 ### Query collections responses
 
-Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 section](../../../api/endpoints/queries/).
+Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 Queries filtering section](../../../api/endpoints/queries/#filtering).
 
 This response will end up representing the available queries on the `work packages` module sidebar as shown below.
 
@@ -94,7 +94,7 @@ When accessing a singular query resource, the response will always contain the s
   - `filters` selected filters array
   - `columns` embedded array of selected `columns`
   - `sortBy` array of one or multiple sort criteria.
-  - `groupBy` (optional) information on whether results are aggregated into groups 
+  - `groupBy` (optional) information on whether results are aggregated into groups
 - **Results** of work packages embedded in `_embedded.results`, showing the total number of matched results, as well as including the requested _page_ of results. The results will contain work package resources and the schema objects necessary to render them to reduce requests.
 
 ### Filtering
@@ -105,7 +105,7 @@ A major, but complex functionality of the query is the `filters` object to deter
 
 
 
-These filters are also saved within the queries. If you would like to read more about how filters and their syntax work, you will find [their own documentation guide here](../../../api/filters/).
+These filters are also saved within the queries. Read the [APIv3 filters documentation guide](../../../api/filters/) to know more about how filters and their syntax work.
 
 
 
@@ -178,4 +178,3 @@ The `WorkPackagesListService` can also update and save existing queries passed t
 `PartitionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as [community.openproject.com/work_packages](https://community.openproject.com/work_packages).
 
 The partitioning comes from showing a work package table (or cards view) on one side, and a details view of a single work package on another side, splitting the page in two. The width of the split areas can be customized by the user through a drag-handle.
-

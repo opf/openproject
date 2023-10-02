@@ -41,8 +41,8 @@ module TestSelectorFinders
   end
 
   # expect(page).to have_test_selector('foo')
-  def have_test_selector(value)
-    have_selector(test_selector(value))
+  def have_test_selector(value, **)
+    have_selector(test_selector(value), **)
   end
 end
 
