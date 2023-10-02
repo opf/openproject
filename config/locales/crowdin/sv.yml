@@ -925,13 +925,14 @@ sv:
     models:
       attachment: "Fil"
       attribute_help_text: "Hjälptexter för attribut"
-      forum: "Forum"
+      category: "Kategori"
       comment: "Kommentar"
       custom_action: "Anpassad åtgärd"
       custom_field: "Anpassat fält"
+      'doorkeeper/application': "OAuth-autentisering"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grupp"
-      category: "Kategori"
-      status: "Arbetspaketstatus"
       member: "Medlem"
       news: "Nyheter"
       notification:
@@ -943,14 +944,14 @@ sv:
       role:
         one: "Roll"
         other: "Roller"
+      status: "Arbetspaketstatus"
       type: "Typ"
       user: "Användare"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki-sida"
       workflow: "Arbetsflöde"
       work_package: "Arbetspaket"
-      'doorkeeper/application': "OAuth-autentisering"
+      wiki: "Wiki"
+      wiki_page: "Wiki-sida"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1259,6 +1260,9 @@ sv:
       x_days:
         one: "En dag"
         other: "%{count} dagar"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minut"
         other: "%{count} minuter"
@@ -1550,6 +1554,7 @@ sv:
   label_add_related_work_packages: "Lägg till relaterade arbetspaket"
   label_add_subtask: "Lägg till deluppgift"
   label_added: "lagt till"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Lagts till av %{author} %{age} sen"
   label_additional_workflow_transitions_for_assignee: "Ytterligare övergångar tillåtna när användaren är tilldelad"
   label_additional_workflow_transitions_for_author: "Ytterligare övergångar tillåtna när användaren är författaren"
@@ -1588,11 +1593,13 @@ sv:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentisering"
-  label_available_project_work_package_categories: 'Tillgängliga arbetspaketkategorier'
-  label_available_project_work_package_types: 'Tillgängliga typer för arbetspaket'
-  label_available_project_forums: 'Tillgängliga forum'
-  label_available_project_versions: 'Tillgängliga versioner'
-  label_available_project_repositories: 'Tillgängliga databaser'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Tillgängliga forum"
+  label_available_project_repositories: "Tillgängliga databaser"
+  label_available_project_versions: "Tillgängliga versioner"
+  label_available_project_work_package_categories: "Tillgängliga arbetspaketkategorier"
+  label_available_project_work_package_types: "Tillgängliga typer för arbetspaket"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-dokumentation"
   label_backup: "Backup"
   label_between: "mellan"
@@ -1797,6 +1804,10 @@ sv:
   label_login: "Logga in"
   label_custom_logo: "Anpassad logotyp"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Anpassad favicon"
   label_custom_touch_icon: "Anpassad touch-ikon"
   label_logout: "Logga ut"
@@ -2769,6 +2780,8 @@ sv:
     En vit logotyp på transparent bakgrund rekommenderas. För bästa resultat på både vanliga och Retina-skärmar bör bilden vara minst 460x60 px.
   text_custom_export_logo_instructions: >
     Det här är loggan som syns i dina PDF-exporter. Det behöver vara en PNG eller JPEG bildfil. En svart eller färglagd logga på en transparent eller vit bakgrund rekommenderas.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

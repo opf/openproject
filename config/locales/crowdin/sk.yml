@@ -932,13 +932,14 @@ sk:
     models:
       attachment: "Súbor"
       attribute_help_text: "Text nápovedy atribútu"
-      forum: "Diskusia"
+      category: "Kategória"
       comment: "Komentár"
       custom_action: "Vlastná akcia"
       custom_field: "Vlastné pole"
+      'doorkeeper/application': "OAuth aplikácia"
+      forum: "Diskusia"
+      global_role: "Global role"
       group: "Skupina"
-      category: "Kategória"
-      status: "Stav pracovného balíčka"
       member: "Člen"
       news: "Novinky"
       notification:
@@ -954,14 +955,14 @@ sk:
         few: "Rolí"
         many: "Rolí"
         other: "Rolí"
+      status: "Stav pracovného balíčka"
       type: "Typ"
       user: "Užívateľ(ka)"
       version: "Verzia"
-      wiki: "Wiki"
-      wiki_page: "Wiki stránka"
       workflow: "Pracovný postup"
       work_package: "Pracovný balíček"
-      'doorkeeper/application': "OAuth aplikácia"
+      wiki: "Wiki"
+      wiki_page: "Wiki stránka"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1294,6 +1295,11 @@ sk:
         few: "%{count} dní"
         many: "%{count} dní"
         other: "%{count} dní"
+      x_min_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minúta"
         few: "%{count} minút"
@@ -1593,6 +1599,7 @@ sk:
   label_add_related_work_packages: "Pridať naviazaný pracovný balíček"
   label_add_subtask: "Pridať podúlohu"
   label_added: "pridané"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Pridal %{author} %{age} vzad"
   label_additional_workflow_transitions_for_assignee: "Povolené dodatočné prechody, pokiaľ je užívateľ priradený"
   label_additional_workflow_transitions_for_author: "Povolené dodatočné prechody, pokiaľ je užívateľ autorom"
@@ -1631,11 +1638,13 @@ sk:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentifikácia"
-  label_available_project_work_package_categories: 'Dostupné kategórie pracovných balíčkov'
-  label_available_project_work_package_types: 'Dostupné kategórie pracovných balíčkov'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Dostupné verzie'
-  label_available_project_repositories: 'Dosupné úložíská'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Dosupné úložíská"
+  label_available_project_versions: "Dostupné verzie"
+  label_available_project_work_package_categories: "Dostupné kategórie pracovných balíčkov"
+  label_available_project_work_package_types: "Dostupné kategórie pracovných balíčkov"
+  label_available_projects: "Available projects"
   label_api_documentation: "Dokumentácia API"
   label_backup: "Backup"
   label_between: "medzi"
@@ -1840,6 +1849,10 @@ sk:
   label_login: "Prihlásiť sa"
   label_custom_logo: "Vlastné logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Vlastná favicon"
   label_custom_touch_icon: "Vlastná dotyková ikona"
   label_logout: "Odhlásiť sa"
@@ -2817,6 +2830,8 @@ sk:
     Odporúčané je biele logo na farebnom pozadí. Pre najlepšie výsledky na všetkých typoch monitorov (štandardných aj retina) použite obrázok s rozmermi 460px x 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

@@ -925,13 +925,14 @@ pt:
     models:
       attachment: "Arquivo"
       attribute_help_text: "Texto de ajuda do atributo"
-      forum: "Fórum"
+      category: "Categoria"
       comment: "Comentário"
       custom_action: "Ação personalizada"
       custom_field: "Campo personalizado"
+      'doorkeeper/application': "Aplicação OAuth"
+      forum: "Fórum"
+      global_role: "Global role"
       group: "Grupo"
-      category: "Categoria"
-      status: "Situação do pacote de trabalho"
       member: "Membro"
       news: "Notícias"
       notification:
@@ -943,14 +944,14 @@ pt:
       role:
         one: "Papel"
         other: "Papéis"
+      status: "Situação do pacote de trabalho"
       type: "Tipo"
       user: "Usuário"
       version: "Versão"
-      wiki: "Wiki"
-      wiki_page: "Página wiki"
       workflow: "Fluxo de Trabalho"
       work_package: "Pacote de trabalho"
-      'doorkeeper/application': "Aplicação OAuth"
+      wiki: "Wiki"
+      wiki_page: "Página wiki"
   errors:
     header_invalid_fields:
       one: "Ocorreu um problema com o seguinte campo:"
@@ -1259,6 +1260,9 @@ pt:
       x_days:
         one: "1 dia"
         other: "%{count} dias"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuto"
         other: "%{count} minutos"
@@ -1550,6 +1554,7 @@ pt:
   label_add_related_work_packages: "Adicionar pacotes de trabalho relacionados"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Adicionado por %{author} %{age} atrás"
   label_additional_workflow_transitions_for_assignee: "Transições adicionais permitidas quando o usuário é o responsável"
   label_additional_workflow_transitions_for_author: "Transições adicionais permitidas quando o usuário é o autor"
@@ -1588,11 +1593,13 @@ pt:
   label_ldap_auth_source: "Conexão LDAP"
   label_ldap_auth_source_plural: "Conexões LDAP"
   label_authentication: "Autenticação"
-  label_available_project_work_package_categories: 'Categorias de pacote de trabalho disponíveis'
-  label_available_project_work_package_types: 'Tipos de pacote de trabalho disponíveis'
-  label_available_project_forums: 'Fóruns disponíveis'
-  label_available_project_versions: 'Versões disponíveis'
-  label_available_project_repositories: 'Repositórios disponíveis'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Fóruns disponíveis"
+  label_available_project_repositories: "Repositórios disponíveis"
+  label_available_project_versions: "Versões disponíveis"
+  label_available_project_work_package_categories: "Categorias de pacote de trabalho disponíveis"
+  label_available_project_work_package_types: "Tipos de pacote de trabalho disponíveis"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentação da API"
   label_backup: "Backup"
   label_between: "entre"
@@ -1797,6 +1804,10 @@ pt:
   label_login: "Fazer login"
   label_custom_logo: "Logotipo personalizado"
   label_custom_export_logo: "Logo de exportação personalizado"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Ícone personalizado"
   label_custom_touch_icon: "Ícone de toque personalizado"
   label_logout: "Desconectar"
@@ -2769,6 +2780,8 @@ pt:
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
   text_custom_export_logo_instructions: >
     Este é o logotipo que aparece nas exportações de PDF. O arquivo de imagem precisa ser PNG ou JPEG. Recomenda-se um logotipo colorido ou preto em plano de fundo transparente ou branco.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Este é o ícone pequeno que aparece em sua janela/aba do navegador ao lado do título da página. O arquivo de imagem precisa ser PNG de 32 por 32 pixels com fundo transparente.
   text_custom_touch_icon_instructions: >

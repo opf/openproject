@@ -925,13 +925,14 @@ tr:
     models:
       attachment: "Dosya"
       attribute_help_text: "Öznitelik Yardım metni"
-      forum: "Forum"
+      category: "Kategori"
       comment: "Yorum"
       custom_action: "Özel eylem"
       custom_field: "Özel alan"
+      'doorkeeper/application': "OAuth uygulaması"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grup"
-      category: "Kategori"
-      status: "İş paketi durumu"
       member: "Üye"
       news: "Haberler"
       notification:
@@ -943,14 +944,14 @@ tr:
       role:
         one: "Rol"
         other: "Yetkiler"
+      status: "İş paketi durumu"
       type: "Tür"
       user: "Kullanıcı"
       version: "Sürüm"
-      wiki: "Viki"
-      wiki_page: "Viki sayfası"
       workflow: "İş akışı"
       work_package: "İş paketi"
-      'doorkeeper/application': "OAuth uygulaması"
+      wiki: "Viki"
+      wiki_page: "Viki sayfası"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1259,6 +1260,9 @@ tr:
       x_days:
         one: "1 gün"
         other: "%{count} gün"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 dakika"
         other: "%{count} dakika"
@@ -1550,6 +1554,7 @@ tr:
   label_add_related_work_packages: "İlgili çalışma paketleri ekle"
   label_add_subtask: "Alt görev ekle"
   label_added: "eklendi"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "%{author} tarafından %{age} önce eklendi"
   label_additional_workflow_transitions_for_assignee: "Kullanıcı atanan olduğu zaman tanınacak ek yetkiler"
   label_additional_workflow_transitions_for_author: "Kullanıcı oluşturan olduğunda izin verilen ek geçişler"
@@ -1588,11 +1593,13 @@ tr:
   label_ldap_auth_source: "LDAP bağlantısı"
   label_ldap_auth_source_plural: "LDAP bağlantıları"
   label_authentication: "Kimlik Doğrulaması"
-  label_available_project_work_package_categories: 'Uygun iş paketi kategorileri'
-  label_available_project_work_package_types: 'Uygun iş paketi tipleri'
-  label_available_project_forums: 'Mevcut forumlar'
-  label_available_project_versions: 'Uygun sürümler'
-  label_available_project_repositories: 'Uygun depolar'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Mevcut forumlar"
+  label_available_project_repositories: "Uygun depolar"
+  label_available_project_versions: "Uygun sürümler"
+  label_available_project_work_package_categories: "Uygun iş paketi kategorileri"
+  label_available_project_work_package_types: "Uygun iş paketi tipleri"
+  label_available_projects: "Available projects"
   label_api_documentation: "API belgelendirmesi"
   label_backup: "Destek olmak"
   label_between: "arasında"
@@ -1797,6 +1804,10 @@ tr:
   label_login: "Oturum aç"
   label_custom_logo: "Özel logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Özel favicon"
   label_custom_touch_icon: "Özel dokunma simgesi"
   label_logout: "Oturumu kapat"
@@ -2768,6 +2779,8 @@ tr:
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

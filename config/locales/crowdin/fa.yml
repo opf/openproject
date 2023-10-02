@@ -926,13 +926,14 @@ fa:
     models:
       attachment: "فایل"
       attribute_help_text: "Attribute help text"
-      forum: "تالار گفتگو"
+      category: "Category"
       comment: "نظر"
       custom_action: "اقدام سفارشی"
       custom_field: "فیلدهای سفارشی"
+      'doorkeeper/application': "OAuth application"
+      forum: "تالار گفتگو"
+      global_role: "Global role"
       group: "Group"
-      category: "Category"
-      status: "Work package status"
       member: "Member"
       news: "News"
       notification:
@@ -944,14 +945,14 @@ fa:
       role:
         one: "Role"
         other: "نقش‌ها"
+      status: "Work package status"
       type: "نوع"
       user: "User"
       version: "نسخه"
-      wiki: "دانشنامه"
-      wiki_page: "Wiki page"
       workflow: "Workflow"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "دانشنامه"
+      wiki_page: "Wiki page"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1260,6 +1261,9 @@ fa:
       x_days:
         one: "1 day"
         other: "%{count} روز"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minute"
         other: "%{count} دقیقه"
@@ -1551,6 +1555,7 @@ fa:
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "added"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Added by %{author} %{age} ago"
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"
@@ -1589,14 +1594,16 @@ fa:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "پشتیبان‌گیری"
-  label_between: "between"
+  label_between: "بین"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_blog: "Blog"
@@ -1741,7 +1748,7 @@ fa:
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
   label_greater_or_equal: ">="
-  label_group_by: "Group by"
+  label_group_by: "گروه‌بندی بر اساس"
   label_group_new: "New group"
   label_group: "Group"
   label_group_named: "Group %{name}"
@@ -1789,7 +1796,7 @@ fa:
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
-  label_less_or_equal: "<="
+  label_less_or_equal: "=>"
   label_less_than_ago: "less than days ago"
   label_list: "لیست"
   label_loading: "Loading..."
@@ -1798,6 +1805,10 @@ fa:
   label_login: "ورود"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
@@ -2024,7 +2035,7 @@ fa:
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
-  label_user: "User"
+  label_user: "کاربر"
   label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}'s activity"
@@ -2772,6 +2783,8 @@ fa:
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

@@ -938,13 +938,14 @@ ar:
     models:
       attachment: "ملف"
       attribute_help_text: "Attribute help text"
-      forum: "المنتدى"
+      category: "الفئة"
       comment: "تعليق"
       custom_action: "Custom action"
       custom_field: "حقل مخصص"
+      'doorkeeper/application': "OAuth application"
+      forum: "المنتدى"
+      global_role: "Global role"
       group: "مجموعة"
-      category: "الفئة"
-      status: "حالة مجموعة العمل"
       member: "عضو"
       news: "الأخبار"
       notification:
@@ -964,14 +965,14 @@ ar:
         few: "دور"
         many: "دور"
         other: "دور"
+      status: "حالة مجموعة العمل"
       type: "النّوع"
       user: "المستخدم"
       version: "الإصدار"
-      wiki: "Wiki"
-      wiki_page: "صفحة وِيكيبيديا"
       workflow: "سير العمل"
       work_package: "مجموعة العمل"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "صفحة وِيكيبيديا"
   errors:
     header_invalid_fields:
       zero: "There were problems with the following fields:"
@@ -1328,6 +1329,13 @@ ar:
         few: "%{count} يوم"
         many: "%{count} يوم"
         other: "%{count} يوم"
+      x_min_abbreviated:
+        zero: "%{count} mins"
+        one: "1 min"
+        two: "%{count} mins"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         zero: "دقائق %{count}"
         one: "1 minute"
@@ -1635,6 +1643,7 @@ ar:
   label_add_related_work_packages: "اضف حزم العمل ذات الصلة"
   label_add_subtask: "اضف مهمة فرعية"
   label_added: "تمت الإضافة"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "أضيفت من قبل %{age} %{author} قبل ذلك"
   label_additional_workflow_transitions_for_assignee: "يسمح بالتحولات إضافية عندما يكون العمل قد احيل للمستخدم"
   label_additional_workflow_transitions_for_author: "يسمح بالتحولات الإضافية عندما يكون المستخدم هو منشئ مجموعة العمل"
@@ -1673,11 +1682,13 @@ ar:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "المصادقة"
-  label_available_project_work_package_categories: 'فئات مجموعة العمل المتاحة'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'الإصدارات المتوفرة'
-  label_available_project_repositories: 'مستودعات البيانات المتوفرة'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "مستودعات البيانات المتوفرة"
+  label_available_project_versions: "الإصدارات المتوفرة"
+  label_available_project_work_package_categories: "فئات مجموعة العمل المتاحة"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "توثيق API"
   label_backup: "Backup"
   label_between: "بين"
@@ -1882,6 +1893,10 @@ ar:
   label_login: "تسجيل الدخول"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "تسجيل الخروج"
@@ -2862,6 +2877,8 @@ ar:
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

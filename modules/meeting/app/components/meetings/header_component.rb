@@ -52,10 +52,6 @@ module Meetings
 
     private
 
-    def edit_enabled?
-      User.current.allowed_to?(:edit_meetings, @meeting.project)
-    end
-
     def delete_enabled?
       User.current.allowed_to?(:delete_meetings, @meeting.project)
     end
@@ -89,7 +85,8 @@ module Meetings
     def actions_partial
       render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_meeting_actions"), test_selector: 'op-meetings-header-action-trigger')
-        edit_action_item(menu) if edit_enabled?
+        edit_action_item(menu) if @meeting.editable?
+        download_ics_item(menu)
         delete_action_item(menu) if delete_enabled?
       end
     end
@@ -101,6 +98,13 @@ module Meetings
                        data: { 'turbo-stream': true }
                      }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def download_ics_item(menu)
+      menu.with_item(label: t(:label_icalendar_download),
+                     href: download_ics_meeting_path(@meeting)) do |item|
+        item.with_leading_visual_icon(icon: :download)
       end
     end
 

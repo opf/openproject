@@ -103,7 +103,7 @@ configure_local_postgres() {
 	echo "data_directory='$PGDATA'" >> "$PGCONF_FILE"
 }
 
-if [ "$dbhost" = "127.0.0.1" ]; then
+if [ -z "${DATABASE_URL}" ] || [ "$dbhost" = "127.0.0.1" ]; then
 	configure_local_postgres
 
 	# initialize cluster if it does not exist yet

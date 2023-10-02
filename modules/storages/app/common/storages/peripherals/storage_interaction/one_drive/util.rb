@@ -51,6 +51,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
               result: :unauthorized,
               errors: ::Storages::StorageError.new(
                 code: :unauthorized,
+                data: ::Storages::StorageErrorData.new(source: connection_manager),
                 log_message: 'Query could not be created! No access token found!'
               )
             )

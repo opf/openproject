@@ -27,6 +27,7 @@
 #++
 
 require 'open_project/plugins'
+require_relative 'patches/api/work_package_representer'
 
 module OpenProject::Meeting
   class Engine < ::Rails::Engine
@@ -39,9 +40,10 @@ module OpenProject::Meeting
              bundled: true do
       project_module :meetings do
         permission :view_meetings,
-                   { meetings: %i[index show],
+                   { meetings: %i[index show download_ics],
                      meeting_agendas: %i[history show diff],
-                     meeting_minutes: %i[history show diff] },
+                     meeting_minutes: %i[history show diff],
+                     work_package_meetings_tab: %i[index] },
                    permissible_on: :project
         permission :create_meetings,
                    { meetings: %i[new create copy] },
@@ -51,7 +53,8 @@ module OpenProject::Meeting
         permission :edit_meetings,
                    {
                      meetings: %i[edit cancel_edit update update_title update_details update_participants],
-                     meeting_agenda_items: %i[new cancel_new create edit cancel_edit update destroy drop move]
+                     meeting_agenda_items: %i[new cancel_new create edit cancel_edit update destroy drop move],
+                     work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting]
                    },
                    permissible_on: :project,
                    require: :member
@@ -65,7 +68,7 @@ module OpenProject::Meeting
                    require: :member
         permission :create_meeting_agendas,
                    {
-                     meeting_agendas: %i[update preview],
+                     meeting_agendas: %i[update preview]
                    },
                    permissible_on: :project,
                    require: :member
@@ -145,6 +148,9 @@ module OpenProject::Meeting
 
     patches [:Project]
     patch_with_namespace :BasicData, :SettingSeeder
+
+    extend_api_response(:v3, :work_packages, :work_package,
+                        &::OpenProject::Meeting::Patches::API::WorkPackageRepresenter.extension)
 
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Meetings::MeetingContentsAPI

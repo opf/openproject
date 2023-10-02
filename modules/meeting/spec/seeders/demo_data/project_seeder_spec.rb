@@ -58,6 +58,9 @@ RSpec.describe DemoData::ProjectSeeder do
       meetings:
         - title: Weekly
           reference: :weekly_meeting
+          duration: 30
+          author: :openproject_user
+        - title: Implicit 1h duration
           author: :openproject_user
       meeting_agenda_items:
         - title: First topic
@@ -74,10 +77,14 @@ RSpec.describe DemoData::ProjectSeeder do
     SEEDING_DATA_YAML
   end
 
-  it 'creates an associated meeting' do
+  before do
     project_seeder.seed!
+  end
+
+  it 'creates an associated meeting' do
     meeting = Meeting.find_by(title: 'Weekly')
     expect(meeting.author).to eq user
+    expect(meeting.duration).to eq 0.5
 
     expect(meeting.agenda_items.count).to eq 2
 
@@ -91,5 +98,10 @@ RSpec.describe DemoData::ProjectSeeder do
     expect(second.author).to eq user
     expect(second.notes).to eq 'Some **markdown**'
     expect(second.work_package).to eq work_package
+  end
+
+  it 'uses default duration of 1h if not specified' do
+    meeting = Meeting.find_by(title: 'Implicit 1h duration')
+    expect(meeting.duration).to eq 1
   end
 end

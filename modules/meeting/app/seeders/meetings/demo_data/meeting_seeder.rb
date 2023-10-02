@@ -43,8 +43,13 @@ module Meetings
         {
           title: meeting_data['title'],
           author: seed_data.find_reference(meeting_data['author']),
+          duration: minutes_to_hours(meeting_data['duration']),
           project:
         }
+      end
+
+      def minutes_to_hours(duration)
+        duration && (duration / 60.0)
       end
     end
   end

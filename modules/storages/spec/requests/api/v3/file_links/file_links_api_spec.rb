@@ -34,24 +34,48 @@ require_module_spec_helper
 RSpec.describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
 
-  let(:permissions) { %i(view_work_packages view_file_links) }
-  let(:project) { create(:project) }
-
-  let(:current_user) do
-    create(:user, member_in_project: project, member_with_permissions: permissions)
+  def add_permissions(user, *)
+    role = Role.joins(members: :principal).where('users.id': user).first
+    role.add_permission!(*)
+    user.reload # clear user's project_role_cache
   end
 
-  let(:work_package) { create(:work_package, author: current_user, project:) }
-  let(:another_work_package) { create(:work_package, author: current_user, project:) }
+  def remove_permissions(user, *)
+    role = Role.joins(members: :principal).where('users.id': user).first
+    role.remove_permission!(*)
+    user.reload # clear user's project_role_cache
+  end
 
-  let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
-  let(:another_storage) { create(:nextcloud_storage, creator: current_user) }
+  def enable_module(project, modul)
+    project.enabled_module_names = project.enabled_module_names + [modul]
+    project.save
+  end
 
-  let(:oauth_client) { create(:oauth_client, integration: storage) }
-  let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
+  def disable_module(project, modul)
+    project.enabled_module_names = project.enabled_module_names - [modul]
+    project.save
+  end
 
-  let!(:project_storage) { create(:project_storage, project:, storage:) }
+  shared_association_default(:priority) { create(:priority) }
+  shared_association_default(:status) { create(:status) }
+
+  shared_let(:project) { create(:project) }
+
+  shared_let(:current_user) do
+    create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages view_file_links))
+  end
+
+  shared_let(:work_package) { create(:work_package, author: current_user, project:) }
+  shared_let(:another_work_package) { create(:work_package, author: current_user, project:) }
+
+  shared_let(:oauth_application) { create(:oauth_application) }
+  shared_let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
+  shared_let(:another_storage) { create(:nextcloud_storage, creator: current_user) }
+
+  shared_let(:oauth_client) { create(:oauth_client, integration: storage) }
+  shared_let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
+
+  shared_let(:project_storage) { create(:project_storage, project:, storage:) }
   let!(:another_project_storage) { nil } # create(:project_storage, project:, storage: another_storage)
 
   let(:file_link) do
@@ -91,8 +115,6 @@ RSpec.describe 'API v3 file links resource' do
 
   describe 'POST /api/v3/file_links' do
     let(:path) { '/api/v3/file_links' }
-    let(:permissions) { %i(manage_file_links) }
-    let(:storage_url) { storage.host }
     let(:params) do
       {
         _type: "Collection",
@@ -119,7 +141,7 @@ RSpec.describe 'API v3 file links resource' do
             }
           }
         },
-        build(:file_link_element, storage_url:)
+        build(:file_link_element, storage_url:, origin_id: '200001', origin_name: "file_name_1.txt")
       ]
     end
 
@@ -128,33 +150,61 @@ RSpec.describe 'API v3 file links resource' do
       post path, params.to_json
     end
 
-    context 'when all embedded file link elements are valid' do
-      it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
-        let(:elements) { Storages::FileLink.order(id: :asc) }
-        let(:expected_status_code) { 201 }
-      end
+    context 'when storage has been configured' do
+      let(:storage_url) { storage.host }
 
-      it 'creates corresponding FileLink records', :aggregate_failures do
-        expect(Storages::FileLink.count).to eq 2
-        Storages::FileLink.find_each.with_index do |file_link, i|
-          unset_keys = %w[container_id container_type]
-          set_keys = (file_link.attributes.keys - unset_keys)
-          set_keys.each do |key|
-            expect(file_link.attributes[key]).not_to(
-              be_nil,
-              "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
-            )
+      context 'when all embedded file link elements are valid' do
+        it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
+          let(:elements) { Storages::FileLink.order(id: :asc) }
+          let(:expected_status_code) { 201 }
+        end
+
+        it(
+          'creates corresponding FileLink records and ' \
+          'does not provide a link to the collection of created file links',
+          :aggregate_failures
+        ) do
+          expect(Storages::FileLink.count).to eq 2
+          Storages::FileLink.find_each.with_index do |file_link, i|
+            unset_keys = %w[container_id container_type]
+            set_keys = (file_link.attributes.keys - unset_keys)
+            set_keys.each do |key|
+              expect(file_link.attributes[key]).not_to(
+                be_nil,
+                "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
+              )
+            end
+            unset_keys.each do |key|
+              expect(file_link.attributes[key]).to be_nil
+            end
           end
-          unset_keys.each do |key|
-            expect(file_link.attributes[key]).to be_nil
-          end
+
+          expect(response.body).to be_json_eql(
+            'urn:openproject-org:api:v3:file_links:no_link_provided'.to_json
+          ).at_path('_links/self/href')
         end
       end
+    end
 
-      it 'does not provide a link to the collection of created file links' do
-        expect(response.body).to be_json_eql(
-          'urn:openproject-org:api:v3:file_links:no_link_provided'.to_json
-        ).at_path('_links/self/href')
+    context 'when storage with such a host does not exist in OpenProject' do
+      let(:storage_url) { 'https://qweqwe.qweqwe' }
+
+      it 'responds with an appropriate error' do
+        expect(JSON.parse(response.body)).to eq(
+          { "_type" => "Error",
+            "errorIdentifier" => "urn:openproject-org:api:v3:errors:MultipleErrors",
+            "message" => "Multiple field constraints have been violated.",
+            "_embedded" =>
+           { "errors" =>
+            [{ "_type" => "Error",
+               "errorIdentifier" => "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+               "message" => "Error attempting to create dependent object: File link - logo.png: Storage does not exist.",
+               "_embedded" => { "details" => { "attribute" => "base" } } },
+             { "_type" => "Error",
+               "errorIdentifier" => "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+               "message" => "Error attempting to create dependent object: File link - file_name_1.txt: Storage does not exist.",
+               "_embedded" => { "details" => { "attribute" => "base" } } }] } }
+        )
       end
     end
   end
@@ -176,7 +226,13 @@ RSpec.describe 'API v3 file links resource' do
     end
 
     context 'if user has not sufficient permissions' do
-      let(:permissions) { %i(view_work_packages) }
+      before(:all) do
+        remove_permissions(current_user, :view_file_links)
+      end
+
+      after(:all) do
+        add_permissions(current_user, :view_file_links)
+      end
 
       it_behaves_like 'API V3 collection response', 0, 0, 'FileLink', 'Collection' do
         let(:elements) { [] }
@@ -184,7 +240,8 @@ RSpec.describe 'API v3 file links resource' do
     end
 
     context 'if storages module is deactivated for the work package\'s project' do
-      let(:project) { create(:project, disable_modules: :storages) }
+      before(:all) { disable_module(project, 'storages') }
+      after(:all) { enable_module(project, 'storages') }
 
       it_behaves_like 'API V3 collection response', 0, 0, 'FileLink', 'Collection' do
         let(:elements) { [] }
@@ -226,7 +283,6 @@ RSpec.describe 'API v3 file links resource' do
 
   describe 'POST /api/v3/work_packages/:work_package_id/file_links' do
     let(:path) { api_v3_paths.file_links(work_package.id) }
-    let(:permissions) { %i(view_work_packages manage_file_links) }
     let(:storage_url) { storage.host }
     let(:params) do
       {
@@ -260,6 +316,14 @@ RSpec.describe 'API v3 file links resource' do
       ]
     end
 
+    before(:all) do
+      add_permissions(current_user, :manage_file_links)
+    end
+
+    after(:all) do
+      remove_permissions(current_user, :manage_file_links)
+    end
+
     before do
       header 'Content-Type', 'application/json'
       post path, params.to_json
@@ -271,7 +335,11 @@ RSpec.describe 'API v3 file links resource' do
         let(:expected_status_code) { 201 }
       end
 
-      it 'creates corresponding FileLink records', :aggregate_failures do
+      it(
+        'creates corresponding FileLink records and ' \
+        'provides a link to the collection of created file links',
+        :aggregate_failures
+      ) do
         expect(Storages::FileLink.count).to eq 2
         Storages::FileLink.find_each.with_index do |file_link, i|
           file_link.attributes.each do |(key, value)|
@@ -280,9 +348,7 @@ RSpec.describe 'API v3 file links resource' do
                                  "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
           end
         end
-      end
 
-      it 'provides a link to the collection of created file links' do
         expect(response.body).to be_json_eql(path.to_json).at_path('_links/self/href')
       end
     end
@@ -334,11 +400,12 @@ RSpec.describe 'API v3 file links resource' do
         let(:expected_status_code) { 201 }
       end
 
-      it 'does not create any new FileLink records for the already existing one' do
+      it(
+        'does not create any new FileLink records for the already existing one and' \
+        'does not update the existing FileLink metadata from the POSTed one'
+      ) do
         expect(Storages::FileLink.count).to eq 2
-      end
 
-      it 'does not update the existing FileLink metadata from the POSTed one' do
         expect(existing_file_link.reload.origin_name).to eq 'original name'
       end
     end
@@ -358,15 +425,15 @@ RSpec.describe 'API v3 file links resource' do
         let(:expected_status_code) { 201 }
       end
 
-      it 'creates only one FileLink for all duplicates' do
+      it(
+        'creates only one FileLink for all duplicates and ' \
+        'uses metadata from the first item and ' \
+        'replies with as many embedded elements as in the request, all identical'
+      ) do
         expect(Storages::FileLink.count).to eq 1
-      end
 
-      it 'uses metadata from the first item' do
         expect(Storages::FileLink.first.origin_name).to eq 'first name'
-      end
 
-      it 'replies with as many embedded elements as in the request, all identical', :aggregate_failures do
         replied_elements = JSON.parse(last_response.body).dig('_embedded', 'elements')
         expect(replied_elements.count).to eq(embedded_elements.count)
         expect(replied_elements[1..]).to all(eq(replied_elements.first))
@@ -445,16 +512,15 @@ RSpec.describe 'API v3 file links resource' do
   describe 'GET /api/v3/file_links/:file_link_id' do
     let(:path) { api_v3_paths.file_link(file_link.id) }
 
-    before do
-      get path
-    end
+    before { get path }
 
     it 'is successful' do
       expect(subject.status).to be 200
     end
 
     context 'if user has not sufficient permissions' do
-      let(:permissions) { [] }
+      before(:all) { remove_permissions(current_user, :view_file_links) }
+      after(:all) { add_permissions(current_user, :view_file_links) }
 
       it_behaves_like 'not found'
     end
@@ -472,7 +538,8 @@ RSpec.describe 'API v3 file links resource' do
     end
 
     context 'if file link is in a work package, while the storages module is deactivated in its project.' do
-      let(:project) { create(:project, disable_modules: :storages) }
+      before(:all) { disable_module(project, 'storages') }
+      after(:all) { enable_module(project, 'storages') }
 
       it_behaves_like 'not found'
     end
@@ -486,7 +553,9 @@ RSpec.describe 'API v3 file links resource' do
 
   describe 'DELETE /api/v3/file_links/:file_link_id' do
     let(:path) { api_v3_paths.file_link(file_link.id) }
-    let(:permissions) { %i(view_file_links manage_file_links) }
+
+    before(:all) { add_permissions(current_user, :manage_file_links) }
+    after(:all) { remove_permissions(current_user, :manage_file_links) }
 
     before do
       header 'Content-Type', 'application/json'
@@ -499,18 +568,20 @@ RSpec.describe 'API v3 file links resource' do
     end
 
     context 'if user has no view permissions' do
-      let(:permissions) { [] }
+      before(:all) { remove_permissions(current_user, :view_file_links) }
+      after(:all) { add_permissions(current_user, :view_file_links) }
 
       it_behaves_like 'not found'
     end
 
     context 'if user has no manage permissions' do
-      let(:permissions) { %i(view_file_links) }
+      before(:all) { remove_permissions(current_user, :manage_file_links) }
+      after(:all) { add_permissions(current_user, :manage_file_links) }
 
       it_behaves_like 'unauthorized access'
     end
 
-    context 'if no storage with that id exists' do
+    context 'if no file link with that id exists' do
       let(:path) { api_v3_paths.file_link(1337) }
 
       it_behaves_like 'not found'
@@ -520,9 +591,7 @@ RSpec.describe 'API v3 file links resource' do
   describe 'GET /api/v3/file_links/:file_link_id/open' do
     let(:path) { api_v3_paths.file_link_open(file_link.id) }
 
-    before do
-      get path
-    end
+    before { get path }
 
     it 'is successful' do
       expect(subject.status).to be 303
@@ -537,7 +606,8 @@ RSpec.describe 'API v3 file links resource' do
     end
 
     context 'if user has no view permissions' do
-      let(:permissions) { [] }
+      before(:all) { remove_permissions(current_user, :view_file_links) }
+      after(:all) { add_permissions(current_user, :view_file_links) }
 
       it_behaves_like 'not found'
     end

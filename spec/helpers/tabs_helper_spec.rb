@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe TabsHelper do
-  include TabsHelper
+  include described_class
 
   let(:given_tab) do
     { name: 'avatar',
@@ -46,6 +46,9 @@ RSpec.describe TabsHelper do
   end
 
   describe 'render_extensible_tabs' do
+    let(:current_user) { build(:user) }
+    let(:user) { build(:user, id: 2) }
+
     before do
       allow_any_instance_of(TabsHelper)
         .to receive(:render_tabs)
@@ -54,16 +57,14 @@ RSpec.describe TabsHelper do
 
       allow(OpenProject::Ui::ExtensibleTabs)
         .to receive(:enabled_tabs)
-        .with(:user)
+        .with(:user, a_hash_including(user:, current_user:))
         .and_return [given_tab]
-
-      user = build(:user, id: 2)
-      @tabs = render_extensible_tabs(:user, user:)
     end
 
     it "returns an evaluated path" do
-      expect(response.status).to eq 200
-      expect(@tabs).to eq([expected_tab])
+      tabs = render_extensible_tabs(:user, user:)
+      expect(response).to have_http_status :ok
+      expect(tabs).to eq([expected_tab])
     end
   end
 end

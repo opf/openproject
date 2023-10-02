@@ -916,13 +916,14 @@ id:
     models:
       attachment: "File"
       attribute_help_text: "Atribut teks bantuan"
-      forum: "Forum"
+      category: "Kategori"
       comment: "Komentar"
       custom_action: "Custom action"
       custom_field: "Isian kustom"
+      'doorkeeper/application': "aplikasi OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grup"
-      category: "Kategori"
-      status: "Status Work Package"
       member: "Member"
       news: "News"
       notification:
@@ -932,14 +933,14 @@ id:
       query: "Query kustom"
       role:
         other: "Roles"
+      status: "Status Work Package"
       type: "Tipe"
       user: "User"
       version: "Versi"
-      wiki: "Wiki"
-      wiki_page: "Halaman Wiki"
       workflow: "Workflow"
       work_package: "Paket-Penugasan"
-      'doorkeeper/application': "aplikasi OAuth"
+      wiki: "Wiki"
+      wiki_page: "Halaman Wiki"
   errors:
     header_invalid_fields:
       other: "There were problems with the following fields:"
@@ -1236,6 +1237,8 @@ id:
         other: "lebih dari %{count} tahun"
       x_days:
         other: "%{count} hari"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count} menit"
       x_months:
@@ -1523,6 +1526,7 @@ id:
   label_add_related_work_packages: "Tambahkan Paket-Penugasan terkait"
   label_add_subtask: "Tambahkan Sub-Tugas"
   label_added: "ditambahkan"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Ditambahkan oleh %{author} %{age} yang lalu"
   label_additional_workflow_transitions_for_assignee: "Tambahan transisi diperbolehkan ketika user mendapat penugasan"
   label_additional_workflow_transitions_for_author: "Tambahan transisi diperbolehkan ketika user adalah Penulis"
@@ -1561,11 +1565,13 @@ id:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Otentikasi"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Jenis paket pekerjaan yang tersedia'
-  label_available_project_forums: 'Forums tersedia'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Forums tersedia"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Jenis paket pekerjaan yang tersedia"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Cadangan"
   label_between: "antara"
@@ -1770,6 +1776,10 @@ id:
   label_login: "Login"
   label_custom_logo: "Logo khusus"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Favicon sesuai keinginan"
   label_custom_touch_icon: "Ikon sentuh sesuai keinginan"
   label_logout: "Logout"
@@ -2738,6 +2748,8 @@ id:
     Logo putih dalam latar belakang transparan lebih disarankan. Untuk hasil terbaik pada keduanya, konvensional dan tampilan retina, pastikan dimensi gambar Anda adalah 460px kali 110px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

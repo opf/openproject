@@ -924,13 +924,14 @@ hi:
     models:
       attachment: "फ़ाइल"
       attribute_help_text: "Attribute help text"
-      forum: "मंच"
+      category: "श्रेणी"
       comment: "टिप्पणी"
       custom_action: "विशेष या कस्टम क्रियाएँ"
       custom_field: "रुचि के अनुसार फिल्ड"
+      'doorkeeper/application': "OAuth application"
+      forum: "मंच"
+      global_role: "Global role"
       group: "समूह"
-      category: "श्रेणी"
-      status: "कार्य पैकेज स्थिति"
       member: "सदस्य"
       news: "नया"
       notification:
@@ -942,14 +943,14 @@ hi:
       role:
         one: "भूमिका"
         other: "भूमिका"
+      status: "कार्य पैकेज स्थिति"
       type: "प्रकार"
       user: "उपयोगकर्ता"
       version: "संस्करण"
-      wiki: "विकी"
-      wiki_page: "विकी पृष्ठ"
       workflow: "कार्यप्रवाह"
       work_package: "कार्य पैकेज"
-      'doorkeeper/application': "OAuth application"
+      wiki: "विकी"
+      wiki_page: "विकी पृष्ठ"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1258,6 +1259,9 @@ hi:
       x_days:
         one: "1 दिन"
         other: "%{count} days"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 मिनट"
         other: "%{count} minutes"
@@ -1549,6 +1553,7 @@ hi:
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "added"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Added by %{author} %{age} ago"
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"
@@ -1587,11 +1592,13 @@ hi:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "प्रमाणीकरण"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Backup"
   label_between: "between"
@@ -1796,6 +1803,10 @@ hi:
   label_login: "साइन इन करें"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "विशेष या कस्टम favicon"
   label_custom_touch_icon: "कस्टम प्रतीक चिह्न"
   label_logout: "Sign out"
@@ -2770,6 +2781,8 @@ hi:
     पारदर्शी पृष्ठभूमि पर एक सफेद लोगो की सिफारिश की है । दोनों, पारंपरिक और रेटिना प्रदर्शित करता है पर सबसे अच्छा परिणाम के लिए, सुनिश्चित करें कि आपकी छवि के आयामों 460px द्वारा 60px हैं ।
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

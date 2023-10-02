@@ -929,13 +929,14 @@ pl:
     models:
       attachment: "Plik"
       attribute_help_text: "Tekst pomocy atrybutu"
-      forum: "Forum"
+      category: "Kategoria"
       comment: "Komentarz"
       custom_action: "Działanie niestandardowe"
       custom_field: "Pola niestandardowe"
+      'doorkeeper/application': "Aplikacje OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grupa"
-      category: "Kategoria"
-      status: "Status pakietu roboczego"
       member: "Członek"
       news: "Aktualności"
       notification:
@@ -951,14 +952,14 @@ pl:
         few: "Rol"
         many: "Rol"
         other: "Rol"
+      status: "Status pakietu roboczego"
       type: "Typ"
       user: "Użytkownik"
       version: "Wersja"
-      wiki: "Wiki"
-      wiki_page: "Strona wiki"
       workflow: "Przepływ pracy"
       work_package: "Pakiet roboczy"
-      'doorkeeper/application': "Aplikacje OAuth"
+      wiki: "Wiki"
+      wiki_page: "Strona wiki"
   errors:
     header_invalid_fields:
       one: "Wystąpił problem z następującym polem:"
@@ -1291,6 +1292,11 @@ pl:
         few: "%{count} dni"
         many: "%{count} dni"
         other: "%{count} dni"
+      x_min_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuta"
         few: "%{count} minut"
@@ -1590,6 +1596,7 @@ pl:
   label_add_related_work_packages: "Dodaj powiązane pakiety robocze"
   label_add_subtask: "Dodać zadanie podrzędne"
   label_added: "dodane"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Dodane przez %{author} %{age} temu"
   label_additional_workflow_transitions_for_assignee: "Dodatkowe przejścia dozwolone, gdy użytkownik jest cesjonariuszem"
   label_additional_workflow_transitions_for_author: "Dodatkowe przejścia dozwolone, gdy użytkownik jest autorem"
@@ -1628,11 +1635,13 @@ pl:
   label_ldap_auth_source: "Połączenie LDAP"
   label_ldap_auth_source_plural: "Połączenia LDAP"
   label_authentication: "Uwierzytelnianie"
-  label_available_project_work_package_categories: 'Dostępne kategorie Zadań'
-  label_available_project_work_package_types: 'Dostępne typy pakietów roboczych'
-  label_available_project_forums: 'Dostępne fora'
-  label_available_project_versions: 'Dostępne wersje'
-  label_available_project_repositories: 'Dostępne repozytoria'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Dostępne fora"
+  label_available_project_repositories: "Dostępne repozytoria"
+  label_available_project_versions: "Dostępne wersje"
+  label_available_project_work_package_categories: "Dostępne kategorie Zadań"
+  label_available_project_work_package_types: "Dostępne typy pakietów roboczych"
+  label_available_projects: "Available projects"
   label_api_documentation: "Dokumentacja API"
   label_backup: "Kopia zapasowa"
   label_between: "pomiędzy"
@@ -1837,6 +1846,10 @@ pl:
   label_login: "Logowanie"
   label_custom_logo: "Własne logo"
   label_custom_export_logo: "Logotyp eksportu niestandardowego"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Własny favicon"
   label_custom_touch_icon: "Własny touch icon"
   label_logout: "Wyloguj"
@@ -2812,6 +2825,8 @@ pl:
     Na bezbarwnym tle zaleca się stosowanie białego logo. Najlepsze rezultaty - zarówno na tradycyjnych jak i wyświetlaczach retina - są dla obrazów o rozdzielczości 460x60 px.
   text_custom_export_logo_instructions: >
     To jest logotyp widniejący w eksportach plików PDF. Musi to być plik PNG lub JPEG. Zalecane jest stosowanie czarnego lub kolorowego logotypu na przezroczystym lub białym tle.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Jest to mała ikona, która pojawia się w oknie/karcie przeglądarki obok tytułu strony. Musi to być plik kwadratowego obrazu PNG o rozmiarze 32 na 32 piksele z przezroczystym tłem.
   text_custom_touch_icon_instructions: >

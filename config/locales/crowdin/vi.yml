@@ -925,13 +925,14 @@ vi:
     models:
       attachment: "Tệp"
       attribute_help_text: "Thuộc tính văn bản trợ giúp"
-      forum: "Diễn đàn"
+      category: "Thể loại"
       comment: "Nhận xét"
       custom_action: "Tác vụ tùy chỉnh"
       custom_field: "Tùy chỉnh mục"
+      'doorkeeper/application': "OAuth application"
+      forum: "Diễn đàn"
+      global_role: "Global role"
       group: "Nhóm"
-      category: "Thể loại"
-      status: "Tình trạng work package"
       member: "Thành viên"
       news: "Tin tức"
       notification:
@@ -941,14 +942,14 @@ vi:
       query: "Truy vấn riêng"
       role:
         other: "Vai trò"
+      status: "Tình trạng work package"
       type: "Kiểu"
       user: "Người dùng"
       version: "Phiên bản"
-      wiki: "Wiki"
-      wiki_page: "Trang wiki"
       workflow: "Quy trình làm việc"
       work_package: "Work Package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Trang wiki"
   errors:
     header_invalid_fields:
       other: "There were problems with the following fields:"
@@ -1245,6 +1246,8 @@ vi:
         other: "hơn %{count} năm"
       x_days:
         other: "%{count} ngày"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count} phút"
       x_months:
@@ -1532,6 +1535,7 @@ vi:
   label_add_related_work_packages: "Thêm work package liên quan"
   label_add_subtask: "Thêm subtask"
   label_added: "đã thêm"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Thêm bởi %{author} cách đây %{age}"
   label_additional_workflow_transitions_for_assignee: "Chuyển đổi bổ sung được cho phép khi người sử dụng là người được gán"
   label_additional_workflow_transitions_for_author: "Các chuyển đổi bổ xung được phép khi người dùng là tác giả"
@@ -1570,11 +1574,13 @@ vi:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Xác thực"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Phiên bản sẵn có'
-  label_available_project_repositories: 'Kho có sẵn'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Kho có sẵn"
+  label_available_project_versions: "Phiên bản sẵn có"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "Tài liệu API"
   label_backup: "Sao lưu"
   label_between: "giữa"
@@ -1779,6 +1785,10 @@ vi:
   label_login: "Đăng nhập"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Favicon tuỳ chỉnh"
   label_custom_touch_icon: "Tùy chỉnh biểu tượng ICON"
   label_logout: "Sign out"
@@ -2751,6 +2761,8 @@ vi:
     Nên để một biểu tượng màu trắng trên nền trong suốt. Đó là cách tốt nhất với một con mắt thẩm mỹ, nên đảm bảo kích thước hình ảnh của bạn là 460px bởi 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

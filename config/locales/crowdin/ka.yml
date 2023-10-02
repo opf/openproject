@@ -926,13 +926,14 @@ ka:
     models:
       attachment: "ფაილი"
       attribute_help_text: "Attribute help text"
-      forum: "ფორუმი"
+      category: "კატეგორია"
       comment: "კომენტარი"
       custom_action: "Custom action"
       custom_field: "Custom field"
+      'doorkeeper/application': "OAuth application"
+      forum: "ფორუმი"
+      global_role: "Global role"
       group: "ჯგუფი"
-      category: "კატეგორია"
-      status: "Work package status"
       member: "წევრი"
       news: "სიახლეები"
       notification:
@@ -944,14 +945,14 @@ ka:
       role:
         one: "როლი"
         other: "როლი"
+      status: "Work package status"
       type: "ტიპი"
       user: "მომხმარებელი"
       version: "ვერსია"
-      wiki: "ვიკი"
-      wiki_page: "ვიკი გვერდი"
       workflow: "სამუშაო პროცესი"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "ვიკი"
+      wiki_page: "ვიკი გვერდი"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1260,6 +1261,9 @@ ka:
       x_days:
         one: "1 დღე"
         other: "%{count} დღე"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 წუთი"
         other: "%{count} წუთი"
@@ -1551,6 +1555,7 @@ ka:
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "დამატებულია"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Added by %{author} %{age} ago"
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"
@@ -1589,11 +1594,13 @@ ka:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "მარქაფი"
   label_between: "მითითებულ დროის შუალედში"
@@ -1798,6 +1805,10 @@ ka:
   label_login: "შესვლა"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "გასვლა"
@@ -2772,6 +2783,8 @@ ka:
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
