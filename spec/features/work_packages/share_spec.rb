@@ -125,10 +125,8 @@ RSpec.describe 'Work package sharing',
       perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-      # Closing and reopening the modal will show the same state as before.
-      share_modal.close
-
-      share_modal.expect_closed
+      # Reopening the modal will show the same state as before.
+      work_package_page.visit!
 
       click_button 'Share'
 
