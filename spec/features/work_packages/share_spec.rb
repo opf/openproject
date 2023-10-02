@@ -128,6 +128,8 @@ RSpec.describe 'Work package sharing',
       # Closing and reopening the modal will show the same state as before.
       share_modal.close
 
+      share_modal.expect_closed
+
       click_button 'Share'
 
       # These users were not changed
