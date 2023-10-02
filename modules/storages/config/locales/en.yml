@@ -149,8 +149,9 @@ en:
     label_provider: "Provider"
     label_file_link: "File link"
     label_file_links: "File links"
+    label_creation_time: "Creation time"
+    label_incomplete: "Incomplete"
     label_name: "Name"
-    label_host_short: "Host"
     label_host: "Host URL"
     label_managed_project_folders:
       automatically_managed_folders: "Automatically managed folders"
