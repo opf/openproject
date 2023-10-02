@@ -40,7 +40,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:disable Metrics/AbcSize
     def call(group: @group)
       response = Util.http(@uri).get(
-        Util.join_uri_path(@uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)),
+        Util.join_uri_path(@uri.path, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)),
         Util.basic_auth_header(@username, @password).merge('OCS-APIRequest' => 'true')
       )
       case response
