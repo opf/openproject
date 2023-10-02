@@ -1139,7 +1139,7 @@ DEPENDENCIES
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
   puffing-billy (~> 4.0.0)
-  puma (~> 6.3)
+  puma (~> 6.3, >= 6.3.1)
   puma-plugin-statsd (~> 2.0)
   rack-attack (~> 6.7.0)
   rack-cors (~> 2.0.0)
