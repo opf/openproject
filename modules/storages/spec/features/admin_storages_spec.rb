@@ -38,7 +38,7 @@ RSpec.describe 'Admin storages',
 
   before { login_as admin }
 
-  describe 'Storages index page', with_flag: { storage_primer_design: true } do
+  describe 'File storages list', with_flag: { storage_primer_design: true } do
     context 'with storages' do
       let(:complete_storage) { create(:nextcloud_storage_with_local_connection) }
       let(:incomplete_storage) { create(:nextcloud_storage) }
@@ -53,6 +53,8 @@ RSpec.describe 'Admin storages',
 
         expect(page).to have_css('.op-storage-list--name', text: complete_storage.name)
         expect(page).to have_css('.op-storage-list--name', text: incomplete_storage.name)
+        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
+                                 text: 'Storage')
 
         within "li#storages_nextcloud_storage_#{complete_storage.id}" do
           expect(page).not_to have_css('.octicon-alert-fill')
@@ -81,10 +83,8 @@ RSpec.describe 'Admin storages',
         expect(page.find('.PageHeader-title')).to have_text('File storages')
         expect(page).to have_text("You don't have any storages yet.")
         # Show Add storage buttons
-        expect(page).to have_css("a[role='button'][aria-label='Add storage'][href='#{new_admin_settings_storage_path}']",
-                                 text: 'Add storage')
         expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
-                                 text: 'Storage')
+                                 text: 'Storage').twice
       end
     end
   end

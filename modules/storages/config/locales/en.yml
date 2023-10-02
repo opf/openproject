@@ -144,7 +144,6 @@ en:
       description: "Add a storage to see them here."
     label_active: "Active"
     label_add_new_storage: "Add new storage"
-    label_add_storage: "Add storage"
     label_inactive: "Inactive"
     label_creator: "Creator"
     label_provider: "Provider"
