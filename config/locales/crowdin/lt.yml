@@ -935,7 +935,7 @@ lt:
       custom_field: "Kliento laukelis"
       'doorkeeper/application': "OAuth aplikacija"
       forum: "Forumas"
-      global_role: "Global role"
+      global_role: "Visuotinis vaidmuo"
       group: "Grupė"
       member: "Narys"
       news: "Naujienos"
@@ -1294,8 +1294,8 @@ lt:
         other: "%{count} dienos"
       x_min_abbreviated:
         one: "1 min"
-        few: "%{count} mins"
-        many: "%{count} mins"
+        few: "%{count} min"
+        many: "%{count} min"
         other: "%{count} min"
       x_minutes:
         one: "1 minutę"
@@ -1596,7 +1596,7 @@ lt:
   label_add_related_work_packages: "Pridėti susijusių darbų paketų"
   label_add_subtask: "Pridėti antrinę užduotį"
   label_added: "pridėtas"
-  label_added_by: "Added by %{author}"
+  label_added_by: "Pridėjo %{author}"
   label_added_time_by: "%{author} pridėjo prieš %{age}"
   label_additional_workflow_transitions_for_assignee: "Papildomi darbų eigos variantai leistini, kai darbas paskirtas vartotojui"
   label_additional_workflow_transitions_for_author: "Papildomi darbų eigos variantai leistini, kai vartotojas yra autorius"
