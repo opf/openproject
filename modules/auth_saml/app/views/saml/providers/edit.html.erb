@@ -1,0 +1,19 @@
+<% page_title = t('saml.providers.label_edit', name: @provider.name) %>
+<% local_assigns[:additional_breadcrumb] = @provider.name %>
+
+<% html_title(t(:label_administration), page_title) -%>
+
+<%= toolbar title: page_title %>
+
+<%= error_messages_for @provider %>
+
+<%= @provider.assertion_consumer_service_url  %>
+
+<%= labelled_tabular_form_for @provider,
+                              html: { class: 'form', autocomplete: 'off' } do |f| %>
+  <%= render partial: "form", locals: { f: f } %>
+  <p>
+    <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <%= link_to t(:button_cancel), { action: :index }, class: 'button -with-icon icon-cancel' %>
+  </p>
+<% end %>

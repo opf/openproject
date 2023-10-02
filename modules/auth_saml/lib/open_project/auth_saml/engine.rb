@@ -3,26 +3,32 @@ module OpenProject
   module AuthSaml
     def self.configuration
       RequestStore.fetch(:openproject_omniauth_saml_provider) do
-        @saml_settings ||= load_global_settings!
-        @saml_settings.deep_merge(settings_from_db)
+        global_configuration.deep_merge(settings_from_db)
       end
     end
 
     def self.reload_configuration!
-      @saml_settings = nil
+      @global_configuration = nil
       RequestStore.delete :openproject_omniauth_saml_provider
     end
 
     ##
     # Loads the settings once to avoid accessing the file in each request
-    def self.load_global_settings!
-      Hash(settings_from_config || settings_from_yaml).with_indifferent_access
+    def self.global_configuration
+      @global_configuration ||= Hash(settings_from_config || settings_from_yaml).with_indifferent_access
     end
 
     def self.settings_from_db
       value = Hash(Setting.plugin_openproject_auth_saml).with_indifferent_access[:providers]
 
       value.is_a?(Hash) ? value : {}
+    end
+
+    def self.providers
+      configuration.map do |name, config|
+        readonly = global_configuration.keys.include?(name)
+        ::Saml::Provider.new(name, config, readonly:)
+      end
     end
 
     def self.settings_from_config
@@ -50,7 +56,14 @@ module OpenProject
       register "openproject-auth_saml",
                author_url: "https://github.com/finnlabs/openproject-auth_saml",
                bundled: true,
-               settings: { default: { "providers" => nil } }
+               settings: { default: { "providers" => nil } } do
+        menu :admin_menu,
+             :plugin_saml,
+             :saml_providers_path,
+             parent: :authentication,
+             caption: ->(*) { I18n.t('saml.menu_title') },
+             enterprise_feature: 'openid_providers'
+      end
 
       assets %w(
         auth_saml/**

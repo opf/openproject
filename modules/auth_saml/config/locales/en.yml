@@ -1,0 +1,33 @@
+en:
+  activemodel:
+    attributes:
+      saml/provider:
+        name: Name
+        display_name: Display name
+        identifier: Identifier
+        secret: Secret
+        scope: Scope
+        limit_self_registration: Limit self registration
+        sp_entity_id: Service entity ID
+  saml:
+    menu_title: SAML providers
+    providers:
+      label_add_new: Add a new SAML provider
+      label_edit: Edit SAML provider %{name}
+      no_results_table: No providers have been defined yet.
+      plural: SAML providers
+      singular: SAML provider
+      attribute_mapping: Attribute mapping
+      attribute_mapping_text: >
+        The following fields control which attributes provided by the SAML identity provider 
+        are used to provide user attributes in OpenProject
+      upsale:
+        description: Connect OpenProject to a SAML identity provider
+      request_attributes:
+        title: 'Requested attributes'
+        legend: 'These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires.'
+        name: 'Requested attribute key'
+        format: 'Attribute format'
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.
