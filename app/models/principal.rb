@@ -181,6 +181,4 @@ class Principal < ApplicationRecord
     self.mail ||= ''
     true
   end
-
-  extend Pagination::Model
 end

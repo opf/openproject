@@ -32,11 +32,6 @@ class MembersController < ApplicationController
   before_action :find_project_by_project_id, only: [:autocomplete_for_member]
   before_action :authorize
 
-  include Pagination::Controller
-  paginate_model User
-  search_for User, :search_in_project
-  search_options_for User, lambda { |*| { project: @project } }
-
   def index
     set_index_data!
   end
