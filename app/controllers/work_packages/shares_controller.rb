@@ -53,7 +53,7 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call(role_ids: find_role_ids(params[:role_ids]))
 
-    respond_with_update_modal
+    head :no_content
   end
 
   def destroy
