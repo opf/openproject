@@ -7,9 +7,18 @@
     @extend .text-light
 
   @media screen and (max-width: $breakpoint-md)
-    grid-template-columns: fit-content(20px) 1fr
+    grid-template-columns: fit-content(180px) 1fr
     grid-template-areas: "name label" "host host" "user user" "time time"
     grid-row-gap: 5px
 
     &--provider
       display: none
+
+// Hide user and time header on mobile screens
+@media screen and (max-width: $breakpoint-md)
+  .Box-header
+    .op-storage-list
+      grid-row-gap: 0px
+
+      &--user, &--time
+        display: none
