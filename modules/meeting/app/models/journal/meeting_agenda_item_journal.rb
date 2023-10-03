@@ -26,17 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class CreateService < ::BaseServices::Create
-    include TouchMeeting
+class Journal::MeetingAgendaItemJournal < Journal::BaseJournal
+  self.table_name = 'meeting_agenda_item_journals'
 
-    def after_perform(call)
-      meeting_agenda_item = call.result
-      meeting = meeting_agenda_item.meeting
+  belongs_to :meeting
+  belongs_to :author, class_name: 'User'
 
-      touch(meeting) unless meeting.nil?
-
-      call
-    end
+  def editable?
+    false
   end
 end
