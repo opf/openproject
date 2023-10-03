@@ -67,7 +67,7 @@ module API::V3::StorageFiles
           case request_body.transform_keys(&:to_sym)
           in { projectId: project_id, fileName: file_name, parent: parent }
             authorize(:manage_file_links, context: Project.find(project_id))
-            ServiceResult.success(result: { fileName: file_name, parent: }.transform_keys(&:to_s))
+            ServiceResult.success(result: { file_name:, parent: }.transform_keys(&:to_s))
           else
             ServiceResult.failure(errors: Storages::StorageError.new(code: :bad_request, log_message: 'Request body malformed!'))
           end
