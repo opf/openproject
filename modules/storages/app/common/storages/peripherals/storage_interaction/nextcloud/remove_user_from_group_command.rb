@@ -38,7 +38,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:disable Metrics/AbcSize
     def call(user:, group: @group)
       response = Util.http(@uri).delete(
-        Util.join_uri_path(@uri,
+        Util.join_uri_path(@uri.path,
                            "ocs/v1.php/cloud/users",
                            CGI.escapeURIComponent(user),
                            "groups?groupid=#{CGI.escapeURIComponent(group)}"),

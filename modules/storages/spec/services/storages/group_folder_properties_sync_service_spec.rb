@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
+RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
   describe '#call' do
     # rubocop:disable RSpec/IndexedLet
     let(:group_users_response_body) do
@@ -151,10 +151,19 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
             </d:propstat>
           </d:response>
           <d:response>
-            <d:href>/remote.php/dav/files/OpenProject/OpenProject/PUBLIC%20PROJECT%20%28#{public_project.id}%29/</d:href>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/PUBLIC%20PROJECT%20%28#{project_public.id}%29/</d:href>
             <d:propstat>
               <d:prop>
                 <oc:fileid>999</oc:fileid>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Project3%20%28#{project3.id}%29/</d:href>
+            <d:propstat>
+              <d:prop>
+                <oc:fileid>2600003</oc:fileid>
               </d:prop>
               <d:status>HTTP/1.1 200 OK</d:status>
             </d:propstat>
@@ -474,7 +483,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           xmlns:oc="http://owncloud.org/ns"
           xmlns:nc="http://nextcloud.org/ns">
           <d:response>
-            <d:href>/remote.php/dav/files/OpenProject/OpenProject/PUBLIC%20PROJECT%20%28#{public_project.id}%29/</d:href>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/PUBLIC%20PROJECT%20%28#{project_public.id}%29/</d:href>
             <d:propstat>
               <d:prop>
                 <nc:acl-list/>
@@ -485,6 +494,47 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
         </d:multistatus>
       XML
     end
+    let(:set_permissions_response_body7) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:multistatus
+          xmlns:d="DAV:"
+          xmlns:s="http://sabredav.org/ns"
+          xmlns:oc="http://owncloud.org/ns"
+          xmlns:nc="http://nextcloud.org/ns">
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Project3%20%28#{project3.id}%29/</d:href>
+            <d:propstat>
+              <d:prop>
+                <nc:acl-list/>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+        </d:multistatus>
+      XML
+    end
+    let(:propfind_response_body3) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:multistatus
+          xmlns:d="DAV:"
+          xmlns:s="http://sabredav.org/ns"
+          xmlns:oc="http://owncloud.org/ns"
+          xmlns:nc="http://nextcloud.org/ns">
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Project3%20%28#{project3.id}%29/</d:href>
+            <d:propstat>
+              <d:prop>
+                <oc:fileid>2600003</oc:fileid>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+        </d:multistatus>
+      XML
+    end
+
     let(:request_stubs) { [] }
 
     let(:project1) do
@@ -499,11 +549,16 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
     end
     let(:project3) do
       create(:project,
+             name: 'Project3',
+             members: { multiple_projects_user => ordinary_role })
+    end
+    let(:project_not_active) do
+      create(:project,
              name: 'NOT ACTIVE PROJECT',
              active: false,
              members: { multiple_projects_user => ordinary_role })
     end
-    let(:public_project) do
+    let(:project_public) do
       create(:public_project,
              name: 'PUBLIC PROJECT',
              active: true)
@@ -537,12 +592,19 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
              project_folder_mode: 'automatic',
              project: project3,
              storage:,
-             project_folder_id: '778')
+             project_folder_id: nil)
     end
     let!(:project_storage4) do
       create(:project_storage,
              project_folder_mode: 'automatic',
-             project: public_project,
+             project: project_not_active,
+             storage:,
+             project_folder_id: '778')
+    end
+    let!(:project_storage5) do
+      create(:project_storage,
+             project_folder_mode: 'automatic',
+             project: project_public,
              storage:,
              project_folder_id: '999')
     end
@@ -563,13 +625,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
              origin_user_id: 'Darth Vader',
              user: admin,
              oauth_client:)
-      request_stubs << stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/groups/#{storage.group}")
-                         .with(
-                           headers: {
-                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-                             'OCS-APIRequest' => 'true'
-                           }
-                         ).to_return(status: 200, body: group_users_response_body, headers: {})
+
       request_stubs << stub_request(:proppatch, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
                          .with(
                            body: set_permissions_request_body1,
@@ -577,6 +633,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
                              'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
                            }
                          ).to_return(status: 207, body: set_permissions_response_body1, headers: {})
+
       request_stubs << stub_request(:propfind, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
                          .with(
                            body: propfind_request_body,
@@ -585,6 +642,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
                              'Depth' => '1'
                            }
                          ).to_return(status: 207, body: propfind_response_body1, headers: {})
+
       request_stubs << stub_request(
         :mkcol,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -594,6 +652,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 201, body: "", headers: {})
+
       request_stubs << stub_request(
         :propfind,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -605,6 +664,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Depth' => '1'
         }
       ).to_return(status: 207, body: propfind_response_body2, headers: {})
+
       request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Obi-Wan/groups")
                          .with(
                            body: "groupid=OpenProject",
@@ -613,6 +673,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
                              'Ocs-Apirequest' => 'true'
                            }
                          ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
+
       request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Yoda/groups")
                          .with(
                            body: "groupid=OpenProject",
@@ -621,6 +682,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
                              'Ocs-Apirequest' => 'true'
                            }
                          ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
+
       request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Darth%20Vader/groups")
                          .with(
                            body: "groupid=OpenProject",
@@ -629,6 +691,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
                              'Ocs-Apirequest' => 'true'
                            }
                          ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
+
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -639,6 +702,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 207, body: set_permissions_response_body2, headers: {})
+
       request_stubs << stub_request(
         :move,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -650,6 +714,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
                            "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29"
         }
       ).to_return(status: 201, body: "", headers: {})
+
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -660,6 +725,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 207, body: set_permissions_response_body3, headers: {})
+
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -670,6 +736,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 207, body: set_permissions_response_body4, headers: {})
+
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -680,16 +747,37 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 207, body: set_permissions_response_body5, headers: {})
+
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "PUBLIC%20PROJECT%20%28#{public_project.id}%29"
+        "PUBLIC%20PROJECT%20%28#{project_public.id}%29"
       ).with(
         body: set_permissions_request_body6,
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 207, body: set_permissions_response_body6, headers: {})
+
+      request_stubs << stub_request(
+        :proppatch,
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
+        "Project3%20%28#{project3.id}%29"
+      ).with(
+        body: set_permissions_request_body4,
+        headers: {
+          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+        }
+      ).to_return(status: 207, body: set_permissions_response_body7, headers: {})
+
+      request_stubs << stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/groups/#{storage.group}")
+                         .with(
+                           headers: {
+                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                             'OCS-APIRequest' => 'true'
+                           }
+                         ).to_return(status: 200, body: group_users_response_body, headers: {})
+
       request_stubs << stub_request(
         :delete,
         "#{storage.host}/ocs/v1.php/cloud/users/Darth%20Maul/groups?groupid=OpenProject"
@@ -699,19 +787,45 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Ocs-Apirequest' => 'true'
         }
       ).to_return(status: 200, body: remove_user_from_group_response, headers: {})
+
+      request_stubs << stub_request(
+        :mkcol,
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20(#{project3.id})"
+      ).with(
+        headers: {
+          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+        }
+      ).to_return(status: 405, body: <<~XML, headers: {})
+        <?xml version="1.0" encoding="utf-8"?>
+        <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+          <s:exception>Sabre\\DAV\\Exception\\MethodNotAllowed</s:exception>
+          <s:message>The resource you tried to create already exists</s:message>
+        </d:error>
+      XML
+
+      request_stubs << stub_request(
+        :propfind,
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20(#{project3.id})"
+      ).with(
+        headers: { 'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=' },
+        body: propfind_request_body
+      ).to_return(status: 200, body: propfind_response_body3, headers: {})
     end
 
     it 'sets project folders properties' do
       expect(project_storage1.project_folder_id).to be_nil
       expect(project_storage2.project_folder_id).to eq('123')
+      expect(project_storage3.project_folder_id).to be_nil
 
       described_class.new(storage).call
 
       expect(request_stubs).to all have_been_requested
       project_storage1.reload
       project_storage2.reload
+      project_storage3.reload
       expect(project_storage1.project_folder_id).to eq('819')
       expect(project_storage2.project_folder_id).to eq('123')
+      expect(project_storage3.project_folder_id).to eq('2600003')
     end
 
     context 'when remove_user_from_group_command fails unexpectedly' do

@@ -67,7 +67,7 @@ class Storages::GroupFolderPropertiesSyncService
             .automatic
             .includes(project: :enabled_modules)
             .where(projects: { active: true })
-            .each do |project_storage|
+            .find_each do |project_storage|
       project = project_storage.project
       project_folder_path = project_storage.project_folder_path
       @project_folder_ids_used_in_openproject << ensure_project_folder(project_storage:, project_folder_path:)
