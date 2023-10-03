@@ -57,7 +57,7 @@ RSpec.describe 'Admin storages',
                                  text: 'Storage')
 
         within "li#storages_nextcloud_storage_#{complete_storage.id}" do
-          expect(page).not_to have_css('.octicon-alert-fill')
+          expect(page).not_to have_css('.Label--attention')
           expect(page).to have_link(complete_storage.name, href: edit_admin_settings_storage_path(complete_storage))
           expect(page).to have_css('.op-principal--name', text: complete_storage.creator.name)
           expect(page).to have_css('.op-storage-list--provider', text: 'Nextcloud')
@@ -65,7 +65,7 @@ RSpec.describe 'Admin storages',
         end
 
         within "li#storages_nextcloud_storage_#{incomplete_storage.id}" do
-          expect(page).to have_css('.octicon-alert-fill')
+          expect(page).to have_css('.Label--attention', text: 'Incomplete')
           expect(page).to have_css('.op-storage-list--name', text: incomplete_storage.name)
           expect(page).to have_css('.op-storage-list--provider', text: 'Nextcloud')
           expect(page).to have_css('.op-storage-list--host', text: incomplete_storage.host)
