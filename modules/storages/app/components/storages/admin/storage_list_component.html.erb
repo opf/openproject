@@ -47,7 +47,7 @@
             end
 
             grid.with_area(:time, tag: :div, color: :subtle, mr: 3) do
-              render(Primer::Beta::Text.new(font_weight: :light)) { I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize }
+              render(Primer::Beta::Text.new(font_weight: :light)) { storage.created_at.strftime(I18n.t('datetime.formats.long')) }
             end
           end
         end
