@@ -937,7 +937,7 @@ ru:
       custom_field: "Настраиваемое поле"
       'doorkeeper/application': "Приложение OAuth"
       forum: "Форум"
-      global_role: "Global role"
+      global_role: "Глобальная роль"
       group: "Группа"
       member: "Участник"
       news: "Новости"
