@@ -62,7 +62,13 @@
       component.with_primary_action(
         href: new_admin_settings_storage_path,
         role: :button,
-        aria: { label: I18n.t("storages.label_add_new_storage") }
+        aria: { label: I18n.t("storages.label_add_new_storage") },
+        data: {
+          controller: "buttons--op-primer-responsive-button",
+          action: 'resize@window->buttons--op-primer-responsive-button#resizeButton',
+          'buttons--op-primer-responsive-button-target': "resizableButton",
+          'application-target': "dynamic"
+        }
       )  do |button|
         button.with_leading_visual_icon(icon: :plus)
         I18n.t("storages.label_storage")

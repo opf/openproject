@@ -43,7 +43,13 @@ module Storages::Admin
         tag:,
         role: :button,
         href: new_admin_settings_storage_path,
-        aria: { label: I18n.t("storages.label_add_new_storage") }
+        aria: { label: I18n.t("storages.label_add_new_storage") },
+        data: {
+          controller: "buttons--op-primer-responsive-button",
+          action: 'resize@window->buttons--op-primer-responsive-button#resizeButton',
+          'buttons--op-primer-responsive-button-target': "resizableButton",
+          'application-target': "dynamic"
+        }
       }
     end
 
