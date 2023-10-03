@@ -923,13 +923,14 @@ it:
     models:
       attachment: "File"
       attribute_help_text: "Testo guida dell'attributo"
-      forum: "Forum"
+      category: "Categoria"
       comment: "Commento"
       custom_action: "Azione personalizzata"
       custom_field: "Campo personalizzato"
+      'doorkeeper/application': "Applicazione OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Gruppo"
-      category: "Categoria"
-      status: "Stato della macro-attività"
       member: "Membro"
       news: "Notizie"
       notification:
@@ -941,14 +942,14 @@ it:
       role:
         one: "Ruolo"
         other: "Ruoli"
+      status: "Stato della macro-attività"
       type: "Tipo"
       user: "Utente"
       version: "Versione"
-      wiki: "Wiki"
-      wiki_page: "Pagina wiki"
       workflow: "Flusso di lavoro"
       work_package: "Macro-attività"
-      'doorkeeper/application': "Applicazione OAuth"
+      wiki: "Wiki"
+      wiki_page: "Pagina wiki"
   errors:
     header_invalid_fields:
       one: "Si è verificato un problema con il seguente campo:"
@@ -1257,6 +1258,9 @@ it:
       x_days:
         one: "1 giorno"
         other: "%{count} giorni"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuto"
         other: "%{count} minuti"
@@ -1548,6 +1552,7 @@ it:
   label_add_related_work_packages: "Aggiungi macro-attività correlate"
   label_add_subtask: "Aggiungi sotto-attività"
   label_added: "aggiunto"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Aggiunto da %{author} %{age} fa"
   label_additional_workflow_transitions_for_assignee: "Transizioni aggiuntive consentite quando l'utente è l'assegnatario"
   label_additional_workflow_transitions_for_author: "Transizioni aggiuntive consentite quando l'utente è l'autore"

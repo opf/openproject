@@ -923,13 +923,14 @@ hu:
     models:
       attachment: "File"
       attribute_help_text: "Attribútum-súgószöveg"
-      forum: "Fórum"
+      category: "Kategória"
       comment: "Vélemény"
       custom_action: "Egyéni művelet"
       custom_field: "Választható mező"
+      'doorkeeper/application': "OAuth alkalmazás"
+      forum: "Fórum"
+      global_role: "Global role"
       group: "Csoport"
-      category: "Kategória"
-      status: "Feladatcsoport állapot"
       member: "Tag"
       news: "Hírek"
       notification:
@@ -941,14 +942,14 @@ hu:
       role:
         one: "Szerepkör"
         other: "Szerepkörök"
+      status: "Feladatcsoport állapot"
       type: "Típus"
       user: "Felhasználó"
       version: "Verzió"
-      wiki: "Wiki"
-      wiki_page: "Wiki oldal"
       workflow: "Munkafolyamat"
       work_package: "Feladatcsoport"
-      'doorkeeper/application': "OAuth alkalmazás"
+      wiki: "Wiki"
+      wiki_page: "Wiki oldal"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1257,6 +1258,9 @@ hu:
       x_days:
         one: "1 napja"
         other: "%{count} napja"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 perce"
         other: "%{count} perce"
@@ -1548,6 +1552,7 @@ hu:
   label_add_related_work_packages: "Kapcsolódó feladatcsoport hozzáadása"
   label_add_subtask: "Alfeladat hozzáadása"
   label_added: "Hozzáadva"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Hozzáadva  %{author} %{age} ezelőtt."
   label_additional_workflow_transitions_for_assignee: "A következő státuszváltások engedélyezettek ha a felhasználó jogosult rá"
   label_additional_workflow_transitions_for_author: "A következő státuszváltások engedélyezettek a szerzők számára"

@@ -926,13 +926,14 @@ eo:
     models:
       attachment: "Dosiero"
       attribute_help_text: "Atributa helpteksto"
-      forum: "Forumo"
+      category: "Kategorio"
       comment: "Komento"
       custom_action: "Adaptita ago"
       custom_field: "Propra kampo"
+      'doorkeeper/application': "OAuth aplikaĵo"
+      forum: "Forumo"
+      global_role: "Global role"
       group: "Grupo"
-      category: "Kategorio"
-      status: "Stato de la Laborpakaĵo"
       member: "Membro"
       news: "Novaĵoj"
       notification:
@@ -944,14 +945,14 @@ eo:
       role:
         one: "Rolo"
         other: "Roloj"
+      status: "Stato de la Laborpakaĵo"
       type: "Tipo"
       user: "Uzanto"
       version: "Versio"
-      wiki: "Vikio"
-      wiki_page: "Vikipaĝo"
       workflow: "Laborfluo"
       work_package: "Laborpakaĵo"
-      'doorkeeper/application': "OAuth aplikaĵo"
+      wiki: "Vikio"
+      wiki_page: "Vikipaĝo"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1260,6 +1261,9 @@ eo:
       x_days:
         one: "1 tago"
         other: "%{count} tagoj"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuto"
         other: "%{count} minutoj"
@@ -1551,6 +1555,7 @@ eo:
   label_add_related_work_packages: "Aldoni rilatajn laborpakaĵojn"
   label_add_subtask: "Aldoni subtaskon"
   label_added: "aldonita"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Aldonita de %{author} antaŭ %{age}"
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"

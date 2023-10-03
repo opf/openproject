@@ -916,13 +916,14 @@ id:
     models:
       attachment: "File"
       attribute_help_text: "Atribut teks bantuan"
-      forum: "Forum"
+      category: "Kategori"
       comment: "Komentar"
       custom_action: "Custom action"
       custom_field: "Isian kustom"
+      'doorkeeper/application': "aplikasi OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grup"
-      category: "Kategori"
-      status: "Status Work Package"
       member: "Member"
       news: "News"
       notification:
@@ -932,14 +933,14 @@ id:
       query: "Query kustom"
       role:
         other: "Roles"
+      status: "Status Work Package"
       type: "Tipe"
       user: "User"
       version: "Versi"
-      wiki: "Wiki"
-      wiki_page: "Halaman Wiki"
       workflow: "Workflow"
       work_package: "Paket-Penugasan"
-      'doorkeeper/application': "aplikasi OAuth"
+      wiki: "Wiki"
+      wiki_page: "Halaman Wiki"
   errors:
     header_invalid_fields:
       other: "There were problems with the following fields:"
@@ -1236,6 +1237,8 @@ id:
         other: "lebih dari %{count} tahun"
       x_days:
         other: "%{count} hari"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count} menit"
       x_months:
@@ -1523,6 +1526,7 @@ id:
   label_add_related_work_packages: "Tambahkan Paket-Penugasan terkait"
   label_add_subtask: "Tambahkan Sub-Tugas"
   label_added: "ditambahkan"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Ditambahkan oleh %{author} %{age} yang lalu"
   label_additional_workflow_transitions_for_assignee: "Tambahan transisi diperbolehkan ketika user mendapat penugasan"
   label_additional_workflow_transitions_for_author: "Tambahan transisi diperbolehkan ketika user adalah Penulis"

@@ -925,13 +925,14 @@ sv:
     models:
       attachment: "Fil"
       attribute_help_text: "Hjälptexter för attribut"
-      forum: "Forum"
+      category: "Kategori"
       comment: "Kommentar"
       custom_action: "Anpassad åtgärd"
       custom_field: "Anpassat fält"
+      'doorkeeper/application': "OAuth-autentisering"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grupp"
-      category: "Kategori"
-      status: "Arbetspaketstatus"
       member: "Medlem"
       news: "Nyheter"
       notification:
@@ -943,14 +944,14 @@ sv:
       role:
         one: "Roll"
         other: "Roller"
+      status: "Arbetspaketstatus"
       type: "Typ"
       user: "Användare"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki-sida"
       workflow: "Arbetsflöde"
       work_package: "Arbetspaket"
-      'doorkeeper/application': "OAuth-autentisering"
+      wiki: "Wiki"
+      wiki_page: "Wiki-sida"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1259,6 +1260,9 @@ sv:
       x_days:
         one: "En dag"
         other: "%{count} dagar"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minut"
         other: "%{count} minuter"
@@ -1550,6 +1554,7 @@ sv:
   label_add_related_work_packages: "Lägg till relaterade arbetspaket"
   label_add_subtask: "Lägg till deluppgift"
   label_added: "lagt till"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Lagts till av %{author} %{age} sen"
   label_additional_workflow_transitions_for_assignee: "Ytterligare övergångar tillåtna när användaren är tilldelad"
   label_additional_workflow_transitions_for_author: "Ytterligare övergångar tillåtna när användaren är författaren"

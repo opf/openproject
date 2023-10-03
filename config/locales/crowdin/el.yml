@@ -922,13 +922,14 @@ el:
     models:
       attachment: "Aρχείο"
       attribute_help_text: "Κείμενο βοήθειας χαρακτηριστικών"
-      forum: "Φόρουμ"
+      category: "Κατηγορία"
       comment: "Σχόλιο"
       custom_action: "Προσαρμοσμένη ενέργεια"
       custom_field: "Προσαρμοσμένο πεδίο"
+      'doorkeeper/application': "OAuth εφαρμογή"
+      forum: "Φόρουμ"
+      global_role: "Global role"
       group: "Ομάδα"
-      category: "Κατηγορία"
-      status: "Κατάσταση εργασίας"
       member: "Μέλος"
       news: "Νέα"
       notification:
@@ -940,14 +941,14 @@ el:
       role:
         one: "Ρόλος"
         other: "Ρόλοι"
+      status: "Κατάσταση εργασίας"
       type: "Τύπος"
       user: "Χρήστης"
       version: "Έκδοση"
-      wiki: "Wiki"
-      wiki_page: "Σελίδα Wiki"
       workflow: "Ροή εργασιών"
       work_package: "Εργασία"
-      'doorkeeper/application': "OAuth εφαρμογή"
+      wiki: "Wiki"
+      wiki_page: "Σελίδα Wiki"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1256,6 +1257,9 @@ el:
       x_days:
         one: "1 ημέρα"
         other: "%{count} ημέρες"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 λεπτό"
         other: "%{count} λεπτά"
@@ -1547,6 +1551,7 @@ el:
   label_add_related_work_packages: "Προσθέστε σχετιζόμενα πακέτα εργασίας"
   label_add_subtask: "Προσθήκη υποεργασίας"
   label_added: "προστέθηκε"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Προστέθηκε από τον %{author} πριν από %{age}"
   label_additional_workflow_transitions_for_assignee: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι το άτομο που του έχει ανατεθεί"
   label_additional_workflow_transitions_for_author: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι ο συγγραφέας"

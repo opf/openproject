@@ -926,13 +926,14 @@ et:
     models:
       attachment: "Manus"
       attribute_help_text: "Attribute help text"
-      forum: "Foorum"
+      category: "Kategooria"
       comment: "Kommentaar"
       custom_action: "Custom action"
       custom_field: "Lisaväli"
+      'doorkeeper/application': "OAuth application"
+      forum: "Foorum"
+      global_role: "Global role"
       group: "Grupp"
-      category: "Kategooria"
-      status: "Teema olek"
       member: "Liige"
       news: "Uudised"
       notification:
@@ -944,14 +945,14 @@ et:
       role:
         one: "Roll"
         other: "Rollid"
+      status: "Teema olek"
       type: "Tüüp"
       user: "Kasutaja"
       version: "Versioon"
-      wiki: "Viki"
-      wiki_page: "Viki leht"
       workflow: "Töövoog"
       work_package: "Teema"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Viki"
+      wiki_page: "Viki leht"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1260,6 +1261,9 @@ et:
       x_days:
         one: "1 päev"
         other: "%{count} päeva"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minut"
         other: "%{count} minutit"
@@ -1551,6 +1555,7 @@ et:
   label_add_related_work_packages: "Lisa seotud teemasid"
   label_add_subtask: "Lisa alamtoiming"
   label_added: "lisatud"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Lisatud %{author} poolt %{age} tagasi"
   label_additional_workflow_transitions_for_assignee: "Täiendavad üleminekud on lubatud juhul kui kasutaja on tööpaketi teostaja"
   label_additional_workflow_transitions_for_author: "Täiendavad üleminekud on lubatud juhul kui kasutaja on tööpaketi autor"

@@ -925,13 +925,14 @@ vi:
     models:
       attachment: "Tệp"
       attribute_help_text: "Thuộc tính văn bản trợ giúp"
-      forum: "Diễn đàn"
+      category: "Thể loại"
       comment: "Nhận xét"
       custom_action: "Tác vụ tùy chỉnh"
       custom_field: "Tùy chỉnh mục"
+      'doorkeeper/application': "OAuth application"
+      forum: "Diễn đàn"
+      global_role: "Global role"
       group: "Nhóm"
-      category: "Thể loại"
-      status: "Tình trạng work package"
       member: "Thành viên"
       news: "Tin tức"
       notification:
@@ -941,14 +942,14 @@ vi:
       query: "Truy vấn riêng"
       role:
         other: "Vai trò"
+      status: "Tình trạng work package"
       type: "Kiểu"
       user: "Người dùng"
       version: "Phiên bản"
-      wiki: "Wiki"
-      wiki_page: "Trang wiki"
       workflow: "Quy trình làm việc"
       work_package: "Work Package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Trang wiki"
   errors:
     header_invalid_fields:
       other: "There were problems with the following fields:"
@@ -1245,6 +1246,8 @@ vi:
         other: "hơn %{count} năm"
       x_days:
         other: "%{count} ngày"
+      x_min_abbreviated:
+        other: "%{count} mins"
       x_minutes:
         other: "%{count} phút"
       x_months:
@@ -1532,6 +1535,7 @@ vi:
   label_add_related_work_packages: "Thêm work package liên quan"
   label_add_subtask: "Thêm subtask"
   label_added: "đã thêm"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Thêm bởi %{author} cách đây %{age}"
   label_additional_workflow_transitions_for_assignee: "Chuyển đổi bổ sung được cho phép khi người sử dụng là người được gán"
   label_additional_workflow_transitions_for_author: "Các chuyển đổi bổ xung được phép khi người dùng là tác giả"

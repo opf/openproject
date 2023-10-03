@@ -923,13 +923,14 @@ nl:
     models:
       attachment: "Bestand"
       attribute_help_text: "Kenmerk help-teksten"
-      forum: "Forum"
+      category: "Categorie"
       comment: "Commentaar"
       custom_action: "Aangepaste actie"
       custom_field: "Aangepast veld"
+      'doorkeeper/application': "OAuth-authenticatie"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Groep"
-      category: "Categorie"
-      status: "Status werkpakket"
       member: "Deelnemer"
       news: "Nieuws"
       notification:
@@ -941,14 +942,14 @@ nl:
       role:
         one: "Rol"
         other: "Rollen"
+      status: "Status werkpakket"
       type: "Type"
       user: "Gebruiker"
       version: "Versie"
-      wiki: "Wiki"
-      wiki_page: "Wikipagina"
       workflow: "Werkstroom"
       work_package: "Werkpakket"
-      'doorkeeper/application': "OAuth-authenticatie"
+      wiki: "Wiki"
+      wiki_page: "Wikipagina"
   errors:
     header_invalid_fields:
       one: "Er was een probleem met het volgende veld:"
@@ -1257,6 +1258,9 @@ nl:
       x_days:
         one: "%{count} dag"
         other: "%{count} dagen"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuut"
         other: "%{count} minuten"
@@ -1548,6 +1552,7 @@ nl:
   label_add_related_work_packages: "Toevoegen van verwante werkpakketten"
   label_add_subtask: "Subtaak toevoegen"
   label_added: "toegevoegd"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Toegevoegd door %{author} %{age} geleden"
   label_additional_workflow_transitions_for_assignee: "Extra overgangen zijn toegestaan als de gebruiker de eigenaar is"
   label_additional_workflow_transitions_for_author: "Extra overgangen zijn toegestaan als de gebruiker de auteur is"

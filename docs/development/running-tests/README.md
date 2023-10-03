@@ -448,7 +448,7 @@ Possible reasons are:
   * Parts of the OpenProject code are using memoization and caching for performance, and some tests can do weird things like prepending a module or other meta programming. Without proper clean up of the global state, subsequent tests may fail. It can go unnoticed depending on the test execution order.
   * RSpec tests order is different on each run. The order is defined by the random seed which can be set with `--seed` option. When running rspec, the random seed is displayed like this: `Randomized with seed 18352`.
   * Try running tests locally with the same random seed as the one used on CI.
-    * Once you determined that the failure is order dependant, use [`--bisect`](https://relishapp.com/rspec/rspec-core/docs/command-line/bisect) to isolate the minimal set of examples that reproduce the same failures.
+    * Once you determined that the failure is order dependant, use [`--bisect`](https://rspec.info/features/3-12/rspec-core/command-line/bisect/) to isolate the minimal set of examples that reproduce the same failures.
 * Faster / slower machine and race conditions
   * Some system tests using browser and performing ajax requests may not be synchronized with the test execution: the test is testing something that has not happened yet. Sometimes the ajax runs at the right time and the test passes, sometimes it runs at the wrong time and the test fails.
   * Use `script/bulk_run_rspec` to run the same test multiple times. If it has both failing and passing results, it means it is a flickering test.
@@ -758,7 +758,7 @@ alias wrspec='watchexec --exts rb,erb -- bin/rspec'
 wrspec spec/some/path/to/a_particular_spec.rb
 ```
 
-To easily change the RSpec examples being run without relaunching `watchexec` every time, you can focus a particular example or example group with `focus: true`, `fit`, `fdescribe`, and `fcontext`. More details available on [RSpec documentation](https://relishapp.com/rspec/rspec-core/docs/filtering/filter-run-when-matching).
+To easily change the RSpec examples being run without relaunching `watchexec` every time, you can focus a particular example or example group with `focus: true`, `fit`, `fdescribe`, and `fcontext`. More details available on [RSpec documentation](https://rspec.info/features/3-12/rspec-core/filtering/filter-run-when-matching/).
 
 
 ## Manual acceptance tests

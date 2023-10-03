@@ -70,3 +70,11 @@ jobs:
       with:
         node-version: '14'
     - run: ./script/api/validate_spec
+
+# github.head_ref is only availabe in PR context and if it is absent then github.run_id
+# is used . And github.run_id is unique for each workflow run. So, this option makes
+# sure that there is only one build running for a pull request and the build is attached
+# to the last commit of the PR.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true

@@ -926,13 +926,14 @@ fi:
     models:
       attachment: "Tiedosto"
       attribute_help_text: "Attribute help text"
-      forum: "Keskustelupalsta"
+      category: "Kategoria"
       comment: "Kommentti"
       custom_action: "Custom action"
       custom_field: "Mukautettu kenttä"
+      'doorkeeper/application': "OAuth application"
+      forum: "Keskustelupalsta"
+      global_role: "Global role"
       group: "Ryhmä"
-      category: "Kategoria"
-      status: "Tehtävän tila"
       member: "Jäsen"
       news: "Uutiset"
       notification:
@@ -944,14 +945,14 @@ fi:
       role:
         one: "Rooli"
         other: "Roolit"
+      status: "Tehtävän tila"
       type: "Tyyppi"
       user: "Käyttäjä"
       version: "Versio"
-      wiki: "Wiki"
-      wiki_page: "Wiki-sivu"
       workflow: "Työnkulku"
       work_package: "Työpaketti"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Wiki-sivu"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1260,6 +1261,9 @@ fi:
       x_days:
         one: "päivä"
         other: "%{count} päivää"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "minuutti"
         other: "%{count} minuuttia"
@@ -1551,6 +1555,7 @@ fi:
   label_add_related_work_packages: "Lisää tehtävän riippuvuudet"
   label_add_subtask: "Lisätä alitehtävä"
   label_added: "lisätty"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Lisännyt %{author} %{age} sitten"
   label_additional_workflow_transitions_for_assignee: "Vastuulliselle käyttäjälle on olemassa lisää siirtymiä"
   label_additional_workflow_transitions_for_author: "Aloittajalle on olemassa lisää siirtymiä"

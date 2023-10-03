@@ -926,13 +926,14 @@ fr:
     models:
       attachment: "Fichier"
       attribute_help_text: "Attribut d’aide de texte"
-      forum: "Forum"
+      category: "Catégorie"
       comment: "Commentaire"
       custom_action: "Action personnalisée"
       custom_field: "Champ personnalisé"
+      'doorkeeper/application': "Application OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Groupe"
-      category: "Catégorie"
-      status: "Statut du lot de travaux"
       member: "Membre"
       news: "Actualités"
       notification:
@@ -944,14 +945,14 @@ fr:
       role:
         one: "Rôle"
         other: "Rôles"
+      status: "Statut du lot de travaux"
       type: "Type"
       user: "Utilisateur"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Page wiki"
       workflow: "Flux de travail"
       work_package: "Lot de travaux"
-      'doorkeeper/application': "Application OAuth"
+      wiki: "Wiki"
+      wiki_page: "Page wiki"
   errors:
     header_invalid_fields:
       one: "Une erreur s'est produite avec le champ suivant :"
@@ -1260,6 +1261,9 @@ fr:
       x_days:
         one: "un jour"
         other: "%{count} jours"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "une minute"
         other: "%{count} minutes"
@@ -1551,6 +1555,7 @@ fr:
   label_add_related_work_packages: "Ajouter des Lots de Travaux associés"
   label_add_subtask: "Ajouter une sous-tâche"
   label_added: "ajouté"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Ajouté par %{author} il y a %{age}"
   label_additional_workflow_transitions_for_assignee: "Transitions supplémentaires autorisées lorsque l'utilisateur est l'assigné"
   label_additional_workflow_transitions_for_author: "Transitions supplémentaires autorisées lorsque l'utilisateur est l'auteur"

@@ -926,13 +926,14 @@ fil:
     models:
       attachment: "File"
       attribute_help_text: "Tekstong tulong na katangian"
-      forum: "Forum"
+      category: "Kategorya"
       comment: "Komento"
       custom_action: "Custom aksyon"
       custom_field: "Pasadyang patlang"
+      'doorkeeper/application': "OAuth application"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grupo"
-      category: "Kategorya"
-      status: "Estado ng pakete ng gumagawa"
       member: "Miyembro"
       news: "Mga balita"
       notification:
@@ -944,14 +945,14 @@ fil:
       role:
         one: "Tungkulin"
         other: "Mga tungkulin"
+      status: "Estado ng pakete ng gumagawa"
       type: "Uri"
       user: "Gumagamit"
       version: "Bersyon"
-      wiki: "Wiki"
-      wiki_page: "Pahina ng wiki"
       workflow: "Daloy ng trabaho"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Pahina ng wiki"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1260,6 +1261,9 @@ fil:
       x_days:
         one: "Isang araw"
         other: "mga Isang %{count} araw"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "Isang minuto"
         other: "mga Isang %{count} minuto"
@@ -1551,6 +1555,7 @@ fil:
   label_add_related_work_packages: "Magdagdag ng nauugnay na work package"
   label_add_subtask: "Magdagdag ng subtask"
   label_added: "nadagdag"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Idinagdag ni %{author}%{age} ng nakaraan"
   label_additional_workflow_transitions_for_assignee: "Karagdagang transistion pinahintulutan kung ang gumagamit ay nakatalaga"
   label_additional_workflow_transitions_for_author: "Karagdagang transistion pinahintulutan kung ang gumagamit ay ang akda"

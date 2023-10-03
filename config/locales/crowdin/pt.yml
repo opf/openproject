@@ -925,13 +925,14 @@ pt:
     models:
       attachment: "Arquivo"
       attribute_help_text: "Texto de ajuda do atributo"
-      forum: "Fórum"
+      category: "Categoria"
       comment: "Comentário"
       custom_action: "Ação personalizada"
       custom_field: "Campo personalizado"
+      'doorkeeper/application': "Aplicação OAuth"
+      forum: "Fórum"
+      global_role: "Global role"
       group: "Grupo"
-      category: "Categoria"
-      status: "Situação do pacote de trabalho"
       member: "Membro"
       news: "Notícias"
       notification:
@@ -943,14 +944,14 @@ pt:
       role:
         one: "Papel"
         other: "Papéis"
+      status: "Situação do pacote de trabalho"
       type: "Tipo"
       user: "Usuário"
       version: "Versão"
-      wiki: "Wiki"
-      wiki_page: "Página wiki"
       workflow: "Fluxo de Trabalho"
       work_package: "Pacote de trabalho"
-      'doorkeeper/application': "Aplicação OAuth"
+      wiki: "Wiki"
+      wiki_page: "Página wiki"
   errors:
     header_invalid_fields:
       one: "Ocorreu um problema com o seguinte campo:"
@@ -1259,6 +1260,9 @@ pt:
       x_days:
         one: "1 dia"
         other: "%{count} dias"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 minuto"
         other: "%{count} minutos"
@@ -1550,6 +1554,7 @@ pt:
   label_add_related_work_packages: "Adicionar pacotes de trabalho relacionados"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Adicionado por %{author} %{age} atrás"
   label_additional_workflow_transitions_for_assignee: "Transições adicionais permitidas quando o usuário é o responsável"
   label_additional_workflow_transitions_for_author: "Transições adicionais permitidas quando o usuário é o autor"

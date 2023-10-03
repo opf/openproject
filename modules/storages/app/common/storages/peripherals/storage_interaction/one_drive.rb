@@ -40,6 +40,7 @@ module Storages
             register(:files_info, FilesInfoQuery)
             register(:open_link, OpenLinkQuery)
             register(:open_drive_link, OpenDriveLinkQuery)
+            register(:upload_link, UploadLinkQuery)
           end
         end
       end

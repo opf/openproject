@@ -921,13 +921,14 @@ de:
     models:
       attachment: "Datei"
       attribute_help_text: "Hilfe-Text für Attribute"
-      forum: "Forum"
+      category: "Kategorie"
       comment: "Kommentar"
       custom_action: "Benutzerdefinierte Aktion"
       custom_field: "Benutzerdefiniertes Feld"
+      'doorkeeper/application': "OAuth-Anwendung"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Gruppe"
-      category: "Kategorie"
-      status: "Arbeitspaket-Status"
       member: "Mitglied"
       news: "Neuigkeiten"
       notification:
@@ -939,14 +940,14 @@ de:
       role:
         one: "Rolle"
         other: "Rollen"
+      status: "Arbeitspaket-Status"
       type: "Typ"
       user: "Benutzer"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki-Seite"
       workflow: "Workflow"
       work_package: "Arbeitspaket"
-      'doorkeeper/application': "OAuth-Anwendung"
+      wiki: "Wiki"
+      wiki_page: "Wiki-Seite"
   errors:
     header_invalid_fields:
       one: "Bei dem folgenden Feld traten Fehler auf:"
@@ -1255,6 +1256,9 @@ de:
       x_days:
         one: "1 Tag"
         other: "%{count} Tage"
+      x_min_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
       x_minutes:
         one: "1 Minute"
         other: "%{count} Minuten"
@@ -1546,6 +1550,7 @@ de:
   label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_add_subtask: "Unteraufgabe hinzufügen"
   label_added: "hinzugefügt"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Von %{author} vor %{age} hinzugefügt"
   label_additional_workflow_transitions_for_assignee: "Zusätzliche Workflow-Übergänge für den Nutzer, dem ein Arbeitspaket zugewiesen ist"
   label_additional_workflow_transitions_for_author: "Zusätzliche Workflow-Übergänge wenn der Nutzer der Autor des Arbeitspakets ist"
