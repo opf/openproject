@@ -29,7 +29,7 @@
             end
 
             unless storage.configured?
-              grid.with_area(:label, tag: :div) do
+              grid.with_area(:"incomplete-label", tag: :div) do
                 render(Primer::Beta::Label.new(scheme: :attention)) { I18n.t('storages.label_incomplete') }
               end
             end
