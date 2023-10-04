@@ -36,14 +36,12 @@ module WorkPackages
       include OpPrimer::ComponentHelpers
 
       def initialize(share:,
-                     user: share.principal,
-                     render_controls: false,
                      container: nil)
         super
 
         @share = share
-        @user = user
-        @render_controls = render_controls
+        @work_package = share.entity
+        @user = share.principal
         @container = container
       end
 
@@ -51,12 +49,31 @@ module WorkPackages
         share.id
       end
 
+      def border_box_row(&)
+        if container
+          container.with_row(**row_system_arguments, &)
+        else
+          container = Primer::Beta::BorderBox.new
+          row = container.registered_slots[:rows][:renderable_function]
+                         .bind_call(container, **row_system_arguments)
+          render(row, &)
+        end
+      end
+
+      def row_system_arguments
+        { id: wrapper_key, data: { 'test-selector': "op-share-wp-active-user-#{user.id}" } }
+      end
+
       private
 
       attr_reader :user, :share, :container
 
-      def render_controls?
-        !!@render_controls
+      def share_editable?
+        @share_editable ||= User.current != share.principal && sharing_manageable?
+      end
+
+      def sharing_manageable?
+        User.current.allowed_to?(:share_work_packages, @work_package.project)
       end
     end
   end

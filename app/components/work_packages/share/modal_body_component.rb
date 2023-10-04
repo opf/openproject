@@ -33,11 +33,11 @@ module WorkPackages
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(work_package:, shared_users: nil)
+      def initialize(work_package:)
         super
 
         @work_package = work_package
-        @shared_users = shared_users || find_shared_users
+        @shared_users = find_shared_users
       end
 
       def self.wrapper_key
@@ -48,20 +48,37 @@ module WorkPackages
 
       attr_reader :shared_users
 
+      def insert_target_modified?
+        true
+      end
+
+      # There is currently no available system argument for setting an id on the
+      # rendered <ul> tag that houses the row slots on Primer::Beta::BorderBox components.
+      def invited_user_list(&)
+        border_box = Primer::Beta::BorderBox.new
+
+        set_id_on_list_element(border_box)
+
+        render(border_box, &)
+      end
+
+      def set_id_on_list_element(list_container)
+        new_list_arguments = list_container.instance_variable_get(:@list_arguments)
+                                           .merge(id: insert_target_modifier_id)
+
+        list_container.instance_variable_set(:@list_arguments, new_list_arguments)
+      end
+
       def find_shared_users
-        User
-          .having_entity_membership(@work_package)
-          .includes(work_package_shares: :roles)
-          .where(work_package_shares: { entity: @work_package })
-          .order('work_package_shares.created_at DESC')
+        @shared_users = User
+                          .having_entity_membership(@work_package)
+                          .includes(work_package_shares: :roles)
+                          .where(work_package_shares: { entity: @work_package })
+                          .order('work_package_shares.created_at DESC')
       end
 
       def sharing_manageable?
         User.current.allowed_to?(:share_work_packages, @work_package.project)
-      end
-
-      def share_editable?(share)
-        User.current != share.principal && sharing_manageable?
       end
     end
   end

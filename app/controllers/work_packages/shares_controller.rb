@@ -39,13 +39,20 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    WorkPackageMembers::CreateOrUpdateService
+    any_currently_shared_users = find_shared_users.any?
+
+    @share = WorkPackageMembers::CreateOrUpdateService
       .new(user: current_user)
       .call(entity: @work_package,
             user_id: params[:member][:user_id],
-            role_ids: find_role_ids(params[:member][:role_id]))
+            role_ids: find_role_ids(params[:member][:role_id])).result
 
-    respond_with_update_modal
+
+    if any_currently_shared_users
+      respond_with_prepend_share
+    else
+      respond_with_replace_modal
+    end
   end
 
   def update
@@ -61,10 +68,8 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call
 
-    find_shared_users
-
-    if @shared_users.none?
-      respond_with_update_modal
+    if find_shared_users.none?
+      respond_with_replace_modal
     else
       respond_with_remove_share
     end
@@ -72,9 +77,22 @@ class WorkPackages::SharesController < ApplicationController
 
   private
 
-  def respond_with_update_modal
+  def respond_with_replace_modal
     replace_via_turbo_stream(
       component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def respond_with_prepend_share
+    prepend_via_turbo_stream(
+      component: WorkPackages::Share::ShareRowComponent.new(share: @share),
+      target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+    )
+
+    update_via_turbo_stream(
+      component: WorkPackages::Share::ShareCounterComponent.new(count: @shared_users.size)
     )
 
     respond_with_turbo_streams

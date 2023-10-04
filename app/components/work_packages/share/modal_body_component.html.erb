@@ -25,18 +25,16 @@
         end
       else
         modal_content.with_row(mt: 3, data: { 'test-selector': 'op-share-wp-active-list'}) do
-          render(Primer::Beta::BorderBox.new) do |invited_user_list|
-            invited_user_list.with_header(color: :subtle, data: { 'test-selector': 'op-share-wp-active-count' }) do
+          invited_user_list do |border_box|
+            border_box.with_header(color: :subtle, data: { 'test-selector': 'op-share-wp-active-count' }) do
               render(WorkPackages::Share::ShareCounterComponent.new(count: shared_users.count))
             end
 
             shared_users.each do |user|
               share = user.work_package_shares.where(entity: @work_package).first
 
-              render(WorkPackages::Share::ShareRowComponent.new(user:,
-                                                                share:,
-                                                                container: invited_user_list,
-                                                                render_controls: share_editable?(share)))
+              render(WorkPackages::Share::ShareRowComponent.new(share:,
+                                                                container: border_box))
             end
           end
         end
