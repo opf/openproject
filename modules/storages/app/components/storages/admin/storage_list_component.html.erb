@@ -24,13 +24,11 @@
       storages.map do |storage|
         component.with_row(scheme: :default, id: storage_row_css_id(storage)) do
           grid_layout('op-storage-list', tag: :div, align_items: :center) do |grid|
-            grid.with_area(:name, tag: :div, mr: 1) do
-              render(Primer::Beta::Link.new(href: edit_admin_settings_storage_path(storage), scheme: :primary)) { storage.name }
-            end
+            grid.with_area(:name, tag: :div, mr: 3) do
+              concat(render(Primer::Beta::Link.new(href: edit_admin_settings_storage_path(storage), scheme: :primary, mr: 1)) { storage.name })
 
-            unless storage.configured?
-              grid.with_area(:"incomplete-label", tag: :div) do
-                render(Primer::Beta::Label.new(scheme: :attention)) { I18n.t('storages.label_incomplete') }
+              unless storage.configured?
+                concat(render(Primer::Beta::Label.new(scheme: :attention)) { I18n.t('storages.label_incomplete') })
               end
             end
 

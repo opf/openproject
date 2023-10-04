@@ -1,11 +1,11 @@
 .op-storage-list
   display: grid
-  grid-template-columns: fit-content(180px) 1fr 180px 100px 240px
-  grid-template-areas: "name incomplete-label user provider time" "host host user provider time"
+  grid-template-columns: 1fr 180px 100px 240px
+  grid-template-areas: "name user provider time" "host user provider time"
 
   @media screen and (max-width: $breakpoint-md)
-    grid-template-columns: fit-content(180px) 1fr
-    grid-template-areas: "name incomplete-label" "host host" "user user" "time time"
+    grid-template-columns: 1fr
+    grid-template-areas: "name" "host" "user" "time"
     grid-row-gap: 5px
 
 @media screen and (max-width: $breakpoint-md)
