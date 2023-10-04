@@ -27,8 +27,6 @@
 #++
 
 class Role < ApplicationRecord
-  extend Pagination::Model
-
   # Built-in roles
   NON_BUILTIN = 0
   BUILTIN_NON_MEMBER = 1
@@ -176,10 +174,6 @@ class Role < ApplicationRecord
     all.select do |role|
       role.allowed_to? permission
     end
-  end
-
-  def self.paginated_search(search, options = {})
-    paginate_scope! givable.like(search), options
   end
 
   def self.in_new_project

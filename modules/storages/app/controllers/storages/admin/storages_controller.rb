@@ -166,7 +166,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # See: default_breadcrum above
   # Defines whether to show breadcrumbs on the page or not.
   def show_local_breadcrumb
-    true
+    !OpenProject::FeatureDecisions.storage_primer_design_active?
   end
 
   private

@@ -252,7 +252,8 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
       attachments.drag_and_drop_file test_selector('op-attachments--drop-box'),
                                      image_fixture.path,
                                      :center,
-                                     page.find('[data-qa-tab-id="files"]')
+                                     page.find('[data-qa-tab-id="files"]'),
+                                     delay_dragleave: true
 
       expect(page).to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', wait: 10)
       editor.wait_until_upload_progress_toaster_cleared
@@ -265,7 +266,8 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
       attachments.drag_and_drop_file '.work-package-comment',
                                      image_fixture.path,
                                      :center,
-                                     page.find('[data-qa-tab-id="activity"]')
+                                     page.find('[data-qa-tab-id="activity"]'),
+                                     delay_dragleave: true
 
       wp_page.expect_tab 'Activity'
     end
@@ -281,12 +283,48 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
       editor.wait_until_upload_progress_toaster_cleared
       expect(page).to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', wait: 5)
 
+      # Drop zone should become hidden again
+      expect(container).not_to be_visible
+
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)
       editor.wait_until_upload_progress_toaster_cleared
       expect(page)
         .to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', count: 2, wait: 5)
+
+      # Drop zone should become hidden again
+      expect(container).not_to be_visible
+
+      ##
+      # and via drag & drop having a stopover over a ckEditor input field (Regression#49507)
+      attachments.drag_and_drop_file container,
+                                     image_fixture.path,
+                                     :center,
+                                     ["#{field.selector} #{field.display_selector}", '.work-package--single-view']
+
+      editor.wait_until_upload_progress_toaster_cleared
+      expect(page)
+        .to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', count: 3, wait: 5)
+
+      # Drop zone should become hidden again
+      expect(container).not_to be_visible
+
+      ##
+      # and via drag & drop having a stopover and canceling the action, should restore the drop zones
+      # (Regression#45782)
+      attachments.drag_and_drop_file container,
+                                     image_fixture.path,
+                                     :center,
+                                     field.input_element,
+                                     cancel_drop: true
+
+      editor.wait_until_upload_progress_toaster_cleared
+      expect(page)
+        .to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', count: 3, wait: 5)
+
+      # Drop zone should become hidden again
+      expect(container).not_to be_visible
     end
   end
 end
