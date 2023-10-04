@@ -34,17 +34,13 @@ module Storages::Admin
             size: :medium,
             tag: :a
 
-    private
-
     def button_options
-      {
-        scheme:,
+      { scheme:,
         size:,
         tag:,
         role: :button,
-        href: new_admin_settings_storage_path,
-        aria: { label: I18n.t("storages.label_add_new_storage") }
-      }
+        href: Rails.application.routes.url_helpers.new_admin_settings_storage_path,
+        aria: { label: I18n.t("storages.label_add_new_storage") } }
     end
 
     def label
