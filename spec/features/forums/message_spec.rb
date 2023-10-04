@@ -74,7 +74,7 @@ RSpec.describe 'messages', :js do
 
     SeleniumHubWaiter.wait
     create_page.set_subject 'The message is'
-    create_page.click_save(expect_success: false)
+    create_page.click_save
 
     create_page.expect_toast(type: :error, message: 'Content can\'t be blank')
     SeleniumHubWaiter.wait
