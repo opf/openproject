@@ -2,7 +2,7 @@
   # Todo: doubled ID
   component_wrapper do
   # The identifier is a magic key also found in the wp-share modal template.
-    turbo_frame_tag "work_package_share_list" do
+    turbo_frame_tag wrapper_key do
       flex_layout(data: { turbo: true }) do |modal_content|
         modal_content.with_row do
           if sharing_enabled?
