@@ -111,8 +111,8 @@ FactoryBot.define do
     end
 
     name { 'Sharepoint VCR drive' }
-    tenant_id { ENV.fetch('ONE_DRIVE_TEST_TENANT_ID', 'MISSING_ONE_DRIVE_TEST_TENANT_ID') }
-    drive_id { ENV.fetch('ONE_DRIVE_TEST_DRIVE_ID', 'MISSING_ONE_DRIVE_TEST_DRIVE_ID') }
+    tenant_id { ENV.fetch('ONE_DRIVE_TEST_TENANT_ID', '4d44bf36-9b56-45c0-8807-bbf386dd047f') }
+    drive_id { ENV.fetch('ONE_DRIVE_TEST_DRIVE_ID', 'b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs') }
 
     after(:create) do |storage, evaluator|
       create(:oauth_client,
