@@ -30,12 +30,9 @@
 // as the OpenProject form styles override them.
 
 .Box
-  ul:not(.op-uc-list)
+  > ul:not(.op-uc-list)
     margin-left: 0
 
-segmented-control
-  ul
-    margin-left: 0
 
 .FormControl
   label
@@ -47,3 +44,6 @@ action-menu
   anchored-position
     ul
       margin-left: 0
+
+ul.tabnav-tabs
+  margin-left: 0
