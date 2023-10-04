@@ -8,10 +8,6 @@
     grid-template-areas: "name incomplete-label" "host host" "user user" "time time"
     grid-row-gap: 5px
 
-    &--provider
-      display: none
-
-// Hide user and time header on mobile screens
 @media screen and (max-width: $breakpoint-md)
   .PageHeader
     border-bottom: 0px
@@ -19,6 +15,3 @@
   .Box-header
     .op-storage-list
       grid-row-gap: 0px
-
-      &--user, &--time
-        display: none
