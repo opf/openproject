@@ -31,7 +31,7 @@ class RolesController < ApplicationController
 
   layout 'admin'
 
-  before_action :require_admin, except: [:autocomplete_for_role]
+  before_action :require_admin
 
   menu_item :roles, except: :report
   menu_item :permissions_report, only: :report
