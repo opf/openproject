@@ -15,7 +15,7 @@
 
   [appendTo]="appendTo"
 
-  (change)="writeValue($event)"
+  (change)="projectSelected($event)"
   (keydown.escape)="cancel.emit()"
 >
   <ng-template
