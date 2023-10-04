@@ -32,6 +32,7 @@ module WorkPackages
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include WorkPackages::Share::Concerns::Authorization
 
       def initialize(work_package:)
         super
@@ -75,10 +76,6 @@ module WorkPackages
                           .includes(work_package_shares: :roles)
                           .where(work_package_shares: { entity: @work_package })
                           .order('work_package_shares.created_at DESC')
-      end
-
-      def sharing_manageable?
-        User.current.allowed_to?(:share_work_packages, @work_package.project)
       end
     end
   end

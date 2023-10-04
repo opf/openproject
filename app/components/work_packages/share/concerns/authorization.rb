@@ -30,44 +30,15 @@
 
 module WorkPackages
   module Share
-    class ShareRowComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
-      include WorkPackages::Share::Concerns::Authorization
+    module Concerns
+      module Authorization
+        extend ActiveSupport::Concern
 
-      def initialize(share:,
-                     container: nil)
-        super
-
-        @share = share
-        @work_package = share.entity
-        @user = share.principal
-        @container = container
-      end
-
-      def wrapper_uniq_by
-        share.id
-      end
-
-      def border_box_row(wrapper_arguments, &)
-        if container
-          container.with_row(**wrapper_arguments, &)
-        else
-          container = Primer::Beta::BorderBox.new
-          row = container.registered_slots[:rows][:renderable_function]
-                         .bind_call(container, **wrapper_arguments)
-
-          render(row, &)
+        included do
+          def sharing_manageable?
+            User.current.allowed_to?(:share_work_packages, @work_package.project)
+          end
         end
-      end
-
-      private
-
-      attr_reader :share, :work_package, :user, :container
-
-      def share_editable?
-        @share_editable ||= User.current != share.principal && sharing_manageable?
       end
     end
   end
