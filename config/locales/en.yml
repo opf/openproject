@@ -1318,8 +1318,6 @@ en:
       x_seconds:
         one: "1 second"
         other: "%{count} seconds"
-    formats:
-      long: "%Y-%m-%d %H:%M:%S %Z"
     units:
       hour:
         one: "hour"
