@@ -75,7 +75,7 @@ module WorkPackages
                           .having_entity_membership(@work_package)
                           .includes(work_package_shares: :roles)
                           .where(work_package_shares: { entity: @work_package })
-                          .order('work_package_shares.created_at DESC')
+                          .ordered_by_name
       end
     end
   end
