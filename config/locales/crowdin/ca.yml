@@ -922,13 +922,14 @@ ca:
     models:
       attachment: "Fitxer"
       attribute_help_text: "Texts d'ajuda d'atributs"
-      forum: "Fòrum"
+      category: "Categoria"
       comment: "Comentari"
       custom_action: "Accions personalitzades"
       custom_field: "Camp personalitzat"
+      'doorkeeper/application': "Aplicació OAuth"
+      forum: "Fòrum"
+      global_role: "Global role"
       group: "Grup"
-      category: "Categoria"
-      status: "Estat del paquet de treball"
       member: "Membre"
       news: "Notícies"
       notification:
@@ -940,14 +941,14 @@ ca:
       role:
         one: "Rol"
         other: "Rols"
+      status: "Estat del paquet de treball"
       type: "Classe"
       user: "Usuari"
       version: "Versió"
-      wiki: "Wiki"
-      wiki_page: "Pàgina wiki"
       workflow: "Flux de treball"
       work_package: "Paquet de treball"
-      'doorkeeper/application': "Aplicació OAuth"
+      wiki: "Wiki"
+      wiki_page: "Pàgina wiki"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1550,6 +1551,7 @@ ca:
   label_add_related_work_packages: "Afegir paquets de treball relacionats"
   label_add_subtask: "Afegir subtasca"
   label_added: "afegit"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Afegit per %{author} fa %{age}"
   label_additional_workflow_transitions_for_assignee: "Transicions addicionals permeses quan l'usuari és l'assignat"
   label_additional_workflow_transitions_for_author: "Transicions addicionals permeses quan l'usuari és l'autor"

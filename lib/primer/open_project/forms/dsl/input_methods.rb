@@ -5,8 +5,8 @@ module Primer
     module Forms
       module Dsl
         module InputMethods
-          def autocompleter(**)
-            add_input AutocompleterInput.new(builder: @builder, form: @form, **)
+          def autocompleter(**, &)
+            add_input AutocompleterInput.new(builder: @builder, form: @form, **, &)
           end
 
           def rich_text_area(**)

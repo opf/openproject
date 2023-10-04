@@ -41,7 +41,7 @@ fa:
               can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
             version_id:
-              task_version_must_be_the_same_as_story_version: "باید از  همان نگارش داستان زادآوران باشد."
+              task_version_must_be_the_same_as_story_version: "باید با نسخه اصلی (والد) داستان یکسان باشد."
         sprint:
           cannot_end_before_it_starts: "Sprint cannot end before it starts."
   backlogs:
@@ -136,9 +136,9 @@ fa:
   label_version: 'نسخه'
   label_webcal: "خوراک Webcal "
   label_wiki: "دانشنامه"
-  permission_view_master_backlog: "View master backlog"
-  permission_view_taskboards: "View taskboards"
-  permission_select_done_statuses: "Select done statuses"
+  permission_view_master_backlog: "نمایش بک لاگ اصلی"
+  permission_view_taskboards: "مشاهده تابلو وظایف"
+  permission_select_done_statuses: "انتخاب وضعیت های انجام شده\n"
   permission_update_sprints: "بروزرسانی دوره‌ها"
   points_accepted: "امتیازات پذیرفته شده"
   points_committed: "امتیازات ثبت شده"
