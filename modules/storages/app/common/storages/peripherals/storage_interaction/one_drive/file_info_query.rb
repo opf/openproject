@@ -33,7 +33,7 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FileInfoQuery
-          FIELDS = %w[id name fileSystemInfo file size createdBy lastModifiedBy parentReference].freeze
+          FIELDS = %w[id name fileSystemInfo file folder size createdBy lastModifiedBy parentReference].freeze
 
           def self.call(storage:, user:, file_id:)
             new(storage).call(user:, file_id:)
