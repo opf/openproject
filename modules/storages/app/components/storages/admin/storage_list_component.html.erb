@@ -25,22 +25,22 @@
         component.with_row(scheme: :default, id: storage_row_css_id(storage)) do
           grid_layout('op-storage-list--row', tag: :div, align_items: :center) do |grid|
             grid.with_area(:name, tag: :div, mr: 3) do
-              concat(render(Primer::Beta::Link.new(href: edit_admin_settings_storage_path(storage), scheme: :primary, mr: 1)) { storage.name })
+              concat(render(Primer::Beta::Link.new(href: edit_admin_settings_storage_path(storage), scheme: :primary, mr: 1, data: { 'test-selector': 'storage-name' })) { storage.name })
 
               unless storage.configured?
-                concat(render(Primer::Beta::Label.new(scheme: :attention)) { I18n.t('storages.label_incomplete') })
+                concat(render(Primer::Beta::Label.new(scheme: :attention, data: { 'test-selector': 'label-incomplete' })) { I18n.t('storages.label_incomplete') })
               end
             end
 
-            grid.with_area(:host, tag: :div, color: :subtle) do
+            grid.with_area(:host, tag: :div, color: :subtle, data: { 'test-selector': 'storage-host' }) do
               render(Primer::Beta::Truncate.new(font_weight: :light)) { storage.host }
             end
 
-            grid.with_area(:user, tag: :div, color: :subtle, mr: 3, font_weight: :light) do
+            grid.with_area(:user, tag: :div, color: :subtle, mr: 3, font_weight: :light, data: { 'test-selector': 'storage-creator' }) do
               render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true))
             end
 
-            grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm) do
+            grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm, data: { 'test-selector': 'storage-provider' }) do
               render(Primer::Beta::Truncate.new(font_weight: :light)) { storage.short_provider_type.capitalize }
             end
 

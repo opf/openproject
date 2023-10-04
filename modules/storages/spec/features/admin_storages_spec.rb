@@ -51,24 +51,24 @@ RSpec.describe 'Admin storages',
       it 'renders a list of storages' do
         visit admin_settings_storages_path
 
-        expect(page).to have_css('.op-storage-list--name', text: complete_storage.name)
-        expect(page).to have_css('.op-storage-list--name', text: incomplete_storage.name)
+        expect(page).to have_css('[data-test-selector="storage-name"]', text: complete_storage.name)
+        expect(page).to have_css('[data-test-selector="storage-name"]', text: incomplete_storage.name)
         expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
                                  text: 'Storage')
 
         within "li#storages_nextcloud_storage_#{complete_storage.id}" do
-          expect(page).not_to have_css('.Label--attention')
+          expect(page).not_to have_css('[data-test-selector="label-incomplete"]')
           expect(page).to have_link(complete_storage.name, href: edit_admin_settings_storage_path(complete_storage))
-          expect(page).to have_css('.op-principal--name', text: complete_storage.creator.name)
-          expect(page).to have_css('.op-storage-list--provider', text: 'Nextcloud')
-          expect(page).to have_css('.op-storage-list--host', text: complete_storage.host)
+          expect(page).to have_css('[data-test-selector="storage-creator"]', text: complete_storage.creator.name)
+          expect(page).to have_css('[data-test-selector="storage-provider"]', text: 'Nextcloud')
+          expect(page).to have_css('[data-test-selector="storage-host"]', text: complete_storage.host)
         end
 
         within "li#storages_nextcloud_storage_#{incomplete_storage.id}" do
-          expect(page).to have_css('.Label--attention', text: 'Incomplete')
-          expect(page).to have_css('.op-storage-list--name', text: incomplete_storage.name)
-          expect(page).to have_css('.op-storage-list--provider', text: 'Nextcloud')
-          expect(page).to have_css('.op-storage-list--host', text: incomplete_storage.host)
+          expect(page).to have_css('[data-test-selector="label-incomplete"]')
+          expect(page).to have_css('[data-test-selector="storage-name"]', text: incomplete_storage.name)
+          expect(page).to have_css('[data-test-selector="storage-provider"]', text: 'Nextcloud')
+          expect(page).to have_css('[data-test-selector="storage-host"]', text: incomplete_storage.host)
           expect(page).to have_css('.op-principal--name', text: incomplete_storage.creator.name)
         end
       end
