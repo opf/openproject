@@ -53,6 +53,10 @@ module WorkPackages
         true
       end
 
+      def insert_target_modifier_id
+        'op-share-wp-active-shares'
+      end
+
       # There is currently no available system argument for setting an id on the
       # rendered <ul> tag that houses the row slots on Primer::Beta::BorderBox components.
       def invited_user_list(&)
