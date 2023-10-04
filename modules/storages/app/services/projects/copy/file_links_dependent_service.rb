@@ -118,26 +118,12 @@ module Projects::Copy
         .result
     end
 
-    def remove_trailing_slashes_from_hash_keys(original_hash)
-      # Remove trailing slashes of directory paths.
-      # Nextcloud WebDAV PROPFIND requests for return for forlders location paths with trailing slashes.
-      # The `filesinfo` endpoint of the `OpenProject integration` Nextcloud app does not have those
-      # trailing slashes for folder paths. For matching both types of paths, we need to remove the trailing slashes.
-      clean_hash = {}
-      original_hash.each do |key, value|
-        clean_hash[key.chomp('/')] = value
-      end
-
-      clean_hash
-    end
-
     def folder_files_file_ids_deep_query(storage_requests:, path:)
-      result = storage_requests
-                 .folder_files_file_ids_deep_query
-                 .call(path:)
-                 .on_failure { |r| add_error!("folder_files_file_ids_deep_query", r.to_active_model_errors) }
-                 .result
-      remove_trailing_slashes_from_hash_keys(result)
+      storage_requests
+        .folder_files_file_ids_deep_query
+        .call(path:)
+        .on_failure { |r| add_error!("folder_files_file_ids_deep_query", r.to_active_model_errors) }
+        .result
     end
   end
 end

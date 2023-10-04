@@ -646,7 +646,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       request_stubs << stub_request(
         :mkcol,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
+        "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})/"
       ).with(
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
@@ -656,7 +656,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       request_stubs << stub_request(
         :propfind,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
+        "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})/"
       ).with(
         body: propfind_request_body,
         headers: {
@@ -695,7 +695,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
+        "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})/"
       ).with(
         body: set_permissions_request_body2,
         headers: {
@@ -706,19 +706,19 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       request_stubs << stub_request(
         :move,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "Lost%20Jedi%20Project%20Folder%20%233"
+        "Lost%20Jedi%20Project%20Folder%20%233/"
       ).with(
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
           'Destination' => "/remote.php/dav/files/OpenProject/OpenProject/" \
-                           "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29"
+                           "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/"
         }
       ).to_return(status: 201, body: "", headers: {})
 
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "Lost%20Jedi%20Project%20Folder%20%232"
+        "Lost%20Jedi%20Project%20Folder%20%232/"
       ).with(
         body: set_permissions_request_body3,
         headers: {
@@ -729,7 +729,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29"
+        "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/"
       ).with(
         body: set_permissions_request_body4,
         headers: {
@@ -740,7 +740,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "NOT%20ACTIVE%20PROJECT"
+        "NOT%20ACTIVE%20PROJECT/"
       ).with(
         body: set_permissions_request_body5,
         headers: {
@@ -751,7 +751,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "PUBLIC%20PROJECT%20%28#{project_public.id}%29"
+        "PUBLIC%20PROJECT%20%28#{project_public.id}%29/"
       ).with(
         body: set_permissions_request_body6,
         headers: {
@@ -762,7 +762,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "Project3%20%28#{project3.id}%29"
+        "Project3%20%28#{project3.id}%29/"
       ).with(
         body: set_permissions_request_body4,
         headers: {
@@ -790,7 +790,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
 
       request_stubs << stub_request(
         :mkcol,
-        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20(#{project3.id})"
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20(#{project3.id})/"
       ).with(
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
@@ -805,7 +805,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
 
       request_stubs << stub_request(
         :propfind,
-        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20(#{project3.id})"
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20(#{project3.id})/"
       ).with(
         headers: { 'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=' },
         body: propfind_request_body

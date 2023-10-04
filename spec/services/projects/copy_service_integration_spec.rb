@@ -30,9 +30,8 @@ require 'spec_helper'
 
 RSpec.describe(
   Projects::CopyService,
-  'integration',
+  'integration', :webmock,
   type: :model,
-  webmock: true,
   with_ee: %i[readonly_work_packages]
 ) do
   shared_let(:status_locked) { create(:status, is_readonly: true) }
@@ -403,14 +402,14 @@ RSpec.describe(
                   "name": "#{folder_inside_automatic_project_folder_link.origin_name}",
                   "mtime": 1689687111,
                   "ctime": 0,
-                  "mimetype": "image\\/jpeg",
-                  "size": 94064,
+                  "mimetype": "application\\/x-op-directory",
+                  "size": 0,
                   "owner_name": "admin",
                   "owner_id": "admin",
                   "trashed": false,
                   "modifier_name": null,
                   "modifier_id": null,
-                  "dav_permissions": "RMGDNVW",
+                  "dav_permissions": "RMGDNVCK",
                   "path": "files\\/OpenProject\\/Source Project Name (#{source.id})\\/#{folder_inside_automatic_project_folder_link.origin_name}"
                 }
               }
