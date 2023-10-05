@@ -52,7 +52,7 @@ module OpTurbo
           raise "Unsupported action #{action}"
         end
 
-        unless @component_wrapper_used
+        unless wrapped?
           raise "You need to wrap your component in a `component_wrapper` block in order to use the turbo-stream methods"
         end
 
@@ -66,7 +66,7 @@ module OpTurbo
       def insert_as_turbo_stream(component:, view_context:, action: :append)
         template = component.render_in(view_context)
 
-        unless component.instance_variable_get(:@component_wrapper_used)
+        unless component.wrapped?
           raise "You need to wrap your component in a `component_wrapper` block in order to use the turbo-stream methods"
         end
 
@@ -78,7 +78,8 @@ module OpTurbo
       end
 
       def component_wrapper(tag: "div", class: nil, data: nil, style: nil, &block)
-        @component_wrapper_used = true
+        @wrapped = true
+
         if inner_html_only?
           capture(&block)
         elsif wrapper_only?
@@ -86,6 +87,10 @@ module OpTurbo
         else
           content_tag(tag, id: wrapper_key, class:, data:, style:, &block)
         end
+      end
+
+      def wrapped?
+        !!@wrapped
       end
 
       def inner_html_only?
