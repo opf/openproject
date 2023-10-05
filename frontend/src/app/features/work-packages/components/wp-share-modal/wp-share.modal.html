@@ -1,0 +1,22 @@
+<div
+  class="spot-modal op-share-wp-modal"
+>
+  <div
+    class="spot-modal--header"
+    [textContent]="this.text.title"
+  >
+  </div>
+
+  <div class="spot-modal--body spot-container">
+    <turbo-frame id="work_package_share_list" src="{{this.frameSrc}}">
+      <op-content-loader
+        viewBox="0 0 180 80"
+      >
+        <svg:rect height="10" rx="2" ry="2" width="110" x="0" y="0"/>
+        <svg:rect height="10" rx="2" ry="2" width="25" x="120" y="0"/>
+        <svg:rect height="10" rx="2" ry="2" width="25" x="155" y="0"/>
+        <svg:rect height="25%" rx="2" ry="2" width="180" x="0" y="16"/>
+      </op-content-loader>
+    </turbo-frame>
+  </div>
+</div>

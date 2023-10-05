@@ -1,0 +1,64 @@
+<%=
+  component_wrapper(tag: 'turbo-frame') do
+    flex_layout(data: { turbo: true }) do |modal_content|
+      modal_content.with_row do
+        if sharing_enabled?
+          render(WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package))
+        else
+          render(Primer::Beta::Flash.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
+        end
+      end
+
+      if shared_users.empty?
+        modal_content.with_row(mt: 3) do
+          render(Primer::Beta::Blankslate.new(border: true)) do |component|
+            component.with_visual_icon(icon: :people, size: :medium)
+            component.with_heading(tag: :h2).with_content(I18n.t('work_package.sharing.text_empty_state_header') )
+            component.with_description do
+              flex_layout do |flex|
+                flex.with_row(mb: 2) do
+                  render(Primer::Beta::Text.new(color: :subtle)) { I18n.t('work_package.sharing.text_empty_state_description') }
+                end
+              end
+            end
+          end
+        end
+      else
+        modal_content.with_row(mt: 3, data: { 'test-selector': 'op-share-wp-active-list'}) do
+          render(Primer::Beta::BorderBox.new) do |invited_user_list|
+            invited_user_list.with_header(color: :subtle, data: { 'test-selector': 'op-share-wp-active-count' }) do
+              I18n.t('work_package.sharing.count', count: shared_users.count)
+            end
+
+            shared_users.each do |user|
+              share = user.work_package_shares.where(entity: @work_package).first
+
+              invited_user_list.with_row(data: { 'test-selector': "op-share-wp-active-user-#{user.id}" }) do
+                grid_layout('op-share-wp-modal-body--user-row', tag: :div, align_items: :center, classes: 'ellipsis') do |user_row_grid|
+                  user_row_grid.with_area(:user, tag: :div, classes: 'ellipsis') do
+                    render(Users::AvatarComponent.new(user: user, size: :medium))
+                  end
+
+                  if sharing_enabled?
+                    user_row_grid.with_area(:button, tag: :div, color: :subtle) do
+                      render(WorkPackages::Share::PermissionButtonComponent.new(share:,
+                                                                                data: { 'test-selector': 'op-share-wp-update-role' }))
+                    end
+                  end
+
+                  if sharing_enabled?
+                    user_row_grid.with_area(:remove, tag: :div) do
+                      form_with url: work_packages_share_path(share), method: :delete do
+                        render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

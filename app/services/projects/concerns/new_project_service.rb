@@ -54,7 +54,7 @@ module Projects::Concerns
       if user_member
         Members::UpdateService
           .new(user:, model: user_member, contract_class: EmptyContract)
-          .call(roles: user_member.roles + [role])
+          .call(role_ids: user_member.role_ids + [role.id])
       else
         Members::CreateService
           .new(user:, contract_class: EmptyContract)

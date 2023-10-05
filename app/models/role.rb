@@ -31,6 +31,9 @@ class Role < ApplicationRecord
   NON_BUILTIN = 0
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
+  BUILTIN_WORK_PACKAGE_VIEWER = 3
+  BUILTIN_WORK_PACKAGE_COMMENTER = 4
+  BUILTIN_WORK_PACKAGE_EDITOR = 5
 
   scope :builtin, ->(*args) {
     compare = 'not' if args.first == true

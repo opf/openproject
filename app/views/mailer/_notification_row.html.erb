@@ -105,8 +105,9 @@
 </table>
 
 <a style="margin-left: 12px;"
-   href="<%= notifications_path(work_package.id) %>"
-   target="_blank">
+   href="<%= defined?(open_in_browser_path) ? open_in_browser_path : notifications_path(work_package.id) %>"
+   target="_blank"
+   rel="noopener noreferrer">
   <%= I18n.t('mail.work_packages.open_in_browser') %>
 </a>
 
