@@ -44,7 +44,9 @@ module WorkPackageMembers
     private
 
     def user_allowed_to_manage
-      errors.add :base, :error_unauthorized unless user_allowed_to_manage?
+      return if user_allowed_to_manage? && (!model.principal || model.principal != user)
+
+      errors.add :base, :error_unauthorized
     end
 
     def user_allowed_to_manage?

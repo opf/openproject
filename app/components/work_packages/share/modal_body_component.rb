@@ -53,8 +53,12 @@ module WorkPackages
                             .order('work_package_shares.created_at DESC')
       end
 
-      def sharing_enabled?
+      def sharing_manageable?
         User.current.allowed_to?(:share_work_packages, @work_package.project)
+      end
+
+      def share_editable?(share)
+        User.current != share.principal && sharing_manageable?
       end
     end
   end
