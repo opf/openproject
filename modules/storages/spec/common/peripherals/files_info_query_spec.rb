@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQuery, webmock: true do
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQuery, :webmock do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
@@ -134,6 +134,40 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
             on_success: ->(file_infos) do
               expect(file_infos.size).to eq(2)
               expect(file_infos).to all(be_a(Storages::StorageFileInfo))
+              expect(file_infos.map(&:to_h)).to eq(
+                [
+                  { status: "OK",
+                    status_code: 200,
+                    id: 354,
+                    name: "Demo project (1)",
+                    last_modified_at: Time.parse("Wed, 12 Jul 2023 11:43:41.000000000 UTC +00:00"),
+                    created_at: Time.parse("Thu, 01 Jan 1970 00:00:00.000000000 UTC +00:00"),
+                    mime_type: "application/x-op-directory",
+                    size: 989752,
+                    owner_name: "admin",
+                    owner_id: "admin",
+                    trashed: false,
+                    last_modified_by_name: nil,
+                    last_modified_by_id: nil,
+                    permissions: "RMGDNVCK",
+                    location: "/OpenProject/Demo%20project%20%281%29/" },
+                  { status: "OK",
+                    status_code: 200,
+                    id: 355,
+                    name: "minecraft.jpg",
+                    last_modified_at: Time.parse("Wed, 12 Jul 2023 11:43:41.000000000 UTC +00:00"),
+                    created_at: Time.parse("Thu, 01 Jan 1970 00:00:00.000000000 UTC +00:00"),
+                    mime_type: "image/jpeg",
+                    size: 989752,
+                    owner_name: "admin",
+                    owner_id: "admin",
+                    trashed: false,
+                    last_modified_by_name: nil,
+                    last_modified_by_id: nil,
+                    permissions: "RMGDNVW",
+                    location: "/OpenProject/Demo%20project%20%281%29/minecraft.jpg" }
+                ]
+              )
             end,
             on_failure: ->(error) { fail "Expected success, got #{error}" }
           )
