@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module  WorkPackages::Share
+module WorkPackages::Share
   class Invitee < ApplicationForm
     form do |user_invite_form|
       user_invite_form.autocompleter(
@@ -42,7 +42,8 @@ module  WorkPackages::Share
           # but restrict the type of the principal to users only. Subject to change
           # as we want to support groups soon.
           resource: 'principals',
-          filters: [{ name: 'type', operator: '=', values: ['User'] }],
+          filters: [{ name: 'type', operator: '=', values: ['User'] },
+                    { name: 'id', operator: '!', values: [::Queries::Filters::MeValue::KEY] }],
           searchKey: 'any_name_attribute',
           focusDirectly: true,
           appendTo: 'body',

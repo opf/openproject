@@ -57,6 +57,7 @@ RSpec.describe 'Work package sharing',
       create(:work_package_member, entity: wp, user: comment_user, roles: [comment_work_package_role])
       create(:work_package_member, entity: wp, user: edit_user, roles: [edit_work_package_role])
       create(:work_package_member, entity: wp, user: shared_project_user, roles: [edit_work_package_role])
+      create(:work_package_member, entity: wp, user: current_user, roles: [view_work_package_role])
     end
   end
 
@@ -86,25 +87,27 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(comment_user, 'Comment')
       share_modal.expect_shared_with(edit_user, 'Edit')
       share_modal.expect_shared_with(shared_project_user, 'Edit')
+      # The current users share is also displayed but not editable
+      share_modal.expect_shared_with(current_user, editable: false)
 
       share_modal.expect_not_shared_with(non_shared_project_user)
       share_modal.expect_not_shared_with(not_shared_yet_with_user)
 
-      share_modal.expect_shared_count_of(4)
+      share_modal.expect_shared_count_of(5)
 
       # Inviting a user will lead to that user being listed together with the rest of the shared with users.
       share_modal.invite_user(not_shared_yet_with_user, 'View')
 
       share_modal.expect_shared_with(not_shared_yet_with_user, 'View')
 
-      share_modal.expect_shared_count_of(5)
+      share_modal.expect_shared_count_of(6)
 
       # Removing a share will lead to that user being removed from the list of shared with users.
       share_modal.remove_user(edit_user)
 
       share_modal.expect_not_shared_with(edit_user)
 
-      share_modal.expect_shared_count_of(4)
+      share_modal.expect_shared_count_of(5)
 
       # Adding a user multiple times will lead to the user's role being updated.
       share_modal.invite_user(not_shared_yet_with_user, 'Edit')
@@ -134,6 +137,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(view_user, 'View')
       share_modal.expect_shared_with(comment_user, 'Comment')
       share_modal.expect_shared_with(shared_project_user, 'Edit')
+      share_modal.expect_shared_with(current_user, editable: false)
       # This user's role was updated
       share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment')
       # This user's share was revoked
@@ -142,7 +146,7 @@ RSpec.describe 'Work package sharing',
       # This user has never been added
       share_modal.expect_not_shared_with(non_shared_project_user)
 
-      share_modal.expect_shared_count_of(4)
+      share_modal.expect_shared_count_of(5)
     end
   end
 
@@ -166,11 +170,12 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(comment_user, editable: false)
       share_modal.expect_shared_with(edit_user, editable: false)
       share_modal.expect_shared_with(shared_project_user, editable: false)
+      share_modal.expect_shared_with(current_user, editable: false)
 
       share_modal.expect_not_shared_with(non_shared_project_user)
       share_modal.expect_not_shared_with(not_shared_yet_with_user)
 
-      share_modal.expect_shared_count_of(4)
+      share_modal.expect_shared_count_of(5)
 
       share_modal.expect_no_invite_option
     end
