@@ -28,6 +28,10 @@
 
 module OpTurbo
   module Streamable
+    # rubocop:disable OpenProject/AddPreviewForViewComponent
+    class MissingComponentWrapper < StandardError; end
+    # rubocop:enable OpenProject/AddPreviewForViewComponent
+
     extend ActiveSupport::Concern
 
     class_methods do
@@ -49,11 +53,12 @@ module OpTurbo
           render_in(view_context)
           template = nil
         else
-          raise "Unsupported action #{action}"
+          raise ArgumentError, "Unsupported action #{action}"
         end
 
         unless wrapped?
-          raise "You need to wrap your component in a `component_wrapper` block in order to use the turbo-stream methods"
+          raise MissingComponentWrapper,
+                "Wrap your component in a `component_wrapper` block in order to use turbo-stream methods"
         end
 
         OpTurbo::StreamWrapperComponent.new(
@@ -70,7 +75,8 @@ module OpTurbo
         # needs wrapping, not the target since it isn't the one
         # that needs to be rendered to perform this turbo stream action.
         unless component.wrapped?
-          raise "You need to wrap your component in a `component_wrapper` block in order to use the turbo-stream methods"
+          raise MissingComponentWrapper,
+                "Wrap your component in a `component_wrapper` block in order to use turbo-stream methods"
         end
 
         OpTurbo::StreamWrapperComponent.new(
@@ -125,7 +131,8 @@ module OpTurbo
 
       def insert_target_container(tag: "div", class: nil, data: nil, style: nil, &block)
         unless insert_target_modified?
-          raise "`insert_target_modified?` needs to be implemented and return true if `insert_target_container` is " \
+          raise NotImplementedError,
+                "#insert_target_modified? needs to be implemented and return true if #insert_target_container is " \
                 "used in this component"
         end
 
