@@ -143,6 +143,15 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
           let(:href) { "/api/v3/oauth_applications/#{oauth_application.id}" }
           let(:title) { oauth_application.name }
         end
+
+        context 'with invalid configured storage with missing oauth application' do
+          let(:oauth_application) { nil }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'oauthApplication' }
+            let(:href) { nil }
+          end
+        end
       end
     end
 
