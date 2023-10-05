@@ -29,6 +29,7 @@
 import {
   Injector,
   NgModule,
+  CUSTOM_ELEMENTS_SCHEMA,
 } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
@@ -467,6 +468,7 @@ import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/
     WorkPackageSplitViewComponent,
     BackButtonComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectWorkPackagesModule {
   static bootstrapAttributeGroupsCalled = false;
