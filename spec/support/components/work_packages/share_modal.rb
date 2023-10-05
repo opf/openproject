@@ -64,6 +64,8 @@ module Components
         end
       end
 
+      alias_method :invite_group, :invite_user
+
       def remove_user(user)
         within user_row(user) do
           click_button 'Remove'

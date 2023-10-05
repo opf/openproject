@@ -71,6 +71,10 @@ RSpec.describe 'Work package sharing',
   let!(:shared_project_user) { create(:user, firstname: 'Shared Project', lastname: 'User') }
   let!(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
 
+  let!(:group_member_one) { create(:user, firstname: 'Dinesh', lastname: 'Chugtai') }
+  let!(:group_member_two) { create(:user, firstname: 'Bertram', lastname: 'Gilfoyle') }
+  let!(:not_shared_yet_with_group) { create(:group, members: [group_member_one, group_member_two]) }
+
   current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
 
   context 'when having share permission' do
@@ -142,6 +146,15 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_not_shared_with(non_shared_project_user)
 
       share_modal.expect_shared_count_of(5)
+    end
+
+    it 'includes groups in the auto-completer search results' do
+      work_package_page.visit!
+
+      click_button 'Share'
+
+      share_modal.expect_open
+      share_modal.invite_group(not_shared_yet_with_group, 'View')
     end
   end
 
