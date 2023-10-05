@@ -138,6 +138,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       return '/' if idx == nil
 
       idx += prefix.length - 1
+      # Remove the following when /filesinfo starts responding with a trailing slash for directory paths
+      # in all supported versions of OpenProjectIntegation Nextcloud App.
       file_path << '/' if mimetype == 'application/x-op-directory' && file_path[-1] != '/'
       Util.escape_path(file_path[idx..])
     end
