@@ -75,11 +75,20 @@ en:
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
       configure: "Configure"
+    file_storage_view:
+      general_information: "General information"
+      oauth_applications: "OAuth applications"
+      project_folders: "Project folders"
+      storage_provider: "Storage provider"
+      openproject_oauth: "OpenProject OAuth"
+      nextcloud_oauth: "Nextcloud OAuth"
+      automatically_managed_folders: "Automatically managed folders"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Automatically managed project folders"
+        subtitle_short: "Let OpenProject create folders per project automatically."
         subtitle: >
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
@@ -144,12 +153,14 @@ en:
       description: "Add a storage to see them here."
     label_active: "Active"
     label_add_new_storage: "Add new storage"
+    label_delete_storage: "Delete storage"
     label_inactive: "Inactive"
     label_creator: "Creator"
     label_provider: "Provider"
     label_file_link: "File link"
     label_file_links: "File links"
     label_creation_time: "Creation time"
+    label_completed: "Completed"
     label_incomplete: "Incomplete"
     label_name: "Name"
     label_host: "Host URL"
@@ -163,6 +174,7 @@ en:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
+    label_oauth_client_id: "OAuth Client ID"
     label_provider_type: "Provider type"
     label_project_folder: "Project folder"
     label_new_storage: "New storage"
