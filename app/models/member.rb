@@ -52,6 +52,8 @@ class Member < ApplicationRecord
          :global,
          :not_locked,
          :of,
+         :of_work_package,
+         :of_work_packages,
          :visible
 
   delegate :name, to: :principal

@@ -1295,26 +1295,51 @@ he:
         two: "%{count} ימים"
         many: "%{count} ימים"
         other: "%{count} ימים"
-      x_min_abbreviated:
-        one: "1 min"
-        two: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} mins"
       x_minutes:
         one: "דקה אחת"
         two: "%{count} דקות"
         many: "%{count} דקות"
         other: "%{count} דקות"
+      x_minutes_abbreviated:
+        one: "1 min"
+        two: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        two: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        two: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        two: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "חודש אחד"
         two: "%{count} חודשים"
         many: "%{count} חודשים"
         other: "%{count} חודשים"
+      x_years:
+        one: "1 year"
+        two: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "שנייה אחת"
         two: "%{count} שניות"
         many: "%{count} שניות"
         other: "%{count} שניות"
+      x_seconds_abbreviated:
+        one: "1 s"
+        two: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "שעה"

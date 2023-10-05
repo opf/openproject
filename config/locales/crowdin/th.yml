@@ -1244,14 +1244,24 @@ th:
         other: "เกิน %{count} ปี"
       x_days:
         other: "%{count} วัน"
-      x_min_abbreviated:
-        other: "%{count} mins"
       x_minutes:
         other: "%{count} นาที"
+      x_minutes_abbreviated:
+        other: "%{count} mins"
+      x_hours:
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        other: "%{count} hrs"
+      x_weeks:
+        other: "%{count} weeks"
       x_months:
         other: "%{count} เดือน"
+      x_years:
+        other: "%{count} years"
       x_seconds:
         other: "%{count} วินาที"
+      x_seconds_abbreviated:
+        other: "%{count} s"
     units:
       hour:
         other: "ชั่วโมง"

@@ -1329,13 +1329,6 @@ ar:
         few: "%{count} يوم"
         many: "%{count} يوم"
         other: "%{count} يوم"
-      x_min_abbreviated:
-        zero: "%{count} mins"
-        one: "1 min"
-        two: "%{count} mins"
-        few: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} mins"
       x_minutes:
         zero: "دقائق %{count}"
         one: "1 minute"
@@ -1343,6 +1336,34 @@ ar:
         few: "دقائق %{count}"
         many: "دقائق %{count}"
         other: "دقائق %{count}"
+      x_minutes_abbreviated:
+        zero: "%{count} mins"
+        one: "1 min"
+        two: "%{count} mins"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        zero: "%{count} hours"
+        one: "1 hour"
+        two: "%{count} hours"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        zero: "%{count} hrs"
+        one: "1 hr"
+        two: "%{count} hrs"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        zero: "%{count} weeks"
+        one: "1 week"
+        two: "%{count} weeks"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         zero: "%{count} ساعه"
         one: "1 month"
@@ -1350,6 +1371,13 @@ ar:
         few: "%{count} ساعه"
         many: "%{count} ساعه"
         other: "%{count} ساعه"
+      x_years:
+        zero: "%{count} years"
+        one: "1 year"
+        two: "%{count} years"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         zero: "%{count} ثانية"
         one: "1 ثانية\n\n%{count} ثانية"
@@ -1357,6 +1385,13 @@ ar:
         few: "%{count} ثانية"
         many: "%{count} ثانية"
         other: "%{count} ثانية"
+      x_seconds_abbreviated:
+        zero: "%{count} s"
+        one: "1 s"
+        two: "%{count} s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         zero: "ساعه"

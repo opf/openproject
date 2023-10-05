@@ -67,6 +67,8 @@ ca:
       select_folder: "Seleccionar carpeta"
       configure: "Configure"
     page_titles:
+      file_storages:
+        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Automatically managed project folders"
         subtitle: >
@@ -123,11 +125,18 @@ ca:
       project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
       input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
       irreversible_notice: "Deleting a file storage is an irreversible action."
+    storage_list_blank_slate:
+      heading: "You don't have any storages yet."
+      description: "Add a storage to see them here."
     label_active: "Active"
+    label_add_new_storage: "Add new storage"
     label_inactive: "Inactive"
     label_creator: "Autor"
+    label_provider: "Provider"
     label_file_link: "Enllaç a fitxer"
     label_file_links: "Enllaços a fitxer"
+    label_creation_time: "Creation time"
+    label_incomplete: "Incomplete"
     label_name: "Nom"
     label_host: "URL d'allotjament"
     label_managed_project_folders:

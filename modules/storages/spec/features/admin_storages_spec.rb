@@ -31,12 +31,65 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
+RSpec.describe 'Admin storages',
+               :js,
+               :storage_server_helpers do
   let(:admin) { create(:admin) }
 
   before { login_as admin }
 
-  it 'creates, edits and deletes storages', webmock: true do
+  describe 'File storages list', with_flag: { storage_primer_design: true } do
+    context 'with storages' do
+      let(:complete_storage) { create(:nextcloud_storage_with_local_connection) }
+      let(:incomplete_storage) { create(:nextcloud_storage) }
+
+      before do
+        complete_storage
+        incomplete_storage
+      end
+
+      it 'renders a list of storages' do
+        visit admin_settings_storages_path
+
+        expect(page).to have_css('[data-test-selector="storage-name"]', text: complete_storage.name)
+        expect(page).to have_css('[data-test-selector="storage-name"]', text: incomplete_storage.name)
+        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
+                                 text: 'Storage')
+
+        within "li#storages_nextcloud_storage_#{complete_storage.id}" do
+          expect(page).not_to have_css('[data-test-selector="label-incomplete"]')
+          expect(page).to have_link(complete_storage.name, href: edit_admin_settings_storage_path(complete_storage))
+          expect(page).to have_css('[data-test-selector="storage-creator"]', text: complete_storage.creator.name)
+          expect(page).to have_css('[data-test-selector="storage-provider"]', text: 'Nextcloud')
+          expect(page).to have_css('[data-test-selector="storage-host"]', text: complete_storage.host)
+        end
+
+        within "li#storages_nextcloud_storage_#{incomplete_storage.id}" do
+          expect(page).to have_css('[data-test-selector="label-incomplete"]')
+          expect(page).to have_css('[data-test-selector="storage-name"]', text: incomplete_storage.name)
+          expect(page).to have_css('[data-test-selector="storage-provider"]', text: 'Nextcloud')
+          expect(page).to have_css('[data-test-selector="storage-host"]', text: incomplete_storage.host)
+          expect(page).to have_css('.op-principal--name', text: incomplete_storage.creator.name)
+        end
+      end
+    end
+
+    context 'with no storages' do
+      it 'renders a blank slate' do
+        visit admin_settings_storages_path
+
+        # Show empty storages list
+        expect(page).to have_title('File storages')
+        expect(page.find('.PageHeader-title')).to have_text('File storages')
+        expect(page).to have_text("You don't have any storages yet.")
+        # Show Add storage buttons
+        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
+                                 text: 'Storage').twice
+      end
+    end
+  end
+
+  it 'creates, edits and deletes storages', :webmock do
     visit admin_settings_storages_path
 
     ######### Step 1: Begin Create a storage #########
@@ -170,7 +223,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
 
     expect(page).to have_title("Edit: Other NC")
     expect(page.find('.title-container')).to have_text('Edit: Other NC')
-    expect(page).to have_selector('.op-toast--content')
+    expect(page).to have_css('.op-toast--content')
     expect(page).to have_text("error prohibited this Storage from being saved")
 
     # Edit page - Check for failed Nextcloud Version
@@ -181,7 +234,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     page.click_button('Save')
 
     expect(page).to have_title("Edit: Old NC")
-    expect(page).to have_selector('.op-toast')
+    expect(page).to have_css('.op-toast')
     version_err = I18n.t('activerecord.errors.models.storages/storage.attributes.host.minimal_nextcloud_version_unmet')
     expect(page).to have_text(version_err)
 
@@ -240,7 +293,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     expect(page).to have_current_path(admin_settings_storages_path)
     expect(page).not_to have_text("Other NC")
     # Also check that there are no more OAuthClient instances anymore
-    expect(OAuthClient.all.count).to eq(0)
+    expect(OAuthClient.count).to eq(0)
   end
 
   describe 'configuration checks' do

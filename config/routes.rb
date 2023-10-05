@@ -453,6 +453,8 @@ OpenProject::Application.routes.draw do
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
     get '/bulk' => 'bulk#destroy'
+
+    resources :shares, only: %i[destroy update]
   end
 
   resources :work_packages, only: [:index] do
@@ -464,6 +466,9 @@ OpenProject::Application.routes.draw do
 
     # states managed by client-side routing on work_package#index
     get 'details/*state' => 'work_packages#index', on: :collection, as: :details
+
+    # Rails managed sharing route
+    resources :shares, controller: 'work_packages/shares', only: %i[index create]
 
     # states managed by client-side (angular) routing on work_package#show
     get '/' => 'work_packages#index', on: :collection, as: 'index'

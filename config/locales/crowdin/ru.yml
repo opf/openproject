@@ -1294,26 +1294,51 @@ ru:
         few: "%{count} дней"
         many: "%{count} дней"
         other: "%{count} дней"
-      x_min_abbreviated:
-        one: "1 минута"
-        few: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} mins"
       x_minutes:
         one: "1 минута"
         few: "%{count} минут"
         many: "%{count} минут"
         other: "%{count} минут"
+      x_minutes_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "1 месяц"
         few: "%{count} месяца"
         many: "%{count} месяцев"
         other: "%{count} месяца"
+      x_years:
+        one: "1 year"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "1 секунда"
         few: "%{count} секунды"
         many: "%{count} секунд"
         other: "%{count} секунды"
+      x_seconds_abbreviated:
+        one: "1 s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "час"

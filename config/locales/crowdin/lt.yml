@@ -1292,26 +1292,51 @@ lt:
         few: "%{count} dienos"
         many: "%{count} dienų"
         other: "%{count} dienos"
-      x_min_abbreviated:
-        one: "1 min"
-        few: "%{count} min"
-        many: "%{count} min"
-        other: "%{count} min"
       x_minutes:
         one: "1 minutę"
         few: "%{count} minutes"
         many: "%{count} minučių"
         other: "%{count} minutes"
+      x_minutes_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "1 mėnesį"
         few: "%{count} mėnesius"
         many: "%{count} mėnesių"
         other: "%{count} mėnesius"
+      x_years:
+        one: "1 year"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "1 sekundę"
         few: "%{count} sekundes"
         many: "%{count} sekundžių"
         other: "%{count} sekundes"
+      x_seconds_abbreviated:
+        one: "1 s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "valanda"

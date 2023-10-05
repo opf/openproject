@@ -68,6 +68,7 @@ class MeetingAgendaItemsController < ApplicationController
       # enabel continue editing
       update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
       update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
     elsif call.errors[:base].present?
       render_base_error_in_flash_message_via_turbo_stream(call)
     else
@@ -105,6 +106,7 @@ class MeetingAgendaItemsController < ApplicationController
     if call.success?
       update_item_via_turbo_stream
       update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
     elsif call.errors[:base].present?
       render_base_error_in_flash_message_via_turbo_stream(call)
     else
@@ -124,6 +126,7 @@ class MeetingAgendaItemsController < ApplicationController
     if call.success?
       update_list_via_turbo_stream
       update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
     else
       generic_call_failure_response(call)
     end

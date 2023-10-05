@@ -87,5 +87,13 @@ module MeetingAgendaItems
         item.with_leading_visual_icon(icon:)
       end
     end
+
+    def duration_color_scheme
+      if @meeting.end_time < @meeting_agenda_item.end_time
+        :danger
+      else
+        :subtle
+      end
+    end
   end
 end

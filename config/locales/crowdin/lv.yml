@@ -1278,22 +1278,42 @@ lv:
         zero: "%{count} dienām"
         one: "%{count} dienas"
         other: "%{count} dienām"
-      x_min_abbreviated:
-        zero: "%{count} mins"
-        one: "1 min"
-        other: "%{count} mins"
       x_minutes:
         zero: "%{count} minūtēm"
         one: "1 minūte"
         other: "%{count} minūtēm"
+      x_minutes_abbreviated:
+        zero: "%{count} mins"
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        zero: "%{count} hours"
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        zero: "%{count} hrs"
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        zero: "%{count} weeks"
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         zero: "%{count} mēnešiem"
         one: "%{count} mēneša"
         other: "%{count} mēnešiem"
+      x_years:
+        zero: "%{count} years"
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         zero: "%{count} sekundes"
         one: "1 sekunde"
         other: "%{count} sekundes"
+      x_seconds_abbreviated:
+        zero: "%{count} s"
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         zero: "stundas"
