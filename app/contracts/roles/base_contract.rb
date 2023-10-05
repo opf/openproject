@@ -62,6 +62,8 @@ module Roles
                                 []
                               end
 
+      permissions_to_remove += OpenProject::AccessControl.public_permissions
+
       OpenProject::AccessControl.project_permissions -
         permissions_to_remove
     end
