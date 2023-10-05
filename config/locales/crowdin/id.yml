@@ -1237,14 +1237,24 @@ id:
         other: "lebih dari %{count} tahun"
       x_days:
         other: "%{count} hari"
-      x_min_abbreviated:
-        other: "%{count} mins"
       x_minutes:
         other: "%{count} menit"
+      x_minutes_abbreviated:
+        other: "%{count} mins"
+      x_hours:
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        other: "%{count} hrs"
+      x_weeks:
+        other: "%{count} weeks"
       x_months:
         other: "%{count} bulan"
+      x_years:
+        other: "%{count} years"
       x_seconds:
         other: "%{count} detik"
+      x_seconds_abbreviated:
+        other: "%{count} s"
     units:
       hour:
         other: "jam"

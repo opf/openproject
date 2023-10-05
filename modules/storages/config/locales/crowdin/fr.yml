@@ -67,6 +67,8 @@ fr:
       select_folder: "Sélectionner un dossier"
       configure: "Configurer"
     page_titles:
+      file_storages:
+        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Répertoires de projet gérés automatiquement"
         subtitle: >
@@ -123,11 +125,18 @@ fr:
       project_storage_delete_result_2: "Si cet espace de stockage a un dossier de projet géré automatiquement, lui et ses fichiers seront définitivement supprimés."
       input_delete_confirmation: "Saisissez le nom de l'espace de stockage des fichiers %{file_storage} pour confirmer la suppression."
       irreversible_notice: "La suppression d'un espace de stockage de fichiers est une action irréversible."
+    storage_list_blank_slate:
+      heading: "You don't have any storages yet."
+      description: "Add a storage to see them here."
     label_active: "Actif"
+    label_add_new_storage: "Add new storage"
     label_inactive: "Inactif"
     label_creator: "Créateur"
+    label_provider: "Provider"
     label_file_link: "Lien du fichier"
     label_file_links: "Liens de fichier"
+    label_creation_time: "Creation time"
+    label_incomplete: "Incomplete"
     label_name: "Nom"
     label_host: "URL de l'hôte"
     label_managed_project_folders:
