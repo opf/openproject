@@ -66,7 +66,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQu
     link = upload_query.call(user:, data: query_payload).result
 
     expect(link.destination).not_to be_nil
-    expect(link.method).to eq(:post)
+    expect(link.method).to eq(:put)
   end
 
   shared_examples_for 'outbound is failing' do |code, symbol|

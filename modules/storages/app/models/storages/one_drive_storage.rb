@@ -47,6 +47,10 @@ module Storages
       URI('https://graph.microsoft.com').normalize
     end
 
+    def connect_src
+      %w[https://*.sharepoint.com https://*.up.1drv.com]
+    end
+
     def open_link
       ::Storages::Peripherals::Registry.resolve("queries.one_drive.open_drive_link")
                                        .call(storage: self, user: User.current)
