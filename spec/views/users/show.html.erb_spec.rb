@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'users/show' do
   let(:project)    { create(:valid_project) }
-  let(:user)       { create(:admin, member_in_project: project) }
+  let(:user)       { create(:admin, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
   let(:custom_field) { create(:user_custom_field, :text) }
   let(:visibility_custom_value) do
     create(:principal_custom_value,

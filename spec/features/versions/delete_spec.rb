@@ -34,8 +34,7 @@ RSpec.describe 'version delete', js: true, with_cuprite: true do
 
   let!(:user) do
     create(:user,
-           member_in_project: version.project,
-           member_with_permissions: %i[manage_versions view_work_packages])
+           member_with_permissions: { version.project => %i[manage_versions view_work_packages] })
   end
   let!(:version) { create(:version, sharing: 'system') }
   let!(:wp_archived) { create(:work_package, version:, project: archived_child, subject: 'Task in archive') }

@@ -35,37 +35,36 @@ RSpec.describe 'Members widget on dashboard', js: true do
   let!(:other_project) { create(:project) }
 
   let!(:manager_user) do
-    create(:user, lastname: "Manager", member_in_project: project, member_through_role: role)
+    create(:user, lastname: "Manager", member_with_roles: { project => role })
   end
   let!(:no_edit_member_user) do
-    create(:user, lastname: "No_Edit", member_in_project: project, member_through_role: no_edit_member_role)
+    create(:user, lastname: "No_Edit", member_with_roles: { project => no_edit_member_role })
   end
   let!(:no_view_member_user) do
-    create(:user, lastname: "No_View", member_in_project: project, member_through_role: no_view_member_role)
+    create(:user, lastname: "No_View", member_with_roles: { project => no_view_member_role })
   end
   let!(:placeholder_user) do
     create(:placeholder_user,
            lastname: "Placeholder user",
-           member_in_project: project,
-           member_through_role: no_view_member_role)
+           member_with_roles: { project => no_view_member_role })
   end
   let!(:invisible_user) do
-    create(:user, lastname: "Invisible", member_in_project: other_project, member_through_role: role)
+    create(:user, lastname: "Invisible", member_with_roles: { other_project => role })
   end
 
   let(:no_view_member_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_dashboards
                            view_dashboards])
   end
   let(:no_edit_member_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_dashboards
                            view_dashboards
                            view_members])
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_dashboards
                            view_dashboards
                            manage_members

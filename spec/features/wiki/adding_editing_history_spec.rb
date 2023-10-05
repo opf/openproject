@@ -28,22 +28,18 @@
 
 require 'spec_helper'
 
-RSpec.describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe 'wiki pages', :js, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:project) do
     create(:project, enabled_module_names: [:news])
   end
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:other_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_wiki_pages
                            edit_wiki_pages
                            view_wiki_edits

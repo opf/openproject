@@ -39,7 +39,7 @@ RSpec.describe 'API v3 User resource',
   let(:admin) { create(:admin) }
   let(:locked_admin) { create(:admin, status: Principal.statuses[:locked]) }
   let(:user_with_global_manage_user) do
-    create(:user, firstname: 'Global', lastname: 'User', global_permission: :manage_user)
+    create(:user, firstname: 'Global', lastname: 'User', global_permissions: [:manage_user])
   end
 
   subject(:response) { last_response }

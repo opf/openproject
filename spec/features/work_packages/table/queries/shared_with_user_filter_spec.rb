@@ -42,14 +42,14 @@ RSpec.describe 'Work package filtering',
   end
 
   shared_let(:project_role_with_sufficient_permissions) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            save_queries
                            share_work_packages
                            view_shared_work_packages])
   end
   shared_let(:project_role_with_insufficient_permissions) do
-    create(:role, permissions: %i[view_work_packages
+    create(:project_role, permissions: %i[view_work_packages
                                   save_queries])
   end
   shared_let(:work_package_role) do
@@ -60,29 +60,25 @@ RSpec.describe 'Work package filtering',
     create(:user,
            firstname: 'Bruce',
            lastname: 'Wayne',
-           member_in_project: visible_project,
-           member_through_role: project_role_with_sufficient_permissions)
+           member_with_roles: { visible_project => project_role_with_sufficient_permissions })
   end
   shared_let(:user_with_insufficient_permissions) do
     create(:user,
            firstname: 'Alfred',
            lastname: 'Pennyworth',
-           member_in_project: visible_project,
-           member_through_role: project_role_with_insufficient_permissions)
+           member_with_roles: { visible_project => project_role_with_insufficient_permissions })
   end
   shared_let(:user_with_shared_work_package) do
     create(:user,
            firstname: 'Clark',
            lastname: 'Kent',
-           member_in_project: visible_project,
-           member_through_role: project_role_with_insufficient_permissions)
+           member_with_roles: { visible_project => project_role_with_insufficient_permissions })
   end
   shared_let(:invisible_user) do
     create(:user,
            firstname: 'Salvatore',
            lastname: 'Maroni',
-           member_in_project: invisible_project,
-           member_through_role: project_role_with_insufficient_permissions)
+           member_with_roles: { invisible_project => project_role_with_insufficient_permissions })
   end
 
   shared_let(:shared_work_package) do

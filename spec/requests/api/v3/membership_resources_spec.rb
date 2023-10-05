@@ -40,11 +40,11 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
   shared_let(:admin) do
     create(:admin)
   end
-  shared_let(:other_role) { create(:role) }
+  shared_let(:other_role) { create(:project_role) }
   shared_let(:global_role) { create(:global_role) }
   let(:own_member) do
     create(:member,
-           roles: create_list(:role, 1, permissions:),
+           roles: create_list(:project_role, 1, permissions:),
            project:,
            user: current_user)
   end
@@ -58,7 +58,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
   end
   let(:invisible_member) do
     create(:member,
-           roles: create_list(:role, 1))
+           roles: create_list(:project_role, 1))
   end
   let(:global_member) do
     create(:global_member,
@@ -190,7 +190,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       let(:group) { create(:group) }
       let(:group_member) do
         create(:member,
-               roles: create_list(:role, 1),
+               roles: create_list(:project_role, 1),
                project:,
                principal: group)
       end
@@ -221,7 +221,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       end
       let(:placeholder_member) do
         create(:member,
-               roles: create_list(:role, 1),
+               roles: create_list(:project_role, 1),
                project:,
                principal: placeholder_user)
       end
@@ -270,7 +270,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
       let(:own_other_member) do
         create(:member,
-               roles: create_list(:role, 1, permissions:),
+               roles: create_list(:project_role, 1, permissions:),
                project: other_project,
                user: current_user)
       end
@@ -299,7 +299,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       let(:group) { create(:group) }
       let(:group_member) do
         create(:member,
-               roles: create_list(:role, 1),
+               roles: create_list(:project_role, 1),
                principal: group,
                project:)
       end
@@ -828,7 +828,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
   describe 'PATCH api/v3/memberships/:id' do
     let(:path) { api_v3_paths.membership(other_member.id) }
-    let(:another_role) { create(:role) }
+    let(:another_role) { create(:project_role) }
     let(:custom_message) { 'Wish you where **here**.' }
     let(:body) do
       {
@@ -930,7 +930,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       # expecting to have first user role changed from `other_role` to `another_role`
       # and second user role extended from `[other_role]` to `[other_role, another_role]` because has direct role
       let(:group) do
-        create(:group, member_in_project: project, member_through_role: other_role, members: users)
+        create(:group, member_with_roles: { project => other_role }, members: users)
       end
       let(:principal) { group }
       let(:users) { create_list(:user, 2) }
@@ -1030,7 +1030,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
       context 'when updating global role permission as admin' do
         let(:group) do
-          create(:group, global_role: other_role, members: users)
+          create(:group, global_roles: [other_role], members: users)
         end
         let(:current_user) { admin }
         let(:project) { nil }
@@ -1116,7 +1116,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         create(:project).tap do |p|
           create(:member,
                  project: p,
-                 roles: create_list(:role, 1, permissions: [:manage_members]),
+                 roles: create_list(:project_role, 1, permissions: [:manage_members]),
                  user: current_user)
         end
       end
@@ -1200,14 +1200,14 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
     context 'with a group' do
       let(:group) do
-        create(:group, member_in_project: project, member_through_role: other_role, members: users)
+        create(:group, member_with_roles: { project => other_role }, members: users)
       end
       let(:principal) { group }
       let(:users) do
         create_list(:user, 2,
                     notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)])
       end
-      let(:another_role) { create(:role) }
+      let(:another_role) { create(:project_role) }
       let(:other_member) do
         Member.find_by(principal: group).tap do
           # Behaves as if the user had a role before the role's membership was created.

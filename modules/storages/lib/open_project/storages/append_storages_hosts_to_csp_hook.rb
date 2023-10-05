@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -44,24 +46,15 @@ class ::OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook:
   # (work packages module, BCF module, notification center, boards, ...).
   def application_controller_before_action(context)
     storage_ids = ::Storages::ProjectStorage.where(
-      project_id: Project.allowed_to(User.current, :manage_file_links),
+      project_id: Project.allowed_to(User.current, :manage_file_links)
     ).select(:storage_id)
     storages_hosts = ::Storages::Storage
       .where(id: storage_ids)
-      .where.not(host: nil)
-      .pluck(:host)
-      .map(&method(:remove_uri_path))
+      .flat_map(&:connect_src)
 
     if storages_hosts.present?
       # secure_headers gem provides this helper method to append to the current content security policy
       context[:controller].append_content_security_policy_directives(connect_src: storages_hosts)
     end
-  end
-
-  private
-
-  def remove_uri_path(url)
-    uri = URI.parse(url)
-    "#{uri.scheme}://#{uri.host}"
   end
 end

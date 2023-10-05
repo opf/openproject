@@ -40,9 +40,7 @@ RSpec.describe Queries::ICalSharingContract do
     create(:query, project:, public:, user:)
   end
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:ical_token) { create(:ical_token, user: current_user, query:, name: "Some Token") }
 
@@ -143,8 +141,7 @@ RSpec.describe Queries::ICalSharingContract do
     let(:other_project) { create(:project) }
     let(:current_user) do
       create(:user,
-             member_in_project: other_project,
-             member_with_permissions: permissions)
+             member_with_permissions: { other_project => permissions })
     end
 
     context 'when user is author but not member of project (anymore)', with_settings: { ical_enabled: true } do

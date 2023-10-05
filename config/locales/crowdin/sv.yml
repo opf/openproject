@@ -429,6 +429,8 @@ sv:
       Ditt konto har ännu inte aktiverats. Du måste vänta på att en administratör aktiverar ditt konto.
     error_self_registration_disabled: >
       Användarregistrering är inaktiverat på det här systemet. Be en administratör att skapa ett konto för dig.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "eller logga in med ditt befintliga konto"
     signup_with_auth_provider: "eller registrera dig via"
     auth_source_login: Vänligen logga in som <em>%{login}</em> för att aktivera ditt konto.
@@ -910,6 +912,7 @@ sv:
           attributes:
             roles:
               ungrantable: "har en ej tilldelbar roll."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "kan inte tilldelas till ett projekt."
         version:
@@ -2186,12 +2189,21 @@ sv:
         assigned: 'Assigned'
         responsible: 'Huvudansvarig'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'alla'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "En ny användare (%{value}) har registrerats. Kontot väntar på ditt godkännande:"
   mail_body_account_information: "Din kontoinformation"
   mail_body_account_information_external: "Du kan använda ditt %{value} konto för att logga in."
@@ -2362,6 +2374,8 @@ sv:
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
   permission_add_project: "Skapa projekt"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Arkivera projekt"
   permission_create_user: "Skapa användare"
   permission_manage_user: "Redigera användare"
@@ -2984,6 +2998,25 @@ sv:
     destroy:
       info: "Att radera arbetspaketet går inte att ångra."
       title: "Radera arbetspaketet"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

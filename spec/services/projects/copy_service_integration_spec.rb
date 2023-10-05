@@ -30,7 +30,13 @@
 
 require 'spec_helper'
 
-RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true, with_ee: %i[readonly_work_packages]) do
+RSpec.describe(
+  Projects::CopyService,
+  'integration',
+  :webmock,
+  type: :model,
+  with_ee: %i[readonly_work_packages]
+) do
   shared_let(:status_locked) { create(:status, is_readonly: true) }
   shared_let(:source) do
     create(:project,
@@ -52,8 +58,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
 
   let(:current_user) do
     create(:user,
-           member_in_project: source,
-           member_through_role: role)
+           member_with_roles: { source => role })
   end
   let(:instance) { described_class.new(source:, user: current_user) }
   let(:only_args) { nil }
@@ -66,14 +71,14 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
   let(:send_notifications) { true }
 
   shared_let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[copy_projects
                            view_work_packages
                            work_package_assigned
                            manage_storages_in_project
                            manage_file_links])
   end
-  shared_let(:new_project_role) { create(:role, permissions: %i[]) }
+  shared_let(:new_project_role) { create(:project_role, permissions: %i[]) }
 
   before do
     allow(Setting)
@@ -142,8 +147,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
           let(:user_custom_field) { create(:user_project_custom_field) }
           let(:user_value) do
             create(:user,
-                   member_in_project: source,
-                   member_through_role: role)
+                   member_with_roles: { source => role })
           end
 
           before do
@@ -228,6 +232,13 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         create(:file_link,
                origin_id: "101",
                origin_name: "file_name2.txt",
+               container: source_wp,
+               storage: storage1)
+      end
+      let!(:folder_inside_automatic_project_folder_link) do
+        create(:file_link,
+               origin_id: "103",
+               origin_name: "This is a folder",
                container: source_wp,
                storage: storage1)
       end
@@ -323,6 +334,21 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
                   <d:status>HTTP/1.1 404 Not Found</d:status>
                 </d:propstat>
               </d:response>
+              <d:response>
+                <d:href>/remote.php/dav/files/OpenProject/OpenProject/Target%20Project%20Name%20(#{project_id})/#{folder_inside_automatic_project_folder_link.origin_name}/</d:href>
+                <d:propstat>
+                  <d:prop>
+                    <oc:fileid>431</oc:fileid>
+                  </d:prop>
+                  <d:status>HTTP/1.1 200 OK</d:status>
+                </d:propstat>
+                <d:propstat>
+                  <d:prop>
+                    <nc:acl-list/>
+                  </d:prop>
+                  <d:status>HTTP/1.1 404 Not Found</d:status>
+                </d:propstat>
+              </d:response>
             </d:multistatus>
           XML
           { status: 200, body:, headers: {} }
@@ -372,13 +398,30 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
                   "modifier_id": null,
                   "dav_permissions": "RMGDNVW",
                   "path": "files\\/OpenProject\\/Source Project Name (#{source.id})\\/#{file_inside_automatic_project_folder_link.origin_name}"
+                },
+                "#{folder_inside_automatic_project_folder_link.origin_id}": {
+                  "status": "OK",
+                  "statuscode": 200,
+                  "id": #{folder_inside_automatic_project_folder_link.origin_id},
+                  "name": "#{folder_inside_automatic_project_folder_link.origin_name}",
+                  "mtime": 1689687111,
+                  "ctime": 0,
+                  "mimetype": "application\\/x-op-directory",
+                  "size": 0,
+                  "owner_name": "admin",
+                  "owner_id": "admin",
+                  "trashed": false,
+                  "modifier_name": null,
+                  "modifier_id": null,
+                  "dav_permissions": "RMGDNVCK",
+                  "path": "files\\/OpenProject\\/Source Project Name (#{source.id})\\/#{folder_inside_automatic_project_folder_link.origin_name}"
                 }
               }
             }
           }
         JSON
         stub_request(:post, "#{host}/ocs/v1.php/apps/integration_openproject/filesinfo")
-          .with(body: '{"fileIds":["100","101"]}')
+          .with(body: '{"fileIds":["100","101","103"]}')
           .to_return(status: 200, body: filesinfo_response_body, headers: { 'Content-Type' => 'application/json' })
       end
 
@@ -437,10 +480,11 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         expect(manual_project_storage_copy.project_folder_mode).to eq('manual')
 
         wp_copy = project_copy.work_packages.where(subject: "source wp").first
-        expect(wp_copy.file_links.count).to eq(3)
+        expect(wp_copy.file_links.count).to eq(4)
         file_outside_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "file_name1.txt")
         file_inside_automatic_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "file_name2.txt")
         file_inside_manual_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "file_name3.txt")
+        folder_inside_automatic_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "This is a folder")
         expect(file_outside_project_folder_link_copy.id).not_to eq(file_outside_project_folder_link.id)
         expect(file_outside_project_folder_link_copy.origin_id).to eq(file_outside_project_folder_link.origin_id)
         expect(file_outside_project_folder_link_copy.storage_id).to eq(file_outside_project_folder_link.storage_id)
@@ -448,6 +492,10 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         expect(file_inside_automatic_project_folder_link_copy.origin_id).to eq("430")
         expect(file_inside_automatic_project_folder_link_copy.storage_id)
           .to eq(file_inside_automatic_project_folder_link.storage_id)
+        expect(folder_inside_automatic_project_folder_link_copy.id).not_to eq(folder_inside_automatic_project_folder_link.id)
+        expect(folder_inside_automatic_project_folder_link_copy.origin_id).to eq("431")
+        expect(folder_inside_automatic_project_folder_link_copy.storage_id)
+          .to eq(folder_inside_automatic_project_folder_link.storage_id)
         expect(file_inside_manual_project_folder_link_copy.id).not_to eq(file_inside_manual_project_folder_link.id)
         expect(file_inside_manual_project_folder_link_copy.origin_id).to eq("102")
         expect(file_inside_manual_project_folder_link_copy.storage_id).to eq(file_inside_manual_project_folder_link.storage_id)
@@ -535,7 +583,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         let(:only_args) { %w[members] }
 
         let!(:user) { create(:user) }
-        let!(:another_role) { create(:role) }
+        let!(:another_role) { create(:project_role) }
         let!(:group) { create(:group, members: [user]) }
 
         it 'copies them as well' do
@@ -755,8 +803,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         end
 
         context 'with watchers' do
-          let(:watcher_role) { create(:role, permissions: [:view_work_packages]) }
-          let(:watcher) { create(:user, member_in_project: source, member_through_role: watcher_role) }
+          let(:watcher) { create(:user, member_with_permissions: { source => [:view_work_packages] }) }
 
           let(:only_args) { %w[work_packages members] }
 
@@ -821,8 +868,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         context 'when work_package is assigned to somebody' do
           let(:assigned_user) do
             create(:user,
-                   member_in_project: source,
-                   member_through_role: role)
+                   member_with_roles: { source => role })
           end
 
           before do
@@ -861,8 +907,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         context 'when work_package has a responsible person' do
           let(:responsible_user) do
             create(:user,
-                   member_in_project: source,
-                   member_through_role: role)
+                   member_with_roles: { source => role })
           end
 
           before do
@@ -1008,7 +1053,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
     end
 
     context 'without anything selected' do
-      let!(:source_member) { create(:user, member_in_project: source, member_through_role: role) }
+      let!(:source_member) { create(:user, member_with_roles: { source => role }) }
       let(:only_args) { nil }
 
       # rubocop:disable RSpec/MultipleExpectations
@@ -1052,7 +1097,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
 
       context 'with group memberships' do
         let!(:user) { create(:user) }
-        let!(:another_role) { create(:role) }
+        let!(:another_role) { create(:project_role) }
         let!(:group) do
           create(:group, members: [user])
         end

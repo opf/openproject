@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe Activities::Fetcher, 'integration' do
   shared_let(:user) { create(:user) }
   shared_let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits] }
-  shared_let(:role) { create(:role, permissions:) }
+  shared_let(:role) { create(:project_role, permissions:) }
   # execute as user so that the user is the author of the project, and the
   # project create event will be displayed in user activities
   shared_let(:project) { User.execute_as(user) { create(:project, members: { user => role }) } }
@@ -159,7 +159,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
         create(:member,
                user:,
                project: subproject,
-               roles: [create(:role, permissions:)])
+               roles: [create(:project_role, permissions:)])
       end
 
       let!(:activities) { [project, subproject, news, subproject_news, work_package, subproject_work_package] }
@@ -203,7 +203,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
           create(:member,
                  user:,
                  project: subproject,
-                 roles: [create(:role, permissions: [])])
+                 roles: [create(:project_role, permissions: [])])
         end
 
         it 'finds only events for which permissions are satisfied' do

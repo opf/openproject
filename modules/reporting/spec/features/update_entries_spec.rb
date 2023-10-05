@@ -32,7 +32,7 @@ require_relative 'support/components/cost_reports_base_table'
 
 RSpec.describe 'Updating entries within the cost report', js: true do
   let(:project) { create(:project) }
-  let(:user) { create(:admin, member_in_project: project, member_with_permissions: %i[work_package_assigned]) }
+  let(:user) { create(:admin, member_with_permissions: { project => %i[work_package_assigned] }) }
   let(:work_package) { create(:work_package, project:) }
 
   let!(:time_entry_user) do
@@ -118,11 +118,10 @@ RSpec.describe 'Updating entries within the cost report', js: true do
   end
 
   context 'as user without permissions' do
-    let(:role) { create(:role, permissions: %i(view_time_entries)) }
+    let(:role) { create(:project_role, permissions: %i(view_time_entries)) }
     let!(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     it 'cannot edit or delete' do

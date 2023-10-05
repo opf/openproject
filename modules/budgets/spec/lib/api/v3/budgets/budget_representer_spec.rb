@@ -34,7 +34,7 @@ RSpec.describe API::V3::Budgets::BudgetRepresenter do
   let(:project) { build(:project, id: 999) }
   let(:user) do
     create(:user,
-           member_in_project: project,
+           member_with_permissions: { project => %i[view_work_packages edit_work_packages] },
            created_at: 1.day.ago,
            updated_at: Time.zone.now)
   end

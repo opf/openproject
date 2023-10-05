@@ -35,12 +35,10 @@ RSpec.describe 'API v3 Revisions by work package resource' do
   include FileHelpers
 
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages view_changesets] }
   let(:repository) { create(:repository_subversion, project:) }
   let(:work_package) { create(:work_package, author: current_user, project:) }
@@ -103,9 +101,7 @@ RSpec.describe 'API v3 Revisions by work package resource' do
 
       context 'with permissions in subproject' do
         let(:current_user) do
-          create(:user,
-                 member_in_projects: [project, subproject],
-                 member_through_role: role)
+          create(:user, member_with_roles: { project => role, subproject => role })
         end
 
         it_behaves_like 'API V3 collection response', 2, 2, 'Revision'

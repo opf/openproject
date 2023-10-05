@@ -38,7 +38,7 @@ RSpec.describe Relations::Scopes::Visible do
   let!(:relation1) { create(:relation, from:, to: intermediary, relation_type: type) }
   let!(:relation2) { create(:relation, from: intermediary, to:, relation_type: type) }
   let(:user) { create(:user) }
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:member_project1) do
     create(:member,
            project: project1,

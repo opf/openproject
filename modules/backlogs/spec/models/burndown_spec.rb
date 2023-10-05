@@ -38,7 +38,7 @@ RSpec.describe Burndown do
   end
 
   let(:user) { create(:user) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let(:type_feature) { create(:type_feature) }
   let(:type_task) { create(:type_task) }
   let(:issue_priority) { create(:priority, is_default: true) }

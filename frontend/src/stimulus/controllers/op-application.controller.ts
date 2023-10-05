@@ -31,6 +31,6 @@ export class OpApplicationController extends ApplicationController {
    * @private
    */
   private derivePath(controller:string):string {
-    return controller.replace('--', '/');
+    return controller.replace(/--/g, '/');
   }
 }

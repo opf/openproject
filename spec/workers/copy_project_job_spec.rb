@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe CopyProjectJob, type: :model do
   let(:project) { create(:project, public: false) }
   let(:user) { create(:user) }
-  let(:role) { create(:role, permissions: [:copy_projects]) }
+  let(:role) { create(:project_role, permissions: [:copy_projects]) }
   let(:params) { { name: 'Copy', identifier: 'copy' } }
   let(:maildouble) { double('Mail::Message', deliver: true) }
 
@@ -267,7 +267,7 @@ RSpec.describe CopyProjectJob, type: :model do
       end
 
       describe 'user with add_subprojects permission in parent' do
-        let(:role_add_subproject) { create(:role, permissions: [:add_subprojects]) }
+        let(:role_add_subproject) { create(:project_role, permissions: [:add_subprojects]) }
         let(:member_add_subproject) do
           create(:member,
                  user:,

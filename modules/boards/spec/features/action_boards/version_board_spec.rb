@@ -30,23 +30,19 @@ require 'spec_helper'
 require_relative '../support//board_index_page'
 require_relative '../support/board_page'
 
-RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Version action board', :js, with_ee: %i[board_view] do
   let(:user) do
-    create(:user,
-           member_in_projects: [project, second_project],
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role, second_project => role })
   end
 
   let(:second_user) do
-    create(:user,
-           member_in_projects: [project, second_project],
-           member_through_role: role_board_manager)
+    create(:user, member_with_roles: { project => role_board_manager, second_project => role_board_manager })
   end
   let(:type) { create(:type_standard) }
   let!(:priority) { create(:default_priority) }
   let!(:status) { create(:default_status) }
-  let(:role) { create(:role, permissions:) }
-  let(:role_board_manager) { create(:role, permissions: permissions_board_manager) }
+  let(:role) { create(:project_role, permissions:) }
+  let(:role_board_manager) { create(:project_role, permissions: permissions_board_manager) }
 
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:second_project) { create(:project) }
@@ -306,11 +302,9 @@ RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
 
   context 'when user has edit_work_packages, but missing assign_versions permissions' do
     let(:no_version_edit_user) do
-      create(:user,
-             member_in_projects: [project],
-             member_through_role: no_version_edit_role)
+      create(:user, member_with_roles: { project => no_version_edit_role })
     end
-    let(:no_version_edit_role) { create(:role, permissions: no_version_edit_permissions) }
+    let(:no_version_edit_role) { create(:project_role, permissions: no_version_edit_permissions) }
     let(:no_version_edit_permissions) do
       %i[show_board_views manage_board_views add_work_packages manage_versions
          edit_work_packages view_work_packages manage_public_queries]
@@ -343,7 +337,7 @@ RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
 
       board_page.open_and_fill_add_list_modal 'Completely new version'
 
-      expect(page).not_to have_selector('.ng-option', text: 'Completely new version')
+      expect(page).not_to have_css('.ng-option', text: 'Completely new version')
     end
   end
 end

@@ -33,15 +33,14 @@ RSpec.describe 'BIM Revit Add-in navigation spec',
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
   end
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let(:model_page) { Pages::IfcModels::ShowDefault.new(project) }

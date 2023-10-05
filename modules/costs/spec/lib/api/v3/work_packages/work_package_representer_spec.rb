@@ -33,7 +33,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:project) { create(:project) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_time_entries
                            view_cost_entries
                            view_cost_rates
@@ -41,8 +41,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   end
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let(:cost_entry_1) do
@@ -140,14 +139,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'only view_own_time_entries permission' do
           let(:own_time_entries_role) do
-            create(:role, permissions: %i[view_own_time_entries
+            create(:project_role, permissions: %i[view_own_time_entries
                                           view_work_packages])
           end
 
           let(:user2) do
             create(:user,
-                   member_in_project: project,
-                   member_through_role: own_time_entries_role)
+                   member_with_roles: { project => own_time_entries_role })
           end
 
           let!(:own_time_entry) do
@@ -374,9 +372,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
   describe '_links' do
     describe 'move' do
-      it_behaves_like 'action link' do
-        let(:action) { 'logCosts' }
-        let(:permission) { :log_costs }
+      it_behaves_like 'has a titled action link' do
+        let(:link) { 'logCosts' }
+        let(:href) { new_work_packages_cost_entry_path(work_package) }
+        let(:permission) { %i(log_costs log_own_costs) }
+        let(:title) { "Log costs on #{work_package.subject}" }
       end
     end
 

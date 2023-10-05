@@ -427,6 +427,8 @@ uk:
       Ваш обліковий запис ще не активовано. Будь ласка, зачекайте поки адміністратор активує ваш обліковий запис.
     error_self_registration_disabled: >
       Реєстрація користувача у цій системі відключена. Будь ласка, зверніться до адміністратора, щоб створити обліковий запис для вас.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "або ввійдіть у свій існуючий обліковий запис"
     signup_with_auth_provider: "або зареєструйтесь, використовуючи"
     auth_source_login: Увійдіть, як <em>%{login}</em> для активації облікового запису.
@@ -910,6 +912,7 @@ uk:
           attributes:
             roles:
               ungrantable: "має невідповідну роль."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "не можна призначити проекту."
         version:
@@ -2238,12 +2241,21 @@ uk:
         assigned: 'Призначено'
         responsible: 'Відповідальний'
         mentioned: 'Згадано'
+        shared: 'Shared'
         subscribed: 'всі'
         prefix: 'Отримано через налаштування сповіщень: %{reason}'
         date_alert_start_date: 'Оповіщення про дату'
         date_alert_due_date: 'Оповіщення про дату'
       see_all: 'Показати всі'
       updated_at: 'Оновлено о %{timestamp} користувачем %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   mail_body_account_information: "Інформація по Вашому обліковому запису"
   mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
@@ -2413,6 +2425,8 @@ uk:
   permission_add_work_packages: "Додати робочі пакети"
   permission_add_messages: "Відправка повідомлень"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Архівувати проєкт"
   permission_create_user: "Створення користувачів"
   permission_manage_user: "Редагування користувачів"
@@ -3039,6 +3053,25 @@ uk:
     destroy:
       info: "Видалення робочого пакету є незворотною дією."
       title: "Видаліть робочий пакет"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Під час планування пакетів робіт невибрані дні пропускаються й не включаються в кількість днів. Це налаштування можна змінити на рівні пакета робіт.

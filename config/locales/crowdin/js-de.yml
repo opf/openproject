@@ -1017,6 +1017,9 @@ de:
       scheduling:
         is_parent: "Die Termine dieses Arbeitspakets werden automatisch von seinen Kindern aggregiert. Aktivieren Sie \"Manuelle Planung\", um die Termine frei zu setzen."
         is_switched_from_manual_to_automatic: "Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."

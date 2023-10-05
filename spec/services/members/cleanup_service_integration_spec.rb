@@ -58,7 +58,7 @@ RSpec.describe Members::CleanupService, 'integration', type: :model do
         create(:member,
                principal: user,
                project:,
-               roles: [create(:role, permissions: %i[work_package_assigned])])
+               roles: [create(:project_role, permissions: %i[work_package_assigned])])
       end
 
       it 'keeps assigned_to to the user' do
@@ -75,7 +75,7 @@ RSpec.describe Members::CleanupService, 'integration', type: :model do
                principal: user,
                project:,
                # Lacking work_package_assigned
-               roles: [create(:role, permissions: [])])
+               roles: [create(:project_role, permissions: [])])
       end
 
       it 'sets assigned_to to nil' do
@@ -112,7 +112,7 @@ RSpec.describe Members::CleanupService, 'integration', type: :model do
         create(:member,
                principal: user,
                project:,
-               roles: [create(:role, permissions: [:view_work_packages])])
+               roles: [create(:project_role, permissions: [:view_work_packages])])
       end
 
       it 'keeps the watcher' do
@@ -128,7 +128,7 @@ RSpec.describe Members::CleanupService, 'integration', type: :model do
         create(:member,
                principal: user,
                project:,
-               roles: [create(:role, permissions: [])])
+               roles: [create(:project_role, permissions: [])])
       end
 
       it 'keeps the watcher' do

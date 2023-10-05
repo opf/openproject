@@ -75,7 +75,7 @@ RSpec.describe Queries::Roles::Filters::UnitFilter do
 
           it 'is the same as handwriting the query' do
             expected = model
-                       .where(["roles.type = ? AND roles.builtin = ?", Role.name, Role::NON_BUILTIN])
+                       .where(["roles.type = ? AND roles.builtin = ?", ProjectRole.name, Role::NON_BUILTIN])
 
             expect(instance.scope.to_sql).to eql expected.to_sql
           end
@@ -86,7 +86,7 @@ RSpec.describe Queries::Roles::Filters::UnitFilter do
 
           it 'is the same as handwriting the query' do
             expected = model
-                       .where(["roles.type != ?", Role.name]) # rubocop:disable Rails/WhereNot
+                       .where(["roles.type != ?", ProjectRole.name]) # rubocop:disable Rails/WhereNot
 
             expect(instance.scope.to_sql).to eql expected.to_sql
           end

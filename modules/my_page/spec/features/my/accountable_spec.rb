@@ -61,12 +61,11 @@ RSpec.describe 'Accountable widget on my page', js: true do
     create(:user)
   end
 
-  let(:role) { create(:role, permissions: %i[view_work_packages add_work_packages save_queries]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages add_work_packages save_queries]) }
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:my_page) do
     Pages::My::Page.new

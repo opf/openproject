@@ -30,6 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
   let(:user) { build_stubbed(:user) }
+  let(:pemissions) { [:view_work_package_watchers] }
 
   it_behaves_like 'basic query filter' do
     let(:type) { :list }
@@ -53,21 +54,13 @@ RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
 
     describe '#available?' do
       it 'is true if the user is logged in' do
-        allow(User)
-          .to receive_message_chain(:current, :logged?)
-          .and_return true
+        allow(User.current).to receive(:logged?).and_return true
 
         expect(instance).to be_available
       end
 
       it 'is true if the user is allowed to see watchers and if there are users' do
-        allow(User)
-          .to receive_message_chain(:current, :logged?)
-          .and_return false
-
-        allow(User)
-          .to receive_message_chain(:current, :allowed_to?)
-          .and_return true
+        allow(User.current).to receive(:logged?).and_return true
 
         allow(principal_loader)
           .to receive(:user_values)
@@ -77,13 +70,7 @@ RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
       end
 
       it 'is false if the user is allowed to see watchers but there are no users' do
-        allow(User)
-          .to receive_message_chain(:current, :logged?)
-          .and_return false
-
-        allow(User)
-          .to receive_message_chain(:current, :allowed_to?)
-          .and_return true
+        allow(User.current).to receive(:logged?).and_return false
 
         allow(principal_loader)
           .to receive(:user_values)
@@ -93,13 +80,8 @@ RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
       end
 
       it 'is false if the user is not allowed to see watchers but there are users' do
-        allow(User)
-          .to receive_message_chain(:current, :logged?)
-          .and_return false
-
-        allow(User)
-          .to receive_message_chain(:current, :allowed_to?)
-          .and_return false
+        allow(User.current).to receive(:logged?).and_return false
+        mock_permissions_for(User.current, &:forbid_everything)
 
         allow(principal_loader)
           .to receive(:user_values)
@@ -112,32 +94,23 @@ RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
     describe '#allowed_values' do
       context 'contains the me value if the user is logged in' do
         before do
-          allow(User)
-            .to receive_message_chain(:current, :logged?)
-            .and_return true
+          allow(User.current).to receive(:logged?).and_return true
 
           expect(instance.allowed_values)
-            .to match_array [[I18n.t(:label_me), 'me']]
+            .to contain_exactly([I18n.t(:label_me), 'me'])
         end
       end
 
       context 'contains the user values loaded if the user is allowed to see them' do
         before do
-          allow(User)
-            .to receive_message_chain(:current, :logged?)
-            .and_return true
-
-          allow(User)
-            .to receive_message_chain(:current, :allowed_to?)
-            .and_return true
+          allow(User.current).to receive(:logged?).and_return true
 
           allow(principal_loader)
             .to receive(:user_values)
             .and_return([nil, user.id.to_s])
 
           expect(instance.allowed_values)
-            .to match_array [[I18n.t(:label_me), 'me'],
-                             [nil, user.id.to_s]]
+            .to contain_exactly([I18n.t(:label_me), 'me'], [nil, user.id.to_s])
         end
       end
     end
@@ -163,7 +136,7 @@ RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
 
       it 'returns an array of users' do
         expect(instance.value_objects)
-          .to match_array([user1])
+          .to contain_exactly(user1)
       end
     end
   end

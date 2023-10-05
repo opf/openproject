@@ -57,7 +57,7 @@ gem 'friendly_id', '~> 5.5.0'
 
 gem 'acts_as_list', '~> 1.1.0'
 gem 'acts_as_tree', '~> 2.9.0'
-gem 'awesome_nested_set', '~> 3.5.0'
+gem 'awesome_nested_set', '~> 3.6.0'
 gem 'closure_tree', '~> 7.4.0'
 gem 'rubytree', '~> 2.0.0'
 # Only used in down migrations now.
@@ -157,7 +157,7 @@ gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'cc286655dfa2ea2b
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
-gem 'meta-tags', '~> 2.18.0'
+gem 'meta-tags', '~> 2.19.0'
 
 gem "paper_trail", "~> 12.3"
 
@@ -364,6 +364,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-primer_view_components", '~>0.11.0'
+gem "openproject-primer_view_components", '~>0.12.1'
 gem "openproject-octicons", '~>19.7.0'
 gem "openproject-octicons_helper", '~>19.7.0'

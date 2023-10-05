@@ -33,13 +33,12 @@ RSpec.describe 'BIM navigation spec',
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
-    create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
+    create(:project_role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
   end
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let(:model) do

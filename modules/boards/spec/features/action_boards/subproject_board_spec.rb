@@ -27,14 +27,13 @@
 #++
 
 require 'spec_helper'
-require_relative './../support//board_index_page'
-require_relative './../support/board_page'
+require_relative '../support//board_index_page'
+require_relative '../support/board_page'
 
-RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Subproject action board', :js, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:type) { create(:type_standard) }
   let(:project) do
@@ -46,7 +45,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
   let(:subproject2) do
     create(:project, parent: project, name: 'Child 2', types: [type], enabled_module_names: %i[work_package_tracking])
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -73,9 +72,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
     end
 
     let(:user) do
-      create(:user,
-             member_in_projects: [project, subproject1, subproject2],
-             member_through_role: role)
+      create(:user, member_with_roles: { project => role, subproject1 => role, subproject2 => role })
     end
 
     it 'does not allow to move work packages' do
@@ -96,15 +93,12 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
 
   context 'with permissions in all subprojects' do
     let(:user) do
-      create(:user,
-             member_in_projects: [project, subproject1, subproject2],
-             member_through_role: role)
+      create(:user, member_with_roles: { project => role, subproject1 => role, subproject2 => role })
     end
 
     let(:only_parent_user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     it 'allows management of subproject work packages' do
@@ -180,8 +174,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
     let(:user) do
       create(:user,
              # The membership in subproject2 gets removed later on
-             member_in_projects: [project, subproject1, subproject2],
-             member_through_role: role)
+             member_with_roles: { project => role, subproject1 => role, subproject2 => role })
     end
 
     let!(:board) do
@@ -209,7 +202,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
       board_page.expect_card subproject1.name, work_package.subject
 
       # No error is to be displayed as erroneous columns are filtered out
-      expect(page).not_to have_selector('.op-toast.-error')
+      expect(page).not_to have_css('.op-toast.-error')
       board_page.expect_no_list(subproject2.name)
 
       expect(page)
@@ -219,9 +212,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
 
   context 'with an archived subproject' do
     let(:user) do
-      create(:user,
-             member_in_projects: [project, subproject1, subproject2],
-             member_through_role: role)
+      create(:user, member_with_roles: { project => role, subproject1 => role, subproject2 => role })
     end
 
     let!(:board) do
@@ -245,7 +236,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
 
       board_page.open_and_fill_add_list_modal subproject2.name
 
-      expect(page).not_to have_selector('.ng-option', text: subproject2.name)
+      expect(page).not_to have_css('.ng-option', text: subproject2.name)
     end
   end
 end

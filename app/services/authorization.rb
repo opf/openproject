@@ -36,7 +36,12 @@ module Authorization
 
   # Returns all projects a user has a certain permission in
   def projects(action, user)
-    Project.allowed_to(action, user)
+    Project.allowed_to(user, action)
+  end
+
+  # Returns all work packages a user has a certain permission in (or in the project it belongs to)
+  def work_packages(action, user)
+    WorkPackage.allowed_to(user, action)
   end
 
   # Returns all roles a user has in a certain project, for a specific entity or globally
@@ -48,5 +53,42 @@ module Authorization
     else
       Authorization::UserGlobalRolesQuery.query(user)
     end
+  end
+
+  # Normalizes the different types of permission arguments into Permission objects.
+  # Possible arguments
+  #  - Symbol permission names (e.g. :view_work_packages)
+  #  - Hash with :controller and :action (e.g. { controller: 'work_packages', action: 'show' })
+  def permissions_for(action)
+    return [action] if action.is_a?(OpenProject::AccessControl::Permission)
+    return action if action.is_a?(Array) && action.all?(OpenProject::AccessControl::Permission)
+
+    if action.is_a?(Hash)
+      OpenProject::AccessControl.allow_actions(action)
+    else
+      [OpenProject::AccessControl.permission(action)].compact
+    end
+  end
+
+  # Returns a set of normalized permissions filtered for a given context
+  #  - When there is no permission matching the +permission+ parameter, either an empty array is returned
+  #    or an +UnknownPermissionError+ is raised (depending on the raise_on_unknown parameter).
+  #    If the permission is disabled, it will never raise an error.
+  #  - When there are no permissions available for the given context (based on +permissible_on+
+  #    attribute of the permission), an +IllegalPermissionContextError+ is raised
+  def contextual_permissions(action, context, raise_on_unknown: false)
+    perms = permissions_for(action)
+
+    if perms.blank?
+      Rails.logger.debug { "Used permission \"#{action}\" that is not defined. It will never return true." }
+      raise UnknownPermissionError.new(action) if raise_on_unknown && !OpenProject::AccessControl.disabled_permission?(action)
+
+      return []
+    end
+
+    context_perms = perms.select { |p| p.permissible_on?(context) }
+    raise IllegalPermissionContextError.new(action, perms, context) if context_perms.blank?
+
+    context_perms
   end
 end

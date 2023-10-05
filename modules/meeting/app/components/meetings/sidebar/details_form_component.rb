@@ -38,47 +38,11 @@ module Meetings
       @meeting = meeting
     end
 
-    def call
-      component_wrapper do
-        primer_form_with(
-          model: @meeting,
-          method: :put,
-          url: update_details_meeting_path(@meeting)
-        ) do |f|
-          component_collection do |collection|
-            collection.with_component(Primer::Alpha::Dialog::Body.new) do
-              form_content_partial(f)
-            end
-            collection.with_component(Primer::Alpha::Dialog::Footer.new) do
-              form_actions_partial
-            end
-          end
-        end
-      end
-    end
-
     def render?
       User.current.allowed_to?(:edit_meetings, @meeting.project)
     end
 
     private
-
-    def form_content_partial(form)
-      flex_layout(my: 3) do |flex|
-        flex.with_row do
-          render(Meeting::StartDate.new(form, initial_value: start_date_initial_value))
-        end
-        flex.with_row(mt: 3) do
-          render(Meeting::StartTime.new(form, initial_value: start_time_initial_value))
-        end
-        flex.with_row(mt: 3) do
-          render(Meeting::Duration.new(form))
-        end
-        flex.with_row(mt: 3) do
-          render(Meeting::Location.new(form))
-        end
-      end
-    end
 
     def start_date_initial_value
       @meeting.start_time&.strftime("%Y-%m-%d")
@@ -88,15 +52,5 @@ module Meetings
       @meeting.start_time&.strftime("%H:%M")
     end
 
-    def form_actions_partial
-      component_collection do |collection|
-        collection.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "edit-meeting-details-dialog" })) do
-          t("button_cancel")
-        end
-        collection.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
-          t("button_save")
-        end
-      end
-    end
   end
 end

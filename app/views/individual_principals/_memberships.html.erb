@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% roles = Role.givable %>
+<% roles = ProjectRole.givable %>
 <% projects = ::Members::CreateContract
   .new(@individual_principal.memberships.build, current_user)
   .assignable_projects
@@ -148,7 +148,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% principal_project_ids = @individual_principal.projects.ids  %>
           <% filter = [['active', '=', 't']] %>
           <% filter << ['id', '!', principal_project_ids.map(&:to_s)] if principal_project_ids.any? %>
-          <%= angular_component_tag 'op-project-autocompleter',
+          <%= angular_component_tag 'opce-project-autocompleter',
                                     inputs: {
                                       apiFilters: filter,
                                       name: 'membership[project_id]'

@@ -39,7 +39,7 @@ RSpec.describe Roles::CreateContract do
     end
 
     let(:role) do
-      build(:role) do |r|
+      build(:project_role) do |r|
         r.name = role_name
         r.permissions = role_permissions
       end
@@ -69,7 +69,11 @@ RSpec.describe Roles::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, type: %i(inclusion))
+          # The inclusion is in here twice because:
+          # * The contract validates the type (to check that only GlobalRole and ProjectRole are created)
+          # * The model validates the type (to check that only Role subclasses are created)
+          # This should not cause an issue for users so we disregard this imperfect duplication.
+          expect_valid(false, type: %i(inclusion inclusion))
         end
       end
     end

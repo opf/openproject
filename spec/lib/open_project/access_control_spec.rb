@@ -61,6 +61,10 @@ RSpec.describe OpenProject::AccessControl do
                        permissible_on: :project,
                        contract_actions: { bar: %i[create read] },
                        public: true
+
+        mod.permission :project_module_project_permission,
+                       { dont: :care },
+                       permissible_on: :project
       end
 
       map.project_module :mixed_module do |mod|
@@ -83,58 +87,63 @@ RSpec.describe OpenProject::AccessControl do
     end
   end
 
-  describe '.remove_modules_permissions' do
+  describe '.disable_modules_permissions' do
+    include_context 'with blank access control state'
+
+    before do
+      setup_permissions
+    end
+
     RSpec::Matchers.define :not_belong_to_project_module do |project_module|
       match do |actual|
         actual.project_module != project_module
       end
     end
 
-    around do |example|
-      raise 'Test outdated. @mapped_permissions is not defined' unless
-        described_class.instance_variable_defined?(:@mapped_permissions)
-
-      previous_permissions = described_class.instance_variable_get(:@mapped_permissions)
-
-      example.run
-    ensure
-      described_class.instance_variable_set(:@mapped_permissions, previous_permissions)
-      described_class.clear_caches
-    end
-
     subject do
-      described_class.remove_modules_permissions(:repository)
+      described_class.disable_modules_permissions(:project_module)
       described_class
     end
 
     it 'removes from permissions' do
       expect(subject.permissions)
-        .to all(not_belong_to_project_module(:repository))
+        .to all(not_belong_to_project_module(:project_module))
     end
 
     it 'removes from global permissions' do
       expect(subject.global_permissions)
-        .to all(not_belong_to_project_module(:repository))
+        .to all(not_belong_to_project_module(:project_module))
     end
 
     it 'removes from public permissions' do
       expect(subject.public_permissions)
-        .to all(not_belong_to_project_module(:repository))
+        .to all(not_belong_to_project_module(:project_module))
     end
 
     it 'removes from members-only permissions' do
       expect(subject.members_only_permissions)
-        .to all(not_belong_to_project_module(:repository))
+        .to all(not_belong_to_project_module(:project_module))
     end
 
     it 'removes from loggedin-only permissions' do
       expect(subject.loggedin_only_permissions)
-        .to all(not_belong_to_project_module(:repository))
+        .to all(not_belong_to_project_module(:project_module))
     end
 
     it 'disables repository module' do
       expect(subject.available_project_modules)
-        .not_to include(:repository)
+        .not_to include(:project_module)
+    end
+
+    it 'lists the permissions in the disabled_permissions' do
+      expect(subject.disabled_permissions.map(&:name))
+        .to include :project_module_project_permission_with_contract_actions,
+                    :project_module_project_permission
+    end
+
+    it 'returns true on disabled_permission?' do
+      expect(subject.disabled_permission?(:project_module_project_permission))
+        .to be true
     end
   end
 
@@ -275,7 +284,7 @@ RSpec.describe OpenProject::AccessControl do
     end
 
     describe 'size' do
-      it { expect(project_permissions.size).to eq(6) }
+      it { expect(project_permissions.size).to eq(7) }
     end
 
     it do
@@ -283,6 +292,7 @@ RSpec.describe OpenProject::AccessControl do
         .to contain_exactly(:no_module_project_permission_with_contract_actions,
                             :no_module_project_permission,
                             :project_module_project_permission_with_contract_actions,
+                            :project_module_project_permission,
                             :mixed_module_project_permission_granted_to_admin,
                             :dependent_module_project_permission_not_granted_to_admin,
                             :no_module_mixed_permissible_on_permission)
@@ -436,6 +446,56 @@ RSpec.describe OpenProject::AccessControl do
         expect(described_class)
           .to be_grant_to_admin(:not_existing)
       end
+    end
+  end
+
+  describe '.disabled_permission?' do
+    include_context 'with blank access control state'
+
+    before do
+      described_class.map do |map|
+        map.project_module :some_module do |mod|
+          mod.permission :disabled_permission1,
+                         { some: :action },
+                         permissible_on: :project,
+                         enabled: false
+
+          mod.permission :disabled_permission2,
+                         { some: :action,
+                           another: :action },
+                         permissible_on: :project,
+                         enabled: -> { false }
+
+          mod.permission :enabled_permission,
+                         { another: :action },
+                         permissible_on: :project
+        end
+      end
+    end
+
+    it 'is false for enabled permissions' do
+      expect(subject)
+        .not_to be_disabled_permission(:enabled_permission)
+    end
+
+    it 'is true for disabled permission' do
+      expect(subject)
+        .to be_disabled_permission(:disabled_permission1)
+    end
+
+    it 'is true for action hash where permissions granting are disabled' do
+      expect(subject)
+        .to be_disabled_permission(controller: 'some', action: 'action')
+    end
+
+    it 'is false for action hash where not all permissions granting are disabled (but some can)' do
+      expect(subject)
+        .not_to be_disabled_permission(controller: 'another', action: 'action')
+    end
+
+    it 'is false for an unknown permission' do
+      expect(subject)
+        .not_to be_disabled_permission(:unknown_permission)
     end
   end
 end

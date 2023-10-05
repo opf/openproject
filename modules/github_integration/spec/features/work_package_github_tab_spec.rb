@@ -32,11 +32,10 @@ require_relative '../support/pages/work_package_github_tab'
 RSpec.describe 'Open the GitHub tab', js: true do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_work_packages
                            add_work_package_notes
                            show_github_content))
@@ -99,7 +98,7 @@ RSpec.describe 'Open the GitHub tab', js: true do
 
     context 'when the user does not have the permissions to see the github tab' do
       let(:role) do
-        create(:role,
+        create(:project_role,
                permissions: %i(view_work_packages
                                add_work_package_notes))
       end

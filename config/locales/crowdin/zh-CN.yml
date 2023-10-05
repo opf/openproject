@@ -425,6 +425,8 @@ zh-CN:
       您的帐户尚未激活。请等待管理员激活您的帐户。
     error_self_registration_disabled: >
       此系统上禁用了用户注册。请让管理员为您创建帐户。
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "或使用您的现有帐户登录"
     signup_with_auth_provider: "或注册使用"
     auth_source_login: 请使用 <em>%{login}</em> 登录来激活您的帐户，
@@ -905,6 +907,7 @@ zh-CN:
           attributes:
             roles:
               ungrantable: "具有不可分配的角色。"
+              more_than_one: "有一个以上的角色。"
             principal:
               unassignable: "无法分配至项目。"
         version:
@@ -925,7 +928,7 @@ zh-CN:
       custom_field: "自定义字段"
       'doorkeeper/application': "OAuth应用程序"
       forum: "论坛"
-      global_role: "Global role"
+      global_role: "全局角色"
       group: "组"
       member: "成员"
       news: "新闻"
@@ -1243,21 +1246,21 @@ zh-CN:
       x_minutes:
         other: "%{count} 分钟"
       x_minutes_abbreviated:
-        other: "%{count} mins"
+        other: "%{count} 分钟"
       x_hours:
-        other: "%{count} hours"
+        other: "%{count} 小时"
       x_hours_abbreviated:
-        other: "%{count} hrs"
+        other: "%{count} 小时"
       x_weeks:
-        other: "%{count} weeks"
+        other: "%{count} 周"
       x_months:
         other: "%{count} 个月"
       x_years:
-        other: "%{count} years"
+        other: "%{count} 年"
       x_seconds:
         other: "%{count} 秒"
       x_seconds_abbreviated:
-        other: "%{count} s"
+        other: "%{count} 秒"
     units:
       hour:
         other: "小时"
@@ -1539,7 +1542,7 @@ zh-CN:
   label_add_related_work_packages: "添加相关的工作包"
   label_add_subtask: "添加子任务"
   label_added: "已添加"
-  label_added_by: "Added by %{author}"
+  label_added_by: "由%{author}添加"
   label_added_time_by: "由 %{author} %{age} 前添加"
   label_additional_workflow_transitions_for_assignee: "当用户是受理人时允许额外的转移"
   label_additional_workflow_transitions_for_author: "当用户是作者时允许额外转移"
@@ -2155,12 +2158,21 @@ zh-CN:
         assigned: '已分配'
         responsible: '负责人'
         mentioned: '被提及'
+        shared: '共享'
         subscribed: '所有'
         prefix: '接收原因为以下通知设置：%{reason}'
         date_alert_start_date: '日期提醒'
         date_alert_due_date: '日期提醒'
       see_all: '查看全部'
       updated_at: '由 %{user} 于 %{timestamp} 更新'
+    sharing:
+      work_packages:
+        allowed_actions: '你可以 %{allowed_actions} 这个工作包。这可以基于你的项目角色和权限而变化。'
+        open_work_package: '打开工作包'
+        reason: '如下工作包伴随 %{role_rights} 权限被分享给你'
+        see_in_open_project: '在 OpenProject 中查看工作包'
+        subject: '工作包 %{id} 已被共享给你'
+        summary: '%{user} 分享了一个工作包给你'
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
@@ -2326,6 +2338,8 @@ zh-CN:
   permission_add_work_packages: "添加工作包"
   permission_add_messages: "发布消息"
   permission_add_project: "创建项目"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "归档项目"
   permission_create_user: "创建用户"
   permission_manage_user: "编辑用户"
@@ -2947,6 +2961,25 @@ zh-CN:
     destroy:
       info: "删除工作包是不可逆的操作。"
       title: "删除工作包"
+    sharing:
+      count:
+        zero: "0 个用户"
+        one: "1 个用户"
+        other: "%{count} 个用户"
+      invite: "邀请"
+      label_search: "搜索要邀请的用户"
+      label_search_placeholder: "按用户名或电子邮件地址搜索"
+      permissions:
+        comment: "评论"
+        comment_description: "Can view and comment this work package."
+        denied: "您没有共享工作包的权限。"
+        edit: "编辑"
+        edit_description: "Can view, comment and edit this work package."
+        view: "查看"
+        view_description: "Can view this work package."
+      remove: "移除"
+      text_empty_state_description: "工作包尚未共享给任何人。"
+      text_empty_state_header: "没有共享的用户"
   working_days:
     info: >
       当安排工作包时，未选择的日期将被跳过（不计入天数）。这些日期可以在工作包级别进行覆盖。

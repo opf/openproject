@@ -28,5 +28,6 @@
 
 module MeetingAgendaItems
   class CreateService < ::BaseServices::Create
+    include AfterPerformHook
   end
 end

@@ -32,7 +32,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:view_work_packages] }
   let(:project) { create(:project_with_types, public: false) }
   let(:base_path) { api_v3_paths.work_packages_by_project project.id }
@@ -41,7 +41,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
   let(:work_packages) { [] }
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   subject { last_response }

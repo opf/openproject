@@ -67,7 +67,7 @@ RSpec.shared_examples 'it supports direct uploads' do
       end
     end
 
-    context 'with remote AWS storage', with_direct_uploads: true do
+    context 'with remote AWS storage', :with_direct_uploads do
       before do
         request!
       end
@@ -186,23 +186,23 @@ RSpec.shared_examples 'it supports direct uploads' do
   end
 end
 
-RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type: :request do |include_by_container = true|
+RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type: :request do |include_by_container: true|
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
+  shared_let(:project) { create(:project, public: false) }
   let(:current_user) { user_with_permissions }
 
   let(:user_with_permissions) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:author) do
     current_user
   end
 
-  let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:attachment) { create(:attachment, container:, author:) }
   let(:container) { send attachment_type }
@@ -210,11 +210,12 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
   let(:attachment_type) { raise "attachment type goes here, e.g. work_package" }
   let(:permissions) { all_permissions }
 
-  let(:all_permissions) { Array([create_permission, read_permission, update_permission]).flatten.compact }
+  let(:all_permissions) { [create_permission, read_permission, update_permission, delete_permission].flatten.uniq.compact }
 
   let(:create_permission) { raise "permissions go here, e.g. add_work_packages" }
   let(:read_permission) { raise "permissions go here, e.g. view_work_packages" }
   let(:update_permission) { raise "permissions go here, e.g. edit_work_packages" }
+  let(:delete_permission) { update_permission }
 
   let(:missing_permissions_user) { user_with_permissions }
 
@@ -386,6 +387,8 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
     end
 
     context 'with required permissions' do
+      let(:permissions) { [read_permission, delete_permission].flatten.uniq.compact }
+
       it_behaves_like 'deletes the attachment'
 
       context 'for a non-existent attachment' do
@@ -396,7 +399,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
     end
 
     context 'without required permissions' do
-      let(:permissions) { all_permissions - Array(update_permission) }
+      let(:permissions) { all_permissions.without(delete_permission) }
 
       it_behaves_like 'does not delete the attachment'
     end
@@ -617,7 +620,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
       end
 
       context 'only allowed to add, but not to edit' do
-        let(:permissions) { all_permissions - Array(update_permission) }
+        let(:permissions) { [create_permission, read_permission].flatten.uniq.compact.without(update_permission) }
 
         it_behaves_like 'unauthorized access'
       end

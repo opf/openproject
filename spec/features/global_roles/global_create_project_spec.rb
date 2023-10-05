@@ -37,7 +37,7 @@ RSpec.describe 'Global role: Global Create project',
 
   describe 'Create project is not a member permission' do
     # Given there is a role "Member"
-    let!(:role) { create(:role, name: 'Member') }
+    let!(:role) { create(:project_role, name: 'Member') }
 
     # And I am already admin
     current_user { admin }
@@ -70,7 +70,7 @@ RSpec.describe 'Global role: Global Create project',
 
   describe 'Create project displayed to user' do
     let!(:global_role) { create(:global_role, name: 'Global', permissions: %i[add_project]) }
-    let!(:member_role) { create(:role, name: 'Member', permissions: %i[view_project]) }
+    let!(:member_role) { create(:project_role, name: 'Member', permissions: %i[view_project]) }
 
     let!(:global_member) do
       create(:global_member,

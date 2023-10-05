@@ -44,4 +44,10 @@ class Authorization::UserGlobalRolesQuery < Authorization::UserRolesQuery
     statement.group(roles_table[:id])
              .where(users_table[:id].eq(user.id))
   end
+
+  transformations.register users_members_join, :entity_restriction do |statement, _|
+    statement
+      .and(members_table[:entity_type].eq(nil))
+      .and(members_table[:entity_id].eq(nil))
+  end
 end

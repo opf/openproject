@@ -39,7 +39,7 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock do
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_storages_in_project
                            select_project_modules
                            edit_project])
@@ -88,7 +88,7 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock do
     stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
     stub_request(
       :delete,
-      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})/"
     ).to_return(status: 200, body: "", headers: {})
 
     storage

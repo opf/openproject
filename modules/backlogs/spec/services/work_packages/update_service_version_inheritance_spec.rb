@@ -34,7 +34,7 @@ RSpec.describe WorkPackages::UpdateService, "version inheritance", type: :model 
   let(:type_bug) { build(:type_bug) }
   let(:version1) { project.versions.first }
   let(:version2) { project.versions.last }
-  let(:role) { build(:role) }
+  let(:role) { build(:project_role) }
   let(:user) { build(:admin) }
   let(:issue_priority) { build(:priority) }
   let(:status) { build(:status, name: 'status 1', is_default: true) }

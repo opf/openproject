@@ -1020,6 +1020,9 @@ pl:
       scheduling:
         is_parent: "Daty tego pakietu roboczego są automatycznie odejmowane od jego elementów podrzędnych. Włącz funkcję Planowanie ręczne, aby ustawić daty."
         is_switched_from_manual_to_automatic: "Po przełączeniu planowania z ręcznego na automatyczne konieczne może być ponowne obliczenie dat tego pakietu roboczego ze względu na jego powiązania z innymi pakietami roboczymi."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."

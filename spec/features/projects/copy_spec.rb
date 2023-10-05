@@ -70,7 +70,7 @@ RSpec.describe 'Projects copy', :with_cuprite, js: true do
     end
     let(:user) { create(:user) }
     let(:role) do
-      create(:role,
+      create(:project_role,
              permissions:)
     end
     let(:permissions) do

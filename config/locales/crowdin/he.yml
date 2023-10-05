@@ -432,6 +432,8 @@ he:
       החשבון שלך עדיין לא הופעל. אנא המתן לפעלת חשבונך על-ידי מנהל המערכת.
     error_self_registration_disabled: >
       רישום משתמש אינה אפשרית במערכת זו. אנא בקש ממנהל מערכת שיצור חשבון עבורך.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "או היכנס באמצעות החשבון הקיים שלך"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
@@ -915,6 +917,7 @@ he:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -2243,12 +2246,21 @@ he:
         assigned: 'Assigned'
         responsible: 'Accountable'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'כל'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "פרטי החשבון שלך"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -2421,6 +2433,8 @@ he:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -3048,6 +3062,25 @@ he:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

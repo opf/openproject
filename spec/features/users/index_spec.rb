@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'index users', js: true, with_cuprite: true do
+RSpec.describe 'index users', :js, :with_cuprite do
   shared_let(:current_user) { create(:admin, firstname: 'admin', lastname: 'admin', created_at: 1.hour.ago) }
   let(:index_page) { Pages::Admin::Users::Index.new }
 
@@ -147,7 +147,7 @@ RSpec.describe 'index users', js: true, with_cuprite: true do
     end
 
     context 'as global user' do
-      shared_let(:global_manage_user) { create(:user, global_permission: :manage_user) }
+      shared_let(:global_manage_user) { create(:user, global_permissions: [:manage_user]) }
       let(:current_user) { global_manage_user }
 
       it 'can too visit the page' do

@@ -48,16 +48,14 @@ RSpec.describe API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' d
     create(:project)
   end
 
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
 
   let(:select) do
     { '*' => {}, 'elements' => { '*' => {} } }
   end
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   context 'when rendering everything' do

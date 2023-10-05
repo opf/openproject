@@ -3,11 +3,11 @@ require 'features/page_objects/notification'
 
 RSpec.describe 'Add an attachment to a meeting (agenda)', js: true, with_cuprite: false do
   let(:role) do
-    create(:role, permissions: %i[view_meetings edit_meetings create_meeting_agendas])
+    create(:project_role, permissions: %i[view_meetings edit_meetings create_meeting_agendas])
   end
 
   let(:dev) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:project) { create(:project) }

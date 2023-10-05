@@ -32,8 +32,7 @@ RSpec.describe Attachments::PrepareUploadService,
   shared_let(:container) { create(:work_package) }
   shared_let(:user) do
     create(:user,
-           member_in_project: container.project,
-           member_with_permissions: %i[view_work_packages edit_work_packages])
+           member_with_permissions: { container.project => %i[view_work_packages edit_work_packages] })
   end
   let(:instance) { described_class.new(user:) }
 

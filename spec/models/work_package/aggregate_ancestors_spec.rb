@@ -60,12 +60,12 @@ RSpec.describe WorkPackage::Ancestors do
   end
 
   let(:view_role) do
-    build(:role,
+    build(:project_role,
           permissions: [:view_work_packages])
   end
 
   let(:none_role) do
-    build(:role,
+    build(:project_role,
           permissions: [])
   end
 

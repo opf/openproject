@@ -32,7 +32,7 @@ RSpec.describe 'updating a budget', js: true do
   let(:project) do
     create(:project_with_types,
            enabled_module_names: %i[budgets costs work_package_tracking],
-           members: { user => create(:role, permissions: %i[work_package_assigned]) })
+           members: { user => create(:project_role, permissions: %i[work_package_assigned]) })
   end
   let(:user) { create(:admin) }
   let(:budget) { create(:budget, author: user, project:) }

@@ -35,14 +35,11 @@ RSpec.describe 'Upload attachment to documents', :js,
                } do
   let!(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_documents
-                                       manage_documents])
+           member_with_permissions: { project => %i[view_documents manage_documents] })
   end
   let!(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_documents],
+           member_with_permissions: { project => %i[view_documents] },
            notification_settings: [build(:notification_setting, all: true)])
   end
   let!(:category) do
@@ -62,7 +59,7 @@ RSpec.describe 'Upload attachment to documents', :js,
     it 'can upload an image' do
       visit new_project_document_path(project)
 
-      expect(page).to have_selector('#new_document', wait: 10)
+      expect(page).to have_css('#new_document', wait: 10)
       SeleniumHubWaiter.wait
       select(category.name, from: 'Category')
       fill_in "Title", with: 'New documentation'
@@ -81,8 +78,8 @@ RSpec.describe 'Upload attachment to documents', :js,
         click_on 'Create'
 
         # Expect it to be present on the index page
-        expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
-        expect(page).to have_selector('#content img', count: 1)
+        expect(page).to have_css('.document-category-elements--header', text: 'New documentation')
+        expect(page).to have_css('#content img', count: 1)
         expect(page).to have_content('Image uploaded on creation')
       end
 
@@ -93,7 +90,7 @@ RSpec.describe 'Upload attachment to documents', :js,
       SeleniumHubWaiter.wait
       find('.document-category-elements--header a', text: 'New documentation').click
       expect(page).to have_current_path "/documents/#{document.id}", wait: 10
-      expect(page).to have_selector('#content img', count: 1)
+      expect(page).to have_css('#content img', count: 1)
       expect(page).to have_content('Image uploaded on creation')
 
       # Adding a second image
@@ -121,7 +118,7 @@ RSpec.describe 'Upload attachment to documents', :js,
         click_on 'Save'
 
         # Expect both images to be present on the show page
-        expect(page).to have_selector('#content img', count: 2)
+        expect(page).to have_css('#content img', count: 2)
         expect(page).to have_content('Image uploaded on creation')
         expect(page).to have_content('Image uploaded the second time')
         attachments_list.expect_attached('image.png', count: 4)

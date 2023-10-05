@@ -27,18 +27,15 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
-RSpec.describe 'Calendar drag&dop and resizing', js: true do
+RSpec.describe 'Calendar drag&dop and resizing', :js do
   include_context 'with calendar full access'
 
   let!(:other_user) do
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_calendar
-           ])
+           member_with_permissions: { project => %w[view_work_packages view_calendar] })
   end
 
   let!(:work_package) do

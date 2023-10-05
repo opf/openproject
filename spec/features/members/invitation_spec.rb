@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'invite user via email', js: true do
   let!(:project) { create(:project, name: 'Project 1', identifier: 'project1', members: project_members) }
-  let!(:developer) { create(:role, name: 'Developer') }
+  let!(:developer) { create(:project_role, name: 'Developer') }
   let(:project_members) { {} }
 
   let(:members_page) { Pages::Members.new project.identifier }
@@ -38,8 +38,7 @@ RSpec.describe 'invite user via email', js: true do
   current_user do
     create(:user,
            global_permissions: [:create_user],
-           member_in_project: project,
-           member_with_permissions: %i[view_members manage_members])
+           member_with_permissions: { project => %i[view_members manage_members] })
   end
 
   context 'with a new user' do

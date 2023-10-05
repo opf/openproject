@@ -49,8 +49,7 @@ RSpec.describe 'My page', js: true do
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages add_work_packages save_queries])
+           member_with_permissions: { project => %i[view_work_packages add_work_packages save_queries] })
   end
   let(:my_page) do
     Pages::My::Page.new

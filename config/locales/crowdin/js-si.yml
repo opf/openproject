@@ -1018,6 +1018,9 @@ si:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
       table:
         configure_button: 'වැඩ පැකේජ වගුව සකසන්න'
         summary: "වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව."
