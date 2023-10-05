@@ -1256,18 +1256,33 @@ de:
       x_days:
         one: "1 Tag"
         other: "%{count} Tage"
-      x_min_abbreviated:
-        one: "1 min"
-        other: "%{count} mins"
       x_minutes:
         one: "1 Minute"
         other: "%{count} Minuten"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         one: "1 Monat"
         other: "%{count} Monate"
+      x_years:
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         one: "1 Sekunde"
         other: "%{count} Sekunden"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "Stunde"

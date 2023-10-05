@@ -168,6 +168,30 @@ RSpec.describe 'API v3 Principals resource' do
       end
     end
 
+    context 'with the permission to `manage_members`' do
+      let(:permissions) { [:manage_members] }
+
+      it_behaves_like 'API V3 collection response', 5, 5 do
+        let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
+      end
+    end
+
+    context 'with the permission to `manage_user`' do
+      let(:permissions) { [:manage_user] }
+
+      it_behaves_like 'API V3 collection response', 5, 5 do
+        let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
+      end
+    end
+
+    context 'with the permission to `share_work_packages`' do
+      let(:permissions) { [:share_work_packages] }
+
+      it_behaves_like 'API V3 collection response', 5, 5 do
+        let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
+      end
+    end
+
     context 'when signaling' do
       let(:select) { 'total,count,elements/*' }
 

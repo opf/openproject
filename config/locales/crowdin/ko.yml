@@ -1243,14 +1243,24 @@ ko:
         other: "1년 이상\n%{count}년 이상"
       x_days:
         other: "1일\n%{count}일"
-      x_min_abbreviated:
-        other: "%{count} mins"
       x_minutes:
         other: "1분\n%{count}분"
+      x_minutes_abbreviated:
+        other: "%{count} mins"
+      x_hours:
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        other: "%{count} hrs"
+      x_weeks:
+        other: "%{count} weeks"
       x_months:
         other: "1개월\n%{count}개월"
+      x_years:
+        other: "%{count} years"
       x_seconds:
         other: "1초\n%{count}초"
+      x_seconds_abbreviated:
+        other: "%{count} s"
     units:
       hour:
         other: "시간"

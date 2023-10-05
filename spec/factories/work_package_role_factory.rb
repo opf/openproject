@@ -32,4 +32,40 @@ FactoryBot.define do
   factory :work_package_role do
     sequence(:name) { |n| "WorkPackage Role #{n}" }
   end
+
+  factory :view_work_package_role, parent: :work_package_role do
+    name { 'Work Package Viewer' }
+    builtin { Role::BUILTIN_WORK_PACKAGE_VIEWER }
+    permissions do
+      %i(view_work_packages
+         export_work_packages)
+    end
+  end
+
+  factory :comment_work_package_role, parent: :work_package_role do
+    name { 'Work Package Commenter' }
+    builtin { Role::BUILTIN_WORK_PACKAGE_COMMENTER }
+    permissions do
+      %i(view_work_packages
+         work_package_assigned
+         add_work_package_notes
+         edit_own_work_package_notes
+         export_work_packages)
+    end
+  end
+
+  factory :edit_work_package_role, parent: :work_package_role do
+    name { |_n| 'Work Package Editor' }
+    builtin { Role::BUILTIN_WORK_PACKAGE_EDITOR }
+    permissions do
+      %i(view_work_packages
+         edit_work_packages
+         work_package_assigned
+         add_work_package_notes
+         edit_own_work_package_notes
+         manage_work_package_relations
+         copy_work_packages
+         export_work_packages)
+    end
+  end
 end

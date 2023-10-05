@@ -1240,14 +1240,24 @@ zh-CN:
         other: "超过 %{count} 年"
       x_days:
         other: "%{count} 天"
-      x_min_abbreviated:
-        other: "%{count} mins"
       x_minutes:
         other: "%{count} 分钟"
+      x_minutes_abbreviated:
+        other: "%{count} mins"
+      x_hours:
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        other: "%{count} hrs"
+      x_weeks:
+        other: "%{count} weeks"
       x_months:
         other: "%{count} 个月"
+      x_years:
+        other: "%{count} years"
       x_seconds:
         other: "%{count} 秒"
+      x_seconds_abbreviated:
+        other: "%{count} s"
     units:
       hour:
         other: "小时"

@@ -113,7 +113,13 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
   };
 
   private onGlobalDragEnter:(_event:DragEvent) => void = (_event) => {
-    this.dragging += 1;
+    // When the global drag and drop is active and the dragging happens over the DOM
+    // elements, the dragenter and dragleave events are always fired in pairs.
+    // On dragenter the this.dragging is set to 2 and on dragleave we deduct it to 1,
+    // meaning the drag and drop remains active. When the drag and drop action is canceled
+    // i.e. by the "Escape" key, an extra dragleave event is fired.
+    // In this case this.dragging will be deducted to 0, disabling the active drop areas.
+    this.dragging = 2;
     this.cdRef.detectChanges();
   };
 

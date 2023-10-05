@@ -25,6 +25,10 @@
             [stateName$]="stateName$">
           </wp-create-button>
         </li>
+        <li class="toolbar-item" *ngIf="displayShareButton">
+          <wp-share-button [workPackage]="workPackage">
+          </wp-share-button>
+        </li>
         <li class="toolbar-item hidden-for-tablet" *ngIf="displayTimerButton">
           <op-wp-timer-button
             [workPackage]="workPackage"
@@ -57,7 +61,6 @@
       </ul>
     </div>
   </div>
-
   <div class="work-packages-full-view--split-container">
     <div class="work-packages-full-view--split-left">
       <div class="work-packages--panel-inner">

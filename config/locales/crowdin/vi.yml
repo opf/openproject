@@ -1246,14 +1246,24 @@ vi:
         other: "hơn %{count} năm"
       x_days:
         other: "%{count} ngày"
-      x_min_abbreviated:
-        other: "%{count} mins"
       x_minutes:
         other: "%{count} phút"
+      x_minutes_abbreviated:
+        other: "%{count} mins"
+      x_hours:
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        other: "%{count} hrs"
+      x_weeks:
+        other: "%{count} weeks"
       x_months:
         other: "%{count} tháng"
+      x_years:
+        other: "%{count} years"
       x_seconds:
         other: "%{count} giây"
+      x_seconds_abbreviated:
+        other: "%{count} s"
     units:
       hour:
         other: "hours"

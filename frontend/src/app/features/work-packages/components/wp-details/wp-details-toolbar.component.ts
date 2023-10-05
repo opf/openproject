@@ -30,20 +30,28 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Component, Input } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
   selector: 'wp-details-toolbar',
   templateUrl: './wp-details-toolbar.html',
 })
 export class WorkPackageSplitViewToolbarComponent {
-  @Input('workPackage') workPackage:WorkPackageResource;
+  @Input() workPackage:WorkPackageResource;
 
   @Input() displayNotificationsButton:boolean;
+
+  public displayShareButton = false;
 
   public text = {
     button_more: this.I18n.t('js.button_more'),
   };
 
-  constructor(readonly I18n:I18nService,
-    readonly halEditing:HalResourceEditingService) {}
+  constructor(
+    readonly I18n:I18nService,
+    readonly halEditing:HalResourceEditingService,
+    readonly configurationService:ConfigurationService,
+  ) {
+    this.displayShareButton = this.configurationService.activeFeatureFlags.includes('workPackageSharing');
+  }
 }

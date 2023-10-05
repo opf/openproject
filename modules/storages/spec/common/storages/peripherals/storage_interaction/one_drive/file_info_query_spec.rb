@@ -53,7 +53,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
   end
 
   it 'returns a storage file info object' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: read_json('folder_drive_item'), headers: {})
 
@@ -82,7 +82,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
 
   describe 'error handling' do
     it 'returns a notfound error if the API call returns a 404' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 404, body: not_found_json, headers: {})
 
@@ -94,7 +94,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
     end
 
     it 'returns a forbidden error if the API call returns a 403' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_id}?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 403, body: forbidden_json, headers: {})
 

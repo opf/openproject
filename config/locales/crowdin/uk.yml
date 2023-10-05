@@ -1290,26 +1290,51 @@ uk:
         few: "%{count} днів"
         many: "%{count} днів"
         other: "%{count} днів"
-      x_min_abbreviated:
-        one: "1 min"
-        few: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} mins"
       x_minutes:
         one: "1 хвилина"
         few: "%{count} хвилин"
         many: "%{count} хвилин"
         other: "%{count} хвилин"
+      x_minutes_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "1 місяць"
         few: "%{count} місяців"
         many: "%{count} місяців"
         other: "%{count} місяців"
+      x_years:
+        one: "1 year"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "1 секунда"
         few: "%{count} секунд"
         many: "%{count} секунд"
         other: "%{count} секунд"
+      x_seconds_abbreviated:
+        one: "1 s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "година"

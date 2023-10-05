@@ -31,163 +31,185 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQuery, :webmock do
-  include JsonResponseHelper
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQuery, :vcr, :webmock do
+  using Storages::Peripherals::ServiceResultRefinements
 
-  let(:storage) do
-    create(:one_drive_storage,
-           :with_oauth_client,
-           drive_id: 'b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')
-  end
   let(:user) { create(:user) }
-  let(:token) { create(:oauth_client_token, user:, oauth_client: storage.oauth_client) }
-  let(:file_ids) do
-    %w(
-      01BYE5RZ5MYLM2SMX75ZBIPQZIHT6OAYPB
-      01BYE5RZ7T3DFLFS6TCRH2QAPWXL5APDLE
-      01BYE5RZ4VAJVBMWSWINA2QYFFNZ2GL3O5
-      not_existent
-      forbidden
-    )
-  end
-  let(:not_found_json) { not_found_response }
-  let(:forbidden_json) { forbidden_response }
+  let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
 
-  before do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[0]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
-      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .to_return(status: 200, body: read_json('folder_drive_item'), headers: {})
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[1]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
-      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .to_return(status: 200, body: read_json('file_drive_item_1'), headers: {})
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[2]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
-      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .to_return(status: 200, body: read_json('file_drive_item_2'), headers: {})
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[3]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
-      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .to_return(status: 404, body: not_found_json, headers: {})
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[4]}?$select=id,name,fileSystemInfo,file,size,createdBy,lastModifiedBy,parentReference")
-      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .to_return(status: 403, body: forbidden_json, headers: {})
-  end
+  subject { described_class.new(storage) }
 
-  it 'responds to .call' do
-    expect(described_class).to respond_to(:call)
+  describe '#call' do
+    context 'without outbound request involved' do
+      context 'with an empty array of file ids' do
+        it 'returns an empty array' do
+          result = subject.call(user:, file_ids: [])
 
-    method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[key file_ids])
-  end
+          expect(result).to be_success
+          expect(result.result).to eq([])
+        end
+      end
 
-  it 'returns an array of StorageFileInfo' do
-    storage_file_infos = described_class.call(storage:, user:, file_ids:).result
+      context 'with nil' do
+        it 'returns an error' do
+          result = subject.call(user:, file_ids: nil)
 
-    expect(storage_file_infos).to all(be_a(Storages::StorageFileInfo))
-  end
-
-  it 'returns a folder storage file info object' do
-    storage_file_info = described_class.call(storage:, user:, file_ids: file_ids.slice(0, 1)).result[0]
-
-    # rubocop:disable Layout/LineLength
-    expect(storage_file_info.to_h).to eq({
-                                           status: 'ok',
-                                           status_code: 200,
-                                           id: '01BYE5RZ5MYLM2SMX75ZBIPQZIHT6OAYPB',
-                                           name: 'Business Data',
-                                           size: 39566226,
-                                           mime_type: 'application/x-op-directory',
-                                           created_at: Time.parse('2017-08-07T16:16:30Z'),
-                                           last_modified_at: Time.parse('2017-08-07T16:16:30Z'),
-                                           owner_name: 'Megan Bowen',
-                                           owner_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
-                                           last_modified_by_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
-                                           last_modified_by_name: 'Megan Bowen',
-                                           permissions: nil,
-                                           trashed: false,
-                                           location: '/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:'
-                                         })
-    # rubocop:enable Layout/LineLength
-  end
-
-  it 'returns a file storage file info object' do
-    storage_file_info = described_class.call(storage:, user:, file_ids: file_ids.slice(1, 1)).result[0]
-
-    expect(storage_file_info.to_h).to eq({
-                                           status: 'ok',
-                                           status_code: 200,
-                                           id: '01BYE5RZ7T3DFLFS6TCRH2QAPWXL5APDLE',
-                                           name: 'Popular Mixed Drinks.xlsx',
-                                           size: 7064929,
-                                           mime_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                                           created_at: Time.parse('2017-08-07T16:16:53Z'),
-                                           last_modified_at: Time.parse('2017-08-07T16:16:53Z'),
-                                           owner_name: 'Megan Bowen',
-                                           owner_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
-                                           last_modified_by_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
-                                           last_modified_by_name: 'Megan Bowen',
-                                           permissions: nil,
-                                           trashed: false,
-                                           location: '/drive/root:/Business Data'
-                                         })
-  end
-
-  it 'returns an error storage file info object for not found' do
-    storage_file_info = described_class.call(storage:, user:, file_ids: file_ids.slice(3, 1)).result[0]
-
-    expect(storage_file_info.to_h).to eq({
-                                           status: 'itemNotFound',
-                                           status_code: 404,
-                                           id: 'not_existent',
-                                           name: nil,
-                                           size: nil,
-                                           mime_type: nil,
-                                           created_at: nil,
-                                           last_modified_at: nil,
-                                           owner_name: nil,
-                                           owner_id: nil,
-                                           last_modified_by_id: nil,
-                                           last_modified_by_name: nil,
-                                           permissions: nil,
-                                           trashed: nil,
-                                           location: nil
-                                         })
-  end
-
-  it 'returns an error storage file info object for forbidden' do
-    storage_file_info = described_class.call(storage:, user:, file_ids: file_ids.slice(4, 1)).result[0]
-
-    expect(storage_file_info.to_h).to eq({
-                                           status: 'accessDenied',
-                                           status_code: 403,
-                                           id: 'forbidden',
-                                           name: nil,
-                                           size: nil,
-                                           mime_type: nil,
-                                           created_at: nil,
-                                           last_modified_at: nil,
-                                           owner_name: nil,
-                                           owner_id: nil,
-                                           last_modified_by_id: nil,
-                                           last_modified_by_name: nil,
-                                           permissions: nil,
-                                           trashed: nil,
-                                           location: nil
-                                         })
-  end
-
-  describe 'error handling' do
-    it 'returns a success with empty result, if the query is called with empty file ids array' do
-      storage_files = described_class.call(storage:, user:, file_ids: [])
-
-      expect(storage_files).to be_success
-      expect(storage_files.result).to eq([])
+          expect(result).to be_failure
+          expect(result.result).to eq(:error)
+        end
+      end
     end
 
-    it 'returns an error, if the query is called with nil file ids array' do
-      storage_files = described_class.call(storage:, user:, file_ids: nil)
+    context 'with outbound requests successful', vcr: 'one_drive/files_info_query_success' do
+      context 'with an array of file ids' do
+        let(:file_ids) do
+          %w(
+            01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU
+            01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU
+            01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA
+          )
+        end
 
-      expect(storage_files).to be_failure
-      expect(storage_files.result).to eq(:error)
-      expect(storage_files.errors.to_s).to eq('error | File IDs can not be nil')
+        # rubocop:disable RSpec/ExampleLength
+        # rubocop:disable Layout/LineLength
+        it 'must return an array of file information when called' do
+          result = subject.call(user:, file_ids:)
+          expect(result).to be_success
+
+          result.match(
+            on_success: ->(file_infos) do
+              expect(file_infos.size).to eq(3)
+              expect(file_infos).to all(be_a(Storages::StorageFileInfo))
+              expect(file_infos.map(&:to_h))
+                .to eq([
+                         {
+                           status: 'ok',
+                           status_code: 200,
+                           id: '01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU',
+                           name: 'Folder with spaces',
+                           size: 35141,
+                           mime_type: 'application/x-op-directory',
+                           created_at: Time.parse('2023-09-26T14:38:57Z'),
+                           last_modified_at: Time.parse('2023-09-26T14:38:57Z'),
+                           owner_name: 'Eric Schubert',
+                           owner_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
+                           last_modified_by_name: 'Eric Schubert',
+                           last_modified_by_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
+                           permissions: nil,
+                           trashed: false,
+                           location: '/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:'
+                         },
+                         {
+                           status: 'ok',
+                           status_code: 200,
+                           id: '01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU',
+                           name: 'Document.docx',
+                           size: 19408,
+                           mime_type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                           created_at: Time.parse('2023-09-26T14:40:58Z'),
+                           last_modified_at: Time.parse('2023-09-26T14:42:03Z'),
+                           owner_name: 'Eric Schubert',
+                           owner_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
+                           last_modified_by_name: 'Eric Schubert',
+                           last_modified_by_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
+                           permissions: nil,
+                           trashed: false,
+                           location: '/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Folder'
+                         },
+                         {
+                           status: 'ok',
+                           status_code: 200,
+                           id: '01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA',
+                           name: 'NextcloudHub.md',
+                           size: 1095,
+                           mime_type: 'application/octet-stream',
+                           created_at: Time.parse('2023-09-26T14:45:25Z'),
+                           last_modified_at: Time.parse('2023-09-26T14:46:13Z'),
+                           owner_name: 'Eric Schubert',
+                           owner_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
+                           last_modified_by_name: 'Eric Schubert',
+                           last_modified_by_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
+                           permissions: nil,
+                           trashed: false,
+                           location: '/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Folder/Subfolder'
+                         }
+                       ])
+            end,
+            on_failure: ->(error) { fail "Expected success, got #{error}" }
+          )
+        end
+        # rubocop:enable RSpec/ExampleLength
+        # rubocop:enable Layout/LineLength
+      end
+    end
+
+    context 'with one outbound request returning not found', vcr: 'one_drive/files_info_query_one_not_found' do
+      context 'with an array of file ids' do
+        let(:file_ids) { %w[01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU not_existent] }
+
+        it 'must return an array of file information when called' do
+          result = subject.call(user:, file_ids:)
+          expect(result).to be_success
+
+          result.match(
+            on_success: ->(file_infos) do
+              expect(file_infos.size).to eq(2)
+              expect(file_infos).to all(be_a(Storages::StorageFileInfo))
+              expect(file_infos[1].id).to eq('not_existent')
+              expect(file_infos[1].status).to eq('itemNotFound')
+              expect(file_infos[1].status_code).to eq(404)
+            end,
+            on_failure: ->(error) { fail "Expected success, got #{error}" }
+          )
+        end
+      end
+    end
+
+    context 'with invalid oauth token', vcr: 'one_drive/files_info_query_invalid_token' do
+      before do
+        token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
+        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
+          .to receive(:using_user_token)
+                .and_yield(token)
+      end
+
+      context 'with an array of file ids' do
+        let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
+
+        it 'must return an array of file information when called' do
+          result = subject.call(user:, file_ids:)
+          expect(result).to be_success
+
+          result.match(
+            on_success: ->(file_infos) do
+              expect(file_infos.size).to eq(1)
+              expect(file_infos).to all(be_a(Storages::StorageFileInfo))
+              expect(file_infos[0].id).to eq('01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU')
+              expect(file_infos[0].status).to eq('InvalidAuthenticationToken')
+              expect(file_infos[0].status_code).to eq(401)
+            end,
+            on_failure: ->(error) { fail "Expected success, got #{error}" }
+          )
+        end
+      end
+    end
+
+    context 'with not existent oauth token' do
+      context 'with an array of file ids' do
+        let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
+        let(:user_without_token) { create(:user) }
+
+        it 'must return an array of file information when called' do
+          result = subject.call(user: user_without_token, file_ids:)
+          expect(result).to be_failure
+          expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
+
+          result.match(
+            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
+            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+          )
+        end
+      end
     end
   end
 end

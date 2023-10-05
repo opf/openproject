@@ -1278,22 +1278,42 @@ hr:
         one: "1 dan"
         few: "%{count} dana"
         other: "%{count} dana"
-      x_min_abbreviated:
-        one: "1 min"
-        few: "%{count} mins"
-        other: "%{count} mins"
       x_minutes:
         one: "1 minuta"
         few: "%{count} minute"
         other: "%{count} minute"
+      x_minutes_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        few: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        few: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        few: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "1 mjesec"
         few: "%{count} mjeseca"
         other: "%{count} mjeseca"
+      x_years:
+        one: "1 year"
+        few: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "1 sekunda"
         few: "%{count} sekunde"
         other: "%{count} sekunde"
+      x_seconds_abbreviated:
+        one: "1 s"
+        few: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "sat"

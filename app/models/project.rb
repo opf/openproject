@@ -27,7 +27,6 @@
 #++
 
 class Project < ApplicationRecord
-  extend Pagination::Model
   extend FriendlyId
 
   include Projects::Storage
@@ -194,11 +193,6 @@ class Project < ApplicationRecord
 
   def self.selectable_projects
     Project.visible.select { |p| User.current.member_of? p }.sort_by(&:to_s)
-  end
-
-  def self.search_scope(query)
-    # overwritten from Pagination::Model
-    visible.like(query)
   end
 
   # Returns all projects the user is allowed to see.
