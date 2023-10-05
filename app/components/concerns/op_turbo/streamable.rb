@@ -66,6 +66,9 @@ module OpTurbo
       def insert_as_turbo_stream(component:, view_context:, action: :append)
         template = component.render_in(view_context)
 
+        # The component being inserted into the target component
+        # needs wrapping, not the target since it isn't the one
+        # that needs to be rendered to perform this turbo stream action.
         unless component.wrapped?
           raise "You need to wrap your component in a `component_wrapper` block in order to use the turbo-stream methods"
         end
