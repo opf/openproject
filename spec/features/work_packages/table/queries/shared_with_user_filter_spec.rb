@@ -42,14 +42,14 @@ RSpec.describe 'Work package filtering',
   end
 
   shared_let(:project_role_with_sufficient_permissions) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            save_queries
                            share_work_packages
                            view_shared_work_packages])
   end
   shared_let(:project_role_with_insufficient_permissions) do
-    create(:role, permissions: %i[view_work_packages
+    create(:project_role, permissions: %i[view_work_packages
                                   save_queries])
   end
   shared_let(:work_package_role) do

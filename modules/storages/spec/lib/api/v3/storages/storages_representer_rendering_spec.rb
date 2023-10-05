@@ -86,8 +86,8 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
         let(:storage) { create(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
         let(:user) { create(:user) }
         let(:another_user) { create(:user) }
-        let(:no_permissions_role) { create(:role, permissions: []) }
-        let(:uploader_role) { create(:role, permissions: [:manage_file_links]) }
+        let(:no_permissions_role) { create(:project_role, permissions: []) }
+        let(:uploader_role) { create(:project_role, permissions: [:manage_file_links]) }
 
         # rubocop:disable RSpec/ExampleLength
         it 'contains upload information for each of these projects' do

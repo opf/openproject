@@ -276,7 +276,7 @@ RSpec.describe WikiPage do
     let(:other_project) { create(:project).reload }
     let(:other_wiki) { project.wiki }
     let(:other_wiki_page) { create(:wiki_page, wiki:, title: wiki.wiki_menu_items.first.title) }
-    let(:role) { create(:role, permissions: [:view_wiki_pages]) }
+    let(:role) { create(:project_role, permissions: [:view_wiki_pages]) }
     let(:user) do
       create(:user,
              member_in_project: project,

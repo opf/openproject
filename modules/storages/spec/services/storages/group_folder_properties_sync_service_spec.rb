@@ -569,7 +569,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
     let(:single_project_user) { create(:user) }
     let(:multiple_projects_user) { create(:user) }
     let!(:admin) { create(:admin) }
-    let(:ordinary_role) { create(:role, permissions: %w[read_files write_files]) }
+    let(:ordinary_role) { create(:project_role, permissions: %w[read_files write_files]) }
     let!(:non_member_role) { create(:non_member, permissions: %w[read_files]) }
     let(:storage) do
       create(:nextcloud_storage,

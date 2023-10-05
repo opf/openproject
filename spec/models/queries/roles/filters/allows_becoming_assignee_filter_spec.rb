@@ -45,12 +45,12 @@ RSpec.describe Queries::Roles::Filters::AllowsBecomingAssigneeFilter do
 
   describe '#scope' do
     shared_let(:assignable_role) do
-      create(:role,
+      create(:project_role,
              name: 'assignable_role',
              permissions: %i[work_package_assigned])
     end
     shared_let(:unassignable_role) do
-      create(:role,
+      create(:project_role,
              name: 'unassignable_role',
              permissions: %i[wrong])
     end

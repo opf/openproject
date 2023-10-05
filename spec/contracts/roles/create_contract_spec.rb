@@ -39,7 +39,7 @@ RSpec.describe Roles::CreateContract do
     end
 
     let(:role) do
-      build(:role) do |r|
+      build(:project_role) do |r|
         r.name = role_name
         r.permissions = role_permissions
       end
@@ -69,7 +69,7 @@ RSpec.describe Roles::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, type: %i(inclusion))
+          expect_valid(false, type: %i(inclusion inclusion))
         end
       end
     end

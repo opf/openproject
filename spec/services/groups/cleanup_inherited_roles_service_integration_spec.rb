@@ -35,7 +35,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
   end
 
   let(:project) { create(:project) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let(:global_role) { create(:global_role) }
   let(:current_user) { create(:admin) }
   let(:roles) { [role] }
@@ -108,7 +108,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
   end
 
   context 'when also having own roles' do
-    let(:another_role) { create(:role) }
+    let(:another_role) { create(:project_role) }
     let(:another_global_role) { create(:global_role) }
     let!(:first_user_member) do
       group
@@ -153,7 +153,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
   end
 
   context 'when the user has had the roles added by the group before' do
-    let(:another_role) { create(:role) }
+    let(:another_role) { create(:project_role) }
     let!(:first_user_member) do
       Member.find_by(principal: users.first).tap do |m|
         m.member_roles.create(role:)

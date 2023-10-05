@@ -100,8 +100,8 @@ RSpec.describe 'Quick-add menu', js: true, with_cuprite: true do
     let!(:type_bug) { create(:type_bug) }
     let!(:other_type) { create(:type_task) }
     let!(:other_project_type) { create(:type) }
-    let!(:add_role) { create(:role, permissions: %i[add_work_packages]) }
-    let!(:read_role) { create(:role, permissions: %i[view_work_packages]) }
+    let!(:add_role) { create(:project_role, permissions: %i[add_work_packages]) }
+    let!(:read_role) { create(:project_role, permissions: %i[view_work_packages]) }
     let!(:project_with_permission) do
       create(:project,
              types: [type_bug],

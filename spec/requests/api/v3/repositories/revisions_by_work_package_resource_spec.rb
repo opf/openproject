@@ -40,7 +40,7 @@ RSpec.describe 'API v3 Revisions by work package resource' do
            member_through_role: role)
   end
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages view_changesets] }
   let(:repository) { create(:repository_subversion, project:) }
   let(:work_package) { create(:work_package, author: current_user, project:) }

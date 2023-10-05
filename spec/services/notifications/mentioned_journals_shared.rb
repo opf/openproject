@@ -39,7 +39,7 @@ RSpec.shared_context 'with a mentioned work package being updated again' do
   end
 
   let(:role) do
-    create(:role, permissions: %w[view_work_packages edit_work_packages])
+    create(:project_role, permissions: %w[view_work_packages edit_work_packages])
   end
 
   let(:recipient) do

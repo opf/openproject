@@ -35,7 +35,7 @@ RSpec.describe 'Projects module administration' do
   end
 
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions:)
   end
   let(:permissions) { %i(edit_project select_project_modules) }

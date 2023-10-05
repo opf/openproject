@@ -42,7 +42,7 @@ RSpec.describe 'BCF XML API v1 bcf_xml resource' do
   end
   let(:work_package) { create(:work_package, status:, priority:, project:) }
   let(:bcf_issue) { create(:bcf_issue_with_comment, work_package:) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_work_packages view_linked_issues) }
   let(:filename) { 'MaximumInformation.bcf' }
   let(:bcf_xml_file) do

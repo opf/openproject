@@ -33,7 +33,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project_with_types, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:path) { api_v3_paths.work_packages_by_project project.id }
   let(:permissions) { %i[add_work_packages view_project] }
   let(:status) { build(:status, is_default: true) }

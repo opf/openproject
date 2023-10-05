@@ -72,14 +72,14 @@ RSpec.describe(
   let(:send_notifications) { true }
 
   shared_let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[copy_projects
                            view_work_packages
                            work_package_assigned
                            manage_storages_in_project
                            manage_file_links])
   end
-  shared_let(:new_project_role) { create(:role, permissions: %i[]) }
+  shared_let(:new_project_role) { create(:project_role, permissions: %i[]) }
 
   before do
     allow(Setting)
@@ -585,7 +585,7 @@ RSpec.describe(
         let(:only_args) { %w[members] }
 
         let!(:user) { create(:user) }
-        let!(:another_role) { create(:role) }
+        let!(:another_role) { create(:project_role) }
         let!(:group) { create(:group, members: [user]) }
 
         it 'copies them as well' do
@@ -805,7 +805,7 @@ RSpec.describe(
         end
 
         context 'with watchers' do
-          let(:watcher_role) { create(:role, permissions: [:view_work_packages]) }
+          let(:watcher_role) { create(:project_role, permissions: [:view_work_packages]) }
           let(:watcher) { create(:user, member_in_project: source, member_through_role: watcher_role) }
 
           let(:only_args) { %w[work_packages members] }
@@ -1102,7 +1102,7 @@ RSpec.describe(
 
       context 'with group memberships' do
         let!(:user) { create(:user) }
-        let!(:another_role) { create(:role) }
+        let!(:another_role) { create(:project_role) }
         let!(:group) do
           create(:group, members: [user])
         end

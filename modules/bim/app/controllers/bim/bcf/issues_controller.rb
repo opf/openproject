@@ -172,7 +172,7 @@ module Bim
       end
 
       def render_config_unknown_mails
-        @roles = Role.givable
+        @roles = ProjectRole.givable
         render 'bim/bcf/issues/configure_unknown_mails'
       end
 
@@ -181,7 +181,7 @@ module Bim
       end
 
       def render_config_non_members
-        @roles = Role.givable
+        @roles = ProjectRole.givable
         render 'bim/bcf/issues/configure_non_members'
       end
 

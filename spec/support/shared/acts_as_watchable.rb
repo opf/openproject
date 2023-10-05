@@ -43,9 +43,9 @@ MESSAGE
   let(:watcher_role) do
     permissions = is_public_permission ? [] : [watch_permission]
 
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
-  let(:non_watcher_role) { create(:role, permissions: []) }
+  let(:non_watcher_role) { create(:project_role, permissions: []) }
   let(:non_member_user) { create(:user) }
   let(:user_with_permission) do
     create(:user,
@@ -85,10 +85,10 @@ MESSAGE
   shared_context 'non member role has the permission to watch' do
     let(:non_member_role) do
       unless is_public_permission
-        Role.non_member.add_permission! watch_permission
+        ProjectRole.non_member.add_permission! watch_permission
       end
 
-      Role.non_member
+      ProjectRole.non_member
     end
 
     before do
@@ -118,8 +118,8 @@ MESSAGE
       model_instance
       User.not_builtin.update_all(status: User.statuses[:locked])
 
-      Role.non_member
-      Role.anonymous
+      ProjectRole.non_member
+      ProjectRole.anonymous
 
       User.system.save!
 
@@ -204,8 +204,8 @@ MESSAGE
 
       User.system.save!
 
-      Role.non_member
-      Role.anonymous
+      ProjectRole.non_member
+      ProjectRole.anonymous
       admin.save!
       anonymous_user.save!
       user_with_permission.save!

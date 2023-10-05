@@ -47,7 +47,7 @@ RSpec.describe WikiMenuItemsController do
       admin_user = create(:admin)
 
       allow(User).to receive(:current).and_return admin_user
-      permission_role = create(:role, name: 'accessgranted', permissions: [:manage_wiki_menu])
+      permission_role = create(:project_role, name: 'accessgranted', permissions: [:manage_wiki_menu])
       member = create(:member, principal: admin_user, user: admin_user, project: @project, roles: [permission_role])
 
       get 'edit', params: @params

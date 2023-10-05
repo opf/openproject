@@ -33,7 +33,7 @@ RSpec.describe API::V3::Views::ViewsAPI,
   include API::V3::Utilities::PathHelper
 
   shared_let(:permitted_user) { create(:user) }
-  shared_let(:role) { create(:role, permissions: %w[view_work_packages save_queries]) }
+  shared_let(:role) { create(:project_role, permissions: %w[view_work_packages save_queries]) }
   shared_let(:project) do
     create(:project,
            members: { permitted_user => role })

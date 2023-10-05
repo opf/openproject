@@ -57,7 +57,7 @@ RSpec.describe 'messages', :js do
       forum.watcher_users << u
     end
   end
-  let(:role) { create(:role, permissions: [:add_messages]) }
+  let(:role) { create(:project_role, permissions: [:add_messages]) }
 
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 

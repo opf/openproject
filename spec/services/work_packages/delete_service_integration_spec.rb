@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
   shared_let(:project) { create(:project) }
   shared_let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[delete_work_packages view_work_packages add_work_packages manage_subtasks])
   end
   shared_let(:user) do

@@ -34,7 +34,7 @@ RSpec.describe 'Wysiwyg work package mentions',
   let!(:user) { create(:admin, firstname: 'MeMyself', lastname: 'AndI', member_in_project: project) }
   let!(:user2) { create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
   let!(:group) { create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
-  let!(:group_role) { create(:role) }
+  let!(:group_role) { create(:project_role) }
   let!(:group_member) do
     create(:member,
            principal: group,

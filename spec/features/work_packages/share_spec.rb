@@ -35,7 +35,7 @@ RSpec.describe 'Work package sharing',
                :with_cuprite,
                with_flag: { work_package_sharing: true } do
   let(:sharer_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_work_packages
                            view_shared_work_packages
                            share_work_packages))
@@ -152,7 +152,7 @@ RSpec.describe 'Work package sharing',
 
   context 'when lacking share permission' do
     let(:sharer_role) do
-      create(:role,
+      create(:project_role,
              permissions: %i(view_work_packages
                              view_shared_work_packages))
     end

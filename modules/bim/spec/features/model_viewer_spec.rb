@@ -33,7 +33,7 @@ RSpec.describe 'model viewer',
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
   let(:work_package) { create(:work_package, project:) }
-  let(:role) { create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
+  let(:role) { create(:project_role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
 
   let(:user) do
     create(:user,
@@ -101,7 +101,7 @@ RSpec.describe 'model viewer',
   end
 
   context 'with only viewing permissions' do
-    let(:view_role) { create(:role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
+    let(:view_role) { create(:project_role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
     let(:view_user) do
       create(:user,
              member_in_project: project,
@@ -123,7 +123,7 @@ RSpec.describe 'model viewer',
   end
 
   context 'without any permissions' do
-    let(:no_permissions_role) { create(:role, permissions: %i[]) }
+    let(:no_permissions_role) { create(:project_role, permissions: %i[]) }
     let(:user_without_permissions) do
       create(:user,
              member_in_project: project,

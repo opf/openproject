@@ -33,7 +33,7 @@ require_module_spec_helper
 
 RSpec.shared_examples_for 'file_link contract' do
   let(:current_user) { create(:user) }
-  let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
+  let(:role) { create(:project_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { current_user => role }) }
   let(:work_package) { create(:work_package, project:) }
   let(:storage) { create(:nextcloud_storage) }

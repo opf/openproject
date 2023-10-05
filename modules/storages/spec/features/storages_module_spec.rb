@@ -34,7 +34,7 @@ require_module_spec_helper
 RSpec.describe 'Storages module', js: true do
   current_user { create(:admin) }
 
-  let(:role) { create(:role, permissions: %i[manage_storages_in_project select_project_modules edit_project]) }
+  let(:role) { create(:project_role, permissions: %i[manage_storages_in_project select_project_modules edit_project]) }
   let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
   let(:project) { create(:project, enabled_module_names: %i[storages work_package_tracking]) }
 

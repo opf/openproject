@@ -35,8 +35,8 @@ RSpec.describe 'Custom actions',
   shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
-  let(:role) { create(:role, permissions:) }
-  let!(:other_role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
+  let!(:other_role) { create(:project_role, permissions:) }
   let(:user) do
     user = create(:user,
                   firstname: 'A',

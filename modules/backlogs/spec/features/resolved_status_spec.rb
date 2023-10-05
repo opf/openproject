@@ -35,7 +35,7 @@ RSpec.describe 'Resolved status' do
   end
   let!(:status) { create(:status, is_default: true) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[select_done_statuses])
   end
   let!(:current_user) do

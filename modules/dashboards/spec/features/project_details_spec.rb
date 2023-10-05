@@ -69,7 +69,7 @@ RSpec.describe 'Project details widget on dashboard', js: true do
   end
 
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
 
   let(:read_only_user) do

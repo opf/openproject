@@ -36,7 +36,7 @@ RSpec.describe 'Open the Meetings tab', :js do
            member_through_role: role)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_work_packages
                            view_meetings
                            edit_meetings))
@@ -62,7 +62,7 @@ RSpec.describe 'Open the Meetings tab', :js do
 
     context 'when the user does not have the permissions to see the meetings tab' do
       let(:role) do
-        create(:role,
+        create(:project_role,
                permissions: %i(view_work_packages))
       end
 
@@ -271,7 +271,7 @@ RSpec.describe 'Open the Meetings tab', :js do
 
     context 'when user is not allowed to edit meetings' do
       let(:restricted_role) do
-        create(:role,
+        create(:project_role,
                permissions: %i(view_work_packages
                                view_meetings)) # edit_meetings is missing
       end

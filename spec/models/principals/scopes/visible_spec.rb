@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Principals::Scopes::Visible do
   describe '.visible' do
-    shared_let(:role) { create(:role, permissions: %i[manage_members]) }
+    shared_let(:role) { create(:project_role, permissions: %i[manage_members]) }
 
     shared_let(:anonymous_user) { User.anonymous }
     shared_let(:system_user) { User.system }

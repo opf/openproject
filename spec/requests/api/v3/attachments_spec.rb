@@ -37,7 +37,7 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
   let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
 
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:add_work_packages] }
 
   context(

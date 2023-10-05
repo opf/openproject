@@ -37,7 +37,7 @@ RSpec.describe Authorization::UserAllowedService do
   let(:action_hash) { { controller: '/controller', action: 'action' } }
   let(:project) { build_stubbed(:project) }
   let(:other_project) { build_stubbed(:project) }
-  let(:role) { build_stubbed(:role) }
+  let(:role) { build_stubbed(:project_role) }
   let(:user_roles_in_project) do
     array = [role]
     allow(array)

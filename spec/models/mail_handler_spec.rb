@@ -181,7 +181,7 @@ RSpec.describe MailHandler do
   shared_context 'with a reply to a wp mention with attributes' do
     let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages work_package_assigned] }
     let(:role) do
-      create(:role, permissions:)
+      create(:project_role, permissions:)
     end
     let!(:user) do
       create(:user,
@@ -507,7 +507,7 @@ RSpec.describe MailHandler do
     let(:submit_options) { {} }
 
     before do
-      Role.non_member.update_attribute :permissions, [:add_work_packages]
+      ProjectRole.non_member.update_attribute :permissions, [:add_work_packages]
       project.update_attribute :public, true
     end
 
@@ -689,7 +689,7 @@ RSpec.describe MailHandler do
       context 'for an email by unknown user' do
         context 'with unknown_user: \'create\'' do
           it 'adds a work_package by create user on public project' do
-            Role.non_member.update_attribute :permissions, [:add_work_packages]
+            ProjectRole.non_member.update_attribute :permissions, [:add_work_packages]
             project.update_attribute :public, true
             expect do
               work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
@@ -773,7 +773,7 @@ RSpec.describe MailHandler do
 
           before do
             allow(Rails.logger).to receive(:error).with(expected)
-            Role.anonymous.add_permission!(permission) if permission
+            ProjectRole.anonymous.add_permission!(permission) if permission
           end
 
           context 'with anonymous lacking permissions' do
@@ -862,7 +862,7 @@ RSpec.describe MailHandler do
 
         context 'for unknown_user: \'accept\' and without from header' do
           subject(:work_package) do
-            Role.anonymous.add_permission!(:add_work_packages)
+            ProjectRole.anonymous.add_permission!(:add_work_packages)
 
             submit_email 'wp_without_from_header.eml',
                          issue: { project: project.identifier },
@@ -893,7 +893,7 @@ RSpec.describe MailHandler do
 
       context 'for email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
         before do
-          Role.non_member.add_permission!(:add_work_packages)
+          ProjectRole.non_member.add_permission!(:add_work_packages)
         end
 
         subject do
@@ -1493,7 +1493,7 @@ RSpec.describe MailHandler do
 
       it 'adds a work_package with category' do
         allow(Setting).to receive(:default_language).and_return('en')
-        Role.non_member.update_attribute :permissions, [:add_work_packages]
+        ProjectRole.non_member.update_attribute :permissions, [:add_work_packages]
         project.update_attribute :public, true
 
         work_package = submit_email 'ticket_with_category.eml',

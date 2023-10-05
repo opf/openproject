@@ -34,8 +34,8 @@ RSpec.describe Authorization::UserGlobalRolesQuery do
   let(:project) { build(:project, public: false) }
   let(:project2) { build(:project, public: false) }
   let(:public_project) { build(:project, public: true) }
-  let(:role) { build(:role) }
-  let(:role2) { build(:role) }
+  let(:role) { build(:project_role) }
+  let(:role2) { build(:project_role) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:non_member) { build(:non_member) }
   let(:member) do

@@ -54,18 +54,18 @@ RSpec.describe 'Members widget on dashboard', js: true do
   end
 
   let(:no_view_member_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_dashboards
                            view_dashboards])
   end
   let(:no_edit_member_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_dashboards
                            view_dashboards
                            view_members])
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_dashboards
                            view_dashboards
                            manage_members

@@ -80,7 +80,7 @@ RSpec.describe 'delete placeholder user', js: true do
       create(:member,
              principal: placeholder_user,
              project:,
-             roles: [create(:role)])
+             roles: [create(:project_role)])
     end
 
     it 'returns an error when trying to delete and disables the button' do

@@ -39,7 +39,7 @@ RSpec.describe 'Work package filtering by user custom field', js: true do
       project.work_package_custom_fields << cf
     end
   end
-  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
   let!(:other_user) do
     create(:user,
            firstname: 'Other',

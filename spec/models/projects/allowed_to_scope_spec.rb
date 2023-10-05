@@ -46,7 +46,7 @@ RSpec.describe Project, 'allowed to' do
   let(:project_status) { true }
 
   let(:role) do
-    build(:role,
+    build(:project_role,
           permissions:)
   end
   let(:anonymous_role) do

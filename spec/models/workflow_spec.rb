@@ -32,11 +32,11 @@ RSpec.describe Workflow do
   describe '.copy' do
     shared_let(:status0) { create(:status) }
     shared_let(:status1) { create(:status) }
-    shared_let(:role) { create(:role) }
+    shared_let(:role) { create(:project_role) }
     shared_let(:type) { create(:type) }
-    shared_let(:role_target) { create(:role) }
+    shared_let(:role_target) { create(:project_role) }
     shared_let(:type_target) { create(:type) }
-    shared_let(:role_target2) { create(:role) }
+    shared_let(:role_target2) { create(:project_role) }
     shared_let(:type_target2) { create(:type) }
 
     shared_examples_for 'copied workflow' do

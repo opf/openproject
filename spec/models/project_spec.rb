@@ -207,7 +207,7 @@ RSpec.describe Project do
   end
 
   describe '#members' do
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
     let(:active_user) { create(:user) }
     let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
 
@@ -225,7 +225,7 @@ RSpec.describe Project do
   end
 
   describe '#users' do
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
     let(:active_user) { create(:user) }
     let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
 

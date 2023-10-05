@@ -43,7 +43,7 @@ RSpec.describe 'Projects status administration',
   let(:global_permissions) { [:add_project] }
   let(:project_permissions) { [:edit_project] }
   let!(:project_role) do
-    create(:role, permissions: project_permissions).tap do |r|
+    create(:project_role, permissions: project_permissions).tap do |r|
       allow(Setting)
         .to receive(:new_project_user_role_id)
         .and_return(r.id.to_s)

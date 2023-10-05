@@ -38,7 +38,7 @@ RSpec.describe Query::Results do
   end
   let(:project1) { create(:project) }
   let(:role_pm) do
-    create(:role,
+    create(:project_role,
            permissions: %i(
              view_work_packages
              edit_work_packages
@@ -47,7 +47,7 @@ RSpec.describe Query::Results do
            ))
   end
   let(:role_dev) do
-    create(:role,
+    create(:project_role,
            permissions: [:view_work_packages])
   end
   let(:user1) do
