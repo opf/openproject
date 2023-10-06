@@ -29,22 +29,42 @@
 #++
 #
 module Storages::Admin
-  class NewStorageButtonComponent < ApplicationComponent
-    options scheme: :primary,
+  class StorageButtonComponent < ApplicationComponent
+    options action: :new,
             size: :medium,
             tag: :a
 
+    alias_method :storage, :model
+
     def button_options
-      { scheme:,
-        size:,
+      { size:,
         tag:,
-        role: :button,
-        href: Rails.application.routes.url_helpers.new_admin_settings_storage_path,
-        aria: { label: I18n.t("storages.label_add_new_storage") } }
+        role: :button }.merge(button_options_from_action)
+    end
+
+    private
+
+    def button_options_from_action
+      case action
+      when :new
+        { scheme: :primary, href: Rails.application.routes.url_helpers.new_admin_settings_storage_path,
+          aria: { label: I18n.t("storages.label_add_new_storage") } }
+      when :delete
+        { scheme: :danger, href: Rails.application.routes.url_helpers.admin_settings_storage_path(storage),
+          aria: { label: I18n.t("storages.label_delete_storage") },
+          data: { confirm: I18n.t('storages.delete_warning.storage') },
+          method: :delete }
+      end
     end
 
     def label
-      I18n.t("storages.label_storage")
+      { new: I18n.t("storages.label_storage"),
+        delete: I18n.t('button_delete') }[action]
+    end
+
+    def icon_name
+      { new: 'plus',
+        delete: 'trash' }[action]
     end
   end
 end
