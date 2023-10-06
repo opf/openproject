@@ -27,55 +27,56 @@
 //++
 
 import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { map, share } from 'rxjs/operators';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 
-import { IUploadFile, OpUploadService } from 'core-app/core/upload/upload.service';
+import { IUploadFile } from 'core-app/core/upload/upload.service';
 import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { IUploadStrategy } from 'core-app/shared/components/storages/upload/upload-strategy';
+import convertHttpEvent from 'core-app/core/upload/convert-http-event';
 
-export interface NextcloudFileUploadResponse {
-  file_name:string;
-  file_id:number;
+export interface OneDriveFileUploadResponse {
+  id:string;
+  name:string;
+  mimeType:string;
+  size:number;
 }
 
-export interface NextcloudUploadFile extends IUploadFile {
-  overwrite:boolean|null;
-}
+export class OneDriveUploadStrategy implements IUploadStrategy {
+  constructor(private readonly http:HttpClient) { }
 
-@Injectable()
-export class NextcloudUploadService extends OpUploadService {
-  constructor(
-    private readonly http:HttpClient,
-  ) {
-    super();
-  }
-
-  public upload<T>(
+  public execute<T>(
     href:string,
-    uploadFiles:NextcloudUploadFile[],
+    uploadFiles:IUploadFile[],
   ):Observable<HttpEvent<T>>[] {
     return uploadFiles.map((file) => this.uploadSingle(href, file));
   }
 
-  private uploadSingle<T>(href:string, uploadFile:NextcloudUploadFile):Observable<HttpEvent<T>> {
-    const body = new FormData();
-    body.append('file', uploadFile.file, uploadFile.file.name);
+  private uploadSingle<T>(href:string, uploadFile:IUploadFile):Observable<HttpEvent<T>> {
+    const contentRangeHeader = `bytes 0-${uploadFile.file.size - 1}/${uploadFile.file.size}`;
 
-    if (uploadFile.overwrite !== null) {
-      body.append('overwrite', String(uploadFile.overwrite));
-    }
-
-    return this.http.request<T>(
-      'post',
+    return this.http.request<OneDriveFileUploadResponse>(
+      'put',
       href,
       {
-        body,
-        headers: { [EXTERNAL_REQUEST_HEADER]: 'true' },
+        body: uploadFile.file,
+        headers: {
+          [EXTERNAL_REQUEST_HEADER]: 'true',
+          'Content-Range': contentRangeHeader,
+        },
         observe: 'events',
         reportProgress: true,
         responseType: 'json',
       },
-    ).pipe(share());
+    ).pipe(
+      share(),
+      map((event) =>
+        convertHttpEvent(event, (responseBody) => ({
+          id: responseBody.id,
+          name: responseBody.name,
+          size: responseBody.size,
+          mimeType: responseBody.mimeType,
+        } as T))),
+    );
   }
 }

@@ -76,7 +76,7 @@ import {
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
-import { OpUploadService } from 'core-app/core/upload/upload.service';
+import { IUploadFile, OpUploadService } from 'core-app/core/upload/upload.service';
 import { IUploadLink } from 'core-app/core/state/storage-files/upload-link.model';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -84,11 +84,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import {
   UploadConflictModalComponent,
 } from 'core-app/shared/components/storages/upload-conflict-modal/upload-conflict-modal.component';
-import {
-  NextcloudFileUploadResponse,
-  NextcloudUploadFile,
-  NextcloudUploadService,
-} from 'core-app/shared/components/storages/upload/nextcloud-upload.service';
 import { LocationData, UploadData } from 'core-app/shared/components/storages/storage/interfaces';
 import isNotNull from 'core-app/core/state/is-not-null';
 import compareId from 'core-app/core/state/compare-id';
@@ -100,12 +95,16 @@ import {
 } from 'core-app/shared/components/storages/storage-information/storage-information.service';
 import { storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
 import { storageIconMappings } from 'core-app/shared/components/storages/icons.mapping';
+import {
+  IStorageFileUploadResponse,
+  StorageUploadService,
+} from 'core-app/shared/components/storages/upload/storage-upload.service';
 
 @Component({
   selector: 'op-storage',
   templateUrl: './storage.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: OpUploadService, useClass: NextcloudUploadService }],
+  providers: [{ provide: OpUploadService, useClass: StorageUploadService }],
 })
 export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() public resource:HalResource;
@@ -252,6 +251,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         map((storage) => this.i18n.t(storageLocaleString(storage._links.type.href))),
       );
 
+    this.storage.pipe(take(1)).subscribe((storage) => {
+      (this.uploadService as StorageUploadService).setUploadStrategy(storage._links.type.href);
+    });
+
     this.storageErrors = combineLatest([
       this.storage,
       this.fileLinks,
@@ -278,10 +281,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       .pipe(
         switchMap((key) => this.fileLinkResourceService.remove(key, fileLink)),
       )
-      .subscribe(
-        () => { /* Do nothing */ },
-        (error:HttpErrorResponse) => this.toastService.addError(error),
-      );
+      .subscribe({
+        next: () => { /* Do nothing */ },
+        error: (error:HttpErrorResponse) => this.toastService.addError(error),
+      });
   }
 
   public openLinkFilesDialog():void {
@@ -372,7 +375,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
           isUploadError = true;
           return throwError(error);
         }),
-        switchMap((uploadResponse) => this.createFileLinkData(data.file, uploadResponse)),
+        switchMap((uploadResponse) => this.createFileLinkData(uploadResponse)),
         tap((fileLinkCreationData) => {
           // Update the file link list of this storage only in case of a linked file got updated
           if (fileLinkCreationData === null) {
@@ -396,11 +399,11 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
               )),
             )),
       )
-      .subscribe(
-        (collection) => {
+      .subscribe({
+        next: (collection) => {
           this.toastService.addSuccess(this.text.toast.successFileLinksCreated(collection.count));
         },
-        (error) => {
+        error: (error) => {
           if (isUploadError) {
             this.handleUploadError(error as HttpErrorResponse, data.file.name);
           } else {
@@ -409,7 +412,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
           console.error(error);
         },
-      );
+      });
   }
 
   private handleUploadError(error:HttpErrorResponse, fileName:string):void {
@@ -434,10 +437,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     }
   }
 
-  private uploadAndNotify(link:IUploadLink, file:File, overwrite:boolean|null):Observable<NextcloudFileUploadResponse> {
+  private uploadAndNotify(link:IUploadLink, file:File, overwrite:boolean|null):Observable<IStorageFileUploadResponse> {
     const { href } = link._links.destination;
-    const uploadFiles:NextcloudUploadFile[] = [{ file, overwrite }];
-    const observable = this.uploadService.upload<NextcloudFileUploadResponse>(href, uploadFiles)[0];
+    const uploadFiles:IUploadFile[] = [{ file, overwrite: overwrite !== null ? overwrite : undefined }];
+    const observable = this.uploadService.upload<IStorageFileUploadResponse>(href, uploadFiles)[0];
     this.toastService.addUpload(this.text.toast.uploadingLabel, [[file, observable]]);
 
     return observable
@@ -454,22 +457,22 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       );
   }
 
-  private createFileLinkData(file:File, response:NextcloudFileUploadResponse):Observable<IFileLinkOriginData|null> {
+  private createFileLinkData(response:IStorageFileUploadResponse):Observable<IFileLinkOriginData|null> {
     return this.fileLinks
       .pipe(
         take(1),
         map((fileLinks) => {
-          const existingFileLink = fileLinks.find((l) => compareId(l.originData.id, response.file_id));
+          const existingFileLink = fileLinks.find((l) => compareId(l.originData.id, response.id));
           if (existingFileLink) {
             return null;
           }
 
           const now = this.timezoneService.parseDate(new Date()).toISOString();
           return ({
-            id: response.file_id,
-            name: response.file_name,
-            mimeType: file.type,
-            size: file.size,
+            id: response.id,
+            name: response.name,
+            mimeType: response.mimeType,
+            size: response.size,
             createdAt: now,
             lastModifiedAt: now,
           });

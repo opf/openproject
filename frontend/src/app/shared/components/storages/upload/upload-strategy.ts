@@ -29,11 +29,8 @@
 import { Observable } from 'rxjs';
 import { HttpEvent } from '@angular/common/http';
 
-export interface IUploadFile {
-  file:File;
-  overwrite?:boolean;
-}
+import { IUploadFile } from 'core-app/core/upload/upload.service';
 
-export abstract class OpUploadService {
-  public abstract upload<T>(href:string, uploadFiles:IUploadFile[]):Observable<HttpEvent<T>>[];
+export interface IUploadStrategy {
+  execute<T>(href:string, uploadFiles:IUploadFile[]):Observable<HttpEvent<T>>[];
 }
