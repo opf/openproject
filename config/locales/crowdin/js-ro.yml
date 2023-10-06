@@ -1018,6 +1018,9 @@ ro:
       scheduling:
         is_parent: "Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați \"Programare manuală\" pentru a stabili datele."
         is_switched_from_manual_to_automatic: "Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
       table:
         configure_button: 'Configurarea tabelului pachetului de lucru'
         summary: "Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane."

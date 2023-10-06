@@ -57,7 +57,7 @@ fa:
         project_ids:
           title: 'Enabled projects'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
+          all: 'همه پروژه‌ها'
           selected: 'Selected projects only'
         selected_project_ids:
           title: 'Selected projects'

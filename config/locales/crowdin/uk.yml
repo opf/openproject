@@ -910,6 +910,7 @@ uk:
           attributes:
             roles:
               ungrantable: "має невідповідну роль."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "не можна призначити проекту."
         version:
@@ -2238,12 +2239,21 @@ uk:
         assigned: 'Призначено'
         responsible: 'Відповідальний'
         mentioned: 'Згадано'
+        shared: 'Shared'
         subscribed: 'всі'
         prefix: 'Отримано через налаштування сповіщень: %{reason}'
         date_alert_start_date: 'Оповіщення про дату'
         date_alert_due_date: 'Оповіщення про дату'
       see_all: 'Показати всі'
       updated_at: 'Оновлено о %{timestamp} користувачем %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   mail_body_account_information: "Інформація по Вашому обліковому запису"
   mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
@@ -3039,6 +3049,22 @@ uk:
     destroy:
       info: "Видалення робочого пакету є незворотною дією."
       title: "Видаліть робочий пакет"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Під час планування пакетів робіт невибрані дні пропускаються й не включаються в кількість днів. Це налаштування можна змінити на рівні пакета робіт.

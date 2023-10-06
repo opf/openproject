@@ -905,6 +905,7 @@ zh-CN:
           attributes:
             roles:
               ungrantable: "具有不可分配的角色。"
+              more_than_one: "has more than one role."
             principal:
               unassignable: "无法分配至项目。"
         version:
@@ -2155,12 +2156,21 @@ zh-CN:
         assigned: '已分配'
         responsible: '负责人'
         mentioned: '被提及'
+        shared: 'Shared'
         subscribed: '所有'
         prefix: '接收原因为以下通知设置：%{reason}'
         date_alert_start_date: '日期提醒'
         date_alert_due_date: '日期提醒'
       see_all: '查看全部'
       updated_at: '由 %{user} 于 %{timestamp} 更新'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
@@ -2947,6 +2957,22 @@ zh-CN:
     destroy:
       info: "删除工作包是不可逆的操作。"
       title: "删除工作包"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       当安排工作包时，未选择的日期将被跳过（不计入天数）。这些日期可以在工作包级别进行覆盖。
