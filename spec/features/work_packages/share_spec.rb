@@ -71,9 +71,9 @@ RSpec.describe 'Work package sharing',
   let!(:shared_project_user) { create(:user, firstname: 'Shared Project', lastname: 'User') }
   let!(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
 
-  let!(:group_member_one) { create(:user, firstname: 'Dinesh', lastname: 'Chugtai') }
-  let!(:group_member_two) { create(:user, firstname: 'Bertram', lastname: 'Gilfoyle') }
-  let!(:not_shared_yet_with_group) { create(:group, members: [group_member_one, group_member_two]) }
+  let!(:dinesh) { create(:user, firstname: 'Dinesh', lastname: 'Chugtai') }
+  let!(:gilfoyle) { create(:user, firstname: 'Bertram', lastname: 'Gilfoyle') }
+  let!(:not_shared_yet_with_group) { create(:group, members: [dinesh, gilfoyle]) }
 
   current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
 
@@ -156,6 +156,17 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_open
       share_modal.invite_group(not_shared_yet_with_group, 'Comment')
       share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment', position: 1)
+
+      # Close and re-open modal
+      share_modal.close
+      share_modal.expect_closed
+      click_button 'Share'
+      share_modal.expect_open
+
+      # Shares are propagated to the group's users
+      share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment')
+      share_modal.expect_shared_with(dinesh, 'Comment')
+      share_modal.expect_shared_with(gilfoyle, 'Comment')
     end
   end
 

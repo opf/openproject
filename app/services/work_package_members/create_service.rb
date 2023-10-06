@@ -38,9 +38,22 @@ class WorkPackageMembers::CreateService < BaseServices::Create
 
     work_package_member = service_call.result
 
+    add_group_memberships(work_package_member)
     send_notification(work_package_member)
 
     service_call
+  end
+
+  def add_group_memberships(work_package_member)
+    return unless work_package_member.principal.is_a?(Group)
+
+    Groups::CreateInheritedRolesService
+      .new(work_package_member.principal,
+           current_user: user,
+           contract_class: EmptyContract)
+      .call(user_ids: work_package_member.principal.user_ids,
+            send_notifications: false,
+            project_ids: [work_package_member.project_id])
   end
 
   def send_notification(work_package_member)
