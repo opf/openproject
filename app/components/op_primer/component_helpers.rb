@@ -29,11 +29,11 @@
 module OpPrimer
   module ComponentHelpers
     def flex_layout(**, &)
-      render(OpPrimer::FlexLayoutComponent.new(**), &)
+      render(Primer::OpenProject::FlexLayout.new(**), &)
     end
 
     def grid_layout(css_class, **, &)
-      render(OpPrimer::GridLayoutComponent.new(css_class, **), &)
+      render(Primer::OpenProject::GridLayout.new(css_class:, **), &)
     end
 
     def box_collection(**, &)
