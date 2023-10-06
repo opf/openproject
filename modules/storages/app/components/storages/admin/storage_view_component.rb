@@ -61,14 +61,6 @@ module Storages::Admin
       end
     end
 
-    def openproject_oauth_client?
-      storage.oauth_application.present?
-    end
-
-    def provider_oauth_client?
-      storage.oauth_client.present?
-    end
-
     def openproject_oauth_client_description
       return unless storage.oauth_application
 
