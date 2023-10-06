@@ -38,7 +38,7 @@ import convertHttpEvent from 'core-app/core/upload/convert-http-event';
 export interface OneDriveFileUploadResponse {
   id:string;
   name:string;
-  mimeType:string;
+  file:{ mimeType:string };
   size:number;
 }
 
@@ -75,7 +75,7 @@ export class OneDriveUploadStrategy implements IUploadStrategy {
           id: responseBody.id,
           name: responseBody.name,
           size: responseBody.size,
-          mimeType: responseBody.mimeType,
+          mimeType: responseBody.file.mimeType,
         } as T))),
     );
   }
