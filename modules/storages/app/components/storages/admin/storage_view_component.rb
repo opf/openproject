@@ -41,6 +41,34 @@ module Storages::Admin
        storage.host].compact.join(' - ')
     end
 
+    def configuration_check_label_for(config)
+      if storage.configuration_checks[config.to_sym]
+        status_label(I18n.t('storages.label_connected'), scheme: :success, test_selector: "label-#{config}-status")
+      else
+        status_label(I18n.t('storages.label_incomplete'), scheme: :attention, test_selector: "label-#{config}-status")
+      end
+    end
+
+    def automatically_managed_project_folders_status_label
+      test_selector = 'label-managed-project-folders-status'
+
+      if storage.automatically_managed?
+        status_label(I18n.t('storages.label_active'), scheme: :success, test_selector:)
+      elsif storage.automatic_management_unspecified?
+        status_label(I18n.t('storages.label_incomplete'), scheme: :attention, test_selector:)
+      else
+        status_label(I18n.t('storages.label_inactive'), scheme: :secondary, test_selector:)
+      end
+    end
+
+    def openproject_oauth_client?
+      storage.oauth_application.present?
+    end
+
+    def provider_oauth_client?
+      storage.oauth_client.present?
+    end
+
     def openproject_oauth_client_description
       return unless storage.oauth_application
 
@@ -48,9 +76,15 @@ module Storages::Admin
     end
 
     def provider_oauth_client_description
-      return unless storage.oauth_client
+      if storage.oauth_client
+        "#{I18n.t('storages.label_oauth_client_id')}: #{storage.oauth_client.client_id}"
+      else
+        I18n.t('storages.configuration_checks.oauth_client_incomplete', provider: storage.short_provider_type.capitalize)
+      end
+    end
 
-      "#{I18n.t('storages.label_oauth_client_id')}: #{storage.oauth_client.client_id}"
+    def status_label(label, scheme:, test_selector:)
+      render(Primer::Beta::Label.new(scheme:, data: { 'test-selector': test_selector })) { label }
     end
   end
 end
