@@ -1,8 +1,8 @@
 <%=
-  component_wrapper(:border_box_row, data: { 'test-selector': "op-share-wp-active-user-#{user.id}" }) do
+  component_wrapper(:border_box_row, data: { 'test-selector': "op-share-wp-active-user-#{principal.id}" }) do
     grid_layout('op-share-wp-modal-body--user-row', tag: :div, align_items: :center, classes: 'ellipsis') do |user_row_grid|
       user_row_grid.with_area(:user, tag: :div, classes: '  ellipsis') do
-        render(Users::AvatarComponent.new(user: user, size: :medium))
+        render(Users::AvatarComponent.new(user: principal, size: :medium))
       end
 
 

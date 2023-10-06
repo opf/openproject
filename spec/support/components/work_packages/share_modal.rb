@@ -122,7 +122,7 @@ module Components
 
       def expect_shared_count_of(count)
         expect(active_list)
-          .to have_selector('[data-test-selector="op-share-wp-active-count"]', text: "#{count} users")
+          .to have_css('[data-test-selector="op-share-wp-active-count"]', text: "#{count} users")
       end
 
       def expect_no_invite_option

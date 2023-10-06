@@ -148,13 +148,14 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_count_of(5)
     end
 
-    it 'includes groups in the auto-completer search results' do
+    it 'allows seeing and managing group sharing' do
       work_package_page.visit!
 
       click_button 'Share'
 
       share_modal.expect_open
-      share_modal.invite_group(not_shared_yet_with_group, 'View')
+      share_modal.invite_group(not_shared_yet_with_group, 'Comment')
+      share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment', position: 1)
     end
   end
 
