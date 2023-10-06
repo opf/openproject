@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2010-2023 the OpenProject GmbH
@@ -26,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Users::Scopes
+module Principals::Scopes
   module HavingEntityMembership
     extend ActiveSupport::Concern
 
     class_methods do
-      # Returns users having an entity membership for the given entity.
+      # Returns principals having an entity membership for the given entity.
       def having_entity_membership(work_package)
         where(id: Member.of_work_package(work_package).select(:user_id))
       end

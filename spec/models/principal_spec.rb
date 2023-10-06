@@ -60,6 +60,12 @@ RSpec.describe Principal do
     end
   end
 
+  describe 'associations' do
+    subject { described_class.new }
+
+    it { is_expected.to have_many(:work_package_shares).conditions(entity_type: WorkPackage.name) }
+  end
+
   describe 'active' do
     should_return_groups_and_users_if_active(:active)
 
