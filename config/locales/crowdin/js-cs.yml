@@ -1020,6 +1020,9 @@ cs:
       scheduling:
         is_parent: "Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat."
         is_switched_from_manual_to_automatic: "Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
       table:
         configure_button: 'Konfigurovat tabulku pracovních balíčků'
         summary: "Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku."

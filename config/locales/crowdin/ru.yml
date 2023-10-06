@@ -914,6 +914,7 @@ ru:
           attributes:
             roles:
               ungrantable: "имеет неназначаемую роль."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "не может быть присвоен проекту."
         version:
@@ -1300,22 +1301,22 @@ ru:
         many: "%{count} минут"
         other: "%{count} минут"
       x_minutes_abbreviated:
-        one: "1 min"
+        one: "1 мин"
         few: "%{count} mins"
         many: "%{count} mins"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
+        one: "1 час"
         few: "%{count} hours"
         many: "%{count} hours"
         other: "%{count} hours"
       x_hours_abbreviated:
-        one: "1 hr"
+        one: "1 ч"
         few: "%{count} hrs"
         many: "%{count} hrs"
         other: "%{count} hrs"
       x_weeks:
-        one: "1 week"
+        one: "1 неделя"
         few: "%{count} weeks"
         many: "%{count} weeks"
         other: "%{count} weeks"
@@ -1325,7 +1326,7 @@ ru:
         many: "%{count} месяцев"
         other: "%{count} месяца"
       x_years:
-        one: "1 year"
+        one: "1 год"
         few: "%{count} years"
         many: "%{count} years"
         other: "%{count} years"
@@ -1335,7 +1336,7 @@ ru:
         many: "%{count} секунд"
         other: "%{count} секунды"
       x_seconds_abbreviated:
-        one: "1 s"
+        one: "1 с"
         few: "%{count} s"
         many: "%{count} s"
         other: "%{count} s"
@@ -1534,7 +1535,7 @@ ru:
           non_working: "%{day} теперь нерабочий"
         dates:
           working: "%{date} сейчас рабочий"
-          non_working: "%{day} теперь нерабочий"
+          non_working: "%{date} теперь нерабочий"
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
@@ -2242,12 +2243,21 @@ ru:
         assigned: 'Назначено'
         responsible: 'Подотчетный'
         mentioned: 'Упомянутые'
+        shared: 'Shared'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
         date_alert_start_date: 'Дата оповещения'
         date_alert_due_date: 'Дата оповещения'
       see_all: 'Показать все'
       updated_at: 'Обновлено в %{timestamp} пользователем %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
@@ -3043,6 +3053,22 @@ ru:
     destroy:
       info: "Удаление рабочего пакета – действие необратимое."
       title: "Удалить пакет работ"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
@@ -3058,7 +3084,7 @@ ru:
         non_working: "%{day} теперь нерабочий"
       dates:
         working: "%{date} сейчас рабочий"
-        non_working: "%{day} теперь нерабочий"
+        non_working: "%{date} теперь нерабочий"
   nothing_to_preview: "Нет ничего для предосмотра"
   api_v3:
     attributes:

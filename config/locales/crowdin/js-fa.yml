@@ -428,7 +428,7 @@ fa:
     label_in_less_than: "in less than"
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
-    label_information_plural: "Information"
+    label_information_plural: "اطلاعات"
     label_invalid: "نا معتبر"
     label_import: "Import"
     label_latest_activity: "آخرین فعالیت"
@@ -758,7 +758,7 @@ fa:
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
         upgrade_to_ee: "ارتقاء به نسخه انترپرایز (on-premises) بر روی سرور مجازی یا اختصاصی شخصی خود"
         upgrade_to_ee_text: "وااای! اگر به این افزونه نیاز دارید، شما یک حرفه‌ای هستید! آیا ممکن است ما توسعه‌دهندگان متن‌باز را با تبدیل شدن به مشتری نسخه انترپرایز حمایت کنید؟"
-        more_information: "More information"
+        more_information: "اطلاعات بیشتر"
         nevermind: "Nevermind"
       edit:
         form_configuration: "Form Configuration"
@@ -1018,6 +1018,9 @@ fa:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."

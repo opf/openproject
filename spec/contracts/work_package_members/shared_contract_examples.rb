@@ -73,6 +73,12 @@ RSpec.shared_examples_for 'work package member contract' do
       it_behaves_like 'contract is invalid', roles: :ungrantable
     end
 
+    context 'if the principal is the current user' do
+      let(:member_principal) { current_user }
+
+      it_behaves_like 'contract is invalid', base: :error_unauthorized
+    end
+
     # Needs to be changed once groups are introduced
     context 'if more than one role is assigned' do
       let(:member_roles) do

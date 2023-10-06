@@ -909,6 +909,7 @@ zh-TW:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -2159,12 +2160,21 @@ zh-TW:
         assigned: '指派'
         responsible: '負責人'
         mentioned: '提醒'
+        shared: 'Shared'
         subscribed: '所有'
         prefix: '因為通知設定而收到：%{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: '全部顯示'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
   mail_body_account_information: "您的帳號資訊"
   mail_body_account_information_external: "您可以使用您的帳號 %{value} 登錄。"
@@ -2957,6 +2967,22 @@ zh-TW:
     destroy:
       info: "刪除工作項目是一個不可逆的動作"
       title: "刪除工作項目"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

@@ -902,6 +902,7 @@ id:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -2152,12 +2153,21 @@ id:
         assigned: 'Assigned'
         responsible: 'Akuntabel'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'semua'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Peringatan tanggal'
         date_alert_due_date: 'Peringatan tanggal'
       see_all: 'Lihat semua'
       updated_at: 'Diperbarui pada %{timestamp} oleh %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "User (%{value}) telah terdaftar. Akun Anda menunggu persetujuan Anda:"
   mail_body_account_information: "Info akun Anda"
   mail_body_account_information_external: "Anda dapat gunakan akun %{value} untuk login."
@@ -2947,6 +2957,22 @@ id:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Hari yang tidak dipilih akan dilewati saat menjadwalkan paket pekerjaan (dan tidak termasuk dalam hitungan hari). Ini dapat diganti pada tingkat paket kerja.
