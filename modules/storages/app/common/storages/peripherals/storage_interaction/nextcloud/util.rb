@@ -31,7 +31,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
   class << self
     def escape_path(path)
-      path.split('/').map { |i| CGI.escapeURIComponent(i) }.join('/')
+      escaped_path = path.split('/').map { |i| CGI.escapeURIComponent(i) }.join('/')
+      escaped_path << '/' if path[-1] == '/'
+      escaped_path
     end
 
     def basic_auth_header(username, password)
@@ -47,12 +49,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       )
     end
 
-    def join_uri_path(uri, *parts)
+    def join_uri_path(uri, *)
       # We use `File.join` to ensure single `/` in between every part. This API will break if executed on a
       # Windows context, as it used `\` as file separators. But we anticipate that OpenProject
       # Server is not run on a Windows context.
       # URI::join cannot be used, as it behaves very different for the path parts depending on trailing slashes.
-      File.join(uri.to_s, *parts)
+      File.join(uri.to_s, *)
     end
 
     def token(user:, oauth_client:, &block)
