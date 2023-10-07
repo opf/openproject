@@ -46,10 +46,14 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
   shared_let(:users) { create_list(:user, 2) }
 
   shared_let(:roles) { [role] }
+  shared_let(:work_package_roles) { [work_package_role] }
   shared_let(:global_roles) { [global_role] }
 
   shared_let(:group) do
-    create(:group, members: users, global_roles:, member_with_roles: { project => roles }) do |group|
+    create(:group,
+           members: users,
+           global_roles:,
+           member_with_roles: { project => roles, work_package => work_package_roles }) do |group|
       Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(user_ids: users.map(&:id))
@@ -112,6 +116,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
     let!(:first_user_member) do
       Member.find_by(principal: users.first).tap do |m|
         m.roles << another_role
+        m.roles << another_work_package_role
         m.roles << another_global_role
       end
     end
@@ -128,14 +133,14 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
         .to be_empty
     end
 
-    it 'keeps the memberships where project independent roles were assigned' do
+    it 'keeps the memberships where group independent roles were assigned' do
       service_call
 
       expect(first_user_member.updated_at)
         .not_to eql(Member.find_by(id: first_user_member.id).updated_at)
 
       expect(first_user_member.reload.roles)
-        .to contain_exactly(another_role, another_global_role)
+        .to contain_exactly(another_role, another_work_package_role, another_global_role)
     end
 
     it 'sends a notification on the kept membership' do
@@ -154,6 +159,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
     let!(:first_user_member) do
       Member.find_by(principal: users.first).tap do |m|
         m.member_roles.create(role:)
+        m.member_roles.create(role: work_package_role)
         m.member_roles.create(role: global_role)
       end
     end
@@ -170,14 +176,14 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
         .to be_empty
     end
 
-    it 'keeps the memberships where project independent roles were assigned' do
+    it 'keeps the memberships where group independent roles were assigned' do
       service_call
 
       expect(first_user_member.updated_at)
         .not_to eql(Member.find_by(id: first_user_member.id).updated_at)
 
       expect(first_user_member.reload.roles)
-        .to contain_exactly(role, global_role)
+        .to contain_exactly(role, work_package_role, global_role)
     end
 
     it 'sends a notification on the kept membership' do
