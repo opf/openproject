@@ -36,23 +36,28 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
     instance.call(params)
   end
 
-  let(:project) { create(:project) }
-  let(:role) { create(:project_role) }
-  let(:global_role) { create(:global_role) }
-  let(:current_user) { create(:admin) }
-  let(:roles) { [role] }
-  let(:global_roles) { [global_role] }
-  let(:params) { { message: } }
-  let(:message) { "Some message" }
+  shared_let(:project) { create(:project) }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:role) { create(:project_role) }
+  shared_let(:work_package_role) { create(:view_work_package_role) }
+  shared_let(:global_role) { create(:global_role) }
+  shared_let(:current_user) { create(:admin) }
 
-  let!(:group) do
-    create(:group, members: users, global_roles:, member_with_roles: { project => roles }).tap do |group|
+  shared_let(:users) { create_list(:user, 2) }
+
+  shared_let(:roles) { [role] }
+  shared_let(:global_roles) { [global_role] }
+
+  shared_let(:group) do
+    create(:group, members: users, global_roles:, member_with_roles: { project => roles }) do |group|
       Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(user_ids: users.map(&:id))
     end
   end
-  let(:users) { create_list(:user, 2) }
+
+  let(:params) { { message: } }
+  let(:message) { "Some message" }
   let(:members) { Member.where(principal: group) }
 
   let(:instance) do
@@ -101,10 +106,10 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
   end
 
   context 'when also having own roles' do
-    let(:another_role) { create(:project_role) }
-    let(:another_global_role) { create(:global_role) }
+    shared_let(:another_role) { create(:project_role) }
+    shared_let(:another_work_package_role) { create(:comment_work_package_role) }
+    shared_let(:another_global_role) { create(:global_role) }
     let!(:first_user_member) do
-      group
       Member.find_by(principal: users.first).tap do |m|
         m.roles << another_role
         m.roles << another_global_role
@@ -116,7 +121,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
         .to be_success
     end
 
-    it 'removes all memberships the users have had only by the group' do
+    it 'removes all memberships that users have had only by the group' do
       service_call
 
       expect(Member.where(principal: users.last))
@@ -146,7 +151,6 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
   end
 
   context 'when the user has had the roles added by the group before' do
-    let(:another_role) { create(:project_role) }
     let!(:first_user_member) do
       Member.find_by(principal: users.first).tap do |m|
         m.member_roles.create(role:)
