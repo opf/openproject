@@ -61,6 +61,12 @@ RSpec.describe Authorization::UserPermissibleService do
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_project(permission, project) }
+
+        context 'but the project is archived' do
+          before { project.update(active: false) }
+
+          it { is_expected.not_to be_allowed_in_project(permission, project) }
+        end
       end
 
       context 'and the user is a member of a work package' do
@@ -127,6 +133,12 @@ RSpec.describe Authorization::UserPermissibleService do
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+
+        context 'but the project is archived' do
+          before { project.update(active: false) }
+
+          it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+        end
       end
 
       context 'and the user is a member of the work package' do
@@ -134,6 +146,12 @@ RSpec.describe Authorization::UserPermissibleService do
         let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+
+        context 'but the project is archived' do
+          before { project.update(active: false) }
+
+          it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+        end
       end
 
       context 'and a user is a member of the project (not granting the permission) and the work package (granting the permission)' do
