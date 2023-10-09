@@ -40,13 +40,10 @@ module WorkPackages::Scopes
         if user.admin? && permissions.all?(&:grant_to_admin?)
           where(id: allowed_to_admin_relation(permissions))
         elsif user.anonymous?
-          where(id: allowed_to_non_member_relation(user, permissions))
+          where(project_id: Project.allowed_to(user, permission).select(:id))
         else
           union = Arel::Nodes::UnionAll.new(
-            Arel::Nodes::UnionAll.new(
-              allowed_to_member_relation(user, permissions).select(arel_table[:id]).arel,
-              allowed_to_non_member_relation(user, permissions).select(arel_table[:id]).arel
-            ),
+            allowed_to_member_relation(user, permissions).select(arel_table[:id]).arel,
             where(project_id: Project.allowed_to(user, permission).select(:id)).select(arel_table[:id]).arel
           )
 
@@ -60,14 +57,6 @@ module WorkPackages::Scopes
         joins(:project)
         .joins(allowed_to_enabled_module_join(permissions))
           .where(Project.arel_table[:active].eq(true))
-      end
-
-      def allowed_to_non_member_relation(user, permissions)
-        joins(:project)
-          .joins(allowed_to_enabled_module_join(permissions))
-          .joins(allowed_to_builtin_roles_in_active_project_join(user))
-          .joins(allowed_to_role_permission_join(permissions))
-          .select(arel_table[:id])
       end
 
       def allowed_to_member_relation(user, permissions)
@@ -126,20 +115,6 @@ module WorkPackages::Scopes
                                   .and(members_table[:entity_type].eq(model_name.name))
       end
 
-      def allowed_to_builtin_roles_in_active_project_join(user)
-        condition = allowed_to_built_roles_in_active_project_condition(user)
-
-        if user.logged?
-          condition = condition.and(allowed_to_no_member_exists_condition(user))
-        end
-
-        roles_table = Role.arel_table
-
-        arel_table.join(roles_table)
-                  .on(condition)
-                  .join_sources
-      end
-
       def allowed_to_member_in_active_project_join(user)
         Project.arel_table
           .join(Project.arel_table)
@@ -153,31 +128,6 @@ module WorkPackages::Scopes
         arel_table.join(arel_table)
         .on(members_table[:entity_id].eq(arel_table[:id]).and(members_table[:entity_type].eq(model_name.name)))
         .join_sources
-      end
-
-      def allowed_to_built_roles_in_active_project_condition(user)
-        projects_table = Project.arel_table
-
-        builtin = if user.logged?
-                    Role::BUILTIN_NON_MEMBER
-                  else
-                    Role::BUILTIN_ANONYMOUS
-                  end
-
-        roles_table = Role.arel_table
-
-        roles_table[:builtin].eq(builtin)
-                             .and(projects_table[:active])
-                             .and(projects_table[:public])
-      end
-
-      def allowed_to_no_member_exists_condition(user)
-        Member
-          .select(1)
-          .where(allowed_to_members_condition(user))
-          .arel
-          .exists
-          .not
       end
     end
   end
