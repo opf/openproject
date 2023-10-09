@@ -56,17 +56,11 @@ RSpec.describe MockedPermissionHelper do
     end
   end
 
-  context 'when not mocking any permissions' do
-    before do
-      mock_permissions_for(user)
-    end
-
+  context 'when not providing a block' do
     it 'does not allow anything' do
-      expect(user).not_to be_allowed_globally(:add_project)
-      expect(user).not_to be_allowed_in_project(:add_work_packages, project)
-      expect(user).not_to be_allowed_in_any_project(:add_work_packages)
-      expect(user).not_to be_allowed_in_work_package(:add_work_packages, work_package_in_project)
-      expect(user).not_to be_allowed_in_any_work_package(:add_work_packages)
+      expect do
+        mock_permissions_for(user)
+      end.to raise_error(ArgumentError)
     end
   end
 

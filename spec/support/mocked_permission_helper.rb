@@ -86,7 +86,9 @@ module MockedPermissionHelper
   def mock_permissions_for(user) # rubocop:disable Metrics/PerceivedComplexity
     permission_mock = PermissionMock.new(user)
 
-    yield permission_mock if block_given?
+    raise ArgumentError, "please provide a block to mock_permissions_for" unless block_given?
+
+    yield permission_mock
 
     # Instead of mocking directly on the user, we mock on the UserPermissibleService
     # Advantage is that we can handle the `allowed_in_entity?` calls correctly without needing to write
