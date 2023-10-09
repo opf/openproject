@@ -113,7 +113,7 @@ RSpec.describe Users::RegisterUserService do
       it 'fails to activate due to disabled self registration' do
         expect(call).not_to be_success
         expect(call.result).to eq user
-        expect(call.message).to eq I18n.t('account.error_self_registration_disabled')
+        expect(call.message).to eq I18n.t('account.error_self_registration_disabled_provider', name: 'azure')
       end
     end
   end

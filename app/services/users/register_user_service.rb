@@ -39,6 +39,7 @@ module Users
         ensure_user_limit_not_reached!
         register_invited_user
         register_ldap_user
+        ensure_provider_not_limited!
         register_omniauth_user
         ensure_registration_allowed!
         register_by_email_activation
@@ -55,6 +56,16 @@ module Users
     end
 
     private
+
+    ##
+    # Check whether the associated single sign-on providers
+    # allows for automatic activation of new users
+    def ensure_provider_not_limited!
+      if limited_provider?(user)
+        name = provider_name(user)
+        ServiceResult.failure(result: user, message: I18n.t('account.error_self_registration_disabled_provider', name:))
+      end
+    end
 
     ##
     # Check whether the system allows registration
@@ -115,6 +126,17 @@ module Users
 
     def skip_omniauth_user?
       user.identity_url.blank?
+    end
+
+    def limited_provider?(user)
+      provider = provider_name(user)
+      return false if provider.blank?
+
+      OpenProject::Plugins::AuthPlugin.limit_self_registration?(provider:)
+    end
+
+    def provider_name(user)
+      user.authentication_provider&.downcase
     end
 
     def register_by_email_activation

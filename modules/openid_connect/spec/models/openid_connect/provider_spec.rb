@@ -29,8 +29,11 @@
 require 'spec_helper'
 
 RSpec.describe OpenIDConnect::Provider do
+  let(:params) do
+    {}
+  end
   let(:provider) do
-    described_class.initialize_with name: "azure", identifier: "id", secret: "secret"
+    described_class.initialize_with({ name: "azure", identifier: "id", secret: "secret" }.merge(params))
   end
 
   def auth_plugin
@@ -44,13 +47,14 @@ RSpec.describe OpenIDConnect::Provider do
     end
 
     context 'with no limited providers' do
-      it "shows the provider as unlimited" do
-        expect(auth_plugin).not_to be_limit_self_registration provider: provider.name
+      it "shows the provider as limited" do
+        provider.save
+        expect(auth_plugin).to be_limit_self_registration provider: provider.name
       end
 
       context 'when set to true' do
-        before do
-          provider.limit_self_registration = true
+        let(:params) do
+          { limit_self_registration: true }
         end
 
         it "saving the provider makes it limited" do
@@ -61,8 +65,8 @@ RSpec.describe OpenIDConnect::Provider do
       end
 
       context 'when set to false' do
-        before do
-          provider.limit_self_registration = false
+        let(:params) do
+          { limit_self_registration: false }
         end
 
         it "saving the provider does nothing" do
