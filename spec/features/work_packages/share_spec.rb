@@ -167,6 +167,19 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment')
       share_modal.expect_shared_with(dinesh, 'Comment')
       share_modal.expect_shared_with(gilfoyle, 'Comment')
+
+      # When removing a group's share, its users also get their share removed
+      share_modal.remove_user(not_shared_yet_with_group)
+      share_modal.expect_not_shared_with(not_shared_yet_with_group)
+      share_modal.close
+      share_modal.expect_closed
+
+      click_button 'Share'
+
+      share_modal.expect_open
+      share_modal.expect_not_shared_with(not_shared_yet_with_group)
+      share_modal.expect_not_shared_with(dinesh)
+      share_modal.expect_not_shared_with(gilfoyle)
     end
   end
 
