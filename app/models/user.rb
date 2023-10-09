@@ -176,17 +176,6 @@ class User < Principal
     end
   end
 
-  def reload(*args)
-<<<<<<< HEAD
-    @user_allowed_service = nil
-    @project_role_cache = nil
-=======
-    @name = nil
->>>>>>> 088d0fb8ef (Extract all permission related methods into User::PermissionChecks concern)
-
-    super
-  end
-
   def mail=(arg)
     write_attribute(:mail, arg.to_s.strip)
   end
