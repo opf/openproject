@@ -39,11 +39,11 @@ class PermissionMock
     @allow_all_permissions = false
   end
 
-  def allow_everything!
+  def allow_everything
     @allow_all_permissions = true
   end
 
-  def forbid_everything!
+  def forbid_everything
     @allow_all_permissions = false
     reset_permitted_entities
   end

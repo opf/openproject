@@ -88,7 +88,7 @@ RSpec.describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user has no permission in the project' do
-          mock_permissions_for(user, &:forbid_everything!)
+          mock_permissions_for(user, &:forbid_everything)
 
           expect(subject.allowed?(query, action)).to be_falsy
         end
@@ -122,7 +122,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user lacks the save_query permission in the project AND it is his query' do
           mock_permissions_for(user) do |mock|
-            mock.forbid_everything!
+            mock.forbid_everything
           end
 
           query.user = user
@@ -181,7 +181,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user has no permission in the project' do
           mock_permissions_for(user) do |mock|
-            mock.forbid_everything!
+            mock.forbid_everything
           end
 
           expect(subject.allowed?(query, action)).to be_falsy
@@ -216,7 +216,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user has no permission in the project' do
           mock_permissions_for(user) do |mock|
-            mock.forbid_everything!
+            mock.forbid_everything
           end
 
           expect(subject.allowed?(query, :publicize)).to be_falsy
@@ -253,7 +253,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user has no permission in the project' do
           mock_permissions_for(user) do |mock|
-            mock.forbid_everything!
+            mock.forbid_everything
           end
 
           expect(subject.allowed?(query, :depublicize)).to be_falsy
@@ -292,7 +292,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user has no permission in the project' do
           mock_permissions_for(user) do |mock|
-            mock.forbid_everything!
+            mock.forbid_everything
           end
 
           expect(subject.allowed?(query, :star)).to be_falsy
@@ -308,7 +308,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user has no permission in the project' do
           mock_permissions_for(user) do |mock|
-            mock.forbid_everything!
+            mock.forbid_everything
           end
 
           expect(subject.allowed?(query, :reorder_work_packages)).to be_falsy
@@ -373,7 +373,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user has no permission in the project' do
           mock_permissions_for(user) do |mock|
-            mock.forbid_everything!
+            mock.forbid_everything
           end
 
           expect(subject.allowed?(query, :share_via_ical)).to be_falsy

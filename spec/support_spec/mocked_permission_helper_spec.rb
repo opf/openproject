@@ -67,12 +67,12 @@ RSpec.describe MockedPermissionHelper do
   context 'when explicitly forbidding everything' do
     before do
       mock_permissions_for(user) do |mock|
-        mock.allow_everything!
+        mock.allow_everything
         mock.globally :add_project
         mock.in_project(:add_work_packages, project:)
 
         # this removes all permissions previously set
-        mock.forbid_everything!
+        mock.forbid_everything
       end
     end
 
@@ -87,7 +87,7 @@ RSpec.describe MockedPermissionHelper do
 
   context 'when mocking all permissions' do
     before do
-      mock_permissions_for(user, &:allow_everything!)
+      mock_permissions_for(user, &:allow_everything)
     end
 
     it 'allows everything' do

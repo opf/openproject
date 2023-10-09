@@ -130,7 +130,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
       context 'for a user with insufficient permissions' do
         before do
-          mock_permissions_for(current_user, &:forbid_everything!)
+          mock_permissions_for(current_user, &:forbid_everything)
         end
 
         it 'has no link' do
@@ -141,7 +141,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
     describe 'customFields' do
       before do
-        mock_permissions_for(current_user, &:forbid_everything!)
+        mock_permissions_for(current_user, &:forbid_everything)
       end
 
       context 'with the permission to select custom fields' do
@@ -173,7 +173,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
     describe 'configureForm' do
       before do
-        mock_permissions_for(current_user, &:allow_everything!)
+        mock_permissions_for(current_user, &:allow_everything)
       end
 
       context 'for an admin and with type' do

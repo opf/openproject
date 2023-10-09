@@ -173,7 +173,7 @@ RSpec.describe SCM::CheckoutInstructionsService do
       end
 
       it 'returns none permission when user has no permission' do
-        mock_permissions_for(user, &:forbid_everything!)
+        mock_permissions_for(user, &:forbid_everything)
 
         expect(service.permission).to eq(:none)
       end
@@ -197,7 +197,7 @@ RSpec.describe SCM::CheckoutInstructionsService do
       end
 
       it 'returns the correct permissions for no access' do
-        mock_permissions_for(user, &:forbid_everything!)
+        mock_permissions_for(user, &:forbid_everything)
 
         expect(service.may_commit?).to be false
         expect(service.may_checkout?).to be false

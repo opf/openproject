@@ -81,7 +81,7 @@ RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
 
       it 'is false if the user is not allowed to see watchers but there are users' do
         allow(User.current).to receive(:logged?).and_return false
-        mock_permissions_for(User.current, &:forbid_everything!)
+        mock_permissions_for(User.current, &:forbid_everything)
 
         allow(principal_loader)
           .to receive(:user_values)

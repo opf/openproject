@@ -145,7 +145,7 @@ RSpec.describe Project do
     end
 
     context 'without copy project permission' do
-      before { mock_permissions_for(user, &:forbid_everything!) }
+      before { mock_permissions_for(user, &:forbid_everything) }
 
       it 'is false' do
         expect(project).not_to be_copy_allowed

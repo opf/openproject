@@ -53,7 +53,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   let(:user) { build_stubbed(:user) }
 
   before do
-    mock_permissions_for(user, &:allow_everything!)
+    mock_permissions_for(user, &:allow_everything)
     allow(work_package).to receive(:lock_version).and_return(1)
   end
 
@@ -422,7 +422,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
         context 'without necessary permissions' do
           before do
-            mock_permissions_for(user, &:forbid_everything!)
+            mock_permissions_for(user, &:forbid_everything)
           end
 
           it 'has no href' do

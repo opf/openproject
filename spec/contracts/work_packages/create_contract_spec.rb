@@ -93,7 +93,7 @@ RSpec.describe WorkPackages::CreateContract do
 
     context 'user not allowed in any project and no project specified' do
       before do
-        mock_permissions_for(user, &:forbid_everything!)
+        mock_permissions_for(user, &:forbid_everything)
       end
 
       it 'is not authorized' do
@@ -104,7 +104,7 @@ RSpec.describe WorkPackages::CreateContract do
 
     context 'user not allowed in any project and project specified' do
       before do
-        mock_permissions_for(user, &:forbid_everything!)
+        mock_permissions_for(user, &:forbid_everything)
 
         work_package.project = project
       end

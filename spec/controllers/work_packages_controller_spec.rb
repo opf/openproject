@@ -101,7 +101,7 @@ RSpec.describe WorkPackagesController do
       let(:project) { nil }
 
       before do
-        mock_permissions_for(current_user, &:forbid_everything!)
+        mock_permissions_for(current_user, &:forbid_everything)
 
         call_action
       end
@@ -230,7 +230,7 @@ RSpec.describe WorkPackagesController do
 
         context 'when a non-existent query has been previously selected' do
           before do
-            mock_permissions_for(current_user, &:allow_everything!)
+            mock_permissions_for(current_user, &:allow_everything)
 
             allow(controller)
               .to receive(:retrieve_query)

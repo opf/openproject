@@ -468,7 +468,7 @@ RSpec.describe PermittedParams do
 
       context 'user is not allowed to add watchers' do
         before do
-          mock_permissions_for(user, &:forbid_everything!)
+          mock_permissions_for(user, &:forbid_everything)
         end
 
         it do

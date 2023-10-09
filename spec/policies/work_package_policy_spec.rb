@@ -38,7 +38,7 @@ RSpec.describe WorkPackagePolicy, type: :controller do
 
     context 'for edit' do
       it 'is false if the user has no permissions' do
-        mock_permissions_for(user, &:forbid_everything!)
+        mock_permissions_for(user, &:forbid_everything)
         expect(subject).not_to be_allowed(work_package, :edit)
       end
 

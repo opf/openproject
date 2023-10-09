@@ -58,7 +58,7 @@ RSpec.describe API::V3::Queries::Schemas::QuerySchemaRepresenter do
   let(:user) { build_stubbed(:user) }
 
   before do
-    mock_permissions_for(user, &:forbid_everything!)
+    mock_permissions_for(user, &:forbid_everything)
   end
 
   subject(:generated) { instance.to_json }

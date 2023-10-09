@@ -212,7 +212,7 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
 
         context "and I don't have the necessary permissions" do
           before do
-            mock_permissions_for(user, &:forbid_everything!)
+            mock_permissions_for(user, &:forbid_everything)
           end
 
           it { expect(instance).not_to be_available }
