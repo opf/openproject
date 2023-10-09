@@ -4,7 +4,7 @@ timeout = (ENV['WAIT_FOR_DB_TIMEOUT_SECONDS'] || 120).to_i
 
 Timeout::timeout(timeout) do
   loop do
-    puts "[#{DateTime.now}] waiting for db"
+    puts "[#{DateTime.now}] waiting for db to be ready and migrated"
     sleep 4
 
     begin
