@@ -107,6 +107,8 @@ module Storages
     end
 
     def uri
+      return unless host
+
       @uri ||= URI(host).normalize
     end
 
