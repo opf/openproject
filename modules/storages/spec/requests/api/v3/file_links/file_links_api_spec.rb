@@ -59,8 +59,6 @@ RSpec.describe 'API v3 file links resource' do
   shared_association_default(:priority) { create(:priority) }
   shared_association_default(:status) { create(:status) }
 
-<<<<<<< HEAD
-=======
   let(:permissions) { %i(view_work_packages view_file_links) }
   let!(:another_project_storage) { nil } # create(:project_storage, project:, storage: another_storage)
   let(:file_link) do
@@ -77,7 +75,6 @@ RSpec.describe 'API v3 file links resource' do
   let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
   let(:sync_service) { instance_double(Storages::FileLinkSyncService) }
 
->>>>>>> 43bf465ee6 (Implement new Permission query interface)
   shared_let(:project) { create(:project) }
 
   shared_let(:current_user) do
