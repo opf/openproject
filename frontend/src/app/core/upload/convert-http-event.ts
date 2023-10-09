@@ -26,14 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Observable } from 'rxjs';
 import { HttpEvent } from '@angular/common/http';
+import isHttpResponse from 'core-app/core/upload/is-http-response';
 
-export interface IUploadFile {
-  file:File;
-  overwrite?:boolean;
-}
+export default function convertHttpEvent<T, K>(event:HttpEvent<T>, convert:(body:T) => K):HttpEvent<K> {
+  if (isHttpResponse(event) && event.body !== null) {
+    return event.clone({ body: convert(event.body) });
+  }
 
-export abstract class OpUploadService {
-  public abstract upload<T>(href:string, uploadFiles:IUploadFile[]):Observable<HttpEvent<T>>[];
+  return event as HttpEvent<K>;
 }
