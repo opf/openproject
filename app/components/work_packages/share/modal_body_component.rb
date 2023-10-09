@@ -59,6 +59,8 @@ module WorkPackages
 
       # There is currently no available system argument for setting an id on the
       # rendered <ul> tag that houses the row slots on Primer::Beta::BorderBox components.
+      # Setting an id is required to be able to uniquely identify a target for
+      # TurboStream +insert+ actions and being able to prepend and append to it.
       def invited_user_list(&)
         border_box = Primer::Beta::BorderBox.new
 
