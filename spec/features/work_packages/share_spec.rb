@@ -154,32 +154,41 @@ RSpec.describe 'Work package sharing',
       click_button 'Share'
 
       share_modal.expect_open
-      share_modal.invite_group(not_shared_yet_with_group, 'Comment')
-      share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment', position: 1)
+      share_modal.invite_group(not_shared_yet_with_group, 'View')
 
-      # Close and re-open modal
+      # Inviting a group propagates the membership to the group's users. However, these propagated
+      # memberships are not expected to be visible. We only care about seeing the group's share.
+      share_modal.expect_shared_with(not_shared_yet_with_group, 'View', position: 1)
+      shared_principals = Principal.where(id: Member.of_work_package(work_package).select(:user_id))
+      expect(shared_principals)
+        .to include(not_shared_yet_with_group, gilfoyle, dinesh)
+      # Closing the modal and re-opening it to ensure group's users aren't included in the
+      # list of shares
       share_modal.close
       share_modal.expect_closed
       click_button 'Share'
       share_modal.expect_open
-
-      # Shares are propagated to the group's users
-      share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment')
-      share_modal.expect_shared_with(dinesh, 'Comment')
-      share_modal.expect_shared_with(gilfoyle, 'Comment')
-
-      # When removing a group's share, its users also get their share removed
-      share_modal.remove_user(not_shared_yet_with_group)
-      share_modal.expect_not_shared_with(not_shared_yet_with_group)
-      share_modal.close
-      share_modal.expect_closed
-
-      click_button 'Share'
-
-      share_modal.expect_open
-      share_modal.expect_not_shared_with(not_shared_yet_with_group)
+      share_modal.expect_shared_with(not_shared_yet_with_group, 'View')
       share_modal.expect_not_shared_with(dinesh)
       share_modal.expect_not_shared_with(gilfoyle)
+
+      # Inviting a user to a Work Package independently of the the group displays
+      # said user in the shares list
+      share_modal.invite_user(gilfoyle, 'Comment')
+      share_modal.expect_shared_with(gilfoyle, 'Comment', position: 1)
+
+      # When removing a group's share, its users also get their inherited member roles removed
+      # while keeping member roles that were granted independently of the group
+      share_modal.remove_user(not_shared_yet_with_group)
+      share_modal.expect_not_shared_with(not_shared_yet_with_group)
+      share_modal.expect_shared_with(gilfoyle, 'Comment')
+
+      shared_principals.reload
+
+      expect(shared_principals)
+        .to include(gilfoyle)
+      expect(shared_principals)
+        .not_to include(not_shared_yet_with_group, dinesh)
     end
   end
 

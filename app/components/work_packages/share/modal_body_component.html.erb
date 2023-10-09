@@ -27,7 +27,9 @@
             end
 
             shared_principals.each do |principal|
-              share = principal.work_package_shares.where(entity: @work_package).first
+              share = principal.work_package_shares
+                               .where(entity: @work_package)
+                               .first
 
               render(WorkPackages::Share::ShareRowComponent.new(share:,
                                                                 container: border_box))
