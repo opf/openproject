@@ -328,7 +328,7 @@ The integration OpenProject with Nextcloud makes use of authorized HTTP requests
 
 You have setup the *Project folder* in both environments (Nextcloud and OpenProject), but you cannot see any folder named `OpenProject` in the root directory of **Files** app in Nextcloud.
 
-1. Check if OpenProject's background workers are running. These workers create these folders and set the correct access permissions per user. Vou have two options for verification:
+1. Check if OpenProject's background workers are running. These workers create these folders and set the correct access permissions per user. You have two options for verification:
 
    a. If you have root access to the OpenProject server where your worker should be running, check if the worker processes are in fact present:
    `ps aux | grep job`
@@ -360,7 +360,7 @@ You have setup the *Project folder* in both environments (Nextcloud and OpenProj
    2. Test the network connection from this server to your Nextcloud server. All you need is the Nextcloud host name and the **Application password**. You received the application password at the end of the setup of the app **OpenProject integration** in Nextcloud. 
 
       If you do not posses the application password anymore, you can reset it. Make sure not to forget updating the settings of the file storage in OpenProject accordingly. The following cURL command should respond with an XML containing details for the **OpenProject** user (**Please make sure to use the right application-password and Nextcloud host name**):
-     ```
+     ```shell
      curl -u 'OpenProject:<application-password>' https://<nextcloud-host-name>/ocs/v1.php/cloud/users/OpenProject -H 'OCS-APIRequest: true' -v`
      ```
 
