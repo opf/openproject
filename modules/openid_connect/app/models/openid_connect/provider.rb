@@ -63,6 +63,8 @@ module OpenIDConnect
       (configuration || {}).fetch(:limit_self_registration, true)
     end
 
+    alias_method :limit_self_registration?, :limit_self_registration
+
     def to_h
       return {} if omniauth_provider.nil?
 

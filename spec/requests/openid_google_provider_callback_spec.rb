@@ -55,6 +55,7 @@ RSpec.describe 'OpenID Google provider callback', with_ee: %i[openid_providers] 
     expect(OpenProject::Plugins::AuthPlugin)
       .to receive(:limit_self_registration?)
       .with(provider: "google")
+      .twice
       .and_return false
 
     stub_request(:post, "https://accounts.google.com/o/oauth2/token").to_return(

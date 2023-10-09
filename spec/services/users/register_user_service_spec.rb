@@ -123,13 +123,50 @@ RSpec.describe Users::RegisterUserService do
                 }
               }
             } do
-      it 'creates the user but does not activate' do
-        with_all_registration_options(except: :disabled) do
-          call = instance.call
-          expect(call).to be_success
-          expect(call.result).to eq user
-          expect(call.result).not_to be_active
-        end
+      it 'registers the user, but does not activate it' do
+        call = instance.call
+        expect(call).to be_success
+        expect(call.result).to eq user
+        expect(user).to be_registered
+        expect(user).not_to have_received(:activate)
+        expect(call.message).to eq I18n.t(:notice_account_pending)
+      end
+    end
+
+    context 'with limit_self_registration enabled and self_registration email',
+            with_settings: {
+              self_registration: 1,
+              plugin_openproject_openid_connect: {
+                providers: {
+                  azure: { identifier: "foo", secret: "bar", limit_self_registration: true }
+                }
+              }
+            } do
+      it 'registers the user, but does not activate it' do
+        call = instance.call
+        expect(call).to be_success
+        expect(call.result).to eq user
+        expect(user).to be_registered
+        expect(user).not_to have_received(:activate)
+        expect(call.message).to eq I18n.t(:notice_account_register_done)
+      end
+    end
+
+    context 'with limit_self_registration enabled and self_registration automatic',
+            with_settings: {
+              self_registration: 3,
+              plugin_openproject_openid_connect: {
+                providers: {
+                  azure: { identifier: "foo", secret: "bar", limit_self_registration: true }
+                }
+              }
+            } do
+      it 'activates the user' do
+        call = instance.call
+        expect(call).to be_success
+        expect(call.result).to eq user
+        expect(user).to have_received(:activate)
+        expect(call.message).to eq I18n.t(:notice_account_activated)
       end
     end
   end

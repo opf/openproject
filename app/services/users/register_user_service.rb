@@ -116,6 +116,7 @@ module Users
     # bypassing regular account registration restrictions
     def register_omniauth_user
       return if skip_omniauth_user?
+      return if limited_provider?(user)
 
       user.activate
 

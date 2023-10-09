@@ -495,7 +495,7 @@ en:
       User registration is disabled on this system. Please ask an administrator to create an
       account for you.
     error_self_registration_limited_provider: >
-      User registration is limit for the Single sign-on provider '%{name}'. Please ask an administrator to activate the
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the
       account for you or change the self registration limit for this provider.
     login_with_auth_provider: "or sign in with your existing account"
     signup_with_auth_provider: "or sign up using"
