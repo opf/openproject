@@ -291,7 +291,7 @@ On OpenProject inside the storage administration (*Administration → File stora
 - Your OpenProject server does not have access to the Nextcloud server. To test the connection between OpenProject and Nextcloud, you can use the following command on your OpenProject server's command line:
 
   ```shell
-  curl -H 'OCS-APIRequest:true' -H 'Accept:application/json' https://nextcloud.example.com/nextcloud/ocs/v2.php/cloud/capabilities
+  curl -H 'OCS-APIRequest:true' -H 'Accept:application/json' https://nextcloud.example.com/ocs/v2.php/cloud/capabilities
   ```
   
   If Nextcloud is setup correctly the response should look similar to the following. Pay special attention to current Nextcloud version, which in this example here is "24.0.6". At the time of writing this documentation the minimum version of Nextcloud is 22.
