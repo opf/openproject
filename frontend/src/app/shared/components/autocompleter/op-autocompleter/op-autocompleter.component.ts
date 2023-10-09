@@ -37,7 +37,10 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
+import {
+  AddTagFn,
+  GroupValueFn,
+} from '@ng-select/ng-select/lib/ng-select.component';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
@@ -51,6 +54,7 @@ import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompl
 import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocompleter-option-template.directive';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { OpAutocompleterTagTemplateDirective } from 'core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-tag-template.directive';
 
 @Component({
   selector: 'op-autocompleter',
@@ -99,7 +103,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public clearable?:boolean = true;
 
-  @Input() public addTag?:boolean = false;
+  @Input() public addTag?:boolean|AddTagFn = false;
 
   @Input() public id = '';
 
@@ -225,6 +229,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
     labelTemplate:TemplateRef<Element>;
+
+  @ContentChild(OpAutocompleterTagTemplateDirective, { read: TemplateRef })
+    tagTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterHeaderTemplateDirective, { read: TemplateRef })
     headerTemplate:TemplateRef<Element>;

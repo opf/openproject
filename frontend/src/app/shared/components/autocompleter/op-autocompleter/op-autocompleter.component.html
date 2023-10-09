@@ -93,6 +93,19 @@
     </ng-template>
 
     <ng-template
+      ng-tag-tmp
+      let-item="item"
+      let-index="index"
+      let-search="searchTerm"
+      *ngIf="tagTemplate"
+    >
+      <ng-container
+        [ngTemplateOutlet]="tagTemplate"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+      ></ng-container>
+    </ng-template>
+
+    <ng-template
       ng-option-tmp
       let-item="item"
       let-index="index"

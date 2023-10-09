@@ -7,6 +7,7 @@
   [labelForId]="labelForId"
   [appendTo]="appendTo"
   [openDirectly]="openDirectly"
+  [addTag]="allowInlineInvite ? createNewUserObject : false"
   [focusDirectly]="focusDirectly"
   (change)="writeValue($event)"
   (keydown.escape)="cancel.emit()"
@@ -26,6 +27,13 @@
       {{ item.name }}
     </span>
   </ng-template>
+
+  <ng-template op-autocompleter-tag-tmp let-search="search">
+    <span *ngIf="validEmail(search)">
+      <strong [textContent]="text.sendInvite"></strong>: {{search}}
+    </span>
+  </ng-template>
+
   <ng-template op-autocompleter-footer-tmp *ngIf="inviteUserToProject">
     <op-invite-user-button
       [projectId]="inviteUserToProject"

@@ -50,6 +50,7 @@ import {
 } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 import { OpSearchHighlightDirective } from 'core-app/shared/directives/search-highlight.directive';
 import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
+import { OpAutocompleterTagTemplateDirective } from 'core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-tag-template.directive';
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -64,6 +65,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   OpAutocompleterComponent,
   OpAutocompleterOptionTemplateDirective,
   OpAutocompleterLabelTemplateDirective,
+  OpAutocompleterTagTemplateDirective,
   OpAutocompleterHeaderTemplateDirective,
   OpAutocompleterFooterTemplateDirective,
   OpSearchHighlightDirective,
