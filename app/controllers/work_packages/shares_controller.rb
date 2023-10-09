@@ -39,8 +39,6 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    any_currently_shared_users = find_shared_users.any?
-
     @share = WorkPackageMembers::CreateOrUpdateService
       .new(user: current_user)
       .call(entity: @work_package,
@@ -48,7 +46,7 @@ class WorkPackages::SharesController < ApplicationController
             role_ids: find_role_ids(params[:member][:role_id])).result
 
 
-    if any_currently_shared_users
+    if current_member_count > 1
       respond_with_prepend_share
     else
       respond_with_replace_modal
@@ -68,7 +66,7 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call
 
-    if find_shared_users.none?
+    if current_member_count.zero?
       respond_with_replace_modal
     else
       respond_with_remove_share
@@ -92,7 +90,7 @@ class WorkPackages::SharesController < ApplicationController
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::ShareCounterComponent.new(count: @shared_users.size)
+      component: WorkPackages::Share::ShareCounterComponent.new(count: current_member_count)
     )
 
     respond_with_turbo_streams
@@ -104,7 +102,7 @@ class WorkPackages::SharesController < ApplicationController
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::ShareCounterComponent.new(count: @shared_users.size)
+      component: WorkPackages::Share::ShareCounterComponent.new(count: current_member_count)
     )
 
     respond_with_turbo_streams
@@ -129,11 +127,7 @@ class WorkPackages::SharesController < ApplicationController
     WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
   end
 
-  def find_shared_users
-    @shared_users = User
-                      .having_entity_membership(@work_package)
-                      .includes(work_package_shares: :roles)
-                      .where(work_package_shares: { entity: @work_package })
-                      .ordered_by_name
+  def current_member_count
+    @current_member_count ||= Member.of_work_package(@work_package).size
   end
 end
