@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+bundle exec rails runner $SCRIPT_DIR/wait_for_db.rb
