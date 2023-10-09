@@ -61,9 +61,9 @@ module Users
     # Check whether the associated single sign-on providers
     # allows for automatic activation of new users
     def ensure_provider_not_limited!
-      if limited_provider?(user)
+      if limited_provider?(user) && Setting::SelfRegistration.disabled?
         name = provider_name(user)
-        ServiceResult.failure(result: user, message: I18n.t('account.error_self_registration_disabled_provider', name:))
+        ServiceResult.failure(result: user, message: I18n.t('account.error_self_registration_limited_provider', name:))
       end
     end
 

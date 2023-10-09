@@ -22,7 +22,7 @@ module OpenIDConnect
     delegate :to_h, to: :omniauth_provider, allow_nil: false
 
     delegate :tenant, to: :omniauth_provider, allow_nil: false
-    delegate :configuration, to: :omniauth_provider, allow_nil: false
+    delegate :configuration, to: :omniauth_provider, allow_nil: true
     delegate :use_graph_api, to: :omniauth_provider, allow_nil: false
 
     def initialize(omniauth_provider)
@@ -60,7 +60,7 @@ module OpenIDConnect
     end
 
     def limit_self_registration
-      configuration.fetch(:limit_self_registration, true)
+      (configuration || {}).fetch(:limit_self_registration, true)
     end
 
     def to_h
