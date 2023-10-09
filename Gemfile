@@ -157,7 +157,7 @@ gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'cc286655dfa2ea2b
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
-gem 'meta-tags', '~> 2.18.0'
+gem 'meta-tags', '~> 2.19.0'
 
 gem "paper_trail", "~> 12.3"
 
