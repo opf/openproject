@@ -1,5 +1,8 @@
 import { OptionalBootstrapDefinition } from 'core-app/core/setup/globals/dynamic-bootstrapper';
-import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
+import {
+  appBaseSelector,
+  ApplicationBaseComponent,
+} from 'core-app/core/routing/base/application-base.component';
 import {
   EmbeddedTablesMacroComponent,
   wpEmbeddedTableMacroSelector,
@@ -28,7 +31,10 @@ import {
   CustomDateActionAdminComponent,
   customDateActionAdminSelector,
 } from 'core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component';
-import { BoardsMenuComponent, boardsMenuSelector } from 'core-app/features/boards/boards-sidebar/boards-menu.component';
+import {
+  BoardsMenuComponent,
+  boardsMenuSelector,
+} from 'core-app/features/boards/boards-sidebar/boards-menu.component';
 import {
   GlobalSearchWorkPackagesEntryComponent,
   globalSearchWorkPackagesSelectorEntry,
@@ -37,7 +43,10 @@ import {
   ToastsContainerComponent,
   toastsContainerSelector,
 } from 'core-app/shared/components/toaster/toasts-container.component';
-import { OpSidemenuComponent, sidemenuSelector } from 'core-app/shared/components/sidemenu/sidemenu.component';
+import {
+  OpSidemenuComponent,
+  sidemenuSelector,
+} from 'core-app/shared/components/sidemenu/sidemenu.component';
 import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector,
@@ -99,10 +108,6 @@ import {
   globalSearchTabsSelector,
 } from 'core-app/core/global_search/tabs/global-search-tabs.component';
 import {
-  MembersAutocompleterComponent,
-  membersAutocompleterSelector,
-} from 'core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component';
-import {
   TriggerActionsEntryComponent,
   triggerActionsEntryComponentSelector,
 } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
@@ -126,8 +131,14 @@ import {
   quickInfoMacroSelector,
   WorkPackageQuickinfoMacroComponent,
 } from 'core-app/shared/components/fields/macros/work-package-quickinfo-macro.component';
-import { SpotSwitchComponent, spotSwitchSelector } from 'core-app/spot/components/switch/switch.component';
-import { BackupComponent, backupSelector } from 'core-app/core/setup/globals/components/admin/backup.component';
+import {
+  SpotSwitchComponent,
+  spotSwitchSelector,
+} from 'core-app/spot/components/switch/switch.component';
+import {
+  BackupComponent,
+  backupSelector,
+} from 'core-app/core/setup/globals/components/admin/backup.component';
 import {
   EnterpriseBaseComponent,
   enterpriseBaseSelector,
@@ -152,12 +163,18 @@ import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
-import { NoResultsComponent, noResultsSelector } from 'app/shared/components/no-results/no-results.component';
+import {
+  NoResultsComponent,
+  noResultsSelector,
+} from 'app/shared/components/no-results/no-results.component';
 import {
   HomescreenNewFeaturesBlockComponent,
   homescreenNewFeaturesBlockSelector,
 } from 'core-app/features/homescreen/blocks/new-features.component';
-import { MainMenuToggleComponent, mainMenuToggleSelector } from 'core-app/core/main-menu/main-menu-toggle.component';
+import {
+  MainMenuToggleComponent,
+  mainMenuToggleSelector,
+} from 'core-app/core/main-menu/main-menu-toggle.component';
 import {
   MainMenuResizerComponent,
   mainMenuResizerSelector,
@@ -174,7 +191,10 @@ import {
   InAppNotificationBellComponent,
   opInAppNotificationBellSelector,
 } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
-import { IanMenuComponent, ianMenuSelector } from 'core-app/features/in-app-notifications/center/menu/menu.component';
+import {
+  IanMenuComponent,
+  ianMenuSelector,
+} from 'core-app/features/in-app-notifications/center/menu/menu.component';
 import {
   opTeamPlannerSidemenuSelector,
   TeamPlannerSidemenuComponent,
@@ -221,7 +241,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
   { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
-  { selector: membersAutocompleterSelector, cls: MembersAutocompleterComponent },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
   { selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent },
   { selector: homescreenNewFeaturesBlockSelector, cls: HomescreenNewFeaturesBlockComponent },
