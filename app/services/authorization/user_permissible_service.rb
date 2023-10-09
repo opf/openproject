@@ -55,8 +55,10 @@ module Authorization
       return true if admin_and_all_granted_to_admin?(perms)
 
       if in_project
+        allowed_in_single_project?(perms, in_project) ||
         WorkPackage.allowed_to(user, perms).exists?(project: in_project)
       else
+        allowed_in_any_project?(perms) ||
         WorkPackage.allowed_to(user, perms).exists?
       end
     end
@@ -81,24 +83,24 @@ module Authorization
       return false if project.nil?
       return false unless project.active? || project.being_archived?
 
-      permissions_filtered_for_project = project.allowed_permissions.intersection(permissions.map(&:name))
+      permissions_filtered_for_project = permissions_by_enabled_project_modules(project, permissions)
 
       return false if permissions_filtered_for_project.empty?
       return true if admin_and_all_granted_to_admin?(permissions)
 
-      cached_permissions(project).intersect?(permissions_filtered_for_project.map(&:name))
+      cached_permissions(project).intersect?(permissions_filtered_for_project)
     end
 
     def allowed_in_single_entity?(permissions, entity)
       return false if entity.nil?
 
-      permissions_filtered_for_project = entity.project.allowed_permissions.intersection(permissions.map(&:name))
+      permissions_filtered_for_project = permissions_by_enabled_project_modules(entity.project, permissions)
 
       return false if permissions_filtered_for_project.empty?
       return true if admin_and_all_granted_to_admin?(permissions)
       return true if allowed_in_single_project?(permissions, entity.project)
 
-      cached_permissions(entity).intersect?(permissions_filtered_for_project.map(&:name))
+      cached_permissions(entity).intersect?(permissions_filtered_for_project)
     end
 
     def admin_and_all_granted_to_admin?(permissions)
@@ -129,10 +131,17 @@ module Authorization
     def entity_permissions(entity)
       RolePermission
         .joins(role: { member_roles: :member })
-        .where(members: { user_id: user.id, entity:, project: entity.porject })
+        .where(members: { user_id: user.id, entity:, project: entity.project })
         .pluck(:permission)
         .map(&:to_sym)
         .select { |permission| entity.project.allows_to?(permission) }
+    end
+
+    def permissions_by_enabled_project_modules(project, permissions)
+      project
+        .allowed_permissions
+        .intersection(permissions.map(&:name))
+        .map { |perm| perm.name.to_sym }
     end
   end
 end
