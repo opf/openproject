@@ -38,7 +38,6 @@ module WorkPackages
         super
 
         @work_package = work_package
-        @shared_users = find_shared_users
       end
 
       def self.wrapper_key
@@ -46,8 +45,6 @@ module WorkPackages
       end
 
       private
-
-      attr_reader :shared_users
 
       def insert_target_modified?
         true
@@ -76,8 +73,8 @@ module WorkPackages
         list_container.instance_variable_set(:@list_arguments, new_list_arguments)
       end
 
-      def find_shared_users
-        @shared_users = User
+      def shared_users
+        @shared_users ||= User
                           .having_entity_membership(@work_package)
                           .includes(work_package_shares: :roles)
                           .where(work_package_shares: { entity: @work_package })
