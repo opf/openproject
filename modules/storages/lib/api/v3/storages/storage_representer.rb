@@ -38,13 +38,16 @@ module API::V3::Storages
   URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
 
   URN_STORAGE_TYPE_NEXTCLOUD = "#{::API::V3::URN_PREFIX}storages:Nextcloud".freeze
+  URN_STORAGE_TYPE_ONE_DRIVE = "#{::API::V3::URN_PREFIX}storages:OneDrive".freeze
 
   STORAGE_TYPE_MAP = {
-    URN_STORAGE_TYPE_NEXTCLOUD => Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+    URN_STORAGE_TYPE_NEXTCLOUD => Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
+    URN_STORAGE_TYPE_ONE_DRIVE => Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
   }.freeze
 
   STORAGE_TYPE_URN_MAP = {
-    Storages::Storage::PROVIDER_TYPE_NEXTCLOUD => URN_STORAGE_TYPE_NEXTCLOUD
+    Storages::Storage::PROVIDER_TYPE_NEXTCLOUD => URN_STORAGE_TYPE_NEXTCLOUD,
+    Storages::Storage::PROVIDER_TYPE_ONE_DRIVE => URN_STORAGE_TYPE_ONE_DRIVE
   }.freeze
 
   class StorageRepresenter < ::API::Decorators::Single

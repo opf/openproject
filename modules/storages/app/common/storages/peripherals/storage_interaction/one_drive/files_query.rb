@@ -56,7 +56,11 @@ module Storages
               handle_response(response)
             end
 
-            result.map { |json_files| storage_files(json_files) }
+            if result.result.empty?
+              empty_response(folder)
+            else
+              result.map { |json_files| storage_files(json_files) }
+            end
           end
 
           private
@@ -74,17 +78,10 @@ module Storages
             end
           end
 
-          def uri_path_for(folder)
-            return "/v1.0/drives/#{@storage.drive_id}/root/children" unless folder
-
-            "/v1.0/drives/#{@storage.drive_id}/items/#{folder}/children"
-          end
-
           def storage_files(json_files)
             files = json_files.map { |json| storage_file(json) }
 
             parent_reference = json_files.first[:parentReference]
-
             StorageFiles.new(files, parent(parent_reference), forge_ancestors(parent_reference))
           end
 
@@ -99,7 +96,22 @@ module Storages
               created_by_name: json_file.dig(:createdBy, :user, :displayName),
               last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
               location: extract_location(json_file[:parentReference], json_file[:name]),
-              permissions: nil
+              permissions: %i[readable writeable]
+            )
+          end
+
+          def empty_response(folder)
+            ServiceResult.success(
+              result: StorageFiles.new(
+                [],
+                StorageFile.new(
+                  id: Digest::SHA256.hexdigest(folder),
+                  name: folder.split('/').last,
+                  location: folder,
+                  permissions: %i[readable writeable]
+                ),
+                forge_ancestors(path: folder)
+              )
             )
           end
 
@@ -118,7 +130,8 @@ module Storages
               StorageFile.new(
                 id: parent_reference[:id],
                 name:,
-                location: extract_location(parent_reference)
+                location: extract_location(parent_reference),
+                permissions: %i[readable writeable]
               )
             end
           end
@@ -138,7 +151,20 @@ module Storages
           end
 
           def root(id)
-            StorageFile.new(name: "Root", location: "/", id:)
+            StorageFile.new(name: "Root",
+                            location: "/",
+                            id:,
+                            permissions: %i[readable writeable])
+          end
+
+          def uri_path_for(folder)
+            return "/v1.0/drives/#{@storage.drive_id}/root/children" unless folder
+
+            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder)}:/children"
+          end
+
+          def encode_path(path)
+            path.split('/').map { |fragment| URI.encode_uri_component(fragment) }.join('/')
           end
         end
       end
