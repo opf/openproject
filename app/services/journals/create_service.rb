@@ -783,9 +783,7 @@ module Journals
 
       data_changes = (journable.journaled_columns_names - text_column_names).map do |column_name|
         <<~SQL
-          (#{journable_table}.#{column_name} != #{data_table}.#{column_name})
-          OR (#{journable_table}.#{column_name} IS NULL AND #{data_table}.#{column_name} IS NOT NULL)
-          OR (#{journable_table}.#{column_name} IS NOT NULL AND #{data_table}.#{column_name} IS NULL)
+          (#{journable_table}.#{column_name} IS DISTINCT FROM #{data_table}.#{column_name})
         SQL
       end
 
