@@ -66,7 +66,7 @@ module Users::PermissionChecks
     super
   end
 
-  # All the new methos to check for permissions. This will completely replace the old interface:
+  # All the new methods to check for permissions. This will completely replace the old interface:
   delegate :allowed_globally?,
            :allowed_in_project?,
            :allowed_in_any_project?,
