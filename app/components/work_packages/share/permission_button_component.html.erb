@@ -17,7 +17,9 @@
                        method: :patch,
                        name: 'role_ids[]',
                        value: option[:value]
-                     })
+                     }) do |item|
+        item.with_description.with_content(option[:description])
+      end
     end
   end
 %>
