@@ -33,37 +33,40 @@ RSpec.describe 'API v3 projects resource with filters for the linked storages',
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  let(:user) { create(:user) }
-  let(:role) { create(:role, permissions: %i[view_work_packages]) }
+  def enable_module(project, modul)
+    project.enabled_module_names = project.enabled_module_names + [modul]
+    project.save
+  end
 
-  # rubocop:disable RSpec/IndexedLet
-  let!(:project1) { create(:project, members: { user => role }) }
-  let!(:project2) { create(:project, members: { user => role }) }
-  let!(:project3) { create(:project, members: { user => role }) }
-  let!(:project4) { create(:project, members: { user => role }) }
-  let!(:storage1) { create(:nextcloud_storage) }
-  let!(:storage2) { create(:one_drive_storage) }
-  let!(:storage3) { create(:one_drive_storage) }
-  let!(:project_storage11) { create(:project_storage, project: project1, storage: storage1) }
-  let!(:project_storage12) { create(:project_storage, project: project1, storage: storage2) }
-  let!(:project_storage13) { create(:project_storage, project: project1, storage: storage3) }
-  let!(:project_storage23) { create(:project_storage, project: project2, storage: storage3) }
-  let!(:project_storage21) { create(:project_storage, project: project2, storage: storage1) }
-  let!(:project_storage31) { create(:project_storage, project: project3, storage: storage1) }
-  # rubocop:enable RSpec/IndexedLet
+  def disable_module(project, modul)
+    project.enabled_module_names = project.enabled_module_names - [modul]
+    project.save
+  end
 
+  shared_let(:user) { create(:user) }
+  shared_let(:role) { create(:role, permissions: %i[view_work_packages]) }
+
+  shared_let(:project1) { create(:project, members: { user => role }) }
+  shared_let(:project2) { create(:project, members: { user => role }) }
+  shared_let(:project3) { create(:project, members: { user => role }) }
+  shared_let(:project4) { create(:project, members: { user => role }) }
+  shared_let(:storage1) { create(:nextcloud_storage) }
+  shared_let(:storage2) { create(:one_drive_storage) }
+  shared_let(:storage3) { create(:one_drive_storage) }
+  shared_let(:project_storage11) { create(:project_storage, project: project1, storage: storage1) }
+  shared_let(:project_storage12) { create(:project_storage, project: project1, storage: storage2) }
+  shared_let(:project_storage13) { create(:project_storage, project: project1, storage: storage3) }
+  shared_let(:project_storage23) { create(:project_storage, project: project2, storage: storage3) }
+  shared_let(:project_storage21) { create(:project_storage, project: project2, storage: storage1) }
+  shared_let(:project_storage31) { create(:project_storage, project: project3, storage: storage1) }
   subject(:response) { last_response }
 
-  before do
-    login_as user
-  end
+  before { login_as user }
 
   describe 'GET /api/v3/projects' do
     let(:path) { api_v3_paths.path_for :projects, filters: }
 
-    before do
-      get path
-    end
+    before { get path }
 
     context 'with filter for storage id' do
       let(:storage_id) { storage1.id }
@@ -74,7 +77,8 @@ RSpec.describe 'API v3 projects resource with filters for the linked storages',
       end
 
       context 'if a project has the storages module deactivated' do
-        let(:project1) { create(:project, disable_modules: :storages) }
+        before(:all) { disable_module(project1, 'storages') }
+        after(:all) { enable_module(project1, 'storages') }
 
         it_behaves_like 'API V3 collection response', 2, 2, 'Project', 'Collection' do
           let(:elements) { [project3, project2] }
@@ -99,7 +103,8 @@ RSpec.describe 'API v3 projects resource with filters for the linked storages',
       end
 
       context 'if a project has the storages module deactivated' do
-        let(:project1) { create(:project, disable_modules: :storages) }
+        before(:all) { disable_module(project1, 'storages') }
+        after(:all) { enable_module(project1, 'storages') }
 
         it_behaves_like 'API V3 collection response', 2, 2, 'Project', 'Collection' do
           let(:elements) { [project3, project2] }
