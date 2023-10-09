@@ -62,7 +62,6 @@ module Users::PermissionChecks
     @user_permissible_service = nil
     @user_allowed_service = nil
     @project_role_cache = nil
-    @user_permissible_service = nil
 
     super
   end
