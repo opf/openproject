@@ -36,14 +36,15 @@ RSpec.describe FixInvalidJournals, type: :model do
   let(:attachment) { create :attachment }
   let(:custom_field) { create :custom_field }
   let!(:work_package_journals) { create_list :work_package_journal, 3 }
-  let!(:invalid_journal) do
+
+  let!(:valid_journal) do
     user = create :user
 
     ActiveRecord::Base.connection.execute("
       INSERT INTO journals
       (journable_type, data_type, data_id, user_id, created_at, updated_at, validity_period)
       VALUES
-      ('Foo', 'Journal::BarJournal', 0, #{user.id}, '2023-07-01', '2023-07-01', '[\"2021-05-03 12:53:28.245599+00\",)')
+      ('WikiContent', 'Journal::WikiContentJournal', 0, #{user.id}, '2023-07-01', '2023-07-01', '[\"2021-05-03 12:53:28.245599+00\",)')
     ")
 
     journal = Journal.last
@@ -65,20 +66,51 @@ RSpec.describe FixInvalidJournals, type: :model do
     journal
   end
 
+  let!(:invalid_journal) do
+    user = create :user
+
+    ActiveRecord::Base.connection.execute("
+      INSERT INTO journals
+      (journable_type, data_type, data_id, user_id, created_at, updated_at, validity_period)
+      VALUES
+      ('WikiContent', 'Journal::FooJournal', 0, #{user.id}, '2023-07-01',
+       '2023-07-01', '[\"2021-05-03 12:53:28.245599+00\",)')
+    ")
+
+    journal = Journal.last
+
+    ActiveRecord::Base.connection.execute("
+      INSERT INTO attachable_journals
+        (journal_id, attachment_id, filename)
+      VALUES
+        (#{journal.id}, #{attachment.id}, 'bar')
+    ")
+
+    ActiveRecord::Base.connection.execute("
+      INSERT INTO customizable_journals
+        (journal_id, custom_field_id, value)
+      VALUES
+        (#{journal.id}, #{custom_field.id}, 'bar')
+    ")
+
+    journal
+  end
+
   before do
     run_migration
   end
 
-  it 'removes invalid journals' do
+  it 'removes invalid journals and its associations', :aggregate_failures do
     expect(Journal.find_by(id: invalid_journal.id)).to be_nil
-  end
 
-  it 'removes related journals' do
     expect(Journal::AttachableJournal.find_by(journal_id: invalid_journal.id)).to be_nil
     expect(Journal::CustomizableJournal.find_by(journal_id: invalid_journal.id)).to be_nil
-  end
 
-  it 'keeps valid journals' do
+    # Keeps the valid, outdated journal
+    expect(Journal.find_by(id: valid_journal.id)).to be_present
+    expect(Journal::AttachableJournal.find_by(journal_id: valid_journal.id)).to be_present
+    expect(Journal::CustomizableJournal.find_by(journal_id: valid_journal.id)).to be_present
+
     expect(Journal.find(work_package_journals.map(&:id))).to eq work_package_journals
   end
 end

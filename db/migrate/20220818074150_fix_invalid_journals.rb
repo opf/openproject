@@ -34,8 +34,7 @@ class FixInvalidJournals < ActiveRecord::Migration[7.0]
       # rubocop:disable Rails/Output
       puts "Cleaning up broken journals on #{journable_type}"
       # rubocop:enable Rails/Output
-
-      destroy_journals relation
+      destroy_journals(relation)
     end
   end
 
@@ -62,25 +61,16 @@ class FixInvalidJournals < ActiveRecord::Migration[7.0]
   end
 
   def get_broken_journals
-    journable_types
-      .index_with { |journable_type| get_journal_relation(journable_type) }
-  end
+    Journal
+      .pluck('DISTINCT(journable_type)')
+      .compact
+      .to_h do |journable_type|
 
-  def journable_types
-    Journal.pluck('DISTINCT(journable_type)').compact
-  end
+      relation = Journal
+        .where(journable_type:)
+        .where.not(data_type: "Journal::#{journable_type}Journal")
 
-  def get_journal_relation(journable_type)
-    journal_class = journable_type.constantize.journal_class
-
-    Journal.where(journable_type:).where.not(data_type: journal_class.to_s)
-  rescue NameError # the class has been removed in the meantime
-    # rubocop:disable Rails/Output
-    puts "Journable type '#{journable_type}' no longer exists. Removing all its journals."
-    # rubocop:enable Rails/Output
-
-    # the journable type (e.g. WikiContent) doesn't exist anymore
-    # so we can remove all remaining journals for it
-    Journal.where(journable_type:)
+      [journable_type, relation]
+    end
   end
 end
