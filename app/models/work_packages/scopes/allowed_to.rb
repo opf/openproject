@@ -151,7 +151,7 @@ module WorkPackages::Scopes
       def allowed_to_member_in_work_package_join
         members_table = Member.arel_table
         arel_table.join(arel_table)
-        .on(members_table[:entity_id].eq(arel_table[:id]))
+        .on(members_table[:entity_id].eq(arel_table[:id]).and(members_table[:entity_type].eq(model_name.name)))
         .join_sources
       end
 
