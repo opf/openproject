@@ -33,7 +33,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
   class << self
     def escape_path(path)
-      path.split('/').map { |i| CGI.escapeURIComponent(i) }.join('/')
+      escaped_path = path.split('/').map { |i| CGI.escapeURIComponent(i) }.join('/')
+      escaped_path << '/' if path[-1] == '/'
+      escaped_path
     end
 
     def basic_auth_header(username, password)
