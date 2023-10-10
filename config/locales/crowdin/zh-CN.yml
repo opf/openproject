@@ -925,7 +925,7 @@ zh-CN:
       custom_field: "自定义字段"
       'doorkeeper/application': "OAuth应用程序"
       forum: "论坛"
-      global_role: "Global role"
+      global_role: "全局角色"
       group: "组"
       member: "成员"
       news: "新闻"
