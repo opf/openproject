@@ -187,6 +187,10 @@ RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak
 
 RUN ./docker/prod/setup/postinstall.sh
 
+# We need this so puma is allowed to create the tmp/pids folder and files
+# even when the container is run as a user other than 1000 (app)
+RUN tmp_path=$APP_PATH/tmp; (mkdir -p $tmp_path || true) && chmod og+rw $tmp_path
+
 # Expose ports for apache and postgres
 EXPOSE 80 5432
 

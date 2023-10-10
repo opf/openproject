@@ -226,7 +226,7 @@ fa:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
+      members: 'اعضای پروژه'
       overviews: 'Project overview'
       queries: 'Work packages: saved views'
       wiki_page_attachments: 'Wiki pages: attachments'
@@ -353,7 +353,7 @@ fa:
       form_configuration: "Form configuration"
       more_info_text_html: >
         Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
-      projects: "Projects"
+      projects: "پروژه‌ها"
       enabled_projects: "Enabled projects"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
@@ -911,6 +911,7 @@ fa:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -940,7 +941,7 @@ fa:
         one: "اعلان‌"
         other: "Notifications"
       placeholder_user: "Placeholder user"
-      project: "Project"
+      project: "پروژه"
       query: "Custom query"
       role:
         one: "Role"
@@ -1033,7 +1034,7 @@ fa:
     name: "نام"
     password: "کلمه عبور"
     priority: "اولويت"
-    project: "Project"
+    project: "پروژه"
     responsible: "Accountable"
     role: "Role"
     roles: "نقش‌ها"
@@ -1297,7 +1298,7 @@ fa:
   description_autocomplete: >
     This field uses autocomplete. While typing the title of a work package you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the work package number directly.
   description_available_columns: "Available Columns"
-  description_choose_project: "Projects"
+  description_choose_project: "پروژه‌ها"
   description_compare_from: "Compare from"
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
@@ -1394,7 +1395,7 @@ fa:
     message: Message edited
     news: News
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'پروژه ویرایش شد'
     reply: Replied
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki page edited'
@@ -1402,7 +1403,7 @@ fa:
     work_package_edit: 'Work Package edited'
     work_package_note: 'Work Package note added'
     title:
-      project: "Project: %{name}"
+      project: "پروژه: %{name}"
       subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
@@ -1450,7 +1451,7 @@ fa:
       community: "OpenProject community"
       upsale:
         title: "Upgrade to Enterprise edition"
-        more_info: "More information"
+        more_info: "اطلاعات بیشتر"
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1579,7 +1580,7 @@ fa:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
-  label_all_projects: "All projects"
+  label_all_projects: "همه پروژه‌ها"
   label_all_time: "all time"
   label_all_words: "All words"
   label_all_open_wps: "All open"
@@ -1631,9 +1632,9 @@ fa:
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_bundled: '(Bundled)'
-  label_calendar: "Calendar"
+  label_calendar: "تقویم"
   label_calendars_and_dates: "Calendars and dates"
-  label_calendar_show: "Show Calendar"
+  label_calendar_show: "نمایش تقویم"
   label_category: "Category"
   label_consent_settings: "User Consent"
   label_wiki_menu_item: Wiki menu item
@@ -1785,8 +1786,8 @@ fa:
   label_includes: 'includes'
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
-  label_information: "Information"
-  label_information_plural: "Information"
+  label_information: "اطلاعات"
+  label_information_plural: "اطلاعات"
   label_installation_guides: 'Installation guides'
   label_integer: "Integer"
   label_internal: "Internal"
@@ -1862,7 +1863,7 @@ fa:
   label_my_account: "My account"
   label_my_activity: "My activity"
   label_my_account_data: "My account data"
-  label_my_projects: "My projects"
+  label_my_projects: "پروژه‌های من"
   label_my_queries: "My custom queries"
   label_name: "نام"
   label_never: "Never"
@@ -1942,7 +1943,7 @@ fa:
   label_project_default_type: "Allow empty type"
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
-  label_project_plural: "Projects"
+  label_project_plural: "پروژه‌ها"
   label_project_settings: "Project settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
@@ -2025,7 +2026,7 @@ fa:
   label_subtask_plural: "Subtasks"
   label_summary: "Summary"
   label_system: "System"
-  label_system_storage: "Storage information"
+  label_system_storage: "اطلاعات ذخیره‌سازی"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
   label_text: "Long text"
@@ -2034,7 +2035,7 @@ fa:
   label_this_year: "this year"
   label_time_entry_plural: "زمان صرف شده"
   label_title: "Title"
-  label_projects_menu: "Projects"
+  label_projects_menu: "پروژه‌ها"
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
@@ -2128,7 +2129,7 @@ fa:
     other: "%{count} باز"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
+    one: "1 پروژه"
     other: "%{count} پروژه"
     zero: "no projects"
   label_yesterday: "yesterday"
@@ -2187,12 +2188,21 @@ fa:
         assigned: 'Assigned'
         responsible: 'Accountable'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'all'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -2405,7 +2415,7 @@ fa:
   permission_manage_categories: "Manage work package categories"
   permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Manage work package relations"
-  permission_manage_members: "Manage members"
+  permission_manage_members: "مدیریت اعضا"
   permission_manage_news: "Manage news"
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Manage public views"
@@ -2988,6 +2998,22 @@ fa:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

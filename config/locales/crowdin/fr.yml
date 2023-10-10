@@ -911,6 +911,7 @@ fr:
           attributes:
             roles:
               ungrantable: "a un rôle ne pouvant pas être assigné."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "ne peut pas être assigné à un projet."
         version:
@@ -2187,12 +2188,21 @@ fr:
         assigned: 'Assigné'
         responsible: 'Responsable'
         mentioned: 'Mentionné'
+        shared: 'Shared'
         subscribed: 'tous'
         prefix: 'Reçu en raison du paramètre de notification : %{reason}'
         date_alert_start_date: 'Alarmes'
         date_alert_due_date: 'Alarmes'
       see_all: 'Voir tout'
       updated_at: 'Mis à jour le %{timestamp} par %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "Un nouvel utilisateur (%{value}) s'est enregistré. Le compte attend votre approbation:"
   mail_body_account_information: "Informations sur votre compte"
   mail_body_account_information_external: "Vous pouvez utiliser votre compte %{value} pour vous connecter."
@@ -2987,6 +2997,22 @@ fr:
     destroy:
       info: "La suppression du lot de travaux est une action irréversible."
       title: "Supprimer le lot de travaux"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.

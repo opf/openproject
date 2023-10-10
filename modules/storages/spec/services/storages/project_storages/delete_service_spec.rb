@@ -44,7 +44,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
     let(:file_link) { create(:file_link, container: work_package, storage:) }
     let(:other_file_link) { create(:file_link, container: other_work_package, storage:) }
     let(:delete_folder_url) do
-      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}/"
     end
 
     it 'destroys the record' do
@@ -66,6 +66,9 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
 
     context 'with Nextcloud storage' do
       let(:storage) { create(:nextcloud_storage) }
+      let(:delete_folder_url) do
+        "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}/"
+      end
       let(:delete_folder_stub) do
         stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
       end
@@ -96,7 +99,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
     let(:username) { model_instance.storage.username }
     let(:path) { model_instance.project_folder_path.chop }
     let(:delete_folder_url) do
-      "#{host}/remote.php/dav/files/#{username}/#{path}"
+      "#{host}/remote.php/dav/files/#{username}/#{path}/"
     end
 
     before do

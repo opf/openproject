@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'API v3 project storages resource', content_type: :json, webmock: true do
+RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:view_permissions) { %i(view_work_packages view_file_links) }
@@ -108,7 +108,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
         end
       end
 
-      context 'with storage filter' do
+      context 'with storage id filter' do
         let(:filters) { [{ storageId: { operator: "=", values: [storage_id] } }] }
         let(:path) { api_v3_paths.path_for(:project_storages, filters:) }
 
@@ -120,15 +120,45 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
           end
         end
 
-        context 'with invalid storage id' do
+        context 'with unknown storage id' do
           let(:storage_id) { '1337' }
 
-          it_behaves_like 'invalid filters'
+          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+            let(:elements) { [] }
+          end
         end
 
         context 'with storage id of storage with no linked projects' do
           let(:storage) { create(:nextcloud_storage) }
           let(:storage_id) { storage.id }
+
+          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+            let(:elements) { [] }
+          end
+        end
+      end
+
+      context 'with storage url filter' do
+        let(:filters) { [{ storageUrl: { operator: "=", values: [storage_url] } }] }
+        let(:path) { api_v3_paths.path_for(:project_storages, filters:) }
+
+        describe 'gets all project storages of the filtered project' do
+          let(:storage_url) { CGI.escape(storage3.host) }
+
+          it_behaves_like 'API V3 collection response', 2, 2, 'ProjectStorage', 'Collection' do
+            let(:elements) { [project_storage23, project_storage13] }
+          end
+        end
+
+        context 'with invalid storage url' do
+          let(:storage_url) { nil }
+
+          it_behaves_like 'invalid filters'
+        end
+
+        context 'with storage url of storage with no linked projects' do
+          let(:storage) { create(:nextcloud_storage) }
+          let(:storage_url) { storage.host }
 
           it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
             let(:elements) { [] }

@@ -1018,6 +1018,9 @@ ca:
       scheduling:
         is_parent: "Les dates d'aquest paquet de treball estan derivades automàticament dels seus fills. Activa la \"Planificació manual\" per canviar les dates."
         is_switched_from_manual_to_automatic: "Pot ser que les dates d'aquest paquet de treball no es tornin a calcular automàticament en canviar de planificació manual a automàtica a causa de les relacions amb altres paquets de treball."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
       table:
         configure_button: 'Configura la taula de paquets de treball'
         summary: "Taula amb fileres de paquets de treball i columnes amb els atributs dels paquets de treball."

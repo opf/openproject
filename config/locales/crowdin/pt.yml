@@ -910,6 +910,7 @@ pt:
           attributes:
             roles:
               ungrantable: "possui uma função não atribuível."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "não pode ser atribuído a um projeto."
         version:
@@ -2186,12 +2187,21 @@ pt:
         assigned: 'Atribuído'
         responsible: 'Responsável'
         mentioned: 'Mencionado'
+        shared: 'Shared'
         subscribed: 'todos'
         prefix: 'Recebido devido à configuração de notificação: %{reason}'
         date_alert_start_date: 'Alerta de data'
         date_alert_due_date: 'Alerta de data'
       see_all: 'Ver todas'
       updated_at: 'Atualizado em %{timestamp} por %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
@@ -2984,6 +2994,22 @@ pt:
     destroy:
       info: "Excluir o pacote de trabalho é uma ação irreversível."
       title: "Excluir o pacote de trabalho"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Dias que não são selecionados são pulados ao agendar pacotes de trabalho (e não são incluídos na contagem do dia). Estes podem ser substituídos a nível do pacotes de trabalho.

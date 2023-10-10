@@ -166,7 +166,7 @@ fa:
       connected_no_permissions: "User role has no storages permissions"
       not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "No storages set up yet."
-    members_no_results: "No members to display."
+    members_no_results: "هیچ عضوی برای نمایش نیست."
     provider_types:
       label: "Provider type"
       nextcloud:

@@ -27,9 +27,18 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module Queries::Storages::Projects::Filter
+  class StorageUrlFilter < ::Queries::Projects::Filters::ProjectFilter
+    include StorageFilterMixin
 
-require_relative '../../lib_static/open_project/migration_statement_timeout/manager'
-require_relative '../../lib_static/open_project/migration_statement_timeout/migration_extensions'
+    private
 
-ActiveRecord::Migration.prepend(MigrationStatementTimeout::Manager)
-ActiveRecord::Migration.extend(MigrationStatementTimeout::MigrationExtensions)
+    def filter_column
+      'host'
+    end
+
+    def where_values
+      values.map { |host| CGI.unescape(host).gsub(/\/+$/, '') }
+    end
+  end
+end

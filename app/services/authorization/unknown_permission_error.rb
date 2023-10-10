@@ -26,33 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpPrimer
-  class GridLayoutComponent < Primer::Component
-    attr_reader :css_class
-
-    def initialize(css_class, **args)
-      super
-
-      @css_class = css_class
-      @system_arguments = args
-      @system_arguments[:classes] = class_names(
-        @system_arguments[:classes],
-        css_class
-      )
+module Authorization
+  class UnknownPermissionError < StandardError
+    def initialize(permission_name)
+      super("Used permission \"#{permission_name}\" that is not defined. It will never return true.")
     end
-
-    renders_many :areas, lambda { |area_name, component = ::Primer::BaseComponent, **sysargs, &block|
-      styles = [
-        "grid-area: #{area_name}",
-        sysargs[:justify_self] ? "justify-self: #{sysargs[:justify_self]}" : nil,
-      ]
-      sysargs[:style] = join_style_arguments(sysargs[:style], *styles)
-      sysargs[:classes] = class_names(
-        sysargs[:classes],
-        "#{css_class}--#{area_name}"
-      )
-
-      render(component.new(**sysargs), &block)
-    }
   end
 end

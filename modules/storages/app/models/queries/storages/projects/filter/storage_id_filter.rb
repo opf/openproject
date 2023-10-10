@@ -27,27 +27,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module Queries::Storages::Projects::Filter
+  class StorageIdFilter < ::Queries::Projects::Filters::ProjectFilter
+    include StorageFilterMixin
 
-module MigrationStatementTimeout
-  module MigrationExtensions
-    attr_accessor :minimum_statement_timeout
+    private
 
-    # Sets the minimum statement timeout for this migration.
-    #
-    # If the current statement timeout is lower than the given value, it will be
-    # set to this value. It does nothing if the statement timeout is already set
-    # to a higher value.
-    #
-    # When the given value is an integer or a string without units, it is
-    # interpreted as milliseconds.
-    #
-    # When the given value is a string with units, it is interpreted
-    # accordingly. Valid units for this parameter are "ms", "s", "min", and "h".
-    # Examples: "15min", "90s", "2h".
-    #
-    # @param [Integer|String] timeout duration
-    def set_minimum_statement_timeout(timeout)
-      self.minimum_statement_timeout = timeout
+    def filter_column
+      'id'
     end
   end
 end
