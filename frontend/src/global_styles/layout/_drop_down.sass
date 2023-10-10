@@ -87,7 +87,6 @@
 
     &:not(.inactive):hover
       background-color: #F0F0F0
-      color: var(--context-menu-hover-font-color)
       cursor: pointer
       border-color: var(--list-item-hover-color)
 
@@ -103,7 +102,7 @@
 
   LI > .selected
     background: var(--drop-down-selected-bg-color)
-    color: var(--drop-down-selected-font-color)
+    font-weight: var(--base-text-weight-semibold, 600)
 
 .dropdown
   @include dot_border_width_style
