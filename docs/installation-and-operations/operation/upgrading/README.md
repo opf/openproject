@@ -8,13 +8,13 @@ sidebar_navigation:
 
 > **Note**: We strongly recommend that you have backed up your installation before upgrading OpenProject to a newer version, especially when performing multiple upgrades at once. Please follow the [backup](../backing-up) instructions.
 
-| Topic                                                        | Content                                                     |
-| ------------------------------------------------------------ | ----------------------------------------------------------- |
-| [Package-based installation](#package-based-installation-debrpm) | How to upgrade a package-based installation of OpenProject. |
-| [Docker-based installation](#compose-based-installation)      | How to upgrade a Docker-based installation of OpenProject.  |
-| [Upgrade notes to 12.x](#upgrade-notes-to-12x)  | How to upgrade from OpenProject 9.x or greater to OpenProject 12.x.     |
-| [Upgrade notes for 8.x to 9.x](#upgrade-notes-for-8x-to-9x)  | How to upgrade from OpenProject 8.x to OpenProject 9.x.     |
-| [Upgrade notes for 7.x to 8.x](#upgrade-notes-for-openproject-7x-to-8x) | How to upgrade from OpenProject 7.x to OpenProject 8.x.     |
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Package-based installation](#package-based-installation-debrpm) | How to upgrade a package-based installation of OpenProject.  |
+| [Docker-based installation](#compose-based-installation)     | How to upgrade a Docker-based installation of OpenProject.   |
+| [Upgrade notes from 9.x](#upgrade-notes-from-9x)             | How to upgrade from OpenProject 9.x or greater to OpenProject 13.x and higher |
+| [Upgrade notes for 8.x to 9.x](#upgrade-notes-for-8x-to-9x)  | How to upgrade from OpenProject 8.x to OpenProject 9.x.      |
+| [Upgrade notes for 7.x to 8.x](#upgrade-notes-for-openproject-7x-to-8x) | How to upgrade from OpenProject 7.x to OpenProject 8.x.      |
 
 ## Package-based installation (DEB/RPM)
 
@@ -161,9 +161,9 @@ sudo chown -R 102 /volume1/openproject/*
 After that it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
 as described in the [installation section](../../installation/docker/#one-container-per-process-recommended).
 
-## Upgrade notes to 12.x
+## Upgrade notes from 9.x
 
-Generally, there are no special steps or caveats when upgrading to OpenProject 12.x or higher from any version greater than 9.x. Simply follow the upgrade steps outlined above for your type of installation.
+Generally, there are no special steps or caveats when upgrading to OpenProject 13.x or higher from any version greater than 9.x. Simply follow the upgrade steps outlined above for your type of installation.
 
 If you are using Docker, you should mount your OpenProject volume at `/var/openproject/assets` instead of `/var/db/openproject`
 

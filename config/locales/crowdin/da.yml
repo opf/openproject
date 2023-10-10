@@ -924,13 +924,14 @@ da:
     models:
       attachment: "Fil"
       attribute_help_text: "Attribute help text"
-      forum: "Forum"
+      category: "Kategori"
       comment: "Kommentér"
       custom_action: "Custom action"
       custom_field: "Selvvalgt felt"
+      'doorkeeper/application': "OAuth application"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Gruppe"
-      category: "Kategori"
-      status: "Status for arbejdspakke"
       member: "Medlem"
       news: "Nyheder"
       notification:
@@ -942,14 +943,14 @@ da:
       role:
         one: "Rolle"
         other: "Rollee"
+      status: "Status for arbejdspakke"
       type: "Type"
       user: "Bruger"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki-side"
       workflow: "Arbejdsgang"
       work_package: "Arbejdspakke"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Wiki-side"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"

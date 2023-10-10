@@ -30,9 +30,8 @@ require 'spec_helper'
 
 RSpec.describe(
   Projects::CopyService,
-  'integration',
+  'integration', :webmock,
   type: :model,
-  webmock: true,
   with_ee: %i[readonly_work_packages]
 ) do
   shared_let(:status_locked) { create(:status, is_readonly: true) }
@@ -235,6 +234,13 @@ RSpec.describe(
                container: source_wp,
                storage: storage1)
       end
+      let!(:folder_inside_automatic_project_folder_link) do
+        create(:file_link,
+               origin_id: "103",
+               origin_name: "This is a folder",
+               container: source_wp,
+               storage: storage1)
+      end
       let!(:file_inside_manual_project_folder_link) do
         create(:file_link,
                origin_id: "102",
@@ -324,6 +330,21 @@ RSpec.describe(
                   <d:status>HTTP/1.1 404 Not Found</d:status>
                 </d:propstat>
               </d:response>
+              <d:response>
+                <d:href>/remote.php/dav/files/OpenProject/OpenProject/Target%20Project%20Name%20(#{project_id})/#{folder_inside_automatic_project_folder_link.origin_name}/</d:href>
+                <d:propstat>
+                  <d:prop>
+                    <oc:fileid>431</oc:fileid>
+                  </d:prop>
+                  <d:status>HTTP/1.1 200 OK</d:status>
+                </d:propstat>
+                <d:propstat>
+                  <d:prop>
+                    <nc:acl-list/>
+                  </d:prop>
+                  <d:status>HTTP/1.1 404 Not Found</d:status>
+                </d:propstat>
+              </d:response>
             </d:multistatus>
           XML
           { status: 200, body:, headers: {} }
@@ -373,13 +394,30 @@ RSpec.describe(
                   "modifier_id": null,
                   "dav_permissions": "RMGDNVW",
                   "path": "files\\/OpenProject\\/Source Project Name (#{source.id})\\/#{file_inside_automatic_project_folder_link.origin_name}"
+                },
+                "#{folder_inside_automatic_project_folder_link.origin_id}": {
+                  "status": "OK",
+                  "statuscode": 200,
+                  "id": #{folder_inside_automatic_project_folder_link.origin_id},
+                  "name": "#{folder_inside_automatic_project_folder_link.origin_name}",
+                  "mtime": 1689687111,
+                  "ctime": 0,
+                  "mimetype": "application\\/x-op-directory",
+                  "size": 0,
+                  "owner_name": "admin",
+                  "owner_id": "admin",
+                  "trashed": false,
+                  "modifier_name": null,
+                  "modifier_id": null,
+                  "dav_permissions": "RMGDNVCK",
+                  "path": "files\\/OpenProject\\/Source Project Name (#{source.id})\\/#{folder_inside_automatic_project_folder_link.origin_name}"
                 }
               }
             }
           }
         JSON
         stub_request(:post, "#{host}/ocs/v1.php/apps/integration_openproject/filesinfo")
-          .with(body: '{"fileIds":["100","101"]}')
+          .with(body: '{"fileIds":["100","101","103"]}')
           .to_return(status: 200, body: filesinfo_response_body, headers: { 'Content-Type' => 'application/json' })
       end
 
@@ -438,10 +476,11 @@ RSpec.describe(
         expect(manual_project_storage_copy.project_folder_mode).to eq('manual')
 
         wp_copy = project_copy.work_packages.where(subject: "source wp").first
-        expect(wp_copy.file_links.count).to eq(3)
+        expect(wp_copy.file_links.count).to eq(4)
         file_outside_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "file_name1.txt")
         file_inside_automatic_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "file_name2.txt")
         file_inside_manual_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "file_name3.txt")
+        folder_inside_automatic_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "This is a folder")
         expect(file_outside_project_folder_link_copy.id).not_to eq(file_outside_project_folder_link.id)
         expect(file_outside_project_folder_link_copy.origin_id).to eq(file_outside_project_folder_link.origin_id)
         expect(file_outside_project_folder_link_copy.storage_id).to eq(file_outside_project_folder_link.storage_id)
@@ -449,6 +488,10 @@ RSpec.describe(
         expect(file_inside_automatic_project_folder_link_copy.origin_id).to eq("430")
         expect(file_inside_automatic_project_folder_link_copy.storage_id)
           .to eq(file_inside_automatic_project_folder_link.storage_id)
+        expect(folder_inside_automatic_project_folder_link_copy.id).not_to eq(folder_inside_automatic_project_folder_link.id)
+        expect(folder_inside_automatic_project_folder_link_copy.origin_id).to eq("431")
+        expect(folder_inside_automatic_project_folder_link_copy.storage_id)
+          .to eq(folder_inside_automatic_project_folder_link.storage_id)
         expect(file_inside_manual_project_folder_link_copy.id).not_to eq(file_inside_manual_project_folder_link.id)
         expect(file_inside_manual_project_folder_link_copy.origin_id).to eq("102")
         expect(file_inside_manual_project_folder_link_copy.storage_id).to eq(file_inside_manual_project_folder_link.storage_id)

@@ -921,13 +921,14 @@ de:
     models:
       attachment: "Datei"
       attribute_help_text: "Hilfe-Text für Attribute"
-      forum: "Forum"
+      category: "Kategorie"
       comment: "Kommentar"
       custom_action: "Benutzerdefinierte Aktion"
       custom_field: "Benutzerdefiniertes Feld"
+      'doorkeeper/application': "OAuth-Anwendung"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Gruppe"
-      category: "Kategorie"
-      status: "Arbeitspaket-Status"
       member: "Mitglied"
       news: "Neuigkeiten"
       notification:
@@ -939,14 +940,14 @@ de:
       role:
         one: "Rolle"
         other: "Rollen"
+      status: "Arbeitspaket-Status"
       type: "Typ"
       user: "Benutzer"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki-Seite"
       workflow: "Workflow"
       work_package: "Arbeitspaket"
-      'doorkeeper/application': "OAuth-Anwendung"
+      wiki: "Wiki"
+      wiki_page: "Wiki-Seite"
   errors:
     header_invalid_fields:
       one: "Bei dem folgenden Feld traten Fehler auf:"

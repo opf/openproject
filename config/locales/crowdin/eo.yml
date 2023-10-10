@@ -926,13 +926,14 @@ eo:
     models:
       attachment: "Dosiero"
       attribute_help_text: "Atributa helpteksto"
-      forum: "Forumo"
+      category: "Kategorio"
       comment: "Komento"
       custom_action: "Adaptita ago"
       custom_field: "Propra kampo"
+      'doorkeeper/application': "OAuth aplikaĵo"
+      forum: "Forumo"
+      global_role: "Global role"
       group: "Grupo"
-      category: "Kategorio"
-      status: "Stato de la Laborpakaĵo"
       member: "Membro"
       news: "Novaĵoj"
       notification:
@@ -944,14 +945,14 @@ eo:
       role:
         one: "Rolo"
         other: "Roloj"
+      status: "Stato de la Laborpakaĵo"
       type: "Tipo"
       user: "Uzanto"
       version: "Versio"
-      wiki: "Vikio"
-      wiki_page: "Vikipaĝo"
       workflow: "Laborfluo"
       work_package: "Laborpakaĵo"
-      'doorkeeper/application': "OAuth aplikaĵo"
+      wiki: "Vikio"
+      wiki_page: "Vikipaĝo"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"

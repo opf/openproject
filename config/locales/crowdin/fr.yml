@@ -926,13 +926,14 @@ fr:
     models:
       attachment: "Fichier"
       attribute_help_text: "Attribut d’aide de texte"
-      forum: "Forum"
+      category: "Catégorie"
       comment: "Commentaire"
       custom_action: "Action personnalisée"
       custom_field: "Champ personnalisé"
+      'doorkeeper/application': "Application OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Groupe"
-      category: "Catégorie"
-      status: "Statut du lot de travaux"
       member: "Membre"
       news: "Actualités"
       notification:
@@ -944,14 +945,14 @@ fr:
       role:
         one: "Rôle"
         other: "Rôles"
+      status: "Statut du lot de travaux"
       type: "Type"
       user: "Utilisateur"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Page wiki"
       workflow: "Flux de travail"
       work_package: "Lot de travaux"
-      'doorkeeper/application': "Application OAuth"
+      wiki: "Wiki"
+      wiki_page: "Page wiki"
   errors:
     header_invalid_fields:
       one: "Une erreur s'est produite avec le champ suivant :"
