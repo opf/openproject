@@ -35,13 +35,6 @@ RSpec.describe MembersController do
                                                                    action: 'create',
                                                                    project_id: '5234')
     }
-
-    it {
-      expect(subject).to route(:get, '/projects/5234/members/autocomplete_for_member')
-                       .to(controller: 'members',
-                           action: 'autocomplete_for_member',
-                           project_id: '5234')
-    }
   end
 
   it {

@@ -68,7 +68,7 @@ If the permission should be tested for a specific controller action, it will suf
 As an example, the permissions `:manage_members`,  `:view_members` is defined as follows:
 
 ```ruby
-permission :manage_members, { members: %i[index new create update destroy autocomplete_for_member] }
+permission :manage_members, { members: %i[index new create update destroy] }
 permission :view_members, { members: [:index] }
 ```
 

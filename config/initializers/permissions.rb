@@ -110,7 +110,7 @@ Rails.application.reloader.to_prepare do
                      require: :member
 
       map.permission :manage_members,
-                     { members: %i[index new create update destroy autocomplete_for_member] },
+                     { members: %i[index new create update destroy] },
                      permissible_on: :project,
                      require: :member,
                      dependencies: :view_members,

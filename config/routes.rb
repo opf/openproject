@@ -288,11 +288,7 @@ OpenProject::Application.routes.draw do
 
     resources :categories, except: %i[index show], shallow: true
 
-    resources :members, only: %i[index create update destroy], shallow: true do
-      collection do
-        get :autocomplete_for_member
-      end
-    end
+    resources :members, only: %i[index create update destroy], shallow: true
 
     resource :repository, controller: 'repositories', except: [:new] do
       # Destroy uses a get request to prompt the user before the actual DELETE request
