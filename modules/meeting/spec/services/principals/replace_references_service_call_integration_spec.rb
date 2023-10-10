@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,12 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :meeting_agenda_item do |m|
-    meeting factory: :structured_meeting
-    work_package { nil }
-    author factory: :user
-    duration_in_minutes { 10 }
-    m.sequence(:title) { |n| "Agenda item #{n}" }
+require 'spec_helper'
+require_module_spec_helper
+
+RSpec.describe Principals::ReplaceReferencesService, '#call', type: :model do
+  shared_let(:principal) { create(:user) }
+  shared_let(:to_principal) { create(:user) }
+
+  subject(:service_call) { instance.call(from: principal, to: to_principal) }
+
+  let(:instance) do
+    described_class.new
+  end
+
+  shared_examples 'replaces the creator' do
+    before do
+      model
+    end
+
+    it 'is successful' do
+      expect(service_call)
+        .to be_success
+    end
+
+    it 'replaces principal with to_principal' do
+      service_call
+      model.reload
+
+      expect(model.author).to eql to_principal
+    end
+  end
+
+  context 'with MeetingAgendaItem' do
+    it_behaves_like 'replaces the creator' do
+      let(:model) { create(:meeting_agenda_item, author: principal) }
+    end
   end
 end
