@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Projects::Scopes
+module WorkPackages::Scopes
   module AllowedTo
     extend ActiveSupport::Concern
     include Authorization::Scopes::AllowedTo
@@ -34,58 +34,37 @@ module Projects::Scopes
     class_methods do
       private
 
-      def allowed_to_non_member_relation(user, permission)
-        permissions = allowed_to_permissions(permission)
+      def allowed_to_anonymous(user, permissions)
+        where(project_id: Project.allowed_to(user, permissions).select(:id))
+      end
 
-        joins(allowed_to_enabled_module_join(permissions))
-          .joins(allowed_to_builtin_roles_in_active_project_join(user))
-          .joins(allowed_to_role_permission_join(permissions))
+      alias_method :allowed_to_non_member_relation, :allowed_to_anonymous
+
+      def allowed_to_admin_relation(permissions)
+        joins(:project)
+          .joins(allowed_to_enabled_module_join(permissions))
+          .where(Project.arel_table[:active].eq(true))
+      end
+
+      def allowed_to_member_relation(user, permission)
+        super
+          .joins(allowed_to_member_in_work_package_join)
       end
 
       def allowed_to_members_condition(user)
         members_table = Member.arel_table
 
-        members_table[:project_id].eq(arel_table[:id])
+        members_table[:project_id].eq(arel_table[:project_id])
                                   .and(members_table[:user_id].eq(user.id))
-                                  .and(members_table[:entity_type].eq(nil))
-                                  .and(members_table[:entity_id].eq(nil))
+                                  .and(members_table[:entity_type].eq(model_name.name))
       end
 
-      def allowed_to_builtin_roles_in_active_project_join(user)
-        condition = allowed_to_built_roles_in_active_project_condition(user)
+      def allowed_to_member_in_work_package_join
+        members_table = Member.arel_table
 
-        if user.logged?
-          condition = condition.and(allowed_to_no_member_exists_condition(user))
-        end
-
-        roles_table = Role.arel_table
-
-        arel_table.join(roles_table)
-                  .on(condition)
+        arel_table.join(arel_table)
+                  .on(members_table[:entity_id].eq(arel_table[:id]).and(members_table[:entity_type].eq(model_name.name)))
                   .join_sources
-      end
-
-      def allowed_to_built_roles_in_active_project_condition(user)
-        builtin = if user.logged?
-                    Role::BUILTIN_NON_MEMBER
-                  else
-                    Role::BUILTIN_ANONYMOUS
-                  end
-
-        roles_table = Role.arel_table
-
-        roles_table[:builtin].eq(builtin)
-                             .and(arel_table[:active])
-                             .and(arel_table[:public])
-      end
-
-      def allowed_to_no_member_exists_condition(user)
-        Member
-          .select(1)
-          .where(allowed_to_members_condition(user))
-          .arel
-          .exists
-          .not
       end
     end
   end
