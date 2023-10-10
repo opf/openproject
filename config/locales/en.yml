@@ -637,6 +637,7 @@ en:
         time_zone: "Time zone"
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        theme: "Mode"
       version:
         effective_date: "Finish date"
         sharing: "Sharing"
