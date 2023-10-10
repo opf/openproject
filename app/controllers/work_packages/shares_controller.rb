@@ -84,13 +84,17 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def respond_with_prepend_share
-    prepend_via_turbo_stream(
-      component: WorkPackages::Share::ShareRowComponent.new(share: @share),
-      target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+    replace_via_turbo_stream(
+      component: WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package)
     )
 
     update_via_turbo_stream(
       component: WorkPackages::Share::ShareCounterComponent.new(count: current_member_count)
+    )
+
+    prepend_via_turbo_stream(
+      component: WorkPackages::Share::ShareRowComponent.new(share: @share),
+      target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
     )
 
     respond_with_turbo_streams

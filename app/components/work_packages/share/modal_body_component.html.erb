@@ -2,11 +2,7 @@
   component_wrapper(tag: 'turbo-frame') do
     flex_layout(data: { turbo: true }) do |modal_content|
       modal_content.with_row do
-        if sharing_manageable?
-          render(WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package))
-        else
-          render(Primer::Beta::Flash.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
-        end
+        render(WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package))
       end
 
       if shared_users.none?

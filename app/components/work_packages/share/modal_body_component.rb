@@ -32,7 +32,6 @@ module WorkPackages
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
-      include WorkPackages::Share::Concerns::Authorization
 
       def initialize(work_package:)
         super
