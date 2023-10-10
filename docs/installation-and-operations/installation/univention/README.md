@@ -5,6 +5,8 @@ sidebar_navigation:
 
 # OpenProject in Univention App Center
 
+> Important notice: currently it is not possible to update your OpenProject installation via UCS. Please choose one of our supported installation methods.
+
 Univention App Center is the marketplace in [Univention Corporate Server (UCS)](https://www.univention.com/products/ucs/), an enterprise operating platform for infrastructure and identity management. OpenProject is available in the [App Center](https://www.univention.com/products/app-catalog/openproject/) and comes integrated with the identity management.
 
 

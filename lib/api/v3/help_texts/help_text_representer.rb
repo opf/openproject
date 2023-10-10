@@ -38,8 +38,9 @@ module API
                   id_attribute: :id,
                   title_getter: ->(*) {}
 
-        link :editText do
-          if current_user.admin? && represented.persisted?
+        link :editText,
+             cache_if: -> { current_user.admin? } do
+          if represented.persisted?
             {
               href: edit_attribute_help_text_path(represented.id),
               type: 'text/html'

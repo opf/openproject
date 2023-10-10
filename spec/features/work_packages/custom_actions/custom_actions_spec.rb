@@ -147,6 +147,8 @@ RSpec.describe 'Custom actions',
   end
 
   it 'viewing workflow buttons' do
+    skip("The autocompleter for projects is currently broken. See https://community.openproject.org/wp/50281")
+
     # create custom action 'Unassign'
     index_ca_page.visit!
 

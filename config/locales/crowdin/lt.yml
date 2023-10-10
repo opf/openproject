@@ -912,6 +912,7 @@ lt:
           attributes:
             roles:
               ungrantable: "turi nepriskiriamą vaidmenį."
+              more_than_one: "turi daugiau nei vieną vaidmenį"
             principal:
               unassignable: "negalima priskirti projektui."
         version:
@@ -935,7 +936,7 @@ lt:
       custom_field: "Kliento laukelis"
       'doorkeeper/application': "OAuth aplikacija"
       forum: "Forumas"
-      global_role: "Global role"
+      global_role: "Visuotinis vaidmuo"
       group: "Grupė"
       member: "Narys"
       news: "Naujienos"
@@ -1292,26 +1293,51 @@ lt:
         few: "%{count} dienos"
         many: "%{count} dienų"
         other: "%{count} dienos"
-      x_min_abbreviated:
-        one: "1 min"
-        few: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} min"
       x_minutes:
         one: "1 minutę"
         few: "%{count} minutes"
         many: "%{count} minučių"
         other: "%{count} minutes"
+      x_minutes_abbreviated:
+        one: "1 min"
+        few: "%{count} min"
+        many: "%{count} min"
+        other: "%{count} min"
+      x_hours:
+        one: "1 valanda"
+        few: "%{count} valandos"
+        many: "%{count} valandų"
+        other: "%{count} valandos"
+      x_hours_abbreviated:
+        one: "1 val."
+        few: "%{count} val."
+        many: "%{count} val."
+        other: "%{count} val."
+      x_weeks:
+        one: "1 savaitė"
+        few: "%{count} savaitės"
+        many: "%{count} savaičių"
+        other: "%{count} savaitės"
       x_months:
         one: "1 mėnesį"
         few: "%{count} mėnesius"
         many: "%{count} mėnesių"
         other: "%{count} mėnesius"
+      x_years:
+        one: "1 metai"
+        few: "%{count} metai"
+        many: "%{count} metų"
+        other: "%{count} metai"
       x_seconds:
         one: "1 sekundę"
         few: "%{count} sekundes"
         many: "%{count} sekundžių"
         other: "%{count} sekundes"
+      x_seconds_abbreviated:
+        one: "1 s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "valanda"
@@ -1596,7 +1622,7 @@ lt:
   label_add_related_work_packages: "Pridėti susijusių darbų paketų"
   label_add_subtask: "Pridėti antrinę užduotį"
   label_added: "pridėtas"
-  label_added_by: "Added by %{author}"
+  label_added_by: "Pridėjo %{author}"
   label_added_time_by: "%{author} pridėjo prieš %{age}"
   label_additional_workflow_transitions_for_assignee: "Papildomi darbų eigos variantai leistini, kai darbas paskirtas vartotojui"
   label_additional_workflow_transitions_for_author: "Papildomi darbų eigos variantai leistini, kai vartotojas yra autorius"
@@ -2215,12 +2241,21 @@ lt:
         assigned: 'Paskirtas'
         responsible: 'Atsakingas'
         mentioned: 'Paminėtas'
+        shared: 'Bendras'
         subscribed: 'visi'
         prefix: 'Gauta dėl pranešimų nustatymo: %{reason}'
         date_alert_start_date: 'Datos įspėjimas'
         date_alert_due_date: 'Datos įspėjimas'
       see_all: 'Žiūrėti visus'
       updated_at: 'Pakeitė %{user} %{timestamp}'
+    sharing:
+      work_packages:
+        allowed_actions: 'Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių.'
+        open_work_package: 'Atverti darbo paketą'
+        reason: 'bendrino su jumis šį darbo paketą tokiomis %{role_rights} teisėmis:'
+        see_in_open_project: 'Žiūrėkite darbo paketą OpenProject'
+        subject: 'Su jumis bendrinamas darbo paketas #%{id}'
+        summary: '%{user} pasidalinto darbo paketu su jumis'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
@@ -3015,6 +3050,22 @@ lt:
     destroy:
       info: "Darbų paketo ištrynimas yra negrįžtamas veiksmas."
       title: "Ištrinti darbų paketą"
+    sharing:
+      count:
+        zero: "0 naudotojų"
+        one: "1 naudotojas"
+        other: "%{count} naudotojai"
+      invite: "Pakviesti"
+      label_search: "Ieškoti naudotojų pakvietimui"
+      label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
+      permissions:
+        comment: "Komentuoti"
+        denied: "Jūs neturite teisės benrinti darbo paketus."
+        edit: "Redaguoti"
+        view: "Žiūrėti"
+      remove: "Išimti"
+      text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
+      text_empty_state_header: "Nėra bendrinamų naudotojų"
   working_days:
     info: >
       Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.

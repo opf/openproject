@@ -56,4 +56,9 @@ FactoryBot.define do
     project { nil }
     entity { nil }
   end
+
+  factory :work_package_member, parent: :member do
+    entity factory: %i[work_package]
+    project { entity.project }
+  end
 end

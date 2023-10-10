@@ -72,7 +72,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
                                   created_by_name: "Megan Bowen",
                                   last_modified_by_name: "Megan Bowen",
                                   location: "/All Japan Revenues By City.xlsx",
-                                  permissions: nil })
+                                  permissions: %i[readable writeable] })
   end
 
   it 'when the argument folder is nil, gets information from that users root folder' do
@@ -90,16 +90,42 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     expect(storage_files.ancestors).to be_empty
   end
 
+  context 'when accessing an empty folder' do
+    let(:json) { read_json('empty_folder') }
+
+    before do
+      stub_request(
+        :get,
+        "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root:/TestBatchingFolder:/children#{described_class::FIELDS}"
+      )
+        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
+        .to_return(status: 200, body: json, headers: {})
+    end
+
+    it 'returns an empty storage files' do
+      storage_files = described_class.call(storage:, user:, folder: '/TestBatchingFolder').result
+
+      expect(storage_files.files).to be_empty
+    end
+
+    it 'fakes a parent' do
+      storage_files = described_class.call(storage:, user:, folder: '/TestBatchingFolder').result
+
+      expect(storage_files.ancestors.size).to eq(1)
+      expect(storage_files.ancestors[0].location).to eq '/'
+    end
+  end
+
   context 'when accessing a specific folder' do
     let(:json) { read_json('specific_folder') }
 
     it 'uses the specific drive url' do
-      uri = "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY/children#{described_class::FIELDS}"
+      uri = "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root:/Class%20Documents:/children#{described_class::FIELDS}"
       stub_request(:get, uri)
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 200, body: json, headers: {})
 
-      storage_files = described_class.call(storage:, user:, folder: '01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY').result
+      storage_files = described_class.call(storage:, user:, folder: '/Class Documents').result
 
       expect(storage_files.files.size).to eq(22)
       expect(storage_files.parent.name).to eq('Class Documents')
@@ -117,11 +143,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     end
 
     it 'has one ancestors and one parent' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN/children#{described_class::FIELDS}")
-        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
+      stub_request(
+        :get,
+        "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root:/Contoso%20Clothing/Clothing%20Articles:/children#{described_class::FIELDS}"
+      ).with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 200, body: payload, headers: {})
 
-      storage_files = described_class.call(storage:, user:, folder: "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN").result
+      storage_files = described_class.call(storage:, user:, folder: "/Contoso Clothing/Clothing Articles").result
 
       expect(storage_files.ancestors.size).to eq(2)
       expect(storage_files.ancestors.map(&:location)).to contain_exactly("/", "/Contoso Clothing")

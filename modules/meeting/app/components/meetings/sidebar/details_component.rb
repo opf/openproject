@@ -121,17 +121,16 @@ module Meetings
     end
 
     def duration_partial
-      duration = Duration.new(seconds: @meeting.duration * 3600)
-
       meeting_attribute_row(:stopwatch) do
-        if duration.hours > 0
-          render(Primer::Beta::Text.new) do
-            "#{duration.hours} h #{duration.minutes} min"
+        flex_layout do |flex|
+          flex.with_column do
+            render OpenProject::Common::DurationComponent.new(@meeting.duration, :hours, abbreviated: true)
           end
-        else
-          render(Primer::Beta::Text.new) do
-            "#{duration.minutes} min"
-          end
+          flex.with_column(ml: 2) do
+            render(Primer::Beta::Text.new(color: :danger, font_size: :small)) do
+              "+ #{ I18n.t('datetime.distance_in_words.x_min_abbreviated', count: @meeting.duration_exceeded_by_agenda_items_in_minutes.to_i)}"
+            end
+          end if @meeting.duration_exceeded_by_agenda_items?
         end
       end
     end

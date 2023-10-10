@@ -40,7 +40,7 @@ class VersionsController < ApplicationController
     @types = @project.types.order(Arel.sql('position'))
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
-    project_ids = @with_subprojects ? @project.self_and_descendants.map(&:id) : [@project.id]
+    project_ids = @with_subprojects ? @project.self_and_descendants.includes(:wiki).map(&:id) : [@project.id]
 
     @versions = find_versions(@with_subprojects, params[:completed])
 
@@ -166,10 +166,10 @@ class VersionsController < ApplicationController
   end
 
   def find_versions(subprojects, completed)
-    versions = @project.shared_versions
+    versions = @project.shared_versions.includes(:custom_values)
 
     if subprojects
-      versions = versions.or(@project.rolled_up_versions)
+      versions = versions.or(@project.rolled_up_versions.includes(:custom_values))
     end
 
     versions = versions.visible.order_by_semver_name.except(:distinct).uniq

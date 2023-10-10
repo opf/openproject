@@ -76,7 +76,7 @@ RSpec.describe WorkPackagesController do
                    state: '5/overview')
   end
 
-  it 'should connect GET /projects/:project_id/work_packages/details/:id/:state' +
+  it 'connects GET /projects/:project_id/work_packages/details/:id/:state' +
      ' to work_packages#index' do
     expect(get('/projects/1/work_packages/details/2/overview'))
       .to route_to(controller: 'work_packages',
@@ -89,6 +89,18 @@ RSpec.describe WorkPackagesController do
     expect(get('/work_packages/1')).to route_to(controller: 'work_packages',
                                                 action: 'show',
                                                 id: '1')
+  end
+
+  it 'connects GET /work_packages/:id/share to work_packages/shares#index' do
+    expect(get('/work_packages/1/shares')).to route_to(controller: 'work_packages/shares',
+                                                       action: 'index',
+                                                       work_package_id: '1')
+  end
+
+  it 'connects POST /work_packages/:id/share to work_packages/shares#create' do
+    expect(post('/work_packages/1/shares')).to route_to(controller: 'work_packages/shares',
+                                                        action: 'create',
+                                                        work_package_id: '1')
   end
 
   it 'connects GET /work_packages/:work_package_id/moves/new to work_packages/moves#new' do

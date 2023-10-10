@@ -912,6 +912,7 @@ pl:
           attributes:
             roles:
               ungrantable: "ma rolę, której nie można przypisać."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "nie można przypisać do projektu."
         version:
@@ -1292,26 +1293,51 @@ pl:
         few: "%{count} dni"
         many: "%{count} dni"
         other: "%{count} dni"
-      x_min_abbreviated:
-        one: "1 min"
-        few: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} mins"
       x_minutes:
         one: "1 minuta"
         few: "%{count} minut"
         many: "%{count} minut"
         other: "%{count} minut"
+      x_minutes_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "1 miesiąc"
         few: "%{count} miesiące"
         many: "%{count} miesiące"
         other: "%{count} miesiące"
+      x_years:
+        one: "1 year"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "1 sekunda"
         few: "%{count} sekundy"
         many: "%{count} sekundy"
         other: "%{count} sekundy"
+      x_seconds_abbreviated:
+        one: "1 s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "godzina"
@@ -2215,12 +2241,21 @@ pl:
         assigned: 'Przypisane'
         responsible: 'Osoba odpowiedzialna'
         mentioned: 'Wzmianka'
+        shared: 'Shared'
         subscribed: 'wszystkie'
         prefix: 'Otrzymano z powodu ustawienia powiadomienia: %{reason}'
         date_alert_start_date: 'Alert dotyczący daty'
         date_alert_due_date: 'Alert dotyczący daty'
       see_all: 'Zobacz wszystkie'
       updated_at: 'Zaktualizowano %{timestamp}, autor %{user} '
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Informacje o koncie"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -2857,7 +2892,7 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_attachment_added: "%{label} %{value} dodano jako załącznik"
-  text_journal_attachment_deleted: "%{label} %{old} usunięto jako załącznik"
+  text_journal_attachment_deleted: "%{label} %{value} usunięto jako załącznik"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
@@ -3017,6 +3052,22 @@ pl:
     destroy:
       info: "Usunięcie Zestawu zadań jest czynnością nieodwracalną."
       title: "Usuń Zestawy zadań"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Dni, które nie zostały wybrane, są pomijane podczas planowania pakietów roboczych (i nie są uwzględnione w liczbie dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.

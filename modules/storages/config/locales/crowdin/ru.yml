@@ -67,6 +67,8 @@ ru:
       select_folder: "Выберите папку"
       configure: "Настроить"
     page_titles:
+      file_storages:
+        subtitle: "Добавьте внешнее хранилище файлов для загрузки, чтобы связывать и управлять файлами в пакетах работ."
       managed_project_folders:
         title: "Автоматически управляемые папки проектов"
         subtitle: >
@@ -123,11 +125,18 @@ ru:
       project_storage_delete_result_2: "В случае, если хранилище имеет автоматически управляемую папку проекта, она и ее файлы будут удалены навсегда."
       input_delete_confirmation: "Введите имя хранилища файлов %{file_storage} для подтверждения удаления."
       irreversible_notice: "Удаление хранилища файлов является необратимым действием."
+    storage_list_blank_slate:
+      heading: "У вас пока нет хранилищ."
+      description: "Добавьте хранилище, чтобы увидеть его здесь."
     label_active: "Активный"
+    label_add_new_storage: "Добавить новое хранилище"
     label_inactive: "Неактивный"
     label_creator: "Создатель"
+    label_provider: "Поставщик"
     label_file_link: "Ссылка на файл"
     label_file_links: "Ссылки на файл"
+    label_creation_time: "Время создания"
+    label_incomplete: "Не завершено"
     label_name: "Имя"
     label_host: "URL хоста"
     label_managed_project_folders:

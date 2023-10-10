@@ -67,6 +67,8 @@ uk:
       select_folder: "Вибрати папку"
       configure: "Налаштувати"
     page_titles:
+      file_storages:
+        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Папки проєкту з автоматичним керуванням"
         subtitle: >
@@ -123,11 +125,18 @@ uk:
       project_storage_delete_result_2: "Якщо це сховище містить папку проєкту з автоматичним керуванням, цю папку та всі її файли буде остаточно видалено."
       input_delete_confirmation: "Введіть ім’я файлового сховища %{file_storage}, щоб підтвердити видалення."
       irreversible_notice: "Видалення файлового сховища не можна скасувати."
+    storage_list_blank_slate:
+      heading: "You don't have any storages yet."
+      description: "Add a storage to see them here."
     label_active: "Активні"
+    label_add_new_storage: "Add new storage"
     label_inactive: "Неактивні"
     label_creator: "Автор"
+    label_provider: "Provider"
     label_file_link: "Посилання на файл"
     label_file_links: "Посилання на файл"
+    label_creation_time: "Creation time"
+    label_incomplete: "Incomplete"
     label_name: "Назва"
     label_host: "URL-адреса хосту"
     label_managed_project_folders:

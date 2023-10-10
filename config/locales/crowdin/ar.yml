@@ -919,6 +919,7 @@ ar:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -1329,13 +1330,6 @@ ar:
         few: "%{count} يوم"
         many: "%{count} يوم"
         other: "%{count} يوم"
-      x_min_abbreviated:
-        zero: "%{count} mins"
-        one: "1 min"
-        two: "%{count} mins"
-        few: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} mins"
       x_minutes:
         zero: "دقائق %{count}"
         one: "1 minute"
@@ -1343,6 +1337,34 @@ ar:
         few: "دقائق %{count}"
         many: "دقائق %{count}"
         other: "دقائق %{count}"
+      x_minutes_abbreviated:
+        zero: "%{count} mins"
+        one: "1 min"
+        two: "%{count} mins"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        zero: "%{count} hours"
+        one: "1 hour"
+        two: "%{count} hours"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        zero: "%{count} hrs"
+        one: "1 hr"
+        two: "%{count} hrs"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        zero: "%{count} weeks"
+        one: "1 week"
+        two: "%{count} weeks"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         zero: "%{count} ساعه"
         one: "1 month"
@@ -1350,6 +1372,13 @@ ar:
         few: "%{count} ساعه"
         many: "%{count} ساعه"
         other: "%{count} ساعه"
+      x_years:
+        zero: "%{count} years"
+        one: "1 year"
+        two: "%{count} years"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         zero: "%{count} ثانية"
         one: "1 ثانية\n\n%{count} ثانية"
@@ -1357,6 +1386,13 @@ ar:
         few: "%{count} ثانية"
         many: "%{count} ثانية"
         other: "%{count} ثانية"
+      x_seconds_abbreviated:
+        zero: "%{count} s"
+        one: "1 s"
+        two: "%{count} s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         zero: "ساعه"
@@ -2264,12 +2300,21 @@ ar:
         assigned: 'Assigned'
         responsible: 'Accountable'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'الكل'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "وقد سجل مستخدم جديد (%{value}). الحساب انتظار الموافقة الخاصة بك:"
   mail_body_account_information: "معلومات الحساب الخاص بك"
   mail_body_account_information_external: "يمكنك استخدام حساب %{value} الخاص بك لتسجيل الدخول."
@@ -3071,6 +3116,22 @@ ar:
     destroy:
       info: "حذف مجموعة العمل إجراء لا رجعة فيه."
       title: "حذف حزمة العمل"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

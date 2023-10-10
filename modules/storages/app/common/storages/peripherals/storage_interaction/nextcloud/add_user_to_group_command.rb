@@ -42,7 +42,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def call(user:, group: @group)
       response = Util.http(@uri).post(
-        Util.join_uri_path(@uri, 'ocs/v1.php/cloud/users', CGI.escapeURIComponent(user), 'groups'),
+        Util.join_uri_path(@uri.path, 'ocs/v1.php/cloud/users', CGI.escapeURIComponent(user), 'groups'),
         "groupid=#{CGI.escapeURIComponent(group)}",
         Util
           .basic_auth_header(@username, @password)

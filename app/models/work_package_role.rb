@@ -35,4 +35,8 @@ class WorkPackageRole < Role
       .where(type: 'WorkPackageRole')
       .order(Arel.sql('position'))
   end
+
+  def member?
+    true
+  end
 end

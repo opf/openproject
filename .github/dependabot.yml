@@ -15,6 +15,9 @@ updates:
       angular:
         patterns:
           - '@angular*'
+      fullcalendar:
+        patterns:
+          - '@fullcalendar*'          
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:

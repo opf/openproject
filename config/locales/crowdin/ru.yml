@@ -914,6 +914,7 @@ ru:
           attributes:
             roles:
               ungrantable: "имеет неназначаемую роль."
+              more_than_one: "имеет более чем одну роль."
             principal:
               unassignable: "не может быть присвоен проекту."
         version:
@@ -937,7 +938,7 @@ ru:
       custom_field: "Настраиваемое поле"
       'doorkeeper/application': "Приложение OAuth"
       forum: "Форум"
-      global_role: "Global role"
+      global_role: "Глобальная роль"
       group: "Группа"
       member: "Участник"
       news: "Новости"
@@ -1294,26 +1295,51 @@ ru:
         few: "%{count} дней"
         many: "%{count} дней"
         other: "%{count} дней"
-      x_min_abbreviated:
-        one: "1 min"
-        few: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} mins"
       x_minutes:
         one: "1 минута"
         few: "%{count} минут"
         many: "%{count} минут"
         other: "%{count} минут"
+      x_minutes_abbreviated:
+        one: "1 мин"
+        few: "%{count} минут"
+        many: "%{count} минут"
+        other: "%{count} минут"
+      x_hours:
+        one: "1 час"
+        few: "%{count} часов"
+        many: "%{count} часов"
+        other: "%{count} часов"
+      x_hours_abbreviated:
+        one: "1 ч"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 неделя"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "1 месяц"
         few: "%{count} месяца"
         many: "%{count} месяцев"
         other: "%{count} месяца"
+      x_years:
+        one: "1 год"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "1 секунда"
         few: "%{count} секунды"
         many: "%{count} секунд"
         other: "%{count} секунды"
+      x_seconds_abbreviated:
+        one: "1 с"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "час"
@@ -1509,7 +1535,7 @@ ru:
           non_working: "%{day} теперь нерабочий"
         dates:
           working: "%{date} сейчас рабочий"
-          non_working: "%{day} теперь нерабочий"
+          non_working: "%{date} теперь нерабочий"
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
@@ -1598,7 +1624,7 @@ ru:
   label_add_related_work_packages: "Добавить связанные пакеты работ"
   label_add_subtask: "Добавить подзадачу"
   label_added: "Добавлено"
-  label_added_by: "Added by %{author}"
+  label_added_by: "Добавлено %{author}"
   label_added_time_by: "Добавлено %{author} %{age} назад"
   label_additional_workflow_transitions_for_assignee: "Дополнительные переходы допускается, если пользователь является правопреемником"
   label_additional_workflow_transitions_for_author: "Дополнительные переходы допускаются, если пользователь является автором"
@@ -2217,12 +2243,21 @@ ru:
         assigned: 'Назначено'
         responsible: 'Подотчетный'
         mentioned: 'Упомянутые'
+        shared: 'Общий доступ'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
         date_alert_start_date: 'Дата оповещения'
         date_alert_due_date: 'Дата оповещения'
       see_all: 'Показать все'
       updated_at: 'Обновлено в %{timestamp} пользователем %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта.'
+        open_work_package: 'Открыть пакет работ'
+        reason: 'поделился с вами следующим пакетом работ с %{role_rights} правами:'
+        see_in_open_project: 'Посмотреть пакет работ в OpenProject'
+        subject: 'Вам предоставили общий доступ к пакету работ #%{id}'
+        summary: '%{user} поделился с вами пакетом работ'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
@@ -3018,6 +3053,22 @@ ru:
     destroy:
       info: "Удаление рабочего пакета – действие необратимое."
       title: "Удалить пакет работ"
+    sharing:
+      count:
+        zero: "0 пользователей"
+        one: "1 пользователь"
+        other: "%{count} пользователей"
+      invite: "Пригласить"
+      label_search: "Искать пользователей для приглашения"
+      label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
+      permissions:
+        comment: "Комментарий"
+        denied: "У вас нет прав на предоставление общего доступа к пакетам работ."
+        edit: "Правка"
+        view: "Просмотр"
+      remove: "Удалить"
+      text_empty_state_description: "Пакет работ еще не передан никому."
+      text_empty_state_header: "Нет общих пользователей"
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
@@ -3033,7 +3084,7 @@ ru:
         non_working: "%{day} теперь нерабочий"
       dates:
         working: "%{date} сейчас рабочий"
-        non_working: "%{day} теперь нерабочий"
+        non_working: "%{date} теперь нерабочий"
   nothing_to_preview: "Нет ничего для предосмотра"
   api_v3:
     attributes:

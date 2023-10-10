@@ -77,6 +77,12 @@ class User < Principal
            inverse_of: :user,
            dependent: :destroy
 
+  has_many :work_package_shares,
+           -> { where(entity_type: WorkPackage.name) },
+           class_name: 'Member',
+           dependent: :delete_all,
+           inverse_of: :principal
+
   has_many :notification_settings, dependent: :destroy
 
   # Users blocked via brute force prevention
@@ -89,7 +95,8 @@ class User < Principal
          :notified_globally,
          :watcher_recipients,
          :with_time_zone,
-         :having_reminder_mail_to_send
+         :having_reminder_mail_to_send,
+         :having_entity_membership
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))
@@ -169,7 +176,6 @@ class User < Principal
   end
 
   def reload(*args)
-    @name = nil
     @user_allowed_service = nil
     @project_role_cache = nil
 

@@ -72,17 +72,17 @@ RSpec.shared_examples_for 'roles contract' do
 
   describe '#assignable_permissions' do
     let(:all_permissions) { %i[perm1 perm2 perm3] }
+    let(:public_permissions) { %i[perm2] }
 
     context 'for a project role' do
       before do
         allow(OpenProject::AccessControl)
-          .to receive(:project_permissions)
-          .and_return(all_permissions)
+          .to receive_messages(project_permissions: all_permissions, public_permissions:)
       end
 
-      it 'is all project permissions' do
+      it 'is all project permissions excluding public ones' do
         expect(contract.assignable_permissions)
-          .to eql all_permissions
+          .to eql(all_permissions - public_permissions)
       end
     end
 

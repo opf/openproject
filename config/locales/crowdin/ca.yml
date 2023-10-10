@@ -907,6 +907,7 @@ ca:
           attributes:
             roles:
               ungrantable: "té un rol no assignable."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "no pot ser assignat a un projecte."
         version:
@@ -1257,18 +1258,33 @@ ca:
       x_days:
         one: "Un dia"
         other: "%{count} dies"
-      x_min_abbreviated:
-        one: "1 min"
-        other: "%{count} mins"
       x_minutes:
         one: "Un minut"
         other: "%{count} minuts"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         one: "Un mes"
         other: "%{count} mesos"
+      x_years:
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         one: "Un segon"
         other: "%{count} segons"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "hora"
@@ -2168,12 +2184,21 @@ ca:
         assigned: 'Assignat'
         responsible: 'Responsable'
         mentioned: 'Mencionat'
+        shared: 'Shared'
         subscribed: 'tot'
         prefix: 'Rebut a causa de la configuració de notificacions: %{reason}'
         date_alert_start_date: 'Alerta per dates'
         date_alert_due_date: 'Alerta per dates'
       see_all: 'Veure tot'
       updated_at: 'Actualitzat a les %{timestamp} per %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        open_work_package: 'Open work package'
+        reason: 'shared the following work package with you with %{role_rights} rights:'
+        see_in_open_project: 'See work package in OpenProject'
+        subject: 'You have been shared work package #%{id}'
+        summary: '%{user} shared a work package with you'
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El teu compte està pendent d'aprovació:"
   mail_body_account_information: "Informació del teu compte"
   mail_body_account_information_external: "Pots utilitzar el compte «%{value}» per entrar."
@@ -2962,6 +2987,22 @@ ca:
     destroy:
       info: "Suprimir el paquet de treball és una acció irreversible."
       title: "Suprimir el paquet de treball"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      invite: "Invite"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      permissions:
+        comment: "Comment"
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.

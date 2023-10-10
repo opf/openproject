@@ -67,6 +67,8 @@ lt:
       select_folder: "Parinkti aplanką"
       configure: "Konfigūruoti"
     page_titles:
+      file_storages:
+        subtitle: "Pridėkite išorinę failų saugyklą, jei norite įkelti, susieti ir valdyti failus darbo paketuose."
       managed_project_folders:
         title: "Automatiškai valdomi projekto aplankai"
         subtitle: >
@@ -123,11 +125,18 @@ lt:
       project_storage_delete_result_2: "Jei saugykla turi automatiškai tvarkomą projekto aplanką, tai ir jo failai bus visam laikui ištrinti."
       input_delete_confirmation: "Įveskite failų saugyklos pavadinimą %{file_storage}, kad patvirtintumėte trynimą."
       irreversible_notice: "Failų saugyklos trynimas yra neatstatomas veiksmas."
+    storage_list_blank_slate:
+      heading: "Jūs dar neturite jokių saugyklų."
+      description: "Pridėkite saugyklą, kad matytumėte ją čia."
     label_active: "Aktyvus"
+    label_add_new_storage: "Pridėti naują saugyklą"
     label_inactive: "Neaktyvus"
     label_creator: "Kūrėjas"
+    label_provider: "Tiekėjas"
     label_file_link: "Failo nuoroda"
     label_file_links: "Failo nuorodos"
+    label_creation_time: "Sukūrimo laikas"
+    label_incomplete: "Nebaigtas"
     label_name: "Pavadinimas"
     label_host: "Stoties URL"
     label_managed_project_folders:
