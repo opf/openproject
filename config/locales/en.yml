@@ -3198,7 +3198,7 @@ en:
         other: "%{count} users"
       invite: "Invite"
       label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user or email address"
+      label_search_placeholder: "Search by user, group or invite via email address"
       permissions:
         comment: "Comment"
         comment_description: "Can view and comment this work package."
@@ -3210,6 +3210,7 @@ en:
       remove: "Remove"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_not_in_instance: "Not in this instance yet"
 
   working_days:
     info: >

@@ -90,6 +90,7 @@ export class OpenprojectAutocompleterModule {
   constructor(injector:Injector) {
     registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
     registerCustomElement('opce-project-autocompleter', ProjectAutocompleterComponent, { injector });
+    registerCustomElement('opce-user-autocompleter', UserAutocompleterComponent, { injector });
     registerCustomElement('opce-select-decoration', AutocompleteSelectDecorationComponent, { injector });
   }
 }

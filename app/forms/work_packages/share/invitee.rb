@@ -28,7 +28,7 @@
 module WorkPackages::Share
   class Invitee < ApplicationForm
     form do |user_invite_form|
-      user_invite_form.autocompleter(
+      user_invite_form.user_autocompleter(
         name: :user_id,
         label: I18n.t('work_package.sharing.label_search'),
         visually_hide_label: true,
@@ -47,6 +47,7 @@ module WorkPackages::Share
           searchKey: 'any_name_attribute',
           focusDirectly: true,
           appendTo: 'body',
+          addTagText: I18n.t('work_package.sharing.text_user_not_in_instance'),
           disabled: @disabled
         }
       )

@@ -119,7 +119,11 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
 
   @Input() public inviteUserToProject:string|undefined;
 
-  @Input() public addTagText:string|undefined;
+  @Input() public addTagText?:string;
+
+  @Input() public placeholder:string = this.I18n.t('js.autocompleter.placeholder');
+
+  @Input() public classes?:string;
 
   get value():IUserAutocompleteItem|IUserAutocompleteItem[]|null {
     return this._value;
@@ -223,9 +227,5 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
       href: null,
       avatar: null,
     };
-  }
-
-  validEmail(email:string):boolean {
-    return /\S+@\S+\.\S+/.test(email);
   }
 }

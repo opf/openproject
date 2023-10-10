@@ -1,5 +1,6 @@
 <op-autocompleter
   [model]="value"
+  [classes]="classes"
   [openDirectly]="true"
   [getOptionsFn]="getAvailableUsers.bind(this)"
   [trackByFn]="userTracker"
@@ -10,6 +11,7 @@
   [addTag]="addTagText ? createNewUserObject : false"
   [addTagText]="addTagText"
   [focusDirectly]="focusDirectly"
+  [placeholder]="placeholder"
   (change)="writeValue($event)"
   (keydown.escape)="cancel.emit()"
 >
@@ -30,9 +32,7 @@
   </ng-template>
 
   <ng-template op-autocompleter-tag-tmp let-search="search">
-    <span *ngIf="validEmail(search)">
-      <strong [textContent]="addTagText"></strong>: {{search}}
-    </span>
+    {{addTagText}}: <strong [textContent]="search"></strong>
   </ng-template>
 
   <ng-template op-autocompleter-footer-tmp *ngIf="inviteUserToProject">
