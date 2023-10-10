@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,21 +27,33 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module Queries::Storages::Projects::Filter::StorageFilterMixin
+  def type
+    :list
+  end
 
-module Queries::Storages::ProjectStorages::Filter
-  class StorageIdFilter < ::Queries::Filters::Base
-    self.model = Storages::ProjectStorage
+  def allowed_values
+    values.map { |value| [nil, value] }
+  end
 
-    def type
-      :list
-    end
+  def joins
+    [:storages]
+  end
 
-    def human_name
-      ::Storages::ProjectStorage.human_attribute_name(name)
-    end
+  def where
+    <<-SQL.squish
+      #{operator_strategy.sql_for_field(where_values, Storages::Storage.table_name, filter_column)}
+      AND projects.id IN (#{Project.allowed_to(User.current, :view_file_links).select(:id).to_sql})
+    SQL
+  end
 
-    def allowed_values
-      values.map { |value| [nil, value] }
-    end
+  private
+
+  def where_values
+    values
+  end
+
+  def filter_column
+    raise NotImplementedError
   end
 end

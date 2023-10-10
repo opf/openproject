@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,20 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Storages::ProjectStorages::Filter
-  class StorageIdFilter < ::Queries::Filters::Base
-    self.model = Storages::ProjectStorage
-
-    def type
-      :list
-    end
-
-    def human_name
-      ::Storages::ProjectStorage.human_attribute_name(name)
-    end
-
-    def allowed_values
-      values.map { |value| [nil, value] }
+module Queries::Storages::Storages
+  class StorageQuery < Queries::BaseQuery
+    class << self
+      def model
+        @model ||= ::Storages::Storage
+      end
     end
   end
 end

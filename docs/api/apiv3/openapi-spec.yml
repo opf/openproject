@@ -483,6 +483,8 @@ components:
       "$ref": "./components/examples/query.yml"
     QuerySchemaModel:
       "$ref": "./components/examples/query_schema.yml"
+    StoragesSimpleCollectionModel:
+      "$ref": "./components/examples/storages-simple-collection-response.yml"
     ValuesPropertyStartDateSchema:
       "$ref": "./components/examples/values_property_start_date_schema.yml"
     ValuesPropertyDueDateSchema:
@@ -705,6 +707,8 @@ components:
       "$ref": "./components/schemas/status_model.yml"
     StatusesModel:
       "$ref": "./components/schemas/statuses_model.yml"
+    StorageCollectionModel:
+      "$ref": "./components/schemas/storage_collection_model.yml"
     StorageFileModel:
       "$ref": "./components/schemas/storage_file_model.yml"
     StorageFilesModel:
