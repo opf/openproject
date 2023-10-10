@@ -44,7 +44,7 @@ RSpec.describe 'API v3 projects resource with filters for the linked storages',
   end
 
   shared_let(:user) { create(:user) }
-  shared_let(:role) { create(:role, permissions: %i[view_work_packages]) }
+  shared_let(:role) { create(:role, permissions: %i[view_work_packages view_file_links]) }
 
   shared_let(:project1) { create(:project, members: { user => role }) }
   shared_let(:project2) { create(:project, members: { user => role }) }

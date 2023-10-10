@@ -27,14 +27,33 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Queries::Storages::Projects::Filter
-  class StorageIdFilter < ::Queries::Projects::Filters::ProjectFilter
-    include StorageFilterMixin
+module Queries::Storages::Projects::Filter::StorageFilterMixin
+  def type
+    :list
+  end
 
-    private
+  def allowed_values
+    values.map { |value| [nil, value] }
+  end
 
-    def filter_column
-      'id'
-    end
+  def joins
+    [:storages]
+  end
+
+  def where
+    <<-SQL.squish
+      #{operator_strategy.sql_for_field(where_values, Storages::Storage.table_name, filter_column)}
+      AND projects.id IN (#{Project.allowed_to(User.current, :view_file_links).select(:id).to_sql})
+    SQL
+  end
+
+  private
+
+  def where_values
+    values
+  end
+
+  def filter_column
+    raise NotImplementedError
   end
 end
