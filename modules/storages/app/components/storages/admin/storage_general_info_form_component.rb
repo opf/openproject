@@ -27,33 +27,17 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin
+  class StorageGeneralInfoFormComponent < ApplicationComponent
+    # include OpTurbo::Frameable
+    include OpPrimer::ComponentHelpers
+    alias_method :storage, :model
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages', except: [:show] do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
-                                                         only: %i[new edit update]
+    private
 
-        member do
-          get '/edit_host_name_configuration' => '/storages/admin/storages#edit_host_name_configuration'
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
-        end
-      end
-    end
-  end
-
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do
-        member do
-          # Destroy uses a get request to prompt the user before the actual DELETE request
-          get :destroy_info, as: 'confirm_destroy'
-        end
-
-        resources :members, controller: '/storages/project_settings/project_storage_members', only: %i[index]
-      end
+    def storage_row_css_id
+      helpers.dom_id storage
     end
   end
 end

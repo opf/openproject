@@ -41,7 +41,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
-  before_action :find_model_object, only: %i[show destroy edit update replace_oauth_application]
+  before_action :find_model_object, only: %i[show destroy edit edit_host_name_configuration update replace_oauth_application]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -106,6 +106,8 @@ class Storages::Admin::StoragesController < ApplicationController
   # default attribute values because the object already exists
   # Called by: Global app/config/routes.rb to serve Web page
   def edit; end
+
+  def edit_host_name_configuration; end
 
   # Update is similar to create above
   # See also: create above

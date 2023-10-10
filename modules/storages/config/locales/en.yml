@@ -71,10 +71,16 @@ en:
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save: "Save"
+      save_and_continue: "Save and continue"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
       configure: "Configure"
+    forms:
+      general_information:
+        provider_type_select_form:
+          nextcloud_caption: >
+            Please make sure you have administration privileges in your Nextcloud instance and the application “Integration OpenProject” is installed before doing the setup.
     file_storage_view:
       general_information: "General information"
       oauth_applications: "OAuth applications"
