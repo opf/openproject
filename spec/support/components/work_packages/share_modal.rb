@@ -80,7 +80,12 @@ module Components
         end
       end
 
+      # Typing +:escape+ when the auto-completer is in focus doesn't exit the modal
+      # as the auto-completer doesn't seem to allow losing focus from itself with +:escape+
+      # Obtaining focus on the modal itself and then and then sending +:escape+ does the
+      # trick but this feels buggy.
       def close
+        modal_element.click
         modal_element.send_keys(:escape)
       end
 

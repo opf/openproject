@@ -58,6 +58,7 @@ RSpec.describe 'Work package sharing',
       create(:work_package_member, entity: wp, user: edit_user, roles: [edit_work_package_role])
       create(:work_package_member, entity: wp, user: shared_project_user, roles: [edit_work_package_role])
       create(:work_package_member, entity: wp, user: current_user, roles: [view_work_package_role])
+      create(:work_package_member, entity: wp, user: dinesh, roles: [edit_work_package_role])
     end
   end
 
@@ -71,11 +72,16 @@ RSpec.describe 'Work package sharing',
   let!(:shared_project_user) { create(:user, firstname: 'Shared Project', lastname: 'User') }
   let!(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
 
+  let!(:richard) { create(:user, firstname: 'Richard', lastname: 'Hendricks') }
   let!(:dinesh) { create(:user, firstname: 'Dinesh', lastname: 'Chugtai') }
   let!(:gilfoyle) { create(:user, firstname: 'Bertram', lastname: 'Gilfoyle') }
-  let!(:not_shared_yet_with_group) { create(:group, members: [dinesh, gilfoyle]) }
+  let!(:not_shared_yet_with_group) { create(:group, members: [richard, dinesh, gilfoyle]) }
 
   current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
+
+  def shared_principals
+    Principal.where(id: Member.of_work_package(work_package).select(:user_id))
+  end
 
   context 'when having share permission' do
     it 'allows seeing and administrating sharing' do
@@ -86,109 +92,144 @@ RSpec.describe 'Work package sharing',
       # Project members are not listed unless the work package is also shared with them explicitly.
       click_button 'Share'
 
-      share_modal.expect_open
-      share_modal.expect_shared_with(comment_user, 'Comment', position: 1)
-      share_modal.expect_shared_with(edit_user, 'Edit', position: 2)
-      share_modal.expect_shared_with(shared_project_user, 'Edit', position: 3)
-      # The current users share is also displayed but not editable
-      share_modal.expect_shared_with(current_user, position: 4, editable: false)
-      share_modal.expect_shared_with(view_user, 'View', position: 5)
+      aggregate_failures "Initial shares list" do
+        share_modal.expect_open
+        share_modal.expect_shared_with(comment_user, 'Comment', position: 1)
+        share_modal.expect_shared_with(dinesh, 'Edit', position: 2)
+        share_modal.expect_shared_with(edit_user, 'Edit', position: 3)
+        share_modal.expect_shared_with(shared_project_user, 'Edit', position: 4)
+        # The current users share is also displayed but not editable
+        share_modal.expect_shared_with(current_user, position: 5, editable: false)
+        share_modal.expect_shared_with(view_user, 'View', position: 6)
 
-      share_modal.expect_not_shared_with(non_shared_project_user)
-      share_modal.expect_not_shared_with(not_shared_yet_with_user)
+        share_modal.expect_not_shared_with(non_shared_project_user)
+        share_modal.expect_not_shared_with(not_shared_yet_with_user)
 
-      share_modal.expect_shared_count_of(5)
+        share_modal.expect_shared_count_of(6)
+      end
 
-      # Inviting a user will lead to that user being prepended to the list together with the rest of the shared with users.
-      share_modal.invite_user(not_shared_yet_with_user, 'View')
+      aggregate_failures "Inviting a user for the first time" do
+        # Inviting a user will lead to that user being prepended to the list together with the rest of the shared with users.
+        share_modal.invite_user(not_shared_yet_with_user, 'View')
 
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 1)
-      share_modal.expect_shared_count_of(6)
+        share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 1)
+        share_modal.expect_shared_count_of(7)
+      end
 
-      # Removing a share will lead to that user being removed from the list of shared with users.
-      share_modal.remove_user(edit_user)
-      share_modal.expect_not_shared_with(edit_user)
-      share_modal.expect_shared_count_of(5)
+      aggregate_failures "Removing a user" do
+        # Removing a share will lead to that user being removed from the list of shared with users.
+        share_modal.remove_user(edit_user)
+        share_modal.expect_not_shared_with(edit_user)
+        share_modal.expect_shared_count_of(6)
+      end
 
-      # Adding a user multiple times will lead to the user's role being updated.
-      share_modal.invite_user(not_shared_yet_with_user, 'Edit')
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit', position: 1)
+      aggregate_failures "Re-inviting a user" do
+        # Adding a user multiple times will lead to the user's role being updated.
+        share_modal.invite_user(not_shared_yet_with_user, 'Edit')
+        share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit', position: 1)
+        share_modal.expect_shared_count_of(6)
 
-      # Sent out email only on first share and not again when updating.
-      perform_enqueued_jobs
-      expect(ActionMailer::Base.deliveries.size).to eq(1)
+        # Sent out email only on first share and not again when updating.
+        perform_enqueued_jobs
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
+      end
 
-      # Updating the share
-      share_modal.change_role(not_shared_yet_with_user, 'Comment')
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment', position: 1)
+      aggregate_failures "Updating a share" do
+        # Updating the share
+        share_modal.change_role(not_shared_yet_with_user, 'Comment')
+        share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment', position: 1)
+        share_modal.expect_shared_count_of(6)
 
-      # Sent out email only on first share and not again when updating so the
-      # count should still be 1.
-      perform_enqueued_jobs
-      expect(ActionMailer::Base.deliveries.size).to eq(1)
+        # Sent out email only on first share and not again when updating so the
+        # count should still be 1.
+        perform_enqueued_jobs
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
+      end
 
-      # Reopening the modal will show the same state as before.
-      work_package_page.visit!
-
-      click_button 'Share'
-
-      # These users were not changed
-      share_modal.expect_shared_with(comment_user, 'Comment', position: 1)
-      # This user's role was updated
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment', position: 2)
-      share_modal.expect_shared_with(shared_project_user, 'Edit', position: 3)
-      share_modal.expect_shared_with(current_user, position: 4, editable: false)
-      share_modal.expect_shared_with(view_user, 'View', position: 5)
-
-      # This user's share was revoked
-      share_modal.expect_not_shared_with(edit_user)
-      # This user has never been added
-      share_modal.expect_not_shared_with(non_shared_project_user)
-
-      share_modal.expect_shared_count_of(5)
-    end
-
-    it 'allows seeing and managing group sharing' do
-      work_package_page.visit!
-
-      click_button 'Share'
-
-      share_modal.expect_open
-      share_modal.invite_group(not_shared_yet_with_group, 'View')
-
-      # Inviting a group propagates the membership to the group's users. However, these propagated
-      # memberships are not expected to be visible. We only care about seeing the group's share.
-      share_modal.expect_shared_with(not_shared_yet_with_group, 'View', position: 1)
-      shared_principals = Principal.where(id: Member.of_work_package(work_package).select(:user_id))
-      expect(shared_principals)
-        .to include(not_shared_yet_with_group, gilfoyle, dinesh)
-      # Closing the modal and re-opening it to ensure group's users aren't included in the
-      # list of shares
       share_modal.close
-      share_modal.expect_closed
       click_button 'Share'
-      share_modal.expect_open
-      share_modal.expect_shared_with(not_shared_yet_with_group, 'View')
-      share_modal.expect_not_shared_with(dinesh)
-      share_modal.expect_not_shared_with(gilfoyle)
 
-      # Inviting a user to a Work Package independently of the the group displays
-      # said user in the shares list
-      share_modal.invite_user(gilfoyle, 'Comment')
-      share_modal.expect_shared_with(gilfoyle, 'Comment', position: 1)
+      aggregate_failures "Inviting a group" do
+        # Inviting a group propagates the membership to the group's users. However, these propagated
+        # memberships are not expected to be visible.
+        share_modal.invite_group(not_shared_yet_with_group, 'View')
+        share_modal.expect_shared_with(not_shared_yet_with_group, 'View', position: 1)
 
-      # When removing a group's share, its users also get their inherited member roles removed
-      # while keeping member roles that were granted independently of the group
-      share_modal.remove_user(not_shared_yet_with_group)
-      share_modal.expect_not_shared_with(not_shared_yet_with_group)
-      share_modal.expect_shared_with(gilfoyle, 'Comment')
+        # This user has a share independent of the group's share. Hence, that Role prevails
+        share_modal.expect_shared_with(dinesh, 'Edit')
+        share_modal.expect_not_shared_with(richard)
+        share_modal.expect_not_shared_with(gilfoyle)
 
-      shared_principals.reload
+        share_modal.expect_shared_count_of(7)
 
-      expect(shared_principals)
-        .to include(gilfoyle)
-      expect(shared_principals)
-        .not_to include(not_shared_yet_with_group, dinesh)
+        expect(shared_principals)
+          .to include(not_shared_yet_with_group,
+                      richard,
+                      gilfoyle,
+                      dinesh)
+
+        perform_enqueued_jobs
+        # Sent out an email only to the group members that weren't already
+        # previously shared the work package (richard and gilfoyle), so count increased to 3
+        expect(ActionMailer::Base.deliveries.size).to eq(3)
+      end
+
+      aggregate_failures "Inviting a group member with its own independent role" do
+        # Inviting a group user to a Work Package independently of the the group displays
+        # said user in the shares list
+        share_modal.invite_user(gilfoyle, 'Comment')
+        share_modal.expect_shared_with(gilfoyle, 'Comment', position: 1)
+        share_modal.expect_shared_count_of(8)
+
+        perform_enqueued_jobs
+        # No emails sent out since the user was already previously invited via the group.
+        # Hence, count should remain at 3
+        expect(ActionMailer::Base.deliveries.size).to eq(3)
+      end
+
+      aggregate_failures "Removing a group share" do
+        # When removing a group's share, its users also get their inherited member roles removed
+        # while keeping member roles that were granted independently of the group
+        share_modal.remove_user(not_shared_yet_with_group)
+        share_modal.expect_not_shared_with(not_shared_yet_with_group)
+        share_modal.expect_not_shared_with(richard)
+        share_modal.expect_shared_with(dinesh, 'Edit')
+        share_modal.expect_shared_with(gilfoyle, 'Comment')
+        share_modal.expect_shared_count_of(7)
+
+        expect(shared_principals)
+          .to include(gilfoyle, dinesh)
+        expect(shared_principals)
+          .not_to include(not_shared_yet_with_group, richard)
+      end
+
+      share_modal.close
+      click_button 'Share'
+
+      aggregate_failures "Re-opening the modal after changes performed" do
+        # This user preserved its group independent share
+        share_modal.expect_shared_with(gilfoyle, 'Comment', position: 1)
+        share_modal.expect_shared_with(comment_user, 'Comment', position: 2)
+        # This user preserved its group independent share
+        share_modal.expect_shared_with(dinesh, 'Edit', position: 3)
+        # This user's role was updated
+        share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment', position: 4)
+        # These users were not changed
+        share_modal.expect_shared_with(shared_project_user, 'Edit', position: 5)
+        share_modal.expect_shared_with(current_user, position: 6, editable: false)
+        share_modal.expect_shared_with(view_user, 'View', position: 7)
+
+        # This group's share was revoked
+        share_modal.expect_not_shared_with(not_shared_yet_with_group)
+        # This user's share was revoked via its group
+        share_modal.expect_not_shared_with(richard)
+        # This user's share was revoked
+        share_modal.expect_not_shared_with(edit_user)
+        # This user has never been added
+        share_modal.expect_not_shared_with(non_shared_project_user)
+
+        share_modal.expect_shared_count_of(7)
+      end
     end
   end
 
@@ -210,6 +251,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_open
       share_modal.expect_shared_with(view_user, editable: false)
       share_modal.expect_shared_with(comment_user, editable: false)
+      share_modal.expect_shared_with(dinesh, editable: false)
       share_modal.expect_shared_with(edit_user, editable: false)
       share_modal.expect_shared_with(shared_project_user, editable: false)
       share_modal.expect_shared_with(current_user, editable: false)
@@ -217,7 +259,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_not_shared_with(non_shared_project_user)
       share_modal.expect_not_shared_with(not_shared_yet_with_user)
 
-      share_modal.expect_shared_count_of(5)
+      share_modal.expect_shared_count_of(6)
 
       share_modal.expect_no_invite_option
     end

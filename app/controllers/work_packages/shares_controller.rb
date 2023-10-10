@@ -46,7 +46,7 @@ class WorkPackages::SharesController < ApplicationController
             role_ids: find_role_ids(params[:member][:role_id])).result
 
 
-    if current_member_count > 1
+    if current_visible_member_count > 1
       respond_with_prepend_share
     else
       respond_with_replace_modal
@@ -66,7 +66,7 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call
 
-    if current_member_count.zero?
+    if current_visible_member_count.zero?
       respond_with_replace_modal
     else
       respond_with_remove_share
@@ -89,7 +89,7 @@ class WorkPackages::SharesController < ApplicationController
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::ShareCounterComponent.new(count: current_member_count)
+      component: WorkPackages::Share::ShareCounterComponent.new(count: current_visible_member_count)
     )
 
     prepend_via_turbo_stream(
@@ -106,7 +106,7 @@ class WorkPackages::SharesController < ApplicationController
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::ShareCounterComponent.new(count: current_member_count)
+      component: WorkPackages::Share::ShareCounterComponent.new(count: current_visible_member_count)
     )
 
     respond_with_turbo_streams
@@ -131,7 +131,11 @@ class WorkPackages::SharesController < ApplicationController
     WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
   end
 
-  def current_member_count
-    @current_member_count ||= Member.of_work_package(@work_package).size
+  def current_visible_member_count
+    @current_visible_member_count ||= Member
+                                        .joins(:member_roles)
+                                        .of_work_package(@work_package)
+                                        .where(member_roles: { inherited_from: nil })
+                                        .size
   end
 end
