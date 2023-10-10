@@ -590,9 +590,6 @@ en:
     label_version_plural: "Versions"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
 
-    members:
-      invite_by_mail: "Send invite to"
-
     help_texts:
       show_modal: 'Show attribute help text entry'
 

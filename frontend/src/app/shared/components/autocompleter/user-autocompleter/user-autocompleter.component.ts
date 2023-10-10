@@ -119,7 +119,7 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
 
   @Input() public inviteUserToProject:string|undefined;
 
-  @Input() public allowInlineInvite = false;
+  @Input() public addTagText:string|undefined;
 
   get value():IUserAutocompleteItem|IUserAutocompleteItem[]|null {
     return this._value;
@@ -150,10 +150,6 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
   @Output() public userInvited = new EventEmitter<HalResource>();
 
   @ViewChild('hiddenInput') hiddenInput:ElementRef<HTMLElement>;
-
-  text = {
-    sendInvite: this.I18n.t('js.members.invite_by_mail'),
-  };
 
   constructor(
     public elementRef:ElementRef,

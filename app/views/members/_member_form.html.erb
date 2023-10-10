@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
                                       additionalFilters: [{ selector: 'member', operator: '!', values: [@project.id.to_s] },],
                                       appendTo: "body",
                                       multiple: true,
-                                      allowInlineInvite: true
+                                      addTagText: I18n.t('members.send_invite_to')
                                     }
           %>
         </div>

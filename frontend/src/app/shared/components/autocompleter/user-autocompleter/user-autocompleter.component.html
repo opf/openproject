@@ -7,7 +7,8 @@
   [labelForId]="labelForId"
   [appendTo]="appendTo"
   [openDirectly]="openDirectly"
-  [addTag]="allowInlineInvite ? createNewUserObject : false"
+  [addTag]="addTagText ? createNewUserObject : false"
+  [addTagText]="addTagText"
   [focusDirectly]="focusDirectly"
   (change)="writeValue($event)"
   (keydown.escape)="cancel.emit()"
@@ -30,7 +31,7 @@
 
   <ng-template op-autocompleter-tag-tmp let-search="search">
     <span *ngIf="validEmail(search)">
-      <strong [textContent]="text.sendInvite"></strong>: {{search}}
+      <strong [textContent]="addTagText"></strong>: {{search}}
     </span>
   </ng-template>
 
