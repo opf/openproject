@@ -34,21 +34,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def self.call(storage:, user:, folder:)
-      new(storage).call(user:, folder:)
+      authentication = Storages::Authentication::Strategies::AccessTokenStrategy.new(user, storage.oauth_configuration)
+      new(storage).call(user:, folder:, authentication:)
     end
 
     # rubocop:disable Metrics/AbcSize
-    def call(user:, folder:)
-      result = Util.token(user:, configuration: @configuration) do |token|
+    def call(user:, folder:, authentication:)
+      result = authentication.with_credential do |credential|
         base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files")
-        @location_prefix = Util.join_uri_path(base_path, token.origin_user_id.gsub(' ', '%20'))
+        @location_prefix = Util.join_uri_path(base_path, credential.origin_user_id.gsub(' ', '%20'))
 
         response = Util.http(@uri).propfind(
-          Util.join_uri_path(base_path, CGI.escapeURIComponent(token.origin_user_id), requested_folder(folder)),
+          Util.join_uri_path(base_path, CGI.escapeURIComponent(credential.origin_user_id), requested_folder(folder)),
           requested_properties,
           {
             'Depth' => '1',
-            'Authorization' => "Bearer #{token.access_token}"
+            'Authorization' => credential.authorization_header
           }
         )
 

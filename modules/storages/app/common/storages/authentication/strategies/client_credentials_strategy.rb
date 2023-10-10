@@ -28,20 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# OAuthClientToken stores the OAuth2 Bearer+Refresh tokens that
-# an OAuth2 server (Nextcloud or similar) provides after a user
-# has granted access.
-class OAuthClientToken < ApplicationRecord
-  # OAuthClientToken sits between User and OAuthClient
-  belongs_to :user, optional: false
-  belongs_to :oauth_client, optional: false
+module Storages
+  module Authentication
+    module Strategies
+      class ClientCredentialsStrategy < OAuthStrategy
+        using ::Storages::Peripherals::ServiceResultRefinements
 
-  validates :user, uniqueness: { scope: :oauth_client }
+        def initialize(oauth_configuration)
+          @oauth_client = oauth_configuration.basic_rack_oauth_client
 
-  validates :access_token, presence: true
-  validates :refresh_token, presence: true
+          super()
+        end
 
-  def authorization_header
-    "#{token_type.capitalize} #{access_token}"
+        def with_credential(&)
+        end
+
+        private
+
+        def request_token(options = {})
+          rack_access_token = rack_oauth_client(options).access_token!(:body)
+
+          ServiceResult.success(result: rack_access_token)
+        rescue Rack::OAuth2::Client::Error => e
+          service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
+        rescue Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::ParsingError, Faraday::SSLError => e
+          service_result_with_error(
+            "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}",
+            e.message
+          )
+        rescue StandardError => e
+          service_result_with_error(
+            "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}",
+            e.message
+          )
+        end
+      end
+    end
   end
 end

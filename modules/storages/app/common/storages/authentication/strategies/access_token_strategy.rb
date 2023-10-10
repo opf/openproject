@@ -28,20 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# OAuthClientToken stores the OAuth2 Bearer+Refresh tokens that
-# an OAuth2 server (Nextcloud or similar) provides after a user
-# has granted access.
-class OAuthClientToken < ApplicationRecord
-  # OAuthClientToken sits between User and OAuthClient
-  belongs_to :user, optional: false
-  belongs_to :oauth_client, optional: false
+module Storages
+  module Authentication
+    module Strategies
+      class AccessTokenStrategy < OAuthStrategy
+        using ::Storages::Peripherals::ServiceResultRefinements
 
-  validates :user, uniqueness: { scope: :oauth_client }
+        def initialize(user, oauth_configuration)
+          super()
 
-  validates :access_token, presence: true
-  validates :refresh_token, presence: true
+          @connection_manager = ::OAuthClients::ConnectionManager.new(user:, configuration: oauth_configuration)
+        end
 
-  def authorization_header
-    "#{token_type.capitalize} #{access_token}"
+        def with_credential(&)
+          @connection_manager.get_access_token >> make_request(&)
+        end
+
+        private
+
+        def make_request(&)
+          ->(access_token) { @connection_manager.request_with_token_refresh(access_token, &) }
+        end
+      end
+    end
   end
 end
