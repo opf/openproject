@@ -26,8 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class UpdateService < ::BaseServices::Update
-    include AfterPerformHook
+class Journal::MeetingAgendaItemJournal < Journal::BaseJournal
+  self.table_name = 'meeting_agenda_item_journals'
+
+  belongs_to :meeting
+  belongs_to :author, class_name: 'User'
+
+  def editable?
+    false
   end
 end

@@ -27,7 +27,23 @@
 #++
 
 module MeetingAgendaItems
-  class UpdateService < ::BaseServices::Update
-    include AfterPerformHook
+  module TouchMeeting
+    extend ActiveSupport::Concern
+
+    included do
+      private
+
+      def touch(meeting)
+        # We allow invalid meetings to be saved as
+        # adding the attachments does not change the validity of the meeting
+        # but without that leeway, the user needs to fix the meeting before
+        # the agenda_item can be added.
+        # However we want the meeting to be updated when updating an agenda_item. This is important,
+        # e.g. for invalidating caches and also for journalizing
+
+        meeting.update_column(:updated_at, Time.current)
+        meeting.save_journals if meeting.respond_to?(:save_journals)
+      end
+    end
   end
 end
