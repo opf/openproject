@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe WorkflowsController do
   let!(:role) do
-    build_stubbed(:project_role).tap do |r|
+    build_stubbed(:project_role) do |r|
       allow(Role)
         .to receive(:find)
               .with(r.id.to_s)
@@ -47,7 +47,7 @@ RSpec.describe WorkflowsController do
     end
   end
   let!(:type) do
-    build_stubbed(:type).tap do |t|
+    build_stubbed(:type) do |t|
       allow(Type)
         .to receive(:find)
               .with(t.id.to_s)
