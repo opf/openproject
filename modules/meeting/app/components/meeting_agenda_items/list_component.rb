@@ -42,7 +42,8 @@ module MeetingAgendaItems
 
     def call
       component_wrapper(data: wrapper_data_attributes) do
-        # making the container of items position-relative
+        # The borderBox needs to be `position: relative` because of bug #49853
+        # (The action menu items float somewhere on the page as soon as you have to scroll the Box in Firefox)
         render(Primer::Beta::BorderBox.new(position: :relative)) do |border_box|
           if @meeting.agenda_items.empty? && @form_hidden
             empty_state_partial(border_box)
