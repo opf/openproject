@@ -24,6 +24,7 @@ export class WorkPackageShareModalComponent extends OpModalComponent implements 
 
   text = {
     title: this.I18n.t('js.work_packages.sharing.title'),
+    button_close: this.I18n.t('js.button_close'),
   };
 
   constructor(
