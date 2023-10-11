@@ -2967,9 +2967,12 @@ zh-CN:
       label_search_placeholder: "按用户名或电子邮件地址搜索"
       permissions:
         comment: "评论"
+        comment_description: "Can view and comment this work package."
         denied: "您没有共享工作包的权限。"
         edit: "编辑"
+        edit_description: "Can view, comment and edit this work package."
         view: "查看"
+        view_description: "Can view this work package."
       remove: "移除"
       text_empty_state_description: "工作包尚未共享给任何人。"
       text_empty_state_header: "没有共享的用户"

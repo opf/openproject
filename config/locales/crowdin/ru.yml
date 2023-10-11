@@ -3063,9 +3063,12 @@ ru:
       label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
       permissions:
         comment: "Комментарий"
+        comment_description: "Can view and comment this work package."
         denied: "У вас нет прав на предоставление общего доступа к пакетам работ."
         edit: "Правка"
+        edit_description: "Can view, comment and edit this work package."
         view: "Просмотр"
+        view_description: "Can view this work package."
       remove: "Удалить"
       text_empty_state_description: "Пакет работ еще не передан никому."
       text_empty_state_header: "Нет общих пользователей"
