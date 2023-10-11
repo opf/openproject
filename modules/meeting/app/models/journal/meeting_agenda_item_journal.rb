@@ -31,6 +31,7 @@ class Journal::MeetingAgendaItemJournal < Journal::BaseJournal
 
   belongs_to :meeting
   belongs_to :author, class_name: 'User'
+  belongs_to :agenda_item, class_name: 'MeetingAgendaItem'
 
   def editable?
     false

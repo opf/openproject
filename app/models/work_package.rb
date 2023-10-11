@@ -70,7 +70,8 @@ class WorkPackage < ApplicationRecord
   has_many :members, as: :entity, dependent: :destroy
   has_many :member_principals, through: :members, class_name: 'Principal', source: :principal
 
-  has_many :meeting_agenda_items, dependent: :destroy # Question: What about finalized minutes within an agenda item?
+  has_many :meeting_agenda_items, dependent: nil # Cleanup handled in dissociate_agenda_items method
+  has_many :meetings, through: :meeting_agenda_items, source: :meeting
 
   scope :recently_updated, -> {
     order(updated_at: :desc)
@@ -141,6 +142,7 @@ class WorkPackage < ApplicationRecord
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
   before_save :close_duplicates, :update_done_ratio_from_status
   before_create :default_assign
+  before_destroy :dissociate_agenda_items, if: -> { meeting_agenda_items.any? }
 
   acts_as_customizable
 
@@ -635,5 +637,13 @@ class WorkPackage < ApplicationRecord
     if invalid_attachment = attachments.detect(&:invalid?)
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
+  end
+
+  def dissociate_agenda_items
+    # Unscoping the order is required, because the MeetingAgendaItems have a default order
+    # and it throws an error, because the ordered field is not part of the select.
+    uniq_meetings = meetings.unscope(:order).uniq
+    meeting_agenda_items.update_all(work_package_id: nil)
+    uniq_meetings.each(&:save_journals)
   end
 end
