@@ -1,5 +1,5 @@
 <div>
-  <h1>Edit Host Name Configuration</h1>
+  <h1><%= t('label_edit_x', x: @storage.name) %></h1>
 
   <turbo-frame id="<%= dom_id(@storage) %>">
     <%= render(Storages::Admin::StorageGeneralInfoFormComponent.new(@storage)) %>

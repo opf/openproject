@@ -29,6 +29,7 @@ en:
         name: "Name"
         creator: "Creator"
         provider_type: "Provider type"
+        host: "Host"
       storages/file_link:
         origin_id: "Origin Id"
 
@@ -76,11 +77,6 @@ en:
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
       configure: "Configure"
-    forms:
-      general_information:
-        provider_type_select_form:
-          nextcloud_caption: >
-            Please make sure you have administration privileges in your Nextcloud instance and the application “Integration OpenProject” is installed before doing the setup.
     file_storage_view:
       general_information: "General information"
       oauth_applications: "OAuth applications"
@@ -107,6 +103,7 @@ en:
         title: "Members connection status"
         subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
+      provider_type: "Please make sure you have administration privileges in your Nextcloud instance and the application %{type_link_text} is installed before doing the setup."
       type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
       type_link_text: "“Integration OpenProject”"
       name: "Give your storage a name so that users can differentiate between multiple storages."

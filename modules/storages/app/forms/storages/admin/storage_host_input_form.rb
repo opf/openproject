@@ -27,22 +27,15 @@
 #++
 
 module Storages::Admin
-  class ProviderTypeSelectForm < ApplicationForm
-    form do |select_form|
-      select_form.select_list(
-        name: :provider_type,
-        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
-        caption: I18n.t('storages.instructions.provider_type', type_link_text: "“Integration OpenProject”"),
-        include_blank: false,
-        required: true
-      ) do |storage_provider_list|
-        ::Storages::Storage::PROVIDER_TYPES.each do |provider_type|
-          storage_provider_list.option(
-            label: I18n.t("storages.provider_types.#{::Storages::Storage.shorten_provider_type(provider_type)}.name"),
-            value: provider_type
-          )
-        end
-      end
+  class StorageHostInputForm < ApplicationForm
+    form do |input_form|
+      input_form.text_field(
+        name: :host,
+        label: I18n.t('activerecord.attributes.storages/storage.host'),
+        visually_hide_label: false,
+        required: true,
+        caption: I18n.t('storages.instructions.host')
+      )
     end
   end
 end

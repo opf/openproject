@@ -5,16 +5,21 @@
     method: :patch
   ) do |form|
     flex_layout do |general_info_row|
-      general_info_row.with_column do
+      general_info_row.with_row(mb: 3) do
         render(Storages::Admin::ProviderTypeSelectForm.new(form))
       end
 
-      general_info_row.with_column do
-        render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { I18n.t('storages.buttons.save_and_continue') }
+      general_info_row.with_row(mb: 3) do
+        render(Storages::Admin::StorageNameInputForm.new(form))
       end
 
-      general_info_row.with_column do
-        render(Primer::Beta::Button.new(scheme: :default, tag: :a, href: edit_admin_settings_storage_path(storage))) { I18n.t('button_cancel') }
+      general_info_row.with_row(mb: 3) do
+        render(Storages::Admin::StorageHostInputForm.new(form))
+      end
+
+      general_info_row.with_row do
+        concat(render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { I18n.t('storages.buttons.save_and_continue') })
+        concat(render(Primer::Beta::Button.new(scheme: :default, tag: :a, href: edit_admin_settings_storage_path(storage))) { I18n.t('button_cancel') })
       end
     end
   end

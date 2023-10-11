@@ -120,6 +120,9 @@ class Storages::Admin::StoragesController < ApplicationController
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to edit_admin_settings_storage_path(@storage)
+    elsif OpenProject::FeatureDecisions.storage_primer_design_active?
+      @storage = ServiceResultErrorsPresenter.new(service_result)
+      render :edit_host_name_configuration
     else
       @errors = service_result.errors
       render :edit
@@ -181,7 +184,31 @@ class Storages::Admin::StoragesController < ApplicationController
   # update parameters are correctly set.
   def permitted_storage_params
     params
-      .require(:storages_storage)
+      .require(storage_provider_parameter_name)
       .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret')
+  end
+
+  # TODO: Work out how to retrieve the storage provider resource name as it's based on the provider type
+  # PrimerForms implements Rails `form_with` which doesn't support overriding the form name as we would with
+  # `form_for`.
+  # See: https://github.com/opf/primer_view_components/blob/79fb58474771bd06946554f8325cd0b1bdd6dd31/app/helpers/primer/form_helper.rb#L7
+  #
+  def storage_provider_parameter_name
+    if OpenProject::FeatureDecisions.storage_primer_design_active?
+      :storages_nextcloud_storage
+    else
+      :storages_storage
+    end
+  end
+
+  class ServiceResultErrorsPresenter < SimpleDelegator
+    attr_reader :service_result
+
+    def initialize(service_result)
+      super(service_result.result)
+      @service_result = service_result
+    end
+
+    delegate :errors, to: :service_result
   end
 end
