@@ -29,12 +29,16 @@
 require 'spec_helper'
 
 RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
-  let(:user) { create(:user) }
+  shared_association_default(:author, factory_name: :user) { create(:user) }
+  shared_association_default(:project_with_types) { create(:project_with_types) }
+  shared_association_default(:priority) { create(:priority) }
+  shared_association_default(:open_status, factory_name: :status) { create(:status) }
+  shared_let(:closed_status) { create(:closed_status) }
+  shared_let(:user) { create(:user) }
+
   let(:estimated_hours) { [nil, nil, nil] }
   let(:done_ratios) { [0, 0, 0] }
   let(:statuses) { %i(open open open) }
-  let(:open_status) { create(:status) }
-  let(:closed_status) { create(:closed_status) }
   let(:aggregate_done_ratio) { 0.0 }
   let(:ignore_non_working_days) { [false, false, false] }
 
