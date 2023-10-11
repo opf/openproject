@@ -37,7 +37,7 @@ OpenProject::Application.routes.draw do
                                                          only: %i[new edit update]
 
         member do
-          get '/edit_host_name_configuration' => '/storages/admin/storages#edit_host_name_configuration'
+          get '/edit_host' => '/storages/admin/storages#edit_host'
           delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
         end
       end

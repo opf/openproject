@@ -41,7 +41,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
-  before_action :find_model_object, only: %i[show destroy edit edit_host_name_configuration update replace_oauth_application]
+  before_action :find_model_object, only: %i[show destroy edit edit_host update replace_oauth_application]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -102,12 +102,8 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # rubocop:enable Metrics/AbcSize
 
-  # Edit page is very similar to new page, except that we don't need to set
-  # default attribute values because the object already exists
-  # Called by: Global app/config/routes.rb to serve Web page
   def edit; end
-
-  def edit_host_name_configuration; end
+  def edit_host; end
 
   # Update is similar to create above
   # See also: create above
@@ -122,7 +118,7 @@ class Storages::Admin::StoragesController < ApplicationController
       redirect_to edit_admin_settings_storage_path(@storage)
     elsif OpenProject::FeatureDecisions.storage_primer_design_active?
       @storage = ServiceResultErrorsPresenter.new(service_result)
-      render :edit_host_name_configuration
+      render :edit_host
     else
       @errors = service_result.errors
       render :edit
