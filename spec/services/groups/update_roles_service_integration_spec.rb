@@ -116,7 +116,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
 
       Member.where(principal: users).each do |member|
         expect(member.roles)
-          .to match_array([role, added_role])
+          .to contain_exactly(role, added_role)
       end
     end
 
@@ -163,7 +163,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
 
         Member.where(principal: users).each do |member|
           expect(member.roles)
-            .to match_array([role, added_role])
+            .to contain_exactly(role, added_role)
         end
       end
 
@@ -195,7 +195,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
 
         Member.where(principal: users).each do |member|
           expect(member.roles)
-            .to match_array([role])
+            .to contain_exactly(role)
         end
       end
 
@@ -229,14 +229,14 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       service_call
 
       expect(Member.find_by(principal: users.first).roles.uniq)
-        .to match_array([role, added_role])
+        .to contain_exactly(role, added_role)
     end
 
     it 'adds the roles to all inherited memberships' do
       service_call
 
       expect(Member.find_by(principal: users.last).roles)
-        .to match_array([role, added_role])
+        .to contain_exactly(role, added_role)
     end
 
     it_behaves_like 'keeps timestamp' do
@@ -275,7 +275,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
 
       Member.where(principal: users).each do |member|
         expect(member.roles)
-          .to match_array([role])
+          .to contain_exactly(role)
       end
     end
 
@@ -309,7 +309,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       service_call
 
       expect(Member.find_by(principal: users.last).roles)
-        .to match_array([role])
+        .to contain_exactly(role)
     end
 
     it 'keeps the non inherited roles' do
@@ -355,7 +355,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
 
       Member.where(principal: users).each do |member|
         expect(member.roles)
-          .to match_array([replacement_role])
+          .to contain_exactly(replacement_role)
       end
     end
 
@@ -389,7 +389,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       service_call
 
       expect(Member.find_by(principal: users.last).roles)
-        .to match_array([replacement_role])
+        .to contain_exactly(replacement_role)
     end
 
     it 'keeps the non inherited roles' do
@@ -451,7 +451,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       service_call
 
       expect(Member.find_by(principal: users.first).roles.uniq)
-        .to match_array([role, other_role, added_role])
+        .to contain_exactly(role, other_role, added_role)
     end
 
     it_behaves_like 'sends notification' do
