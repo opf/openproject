@@ -47,7 +47,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
         it 'updated one work package - the parent' do
           expect(subject.dependent_results.map(&:result))
-          .to match_array [parent]
+          .to contain_exactly(parent)
         end
 
         it 'has the expected aggregate done ratio' do
@@ -254,7 +254,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns the former ancestors in the dependent results' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array [parent, grandparent]
+          .to contain_exactly(parent, grandparent)
       end
 
       it 'updates the done_ratio of the former parent' do
@@ -309,7 +309,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
         it 'returns the new ancestors in the dependent results' do
           expect(subject.dependent_results.map(&:result))
-            .to match_array [parent, grandparent]
+            .to contain_exactly(parent, grandparent)
         end
 
         it 'updates the done_ratio of the new parent' do
@@ -424,7 +424,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns both the former and new ancestors in the dependent results without duplicates' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array [new_parent, grandparent, old_parent]
+          .to contain_exactly(new_parent, grandparent, old_parent)
       end
 
       it 'updates the done_ratio of the former parent' do
@@ -498,7 +498,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns the former ancestors in the dependent results' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array [parent, grandparent, grandgrandparent]
+          .to contain_exactly(parent, grandparent, grandgrandparent)
       end
 
       it 'sets the ignore_non_working_days property of the former ancestor chain to the value of the
@@ -541,7 +541,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns the former ancestors in the dependent results' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array [parent]
+          .to contain_exactly(parent)
       end
 
       it 'sets the ignore_non_working_days property of the new ancestors' do
