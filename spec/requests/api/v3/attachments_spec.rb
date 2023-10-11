@@ -40,21 +40,16 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
   let(:role) { create(:role, permissions:) }
   let(:permissions) { [:add_work_packages] }
 
-  context(
-    'with missing permissions',
-    with_config: {
-      attachments_storage: :fog,
-      fog: { credentials: { provider: 'AWS' } }
-    }
-  ) do
+  context 'with missing permissions', :with_direct_uploads do
     let(:permissions) { [] }
 
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
     let(:request_parts) { { metadata: metadata.to_json, file: } }
-    let(:metadata) { { fileName: 'cat.png' } }
+    let(:metadata) { { fileName: 'cat.png', fileSize: file.size, contentType: 'image/png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
 
     before do
+      allow(User).to receive(:current).and_return current_user
       post request_path, request_parts
     end
 
