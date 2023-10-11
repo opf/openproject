@@ -45,7 +45,7 @@ module Meetings
         when :show
           show_partial
         when :edit
-          edit_partial if edit_enabled?
+          edit_partial if @meeting.editable?
         end
       end
     end
