@@ -56,7 +56,7 @@
                   render OpenProject::Common::DurationComponent.new(@meeting.duration, :hours, abbreviated: true)
                 end
 
-                if @meeting.duration_exceeded_by_agenda_items? do
+                if @meeting.duration_exceeded_by_agenda_items?
                   duration.with_column(ml: 2) do
                     render(Primer::Beta::Text.new(color: :danger, font_size: :small)) do
                       "+ #{I18n.t('datetime.distance_in_words.x_minutes_abbreviated',
@@ -64,23 +64,22 @@
                     end
                   end
                 end
-                end
               end
             end
+          end
 
-            if @meeting.location.present?
-              details.with_row(mt: 2) do
-                if @meeting.location.include?("http")
-                  render_meeting_attribute_row(:link) do
-                    render(Primer::Beta::Link.new(href: @meeting.location, target: "_blank")) do
-                      render_truncated_location
-                    end
+          if @meeting.location.present?
+            details.with_row(mt: 2) do
+              if @meeting.location.include?("http")
+                render_meeting_attribute_row(:link) do
+                  render(Primer::Beta::Link.new(href: @meeting.location, target: "_blank")) do
+                    render_truncated_location
                   end
-                else
-                  render_meeting_attribute_row(:location) do
-                    render(Primer::Beta::Text.new) do
-                      render_truncated_location
-                    end
+                end
+              else
+                render_meeting_attribute_row(:location) do
+                  render(Primer::Beta::Text.new) do
+                    render_truncated_location
                   end
                 end
               end
