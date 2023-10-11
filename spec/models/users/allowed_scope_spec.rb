@@ -33,8 +33,8 @@ RSpec.describe User, 'allowed scope' do
   let(:anonymous) { build(:anonymous) }
   let(:project) { build(:project, public: false) }
   let(:project2) { build(:project, public: false) }
-  let(:role) { build(:role) }
-  let(:role2) { build(:role) }
+  let(:role) { build(:project_role) }
+  let(:role2) { build(:project_role) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:member) do
     build(:member, project:,
@@ -48,8 +48,8 @@ RSpec.describe User, 'allowed scope' do
   before do
     user.save!
     anonymous.save!
-    Role.anonymous
-    Role.non_member
+    ProjectRole.anonymous
+    ProjectRole.non_member
   end
 
   context 'w/ the context being a project
@@ -166,7 +166,7 @@ RSpec.describe User, 'allowed scope' do
     before do
       project.public = true
 
-      non_member = Role.non_member
+      non_member = ProjectRole.non_member
       non_member.add_permission! action
 
       project.save!
@@ -184,7 +184,7 @@ RSpec.describe User, 'allowed scope' do
     before do
       project.public = true
 
-      anonymous_role = Role.anonymous
+      anonymous_role = ProjectRole.anonymous
       anonymous_role.add_permission! action
 
       project.save!
@@ -202,7 +202,7 @@ RSpec.describe User, 'allowed scope' do
     before do
       project.public = true
 
-      non_member = Role.non_member
+      non_member = ProjectRole.non_member
       non_member.add_permission! other_action
 
       project.save!
@@ -218,7 +218,7 @@ RSpec.describe User, 'allowed scope' do
            w/o the user being member in the project
            w/ the non member role having the permission' do
     before do
-      non_member = Role.non_member
+      non_member = ProjectRole.non_member
       non_member.add_permission! action
 
       project.save!
@@ -241,7 +241,7 @@ RSpec.describe User, 'allowed scope' do
       role.add_permission! other_action
       member.save!
 
-      non_member = Role.non_member
+      non_member = ProjectRole.non_member
       non_member.add_permission! action
     end
 

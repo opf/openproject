@@ -181,7 +181,7 @@ RSpec.describe 'Work Package table hierarchy', js: true do
              member_through_role: role)
     end
     let(:permissions) { %i(view_work_packages add_work_packages save_queries) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:sort_by) { Components::WorkPackages::SortBy.new }
 
     let!(:query) do

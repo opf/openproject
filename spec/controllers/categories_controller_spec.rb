@@ -32,7 +32,7 @@ RSpec.describe CategoriesController do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: [:manage_categories])
   end
   let(:member) do

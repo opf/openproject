@@ -45,7 +45,7 @@ RSpec.describe 'Read-only statuses affect work package editing',
            status: unlocked_status)
   end
 
-  let(:role) { create(:role, permissions: %i[edit_work_packages view_work_packages]) }
+  let(:role) { create(:project_role, permissions: %i[edit_work_packages view_work_packages]) }
   let(:user) do
     create(:user,
            member_in_project: project,

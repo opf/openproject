@@ -50,8 +50,8 @@ RSpec.describe 'API v3 Project resource index', content_type: :json do
       project.save
     end
   end
-  let(:role) { create(:role) }
-  let(:second_role) { create(:role) }
+  let(:role) { create(:project_role) }
+  let(:second_role) { create(:project_role) }
   let(:filters) { [] }
   let(:get_path) do
     api_v3_paths.path_for :projects, filters:
@@ -110,7 +110,7 @@ RSpec.describe 'API v3 Project resource index', content_type: :json do
       create(:project, members: [current_user])
     end
     let(:projects) { [project, other_project] }
-    let(:role) { create(:role, permissions: [:copy_projects]) }
+    let(:role) { create(:project_role, permissions: [:copy_projects]) }
 
     let(:get_path) do
       api_v3_paths.path_for :projects, filters: [{ user_action: { operator: "=", values: ["projects/copy"] } }]
@@ -127,7 +127,7 @@ RSpec.describe 'API v3 Project resource index', content_type: :json do
 
   context 'when filtering for principals (members)' do
     let(:other_project) do
-      Role.non_member
+      ProjectRole.non_member
       create(:public_project)
     end
     let(:projects) { [project, other_project] }
@@ -182,7 +182,7 @@ RSpec.describe 'API v3 Project resource index', content_type: :json do
       create(:project, members: { other_user => role }, active: false)
     end
     let(:projects) { [member_project, public_project, non_member_project, archived_member_project] }
-    let(:role) { create(:role, permissions: []) }
+    let(:role) { create(:project_role, permissions: []) }
     let(:other_user) do
       create(:user)
     end
@@ -268,7 +268,7 @@ RSpec.describe 'API v3 Project resource index', content_type: :json do
   end
 
   context 'as project collection' do
-    let(:role) { create(:role, permissions: %i[view_work_packages]) }
+    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
     let(:projects) { [project] }
     let(:expected) do
       "#{api_v3_paths.project(project.id)}/work_packages"

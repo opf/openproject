@@ -51,7 +51,7 @@ RSpec.describe 'Backlogs in backlog view',
            type_id: story.id)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_master_backlog
                            add_work_packages
                            view_work_packages

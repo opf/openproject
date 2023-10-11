@@ -44,12 +44,12 @@ RSpec.describe OpenProject::Bim::BcfXml::Importer do
            types: [type])
   end
   let(:member_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_linked_issues view_work_packages])
   end
   let(:manage_bcf_role) do
     create(
-      :role,
+      :project_role,
       permissions: %i[manage_bcf view_linked_issues view_work_packages edit_work_packages add_work_packages]
     )
   end

@@ -40,7 +40,7 @@ RSpec.shared_examples 'as an auth aware field' do
         :user,
         member_in_project: project,
         member_through_role: build(
-          :role,
+          :project_role,
           permissions: [:view_work_packages]
         )
       )
@@ -113,7 +113,7 @@ RSpec.shared_examples 'a workpackage autocomplete field' do
 end
 
 RSpec.shared_examples 'a principal autocomplete field' do
-  let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     create(:user,
            member_in_project: project,
@@ -177,7 +177,7 @@ RSpec.shared_examples 'a principal autocomplete field' do
 end
 
 RSpec.shared_examples 'not a principal autocomplete field' do
-  let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     create(:user,
            member_in_project: project,

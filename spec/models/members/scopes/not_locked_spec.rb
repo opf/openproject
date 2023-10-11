@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Members::Scopes::NotLocked do
   let(:project) { create(:project) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
 
   let!(:invited_user_member) do
     create(:member,

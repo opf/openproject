@@ -34,7 +34,7 @@ RSpec.describe ApplicationHelper do
     let(:project_member) do
       create(:user,
              member_in_project: project,
-             member_through_role: create(:role,
+             member_through_role: create(:project_role,
                                          permissions: %i[view_work_packages edit_work_packages
                                                          browse_repository view_changesets view_wiki_pages]))
     end

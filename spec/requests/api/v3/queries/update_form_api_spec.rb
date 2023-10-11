@@ -34,7 +34,7 @@ RSpec.describe "POST /api/v3/queries/form",
 
   let(:path) { api_v3_paths.query_form(query.id) }
   let(:user) { create(:admin) }
-  let(:role) { create(:existing_role, permissions:) }
+  let(:role) { create(:existing_project_role, permissions:) }
   let(:permissions) { %i(view_work_packages manage_public_queries) }
   let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00+00:00', "P0D"] }
 

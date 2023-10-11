@@ -29,32 +29,32 @@
 require 'digest'
 
 FactoryBot.define do
-  factory :role do
+  factory :project_role do
     permissions { [] }
-    sequence(:name) { |n| "role_#{n}" }
+    sequence(:name) { |n| "Project role #{n}" }
 
     factory :non_member do
       name { 'Non member' }
       builtin { Role::BUILTIN_NON_MEMBER }
-      initialize_with { Role.where(name:).first_or_initialize }
+      initialize_with { ProjectRole.where(builtin: Role::BUILTIN_NON_MEMBER).first_or_initialize }
     end
 
     factory :anonymous_role do
       name { 'Anonymous' }
       builtin { Role::BUILTIN_ANONYMOUS }
-      initialize_with { Role.where(name:).first_or_initialize }
+      initialize_with { ProjectRole.where(builtin: Role::BUILTIN_ANONYMOUS).first_or_initialize }
     end
 
-    factory :existing_role do
+    factory :existing_project_role do
       name { "Role #{Digest::MD5.hexdigest(permissions.map(&:to_s).join('/'))[0..4]}" }
       permissions { [] }
 
       initialize_with do
         role =
-          if Role.exists?(name:)
-            Role.find_by(name:)
+          if ProjectRole.exists?(name:)
+            ProjectRole.find_by(name:)
           else
-            Role.create(name:)
+            ProjectRole.create(name:)
           end
 
         role.add_permission!(*permissions.reject { |p| role.permissions.include?(p) })

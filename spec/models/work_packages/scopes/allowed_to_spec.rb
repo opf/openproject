@@ -40,7 +40,7 @@ RSpec.describe WorkPackage, '.allowed_to' do
   let!(:other_work_package_in_private_project) { create(:work_package, project: private_project) }
 
   let(:project_permissions) { [] }
-  let(:project_role) { create(:role, permissions: project_permissions) }
+  let(:project_role) { create(:project_role, permissions: project_permissions) }
 
   let(:work_package_permissions) { [] }
   let(:work_package_role) { create(:work_package_role, permissions: work_package_permissions) }

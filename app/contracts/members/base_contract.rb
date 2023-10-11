@@ -68,7 +68,7 @@ module Members
 
     def role_grantable?(role)
       role.builtin == Role::NON_BUILTIN &&
-        ((model.project && role.instance_of?(Role)) || (!model.project && role.instance_of?(GlobalRole)))
+        ((model.project && role.instance_of?(ProjectRole)) || (!model.project && role.instance_of?(GlobalRole)))
     end
 
     def user_allowed_to_manage?

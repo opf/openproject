@@ -118,7 +118,7 @@ RSpec.describe 'Updating entries within the cost report', js: true do
   end
 
   context 'as user without permissions' do
-    let(:role) { create(:role, permissions: %i(view_time_entries)) }
+    let(:role) { create(:project_role, permissions: %i(view_time_entries)) }
     let!(:user) do
       create(:user,
              member_in_project: project,

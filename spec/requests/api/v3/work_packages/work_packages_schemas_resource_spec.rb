@@ -35,7 +35,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
 
   let(:project) { create(:project) }
   let(:type) { create(:type) }
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:current_user) do
     create(:user, member_in_project: project, member_through_role: role)
   end
@@ -119,7 +119,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
     end
 
     context 'not authorized' do
-      let(:role) { create(:role, permissions: []) }
+      let(:role) { create(:project_role, permissions: []) }
 
       it 'returns HTTP 403' do
         expect(last_response.status).to be(403)

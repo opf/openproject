@@ -31,7 +31,7 @@ require 'features/page_objects/notification'
 
 RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true do
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages add_work_packages edit_work_packages add_work_package_notes])
   end
   let(:dev) do
@@ -87,7 +87,7 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
 
         context 'with a user that is not allowed to add images (Regression #28541)' do
           let(:role) do
-            create(:role,
+            create(:project_role,
                    permissions: %i[view_work_packages add_work_packages add_work_package_notes])
           end
 
@@ -107,7 +107,7 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
 
         context 'with a user that is allowed add attachments but not edit WP (#29203)' do
           let(:role) do
-            create(:role,
+            create(:project_role,
                    permissions: %i[view_work_packages add_work_package_attachments add_work_package_notes])
           end
 
@@ -300,7 +300,7 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
 
     context 'with a user that is allowed to add attachments but not edit WP (#29203)' do
       let(:role) do
-        create(:role,
+        create(:project_role,
                permissions: %i[view_work_packages add_work_package_attachments add_work_package_notes])
       end
 

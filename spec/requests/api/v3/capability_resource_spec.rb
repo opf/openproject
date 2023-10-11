@@ -43,7 +43,7 @@ RSpec.describe 'API v3 capabilities resource', content_type: :json do
   end
 
   let(:role) do
-    create(:role, permissions: %i[manage_members])
+    create(:project_role, permissions: %i[manage_members])
   end
   let(:global_role) do
     create(:global_role, permissions: %i[create_user manage_user])

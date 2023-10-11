@@ -39,7 +39,7 @@ RSpec.describe OpenProject::TextFormatting,
     let(:options) { { project: } }
 
     shared_let(:role) do
-      create(:role,
+      create(:project_role,
              permissions: %i(view_work_packages edit_work_packages
                              browse_repository view_changesets view_wiki_pages))
     end
@@ -56,7 +56,7 @@ RSpec.describe OpenProject::TextFormatting,
 
     context 'User links' do
       let(:role) do
-        create(:role,
+        create(:project_role,
                permissions: %i[view_work_packages edit_work_packages
                                browse_repository view_changesets view_wiki_pages])
       end
@@ -267,7 +267,7 @@ RSpec.describe OpenProject::TextFormatting,
 
         context 'when visible user exists' do
           let(:project) { create(:project) }
-          let(:role) { create(:role, permissions: %i(view_work_packages)) }
+          let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
           let(:current_user) do
             create(:user,
                    member_in_project: project,
@@ -330,7 +330,7 @@ RSpec.describe OpenProject::TextFormatting,
 
     context 'Group reference' do
       let(:role) do
-        create(:role,
+        create(:project_role,
                permissions: [])
       end
 

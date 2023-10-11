@@ -67,7 +67,7 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
   private
 
   def roles
-    ::Role.givable.or(::GlobalRole.givable).or(::WorkPackageRole.givable)
+    ::Role.givable
   end
 
   def operator_for_filtering

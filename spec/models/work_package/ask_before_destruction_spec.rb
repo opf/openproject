@@ -42,8 +42,8 @@ RSpec.describe WorkPackage do
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type]) }
   let(:project2) { create(:project, types: [type]) }
-  let(:role) { create(:role) }
-  let(:role2) { create(:role) }
+  let(:role) { create(:project_role) }
+  let(:role2) { create(:project_role) }
   let(:member) do
     create(:member,
            principal: user,

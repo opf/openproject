@@ -51,7 +51,7 @@ RSpec.describe 'group memberships through groups page', js: true do
            member_through_role: role,
            preferences: { hide_mail: true })
   end
-  let(:role) { create(:role, permissions: %i(add_work_packages)) }
+  let(:role) { create(:project_role, permissions: %i(add_work_packages)) }
   let(:members_page) { Pages::Members.new project.identifier }
 
   before do

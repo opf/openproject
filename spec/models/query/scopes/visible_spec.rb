@@ -53,7 +53,7 @@ RSpec.describe Queries::Scopes::Visible do
       create(:query,
              name: 'Private user query lacking permission',
              project: create(:project,
-                             members: { user => create(:role, permissions: []) }),
+                             members: { user => create(:project_role, permissions: []) }),
              user:)
     end
     let!(:public_query) do
@@ -66,7 +66,7 @@ RSpec.describe Queries::Scopes::Visible do
       create(:query,
              name: 'Public query lacking permission',
              project: create(:project,
-                             members: { user => create(:role, permissions: []) }),
+                             members: { user => create(:project_role, permissions: []) }),
              public: true)
     end
     let!(:global_user_query) do

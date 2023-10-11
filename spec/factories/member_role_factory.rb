@@ -29,6 +29,6 @@
 FactoryBot.define do
   factory :member_role do
     member
-    role
+    role factory: :project_role
   end
 end

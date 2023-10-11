@@ -36,7 +36,7 @@ RSpec.describe 'Work Package Project Boards Index Page',
   shared_let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
 
   shared_let(:management_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[
              show_board_views
              manage_board_views
@@ -47,7 +47,7 @@ RSpec.describe 'Work Package Project Boards Index Page',
   end
 
   shared_let(:view_only_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[
              show_board_views
              add_work_packages

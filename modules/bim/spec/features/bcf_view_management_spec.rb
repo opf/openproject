@@ -36,7 +36,7 @@ RSpec.describe 'bcf view management',
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:bcf_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %w[
              view_work_packages
              save_queries

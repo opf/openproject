@@ -42,7 +42,7 @@ RSpec.describe 'Invite user modal subprojects', js: true, with_cuprite: true do
                                            role:
   end
   let!(:role) do
-    create(:role,
+    create(:project_role,
            name: 'Member',
            permissions:)
   end

@@ -137,7 +137,7 @@ RSpec.describe 'Activity tab',
 
     context 'with permission' do
       let(:role) do
-        create(:role, permissions: %i[view_work_packages add_work_package_notes])
+        create(:project_role, permissions: %i[view_work_packages add_work_package_notes])
       end
       let(:user) do
         create(:user,
@@ -215,7 +215,7 @@ RSpec.describe 'Activity tab',
 
     context 'with no permission' do
       let(:role) do
-        create(:role, permissions: [:view_work_packages])
+        create(:project_role, permissions: [:view_work_packages])
       end
       let(:user) do
         create(:user,

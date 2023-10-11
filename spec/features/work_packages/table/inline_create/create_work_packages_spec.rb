@@ -5,7 +5,7 @@ RSpec.describe 'inline create work package', js: true do
   let(:types) { [type] }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -179,7 +179,7 @@ RSpec.describe 'inline create work package', js: true do
 
       let(:project2) { create(:project) }
       let(:role2) do
-        create(:role,
+        create(:project_role,
                permissions: %i[view_work_packages
                                add_work_packages])
       end

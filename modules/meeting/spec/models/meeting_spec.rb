@@ -39,7 +39,7 @@ RSpec.describe Meeting do
   end
   let(:project_members) { {} }
 
-  let(:role) { create(:role, permissions: [:view_meetings]) }
+  let(:role) { create(:project_role, permissions: [:view_meetings]) }
 
   it { is_expected.to belong_to :project }
   it { is_expected.to belong_to :author }
@@ -119,7 +119,7 @@ RSpec.describe Meeting do
     end
 
     describe 'WITH a user not having the view_meetings permission' do
-      let(:role2) { create(:role, permissions: []) }
+      let(:role2) { create(:project_role, permissions: []) }
       let(:project_members) { { user1 => role, user2 => role2 } }
 
       it 'does not contain the user' do

@@ -46,7 +46,7 @@ RSpec.describe 'Work Package Boards Overview',
   end
 
   shared_let(:management_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[
              show_board_views
              manage_board_views
@@ -57,7 +57,7 @@ RSpec.describe 'Work Package Boards Overview',
   end
 
   shared_let(:view_only_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[
              show_board_views
              add_work_packages

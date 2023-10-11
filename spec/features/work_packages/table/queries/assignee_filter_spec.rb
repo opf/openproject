@@ -33,7 +33,7 @@ RSpec.describe 'Work package filtering by assignee', js: true do
   let(:invisible_project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
-  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do
     create(:user,
            firstname: 'Other',

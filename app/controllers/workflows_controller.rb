@@ -74,11 +74,11 @@ class WorkflowsController < ApplicationController
     @source_role = if params[:source_role_id].blank? || params[:source_role_id] == 'any'
                      nil
                    else
-                     Role.find(params[:source_role_id])
+                     ProjectRole.find(params[:source_role_id])
                    end
 
     @target_types = params[:target_type_ids].blank? ? nil : ::Type.where(id: params[:target_type_ids])
-    @target_roles = params[:target_role_ids].blank? ? nil : Role.where(id: params[:target_role_ids])
+    @target_roles = params[:target_role_ids].blank? ? nil : ProjectRole.where(id: params[:target_role_ids])
 
     if request.post?
       if params[:source_type_id].blank? || params[:source_role_id].blank? || (@source_type.nil? && @source_role.nil?)
@@ -124,7 +124,7 @@ class WorkflowsController < ApplicationController
   end
 
   def find_roles
-    @roles = Role.order(Arel.sql('builtin, position'))
+    @roles = ProjectRole.order(Arel.sql('builtin, position'))
   end
 
   def find_types
@@ -132,7 +132,7 @@ class WorkflowsController < ApplicationController
   end
 
   def find_role
-    @role = Role.find(params[:role_id])
+    @role = ProjectRole.find(params[:role_id])
   end
 
   def find_type
@@ -140,7 +140,7 @@ class WorkflowsController < ApplicationController
   end
 
   def find_optional_role
-    @role = Role.find_by(id: params[:role_id])
+    @role = ProjectRole.find_by(id: params[:role_id])
   end
 
   def find_optional_type
