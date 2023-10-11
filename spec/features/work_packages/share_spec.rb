@@ -34,15 +34,22 @@ RSpec.describe 'Work package sharing',
                :js,
                :with_cuprite,
                with_flag: { work_package_sharing: true } do
-  let(:sharer_role) do
-    create(:project_role,
-           permissions: %i(view_work_packages
-                           view_shared_work_packages
-                           share_work_packages))
-  end
-  let(:view_work_package_role) { create(:view_work_package_role) }
-  let(:comment_work_package_role) { create(:comment_work_package_role) }
-  let(:edit_work_package_role) { create(:edit_work_package_role) }
+  shared_let(:view_work_package_role) { create(:view_work_package_role) }
+  shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
+  shared_let(:edit_work_package_role) { create(:edit_work_package_role) }
+
+  shared_let(:view_user) { create(:user, firstname: 'View', lastname: 'User') }
+  shared_let(:comment_user) { create(:user, firstname: 'Comment', lastname: 'User') }
+  shared_let(:edit_user) { create(:user, firstname: 'Edit', lastname: 'User') }
+  shared_let(:non_shared_project_user) { create(:user, firstname: 'Non Shared Project', lastname: 'User') }
+  shared_let(:shared_project_user) { create(:user, firstname: 'Shared Project', lastname: 'User') }
+  shared_let(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
+
+  shared_let(:richard) { create(:user, firstname: 'Richard', lastname: 'Hendricks') }
+  shared_let(:dinesh) { create(:user, firstname: 'Dinesh', lastname: 'Chugtai') }
+  shared_let(:gilfoyle) { create(:user, firstname: 'Bertram', lastname: 'Gilfoyle') }
+  shared_let(:not_shared_yet_with_group) { create(:group, members: [richard, dinesh, gilfoyle]) }
+
   let(:project) do
     create(:project,
            members: { current_user => [sharer_role],
@@ -50,6 +57,12 @@ RSpec.describe 'Work package sharing',
                       # to save some creation work.
                       non_shared_project_user => [sharer_role],
                       shared_project_user => [sharer_role] })
+  end
+  let(:sharer_role) do
+    create(:project_role,
+           permissions: %i(view_work_packages
+                           view_shared_work_packages
+                           share_work_packages))
   end
   let(:work_package) do
     create(:work_package, project:) do |wp|
@@ -61,26 +74,17 @@ RSpec.describe 'Work package sharing',
       create(:work_package_member, entity: wp, user: dinesh, roles: [edit_work_package_role])
     end
   end
-
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
-
-  let!(:view_user) { create(:user, firstname: 'View', lastname: 'User') }
-  let!(:comment_user) { create(:user, firstname: 'Comment', lastname: 'User') }
-  let!(:edit_user) { create(:user, firstname: 'Edit', lastname: 'User') }
-  let!(:non_shared_project_user) { create(:user, firstname: 'Non Shared Project', lastname: 'User') }
-  let!(:shared_project_user) { create(:user, firstname: 'Shared Project', lastname: 'User') }
-  let!(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
-
-  let!(:richard) { create(:user, firstname: 'Richard', lastname: 'Hendricks') }
-  let!(:dinesh) { create(:user, firstname: 'Dinesh', lastname: 'Chugtai') }
-  let!(:gilfoyle) { create(:user, firstname: 'Bertram', lastname: 'Gilfoyle') }
-  let!(:not_shared_yet_with_group) { create(:group, members: [richard, dinesh, gilfoyle]) }
 
   current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
 
   def shared_principals
     Principal.where(id: Member.of_work_package(work_package).select(:user_id))
+  end
+
+  def inherited_member_roles(group:)
+    MemberRole.where(inherited_from: MemberRole.where(member_id: group.memberships))
   end
 
   context 'when having share permission' do
@@ -187,6 +191,19 @@ RSpec.describe 'Work package sharing',
         expect(ActionMailer::Base.deliveries.size).to eq(3)
       end
 
+      aggregate_failures "Updating a group's share" do
+        # Updating a group's share role also propagates to the inherited member roles of
+        # its users
+        share_modal.change_role(not_shared_yet_with_group, 'Comment')
+        share_modal.expect_shared_count_of(8)
+        expect(inherited_member_roles(group: not_shared_yet_with_group))
+          .to all(have_attributes(role: comment_work_package_role))
+
+        perform_enqueued_jobs
+        # No emails sent out on updates
+        expect(ActionMailer::Base.deliveries.size).to eq(3)
+      end
+
       aggregate_failures "Removing a group share" do
         # When removing a group's share, its users also get their inherited member roles removed
         # while keeping member roles that were granted independently of the group
@@ -196,6 +213,9 @@ RSpec.describe 'Work package sharing',
         share_modal.expect_shared_with(dinesh, 'Edit')
         share_modal.expect_shared_with(gilfoyle, 'Comment')
         share_modal.expect_shared_count_of(7)
+
+        expect(inherited_member_roles(group: not_shared_yet_with_group))
+          .to be_empty
 
         expect(shared_principals)
           .to include(gilfoyle, dinesh)
