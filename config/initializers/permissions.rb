@@ -232,6 +232,12 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin,
                      dependencies: :view_work_packages
 
+      # WP attachments can be added with :edit_work_packages, this permission allows it without Edit WP as well.
+      wpt.permission :add_work_package_attachments,
+                     {},
+                     permissible_on: %i[work_package project],
+                     dependencies: :view_work_packages
+
       # WorkPackage categories
       wpt.permission :manage_categories,
                      {
@@ -309,12 +315,6 @@ Rails.application.reloader.to_prepare do
                      require: :member,
                      contract_actions: { work_packages: %i[assigned] },
                      grant_to_admin: false
-
-      # WP attachments can be added with :edit_work_packages, this permission allows it without Edit WP as well.
-      wpt.permission :add_work_package_attachments,
-                     {},
-                     permissible_on: %i[work_package project],
-                     dependencies: :view_work_packages
     end
 
     map.project_module :news do |news|

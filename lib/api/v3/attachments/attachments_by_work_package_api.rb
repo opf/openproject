@@ -56,8 +56,6 @@ module API
           post &API::V3::Attachments::AttachmentsByContainerAPI.create(%i[edit_work_packages add_work_package_attachments])
 
           namespace :prepare do
-            # TODO which version?
-            # post &API::V3::Attachments::AttachmentsByContainerAPI.prepare(%i[edit_work_packages add_work_package_attachments])
             post &API::V3::Attachments::AttachmentsByContainerAPI.prepare([:edit_work_packages])
           end
         end
