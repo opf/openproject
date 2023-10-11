@@ -28,6 +28,7 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -39,10 +40,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { merge, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -52,10 +50,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import {
-  ApiV3ListFilter,
-  listParamsString,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3ListFilter, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 import { IProjectAutocompleteItem } from './project-autocomplete-item';
@@ -137,23 +132,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
   @Input()
   public mapResultsFn:(projects:IProjectAutocompleteItem[]) => IProjectAutocompleteItem[] = (projects) => projects;
 
-  /* eslint-disable-next-line @angular-eslint/no-input-rename */
-  @Input('value') public _value:IProjectAutocompleterData|IProjectAutocompleterData[]|null = null;
-
-  get value():IProjectAutocompleterData|IProjectAutocompleterData[]|null {
-    return this._value;
-  }
-
-  set value(value:IProjectAutocompleterData|IProjectAutocompleterData[]|null) {
-    this._value = value;
-    this.onChange(value);
-    this.valueChange.emit(value);
-    this.onTouched(value);
-    setTimeout(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-      this.hiddenInput.nativeElement?.dispatchEvent(new Event('change'));
-    }, 100);
-  }
+  @Input() public value:IProjectAutocompleterData|IProjectAutocompleterData[]|null;
 
   get plainValue():ID|ID[] {
     return (Array.isArray(this.value) ? this.value?.map((i) => i.id) : this.value?.id) || '';
@@ -175,6 +154,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:ApiV3Service,
     readonly injector:Injector,
+    readonly cdRef:ChangeDetectorRef,
   ) {
     populateInputsFromDataset(this);
   }
@@ -280,7 +260,21 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
       );
   }
 
-  writeValue(value:IProjectAutocompleterData|null):void {
+  projectSelected(value:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+    this.writeValue(value);
+    this.onChange(value);
+    this.onTouched(value);
+    this.valueChange.emit(value);
+    const input = this.hiddenInput.nativeElement as HTMLInputElement|undefined;
+    if (input) {
+      input.value = this.plainValue as string;
+      input.dispatchEvent(new Event('change'));
+    }
+    this.cdRef.detectChanges();
+  }
+
+  writeValue(value:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void {
     this.value = value;
   }
 

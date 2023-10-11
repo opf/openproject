@@ -182,12 +182,14 @@ module API::V3::Storages
     associated_resource :oauth_application,
                         skip_render: ->(*) { !represent_oauth_application? },
                         getter: ->(*) {
-                          next unless represent_oauth_application?
+                          next unless represent_oauth_application? && represented.oauth_application.present?
 
                           ::API::V3::OAuth::OAuthApplicationsRepresenter.create(represented.oauth_application, current_user:)
                         },
                         link: ->(*) {
                           next unless represent_oauth_application?
+
+                          return { href: nil } if represented.oauth_application.blank?
 
                           {
                             href: api_v3_paths.oauth_application(represented.oauth_application.id),

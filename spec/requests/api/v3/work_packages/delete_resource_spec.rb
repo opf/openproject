@@ -88,7 +88,7 @@ RSpec.describe 'API v3 Work package resource',
     end
 
     context 'without permission to delete work packages' do
-      let(:permissions) { [:view_work_packages] }
+      let(:permissions) { %i[view_work_packages add_work_package_attachments] }
 
       it_behaves_like 'unauthorized access'
 

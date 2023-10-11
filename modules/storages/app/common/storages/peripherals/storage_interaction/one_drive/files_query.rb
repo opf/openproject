@@ -66,15 +66,21 @@ module Storages
           private
 
           def handle_response(response)
+            json = MultiJson.load(response.body, symbolize_keys: true)
+            error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
+
             case response
             when Net::HTTPSuccess
               ServiceResult.success(result: MultiJson.load(response.body, symbolize_keys: true)[:value])
             when Net::HTTPNotFound
-              ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
+              ServiceResult.failure(result: :not_found,
+                                    errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
             when Net::HTTPUnauthorized
-              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
             else
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
+              ServiceResult.failure(result: :error,
+                                    errors: ::Storages::StorageError.new(code: :error, data: error_data))
             end
           end
 
@@ -118,7 +124,8 @@ module Storages
           def extract_location(parent_reference, file_name = '')
             location = parent_reference[:path].gsub(/.*root:/, '')
 
-            location.empty? ? "/#{file_name}" : "#{location}/#{file_name}"
+            appendix = file_name.blank? ? '' : "/#{file_name}"
+            location.empty? ? "/#{file_name}" : "#{location}#{appendix}"
           end
 
           def parent(parent_reference)

@@ -246,6 +246,14 @@ RSpec.describe Project, 'allowed to' do
 
       it_behaves_like 'is empty'
     end
+
+    context 'with the user being locked' do
+      before do
+        user.update!(status: Principal.statuses[:locked])
+      end
+
+      it_behaves_like 'is empty'
+    end
   end
 
   context 'with the project being private' do

@@ -128,7 +128,8 @@ module Meetings
           end
           flex.with_column(ml: 2) do
             render(Primer::Beta::Text.new(color: :danger, font_size: :small)) do
-              "+ #{ I18n.t('datetime.distance_in_words.x_min_abbreviated', count: @meeting.duration_exceeded_by_agenda_items_in_minutes.to_i)}"
+              "+ #{I18n.t('datetime.distance_in_words.x_minutes_abbreviated',
+                          count: @meeting.duration_exceeded_by_agenda_items_in_minutes.to_i)}"
             end
           end if @meeting.duration_exceeded_by_agenda_items?
         end

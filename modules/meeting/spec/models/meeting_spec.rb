@@ -72,7 +72,7 @@ RSpec.describe Meeting do
       it 'marks invalid start dates' do
         meeting.start_date = '-'
         expect(meeting.start_date).to eq('-')
-        expect { meeting.start_time }.to raise_error(ArgumentError)
+        expect(meeting.start_time).to be_nil
         expect(meeting).not_to be_valid
         expect(meeting.errors.count).to eq(1)
       end
@@ -80,7 +80,7 @@ RSpec.describe Meeting do
       it 'marks invalid start hours' do
         meeting.start_time_hour = '-'
         expect(meeting.start_time_hour).to eq('-')
-        expect { meeting.start_time }.to raise_error(ArgumentError)
+        expect(meeting.start_time).to be_nil
         expect(meeting).not_to be_valid
         expect(meeting.errors.count).to eq(1)
       end
@@ -96,8 +96,9 @@ RSpec.describe Meeting do
 
       it 'accepts changes after invalid dates' do
         meeting.start_date = '-'
-        expect { meeting.start_time }.to raise_error(ArgumentError)
+        expect(meeting.start_time).to be_nil
         expect(meeting).not_to be_valid
+        expect(meeting.errors[:start_date]).to contain_exactly 'is not a valid date. Required format: YYYY-MM-DD.'
 
         meeting.start_date = Time.zone.today.iso8601
         expect(meeting).to be_valid

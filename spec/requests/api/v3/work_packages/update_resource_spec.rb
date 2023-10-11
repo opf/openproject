@@ -83,7 +83,7 @@ RSpec.describe 'API v3 Work package resource',
       end
 
       context 'no permission to edit the work package' do
-        let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+        let(:role) { create(:project_role, permissions: %i[view_work_packages add_work_package_attachments]) }
         let(:current_user) do
           create(:user,
                  member_in_project: work_package.project,

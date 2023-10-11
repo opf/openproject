@@ -126,6 +126,7 @@ class WorkPackage < ApplicationRecord
   }
 
   scopes :covering_dates_and_days_of_week,
+         :allowed_to,
          :for_scheduling,
          :include_derived_dates,
          :include_spent_time,
@@ -188,7 +189,7 @@ class WorkPackage < ApplicationRecord
   ###################################################
   acts_as_attachable order: "#{Attachment.table_name}.file",
                      add_on_new_permission: :add_work_packages,
-                     add_on_persisted_permission: :edit_work_packages,
+                     add_on_persisted_permission: %i[edit_work_packages add_work_package_attachments],
                      modification_blocked: ->(*) { readonly_status? },
                      extract_tsv: true
 

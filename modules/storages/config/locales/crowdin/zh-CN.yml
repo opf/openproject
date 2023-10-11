@@ -68,7 +68,7 @@ zh-CN:
       configure: "配置"
     page_titles:
       file_storages:
-        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
+        subtitle: "添加外部文件存储以便在工作包中上传、链接和管理文件。"
       managed_project_folders:
         title: "自动托管的项目文件夹"
         subtitle: >
@@ -126,17 +126,17 @@ zh-CN:
       input_delete_confirmation: "输入文件存储区名称 %{file_storage} 以确认删除。"
       irreversible_notice: "删除文件存储区是不可逆转的操作。"
     storage_list_blank_slate:
-      heading: "You don't have any storages yet."
-      description: "Add a storage to see them here."
+      heading: "您还没有任何存储。"
+      description: "在这里添加一个存储以查看它们。"
     label_active: "有效"
-    label_add_new_storage: "Add new storage"
+    label_add_new_storage: "添加新存储"
     label_inactive: "停用"
     label_creator: "创建者"
-    label_provider: "Provider"
+    label_provider: "提供商"
     label_file_link: "文件链接"
     label_file_links: "文件链接"
-    label_creation_time: "Creation time"
-    label_incomplete: "Incomplete"
+    label_creation_time: "创建时间"
+    label_incomplete: "不完整"
     label_name: "名称"
     label_host: "主机 URL"
     label_managed_project_folders:

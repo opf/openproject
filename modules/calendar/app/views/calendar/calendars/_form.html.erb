@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required">
     <label class="form--label" for="project_id"><%= Query.human_attribute_name(:project) %>:</label>
     <div class="form--field-container">
-      <%= angular_component_tag 'op-project-autocompleter',
+      <%= angular_component_tag 'opce-project-autocompleter',
                                 inputs: {
                                   apiFilters: [['user_action', '=', ['calendars/create']]],
                                   name: 'project_id',
