@@ -39,13 +39,18 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    WorkPackageMembers::CreateOrUpdateService
+    @share = WorkPackageMembers::CreateOrUpdateService
       .new(user: current_user)
       .call(entity: @work_package,
             user_id: params[:member][:user_id],
-            role_ids: find_role_ids(params[:member][:role_id]))
+            role_ids: find_role_ids(params[:member][:role_id])).result
 
-    respond_with_update_modal
+
+    if current_member_count > 1
+      respond_with_prepend_share
+    else
+      respond_with_replace_modal
+    end
   end
 
   def update
@@ -53,7 +58,7 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call(role_ids: find_role_ids(params[:role_ids]))
 
-    respond_with_update_modal
+    head :no_content
   end
 
   def destroy
@@ -61,14 +66,47 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call
 
-    respond_with_update_modal
+    if current_member_count.zero?
+      respond_with_replace_modal
+    else
+      respond_with_remove_share
+    end
   end
 
   private
 
-  def respond_with_update_modal
+  def respond_with_replace_modal
     replace_via_turbo_stream(
       component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def respond_with_prepend_share
+    replace_via_turbo_stream(
+      component: WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package)
+    )
+
+    update_via_turbo_stream(
+      component: WorkPackages::Share::ShareCounterComponent.new(count: current_member_count)
+    )
+
+    prepend_via_turbo_stream(
+      component: WorkPackages::Share::ShareRowComponent.new(share: @share),
+      target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def respond_with_remove_share
+    remove_via_turbo_stream(
+      component: WorkPackages::Share::ShareRowComponent.new(share: @share)
+    )
+
+    update_via_turbo_stream(
+      component: WorkPackages::Share::ShareCounterComponent.new(count: current_member_count)
     )
 
     respond_with_turbo_streams
@@ -91,5 +129,9 @@ class WorkPackages::SharesController < ApplicationController
     # Role has a left join on permissions included leading to multiple ids being returned which
     # is why we unscope.
     WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
+  end
+
+  def current_member_count
+    @current_member_count ||= Member.of_work_package(@work_package).size
   end
 end

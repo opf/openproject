@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,24 +26,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 module WorkPackages
   module Share
-    class InviteUserFormComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
-      include WorkPackages::Share::Concerns::Authorization
+    module Concerns
+      module Authorization
+        extend ActiveSupport::Concern
 
-      def initialize(work_package:)
-        super
-
-        @work_package = work_package
-      end
-
-      def new_share
-        @new_share ||= Member.new(entity: @work_package, roles: [Role.new(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER)])
+        included do
+          def sharing_manageable?
+            User.current.allowed_to?(:share_work_packages, @work_package.project)
+          end
+        end
       end
     end
   end

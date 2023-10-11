@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,24 +26,48 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 module WorkPackages
   module Share
-    class InviteUserFormComponent < ApplicationComponent
+    class ShareRowComponent < ApplicationComponent
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include WorkPackages::Share::Concerns::Authorization
 
-      def initialize(work_package:)
+      def initialize(share:,
+                     container: nil)
         super
 
-        @work_package = work_package
+        @share = share
+        @work_package = share.entity
+        @user = share.principal
+        @container = container
       end
 
-      def new_share
-        @new_share ||= Member.new(entity: @work_package, roles: [Role.new(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER)])
+      def wrapper_uniq_by
+        share.id
+      end
+
+      def border_box_row(wrapper_arguments, &)
+        if container
+          container.with_row(**wrapper_arguments, &)
+        else
+          container = Primer::Beta::BorderBox.new
+          row = container.registered_slots[:rows][:renderable_function]
+                         .bind_call(container, **wrapper_arguments)
+
+          render(row, &)
+        end
+      end
+
+      private
+
+      attr_reader :share, :work_package, :user, :container
+
+      def share_editable?
+        @share_editable ||= User.current != share.principal && sharing_manageable?
       end
     end
   end
