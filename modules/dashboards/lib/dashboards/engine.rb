@@ -21,9 +21,6 @@ module Dashboards
 
     initializer 'dashboards.permissions' do
       Rails.application.reloader.to_prepare do
-        # Deactivate for now since the module isn't loaded in production
-        next unless Rails.env.test?
-
         OpenProject::AccessControl.map do |ac_map|
           ac_map.project_module(:dashboards) do |pm_map|
             pm_map.permission(:view_dashboards,
@@ -44,9 +41,6 @@ module Dashboards
     end
 
     config.to_prepare do
-      # Deactivate for now since the module isn't loaded in production
-      next unless Rails.env.test?
-
       Dashboards::GridRegistration.register!
     end
   end
