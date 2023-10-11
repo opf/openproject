@@ -203,6 +203,7 @@ As OpenProject may handle and distribute sensitive user data, attack vectors suc
   - OpenProject currently does not provide a built-in virus scanner. However, using [webhooks](https://www.openproject.org/docs/system-admin-guide/api-and-webhooks/#webhooks) and the [attachments API](https://www.openproject.org/docs/api/endpoints/attachments/), users can plug existing virus scanning tools and scrub any uploaded files.
 - *Malware in software*:
   - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artefacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
+  - We recommend users to perform their own 
 
 
 
