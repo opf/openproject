@@ -37,7 +37,7 @@ RSpec.describe ProjectRole do
     let!(:project_role) { create(:project_role) }
     let!(:builtin_role) { create(:non_member) }
 
-    it { expect(described_class.givable).to match_array project_role }
+    it { expect(described_class.givable).to contain_exactly project_role }
   end
 
   describe '.in_new_project' do
@@ -106,7 +106,7 @@ RSpec.describe ProjectRole do
       end
 
       it 'creates a new anonymous role' do
-        expect { subject }.to change(described_class, :count)
+        expect { subject }.to change(described_class, :count).by(1)
       end
     end
   end
@@ -124,13 +124,13 @@ RSpec.describe ProjectRole do
         .to be_builtin
     end
 
-    context 'with a missing anonymous role' do
+    context 'with a missing non_member role' do
       before do
         described_class.where(builtin: Role::BUILTIN_NON_MEMBER).delete_all
       end
 
-      it 'creates a new anonymous role' do
-        expect { subject }.to change(described_class, :count)
+      it 'creates a new non_member role' do
+        expect { subject }.to change(described_class, :count).by(1)
       end
     end
   end
