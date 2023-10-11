@@ -28,15 +28,6 @@
 
 module MeetingAgendaItems
   class CreateService < ::BaseServices::Create
-    include TouchMeeting
-
-    def after_perform(call)
-      meeting_agenda_item = call.result
-      meeting = meeting_agenda_item.meeting
-
-      touch(meeting) unless meeting.nil?
-
-      call
-    end
+    include AfterPerformHook
   end
 end

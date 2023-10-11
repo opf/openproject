@@ -27,7 +27,19 @@
 #++
 
 module MeetingAgendaItems
-  class UpdateService < ::BaseServices::Update
-    include AfterPerformHook
+  module AfterPerformHook
+    extend ActiveSupport::Concern
+    include TouchMeeting
+
+    included do
+      def after_perform(call)
+        meeting_agenda_item = call.result
+        meeting = meeting_agenda_item.meeting
+
+        touch(meeting) unless meeting.nil?
+
+        call
+      end
+    end
   end
 end
