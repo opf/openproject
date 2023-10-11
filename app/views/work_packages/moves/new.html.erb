@@ -62,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="form--field">
                 <label class="form--label" for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
                   <div class="form--field-container">
-                    <%= angular_component_tag 'op-project-autocompleter',
+                    <%= angular_component_tag 'opce-project-autocompleter',
                                               inputs: {
                                                 apiFilters: [['user_action', '=', ['work_packages/move']]],
                                                 name: 'new_project_id',
