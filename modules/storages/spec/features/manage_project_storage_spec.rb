@@ -88,7 +88,7 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock do
     stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
     stub_request(
       :delete,
-      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})/"
     ).to_return(status: 200, body: "", headers: {})
 
     storage

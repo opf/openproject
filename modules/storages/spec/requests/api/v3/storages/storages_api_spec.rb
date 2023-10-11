@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
+RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
   include StorageServerHelpers
 
@@ -71,6 +71,37 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
         it { is_expected.to have_json_path('_embedded/oauthApplication') }
       else
         it { is_expected.not_to have_json_path('_embedded/oauthApplication') }
+      end
+    end
+  end
+
+  describe 'GET /api/v3/storages' do
+    let(:path) { api_v3_paths.storages }
+    let!(:another_storage) { create(:nextcloud_storage) }
+
+    subject(:last_response) do
+      get path
+    end
+
+    context 'as admin' do
+      let(:current_user) { create(:admin) }
+
+      describe 'gets the storage collection and returns it' do
+        subject { last_response.body }
+
+        it_behaves_like 'API V3 collection response', 2, 2, 'Storage', 'Collection' do
+          let(:elements) { [another_storage, storage] }
+        end
+      end
+    end
+
+    context 'as non-admin' do
+      describe 'gets the storage collection of storages linked to visible projects with correct permissions' do
+        subject { last_response.body }
+
+        it_behaves_like 'API V3 collection response', 1, 1, 'Storage', 'Collection' do
+          let(:elements) { [storage] }
+        end
       end
     end
   end
@@ -333,7 +364,7 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
   describe 'DELETE /api/v3/storages/:storage_id' do
     let(:path) { api_v3_paths.storage(storage.id) }
     let(:delete_folder_url) do
-      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}/"
     end
     let(:deletion_request_stub) do
       stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})

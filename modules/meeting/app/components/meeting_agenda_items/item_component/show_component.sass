@@ -1,8 +1,10 @@
 @import 'helpers'
 
+$meeting-agenda-item--author-width: 300px
+
 .op-meeting-agenda-item
   display: grid
-  grid-template-columns: 20px auto 1fr minmax(auto, 200px) 40px
+  grid-template-columns: 20px auto 1fr minmax(auto, $meeting-agenda-item--author-width) 40px
   grid-template-areas: "drag-handle content duration author actions" ". notes notes notes notes"
 
   &--drag-handle,
@@ -11,11 +13,15 @@
   &--author
     align-self: center
 
-  &--duration
-    white-space: nowrap
-
   &--actions
     justify-self: end
+
+  &--author
+    max-width: $meeting-agenda-item--author-width
+    justify-self: end
+
+  &--duration
+    white-space: nowrap
 
   &--content
     @include text-shortener

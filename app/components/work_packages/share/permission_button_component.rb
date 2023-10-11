@@ -57,9 +57,15 @@ module WorkPackages
 
       def options
         [
-          { label: I18n.t('work_package.sharing.permissions.edit'), value: Role::BUILTIN_WORK_PACKAGE_EDITOR },
-          { label: I18n.t('work_package.sharing.permissions.comment'), value: Role::BUILTIN_WORK_PACKAGE_COMMENTER },
-          { label: I18n.t('work_package.sharing.permissions.view'), value: Role::BUILTIN_WORK_PACKAGE_VIEWER }
+          { label: I18n.t('work_package.sharing.permissions.edit'),
+            value: Role::BUILTIN_WORK_PACKAGE_EDITOR,
+            description: I18n.t('work_package.sharing.permissions.edit_description') },
+          { label: I18n.t('work_package.sharing.permissions.comment'),
+            value: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
+            description: I18n.t('work_package.sharing.permissions.comment_description') },
+          { label: I18n.t('work_package.sharing.permissions.view'),
+            value: Role::BUILTIN_WORK_PACKAGE_VIEWER,
+            description: I18n.t('work_package.sharing.permissions.view_description') }
         ]
       end
 

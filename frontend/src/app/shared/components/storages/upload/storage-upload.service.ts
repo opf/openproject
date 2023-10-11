@@ -27,24 +27,27 @@
 //++
 
 import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { ID } from '@datorama/akita';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 
 import { IUploadFile, OpUploadService } from 'core-app/core/upload/upload.service';
-import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { IUploadStrategy } from 'core-app/shared/components/storages/upload/upload-strategy';
+import { NextcloudUploadStrategy } from 'core-app/shared/components/storages/upload/nextcloud-upload.strategy';
+import { nextcloud, oneDrive } from 'core-app/shared/components/storages/storages-constants.const';
+import { OneDriveUploadStrategy } from 'core-app/shared/components/storages/upload/one-drive-upload.strategy';
 
-export interface NextcloudFileUploadResponse {
-  file_name:string;
-  file_id:number;
-}
-
-export interface NextcloudUploadFile extends IUploadFile {
-  overwrite:boolean|null;
+export interface IStorageFileUploadResponse {
+  id:ID;
+  name:string;
+  mimeType:string;
+  size:number;
 }
 
 @Injectable()
-export class NextcloudUploadService extends OpUploadService {
+export class StorageUploadService extends OpUploadService {
+  private uploadStrategy:IUploadStrategy;
+
   constructor(
     private readonly http:HttpClient,
   ) {
@@ -53,29 +56,25 @@ export class NextcloudUploadService extends OpUploadService {
 
   public upload<T>(
     href:string,
-    uploadFiles:NextcloudUploadFile[],
+    uploadFiles:IUploadFile[],
   ):Observable<HttpEvent<T>>[] {
-    return uploadFiles.map((file) => this.uploadSingle(href, file));
-  }
-
-  private uploadSingle<T>(href:string, uploadFile:NextcloudUploadFile):Observable<HttpEvent<T>> {
-    const body = new FormData();
-    body.append('file', uploadFile.file, uploadFile.file.name);
-
-    if (uploadFile.overwrite !== null) {
-      body.append('overwrite', String(uploadFile.overwrite));
+    if (!this.uploadStrategy) {
+      throw new Error('missing strategy');
     }
 
-    return this.http.request<T>(
-      'post',
-      href,
-      {
-        body,
-        headers: { [EXTERNAL_REQUEST_HEADER]: 'true' },
-        observe: 'events',
-        reportProgress: true,
-        responseType: 'json',
-      },
-    ).pipe(share());
+    return this.uploadStrategy.execute(href, uploadFiles);
+  }
+
+  public setUploadStrategy(storageType:string):void {
+    switch (storageType) {
+      case nextcloud:
+        this.uploadStrategy = new NextcloudUploadStrategy(this.http);
+        break;
+      case oneDrive:
+        this.uploadStrategy = new OneDriveUploadStrategy(this.http);
+        break;
+      default:
+        throw new Error('unknown storage type');
+    }
   }
 }

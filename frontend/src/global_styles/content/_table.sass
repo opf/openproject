@@ -110,6 +110,7 @@ table.generic-table
         background: none
     th
       font-size: var(--generic-table--header-font-size)
+      font-weight: var(--base-text-weight-bold)
       text-transform: uppercase
       text-align: left
       line-height: 34px
@@ -157,7 +158,7 @@ table.generic-table
     tr
       background: #f6f7f8
     td
-      font-weight: bold
+      font-weight: var(--base-text-weight-bold)
 
   tbody
     tr:not(.-no-highlighting)
@@ -239,19 +240,19 @@ table.generic-table
 
       &.-mw-abs-200
         max-width: 200px //override the default max-width for appropriate text ellipsis
-        
+
       &.-w-rel-40
         width: 40%
-      
+
       &.-mw-abs-400
         max-width: 400px //override the default max-width for appropriate text ellipsis
-        
+
       &.-w-rel-60
         width: 60%
-      
+
       &.-mw-abs-600
         max-width: 600px //override the default max-width for appropriate text ellipsis
-      
+
       &.-w-rel-80
         width: 80%
 
@@ -321,7 +322,7 @@ thead.-sticky th
   & > a
     flex: 1 1
     width: 100%
-    font-weight: bold
+    font-weight: var(--base-text-weight-bold)
     @include text-shortener
 
   & > op-icon

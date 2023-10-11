@@ -112,7 +112,7 @@ form
       font-style: italic
 
     p.danger-zone--warning
-      font-weight: bold
+      font-weight: var(--base-text-weight-bold)
       color: var(--content-form-danger-zone-bg-color)
 
       span.icon,
@@ -228,7 +228,7 @@ hr
 %form--fieldset-legend-or-section-title
   color: #4d4d4d
   font-size: var(--body-font-size)
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
   line-height: 1.8
   text-transform: uppercase
   border-bottom: 1px solid var(--gray)
@@ -398,7 +398,7 @@ fieldset.form--fieldset
   &.-error
     @extend .icon-error
     color: var(--content-form-error-color)
-    font-weight: bold
+    font-weight: var(--base-text-weight-bold)
 
     &::before
       @include icon-common
@@ -407,7 +407,7 @@ fieldset.form--fieldset
       padding-right: 0.325rem
 
   &.-bold
-    font-weight: bold
+    font-weight: var(--base-text-weight-bold)
 
   &.-flex
     display: flex
@@ -764,7 +764,7 @@ input[readonly].-clickable
   line-height: 1.5
 
 .form--matrix-header-row
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
   border-bottom: var(--content-form-input-border)
   background-color: var(--gray-light)
 
