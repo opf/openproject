@@ -31,6 +31,7 @@ module OpenProject::OpenIDConnect
       OmniAuth::OpenIDConnect::Providers.configure custom_options: %i[
         display_name? icon? sso? issuer?
         check_session_iframe? end_session_endpoint?
+        limit_self_registration? use_graph_api?
       ]
 
       strategy :openid_connect do
