@@ -33,11 +33,5 @@ module Storages::Admin::Forms
     # include OpTurbo::Frameable
     include OpPrimer::ComponentHelpers
     alias_method :storage, :model
-
-    private
-
-    def storage_row_css_id
-      helpers.dom_id storage
-    end
   end
 end
