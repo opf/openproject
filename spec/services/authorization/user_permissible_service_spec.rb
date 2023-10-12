@@ -1,11 +1,75 @@
 require 'rails_helper'
 
 RSpec.describe Authorization::UserPermissibleService do
-  let(:user) { create(:user) }
-  let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project:) }
+  shared_let(:user) { create(:user) }
+  shared_let(:anonymous_user) { create(:anonymous) }
+  shared_let(:project) { create(:project) }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:non_member_role) { create(:non_member, permissions: [:view_work_packages]) }
+  shared_let(:anonymous_role) { create(:anonymous_role, permissions: [:view_work_packages]) }
 
-  subject { described_class.new(user) }
+  let(:queried_user) { user }
+
+  subject(:service) { described_class.new(queried_user) }
+
+  # The specs in this file do not cover all the various cases yet. Thus,
+  # we rely on the Authorization.roles scope and the Project/WorkPackage.allowed_to scopes
+  # to be called which is speced precisely.
+  shared_examples_for 'the Authorization.roles scope used' do
+    before do
+      allow(Authorization)
+        .to receive(:roles)
+              .and_call_original
+    end
+
+    it 'calls the Authorization.roles scope once (cached for the second request)' do
+      subject
+      subject
+
+      expect(Authorization)
+        .to have_received(:roles)
+              .once
+              .with(queried_user, context)
+    end
+  end
+
+  shared_examples_for 'the Project.allowed_to scope used' do
+    before do
+      allow(Project)
+        .to receive(:allowed_to)
+              .and_call_original
+    end
+
+    it 'calls the Project.allowed_to scope' do
+      subject
+
+      expect(Project)
+        .to have_received(:allowed_to) do |user, perm|
+        expect(user).to eq(queried_user)
+        expect(perm[0]).to be_a(OpenProject::AccessControl::Permission)
+        expect(perm[0].name).to eq permission
+      end
+    end
+  end
+
+  shared_examples_for 'the WorkPackage.allowed_to scope used' do
+    before do
+      allow(WorkPackage)
+        .to receive(:allowed_to)
+              .and_call_original
+    end
+
+    it 'calls the WorkPackage.allowed_to scope' do
+      subject
+
+      expect(WorkPackage)
+        .to have_received(:allowed_to) do |user, perm|
+        expect(user).to eq(queried_user)
+        expect(perm[0]).to be_a(OpenProject::AccessControl::Permission)
+        expect(perm[0].name).to eq permission
+      end
+    end
+  end
 
   describe '#allowed_globally?' do
     context 'when asking for a permission that is not defined' do
@@ -37,6 +101,11 @@ RSpec.describe Authorization::UserPermissibleService do
 
         it { is_expected.to be_allowed_globally(permission) }
       end
+
+      it_behaves_like 'the Authorization.roles scope used' do
+        let(:context) { nil }
+        subject { service.allowed_globally?(permission) }
+      end
     end
   end
 
@@ -52,6 +121,11 @@ RSpec.describe Authorization::UserPermissibleService do
     context 'when asking for a permission that is defined' do
       let(:permission) { :view_work_packages }
 
+      it_behaves_like 'the Authorization.roles scope used' do
+        let(:context) { project }
+        subject { service.allowed_in_project?(permission, project) }
+      end
+
       context 'and the user is not a member of any work package or project' do
         it { is_expected.not_to be_allowed_in_project(permission, project) }
       end
@@ -62,7 +136,7 @@ RSpec.describe Authorization::UserPermissibleService do
 
         it { is_expected.to be_allowed_in_project(permission, project) }
 
-        context 'but the project is archived' do
+        context 'with the project being archived' do
           before { project.update(active: false) }
 
           it { is_expected.not_to be_allowed_in_project(permission, project) }
@@ -92,6 +166,24 @@ RSpec.describe Authorization::UserPermissibleService do
 
       context 'and the user is not a member of any work package or project' do
         it { is_expected.not_to be_allowed_in_any_project(permission) }
+
+        context 'and the project is public' do
+          before { project.update_column(:public, true) }
+
+          it { is_expected.to be_allowed_in_any_project(permission) }
+
+          context 'and the user is the anonymous user' do
+            let(:queried_user) { anonymous_user }
+
+            it { is_expected.to be_allowed_in_any_project(permission) }
+          end
+
+          context 'and the project is archived' do
+            before { project.update_column(:active, false) }
+
+            it { is_expected.not_to be_allowed_in_any_project(permission) }
+          end
+        end
       end
 
       context 'and the user is a member of a project' do
@@ -99,6 +191,12 @@ RSpec.describe Authorization::UserPermissibleService do
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_any_project(permission) }
+
+        context 'and the project is archived' do
+          before { project.update_column(:active, false) }
+
+          it { is_expected.not_to be_allowed_in_any_project(permission) }
+        end
       end
 
       context 'and the user is a member of a work package' do
@@ -106,6 +204,22 @@ RSpec.describe Authorization::UserPermissibleService do
         let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
 
         it { is_expected.not_to be_allowed_in_any_project(permission) }
+
+        context 'and the project is public' do
+          before { project.update_column(:public, true) }
+
+          it { is_expected.to be_allowed_in_any_project(permission) }
+
+          context 'and the project is archived' do
+            before { project.update_column(:active, false) }
+
+            it { is_expected.not_to be_allowed_in_any_project(permission) }
+          end
+        end
+      end
+
+      it_behaves_like 'the Project.allowed_to scope used' do
+        subject { service.allowed_in_any_project?(permission) }
       end
     end
   end
@@ -134,10 +248,21 @@ RSpec.describe Authorization::UserPermissibleService do
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
 
-        context 'but the project is archived' do
+        context 'with the project being archived' do
           before { project.update(active: false) }
 
           it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+        end
+
+        context 'without the module enabled in the project' do
+          before { project.enabled_module_names = project.enabled_modules - [:work_package_tracking] }
+
+          it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+        end
+
+        it_behaves_like 'the Authorization.roles scope used' do
+          let(:context) { project }
+          subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
         end
       end
 
@@ -147,14 +272,19 @@ RSpec.describe Authorization::UserPermissibleService do
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
 
-        context 'but the project is archived' do
+        context 'with the project being archived' do
           before { project.update(active: false) }
 
           it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
         end
+
+        it_behaves_like 'the Authorization.roles scope used' do
+          let(:context) { work_package }
+          subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
+        end
       end
 
-      context 'and a user is a member of the project (not granting the permission) and the work package (granting the permission)' do
+      context 'and user is member in the project (not granting the permission) and the work package (granting the permission)' do
         let(:permission) { :edit_work_packages }
 
         let(:role) { create(:role, permissions: [:view_work_packages]) }
@@ -164,6 +294,11 @@ RSpec.describe Authorization::UserPermissibleService do
         let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [wp_role]) }
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+
+        it_behaves_like 'the Authorization.roles scope used' do
+          let(:context) { work_package }
+          subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
+        end
       end
     end
   end
@@ -206,6 +341,14 @@ RSpec.describe Authorization::UserPermissibleService do
         let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
 
         it { is_expected.to be_allowed_in_any_entity(permission, WorkPackage) }
+      end
+
+      it_behaves_like 'the WorkPackage.allowed_to scope used' do
+        subject { service.allowed_in_any_entity?(permission, WorkPackage) }
+      end
+
+      it_behaves_like 'the WorkPackage.allowed_to scope used' do
+        subject { service.allowed_in_any_entity?(permission, WorkPackage, in_project: project) }
       end
     end
   end
