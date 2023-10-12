@@ -30,7 +30,6 @@
 #
 module Storages::Admin::Forms
   class GeneralInfoFormComponent < ApplicationComponent
-    # include OpTurbo::Frameable
     include OpPrimer::ComponentHelpers
     alias_method :storage, :model
   end

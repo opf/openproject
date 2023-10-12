@@ -1,7 +1,5 @@
-<div>
-  <h1><%= t('label_edit_x', x: @storage.name) %></h1>
-
-  <turbo-frame id="<%= dom_id(@storage) %>">
-    <%= render(Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage)) %>
-  </turbo-frame>
-</div>
+<%=
+  render(OpTurbo::FrameWrapperComponent.new(@storage, frame: :storage_view_general_info)) do
+    render(Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage))
+  end
+%>
