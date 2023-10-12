@@ -2,6 +2,6 @@
   <h1><%= t('label_edit_x', x: @storage.name) %></h1>
 
   <turbo-frame id="<%= dom_id(@storage) %>">
-    <%= render(Storages::Admin::Forms::StorageGeneralInfoFormComponent.new(@storage)) %>
+    <%= render(Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage)) %>
   </turbo-frame>
 </div>

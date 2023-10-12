@@ -29,7 +29,7 @@
 #++
 #
 module Storages::Admin::Forms
-  class StorageGeneralInfoFormComponent < ApplicationComponent
+  class GeneralInfoFormComponent < ApplicationComponent
     # include OpTurbo::Frameable
     include OpPrimer::ComponentHelpers
     alias_method :storage, :model
