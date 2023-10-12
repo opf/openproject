@@ -473,10 +473,16 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
    * so they can be passed to ng-select.
    *
    * @param component A templating component defining any combination of the header, option, label, or footer templates.
+   * @param inputs Initial inputs to the templating component
    * @protected
    */
-  protected applyTemplates(component:Type<IAutocompleterTemplateComponent>) {
-    const componentRef = this.vcRef.createComponent(component);
+  protected applyTemplates(component:Type<IAutocompleterTemplateComponent>, inputs:{ [key:string]:unknown } = {}) {
+    const componentRef = this.vcRef.createComponent(component, { injector: this.templateInjector });
+    Object.keys(inputs).forEach((key) => {
+      const value = inputs[key];
+      componentRef.setInput(key, value);
+    });
+
     componentRef.changeDetectorRef.detectChanges();
 
     ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
@@ -485,5 +491,14 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
         this[name] = template;
       }
     });
+  }
+
+  private get templateInjector() {
+    return Injector.create(
+      {
+        providers: [{ provide: OpAutocompleterComponent, useValue: this }],
+        parent: this.injector,
+      },
+    );
   }
 }

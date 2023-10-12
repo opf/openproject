@@ -84,7 +84,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
   ngOnInit():void {
     super.ngOnInit();
 
-    this.applyTemplates(UserAutocompleterTemplateComponent);
+    this.applyTemplates(UserAutocompleterTemplateComponent, { inviteUserToProject: this.inviteUserToProject });
 
     this
       .opInviteUserModalService
