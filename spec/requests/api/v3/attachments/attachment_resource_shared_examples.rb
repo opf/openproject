@@ -186,38 +186,55 @@ RSpec.shared_examples 'it supports direct uploads' do
   end
 end
 
-RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type: :request do |include_by_container: true|
+RSpec.shared_examples 'an APIv3 attachment resource',
+                      content_type: :json,
+                      type: :request do |
+                        create_permission:,
+                        read_permission:,
+                        update_permission:,
+                        delete_permission: update_permission,
+                        include_by_container: true
+                      |
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  shared_let(:project) { create(:project, public: false) }
-  let(:current_user) { user_with_permissions }
+  shared_let(:all_permissions) { [create_permission, read_permission, update_permission, delete_permission].flatten.uniq.compact }
 
-  let(:user_with_permissions) do
-    create(:user, member_with_roles: { project => role })
+  shared_let(:project) { create(:project, public: false) }
+
+  shared_let(:user_with_all_permissions) do
+    create(:user, member_in_project: project, member_with_permissions: { project => all_permissions })
   end
+  shared_let(:user_with_all_but_read_permissions) do
+    create(:user, member_in_project: project, member_with_permissions: { project => all_permissions.without(read_permission) })
+  end
+  shared_let(:user_with_all_but_update_permissions) do
+    create(:user, member_in_project: project,
+                  member_with_permissions: { project => all_permissions.without(update_permission, delete_permission) })
+  end
+  shared_let(:user_with_only_read_permissions) do
+    create(:user, member_in_project: project, member_with_permissions: { project => Array(read_permission) })
+  end
+  shared_let(:user_with_only_update_permissions) do
+    create(:user, member_in_project: project, member_with_permissions: { project => Array(update_permission) })
+  end
+  shared_let(:user_without_any_permissions) do
+    create(:user, member_in_project: project, member_with_permissions: { project => [] })
+  end
+
+  let(:current_user) { user_with_all_permissions }
 
   let(:author) do
     current_user
   end
 
-  let(:role) { create(:project_role, permissions:) }
-
   let(:attachment) { create(:attachment, container:, author:) }
   let(:container) { send attachment_type }
 
   let(:attachment_type) { raise "attachment type goes here, e.g. work_package" }
-  let(:permissions) { all_permissions }
 
-  let(:all_permissions) { [create_permission, read_permission, update_permission, delete_permission].flatten.uniq.compact }
-
-  let(:create_permission) { raise "permissions go here, e.g. add_work_packages" }
-  let(:read_permission) { raise "permissions go here, e.g. view_work_packages" }
-  let(:update_permission) { raise "permissions go here, e.g. edit_work_packages" }
-  let(:delete_permission) { update_permission }
-
-  let(:missing_permissions_user) { user_with_permissions }
+  let(:missing_permissions_user) { user_with_all_permissions }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -250,8 +267,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
       end
 
       context 'requesting attachments without sufficient permissions' do
-        let(:current_user) { missing_permissions_user }
-        let(:permissions) { all_permissions - Array(read_permission) }
+        let(:current_user) { user_with_all_but_read_permissions }
 
         it_behaves_like 'not found'
       end
@@ -259,7 +275,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
   end
 
   describe '#post' do
-    let(:permissions) { Array(update_permission) }
+    let(:current_user) { user_with_only_update_permissions }
 
     let(:request_path) { api_v3_paths.attachments }
     let(:request_parts) { { metadata: metadata.to_json, file: } }
@@ -332,20 +348,21 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
     end
 
     context 'missing permissions' do
-      let(:permissions) do
-        # Some attachables use public permissions
-        # which more or less allows everybody to upload attachments.
-        # This messes with the tests.
-        # However, it might make sense to reevaluate the necessity of this test.
-        allow(Redmine::Acts::Attachable)
-          .to receive(:attachables)
-          .and_return(Redmine::Acts::Attachable.attachables.select do |a|
-            permission = OpenProject::AccessControl.permission(a.attachable_options[:add_on_new_permission])
-            !permission || !permission.public?
-          end)
+      let(:current_user) { user_without_any_permissions }
+      # let(:permissions) do
+      #   # Some attachables use public permissions
+      #   # which more or less allows everybody to upload attachments.
+      #   # This messes with the tests.
+      #   # However, it might make sense to reevaluate the necessity of this test.
+      #   allow(Redmine::Acts::Attachable)
+      #     .to receive(:attachables)
+      #     .and_return(Redmine::Acts::Attachable.attachables.select do |a|
+      #       permission = OpenProject::AccessControl.permission(a.attachable_options[:add_on_new_permission])
+      #       !permission || !permission.public?
+      #     end)
 
-        []
-      end
+      #   []
+      # end
 
       it_behaves_like 'unauthorized access'
     end
@@ -370,15 +387,9 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
       end
     end
 
-    shared_examples_for 'does not delete the attachment' do |status = 403|
-      it "responds with #{status}" do
-        if permissions.any? || read_permission.nil?
-          expect(subject.status).to eq status
-        else
-          # In case no permissions are left, the user is not allowed to see the attachment
-          # and will thus receive a 404.
-          expect(subject.status).to eq 404
-        end
+    shared_examples_for 'does not delete the attachment' do |expected_status:|
+      it "responds with #{expected_status}" do
+        expect(subject.status).to eq expected_status
       end
 
       it 'does not delete the attachment' do
@@ -398,10 +409,10 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
       end
     end
 
-    context 'without required permissions' do
-      let(:permissions) { all_permissions.without(delete_permission) }
+    context "without #{update_permission} permissions" do
+      let(:current_user) { user_with_all_but_update_permissions }
 
-      it_behaves_like 'does not delete the attachment'
+      it_behaves_like 'does not delete the attachment', expected_status: read_permission ? 403 : 404
     end
 
     context "with an uncontainered attachment" do
@@ -414,7 +425,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
       context 'with the user not being the author' do
         let(:author) { create(:user) }
 
-        it_behaves_like 'does not delete the attachment', 404
+        it_behaves_like 'does not delete the attachment', expected_status: 404
       end
     end
   end
@@ -620,13 +631,13 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
       end
 
       context 'only allowed to add, but not to edit' do
-        let(:permissions) { [create_permission, read_permission].flatten.uniq.compact.without(update_permission) }
+        let(:current_user) { user_with_all_but_update_permissions }
 
         it_behaves_like 'unauthorized access'
       end
 
       context 'only allowed to view' do
-        let(:permissions) { Array(read_permission) }
+        let(:current_user) { user_with_only_read_permissions }
 
         it_behaves_like 'unauthorized access'
       end

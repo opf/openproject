@@ -30,15 +30,18 @@ require 'spec_helper'
 require_relative 'attachment_resource_shared_examples'
 
 RSpec.describe "work package attachments" do
-  it_behaves_like "an APIv3 attachment resource" do
+  it_behaves_like "an APIv3 attachment resource",
+                  create_permission: :add_work_packages,
+                  read_permission: :view_work_packages,
+                  update_permission: :edit_work_packages do
     let(:attachment_type) { :work_package }
 
-    let(:create_permission) { :add_work_packages }
-    let(:read_permission) { :view_work_packages }
-    let(:update_permission) { :edit_work_packages }
+    shared_let(:work_package) do
+      create(:work_package, project:)
+    end
 
-    let(:work_package) do
-      create(:work_package, author: current_user, project:)
+    before do
+      work_package.update(author: current_user)
     end
   end
 
