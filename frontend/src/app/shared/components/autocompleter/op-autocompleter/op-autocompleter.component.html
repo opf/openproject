@@ -70,10 +70,10 @@
       let-item="item"
       let-index="index"
       let-search="searchTerm"
-      *ngIf="headerTemplate"
+      *ngIf="headerTemplate || projectedHeaderTemplate"
     >
       <ng-container
-        [ngTemplateOutlet]="headerTemplate"
+        [ngTemplateOutlet]="headerTemplate || projectedHeaderTemplate"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
       ></ng-container>
     </ng-template>
@@ -87,7 +87,7 @@
       *ngIf="labelRequired"
     >
       <ng-container
-        [ngTemplateOutlet]="labelTemplate || defaultLabel"
+        [ngTemplateOutlet]="projectedLabelTemplate || labelTemplate || defaultLabel"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index, clear:clear }"
       ></ng-container>
     </ng-template>
@@ -99,7 +99,7 @@
       let-search="searchTerm"
     >
       <ng-container
-        [ngTemplateOutlet]="optionTemplate || defaultOption"
+        [ngTemplateOutlet]="projectedOptionTemplate || optionTemplate || defaultOption"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
       ></ng-container>
     </ng-template>
@@ -109,10 +109,10 @@
       let-item="item"
       let-index="index"
       let-search="searchTerm"
-      *ngIf="footerTemplate"
+      *ngIf="footerTemplate || projectedFooterTemplate"
     >
       <ng-container
-        [ngTemplateOutlet]="footerTemplate"
+        [ngTemplateOutlet]="footerTemplate || projectedFooterTemplate"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
       ></ng-container>
     </ng-template>

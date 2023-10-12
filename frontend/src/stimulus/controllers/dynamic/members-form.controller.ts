@@ -29,6 +29,9 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import {
+  IUserAutocompleteItem,
+} from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
 
 export default class MembersFormController extends Controller {
   static targets = [
@@ -37,7 +40,6 @@ export default class MembersFormController extends Controller {
     'statusSelect',
     'addMemberForm',
     'search',
-    'memberUserIds',
     'addMemberButton',
     'membershipEditForm',
     'errorExplanation',
@@ -52,8 +54,6 @@ export default class MembersFormController extends Controller {
 
   declare readonly addMemberFormTarget:HTMLElement;
 
-  declare readonly memberUserIdsTarget:HTMLInputElement;
-
   declare readonly addMemberButtonTarget:HTMLButtonElement;
 
   declare readonly membershipEditFormTargets:HTMLElement[];
@@ -66,6 +66,9 @@ export default class MembersFormController extends Controller {
 
   declare readonly hasLimitWarningTarget:HTMLElement;
 
+  private autocompleter:HTMLElement;
+  private autocompleterListener = this.triggerLimitWarningIfReached.bind(this);
+
   connect() {
     // Show/Hide content when page is loaded
     if (window.OpenProject.guardedLocalStorage('showFilter') === 'true') {
@@ -76,6 +79,9 @@ export default class MembersFormController extends Controller {
       window.OpenProject.guardedLocalStorage('showFilter', 'false');
     }
 
+    this.autocompleter = this.addMemberFormTarget.querySelector('opce-members-autocompleter') as HTMLElement;
+    this.autocompleter.addEventListener('valueChange', this.autocompleterListener);
+
     if (this.hasErrorExplanationTarget && this.errorExplanationTarget.textContent !== '') {
       this.showAddMemberForm();
     }
@@ -83,6 +89,10 @@ export default class MembersFormController extends Controller {
     if (this.addMemberButtonTarget.getAttribute('data-trigger-initially')) {
       this.showAddMemberForm();
     }
+  }
+
+  disconnect() {
+    this.autocompleter.removeEventListener('valueChange', this.autocompleterListener);
   }
 
   hideFilter() {
@@ -106,15 +116,14 @@ export default class MembersFormController extends Controller {
     window.OpenProject.guardedLocalStorage('showFilter', 'false');
     this.addMemberButtonTarget.setAttribute('disabled', 'true');
 
-    const select = this.addMemberFormTarget.querySelector<HTMLInputElement>('.ng-input input');
-    select?.focus();
+    this.focusAutocompleter();
   }
 
-  triggerLimitWarningIfReached() {
-    if (this.hasLimitWarningTarget) {
-      const values = this.memberUserIdsTarget.value;
+  triggerLimitWarningIfReached(evt:CustomEvent) {
+    const values = evt.detail as IUserAutocompleteItem[];
 
-      if (values.indexOf('@') !== -1) {
+    if (this.hasLimitWarningTarget) {
+      if (values.find(({ id }) => typeof (id) === 'string' && id.includes('@'))) {
         this.limitWarningTarget.style.display = 'block';
       } else {
         this.limitWarningTarget.style.display = 'none';
@@ -146,5 +155,10 @@ export default class MembersFormController extends Controller {
         targetedForm.style.display = 'none';
       }
     }
+  }
+
+  focusAutocompleter():void {
+    const input = this.autocompleter.querySelector<HTMLInputElement>('.ng-input input');
+    input?.focus();
   }
 }

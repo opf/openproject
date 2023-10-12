@@ -1,6 +1,8 @@
 <op-autocompleter
   [model]="value"
-  [openDirectly]="true"
+  [inputName]="inputName"
+  [inputValue]="inputValue"
+  [inputBindValue]="inputBindValue"
   [getOptionsFn]="getAvailableUsers.bind(this)"
   [trackByFn]="userTracker"
   [multiple]="multiple"
@@ -8,7 +10,7 @@
   [appendTo]="appendTo"
   [openDirectly]="openDirectly"
   [focusDirectly]="focusDirectly"
-  (change)="writeValue($event)"
+  (change)="valueSelected($event)"
   (keydown.escape)="cancel.emit()"
 >
   <ng-template
@@ -33,12 +35,3 @@
     ></op-invite-user-button>
   </ng-template>
 </op-autocompleter>
-
-<input
-  #hiddenInput
-  [name]="name"
-  type="hidden"
-  [value]="plainValue"
-  data-members-form-target="memberUserIds"
-  data-action="change->members-form#triggerLimitWarningIfReached"
-/>

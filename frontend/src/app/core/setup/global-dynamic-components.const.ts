@@ -99,10 +99,6 @@ import {
   globalSearchTabsSelector,
 } from 'core-app/core/global_search/tabs/global-search-tabs.component';
 import {
-  MembersAutocompleterComponent,
-  membersAutocompleterSelector,
-} from 'core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component';
-import {
   TriggerActionsEntryComponent,
   triggerActionsEntryComponentSelector,
 } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
@@ -221,7 +217,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
   { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
-  { selector: membersAutocompleterSelector, cls: MembersAutocompleterComponent },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
   { selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent },
   { selector: homescreenNewFeaturesBlockSelector, cls: HomescreenNewFeaturesBlockComponent },
