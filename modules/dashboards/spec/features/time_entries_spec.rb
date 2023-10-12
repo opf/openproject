@@ -66,7 +66,7 @@ RSpec.describe 'Time entries widget on dashboard', js: true do
            hours: 4)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_time_entries
                            view_work_packages
                            edit_time_entries

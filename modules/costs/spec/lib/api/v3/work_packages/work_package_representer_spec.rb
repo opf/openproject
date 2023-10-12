@@ -33,7 +33,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:project) { create(:project) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_time_entries
                            view_cost_entries
                            view_cost_rates
@@ -140,7 +140,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'only view_own_time_entries permission' do
           let(:own_time_entries_role) do
-            create(:role, permissions: %i[view_own_time_entries
+            create(:project_role, permissions: %i[view_own_time_entries
                                           view_work_packages])
           end
 

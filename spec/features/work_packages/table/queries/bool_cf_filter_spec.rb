@@ -39,7 +39,7 @@ RSpec.describe 'Work package filtering by bool custom field', js: true do
       project.work_package_custom_fields << cf
     end
   end
-  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
   let!(:work_package_true) do
     create(:work_package,
            type:,

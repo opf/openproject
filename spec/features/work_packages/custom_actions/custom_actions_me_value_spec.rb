@@ -32,7 +32,7 @@ RSpec.describe 'Custom actions me value', js: true, with_cuprite: true, with_ee:
   shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:user) do
     create(:user,
            member_in_project: project,

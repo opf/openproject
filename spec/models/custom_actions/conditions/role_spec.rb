@@ -34,8 +34,8 @@ RSpec.describe CustomActions::Conditions::Role do
 
     describe '#allowed_values' do
       it 'is the list of all roles' do
-        roles = [build_stubbed(:role),
-                 build_stubbed(:role)]
+        roles = [build_stubbed(:project_role),
+                 build_stubbed(:project_role)]
 
         allow(Role)
           .to receive_message_chain(:givable, :select)

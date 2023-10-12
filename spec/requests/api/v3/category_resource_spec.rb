@@ -33,7 +33,7 @@ RSpec.describe 'API v3 Category resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions: []) }
+  let(:role) { create(:project_role, permissions: []) }
   let(:private_project) { create(:project, public: false) }
   let(:public_project) { create(:project, public: true) }
   let(:anonymous_user) { create(:user) }

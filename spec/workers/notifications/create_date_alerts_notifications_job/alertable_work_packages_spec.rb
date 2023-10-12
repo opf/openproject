@@ -44,7 +44,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPac
   shared_let(:yesterday) { today - 1.day }
   shared_let(:in_1_day) { today + 1.day }
 
-  shared_let(:role) { create(:existing_role, permissions: [:view_work_packages]) }
+  shared_let(:role) { create(:existing_project_role, permissions: [:view_work_packages]) }
   shared_let(:user) { create(:user, firstname: 'main') }
   shared_let(:other_user) { create(:user, firstname: 'other') }
   shared_let(:project) { create(:project, name: 'main', members: { user => role }) }

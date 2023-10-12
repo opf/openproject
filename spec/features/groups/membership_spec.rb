@@ -38,8 +38,8 @@ RSpec.describe 'group memberships through project members page',
   let(:bob)   { create(:user, firstname: 'Bob', lastname: 'Bobbit') }
   let(:group) { create(:group, lastname: 'group1') }
 
-  let!(:alpha) { create(:role, name: 'alpha', permissions: [:manage_members]) }
-  let!(:beta)  { create(:role, name: 'beta') }
+  let!(:alpha) { create(:project_role, name: 'alpha', permissions: [:manage_members]) }
+  let!(:beta)  { create(:project_role, name: 'beta') }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:groups_page)  { Pages::Groups.new }

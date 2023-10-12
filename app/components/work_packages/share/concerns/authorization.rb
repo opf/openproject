@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,42 +26,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require 'digest'
+module WorkPackages
+  module Share
+    module Concerns
+      module Authorization
+        extend ActiveSupport::Concern
 
-FactoryBot.define do
-  factory :role do
-    permissions { [] }
-    sequence(:name) { |n| "role_#{n}" }
-
-    factory :non_member do
-      name { 'Non member' }
-      builtin { Role::BUILTIN_NON_MEMBER }
-      initialize_with { Role.where(name:).first_or_initialize }
-    end
-
-    factory :anonymous_role do
-      name { 'Anonymous' }
-      builtin { Role::BUILTIN_ANONYMOUS }
-      initialize_with { Role.where(name:).first_or_initialize }
-    end
-
-    factory :existing_role do
-      name { "Role #{Digest::MD5.hexdigest(permissions.map(&:to_s).join('/'))[0..4]}" }
-      permissions { [] }
-
-      initialize_with do
-        role =
-          if Role.exists?(name:)
-            Role.find_by(name:)
-          else
-            Role.create(name:)
+        included do
+          def sharing_manageable?
+            User.current.allowed_to?(:share_work_packages, @work_package.project)
           end
-
-        role.add_permission!(*permissions.reject { |p| role.permissions.include?(p) })
-
-        role
+        end
       end
     end
   end

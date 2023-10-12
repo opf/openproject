@@ -69,7 +69,7 @@ RSpec.describe AttributeHelpText::WorkPackage do
 
   describe '.visible' do
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:user) do
       create(:user,
              member_in_project: project,

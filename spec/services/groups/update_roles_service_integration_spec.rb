@@ -32,7 +32,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   subject(:service_call) { instance.call(member:, message:, send_notifications:) }
 
   let(:project) { create(:project) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let(:current_user) { create(:admin) }
   let(:roles) { [role] }
 
@@ -100,7 +100,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when adding a role' do
-    let(:added_role) { create(:role) }
+    let(:added_role) { create(:project_role) }
 
     before do
       member.roles << added_role
@@ -212,7 +212,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when adding a role but with one user having had the role before (no inherited from)' do
-    let(:added_role) { create(:role) }
+    let(:added_role) { create(:project_role) }
 
     before do
       member.roles << added_role
@@ -259,7 +259,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when removing a role' do
-    let(:roles) { [role, create(:role)] }
+    let(:roles) { [role, create(:project_role)] }
 
     before do
       member.roles = [role]
@@ -291,7 +291,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when removing a role but with a user having had the role before (no inherited_from)' do
-    let(:roles) { [role, create(:role)] }
+    let(:roles) { [role, create(:project_role)] }
 
     before do
       member.roles = [role]
@@ -339,7 +339,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when replacing roles' do
-    let(:replacement_role) { create(:role) }
+    let(:replacement_role) { create(:project_role) }
 
     before do
       member.roles = [replacement_role]
@@ -371,7 +371,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when replacing a role but with a user having had the replaced role before (no inherited_from)' do
-    let(:replacement_role) { create(:role) }
+    let(:replacement_role) { create(:project_role) }
 
     before do
       member.roles = [replacement_role]
@@ -419,7 +419,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when adding a role and the user has a role already granted by a different group' do
-    let(:other_role) { create(:role) }
+    let(:other_role) { create(:project_role) }
 
     let!(:second_group) do
       create(:group,
@@ -436,7 +436,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
     end
 
     let(:users) { [create(:user)] }
-    let(:added_role) { create(:role) }
+    let(:added_role) { create(:project_role) }
 
     before do
       member.roles << added_role

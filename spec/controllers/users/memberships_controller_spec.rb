@@ -37,7 +37,7 @@ RSpec.describe Users::MembershipsController do
 
   describe 'update memberships' do
     let(:project) { create(:project) }
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
 
     it 'works' do
       # i.e. it should successfully add a user to a project's members

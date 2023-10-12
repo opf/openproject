@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe MeetingContentsController do
-  shared_let(:role) { create(:role, permissions: [:view_meetings]) }
+  shared_let(:role) { create(:project_role, permissions: [:view_meetings]) }
   shared_let(:project) { create(:project) }
   shared_let(:author) { create(:user, member_in_project: project, member_through_role: role) }
   shared_let(:watcher1) { create(:user, member_in_project: project, member_through_role: role) }

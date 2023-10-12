@@ -42,7 +42,7 @@ RSpec.describe "API v3 project's versions resource" do
 
     user
   end
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:project) { create(:project, public: false) }
   let(:other_project) { create(:project, public: false) }
   let(:versions) { create_list(:version, 4, project:) }
@@ -67,7 +67,7 @@ RSpec.describe "API v3 project's versions resource" do
     end
 
     context 'logged in user without permission' do
-      let(:role) { create(:role, permissions: []) }
+      let(:role) { create(:project_role, permissions: []) }
 
       before do
         current_user

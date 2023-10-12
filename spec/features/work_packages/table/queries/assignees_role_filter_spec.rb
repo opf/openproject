@@ -34,7 +34,7 @@ RSpec.describe "Work package filtering",
                "by assignee's role", :js, :with_cuprite do
   shared_let(:project) { create(:project) }
 
-  shared_let(:project_role) { create(:role, permissions: %i[view_work_packages work_package_assigned save_queries]) }
+  shared_let(:project_role) { create(:project_role, permissions: %i[view_work_packages work_package_assigned save_queries]) }
   shared_let(:visible_work_package_role) { create(:work_package_role, permissions: %i[view_work_packages work_package_assigned]) }
   shared_let(:invisible_work_package_role) { create(:work_package_role, permissions: %i[view_work_packages]) }
   shared_let(:global_role) { create(:global_role, permissions: %i[view_work_packages work_package_assigned save_queries]) }

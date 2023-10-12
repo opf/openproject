@@ -40,7 +40,7 @@ RSpec.describe Roles::UpdateContract do
     end
 
     let(:role) do
-      build_stubbed(:role,
+      build_stubbed(:project_role,
                     name: 'Some name') do |r|
         r.name = role_name
         r.permissions = role_permissions

@@ -32,7 +32,7 @@ RSpec.describe PlaceholderUsers::Scopes::Visible do
   describe '.visible' do
     shared_let(:project) { create(:project) }
     shared_let(:other_project) { create(:project) }
-    shared_let(:role) { create(:role, permissions: %i[manage_members]) }
+    shared_let(:role) { create(:project_role, permissions: %i[manage_members]) }
 
     shared_let(:other_project_placeholder) do
       create(:placeholder_user, member_in_project: other_project, member_through_role: role)

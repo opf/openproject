@@ -6,11 +6,11 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:dev_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages add_work_packages])
   end
   let(:mover_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages])
   end
   let(:dev) do

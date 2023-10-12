@@ -35,8 +35,8 @@ RSpec.describe 'Custom actions',
   shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
-  let(:role) { create(:role, permissions:) }
-  let!(:other_role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
+  let!(:other_role) { create(:project_role, permissions:) }
   let(:user) do
     user = create(:user,
                   firstname: 'A',
@@ -147,8 +147,6 @@ RSpec.describe 'Custom actions',
   end
 
   it 'viewing workflow buttons' do
-    skip("The autocompleter for projects is currently broken. See https://community.openproject.org/wp/50281")
-
     # create custom action 'Unassign'
     index_ca_page.visit!
 

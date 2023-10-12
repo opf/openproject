@@ -42,8 +42,8 @@ RSpec.describe "API v3 version's projects resource" do
 
     user
   end
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
-  let(:role_without_permissions) { create(:role, permissions: []) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+  let(:role_without_permissions) { create(:project_role, permissions: []) }
   let(:project) { create(:project, public: false) }
   let(:project2) { create(:project, public: false) }
   let(:project3) { create(:project, public: false) }

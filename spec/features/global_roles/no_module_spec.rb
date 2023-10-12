@@ -34,7 +34,7 @@ RSpec.describe 'Global role: No module',
                with_cuprite: true do
   let(:admin) { create(:admin) }
   let(:project) { create(:project) }
-  let!(:role) { create(:role) }
+  let!(:role) { create(:project_role) }
 
   # Scenario:
   # Given there is the global permission "glob_test" of the module "global"

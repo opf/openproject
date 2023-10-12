@@ -31,7 +31,7 @@ require 'features/page_objects/notification'
 
 RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true do
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages add_work_packages edit_work_packages add_work_package_notes])
   end
   let(:dev) do
@@ -76,11 +76,7 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
         expect(field.display_element).to have_content('Some image caption')
       end
 
-      context 'with a user that is not allowed to add images (Regression #28541)' do
-        let(:role) do
-          create(:role,
-                 permissions: %i[view_work_packages add_work_packages add_work_package_notes])
-        end
+      context 'when editing comment' do
         let(:selector) { '.work-packages--activity--add-comment' }
         let(:comment_field) do
           TextEditorField.new wp_page,
@@ -89,17 +85,43 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
         end
         let(:editor) { Components::WysiwygEditor.new '.work-packages--activity--add-comment' }
 
-        it 'can open the editor to add an image, but image upload is not shown' do
-          # Add comment
-          comment_field.activate!
+        context 'with a user that is not allowed to add images (Regression #28541)' do
+          let(:role) do
+            create(:project_role,
+                   permissions: %i[view_work_packages add_work_packages add_work_package_notes])
+          end
 
-          # Button should be hidden
-          editor.expect_no_button 'Insert image'
+          it 'can open the editor to add an image, but image upload is not shown' do
+            # Add comment
+            comment_field.activate!
 
-          editor.click_and_type_slowly 'this is a comment!1'
-          comment_field.submit_by_click
+            # Button should be hidden
+            editor.expect_no_button 'Insert image'
 
-          wp_page.expect_comment text: 'this is a comment!1'
+            editor.click_and_type_slowly 'this is a comment!1'
+            comment_field.submit_by_click
+
+            wp_page.expect_comment text: 'this is a comment!1'
+          end
+        end
+
+        context 'with a user that is allowed add attachments but not edit WP (#29203)' do
+          let(:role) do
+            create(:project_role,
+                   permissions: %i[view_work_packages add_work_package_attachments add_work_package_notes])
+          end
+
+          it 'can open the editor and image upload is shown' do
+            comment_field.activate!
+
+            editor.expect_button 'Insert image'
+
+            editor.click_and_type_slowly 'this is a comment!2'
+            editor.drag_attachment image_fixture.path, 'Some image caption'
+            comment_field.submit_by_click
+
+            wp_page.expect_comment text: 'this is a comment!2'
+          end
         end
       end
     end
@@ -247,31 +269,45 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
   end
 
   describe 'attachment dropzone' do
-    it 'can drag something to the files tab and have it open' do
-      wp_page.expect_tab 'Activity'
-      attachments.drag_and_drop_file test_selector('op-attachments--drop-box'),
-                                     image_fixture.path,
-                                     :center,
-                                     page.find('[data-qa-tab-id="files"]'),
-                                     delay_dragleave: true
+    shared_examples 'attachment dropzone common' do
+      it 'can drag something to the files tab and have it open' do
+        wp_page.expect_tab 'Activity'
+        attachments.drag_and_drop_file test_selector('op-attachments--drop-box'),
+                                       image_fixture.path,
+                                       :center,
+                                       page.find('[data-qa-tab-id="files"]'),
+                                       delay_dragleave: true
 
-      expect(page).to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', wait: 10)
-      editor.wait_until_upload_progress_toaster_cleared
-      wp_page.expect_tab 'Files'
+        expect(page).to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', wait: 10)
+        editor.wait_until_upload_progress_toaster_cleared
+        wp_page.expect_tab 'Files'
+      end
+
+      it 'can drag something from the files tab and create a comment with it' do
+        wp_page.switch_to_tab(tab: 'files')
+
+        attachments.drag_and_drop_file '.work-package-comment',
+                                       image_fixture.path,
+                                       :center,
+                                       page.find('[data-qa-tab-id="activity"]'),
+                                       delay_dragleave: true
+
+        wp_page.expect_tab 'Activity'
+      end
     end
 
-    it 'can drag something from the files tab and create a comment with it' do
-      wp_page.switch_to_tab(tab: 'files')
+    include_examples 'attachment dropzone common'
 
-      attachments.drag_and_drop_file '.work-package-comment',
-                                     image_fixture.path,
-                                     :center,
-                                     page.find('[data-qa-tab-id="activity"]'),
-                                     delay_dragleave: true
+    context 'with a user that is allowed to add attachments but not edit WP (#29203)' do
+      let(:role) do
+        create(:project_role,
+               permissions: %i[view_work_packages add_work_package_attachments add_work_package_notes])
+      end
 
-      wp_page.expect_tab 'Activity'
+      include_examples 'attachment dropzone common'
     end
 
+    # This one is not shared, because it requires edit WP
     it 'can upload an image via attaching and drag & drop' do
       wp_page.switch_to_tab(tab: 'files')
       container = page.find_test_selector('op-attachments--drop-box')

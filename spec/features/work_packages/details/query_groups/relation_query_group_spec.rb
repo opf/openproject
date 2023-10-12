@@ -134,7 +134,7 @@ RSpec.describe 'Work package with relation query group', js: true, selenium: tru
     end
 
     context 'with a user who has permission in one project' do
-      let(:role) { create(:role, permissions:) }
+      let(:role) { create(:project_role, permissions:) }
       let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations] }
       let(:user) do
         create(:user,
@@ -165,7 +165,7 @@ RSpec.describe 'Work package with relation query group', js: true, selenium: tru
     end
 
     context 'with a user who has no permission in any project' do
-      let(:role) { create(:role, permissions:) }
+      let(:role) { create(:project_role, permissions:) }
       let(:permissions) { [:view_work_packages] }
       let(:user) do
         create(:user,

@@ -86,15 +86,17 @@ module OpTurbo
         ).render_in(view_context)
       end
 
-      def component_wrapper(tag: "div", class: nil, data: nil, style: nil, &block)
+      def component_wrapper(method = nil, tag: "div", class: nil, data: nil, style: nil, &block)
         @wrapped = true
+
+        wrapper_arguments = { id: wrapper_key, class:, data:, style: }
 
         if inner_html_only?
           capture(&block)
         elsif wrapper_only?
-          content_tag(tag, id: wrapper_key, class:, data:, style:)
+          method ? send(method, wrapper_arguments) : content_tag(tag, wrapper_arguments)
         else
-          content_tag(tag, id: wrapper_key, class:, data:, style:, &block)
+          method ? send(method, wrapper_arguments, &block) : content_tag(tag, wrapper_arguments, &block)
         end
       end
 

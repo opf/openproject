@@ -58,7 +58,7 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
     end
 
     def grant_viewing_permissions
-      role = create(:role, permissions: %i[view_shared_work_packages])
+      role = create(:project_role, permissions: %i[view_shared_work_packages])
       user.memberships << create(:member,
                                  project: project_with_types,
                                  roles: [role])

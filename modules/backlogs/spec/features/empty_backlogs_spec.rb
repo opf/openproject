@@ -61,7 +61,7 @@ RSpec.describe 'Empty backlogs project',
   end
 
   context 'as regular member' do
-    let(:role) { create(:role, permissions: %i(view_master_backlog)) }
+    let(:role) { create(:project_role, permissions: %i(view_master_backlog)) }
     let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
 
     it 'only shows a no results box' do

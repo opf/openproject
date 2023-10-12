@@ -44,7 +44,7 @@ RSpec.describe 'Assignee action board',
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:project_without_members) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:other_board_index) { Pages::BoardIndex.new(project_without_members) }

@@ -42,11 +42,13 @@ class Roles::CreateService < BaseServices::Create
   end
 
   def instance(params)
-    if params.delete(:global_role)
-      GlobalRole.new
-    else
-      super
-    end
+    klass = if params.delete(:global_role)
+              GlobalRole
+            else
+              ProjectRole
+            end
+
+    klass.new
   end
 
   def copy_workflows(copy_workflow_id, role)

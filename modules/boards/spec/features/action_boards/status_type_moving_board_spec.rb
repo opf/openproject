@@ -40,7 +40,7 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
     %i[show_board_views manage_board_views add_work_packages
        edit_work_packages view_work_packages manage_public_queries]
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }

@@ -36,7 +36,7 @@ RSpec.describe 'Deleting time entries', js: true do
            member_through_role: role)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            delete_work_packages
                            edit_cost_entries

@@ -33,7 +33,7 @@ RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
   include API::V3::Utilities::PathHelper
 
   let(:add_role) do
-    create(:role, permissions: [:add_work_packages])
+    create(:project_role, permissions: [:add_work_packages])
   end
   let(:project) { create(:project) }
   let(:type_id) { nil }
@@ -83,7 +83,7 @@ RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
 
     context 'without any add_work_packages permission' do
       let(:add_role) do
-        create(:role, permissions: [])
+        create(:project_role, permissions: [])
       end
 
       it_behaves_like 'unauthorized access'

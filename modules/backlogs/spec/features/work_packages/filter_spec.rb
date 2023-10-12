@@ -53,7 +53,7 @@ RSpec.describe 'Filter by backlog type', js: true do
     create(:member,
            user:,
            project:,
-           roles: [create(:role)])
+           roles: [create(:project_role)])
   end
 
   let(:work_package_with_story_type) do

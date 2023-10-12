@@ -42,8 +42,8 @@ RSpec.describe 'group memberships through groups page',
     create(:group, lastname: 'A-Team', members: group_members)
   end
 
-  let!(:manager)   { create(:role, name: 'Manager') }
-  let!(:developer) { create(:role, name: 'Developer') }
+  let!(:manager)   { create(:project_role, name: 'Manager') }
+  let!(:developer) { create(:project_role, name: 'Developer') }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:group_page)   { Pages::Groups.new.group(group.id) }

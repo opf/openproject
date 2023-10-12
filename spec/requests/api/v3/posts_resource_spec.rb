@@ -39,7 +39,7 @@ RSpec.describe 'API v3 posts resource' do
   let(:forum) { create(:forum, project:) }
   let(:message) { create(:message, forum:) }
   let(:project) { create(:project) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_messages) }
 
   subject(:response) { last_response }

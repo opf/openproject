@@ -31,7 +31,7 @@ require 'features/page_objects/notification'
 
 RSpec.describe 'Work package transitive status workflows', js: true do
   let(:dev_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            edit_work_packages])
   end

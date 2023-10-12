@@ -35,7 +35,7 @@ RSpec.describe 'API v3 Query ICal Url' do
 
   describe '#post queries/:id/ical_url' do
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     # TODO: check OpenProject::Configuration.ical_subscriptions_enabled configuration
     # :view_work_packages permission is mandatory, otherwise a 404 is returned.
     let(:permissions) { %i[view_work_packages share_calendars] }
@@ -95,7 +95,7 @@ RSpec.describe 'API v3 Query ICal Url' do
     end
 
     context 'when user has sufficient permissions and tries to get the iCalendar url of the public query of another user' do
-      let(:role_of_other_user) { create(:role, permissions: [:view_work_packages]) }
+      let(:role_of_other_user) { create(:project_role, permissions: [:view_work_packages]) }
       let(:other_user) do
         create(:user,
                member_in_project: project,

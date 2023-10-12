@@ -933,7 +933,7 @@ RSpec.describe UsersController do
         create(:member,
                project: work_package.project,
                principal: user,
-               roles: [create(:role,
+               roles: [create(:project_role,
                               permissions: [:view_work_packages])])
       end
       let!(:journal_1) do

@@ -45,7 +45,7 @@ class RolesController < ApplicationController
   end
 
   def new
-    @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
+    @role = ProjectRole.new(permitted_params.role? || { permissions: ProjectRole.non_member.permissions })
 
     @roles = roles_scope
   end

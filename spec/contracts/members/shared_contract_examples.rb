@@ -47,7 +47,7 @@ RSpec.shared_examples_for 'member contract' do
     build_stubbed(:user)
   end
   let(:role) do
-    build_stubbed(:role)
+    build_stubbed(:project_role)
   end
   let(:permissions) { [:manage_members] }
   let(:current_user_admin) { false }
@@ -79,7 +79,7 @@ RSpec.shared_examples_for 'member contract' do
 
     context 'if any role is not assignable (e.g. builtin)' do
       let(:member_roles) do
-        [build_stubbed(:role), build_stubbed(:anonymous_role)]
+        [build_stubbed(:project_role), build_stubbed(:anonymous_role)]
       end
 
       it 'is invalid' do
@@ -116,7 +116,7 @@ RSpec.shared_examples_for 'member contract' do
       context 'if the role is not a global role' do
         let(:current_user_admin) { true }
         let(:role) do
-          build_stubbed(:role)
+          build_stubbed(:project_role)
         end
 
         it 'is invalid' do

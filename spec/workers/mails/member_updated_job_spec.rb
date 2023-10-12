@@ -87,7 +87,7 @@ RSpec.describe Mails::MemberUpdatedJob, type: :model do
       end
 
       context 'with the user having had a membership before the group`s membership was added but now has additional roles' do
-        let(:other_role) { build_stubbed(:role) }
+        let(:other_role) { build_stubbed(:project_role) }
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,
@@ -156,7 +156,7 @@ RSpec.describe Mails::MemberUpdatedJob, type: :model do
       end
 
       context 'with the user having had a membership before the group`s membership was added but now has additional roles' do
-        let(:other_role) { build_stubbed(:role) }
+        let(:other_role) { build_stubbed(:project_role) }
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,

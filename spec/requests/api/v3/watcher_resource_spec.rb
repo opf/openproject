@@ -37,9 +37,9 @@ RSpec.describe 'API v3 Watcher resource', content_type: :json do
   let(:current_user) do
     create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [] }
-  let(:view_work_packages_role) { create(:role, permissions: [:view_work_packages]) }
+  let(:view_work_packages_role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:work_package) { create(:work_package, project:) }
   let(:available_watcher) do
     create(:user,

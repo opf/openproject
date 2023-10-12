@@ -63,8 +63,8 @@ RSpec.describe 'Administrating memberships via the project settings', js: true d
     create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
-  let!(:manager)   { create(:role, name: 'Manager', permissions: [:manage_members]) }
-  let!(:developer) { create(:role, name: 'Developer') }
+  let!(:manager)   { create(:project_role, name: 'Manager', permissions: [:manage_members]) }
+  let!(:developer) { create(:project_role, name: 'Developer') }
   let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
   let(:member2) { create(:member, principal: hannibal, project:, roles: [developer]) }
   let(:member3) { create(:member, principal: group, project:, roles: [manager]) }

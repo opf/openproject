@@ -82,10 +82,18 @@ module Components
         modal_element.send_keys(:escape)
       end
 
-      def expect_shared_with(user, role_name = nil, editable: true)
-        within active_list do
+      def expect_shared_with(user, role_name = nil, position: nil, editable: true)
+        within shares_list do
           expect(page)
             .to have_text(user.name)
+        end
+
+        if position
+          within shares_list do
+            expect(page)
+              .to have_selector("li:nth-child(#{position})", text: user.name),
+                  "Expected #{user.name} to be ##{position} on the shares list."
+          end
         end
 
         if role_name
@@ -104,7 +112,7 @@ module Components
       end
 
       def expect_not_shared_with(user)
-        within active_list do
+        within shares_list do
           expect(page)
             .not_to have_text(user.name)
         end
@@ -130,6 +138,10 @@ module Components
       def active_list
         modal_element
           .find('[data-test-selector="op-share-wp-active-list"]')
+      end
+
+      def shares_list
+        active_list.find_by_id('op-share-wp-active-shares')
       end
     end
   end

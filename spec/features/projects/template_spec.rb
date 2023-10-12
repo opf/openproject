@@ -70,7 +70,7 @@ RSpec.describe 'Project templates', js: true, with_cuprite: true do
     let!(:wiki_page) { create(:wiki_page, wiki: template.wiki) }
 
     let!(:role) do
-      create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects])
+      create(:project_role, permissions: %i[view_project view_work_packages copy_projects add_subprojects])
     end
     let!(:global_permissions) do
       %i[add_project]

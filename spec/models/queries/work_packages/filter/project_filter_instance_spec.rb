@@ -39,7 +39,7 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
     let!(:archived_project) { create(:project, active: false) }
 
     let(:user) { create(:user, member_in_projects: [project, archived_project], member_through_role: role) }
-    let(:role) { create(:role, permissions: %i(view_work_packages)) }
+    let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
 
     before do
       login_as user

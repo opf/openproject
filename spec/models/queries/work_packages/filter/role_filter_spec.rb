@@ -29,24 +29,12 @@
 require 'spec_helper'
 
 RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
-  let(:role) { build_stubbed(:role) }
+  let(:role) { build_stubbed(:project_role) }
   let(:all_roles_relation) { [role] }
 
   def mock_roles_query_chain(return_value)
-    project_role_relation = instance_double(ActiveRecord::Relation)
     allow(Role)
       .to receive(:givable)
-            .and_return(project_role_relation)
-
-    role_and_global_role_relation = instance_double(ActiveRecord::Relation)
-    allow(project_role_relation)
-      .to receive(:or)
-            .with(GlobalRole.givable)
-            .and_return(role_and_global_role_relation)
-
-    allow(role_and_global_role_relation)
-      .to receive(:or)
-            .with(WorkPackageRole.givable)
             .and_return(return_value)
 
     return_value
@@ -104,7 +92,7 @@ RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
     end
 
     describe '#value_objects' do
-      let(:other_role) { build_stubbed(:role) }
+      let(:other_role) { build_stubbed(:project_role) }
 
       before do
         mock_roles_query_chain([role, other_role])

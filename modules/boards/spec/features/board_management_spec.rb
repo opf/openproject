@@ -37,7 +37,7 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
            member_through_role: role)
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let!(:work_package) { create(:work_package, subject: 'Foo', project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
