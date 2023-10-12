@@ -43,6 +43,7 @@ import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-pat
 import {
   UserAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
+import { IUser } from 'core-app/core/state/principals/user.model';
 
 export const usersAutocompleterSelector = 'op-user-autocompleter';
 
@@ -50,7 +51,7 @@ export interface IUserAutocompleteItem {
   id:ID;
   name:string;
   href:string|null;
-  avatar:string|null;
+  avatar?:string|null;
 }
 
 @Component({
@@ -101,13 +102,18 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     const filteredURL = this.buildFilteredURL(searchTerm);
 
     filteredURL.searchParams.set('pageSize', '-1');
-    filteredURL.searchParams.set('select', 'elements/id,elements/name,elements/href,elements/avatar,total,count,pageSize');
+    filteredURL.searchParams.set('select', 'elements/id,elements/name,elements/self,total,count,pageSize');
 
     return this
       .http
-      .get<IHALCollection<IUserAutocompleteItem>>(filteredURL.toString())
+      .get<IHALCollection<IUser>>(filteredURL.toString())
       .pipe(
-        map((res) => res._embedded.elements),
+        map((res) => {
+            return res._embedded.elements.map((user) => {
+              return { id: user.id, name: user.name, href: user._links.self?.href };
+            });
+          },
+        ),
       );
   }
 
