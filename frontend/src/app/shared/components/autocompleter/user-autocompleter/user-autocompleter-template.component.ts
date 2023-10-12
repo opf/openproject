@@ -27,12 +27,15 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import {
+  IAutocompleterTemplateComponent,
+} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 
 @Component({
   templateUrl: './user-autocompleter-template.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserAutocompleterTemplateComponent {
+export class UserAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
   @Input() public inviteUserToProject:string|undefined;
 
   @ViewChild('optionTemplate') optionTemplate:TemplateRef<Element>;

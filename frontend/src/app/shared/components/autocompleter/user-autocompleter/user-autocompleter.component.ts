@@ -83,12 +83,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
   ngOnInit():void {
     super.ngOnInit();
 
-    const componentRef = this.vcRef.createComponent(UserAutocompleterTemplateComponent);
-    componentRef.changeDetectorRef.detectChanges();
-    this.optionTemplate = componentRef.instance.optionTemplate;
-    if (componentRef.instance.footerTemplate) {
-      this.footerTemplate = componentRef.instance.footerTemplate;
-    }
+    this.applyTemplates(UserAutocompleterTemplateComponent);
 
     this
       .opInviteUserModalService

@@ -17,6 +17,7 @@ import {
   Output,
   SimpleChanges,
   TemplateRef,
+  Type,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -51,6 +52,13 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 export interface IAutocompleteItem {
   id:ID;
   href:string|null;
+}
+
+export interface IAutocompleterTemplateComponent {
+  optionTemplate?:TemplateRef<Element>;
+  headerTemplate?:TemplateRef<Element>;
+  labelTemplate?:TemplateRef<Element>;
+  footerTemplate?:TemplateRef<Element>;
 }
 
 @Component({
@@ -227,18 +235,21 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
   projectedOptionTemplate:TemplateRef<Element>;
 
+  optionTemplate:TemplateRef<Element>;
+
   @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
   projectedLabelTemplate:TemplateRef<Element>;
+
+  labelTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterHeaderTemplateDirective, { read: TemplateRef })
   projectedHeaderTemplate:TemplateRef<Element>;
 
+  headerTemplate:TemplateRef<Element>;
+
   @ContentChild(OpAutocompleterFooterTemplateDirective, { read: TemplateRef })
   projectedFooterTemplate:TemplateRef<Element>;
 
-  optionTemplate:TemplateRef<Element>;
-  labelTemplate:TemplateRef<Element>;
-  headerTemplate:TemplateRef<Element>;
   footerTemplate:TemplateRef<Element>;
 
   initialDebounce = true;
@@ -455,5 +466,24 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   registerOnTouched(fn:(_:T|T[]|null) => void):void {
     this.onTouched = fn;
+  }
+
+  /**
+   * Instantiate the given template component and apply any given TemplateRef to this component
+   * so they can be passed to ng-select.
+   *
+   * @param component A templating component defining any combination of the header, option, label, or footer templates.
+   * @protected
+   */
+  protected applyTemplates(component:Type<IAutocompleterTemplateComponent>) {
+    const componentRef = this.vcRef.createComponent(component);
+    componentRef.changeDetectorRef.detectChanges();
+
+    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
+      const template = componentRef.instance[name];
+      if (template) {
+        this[name] = template;
+      }
+    });
   }
 }
