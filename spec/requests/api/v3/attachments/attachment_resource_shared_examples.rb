@@ -191,6 +191,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
+  shared_let(:project) { create(:project, public: false) }
   let(:current_user) { user_with_permissions }
 
   let(:user_with_permissions) do
@@ -201,7 +202,6 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
     current_user
   end
 
-  let(:project) { create(:project, public: false) }
   let(:role) { create(:project_role, permissions:) }
 
   let(:attachment) { create(:attachment, container:, author:) }
