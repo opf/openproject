@@ -31,6 +31,7 @@ ruby-build is an addon to rbenv that installs ruby versions.
 
 ```shell
 # Install
+# for M1/M2 chipset, need to run `arch -arm64 brew install rbenv ruby-build`
 $ brew install rbenv ruby-build
 # Initialize rbenv
 $ rbenv init
