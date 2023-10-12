@@ -40,30 +40,5 @@ module MeetingAgendaItems
       @hidden = hidden
       @type = type
     end
-
-    def call
-      component_wrapper do
-        unless @hidden
-          form_partial
-        end
-      end
-    end
-
-    private
-
-    def form_partial
-      render(Primer::Box.new(border: :top)) do
-        render(Primer::Box.new(p: 3)) do
-          render(MeetingAgendaItems::FormComponent.new(
-                   meeting: @meeting,
-                   meeting_agenda_item: @meeting_agenda_item,
-                   method: :post,
-                   submit_path: meeting_agenda_items_path(@meeting, format: :turbo_stream),
-                   cancel_path: cancel_new_meeting_agenda_items_path(@meeting),
-                   type: @type
-                 ))
-        end
-      end
-    end
   end
 end

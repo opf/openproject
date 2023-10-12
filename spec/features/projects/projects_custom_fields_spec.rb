@@ -227,7 +227,7 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
                     member_with_permissions: { existing_project => %i[view_work_packages edit_work_packages] })
     end
 
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
 
     let(:modal) do
       Components::Users::InviteUserModal.new project:,

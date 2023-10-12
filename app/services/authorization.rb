@@ -59,16 +59,11 @@ module Authorization
   # Possible arguments
   #  - Symbol permission names (e.g. :view_work_packages)
   #  - Hash with :controller and :action (e.g. { controller: 'work_packages', action: 'show' })
-  def permissions_for(action) # rubocop:disable Metrics/PerceivedComplexity
+  def permissions_for(action)
     return [action] if action.is_a?(OpenProject::AccessControl::Permission)
     return action if action.is_a?(Array) && action.all?(OpenProject::AccessControl::Permission)
 
     if action.is_a?(Hash)
-      if action[:controller]&.to_s&.starts_with?('/')
-        action = action.dup
-        action[:controller] = action[:controller][1..]
-      end
-
       OpenProject::AccessControl.allow_actions(action)
     else
       [OpenProject::AccessControl.permission(action)].compact
@@ -77,15 +72,16 @@ module Authorization
 
   # Returns a set of normalized permissions filtered for a given context
   #  - When there is no permission matching the +permission+ parameter, either an empty array is returned
-  #    or an +UnknownPermissionError+ is raised (depending on the raise_on_unknown parameter)
+  #    or an +UnknownPermissionError+ is raised (depending on the raise_on_unknown parameter).
+  #    If the permission is disabled, it will never raise an error.
   #  - When there are no permissions available for the given context (based on +permissible_on+
   #    attribute of the permission), an +IllegalPermissionContextError+ is raised
   def contextual_permissions(action, context, raise_on_unknown: false)
     perms = permissions_for(action)
 
     if perms.blank?
-      Rails.logger.warn "Used permission \"#{action}\" that is not defined. It will never return true."
-      raise UnknownPermissionError.new(action) if raise_on_unknown
+      Rails.logger.debug { "Used permission \"#{action}\" that is not defined. It will never return true." }
+      raise UnknownPermissionError.new(action) if raise_on_unknown && !OpenProject::AccessControl.disabled_permission?(action)
 
       return []
     end

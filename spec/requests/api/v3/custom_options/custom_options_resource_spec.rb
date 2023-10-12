@@ -37,7 +37,7 @@ RSpec.describe 'API v3 Custom Options resource', :aggregate_failures do
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:modification) { nil }
 

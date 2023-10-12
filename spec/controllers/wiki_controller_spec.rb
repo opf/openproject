@@ -997,7 +997,7 @@ RSpec.describe WikiController do
 
       @anon = User.anonymous.nil? ? create(:anonymous) : User.anonymous
 
-      Role.anonymous.update permissions: [:view_wiki_pages]
+      ProjectRole.anonymous.update permissions: [:view_wiki_pages]
     end
 
     current_user { admin }

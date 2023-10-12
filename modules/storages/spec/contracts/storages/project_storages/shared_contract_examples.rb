@@ -36,7 +36,7 @@ require_module_spec_helper
 RSpec.shared_examples_for 'ProjectStorages contract' do
   let(:current_user) { create(:user) }
   # The user needs "edit_project" to see the project's settings page
-  let(:role) { create(:role, permissions: %i[manage_storages_in_project edit_project]) }
+  let(:role) { create(:project_role, permissions: %i[manage_storages_in_project edit_project]) }
   # Create a project managed by current user and with Storages enabled.
   let(:project) do
     create(:project,

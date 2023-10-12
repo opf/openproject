@@ -33,7 +33,7 @@ RSpec.describe Users::Scopes::HavingEntityMembership do
     subject { User.having_entity_membership(work_package) }
 
     context 'with some sharing' do
-      let(:project_role) { create(:role) }
+      let(:project_role) { create(:project_role) }
       let(:view_work_package_role) { create(:view_work_package_role) }
       let(:comment_work_package_role) { create(:comment_work_package_role) }
       let(:edit_work_package_role) { create(:edit_work_package_role) }

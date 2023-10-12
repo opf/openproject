@@ -35,7 +35,7 @@ RSpec.describe 'Only see your own rates', js: true do
            member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role, permissions: %i[view_own_hourly_rate
+    create(:project_role, permissions: %i[view_own_hourly_rate
                                   view_work_packages
                                   view_work_packages
                                   view_own_time_entries
@@ -68,7 +68,7 @@ RSpec.describe 'Only see your own rates', js: true do
                         cost_type:,
                         user:)
   end
-  let(:other_role) { create(:role, permissions: []) }
+  let(:other_role) { create(:project_role, permissions: []) }
   let(:other_user) do
     create(:user,
            member_with_roles: { project => other_role })

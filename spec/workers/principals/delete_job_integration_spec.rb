@@ -47,7 +47,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
   end
 
   shared_let(:role) do
-    create(:role, permissions: %i[view_work_packages])
+    create(:project_role, permissions: %i[view_work_packages])
   end
 
   describe '#perform' do
@@ -116,7 +116,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
         create(:member,
                project: work_package.project,
                user: principal,
-               roles: [build(:role)])
+               roles: [build(:project_role)])
         entry
 
         job

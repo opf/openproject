@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe 'Types', js: true, with_cuprite: true do
   shared_let(:admin) { create(:admin) }
 
-  shared_let(:existing_role) { create(:role) }
+  shared_let(:existing_role) { create(:project_role) }
   shared_let(:existing_type) { create(:type) }
   shared_let(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type: existing_type) }
 

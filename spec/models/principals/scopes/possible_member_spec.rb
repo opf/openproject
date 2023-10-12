@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe Principals::Scopes::PossibleMember do
   let(:project) { create(:project) }
   let(:public_project) { create(:project, public: true) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   # Non-member role is needed to see public projects
   let!(:non_member_role) { create(:non_member) }
   let!(:active_user) { create(:user) }

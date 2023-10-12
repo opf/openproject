@@ -1219,9 +1219,9 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'if the users permissions change' do
         it_behaves_like 'changes' do
-          let(:role1) { build_stubbed(:role, permissions: permissions1) }
+          let(:role1) { build_stubbed(:project_role, permissions: permissions1) }
           let(:permissions1) { %i[blubs some more] }
-          let(:role2) { build_stubbed(:role, permissions: permissions2) }
+          let(:role2) { build_stubbed(:project_role, permissions: permissions2) }
           let(:permissions2) { %i[and other random permissions] }
           let(:roles) { [role1, role2] }
 

@@ -38,7 +38,7 @@ RSpec.describe 'API v3 Relation resource' do
     create(:user, member_with_roles: { project => role })
   end
   let(:permissions) { [] }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:work_package) do
     create(:work_package,

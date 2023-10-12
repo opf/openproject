@@ -37,7 +37,8 @@ RSpec.describe 'API v3 roles resource' do
     create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role,
+           permissions:)
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:project) { create(:project) }
@@ -69,7 +70,7 @@ RSpec.describe 'API v3 roles resource' do
         [{ grantable: { operator: '=', values: ['t'] } }]
       end
 
-      let(:non_member_role) { Role.non_member }
+      let(:non_member_role) { ProjectRole.non_member }
       let(:roles) { [role, non_member_role] }
 
       let(:get_path) { api_v3_paths.path_for(:roles, filters:) }
@@ -93,7 +94,7 @@ RSpec.describe 'API v3 roles resource' do
         } }]
       end
 
-      let(:non_member_role) { Role.non_member }
+      let(:non_member_role) { ProjectRole.non_member }
       let(:global_role) { create(:global_role) }
       let(:roles) { [role, non_member_role, global_role] }
 

@@ -67,7 +67,7 @@ RSpec.shared_examples_for 'work package member contract' do
 
     context 'if any role is not assignable (e.g. builtin)' do
       let(:member_roles) do
-        [build_stubbed(:role)]
+        [build_stubbed(:project_role)]
       end
 
       it_behaves_like 'contract is invalid', roles: :ungrantable

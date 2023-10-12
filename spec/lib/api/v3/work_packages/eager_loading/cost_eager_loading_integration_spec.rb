@@ -33,7 +33,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eage
     work_package.project
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            view_cost_entries
                            view_cost_rates

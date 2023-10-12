@@ -32,7 +32,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) do
     %i(view_work_packages edit_work_packages add_work_packages move_work_packages manage_subtasks)
   end
@@ -124,7 +124,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
       create(:member,
              user:,
              project: p,
-             roles: [create(:role, permissions: target_permissions)])
+             roles: [create(:project_role, permissions: target_permissions)])
 
       p
     end

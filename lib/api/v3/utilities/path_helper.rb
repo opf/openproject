@@ -403,6 +403,9 @@ module API
           index :role
           show :role
 
+          index :project_role, 'roles'
+          show :project_role, 'role'
+
           index :global_role, 'roles'
           show :global_role, 'role'
 

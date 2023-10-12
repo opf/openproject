@@ -45,7 +45,7 @@ RSpec.describe 'Subproject action board', :js, with_ee: %i[board_view] do
   let(:subproject2) do
     create(:project, parent: project, name: 'Child 2', types: [type], enabled_module_names: %i[work_package_tracking])
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 

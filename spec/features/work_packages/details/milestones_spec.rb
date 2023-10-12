@@ -22,7 +22,7 @@ RSpec.describe 'Milestones full screen v iew', js: true do
     let(:user) do
       create(:user, member_with_roles: { project => role })
     end
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) do
       %i[view_work_packages add_work_packages]
     end
@@ -39,7 +39,7 @@ RSpec.describe 'Milestones full screen v iew', js: true do
     let(:user) do
       create(:user, member_with_roles: { project => role })
     end
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) do
       %i[view_work_packages]
     end

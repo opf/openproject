@@ -33,7 +33,7 @@ RSpec.describe Projects::UpdateService, 'integration', type: :model do
     create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions:)
   end
   let(:permissions) do
@@ -95,7 +95,7 @@ RSpec.describe Projects::UpdateService, 'integration', type: :model do
 
     context 'when saving the status as well as the parent' do
       let(:parent_project) { create(:project, members: { user => parent_role }) }
-      let(:parent_role) { create(:role, permissions: %i(add_subprojects)) }
+      let(:parent_role) { create(:project_role, permissions: %i(add_subprojects)) }
       let(:status_code) { 'on_track' }
       let(:status_explanation) { 'some explanation' }
       let(:attributes) do

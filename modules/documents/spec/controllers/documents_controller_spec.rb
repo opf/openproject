@@ -34,7 +34,7 @@ RSpec.describe DocumentsController do
   let(:admin) { create(:admin) }
   let(:project) { create(:project, name: "Test Project") }
   let(:user) { create(:user) }
-  let(:role) { create(:role, permissions: [:view_documents]) }
+  let(:role) { create(:project_role, permissions: [:view_documents]) }
 
   let(:default_category) do
     create(:document_category, project:, name: "Default Category")

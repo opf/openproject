@@ -202,7 +202,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
   end
 
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:attachment) { create(:attachment, container:, author:) }
   let(:container) { send attachment_type }

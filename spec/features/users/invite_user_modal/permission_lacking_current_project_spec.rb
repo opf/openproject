@@ -39,11 +39,11 @@ RSpec.describe 'Inviting user in project the current user is lacking permission 
   let(:quick_add) { Components::QuickAddMenu.new }
 
   let(:view_role) do
-    create(:role,
+    create(:project_role,
            permissions: [])
   end
   let(:invite_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_members])
   end
 

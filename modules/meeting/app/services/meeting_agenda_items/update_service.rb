@@ -28,5 +28,6 @@
 
 module MeetingAgendaItems
   class UpdateService < ::BaseServices::Update
+    include AfterPerformHook
   end
 end

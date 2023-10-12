@@ -37,7 +37,7 @@ RSpec.describe 'API v3 Query Operator resource' do
     let(:path) { api_v3_paths.query_operator(CGI.escape(operator)) }
     let(:operator) { '=' }
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
       create(:user,

@@ -33,7 +33,7 @@ RSpec.shared_context 'with CreateFromJournalJob context' do
   let(:recipient) do
     create(:user,
            notification_settings: recipient_notification_settings,
-           member_with_roles: { project => create(:role, permissions:) },
+           member_with_permissions: { project => permissions },
            login: recipient_login)
   end
   let(:recipient_login) { "johndoe" }

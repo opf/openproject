@@ -39,7 +39,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
   let(:group) do
     create(:group, member_with_roles: { project => role }, members:)
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_members manage_members] }
   let(:members) do
     create_list(:user, 2)
@@ -170,7 +170,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
 
   describe 'PATCH api/v3/groups/:id' do
     let(:path) { api_v3_paths.group(group.id) }
-    let(:another_role) { create(:role) }
+    let(:another_role) { create(:project_role) }
     let(:another_user) do
       create(:user,
              member_with_roles: { project => another_role },
@@ -200,7 +200,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
       create(:member,
              principal: group,
              project: other_project,
-             roles: [create(:role)])
+             roles: [create(:project_role)])
     end
 
     before do
@@ -327,9 +327,9 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
       create(:member,
              principal: group,
              project: other_project,
-             roles: [create(:role)])
+             roles: [create(:project_role)])
     end
-    let(:another_role) { create(:role) }
+    let(:another_role) { create(:project_role) }
 
     before do
       # Setup the memberships in the group has

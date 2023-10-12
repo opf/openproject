@@ -130,7 +130,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% group_project_ids = @group.projects.ids  %>
           <% filters = [['active', '=', ['t']]] %>
           <% filters << ['id', '!', group_project_ids.map(&:to_s)] if group_project_ids.any? %>
-          <%= angular_component_tag 'op-project-autocompleter',
+          <%= angular_component_tag 'opce-project-autocompleter',
                                     inputs: {
                                       apiFilters: filters,
                                       name: 'membership[project_id]'

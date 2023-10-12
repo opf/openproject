@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require_relative '../../lib_static/open_project/migration_statement_timeout/manager'
-require_relative '../../lib_static/open_project/migration_statement_timeout/migration_extensions'
+module WorkPackages
+  module Share
+    class ShareCounterComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
 
-ActiveRecord::Migration.prepend(MigrationStatementTimeout::Manager)
-ActiveRecord::Migration.extend(MigrationStatementTimeout::MigrationExtensions)
+      def initialize(count:)
+        super
+
+        @count = count
+      end
+
+      private
+
+      attr_reader :count
+    end
+  end
+end

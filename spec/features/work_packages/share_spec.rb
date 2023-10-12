@@ -35,7 +35,7 @@ RSpec.describe 'Work package sharing',
                :with_cuprite,
                with_flag: { work_package_sharing: true } do
   let(:sharer_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_work_packages
                            view_shared_work_packages
                            share_work_packages))
@@ -71,7 +71,7 @@ RSpec.describe 'Work package sharing',
   let!(:shared_project_user) { create(:user, firstname: 'Shared Project', lastname: 'User') }
   let!(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
 
-  current_user { create(:user) }
+  current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
 
   context 'when having share permission' do
     it 'allows seeing and administrating sharing' do
@@ -83,36 +83,32 @@ RSpec.describe 'Work package sharing',
       click_button 'Share'
 
       share_modal.expect_open
-      share_modal.expect_shared_with(view_user, 'View')
-      share_modal.expect_shared_with(comment_user, 'Comment')
-      share_modal.expect_shared_with(edit_user, 'Edit')
-      share_modal.expect_shared_with(shared_project_user, 'Edit')
+      share_modal.expect_shared_with(comment_user, 'Comment', position: 1)
+      share_modal.expect_shared_with(edit_user, 'Edit', position: 2)
+      share_modal.expect_shared_with(shared_project_user, 'Edit', position: 3)
       # The current users share is also displayed but not editable
-      share_modal.expect_shared_with(current_user, editable: false)
+      share_modal.expect_shared_with(current_user, position: 4, editable: false)
+      share_modal.expect_shared_with(view_user, 'View', position: 5)
 
       share_modal.expect_not_shared_with(non_shared_project_user)
       share_modal.expect_not_shared_with(not_shared_yet_with_user)
 
       share_modal.expect_shared_count_of(5)
 
-      # Inviting a user will lead to that user being listed together with the rest of the shared with users.
+      # Inviting a user will lead to that user being prepended to the list together with the rest of the shared with users.
       share_modal.invite_user(not_shared_yet_with_user, 'View')
 
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'View')
-
+      share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 1)
       share_modal.expect_shared_count_of(6)
 
       # Removing a share will lead to that user being removed from the list of shared with users.
       share_modal.remove_user(edit_user)
-
       share_modal.expect_not_shared_with(edit_user)
-
       share_modal.expect_shared_count_of(5)
 
       # Adding a user multiple times will lead to the user's role being updated.
       share_modal.invite_user(not_shared_yet_with_user, 'Edit')
-
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit')
+      share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit', position: 1)
 
       # Sent out email only on first share and not again when updating.
       perform_enqueued_jobs
@@ -120,8 +116,7 @@ RSpec.describe 'Work package sharing',
 
       # Updating the share
       share_modal.change_role(not_shared_yet_with_user, 'Comment')
-
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment')
+      share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment', position: 1)
 
       # Sent out email only on first share and not again when updating so the
       # count should still be 1.
@@ -134,15 +129,15 @@ RSpec.describe 'Work package sharing',
       click_button 'Share'
 
       # These users were not changed
-      share_modal.expect_shared_with(view_user, 'View')
-      share_modal.expect_shared_with(comment_user, 'Comment')
-      share_modal.expect_shared_with(shared_project_user, 'Edit')
-      share_modal.expect_shared_with(current_user, editable: false)
+      share_modal.expect_shared_with(comment_user, 'Comment', position: 1)
       # This user's role was updated
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment')
+      share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment', position: 2)
+      share_modal.expect_shared_with(shared_project_user, 'Edit', position: 3)
+      share_modal.expect_shared_with(current_user, position: 4, editable: false)
+      share_modal.expect_shared_with(view_user, 'View', position: 5)
+
       # This user's share was revoked
       share_modal.expect_not_shared_with(edit_user)
-
       # This user has never been added
       share_modal.expect_not_shared_with(non_shared_project_user)
 
@@ -152,7 +147,7 @@ RSpec.describe 'Work package sharing',
 
   context 'when lacking share permission' do
     let(:sharer_role) do
-      create(:role,
+      create(:project_role,
              permissions: %i(view_work_packages
                              view_shared_work_packages))
     end

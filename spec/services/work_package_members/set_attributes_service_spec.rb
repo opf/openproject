@@ -144,9 +144,9 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
     end
 
     context 'with changes to the roles do' do
-      let(:first_role) { build_stubbed(:role) }
-      let(:second_role) { build_stubbed(:role) }
-      let(:third_role) { build_stubbed(:role) }
+      let(:first_role) { build_stubbed(:project_role) }
+      let(:second_role) { build_stubbed(:project_role) }
+      let(:third_role) { build_stubbed(:project_role) }
 
       let(:call_attributes) do
         {
@@ -156,10 +156,7 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
 
       context 'with a persisted record' do
         let(:member) do
-          build_stubbed(:work_package_member, roles: [first_role, second_role]) do |m|
-            allow(m)
-              .to receive(:touch)
-          end
+          build_stubbed(:work_package_member, roles: [first_role, second_role])
         end
 
         it 'adds the new role and marks the other for destruction' do

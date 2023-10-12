@@ -32,7 +32,7 @@ require 'contracts/shared/model_contract_shared_context'
 RSpec.describe Projects::ArchiveContract do
   include_context 'ModelContract shared context'
 
-  shared_let(:archivist_role) { create(:role, permissions: %i[archive_project]) }
+  shared_let(:archivist_role) { create(:project_role, permissions: %i[archive_project]) }
   let(:project) { build_stubbed(:project) }
   let(:contract) { described_class.new(project, current_user) }
 

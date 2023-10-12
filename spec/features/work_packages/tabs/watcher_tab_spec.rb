@@ -6,8 +6,8 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
+  let(:role) { create(:project_role, permissions:) }
   let(:user) { create(:user, member_with_roles: { project => role }) }
-  let(:role) { create(:role, permissions:) }
   let(:permissions) do
     %i(view_work_packages
        view_work_package_watchers

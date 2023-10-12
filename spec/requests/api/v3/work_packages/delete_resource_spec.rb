@@ -41,7 +41,7 @@ RSpec.describe 'API v3 Work package resource',
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   current_user do
@@ -88,7 +88,7 @@ RSpec.describe 'API v3 Work package resource',
     end
 
     context 'without permission to delete work packages' do
-      let(:permissions) { [:view_work_packages] }
+      let(:permissions) { %i[view_work_packages add_work_package_attachments] }
 
       it_behaves_like 'unauthorized access'
 

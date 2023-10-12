@@ -36,7 +36,7 @@ RSpec.describe 'wiki child pages', :js do
     create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_wiki_pages edit_wiki_pages])
   end
   let(:parent_page) do

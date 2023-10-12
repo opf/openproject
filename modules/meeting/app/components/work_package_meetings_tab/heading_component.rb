@@ -38,44 +38,10 @@ module WorkPackageMeetingsTab
       @work_package = work_package
     end
 
-    def call
-      component_wrapper do
-        flex_layout(justify_content: :space_between, align_items: :center) do |flex|
-          flex.with_column do
-            info_partial
-          end
-          if allowed_to_add_to_meeting?
-            flex.with_column(ml: 3) do
-              add_to_meeting_partial
-            end
-          end
-        end
-      end
-    end
-
     private
 
     def allowed_to_add_to_meeting?
       User.current.allowed_to?(:edit_meetings, @work_package.project)
-    end
-
-    def info_partial
-      render(Primer::Beta::Text.new(color: :subtle)) { t("text_add_work_package_to_meeting_description") }
-    end
-
-    def add_to_meeting_partial
-      # we need to render a dialog with size :xlarge as the RTE requires this size to be able to render the toolbar properly
-      render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
-               id: "add-work-package-to-meeting-dialog",
-               src: dialog_work_package_meeting_agenda_items_path(@work_package),
-               size: :xlarge,
-               title: t("label_add_work_package_to_meeting_dialog_title"),
-               button_icon: :plus,
-               button_text: t("label_add_work_package_to_meeting_dialog_button"),
-               button_attributes: {
-                 test_selector: "op-add-work-package-to-meeting-dialog-trigger"
-               }
-             ))
     end
   end
 end

@@ -34,7 +34,7 @@ RSpec.describe 'Group memberships through groups page' do
 
   let!(:peter) { create(:user, firstname: 'Peter', lastname: 'Pan') }
 
-  let!(:manager) { create(:role, name: 'Manager') }
+  let!(:manager) { create(:project_role, name: 'Manager') }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

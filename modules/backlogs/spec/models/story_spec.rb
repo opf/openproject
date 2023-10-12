@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Story do
   let(:user) { @user ||= create(:user) }
-  let(:role) { @role ||= create(:role) }
+  let(:role) { @role ||= create(:project_role) }
   let(:status1) { @status1 ||= create(:status, name: 'status 1', is_default: true) }
   let(:type_feature) { @type_feature ||= create(:type_feature) }
   let(:version) { @version ||= create(:version, project:) }

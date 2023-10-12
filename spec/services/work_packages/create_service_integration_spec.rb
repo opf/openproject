@@ -33,7 +33,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
     create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions:)
   end
 

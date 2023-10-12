@@ -557,7 +557,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         create(:member,
                user: current_user,
                project: first_wp.project,
-               roles: create_list(:role, 1, permissions: [:view_work_packages]))
+               roles: create_list(:project_role, 1, permissions: [:view_work_packages]))
       end
       let(:created_work_packages) do
         # Let the work package behave as if it used to have a different type forcing the inclusion of

@@ -71,7 +71,7 @@ RSpec.describe 'Work package attribute help texts', js: true do
 
   describe 'as regular user' do
     let(:view_wps_role) do
-      create(:role, permissions: [:view_work_packages])
+      create(:project_role, permissions: [:view_work_packages])
     end
     let(:user) do
       create(:user,

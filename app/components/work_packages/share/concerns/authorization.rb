@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module MigrationStatementTimeout
-  module MigrationExtensions
-    attr_accessor :minimum_statement_timeout
+module WorkPackages
+  module Share
+    module Concerns
+      module Authorization
+        extend ActiveSupport::Concern
 
-    # Sets the minimum statement timeout for this migration.
-    #
-    # If the current statement timeout is lower than the given value, it will be
-    # set to this value. It does nothing if the statement timeout is already set
-    # to a higher value.
-    #
-    # When the given value is an integer or a string without units, it is
-    # interpreted as milliseconds.
-    #
-    # When the given value is a string with units, it is interpreted
-    # accordingly. Valid units for this parameter are "ms", "s", "min", and "h".
-    # Examples: "15min", "90s", "2h".
-    #
-    # @param [Integer|String] timeout duration
-    def set_minimum_statement_timeout(timeout)
-      self.minimum_statement_timeout = timeout
+        included do
+          def sharing_manageable?
+            User.current.allowed_to?(:share_work_packages, @work_package.project)
+          end
+        end
+      end
     end
   end
 end
