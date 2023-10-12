@@ -74,7 +74,7 @@ RSpec.describe 'Arbitrary WorkPackage query graph widget dashboard',
   end
 
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
 
   let(:user) do

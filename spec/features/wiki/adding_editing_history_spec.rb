@@ -43,7 +43,7 @@ RSpec.describe 'wiki pages', js: true, with_settings: { journal_aggregation_time
            member_through_role: role)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_wiki_pages
                            edit_wiki_pages
                            view_wiki_edits

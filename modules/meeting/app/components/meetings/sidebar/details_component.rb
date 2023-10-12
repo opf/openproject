@@ -38,120 +38,9 @@ module Meetings
       @meeting = meeting
     end
 
-    def call
-      component_wrapper do
-        flex_layout do |flex|
-          flex.with_row do
-            heading_partial
-          end
-          flex.with_row(mt: 2) do
-            details_partial
-          end
-        end
-      end
-    end
-
     private
 
-    def heading_partial
-      flex_layout(align_items: :center, justify_content: :space_between) do |flex|
-        flex.with_column(flex: 1) do
-          render(Primer::Beta::Heading.new(tag: :h4)) { t("label_meeting_details") }
-        end
-        if @meeting.editable?
-          flex.with_column do
-            dialog_wrapper_partial
-          end
-        end
-      end
-    end
-
-    def dialog_wrapper_partial
-      render(Primer::Alpha::Dialog.new(
-               id: "edit-meeting-details-dialog", title: t("label_meeting_details"),
-               size: :medium_portrait
-             )) do |dialog|
-        dialog.with_show_button(icon: :pencil, 'aria-label': t("label_meeting_details_edit"), scheme: :invisible)
-        render(Meetings::Sidebar::DetailsFormComponent.new(meeting: @meeting))
-      end
-    end
-
-    def details_partial
-      flex_layout do |flex|
-        flex.with_row do
-          date_partial
-        end
-        flex.with_row(mt: 2) do
-          time_partial
-        end
-        flex.with_row(mt: 2) do
-          duration_partial
-        end
-        if @meeting.location.present?
-          flex.with_row(mt: 2) do
-            location_partial
-          end
-        end
-      end
-    end
-
-    def date_partial
-      meeting_attribute_row(:calendar) do
-        render(Primer::Beta::Text.new) do
-          format_date(@meeting.start_time)
-        end
-      end
-    end
-
-    def time_partial
-      meeting_attribute_row(:clock) do
-        flex_layout(align_items: :center) do |flex|
-          flex.with_column do
-            render(Primer::Beta::Text.new) do
-              "#{format_time(@meeting.start_time, false)} - #{format_time(@meeting.end_time, false)}"
-            end
-          end
-          flex.with_column(ml: 2) do
-            render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
-              Time.zone.to_s[/\((.*?)\)/m, 1]
-            end
-          end
-        end
-      end
-    end
-
-    def duration_partial
-      meeting_attribute_row(:stopwatch) do
-        flex_layout do |flex|
-          flex.with_column do
-            render OpenProject::Common::DurationComponent.new(@meeting.duration, :hours, abbreviated: true)
-          end
-          flex.with_column(ml: 2) do
-            render(Primer::Beta::Text.new(color: :danger, font_size: :small)) do
-              "+ #{ I18n.t('datetime.distance_in_words.x_min_abbreviated', count: @meeting.duration_exceeded_by_agenda_items_in_minutes.to_i)}"
-            end
-          end if @meeting.duration_exceeded_by_agenda_items?
-        end
-      end
-    end
-
-    def location_partial
-      if @meeting.location.include?("http")
-        meeting_attribute_row(:link) do
-          render(Primer::Beta::Link.new(href: @meeting.location, target: "_blank")) do
-            truncated_location
-          end
-        end
-      else
-        meeting_attribute_row(:location) do
-          render(Primer::Beta::Text.new) do
-            truncated_location
-          end
-        end
-      end
-    end
-
-    def truncated_location
+    def render_truncated_location
       render(Primer::Beta::Truncate.new) do |component|
         component.with_item(max_width: 250) do
           @meeting.location
@@ -159,11 +48,12 @@ module Meetings
       end
     end
 
-    def meeting_attribute_row(icon, &)
+    def render_meeting_attribute_row(icon, &)
       flex_layout(align_items: :center, justify_content: :space_between) do |flex|
         flex.with_column do
           render(Primer::Beta::Octicon.new(icon:))
         end
+
         flex.with_column(flex: 1, ml: 1, &)
       end
     end

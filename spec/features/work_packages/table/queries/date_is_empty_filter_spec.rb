@@ -41,7 +41,7 @@ RSpec.describe 'Filter by date with "is empty"', :js, :with_cuprite do
     create(:member,
            user:,
            project:,
-           roles: [create(:role)])
+           roles: [create(:project_role)])
   end
 
   let(:work_package_with_start_date) do

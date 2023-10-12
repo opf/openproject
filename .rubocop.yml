@@ -27,6 +27,9 @@ AllCops:
   Exclude:
     - '**/node_modules/**/*'
 
+FactoryBot/ConsistentParenthesesStyle:
+  Enabled: false
+
 FactoryBot/SyntaxMethods:
   Enabled: true
 

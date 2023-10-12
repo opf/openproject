@@ -32,7 +32,7 @@ RSpec.describe 'Work package filtering by id', js: true do
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
-  let(:role) { create(:role, permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries]) }
 
   let!(:work_package) do
     create(:work_package,

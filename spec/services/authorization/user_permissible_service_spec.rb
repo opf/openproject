@@ -131,7 +131,7 @@ RSpec.describe Authorization::UserPermissibleService do
       end
 
       context 'and the user is a member of a project' do
-        let(:role) { create(:role, permissions: [permission]) }
+        let(:role) { create(:project_role, permissions: [permission]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_project(permission, project) }
@@ -187,7 +187,7 @@ RSpec.describe Authorization::UserPermissibleService do
       end
 
       context 'and the user is a member of a project' do
-        let(:role) { create(:role, permissions: [permission]) }
+        let(:role) { create(:project_role, permissions: [permission]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_any_project(permission) }
@@ -243,7 +243,7 @@ RSpec.describe Authorization::UserPermissibleService do
       end
 
       context 'and the user is a member of the project' do
-        let(:role) { create(:role, permissions: [permission]) }
+        let(:role) { create(:project_role, permissions: [permission]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
@@ -287,7 +287,7 @@ RSpec.describe Authorization::UserPermissibleService do
       context 'and user is member in the project (not granting the permission) and the work package (granting the permission)' do
         let(:permission) { :edit_work_packages }
 
-        let(:role) { create(:role, permissions: [:view_work_packages]) }
+        let(:role) { create(:project_role, permissions: [:view_work_packages]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         let(:wp_role) { create(:work_package_role, permissions: [permission]) }
@@ -320,7 +320,7 @@ RSpec.describe Authorization::UserPermissibleService do
       end
 
       context 'and the user is a member of a project' do
-        let(:role) { create(:role, permissions: [permission]) }
+        let(:role) { create(:project_role, permissions: [permission]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_any_entity(permission, WorkPackage) }

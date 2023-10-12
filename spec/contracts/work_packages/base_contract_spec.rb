@@ -221,7 +221,7 @@ RSpec.describe WorkPackages::BaseContract do
     end
 
     describe 'transitions' do
-      let(:roles) { [build_stubbed(:role)] }
+      let(:roles) { [build_stubbed(:project_role)] }
       let(:valid_transition_result) { true }
       let(:new_status) { build_stubbed(:status) }
       let(:from_id) { work_package.status_id }
@@ -1026,7 +1026,7 @@ RSpec.describe WorkPackages::BaseContract do
   end
 
   describe '#assignable_statuses' do
-    let(:role) { build_stubbed(:role) }
+    let(:role) { build_stubbed(:project_role) }
     let(:type) { build_stubbed(:type) }
     let(:assignee_user) { build_stubbed(:user) }
     let(:author_user) { build_stubbed(:user) }

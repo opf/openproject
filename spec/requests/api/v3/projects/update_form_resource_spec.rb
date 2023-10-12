@@ -57,7 +57,7 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
     end
   end
   let(:parent_project_role) do
-    create(:role, permissions: parent_project_permissions)
+    create(:project_role, permissions: parent_project_permissions)
   end
   let(:permissions) { [:edit_project] }
   let(:parent_project_permissions) { [:add_subprojects] }

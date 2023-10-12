@@ -34,8 +34,8 @@ RSpec.describe User, 'allowed_to?' do
   let(:project) { build(:project, public: false) }
   let(:project2) { build(:project, public: false) }
   let(:work_package) { build(:work_package, project:) }
-  let(:role) { build(:role) }
-  let(:role2) { build(:role) }
+  let(:role) { build(:project_role) }
+  let(:role2) { build(:project_role) }
   let(:wp_role) { build(:work_package_role) }
   let(:wp_member) { build(:member, project:, entity: work_package, roles: [wp_role], principal: user) }
   let(:anonymous_role) { build(:anonymous_role) }
@@ -47,7 +47,7 @@ RSpec.describe User, 'allowed_to?' do
 
   before do
     anonymous_role.save!
-    Role.non_member
+    ProjectRole.non_member
     user.save!
   end
 
@@ -126,7 +126,7 @@ RSpec.describe User, 'allowed_to?' do
 
         context 'and the permission being assigend to the non-member role' do
           before do
-            non_member = Role.non_member
+            non_member = ProjectRole.non_member
             non_member.add_permission! permission
 
             final_setup_step
@@ -153,7 +153,7 @@ RSpec.describe User, 'allowed_to?' do
 
         context 'and the permission not being assigend to the non-member role' do
           before do
-            non_member = Role.non_member
+            non_member = ProjectRole.non_member
             non_member.remove_permission! permission
 
             final_setup_step
@@ -164,7 +164,7 @@ RSpec.describe User, 'allowed_to?' do
 
         context 'and the permission being assigned to the non-member role' do
           before do
-            non_member = Role.non_member
+            non_member = ProjectRole.non_member
             non_member.add_permission! permission
 
             final_setup_step
@@ -335,7 +335,7 @@ RSpec.describe User, 'allowed_to?' do
 
         context 'with non-member role having the permission' do
           before do
-            non_member = Role.non_member
+            non_member = ProjectRole.non_member
             non_member.add_permission! permission
             final_setup_step
           end
@@ -345,7 +345,7 @@ RSpec.describe User, 'allowed_to?' do
 
         context 'without non-member role having the permission' do
           before do
-            non_member = Role.non_member
+            non_member = ProjectRole.non_member
             non_member.remove_permission! permission
             final_setup_step
           end
@@ -362,7 +362,7 @@ RSpec.describe User, 'allowed_to?' do
 
         context 'with non-member role having the permission' do
           before do
-            non_member = Role.non_member
+            non_member = ProjectRole.non_member
             non_member.add_permission! permission
             final_setup_step
           end
@@ -394,7 +394,7 @@ RSpec.describe User, 'allowed_to?' do
 
     context 'when the non-member role has the permission' do
       before do
-        Role.non_member.add_permission! permission
+        ProjectRole.non_member.add_permission! permission
       end
 
       it { expect(user).to be_allowed_to(permission, nil, global: true) }
@@ -455,7 +455,7 @@ RSpec.describe User, 'allowed_to?' do
 
           context 'with the non-member having the permission' do
             before do
-              Role.non_member.add_permission! permission
+              ProjectRole.non_member.add_permission! permission
             end
 
             it do

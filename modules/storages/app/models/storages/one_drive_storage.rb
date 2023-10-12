@@ -44,7 +44,11 @@ module Storages
     end
 
     def uri
-      URI('https://graph.microsoft.com').normalize
+      @uri ||= URI('https://graph.microsoft.com').normalize
+    end
+
+    def connect_src
+      %w[https://*.sharepoint.com https://*.up.1drv.com]
     end
 
     def open_link

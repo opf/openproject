@@ -45,7 +45,7 @@ RSpec.describe 'API v3 Work package resource',
            project:,
            description: 'lorem ipsum')
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions work_package_assigned] }
   let(:type) { create(:type) }
 
@@ -83,7 +83,7 @@ RSpec.describe 'API v3 Work package resource',
       end
 
       context 'no permission to edit the work package' do
-        let(:role) { create(:role, permissions: [:view_work_packages]) }
+        let(:role) { create(:project_role, permissions: %i[view_work_packages add_work_package_attachments]) }
         let(:current_user) do
           create(:user,
                  member_in_project: work_package.project,
@@ -404,7 +404,7 @@ RSpec.describe 'API v3 Work package resource',
           create(:member,
                  user: current_user,
                  project: target_project,
-                 roles: [create(:role, permissions: member_permissions)])
+                 roles: [create(:project_role, permissions: member_permissions)])
 
           allow(User).to receive(:current).and_return current_user
         end
@@ -467,7 +467,7 @@ RSpec.describe 'API v3 Work package resource',
 
         shared_context 'setup group membership' do
           let(:group) { create(:group) }
-          let(:group_role) { create(:role, permissions: %i[work_package_assigned]) }
+          let(:group_role) { create(:project_role, permissions: %i[work_package_assigned]) }
           let!(:group_member) do
             create(:member,
                    principal: group,

@@ -162,7 +162,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
 
     context 'as a user without project permission' do
       before do
-        Role.non_member.update_attribute :permissions, [:view_project]
+        ProjectRole.non_member.update_attribute :permissions, [:view_project]
       end
 
       it 'does not display new_project' do

@@ -914,7 +914,7 @@ ru:
           attributes:
             roles:
               ungrantable: "имеет неназначаемую роль."
-              more_than_one: "has more than one role."
+              more_than_one: "имеет более чем одну роль."
             principal:
               unassignable: "не может быть присвоен проекту."
         version:
@@ -1302,14 +1302,14 @@ ru:
         other: "%{count} минут"
       x_minutes_abbreviated:
         one: "1 мин"
-        few: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} mins"
+        few: "%{count} минут"
+        many: "%{count} минут"
+        other: "%{count} минут"
       x_hours:
         one: "1 час"
-        few: "%{count} hours"
-        many: "%{count} hours"
-        other: "%{count} hours"
+        few: "%{count} часов"
+        many: "%{count} часов"
+        other: "%{count} часов"
       x_hours_abbreviated:
         one: "1 ч"
         few: "%{count} hrs"
@@ -2243,7 +2243,7 @@ ru:
         assigned: 'Назначено'
         responsible: 'Подотчетный'
         mentioned: 'Упомянутые'
-        shared: 'Shared'
+        shared: 'Общий доступ'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
         date_alert_start_date: 'Дата оповещения'
@@ -2252,12 +2252,12 @@ ru:
       updated_at: 'Обновлено в %{timestamp} пользователем %{user}'
     sharing:
       work_packages:
-        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
-        open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
-        see_in_open_project: 'See work package in OpenProject'
-        subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        allowed_actions: 'Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта.'
+        open_work_package: 'Открыть пакет работ'
+        reason: 'поделился с вами следующим пакетом работ с %{role_rights} правами:'
+        see_in_open_project: 'Посмотреть пакет работ в OpenProject'
+        subject: 'Вам предоставили общий доступ к пакету работ #%{id}'
+        summary: '%{user} поделился с вами пакетом работ'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
@@ -2429,6 +2429,8 @@ ru:
   permission_add_work_packages: "Добавление пакетов работ"
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создание проектов"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Архивировать проект"
   permission_create_user: "Создать пользователей"
   permission_manage_user: "Изменить пользователей"
@@ -3055,20 +3057,23 @@ ru:
       title: "Удалить пакет работ"
     sharing:
       count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
-      invite: "Invite"
-      label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user or email address"
+        zero: "0 пользователей"
+        one: "1 пользователь"
+        other: "%{count} пользователей"
+      invite: "Пригласить"
+      label_search: "Искать пользователей для приглашения"
+      label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
       permissions:
-        comment: "Comment"
-        denied: "You don't have permissions to share work packages."
-        edit: "Edit"
-        view: "View"
-      remove: "Remove"
-      text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+        comment: "Комментарий"
+        comment_description: "Can view and comment this work package."
+        denied: "У вас нет прав на предоставление общего доступа к пакетам работ."
+        edit: "Правка"
+        edit_description: "Can view, comment and edit this work package."
+        view: "Просмотр"
+        view_description: "Can view this work package."
+      remove: "Удалить"
+      text_empty_state_description: "Пакет работ еще не передан никому."
+      text_empty_state_header: "Нет общих пользователей"
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.

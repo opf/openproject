@@ -38,7 +38,7 @@ RSpec.describe ApplicationHelper do
     let(:project) { create(:valid_project) }
     let(:identifier) { project.identifier }
     let(:role) do
-      create(:role, permissions: %i[
+      create(:project_role, permissions: %i[
                view_work_packages edit_work_packages view_documents browse_repository view_changesets view_wiki_pages
              ])
     end

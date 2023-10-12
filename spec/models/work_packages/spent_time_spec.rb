@@ -68,15 +68,15 @@ RSpec.describe WorkPackage, 'spent_time' do
            project: other_project)
   end
   let(:role) do
-    build(:role,
+    build(:project_role,
           permissions: %i[view_time_entries view_work_packages])
   end
   let(:role_without_view_time_entries) do
-    build(:role,
+    build(:project_role,
           permissions: [:view_work_packages])
   end
   let(:role_without_view_work_packages) do
-    build(:role,
+    build(:project_role,
           permissions: [:view_time_entries])
   end
   let(:user) do

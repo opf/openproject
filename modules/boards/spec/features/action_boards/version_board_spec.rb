@@ -45,8 +45,8 @@ RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
   let(:type) { create(:type_standard) }
   let!(:priority) { create(:default_priority) }
   let!(:status) { create(:default_status) }
-  let(:role) { create(:role, permissions:) }
-  let(:role_board_manager) { create(:role, permissions: permissions_board_manager) }
+  let(:role) { create(:project_role, permissions:) }
+  let(:role_board_manager) { create(:project_role, permissions: permissions_board_manager) }
 
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:second_project) { create(:project) }
@@ -310,7 +310,7 @@ RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
              member_in_projects: [project],
              member_through_role: no_version_edit_role)
     end
-    let(:no_version_edit_role) { create(:role, permissions: no_version_edit_permissions) }
+    let(:no_version_edit_role) { create(:project_role, permissions: no_version_edit_permissions) }
     let(:no_version_edit_permissions) do
       %i[show_board_views manage_board_views add_work_packages manage_versions
          edit_work_packages view_work_packages manage_public_queries]

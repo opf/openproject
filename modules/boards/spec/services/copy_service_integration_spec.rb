@@ -39,7 +39,7 @@ RSpec.describe Projects::CopyService, 'integration', type: :model do
   let(:board_copy) { board_copies.first }
   let!(:source) { create(:project, enabled_module_names: %w[boards work_package_tracking]) }
   let(:query) { board_view.contained_queries.first }
-  let(:role) { create(:role, permissions: %i[copy_projects]) }
+  let(:role) { create(:project_role, permissions: %i[copy_projects]) }
   let(:instance) do
     described_class.new(source:, user: current_user)
   end

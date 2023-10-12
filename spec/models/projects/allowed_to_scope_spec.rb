@@ -46,7 +46,7 @@ RSpec.describe Project, 'allowed to' do
   let(:project_status) { true }
 
   let(:role) do
-    build(:role,
+    build(:project_role,
           permissions:)
   end
   let(:anonymous_role) do
@@ -242,6 +242,14 @@ RSpec.describe Project, 'allowed to' do
     context 'without the project module being active' do
       before do
         project.enabled_modules = []
+      end
+
+      it_behaves_like 'is empty'
+    end
+
+    context 'with the user being locked' do
+      before do
+        user.update!(status: Principal.statuses[:locked])
       end
 
       it_behaves_like 'is empty'

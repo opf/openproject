@@ -52,7 +52,7 @@ RSpec.describe 'API v3 time_entry resource' do
   let(:work_package) { create(:work_package) }
   let(:other_work_package) { create(:work_package) }
   let(:other_project) { other_work_package.project }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_time_entries view_work_packages) }
   let(:custom_field) { create(:time_entry_custom_field) }
   let(:custom_value) do

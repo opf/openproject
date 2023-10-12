@@ -107,7 +107,13 @@ module Storages
     end
 
     def uri
-      URI(host).normalize
+      return unless host
+
+      @uri ||= URI(host).normalize
+    end
+
+    def connect_src
+      ["#{uri.scheme}://#{uri.host}"]
     end
 
     def open_link

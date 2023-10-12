@@ -36,7 +36,7 @@ RSpec.describe 'API v3 Work package resource',
   shared_let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[add_work_packages view_project view_work_packages] + extra_permissions }
   let(:extra_permissions) { [] }
 

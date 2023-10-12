@@ -66,7 +66,7 @@ module Storages
             case response
             when Net::HTTPSuccess
               upload_url = MultiJson.load(response.body, symbolize_keys: true)[:uploadUrl]
-              ServiceResult.success(result: ::Storages::UploadLink.new(URI(upload_url)))
+              ServiceResult.success(result: ::Storages::UploadLink.new(URI(upload_url), :put))
             when Net::HTTPNotFound
               ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
             when Net::HTTPUnauthorized
@@ -77,7 +77,7 @@ module Storages
           end
 
           def uri_path_for(folder, filename)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{folder}:/#{filename}:/createUploadSession"
+            "/v1.0/drives/#{@storage.drive_id}/items/#{folder}:/#{URI.encode_uri_component(filename)}:/createUploadSession"
           end
         end
       end

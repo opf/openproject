@@ -30,7 +30,7 @@
 #
 #   project = create(:project)
 #   user    = create(:user)
-#   role    = create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
+#   role    = create(:project_role, permissions: [:view_wiki_pages, :edit_wiki_pages])
 #
 #   member = create(:member, user: user, project: project, roles: [role])
 

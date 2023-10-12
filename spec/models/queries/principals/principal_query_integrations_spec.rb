@@ -39,7 +39,7 @@ RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
 
   context 'with a member filter' do
     let(:project) { create(:project, public: true) }
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
     let(:project_user) do
       create(:user,
              member_in_project: project,

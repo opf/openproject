@@ -33,7 +33,7 @@ RSpec.describe PlaceholderUsers::MembershipsController do
   shared_let(:placeholder_user) { create(:placeholder_user) }
   shared_let(:anonymous) { create(:anonymous) }
   shared_let(:project) { create(:project) }
-  shared_let(:role) { create(:role) }
+  shared_let(:role) { create(:project_role) }
 
   shared_examples 'update memberships flow' do
     it 'works' do

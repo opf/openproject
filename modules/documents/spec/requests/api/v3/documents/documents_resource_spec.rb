@@ -40,7 +40,7 @@ RSpec.describe 'API v3 documents resource' do
   let(:invisible_document) { create(:document, project: other_project) }
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_documents) }
 
   subject(:response) { last_response }

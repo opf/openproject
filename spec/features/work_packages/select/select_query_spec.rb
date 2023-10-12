@@ -31,7 +31,7 @@ require 'features/work_packages/work_packages_page'
 
 RSpec.describe 'Query selection' do
   let(:project) { create(:project, identifier: 'test_project', public: false) }
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:current_user) do
     create(:user, member_in_project: project,
                   member_through_role: role)

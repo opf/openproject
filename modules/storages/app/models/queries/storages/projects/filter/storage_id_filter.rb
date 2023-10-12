@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,42 +27,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module Queries::Storages::Projects::Filter
+  class StorageIdFilter < ::Queries::Projects::Filters::ProjectFilter
+    include StorageFilterMixin
 
-require 'digest'
+    private
 
-FactoryBot.define do
-  factory :role do
-    permissions { [] }
-    sequence(:name) { |n| "role_#{n}" }
-
-    factory :non_member do
-      name { 'Non member' }
-      builtin { Role::BUILTIN_NON_MEMBER }
-      initialize_with { Role.where(name:).first_or_initialize }
-    end
-
-    factory :anonymous_role do
-      name { 'Anonymous' }
-      builtin { Role::BUILTIN_ANONYMOUS }
-      initialize_with { Role.where(name:).first_or_initialize }
-    end
-
-    factory :existing_role do
-      name { "Role #{Digest::MD5.hexdigest(permissions.map(&:to_s).join('/'))[0..4]}" }
-      permissions { [] }
-
-      initialize_with do
-        role =
-          if Role.exists?(name:)
-            Role.find_by(name:)
-          else
-            Role.create(name:)
-          end
-
-        role.add_permission!(*permissions.reject { |p| role.permissions.include?(p) })
-
-        role
-      end
+    def filter_column
+      'id'
     end
   end
 end

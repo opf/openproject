@@ -28,8 +28,7 @@
 
 class GlobalRole < Role
   def self.givable
-    where(builtin: NON_BUILTIN)
+    super
       .where(type: 'GlobalRole')
-      .order(Arel.sql('position'))
   end
 end

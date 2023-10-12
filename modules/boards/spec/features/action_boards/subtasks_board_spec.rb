@@ -33,7 +33,7 @@ require_relative '../support/board_page'
 RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:user) do
     create(:user,

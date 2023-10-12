@@ -27,7 +27,7 @@
 #++
 module BasicData
   class ProjectRoleSeeder < BaseRoleSeeder
-    self.model_class = Role
+    self.model_class = ProjectRole
     self.seed_data_model_key = 'project_roles'
   end
 end

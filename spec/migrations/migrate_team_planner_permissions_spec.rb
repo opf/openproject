@@ -64,7 +64,7 @@ RSpec.describe MigrateTeamPlannerPermissions, type: :model do
   end
 
   context 'for a role not eligible to view_team_planner' do
-    let!(:role) { create(:role, permissions: %i[permission1 permission2]) }
+    let!(:role) { create(:project_role, permissions: %i[permission1 permission2]) }
 
     it_behaves_like 'not changing permissions'
     it_behaves_like 'migration is idempotent'
@@ -72,7 +72,7 @@ RSpec.describe MigrateTeamPlannerPermissions, type: :model do
 
   context 'for a role eligible to view_team_planner' do
     let(:permissions) { %i[view_work_packages permission1 permission2] }
-    let!(:role) { create(:role, permissions:) }
+    let!(:role) { create(:project_role, permissions:) }
 
     it_behaves_like 'adding permissions', %i[view_team_planner]
     it_behaves_like 'migration is idempotent'
@@ -80,7 +80,7 @@ RSpec.describe MigrateTeamPlannerPermissions, type: :model do
 
   context 'for a role with view_team_planner' do
     let(:permissions) { %i[view_team_planner view_work_packages permission1 permission2] }
-    let!(:role) { create(:role, permissions:) }
+    let!(:role) { create(:project_role, permissions:) }
 
     it_behaves_like 'not changing permissions'
     it_behaves_like 'migration is idempotent'
@@ -91,7 +91,7 @@ RSpec.describe MigrateTeamPlannerPermissions, type: :model do
       %i[view_team_planner view_work_packages edit_work_packages
          save_queries manage_public_queries permission1 permission2]
     end
-    let!(:role) { create(:role, permissions:) }
+    let!(:role) { create(:project_role, permissions:) }
 
     it_behaves_like 'not changing permissions'
     it_behaves_like 'migration is idempotent'
@@ -102,7 +102,7 @@ RSpec.describe MigrateTeamPlannerPermissions, type: :model do
       %i[view_team_planner view_work_packages add_work_packages edit_work_packages
          save_queries manage_public_queries permission1 permission2]
     end
-    let!(:role) { create(:role, permissions:) }
+    let!(:role) { create(:project_role, permissions:) }
 
     it_behaves_like 'adding permissions', %i[manage_team_planner]
     it_behaves_like 'migration is idempotent'
@@ -113,7 +113,7 @@ RSpec.describe MigrateTeamPlannerPermissions, type: :model do
       %i[view_work_packages add_work_packages edit_work_packages
          save_queries manage_public_queries permission1 permission2]
     end
-    let!(:role) { create(:role, permissions:) }
+    let!(:role) { create(:project_role, permissions:) }
 
     it_behaves_like 'adding permissions', %i[manage_team_planner view_team_planner]
     it_behaves_like 'migration is idempotent'
@@ -124,7 +124,7 @@ RSpec.describe MigrateTeamPlannerPermissions, type: :model do
       %i[manage_team_planner view_team_planner view_work_packages add_work_packages
          edit_work_packages save_queries manage_public_queries permission1 permission2]
     end
-    let!(:role) { create(:role, permissions:) }
+    let!(:role) { create(:project_role, permissions:) }
 
     it_behaves_like 'not changing permissions'
     it_behaves_like 'migration is idempotent'

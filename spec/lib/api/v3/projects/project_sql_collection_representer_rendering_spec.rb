@@ -48,7 +48,7 @@ RSpec.describe API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' d
     create(:project)
   end
 
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
 
   let(:select) do
     { '*' => {}, 'elements' => { '*' => {} } }

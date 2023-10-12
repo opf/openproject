@@ -28,7 +28,7 @@ require 'spec_helper'
 
 RSpec.describe Roles::BaseContract do
   let(:work_package_role) { build_stubbed(:work_package_role) }
-  let(:member_role) { build_stubbed(:role) }
+  let(:member_role) { build_stubbed(:project_role) }
   let(:global_role) { build_stubbed(:global_role) }
   let(:anonymous_role) { build_stubbed(:anonymous_role) }
   let(:current_user) { build_stubbed(:admin) }

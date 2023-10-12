@@ -15,7 +15,7 @@ RSpec.describe "multi select custom values",
 
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
-  shared_let(:role) { create(:role) }
+  shared_let(:role) { create(:project_role) }
 
   shared_let(:custom_field) do
     create(

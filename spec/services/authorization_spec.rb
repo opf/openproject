@@ -174,8 +174,13 @@ RSpec.describe Authorization do
         let(:raise_on_unknown) { false }
 
         it 'warns and returns an empty array' do
-          expect(Rails.logger).to receive(:warn).with(/Used permission "#{action}" that is not defined./)
+          allow(Rails.logger).to receive(:debug)
+
           expect(subject).to be_empty
+
+          expect(Rails.logger).to have_received(:debug) do |_, &block|
+            expect(block.call).to include("Used permission \"#{action}\" that is not defined.")
+          end
         end
       end
 
@@ -183,8 +188,13 @@ RSpec.describe Authorization do
         let(:raise_on_unknown) { true }
 
         it 'warns and raises' do
-          expect(Rails.logger).to receive(:warn).with(/Used permission "#{action}" that is not defined./)
+          allow(Rails.logger).to receive(:debug)
+
           expect { subject }.to raise_error(Authorization::UnknownPermissionError)
+
+          expect(Rails.logger).to have_received(:debug) do |_, &block|
+            expect(block.call).to include("Used permission \"#{action}\" that is not defined.")
+          end
         end
       end
     end

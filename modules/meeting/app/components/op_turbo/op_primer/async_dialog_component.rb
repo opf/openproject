@@ -44,19 +44,6 @@ module OpTurbo
         @button_attributes = button_attributes
       end
 
-      def call
-        render(Primer::Box.new(data: stimulus_attributes)) do
-          render(Primer::Alpha::Dialog.new(
-                   id: @id,
-                   title: @title,
-                   size: @size
-                 )) do |dialog|
-            button_partial(dialog)
-            frame_partial
-          end
-        end
-      end
-
       private
 
       def stimulus_attributes
@@ -66,13 +53,6 @@ module OpTurbo
         }
       end
 
-      def button_partial(dialog)
-        dialog.with_show_button(**merged_button_attributes) do |button|
-          button.with_leading_visual_icon(icon: @button_icon) if @button_icon
-          @button_text
-        end
-      end
-
       def merged_button_attributes
         stimuls_action_ref = 'click->op-turbo-op-primer-async-dialog#reinitFrame'
 
@@ -80,24 +60,6 @@ module OpTurbo
         @button_attributes[:data][:action] = stimuls_action_ref
 
         @button_attributes
-      end
-
-      def frame_partial
-        content_tag("turbo-frame",
-                    id: "#{@id}-frame",
-                    loading: :lazy,
-                    src: @src,
-                    data: { 'op-turbo-op-primer-async-dialog-target': "frameElement" }) do
-          loading_state_partial
-        end
-      end
-
-      def loading_state_partial
-        flex_layout(justify_content: :center) do |flex|
-          flex.with_column(my: 5) do
-            render(Primer::Beta::Spinner.new)
-          end
-        end
       end
     end
   end

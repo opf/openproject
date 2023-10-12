@@ -32,7 +32,7 @@ RSpec.describe MembersController do
   shared_let(:admin) { create(:admin) }
   let(:user) { create(:user) }
   let(:project) { create(:project, identifier: 'pet_project') }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let(:member) do
     create(:member, project:,
                     user:,
@@ -77,8 +77,8 @@ RSpec.describe MembersController do
   describe 'update' do
     shared_let(:admin) { create(:admin) }
     let(:project_2) { create(:project) }
-    let(:role_1) { create(:role) }
-    let(:role_2) { create(:role) }
+    let(:role_1) { create(:project_role) }
+    let(:role_2) { create(:project_role) }
     let(:member_2) do
       create(
         :member,
@@ -220,7 +220,7 @@ RSpec.describe MembersController do
              member: { role_ids: [role2.id], user_id: user.id }
            }
     end
-    let(:role2) { create(:role) }
+    let(:role2) { create(:project_role) }
 
     before do
       member

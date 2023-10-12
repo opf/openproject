@@ -47,7 +47,7 @@ RSpec.describe 'boards onboarding tour',
       manage_public_queries
     ]
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:demo_project) do
     create(:project,

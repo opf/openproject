@@ -33,7 +33,7 @@ require_module_spec_helper
 
 RSpec.shared_examples_for 'file_link contract' do
   let(:current_user) { create(:user) }
-  let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
+  let(:role) { create(:project_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { current_user => role }) }
   let(:work_package) { create(:work_package, project:) }
   let(:storage) { create(:nextcloud_storage) }
@@ -67,13 +67,13 @@ RSpec.shared_examples_for 'file_link contract' do
       context 'when empty' do
         let(:file_link_attributes) { { origin_id: '' } }
 
-        include_examples 'contract is invalid', origin_id: :blank
+        include_examples 'contract is invalid', origin_id: %i[blank too_short]
       end
 
       context 'when nil' do
         let(:file_link_attributes) { { origin_id: nil } }
 
-        include_examples 'contract is invalid', origin_id: :blank
+        include_examples 'contract is invalid', origin_id: %i[blank too_short]
       end
 
       context 'when numeric' do
@@ -91,11 +91,11 @@ RSpec.shared_examples_for 'file_link contract' do
       context 'when having non ascii characters' do
         let(:file_link_attributes) { { origin_id: 'Hëllò Wôrłd!' } }
 
-        include_examples 'contract is invalid', origin_id: :invalid
+        include_examples 'contract is valid'
       end
 
       context 'when longer than 100 characters' do
-        let(:file_link_attributes) { { origin_id: '1' * 101 } }
+        let(:file_link_attributes) { { origin_id: '1' * 201 } }
 
         include_examples 'contract is invalid', origin_id: :too_long
       end

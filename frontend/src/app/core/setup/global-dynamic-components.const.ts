@@ -79,10 +79,6 @@ import {
   OpHeaderProjectSelectComponent,
 } from 'core-app/shared/components/header-project-select/header-project-select.component';
 import {
-  ProjectAutocompleterComponent,
-  projectsAutocompleterSelector,
-} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
-import {
   RemoteFieldUpdaterComponent,
   remoteFieldUpdaterSelector,
 } from 'core-app/shared/components/remote-field-updater/remote-field-updater.component';
@@ -255,7 +251,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
-  { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
   { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },

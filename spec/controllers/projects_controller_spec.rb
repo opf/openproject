@@ -68,8 +68,8 @@ RSpec.describe ProjectsController do
     shared_let(:project_d) { create(:project, name: 'Project D', public: true, active: false) }
 
     before do
-      Role.anonymous
-      Role.non_member
+      ProjectRole.anonymous
+      ProjectRole.non_member
 
       login_as(user)
       get 'index'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -31,6 +33,8 @@ class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
 
   resources :storages do
     post &API::V3::Utilities::Endpoints::Create.new(model: Storages::Storage).mount
+
+    get &API::V3::Utilities::Endpoints::Index.new(model: Storages::Storage, scope: -> { visible_storages }).mount
 
     route_param :storage_id, type: Integer, desc: 'Storage id' do
       after_validation do

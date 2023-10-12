@@ -34,7 +34,7 @@ require_relative 'shared_event_gun_examples'
 RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: true do
   context 'with records written to DB' do
     let(:user) { create(:user) }
-    let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
+    let(:role) { create(:project_role, permissions: [:manage_storages_in_project]) }
     let(:project) { create(:project, members: { user => role }) }
     let(:other_project) { create(:project) }
     let(:storage) { create(:one_drive_storage) }

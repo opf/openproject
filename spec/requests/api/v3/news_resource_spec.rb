@@ -50,7 +50,7 @@ RSpec.describe 'API v3 news resource' do
   end
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_news) }
 
   subject(:response) { last_response }

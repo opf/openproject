@@ -39,7 +39,7 @@ RSpec.shared_context 'with a project with an arrangement of custom fields' do
   shared_let(:system_version) { create(:version, sharing: 'system') }
 
   shared_let(:role) do
-    create(:role)
+    create(:project_role)
   end
 
   shared_let(:other_user) do

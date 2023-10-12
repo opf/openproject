@@ -39,11 +39,11 @@ RSpec.describe API::V3::Memberships::MembershipRepresenter, 'rendering' do
   end
   let(:project) { build_stubbed(:project) }
   let(:roles) { [role1, role2] }
-  let(:role1) { build_stubbed(:role) }
+  let(:role1) { build_stubbed(:project_role) }
   let(:member_role1) { build_stubbed(:member_role, role: role1) }
-  let(:role2) { build_stubbed(:role) }
+  let(:role2) { build_stubbed(:project_role) }
   let(:member_role2) { build_stubbed(:member_role, role: role2) }
-  let(:marked_role) { build_stubbed(:role) }
+  let(:marked_role) { build_stubbed(:project_role) }
   let(:marked_member_role) do
     build_stubbed(:member_role, role: marked_role).tap do |mr|
       allow(mr)

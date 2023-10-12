@@ -62,7 +62,7 @@ FactoryBot.define do
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if projects.any?
-        role = evaluator.member_through_role || build(:role,
+        role = evaluator.member_through_role || build(:project_role,
                                                       permissions: evaluator.member_with_permissions || %i[
                                                         view_work_packages edit_work_packages
                                                       ])

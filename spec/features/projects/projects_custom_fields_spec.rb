@@ -226,7 +226,7 @@ RSpec.describe 'Projects custom fields',
     let!(:invisible_user) { create(:user, firstname: 'Invisible', lastname: 'User') }
     let!(:visible_user) { create(:user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project) }
 
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
 
     let(:modal) do
       Components::Users::InviteUserModal.new project:,
