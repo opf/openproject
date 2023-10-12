@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Storages::Admin
+module Storages::Admin::Forms
   class StorageGeneralInfoFormComponent < ApplicationComponent
     # include OpTurbo::Frameable
     include OpPrimer::ComponentHelpers
