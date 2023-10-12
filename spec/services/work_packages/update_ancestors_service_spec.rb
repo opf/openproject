@@ -80,7 +80,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                  ignore_non_working_days:)
         end
       end
-      let(:parent) { create(:work_package, status: open_status) }
+
+      shared_let(:parent) { create(:work_package, status: open_status) }
 
       subject do
         # In the call we only use estimated_hours (instead of also adding
@@ -213,18 +214,18 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context 'for the previous ancestors' do
-      let(:sibling_status) { open_status }
-      let(:sibling_done_ratio) { 50 }
-      let(:sibling_estimated_hours) { 7.0 }
+      shared_let(:sibling_status) { open_status }
+      shared_let(:sibling_done_ratio) { 50 }
+      shared_let(:sibling_estimated_hours) { 7.0 }
 
-      let!(:grandparent) do
+      shared_let(:grandparent) do
         create(:work_package)
       end
-      let!(:parent) do
+      shared_let(:parent) do
         create(:work_package,
                parent: grandparent)
       end
-      let!(:sibling) do
+      shared_let(:sibling) do
         create(:work_package,
                parent:,
                status: sibling_status,
@@ -232,7 +233,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                done_ratio: sibling_done_ratio)
       end
 
-      let!(:work_package) do
+      shared_let(:work_package) do
         create(:work_package,
                parent:)
       end
@@ -283,18 +284,18 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context 'for new ancestors' do
-      let(:status) { open_status }
-      let(:done_ratio) { 50 }
-      let(:estimated_hours) { 7.0 }
+      shared_let(:status) { open_status }
+      shared_let(:done_ratio) { 50 }
+      shared_let(:estimated_hours) { 7.0 }
 
-      let!(:grandparent) do
+      shared_let(:grandparent) do
         create(:work_package)
       end
-      let!(:parent) do
+      shared_let(:parent) do
         create(:work_package,
                parent: grandparent)
       end
-      let!(:work_package) do
+      shared_let(:work_package) do
         create(:work_package,
                status:,
                estimated_hours:,
@@ -369,26 +370,26 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context 'with old and new parent having a common ancestor' do
-      let(:status) { open_status }
-      let(:done_ratio) { 50 }
-      let(:estimated_hours) { 7.0 }
+      shared_let(:status) { open_status }
+      shared_let(:done_ratio) { 50 }
+      shared_let(:estimated_hours) { 7.0 }
 
-      let!(:grandparent) do
+      shared_let(:grandparent) do
         create(:work_package,
                derived_estimated_hours: estimated_hours,
                done_ratio:)
       end
-      let!(:old_parent) do
+      shared_let(:old_parent) do
         create(:work_package,
                parent: grandparent,
                derived_estimated_hours: estimated_hours,
                done_ratio:)
       end
-      let!(:new_parent) do
+      shared_let(:new_parent) do
         create(:work_package,
                parent: grandparent)
       end
-      let!(:work_package) do
+      shared_let(:work_package) do
         create(:work_package,
                parent: old_parent,
                status:,
@@ -587,7 +588,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns the former ancestors in the dependent results' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array []
+          .to be_empty
       end
 
       it 'sets the ignore_non_working_days property of the new ancestors' do

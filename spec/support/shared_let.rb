@@ -59,7 +59,7 @@ def shared_association_default(key, factory_name: key, &block)
   # unique let identifier to prevent clashes
   let_it_be(key, reload: true, &block)
 
-  before do
+  before_all do
     set_factory_default(factory_name, send(key))
   end
 end
