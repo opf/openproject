@@ -9,7 +9,7 @@
   appendTo="body"
   [value]="value"
   [id]="handler.htmlId"
-  (valueChange)="onModelChange($event)"
+  (change)="onModelChange($event)"
   (cancel)="handler.handleUserCancel()"
   (userInvited)="onModelChange($event)"
 ></op-user-autocompleter>
