@@ -67,7 +67,7 @@ RSpec.shared_examples 'it supports direct uploads' do
       end
     end
 
-    context 'with remote AWS storage', with_direct_uploads: true do
+    context 'with remote AWS storage', :with_direct_uploads do
       before do
         request!
       end
@@ -186,7 +186,7 @@ RSpec.shared_examples 'it supports direct uploads' do
   end
 end
 
-RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type: :request do |include_by_container = true|
+RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type: :request do |include_by_container: true|
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers
@@ -210,7 +210,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
   let(:attachment_type) { raise "attachment type goes here, e.g. work_package" }
   let(:permissions) { all_permissions }
 
-  let(:all_permissions) { Array([create_permission, read_permission, update_permission]).flatten.compact }
+  let(:all_permissions) { [create_permission, read_permission, update_permission].flatten.compact }
 
   let(:create_permission) { raise "permissions go here, e.g. add_work_packages" }
   let(:read_permission) { raise "permissions go here, e.g. view_work_packages" }
