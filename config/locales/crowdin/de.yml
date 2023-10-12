@@ -2368,6 +2368,8 @@ de:
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekte erstellen"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Projekt archivieren"
   permission_create_user: "Benutzer erstellen"
   permission_manage_user: "Benutzer bearbeiten"

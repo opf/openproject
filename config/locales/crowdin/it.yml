@@ -2370,6 +2370,8 @@ it:
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
   permission_add_messages: "Postare messaggi"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archivia progetto"
   permission_create_user: "Crea utenti"
   permission_manage_user: "Modifica gli utenti"

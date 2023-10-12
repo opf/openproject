@@ -2373,6 +2373,8 @@ fr:
   permission_add_work_packages: "Ajouter des lots de travaux"
   permission_add_messages: "Poster des messages"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archiver le projet"
   permission_create_user: "Créer des utilisateurs"
   permission_manage_user: "Modifier les utilisateurs"

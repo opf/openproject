@@ -2369,6 +2369,8 @@ tr:
   permission_add_work_packages: "İş paketi eklemek"
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Projeyi arşivle"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"

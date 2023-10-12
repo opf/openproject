@@ -2427,6 +2427,8 @@ pl:
   permission_add_work_packages: "Dodawanie pakietów roboczych"
   permission_add_messages: "Wysyłanie wiadomości"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archiwizuj projekt"
   permission_create_user: "Utwórz użytkowników"
   permission_manage_user: "Edytuj użytkowników"

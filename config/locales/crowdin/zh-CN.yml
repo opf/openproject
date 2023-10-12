@@ -2336,6 +2336,8 @@ zh-CN:
   permission_add_work_packages: "添加工作包"
   permission_add_messages: "发布消息"
   permission_add_project: "创建项目"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "归档项目"
   permission_create_user: "创建用户"
   permission_manage_user: "编辑用户"

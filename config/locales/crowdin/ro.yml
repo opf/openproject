@@ -2401,6 +2401,8 @@ ro:
   permission_add_work_packages: "Adăugare pachete de lucru"
   permission_add_messages: "Publicare mesaje"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Proiect de arhivă"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"

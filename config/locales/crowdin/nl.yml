@@ -2369,6 +2369,8 @@ nl:
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Project archiveren"
   permission_create_user: "Gebruikers aanmaken"
   permission_manage_user: "Gebruikers bewerken"

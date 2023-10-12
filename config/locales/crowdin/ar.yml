@@ -2489,6 +2489,8 @@ ar:
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"

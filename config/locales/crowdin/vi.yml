@@ -2346,6 +2346,8 @@ vi:
   permission_add_work_packages: "Thêm mới Gói công việc"
   permission_add_messages: "Đăng tin nhắn"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"

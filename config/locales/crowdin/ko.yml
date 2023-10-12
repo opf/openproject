@@ -2342,6 +2342,8 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "프로젝트 보관"
   permission_create_user: "사용자 만들기"
   permission_manage_user: "사용자 편집"

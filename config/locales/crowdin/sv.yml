@@ -2372,6 +2372,8 @@ sv:
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
   permission_add_project: "Skapa projekt"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Arkivera projekt"
   permission_create_user: "Skapa användare"
   permission_manage_user: "Redigera användare"
