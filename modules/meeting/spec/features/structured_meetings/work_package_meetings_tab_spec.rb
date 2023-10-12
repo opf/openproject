@@ -32,8 +32,7 @@ require_relative '../../support/pages/work_package_meetings_tab'
 RSpec.describe 'Open the Meetings tab', :js do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:role) do
     create(:project_role,
@@ -277,8 +276,7 @@ RSpec.describe 'Open the Meetings tab', :js do
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: restricted_role)
+               member_with_roles: { project => restricted_role })
       end
 
       it 'does not show the add to meeting button' do

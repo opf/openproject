@@ -79,7 +79,7 @@ FactoryBot.define do
       end
 
       if evaluator.global_permissions.present?
-        global_role = create(:global_role, permissions: evaluator.global_permissions)
+        global_role = create(:global_role, permissions: Array(evaluator.global_permissions))
         create(:global_member, principal:, roles: [global_role])
       end
 

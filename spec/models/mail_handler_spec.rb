@@ -178,7 +178,7 @@ RSpec.describe MailHandler do
     let!(:user) do
       create(:user,
              mail: 'j.doe@openproject.org',
-             member_with_permissions: { project => permissions })
+             member_with_roles: { project => role })
     end
 
     let!(:work_package) do

@@ -98,7 +98,7 @@ RSpec.shared_examples 'global user principal membership management flows' do |pe
   context 'as user with global and project permissions, but not manage_members' do
     current_user do
       create(:user,
-             global_permission: permission,
+             global_permissions: permission,
              member_with_permissions: { project => %i[view_work_packages] })
     end
 
