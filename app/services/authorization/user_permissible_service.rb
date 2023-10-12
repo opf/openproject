@@ -51,8 +51,8 @@ module Authorization
                                      context_name(entity_class))
       return true if admin_and_all_granted_to_admin?(perms)
 
-      # WorkPackage.allowed_to will also check whether the user has the permission via a membership in the project.
-      allowed_scope = WorkPackage.allowed_to(user, perms)
+      # entity_class.allowed_to will also check whether the user has the permission via a membership in the project.
+      allowed_scope = entity_class.allowed_to(user, perms)
 
       if in_project
         allowed_scope.exists?(project: in_project)
