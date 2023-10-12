@@ -196,15 +196,4 @@ class Storages::Admin::StoragesController < ApplicationController
       :storages_storage
     end
   end
-
-  class ServiceResultErrorsPresenter < SimpleDelegator
-    attr_reader :service_result
-
-    def initialize(service_result)
-      super(service_result.result)
-      @service_result = service_result
-    end
-
-    delegate :errors, to: :service_result
-  end
 end
