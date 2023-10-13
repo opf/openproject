@@ -36,9 +36,7 @@ RSpec.describe "work package attachments" do
                   update_permission: :edit_work_packages do
     let(:attachment_type) { :work_package }
 
-    shared_let(:work_package) do
-      create(:work_package, project:)
-    end
+    shared_let(:work_package) { create(:work_package, project:) }
 
     before do
       work_package.update(author: current_user)
@@ -46,16 +44,17 @@ RSpec.describe "work package attachments" do
   end
 
   context 'with :add_work_package_attachments as update permission' do
-    it_behaves_like "an APIv3 attachment resource" do
+    it_behaves_like "an APIv3 attachment resource",
+                    create_permission: :add_work_packages,
+                    read_permission: :view_work_packages,
+                    update_permission: :add_work_package_attachments,
+                    delete_permission: :edit_work_packages do
       let(:attachment_type) { :work_package }
 
-      let(:create_permission) { :add_work_packages }
-      let(:read_permission) { :view_work_packages }
-      let(:update_permission) { :add_work_package_attachments }
-      let(:delete_permission) { :edit_work_packages }
+      shared_let(:work_package) { create(:work_package, project:) }
 
-      let(:work_package) do
-        create(:work_package, author: current_user, project:)
+      before do
+        work_package.update(author: current_user)
       end
     end
   end

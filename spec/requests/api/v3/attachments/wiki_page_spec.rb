@@ -27,17 +27,17 @@
 #++
 
 require 'spec_helper'
-require_relative './attachment_resource_shared_examples'
+require_relative 'attachment_resource_shared_examples'
 
 RSpec.describe "wiki page attachments" do
-  it_behaves_like "an APIv3 attachment resource" do
+  it_behaves_like "an APIv3 attachment resource",
+                  create_permission: nil,
+                  read_permission: :view_wiki_pages,
+                  update_permission: :edit_wiki_pages,
+                  delete_permission: :delete_wiki_pages_attachments do
     let(:attachment_type) { :wiki_page }
 
-    let(:create_permission) { nil }
-    let(:read_permission) { :view_wiki_pages }
-    let(:update_permission) { %i(delete_wiki_pages_attachments edit_wiki_pages) }
-
-    let(:wiki) { create(:wiki, project:) }
-    let(:wiki_page) { create(:wiki_page, wiki:) }
+    shared_let(:wiki) { create(:wiki, project:) }
+    shared_let(:wiki_page) { create(:wiki_page, wiki:) }
   end
 end

@@ -27,22 +27,21 @@
 #++
 
 require 'spec_helper'
-require File.join(Rails.root, 'spec', 'requests', 'api', 'v3', 'attachments', 'attachment_resource_shared_examples')
+require Rails.root.join("spec/requests/api/v3/attachments/attachment_resource_shared_examples").to_s
 
 RSpec.describe "grid attachments" do
   before do
     Grids::Dashboard
   end
 
-  it_behaves_like "an APIv3 attachment resource" do
+  it_behaves_like "an APIv3 attachment resource",
+                  create_permission: :manage_dashboards,
+                  read_permission: :view_dashboards,
+                  update_permission: :manage_dashboards do
     let(:attachment_type) { :grid }
 
-    let(:create_permission) { :manage_dashboards }
-    let(:read_permission) { :view_dashboards }
-    let(:update_permission) { :manage_dashboards }
+    shared_let(:grid) { create(:dashboard, project:) }
 
-    let(:grid) { create(:dashboard, project:) }
-
-    let(:missing_permissions_user) { create(:user) }
+    # let(:missing_permissions_user) { create(:user) }
   end
 end
