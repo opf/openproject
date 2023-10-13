@@ -146,12 +146,12 @@ See COPYRIGHT and LICENSE files for more details.
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=t(:label_available_projects)%></legend>
           <% principal_project_ids = @individual_principal.projects.ids  %>
-          <% filter = [['active', '=', 't']] %>
-          <% filter << ['id', '!', principal_project_ids.map(&:to_s)] if principal_project_ids.any? %>
+          <% filter = [{ name: 'active', operator: '=', values: ['t'] }] %>
+          <% filter << { name: 'id', operator: '!', values: principal_project_ids.map(&:to_s)} if principal_project_ids.any? %>
           <%= angular_component_tag 'opce-project-autocompleter',
                                     inputs: {
-                                      apiFilters: filter,
-                                      name: 'membership[project_id]'
+                                      filters: filter,
+                                      inputName: 'membership[project_id]'
                                     },
                                     data: {
                                       'test-selector': 'membership_project_id'

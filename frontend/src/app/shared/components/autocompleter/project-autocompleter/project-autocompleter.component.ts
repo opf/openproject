@@ -51,7 +51,6 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { ID } from '@datorama/akita';
-import { listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { IProjectAutocompleteItem } from './project-autocomplete-item';
 import { flattenProjectTree } from './flatten-project-tree';
 import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
@@ -62,6 +61,7 @@ import { recursiveSort } from 'core-app/shared/components/autocompleter/project-
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { ProjectAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter-template.component';
+import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
@@ -170,31 +170,16 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
     }
     return getPaginatedResults<IProject>(
       (params) => {
-        const filterObject = _.keyBy(this.filters, 'selector');
-        const searchFilters = ApiV3FilterBuilder.fromFilterObject(filterObject);
 
-        if (searchTerm?.length) {
-          searchFilters.add('typeahead', '**', [searchTerm]);
-        }
+        const filteredURL = this.buildFilteredURL(searchTerm);
 
-        const url = new URL(this.url, window.location.origin);
-        const fullParams = {
-          searchFilters,
-          select: [
-            'elements/id',
-            'elements/name',
-            'elements/identifier',
-            'elements/self',
-            'elements/ancestors',
-            'total',
-            'count',
-            'pageSize',
-          ],
-          ...params,
-        };
-        const collectionURL = `${listParamsString(fullParams)}&${url.searchParams.toString()}`;
-        url.search = '';
-        return this.http.get<IHALCollection<IProject>>(url.toString() + collectionURL);
+        filteredURL.searchParams.set('pageSize', params.pageSize?.toString() || '-1');
+        filteredURL.searchParams.set('offset', params.offset?.toString() || '1');
+        filteredURL.searchParams.set('select', 'elements/id,elements/name,elements/identifier,elements/self,elements/ancestors,total,count,pageSize');
+
+        return this
+          .http
+          .get<IHALCollection<IProject>>(filteredURL.toString());
       },
     )
       .pipe(
@@ -221,5 +206,17 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
           ),
         ),
       );
+  }
+
+  // Todo: Reduce duplication with method from user-autocompleter
+  protected buildFilteredURL(searchTerm?:string):URL {
+    const filterObject = _.keyBy(this.filters, 'name');
+    const searchFilters = ApiV3FilterBuilder.fromFilterObject(filterObject);
+
+    if (searchTerm?.length) {
+      searchFilters.add('typeahead', '**', [searchTerm]);
+    }
+
+    return addFiltersToPath(this.url, searchFilters);
   }
 }

@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field-container">
       <%= angular_component_tag 'opce-project-autocompleter',
                                 inputs: {
-                                  filters: [{ selector: 'user_action', operator: '=', values: ['calendars/create'] }],
+                                  filters: [{ name: 'user_action', operator: '=', values: ['calendars/create'] }],
                                   name: 'project_id',
                                   model: @project,
                                   appendTo: 'body',
