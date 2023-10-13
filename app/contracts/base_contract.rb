@@ -175,6 +175,7 @@ class BaseContract < Disposable::Twin
     end
   end
 
+  # TODO: check if this can be removed
   # use activerecord as the base scope instead of 'activemodel' to be compatible
   # to the messages we have already stored
   def self.i18n_scope
