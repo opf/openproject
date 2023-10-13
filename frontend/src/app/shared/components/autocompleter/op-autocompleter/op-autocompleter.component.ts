@@ -101,6 +101,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public inputBindValue = 'id';
 
+  @Input() public hiddenFieldAction = '';
+
   @Input() public required?:boolean = false;
 
   @Input() public disabled?:string;
@@ -203,6 +205,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   @Output() public open = new EventEmitter<unknown>();
 
   @Output() public close = new EventEmitter<unknown>();
+
+  @Output() public cancel = new EventEmitter<unknown>();
 
   @Output() public change = new EventEmitter<unknown>();
 

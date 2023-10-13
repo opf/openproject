@@ -28,31 +28,30 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   forwardRef,
   HostBinding,
-  Injector,
   Input,
+  OnInit,
   Output,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { merge, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
+import {
+  merge,
+  Observable,
+  of,
+} from 'rxjs';
+import {
+  map,
+  switchMap,
+} from 'rxjs/operators';
 import { ID } from '@datorama/akita';
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3ListFilter, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
-
+import { listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { IProjectAutocompleteItem } from './project-autocomplete-item';
 import { flattenProjectTree } from './flatten-project-tree';
 import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
@@ -60,6 +59,8 @@ import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { buildTree } from 'core-app/shared/components/autocompleter/project-autocompleter/insert-in-list';
 import { recursiveSort } from 'core-app/shared/components/autocompleter/project-autocompleter/recursive-sort';
+import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
@@ -81,7 +82,7 @@ export interface IProjectAutocompleterData {
     multi: true,
   }],
 })
-export class ProjectAutocompleterComponent implements ControlValueAccessor {
+export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IProjectAutocompleterData> implements OnInit, ControlValueAccessor {
   @HostBinding('class.op-project-autocompleter') public className = true;
 
   @HostBinding('class.op-project-autocompleter_inline')
@@ -89,40 +90,10 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     return this.isInlineContext;
   }
 
-  projectTracker = (item:IProjectAutocompleteItem):ID => item.href || item.id;
-
   // Load all projects as default
   @Input() public url:string = this.apiV3Service.projects.path;
 
-  @Input() public name = '';
-
-  @Input() public focusDirectly = false;
-
-  @Input() public openDirectly = false;
-
-  @Input() public multiple = false;
-
-  @Input() public dropdownPosition:'bottom'|'top'|'auto' = 'auto';
-
-  // ID that should be set on the input HTML element. It is used with
-  // <label> tags that have `for=""` set
-  @Input() public labelForId = '';
-
-  @Input() public apiFilters:ApiV3ListFilter[] = [];
-
-  @Input() public placeholder:string = this.I18n.t('js.autocompleter.project.placeholder');
-
-  @Input() public appendTo = '';
-
   @Input() public isInlineContext = false;
-
-  @Input() public hiddenFieldAction = '';
-
-  @Input() public clearable?:boolean = true;
-
-  dataLoaded = false;
-
-  projects:IProjectAutocompleteItem[];
 
   // This function allows mapping of the results before they are fed to the tree
   // structuring and destructuring algorithms used internally the this component
@@ -132,31 +103,20 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
   @Input()
   public mapResultsFn:(projects:IProjectAutocompleteItem[]) => IProjectAutocompleteItem[] = (projects) => projects;
 
-  @Input() public value:IProjectAutocompleterData|IProjectAutocompleterData[]|null;
-
-  get plainValue():ID|ID[] {
-    return (Array.isArray(this.value) ? this.value?.map((i) => i.id) : this.value?.id) || '';
-  }
-
   /* eslint-disable-next-line @angular-eslint/no-output-rename */
   @Output('valueChange') valueChange = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();
 
-  @Output() cancel = new EventEmitter();
+  projectTracker = (item:IProjectAutocompleteItem):ID => item.href || item.id;
 
-  @ViewChild('hiddenInput') hiddenInput:ElementRef;
+  dataLoaded = false;
 
-  constructor(
-    public elementRef:ElementRef,
-    protected halResourceService:HalResourceService,
-    protected I18n:I18nService,
-    protected halNotification:HalResourceNotificationService,
-    readonly http:HttpClient,
-    readonly pathHelper:PathHelperService,
-    readonly apiV3Service:ApiV3Service,
-    readonly injector:Injector,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    populateInputsFromDataset(this);
+  projects:IProjectAutocompleteItem[];
+
+  ngOnInit() {
+    super.ngOnInit();
+
+    // TODO
+    // this.applyTemplates(ProjectAutocompleterTemplateComponent, {});
   }
 
   private matchingItems(elements:IProjectAutocompleteItem[], matching:string):Observable<IProjectAutocompleteItem[]> {
@@ -192,7 +152,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
   }
 
   public getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
-    if (this.dataLoaded === true) {
+    if (this.dataLoaded) {
       return this.matchingItems(this.projects, searchTerm).pipe(
         map(this.mapResultsFn),
         map((projects) => projects.sort((a, b) => a.ancestors.length - b.ancestors.length)),
@@ -201,22 +161,23 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
         map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
         switchMap(
           (projects) => merge(of([]), this.valueChange).pipe(
-            map(() => this.disableSelectedItems(projects, this.value)),
+            map(() => this.disableSelectedItems(projects, this.model)),
           ),
         ),
       );
     }
     return getPaginatedResults<IProject>(
       (params) => {
-        const filters:ApiV3ListFilter[] = [...this.apiFilters];
+        const filterObject = _.keyBy(this.filters, 'selector');
+        const searchFilters = ApiV3FilterBuilder.fromFilterObject(filterObject);
 
-        if (searchTerm.length) {
-          filters.push(['typeahead', '**', [searchTerm]]);
+        if (searchTerm?.length) {
+          searchFilters.add('typeahead', '**', [searchTerm]);
         }
 
         const url = new URL(this.url, window.location.origin);
         const fullParams = {
-          filters,
+          searchFilters,
           select: [
             'elements/id',
             'elements/name',
@@ -254,39 +215,9 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
         map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
         switchMap(
           (projects) => merge(of([]), this.valueChange).pipe(
-            map(() => this.disableSelectedItems(projects, this.value)),
+            map(() => this.disableSelectedItems(projects, this.model)),
           ),
         ),
       );
-  }
-
-  projectSelected(value:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-    this.writeValue(value);
-    this.onChange(value);
-    this.onTouched(value);
-    this.valueChange.emit(value);
-    const input = this.hiddenInput.nativeElement as HTMLInputElement|undefined;
-    if (input) {
-      input.value = this.plainValue as string;
-      input.dispatchEvent(new Event('change'));
-    }
-    this.cdRef.detectChanges();
-  }
-
-  writeValue(value:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void {
-    this.value = value;
-  }
-
-  onChange = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
-
-  onTouched = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
-
-  registerOnChange(fn:(_:IProjectAutocompleterData|IProjectAutocompleterData[]|null) => void):void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn:(_:IProjectAutocompleterData|IProjectAutocompleterData[]|null) => void):void {
-    this.onTouched = fn;
   }
 }

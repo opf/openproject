@@ -1,5 +1,9 @@
 <div class="inline-label">
-  <input *ngIf="inputName" [ngModel]="mappedInputValue" type="hidden" [attr.name]="inputName">
+  <input *ngIf="inputName"
+         [ngModel]="mappedInputValue"
+         type="hidden"
+         [attr.name]="inputName"
+         [attr.data-action]="hiddenFieldAction">
   <ng-select
     #ngSelectInstance
     [(ngModel)]="model"

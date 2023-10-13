@@ -1,6 +1,5 @@
 <op-autocompleter
-  [model]="value"
-
+  [model]="model"
   [getOptionsFn]="getAvailableProjects.bind(this)"
   [trackByFn]="projectTracker"
 
@@ -9,13 +8,10 @@
   [openDirectly]="openDirectly"
   [labelForId]="labelForId"
   [placeholder]="placeholder"
-
   [dropdownPosition]="dropdownPosition"
   [clearable]="clearable"
-
   [appendTo]="appendTo"
 
-  (change)="projectSelected($event)"
   (keydown.escape)="cancel.emit()"
 >
   <ng-template
@@ -44,11 +40,3 @@
     >{{ item.disabledReason }}</div>
   </ng-template>
 </op-autocompleter>
-
-<input
-  #hiddenInput
-  [name]="name"
-  type="hidden"
-  [attr.data-action]="hiddenFieldAction"
-  [value]="plainValue"
-/>
