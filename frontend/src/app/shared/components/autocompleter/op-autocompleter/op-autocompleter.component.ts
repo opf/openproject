@@ -412,6 +412,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     this.add.emit(val);
   }
 
+  public canceled(val:unknown):void {
+    this.cancel.emit(val);
+  }
+
   public removed(val:unknown):void {
     this.remove.emit(val);
   }

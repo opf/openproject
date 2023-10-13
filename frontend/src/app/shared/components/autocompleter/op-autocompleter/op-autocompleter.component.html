@@ -63,6 +63,7 @@
     (focus)="focused($event)"
     (clear)="cleared($event)"
     (keydown)="keydowned($event)"
+    (keydown.escape)="canceled($event)"
     (search)="searched($event)"
     (scroll)="scrolled($event)"
     (scrollToEnd)="scrolledToEnd($event)"
