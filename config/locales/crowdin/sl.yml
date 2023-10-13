@@ -429,6 +429,8 @@ sl:
       Vaš račun še ni aktiviran. Prosimo počakajte, da skrbnik aktivira vaš račun.
     error_self_registration_disabled: >
       Registracija uporabnika je v tem sistemu onemogočena. Prosite administratorja, da vam ustvari račun.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "ali se pa prijavite z obstoječim računom."
     signup_with_auth_provider: "ali se prijavite s/z"
     auth_source_login: Prosim prijavite se kot <em>%{login}</em> , da aktivirate svoj račun.

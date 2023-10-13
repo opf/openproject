@@ -429,6 +429,8 @@ lt:
       Jūsų paskyra neaktyvuota. Prašome palaukti, kol administratorius patvirtins Jūsų registraciją.
     error_self_registration_disabled: >
       Naudotojų registracija išjungta šioje sistemoje. Susisiekite su administratoriumi, kad jis sukurtų Jūsų asmeninę paskyrą.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "arba prisijunkite su jau turima paskyra"
     signup_with_auth_provider: "arba prisiregistruokite naudodami"
     auth_source_login: Prisijunkite kaip <em>%{login}</em>, norėdami aktyvuoti savo paskyrą.
@@ -2426,8 +2428,8 @@ lt:
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Kurti projektus"
-  permission_add_work_package_attachments: "Add attachments"
-  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
+  permission_add_work_package_attachments: "Prisegti priedus"
+  permission_add_work_package_attachments_explanation: "Leidžia pridėti priedus be darbo paketo keitimo teisių"
   permission_archive_project: "Archyvuoti projektą"
   permission_create_user: "Kurti naudotojus"
   permission_manage_user: "Keisti naudotojus"

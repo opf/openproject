@@ -429,6 +429,8 @@ tr:
       Hesabınız henüz aktif değil. Lütfen bir yöneticinin hesabınızı aktive etmesi için  bekleyin.
     error_self_registration_disabled: >
       Bu sistemde kullanıcı kaydı yapılması devre dışı bırakılmıştır. Lütfen bir yöneticiden sizin için bir hesap oluşturmasını isteyin.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "veya varolan hesabınızı kullanarak oturum açın"
     signup_with_auth_provider: "veya kullanarak kaydolun"
     auth_source_login: Hesabınızı aktifleştirmek için lütfen <em>%{login}</em> olarak giriş yapın.

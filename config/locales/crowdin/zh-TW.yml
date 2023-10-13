@@ -429,6 +429,8 @@ zh-TW:
       您的帳號尚未啟用。請等待管理員啟用您的帳號。
     error_self_registration_disabled: >
       此系統禁止使用者註冊。請通知管理員為您建立帳號。
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "或使用您的現有帳號登錄"
     signup_with_auth_provider: "或者註冊"
     auth_source_login: 請登入 <em>%{login}</em> 來啟用您的帳號。

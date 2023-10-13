@@ -431,6 +431,8 @@ ru:
       Ваша учетная запись не была активирована. Пожалуйста, подождите пока администратор активирует Вашу учетную запись.
     error_self_registration_disabled: >
       Регистрация пользователя в этой системе отключена. Попросите администратора создать учетную запись для Вас.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "или войдите своей учетной записью"
     signup_with_auth_provider: "Или зарегистрируйтесь с помощью"
     auth_source_login: Пожалуйста, авторизируйтесь как <em>%{login}</em> для активации вашей учетной записи.

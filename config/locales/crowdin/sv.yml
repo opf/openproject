@@ -429,6 +429,8 @@ sv:
       Ditt konto har ännu inte aktiverats. Du måste vänta på att en administratör aktiverar ditt konto.
     error_self_registration_disabled: >
       Användarregistrering är inaktiverat på det här systemet. Be en administratör att skapa ett konto för dig.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "eller logga in med ditt befintliga konto"
     signup_with_auth_provider: "eller registrera dig via"
     auth_source_login: Vänligen logga in som <em>%{login}</em> för att aktivera ditt konto.

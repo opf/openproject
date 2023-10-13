@@ -428,6 +428,8 @@ ko:
       당신의 계정이 아직 활성화되지 않았습니다. 관리자가 계정을 승인할때까지 기다려 주십시오.
     error_self_registration_disabled: >
       사용자 등록은 이 시스템에서 비활성화되어 있습니다. 계정 생성을 원한다면 관리자에게 요청하십시오.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "또는 이미 있는 계정으로 로그인"
     signup_with_auth_provider: "또는 사용 가입하기"
     auth_source_login: <em>%{login}</em> 계정을 활성화하려면 로그인하시기 바랍니다.

@@ -425,6 +425,8 @@ zh-CN:
       您的帐户尚未激活。请等待管理员激活您的帐户。
     error_self_registration_disabled: >
       此系统上禁用了用户注册。请让管理员为您创建帐户。
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "或使用您的现有帐户登录"
     signup_with_auth_provider: "或注册使用"
     auth_source_login: 请使用 <em>%{login}</em> 登录来激活您的帐户，

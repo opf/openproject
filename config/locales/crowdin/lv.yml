@@ -431,6 +431,8 @@ lv:
       Jūsu konts vēl nav aktivizēts. Lūdzu, uzgaidiet, kamēr administrators, aktivizēs Jūsu kontu.
     error_self_registration_disabled: >
       Lietotāja reģistrācija ir atspējota šajā sistēmā. Lūdzu, jautājiet administratoram, lai Jums izveido kontu.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "vai pierakstieties, izmantojot savu esošo kontu"
     signup_with_auth_provider: "vai reģistrējies, izmantojot"
     auth_source_login: Lūdzu, autorizējaties kā <em>%{login}</em>, lai aktivizētu savu kontu.

@@ -432,6 +432,8 @@ cs:
       Váš účet nebyl dosud aktivován. Počkejte, prosím, než správce aktivuje váš účet.
     error_self_registration_disabled: >
       Registrace uživatele je v tomto systému zakázána. Pro vytvoření účtu se prosím obraťte na správce systému.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "nebo se přihlaste pomocí stávajícího účtu"
     signup_with_auth_provider: "nebo se zaregistrujte pomocí"
     auth_source_login: Přihlaste se prosím jako <em>%{login}</em> pro aktivaci vašeho účtu.

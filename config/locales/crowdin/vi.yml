@@ -431,6 +431,8 @@ vi:
       Tài khoản của bạn đã không được nêu ra được kích hoạt. Xin vui lòng chờ cho người quản trị để kích hoạt tài khoản của bạn.
     error_self_registration_disabled: >
       Đăng ký người dùng bị vô hiệu hóa trên hệ thống này. Xin vui lòng hỏi người quản trị để tạo ra một tài khoản cho bạn.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "hoặc đăng nhập bằng tài khoản hiện tại"
     signup_with_auth_provider: "hoặc sử dụng đăng ký"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.

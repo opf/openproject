@@ -425,6 +425,8 @@ ja:
       あなたのアカウントは未だ有効化されていません。管理者がアカウントを有効化するまでにお待ちください。
     error_self_registration_disabled: >
       このシステムでは、ユーザ登録が無効化されています。アカウントを作成するには管理者にお問い合わせください。
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "または、既存のアカウントでログインしてください。"
     signup_with_auth_provider: "もしくはこちらでサインアップ"
     auth_source_login: アカウントをアクティブにするのに<em>%{login}</em>としてログインしてください。
