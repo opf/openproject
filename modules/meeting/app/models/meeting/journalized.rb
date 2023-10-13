@@ -26,24 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  module TouchMeeting
-    extend ActiveSupport::Concern
+module Meeting::Journalized
+  extend ActiveSupport::Concern
 
-    included do
-      private
+  included do
+    acts_as_journalized
 
-      def touch(meeting)
-        # We allow invalid meetings to be saved as
-        # adding the attachments does not change the validity of the meeting
-        # but without that leeway, the user needs to fix the meeting before
-        # the agenda_item can be added.
-        # However we want the meeting to be updated when updating an agenda_item. This is important,
-        # e.g. for invalidating caches and also for journalizing
+    acts_as_event title: Proc.new { |o|
+                           "#{I18n.t(:label_meeting)}: #{o.title} \
+          #{format_date o.start_time} \
+          #{format_time o.start_time, false}-#{format_time o.end_time, false})"
+                         },
+                  url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
+                  author: Proc.new(&:user),
+                  description: ''
 
-        meeting.update_column(:updated_at, Time.current)
-        meeting.save_journals if meeting.respond_to?(:save_journals)
-      end
+    register_journal_formatted_fields(:plaintext, 'title')
+    register_journal_formatted_fields(:fraction, 'duration')
+    register_journal_formatted_fields(:datetime, 'start_time')
+    register_journal_formatted_fields(:plaintext, 'location')
+
+    def touch_and_save_journals
+      update_column(:updated_at, Time.current)
+      save_journals
     end
   end
 end
