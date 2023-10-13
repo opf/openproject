@@ -102,7 +102,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
     describe 'commit' do
       before do
         mock_permissions_for(current_user) do |mock|
-          mock.in_work_package :edit_work_packages, work_package:
+          mock.in_project :add_work_packages, project:
         end
       end
 

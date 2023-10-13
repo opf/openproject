@@ -44,7 +44,7 @@ RSpec.describe WorkPackagePolicy, type: :controller do
 
       it 'is true if the user has the edit_work_package permission' do
         mock_permissions_for(user) do |mock|
-          mock.in_work_package :edit_work_packages, work_package:
+          mock.in_project :edit_work_packages, project:
         end
 
         expect(subject).to be_allowed(work_package, :edit)
@@ -52,7 +52,7 @@ RSpec.describe WorkPackagePolicy, type: :controller do
 
       it 'is false if the user has only the add_work_package_notes permission' do
         mock_permissions_for(user) do |mock|
-          mock.in_work_package :add_work_package_notes, work_package:
+          mock.in_project :add_work_package_notes, project:
         end
 
         expect(subject).not_to be_allowed(work_package, :edit)
@@ -60,7 +60,7 @@ RSpec.describe WorkPackagePolicy, type: :controller do
 
       it 'is false if the user has the permissions but the work package is unpersisted' do
         mock_permissions_for(user) do |mock|
-          mock.in_work_package :edit_work_packages, :add_work_package_notes, work_package:
+          mock.in_project :edit_work_packages, :add_work_package_notes, project:
         end
 
         allow(work_package).to receive(:persisted?).and_return false
@@ -86,14 +86,14 @@ RSpec.describe WorkPackagePolicy, type: :controller do
 
       it 'is true if the user has the add_work_package_notes permission' do
         mock_permissions_for(user) do |mock|
-          mock.in_work_package :add_work_package_notes, work_package:
+          mock.in_project :add_work_package_notes, project:
         end
         expect(subject).to be_allowed(work_package, :comment)
       end
 
       it 'is true if the user has the edit_work_packages permission' do
         mock_permissions_for(user) do |mock|
-          mock.in_work_package :edit_work_packages, work_package:
+          mock.in_project :edit_work_packages, project:
         end
 
         expect(subject).to be_allowed(work_package, :comment)
@@ -102,7 +102,7 @@ RSpec.describe WorkPackagePolicy, type: :controller do
       it 'is false if the user has the edit_work_packages permission
           but the work_package is unpersisted' do
         mock_permissions_for(user) do |mock|
-          mock.in_work_package :edit_work_packages, work_package:
+          mock.in_project :edit_work_packages, project:
         end
         allow(work_package).to receive(:persisted?).and_return false
 
