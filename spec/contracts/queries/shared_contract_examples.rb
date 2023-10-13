@@ -34,7 +34,7 @@ RSpec.shared_context 'with queries contract' do
   let(:name) { 'Some query name' }
   let(:public) { false }
   let(:user) { current_user }
-  let(:permissions) { %i[view_queries save_queries] }
+  let(:permissions) { %i[save_queries] }
   let(:query) do
     build_stubbed(:query, project:, public:, user:, name:)
   end

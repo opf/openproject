@@ -37,6 +37,7 @@ RSpec.shared_examples_for 'message contract' do
     end
   end
 
+  let(:permissions) { [] }
   let(:reply_message) { build_stubbed(:message) }
   let(:other_user) { build_stubbed(:user) }
   let(:message_forum) do

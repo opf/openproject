@@ -33,11 +33,13 @@ RSpec.shared_examples_for 'project contract' do
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.in_project(*permissions, project:)
-      mock.in_project :add_subprojects, project:
+      mock.in_project(*project_permissions, project:)
+      mock.globally(*global_permissions)
     end
   end
 
+  let(:project_permissions) { [] }
+  let(:global_permissions) { [] }
   let(:project_name) { 'Project name' }
   let(:project_identifier) { 'project_identifier' }
   let(:project_description) { 'Project description' }
@@ -216,7 +218,8 @@ RSpec.shared_examples_for 'project contract' do
   end
 
   context 'if the user lacks permission' do
-    let(:permissions) { [] }
+    let(:global_permissions) { [] }
+    let(:project_permissions) { [] }
 
     it 'is invalid' do
       expect_valid(false, base: %i(error_unauthorized))
