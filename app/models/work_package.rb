@@ -144,8 +144,8 @@ class WorkPackage < ApplicationRecord
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
   before_save :close_duplicates, :update_done_ratio_from_status
   before_create :default_assign
-  # By using prepend: true, the callback will be executed before the meeting_agenda_items are nullified,
-  # thus the items will be available for the callback method.
+  # By using prepend: true, the callback will be performed before the meeting_agenda_items are nullified,
+  # thus the associated agenda items will be available at the time the callback method is performed.
   around_destroy :save_agenda_item_journals, prepend: true, if: -> { meeting_agenda_items.any? }
 
   acts_as_customizable
