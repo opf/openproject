@@ -71,7 +71,9 @@ class WorkPackage < ApplicationRecord
   has_many :member_principals, through: :members, class_name: 'Principal', source: :principal
 
   has_many :meeting_agenda_items, dependent: :nullify
-  has_many :meetings, through: :meeting_agenda_items, source: :meeting
+  # The MeetingAgendaItem has a default order, but the ordered field is not part of the select
+  # that retrieves the meetings, hence we need to remove the order.
+  has_many :meetings, -> { unscope(:order).distinct }, through: :meeting_agenda_items, source: :meeting
 
   scope :recently_updated, -> {
     order(updated_at: :desc)
@@ -643,15 +645,11 @@ class WorkPackage < ApplicationRecord
 
   def save_agenda_item_journals
     ##
-    # Unscoping the order is required, because the MeetingAgendaItems have a default order
-    # and it throws an error, because the ordered field is not part of the select.
-    #
-    # Furthermore, meetings are stored before they become dissociated from the work package,
+    # Meetings are stored before they become dissociated from the work package,
     # but the meeting journals are saved only after the agenda items are dissociated (nullified).
     # By saving the meeting journals, the agenda item journals are also saved.
-
-    uniq_meetings = meetings.unscope(:order).uniq
+    stored_meetings = meetings.to_a
     yield
-    uniq_meetings.each(&:touch_and_save_journals)
+    stored_meetings.each(&:touch_and_save_journals)
   end
 end
