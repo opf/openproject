@@ -158,6 +158,14 @@ class BaseContract < Disposable::Twin
     ActiveModel::Name.new(model, nil)
   end
 
+  def errors
+    if model.respond_to?(:errors)
+      model.errors
+    else
+      super
+    end
+  end
+
   def self.model
     @model ||= begin
       name.deconstantize.singularize.constantize
