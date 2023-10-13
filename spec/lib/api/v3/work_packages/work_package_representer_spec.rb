@@ -1071,17 +1071,20 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'logTime' do
-        it_behaves_like 'action link' do
-          let(:action) { 'logTime' }
-          let(:permission) { :log_own_time }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'logTime' }
+          let(:permission) { %i(log_time log_own_time) }
           let(:href) { api_v3_paths.time_entries }
+          let(:title) { "Log time on #{work_package.subject}" }
         end
       end
 
       describe 'move' do
-        it_behaves_like 'action link' do
-          let(:action) { 'move' }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'move' }
+          let(:href) { work_package_path(work_package, 'move/new') }
           let(:permission) { :move_work_packages }
+          let(:title) { "Move #{work_package.subject}" }
         end
       end
 
@@ -1095,19 +1098,21 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'pdf' do
-        it_behaves_like 'action link' do
-          let(:action) { 'pdf' }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'pdf' }
           let(:permission) { :export_work_packages }
           let(:href) { "/work_packages/#{work_package.id}.pdf" }
+          let(:title) { "Export as PDF" }
         end
       end
 
       describe 'atom' do
         context 'with feeds enabled', with_settings: { feeds_enabled?: true } do
-          it_behaves_like 'action link' do
-            let(:action) { 'atom' }
+          it_behaves_like 'has a titled action link' do
+            let(:link) { 'atom' }
             let(:permission) { :export_work_packages }
             let(:href) { "/work_packages/#{work_package.id}.atom" }
+            let(:title) { "Atom feed" }
           end
         end
 
@@ -1121,24 +1126,29 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'changeParent' do
-        it_behaves_like 'action link' do
-          let(:action) { 'changeParent' }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'changeParent' }
+          let(:href) { api_v3_paths.work_package(work_package.id) }
           let(:permission) { :manage_subtasks }
+          let(:title) { "Change parent of #{work_package.subject}" }
+          let(:method) { :patch }
         end
       end
 
       describe 'availableWatchers' do
-        it_behaves_like 'action link' do
-          let(:action) { 'availableWatchers' }
+        it_behaves_like 'has an untitled action link' do
+          let(:link) { 'availableWatchers' }
+          let(:href) { api_v3_paths.available_watchers(work_package.id) }
           let(:permission) { :add_work_package_watchers }
         end
       end
 
       describe 'customFields' do
-        it_behaves_like 'action link' do
-          let(:action) { 'customFields' }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'customFields' }
           let(:permission) { :select_custom_fields }
           let(:href) { project_settings_custom_fields_path(work_package.project.identifier) }
+          let(:title) { 'Custom fields' }
         end
       end
 
