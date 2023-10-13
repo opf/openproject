@@ -268,7 +268,7 @@ class EditField
     when :priority, :status, :type, :category, :workPackage, :parent
       'create-autocompleter'
     when :project
-      'op-autocompleter'
+      'op-project-autocompleter'
     when :activity
       'activity-autocompleter'
     else

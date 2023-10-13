@@ -26,10 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import {
-  IAutocompleterTemplateComponent,
-} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { IAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 
 @Component({
   templateUrl: './project-autocompleter-template.component.html',

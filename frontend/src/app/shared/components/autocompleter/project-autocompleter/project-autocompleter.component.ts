@@ -170,7 +170,6 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
     }
     return getPaginatedResults<IProject>(
       (params) => {
-
         const filteredURL = this.buildFilteredURL(searchTerm);
 
         filteredURL.searchParams.set('pageSize', params.pageSize?.toString() || '-1');
