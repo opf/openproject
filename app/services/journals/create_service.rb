@@ -476,7 +476,8 @@ module Journals
             duration_in_minutes,
             start_time,
             end_time,
-            work_package_id
+            work_package_id,
+            item_type
           )
         SELECT
           #{id_from_inserted_journal_sql},
@@ -488,7 +489,8 @@ module Journals
           agenda_items.duration_in_minutes,
           agenda_items.start_time,
           agenda_items.end_time,
-          agenda_items.work_package_id
+          agenda_items.work_package_id,
+          agenda_items.item_type
         FROM meeting_agenda_items agenda_items
         WHERE
           #{only_if_created_sql}
@@ -721,6 +723,7 @@ module Journals
           OR (agenda_items.start_time IS DISTINCT FROM meeting_agenda_item_journals.start_time)
           OR (agenda_items.end_time IS DISTINCT FROM meeting_agenda_item_journals.end_time)
           OR (agenda_items.work_package_id IS DISTINCT FROM meeting_agenda_item_journals.work_package_id)
+          OR (agenda_items.item_type IS DISTINCT FROM meeting_agenda_item_journals.item_type)
       SQL
 
       sanitize(agenda_itemable_changes_sql,

@@ -106,8 +106,8 @@ RSpec.describe Meeting do
 
         it {
           expect(agenda_item_journals.last).to have_attributes agenda_item.attributes.slice(
-            "author_id", "title", "notes", "position", "duration_in_minutes",
-            "start_time", "end_time", "work_package_id"
+            'author_id', 'title', 'notes', 'position', 'duration_in_minutes',
+            'start_time', 'end_time', 'work_package_id', 'item_type'
           )
         }
       end
@@ -119,8 +119,8 @@ RSpec.describe Meeting do
 
         it {
           expect(agenda_item_journals.last).to have_attributes agenda_item.attributes.slice(
-            "author_id", "title", "notes", "position", "duration_in_minutes",
-            "start_time", "end_time", "work_package_id"
+            'author_id', 'title', 'notes', 'position', 'duration_in_minutes',
+            'start_time', 'end_time', 'work_package_id', 'item_type'
           )
         }
       end
@@ -135,11 +135,11 @@ RSpec.describe Meeting do
       end
 
       Journal::MeetingAgendaItemJournal.columns_hash.slice(
-        "notes", "position", "duration_in_minutes", "work_package_id"
+        'notes', 'position', 'duration_in_minutes', 'work_package_id', 'item_type'
       ).each do |column_name, column_info|
         column_value =
-          case column_info.type
-          when :integer then 11
+          if column_name == 'item_type' then 'work_package'
+          elsif column_info.type == :integer then 11
           else 'A string'
           end
 
@@ -259,8 +259,8 @@ RSpec.describe Meeting do
         it {
           remove_agenda_item
           expect(agenda_item_journals.last).to have_attributes agenda_item.attributes.slice(
-            "author_id", "title", "notes", "position", "duration_in_minutes",
-            "start_time", "end_time", "work_package_id"
+            'author_id', 'title', 'notes', 'position', 'duration_in_minutes',
+            'start_time', 'end_time', 'work_package_id'
           )
         }
 
