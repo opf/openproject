@@ -61,6 +61,7 @@ import { buildTree } from 'core-app/shared/components/autocompleter/project-auto
 import { recursiveSort } from 'core-app/shared/components/autocompleter/project-autocompleter/recursive-sort';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { ProjectAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter-template.component';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
@@ -71,7 +72,7 @@ export interface IProjectAutocompleterData {
 }
 
 @Component({
-  templateUrl: './project-autocompleter.component.html',
+  templateUrl: '../op-autocompleter/op-autocompleter.component.html',
   styleUrls: ['./project-autocompleter.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -108,6 +109,8 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
 
   projectTracker = (item:IProjectAutocompleteItem):ID => item.href || item.id;
 
+  getOptionsFn = this.getAvailableProjects.bind(this);
+
   dataLoaded = false;
 
   projects:IProjectAutocompleteItem[];
@@ -115,8 +118,7 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
   ngOnInit() {
     super.ngOnInit();
 
-    // TODO
-    // this.applyTemplates(ProjectAutocompleterTemplateComponent, {});
+    this.applyTemplates(ProjectAutocompleterTemplateComponent, {});
   }
 
   private matchingItems(elements:IProjectAutocompleteItem[], matching:string):Observable<IProjectAutocompleteItem[]> {

@@ -56,6 +56,7 @@ import {
 import {
   UserAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
+import { ProjectAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter-template.component';
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -66,6 +67,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   UserAutocompleterComponent,
   UserAutocompleterTemplateComponent,
   ProjectAutocompleterComponent,
+  ProjectAutocompleterTemplateComponent,
   ColorsAutocompleterComponent,
   AutocompleteSelectDecorationComponent,
   OpAutocompleterComponent,
