@@ -33,7 +33,7 @@ RSpec.describe 'API::V3::CustomActions::CustomActionsAPI' do
   include API::V3::Utilities::PathHelper
 
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[edit_work_packages view_work_packages])
   end
   let(:project) { create(:project) }

@@ -31,127 +31,203 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, :webmock do
-  include JsonResponseHelper
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, :vcr, :webmock do
+  using Storages::Peripherals::ServiceResultRefinements
 
-  let(:storage) do
-    create(:one_drive_storage,
-           :with_oauth_client,
-           drive_id: 'b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')
-  end
   let(:user) { create(:user) }
-  let(:json) { read_json('root_drive_children') }
-  let(:token) { create(:oauth_client_token, user:, oauth_client: storage.oauth_client) }
+  let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
 
-  it 'responds to .call' do
-    expect(described_class).to respond_to(:call)
+  describe '#call' do
+    it 'responds with correct parameters' do
+      expect(described_class).to respond_to(:call)
 
-    method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq folder])
-  end
-
-  it 'returns a StorageFiles object' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{described_class::FIELDS}")
-      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .to_return(status: 200, body: json, headers: {})
-
-    storage_files = described_class.call(storage:, user:, folder: nil).result
-
-    expect(storage_files).to be_a(Storages::StorageFiles)
-    expect(storage_files.ancestors).to be_empty
-    expect(storage_files.parent.name).to eq("Root")
-
-    one_file = storage_files.files[10]
-
-    expect(one_file.to_h).to eq({ id: '01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM',
-                                  name: "All Japan Revenues By City.xlsx",
-                                  size: 20051,
-                                  mime_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                  created_at: Time.parse("2017-08-07T16:07:10Z"),
-                                  last_modified_at: Time.parse("2017-08-07T16:07:10Z"),
-                                  created_by_name: "Megan Bowen",
-                                  last_modified_by_name: "Megan Bowen",
-                                  location: "/All Japan Revenues By City.xlsx",
-                                  permissions: nil })
-  end
-
-  it 'when the argument folder is nil, gets information from that users root folder' do
-    stub_request(
-      :get,
-      "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{described_class::FIELDS}"
-    )
-      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .to_return(status: 200, body: json, headers: {})
-
-    storage_files = described_class.call(storage:, user:, folder: nil).result
-
-    expect(storage_files.files.size).to eq(38)
-    expect(storage_files.parent.name).to eq("Root")
-    expect(storage_files.ancestors).to be_empty
-  end
-
-  context 'when accessing a specific folder' do
-    let(:json) { read_json('specific_folder') }
-
-    it 'uses the specific drive url' do
-      uri = "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY/children#{described_class::FIELDS}"
-      stub_request(:get, uri)
-        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-        .to_return(status: 200, body: json, headers: {})
-
-      storage_files = described_class.call(storage:, user:, folder: '01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY').result
-
-      expect(storage_files.files.size).to eq(22)
-      expect(storage_files.parent.name).to eq('Class Documents')
-
-      expect(storage_files.ancestors.size).to eq(1)
-    end
-  end
-
-  context 'when accessing a folder two levels deep in the hierarchy' do
-    let(:payload) { read_json('two_levels_deep_folder') }
-    let(:storage) do
-      create(:one_drive_storage,
-             :with_oauth_client,
-             drive_id: 'b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')
+      method = described_class.method(:call)
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq folder])
     end
 
-    it 'has one ancestors and one parent' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN/children#{described_class::FIELDS}")
-        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-        .to_return(status: 200, body: payload, headers: {})
+    context 'with outbound requests successful' do
+      context 'with parent folder being nil', vcr: 'one_drive/files_query_root' do
+        # rubocop:disable RSpec/ExampleLength
+        it 'returns a StorageFiles object for root' do
+          storage_files = described_class.call(storage:, user:, folder: nil).result
 
-      storage_files = described_class.call(storage:, user:, folder: "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN").result
+          expect(storage_files).to be_a(Storages::StorageFiles)
+          expect(storage_files.ancestors).to be_empty
+          expect(storage_files.parent.name).to eq("Root")
 
-      expect(storage_files.ancestors.size).to eq(2)
-      expect(storage_files.ancestors.map(&:location)).to contain_exactly("/", "/Contoso Clothing")
-      expect(storage_files.parent.name).to eq('Clothing Articles')
+          expect(storage_files.files.map(&:to_h))
+            .to eq([
+                     {
+                       id: '01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR',
+                       name: 'Folder',
+                       size: 257394,
+                       created_at: '2023-09-26T14:38:50Z',
+                       created_by_name: 'Eric Schubert',
+                       last_modified_at: '2023-09-26T14:38:50Z',
+                       last_modified_by_name: 'Eric Schubert',
+                       location: '/Folder',
+                       mime_type: 'application/x-op-directory',
+                       permissions: %i[readable writeable]
+                     }, {
+                       id: '01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU',
+                       name: 'Folder with spaces',
+                       size: 35141,
+                       created_at: '2023-09-26T14:38:57Z',
+                       created_by_name: 'Eric Schubert',
+                       last_modified_at: '2023-09-26T14:38:57Z',
+                       last_modified_by_name: 'Eric Schubert',
+                       location: '/Folder with spaces',
+                       mime_type: 'application/x-op-directory',
+                       permissions: %i[readable writeable]
+                     }
+                   ])
+        end
+        # rubocop:enable RSpec/ExampleLength
+      end
+
+      context 'with a given parent folder', vcr: 'one_drive/files_query_parent_folder' do
+        subject do
+          described_class.call(storage:, user:, folder: '/Folder/Subfolder').result
+        end
+
+        # rubocop:disable RSpec/ExampleLength
+        it 'returns the files content' do
+          expect(subject.files.map(&:to_h))
+            .to eq([
+                     {
+                       id: '01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA',
+                       name: 'NextcloudHub.md',
+                       size: 1095,
+                       created_at: '2023-09-26T14:45:25Z',
+                       created_by_name: 'Eric Schubert',
+                       last_modified_at: '2023-09-26T14:46:13Z',
+                       last_modified_by_name: 'Eric Schubert',
+                       location: '/Folder/Subfolder/NextcloudHub.md',
+                       mime_type: 'application/octet-stream',
+                       permissions: %i[readable writeable]
+                     }, {
+                       id: '01AZJL5PLOL2KZTJNVFBCJWFXYGYVBQVMZ',
+                       name: 'test.txt',
+                       size: 28,
+                       created_at: '2023-09-26T14:45:23Z',
+                       created_by_name: 'Eric Schubert',
+                       last_modified_at: '2023-09-26T14:45:45Z',
+                       last_modified_by_name: 'Eric Schubert',
+                       location: '/Folder/Subfolder/test.txt',
+                       mime_type: 'text/plain',
+                       permissions: %i[readable writeable]
+                     }
+                   ])
+        end
+        # rubocop:enable RSpec/ExampleLength
+
+        it 'returns ancestors with a forged id' do
+          expect(subject.ancestors.map { |a| { id: a.id, name: a.name, location: a.location } })
+            .to eq([
+                     {
+                       id: 'a1d45ff742d2175c095f0a7173f93fc3fc23664a953ceae6778fe15398818c2d',
+                       name: 'Root',
+                       location: '/'
+                     }, {
+                       id: '74ccd43303847f2655300641a934959cdb11689ce171aa0f00faa92917fbd340',
+                       name: 'Folder',
+                       location: '/Folder'
+                     }
+                   ])
+        end
+
+        it 'returns the parent itself' do
+          expect(subject.parent.id).to eq('01AZJL5PPWP5UOATNRJJBYJG5TACDHEUAG')
+          expect(subject.parent.name).to eq('Subfolder')
+          expect(subject.parent.location).to eq('/Folder/Subfolder')
+        end
+      end
+
+      context 'with parent folder being empty', vcr: 'one_drive/files_query_empty_folder' do
+        it 'returns an empty StorageFiles object with parent and ancestors' do
+          storage_files = described_class.call(storage:, user:, folder: '/Folder with spaces/very empty folder').result
+
+          expect(storage_files).to be_a(Storages::StorageFiles)
+          expect(storage_files.files).to be_empty
+
+          # in an empty folder the parent id cannot be retrieved, hence the parent id will get forged
+          expect(storage_files.parent.id).to eq('678cb16697b9f7ef05a99a2dc83aaf1b377e5e2a9d7a09e1db4343b41d44f874')
+        end
+      end
+
+      context 'with a path full of umlauts', vcr: 'one_drive/files_query_umlauts' do
+        it 'returns the correct StorageFiles object' do
+          storage_files = described_class.call(storage:, user:, folder: '/Folder/Ümlæûts').result
+
+          expect(storage_files).to be_a(Storages::StorageFiles)
+          expect(storage_files.parent.id).to eq('01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB')
+          expect(storage_files.parent.name).to eq('Ümlæûts')
+          expect(storage_files.parent.location).to eq('/Folder/Ümlæûts')
+          expect(storage_files.files.map(&:to_h))
+            .to eq([
+                     {
+                       id: '01AZJL5PNDURPQGKUSGFCJQJMNNWXKTHSE',
+                       name: 'Anrüchiges deutsches Dokument.docx',
+                       size: 18007,
+                       created_at: '2023-10-09T15:26:45Z',
+                       created_by_name: 'Eric Schubert',
+                       last_modified_at: '2023-10-09T15:27:25Z',
+                       last_modified_by_name: 'Eric Schubert',
+                       location: '/Folder/Ümlæûts/Anrüchiges deutsches Dokument.docx',
+                       mime_type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                       permissions: %i[readable writeable]
+                     }
+                   ])
+        end
+      end
     end
-  end
 
-  describe 'error handling' do
-    it 'returns a notfound error if the API call returns a 404' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{described_class::FIELDS}")
-        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-        .to_return(status: 404, body: '', headers: {})
+    context 'with not existent parent folder', vcr: 'one_drive/files_query_invalid_parent' do
+      it 'must return unauthorized' do
+        result = described_class.call(storage:, user:, folder: '/I/just/made/that/up')
+        expect(result).to be_failure
+        expect(result.error_source).to be_a(described_class)
 
-      storage_files = described_class.call(storage:, user:, folder: nil)
-
-      expect(storage_files).to be_failure
-      expect(storage_files.result).to eq(:not_found)
-      expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :not_found).to_s)
+        result.match(
+          on_failure: ->(error) { expect(error.code).to eq(:not_found) },
+          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
+      end
     end
 
-    it 'retries authentication when it returns a 401' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{described_class::FIELDS}")
-        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-        .to_return(status: 401, body: '', headers: {})
+    context 'with invalid oauth token', vcr: 'one_drive/files_query_invalid_token' do
+      before do
+        token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
+        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
+          .to receive(:using_user_token)
+                .and_yield(token)
+      end
 
-      storage_files = described_class.call(storage:, user:, folder: nil)
+      it 'must return unauthorized' do
+        result = described_class.call(storage:, user:, folder: nil)
+        expect(result).to be_failure
+        expect(result.error_source).to be_a(described_class)
 
-      expect(storage_files).to be_failure
-      expect(storage_files.result).to eq(:unauthorized)
-      expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :unauthorized).to_s)
+        result.match(
+          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
+          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
+      end
+    end
+
+    context 'with not existent oauth token' do
+      let(:user_without_token) { create(:user) }
+
+      it 'must return unauthorized' do
+        result = described_class.call(storage:, user: user_without_token, folder: nil)
+        expect(result).to be_failure
+        expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
+
+        result.match(
+          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
+          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
+      end
     end
   end
 end

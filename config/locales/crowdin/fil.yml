@@ -430,6 +430,8 @@ fil:
       Ang iyong akawnt ay hindi pa aktobo. Pakiusap maghintay para sa isang tagapangasiwa upang maisaaktibo ang iyong akawnt.
     error_self_registration_disabled: >
       Ang pagpaparehistro ng gumagamit ay naka-diable sa sistemang ito. Mangyaring hilingin sa isang tagapangasiwa na lumikha ng isang akawnt para sa iyo.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "o kaya ay mag-sig in sa pamamagitan ng iyong umiiral na akawnt"
     signup_with_auth_provider: "o mag-sign up gamit ang"
     auth_source_login: Mangyaring mag-login bilang isang <em>%{login}</em> upang i-aktibi ang iyong akwant.
@@ -2373,6 +2375,8 @@ fil:
   permission_add_work_packages: "Magdagdag ng mga work package"
   permission_add_messages: "Mga post na mensahe"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "I-archive ang proyekto"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -3006,9 +3010,12 @@ fil:
       label_search_placeholder: "Search by user or email address"
       permissions:
         comment: "Comment"
+        comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
         edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
         view: "View"
+        view_description: "Can view this work package."
       remove: "Remove"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"

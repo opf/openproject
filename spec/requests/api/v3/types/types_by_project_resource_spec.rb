@@ -33,7 +33,7 @@ RSpec.describe '/api/v3/projects/:id/types' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:project) { create(:project, no_types: true, public: false) }
   let(:requested_project) { project }
   let(:current_user) do

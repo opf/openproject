@@ -38,7 +38,7 @@ RSpec.describe 'API v3 time_entry_activity resource' do
   end
   let(:activity) { create(:time_entry_activity) }
   let(:project) { create(:project) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_time_entries) }
 
   subject(:response) { last_response }

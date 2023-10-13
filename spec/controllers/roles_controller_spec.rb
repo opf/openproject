@@ -372,7 +372,7 @@ RSpec.describe RolesController do
   end
 
   describe '#destroy' do
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
     let(:params) { { id: role.id } }
 
     subject { delete(:destroy, params:) }
@@ -417,7 +417,7 @@ RSpec.describe RolesController do
               .and_return(roles)
     end
     let!(:roles) do
-      build_stubbed_list(:role, 1)
+      build_stubbed_list(:project_role, 1)
     end
 
     before do

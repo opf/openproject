@@ -32,7 +32,7 @@ RSpec.describe Groups::AddUsersService, 'integration' do
   subject(:service_call) { instance.call(ids: user_ids, message:) }
 
   let(:projects) { create_list(:project, 2) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let(:admin) { create(:admin) }
 
   let!(:group) do
@@ -134,7 +134,7 @@ RSpec.describe Groups::AddUsersService, 'integration' do
 
     context 'when the user was already a member in a project with only one role the group adds' do
       let(:project) { create(:project) }
-      let(:roles) { create_list(:role, 2) }
+      let(:roles) { create_list(:project_role, 2) }
       let!(:group) do
         create(:group, member_with_roles: { project => roles })
       end
@@ -166,7 +166,7 @@ RSpec.describe Groups::AddUsersService, 'integration' do
     end
 
     context 'when the user was already a member in a project with a different role' do
-      let(:other_role) { create(:role) }
+      let(:other_role) { create(:project_role) }
       let(:previous_project) { projects.first }
       let!(:user_member) do
         create(:member,
@@ -201,9 +201,9 @@ RSpec.describe Groups::AddUsersService, 'integration' do
     end
 
     context 'with global role' do
-      let(:role) { create(:global_role) }
+      let(:role) { create(:global_role, permissions: [:add_project]) }
       let!(:group) do
-        create(:group, global_roles: [role], global_permissions: [:add_project])
+        create(:group, global_roles: [role])
       end
 
       it 'adds the users to the group and their membership to the global role' do
@@ -219,7 +219,7 @@ RSpec.describe Groups::AddUsersService, 'integration' do
       context 'when one user already has a global role that the group would add' do
         let(:global_roles) { create_list(:global_role, 2) }
         let!(:group) do
-          create(:group, member_with_roles: { project => global_roles })
+          create(:group, global_roles:)
         end
         let!(:user_membership) do
           create(:member, project: nil, roles: [global_roles.first], principal: user1)

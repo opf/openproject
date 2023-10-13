@@ -40,7 +40,7 @@ RSpec.describe 'Manual scheduling', js: true do
   end
 
   context 'with a user allowed to edit dates' do
-    let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+    let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
 
     it 'allows to edit start and due date multiple times switching between scheduling modes' do
       start_date = wp_table.edit_field(parent, :startDate)
@@ -119,6 +119,6 @@ RSpec.describe 'Manual scheduling', js: true do
   end
 
   context 'with a user allowed to view only' do
-    let(:role) { create(:role, permissions: %i[view_work_packages]) }
+    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   end
 end

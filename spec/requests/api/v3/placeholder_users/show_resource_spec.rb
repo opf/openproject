@@ -60,8 +60,8 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   end
 
   describe 'user with manage_members permission' do
+    let(:role) { create(:project_role, permissions: %i[manage_members]) }
     let(:project) { create(:project, members: { placeholder => role }) }
-    let(:role) { create(:role, permissions: %i[manage_members]) }
     let(:user) { create(:user, member_with_roles: { project => role }) }
 
     it_behaves_like 'represents the placeholder'

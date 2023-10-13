@@ -1,6 +1,7 @@
 <%=
   render(Primer::Alpha::ActionMenu.new(**{ select_variant: :single,
                                          dynamic_label: true,
+                                         anchor_align: :end,
                                          color: :subtle }
                                          .deep_merge(@system_arguments))) do |menu|
     menu.with_show_button do |button|
@@ -17,7 +18,9 @@
                        method: :patch,
                        name: 'role_ids[]',
                        value: option[:value]
-                     })
+                     }) do |item|
+        item.with_description.with_content(option[:description])
+      end
     end
   end
 %>

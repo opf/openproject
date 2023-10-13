@@ -62,7 +62,7 @@ FactoryBot.define do
     callback(:after_create) do |principal, evaluator|
       evaluator.member_with_permissions.each do |object, permissions|
         if object.is_a?(Project)
-          role = create(:role, permissions:)
+          role = create(:project_role, permissions:)
           create(:member, principal:, project: object, roles: [role])
         elsif Member.can_be_member_of?(object)
           role = create(:work_package_role, permissions:)
@@ -79,7 +79,7 @@ FactoryBot.define do
       end
 
       if evaluator.global_permissions.present?
-        global_role = create(:global_role, permissions: evaluator.global_permissions)
+        global_role = create(:global_role, permissions: Array(evaluator.global_permissions))
         create(:global_member, principal:, roles: [global_role])
       end
 

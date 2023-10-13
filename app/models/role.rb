@@ -72,9 +72,12 @@ class Role < ApplicationRecord
             length: { maximum: 256 },
             uniqueness: { case_sensitive: true }
 
+  # Turn this class into an abstract one by validating the STI column.
+  validates :type,
+            inclusion: { in: ->(*) { Role.subclasses.map(&:to_s) } }
+
   def self.givable
-    where(builtin: NON_BUILTIN)
-      .where(type: 'Role')
+    where.not(builtin: [BUILTIN_NON_MEMBER, BUILTIN_ANONYMOUS])
       .order(Arel.sql('position'))
   end
 
@@ -144,43 +147,10 @@ class Role < ApplicationRecord
     end
   end
 
-  # Return the builtin 'non member' role.  If the role doesn't exist,
-  # it will be created on the fly.
-  def self.non_member
-    non_member_role = where(builtin: BUILTIN_NON_MEMBER).first
-    if non_member_role.nil?
-      non_member_role = create(name: 'Non member', position: 0) do |role|
-        role.builtin = BUILTIN_NON_MEMBER
-      end
-      raise 'Unable to create the non-member role.' if non_member_role.new_record?
-    end
-    non_member_role
-  end
-
-  # Return the builtin 'anonymous' role.  If the role doesn't exist,
-  # it will be created on the fly.
-  def self.anonymous
-    anonymous_role = where(builtin: BUILTIN_ANONYMOUS).first
-    if anonymous_role.nil?
-      anonymous_role = create(name: 'Anonymous', position: 0) do |role|
-        role.builtin = BUILTIN_ANONYMOUS
-      end
-      raise 'Unable to create the anonymous role.' if anonymous_role.new_record?
-    end
-    anonymous_role
-  end
-
   def self.by_permission(permission)
     all.select do |role|
       role.allowed_to? permission
     end
-  end
-
-  def self.in_new_project
-    givable
-      .except(:order)
-      .order(Arel.sql("COALESCE(#{Setting.new_project_user_role_id.to_i} = id, false) DESC, position"))
-      .first
   end
 
   def deletable?

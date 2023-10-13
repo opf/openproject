@@ -65,7 +65,7 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item = call.result
 
     if call.success?
-      # enabel continue editing
+      # enable continue editing
       update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream

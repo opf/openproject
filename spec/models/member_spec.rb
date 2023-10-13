@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Member do
   let(:user) { create(:user) }
-  let(:project_role) { create(:role) }
+  let(:project_role) { create(:project_role) }
   let(:global_role) { create(:global_role) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }

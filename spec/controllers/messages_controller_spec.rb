@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe MessagesController, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let!(:member) do
     create(:member,
            project:,

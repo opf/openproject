@@ -4,20 +4,17 @@ module Authorization
 
     def initialize(user)
       @user = user
-      @cached_permissions = Hash.new do |hash, key|
-        hash[key] = Set.new
-      end
     end
 
     def allowed_globally?(permission)
-      perms = Authorization.contextual_permissions(permission, :global, raise_on_unknown: true)
+      perms = contextual_permissions(permission, :global)
       return true if admin_and_all_granted_to_admin?(perms)
 
-      cached_permissions(:global).intersect?(perms.map(&:name))
+      cached_permissions(nil).intersect?(perms.map(&:name))
     end
 
     def allowed_in_project?(permission, projects_to_check)
-      perms = Authorization.contextual_permissions(permission, :project, raise_on_unknown: true)
+      perms = contextual_permissions(permission, :project)
       return false if projects_to_check.blank?
       return false unless authorizable_user?
 
@@ -29,7 +26,7 @@ module Authorization
     end
 
     def allowed_in_any_project?(permission)
-      perms = Authorization.contextual_permissions(permission, :project, raise_on_unknown: true)
+      perms = contextual_permissions(permission, :project)
       return true if admin_and_all_granted_to_admin?(perms)
 
       Project.allowed_to(user, perms).exists?
@@ -39,8 +36,8 @@ module Authorization
       return false if entities_to_check.blank?
       return false unless authorizable_user?
 
-      context = entity_class.model_name.element.to_sym
-      perms = Authorization.contextual_permissions(permission, context, raise_on_unknown: true)
+      perms = contextual_permissions(permission,
+                                     context_name(entity_class))
 
       entities = Array(entities_to_check)
 
@@ -50,30 +47,29 @@ module Authorization
     end
 
     def allowed_in_any_entity?(permission, entity_class, in_project: nil)
-      context = entity_class.model_name.element.to_sym
-      perms = Authorization.contextual_permissions(permission, context, raise_on_unknown: true)
+      perms = contextual_permissions(permission,
+                                     context_name(entity_class))
       return true if admin_and_all_granted_to_admin?(perms)
 
+      # entity_class.allowed_to will also check whether the user has the permission via a membership in the project.
+      allowed_scope = entity_class.allowed_to(user, perms)
+
       if in_project
-        allowed_in_single_project?(perms, in_project) ||
-        WorkPackage.allowed_to(user, perms).exists?(project: in_project)
+        allowed_scope.exists?(project: in_project)
       else
-        allowed_in_any_project?(perms) ||
-        WorkPackage.allowed_to(user, perms).exists?
+        allowed_scope.exists?
       end
     end
 
     private
 
     def cached_permissions(context)
-      unless @cached_permissions.key?(context)
-        @cached_permissions[context] = if context == :global
-                                         global_permissions
-                                       elsif context.is_a?(Project)
-                                         project_permissions(context)
-                                       else
-                                         entity_permissions(context)
-                                       end
+      @cached_permissions ||= Hash.new do |hash, context_key|
+        hash[context_key] = Authorization
+                              .roles(user, context_key)
+                              .includes(:role_permissions)
+                              .pluck(:permission)
+                              .map(&:to_sym)
       end
 
       @cached_permissions[context]
@@ -99,9 +95,12 @@ module Authorization
 
       return false if permissions_filtered_for_project.empty?
       return true if admin_and_all_granted_to_admin?(permissions)
-      return true if allowed_in_single_project?(permissions, entity.project)
 
-      cached_permissions(entity).intersect?(permissions_filtered_for_project)
+      # The combination of this is better then doing
+      # EntityClass.allowed_to(user, permission).exists?.
+      # Because this way, all permissions for that context are fetched and cached.
+      allowed_in_single_project?(permissions, entity.project) ||
+        cached_permissions(entity).intersect?(permissions_filtered_for_project)
     end
 
     def admin_and_all_granted_to_admin?(permissions)
@@ -112,37 +111,19 @@ module Authorization
       !user.locked? || user.is_a?(SystemUser)
     end
 
-    def global_permissions
-      RolePermission
-        .joins(role: { member_roles: :member })
-        .where(members: { user_id: user.id, entity: nil, project: nil })
-        .pluck(:permission)
-        .map(&:to_sym)
-    end
-
-    def project_permissions(project)
-      RolePermission
-        .joins(role: { member_roles: :member })
-        .where(members: { user_id: user.id, entity: nil, project: })
-        .pluck(:permission)
-        .map(&:to_sym)
-        .select { |permission| project.allows_to?(permission) }
-    end
-
-    def entity_permissions(entity)
-      RolePermission
-        .joins(role: { member_roles: :member })
-        .where(members: { user_id: user.id, entity:, project: entity.project })
-        .pluck(:permission)
-        .map(&:to_sym)
-        .select { |permission| entity.project.allows_to?(permission) }
-    end
-
     def permissions_by_enabled_project_modules(project, permissions)
       project
         .allowed_permissions
         .intersection(permissions.map(&:name))
         .map { |perm| perm.name.to_sym }
+    end
+
+    def contextual_permissions(permission, context)
+      Authorization.contextual_permissions(permission, context, raise_on_unknown: true)
+    end
+
+    def context_name(entity_class)
+      entity_class.model_name.element.to_sym
     end
   end
 end

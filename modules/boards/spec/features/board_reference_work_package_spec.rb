@@ -36,7 +36,7 @@ RSpec.describe 'Board reference work package spec', :js, with_ee: %i[board_view]
            member_with_roles: { project => role })
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let!(:work_package) { create(:work_package, version:, subject: 'Foo', project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }

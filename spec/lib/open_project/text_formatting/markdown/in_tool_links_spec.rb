@@ -38,7 +38,7 @@ RSpec.describe OpenProject::TextFormatting,
     let(:identifier) { project.identifier }
 
     shared_let(:role) do
-      create(:role,
+      create(:project_role,
              permissions: %i(view_work_packages edit_work_packages
                              browse_repository view_changesets view_wiki_pages))
     end

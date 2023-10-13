@@ -39,7 +39,7 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock do
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_storages_in_project
                            select_project_modules
                            edit_project])

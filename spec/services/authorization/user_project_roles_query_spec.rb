@@ -35,8 +35,8 @@ RSpec.describe Authorization::UserProjectRolesQuery do
   let(:project2) { build(:project, public: false) }
   let(:public_project) { build(:project, public: true) }
   let(:work_package) { build(:work_package, project:) }
-  let(:role) { build(:role) }
-  let(:role2) { build(:role) }
+  let(:role) { build(:project_role) }
+  let(:role2) { build(:project_role) }
   let(:wp_role) { build(:work_package_role) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:non_member) { build(:non_member) }

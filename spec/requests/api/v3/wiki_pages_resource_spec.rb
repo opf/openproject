@@ -45,7 +45,7 @@ RSpec.describe 'API v3 wiki_pages resource' do
   let(:other_wiki) { create(:wiki, project: other_project) }
   let(:other_wiki_page) { create(:wiki_page, wiki: other_wiki) }
   let(:other_project) { create(:project) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_wiki_pages) }
 
   subject(:response) { last_response }

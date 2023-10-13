@@ -36,7 +36,7 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::CustomAction do
     create(:user,
            member_with_roles: { work_package2.project => role })
   end
-  let!(:role) { create(:role) }
+  let!(:role) { create(:project_role) }
   let!(:status_custom_action) do
     create(:custom_action,
            conditions: [CustomActions::Conditions::Status.new(work_package1.status_id.to_s)])

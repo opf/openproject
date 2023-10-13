@@ -40,7 +40,7 @@ RSpec.describe 'Invite user modal custom fields', :js, :with_cuprite do
                                            role:
   end
   let!(:role) do
-    create(:role,
+    create(:project_role,
            name: 'Member',
            permissions:)
   end

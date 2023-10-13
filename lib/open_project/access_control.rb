@@ -66,7 +66,9 @@ module OpenProject
       # Argument should be a symbol
       def permission(action)
         if action.is_a?(Hash)
-          permissions.detect { |p| p.controller_actions.include?("#{action[:controller]}/#{action[:action]}") }
+          permission_path = normalized_controller_action_string(action)
+
+          permissions.detect { |p| p.controller_actions.include?(permission_path) }
         else
           permissions.detect { |p| p.name == action }
         end
@@ -79,9 +81,21 @@ module OpenProject
       end
 
       def allow_actions(action_hash)
-        action = "#{action_hash[:controller]}/#{action_hash[:action]}"
+        permission_path = normalized_controller_action_string(action_hash)
 
-        permissions.select { |p| p.controller_actions.include? action }
+        permissions.select { |p| p.controller_actions.include? permission_path }
+      end
+
+      def disabled_permission?(action)
+        permissions = if action.is_a?(Hash)
+                        permission_path = normalized_controller_action_string(action)
+
+                        @mapped_permissions.select { |p| p.controller_actions.include?(permission_path) }
+                      else
+                        @mapped_permissions.select { |p| p.name == action }
+                      end
+
+        permissions.any? && permissions.all? { !_1.enabled? }
       end
 
       def public_permissions
@@ -102,6 +116,10 @@ module OpenProject
 
       def project_permissions
         @project_permissions ||= permissions.select(&:project?)
+      end
+
+      def disabled_permissions
+        @disabled_permissions ||= @mapped_permissions.reject(&:enabled?)
       end
 
       def global_permissions
@@ -161,14 +179,13 @@ module OpenProject
         permission(permission_name).nil? || permission(permission_name).grant_to_admin?
       end
 
-      def remove_modules_permissions(module_name)
+      def disable_modules_permissions(module_name)
         original_permissions = permissions
 
         module_permissions = original_permissions.select { |p| p.project_module.to_s == module_name.to_s }
+        module_permissions.each(&:disable!)
 
         clear_caches
-
-        @mapped_permissions = original_permissions - module_permissions
       end
 
       def clear_caches
@@ -181,7 +198,20 @@ module OpenProject
         @project_permissions = nil
         @global_permissions = nil
         @public_permissions = nil
+        @disabled_permissions = nil
         @permissions = nil
+      end
+
+      private
+
+      def normalized_controller_action_string(action)
+        controller = if action[:controller]&.to_s&.starts_with?('/')
+                       action[:controller][1..]
+                     else
+                       action[:controller]
+                     end
+
+        "#{controller}/#{action[:action]}"
       end
     end
   end

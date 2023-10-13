@@ -66,7 +66,7 @@ RSpec.describe Type do
     end
 
     context 'when existing with workflow' do
-      let(:role) { create(:role) }
+      let(:role) { create(:project_role) }
       let(:statuses) { (1..2).map { |_i| create(:status) } }
 
       let!(:type) { create(:type) }

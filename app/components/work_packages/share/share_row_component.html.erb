@@ -1,0 +1,23 @@
+<%=
+  component_wrapper(:border_box_row, data: { 'test-selector': "op-share-wp-active-user-#{user.id}" }) do
+    grid_layout('op-share-wp-modal-body--user-row', tag: :div, align_items: :center, classes: 'ellipsis') do |user_row_grid|
+      user_row_grid.with_area(:user, tag: :div, classes: '  ellipsis') do
+        render(Users::AvatarComponent.new(user: user, size: :medium))
+      end
+
+
+      if share_editable?
+        user_row_grid.with_area(:button, tag: :div, color: :subtle) do
+          render(WorkPackages::Share::PermissionButtonComponent.new(share:,
+                                                                    data: { 'test-selector': 'op-share-wp-update-role' }))
+        end
+
+        user_row_grid.with_area(:remove, tag: :div) do
+          form_with url: work_packages_share_path(share), method: :delete do
+            render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+          end
+        end
+      end
+    end
+  end
+%>

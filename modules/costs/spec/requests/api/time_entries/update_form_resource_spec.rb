@@ -198,7 +198,7 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
 
           create(:member,
                  project: time_entry.project,
-                 roles: [create(:role, permissions:)],
+                 roles: [create(:project_role, permissions:)],
                  principal: user)
 
           user

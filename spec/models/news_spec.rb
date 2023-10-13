@@ -41,7 +41,7 @@ RSpec.describe News do
 
   let!(:news) { create(:news, project:) }
   let(:permissions) { [] }
-  let(:role) { build(:role, permissions:) }
+  let(:role) { build(:project_role, permissions:) }
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { create(:news) }
@@ -53,7 +53,7 @@ RSpec.describe News do
     let(:project_news) { described_class.where(project:) }
 
     before do
-      Role.anonymous
+      ProjectRole.anonymous
     end
 
     it 'includes news elements from projects where news module is enabled' do

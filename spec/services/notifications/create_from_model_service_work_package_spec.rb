@@ -747,7 +747,7 @@ RSpec.describe Notifications::CreateFromModelService,
       end
 
       context 'with the group not allowed to view the work package' do
-        let(:group_role) { create(:role, permissions: []) }
+        let(:group_role) { create(:project_role, permissions: []) }
         let(:permissions) { [] }
 
         it_behaves_like 'creates no notification'
@@ -981,7 +981,7 @@ RSpec.describe Notifications::CreateFromModelService,
       end
 
       context 'for groups' do
-        let(:group_role) { create(:role, permissions: %i[view_work_packages]) }
+        let(:group_role) { create(:project_role, permissions: %i[view_work_packages]) }
         let(:group) do
           create(:group, members: recipient) do |group|
             Members::CreateService
@@ -1040,7 +1040,7 @@ RSpec.describe Notifications::CreateFromModelService,
       end
 
       context 'with users and groups' do
-        let(:group_role) { create(:role, permissions: %i[view_work_packages]) }
+        let(:group_role) { create(:project_role, permissions: %i[view_work_packages]) }
         let(:group) do
           create(:group, members: recipient) do |group|
             Members::CreateService

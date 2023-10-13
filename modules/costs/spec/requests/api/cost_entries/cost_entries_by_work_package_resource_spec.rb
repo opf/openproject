@@ -42,7 +42,7 @@ RSpec.describe 'API v3 Cost Entry resource' do
            work_package:,
            user: current_user)
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:work_package_permissions) { [:view_work_packages] }
   let(:cost_entry_permissions) { [:view_cost_entries] }
   let(:permissions) { work_package_permissions + cost_entry_permissions }

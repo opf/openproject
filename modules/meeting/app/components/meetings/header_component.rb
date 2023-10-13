@@ -39,108 +39,17 @@ module Meetings
       @state = state
     end
 
-    def call
-      component_wrapper do
-        case @state
-        when :show
-          show_partial
-        when :edit
-          edit_partial if edit_enabled?
-        end
-      end
-    end
-
     private
 
-    def delete_enabled?
-      User.current.allowed_to?(:delete_meetings, @meeting.project)
-    end
-
-    def show_partial
-      flex_layout do |flex|
-        flex.with_row do
-          title_and_actions_partial
-        end
-        flex.with_row do
-          meta_info_partial
-        end
-      end
-    end
-
-    def title_and_actions_partial
-      flex_layout(justify_content: :space_between, align_items: :center) do |flex|
-        flex.with_column(flex: 1) do
-          title_partial
-        end
-        flex.with_column do
-          actions_partial
-        end
-      end
-    end
-
-    def title_partial
-      render(Primer::Beta::Heading.new(tag: :h1)) { @meeting.title }
-    end
-
-    def actions_partial
-      render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_meeting_actions"), test_selector: 'op-meetings-header-action-trigger')
-        edit_action_item(menu) if @meeting.editable?
-        download_ics_item(menu)
-        delete_action_item(menu) if delete_enabled?
-      end
-    end
-
-    def edit_action_item(menu)
-      menu.with_item(label: t("label_meeting_edit_title"),
-                     href: edit_meeting_path(@meeting),
-                     content_arguments: {
-                       data: { 'turbo-stream': true }
-                     }) do |item|
-        item.with_leading_visual_icon(icon: :pencil)
-      end
-    end
-
-    def download_ics_item(menu)
-      menu.with_item(label: t(:label_icalendar_download),
-                     href: download_ics_meeting_path(@meeting)) do |item|
-        item.with_leading_visual_icon(icon: :download)
-      end
-    end
-
-    def delete_action_item(menu)
-      menu.with_item(label: t("label_meeting_delete"),
-                     scheme: :danger,
-                     href: meeting_path(@meeting),
-                     form_arguments: {
-                       method: :delete, data: { confirm: t("text_are_you_sure"), turbo: 'false' }
-                     }) do |item|
-        item.with_leading_visual_icon(icon: :trash)
-      end
-    end
-
-    def meta_info_partial
-      flex_layout(align_items: :center) do |flex|
-        flex.with_column(mr: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_created_by") }
-        end
-        flex.with_column(mr: 1) do
-          author_link_partial
-        end
-        flex.with_column(mr: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_last_updated") }
-        end
-        flex.with_column do
-          render(Primer::Beta::RelativeTime.new(font_size: :small, color: :subtle, datetime: last_updated_at))
-        end
-      end
-    end
-
-    def author_link_partial
+    def render_author_link
       render(Primer::Beta::Link.new(font_size: :small, href: user_path(@meeting.author), underline: false,
                                     target: "_blank")) do
         "#{@meeting.author.name}."
       end
+    end
+
+    def delete_enabled?
+      User.current.allowed_to?(:delete_meetings, @meeting.project)
     end
 
     def last_updated_at
@@ -150,50 +59,5 @@ module Meetings
       [latest_agenda_update, latest_meeting_update].max
     end
 
-    def edit_partial
-      flex_layout do |flex|
-        flex.with_row(mb: 2) do
-          title_form_partial
-        end
-        flex.with_row do
-          meta_info_partial
-        end
-      end
-    end
-
-    def title_form_partial
-      primer_form_with(
-        model: @meeting,
-        method: :put,
-        url: update_title_meeting_path(@meeting)
-      ) do |f|
-        form_content_partial(f)
-      end
-    end
-
-    def form_content_partial(form)
-      flex_layout do |flex|
-        flex.with_column(flex: 1, mr: 2) do
-          render(Meeting::Title.new(form))
-        end
-        flex.with_column(mr: 2) do
-          render(Meeting::Submit.new(form))
-        end
-        flex.with_column do
-          back_link_partial
-        end
-      end
-    end
-
-    def back_link_partial
-      render(Primer::Beta::Button.new(
-               scheme: :secondary,
-               tag: :a,
-               href: cancel_edit_meeting_path(@meeting),
-               data: { 'turbo-stream': true }
-             )) do |_c|
-        t("button_cancel")
-      end
-    end
   end
 end

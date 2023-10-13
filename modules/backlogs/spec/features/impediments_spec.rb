@@ -54,7 +54,7 @@ RSpec.describe 'Impediments on taskboard',
            type_id: task.id)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_taskboards
                            add_work_packages
                            view_work_packages

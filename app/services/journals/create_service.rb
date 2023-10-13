@@ -108,6 +108,7 @@ module Journals
     # * New entries in the attachable_journals table, one for every attachment the journable has at the time.
     # * New entries in the customizable_journals table, one for every custom value the journable has at the time.
     # * New entries in the storages_file_links_journals table, one for file link value the journable has at the time.
+    # * New entries in the meeting_agenda_item_journals table, one for agenda_item the journable has at the time.
     #
     # It consists of a couple of parts that are kept as individual queries (as CTEs) but
     # are all executed within a single database call.
@@ -135,6 +136,8 @@ module Journals
     #   recent journal.
     # * the journable's file_links are compared to the storages_file_links_journals entries being associated with the most
     #   recent journal.
+    # * the journable's meeting_agenda_items are compared to the meeting_agenda_item_journals entries being associated with the
+    #   most recent journal.
     # When comparing text based values, newlines are normalized as otherwise users having a different OS might change a text value
     # without intending to.
     #
@@ -202,6 +205,9 @@ module Journals
         cleanup_predecessor_storable AS (
           #{cleanup_predecessor_storable(predecessor)}
         ),
+        cleanup_predecessor_agenda_itemable AS (
+          #{cleanup_predecessor_agenda_itemable(predecessor)}
+        ),
         max_journals AS (
           #{select_max_journal_sql(predecessor)}
         ), changes AS (
@@ -222,6 +228,8 @@ module Journals
           #{insert_customizable_sql}
         ), insert_storable AS (
           #{insert_storable_sql}
+        ), insert_agenda_itemable AS (
+          #{insert_agenda_itemable_sql}
         )
 
         SELECT * from inserted_journal
@@ -252,6 +260,13 @@ module Journals
     def cleanup_predecessor_storable(predecessor)
       cleanup_predecessor(predecessor,
                           'storages_file_links_journals',
+                          :journal_id,
+                          :id)
+    end
+
+    def cleanup_predecessor_agenda_itemable(predecessor)
+      cleanup_predecessor(predecessor,
+                          'meeting_agenda_item_journals',
                           :journal_id,
                           :id)
     end
@@ -448,6 +463,42 @@ module Journals
                journable_class_name:)
     end
 
+    def insert_agenda_itemable_sql
+      agenda_itemable_sql = <<~SQL
+        INSERT INTO
+          meeting_agenda_item_journals (
+            journal_id,
+            agenda_item_id,
+            author_id,
+            title,
+            notes,
+            position,
+            duration_in_minutes,
+            start_time,
+            end_time,
+            work_package_id
+          )
+        SELECT
+          #{id_from_inserted_journal_sql},
+          agenda_items.id,
+          agenda_items.author_id,
+          agenda_items.title,
+          agenda_items.notes,
+          agenda_items.position,
+          agenda_items.duration_in_minutes,
+          agenda_items.start_time,
+          agenda_items.end_time,
+          agenda_items.work_package_id
+        FROM meeting_agenda_items agenda_items
+        WHERE
+          #{only_if_created_sql}
+          AND agenda_items.meeting_id = :journable_id
+      SQL
+
+      sanitize(agenda_itemable_sql,
+               journable_id: journable.id)
+    end
+
     # Updates the updated_at timestamp of the journable.
     # That is only carried out if the journable doesn't already have a newer timestamp than the most recent journal or
     # hasn't been updated by the `#save` call after which this service runs.
@@ -557,6 +608,10 @@ module Journals
           (#{storable_changes_sql}) storable_changes
         ON
           storable_changes.journable_id = data_changes.journable_id
+        FULL JOIN
+          (#{agenda_itemable_changes_sql}) agenda_itemable_changes
+        ON
+          agenda_itemable_changes.journable_id = data_changes.journable_id
       SQL
     end
 
@@ -640,6 +695,38 @@ module Journals
                container_type: journable_class_name)
     end
 
+    def agenda_itemable_changes_sql
+      agenda_itemable_changes_sql = <<~SQL
+        SELECT
+          max_journals.journable_id
+        FROM
+          max_journals
+        LEFT OUTER JOIN
+          meeting_agenda_item_journals
+        ON
+          meeting_agenda_item_journals.journal_id = max_journals.id
+        FULL JOIN
+          (SELECT *
+           FROM meeting_agenda_items
+           WHERE meeting_agenda_items.meeting_id = :journable_id) agenda_items
+        ON
+          agenda_items.id = meeting_agenda_item_journals.agenda_item_id
+        WHERE
+          (agenda_items.id IS DISTINCT FROM meeting_agenda_item_journals.agenda_item_id)
+          OR (agenda_items.title IS DISTINCT FROM meeting_agenda_item_journals.title)
+          OR (#{normalize_newlines_sql('agenda_items.notes')} IS DISTINCT FROM
+              #{normalize_newlines_sql('meeting_agenda_item_journals.notes')})
+          OR (agenda_items.position IS DISTINCT FROM meeting_agenda_item_journals.position)
+          OR (agenda_items.duration_in_minutes IS DISTINCT FROM meeting_agenda_item_journals.duration_in_minutes)
+          OR (agenda_items.start_time IS DISTINCT FROM meeting_agenda_item_journals.start_time)
+          OR (agenda_items.end_time IS DISTINCT FROM meeting_agenda_item_journals.end_time)
+          OR (agenda_items.work_package_id IS DISTINCT FROM meeting_agenda_item_journals.work_package_id)
+      SQL
+
+      sanitize(agenda_itemable_changes_sql,
+               journable_id: journable.id)
+    end
+
     def data_changes_sql
       data_changes_sql = <<~SQL
         SELECT
@@ -696,9 +783,7 @@ module Journals
 
       data_changes = (journable.journaled_columns_names - text_column_names).map do |column_name|
         <<~SQL
-          (#{journable_table}.#{column_name} != #{data_table}.#{column_name})
-          OR (#{journable_table}.#{column_name} IS NULL AND #{data_table}.#{column_name} IS NOT NULL)
-          OR (#{journable_table}.#{column_name} IS NOT NULL AND #{data_table}.#{column_name} IS NULL)
+          (#{journable_table}.#{column_name} IS DISTINCT FROM #{data_table}.#{column_name})
         SQL
       end
 

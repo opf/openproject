@@ -30,10 +30,10 @@ require 'spec_helper'
 
 RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
   let(:commit_role) do
-    create(:role, permissions: %i[commit_access browse_repository])
+    create(:project_role, permissions: %i[commit_access browse_repository])
   end
-  let(:browse_role) { create(:role, permissions: [:browse_repository]) }
-  let(:guest_role) { create(:role, permissions: []) }
+  let(:browse_role) { create(:project_role, permissions: [:browse_repository]) }
+  let(:guest_role) { create(:project_role, permissions: []) }
   let(:valid_user_password) { 'Top Secret Password' }
   let(:valid_user) do
     create(:user,

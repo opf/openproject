@@ -40,7 +40,7 @@ RSpec.describe 'Wysiwyg work package mentions',
                   member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
   end
   let!(:group) { create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
-  let!(:group_role) { create(:role) }
+  let!(:group_role) { create(:project_role) }
   let!(:group_member) do
     create(:member,
            principal: group,

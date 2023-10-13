@@ -39,7 +39,7 @@ RSpec.describe 'Team planner constraints for a subproject', :js, with_ee: %i[tea
   end
 
   let!(:subproject) { create(:project, parent: project) }
-  let!(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages work_package_assigned]) }
+  let!(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages work_package_assigned]) }
   let!(:member) { create(:member, principal: user, project: subproject, roles: [role]) }
   let(:project_include) { Components::ProjectIncludeComponent.new }
 

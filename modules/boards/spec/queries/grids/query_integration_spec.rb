@@ -33,8 +33,8 @@ RSpec.describe Grids::Query, type: :model do
 
   shared_let(:project) { create(:project) }
   shared_let(:other_project) { create(:project) }
-  shared_let(:show_board_views_role) { create(:role, permissions: [:show_board_views]) }
-  shared_let(:other_role) { create(:role, permissions: []) }
+  shared_let(:show_board_views_role) { create(:project_role, permissions: [:show_board_views]) }
+  shared_let(:other_role) { create(:project_role, permissions: []) }
   shared_let(:current_user) do
     create(:user).tap do |user|
       create(:member, user:, project:, roles: [show_board_views_role])

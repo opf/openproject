@@ -45,7 +45,7 @@ RSpec.describe 'API v3 Principals resource' do
     let(:project) { create(:project) }
     let(:other_project) { create(:project) }
     let(:non_member_project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { [] }
     let(:user) do
       user = create(:user,

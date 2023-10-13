@@ -54,7 +54,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
            types: [type])
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[edit_work_packages
                            view_work_packages
                            manage_subtasks

@@ -285,9 +285,7 @@ class Meeting < ApplicationRecord
     date = parsed_start_date
     time = parsed_start_time_hour
 
-    if date.nil? || time.nil?
-      raise ArgumentError, 'Provided composite start_time is invalid.'
-    end
+    return if date.nil? || time.nil?
 
     Time.zone.local(
       date.year,

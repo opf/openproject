@@ -40,6 +40,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
   subject { described_class.new(storage) }
 
   describe '#call' do
+    it 'responds with correct parameters' do
+      expect(described_class).to respond_to(:call)
+
+      method = described_class.method(:call)
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[key file_ids])
+    end
+
     context 'without outbound request involved' do
       context 'with an empty array of file ids' do
         it 'returns an empty array' do
@@ -195,20 +202,18 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
     end
 
     context 'with not existent oauth token' do
-      context 'with an array of file ids' do
-        let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
-        let(:user_without_token) { create(:user) }
+      let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
+      let(:user_without_token) { create(:user) }
 
-        it 'must return an array of file information when called' do
-          result = subject.call(user: user_without_token, file_ids:)
-          expect(result).to be_failure
-          expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
+      it 'must return unauthorized when called' do
+        result = subject.call(user: user_without_token, file_ids:)
+        expect(result).to be_failure
+        expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
 
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
-        end
+        result.match(
+          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
+          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
       end
     end
   end

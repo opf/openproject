@@ -37,8 +37,8 @@ RSpec.shared_examples_for 'available principals' do |principals|
   let(:other_user) do
     create(:user, member_with_roles: { project => assignable_role })
   end
-  let(:role) { create(:role, permissions:) }
-  let(:assignable_role) { create(:role, permissions: assignable_permissions) }
+  let(:role) { create(:project_role, permissions:) }
+  let(:assignable_role) { create(:project_role, permissions: assignable_permissions) }
   let(:project) { create(:project) }
   let(:group) do
     create(:group, member_with_roles: { project => assignable_role })

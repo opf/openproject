@@ -37,7 +37,7 @@ RSpec.describe 'API v3 Query resource' do
   let(:current_user) do
     create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:view_work_packages] }
 
   before do

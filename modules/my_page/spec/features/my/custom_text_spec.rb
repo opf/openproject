@@ -37,7 +37,7 @@ RSpec.describe 'Custom text widget on my page', js: true do
   let(:project) { create(:project) }
 
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
 
   let(:user) do

@@ -51,7 +51,7 @@ RSpec.describe 'sticky messages' do
     create(:user,
            member_with_roles: { forum.project => role })
   end
-  let(:role) { create(:role, permissions: [:edit_messages]) }
+  let(:role) { create(:project_role, permissions: [:edit_messages]) }
 
   before do
     login_as user

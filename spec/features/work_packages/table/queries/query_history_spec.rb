@@ -35,7 +35,7 @@ RSpec.describe 'Going back and forth through the browser history', :js do
   let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            save_queries])
   end

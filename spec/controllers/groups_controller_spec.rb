@@ -129,8 +129,8 @@ RSpec.describe GroupsController do
 
     context 'with project and role' do
       let(:project) { create(:project) }
-      let(:role1) { create(:role) }
-      let(:role2) { create(:role) }
+      let(:role1) { create(:project_role) }
+      let(:role2) { create(:project_role) }
 
       it 'creates membership' do
         post :create_memberships,

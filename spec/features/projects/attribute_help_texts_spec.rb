@@ -102,7 +102,7 @@ RSpec.describe 'Project attribute help texts', js: true, with_cuprite: true do
 
   describe 'as regular user' do
     let(:view_role) do
-      create(:role, permissions: [:view_project])
+      create(:project_role, permissions: [:view_project])
     end
     let(:user) do
       create(:user,

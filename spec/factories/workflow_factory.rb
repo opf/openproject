@@ -30,7 +30,7 @@ FactoryBot.define do
   factory :workflow do
     old_status factory: :status
     new_status factory: :status
-    role
+    role factory: :project_role
     type
 
     factory :workflow_with_default_status do

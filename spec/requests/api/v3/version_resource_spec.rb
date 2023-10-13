@@ -213,7 +213,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         create(:project).tap do |p|
           create(:member,
                  project: p,
-                 roles: [create(:role, permissions: [:manage_versions])],
+                 roles: [create(:project_role, permissions: [:manage_versions])],
                  user: current_user)
         end
       end
@@ -250,7 +250,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
       let(:other_membership) do
         create(:member,
                project: create(:project),
-               roles: [create(:role, permissions: [:manage_versions])])
+               roles: [create(:project_role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do
@@ -357,7 +357,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
       let(:other_membership) do
         create(:member,
                project: create(:project),
-               roles: [create(:role, permissions: [:manage_versions])])
+               roles: [create(:project_role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do
