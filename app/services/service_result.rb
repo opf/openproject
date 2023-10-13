@@ -32,10 +32,10 @@ class ServiceResult
 
   attr_accessor :success,
                 :result,
-                :errors,
                 :dependent_results
 
-  attr_writer :state
+  attr_writer :state,
+              :errors
 
   # Creates a successful ServiceResult.
   def self.success(errors: nil,
@@ -80,7 +80,7 @@ class ServiceResult
     self.result = result
     self.state = state
 
-    initialize_errors(errors)
+    @errors = errors
     @message = message
     @message_type = message_type
 
@@ -202,6 +202,10 @@ class ServiceResult
     @state ||= ::Shared::ServiceState.build
   end
 
+  def errors
+    @errors ||= new_errors_with_result
+  end
+
   private
 
   def initialize_errors(errors)
@@ -209,8 +213,10 @@ class ServiceResult
   end
 
   def new_errors_with_result
-    ActiveModel::Errors.new(self).tap do |errors|
-      errors.merge!(result) if result.try(:errors).present?
+    if result.respond_to?(:errors)
+      result.errors
+    else
+      ActiveModel::Errors.new(self)
     end
   end
 

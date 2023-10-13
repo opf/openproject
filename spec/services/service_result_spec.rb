@@ -143,12 +143,17 @@ RSpec.describe ServiceResult, type: :model do
       expect(instance.errors).to be_a ActiveModel::Errors
     end
 
-    context 'when providing errors from user' do
-      let(:result) { build(:work_package) }
+    context 'when providing an object with errors of its own' do
+      let(:result) do
+        build_stubbed(:work_package) do |wp|
+          wp.errors.add(:base, 'some error')
+        end
+      end
 
-      it 'creates a new errors instance' do
+      it 'uses that error instance' do
         instance = described_class.new(result:)
-        expect(instance.errors).not_to eq result.errors
+
+        expect(instance.errors).to eq result.errors
       end
     end
   end
