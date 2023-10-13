@@ -59,8 +59,13 @@ module Storages::Storages
       # to the list of writable attributes.
       # Otherwise, we get :readonly validation errors.
       contract.writable_attributes.append(*writable_attributes)
+
+      # Validating the contract will clear the errors
+      # of this contract so we save them for later.
+      former_errors = errors.dup
+
       contract.validate
-      errors.merge!(contract.errors)
+      errors.merge!(former_errors)
     end
   end
 end
