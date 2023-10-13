@@ -62,7 +62,7 @@ RSpec.describe 'API v3 file links resource' do
   shared_let(:project) { create(:project) }
 
   shared_let(:current_user) do
-    create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages view_file_links))
+    create(:user, member_with_permissions: { project => %i(view_work_packages view_file_links) })
   end
 
   shared_let(:work_package) { create(:work_package, author: current_user, project:) }

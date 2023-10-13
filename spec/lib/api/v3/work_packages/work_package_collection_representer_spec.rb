@@ -611,8 +611,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       create(:user,
              firstname: 'user',
              lastname: '1',
-             member_in_project: project,
-             member_with_permissions: %i[view_work_packages])
+             member_with_permissions: { project => %i[view_work_packages] })
     end
 
     shared_examples_for 'includes the properties of the current work package' do

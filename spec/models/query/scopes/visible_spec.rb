@@ -34,8 +34,7 @@ RSpec.describe Queries::Scopes::Visible do
 
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:permissions) { %i[view_work_packages] }
     let!(:private_user_query) do

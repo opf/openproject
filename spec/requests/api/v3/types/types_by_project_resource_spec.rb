@@ -37,9 +37,7 @@ RSpec.describe '/api/v3/projects/:id/types' do
   let(:project) { create(:project, no_types: true, public: false) }
   let(:requested_project) { project }
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let!(:irrelevant_types) { create_list(:type, 4) }

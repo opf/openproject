@@ -113,8 +113,7 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
       create(:user,
              firstname: 'An',
              lastname: 'assignee',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let(:filters) do

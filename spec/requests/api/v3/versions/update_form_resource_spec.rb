@@ -35,9 +35,7 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
   let(:version) { create(:version, project:) }
   let(:project) { create(:project) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:permissions) { [:manage_versions] }
 

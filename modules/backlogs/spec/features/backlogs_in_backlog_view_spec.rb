@@ -63,8 +63,7 @@ RSpec.describe 'Backlogs in backlog view',
   end
   let!(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let!(:sprint) do
     create(:version,

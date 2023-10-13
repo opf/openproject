@@ -45,7 +45,7 @@ RSpec.shared_examples_for 'user contract' do
   end
 
   context 'when global user' do
-    let(:current_user) { create(:user, global_permission: %i[create_user manage_user]) }
+    let(:current_user) { create(:user, global_permissions: %i[create_user manage_user]) }
 
     describe 'cannot set the password' do
       before do

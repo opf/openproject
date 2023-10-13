@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Invite user modal subprojects', js: true, with_cuprite: true do
+RSpec.describe 'Invite user modal subprojects', :js, :with_cuprite do
   shared_let(:project) { create(:project, name: 'Parent project') }
   shared_let(:subproject) { create(:project, name: 'Subproject', parent: project) }
   shared_let(:work_package) { create(:work_package, project: subproject) }
@@ -51,8 +51,7 @@ RSpec.describe 'Invite user modal subprojects', js: true, with_cuprite: true do
 
   current_user do
     create(:user,
-           member_in_projects: [project, subproject],
-           member_through_role: role,
+           member_with_roles: { project => role, subproject => role },
            global_permissions:)
   end
 

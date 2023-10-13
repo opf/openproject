@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package filtering by user custom field', js: true do
+RSpec.describe 'Work package filtering by user custom field', :js do
   let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -44,18 +44,15 @@ RSpec.describe 'Work package filtering by user custom field', js: true do
     create(:user,
            firstname: 'Other',
            lastname: 'User',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let!(:placeholder_user) do
     create(:placeholder_user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let!(:group) do
     create(:group,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let!(:work_package_user) do
@@ -84,9 +81,7 @@ RSpec.describe 'Work package filtering by user custom field', js: true do
   end
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   it 'shows the work package matching the user cf filter' do

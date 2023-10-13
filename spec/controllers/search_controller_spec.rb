@@ -50,9 +50,7 @@ RSpec.describe SearchController do
   end
 
   shared_let(:user) do
-    create(:user,
-           member_in_projects: [project, subproject],
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role, subproject => role })
   end
 
   shared_let(:wiki_page) do

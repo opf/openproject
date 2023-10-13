@@ -39,7 +39,7 @@ RSpec.describe 'Work Package timer', js: true do
   let(:time_logging_modal) { Components::TimeLoggingModal.new }
   let(:timer_button) { Components::WorkPackages::TimerButton.new }
 
-  let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before do
     login_as user

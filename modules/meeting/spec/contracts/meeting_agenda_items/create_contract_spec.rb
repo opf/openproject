@@ -41,7 +41,7 @@ RSpec.describe MeetingAgendaItems::CreateContract do
 
   context 'with permission' do
     let(:user) do
-      create(:user, member_in_project: project, member_with_permissions: %i[view_meetings edit_meetings])
+      create(:user, member_with_permissions: { project => %i[view_meetings edit_meetings] })
     end
 
     it_behaves_like 'contract is valid'

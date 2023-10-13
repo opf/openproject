@@ -57,13 +57,11 @@ RSpec.describe 'Work Package Project Boards Index Page',
 
   shared_let(:user_with_full_permissions) do
     create(:user,
-           member_in_project: project,
-           member_through_role: management_role)
+           member_with_roles: { project => management_role })
   end
   shared_let(:user_with_limited_permissions) do
     create(:user,
-           member_in_project: project,
-           member_through_role: view_only_role)
+           member_with_roles: { project => view_only_role })
   end
 
   shared_let(:priority) { create(:default_priority) }

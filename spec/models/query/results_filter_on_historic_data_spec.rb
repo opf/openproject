@@ -61,8 +61,7 @@ RSpec.describe Query::Results,
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: project_with_member,
-           member_with_permissions: %i[view_work_packages view_file_links])
+           member_with_permissions: { project_with_member => %i[view_work_packages view_file_links] })
   end
 
   def move_work_package_to_project(work_package, project, time)

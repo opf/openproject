@@ -28,11 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package copy', js: true, selenium: true do
+RSpec.describe 'Work package copy', :js, :selenium do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: create_role)
+           member_with_roles: { project => create_role })
   end
   let(:work_flow) do
     create(:workflow,
@@ -66,22 +65,19 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
     create(:user,
            firstname: 'An',
            lastname: 'assignee',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:responsible) do
     create(:user,
            firstname: 'The',
            lastname: 'responsible',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:author) do
     create(:user,
            firstname: 'The',
            lastname: 'author',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:version) do
     build(:version,

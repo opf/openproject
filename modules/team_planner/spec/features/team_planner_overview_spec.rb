@@ -44,19 +44,17 @@ RSpec.describe 'Team planner overview',
   shared_let(:admin) { create(:admin) }
   shared_let(:user_with_full_permissions) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[
+           member_with_permissions: { project => %w[
              view_work_packages edit_work_packages add_work_packages
              view_team_planner manage_team_planner
              save_queries manage_public_queries
              work_package_assigned
-           ])
+           ] })
   end
   shared_let(:user_with_limited_permissions) do
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[view_work_packages view_team_planner])
+           member_with_permissions: { project => %w[view_work_packages view_team_planner] })
   end
 
   let(:team_planner) { Pages::TeamPlanner.new(project) }
@@ -70,7 +68,7 @@ RSpec.describe 'Team planner overview',
 
   it 'renders a global menu with its item selected' do
     within '#main-menu' do
-      expect(page).to have_selector '.selected', text: 'Team planners'
+      expect(page).to have_css '.selected', text: 'Team planners'
     end
   end
 

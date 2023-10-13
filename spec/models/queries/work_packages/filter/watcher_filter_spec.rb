@@ -163,7 +163,7 @@ RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
 
       it 'returns an array of users' do
         expect(instance.value_objects)
-          .to match_array([user1])
+          .to contain_exactly(user1)
       end
     end
   end

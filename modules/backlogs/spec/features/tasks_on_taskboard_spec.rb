@@ -62,8 +62,7 @@ RSpec.describe 'Tasks on taskboard',
   end
   let!(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let!(:story1) do
     create(:work_package,

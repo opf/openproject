@@ -35,20 +35,17 @@ RSpec.describe 'Meetings participants' do
   let!(:user) do
     create(:user,
            firstname: 'Current',
-           member_in_project: project,
-           member_with_permissions: %i[view_meetings edit_meetings])
+           member_with_permissions: { project => %i[view_meetings edit_meetings] })
   end
   let!(:viewer_user) do
     create(:user,
            firstname: 'Viewer',
-           member_in_project: project,
-           member_with_permissions: %i[view_meetings])
+           member_with_permissions: { project => %i[view_meetings] })
   end
   let!(:non_viewer_user) do
     create(:user,
            firstname: 'Nonviewer',
-           member_in_project: project,
-           member_with_permissions: %i[])
+           member_with_permissions: { project => %i[] })
   end
   let(:edit_page) { Pages::Meetings::Edit.new(meeting) }
   let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }

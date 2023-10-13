@@ -29,8 +29,7 @@
 require 'spec_helper'
 require_relative '../../support/onboarding/onboarding_steps'
 
-RSpec.describe 'team planner onboarding tour',
-               js: true,
+RSpec.describe 'team planner onboarding tour', :js,
                with_cuprite: false,
                with_ee: %i[team_planner_view] do
   let(:next_button) { find('.enjoyhint_next_btn') }
@@ -52,10 +51,9 @@ RSpec.describe 'team planner onboarding tour',
 
   let(:user) do
     create(:admin,
-           member_in_project: demo_project,
-           member_with_permissions: %w[view_work_packages edit_work_packages add_work_packages
-                                       view_team_planner manage_team_planner save_queries manage_public_queries
-                                       work_package_assigned])
+           member_with_permissions: { demo_project => %w[view_work_packages edit_work_packages add_work_packages
+                                                         view_team_planner manage_team_planner save_queries
+                                                         manage_public_queries work_package_assigned] })
   end
 
   let!(:wp1) do

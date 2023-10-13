@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
-RSpec.describe 'Copy work packages through Rails view', js: true do
+RSpec.describe 'Copy work packages through Rails view', :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:type) { create(:type, name: 'Bug') }
@@ -15,20 +15,18 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages work_package_assigned])
+           member_with_permissions: { project => %i[view_work_packages work_package_assigned] })
   end
   shared_let(:mover) do
     create(:user,
            firstname: 'Manager',
            lastname: 'Guy',
-           member_in_projects: [project, project2],
-           member_with_permissions: %i[view_work_packages
-                                       copy_work_packages
-                                       move_work_packages
-                                       manage_subtasks
-                                       assign_versions
-                                       add_work_packages])
+           member_with_permissions: {
+             project => %i[view_work_packages copy_work_packages move_work_packages manage_subtasks assign_versions
+                           add_work_packages],
+             project2 => %i[view_work_packages copy_work_packages move_work_packages manage_subtasks assign_versions
+                            add_work_packages]
+           })
   end
 
   shared_let(:work_package) do

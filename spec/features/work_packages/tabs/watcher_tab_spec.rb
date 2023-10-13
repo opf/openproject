@@ -6,8 +6,8 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-  let(:user) { create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { create(:project_role, permissions:) }
+  let(:user) { create(:user, member_with_roles: { project => role }) }
   let(:permissions) do
     %i(view_work_packages
        view_work_package_watchers
@@ -87,8 +87,7 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
       let!(:html_user) do
         create(:user,
                firstname: '<em>foo</em>',
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
 
       it 'escapes the user name' do

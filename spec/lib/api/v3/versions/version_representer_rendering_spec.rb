@@ -31,7 +31,6 @@ require 'spec_helper'
 RSpec.describe API::V3::Versions::VersionRepresenter, 'rendering' do
   let(:version) { build_stubbed(:version) }
   let(:permissions) { [:manage_versions] }
-  let(:permissions) { [:manage_versions] }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.create(version, current_user: user) }
 

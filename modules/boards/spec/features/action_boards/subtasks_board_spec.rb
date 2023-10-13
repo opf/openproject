@@ -37,8 +37,7 @@ RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let(:board_index) { Pages::BoardIndex.new(project) }

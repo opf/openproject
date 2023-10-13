@@ -43,15 +43,14 @@ RSpec.describe 'Team planner query handling', :js, with_ee: %i[team_planner_view
 
   shared_let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[
+           member_with_permissions: { project => %w[
              view_work_packages
              edit_work_packages
              save_queries
              save_public_queries
              view_team_planner
              manage_team_planner
-           ])
+           ] })
   end
 
   shared_let(:task) do

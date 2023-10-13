@@ -89,7 +89,7 @@ RSpec.describe WorkPackages::BaseContract do
       let(:changed_values) { [attribute] }
 
       it('is invalid') do
-        expect(contract.errors.symbols_for(attribute)).to match_array([:error_readonly])
+        expect(contract.errors.symbols_for(attribute)).to contain_exactly(:error_readonly)
       end
     end
 
@@ -149,7 +149,7 @@ RSpec.describe WorkPackages::BaseContract do
         let(:changed_values) { [attribute] }
 
         it('is invalid (read only)') do
-          expect(contract.errors.symbols_for(attribute)).to match_array([:error_readonly])
+          expect(contract.errors.symbols_for(attribute)).to contain_exactly(:error_readonly)
         end
       end
 
@@ -216,7 +216,7 @@ RSpec.describe WorkPackages::BaseContract do
         contract.validate
 
         expect(subject.errors.symbols_for(:status))
-          .to match_array [:does_not_exist]
+          .to contain_exactly(:does_not_exist)
       end
     end
 
@@ -270,7 +270,7 @@ RSpec.describe WorkPackages::BaseContract do
 
         it 'is invalid' do
           expect(subject.errors.symbols_for(:status_id))
-            .to match_array [:status_transition_invalid]
+            .to contain_exactly(:status_transition_invalid)
         end
       end
 
@@ -279,7 +279,7 @@ RSpec.describe WorkPackages::BaseContract do
 
         it 'is invalid' do
           expect(subject.errors.symbols_for(:status))
-            .to match_array [:blank]
+            .to contain_exactly(:blank)
         end
       end
 
@@ -345,7 +345,7 @@ RSpec.describe WorkPackages::BaseContract do
         contract.validate
 
         expect(subject.errors.symbols_for(:estimated_hours))
-          .to match_array [:only_values_greater_or_equal_zeroes_allowed]
+          .to contain_exactly(:only_values_greater_or_equal_zeroes_allowed)
       end
     end
   end
@@ -370,7 +370,7 @@ RSpec.describe WorkPackages::BaseContract do
       let(:changed_values) { [attribute] }
 
       it('is invalid (read only)') do
-        expect(contract.errors.symbols_for(attribute)).to match_array([:error_readonly])
+        expect(contract.errors.symbols_for(attribute)).to contain_exactly(:error_readonly)
       end
     end
   end
@@ -408,7 +408,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       it 'is invalid' do
         expect(subject.errors.symbols_for(attribute))
-          .to match_array [:not_a_date]
+          .to contain_exactly(:not_a_date)
       end
     end
   end
@@ -440,7 +440,7 @@ RSpec.describe WorkPackages::BaseContract do
                            soonest_start: Time.zone.today + 4.days)
 
           expect(contract.errors[:start_date])
-            .to match_array [message]
+            .to contain_exactly(message)
         end
       end
 
@@ -502,7 +502,7 @@ RSpec.describe WorkPackages::BaseContract do
                            soonest_start: Time.zone.today + 4.days)
 
           expect(contract.errors[:due_date])
-            .to match_array [message]
+            .to contain_exactly(message)
         end
       end
 
@@ -714,9 +714,7 @@ RSpec.describe WorkPackages::BaseContract do
     let(:invalid_version) { build_stubbed(:version) }
 
     before do
-      allow(work_package)
-        .to receive(:assignable_versions)
-        .and_return [assignable_version]
+      allow(work_package).to receive(:assignable_versions).and_return [assignable_version]
     end
 
     context 'for assignable version' do
@@ -856,7 +854,7 @@ RSpec.describe WorkPackages::BaseContract do
           subject.validate
 
           expect(subject.errors.symbols_for(:type_id))
-            .to match_array [:inclusion]
+            .to contain_exactly(:inclusion)
         end
       end
 
@@ -869,7 +867,7 @@ RSpec.describe WorkPackages::BaseContract do
           subject.validate
 
           expect(subject.errors.symbols_for(:type_id))
-            .to match_array [:inclusion]
+            .to contain_exactly(:inclusion)
         end
       end
     end
@@ -883,7 +881,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:type))
-          .to match_array [:does_not_exist]
+          .to contain_exactly(:does_not_exist)
       end
     end
   end
@@ -898,7 +896,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:assigned_to))
-          .to match_array [:does_not_exist]
+          .to contain_exactly(:does_not_exist)
       end
     end
   end
@@ -945,7 +943,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:category))
-          .to match_array [:does_not_exist]
+          .to contain_exactly(:does_not_exist)
       end
     end
 
@@ -962,7 +960,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:category))
-          .to match_array [:only_same_project_categories_allowed]
+          .to contain_exactly(:only_same_project_categories_allowed)
       end
     end
   end
@@ -993,7 +991,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:priority_id))
-          .to match_array [:only_active_priorities_allowed]
+          .to contain_exactly(:only_active_priorities_allowed)
       end
     end
 
@@ -1020,7 +1018,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:priority))
-          .to match_array [:does_not_exist]
+          .to contain_exactly(:does_not_exist)
       end
     end
   end
@@ -1226,7 +1224,7 @@ RSpec.describe WorkPackages::BaseContract do
     end
 
     it 'returns all categories of the project' do
-      expect(subject.assignable_values(:category, current_user)).to match_array([category])
+      expect(subject.assignable_values(:category, current_user)).to contain_exactly(category)
     end
   end
 end

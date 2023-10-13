@@ -34,7 +34,7 @@ require_module_spec_helper
 RSpec.describe 'Managing file links in work package', js: true, webmock: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
-  let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
 
   let(:oauth_application) { create(:oauth_application) }

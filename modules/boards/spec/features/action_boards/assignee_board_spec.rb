@@ -37,8 +37,7 @@ RSpec.describe 'Assignee action board',
     create(:user,
            firstname: 'Bob',
            lastname: 'Self',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:admin) { create(:admin) }
   let(:type) { create(:type_standard) }
@@ -62,8 +61,7 @@ RSpec.describe 'Assignee action board',
     create(:user,
            firstname: 'Foo',
            lastname: 'Bar',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let!(:group) do

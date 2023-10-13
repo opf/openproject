@@ -37,7 +37,7 @@ RSpec.describe 'API v3 file links resource' do
 
   let(:project) { create(:project) }
   let(:permissions) { %i(view_work_packages view_file_links) }
-  let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
   let(:work_package) { create(:work_package, author: user, project:) }
 

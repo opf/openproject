@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
   shared_let(:project) { create(:project, enabled_module_names: %i[bim]) }
   shared_let(:other_project) { create(:project, enabled_module_names: %i[bim]) }
-  shared_let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[manage_ifc_models]) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => %i[manage_ifc_models] }) }
 
   let(:other_user) { build_stubbed(:user) }
   let(:contract_class) do

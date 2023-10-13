@@ -34,7 +34,7 @@ RSpec.describe 'API v3 Project available parents resource', content_type: :json 
   include API::V3::Utilities::PathHelper
 
   current_user do
-    create(:user, member_in_project: project, member_with_permissions: permissions).tap do |u|
+    create(:user, member_with_permissions: { project => permissions }).tap do |u|
       create(:global_member,
              principal: u,
              roles: [create(:global_role, permissions: global_permissions)])

@@ -35,8 +35,7 @@ RSpec.describe "API v3 version's projects resource" do
 
   let(:current_user) do
     user = create(:user,
-                  member_in_project: project,
-                  member_through_role: role)
+                  member_with_roles: { project => role })
 
     allow(User).to receive(:current).and_return user
 

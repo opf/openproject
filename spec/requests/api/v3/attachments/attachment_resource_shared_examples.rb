@@ -194,7 +194,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
   let(:current_user) { user_with_permissions }
 
   let(:user_with_permissions) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:author) do

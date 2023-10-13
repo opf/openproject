@@ -43,8 +43,7 @@ RSpec.describe ApplicationHelper do
              ])
     end
     let(:project_member) do
-      create(:user, member_in_project: project,
-                    member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
     let(:document) do
       create(:document,

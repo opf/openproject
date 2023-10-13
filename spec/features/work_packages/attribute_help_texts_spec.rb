@@ -75,8 +75,7 @@ RSpec.describe 'Work package attribute help texts', js: true do
     end
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: view_wps_role)
+             member_with_roles: { project => view_wps_role })
     end
 
     it_behaves_like 'allows to view help texts'

@@ -41,7 +41,7 @@ RSpec.describe 'API v3 Project resource delete', content_type: :json do
   let(:setup) do
     # overwritten in some examples
   end
-  let(:member_user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:member_user) { create(:user, member_with_roles: { project => role }) }
 
   current_user { create(:admin) }
 

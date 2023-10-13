@@ -45,7 +45,7 @@ RSpec.describe 'API v3 Work package resource',
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   current_user do
-    user = create(:user, member_in_project: project, member_through_role: role)
+    user = create(:user, member_with_roles: { project => role })
 
     create(:user_preference, user:)
 
