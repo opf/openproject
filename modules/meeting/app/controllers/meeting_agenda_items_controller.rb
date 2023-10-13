@@ -60,7 +60,12 @@ class MeetingAgendaItemsController < ApplicationController
   def create
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
-      .call(meeting_agenda_item_params.merge(meeting_id: @meeting.id))
+      .call(
+        meeting_agenda_item_params.merge(
+          meeting_id: @meeting.id,
+          item_type: @agenda_item_type.presence || MeetingAgendaItem::ITEM_TYPES[:simple]
+        )
+      )
 
     @meeting_agenda_item = call.result
 
