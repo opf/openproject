@@ -125,6 +125,7 @@ class BaseContract < Disposable::Twin
     @options = options
   end
 
+  # TODO: This should be removable here and in the subclasses
   # we want to add a validation error whenever someone sets a property that we don't know.
   # However AR will cleverly try to resolve the value for erroneous properties. Thus we need
   # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
