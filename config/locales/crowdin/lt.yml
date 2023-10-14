@@ -430,7 +430,7 @@ lt:
     error_self_registration_disabled: >
       Naudotojų registracija išjungta šioje sistemoje. Susisiekite su administratoriumi, kad jis sukurtų Jūsų asmeninę paskyrą.
     error_self_registration_limited_provider: >
-      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
+      Naudotojų registracija ribojama tik vieno prisijungimo tiekėjui „%{name}“. Prašome paprašyti administratoriaus, kad aktyvuotų jūsų paskyrą arba pakeistų savarankiškų registracijų apribojimą šiam tiekėjui.
     login_with_auth_provider: "arba prisijunkite su jau turima paskyra"
     signup_with_auth_provider: "arba prisiregistruokite naudodami"
     auth_source_login: Prisijunkite kaip <em>%{login}</em>, norėdami aktyvuoti savo paskyrą.
