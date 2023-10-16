@@ -150,9 +150,6 @@ RSpec.describe 'Work package sharing',
         expect(ActionMailer::Base.deliveries.size).to eq(1)
       end
 
-      share_modal.close
-      click_button 'Share'
-
       aggregate_failures "Inviting a group" do
         # Inviting a group propagates the membership to the group's users. However, these propagated
         # memberships are not expected to be visible.
