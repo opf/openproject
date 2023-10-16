@@ -300,8 +300,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   }
 
   ngAfterViewInit():void {
-    if (!this.ngSelectInstance) {
-      return;
+    if (this.inputName && this.model) {
+      this.syncHiddenField(this.mappedInputValue);
     }
 
     this.ngZone.runOutsideAngular(() => {
