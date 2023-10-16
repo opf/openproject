@@ -89,6 +89,23 @@ RSpec.describe 'Admin storages',
     end
   end
 
+  describe 'File storage edit view', with_flag: { storage_primer_design: true } do
+    let(:storage) { create(:nextcloud_storage) }
+
+    before { storage }
+
+    it 'renders the edit view' do
+      visit edit_admin_settings_storage_path(storage)
+
+      expect(page).to have_test_selector('storage-name-title', text: storage.name.capitalize)
+
+      aggregate_failures 'storage host' do
+        expect(page).to have_test_selector('storage-host-title', text: 'Host')
+        expect(page).to have_test_selector('storage-host-value', text: storage.host)
+      end
+    end
+  end
+
   it 'creates, edits and deletes storages', :webmock do
     visit admin_settings_storages_path
 

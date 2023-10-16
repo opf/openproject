@@ -16,7 +16,7 @@
             concat(configuration_check_label_for(:host_name_configured))
           end
 
-          grid.with_area(:description, tag: :div, color: :subtle, data: { 'test-selector': 'storage-description' }) do
+          grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-description') do
             render(Primer::Beta::Truncate.new(font_weight: :light)) { storage_description }
           end
 
@@ -52,7 +52,7 @@
             concat(configuration_check_label_for(:openproject_oauth_application_configured))
           end
 
-          grid.with_area(:description, tag: :div, color: :subtle, data: { 'test-selector': 'storage-openproject-oauth-client-description' }) do
+          grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-openproject-oauth-client-description') do
             render(Primer::Beta::Truncate.new(font_weight: :light)) { openproject_oauth_client_description }
           end
 
@@ -84,12 +84,12 @@
           concat(configuration_check_label_for(:storage_oauth_client_configured))
         end
 
-        grid.with_area(:description, tag: :div, color: :subtle, data: { 'test-selector': 'storage-oauth-client-id-description' }) do
+        grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-oauth-client-id-description') do
           render(Primer::Beta::Truncate.new(font_weight: :light)) { provider_oauth_client_description }
         end
 
         grid.with_area(:"icon-button", tag: :div, color: :subtle, mr: 3, justify_self: :end) do
-          render(Primer::Beta::IconButton.new(icon: :sync, scheme: :invisible, aria: { label: I18n.t('storages.label_edit_storage') } , data: { 'test-selector': 'storage-edit-button' }))
+          render(Primer::Beta::IconButton.new(icon: :sync, scheme: :invisible, aria: { label: I18n.t('storages.label_edit_storage') } , test_selector: 'storage-edit-button'))
         end
       end
     end
@@ -109,12 +109,12 @@
           concat(automatically_managed_project_folders_status_label)
         end
 
-        grid.with_area(:description, tag: :div, color: :subtle, data: { 'test-selector': 'storage-oauth-client-id-description' }) do
+        grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-oauth-client-id-description') do
           render(Primer::Beta::Truncate.new(font_weight: :light)) { I18n.t('storages.page_titles.managed_project_folders.subtitle_short') }
         end
 
         grid.with_area(:"icon-button", tag: :div, color: :subtle, mr: 3, justify_self: :end) do
-          render(Primer::Beta::IconButton.new(icon: :pencil, scheme: :invisible, aria: { label: I18n.t('storages.label_edit_storage') } , data: { 'test-selector': 'storage-edit-button' }))
+          render(Primer::Beta::IconButton.new(icon: :pencil, scheme: :invisible, aria: { label: I18n.t('storages.label_edit_storage') } , test_selector: 'storage-edit-button'))
         end
       end
     end
