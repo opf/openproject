@@ -152,6 +152,59 @@ user.allowed_globally?(:create_users)
 
 Previously, we used to check permissions using the `allowed_to?`, `allowed_to_globally?` and `allowed_to_in_project?` methods to check permissions. Because of some ambiguity in them (i.e. you could check for project permissions globally, which then returned what is now `allowed_in_any_project?`) and the lack of the checks that are mentioned above, those methods have been deprecated and will be removed in a future version of OpenProject. If you are using those methods in a module, please migrate to the new methods.
 
+### Permissions in tests
+
+When writing tests for code that checks permissions, you have multiple options to set the system up so that your permission
+checks will return the desired results:
+
+#### Setting up roles and users
+
+This setup should be used when the entire database is filled with data in your test and you might need to set up the same
+role for multiple users. Mostly used when writing full integration specs or data about the role itself are important (i.e. role name).
+
+```ruby
+let(:global_role) { create(:global_role, name: "Create Users Role", permissions: [:create_user])}
+let(:project_role) { create(:project_role, permissions: [:view_work_packages, :add_work_packages])}
+
+let(:project) { create(:project) }
+
+let(:user) { create(:user, member_with_roles: { project => [projet_role] }, global_roles: [global_role]) }
+```
+
+#### Setting up users with permissions
+
+When you don't care about data of the role itself, you can let the factories set up roles with the given permissions. This
+simplifies the amount of code you have to write in the test setup.
+
+```ruby
+let(:project) { create(:project) }
+
+let(:user) do
+  create(:user,
+    member_with_permissions: { project => [:view_work_packages, :add_work_packages] },
+    global_permissions: [:create_user]
+  )
+end
+```
+
+#### Mocking Permissions
+
+When working in an entirely in-memory setup (i.e. in unit tests) when nothing is persisted in the database, you can mock the permission system without creating any roles or users in the database.
+
+```ruby
+let(:user) { build(:user) }
+let(:project) { build(:project) }
+
+before do
+  mock_permissions_for(user) do |mock|
+    mock.allow_in_project :view_work_packages, :add_work_packages, project: project
+    mock.allow_globally :create_user
+  end
+end
+```
+
+This hooks into all permission checks (including the deprecated `allowed_to?` methods and methods like `allowed_in_any_project?`) that are executed on the user. **Scopes like `Project.visible`, `Project.allowed_to` and methods like `Authorization.roles` are _not_ mocked by this.** If you need one of those, you most likely want to throw things into the database and use one of the methods defined above.
+
 ## Checking of permissions in Frontend
 
 In the frontend, we have to rely on the API to tell us what actions the user is allowed to do. With [`HAL+JSON resources`](../hal-resources), we can do that by checking for the presence or absence of an action link in responses.
