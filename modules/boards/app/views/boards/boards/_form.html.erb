@@ -44,9 +44,9 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="form--field-container">
         <%= angular_component_tag 'opce-project-autocompleter',
                                   inputs: {
-                                    apiFilters: [['user_action', '=', ['boards/create']]],
-                                    name: 'project_id',
-                                    value: @project,
+                                    filters: [{ name: 'user_action', operator: '=', values: ['boards/create'] }],
+                                    inputName: 'project_id',
+                                    model: @project,
                                     appendTo: 'body',
                                   },
                                   id: 'project_id',

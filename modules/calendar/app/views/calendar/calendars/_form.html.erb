@@ -45,8 +45,8 @@ See COPYRIGHT and LICENSE files for more details.
       <%= angular_component_tag 'opce-project-autocompleter',
                                 inputs: {
                                   apiFilters: [['user_action', '=', ['calendars/create']]],
-                                  name: 'project_id',
-                                  value: @project,
+                                  inputName: 'project_id',
+                                  inputValue: @project&.id,
                                   appendTo: 'body',
                                 },
                                 id: 'project_id',
