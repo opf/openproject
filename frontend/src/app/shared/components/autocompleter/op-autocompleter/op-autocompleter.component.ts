@@ -8,6 +8,7 @@ import {
   ContentChild,
   ElementRef,
   EventEmitter,
+  forwardRef,
   HostBinding,
   Injector,
   Input,
@@ -44,7 +45,7 @@ import {
   repositionDropdownBugfix,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
-import { ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ID } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -66,6 +67,13 @@ export interface IAutocompleterTemplateComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './op-autocompleter.component.html',
   styleUrls: ['./op-autocompleter.component.sass'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => OpAutocompleterComponent),
+      multi: true,
+    },
+  ],
 })
 // It is component that you can use whenever you need an autocompleter
 // it has all inputs and outputs of ng-select
@@ -374,7 +382,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     this.close.emit();
   }
 
-  public changed(val:unknown):void {
+  public changed(val:T|T[]|null):void {
+    this.writeValue(val);
+    this.onTouched(val);
+    this.onChange(val);
     this.syncHiddenField(this.mappedInputValue);
     this.change.emit(val);
     this.cdRef.detectChanges();
@@ -461,7 +472,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     return 50;
   }
 
-  writeValue(value:T|null):void {
+  writeValue(value:T|T[]|null):void {
     this.model = value;
   }
 
