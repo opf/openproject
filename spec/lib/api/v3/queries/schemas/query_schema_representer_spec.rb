@@ -203,7 +203,7 @@ RSpec.describe API::V3::Queries::Schemas::QuerySchemaRepresenter do
           before do
             mock_permissions_for(user) do |mock|
               # so that allowed_in_any_project? returns true
-              mock.in_project :manage_public_queries, project: other_project
+              mock.allow_in_project :manage_public_queries, project: other_project
             end
           end
 

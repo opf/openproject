@@ -62,7 +62,7 @@ RSpec.describe WorkPackages::UpdateContract do
 
   before do
     mock_permissions_for(user) do |mock|
-      mock.in_project *permissions, project: work_package_project
+      mock.allow_in_project *permissions, project: work_package_project
     end
   end
 
@@ -164,8 +164,8 @@ RSpec.describe WorkPackages::UpdateContract do
 
     before do
       mock_permissions_for(user) do |mock|
-        mock.in_project *permissions, project: work_package_project
-        mock.in_project *target_permissions, project: target_project
+        mock.allow_in_project *permissions, project: work_package_project
+        mock.allow_in_project *target_permissions, project: target_project
       end
 
       allow(work_package).to receive(:project) do

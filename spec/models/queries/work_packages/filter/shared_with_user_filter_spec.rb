@@ -201,7 +201,7 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
         context "and I have the necessary permissions" do
           before do
             mock_permissions_for(user) do |mock|
-              mock.in_project :view_shared_work_packages, project:
+              mock.allow_in_project :view_shared_work_packages, project:
             end
           end
 

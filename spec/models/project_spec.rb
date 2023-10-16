@@ -132,7 +132,7 @@ RSpec.describe Project do
 
     before do
       mock_permissions_for(user) do |mock|
-        mock.in_project :copy_projects, project:
+        mock.allow_in_project :copy_projects, project:
       end
 
       login_as(user)

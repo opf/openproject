@@ -83,7 +83,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.in_project *permissions, project: schema.project
+      mock.allow_in_project *permissions, project: schema.project
     end
 
     login_as(current_user)

@@ -40,7 +40,7 @@ RSpec.describe API::V3::Versions::VersionRepresenter, 'rendering' do
 
   before do
     mock_permissions_for(user) do |mock|
-      mock.in_project *permissions, project: version.project
+      mock.allow_in_project *permissions, project: version.project
     end
   end
 

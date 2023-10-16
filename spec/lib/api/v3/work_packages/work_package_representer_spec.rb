@@ -114,8 +114,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     mock_permissions_for(current_user) do |mock|
       permissions.each do |permission|
         perm = OpenProject::AccessControl.permission(permission)
-        mock.globally perm.name if perm.global?
-        mock.in_project perm.name, project: project if perm.project?
+        mock.allow_globally perm.name if perm.global?
+        mock.allow_in_project perm.name, project: project if perm.project?
       end
     end
   end

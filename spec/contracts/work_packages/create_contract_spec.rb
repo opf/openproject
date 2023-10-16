@@ -53,7 +53,7 @@ RSpec.describe WorkPackages::CreateContract do
     context 'user allowed in project and project specified' do
       before do
         mock_permissions_for(user) do |mock|
-          mock.in_project :add_work_packages, project:
+          mock.allow_in_project :add_work_packages, project:
         end
 
         work_package.project = project
@@ -67,7 +67,7 @@ RSpec.describe WorkPackages::CreateContract do
     context 'user not allowed in project and project specified' do
       before do
         mock_permissions_for(user) do |mock|
-          mock.in_project :add_work_packages, project: other_project
+          mock.allow_in_project :add_work_packages, project: other_project
         end
 
         work_package.project = project
@@ -82,7 +82,7 @@ RSpec.describe WorkPackages::CreateContract do
     context 'user allowed in a project and no project specified' do
       before do
         mock_permissions_for(user) do |mock|
-          mock.in_project :add_work_packages, project:
+          mock.allow_in_project :add_work_packages, project:
         end
       end
 
@@ -119,7 +119,7 @@ RSpec.describe WorkPackages::CreateContract do
   describe 'author_id' do
     before do
       mock_permissions_for(user) do |mock|
-        mock.in_project :add_work_packages, project:
+        mock.allow_in_project :add_work_packages, project:
       end
       work_package.project = project
     end

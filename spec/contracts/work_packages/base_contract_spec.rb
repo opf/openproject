@@ -59,7 +59,7 @@ RSpec.describe WorkPackages::BaseContract do
 
   before do
     mock_permissions_for(member) do |mock|
-      mock.in_project *permissions, project:
+      mock.allow_in_project *permissions, project:
     end
   end
 

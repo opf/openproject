@@ -49,7 +49,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
 
     mock_permissions_for(current_user) do |mock|
       allowed_projects.each do |project|
-        mock.in_project :fake_permission, project:
+        mock.allow_in_project :fake_permission, project:
       end
     end
   end

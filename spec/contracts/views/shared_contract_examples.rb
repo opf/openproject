@@ -36,7 +36,7 @@ RSpec.shared_examples_for 'view contract' do |disabled_permission_checks|
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.in_project *permissions, project: query_project
+      mock.allow_in_project *permissions, project: query_project
     end
   end
 

@@ -40,7 +40,7 @@ RSpec.describe MockedPermissionHelper do
     it 'raises UnknownPermissionError exception' do
       expect do
         mock_permissions_for(user) do |mock|
-          mock.globally :this_permission_does_not_exist
+          mock.allow_globally :this_permission_does_not_exist
         end
       end.to raise_error(Authorization::UnknownPermissionError)
     end
@@ -50,7 +50,7 @@ RSpec.describe MockedPermissionHelper do
     it 'raises IllegalPermissionContext exception' do
       expect do
         mock_permissions_for(user) do |mock|
-          mock.globally :view_work_packages # this is a project/work_package permission
+          mock.allow_globally :view_work_packages # this is a project/work_package permission
         end
       end.to raise_error(Authorization::IllegalPermissionContextError)
     end
@@ -68,8 +68,8 @@ RSpec.describe MockedPermissionHelper do
     before do
       mock_permissions_for(user) do |mock|
         mock.allow_everything
-        mock.globally :add_project
-        mock.in_project(:add_work_packages, project:)
+        mock.allow_globally :add_project
+        mock.allow_in_project(:add_work_packages, project:)
 
         # this removes all permissions previously set
         mock.forbid_everything
@@ -107,12 +107,12 @@ RSpec.describe MockedPermissionHelper do
   context 'when running the mock service multiple times' do
     before do
       mock_permissions_for(user) do |mock|
-        mock.globally :add_project
+        mock.allow_globally :add_project
       end
 
       # this will overwrite the mocks from the first run
       mock_permissions_for(user) do |mock|
-        mock.globally :manage_user
+        mock.allow_globally :manage_user
       end
     end
 
@@ -125,7 +125,7 @@ RSpec.describe MockedPermissionHelper do
   context 'when mocking a global permission' do
     before do
       mock_permissions_for(user) do |mock|
-        mock.globally :add_project
+        mock.allow_globally :add_project
       end
     end
 
@@ -146,7 +146,7 @@ RSpec.describe MockedPermissionHelper do
   context 'when mocking a permission in the project' do
     before do
       mock_permissions_for(user) do |mock|
-        mock.in_project :view_work_packages, :add_work_packages, project:
+        mock.allow_in_project :view_work_packages, :add_work_packages, project:
       end
     end
 
@@ -198,8 +198,8 @@ RSpec.describe MockedPermissionHelper do
   context 'when mocking a permission in the work package' do
     before do
       mock_permissions_for(user) do |mock|
-        mock.in_work_package :view_work_packages, work_package: work_package_in_project
-        mock.in_work_package :view_work_packages, :edit_work_packages, work_package: other_work_package_in_project
+        mock.allow_in_work_package :view_work_packages, work_package: work_package_in_project
+        mock.allow_in_work_package :view_work_packages, :edit_work_packages, work_package: other_work_package_in_project
       end
     end
 

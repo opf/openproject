@@ -46,7 +46,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         before do
           mock_permissions_for(user) do |mock|
-            mock.in_project :view_work_packages, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :view_work_packages, project: global ? build_stubbed(:project) : project
           end
         end
 
@@ -95,7 +95,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user has the save_query permission in the project AND the query is not persisted' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :save_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :save_queries, project: global ? build_stubbed(:project) : project
           end
           allow(query).to receive(:persisted?).and_return false
 
@@ -104,7 +104,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is true if the user has the save_query permission in the project AND it is his query' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :save_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :save_queries, project: global ? build_stubbed(:project) : project
           end
           query.user = user
 
@@ -113,7 +113,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user has the save_query permission in the project AND it is not his query' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :save_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :save_queries, project: global ? build_stubbed(:project) : project
           end
           query.user = build_stubbed(:user)
 
@@ -134,7 +134,7 @@ RSpec.describe QueryPolicy, type: :controller do
            'AND it is anothers query ' +
            'AND the query is public' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
           end
           query.user = build_stubbed(:user)
           query.public = true
@@ -146,7 +146,7 @@ RSpec.describe QueryPolicy, type: :controller do
            'AND it is anothers query ' +
            'AND the query is public' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :save_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :save_queries, project: global ? build_stubbed(:project) : project
           end
           query.user = build_stubbed(:user)
           query.public = true
@@ -158,7 +158,7 @@ RSpec.describe QueryPolicy, type: :controller do
            'AND it is anothers query ' +
            'AND the query is not public' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
           end
           query.user = build_stubbed(:user)
           query.public = false
@@ -189,7 +189,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is true if the user has the save_query permission in the project' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :save_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :save_queries, project: global ? build_stubbed(:project) : project
           end
 
           expect(subject.allowed?(query, action)).to be_truthy
@@ -198,7 +198,7 @@ RSpec.describe QueryPolicy, type: :controller do
         it 'is false if the user has the save_query permission in the project ' +
            'AND the query is persisted' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :save_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :save_queries, project: global ? build_stubbed(:project) : project
           end
 
           allow(query).to receive(:new_record?).and_return false
@@ -225,7 +225,7 @@ RSpec.describe QueryPolicy, type: :controller do
         it 'is true if the user has the manage_public_query permission in the project ' +
            'AND it is his query' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
           end
 
           expect(subject.allowed?(query, :publicize)).to be_truthy
@@ -235,7 +235,7 @@ RSpec.describe QueryPolicy, type: :controller do
            'AND the query is not public ' +
            'AND it is not his query' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
           end
           query.user = build_stubbed(:user)
           query.public = false
@@ -263,7 +263,7 @@ RSpec.describe QueryPolicy, type: :controller do
            'AND the query belongs to another user' +
            'AND the query is public' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
           end
 
           query.user = build_stubbed(:user)
@@ -275,7 +275,7 @@ RSpec.describe QueryPolicy, type: :controller do
         it 'is false if the user has the manage_public_query permission in the project ' +
            'AND the query is not public' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
           end
           query.public = false
 
@@ -316,7 +316,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is true if the user has the edit_work_packages permission in the project AND it public' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :edit_work_packages, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :edit_work_packages, project: global ? build_stubbed(:project) : project
           end
 
           query.public = true
@@ -325,7 +325,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is false if the user has the edit_work_packages permission in the project AND it is not his' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :edit_work_packages, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :edit_work_packages, project: global ? build_stubbed(:project) : project
           end
 
           query.user = build_stubbed(:user)
@@ -335,7 +335,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is true if the user has the save_queries permission in the project AND it is his query' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :save_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :save_queries, project: global ? build_stubbed(:project) : project
           end
 
           expect(subject.allowed?(query, :reorder_work_packages)).to be_truthy
@@ -344,7 +344,7 @@ RSpec.describe QueryPolicy, type: :controller do
         it 'is true if the user has the manage_public_query permission in the project ' +
            'AND it is a public query' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
           end
 
           query.public = true
@@ -355,7 +355,7 @@ RSpec.describe QueryPolicy, type: :controller do
            'AND the query is not public ' +
            'AND it is not his query' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
           end
           query.user = build_stubbed(:user)
           query.public = false
@@ -381,7 +381,7 @@ RSpec.describe QueryPolicy, type: :controller do
 
         it 'is true if the user has permission in the project' do
           mock_permissions_for(user) do |mock|
-            mock.in_project :share_calendars, project: global ? build_stubbed(:project) : project
+            mock.allow_in_project :share_calendars, project: global ? build_stubbed(:project) : project
           end
 
           expect(subject.allowed?(query, :share_via_ical)).to be_truthy

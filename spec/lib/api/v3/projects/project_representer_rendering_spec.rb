@@ -85,7 +85,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
 
   before do
     mock_permissions_for(user) do |mock|
-      mock.in_project *permissions, project:
+      mock.allow_in_project *permissions, project:
     end
   end
 

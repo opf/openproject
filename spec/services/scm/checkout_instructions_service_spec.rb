@@ -158,7 +158,7 @@ RSpec.describe SCM::CheckoutInstructionsService do
 
       it 'returns readwrite permission when user has commit_access permission' do
         mock_permissions_for(user) do |mock|
-          mock.in_project :commit_access, project:
+          mock.allow_in_project :commit_access, project:
         end
 
         expect(service.permission).to eq(:readwrite)
@@ -166,7 +166,7 @@ RSpec.describe SCM::CheckoutInstructionsService do
 
       it 'returns read permission when user has browse_repository permission' do
         mock_permissions_for(user) do |mock|
-          mock.in_project :browse_repository, project:
+          mock.allow_in_project :browse_repository, project:
         end
 
         expect(service.permission).to eq(:read)
@@ -180,7 +180,7 @@ RSpec.describe SCM::CheckoutInstructionsService do
 
       it 'returns the correct permissions for commit access' do
         mock_permissions_for(user) do |mock|
-          mock.in_project :commit_access, project:
+          mock.allow_in_project :commit_access, project:
         end
 
         expect(service.may_commit?).to be true
@@ -189,7 +189,7 @@ RSpec.describe SCM::CheckoutInstructionsService do
 
       it 'returns the correct permissions for read access' do
         mock_permissions_for(user) do |mock|
-          mock.in_project :browse_repository, project:
+          mock.allow_in_project :browse_repository, project:
         end
 
         expect(service.may_commit?).to be false

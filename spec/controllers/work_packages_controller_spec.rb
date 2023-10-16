@@ -77,7 +77,7 @@ RSpec.describe WorkPackagesController do
 
       before do
         mock_permissions_for(current_user) do |mock|
-          mock.in_project :export_work_packages, project: other_project
+          mock.allow_in_project :export_work_packages, project: other_project
         end
       end
 
@@ -90,7 +90,7 @@ RSpec.describe WorkPackagesController do
         params[:project_id] = project.id
 
         mock_permissions_for(current_user) do |mock|
-          mock.in_project :export_work_packages, project:
+          mock.allow_in_project :export_work_packages, project:
         end
       end
 
@@ -120,8 +120,8 @@ RSpec.describe WorkPackagesController do
     describe 'with valid query' do
       before do
         mock_permissions_for(current_user) do |mock|
-          mock.in_project :view_work_packages, project: other_project
-          mock.in_project :view_work_packages, project:
+          mock.allow_in_project :view_work_packages, project: other_project
+          mock.allow_in_project :view_work_packages, project:
         end
 
         allow(controller).to receive(:retrieve_query).and_return(query)

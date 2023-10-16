@@ -48,7 +48,7 @@ RSpec.describe API::V3::Activities::ActivityRepresenter, 'rendering' do
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.in_project *permissions, project: work_package.project
+      mock.allow_in_project *permissions, project: work_package.project
     end
 
     login_as(current_user)

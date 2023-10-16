@@ -33,8 +33,8 @@ RSpec.shared_examples_for 'project contract' do
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.in_project(*project_permissions, project:)
-      mock.globally(*global_permissions)
+      mock.allow_in_project(*project_permissions, project:)
+      mock.allow_globally(*global_permissions)
     end
   end
 

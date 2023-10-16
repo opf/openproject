@@ -79,7 +79,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   before do
     mock_permissions_for(user) do |mock|
       if permissions
-        mock.in_project *permissions, project:
+        mock.allow_in_project *permissions, project:
       else
         mock.allow_everything
       end

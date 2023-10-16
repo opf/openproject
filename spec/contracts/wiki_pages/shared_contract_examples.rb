@@ -33,7 +33,7 @@ RSpec.shared_examples_for 'wiki page contract' do
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.in_project *permissions, project: page_wiki.project if page_wiki
+      mock.allow_in_project *permissions, project: page_wiki.project if page_wiki
     end
   end
 

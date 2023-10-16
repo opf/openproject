@@ -48,7 +48,7 @@ class PermissionMock
     reset_permitted_entities
   end
 
-  def in_project(*permissions, project:)
+  def allow_in_project(*permissions, project:)
     return if project.nil?
 
     permissions.each do |permission|
@@ -57,7 +57,7 @@ class PermissionMock
     permitted_entities[project] += permissions
   end
 
-  def in_work_package(*permissions, work_package:)
+  def allow_in_work_package(*permissions, work_package:)
     return if work_package.nil?
 
     permissions.each do |permission|
@@ -66,7 +66,7 @@ class PermissionMock
     permitted_entities[work_package] += permissions
   end
 
-  def globally(*permissions)
+  def allow_globally(*permissions)
     permissions.each do |permission|
       Authorization.contextual_permissions(permission, :global, raise_on_unknown: true)
     end

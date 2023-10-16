@@ -232,7 +232,7 @@ RSpec.describe PermittedParams do
 
       before do
         mock_permissions_for(user) do |mock|
-          mock.in_project :edit_messages, project:
+          mock.allow_in_project :edit_messages, project:
         end
       end
 
@@ -448,7 +448,7 @@ RSpec.describe PermittedParams do
 
       before do
         mock_permissions_for(user) do |mock|
-          mock.in_project :add_work_package_watchers, project:
+          mock.allow_in_project :add_work_package_watchers, project:
         end
       end
 
@@ -457,7 +457,7 @@ RSpec.describe PermittedParams do
       context 'user is allowed to add watchers' do
         before do
           mock_permissions_for(user) do |mock|
-            mock.in_project :add_work_package_watchers, project:
+            mock.allow_in_project :add_work_package_watchers, project:
           end
         end
 

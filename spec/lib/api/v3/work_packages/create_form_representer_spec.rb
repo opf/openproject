@@ -102,7 +102,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
     describe 'commit' do
       before do
         mock_permissions_for(current_user) do |mock|
-          mock.in_project :add_work_packages, project:
+          mock.allow_in_project :add_work_packages, project:
         end
       end
 
@@ -147,7 +147,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
       context 'with the permission to select custom fields' do
         before do
           mock_permissions_for(current_user) do |mock|
-            mock.in_project :select_custom_fields, project:
+            mock.allow_in_project :select_custom_fields, project:
           end
         end
 

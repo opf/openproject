@@ -51,7 +51,7 @@ RSpec.describe WorkPackages::DeleteService do
     allow(work_package).to receive(:destroyed?).and_return(destroyed_result)
 
     mock_permissions_for(user) do |mock|
-      mock.in_project :delete_work_packages, project: work_package.project
+      mock.allow_in_project :delete_work_packages, project: work_package.project
     end
   end
 
