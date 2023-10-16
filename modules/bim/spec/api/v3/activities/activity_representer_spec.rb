@@ -59,7 +59,7 @@ RSpec.describe API::V3::Activities::ActivityRepresenter do
 
   before do
     mock_permissions_for(user) do |mock|
-      mock.in_project :view_linked_issues, :edit_work_package_notes, :add_work_packages, project:
+      mock.allow_in_project :view_linked_issues, :edit_work_package_notes, :add_work_packages, project:
     end
 
     login_as(user)

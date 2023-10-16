@@ -39,7 +39,7 @@ RSpec.describe WorkPackages::CreateContract do
 
   before do
     mock_permissions_for(user) do |mock|
-      mock.in_project :view_work_packages, :add_work_packages, project:
+      mock.allow_in_project :view_work_packages, :add_work_packages, project:
     end
 
     allow(work_package).to receive(:changed).and_return(changed_values)

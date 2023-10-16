@@ -40,7 +40,7 @@ RSpec.shared_examples_for 'ifc model contract' do
     allow(ifc_model).to receive(:ifc_attachment).and_return(ifc_attachment)
 
     mock_permissions_for(current_user) do |mock|
-      mock.in_project *permissions, project: permission_project
+      mock.allow_in_project *permissions, project: permission_project
     end
   end
 

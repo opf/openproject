@@ -83,7 +83,7 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
         allow(WorkPackage).to receive(:where).with(id: ids).and_return(work_packages)
 
         mock_permissions_for(user) do |mock|
-          mock.in_work_package :add_work_package_notes, work_package: visible_wp
+          mock.allow_in_work_package :add_work_package_notes, work_package: visible_wp
         end
       end
 

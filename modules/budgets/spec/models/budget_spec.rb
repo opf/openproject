@@ -60,7 +60,7 @@ RSpec.describe Budget do
     context 'when allowed to edit budgets' do
       before do
         mock_permissions_for(User.current) do |mock|
-          mock.in_project :edit_budgets, project:
+          mock.allow_in_project :edit_budgets, project:
         end
       end
 

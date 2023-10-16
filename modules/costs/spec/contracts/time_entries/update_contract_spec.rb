@@ -47,7 +47,7 @@ RSpec.describe TimeEntries::UpdateContract do
 
     before do
       mock_permissions_for(current_user) do |mock|
-        mock.in_project *permissions, project: time_entry_project
+        mock.allow_in_project *permissions, project: time_entry_project
       end
     end
 
@@ -83,8 +83,8 @@ RSpec.describe TimeEntries::UpdateContract do
 
       before do
         mock_permissions_for(current_user) do |mock|
-          mock.in_project *new_project_permissions, project: new_project
-          mock.in_project *permissions, project: time_entry_project
+          mock.allow_in_project *new_project_permissions, project: new_project
+          mock.allow_in_project *permissions, project: time_entry_project
         end
 
         time_entry.project = new_project

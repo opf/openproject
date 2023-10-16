@@ -66,7 +66,7 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
     permissions <<  :view_budgets if view_budgets
 
     mock_permissions_for(user) do |mock|
-      mock.in_project *permissions, project: work_package.project
+      mock.allow_in_project *permissions, project: work_package.project
     end
   end
 

@@ -54,7 +54,7 @@ RSpec.describe WorkPackagesController, type: :controller do
       before do
         # add the permission to another project so that allowed_in_any_project? returns true
         mock_permissions_for(User.current) do |mock|
-          mock.in_project :export_work_packages, project: other_project
+          mock.allow_in_project :export_work_packages, project: other_project
         end
       end
 
@@ -67,7 +67,7 @@ RSpec.describe WorkPackagesController, type: :controller do
         params[:project_id] = project.id
 
         mock_permissions_for(User.current) do |mock|
-          mock.in_project :export_work_packages, project:
+          mock.allow_in_project :export_work_packages, project:
         end
       end
 
@@ -96,7 +96,7 @@ RSpec.describe WorkPackagesController, type: :controller do
 
     before do
       mock_permissions_for(User.current) do |mock|
-        mock.in_project :export_work_packages, project:
+        mock.allow_in_project :export_work_packages, project:
       end
     end
 

@@ -586,7 +586,7 @@ RSpec.describe OpenProject::TextFormatting,
         allow(User).to receive(:current).and_return(project_member)
 
         mock_permissions_for(project_member) do |mock|
-          mock.in_project :browse_repository, project:
+          mock.allow_in_project :browse_repository, project:
         end
 
         @to_test = {

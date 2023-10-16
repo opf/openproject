@@ -60,7 +60,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.in_project *permissions, project:
+      mock.allow_in_project *permissions, project:
     end
 
     allow(time_entry).to receive(:available_custom_fields).and_return([])

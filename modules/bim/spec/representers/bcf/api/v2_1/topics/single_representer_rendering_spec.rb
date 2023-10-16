@@ -67,7 +67,7 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
     login_as(current_user)
 
     mock_permissions_for(current_user) do |mock|
-      mock.in_project *permissions, project:
+      mock.allow_in_project *permissions, project:
     end
 
     contract = double('contract',
