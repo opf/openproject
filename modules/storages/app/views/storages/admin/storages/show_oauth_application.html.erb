@@ -1,5 +1,5 @@
 <% if OpenProject::FeatureDecisions.storage_primer_design_active? %>
-  <%= render(OpTurbo::FrameWrapperComponent.new(@storage, frame: :openproject_oauth)) do %>
+  <%= render(OpTurbo::FrameWrapperComponent.new(@storage, context: :openproject_oauth)) do %>
     <%= render(Storages::Admin::OAuthApplicationCredentialsCopyComponent.new(oauth_application: @oauth_application, storage: @storage)) %>
   <% end %>
 <% else %>

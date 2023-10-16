@@ -1,5 +1,5 @@
 <%=
-  render(OpTurbo::FrameWrapperComponent.new(@storage, frame: :storage_view_general_info)) do
+  render(OpTurbo::FrameWrapperComponent.new(@storage, context: :storage_view_general_info)) do
     render(Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage))
   end
 %>
