@@ -91,8 +91,9 @@ RSpec.describe Meeting do
     end
 
     describe 'agenda_items' do
+      let(:work_package) { nil }
       before do
-        meeting.agenda_items << create(:meeting_agenda_item, meeting:, **agenda_item_attributes)
+        meeting.agenda_items << create(:meeting_agenda_item, meeting:, work_package:, **agenda_item_attributes)
         meeting.save
       end
 
@@ -142,6 +143,11 @@ RSpec.describe Meeting do
           elsif column_info.type == :integer then 11
           else 'A string'
           end
+
+        if column_name == 'item_type'
+          # When testing the work_package item_type, a work_package is required.
+          let(:work_package) { create(:work_package) }
+        end
 
         context 'when updating an agenda_item within the aggregation time' do
           shared_examples 'it updates the existing journals' do
