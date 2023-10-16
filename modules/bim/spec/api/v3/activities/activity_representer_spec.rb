@@ -120,7 +120,7 @@ RSpec.describe API::V3::Activities::ActivityRepresenter do
 
         context 'if permission is lacking' do
           before do
-            mock_permissions_for(user, &:forbid_everything!)
+            mock_permissions_for(user, &:forbid_everything)
           end
 
           it_behaves_like 'has no link' do

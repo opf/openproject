@@ -78,7 +78,7 @@ RSpec.describe WorkPackagesController, type: :controller do
       let(:project) { nil }
 
       before do
-        mock_permissions_for(User.current, &:forbid_everything!)
+        mock_permissions_for(User.current, &:forbid_everything)
 
         call_action
       end
