@@ -76,6 +76,10 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       options = options.merge(window_size:)
     end
 
+    if headful_mode? && ENV['SLOWMO']
+      options = options.merge(slowmo: ENV['SLOWMO'])
+    end
+
     if ENV['CHROME_URL'].present?
       options = options.merge(url: ENV['CHROME_URL'])
     end
