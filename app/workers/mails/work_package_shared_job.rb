@@ -68,7 +68,7 @@ class Mails::WorkPackageSharedJob < ApplicationJob
           .references(:member_roles)
           .where(principal: work_package_member.principal.users)
           .group('members.id')
-          .having("COUNT(member_roles.id) = 1")
+          .having("COUNT(*) = 1")
           .select('members.id')
   end
 end
