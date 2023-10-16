@@ -150,7 +150,7 @@ user.allowed_globally?(:create_users)
 
 ### Deprecated methods
 
-Previously, we used to check permissions using the `allowed_to?`, `allowed_to_globally?` and `allowed_to_in_project?` methods to check permissions. Because of some ambiguity in them (i.e. you could check for project permissions globally, which then returned what is now `allowed_in_any_project?`) and the lack of the checks that are mentioned above, those methods have been deprecated and will be removed in a future version of OpenProject. If you are using those methods in a module, please migrate to the new methods.
+Previously, we used to check permissions using the `allowed_to?`, `allowed_to_globally?` and `allowed_to_in_project?` methods. Because of some ambiguity in them (i.e. you could check for project permissions globally, which then returned what is now `allowed_in_any_project?`) and the lack of the checks that are mentioned above, those methods have been deprecated and will be removed in a future version of OpenProject. If you are using those methods in a module, please migrate to the new methods.
 
 ### Permissions in tests
 
