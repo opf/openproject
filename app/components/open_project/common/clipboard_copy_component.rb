@@ -32,7 +32,7 @@ module OpenProject::Common
   class ClipboardCopyComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    options visually_hide_label: false,
+    options visually_hide_label: true,
             readonly: true,
             required: false
 
