@@ -139,13 +139,16 @@ class Storages::Admin::StoragesController < ApplicationController
     redirect_to admin_settings_storages_path
   end
 
-  def replace_oauth_application
+  def replace_oauth_application # rubocop:disable Metrics/AbcSize
     @storage.oauth_application.destroy
     service_result = ::Storages::OAuthApplications::CreateService.new(storage: @storage, user: current_user).call
 
     if service_result.success?
       flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
       @oauth_application = service_result.result
+      render :show_oauth_application
+    elsif OpenProject::FeatureDecisions.storage_primer_design_active?
+      @oauth_application = ServiceResultErrorsPresenter.new(service_result)
       render :show_oauth_application
     else
       @errors = service_result.errors

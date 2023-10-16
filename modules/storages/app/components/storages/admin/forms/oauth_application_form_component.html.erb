@@ -1,0 +1,22 @@
+<%=
+  primer_form_with(
+    model: storage,
+    url: edit_admin_settings_storage_path(storage),
+    method: :get
+  ) do |form|
+    flex_layout do |general_info_row|
+      general_info_row.with_row(mb: 3) do
+        render(Storages::Admin::ClipboardCopyInputForm.new(form))
+      end
+
+      general_info_row.with_row(mb: 3) do
+        render(Storages::Admin::ClipboardCopyInputForm.new(form))
+      end
+
+      general_info_row.with_row do
+        concat(render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { I18n.t('storages.buttons.done_continue') })
+        concat(render(Primer::Beta::Button.new(scheme: :default, tag: :a, href: edit_admin_settings_storage_path(storage))) { I18n.t('button_cancel') })
+      end
+    end
+  end
+%>
