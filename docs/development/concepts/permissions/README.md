@@ -132,7 +132,7 @@ user.allowed_in_any_work_package?(:view_work_package)
 user.allowed_in_any_work_package?(:view_work_package, in_project: project)
 ```
 
-The same is true for global permissions using `user.allowed_globally?(permission)`. This will either test a global permission such as `:add_project`.
+The same is true for global permissions using `user.allowed_globally?(permission)`. This will test for a global permission such as `:add_project`.
 
 Those methods will also aid the developer, when they are trying to request a permission in the wrong context. For example, when you try to check a global permission on a project, it will raise an `IllegalPermissionContextError`
 
@@ -203,7 +203,7 @@ before do
 end
 ```
 
-This hooks into all permission checks (including the deprecated `allowed_to?` methods and methods like `allowed_in_any_project?`) that are executed on the user. **Scopes like `Project.visible`, `Project.allowed_to` and methods like `Authorization.roles` are _not_ mocked by this.** If you need one of those, you most likely want to throw things into the database and use one of the methods defined above.
+This hooks into all permission checks (including the deprecated `allowed_to?` methods and methods like `allowed_in_any_project?`) that are executed on the user. **Scopes like `Project.visible`, `Project.allowed_to` and methods like `Authorization.roles` are _not_ mocked by this.**
 
 ## Checking of permissions in Frontend
 
