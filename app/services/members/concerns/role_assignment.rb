@@ -45,10 +45,12 @@ module Members::Concerns::RoleAssignment
                  .select(&:present?)
                  .map(&:to_i)
 
-    existing_ids = model.member_roles.map(&:role_id)
-
     mark_roles_for_destruction(existing_ids - role_ids)
     build_roles(role_ids - existing_ids)
+  end
+
+  def existing_ids
+    model.member_roles.map(&:role_id)
   end
 
   def mark_roles_for_destruction(role_ids)

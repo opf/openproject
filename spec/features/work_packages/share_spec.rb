@@ -195,6 +195,7 @@ RSpec.describe 'Work package sharing',
         # Updating a group's share role also propagates to the inherited member roles of
         # its users
         share_modal.change_role(not_shared_yet_with_group, 'Comment')
+        share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment')
         share_modal.expect_shared_count_of(8)
         expect(inherited_member_roles(group: not_shared_yet_with_group))
           .to all(have_attributes(role: comment_work_package_role))
