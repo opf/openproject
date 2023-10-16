@@ -80,13 +80,10 @@ module Components
         end
       end
 
-      # Typing +:escape+ when the auto-completer is in focus doesn't exit the modal
-      # as the auto-completer doesn't seem to allow losing focus from itself with +:escape+
-      # Obtaining focus on the modal itself and then and then sending +:escape+ does the
-      # trick but this feels buggy.
       def close
-        modal_element.click
-        modal_element.send_keys(:escape)
+        within modal_element do
+          click_button 'Close'
+        end
       end
 
       def expect_shared_with(user, role_name = nil, position: nil, editable: true)
