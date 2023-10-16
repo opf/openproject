@@ -72,7 +72,6 @@ module WorkPackages
       def active_role
         if share.persisted?
           share.roles
-               .joins(:member_roles)
                .where(member_roles: { inherited_from: nil })
                .first
         else
