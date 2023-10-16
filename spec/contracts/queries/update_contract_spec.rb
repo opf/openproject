@@ -66,7 +66,7 @@ RSpec.describe Queries::UpdateContract do
     let(:user) { nil }
 
     context 'when user has no permission to save' do
-      let(:permissions) { %i(invalid_permission) }
+      let(:permissions) { %i() }
 
       it_behaves_like 'contract user is unauthorized'
     end

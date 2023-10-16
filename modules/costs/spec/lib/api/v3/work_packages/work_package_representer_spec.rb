@@ -372,9 +372,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
   describe '_links' do
     describe 'move' do
-      it_behaves_like 'action link' do
-        let(:action) { 'logCosts' }
-        let(:permission) { :log_costs }
+      it_behaves_like 'has a titled action link' do
+        let(:link) { 'logCosts' }
+        let(:href) { new_work_packages_cost_entry_path(work_package) }
+        let(:permission) { %i(log_costs log_own_costs) }
+        let(:title) { "Log costs on #{work_package.subject}" }
       end
     end
 

@@ -36,6 +36,7 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
 
   let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:container) { build_stubbed(:work_package) }
+  let(:project) { container.project }
   let(:creator) { build_stubbed(:user, firstname: 'Rey', lastname: 'Palpatine') }
   let(:origin_permission) { :view }
   let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:, origin_permission:) }

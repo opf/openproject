@@ -35,7 +35,7 @@ RSpec.describe API::V3::Queries::QueryRepresenter do
   let(:unpersisted_query) { build(:query, project:, user: other_user, views:) }
   let(:views) { [build_stubbed(:view)] }
   let(:project) { build_stubbed(:project) }
-  let(:user) { instance_double(User, allowed_to_globally?: true, allowed_to?: true, admin: true, admin?: true, active?: true) }
+  let(:user) { build_stubbed(:admin) }
   let(:other_user) { build_stubbed(:user) }
   let(:embed_links) { true }
   let(:representer) do

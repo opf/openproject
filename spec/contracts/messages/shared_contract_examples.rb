@@ -29,14 +29,15 @@
 require 'spec_helper'
 
 RSpec.shared_examples_for 'message contract' do
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && message_project == permission_project
-      end
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: message_project
     end
   end
+
+  let(:permissions) { [] }
   let(:reply_message) { build_stubbed(:message) }
   let(:other_user) { build_stubbed(:user) }
   let(:message_forum) do
