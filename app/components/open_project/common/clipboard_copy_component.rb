@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,23 +27,46 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module OpenProject::Common
+  class ClipboardCopyComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-module Storages::Admin
-  class ClipboardCopyInputForm < ApplicationForm
-    # attr_reader :attribute_name
+    options visually_hide_label: false,
+            readonly: true,
+            required: false
 
-    # def initialize(builder, name:, **options)
-    #   super(builder, **options)
-    #   @attribute_name = name
-    # end
+    def text_field_options
+      { name: @options[:name],
+        label: @options[:label],
+        classes: "rounded-right-0",
+        visually_hide_label:,
+        value: value_to_copy,
+        inset: true,
+        readonly:,
+        required: }
+    end
 
-    form do |input_form|
-      input_form.text_field(
-        name: :host,
-        label: I18n.t('activerecord.attributes.storages/storage.host'),
-        readonly: true,
-        required: true
-      )
+    def clipboard_copy_options
+      { value: value_to_copy,
+        aria: { label: clipboard_copy_aria_label },
+        classes: clipboard_copy_classes }
+    end
+
+    private
+
+    def clipboard_copy_classes
+      %w[Button Button--iconOnly Button--secondary Button--medium rounded-left-0 border-left-0].tap do |classes|
+        classes << "mt-4" unless visually_hide_label
+      end
+    end
+
+    def clipboard_copy_aria_label
+      @options[:clipboard_copy_aria_label] || I18n.t('button_copy_to_clipboard')
+    end
+
+    def value_to_copy
+      @options[:value_to_copy]
     end
   end
 end
