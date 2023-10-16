@@ -136,6 +136,10 @@ RSpec.describe Authorization::UserPermissibleService do
 
         it { is_expected.to be_allowed_in_project(permission, project) }
 
+        context 'and nil is passed as the project' do
+          it { is_expected.not_to be_allowed_in_project(permission, nil) }
+        end
+
         context 'with the project being archived' do
           before { project.update(active: false) }
 
@@ -248,6 +252,12 @@ RSpec.describe Authorization::UserPermissibleService do
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
 
+        context 'and the entities project is nil' do
+          before { work_package.project = nil }
+
+          it { is_expected.not_to be_allowed_in_project(permission, nil) }
+        end
+
         context 'with the project being archived' do
           before { project.update(active: false) }
 
@@ -271,6 +281,12 @@ RSpec.describe Authorization::UserPermissibleService do
         let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+
+        context 'and the entities project is nil' do
+          before { work_package.project = nil }
+
+          it { is_expected.not_to be_allowed_in_project(permission, nil) }
+        end
 
         context 'with the project being archived' do
           before { project.update(active: false) }

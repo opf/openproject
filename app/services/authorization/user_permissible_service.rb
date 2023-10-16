@@ -88,7 +88,7 @@ module Authorization
     end
 
     def allowed_in_single_entity?(permissions, entity)
-      return false if entity.nil?
+      return false if entity.nil? || entity.project.nil?
       return false unless entity.project.active? || entity.project.being_archived?
 
       permissions_filtered_for_project = permissions_by_enabled_project_modules(entity.project, permissions)
