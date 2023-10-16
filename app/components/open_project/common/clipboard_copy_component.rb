@@ -37,8 +37,8 @@ module OpenProject::Common
             required: false
 
     def text_field_options
-      { name: @options[:name],
-        label: @options[:label],
+      { name: options[:name],
+        label: options[:label],
         classes: "rounded-right-0",
         visually_hide_label:,
         value: value_to_copy,
@@ -62,11 +62,11 @@ module OpenProject::Common
     end
 
     def clipboard_copy_aria_label
-      @options[:clipboard_copy_aria_label] || I18n.t('button_copy_to_clipboard')
+      options[:clipboard_copy_aria_label] || I18n.t('button_copy_to_clipboard')
     end
 
     def value_to_copy
-      @options[:value_to_copy]
+      options[:value_to_copy]
     end
   end
 end
