@@ -46,14 +46,15 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
 
     api_v3_paths.path_for(:memberships, filters:)
   end
+  let(:project_permissions) { [] }
   let(:global_permissions) { [] }
 
   subject(:generated) { representer.to_json }
 
   before do
-    allow(current_user)
-      .to receive(:allowed_to_globally?) do |requested_permission|
-      global_permissions.include?(requested_permission)
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*project_permissions, project: build_stubbed(:project)) if project_permissions.any?
+      mock.allow_globally *global_permissions
     end
   end
 
@@ -113,7 +114,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
       end
 
       context 'user allowed to see members' do
-        let(:global_permissions) { [:view_members] }
+        let(:project_permissions) { [:view_members] }
 
         it_behaves_like 'has a titled link' do
           let(:link) { 'memberships' }
@@ -123,7 +124,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
       end
 
       context 'user allowed to manage members' do
-        let(:global_permissions) { [:manage_members] }
+        let(:project_permissions) { [:manage_members] }
 
         it_behaves_like 'has a titled link' do
           let(:link) { 'memberships' }

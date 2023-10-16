@@ -67,7 +67,9 @@ RSpec.describe UserPreferences::UpdateContract do
       let(:preference_user) { build_stubbed(:user) }
 
       before do
-        allow(current_user).to receive(:allowed_to_globally?).with(:manage_user).and_return true
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_globally(:manage_user)
+        end
       end
 
       it_behaves_like 'contract is valid'

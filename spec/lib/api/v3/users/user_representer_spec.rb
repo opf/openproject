@@ -39,7 +39,9 @@ RSpec.describe API::V3::Users::UserRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it do is_expected.to include_json('User'.to_json).at_path('_type') end
+    it do
+      expect(subject).to include_json('User'.to_json).at_path('_type')
+    end
 
     context 'as regular user' do
       it 'hides as much information as possible' do
@@ -231,9 +233,8 @@ RSpec.describe API::V3::Users::UserRepresenter do
 
       describe 'memberships' do
         before do
-          allow(current_user)
-            .to receive(:allowed_to_globally?) do |action|
-            permissions.include?(action)
+          mock_permissions_for(current_user) do |mock|
+            mock.allow_in_project *permissions, project: build_stubbed(:project) # any project
           end
         end
 
