@@ -41,13 +41,7 @@ RSpec.describe Projects::CreateContract do
                   status_code: project_status_code,
                   status_explanation: project_status_explanation)
     end
-    let(:permissions) { [:add_project] }
-    let!(:allowed_to) do
-      allow(current_user)
-        .to receive(:allowed_to_globally?) do |permission|
-          permissions.include?(permission)
-        end
-    end
+    let(:global_permissions) { [:add_project] }
 
     subject(:contract) { described_class.new(project, current_user) }
 
