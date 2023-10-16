@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Storages::Admin::Forms
-  class OAuthApplicationFormComponent < ApplicationComponent
+module Storages::Admin
+  class OAuthApplicationCredentialsCopyComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
     attr_reader :storage
