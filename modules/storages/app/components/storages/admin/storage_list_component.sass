@@ -3,8 +3,20 @@
   display: grid
   grid-template-columns: 1fr 180px 100px 240px
   grid-template-areas: "name user provider time" "host user provider time"
+.op-storage-list--header--name
+  min-width: 240px
+.op-storage-list--row--name, op-storage-list--row--host
+  min-width: 240px
+.op-storage-list--box
+  overflow: hidden
+@media screen and (max-width: $breakpoint-lg)
+  .op-storage-list--box
+    overflow-x: scroll
+    display: grid
 
 @media screen and (max-width: $breakpoint-md)
+  .op-storage-list--box
+    overflow: hidden
   .op-storage-list--row
     grid-template-columns: 1fr
     grid-template-areas: "name" "host" "user" "time"
