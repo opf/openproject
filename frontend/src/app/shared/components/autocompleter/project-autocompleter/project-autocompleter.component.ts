@@ -37,19 +37,9 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
-import {
-  merge,
-  Observable,
-  of,
-} from 'rxjs';
-import {
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { merge, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ID } from '@datorama/akita';
 import { IProjectAutocompleteItem } from './project-autocomplete-item';
 import { flattenProjectTree } from './flatten-project-tree';
@@ -58,9 +48,13 @@ import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { buildTree } from 'core-app/shared/components/autocompleter/project-autocompleter/insert-in-list';
 import { recursiveSort } from 'core-app/shared/components/autocompleter/project-autocompleter/recursive-sort';
-import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import {
+  OpAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { ProjectAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter-template.component';
+import {
+  ProjectAutocompleterTemplateComponent,
+} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter-template.component';
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
@@ -136,7 +130,7 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
 
   private disableSelectedItems(
     projects:IProjectAutocompleteItem[],
-    value:IProjectAutocompleterData|IProjectAutocompleterData[]|null,
+    value:IProjectAutocompleterData|IProjectAutocompleterData[]|null|undefined,
   ) {
     if (!this.multiple) {
       return projects;

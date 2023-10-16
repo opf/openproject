@@ -88,8 +88,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public resource:TOpAutocompleterResource;
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  @Input() public model?:any;
+  @Input() public model?:T|T[]|null;
 
   @Input() public searchKey?:string = '';
 
@@ -295,7 +294,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
         .opAutocompleterService
         .loadValue(this.inputValue, this.resource)
         .subscribe((resource) => {
-          this.model = resource;
+          this.model = resource as unknown as T;
           this.cdRef.detectChanges();
         });
     }
@@ -303,6 +302,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   ngOnChanges(changes:SimpleChanges):void {
     if (changes.items) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       this.items$.next(changes.items.currentValue);
     }
   }
@@ -339,12 +339,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     }
 
     if (Array.isArray(this.model)) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
-      return this.model.map((el) => el[this.inputBindValue]).join(',');
+      return this.model.map((el) => el[this.inputBindValue as 'id']).join(',');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return this.model[this.inputBindValue] as string;
+    return this.model[this.inputBindValue as 'id'] as string;
   }
 
   public repositionDropdown() {
