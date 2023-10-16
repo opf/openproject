@@ -135,7 +135,7 @@ class WorkPackages::SharesController < ApplicationController
     @current_visible_member_count ||= Member
                                         .joins(:member_roles)
                                         .of_work_package(@work_package)
-                                        .where(member_roles: { inherited_from: nil })
+                                        .merge(MemberRole.only_non_inherited)
                                         .size
   end
 end

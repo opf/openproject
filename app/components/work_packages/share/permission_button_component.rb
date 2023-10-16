@@ -72,7 +72,7 @@ module WorkPackages
       def active_role
         if share.persisted?
           share.roles
-               .where(member_roles: { inherited_from: nil })
+               .merge(MemberRole.only_non_inherited)
                .first
         else
           share.roles.first

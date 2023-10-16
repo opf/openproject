@@ -75,9 +75,9 @@ module WorkPackages
       def shared_principals
         @shared_principals ||= Principal
                                 .having_entity_membership(@work_package)
-                                .includes(work_package_shares: { roles: :member_roles })
+                                .includes(work_package_shares: :roles)
                                 .where(work_package_shares: { entity: @work_package })
-                                .where(member_roles: { inherited_from: nil })
+                                .merge(MemberRole.only_non_inherited)
                                 .ordered_by_name
       end
     end
