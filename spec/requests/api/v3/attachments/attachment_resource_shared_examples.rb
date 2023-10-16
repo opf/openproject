@@ -189,6 +189,7 @@ end
 RSpec.shared_examples 'an APIv3 attachment resource',
                       content_type: :json,
                       type: :request do |
+                        attachment_type:,
                         create_permission:,
                         read_permission:,
                         update_permission:,
@@ -236,10 +237,6 @@ RSpec.shared_examples 'an APIv3 attachment resource',
   let(:attachment) { create(:attachment, container:, author:) }
   let(:container) { send attachment_type }
 
-  let(:attachment_type) { raise "attachment type goes here, e.g. work_package" }
-
-  # let(:missing_permissions_user) { user_with_all_permissions }
-
   before do
     allow(User).to receive(:current).and_return current_user
   end
@@ -248,8 +245,6 @@ RSpec.shared_examples 'an APIv3 attachment resource',
     subject(:response) { last_response }
 
     let(:get_path) { api_v3_paths.attachment attachment.id }
-
-    let(:container) { send(attachment_type) }
 
     context 'logged in user' do
       before do
@@ -355,22 +350,8 @@ RSpec.shared_examples 'an APIv3 attachment resource',
       end
     end
 
-    context 'missing permissions' do
+    context 'without any permissions' do
       let(:current_user) { user_without_any_permissions }
-      # let(:permissions) do
-      #   # Some attachables use public permissions
-      #   # which more or less allows everybody to upload attachments.
-      #   # This messes with the tests.
-      #   # However, it might make sense to reevaluate the necessity of this test.
-      #   allow(Redmine::Acts::Attachable)
-      #     .to receive(:attachables)
-      #     .and_return(Redmine::Acts::Attachable.attachables.select do |a|
-      #       permission = OpenProject::AccessControl.permission(a.attachable_options[:add_on_new_permission])
-      #       !permission || !permission.public?
-      #     end)
-
-      #   []
-      # end
 
       it_behaves_like 'unauthorized access'
     end
@@ -394,29 +375,6 @@ RSpec.shared_examples 'an APIv3 attachment resource',
         expect(Attachment.exists?(attachment.id)).to be_falsey
       end
     end
-
-    # shared_examples_for 'does not delete the attachment' do |status = 403|
-    #   fit "responds with #{status}" do
-    #     binding.pry
-    #     if permissions.any? || read_permission.nil?
-    #       expect(subject.status).to eq status
-    #     else
-    #       # In case no permissions are left, the user is not allowed to see the attachment
-    #       # and will thus receive a 404.
-    #       expect(subject.status).to eq 404
-    #     end
-    #   end
-
-    #   it 'does not delete the attachment' do
-    #     expect(Attachment.exists?(attachment.id)).to be_truthy
-    #   end
-    # end
-
-    # context 'without required permissions' do
-    #   let(:permissions) { all_permissions - Array(update_permission) }
-
-    #   it_behaves_like 'does not delete the attachment'
-    # end
 
     shared_examples_for 'does not delete the attachment' do |expected_status:|
       it "responds with #{expected_status}" do

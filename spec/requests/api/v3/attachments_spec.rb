@@ -34,10 +34,9 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  let(:current_user) { create(:user, member_with_roles: { project => role }) }
+  shared_let(:project) { create(:project, public: false) }
 
-  let(:project) { create(:project, public: false) }
-  let(:role) { create(:project_role, permissions:) }
+  let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:permissions) { [:add_work_packages] }
 
   describe 'permissions', :with_direct_uploads do

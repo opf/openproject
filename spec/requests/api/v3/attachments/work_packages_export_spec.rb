@@ -31,17 +31,14 @@ require_relative 'attachment_resource_shared_examples'
 
 RSpec.describe "#{WorkPackages::Export} attachments" do
   it_behaves_like "an APIv3 attachment resource",
+                  attachment_type: :export,
                   create_permission: :export_work_packages,
                   read_permission: :export_work_packages,
                   update_permission: :export_work_packages,
                   include_by_container: false do
-    let(:attachment_type) { :export }
-
     shared_let(:export) { create(:work_packages_export) }
 
-    # let(:missing_permissions_user) { create(:user) }
     let(:other_user) { create(:user) }
-
     let(:other_user_attachment) { create(:attachment, container: export, author: other_user) }
 
     describe '#get' do

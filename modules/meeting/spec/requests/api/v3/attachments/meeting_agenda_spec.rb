@@ -31,11 +31,10 @@ require 'requests/api/v3/attachments/attachment_resource_shared_examples'
 
 RSpec.describe "meeting agenda attachments" do
   it_behaves_like "an APIv3 attachment resource",
+                  attachment_type: :meeting_content,
                   create_permission: :create_meetings,
                   read_permission: :view_meetings,
                   update_permission: :edit_meetings do
-    let(:attachment_type) { :meeting_content }
-
     shared_let(:meeting_content) do
       create(:meeting_agenda,
              meeting: create(:meeting, project:))

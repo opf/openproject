@@ -31,11 +31,10 @@ require 'requests/api/v3/attachments/attachment_resource_shared_examples'
 
 RSpec.describe "document attachments" do
   it_behaves_like "an APIv3 attachment resource",
+                  attachment_type: :document,
                   create_permission: :manage_documents,
                   read_permission: :view_documents,
                   update_permission: :manage_documents do
-    let(:attachment_type) { :document }
-
     shared_let(:document) { create(:document, project:) }
   end
 end

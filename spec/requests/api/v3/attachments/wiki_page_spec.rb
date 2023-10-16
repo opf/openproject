@@ -31,13 +31,14 @@ require_relative 'attachment_resource_shared_examples'
 
 RSpec.describe "wiki page attachments" do
   it_behaves_like "an APIv3 attachment resource",
+                  attachment_type: :wiki_page,
                   create_permission: nil,
                   read_permission: :view_wiki_pages,
                   update_permission: :edit_wiki_pages,
                   delete_permission: :delete_wiki_pages_attachments do
-    let(:attachment_type) { :wiki_page }
-
-    shared_let(:wiki) { create(:wiki, project:) }
-    shared_let(:wiki_page) { create(:wiki_page, wiki:) }
+    shared_let(:wiki_page) do
+      create(:wiki_page,
+             wiki: create(:wiki, project:))
+    end
   end
 end

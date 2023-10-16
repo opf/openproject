@@ -35,13 +35,10 @@ RSpec.describe "grid attachments" do
   end
 
   it_behaves_like "an APIv3 attachment resource",
+                  attachment_type: :grid,
                   create_permission: :manage_dashboards,
                   read_permission: :view_dashboards,
                   update_permission: :manage_dashboards do
-    let(:attachment_type) { :grid }
-
     shared_let(:grid) { create(:dashboard, project:) }
-
-    # let(:missing_permissions_user) { create(:user) }
   end
 end

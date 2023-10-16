@@ -31,12 +31,11 @@ require_relative 'attachment_resource_shared_examples'
 
 RSpec.describe "forum message attachments" do
   it_behaves_like "an APIv3 attachment resource",
+                  attachment_type: :forum_message,
                   create_permission: nil,
                   read_permission: :view_messages,
                   update_permission: :edit_messages,
                   include_by_container: false do
-    let(:attachment_type) { :forum_message }
-
     shared_let(:forum_message) do
       create(:message,
              forum: create(:forum, project:))

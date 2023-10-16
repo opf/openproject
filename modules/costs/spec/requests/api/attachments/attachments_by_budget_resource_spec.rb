@@ -31,11 +31,10 @@ require 'requests/api/v3/attachments/attachment_resource_shared_examples'
 
 RSpec.describe "budget attachments" do
   it_behaves_like "an APIv3 attachment resource",
+                  attachment_type: :budget,
                   create_permission: :edit_budgets,
                   read_permission: :view_budgets,
                   update_permission: :edit_budgets do
-    let(:attachment_type) { :budget }
-
     shared_let(:budget) { create(:budget, project:) }
   end
 end
