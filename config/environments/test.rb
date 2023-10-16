@@ -121,4 +121,12 @@ Rails.application.configure do
 
   # Speed up tests by lowering BCrypt's cost function
   BCrypt::Engine.cost = BCrypt::Engine::MIN_COST
+
+  # Enable Bullet for finding N+1 queries
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.raise = true # raise an error if n+1 query occurs
+    Bullet.appsignal = true
+  end
 end
