@@ -21,39 +21,28 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  DropdownPosition,
-  NgSelectComponent,
-} from '@ng-select/ng-select';
-import {
-  BehaviorSubject,
-  merge,
-  NEVER,
-  Observable,
-  of,
-  Subject,
-  timer,
-} from 'rxjs';
-import {
-  debounce,
-  distinctUntilChanged,
-  filter,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
+import { BehaviorSubject, merge, NEVER, Observable, of, Subject, timer } from 'rxjs';
+import { debounce, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import {
+  Highlighting,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
+import {
+  OpAutocompleterFooterTemplateDirective,
+} from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 
 import { OpAutocompleterService } from './services/op-autocompleter.service';
 import { OpAutocompleterHeaderTemplateDirective } from './directives/op-autocompleter-header-template.directive';
 import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompleter-label-template.directive';
 import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocompleter-option-template.directive';
-import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import {
+  repositionDropdownBugfix,
+} from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { ControlValueAccessor } from '@angular/forms';
 import { ID } from '@datorama/akita';
@@ -247,6 +236,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
+  @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
+
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
   projectedOptionTemplate:TemplateRef<Element>;
 
@@ -384,6 +375,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   }
 
   public changed(val:unknown):void {
+    this.syncHiddenField(this.mappedInputValue);
     this.change.emit(val);
     this.cdRef.detectChanges();
   }
@@ -512,12 +504,21 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     });
   }
 
-  private get templateInjector() {
+  protected get templateInjector() {
     return Injector.create(
       {
         providers: [{ provide: OpAutocompleterComponent, useValue: this }],
         parent: this.injector,
       },
     );
+  }
+
+  protected syncHiddenField(mappedInputValue:string) {
+    const input = this.syncedInput?.nativeElement;
+    if (input) {
+      input.value = mappedInputValue;
+      const event = new Event('change');
+      input.dispatchEvent(event);
+    }
   }
 }

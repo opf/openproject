@@ -89,7 +89,7 @@ See COPYRIGHT and LICENSE files for more details.
                                   inputs: {
                                     filters: [{ name: 'user_action', operator: '=', values: ['meetings/create'] }],
                                     inputName: 'project_id',
-                                    model: @project,
+                                    inputValue: @project&.id,
                                     appendTo: 'body',
                                     hiddenFieldAction: 'change->refresh-on-form-changes#triggerTurboStream',
                                   },
