@@ -28,28 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
-  helpers Storages::Peripherals::Scopes
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class OpenStorageQuery
+          def initialize(storage)
+            @uri = storage.uri
+          end
 
-  resources :storages do
-    post &API::V3::Utilities::Endpoints::Create.new(model: Storages::Storage).mount
+          def self.call(storage:, user:)
+            new(storage).call(user:)
+          end
 
-    get &API::V3::Utilities::Endpoints::Index.new(model: Storages::Storage, scope: -> { visible_storages }).mount
+          # rubocop:disable Lint/UnusedMethodArgument
+          def call(user:)
+            ServiceResult.success(result: File.join(@uri.to_s, 'index.php/apps/files'))
+          end
 
-    route_param :storage_id, type: Integer, desc: 'Storage id' do
-      after_validation do
-        @storage = visible_storages.find(params[:storage_id])
+          # rubocop:enable Lint/UnusedMethodArgument
+        end
       end
-
-      get &API::V3::Utilities::Endpoints::Show.new(model: Storages::Storage).mount
-
-      patch &API::V3::Utilities::Endpoints::Update.new(model: Storages::Storage).mount
-
-      delete &API::V3::Utilities::Endpoints::Delete.new(model: Storages::Storage).mount
-
-      mount API::V3::StorageFiles::StorageFilesAPI
-      mount API::V3::OAuthClient::OAuthClientCredentialsAPI
-      mount API::V3::Storages::StorageOpenAPI
     end
   end
 end

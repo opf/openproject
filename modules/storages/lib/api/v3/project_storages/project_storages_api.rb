@@ -63,6 +63,8 @@ module API::V3::ProjectStorages
         end
 
         get &API::V3::Utilities::Endpoints::Show.new(model: Storages::ProjectStorage).mount
+
+        mount API::V3::ProjectStorages::ProjectStorageOpenAPI
       end
     end
   end

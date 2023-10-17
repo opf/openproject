@@ -56,10 +56,10 @@ RSpec.describe 'Project menu', :js, :with_cuprite do
     it 'has links to enabled storages' do
       visit(project_path(id: project.id))
 
-      expect(page).to have_link(storage.name, href: storage.open_link)
-      project_folder_id = project_storage_with_manual_folder.project_folder_id
-      folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
-      expect(page).to have_link(another_storage.name, href: folder_href)
+      expect(page).to have_link(storage.name,
+                                href: api_v3_paths.project_storage_open(project_storage_without_folder.id))
+      expect(page).to have_link(another_storage.name,
+                                href: api_v3_paths.project_storage_open(project_storage_with_manual_folder.id))
       expect(page).not_to have_link(unlinked_storage.name)
     end
 
@@ -69,11 +69,10 @@ RSpec.describe 'Project menu', :js, :with_cuprite do
       it 'has no links to enabled storage' do
         visit(project_path(id: project.id))
 
-        expect(page).not_to have_link(storage.name, href: storage.open_link)
-        project_folder_id = project_storage_with_manual_folder.project_folder_id
-        folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
-        expect(page).not_to have_link(another_storage.name, href: folder_href)
-        expect(page).not_to have_link(another_storage.name, href: another_storage.open_link)
+        expect(page).not_to have_link(storage.name,
+                                      href: api_v3_paths.project_storage_open(project_storage_without_folder.id))
+        expect(page).not_to have_link(another_storage.name,
+                                      href: api_v3_paths.project_storage_open(project_storage_with_manual_folder.id))
         expect(page).not_to have_link(unlinked_storage.name)
       end
     end

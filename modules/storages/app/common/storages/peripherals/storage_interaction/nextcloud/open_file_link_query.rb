@@ -31,53 +31,23 @@
 module Storages
   module Peripherals
     module StorageInteraction
-      module OneDrive
-        class OpenLinkQuery
-          using ::Storages::Peripherals::ServiceResultRefinements
+      module Nextcloud
+        class OpenFileLinkQuery
+          def initialize(storage)
+            @uri = storage.uri
+          end
 
           def self.call(storage:, user:, file_id:, open_location: false)
             new(storage).call(user:, file_id:, open_location:)
           end
 
-          def initialize(storage)
-            @delegate = Internal::DriveItemQuery.new(storage)
-          end
-
+          # rubocop:disable Lint/UnusedMethodArgument
           def call(user:, file_id:, open_location: false)
-            @user = user
-
-            if open_location
-              request_parent_id.call(file_id) >> request_web_url
-            else
-              request_web_url.call(file_id)
-            end
+            location_flag = open_location ? 0 : 1
+            ServiceResult.success(result: File.join(@uri.to_s, "index.php/f/#{file_id}?openfile=#{location_flag}"))
           end
 
-          private
-
-          def request_web_url
-            ->(file_id) do
-              @delegate.call(user: @user, drive_item_id: file_id, fields: %w[webUrl]).map(&web_url)
-            end
-          end
-
-          def request_parent_id
-            ->(file_id) do
-              @delegate.call(user: @user, drive_item_id: file_id, fields: %w[parentReference]).map(&parent_id)
-            end
-          end
-
-          def web_url
-            ->(json) do
-              json[:webUrl]
-            end
-          end
-
-          def parent_id
-            ->(json) do
-              json.dig(:parentReference, :id)
-            end
-          end
+          # rubocop:enable Lint/UnusedMethodArgument
         end
       end
     end

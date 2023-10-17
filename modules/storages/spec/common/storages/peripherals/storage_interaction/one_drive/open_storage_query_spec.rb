@@ -31,8 +31,10 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenDriveLinkQuery, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenStorageQuery, :webmock do
   include JsonResponseHelper
+
+  using Storages::Peripherals::ServiceResultRefinements
 
   let(:storage) do
     create(:one_drive_storage,
@@ -70,7 +72,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenDriveLin
 
       expect(open_drive_link_result).to be_failure
       expect(open_drive_link_result.result).to eq(:not_found)
-      expect(open_drive_link_result.errors.data.to_json).to eq(not_found_json)
+      expect(open_drive_link_result.error_payload.to_json).to eq(not_found_json)
     end
 
     it 'returns a forbidden error if the API call returns a 403' do
@@ -82,7 +84,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenDriveLin
 
       expect(open_drive_link_result).to be_failure
       expect(open_drive_link_result.result).to eq(:forbidden)
-      expect(open_drive_link_result.errors.data.to_json).to eq(forbidden_json)
+      expect(open_drive_link_result.error_payload.to_json).to eq(forbidden_json)
     end
   end
 end

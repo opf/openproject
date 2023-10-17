@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenLinkQuery, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenFileLinkQuery, :webmock do
   include JsonResponseHelper
 
   let(:storage) do

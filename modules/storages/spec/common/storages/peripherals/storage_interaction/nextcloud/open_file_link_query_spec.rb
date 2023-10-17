@@ -31,9 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::OpenLinkQuery do
-  include JsonResponseHelper
-
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::OpenFileLinkQuery do
   let(:storage) { create(:nextcloud_storage, host: 'https://example.com') }
   let(:user) { create(:user) }
   let(:file_id) { '1337' }
@@ -43,6 +41,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::OpenLinkQue
 
     method = described_class.method(:call)
     expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq file_id], %i[key open_location])
+  end
+
+  it 'returns the url for opening the storage if no file id is provided' do
+    url = described_class.call(storage:, user:, file_id: nil).result
+    expect(url).to eq("#{storage.host}/index.php/apps/files")
   end
 
   it 'returns the url for opening the file on storage' do
