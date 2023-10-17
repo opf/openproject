@@ -2,7 +2,7 @@
 
 module OpTurbo
   # @logical_path OpenProject/OpTurbo
-  class StreamWrapperComponentPreview < Lookbook::Preview
+  class StreamComponentPreview < Lookbook::Preview
     # Renders a turbo-stream tag with given action and target
     # @param action select { choices: [append, prepend, replace, update, remove, before, after] }
     # @param target text

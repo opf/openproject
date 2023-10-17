@@ -2,7 +2,7 @@
 
 module OpTurbo
   # @logical_path OpenProject/OpTurbo
-  class FrameWrapperComponentPreview < Lookbook::Preview
+  class FrameComponentPreview < Lookbook::Preview
     # Renders a turbo-frame tag with a unique id
     # @param context text
     def default(context: nil)

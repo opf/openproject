@@ -25,27 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-require 'spec_helper'
 
-RSpec.describe OpTurbo::FrameWrapperComponent, type: :component do
-  describe '#turbo_frame_id' do
-    context 'with `context:` option' do
-      it 'returns the turbo frame id' do
-        storage = build_stubbed(:nextcloud_storage, id: 1)
-        component = described_class.new(storage, context: :general_info)
-
-        expect(component.turbo_frame_id).to eq('general_info_storages_nextcloud_storage_1')
-      end
-    end
-
-    context 'without `context:` option' do
-      it 'returns just the model dom id' do
-        storage = build_stubbed(:nextcloud_storage, id: 1)
-        component = described_class.new(storage)
-
-        expect(component.turbo_frame_id).to eq('storages_nextcloud_storage_1')
-      end
+module OpTurbo
+  class FrameComponent < ApplicationComponent
+    def turbo_frame_id
+      ActionView::RecordIdentifier.dom_id(model, options[:context])
     end
   end
 end

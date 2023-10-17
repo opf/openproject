@@ -27,9 +27,13 @@
 #++
 
 module OpTurbo
-  class FrameWrapperComponent < ApplicationComponent
-    def turbo_frame_id
-      ActionView::RecordIdentifier.dom_id(model, options[:context])
+  class StreamComponent < ApplicationComponent
+    def initialize(template:, action:, target:)
+      super()
+
+      @template = template
+      @action = action
+      @target = target
     end
   end
 end
