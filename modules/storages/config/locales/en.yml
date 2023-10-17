@@ -39,7 +39,7 @@ en:
         storages/project_storage:
           attributes:
             project_folder_mode:
-              automatic_mode_unavailable: "is not available for this storage."
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:

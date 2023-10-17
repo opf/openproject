@@ -64,7 +64,7 @@ module Storages::ProjectStorages
       return unless @model.storage.provider_type_nextcloud?
 
       if @model.project_folder_automatic? && !@model.storage.automatically_managed?
-        errors.add :project_folder_mode, :automatic_mode_unavailable
+        errors.add :project_folder_mode, :mode_unavailable
       end
     end
   end
