@@ -72,6 +72,9 @@ module.exports = {
         // Who cares about line length
         "max-len": "off",
 
+        // Disable forcing newlines in braces to prevent empty objects and import errors
+        "object-curly-newline": "off",
+
         // Allow short circuit evaluations
         "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true }],
 

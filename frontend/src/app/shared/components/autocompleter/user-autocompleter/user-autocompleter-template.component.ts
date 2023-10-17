@@ -26,27 +26,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
-import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import {
-  WorkPackageIsolatedQuerySpaceDirective,
-} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { IAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 
 @Component({
+  templateUrl: './user-autocompleter-template.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './wp-calendar.component.html',
-  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
 })
-export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
-  constructor(protected readonly i18n:I18nService,
-    protected readonly injector:Injector,
-    protected readonly currentProject:CurrentProjectService) {
-    super(i18n, injector);
-  }
+export class UserAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
+  @Input() public inviteUserToProject:string|undefined;
 
-  public get projectIdentifier() {
-    return this.currentProject.identifier;
-  }
+  @ViewChild('optionTemplate') optionTemplate:TemplateRef<Element>;
+  @ViewChild('footerTemplate') footerTemplate?:TemplateRef<Element>;
 }

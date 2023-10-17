@@ -40,8 +40,8 @@
               render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true))
             end
 
-            grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm, data: { 'test-selector': 'storage-provider' },classes: 'ellipsis') do
-              render(Primer::Beta::Truncate.new(font_weight: :light)) { storage.short_provider_type.capitalize }
+            grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm, data: { 'test-selector': 'storage-provider' }) do
+              render(Primer::Beta::Truncate.new(font_weight: :light)) { I18n.t("storages.provider_types.#{storage.short_provider_type}.name") }
             end
 
             grid.with_area(:time, tag: :div, color: :subtle, mr: 3, classes: 'ellipsis') do

@@ -37,10 +37,10 @@ class Widget::Filters::Project < Widget::Filters::Base
 
       box = angular_component_tag 'opce-project-autocompleter',
                                   inputs: {
-                                    apiFilters: [],
-                                    name: "values[#{filter_class.underscore_name}][]",
+                                    filters: [],
+                                    InputName: "values[#{filter_class.underscore_name}][]",
                                     multiple: true,
-                                    value: selected_values.filter { |item| !item.nil? }
+                                    model: selected_values.filter { |item| !item.nil? }
                                   },
                                   id: "#{filter_class.underscore_name}_select_1",
                                   class: 'filter-value'

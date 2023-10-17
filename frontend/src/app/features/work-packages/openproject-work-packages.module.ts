@@ -220,6 +220,8 @@ import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/
     EditFieldControlsModule,
     OpenprojectTabsModule,
     OpenprojectStoragesModule,
+
+    WorkPackageIsolatedQuerySpaceDirective,
   ],
   providers: [
     // Notification service
@@ -266,10 +268,6 @@ import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/
     // WP list side
     WorkPackageListViewComponent,
     WorkPackageSettingsButtonComponent,
-
-    // Query injector isolation
-    WorkPackageIsolatedQuerySpaceDirective,
-    WorkPackageIsolatedGraphQuerySpaceDirective,
 
     // WP New
     WorkPackageNewFullViewComponent,
@@ -444,8 +442,6 @@ import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/
     WorkPackageSingleCardComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
-    WorkPackageIsolatedQuerySpaceDirective,
-    WorkPackageIsolatedGraphQuerySpaceDirective,
     QueryFiltersComponent,
 
     WpResizerDirective,
