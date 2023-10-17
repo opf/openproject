@@ -29,7 +29,7 @@
 module OpTurbo
   class FrameWrapperComponent < ApplicationComponent
     def turbo_frame_id
-      ActionView::RecordIdentifier.dom_id(model, options[:frame])
+      ActionView::RecordIdentifier.dom_id(model, options[:context])
     end
   end
 end
