@@ -31,8 +31,8 @@
       &:hover
         background-color: $spot-color-basic-gray-6
         text-decoration: none
-        border-color: var(--list-item-hover-color)
-        color: var(--content-link-hover-active-color)
+        border-color: var(--list-item-hover--border-color)
+        color: var(--list-item-hover--color)
 
       &_disabled
         &,
@@ -56,7 +56,7 @@
       &:focus-within
         background-color: $spot-color-basic-gray-6
         text-decoration: none
-        border-color: var(--list-item-hover-color)
+        border-color: var(--list-item-hover--border-color)
 
       &_disabled
         color: $spot-color-basic-gray-1
@@ -112,7 +112,7 @@
     font-weight: var(--base-text-weight-semibold, 600)
     background-color: $spot-color-basic-gray-6
     text-decoration: none
-    border-color: var(--list-item-hover-color)
+    border-color: var(--list-item-hover--border-color)
 
 $item-list: ""
 @for $i from 0 through 10
