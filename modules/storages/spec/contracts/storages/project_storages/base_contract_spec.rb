@@ -47,6 +47,7 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
   context 'if the project folder mode is `automatic`' do
     before do
       project_storage.project_folder_mode = 'automatic'
+      project_storage.storage.automatically_managed = true
     end
 
     it_behaves_like 'contract is valid'

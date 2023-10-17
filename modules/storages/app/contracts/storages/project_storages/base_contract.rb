@@ -52,7 +52,7 @@ module Storages::ProjectStorages
       end
     end
 
-    validate :project_folder_mode_can_be_automatic, unless: -> { errors.include?(:project_folder_mode) }
+    validate :project_folder_automatic_mode, unless: -> { errors.include?(:project_folder_mode) }
 
     private
 
@@ -60,10 +60,10 @@ module Storages::ProjectStorages
       @model.project_folder_manual?
     end
 
-    def project_folder_mode_can_be_automatic
-      return unless @model.storage.provider_type_nextcloud?
+    def project_folder_automatic_mode
+      return unless @model.project_folder_automatic?
 
-      if @model.project_folder_automatic? && !@model.storage.automatically_managed?
+      unless @model.automatic_management_possible?
         errors.add :project_folder_mode, :mode_unavailable
       end
     end
