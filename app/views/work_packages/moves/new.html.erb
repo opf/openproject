@@ -64,9 +64,9 @@ See COPYRIGHT and LICENSE files for more details.
                   <div class="form--field-container">
                     <%= angular_component_tag 'opce-project-autocompleter',
                                               inputs: {
-                                                apiFilters: [['user_action', '=', ['work_packages/move']]],
-                                                name: 'new_project_id',
-                                                value: @target_project,
+                                                filters: [{ name: 'user_action', operator: '=', values: ['work_packages/move'] }],
+                                                inputName: 'new_project_id',
+                                                model: @target_project,
                                                 appendTo: 'body',
                                                 hiddenFieldAction: 'change->refresh-on-form-changes#triggerReload',
                                                 clearable: false,
