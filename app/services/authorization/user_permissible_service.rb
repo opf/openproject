@@ -47,8 +47,7 @@ module Authorization
     end
 
     def allowed_in_any_entity?(permission, entity_class, in_project: nil)
-      perms = contextual_permissions(permission,
-                                     context_name(entity_class))
+      perms = contextual_permissions(permission, context_name(entity_class))
       return true if admin_and_all_granted_to_admin?(perms)
 
       # entity_class.allowed_to will also check whether the user has the permission via a membership in the project.
@@ -65,11 +64,7 @@ module Authorization
 
     def cached_permissions(context)
       @cached_permissions ||= Hash.new do |hash, context_key|
-        hash[context_key] = Authorization
-                              .roles(user, context_key)
-                              .includes(:role_permissions)
-                              .pluck(:permission)
-                              .map(&:to_sym)
+        hash[context_key] = user.all_permissions_for(context_key)
       end
 
       @cached_permissions[context]

@@ -85,6 +85,14 @@ module Users::PermissionChecks
     roles_for_project(project).any?(&:member?)
   end
 
+  def all_permissions_for(context)
+    Authorization
+      .roles(self, context)
+      .includes(:role_permissions)
+      .pluck(:permission)
+      .map(&:to_sym)
+  end
+
   # Old allowed_to? interface. Marked as deprecated, should be removed at some point ... Guessing 14.0?
 
   def allowed_to?(action, context, global: false)
