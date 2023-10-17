@@ -74,6 +74,6 @@ class MeetingAgendaItem < ApplicationRecord
   end
 
   def editable?
-    !meeting&.closed?
+    !meeting&.closed? && !deleted_work_package?
   end
 end
