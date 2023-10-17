@@ -429,6 +429,8 @@ pt:
       Sua conta ainda não foi ativada. Por favor, espere um administrador ativar sua conta.
     error_self_registration_disabled: >
       O registro do usuário está desativado no sistema. Por favor peça a um administrador para criar uma conta para você.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "ou entre com a sua conta existente"
     signup_with_auth_provider: "ou cadastre-se usando"
     auth_source_login: Faça login como <em>%{login}</em> para ativar sua conta.

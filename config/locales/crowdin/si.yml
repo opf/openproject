@@ -430,6 +430,8 @@ si:
       ඔබගේ ගිණුම තවමත් සක්රිය කර නොමැත. කරුණාකර ඔබේ ගිණුම සක්රිය කිරීමට පරිපාලකයෙකු බලා සිටින්න.
     error_self_registration_disabled: >
       මෙම පද්ධතිය මත පරිශීලක ලියාපදිංචිය අක්රීය කර ඇත. කරුණාකර ඔබ වෙනුවෙන් ගිණුමක් නිර්මාණය කිරීමට පරිපාලකයෙකුගෙන් විමසන්න.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "හෝ ඔබගේ පවතින ගිණුම සමඟ පුරනය වන්න"
     signup_with_auth_provider: "හෝ භාවිතා කර ලියාපදිංචි වන්න"
     auth_source_login: කරුණාකර ඔබගේ ගිණුම සක්රිය කිරීමට <em>%{login}</em> ලෙස ලොගින් වන්න.

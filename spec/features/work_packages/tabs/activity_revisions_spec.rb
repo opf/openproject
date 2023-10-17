@@ -116,8 +116,7 @@ RSpec.describe 'Activity tab', js: true, with_cuprite: true do
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
       let(:activities) do
         [creation_journal, subject_change_journal, revision, comment_journal]
@@ -195,8 +194,7 @@ RSpec.describe 'Activity tab', js: true, with_cuprite: true do
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
       let(:activities) do
         [creation_journal, subject_change_journal, comment_journal]

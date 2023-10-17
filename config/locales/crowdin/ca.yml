@@ -426,6 +426,8 @@ ca:
       El teu compte encara no ha estat activat. Espera a que un administrador l'activi.
     error_self_registration_disabled: >
       El registre d'usuaris està deshabilitat en aquest sistema. Demana a un administrador que et creï un compte.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "o inicia la sessió amb el teu compte"
     signup_with_auth_provider: "o registra't mitjançant"
     auth_source_login: Si us plau, entra com a <em>%{login}</em> per activar el teu compte.

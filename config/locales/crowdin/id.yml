@@ -422,6 +422,8 @@ id:
       Akun Anda belum diaktifkan. Harap menunggu Administrator untuk mengaktifkan akun Anda.
     error_self_registration_disabled: >
       Pendaftaran user dinonaktifkan untuk saat ini. Silakan minta Administrator untuk membuatkan akun Anda.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "atau Login dengan akun yang ada"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.

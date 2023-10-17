@@ -425,6 +425,8 @@ de:
       Ihr Konto wurde noch nicht aktiviert. Bitte warten Sie auf die Aktivierung Ihres Kontos durch einen Administrator.
     error_self_registration_disabled: >
       Auf diesem System ist die Nutzerregistierung deaktiviert. Bitte fragen Sie einen Administrator nach einem Nutzerkonto.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "oder melden Sie sich mit einem bestehenden Konto an"
     signup_with_auth_provider: "oder authentifizieren Sie sich mit"
     auth_source_login: Bitte melden Sie sich als <em>%{login}</em> an um Ihr Konto zu aktivieren.

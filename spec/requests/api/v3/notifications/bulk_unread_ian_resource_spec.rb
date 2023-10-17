@@ -35,7 +35,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
 
-  shared_let(:recipient) { create(:user, member_in_project: project, member_with_permissions: %i[view_work_packages]) }
+  shared_let(:recipient) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
   shared_let(:other_recipient) { create(:user) }
   shared_let(:notification1) do
     create(:notification, recipient:, project:, resource: work_package, read_ian: true)

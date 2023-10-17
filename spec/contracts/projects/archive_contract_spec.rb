@@ -40,7 +40,7 @@ RSpec.describe Projects::ArchiveContract do
 
   context 'when user has archive_project permission' do
     let(:project) { create(:project) }
-    let(:current_user) { create(:user, member_in_project: project, member_through_role: archivist_role) }
+    let(:current_user) { create(:user, member_with_roles: { project => archivist_role }) }
 
     include_examples 'contract is valid'
   end
@@ -49,7 +49,7 @@ RSpec.describe Projects::ArchiveContract do
     shared_let(:subproject1) { create(:project) }
     shared_let(:subproject2) { create(:project) }
     shared_let(:project) { create(:project, children: [subproject1, subproject2]) }
-    shared_let(:current_user) { create(:user, member_in_project: project, member_through_role: archivist_role) }
+    shared_let(:current_user) { create(:user, member_with_roles: { project => archivist_role }) }
 
     shared_examples 'with archive_project permission on all/some/none of subprojects' do
       context 'when user does not have archive_project permission on any subprojects' do

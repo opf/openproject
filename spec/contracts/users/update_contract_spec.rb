@@ -48,7 +48,7 @@ RSpec.describe Users::UpdateContract do
     end
 
     context 'when global user' do
-      let(:current_user) { create(:user, global_permission: :manage_user) }
+      let(:current_user) { create(:user, global_permissions: :manage_user) }
 
       describe 'can lock the user' do
         before do

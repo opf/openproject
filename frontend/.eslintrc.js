@@ -72,6 +72,9 @@ module.exports = {
         // Who cares about line length
         "max-len": "off",
 
+        // Disable forcing newlines in braces to prevent empty objects and import errors
+        "object-curly-newline": "off",
+
         // Allow short circuit evaluations
         "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true }],
 
@@ -96,8 +99,11 @@ module.exports = {
         // Sometimes, arrow functions implicit return looks better below, so allow both
         "implicit-arrow-linebreak": "off",
 
+        // Sometimes, arrow functions look better broken down
+        "arrow-body-style": "off",
+
         // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
-        // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
+        // Until we do that, `void` is a good way to explicitly mark unhandled promises.
         "no-void": ["error", { allowAsStatement: true }],
 
         // Disable no-use for functions and classes
@@ -106,6 +112,10 @@ module.exports = {
 
         // Allow subsequent single fields in typescript classes
         "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+
+        // Disable indentation rule as it breaks in edge cases and is covered by editorconfig
+        "indent": "off",
+        "@typescript-eslint/indent": "off",
 
         /*
         // Disable use before define, as irrelevant for TS interfaces

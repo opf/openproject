@@ -76,13 +76,13 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     end
 
     context 'when current user is a member of the project with permission to manage file links' do
-      current_user { create(:user, member_in_project: project, member_with_permissions: %i[manage_file_links]) }
+      current_user { create(:user, member_with_permissions: { project => %i[manage_file_links] }) }
 
       include_examples 'content security policy directives'
     end
 
     context 'when current user is a member of the project without permission to manage file links' do
-      current_user { create(:user, member_in_project: project, member_with_permissions: []) }
+      current_user { create(:user, member_with_permissions: { project => [] }) }
 
       it 'does not add CSP connect_src directive' do
         trigger_application_controller_before_action_hook

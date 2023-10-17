@@ -39,8 +39,7 @@ RSpec.describe 'Work package transitive status workflows', js: true do
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: dev_role)
+           member_with_roles: { project => dev_role })
   end
 
   let(:type) { create(:type) }

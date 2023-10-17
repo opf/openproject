@@ -56,8 +56,7 @@ RSpec.describe 'Arbitrary WorkPackage query table widget on my page', js: true d
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:my_page) do
     Pages::My::Page.new

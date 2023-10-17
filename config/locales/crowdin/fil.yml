@@ -430,6 +430,8 @@ fil:
       Ang iyong akawnt ay hindi pa aktobo. Pakiusap maghintay para sa isang tagapangasiwa upang maisaaktibo ang iyong akawnt.
     error_self_registration_disabled: >
       Ang pagpaparehistro ng gumagamit ay naka-diable sa sistemang ito. Mangyaring hilingin sa isang tagapangasiwa na lumikha ng isang akawnt para sa iyo.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "o kaya ay mag-sig in sa pamamagitan ng iyong umiiral na akawnt"
     signup_with_auth_provider: "o mag-sign up gamit ang"
     auth_source_login: Mangyaring mag-login bilang isang <em>%{login}</em> upang i-aktibi ang iyong akwant.

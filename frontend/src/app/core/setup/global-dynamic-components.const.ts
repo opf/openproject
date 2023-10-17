@@ -17,10 +17,6 @@ import {
   OpAttachmentsComponent,
 } from 'core-app/shared/components/attachments/attachments.component';
 import {
-  UserAutocompleterComponent,
-  usersAutocompleterSelector,
-} from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
-import {
   GlobalSearchWorkPackagesComponent,
   globalSearchWorkPackagesSelector,
 } from 'core-app/core/global_search/global-search-work-packages.component';
@@ -98,10 +94,6 @@ import {
   GlobalSearchTabsComponent,
   globalSearchTabsSelector,
 } from 'core-app/core/global_search/tabs/global-search-tabs.component';
-import {
-  MembersAutocompleterComponent,
-  membersAutocompleterSelector,
-} from 'core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component';
 import {
   TriggerActionsEntryComponent,
   triggerActionsEntryComponentSelector,
@@ -220,8 +212,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
-  { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
-  { selector: membersAutocompleterSelector, cls: MembersAutocompleterComponent },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
   { selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent },
   { selector: homescreenNewFeaturesBlockSelector, cls: HomescreenNewFeaturesBlockComponent },

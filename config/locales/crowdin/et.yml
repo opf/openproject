@@ -430,6 +430,8 @@ et:
       Sinu konto pole aktiveeritud veel. Palun oota, kuni administraator aktiveerib selle.
     error_self_registration_disabled: >
       Konto loomine on hetkel keelatud. Palun küsi administraatoril tekitada konto sulle.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "või logi sisse oma olemasoleva kontoga"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.

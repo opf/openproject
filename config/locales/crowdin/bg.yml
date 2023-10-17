@@ -430,6 +430,8 @@ bg:
       Все още не е активиран вашия акаунт. Моля изчакайте администратор да активирате профила Ви.
     error_self_registration_disabled: >
       Регистрация на потребител е забранена на тази система. Помолете администратора да създадете акаунт за вас.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "или влезте със съществуващ акаунт"
     signup_with_auth_provider: "или се регистрирайте за използване"
     auth_source_login: Моля, влезте като <em>%{login}</em> да активирате профила си.

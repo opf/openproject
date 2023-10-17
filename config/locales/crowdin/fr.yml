@@ -430,6 +430,8 @@ fr:
       Votre compte n'a pas encore été activé. Veuillez attendre qu'un administrateur active votre compte.
     error_self_registration_disabled: >
       L'inscription des utilisateurs est désactivée sur ce système. Demandez à un administrateur de créer un compte pour vous.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "ou connectez-vous avec votre compte existant"
     signup_with_auth_provider: "ou inscrivez-vous à l'aide de"
     auth_source_login: Veuillez vous connecter en tant que <em>%{login}</em> pour activer votre compte.

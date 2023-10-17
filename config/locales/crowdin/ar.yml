@@ -434,6 +434,8 @@ ar:
       حسابك لم يُفعل حتى الآن، من فضلك انتظر المدير ليفعّله لك.
     error_self_registration_disabled: >
       تسجيل المستخدم معطّل على هذا النظام، من فضلك اطلب من المدير أن ينشئ حسابًا لك.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "أو سجل دخولك من خلال حسابك الموجود مسبقا"
     signup_with_auth_provider: "أو قم بالتسجيل مستخدماً"
     auth_source_login: الرجاء الدخول ك <em>%{login}</em>لتفعيل حسابك.

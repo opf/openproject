@@ -29,11 +29,11 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
 
-RSpec.describe CostQuery, reporting_query_helper: true do
+RSpec.describe CostQuery, :reporting_query_helper do
   minimal_query
 
   let!(:project) { create(:project_with_types) }
-  let!(:user) { create(:user, member_in_project: project) }
+  let!(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
 
   def create_work_package_with_entry(entry_type, work_package_params = {}, entry_params = {})
     work_package_params = { project: }.merge!(work_package_params)
@@ -78,7 +78,7 @@ RSpec.describe CostQuery, reporting_query_helper: true do
       describe filter do
         let!(:non_matching_entry) { create(:cost_entry) }
         let!(:object) { send(object_name) }
-        let!(:author) { create(:user, member_in_project: project) }
+        let!(:author) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
         let!(:work_package) do
           create(:work_package,
                  project:,
@@ -133,7 +133,7 @@ RSpec.describe CostQuery, reporting_query_helper: true do
 
     describe CostQuery::Filter::AuthorId do
       let!(:non_matching_entry) { create(:cost_entry) }
-      let!(:author) { create(:user, member_in_project: project) }
+      let!(:author) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
       let!(:work_package) do
         create(:work_package,
                project:,
@@ -228,7 +228,7 @@ RSpec.describe CostQuery, reporting_query_helper: true do
 
       it "filters overridden_costs" do
         query.filter :overridden_costs, operator: 'y'
-        expect(query.result.count).to eq(Entry.all.count { |e| !(e.overridden_costs.nil?) })
+        expect(query.result.count).to eq(Entry.all.count { |e| !e.overridden_costs.nil? })
       end
 
       it "filters status" do
@@ -333,7 +333,7 @@ RSpec.describe CostQuery, reporting_query_helper: true do
       CostQuery::Filter::WorkPackageId
     ].each do |filter|
       it "onlies allow default operators for #{filter}" do
-        expect(filter.new.available_operators.uniq).to match_array([CostQuery::Operator.default_operator])
+        expect(filter.new.available_operators.uniq).to contain_exactly(CostQuery::Operator.default_operator)
       end
     end
 

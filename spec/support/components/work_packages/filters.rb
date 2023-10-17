@@ -250,7 +250,7 @@ module Components
 
       def insert_autocomplete_item(filter_element, value)
         Array(value).each do |val|
-          select_autocomplete filter_element.find("op-autocompleter"),
+          select_autocomplete filter_element.find("ng-select"),
                               query: val,
                               results_selector: '.ng-dropdown-panel-items'
         end
@@ -283,7 +283,7 @@ module Components
 
         if filter_element.has_selector?(".ng-select-container", wait: false)
           Array(value).each do |val|
-            dropdown = search_autocomplete filter_element.find("op-autocompleter"),
+            dropdown = search_autocomplete filter_element.find("ng-select"),
                                            query: val,
                                            results_selector: '.ng-dropdown-panel-items'
             expect(dropdown).to have_conditional_selector(present, '.ng-option', text: val)

@@ -34,7 +34,7 @@ RSpec.describe 'API v3 time_entry resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:time_entry) do
     create(:time_entry, project:, work_package:, user: current_user)
@@ -43,7 +43,7 @@ RSpec.describe 'API v3 time_entry resource' do
     create(:time_entry, project:, work_package:, user: other_user)
   end
   let(:other_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:invisible_time_entry) do
     create(:time_entry, project: other_project, work_package: other_work_package, user: other_user)

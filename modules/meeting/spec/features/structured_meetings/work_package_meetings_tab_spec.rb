@@ -30,10 +30,12 @@ require 'spec_helper'
 require_relative '../../support/pages/work_package_meetings_tab'
 
 RSpec.describe 'Open the Meetings tab', :js do
+  shared_let(:project) { create(:project) }
+  shared_let(:work_package) { create(:work_package, project:, subject: 'A test work_package') }
+
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:role) do
     create(:project_role,
@@ -41,8 +43,6 @@ RSpec.describe 'Open the Meetings tab', :js do
                            view_meetings
                            edit_meetings))
   end
-  let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project:, subject: 'A test work_package') }
   let(:meetings_tab) { Pages::MeetingsTab.new(work_package.id) }
 
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
@@ -70,6 +70,41 @@ RSpec.describe 'Open the Meetings tab', :js do
         work_package_page.visit!
 
         meetings_tab.expect_tab_not_present
+      end
+    end
+
+    context 'when the user has the permission to see the tab, but the work package is linked in two projects' do
+      let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+      let!(:visible_meeting) { create(:structured_meeting, project:) }
+      let!(:invisible_meeting) { create(:structured_meeting, project: other_project) }
+
+      let!(:meeting_agenda_item_of_visible_meeting) do
+        create(:meeting_agenda_item, meeting: visible_meeting, work_package:, notes: "Public note!")
+      end
+
+      let!(:meeting_agenda_item_of_invisible_meeting) do
+        create(:meeting_agenda_item, meeting: invisible_meeting, work_package:, notes: "Private note")
+      end
+
+      let(:role) do
+        create(:project_role,
+               permissions: %i(view_work_packages view_meetings))
+      end
+
+      it 'shows the one visible meeting' do
+        work_package_page.visit!
+        switch_to_meetings_tab
+
+        meetings_tab.expect_upcoming_counter_to_be(1)
+        meetings_tab.expect_past_counter_to_be(0)
+
+        page.within_test_selector("op-meeting-container-#{visible_meeting.id}") do
+          expect(page).to have_content(visible_meeting.title)
+          expect(page).to have_content(meeting_agenda_item_of_visible_meeting.notes)
+
+          expect(page).not_to have_content(invisible_meeting.title)
+          expect(page).not_to have_content(meeting_agenda_item_of_invisible_meeting.notes)
+        end
       end
     end
 
@@ -277,8 +312,7 @@ RSpec.describe 'Open the Meetings tab', :js do
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: restricted_role)
+               member_with_roles: { project => restricted_role })
       end
 
       it 'does not show the add to meeting button' do

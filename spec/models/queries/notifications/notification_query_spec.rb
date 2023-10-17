@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe Queries::Notifications::NotificationQuery do
   shared_let(:project) { create(:project) }
 
-  shared_let(:recipient) { create(:user, member_in_project: project, member_with_permissions: %i[view_work_packages]) }
+  shared_let(:recipient) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:notification) { create(:notification, recipient:, project:, resource: work_package) }

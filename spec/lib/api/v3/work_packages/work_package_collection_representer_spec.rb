@@ -77,9 +77,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   current_user { user }
 
   before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission|
-      permissions.nil? || permissions.include?(permission)
+    mock_permissions_for(user) do |mock|
+      if permissions
+        mock.allow_in_project *permissions, project:
+      else
+        mock.allow_everything
+      end
     end
   end
 
@@ -611,8 +614,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       create(:user,
              firstname: 'user',
              lastname: '1',
-             member_in_project: project,
-             member_with_permissions: %i[view_work_packages])
+             member_with_permissions: { project => %i[view_work_packages] })
     end
 
     shared_examples_for 'includes the properties of the current work package' do

@@ -51,7 +51,7 @@ RSpec.describe 'API v3 Revisions resource' do
            permissions: [:view_changesets])
   end
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:unauthorized_user) { create(:user) }

@@ -431,6 +431,8 @@ hr:
       Vaš korisnički račun još nije aktiviran. Molim vas da pričekate da administrator aktivira vaš korisnički račun.
     error_self_registration_disabled: >
       Registracija korisnika je onemogućena na ovom sustavu. Molim vas, obratite se administratoru za izradu korisničkog računa.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "ili pristupite s vašim postojećim korinisičkim računom"
     signup_with_auth_provider: "ili pristupite koristeći"
     auth_source_login: Molimo vas, prijavite se kao <em>%{login}</em> da bi ste aktivirali vaš korisnički račun.

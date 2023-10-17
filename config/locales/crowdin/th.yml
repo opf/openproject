@@ -429,6 +429,8 @@ th:
       บัญชีผู้ใช้ของคุณยังไม่ได้เปิดใช้งาน กรุณารอเพื่อให้ผู้ดูแลระบบ เปิดใช้งานบัญชีผู้ใช้ของคุณเสียก่อน
     error_self_registration_disabled: >
       ระบบไม่ได้เปิดให้ผู้ใช้ลงทะเบียนใช้งานด้วยตัวเอง โปรดสอบถามผู้ดูแลระบบให้สร้างบัญชีผู้ใช้ให้กับคุณ
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "หรือเข้าสู่ระบบ ด้วยบัญชีผู้ใช้ที่คุณมีอยู่แล้ว"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.

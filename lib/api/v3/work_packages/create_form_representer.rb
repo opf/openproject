@@ -54,7 +54,7 @@ module API
 
         link :commit do
           if represented.project &&
-             current_user.allowed_to?(:edit_work_packages,
+             current_user.allowed_to?(:add_work_packages,
                                       represented.project) &&
              @errors.empty?
             {

@@ -427,6 +427,8 @@ nl:
       Uw account is nog niet geactiveerd. Wacht totdat een beheerder uw account activeert.
     error_self_registration_disabled: >
       Gebruikersregistratie is uitgeschakeld op dit systeem. Vraag een beheerder om een account voor u aan te maken.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "of log in met een bestaand account"
     signup_with_auth_provider: "of meld je aan via"
     auth_source_login: Gelieve in te loggen als <em>%{login}</em> om uw account te activeren.

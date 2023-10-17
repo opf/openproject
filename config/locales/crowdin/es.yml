@@ -427,6 +427,8 @@ es:
       Su cuenta aún no está activada. Por favor, espere a que el administrador active su cuenta.
     error_self_registration_disabled: >
       El registro de usuarios está deshabilitado en este sistema. Por favor pida a un administrador que cree una cuenta para usted.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "o inicie sesión con su cuenta existente"
     signup_with_auth_provider: "o regístrate usando"
     auth_source_login: Por favor, inicia sesión como <em>%{login}</em> para activar tu cuenta.

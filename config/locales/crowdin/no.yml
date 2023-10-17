@@ -430,6 +430,8 @@
       Kontoen din er ennå ikke aktivert. Vennligst vent til en administrator har aktivert kontoen.
     error_self_registration_disabled: >
       Brukerregistrering er deaktivert i dette systemet. Vennligst be en administrator om å opprette en konto for deg.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "eller logg på med din eksisterende konto"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.

@@ -427,6 +427,8 @@ it:
       Il tuo account non è stato ancora attivato. Si prega di attendere che un amministratore lo attivi.
     error_self_registration_disabled: >
       Su questo sistema non è possibile registrare nuovi utenti. Per cortesia, contatta l'amministratore e chiedigli di creare un account per te.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "o accedi con il tuo account esistente"
     signup_with_auth_provider: "o accedi utilizzando"
     auth_source_login: Accedi come <em>%{login}</em> per attivare il tuo account.

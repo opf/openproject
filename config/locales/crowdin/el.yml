@@ -426,6 +426,8 @@ el:
       Ο λογαριασμός σας δεν έχει ενεργοποιηθεί ακόμη. Παρακαλούμε περιμένετε να ενεργοποιήσει τον λογαριασμό σας ένας διαχειριστής.
     error_self_registration_disabled: >
       Η εγγραφή χρηστών είναι απενεργοποιημένη σε αυτό το σύστημα. Παρακαλούμε ζητήστε από ένα διαχειριστή να δημιουργήσει ένα λογαριασμό για εσάς.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "ή συνδεθείτε με τον υπάρχοντα λογαριασμό σας"
     signup_with_auth_provider: "ή εγγραφείτε χρησιμοποιώντας"
     auth_source_login: Παρακαλούμε συνδεθείτε ως <em>%{login}</em> για να ενεργοποιήσετε τον λογαριασμό σας.

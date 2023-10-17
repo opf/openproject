@@ -430,6 +430,8 @@ af:
       Jou rekening is nog nie geaktiveer nie. Wag assebief vir die administrateur om jou rekening te aktiveer.
     error_self_registration_disabled: >
       Gebruiker registrasie is afgeskakel op hierdie stelsel. Vra asseblief 'n administrateur om 'n rekening vir jou te skep.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "of teken in met jou bestaande rekening"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.

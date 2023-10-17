@@ -428,6 +428,8 @@ hi:
       आपका खाता अभी तक सक्रिय नहीं किया गया है । कृपया किसी व्यवस्थापक द्वारा, आपका खाता सक्रिय करने के लिए, प्रतीक्षा करें ।
     error_self_registration_disabled: >
       इस सिस्टम पर उपयोगकर्ता पंजीकरण अक्षम किया गया है । कृपया किसी व्यवस्थापक से आपके लिए खाता बनाने के लिए सम्पर्क करें ।
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "या अपने मौजूदा खाते से साइन इन करें"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.

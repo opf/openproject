@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'invitations', js: true, with_cuprite: true do
+RSpec.describe 'invitations', :js, :with_cuprite do
   let(:user) { create(:invited_user, mail: 'holly@openproject.com') }
 
   before do
@@ -64,14 +64,14 @@ RSpec.describe 'invitations', js: true, with_cuprite: true do
   end
 
   context 'as as user with global user_create permission' do
-    shared_let(:global_create_user) { create(:user, global_permission: :create_user) }
+    shared_let(:global_create_user) { create(:user, global_permissions: [:create_user]) }
     let(:current_user) { global_create_user }
 
     include_examples 'resending invitations', redirect_to_edit_page: false
   end
 
   context 'as as user with global user_create and manage_user permission' do
-    shared_let(:global_create_user) { create(:user, global_permission: %i[create_user manage_user]) }
+    shared_let(:global_create_user) { create(:user, global_permissions: %i[create_user manage_user]) }
     let(:current_user) { global_create_user }
 
     include_examples 'resending invitations', redirect_to_edit_page: true

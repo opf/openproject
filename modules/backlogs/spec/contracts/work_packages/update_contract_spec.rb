@@ -35,7 +35,7 @@ RSpec.describe WorkPackages::UpdateContract do
            estimated_hours: 6.0,
            project:)
   end
-  let(:member) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:member) { create(:user, member_with_roles: { project => role }) }
   let(:project) { create(:project) }
   let(:current_user) { member }
   let(:permissions) do

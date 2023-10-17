@@ -53,8 +53,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[view_work_packages export_work_packages])
+           member_with_permissions: { project => %w[view_work_packages export_work_packages] })
   end
   let(:export_time) { DateTime.new(2023, 6, 30, 23, 59) }
   let(:export_time_formatted) { format_time(export_time, true) }

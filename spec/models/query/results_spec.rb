@@ -54,8 +54,7 @@ RSpec.describe Query::Results do
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: project1,
-           member_through_role: [role_dev, role_pm])
+           member_with_roles: { project1 => [role_dev, role_pm] })
   end
   let(:wp_p1) do
     (1..3).map do
@@ -322,8 +321,7 @@ RSpec.describe Query::Results do
       create(:user,
              firstname: 'user',
              lastname: '2',
-             member_in_project: project2,
-             member_through_role: role_dev)
+             member_with_roles: { project2 => role_dev })
     end
 
     let!(:wp_p2) do
