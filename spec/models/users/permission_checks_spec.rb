@@ -60,6 +60,9 @@ RSpec.describe User, "permission check methods" do
 
   describe '#all_permissions_for' do
     let(:project) { create(:project) }
+    let!(:other_project) { create(:project, public: true) }
+
+    let!(:non_member) { create(:non_member, permissions: %i[view_work_packages manage_members]) }
 
     subject do
       create(:user, global_permissions: [:create_user],
@@ -70,6 +73,10 @@ RSpec.describe User, "permission check methods" do
       expect(subject.all_permissions_for(project)).to match_array(%i[view_work_packages edit_work_packages])
     end
 
+    it 'returns non-member permissions given on the project the user is not a member of' do
+      expect(subject.all_permissions_for(other_project)).to match_array(%i[view_work_packages manage_members])
+    end
+
     it 'returns all global permissions' do
       skip 'Current implementation of the Authorization.roles query returns ALL permissions the user has, not only global ones. ' \
            'We should change this in the fututre, thats why this test is already in here.'
@@ -78,7 +85,9 @@ RSpec.describe User, "permission check methods" do
     end
 
     it 'returns all permissions the user has (with project and global permissions)' do
-      expect(subject.all_permissions_for(nil)).to match_array(%i[create_user view_work_packages edit_work_packages])
+      expect(subject.all_permissions_for(nil)).to match_array(%i[create_user
+                                                                 view_work_packages edit_work_packages
+                                                                 manage_members])
     end
   end
 end

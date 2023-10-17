@@ -90,6 +90,8 @@ module Users::PermissionChecks
       .roles(self, context)
       .includes(:role_permissions)
       .pluck(:permission)
+      .compact
+      .uniq
       .map(&:to_sym)
   end
 
