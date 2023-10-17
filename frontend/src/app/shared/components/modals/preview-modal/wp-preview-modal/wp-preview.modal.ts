@@ -50,11 +50,15 @@ import {
   Placement,
   shift,
 } from '@floating-ui/dom';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 @Component({
   templateUrl: './wp-preview.modal.html',
   styleUrls: ['./wp-preview.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
 })
 export class WpPreviewModalComponent extends OpModalComponent implements OnInit {
   public workPackage:WorkPackageResource;
