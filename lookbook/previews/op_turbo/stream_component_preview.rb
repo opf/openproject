@@ -4,11 +4,11 @@ module OpTurbo
   # @logical_path OpenProject/OpTurbo
   class StreamComponentPreview < Lookbook::Preview
     # Renders a turbo-stream tag with given action and target
-    # @param action select { choices: [append, prepend, replace, update, remove, before, after] }
+    # @param _action select { choices: [append, prepend, replace, update, remove, before, after] }
     # @param target text
-    def default(action: 'append', target: 'model_id')
-      template = template_example_from_action(action, target)
-      render_with_template(locals: { template:, action:, target: })
+    def default(_action: 'append', target: 'model_id')
+      template = template_example_from_action(_action, target)
+      render_with_template(locals: { template:, action: _action, target: })
     end
 
     private
