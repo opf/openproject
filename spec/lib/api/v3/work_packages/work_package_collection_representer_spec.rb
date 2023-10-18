@@ -78,7 +78,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   before do
     mock_permissions_for(user) do |mock|
-      if permissions
+      if permissions && project
         mock.allow_in_project *permissions, project:
       else
         mock.allow_everything
@@ -278,6 +278,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       context 'for a work package that is not visible' do
         let(:total) { 1 }
         let(:permissions) { [] }
+        let(:project) { created_work_packages.first.project }
 
         it 'renders a reduced WorkPackage element' do
           expect(collection)

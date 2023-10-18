@@ -94,7 +94,7 @@ RSpec.describe WorkPackagesController, type: :controller do
 
     before do
       mock_permissions_for(User.current) do |mock|
-        mock.allow_in_project :view_work_packages, project:
+        mock.allow_in_project(:view_work_packages, project:) if project
       end
     end
 

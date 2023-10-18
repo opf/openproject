@@ -32,7 +32,7 @@ RSpec.shared_examples_for 'time entry contract' do
   let(:current_user) { build_stubbed(:user) }
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.allow_in_project *permissions, project: time_entry_project
+      mock.allow_in_project(*permissions, project: time_entry_project) if time_entry_project
     end
   end
 
