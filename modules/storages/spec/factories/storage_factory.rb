@@ -33,6 +33,10 @@ FactoryBot.define do
     sequence(:host) { |n| "https://host#{n}.example.com" }
     creator factory: :user
 
+    trait :as_generic do
+      provider_type { 'Storages::Storage' }
+    end
+
     factory :nextcloud_storage, class: '::Storages::NextcloudStorage' do
       provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
 

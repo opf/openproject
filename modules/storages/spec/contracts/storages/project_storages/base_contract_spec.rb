@@ -33,8 +33,8 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
   include_context 'ModelContract shared context'
 
   let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
-  # Creator is not writable in BaseContract; just test base contract writable attributes
-  let(:project_storage) { build(:project_storage) }
+  let(:storage) { build_stubbed(:nextcloud_storage) }
+  let(:project_storage) { build(:project_storage, storage:) }
 
   context 'if the project folder mode is `inactive`' do
     before do
