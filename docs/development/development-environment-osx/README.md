@@ -255,6 +255,24 @@ RAILS_ENV=development bin/rails jobs:work
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
 
+## Additional test dependencies
+
+The test suite requires a few additional dependencies to be installed. These are not required for running OpenProject in
+development mode, but only for running the entire test suite.
+
+### Java 7 or later
+
+To test the integration with LDAP servers, we rely on [ladle](https://github.com/NUBIC/ladle) to spin up an LDAP server
+when runnin tests. As this runs [ApacheDS](https://directory.apache.org/apacheds/) internally, it requires Java 7 or
+later to be installed.
+
+```shell
+brew install openjdk
+
+# The installation instructions will tell you to add a symlink to the JDK for the `java` command to pick it up
+sudo ln -sfn $(brew --prefix)/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+```
+
 ## Known issues
 
 ### Memory management
