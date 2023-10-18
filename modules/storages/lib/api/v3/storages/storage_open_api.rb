@@ -35,7 +35,7 @@ class API::V3::Storages::StorageOpenAPI < API::OpenProjectAPI
     get do
       Storages::Peripherals::Registry
         .resolve("queries.#{@storage.short_provider_type}.open_storage")
-        .call(storage: @storage, user: current_user, file_id: nil)
+        .call(storage: @storage, user: current_user)
         .match(
           on_success: ->(url) do
             redirect url, body: "The requested resource can be viewed at #{url}"
