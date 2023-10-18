@@ -27,7 +27,7 @@
 #++
 
 module OpTurbo
-  class StreamWrapperComponent < ApplicationComponent
+  class StreamComponent < ApplicationComponent
     def initialize(template:, action:, target:)
       super()
 
