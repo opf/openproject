@@ -266,11 +266,35 @@ To test the integration with LDAP servers, we rely on [ladle](https://github.com
 when runnin tests. As this runs [ApacheDS](https://directory.apache.org/apacheds/) internally, it requires Java 7 or
 later to be installed.
 
+If java is not installed, some tests will stall for 60 seconds before timing out. To run the tests, install java with
+
 ```shell
 brew install openjdk
 
 # The installation instructions will tell you to add a symlink to the JDK for the `java` command to pick it up
 sudo ln -sfn $(brew --prefix)/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+```
+
+### Subversion
+
+To test the integration with Subversion repositories, we rely on the `svnadmin` command to be available. If subversion
+is not installed, the tests *will be skipped*. To run the tests, install subversion with
+
+```shell
+brew install subversion
+```
+
+### Git
+
+To test the integration with Git repositories, we rely on the `git` command to be available. Git is either installed by
+with the Xcode Command Line Tools, with [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12) or via homebrew.
+
+```shell
+xcode-select --install
+
+# or
+
+brew install git
 ```
 
 ## Known issues
