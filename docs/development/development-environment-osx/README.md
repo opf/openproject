@@ -263,7 +263,7 @@ development mode, but only for running the entire test suite.
 ### Java 7 or later
 
 To test the integration with LDAP servers, we rely on [ladle](https://github.com/NUBIC/ladle) to spin up an LDAP server
-when runnin tests. As this runs [ApacheDS](https://directory.apache.org/apacheds/) internally, it requires Java 7 or
+when running tests. As this runs [ApacheDS](https://directory.apache.org/apacheds/) internally, it requires Java 7 or
 later to be installed.
 
 If java is not installed, some tests will stall for 60 seconds before timing out. To run the tests, install java with
@@ -286,8 +286,7 @@ brew install subversion
 
 ### Git
 
-To test the integration with Git repositories, we rely on the `git` command to be available. Git is either installed by
-with the Xcode Command Line Tools, with [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12) or via homebrew.
+To test the integration with Git repositories, we rely on the `git` command to be available. Git is either installed via the Xcode Command Line Tools, with [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12) or via homebrew.
 
 ```shell
 xcode-select --install
