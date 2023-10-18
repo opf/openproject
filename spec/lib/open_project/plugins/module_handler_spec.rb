@@ -28,16 +28,13 @@
 
 require 'spec_helper'
 RSpec.describe OpenProject::Plugins::ModuleHandler do
-  let!(:all_former_permissions) { OpenProject::AccessControl.permissions }
-
-  before do
+  around do |example|
+    old_mapped_permissions = OpenProject::AccessControl.instance_variable_get(:@mapped_permissions).deep_dup
     described_class.disable_modules!('repository')
-  end
 
-  after do
-    raise 'Test outdated' unless OpenProject::AccessControl.instance_variable_defined?(:@mapped_permissions)
-
-    OpenProject::AccessControl.instance_variable_set(:@mapped_permissions, all_former_permissions)
+    example.run
+  ensure
+    OpenProject::AccessControl.instance_variable_set(:@mapped_permissions, old_mapped_permissions)
     OpenProject::AccessControl.clear_caches
   end
 
