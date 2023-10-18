@@ -31,34 +31,28 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::OpenFileLinkQuery do
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::OpenStorageQuery do
   let(:storage) { create(:nextcloud_storage, host: 'https://example.com') }
   let(:user) { create(:user) }
-  let(:file_id) { '1337' }
 
   it 'responds to .call' do
     expect(described_class).to respond_to(:call)
 
     method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq file_id], %i[key open_location])
+    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user])
   end
 
   it 'returns the url for opening the file on storage' do
-    url = described_class.call(storage:, user:, file_id:).result
-    expect(url).to eq("#{storage.host}/index.php/f/#{file_id}?openfile=1")
-  end
-
-  it 'returns the url for opening the file\'s location on storage' do
-    url = described_class.call(storage:, user:, file_id:, open_location: true).result
-    expect(url).to eq("#{storage.host}/index.php/f/#{file_id}?openfile=0")
+    url = described_class.call(storage:, user:).result
+    expect(url).to eq("#{storage.host}/index.php/apps/files")
   end
 
   context 'with a storage with host url with a sub path' do
     let(:storage) { create(:nextcloud_storage, host: 'https://example.com/html') }
 
     it 'returns the url for opening the file on storage' do
-      url = described_class.call(storage:, user:, file_id:).result
-      expect(url).to eq("#{storage.host}/index.php/f/#{file_id}?openfile=1")
+      url = described_class.call(storage:, user:).result
+      expect(url).to eq("#{storage.host}/index.php/apps/files")
     end
   end
 end

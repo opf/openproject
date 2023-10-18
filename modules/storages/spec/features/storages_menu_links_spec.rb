@@ -32,6 +32,8 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe 'Project menu', :js, :with_cuprite do
+  include API::V3::Utilities::PathHelper
+
   let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
   let(:another_storage) { create(:nextcloud_storage, name: "Storage 2") }
   let(:unlinked_storage) { create(:nextcloud_storage, name: "Storage 3") }

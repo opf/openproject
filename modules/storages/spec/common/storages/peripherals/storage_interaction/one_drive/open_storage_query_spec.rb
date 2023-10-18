@@ -32,59 +32,62 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenStorageQuery, :webmock do
-  include JsonResponseHelper
-
   using Storages::Peripherals::ServiceResultRefinements
 
-  let(:storage) do
-    create(:one_drive_storage,
-           :with_oauth_client,
-           drive_id: 'b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')
-  end
   let(:user) { create(:user) }
-  let(:token) { create(:oauth_client_token, user:, oauth_client: storage.oauth_client) }
-  let(:not_found_json) { not_found_response }
-  let(:forbidden_json) { forbidden_response }
+  let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
 
-  it 'responds to .call' do
-    expect(described_class).to respond_to(:call)
+  subject { described_class.new(storage) }
 
-    method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user])
-  end
+  describe '#call' do
+    it 'responds with correct parameters' do
+      expect(described_class).to respond_to(:call)
 
-  it 'returns the url for opening the drive root on storage' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}?$select=webUrl")
-      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .to_return(status: 200, body: read_json('root_drive'), headers: {})
-
-    url = described_class.call(storage:, user:).result
-    expect(url).to eq('https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents')
-  end
-
-  describe 'error handling' do
-    it 'returns a notfound error if the API call returns a 404' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}?$select=webUrl")
-        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-        .to_return(status: 404, body: not_found_json, headers: {})
-
-      open_drive_link_result = described_class.call(storage:, user:)
-
-      expect(open_drive_link_result).to be_failure
-      expect(open_drive_link_result.result).to eq(:not_found)
-      expect(open_drive_link_result.error_payload.to_json).to eq(not_found_json)
+      method = described_class.method(:call)
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user])
     end
 
-    it 'returns a forbidden error if the API call returns a 403' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}?$select=webUrl")
-        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-        .to_return(status: 403, body: forbidden_json, headers: {})
+    context 'with outbound requests successful', vcr: 'one_drive/open_storage_query_success' do
+      it 'returns the url for opening the storage' do
+        call = subject.call(user:)
+        expect(call).to be_success
+        expect(call.result).to eq('https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR')
+      end
+    end
 
-      open_drive_link_result = described_class.call(storage:, user:)
+    context 'with not existent oauth token' do
+      let(:user_without_token) { create(:user) }
 
-      expect(open_drive_link_result).to be_failure
-      expect(open_drive_link_result.result).to eq(:forbidden)
-      expect(open_drive_link_result.error_payload.to_json).to eq(forbidden_json)
+      it 'must return unauthorized when called' do
+        result = subject.call(user: user_without_token)
+        expect(result).to be_failure
+        expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
+
+        result.match(
+          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
+          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
+      end
+    end
+
+    context 'with invalid oauth token', vcr: 'one_drive/open_storage_query_invalid_token' do
+      before do
+        token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
+        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
+          .to receive(:using_user_token)
+                .and_yield(token)
+      end
+
+      it 'must return unauthorized' do
+        result = subject.call(user:)
+        expect(result).to be_failure
+        expect(result.error_source).to be_a(described_class)
+
+        result.match(
+          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
+          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
+      end
     end
   end
 end
