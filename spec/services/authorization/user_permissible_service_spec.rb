@@ -5,8 +5,8 @@ RSpec.describe Authorization::UserPermissibleService do
   shared_let(:anonymous_user) { create(:anonymous) }
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
-  shared_let(:non_member_role) { create(:non_member, permissions: [:view_work_packages]) }
-  shared_let(:anonymous_role) { create(:anonymous_role, permissions: [:view_work_packages]) }
+  shared_let(:non_member_role) { create(:non_member, permissions: [:view_news]) }
+  shared_let(:anonymous_role) { create(:anonymous_role, permissions: [:view_meetings]) }
 
   let(:queried_user) { user }
 
@@ -140,6 +140,27 @@ RSpec.describe Authorization::UserPermissibleService do
 
       context 'and the user is not a member of any work package or project' do
         it { is_expected.not_to be_allowed_in_project(permission, project) }
+
+        context 'and the project is public' do
+          before { project.update(public: true) }
+
+          context 'when requesting a permission that is not granted to the non-member role' do
+            it { is_expected.not_to be_allowed_in_project(permission, project) }
+          end
+
+          context 'when requesting a permission that is granted to the non-member role' do
+            let(:permission) { :view_news }
+
+            it { is_expected.to be_allowed_in_project(permission, project) }
+          end
+
+          context 'when an anonymous user is requesting a permission that is granted to the anonymous role' do
+            let(:queried_user) { anonymous_user }
+            let(:permission) { :view_meetings }
+
+            it { is_expected.to be_allowed_in_project(permission, project) }
+          end
+        end
       end
 
       context 'and the user is a member of a project' do
@@ -182,12 +203,33 @@ RSpec.describe Authorization::UserPermissibleService do
         context 'and the project is public' do
           before { project.update_column(:public, true) }
 
-          it { is_expected.to be_allowed_in_any_project(permission) }
+          context 'and a permission is requested that is not granted to the non-member role' do
+            it { is_expected.not_to be_allowed_in_any_project(permission) }
+          end
+
+          context 'and a permission is requested that is granted to the non-member role' do
+            let(:permission) { :view_news }
+
+            it { is_expected.to be_allowed_in_any_project(permission) }
+
+            context 'and no project exists' do
+              before { Project.destroy_all }
+
+              it { is_expected.to be_allowed_in_any_project(permission) }
+            end
+          end
 
           context 'and the user is the anonymous user' do
             let(:queried_user) { anonymous_user }
+            let(:permission) { :view_meetings }
 
             it { is_expected.to be_allowed_in_any_project(permission) }
+
+            context 'and no project exists' do
+              before { Project.destroy_all }
+
+              it { is_expected.to be_allowed_in_any_project(permission) }
+            end
           end
 
           context 'and the project is archived' do
@@ -220,7 +262,15 @@ RSpec.describe Authorization::UserPermissibleService do
         context 'and the project is public' do
           before { project.update_column(:public, true) }
 
-          it { is_expected.to be_allowed_in_any_project(permission) }
+          context 'and a permission is requested that is not granted to the non-member role' do
+            it { is_expected.not_to be_allowed_in_any_project(permission) }
+          end
+
+          context 'and a permission is requested that is granted to the non-member role' do
+            let(:permission) { :view_news }
+
+            it { is_expected.to be_allowed_in_any_project(permission) }
+          end
 
           context 'and the project is archived' do
             before { project.update_column(:active, false) }

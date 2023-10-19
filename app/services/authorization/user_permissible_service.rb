@@ -30,7 +30,12 @@ module Authorization
       perms = contextual_permissions(permission, :project)
       return true if admin_and_all_granted_to_admin?(perms)
 
-      Project.allowed_to(user, perms).exists?
+      # If no projects matching the scope exists, it could still be that the user has access to the
+      # permission either via the anonymous or non-member role, especially when there are no projects
+      #  in the database. So if this returns false, we check non-member and anonymous permissions as well.
+      Project.allowed_to(user, perms).exists? ||
+        non_member_permissions.intersect?(perms.map { |perm| perm.name.to_sym }) ||
+        anonymous_permissions.intersect?(perms.map { |perm| perm.name.to_sym })
     end
 
     def allowed_in_entity?(permission, entities_to_check, entity_class)
@@ -47,15 +52,9 @@ module Authorization
       end
     end
 
-    def allowed_in_any_entity?(permission, entity_class, in_project: nil)
+    def allowed_in_any_entity?(permission, entity_class, in_project: nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
       perms = contextual_permissions(permission, context_name(entity_class))
       return true if admin_and_all_granted_to_admin?(perms)
-
-      # Short circuit, when the user is permitted in the project. This is for the edge case
-      # when the user has permissions in the project, but not work package exists yet, the other
-      # query below would return false in those cases.
-      return true if in_project && allowed_in_single_project?(perms, in_project)
-      return true if !in_project && allowed_in_any_project?(perms)
 
       # entity_class.allowed_to will also check whether the user has the permission via a membership in the project.
       allowed_scope = entity_class.allowed_to(user, perms)
@@ -63,7 +62,12 @@ module Authorization
       if in_project
         allowed_scope.exists?(project: in_project)
       else
-        allowed_scope.exists?
+        # If no entities matching the scope exists, it could still be that the user has access to the
+        # permission either via the anonymous or non-member role, especially when there are no projects
+        # or entities in the database. So if this returns false, we check non-member and anonymous permissions as well.
+        allowed_scope.exists? ||
+          non_member_permissions.intersect?(perms.map { |perm| perm.name.to_sym }) ||
+          (user.anonymous? && anonymous_permissions.intersect?(perms.map { |perm| perm.name.to_sym }))
       end
     end
 
@@ -126,6 +130,14 @@ module Authorization
 
     def context_name(entity_class)
       entity_class.model_name.element.to_sym
+    end
+
+    def non_member_permissions
+      @non_member_permissions ||= ProjectRole.non_member.permissions
+    end
+
+    def anonymous_permissions
+      @anonymous_permissions ||= ProjectRole.anonymous.permissions
     end
   end
 end
