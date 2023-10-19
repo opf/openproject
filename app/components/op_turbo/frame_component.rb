@@ -26,21 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-RSpec.describe OpenProject::Plugins::ModuleHandler do
-  around do |example|
-    old_mapped_permissions = OpenProject::AccessControl.instance_variable_get(:@mapped_permissions).deep_dup
-    described_class.disable_modules!('repository')
-
-    example.run
-  ensure
-    OpenProject::AccessControl.instance_variable_set(:@mapped_permissions, old_mapped_permissions)
-    OpenProject::AccessControl.clear_caches
-  end
-
-  describe '#disable' do
-    it 'disables repository module' do
-      expect(OpenProject::AccessControl.available_project_modules).not_to include(:repository)
+module OpTurbo
+  class FrameComponent < ApplicationComponent
+    def turbo_frame_id
+      ActionView::RecordIdentifier.dom_id(model, options[:context])
     end
   end
 end

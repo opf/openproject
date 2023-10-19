@@ -25,22 +25,27 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
+#
 require 'spec_helper'
-RSpec.describe OpenProject::Plugins::ModuleHandler do
-  around do |example|
-    old_mapped_permissions = OpenProject::AccessControl.instance_variable_get(:@mapped_permissions).deep_dup
-    described_class.disable_modules!('repository')
 
-    example.run
-  ensure
-    OpenProject::AccessControl.instance_variable_set(:@mapped_permissions, old_mapped_permissions)
-    OpenProject::AccessControl.clear_caches
-  end
+RSpec.describe OpTurbo::FrameComponent, type: :component do
+  describe '#turbo_frame_id' do
+    context 'with `context:` option' do
+      it 'returns the turbo frame id' do
+        storage = build_stubbed(:nextcloud_storage, id: 1)
+        component = described_class.new(storage, context: :general_info)
 
-  describe '#disable' do
-    it 'disables repository module' do
-      expect(OpenProject::AccessControl.available_project_modules).not_to include(:repository)
+        expect(component.turbo_frame_id).to eq('general_info_storages_nextcloud_storage_1')
+      end
+    end
+
+    context 'without `context:` option' do
+      it 'returns just the model dom id' do
+        storage = build_stubbed(:nextcloud_storage, id: 1)
+        component = described_class.new(storage)
+
+        expect(component.turbo_frame_id).to eq('storages_nextcloud_storage_1')
+      end
     end
   end
 end

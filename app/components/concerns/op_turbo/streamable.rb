@@ -36,7 +36,7 @@ module OpTurbo
 
     class_methods do
       def wrapper_key
-        name.underscore.gsub("/", "-").gsub("_", "-")
+        name.underscore.tr("/", "-").tr("_", "-")
       end
     end
 
@@ -61,7 +61,7 @@ module OpTurbo
                 "Wrap your component in a `component_wrapper` block in order to use turbo-stream methods"
         end
 
-        OpTurbo::StreamWrapperComponent.new(
+        OpTurbo::StreamComponent.new(
           action:,
           target: wrapper_key,
           template:
@@ -79,7 +79,7 @@ module OpTurbo
                 "Wrap your component in a `component_wrapper` block in order to use turbo-stream methods"
         end
 
-        OpTurbo::StreamWrapperComponent.new(
+        OpTurbo::StreamComponent.new(
           action:,
           target: insert_target_modified? ? insert_target_modifier_id : wrapper_key,
           template:
