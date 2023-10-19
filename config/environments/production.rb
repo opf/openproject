@@ -92,7 +92,7 @@ OpenProject::Application.configure do
         return true if request.path =~ /#{relative_url}\/sys\//
 
         # When we match health checks
-        return true if request.path =~ /#{relative_url}\/health_checks/
+        return true if /#{relative_url}\/health_checks?/.match?(request.path)
 
         false
       end
