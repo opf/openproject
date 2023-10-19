@@ -39,21 +39,5 @@ module Storages::Admin::Forms
       super(oauth_client, **options)
       @storage = storage
     end
-
-    def form_url
-      if oauth_client.persisted?
-        Rails.application.routes.url_helpers.new_admin_settings_storage_oauth_client_path(storage)
-      else
-        Rails.application.routes.url_helpers.admin_settings_storage_oauth_client_path(storage)
-      end
-    end
-
-    def form_method
-      if oauth_client.persisted?
-        :patch
-      else
-        :post
-      end
-    end
   end
 end
