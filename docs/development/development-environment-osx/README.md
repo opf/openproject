@@ -48,7 +48,7 @@ and install that version.
 ```shell
 # Install the required version as read from the Gemfile
 # for M1/M2 chipset, Build Failed while Installing Ruby with Rbenv on M1 Mac (https://thedevpost.com/blog/install-ruby-with-rbenv-on-m1-mac/) 
-RUBY_CFLAGS="-Wno-error=implicit-function-declaration" rbenv install 3.2.2
+RUBY_CFLAGS="-Wno-error=implicit-function-declaration" rbenv install 3.2.1
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
