@@ -69,7 +69,7 @@ Next, install a PostgreSQL database. If you wish to use a MySQL database instead
 
 ```shell
 # Install postgres database
-$ brew install postgres
+$ brew install postgresql
 
 # Create the database instance
 $ postgres -D /usr/local/var/postgres
