@@ -27,8 +27,8 @@
                 tag: :a,
                 scheme: :invisible,
                 href: edit_host_admin_settings_storage_path(storage),
-                aria: { label: I18n.t('storages.label_edit_storage') } ,
-                test_selector: 'storage-edit-button'
+                aria: { label: I18n.t('storages.label_edit_storage_host') } ,
+                test_selector: 'storage-edit-host-button'
               )
             )
           end
@@ -67,8 +67,12 @@
                   icon: :sync,
                   scheme: :invisible,
                   type: :submit,
-                  aria: { label: I18n.t("storages.buttons.replace_provider_type_oauth", provider_type: I18n.t("storages.provider_types.#{storage.short_provider_type}.name")) },
-                  data: { turbo_confirm: I18n.t("storages.confirm_replace_oauth_client") }
+                  aria: {
+                    label: I18n.t("storages.buttons.replace_provider_type_oauth",
+                                  provider_type: I18n.t("storages.provider_types.#{storage.short_provider_type}.name"))
+                  },
+                  data: { turbo_confirm: I18n.t("storages.confirm_replace_oauth_client") },
+                  test_selector: 'storage-replace-openproject-oauth-application-button'
                 )
               )
             end

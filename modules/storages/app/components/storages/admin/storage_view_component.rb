@@ -76,7 +76,7 @@ module Storages::Admin
     end
 
     def status_label(label, scheme:, test_selector:)
-      render(Primer::Beta::Label.new(scheme:, data: { 'test-selector': test_selector })) { label }
+      render(Primer::Beta::Label.new(scheme:, test_selector:)) { label }
     end
   end
 end

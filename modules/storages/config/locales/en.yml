@@ -192,6 +192,7 @@ en:
     label_project_folder: "Project folder"
     label_new_storage: "New storage"
     label_edit_storage: "Edit storage"
+    label_edit_storage_host: "Edit storage host"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"
