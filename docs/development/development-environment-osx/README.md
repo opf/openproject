@@ -31,7 +31,7 @@ ruby-build is an addon to rbenv that installs ruby versions.
 
 ```shell
 # Install
-# for M1/M2 chipset, need to run `arch -arm64 brew install rbenv ruby-build`
+
 $ brew install rbenv ruby-build
 # Initialize rbenv
 $ rbenv init
@@ -47,7 +47,8 @@ and install that version.
 
 ```shell
 # Install the required version as read from the Gemfile
-rbenv install 3.2.1
+# for M1/M2 chipset, Build Failed while Installing Ruby with Rbenv on M1 Mac (https://thedevpost.com/blog/install-ruby-with-rbenv-on-m1-mac/) 
+RUBY_CFLAGS="-Wno-error=implicit-function-declaration" rbenv install 3.2.2
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
