@@ -39,7 +39,7 @@ module PlaceholderUsers::Scopes
     class_methods do
       def visible(user = User.current)
         if user.allowed_globally?(:manage_placeholder_user) ||
-           user.allowed_to_globally?(:manage_members)
+           user.allowed_in_any_project?(:manage_members)
           all
         else
           in_visible_project(user)

@@ -52,7 +52,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             icon: 'work-packages',
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to_globally?(:view_work_packages)
+                User.current.allowed_in_any_work_package?(:view_work_packages)
             }
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
@@ -61,7 +61,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             icon: 'news',
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to_globally?(:view_news)
+                User.current.allowed_in_any_project?(:view_news)
             }
 
   menu.push :help,
@@ -97,7 +97,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             html: {
               'invite-user-modal-augment': 'invite-user-modal-augment'
             },
-            if: Proc.new { User.current.allowed_to_globally?(:manage_members) }
+            if: Proc.new { User.current.allowed_in_any_project?(:manage_members) }
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
@@ -181,7 +181,7 @@ Redmine::MenuManager.map :global_menu do |menu|
             after: :boards,
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to_globally?(:view_news)
+                User.current.allowed_in_any_project?(:view_news)
             }
 end
 
