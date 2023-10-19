@@ -52,7 +52,7 @@ module Authorization
       end
     end
 
-    def allowed_in_any_entity?(permission, entity_class, in_project: nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
+    def allowed_in_any_entity?(permission, entity_class, in_project: nil) # rubocop:disable Metrics/AbcSize
       perms = contextual_permissions(permission, context_name(entity_class))
       return true if admin_and_all_granted_to_admin?(perms)
 
@@ -67,7 +67,7 @@ module Authorization
         # or entities in the database. So if this returns false, we check non-member and anonymous permissions as well.
         allowed_scope.exists? ||
           non_member_permissions.intersect?(perms.map { |perm| perm.name.to_sym }) ||
-          (user.anonymous? && anonymous_permissions.intersect?(perms.map { |perm| perm.name.to_sym }))
+          anonymous_permissions.intersect?(perms.map { |perm| perm.name.to_sym })
       end
     end
 
@@ -137,7 +137,11 @@ module Authorization
     end
 
     def anonymous_permissions
-      @anonymous_permissions ||= ProjectRole.anonymous.permissions
+      @anonymous_permissions ||= if user.anonymous?
+                                   ProjectRole.anonymous.permissions
+                                 else
+                                   []
+                                 end
     end
   end
 end
