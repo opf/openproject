@@ -125,16 +125,6 @@ class BaseContract < Disposable::Twin
     @options = options
   end
 
-  # TODO: This should be removable here and in the subclasses
-  # we want to add a validation error whenever someone sets a property that we don't know.
-  # However AR will cleverly try to resolve the value for erroneous properties. Thus we need
-  # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
-  def read_attribute_for_validation(attribute)
-    if respond_to? attribute
-      send attribute
-    end
-  end
-
   def writable_attributes
     @writable_attributes ||= reduce_writable_attributes(collect_writable_attributes)
   end
@@ -152,13 +142,6 @@ class BaseContract < Disposable::Twin
     valid?(*)
   end
 
-  # Methods required to get ActiveModel error messages working
-  extend ActiveModel::Naming
-
-  def self.model_name
-    ActiveModel::Name.new(model, nil)
-  end
-
   def errors
     if model.respond_to?(:errors)
       model.errors
@@ -166,22 +149,6 @@ class BaseContract < Disposable::Twin
       super
     end
   end
-
-  def self.model
-    @model ||= begin
-      name.deconstantize.singularize.constantize
-    rescue NameError
-      ActiveRecord::Base
-    end
-  end
-
-  # TODO: check if this can be removed
-  # use activerecord as the base scope instead of 'activemodel' to be compatible
-  # to the messages we have already stored
-  def self.i18n_scope
-    :activerecord
-  end
-  # end Methods required to get ActiveModel error messages working
 
   protected
 
