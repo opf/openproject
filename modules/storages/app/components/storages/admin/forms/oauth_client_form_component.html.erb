@@ -1,0 +1,12 @@
+<%=
+  primer_form_with(
+    model: oauth_client,
+    url: admin_settings_storage_oauth_client_path(storage)
+  ) do |form|
+    flex_layout do |oauth_client_row|
+      oauth_client_row.with_row do
+        render(Storages::Admin::OAuthClientForm.new(form, storage: storage))
+      end
+    end
+  end
+%>

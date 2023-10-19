@@ -1,0 +1,5 @@
+<%=
+  render(OpTurbo::FrameComponent.new(@storage, context: :oauth_client)) do
+    render(Storages::Admin::Forms::OAuthClientFormComponent.new(@storage))
+  end
+%>
