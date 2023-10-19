@@ -52,10 +52,20 @@ module Storages::ProjectStorages
       end
     end
 
+    validate :project_folder_automatic_mode, unless: -> { errors.include?(:project_folder_mode) }
+
     private
 
     def project_folder_mode_manual?
       @model.project_folder_manual?
+    end
+
+    def project_folder_automatic_mode
+      return unless @model.project_folder_automatic?
+
+      unless @model.automatic_management_possible?
+        errors.add :project_folder_mode, :mode_unavailable
+      end
     end
   end
 end
