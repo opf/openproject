@@ -32,9 +32,7 @@ require_relative '../spec_helper'
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
 RSpec.describe(
-  'Activation of storages in projects',
-  js: true,
-  webmock: true
+  'Activation of storages in projects', :js, :webmock
 ) do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
@@ -154,7 +152,7 @@ RSpec.describe(
     # Press Edit icon to change the project folder mode to inactive
     page.find('.icon.icon-edit').click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                  id: Storages::ProjectStorage.last)
+                                                                                 id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     expect(page).not_to have_select('storages_project_storage_storage_id')
     expect(page).to have_text(storage.name)
@@ -173,7 +171,7 @@ RSpec.describe(
     # Click Edit icon again but cancel the edit
     page.find('.icon.icon-edit').click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                  id: Storages::ProjectStorage.last)
+                                                                                 id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     page.click_link('Cancel')
     expect(page).to have_current_path project_settings_project_storages_path(project)
@@ -182,8 +180,8 @@ RSpec.describe(
     page.find('.icon.icon-delete').click
 
     # Danger zone confirmation flow
-    expect(page).to have_selector('.form--section-title', text: "DELETE FILE STORAGE")
-    expect(page).to have_selector('.danger-zone--warning', text: "Deleting a file storage is an irreversible action.")
+    expect(page).to have_css('.form--section-title', text: "DELETE FILE STORAGE")
+    expect(page).to have_css('.danger-zone--warning', text: "Deleting a file storage is an irreversible action.")
     expect(page).to have_button('Delete', disabled: true)
 
     # Cancel Confirmation
@@ -199,6 +197,32 @@ RSpec.describe(
     # List of ProjectStorages empty again
     expect(page).to have_current_path project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t('storages.no_results'))
+  end
+
+  describe 'automatic project folder mode' do
+    context 'when the storage is not automatically managed' do
+      let(:oauth_application) { create(:oauth_application) }
+      let(:storage) { create(:nextcloud_storage, :as_not_automatically_managed, oauth_application:) }
+      let(:project_storage) { create(:project_storage, storage:, project:) }
+
+      it 'automatic option is not available' do
+        visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
+
+        expect(page).not_to have_content('New folder with automatically managed permissions')
+      end
+    end
+
+    context 'when the storage is automatically managed' do
+      let(:oauth_application) { create(:oauth_application) }
+      let(:storage) { create(:nextcloud_storage, :as_automatically_managed, oauth_application:) }
+      let(:project_storage) { create(:project_storage, storage:, project:) }
+
+      it 'automatic option is available' do
+        visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
+
+        expect(page).to have_content('New folder with automatically managed permissions')
+      end
+    end
   end
 
   describe 'configuration checks' do

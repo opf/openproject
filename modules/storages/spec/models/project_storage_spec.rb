@@ -78,6 +78,38 @@ RSpec.describe Storages::ProjectStorage do
     end
   end
 
+  describe '#automatic_management_possible?' do
+    let(:project_storage) { build_stubbed(:project_storage, storage:) }
+
+    context 'when the storage is not a NextcloudStorage' do
+      let(:storage) { build_stubbed(:storage, :as_generic) }
+
+      it "returns false" do
+        expect(project_storage.automatic_management_possible?).to be false
+      end
+    end
+
+    context 'when the storage is a NextcloudStorage' do
+      let(:storage) { build_stubbed(:nextcloud_storage) }
+
+      context 'when the storage is not automatically managed' do
+        it "returns false" do
+          expect(project_storage.automatic_management_possible?).to be false
+        end
+      end
+
+      context 'when the storage is automatically managed' do
+        before do
+          storage.automatically_managed = true
+        end
+
+        it "returns true" do
+          expect(project_storage.automatic_management_possible?).to be true
+        end
+      end
+    end
+  end
+
   describe '#project_folder_mode' do
     let(:project_storage) { build(:project_storage) }
 

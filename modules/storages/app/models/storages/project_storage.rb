@@ -51,6 +51,10 @@ class Storages::ProjectStorage < ApplicationRecord
 
   scope :automatic, -> { where(project_folder_mode: 'automatic') }
 
+  def automatic_management_possible?
+    storage.present? && storage.provider_type_nextcloud? && storage.automatically_managed?
+  end
+
   def project_folder_path
     "#{storage.group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
   end
