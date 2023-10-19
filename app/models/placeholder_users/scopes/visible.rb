@@ -38,7 +38,7 @@ module PlaceholderUsers::Scopes
 
     class_methods do
       def visible(user = User.current)
-        if user.allowed_to_globally?(:manage_placeholder_user) ||
+        if user.allowed_globally?(:manage_placeholder_user) ||
            user.allowed_to_globally?(:manage_members)
           all
         else

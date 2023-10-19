@@ -76,7 +76,7 @@ See COPYRIGHT and LICENSE files for more details.
       <ul>
         <% Token::Backup.all.includes(:user).each do |token| %>
           <li>
-            <% if current_user.allowed_to_globally?(:manage_user) %>
+            <% if current_user.allowed_globally?(:manage_user) %>
               <%= link_to token.user.name, edit_user_path(token.user) %>
             <% else %>
               <%= token.user.name %>

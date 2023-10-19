@@ -37,7 +37,7 @@ module Principals::Scopes
     class_methods do
       def visible(user = ::User.current)
         if user.allowed_to_globally?(:manage_members) ||
-          user.allowed_to_globally?(:manage_user) ||
+          user.allowed_globally?(:manage_user) ||
           user.allowed_to_globally?(:share_work_packages)
           all
         else
