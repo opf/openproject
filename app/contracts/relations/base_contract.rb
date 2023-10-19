@@ -46,7 +46,7 @@ module Relations
       Relation
     end
 
-    def validate!(*args)
+    def valid?(*args)
       # same as before_validation callback
       model.send(:reverse_if_needed)
 
@@ -65,7 +65,7 @@ module Relations
 
     def validate_nodes_relatable
       if (model.from_id_changed? || model.to_id_changed?) &&
-         WorkPackage.relatable(model.from, model.relation_type).where(id: model.to).empty?
+         WorkPackage.relatable(model.from, model.relation_type, ignore_relation: model).where(id: model.to).empty?
         errors.add :base, I18n.t(:'activerecord.errors.messages.circular_dependency')
       end
     end
