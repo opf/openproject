@@ -125,16 +125,6 @@ class BaseContract < Disposable::Twin
     @options = options
   end
 
-  # TODO: This should be removable here and in the subclasses
-  # we want to add a validation error whenever someone sets a property that we don't know.
-  # However AR will cleverly try to resolve the value for erroneous properties. Thus we need
-  # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
-  def read_attribute_for_validation(attribute)
-    if respond_to? attribute
-      send attribute
-    end
-  end
-
   def writable_attributes
     @writable_attributes ||= reduce_writable_attributes(collect_writable_attributes)
   end
@@ -175,7 +165,6 @@ class BaseContract < Disposable::Twin
     end
   end
 
-  # TODO: check if this can be removed
   # use activerecord as the base scope instead of 'activemodel' to be compatible
   # to the messages we have already stored
   def self.i18n_scope
