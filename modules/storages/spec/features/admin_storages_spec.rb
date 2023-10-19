@@ -99,9 +99,10 @@ RSpec.describe 'Admin storages',
 
       expect(page).to have_test_selector('storage-name-title', text: storage.name.capitalize)
 
-      aggregate_failures 'storage host' do
-        expect(page).to have_test_selector('storage-host-title', text: 'Host')
-        expect(page).to have_test_selector('storage-host-value', text: storage.host)
+      aggregate_failures 'General information' do
+        expect(page).to have_test_selector('storage-description', text: [storage.short_provider_type.capitalize,
+                                                                         storage.name,
+                                                                         storage.host].join(' - '))
       end
     end
   end
