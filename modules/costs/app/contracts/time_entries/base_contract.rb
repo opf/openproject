@@ -83,6 +83,11 @@ module TimeEntries
       work_package.try(:assignable_versions) || project.try(:assignable_versions) || []
     end
 
+    # Necessary for custom fields of type version with allow non-open enabled.
+    def all_versions
+      work_package.try(:all_versions) || project.try(:all_versions) || []
+    end
+
     private
 
     def validate_work_package

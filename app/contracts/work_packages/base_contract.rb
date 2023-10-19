@@ -189,6 +189,10 @@ module WorkPackages
       model.try(:assignable_versions) if model.project
     end
 
+    def all_versions
+      model.try(:all_versions) if model.project
+    end
+
     def assignable_budgets
       model.project&.budgets
     end

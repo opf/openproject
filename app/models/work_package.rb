@@ -262,6 +262,10 @@ class WorkPackage < ApplicationRecord
     end
   end
 
+  def all_versions
+    @all_versions ||= project&.all_versions
+  end
+
   def to_s
     "#{type.is_standard ? '' : type.name} ##{id}: #{subject}"
   end

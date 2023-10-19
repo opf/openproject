@@ -37,6 +37,7 @@ export default class CustomFieldsController extends Controller {
     'length',
     'regexp',
     'multiSelect',
+    'allowNonOpenVersions',
     'possibleValues',
     'defaultValue',
     'defaultText',
@@ -61,6 +62,7 @@ export default class CustomFieldsController extends Controller {
   declare readonly lengthTargets:HTMLElement[];
   declare readonly regexpTargets:HTMLElement[];
   declare readonly multiSelectTargets:HTMLElement[];
+  declare readonly allowNonOpenVersionsTargets:HTMLElement[];
   declare readonly possibleValuesTargets:HTMLElement[];
   declare readonly defaultValueTargets:HTMLElement[];
   declare readonly defaultTextTargets:HTMLElement[];
@@ -272,6 +274,7 @@ export default class CustomFieldsController extends Controller {
     this.activate(this.defaultBoolTargets, false);
     this.activate(this.defaultLongTextTargets, false);
     this.activate(this.multiSelectTargets, false);
+    this.activate(this.allowNonOpenVersionsTargets, false);
     this.activate(this.textOrientationTargets, false);
     this.activate(this.defaultValueTargets);
     this.activate(this.defaultTextTargets);
@@ -311,7 +314,7 @@ export default class CustomFieldsController extends Controller {
         this.unsearchable();
         break;
       case 'version':
-        this.show(...this.multiSelectTargets);
+        this.show(...this.multiSelectTargets, ...this.allowNonOpenVersionsTargets);
         this.activate(this.defaultValueTargets, false);
         this.activate(this.possibleValuesTargets, false);
         this.hide(...this.lengthTargets, ...this.regexpTargets, ...this.defaultValueTargets);

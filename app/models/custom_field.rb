@@ -264,6 +264,10 @@ class CustomField < ApplicationRecord
     field_format == "list"
   end
 
+  def version?
+    field_format == "version"
+  end
+
   def formattable?
     field_format == "text"
   end
@@ -279,6 +283,14 @@ class CustomField < ApplicationRecord
   def multi_value_possible?
     %w[version user list].include?(field_format) &&
       [ProjectCustomField, WorkPackageCustomField].include?(self.class)
+  end
+
+  def allow_non_open_versions?
+    allow_non_open_versions
+  end
+
+  def allow_non_open_versions_possible?
+    version? && [ProjectCustomField, WorkPackageCustomField].include?(self.class)
   end
 
   ##
