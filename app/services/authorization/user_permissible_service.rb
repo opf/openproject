@@ -51,6 +51,12 @@ module Authorization
       perms = contextual_permissions(permission, context_name(entity_class))
       return true if admin_and_all_granted_to_admin?(perms)
 
+      # Short circuit, when the user is permitted in the project. This is for the edge case
+      # when the user has permissions in the project, but not work package exists yet, the other
+      # query below would return false in those cases.
+      return true if in_project && allowed_in_single_project?(perms, in_project)
+      return true if !in_project && allowed_in_any_project?(perms)
+
       # entity_class.allowed_to will also check whether the user has the permission via a membership in the project.
       allowed_scope = entity_class.allowed_to(user, perms)
 
