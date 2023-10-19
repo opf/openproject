@@ -88,7 +88,7 @@ class Storages::Admin::StoragesController < ApplicationController
       case @storage.provider_type
       when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
         flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to new_admin_settings_storage_oauth_client_path(@storage)
+        render '/storages/admin/storages/one_drive/edit'
       when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
         if @oauth_application.present?
           flash.now[:notice] = I18n.t(:notice_successful_create)
@@ -103,7 +103,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # rubocop:enable Metrics/AbcSize
 
   # Edit page is very similar to new page, except that we don't need to set
-  # default attribute values because the object already exists
+  # default attribute values because the object already exists;
   # Called by: Global app/config/routes.rb to serve Web page
   def edit; end
 
@@ -180,6 +180,6 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params
     params
       .require(:storages_storage)
-      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret')
+      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret', 'tenant_id', 'drive_id')
   end
 end
