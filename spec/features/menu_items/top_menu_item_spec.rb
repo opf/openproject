@@ -53,8 +53,8 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
 
   before do |ex|
     allow(User).to receive(:current).and_return user
-    create(:anonymous_role)
-    create(:non_member)
+    create(:anonymous_role, permissions: [:view_news])
+    create(:non_member, permissions: [:view_news])
 
     if ex.metadata.key?(:allow_all_permissions)
       mock_permissions_for(user) do |mock|
