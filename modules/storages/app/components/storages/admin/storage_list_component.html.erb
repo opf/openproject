@@ -32,7 +32,7 @@
               end
             end
 
-            grid.with_area(:host, tag: :div, color: :subtle, data: { 'test-selector': 'storage-host' }, classes: 'ellipsis') do
+            grid.with_area(:host, tag: :div, mr: 3, color: :subtle, data: { 'test-selector': 'storage-host' }, classes: 'ellipsis') do
               render(Primer::Beta::Truncate.new(font_weight: :light)) { storage.host }
             end
 
@@ -40,11 +40,16 @@
               render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true))
             end
 
+
+            grid.with_area(:user, tag: :div, color: :subtle, mr: 3, font_weight: :light, data: { 'test-selector': 'storage-creator' }, classes: 'op-storage-list--row--user_avatar') do
+              render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: false))
+            end
+
             grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm, data: { 'test-selector': 'storage-provider' }) do
               render(Primer::Beta::Truncate.new(font_weight: :light)) { I18n.t("storages.provider_types.#{storage.short_provider_type}.name") }
             end
 
-            grid.with_area(:time, tag: :div, color: :subtle, mr: 3, classes: 'ellipsis') do
+            grid.with_area(:time, tag: :div, color: :subtle) do
               render(Primer::Beta::Text.new(font_weight: :light)) { I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize }
             end
           end

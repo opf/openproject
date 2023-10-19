@@ -1,23 +1,34 @@
 .op-storage-list--header,
 .op-storage-list--row
   display: grid
-  grid-template-columns: 1fr 180px 160px 240px
+  grid-template-columns: 1fr 160px 180px 220px
   grid-template-areas: "name provider user  time" "host provider user  time"
 
 .op-storage-list--header--name
-  min-width: 240px
+  min-width: 140px
 .op-storage-list--row--name, op-storage-list--row--host
-  min-width: 240px
-.op-storage-list--box
-  overflow: hidden
-@media screen and (max-width: $breakpoint-lg)
-  .op-storage-list--box
-    overflow-x: scroll
-    display: grid
+  min-width: 140px
 
-@media screen and (max-width: $breakpoint-md)
-  .op-storage-list--box
-    overflow: hidden
+.op-storage-list--row--user_avatar
+  display: none
+
+@media screen and (max-width: $breakpoint-lg)
+  .op-storage-list--header,
+  .op-storage-list--row
+    grid-template-columns: 1fr 120px 60px 140px
+  
+  .op-storage-list--header--name
+    min-width: 80px
+  
+  .op-storage-list--row--name, op-storage-list--row--host
+    min-width: 80px
+  
+  .op-storage-list--row--user
+    display: none
+  .op-storage-list--row--user_avatar
+    display: block
+
+@media screen and (max-width: $breakpoint-sm)
   .op-storage-list--row
     grid-template-columns: 1fr
     grid-template-areas: "name" "host" "user" "time"
@@ -26,3 +37,8 @@
   .op-storage-list--header
     grid-template-columns: 1fr
     grid-template-areas: "name"
+  
+  .op-storage-list--row--user
+    display: block
+  .op-storage-list--row--user_avatar
+    display: none
