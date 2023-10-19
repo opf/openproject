@@ -31,9 +31,8 @@
 
 class WorkPackageRole < Role
   def self.givable
-    where(builtin: NON_BUILTIN)
+    super
       .where(type: 'WorkPackageRole')
-      .order(Arel.sql('position'))
   end
 
   def member?

@@ -33,7 +33,7 @@ RSpec.describe 'API::V3::CustomActions::CustomActionsAPI' do
   include API::V3::Utilities::PathHelper
 
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[edit_work_packages view_work_packages])
   end
   let(:project) { create(:project) }
@@ -43,9 +43,7 @@ RSpec.describe 'API::V3::CustomActions::CustomActionsAPI' do
            assigned_to: user)
   end
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:action) do
     create(:custom_action, actions: [CustomActions::Actions::AssignedTo.new(nil)])

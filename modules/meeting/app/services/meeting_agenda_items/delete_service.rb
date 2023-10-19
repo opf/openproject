@@ -28,5 +28,6 @@
 
 module MeetingAgendaItems
   class DeleteService < ::BaseServices::Delete
+    include AfterPerformHook
   end
 end

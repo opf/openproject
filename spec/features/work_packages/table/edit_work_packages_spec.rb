@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'Inline editing work packages', js: true do
   let(:manager_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            edit_work_packages])
   end
@@ -10,8 +10,7 @@ RSpec.describe 'Inline editing work packages', js: true do
     create(:user,
            firstname: 'Manager',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: manager_role)
+           member_with_roles: { project => manager_role })
   end
   let(:type) { create(:type) }
   let(:status1) { create(:status) }

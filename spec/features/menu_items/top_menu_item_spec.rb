@@ -45,7 +45,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
 
   def click_link_in_open_menu(title)
     within '.op-app-menu--dropdown[aria-expanded=true]' do
-      expect(page).not_to have_selector('[style~=overflow]')
+      expect(page).not_to have_css('[style~=overflow]')
 
       click_link(title)
     end
@@ -56,8 +56,14 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
     create(:anonymous_role)
     create(:non_member)
 
-    if ex.metadata.key?(:allowed_to)
-      allow(user).to receive(:allowed_to?).and_return(ex.metadata[:allowed_to])
+    if ex.metadata.key?(:allow_all_permissions)
+      mock_permissions_for(user) do |mock|
+        if ex.metadata[:allow_all_permissions]
+          mock.allow_everything
+        else
+          mock.forbid_everything
+        end
+      end
     end
 
     visit root_path
@@ -124,7 +130,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       end
     end
 
-    context 'as a user with permissions', allowed_to: true do
+    context 'as a user with permissions', :allow_all_permissions do
       it 'displays all options' do
         has_menu_items?(*all_items)
       end
@@ -140,7 +146,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
   end
 
   describe 'Projects' do
-    let(:top_menu) { find(:css, '#projects-menu') }
+    let(:top_menu) { find_by_id('projects-menu') }
 
     let(:all_projects) { I18n.t('js.label_project_list') }
     let(:add_project) { I18n.t('js.label_project') }
@@ -149,8 +155,8 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       let(:user) { create(:admin) }
 
       it 'displays all items' do
-        expect(page).to have_selector('a.button', exact_text: all_projects)
-        expect(page).to have_selector('a.button', exact_text: add_project)
+        expect(page).to have_css('a.button', exact_text: all_projects)
+        expect(page).to have_css('a.button', exact_text: add_project)
       end
 
       it 'visits the projects page' do
@@ -162,12 +168,12 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
 
     context 'as a user without project permission' do
       before do
-        Role.non_member.update_attribute :permissions, [:view_project]
+        ProjectRole.non_member.update_attribute :permissions, [:view_project]
       end
 
       it 'does not display new_project' do
-        expect(page).to have_selector('a.button', exact_text: all_projects)
-        expect(page).not_to have_selector('a.button', exact_text: add_project)
+        expect(page).to have_css('a.button', exact_text: all_projects)
+        expect(page).not_to have_css('a.button', exact_text: add_project)
       end
     end
 
@@ -176,7 +182,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       let(:open_menu) { false }
 
       it 'does not show the menu' do
-        expect(page).not_to have_selector('#projects-menu')
+        expect(page).not_to have_css('#projects-menu')
       end
     end
   end

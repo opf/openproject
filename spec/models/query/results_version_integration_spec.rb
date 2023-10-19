@@ -37,8 +37,7 @@ RSpec.describe Query::Results, 'Grouping and sorting for version' do
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: project,
-           member_with_permissions: [:view_work_packages])
+           member_with_permissions: { project => [:view_work_packages] })
   end
 
   let(:old_version) do

@@ -428,6 +428,8 @@ ko:
       당신의 계정이 아직 활성화되지 않았습니다. 관리자가 계정을 승인할때까지 기다려 주십시오.
     error_self_registration_disabled: >
       사용자 등록은 이 시스템에서 비활성화되어 있습니다. 계정 생성을 원한다면 관리자에게 요청하십시오.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "또는 이미 있는 계정으로 로그인"
     signup_with_auth_provider: "또는 사용 가입하기"
     auth_source_login: <em>%{login}</em> 계정을 활성화하려면 로그인하시기 바랍니다.
@@ -2342,6 +2344,8 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "프로젝트 보관"
   permission_create_user: "사용자 만들기"
   permission_manage_user: "사용자 편집"
@@ -2974,9 +2978,12 @@ ko:
       label_search_placeholder: "Search by user or email address"
       permissions:
         comment: "Comment"
+        comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
         edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
         view: "View"
+        view_description: "Can view this work package."
       remove: "Remove"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"

@@ -28,15 +28,13 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Custom actions',
-               js: true,
-               with_cuprite: true,
+RSpec.describe 'Custom actions', :js, :with_cuprite,
                with_ee: %i[custom_actions] do
   shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
-  let(:role) { create(:role, permissions:) }
-  let!(:other_role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
+  let!(:other_role) { create(:project_role, permissions:) }
   let(:user) do
     user = create(:user,
                   firstname: 'A',
@@ -57,8 +55,7 @@ RSpec.describe 'Custom actions',
     create(:user,
            firstname: 'Other member',
            lastname: 'User',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:project) { create(:project, name: 'This project') }
   let(:other_project) { create(:project, name: 'Other project') }
@@ -147,8 +144,6 @@ RSpec.describe 'Custom actions',
   end
 
   it 'viewing workflow buttons' do
-    skip("The autocompleter for projects is currently broken. See https://community.openproject.org/wp/50281")
-
     # create custom action 'Unassign'
     index_ca_page.visit!
 

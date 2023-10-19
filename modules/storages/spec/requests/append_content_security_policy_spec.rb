@@ -43,7 +43,7 @@ RSpec.describe 'Appendix of default CSP for external file storage hosts' do
 
   describe 'GET /' do
     context 'when logged in' do
-      current_user { create(:user, member_in_project: project, member_with_permissions: %i[manage_file_links]) }
+      current_user { create(:user, member_with_permissions: { project => %i[manage_file_links] }) }
 
       it 'appends storage host to the connect-src CSP' do
         get '/'

@@ -161,7 +161,7 @@ class MembersController < ApplicationController
   end
 
   def set_roles_and_principles!
-    @roles = Role.givable
+    @roles = ProjectRole.givable
     # Check if there is at least one principal that can be added to the project
     @principals_available = possible_members('', 1)
   end

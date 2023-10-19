@@ -160,7 +160,7 @@ RSpec.describe WorkPackage do
   end
 
   describe '#category' do
-    let(:user_2) { create(:user, member_in_project: project) }
+    let(:user_2) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
     let(:category) do
       create(:category,
              project:,
@@ -183,7 +183,7 @@ RSpec.describe WorkPackage do
       create(:member,
              principal: group,
              project: work_package.project,
-             roles: [create(:role)])
+             roles: [create(:project_role)])
     end
 
     shared_context 'assign group as responsible' do
@@ -626,9 +626,9 @@ RSpec.describe WorkPackage do
 
   describe '.allowed_target_project_on_move' do
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions: [:move_work_packages]) }
+    let(:role) { create(:project_role, permissions: [:move_work_packages]) }
     let(:user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
 
     context 'when having the move_work_packages permission' do
@@ -639,7 +639,7 @@ RSpec.describe WorkPackage do
     end
 
     context 'when lacking the move_work_packages permission' do
-      let(:role) { create(:role, permissions: []) }
+      let(:role) { create(:project_role, permissions: []) }
 
       it 'does not return the project' do
         expect(described_class.allowed_target_projects_on_move(user))
@@ -650,9 +650,9 @@ RSpec.describe WorkPackage do
 
   describe '.allowed_target_project_on_create' do
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions: [:add_work_packages]) }
+    let(:role) { create(:project_role, permissions: [:add_work_packages]) }
     let(:user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
 
     context 'when having the add_work_packages permission' do
@@ -663,7 +663,7 @@ RSpec.describe WorkPackage do
     end
 
     context 'when lacking the add_work_packages permission' do
-      let(:role) { create(:role, permissions: []) }
+      let(:role) { create(:project_role, permissions: []) }
 
       it 'does not return the project' do
         expect(described_class.allowed_target_projects_on_create(user))

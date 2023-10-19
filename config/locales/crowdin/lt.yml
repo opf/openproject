@@ -429,6 +429,8 @@ lt:
       Jūsų paskyra neaktyvuota. Prašome palaukti, kol administratorius patvirtins Jūsų registraciją.
     error_self_registration_disabled: >
       Naudotojų registracija išjungta šioje sistemoje. Susisiekite su administratoriumi, kad jis sukurtų Jūsų asmeninę paskyrą.
+    error_self_registration_limited_provider: >
+      Naudotojų registracija ribojama tik vieno prisijungimo tiekėjui „%{name}“. Prašome paprašyti administratoriaus, kad aktyvuotų jūsų paskyrą arba pakeistų savarankiškų registracijų apribojimą šiam tiekėjui.
     login_with_auth_provider: "arba prisijunkite su jau turima paskyra"
     signup_with_auth_provider: "arba prisiregistruokite naudodami"
     auth_source_login: Prisijunkite kaip <em>%{login}</em>, norėdami aktyvuoti savo paskyrą.
@@ -912,7 +914,7 @@ lt:
           attributes:
             roles:
               ungrantable: "turi nepriskiriamą vaidmenį."
-              more_than_one: "has more than one role."
+              more_than_one: "turi daugiau nei vieną vaidmenį"
             principal:
               unassignable: "negalima priskirti projektui."
         version:
@@ -2241,7 +2243,7 @@ lt:
         assigned: 'Paskirtas'
         responsible: 'Atsakingas'
         mentioned: 'Paminėtas'
-        shared: 'Shared'
+        shared: 'Bendras'
         subscribed: 'visi'
         prefix: 'Gauta dėl pranešimų nustatymo: %{reason}'
         date_alert_start_date: 'Datos įspėjimas'
@@ -2250,12 +2252,12 @@ lt:
       updated_at: 'Pakeitė %{user} %{timestamp}'
     sharing:
       work_packages:
-        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
-        open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
-        see_in_open_project: 'See work package in OpenProject'
-        subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        allowed_actions: 'Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių.'
+        open_work_package: 'Atverti darbo paketą'
+        reason: 'bendrino su jumis šį darbo paketą tokiomis %{role_rights} teisėmis:'
+        see_in_open_project: 'Žiūrėkite darbo paketą OpenProject'
+        subject: 'Su jumis bendrinamas darbo paketas #%{id}'
+        summary: '%{user} pasidalinto darbo paketu su jumis'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
@@ -2426,6 +2428,8 @@ lt:
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Kurti projektus"
+  permission_add_work_package_attachments: "Prisegti priedus"
+  permission_add_work_package_attachments_explanation: "Leidžia pridėti priedus be darbo paketo keitimo teisių"
   permission_archive_project: "Archyvuoti projektą"
   permission_create_user: "Kurti naudotojus"
   permission_manage_user: "Keisti naudotojus"
@@ -3052,20 +3056,23 @@ lt:
       title: "Ištrinti darbų paketą"
     sharing:
       count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
-      invite: "Invite"
-      label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user or email address"
+        zero: "0 naudotojų"
+        one: "1 naudotojas"
+        other: "%{count} naudotojai"
+      invite: "Pakviesti"
+      label_search: "Ieškoti naudotojų pakvietimui"
+      label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
       permissions:
-        comment: "Comment"
-        denied: "You don't have permissions to share work packages."
-        edit: "Edit"
-        view: "View"
-      remove: "Remove"
-      text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+        comment: "Komentuoti"
+        comment_description: "Gali žiūrėti ir komentuoti šį darbo paketą."
+        denied: "Jūs neturite teisės benrinti darbo paketus."
+        edit: "Redaguoti"
+        edit_description: "Gali žiūrėti, komentuoti ir keisti šį darbo paketą."
+        view: "Žiūrėti"
+        view_description: "Gali žiūrėti šį darbo paketą."
+      remove: "Išimti"
+      text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
+      text_empty_state_header: "Nėra bendrinamų naudotojų"
   working_days:
     info: >
       Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.

@@ -19,4 +19,15 @@
       </op-content-loader>
     </turbo-frame>
   </div>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+        data-test-selector="confirmation-modal--cancel"
+        (click)="closeMe($event)"
+        [textContent]="text.button_close"
+        [attr.title]="text.button_close"
+      ></button>
+    </div>
+  </div>
 </div>

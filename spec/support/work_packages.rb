@@ -46,7 +46,7 @@ def become_member_with_permissions(permissions)
   let(:current_user) { create(:user) }
 
   before do
-    role = create(:role, permissions:)
+    role = create(:project_role, permissions:)
 
     member = build(:member, user: current_user, project:)
     member.roles = [role]

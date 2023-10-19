@@ -429,6 +429,8 @@ pl:
       Twoje konto nie zostało jeszcze aktywowane. Poczekaj, aż administrator aktywuje twoje konto.
     error_self_registration_disabled: >
       W tym systemie zablokowano rejestrację użytkownika. Zapytaj, proszę, administratora o możliwość utworzenia konta dla Ciebie.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "lub zaloguj się za pomocą istniejącego konta"
     signup_with_auth_provider: "lub zapisz się używając"
     auth_source_login: Zaloguj się jako <em>%{login}</em> aby aktywować konto.
@@ -2427,6 +2429,8 @@ pl:
   permission_add_work_packages: "Dodawanie pakietów roboczych"
   permission_add_messages: "Wysyłanie wiadomości"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archiwizuj projekt"
   permission_create_user: "Utwórz użytkowników"
   permission_manage_user: "Edytuj użytkowników"
@@ -3062,9 +3066,12 @@ pl:
       label_search_placeholder: "Search by user or email address"
       permissions:
         comment: "Comment"
+        comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
         edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
         view: "View"
+        view_description: "Can view this work package."
       remove: "Remove"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"

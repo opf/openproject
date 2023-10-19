@@ -33,7 +33,7 @@ RSpec.describe Authorization::UserEntityRolesQuery do
   let(:project) { build(:project, public: false) }
   let(:work_package) { build(:work_package, project:) }
   let(:work_package2) { build(:work_package, project:) }
-  let(:role) { build(:role) }
+  let(:role) { build(:project_role) }
   let(:wp_role) { build(:work_package_role) }
   let(:other_wp_role) { build(:work_package_role) }
   let(:non_member) { build(:non_member) }

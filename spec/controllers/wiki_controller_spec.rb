@@ -116,7 +116,7 @@ RSpec.describe WikiController do
 
     describe 'show' do
       let(:permissions) { %w[view_wiki_pages] }
-      let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+      let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
       current_user { user }
 
@@ -244,7 +244,7 @@ RSpec.describe WikiController do
         {}
       end
 
-      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+      current_user { create(:user, member_with_permissions: { project => permissions }) }
 
       before do
         get :edit, params:, flash:
@@ -598,7 +598,7 @@ RSpec.describe WikiController do
         get :rename, params:
       end
 
-      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+      current_user { create(:user, member_with_permissions: { project => permissions }) }
 
       subject do
         request
@@ -746,7 +746,7 @@ RSpec.describe WikiController do
         get :diff, params:
       end
 
-      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+      current_user { create(:user, member_with_permissions: { project => permissions }) }
 
       subject do
         request
@@ -791,7 +791,7 @@ RSpec.describe WikiController do
         get :annotate, params:
       end
 
-      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+      current_user { create(:user, member_with_permissions: { project => permissions }) }
 
       subject do
         request
@@ -813,7 +813,7 @@ RSpec.describe WikiController do
     describe 'export' do
       let(:permissions) { %i[view_wiki_pages export_wiki_pages] }
 
-      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+      current_user { create(:user, member_with_permissions: { project => permissions }) }
 
       before do
         get :export, params: { project_id: project.identifier }
@@ -855,7 +855,7 @@ RSpec.describe WikiController do
         post :protect, params:
       end
 
-      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+      current_user { create(:user, member_with_permissions: { project => permissions }) }
 
       subject do
         request
@@ -920,7 +920,7 @@ RSpec.describe WikiController do
     describe 'history' do
       let(:permissions) { %i[view_wiki_edits] }
 
-      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+      current_user { create(:user, member_with_permissions: { project => permissions }) }
 
       before do
         get :history, params: { project_id: project.identifier, id: existing_page.title }
@@ -997,7 +997,7 @@ RSpec.describe WikiController do
 
       @anon = User.anonymous.nil? ? create(:anonymous) : User.anonymous
 
-      Role.anonymous.update permissions: [:view_wiki_pages]
+      ProjectRole.anonymous.update permissions: [:view_wiki_pages]
     end
 
     current_user { admin }

@@ -27,6 +27,9 @@
 //++
 
 import { Component } from '@angular/core';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 export const globalSearchWorkPackagesSelectorEntry = 'global-search-work-packages-entry';
 
@@ -36,11 +39,8 @@ export const globalSearchWorkPackagesSelectorEntry = 'global-search-work-package
  */
 @Component({
   selector: globalSearchWorkPackagesSelectorEntry,
-  template: `
-    <ng-container wp-isolated-query-space>
-      <global-search-work-packages></global-search-work-packages>
-    </ng-container>
-  `,
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  template: '<global-search-work-packages></global-search-work-packages>',
 })
 export class GlobalSearchWorkPackagesEntryComponent {
 }

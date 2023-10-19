@@ -51,7 +51,7 @@ RSpec.describe 'Stories in backlog',
            type_id: story.id)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_master_backlog
                            add_work_packages
                            view_work_packages
@@ -61,8 +61,7 @@ RSpec.describe 'Stories in backlog',
   end
   let!(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let!(:sprint_story1) do
     create(:work_package,

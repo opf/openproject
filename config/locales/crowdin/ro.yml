@@ -431,6 +431,8 @@ ro:
       Contul nu a fost încă activat. Așteptați ca administratorul să vă activeze contul.
     error_self_registration_disabled: >
       Înregistrarea utilizatorilor este dezactivată în acest sistem. Vă rugăm să cereţi unui administrator să vă creeze un cont.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "sau conectaţi-vă cu contul existent"
     signup_with_auth_provider: "sau înregistrează-te folosind"
     auth_source_login: Autentifică-te ca <em>%{login}</em> pentru a activa contul.
@@ -2401,6 +2403,8 @@ ro:
   permission_add_work_packages: "Adăugare pachete de lucru"
   permission_add_messages: "Publicare mesaje"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Proiect de arhivă"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -3037,9 +3041,12 @@ ro:
       label_search_placeholder: "Search by user or email address"
       permissions:
         comment: "Comment"
+        comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
         edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
         view: "View"
+        view_description: "Can view this work package."
       remove: "Remove"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"

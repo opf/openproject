@@ -120,7 +120,7 @@ RSpec.shared_context 'a controller action which needs project permissions' do
   let(:invalid_user) { create(:user) }
 
   def add_membership(user, permissions)
-    role   = create(:role, permissions: Array(permissions))
+    role   = create(:project_role, permissions: Array(permissions))
     member = build(:member, user:, project:)
     member.roles = [role]
     member.save!

@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative '../support/pages/calendar'
 require_relative '../../../../spec/features/views/shared_examples'
 
-RSpec.describe 'Calendar query handling', js: true do
+RSpec.describe 'Calendar query handling', :js do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
@@ -41,14 +41,13 @@ RSpec.describe 'Calendar query handling', js: true do
 
   shared_let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[
+           member_with_permissions: { project => %w[
              view_work_packages
              edit_work_packages
              save_queries
              save_public_queries
              view_calendar
-           ])
+           ] })
   end
 
   shared_let(:task) do

@@ -38,8 +38,8 @@ export class NotificationSettingInlineCreateComponent {
     already_selected: this.I18n.t('js.notifications.settings.project_specific.already_selected'),
   };
 
-  public get APIFilters():ApiV3ListFilter[] {
-    return [['visible', '=', [this.userId]]];
+  public get APIFilters():IAPIFilter[] {
+    return [{ name: 'visible', operator: '=', values: [this.userId] }];
   }
 
   constructor(

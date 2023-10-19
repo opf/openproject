@@ -109,6 +109,7 @@ class WorkPackageMeetingsTabController < ApplicationController
   def get_agenda_items_of_work_package(direction)
     agenda_items = MeetingAgendaItem
         .includes(:meeting)
+        .where(meeting_id: Meeting.visible(current_user))
         .where(work_package_id: @work_package.id)
         .order('meetings.start_time': :asc)
 

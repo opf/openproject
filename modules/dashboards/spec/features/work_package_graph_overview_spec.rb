@@ -63,7 +63,7 @@ RSpec.describe 'Work package overview graph widget on dashboard',
   end
 
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
 
   let(:user) do

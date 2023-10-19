@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Members::Scopes::NotLocked do
   let(:project) { create(:project) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
 
   let!(:invited_user_member) do
     create(:member,
@@ -68,10 +68,7 @@ RSpec.describe Members::Scopes::NotLocked do
 
     it 'returns only actual users and groups' do
       expect(subject)
-        .to match_array [active_user_member,
-                         invited_user_member,
-                         registered_user_member,
-                         group_member]
+        .to contain_exactly(active_user_member, invited_user_member, registered_user_member, group_member)
     end
   end
 end

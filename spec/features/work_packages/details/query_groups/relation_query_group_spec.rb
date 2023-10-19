@@ -134,12 +134,11 @@ RSpec.describe 'Work package with relation query group', js: true, selenium: tru
     end
 
     context 'with a user who has permission in one project' do
-      let(:role) { create(:role, permissions:) }
+      let(:role) { create(:project_role, permissions:) }
       let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations] }
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
       let!(:project2_member) do
         member = build(:member, user:, project: project2)
@@ -165,12 +164,11 @@ RSpec.describe 'Work package with relation query group', js: true, selenium: tru
     end
 
     context 'with a user who has no permission in any project' do
-      let(:role) { create(:role, permissions:) }
+      let(:role) { create(:project_role, permissions:) }
       let(:permissions) { [:view_work_packages] }
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
 
       it 'hides that group automatically without showing an error' do

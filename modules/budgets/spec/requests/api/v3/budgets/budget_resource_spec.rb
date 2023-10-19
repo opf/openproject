@@ -37,8 +37,7 @@ RSpec.describe 'API v3 Budget resource' do
   let!(:budget) { create(:budget, project:) }
   let(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: [:view_budgets])
+           member_with_permissions: { project => [:view_budgets] })
   end
 
   subject(:response) { last_response }

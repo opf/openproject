@@ -33,14 +33,13 @@ require_relative './../support/board_page'
 RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
        edit_work_packages view_work_packages manage_public_queries]
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }

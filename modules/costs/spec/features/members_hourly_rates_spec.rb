@@ -28,11 +28,10 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-RSpec.describe 'hourly rates on a member', js: true do
+RSpec.describe 'hourly rates on a member', :js do
   let(:project) { build(:project) }
   let(:user) do
-    create(:admin,
-           member_in_project: project)
+    create(:admin, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
   end
   let(:member) { Member.find_by(project:, principal: user) }
 
@@ -51,7 +50,7 @@ RSpec.describe 'hourly rates on a member', js: true do
   end
 
   def add_rate(rate:, date:)
-    expect(page).to have_selector(".add-row-button")
+    expect(page).to have_css(".add-row-button")
     sleep(0.1)
     all("tr[id^='user_new_rate_attributes_'] .delete-row-button").each(&:click)
     sleep(0.1)

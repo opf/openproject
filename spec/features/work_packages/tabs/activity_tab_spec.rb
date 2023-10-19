@@ -137,12 +137,11 @@ RSpec.describe 'Activity tab',
 
     context 'with permission' do
       let(:role) do
-        create(:role, permissions: %i[view_work_packages add_work_package_notes])
+        create(:project_role, permissions: %i[view_work_packages add_work_package_notes])
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
 
       context 'with ascending comments' do
@@ -215,12 +214,11 @@ RSpec.describe 'Activity tab',
 
     context 'with no permission' do
       let(:role) do
-        create(:role, permissions: [:view_work_packages])
+        create(:project_role, permissions: [:view_work_packages])
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
 
       it 'shows the activities, but does not allow commenting' do

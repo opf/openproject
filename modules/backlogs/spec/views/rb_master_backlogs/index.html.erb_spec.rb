@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe 'rb_master_backlogs/index' do
   let(:user) { create(:user) }
   let(:role_allowed) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_master_backlog view_taskboards])
   end
   let(:statuses) do

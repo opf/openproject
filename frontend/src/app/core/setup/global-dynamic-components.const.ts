@@ -17,10 +17,6 @@ import {
   OpAttachmentsComponent,
 } from 'core-app/shared/components/attachments/attachments.component';
 import {
-  UserAutocompleterComponent,
-  usersAutocompleterSelector,
-} from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
-import {
   GlobalSearchWorkPackagesComponent,
   globalSearchWorkPackagesSelector,
 } from 'core-app/core/global_search/global-search-work-packages.component';
@@ -79,10 +75,6 @@ import {
   OpHeaderProjectSelectComponent,
 } from 'core-app/shared/components/header-project-select/header-project-select.component';
 import {
-  ProjectAutocompleterComponent,
-  projectsAutocompleterSelector,
-} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
-import {
   RemoteFieldUpdaterComponent,
   remoteFieldUpdaterSelector,
 } from 'core-app/shared/components/remote-field-updater/remote-field-updater.component';
@@ -102,10 +94,6 @@ import {
   GlobalSearchTabsComponent,
   globalSearchTabsSelector,
 } from 'core-app/core/global_search/tabs/global-search-tabs.component';
-import {
-  MembersAutocompleterComponent,
-  membersAutocompleterSelector,
-} from 'core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component';
 import {
   TriggerActionsEntryComponent,
   triggerActionsEntryComponentSelector,
@@ -224,8 +212,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
-  { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
-  { selector: membersAutocompleterSelector, cls: MembersAutocompleterComponent },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
   { selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent },
   { selector: homescreenNewFeaturesBlockSelector, cls: HomescreenNewFeaturesBlockComponent },
@@ -255,7 +241,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
-  { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
   { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },

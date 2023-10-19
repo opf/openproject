@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Project templates', js: true, with_cuprite: true do
+RSpec.describe 'Project templates', :js, :with_cuprite do
   describe 'making project a template' do
     let(:project) { create(:project) }
 
@@ -70,7 +70,7 @@ RSpec.describe 'Project templates', js: true, with_cuprite: true do
     let!(:wiki_page) { create(:wiki_page, wiki: template.wiki) }
 
     let!(:role) do
-      create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects])
+      create(:project_role, permissions: %i[view_project view_work_packages copy_projects add_subprojects])
     end
     let!(:global_permissions) do
       %i[add_project]
@@ -79,7 +79,7 @@ RSpec.describe 'Project templates', js: true, with_cuprite: true do
     let(:status_description) { Components::WysiwygEditor.new status_field_selector }
 
     let!(:other_user) do
-      create(:user, member_in_project: template, member_through_role: role)
+      create(:user, member_with_roles: { template => role })
     end
 
     let(:name_field) { FormFields::InputFormField.new :name }
@@ -89,8 +89,7 @@ RSpec.describe 'Project templates', js: true, with_cuprite: true do
 
     current_user do
       create(:user,
-             member_in_projects: [template, other_project],
-             member_through_role: role,
+             member_with_roles: { template => role, other_project => role },
              global_permissions:)
     end
 

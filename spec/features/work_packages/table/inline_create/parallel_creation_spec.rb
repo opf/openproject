@@ -1,14 +1,12 @@
 require 'spec_helper'
 
-RSpec.describe 'Parallel work package creation spec', js: true do
+RSpec.describe 'Parallel work package creation spec', :js do
   let(:type) { project.types.first }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:status) { create(:default_status) }
   let(:workflow) do

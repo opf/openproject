@@ -42,7 +42,7 @@ RSpec.describe Capabilities::Scopes::Default do
   let(:non_member_permissions) { %i[] }
   let(:anonymous_permissions) { %i[] }
   let(:role) do
-    create(:role, permissions: member_permissions)
+    create(:project_role, permissions: member_permissions)
   end
   let(:global_role) do
     create(:global_role, permissions: global_permissions)
@@ -431,7 +431,7 @@ RSpec.describe Capabilities::Scopes::Default do
     context 'with the current user being member in a project' do
       let(:member_permissions) { %i[manage_members] }
       let(:global_permissions) { %i[manage_user] }
-      let(:own_role) { create(:role, permissions: []) }
+      let(:own_role) { create(:project_role, permissions: []) }
       let(:own_member) do
         create(:member,
                principal: current_user,

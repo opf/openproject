@@ -41,23 +41,21 @@ RSpec.describe 'messages', :js do
 
   let(:user) do
     create(:user,
-           member_in_project: forum.project,
-           member_through_role: role,
+           member_with_roles: { forum.project => role },
            notification_settings: [
              build(:notification_setting, **notification_settings_all_false, watched: true)
            ])
   end
   let(:other_user) do
     create(:user,
-           member_in_project: forum.project,
-           member_through_role: role,
+           member_with_roles: { forum.project => role },
            notification_settings: [
              build(:notification_setting, **notification_settings_all_false, watched: true)
            ]).tap do |u|
       forum.watcher_users << u
     end
   end
-  let(:role) { create(:role, permissions: [:add_messages]) }
+  let(:role) { create(:project_role, permissions: [:add_messages]) }
 
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 

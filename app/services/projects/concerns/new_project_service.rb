@@ -44,7 +44,7 @@ module Projects::Concerns
     # defined in the administration. Will either create a new membership
     # or add a role to an already existing one.
     def set_default_role(new_project)
-      role = Role.in_new_project
+      role = ProjectRole.in_new_project
 
       return unless role && new_project.persisted?
 

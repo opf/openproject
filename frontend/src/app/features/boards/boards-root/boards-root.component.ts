@@ -7,10 +7,14 @@ import { QueryUpdatedService } from 'core-app/features/boards/board/query-update
 import { BoardAssigneeActionService } from 'core-app/features/boards/board/board-actions/assignee/assignee-action.service';
 import { BoardSubprojectActionService } from 'core-app/features/boards/board/board-actions/subproject/subproject-action.service';
 import { BoardSubtasksActionService } from 'core-app/features/boards/board/board-actions/subtasks/board-subtasks-action.service';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 @Component({
   selector: 'boards-entry',
-  template: '<ui-view wp-isolated-query-space></ui-view>',
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  template: '<ui-view></ui-view>',
   providers: [
     BoardConfigurationService,
     BoardStatusActionService,

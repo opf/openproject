@@ -52,9 +52,9 @@ RSpec.describe API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
                 cost_type: cost_type_B)
   end
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { build(:role, permissions: [:view_cost_entries]) }
+  let(:role) { build(:project_role, permissions: [:view_cost_entries]) }
 
   let(:representer) { described_class.new(work_package, current_user:) }
 

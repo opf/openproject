@@ -97,9 +97,9 @@ RSpec.describe Members::SetAttributesService, type: :model do
     end
 
     context 'with changes to the roles do' do
-      let(:first_role) { build_stubbed(:role) }
-      let(:second_role) { build_stubbed(:role) }
-      let(:third_role) { build_stubbed(:role) }
+      let(:first_role) { build_stubbed(:project_role) }
+      let(:second_role) { build_stubbed(:project_role) }
+      let(:third_role) { build_stubbed(:project_role) }
 
       let(:call_attributes) do
         {
@@ -109,14 +109,12 @@ RSpec.describe Members::SetAttributesService, type: :model do
 
       context 'with a persisted record' do
         let(:member) do
-          build_stubbed(:member, roles: [first_role, second_role]).tap do |m|
-            allow(m)
-              .to receive(:touch)
-          end
+          build_stubbed(:member, roles: [first_role, second_role])
         end
 
-        it 'adds the new role' do
-          expect(subject.result.roles = [second_role, third_role])
+        it 'adds the new role and marks the other for destruction' do
+          expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(first_role.id, second_role.id, third_role.id)
+          expect(subject.result.member_roles.detect { _1.role_id == first_role.id }).to be_marked_for_destruction
         end
       end
 
@@ -126,7 +124,7 @@ RSpec.describe Members::SetAttributesService, type: :model do
         end
 
         it 'adds the new role' do
-          expect(subject.result.roles = [second_role, third_role])
+          expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(second_role.id, third_role.id)
         end
 
         context 'with role_ids not all being present' do
@@ -137,7 +135,7 @@ RSpec.describe Members::SetAttributesService, type: :model do
           end
 
           it 'ignores the empty values' do
-            expect(subject.result.roles = [second_role, third_role])
+            expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(second_role.id, third_role.id)
           end
         end
       end

@@ -97,7 +97,12 @@ namespace 'openproject' do
       warn "Failed to perform postgres version check: #{e} - #{e.message}. #{override_msg}"
       raise e
     end
+
+    task remove_statement_timeout: %w[openproject:db:check_connection] do
+      ActiveRecord::Base.connection.execute("SET statement_timeout = 0;")
+    end
   end
 end
 
 Rake::Task["db:migrate"].enhance ["openproject:db:ensure_database_compatibility"]
+Rake::Task["db:migrate"].enhance ["openproject:db:remove_statement_timeout"]

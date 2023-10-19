@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-require_relative './shared_responses'
+require_relative 'shared_responses'
 
 RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
   include Rack::Test::Methods
@@ -41,17 +41,17 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
 
   let(:view_only_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_linked_issues view_work_packages])
+           member_with_permissions: { project => %i[view_linked_issues view_work_packages] })
   end
 
   let(:edit_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_linked_issues view_work_packages manage_bcf])
+           member_with_permissions: { project => %i[view_linked_issues view_work_packages manage_bcf] })
   end
 
-  let(:user_without_permission) { create(:user, member_in_project: project) }
+  let(:user_without_permission) do
+    create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
+  end
 
   let(:assignee) { create(:user) }
 

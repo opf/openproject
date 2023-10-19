@@ -43,8 +43,7 @@ RSpec.describe 'Structured meetings CRUD',
   shared_let(:user) do
     create(:user,
            lastname: 'First',
-           member_in_project: project,
-           member_with_permissions: %i[view_meetings create_meetings edit_meetings delete_meetings view_work_packages]).tap do |u|
+           member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings view_work_packages] }).tap do |u|
       u.pref[:time_zone] = 'utc'
 
       u.save!
@@ -53,8 +52,7 @@ RSpec.describe 'Structured meetings CRUD',
   shared_let(:other_user) do
     create(:user,
            lastname: 'Second',
-           member_in_project: project,
-           member_with_permissions: %i[view_meetings view_work_packages])
+           member_with_permissions: { project => %i[view_meetings view_work_packages] })
   end
   shared_let(:no_member_user) do
     create(:user,
@@ -198,7 +196,7 @@ RSpec.describe 'Structured meetings CRUD',
     let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
     let!(:other_project) { create(:project) }
     let!(:other_wp) { create(:work_package, project: other_project, author: current_user, subject: 'Private task') }
-    let!(:role) { create(:role, permissions: %w[view_work_packages]) }
+    let!(:role) { create(:project_role, permissions: %w[view_work_packages]) }
     let!(:membership) { create(:member, principal: user, project: other_project, roles: [role]) }
     let!(:agenda_item) { create(:meeting_agenda_item, meeting:, author: current_user, work_package: other_wp) }
     let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }

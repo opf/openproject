@@ -33,7 +33,7 @@ require_module_spec_helper
 
 RSpec.describe Storages::FileLinkSyncService, type: :model do
   let(:user) { create(:user) }
-  let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
+  let(:role) { create(:project_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { user => role }) }
   let(:work_package) { create(:work_package, project:) }
 

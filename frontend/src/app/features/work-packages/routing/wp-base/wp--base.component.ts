@@ -29,13 +29,17 @@
 import { Component } from '@angular/core';
 import { EditFormRoutingService } from 'core-app/shared/components/fields/edit/edit-form/edit-form-routing.service';
 import { WorkPackageEditFormRoutingService } from 'core-app/features/work-packages/routing/wp-edit-form/wp-edit-form-routing.service';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 export const wpBaseSelector = 'work-packages-base';
 
 @Component({
   selector: wpBaseSelector,
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   template: `
-    <div class="work-packages-page--ui-view" wp-isolated-query-space>
+    <div class="work-packages-page--ui-view">
       <ui-view></ui-view>
     </div>
   `,

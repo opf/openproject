@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects custom fields',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Projects custom fields', :js, :with_cuprite do
   shared_let(:current_user) { create(:admin) }
   shared_let(:project) { create(:project, name: 'Foo project', identifier: 'foo-project') }
   let(:name_field) { FormFields::InputFormField.new :name }
@@ -224,9 +222,12 @@ RSpec.describe 'Projects custom fields',
 
     # Assume one user is visible
     let!(:invisible_user) { create(:user, firstname: 'Invisible', lastname: 'User') }
-    let!(:visible_user) { create(:user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project) }
+    let!(:visible_user) do
+      create(:user, firstname: 'Visible', lastname: 'User',
+                    member_with_permissions: { existing_project => %i[view_work_packages edit_work_packages] })
+    end
 
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
 
     let(:modal) do
       Components::Users::InviteUserModal.new project:,

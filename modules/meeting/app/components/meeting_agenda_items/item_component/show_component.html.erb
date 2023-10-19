@@ -15,11 +15,13 @@
               @meeting_agenda_item.work_package.subject
             end
           end
+
           flex.with_column(mr: 2, classes: 'hidden-for-mobile') do
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
               "#{@meeting_agenda_item.work_package.type.name} ##{@meeting_agenda_item.work_package.id}"
             end
           end
+
           flex.with_column(mr: 2, classes: 'hidden-for-mobile') do
             render(Primer::Beta::Label.new(font_weight: :bold)) do
               @meeting_agenda_item.work_package.status.name
@@ -27,7 +29,7 @@
           end
         end
       elsif @meeting_agenda_item.linked_work_package?
-        render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+        render(Primer::Beta::Text.new(font_size: :small, mr: 2, color: :subtle)) do
           I18n.t(:label_agenda_item_undisclosed_wp, id: @meeting_agenda_item.work_package_id)
         end
       else
@@ -51,7 +53,8 @@
         flex.with_column do
           render(Primer::Beta::Text.new(color: :subtle, mr: 1)) { t("label_added_by", author: nil) }
         end
-        flex.with_column do
+
+        flex.with_column(classes: 'ellipsis') do
           render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini', title:, classes: 'op-principal_flex'))
         end
       end

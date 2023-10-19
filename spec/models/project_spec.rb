@@ -131,10 +131,9 @@ RSpec.describe Project do
     let(:permission_granted) { true }
 
     before do
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:copy_projects, project)
-        .and_return(permission_granted)
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project :copy_projects, project:
+      end
 
       login_as(user)
     end
@@ -146,7 +145,7 @@ RSpec.describe Project do
     end
 
     context 'without copy project permission' do
-      let(:permission_granted) { false }
+      before { mock_permissions_for(user, &:forbid_everything) }
 
       it 'is false' do
         expect(project).not_to be_copy_allowed
@@ -189,7 +188,7 @@ RSpec.describe Project do
       project_work_package
       other_project_work_package
 
-      expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
+      expect(project.types_used_by_work_packages).to contain_exactly(project_work_package.type)
     end
   end
 
@@ -207,7 +206,7 @@ RSpec.describe Project do
   end
 
   describe '#members' do
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
     let(:active_user) { create(:user) }
     let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
 
@@ -225,7 +224,7 @@ RSpec.describe Project do
   end
 
   describe '#users' do
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
     let(:active_user) { create(:user) }
     let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
 

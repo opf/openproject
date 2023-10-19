@@ -32,11 +32,10 @@ require_relative '../support/pages/meetings/show'
 
 RSpec.describe 'Meetings', js: true do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }

@@ -33,7 +33,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eage
     work_package.project
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            view_cost_entries
                            view_cost_rates
@@ -43,9 +43,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eage
                            view_hourly_rates])
   end
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:cost_type) do

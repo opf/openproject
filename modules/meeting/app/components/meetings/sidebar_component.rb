@@ -37,29 +37,5 @@ module Meetings
 
       @meeting = meeting
     end
-
-    def call
-      component_wrapper do
-        render(Primer::OpenProject::BorderGrid.new) do |border_grid|
-          border_grid.with_row { details_partial }
-          border_grid.with_row { state_partial }
-          border_grid.with_row { participants_partial }
-        end
-      end
-    end
-
-    private
-
-    def details_partial
-      render(Meetings::Sidebar::DetailsComponent.new(meeting: @meeting))
-    end
-
-    def state_partial
-      render(Meetings::Sidebar::StateComponent.new(meeting: @meeting))
-    end
-
-    def participants_partial
-      render(Meetings::Sidebar::ParticipantsComponent.new(meeting: @meeting))
-    end
   end
 end

@@ -37,9 +37,9 @@ RSpec.describe API::V3::Activities::ActivitiesByWorkPackageAPI do
     let(:work_package) { create(:work_package) }
     let(:comment) { 'This is a test comment!' }
     let(:current_user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { %i(view_work_packages add_work_package_notes) }
 
     before do

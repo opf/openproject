@@ -149,13 +149,12 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
   describe 'with limited permissions' do
     let(:permissions) { %i(view_work_packages) }
     let(:user_role) do
-      create(:role, permissions:)
+      create(:project_role, permissions:)
     end
 
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: user_role)
+             member_with_roles: { project => user_role })
     end
 
     context 'as view-only user, with parent set' do

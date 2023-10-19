@@ -7,8 +7,7 @@ RSpec.describe "Notification center navigation", js: true, with_cuprite: true do
   shared_let(:second_work_package) { create(:work_package, project:) }
   shared_let(:recipient) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages])
+           member_with_permissions: { project => %i[view_work_packages] })
   end
   shared_let(:notification) do
     create(:notification,

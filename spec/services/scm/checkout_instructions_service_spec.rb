@@ -156,43 +156,48 @@ RSpec.describe SCM::CheckoutInstructionsService do
         expect(service.manages_permissions?).to be true
       end
 
-      it 'returns the correct permissions' do
-        expect(user)
-          .to receive(:allowed_to?).with(:commit_access, any_args)
-          .and_return(true, false, false)
-
-        expect(user)
-          .to receive(:allowed_to?).with(:browse_repository, any_args)
-          .and_return(true, false)
+      it 'returns readwrite permission when user has commit_access permission' do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :commit_access, project:
+        end
 
         expect(service.permission).to eq(:readwrite)
+      end
+
+      it 'returns read permission when user has browse_repository permission' do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :browse_repository, project:
+        end
+
         expect(service.permission).to eq(:read)
+      end
+
+      it 'returns none permission when user has no permission' do
+        mock_permissions_for(user, &:forbid_everything)
+
         expect(service.permission).to eq(:none)
       end
 
       it 'returns the correct permissions for commit access' do
-        allow(user)
-          .to receive(:allowed_to?).with(:commit_access, any_args)
-          .and_return(true)
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :commit_access, project:
+        end
 
         expect(service.may_commit?).to be true
         expect(service.may_checkout?).to be true
       end
 
       it 'returns the correct permissions for read access' do
-        allow(user)
-          .to receive(:allowed_to?).with(:commit_access, any_args)
-          .and_return(false)
-        allow(user)
-          .to receive(:allowed_to?).with(:browse_repository, any_args)
-          .and_return(true)
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :browse_repository, project:
+        end
 
         expect(service.may_commit?).to be false
         expect(service.may_checkout?).to be true
       end
 
       it 'returns the correct permissions for no access' do
-        allow(user).to receive(:allowed_to?).and_return(false)
+        mock_permissions_for(user, &:forbid_everything)
 
         expect(service.may_commit?).to be false
         expect(service.may_checkout?).to be false

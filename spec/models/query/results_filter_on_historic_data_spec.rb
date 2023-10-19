@@ -61,8 +61,7 @@ RSpec.describe Query::Results,
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: project_with_member,
-           member_with_permissions: %i[view_work_packages view_file_links])
+           member_with_permissions: { project_with_member => %i[view_work_packages view_file_links] })
   end
 
   def move_work_package_to_project(work_package, project, time)
@@ -317,7 +316,7 @@ RSpec.describe Query::Results,
         create(:member,
                principal: user1,
                project: project_without_member,
-               roles: create_list(:role, 1, permissions: %w[view_work_packages]))
+               roles: create_list(:project_role, 1, permissions: %w[view_work_packages]))
         project_with_member.members.destroy_all
       end
 

@@ -34,7 +34,7 @@ RSpec.describe Group do
 
   let(:user) { build(:user) }
   let(:status) { create(:status) }
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
 
   let(:projects) do
     projects = create_list(:project_with_types, 20)

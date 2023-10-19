@@ -34,9 +34,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:permissions) { %i[view_work_packages manage_versions] }
   let(:project) { create(:project, public: false) }
@@ -215,7 +213,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         create(:project).tap do |p|
           create(:member,
                  project: p,
-                 roles: [create(:role, permissions: [:manage_versions])],
+                 roles: [create(:project_role, permissions: [:manage_versions])],
                  user: current_user)
         end
       end
@@ -252,7 +250,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
       let(:other_membership) do
         create(:member,
                project: create(:project),
-               roles: [create(:role, permissions: [:manage_versions])])
+               roles: [create(:project_role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do
@@ -359,7 +357,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
       let(:other_membership) do
         create(:member,
                project: create(:project),
-               roles: [create(:role, permissions: [:manage_versions])])
+               roles: [create(:project_role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do

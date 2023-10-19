@@ -40,7 +40,7 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:split_view_create) { Pages::SplitWorkPackageCreate.new(project:) }
 
-  let(:role) { create(:existing_role, permissions: %i[view_work_packages work_package_assigned]) }
+  let(:role) { create(:existing_project_role, permissions: %i[view_work_packages work_package_assigned]) }
 
   let!(:query) do
     build(:query, project:, user:).tap do |query|
@@ -113,8 +113,7 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
       create(:user,
              firstname: 'An',
              lastname: 'assignee',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let(:filters) do

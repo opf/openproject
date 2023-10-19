@@ -29,16 +29,15 @@
 require_relative '../spec_helper'
 
 RSpec.describe MeetingMailer do
-  shared_let(:role) { create(:role, permissions: [:view_meetings]) }
+  shared_let(:role) { create(:project_role, permissions: [:view_meetings]) }
   shared_let(:project) { create(:project, name: 'My project') }
   shared_let(:author) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            preferences: { time_zone: 'Europe/Berlin' })
   end
-  shared_let(:watcher1) { create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:watcher2) { create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher1) { create(:user, member_with_roles: { project => role }) }
+  shared_let(:watcher2) { create(:user, member_with_roles: { project => role }) }
 
   let(:meeting) do
     create(:meeting,

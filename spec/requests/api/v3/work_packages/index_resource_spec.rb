@@ -43,11 +43,11 @@ RSpec.describe 'API v3 Work package resource',
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   describe 'GET /api/v3/work_packages' do
@@ -387,7 +387,7 @@ RSpec.describe 'API v3 Work package resource',
       end
 
       context 'when a link type custom value changes' do
-        let(:original_user) { create(:user, member_in_project: project, member_through_role: role) }
+        let(:original_user) { create(:user, member_with_roles: { project => role }) }
         let(:custom_field) do
           create(:user_wp_custom_field,
                  name: 'User CF',

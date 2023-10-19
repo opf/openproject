@@ -32,8 +32,7 @@ require 'support/pages/custom_fields'
 RSpec.describe 'types', js: true, with_cuprite: true do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i(edit_project manage_types add_work_packages view_work_packages))
+           member_with_permissions: { project => %i(edit_project manage_types add_work_packages view_work_packages) })
   end
   let!(:active_type) { create(:type) }
   let!(:type) { create(:type) }

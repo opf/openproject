@@ -38,15 +38,14 @@ RSpec.describe VersionsController do
     create(:project).tap do |p|
       create(:member,
              user: current_user,
-             roles: [create(:role, permissions: [:manage_versions])],
+             roles: [create(:project_role, permissions: [:manage_versions])],
              project: p)
     end
   end
 
   let(:current_user) do
     create(:user,
-           member_in_project: version.project,
-           member_with_permissions: [:manage_versions])
+           member_with_permissions: { version.project => [:manage_versions] })
   end
 
   before do

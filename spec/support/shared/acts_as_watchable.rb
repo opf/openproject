@@ -43,20 +43,18 @@ MESSAGE
   let(:watcher_role) do
     permissions = is_public_permission ? [] : [watch_permission]
 
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
-  let(:non_watcher_role) { create(:role, permissions: []) }
+  let(:non_watcher_role) { create(:project_role, permissions: []) }
   let(:non_member_user) { create(:user) }
   let(:user_with_permission) do
     create(:user,
-           member_in_project: project,
-           member_through_role: watcher_role)
+           member_with_roles: { project => watcher_role })
   end
   let(:locked_user_with_permission) do
     create(:user,
            status: Principal.statuses[:locked],
-           member_in_project: project,
-           member_through_role: watcher_role)
+           member_with_roles: { project => watcher_role })
   end
 
   let(:user_wo_permission) do
@@ -64,16 +62,14 @@ MESSAGE
       create(:user)
     else
       create(:user,
-             member_in_project: project,
-             member_through_role: non_watcher_role)
+             member_with_roles: { project => non_watcher_role })
     end
   end
   let(:admin) { build(:admin) }
   let(:anonymous_user) { build(:anonymous) }
   let(:watching_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: watcher_role).tap do |user|
+           member_with_roles: { project => watcher_role }).tap do |user|
       Watcher.create(watchable: model_instance, user:)
     end
   end
@@ -85,10 +81,10 @@ MESSAGE
   shared_context 'non member role has the permission to watch' do
     let(:non_member_role) do
       unless is_public_permission
-        Role.non_member.add_permission! watch_permission
+        ProjectRole.non_member.add_permission! watch_permission
       end
 
-      Role.non_member
+      ProjectRole.non_member
     end
 
     before do
@@ -118,8 +114,8 @@ MESSAGE
       model_instance
       User.not_builtin.update_all(status: User.statuses[:locked])
 
-      Role.non_member
-      Role.anonymous
+      ProjectRole.non_member
+      ProjectRole.anonymous
 
       User.system.save!
 
@@ -204,8 +200,8 @@ MESSAGE
 
       User.system.save!
 
-      Role.non_member
-      Role.anonymous
+      ProjectRole.non_member
+      ProjectRole.anonymous
       admin.save!
       anonymous_user.save!
       user_with_permission.save!

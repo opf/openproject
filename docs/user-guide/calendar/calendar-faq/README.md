@@ -18,7 +18,7 @@ To use the calendar in a project, you need to [activate the “Calendar” modul
 
 ## Is there an option to export or sync my calendar (e.g. Outlook)?
 
-Yes, there is an option to sync your calendar to OpenProject. You can [subscribe to a calendar](../#subscribe-to-a-calendar) using an external client that supports the iCalendar format. 
+You cannot synchronize a personal calendar in OpenProject. However, you can [subscribe to a calendar](../#subscribe-to-a-calendar) using an external client that supports the iCalendar format.
 
 You can also use the meeting module in OpenProject to organize meetings and invite project members.  You can [export meetings as iCalendar file](../../meetings/#create-or-edit-the-meeting-agenda) and import them to your external calendar. If you would like Microsoft Outlook to automatically import calendar invites, please check your Outlook settings and make sure to give permission from that side.
 

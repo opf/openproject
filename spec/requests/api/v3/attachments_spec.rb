@@ -34,32 +34,45 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:current_user) { create(:user, member_with_roles: { project => role }) }
 
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:add_work_packages] }
 
-  context(
-    'with missing permissions',
-    with_config: {
-      attachments_storage: :fog,
-      fog: { credentials: { provider: 'AWS' } }
-    }
-  ) do
-    let(:permissions) { [] }
-
+  describe 'permissions', :with_direct_uploads do
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
     let(:request_parts) { { metadata: metadata.to_json, file: } }
-    let(:metadata) { { fileName: 'cat.png' } }
+    let(:metadata) { { fileName: 'cat.png', fileSize: file.size, contentType: 'image/png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
 
     before do
+      allow(User).to receive(:current).and_return current_user
       post request_path, request_parts
     end
 
-    it 'forbids to prepare attachments' do
-      expect(last_response.status).to eq 403
+    context 'with missing permissions' do
+      let(:permissions) { [] }
+
+      it 'forbids to prepare attachments' do
+        expect(last_response.status).to eq 403
+      end
+    end
+
+    context 'with :edit_work_packages permission' do
+      let(:permissions) { [:edit_work_packages] }
+
+      it 'can prepare attachments' do
+        expect(last_response.status).to eq 201
+      end
+    end
+
+    context 'with :add_work_package_attachments permission' do
+      let(:permissions) { [:add_work_package_attachments] }
+
+      it 'can prepare attachments' do
+        expect(last_response.status).to eq 201
+      end
     end
   end
 

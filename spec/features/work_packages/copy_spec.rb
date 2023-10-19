@@ -28,11 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package copy', js: true, selenium: true do
+RSpec.describe 'Work package copy', :js, :selenium do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: create_role)
+           member_with_roles: { project => create_role })
   end
   let(:work_flow) do
     create(:workflow,
@@ -43,7 +42,7 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
   end
 
   let(:create_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            add_work_packages
                            manage_work_package_relations
@@ -61,27 +60,24 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
           type:,
           author:)
   end
-  let(:role) { build(:role, permissions: %i[view_work_packages work_package_assigned]) }
+  let(:role) { build(:project_role, permissions: %i[view_work_packages work_package_assigned]) }
   let(:assignee) do
     create(:user,
            firstname: 'An',
            lastname: 'assignee',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:responsible) do
     create(:user,
            firstname: 'The',
            lastname: 'responsible',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:author) do
     create(:user,
            firstname: 'The',
            lastname: 'author',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:version) do
     build(:version,

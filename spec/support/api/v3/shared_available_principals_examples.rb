@@ -32,27 +32,19 @@ RSpec.shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:other_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: assignable_role)
+    create(:user, member_with_roles: { project => assignable_role })
   end
-  let(:role) { create(:role, permissions:) }
-  let(:assignable_role) { create(:role, permissions: assignable_permissions) }
+  let(:role) { create(:project_role, permissions:) }
+  let(:assignable_role) { create(:project_role, permissions: assignable_permissions) }
   let(:project) { create(:project) }
   let(:group) do
-    create(:group,
-           member_in_project: project,
-           member_through_role: assignable_role)
+    create(:group, member_with_roles: { project => assignable_role })
   end
   let(:placeholder_user) do
-    create(:placeholder_user,
-           member_in_project: project,
-           member_through_role: assignable_role)
+    create(:placeholder_user, member_with_roles: { project => assignable_role })
   end
   let(:permissions) { [:view_work_packages] }
   let(:assignable_permissions) { [:work_package_assigned] }

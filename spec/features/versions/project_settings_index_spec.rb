@@ -31,8 +31,7 @@ require 'spec_helper'
 RSpec.describe 'project settings index' do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[manage_versions])
+           member_with_permissions: { project => %i[manage_versions] })
   end
   let(:project) { create(:project) }
   let!(:version1) { create(:version, name: "aaaaa 1.", project:) }

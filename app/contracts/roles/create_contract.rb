@@ -35,7 +35,7 @@ module Roles
     private
 
     def type_in_allowed
-      unless [Role.name, GlobalRole.name].include?(model.type)
+      unless [ProjectRole.name, GlobalRole.name].include?(model.type)
         errors.add(:type, :inclusion)
       end
     end
