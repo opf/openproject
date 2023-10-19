@@ -8,6 +8,7 @@ module Authorization
 
     def allowed_globally?(permission)
       perms = contextual_permissions(permission, :global)
+      return false unless authorizable_user?
       return true if admin_and_all_granted_to_admin?(perms)
 
       cached_permissions(nil).intersect?(perms.map(&:name))

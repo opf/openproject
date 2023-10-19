@@ -93,6 +93,12 @@ RSpec.describe Authorization::UserPermissibleService do
           let!(:member) { create(:global_member, user:, roles: [global_role]) }
 
           it { is_expected.to be_allowed_globally(permission) }
+
+          context 'and the account is locked' do
+            before { user.locked! }
+
+            it { is_expected.not_to be_allowed_globally(permission) }
+          end
         end
       end
 
@@ -100,6 +106,12 @@ RSpec.describe Authorization::UserPermissibleService do
         let(:user) { create(:admin) }
 
         it { is_expected.to be_allowed_globally(permission) }
+
+        context 'and the account is locked' do
+          before { user.locked! }
+
+          it { is_expected.not_to be_allowed_globally(permission) }
+        end
       end
 
       it_behaves_like 'the Authorization.roles scope used' do
