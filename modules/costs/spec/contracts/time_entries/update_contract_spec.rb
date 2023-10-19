@@ -55,7 +55,7 @@ RSpec.describe TimeEntries::UpdateContract do
 
     context 'if project changed' do
       let(:new_project) do
-        build_stubbed(:project).tap do |new_project|
+        build_stubbed(:project) do |new_project|
           allow(TimeEntryActivity)
             .to receive(:active_in_project)
             .with(new_project)
