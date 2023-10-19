@@ -7,11 +7,15 @@ module Components
 
     ##
     # Drag and Drop the file loaded from path on to the (native) target element
-    def drag_and_drop_file(target, path, position = :center, stopover = nil)
+    def drag_and_drop_file(target, path, position = :center, stopover = nil, cancel_drop: false, delay_dragleave: false)
       # Remove any previous input, if any
       page.execute_script <<-JS
         jQuery('#temporary_attachment_files').remove()
       JS
+
+      if stopover.is_a?(Array) && !stopover.all?(String)
+        raise ArgumentError, 'In case the stopover is an array, it must contain only string selectors.'
+      end
 
       element =
         if target.is_a?(String)
@@ -27,7 +31,9 @@ module Components
         element,
         'temporary_attachment_files',
         position.to_s,
-        stopover
+        stopover,
+        cancel_drop,
+        delay_dragleave
       )
 
       attach_file_on_input(path, 'temporary_attachment_files')
