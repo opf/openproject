@@ -86,8 +86,12 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to edit_admin_settings_storage_path(@storage)
     else
-      @errors = service_result.errors
-      @storage = ServiceResultErrorsPresenter.new(service_result)
+      if OpenProject::FeatureDecisions.storage_primer_design_active?
+        @storage = ServiceResultErrorsPresenter.new(service_result)
+      else
+        @errors = service_result.errors
+      end
+
       render '/storages/admin/storages/automatically_managed_project_folders/edit'
     end
   end
