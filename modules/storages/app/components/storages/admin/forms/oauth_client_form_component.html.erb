@@ -5,6 +5,14 @@
   ) do |form|
     flex_layout do |oauth_client_row|
       oauth_client_row.with_row(mb: 3) do
+        render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t("storages.file_storage_view.#{storage.short_provider_type}_oauth") }
+      end
+
+      oauth_client_row.with_row(mb: 3) do
+        render(Primer::Beta::Text.new(font_weight: :light)) { storage_provider_credentials_copy_instructions }
+      end
+
+      oauth_client_row.with_row(mb: 3) do
         render(Storages::Admin::OAuthClientForm.new(form, storage:))
       end
 
