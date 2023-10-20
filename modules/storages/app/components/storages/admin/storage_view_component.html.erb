@@ -77,7 +77,7 @@
                         label: I18n.t("storages.buttons.replace_provider_type_oauth",
                                       provider_type: I18n.t("storages.provider_types.#{storage.short_provider_type}.name"))
                       },
-                      data: { turbo_confirm: I18n.t("storages.confirm_replace_oauth_client") },
+                      data: { turbo_confirm: I18n.t("storages.confirm_replace_oauth_application") },
                       test_selector: 'storage-replace-openproject-oauth-application-button'
                     )
                   )
@@ -110,7 +110,8 @@
                     tag: :a,
                     href: new_admin_settings_storage_oauth_client_path(storage),
                     scheme: :invisible,
-                    aria: { label: I18n.t('storages.label_edit_storage_oauth_client') },
+                    aria: { label: I18n.t("storages.label_edit_storage_oauth_client") },
+                    data: { turbo_confirm: I18n.t("storages.confirm_replace_oauth_client") },
                     test_selector: 'storage-edit-oauth-client-button'
                   )
                 )
