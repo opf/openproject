@@ -78,8 +78,6 @@ export interface IUserAutocompleteItem {
   ],
 })
 export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAutocompleteItem> implements OnInit, ControlValueAccessor {
-  userTracker = (item:{ href?:string, id:string }):string => item.href || item.id;
-
   @Input() public inviteUserToProject:string|undefined;
 
   @Input() public url:string = this.apiV3Service.users.path;
@@ -130,9 +128,18 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     const searchFilters = ApiV3FilterBuilder.fromFilterObject(filterObject);
 
     if (searchTerm?.length) {
-      searchFilters.add('name', '~', [searchTerm]);
+      searchFilters.add(this.searchKey || 'name', '~', [searchTerm]);
     }
 
     return addFiltersToPath(this.url, searchFilters);
+  }
+
+  public addNewObjectFn(searchString:string):IUserAutocompleteItem {
+    return {
+      id: searchString,
+      name: searchString,
+      href: null,
+      avatar: null,
+    };
   }
 }
