@@ -107,34 +107,6 @@ RSpec.describe MembersController do
     end
   end
 
-  describe '#autocomplete_for_member' do
-    let(:params) { { 'project_id' => project.identifier.to_s } }
-
-    before do
-      login_as(user)
-    end
-
-    describe "WHEN the user is authorized
-              WHEN a project is provided" do
-      before do
-        role.add_permission! :manage_members
-        member
-      end
-
-      it 'is success' do
-        post(:autocomplete_for_member, xhr: true, params:)
-        expect(response).to be_successful
-      end
-    end
-
-    describe 'WHEN the user is not authorized' do
-      it 'is forbidden' do
-        post(:autocomplete_for_member, xhr: true, params:)
-        expect(response.response_code).to eq(403)
-      end
-    end
-  end
-
   describe '#create' do
     render_views
     let(:user2) { create(:user) }
