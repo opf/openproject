@@ -33,5 +33,6 @@ FactoryBot.define do
     author factory: :user
     duration_in_minutes { 10 }
     m.sequence(:title) { |n| "Agenda item #{n}" }
+    notes { 'Agenda Item Notes' }
   end
 end
