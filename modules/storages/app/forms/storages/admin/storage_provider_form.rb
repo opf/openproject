@@ -27,34 +27,38 @@
 #++
 
 module Storages::Admin
-  class OAuthClientForm < ApplicationForm
-    form do |oauth_client_form|
-      oauth_client_form.text_field(name: :client_id,
-                                   label: label_client_id,
-                                   required: true)
+  class StorageProviderForm < ApplicationForm
+    form do |storage_provider_form|
+      storage_provider_form.select_list(
+        name: :provider_type,
+        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
+        caption: I18n.t('storages.instructions.provider_type',
+                        type_link_text: I18n.t('storages.instructions.type_link_text')),
+        include_blank: false,
+        required: true
+      ) do |storage_provider_list|
+        ::Storages::Storage::PROVIDER_TYPES.each do |provider_type|
+          storage_provider_list.option(
+            label: I18n.t("storages.provider_types.#{::Storages::Storage.shorten_provider_type(provider_type)}.name"),
+            value: provider_type
+          )
+        end
+      end
 
-      oauth_client_form.text_field(name: :client_secret,
-                                   label: label_client_secret,
-                                   required: true)
-    end
+      storage_provider_form.text_field(
+        name: :name,
+        label: I18n.t('activerecord.attributes.storages/storage.name'),
+        required: true,
+        caption: I18n.t('storages.instructions.name')
+      )
 
-    def initialize(storage:)
-      super()
-      @storage = storage
-    end
-
-    private
-
-    def label_client_id
-      [label_provider_name, I18n.t('storages.label_oauth_client_id')].join(' ')
-    end
-
-    def label_client_secret
-      [label_provider_name, I18n.t('storages.label_oauth_client_secret')].join(' ')
-    end
-
-    def label_provider_name
-      I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")
+      storage_provider_form.text_field(
+        name: :host,
+        label: I18n.t('activerecord.attributes.storages/storage.host'),
+        visually_hide_label: false,
+        required: true,
+        caption: I18n.t('storages.instructions.host')
+      )
     end
   end
 end

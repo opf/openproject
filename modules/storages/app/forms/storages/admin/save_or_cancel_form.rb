@@ -27,34 +27,23 @@
 #++
 
 module Storages::Admin
-  class OAuthClientForm < ApplicationForm
-    form do |oauth_client_form|
-      oauth_client_form.text_field(name: :client_id,
-                                   label: label_client_id,
-                                   required: true)
-
-      oauth_client_form.text_field(name: :client_secret,
-                                   label: label_client_secret,
-                                   required: true)
+  class SaveOrCancelForm < ApplicationForm
+    form do |buttons|
+      buttons.group(layout: :horizontal) do |button_group|
+        button_group.submit(name: :submit,
+                            scheme: :primary,
+                            label: I18n.t('storages.buttons.save_and_continue'))
+        button_group.button(name: :cancel,
+                            scheme: :default,
+                            tag: :a,
+                            href: Rails.application.routes.url_helpers.edit_admin_settings_storage_path(@storage),
+                            label: I18n.t('button_cancel'))
+      end
     end
 
     def initialize(storage:)
       super()
       @storage = storage
-    end
-
-    private
-
-    def label_client_id
-      [label_provider_name, I18n.t('storages.label_oauth_client_id')].join(' ')
-    end
-
-    def label_client_secret
-      [label_provider_name, I18n.t('storages.label_oauth_client_secret')].join(' ')
-    end
-
-    def label_provider_name
-      I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")
     end
   end
 end
