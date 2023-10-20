@@ -897,7 +897,7 @@ GEM
     ruby-prof (1.6.3)
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
-    ruby-saml (1.15.0)
+    ruby-saml (1.16.0)
       nokogiri (>= 1.13.10)
       rexml
     ruby2_keywords (0.0.5)
