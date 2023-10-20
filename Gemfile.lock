@@ -561,7 +561,7 @@ GEM
     ice_cube (0.16.4)
     interception (0.5)
     io-console (0.6.0)
-    irb (1.8.1)
+    irb (1.8.3)
       rdoc
       reline (>= 0.3.8)
     iso8601 (0.13.0)
@@ -728,7 +728,7 @@ GEM
     pry-rescue (1.5.2)
       interception (>= 0.5)
       pry (>= 0.12.0)
-    psych (5.1.0)
+    psych (5.1.1.1)
       stringio
     public_suffix (5.0.3)
     puffing-billy (4.0.0)
