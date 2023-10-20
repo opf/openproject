@@ -26,25 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Admin
-  class SaveOrCancelForm < ApplicationForm
-    form do |buttons|
-      buttons.group(layout: :horizontal) do |button_group|
-        button_group.submit(name: :submit,
-                            scheme: :primary,
-                            label: @submit_label)
-        button_group.button(name: :cancel,
-                            scheme: :default,
-                            tag: :a,
-                            href: Rails.application.routes.url_helpers.edit_admin_settings_storage_path(@storage),
-                            label: I18n.t('button_cancel'))
-      end
+module Storages::Admin::ManagedProjectFolders
+  class AutomaticallyManagedCheckbox < ApplicationForm
+    form do |automatically_managed_form|
+      automatically_managed_form.check_box(
+        name: :automatically_managed,
+        label: I18n.t(:'storages.label_managed_project_folders.automatically_managed_folders'),
+        checked: @storage.automatically_managed?,
+        required: true,
+        data: {
+          action: 'change->storages--automatically-managed-project-folders-form#updateDisplay'
+        }
+      )
     end
 
-    def initialize(storage:, submit_label: I18n.t('storages.buttons.save_and_continue'))
+    def initialize(storage:)
       super()
       @storage = storage
-      @submit_label = submit_label
     end
   end
 end

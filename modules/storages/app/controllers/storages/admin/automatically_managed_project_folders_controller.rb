@@ -87,6 +87,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
       redirect_to edit_admin_settings_storage_path(@storage)
     else
       @errors = service_result.errors
+      @storage = ServiceResultErrorsPresenter.new(service_result)
       render '/storages/admin/storages/automatically_managed_project_folders/edit'
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,26 +27,26 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin::Forms
+  class AutomaticallyManagedProjectFoldersFormComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    alias_method :storage, :model
 
-module Storages::Admin
-  class SaveOrCancelForm < ApplicationForm
-    form do |buttons|
-      buttons.group(layout: :horizontal) do |button_group|
-        button_group.submit(name: :submit,
-                            scheme: :primary,
-                            label: @submit_label)
-        button_group.button(name: :cancel,
-                            scheme: :default,
-                            tag: :a,
-                            href: Rails.application.routes.url_helpers.edit_admin_settings_storage_path(@storage),
-                            label: I18n.t('button_cancel'))
-      end
+    private
+
+    def storage_provider_credentials_copy_instructions
+      "#{I18n.t('storages.instructions.copy_from')}: #{provider_credentials_instructions_link}".html_safe
     end
 
-    def initialize(storage:, submit_label: I18n.t('storages.buttons.save_and_continue'))
-      super()
-      @storage = storage
-      @submit_label = submit_label
+    def provider_credentials_instructions_link
+      render(
+        Primer::Beta::Link.new(
+          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
+                                                                                         'settings/admin/openproject'),
+          target: '_blank'
+        )
+      ) { I18n.t("storages.instructions.#{storage.short_provider_type}.integration") }
     end
   end
 end

@@ -26,25 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Admin
-  class SaveOrCancelForm < ApplicationForm
-    form do |buttons|
-      buttons.group(layout: :horizontal) do |button_group|
-        button_group.submit(name: :submit,
-                            scheme: :primary,
-                            label: @submit_label)
-        button_group.button(name: :cancel,
-                            scheme: :default,
-                            tag: :a,
-                            href: Rails.application.routes.url_helpers.edit_admin_settings_storage_path(@storage),
-                            label: I18n.t('button_cancel'))
-      end
+module Storages::Admin::ManagedProjectFolders
+  class ApplicationPasswordInput < ApplicationForm
+    form do |application_password_form|
+      application_password_form.text_field(
+        name: :password,
+        label: I18n.t(:'storages.label_managed_project_folders.application_password'),
+        required: true,
+        caption: application_password_caption
+      )
     end
 
-    def initialize(storage:, submit_label: I18n.t('storages.buttons.save_and_continue'))
+    def initialize(storage:)
       super()
       @storage = storage
-      @submit_label = submit_label
+    end
+
+    private
+
+    def application_password_caption
+      I18n.t(:'storages.instructions.managed_project_folders_application_password_caption',
+             provider_type_link:).html_safe
+    end
+
+    def provider_type_link
+      render(
+        Primer::Beta::Link.new(
+          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(@storage.host,
+                                                                                         'settings/admin/openproject'),
+          target: '_blank'
+        )
+      ) { I18n.t("storages.instructions.#{@storage.short_provider_type}.integration") }
     end
   end
 end
