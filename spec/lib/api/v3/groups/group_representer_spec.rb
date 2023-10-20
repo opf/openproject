@@ -48,9 +48,8 @@ RSpec.describe API::V3::Groups::GroupRepresenter, 'rendering' do
   let(:embed_links) { true }
 
   before do
-    allow(current_user)
-      .to receive(:allowed_to_globally?) do |permission|
-      permissions.include?(permission)
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*permissions, project: build_stubbed(:project)) # any project
     end
   end
 
@@ -88,10 +87,9 @@ RSpec.describe API::V3::Groups::GroupRepresenter, 'rendering' do
       context 'when first having the necessary permissions and then not (caching)' do
         before do
           representer.to_json
+          # here the json will have links, afterwards we change the permissions
 
-          allow(current_user)
-            .to receive(:allowed_to_globally?)
-                  .and_return false
+          mock_permissions_for(current_user, &:forbid_everything)
         end
 
         it_behaves_like 'has no link'
