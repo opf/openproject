@@ -42,7 +42,7 @@ module WorkPackages::Share
           # but restrict the type of the principal to users only. Subject to change
           # as we want to support groups soon.
           resource: 'principals',
-          filters: [{ name: 'type', operator: '=', values: ['User'] },
+          filters: [{ name: 'type', operator: '=', values: %w[User Group] },
                     { name: 'id', operator: '!', values: [::Queries::Filters::MeValue::KEY] }],
           searchKey: 'any_name_attribute',
           focusDirectly: true,

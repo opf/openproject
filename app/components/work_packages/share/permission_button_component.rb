@@ -70,8 +70,13 @@ module WorkPackages
       end
 
       def active_role
-        # TODO: handle having more than one role
-        share.roles.first
+        if share.persisted?
+          share.roles
+               .merge(MemberRole.only_non_inherited)
+               .first
+        else
+          share.roles.first
+        end
       end
 
       def permission_name(value)

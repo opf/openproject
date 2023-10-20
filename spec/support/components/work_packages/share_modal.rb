@@ -64,6 +64,8 @@ module Components
         end
       end
 
+      alias_method :invite_group, :invite_user
+
       def remove_user(user)
         within user_row(user) do
           click_button 'Remove'
@@ -79,7 +81,9 @@ module Components
       end
 
       def close
-        modal_element.send_keys(:escape)
+        within modal_element do
+          click_button 'Close'
+        end
       end
 
       def expect_shared_with(user, role_name = nil, position: nil, editable: true)
@@ -120,7 +124,7 @@ module Components
 
       def expect_shared_count_of(count)
         expect(active_list)
-          .to have_selector('[data-test-selector="op-share-wp-active-count"]', text: "#{count} users")
+          .to have_css('[data-test-selector="op-share-wp-active-count"]', text: "#{count} users")
       end
 
       def expect_no_invite_option

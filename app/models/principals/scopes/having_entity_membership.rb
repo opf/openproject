@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2010-2023 the OpenProject GmbH
@@ -26,24 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class WorkPackageMembers::DeleteService < BaseServices::Delete
-  include Members::Concerns::CleanedUp
+module Principals::Scopes
+  module HavingEntityMembership
+    extend ActiveSupport::Concern
 
-  protected
-
-  def after_perform(service_call)
-    super(service_call).tap do |call|
-      work_package_member = call.result
-
-      cleanup_for_group(work_package_member)
+    class_methods do
+      # Returns principals having an entity membership for the given entity.
+      def having_entity_membership(work_package)
+        where(id: Member.of_work_package(work_package).select(:user_id))
+      end
     end
-  end
-
-  def cleanup_for_group(work_package_member)
-    return unless work_package_member.principal.is_a?(Group)
-
-    Groups::CleanupInheritedRolesService
-      .new(work_package_member.principal, current_user: user, contract_class: EmptyContract)
-      .call
   end
 end

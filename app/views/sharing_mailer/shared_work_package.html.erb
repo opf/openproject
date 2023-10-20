@@ -8,9 +8,17 @@
   <tr>
     <%= placeholder_cell('12px', vertical: true) %>
     <td>
+      <%
+        summary = if @group
+                    I18n.t("mail.sharing.work_packages.summary.group", user: @sharer, group: @group, role_rights: @role_rights)
+                  else
+                    I18n.t("mail.sharing.work_packages.summary.user", user: @sharer, role_rights: @role_rights)
+                  end
+      %>
+
       <%= render partial: 'mailer/notification_mailer_header',
                  locals: {
-                   summary: I18n.t('mail.sharing.work_packages.summary', user: @sharer),
+                   summary:,
                    button_href: shared_work_package_path(@work_package.id),
                    button_text: I18n.t(:'mail.sharing.work_packages.see_in_open_project'),
                    salutation: I18n.t(:'mail.salutation', user: @shared_with_user.firstname)

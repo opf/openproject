@@ -31,9 +31,11 @@ require 'spec_helper'
 RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   subject(:service_call) { instance.call(member:, message:, send_notifications:) }
 
-  let(:project) { create(:project) }
-  let(:role) { create(:project_role) }
-  let(:current_user) { create(:admin) }
+  shared_let(:project) { create(:project) }
+  shared_let(:current_user) { create(:admin) }
+  shared_let(:users) { create_list(:user, 2) }
+
+  shared_let(:role) { create(:project_role) }
   let(:roles) { [role] }
 
   let!(:group) do
@@ -49,7 +51,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
         .call(user_ids: users.map(&:id), send_notifications: false)
     end
   end
-  let(:users) { create_list(:user, 2) }
+
   let(:member) { Member.find_by(principal: group) }
   let(:message) { "Some message" }
   let(:send_notifications) { true }
@@ -64,21 +66,21 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   shared_examples_for 'keeps timestamp' do
-    it 'updated_at on member is unchanged' do
+    specify 'updated_at on member is unchanged' do
       expect { service_call }
         .not_to(change { Member.find_by(principal: user).updated_at })
     end
   end
 
   shared_examples_for 'updates timestamp' do
-    it 'updated_at on member is changed' do
+    specify 'updated_at on member is changed' do
       expect { service_call }
         .to(change { Member.find_by(principal: user).updated_at })
     end
   end
 
   shared_examples_for 'sends notification' do
-    it 'on the updated membership' do
+    specify 'on the updated membership' do
       service_call
 
       expect(Notifications::GroupMemberAlteredJob)
@@ -91,7 +93,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   shared_examples_for 'sends no notification' do
-    it 'on the updated membership' do
+    specify 'on the updated membership' do
       service_call
 
       expect(Notifications::GroupMemberAlteredJob)
@@ -100,7 +102,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when adding a role' do
-    let(:added_role) { create(:project_role) }
+    shared_let(:added_role) { create(:project_role) }
 
     before do
       member.roles << added_role
@@ -114,9 +116,9 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
     it 'adds the roles to all inherited memberships' do
       service_call
 
-      Member.where(principal: users).each do |member|
+      Member.where(principal: users).find_each do |member|
         expect(member.roles)
-          .to match_array([role, added_role])
+          .to contain_exactly(role, added_role)
       end
     end
 
@@ -132,7 +134,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'with global membership' do
-    let(:role) { create(:global_role) }
+    shared_let(:role) { create(:global_role) }
     let!(:group) do
       create(:group,
              members: users).tap do |group|
@@ -147,7 +149,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
     end
 
     context 'when adding a global role' do
-      let(:added_role) { create(:global_role) }
+      shared_let(:added_role) { create(:global_role) }
 
       before do
         member.roles << added_role
@@ -161,9 +163,9 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       it 'adds the roles to all inherited memberships' do
         service_call
 
-        Member.where(principal: users).each do |member|
+        Member.where(principal: users).find_each do |member|
           expect(member.roles)
-            .to match_array([role, added_role])
+            .to contain_exactly(role, added_role)
         end
       end
 
@@ -179,7 +181,8 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
     end
 
     context 'when removing a global role' do
-      let(:roles) { [role, create(:global_role)] }
+      shared_let(:global_role) { create(:global_role) }
+      let(:roles) { [role, global_role] }
 
       before do
         member.roles = [role]
@@ -193,9 +196,9 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       it 'removes the roles from all inherited memberships' do
         service_call
 
-        Member.where(principal: users).each do |member|
+        Member.where(principal: users).find_each do |member|
           expect(member.roles)
-            .to match_array([role])
+            .to contain_exactly(role)
         end
       end
 
@@ -212,7 +215,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when adding a role but with one user having had the role before (no inherited from)' do
-    let(:added_role) { create(:project_role) }
+    shared_let(:added_role) { create(:project_role) }
 
     before do
       member.roles << added_role
@@ -229,14 +232,14 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       service_call
 
       expect(Member.find_by(principal: users.first).roles.uniq)
-        .to match_array([role, added_role])
+        .to contain_exactly(role, added_role)
     end
 
     it 'adds the roles to all inherited memberships' do
       service_call
 
       expect(Member.find_by(principal: users.last).roles)
-        .to match_array([role, added_role])
+        .to contain_exactly(role, added_role)
     end
 
     it_behaves_like 'keeps timestamp' do
@@ -259,7 +262,8 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when removing a role' do
-    let(:roles) { [role, create(:project_role)] }
+    shared_let(:role_to_remove) { create(:project_role) }
+    let(:roles) { [role, role_to_remove] }
 
     before do
       member.roles = [role]
@@ -273,9 +277,9 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
     it 'removes the roles from all inherited memberships' do
       service_call
 
-      Member.where(principal: users).each do |member|
+      Member.where(principal: users).find_each do |member|
         expect(member.roles)
-          .to match_array([role])
+          .to contain_exactly(role)
       end
     end
 
@@ -291,13 +295,14 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when removing a role but with a user having had the role before (no inherited_from)' do
-    let(:roles) { [role, create(:project_role)] }
+    shared_let(:role_to_remove) { create(:project_role) }
+    let(:roles) { [role, role_to_remove] }
 
     before do
       member.roles = [role]
 
       # Behaves as if the user had that role before the role's membership was created
-      Member.find_by(principal: users.first).member_roles.create(role: roles.last)
+      Member.find_by(principal: users.first).member_roles.create(role: role_to_remove)
     end
 
     it 'is successful' do
@@ -309,14 +314,14 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       service_call
 
       expect(Member.find_by(principal: users.last).roles)
-        .to match_array([role])
+        .to contain_exactly(role)
     end
 
     it 'keeps the non inherited roles' do
       service_call
 
       expect(Member.find_by(principal: users.first).roles)
-        .to match_array(roles)
+        .to contain_exactly(role, role_to_remove)
     end
 
     it_behaves_like 'keeps timestamp' do
@@ -339,7 +344,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when replacing roles' do
-    let(:replacement_role) { create(:project_role) }
+    shared_let(:replacement_role) { create(:project_role) }
 
     before do
       member.roles = [replacement_role]
@@ -353,9 +358,9 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
     it 'replaces the role in all user memberships' do
       service_call
 
-      Member.where(principal: users).each do |member|
+      Member.where(principal: users).find_each do |member|
         expect(member.roles)
-          .to match_array([replacement_role])
+          .to contain_exactly(replacement_role)
       end
     end
 
@@ -371,13 +376,13 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when replacing a role but with a user having had the replaced role before (no inherited_from)' do
-    let(:replacement_role) { create(:project_role) }
+    shared_let(:replacement_role) { create(:project_role) }
 
     before do
       member.roles = [replacement_role]
 
-      # Behaves as if the user had that role before the role's membership was created
-      Member.where(principal: users.first).first.member_roles.create(role: roles.last)
+      # Behaves as if the user had the role being replaced before the role's membership was created
+      Member.where(principal: users.first).first.member_roles.create(role:)
     end
 
     it 'is successful' do
@@ -389,14 +394,14 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       service_call
 
       expect(Member.find_by(principal: users.last).roles)
-        .to match_array([replacement_role])
+        .to contain_exactly(replacement_role)
     end
 
     it 'keeps the non inherited roles' do
       service_call
 
       expect(Member.find_by(principal: users.first).roles)
-        .to match_array(roles + [replacement_role])
+        .to contain_exactly(role, replacement_role)
     end
 
     it_behaves_like 'updates timestamp' do
@@ -419,7 +424,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when adding a role and the user has a role already granted by a different group' do
-    let(:other_role) { create(:project_role) }
+    shared_let(:other_role) { create(:project_role) }
 
     let!(:second_group) do
       create(:group,
@@ -435,8 +440,8 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       end
     end
 
-    let(:users) { [create(:user)] }
-    let(:added_role) { create(:project_role) }
+    shared_let(:users) { [create(:user)] }
+    shared_let(:added_role) { create(:project_role) }
 
     before do
       member.roles << added_role
@@ -451,7 +456,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
       service_call
 
       expect(Member.find_by(principal: users.first).roles.uniq)
-        .to match_array([role, other_role, added_role])
+        .to contain_exactly(role, other_role, added_role)
     end
 
     it_behaves_like 'sends notification' do
@@ -466,7 +471,7 @@ RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when not allowed' do
-    let(:current_user) { User.anonymous }
+    shared_let(:current_user) { User.anonymous }
 
     it 'fails the request' do
       expect(subject).to be_failure
