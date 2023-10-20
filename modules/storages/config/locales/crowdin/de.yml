@@ -32,6 +32,10 @@ de:
       messages:
         not_linked_to_project: "ist nicht mit dem Projekt verknüpft."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:
