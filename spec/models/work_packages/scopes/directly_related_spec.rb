@@ -66,7 +66,7 @@ RSpec.describe WorkPackages::Scopes::DirectlyRelated, '.directly_related scope' 
 
   let!(:existing_relations) { [relation_to, transitive_relation_to, relation_from, transitive_relation_from] }
 
-  subject(:directly_related) { WorkPackage.directly_related(origin, ignore_relation: ignored_relations) }
+  subject(:directly_related) { WorkPackage.directly_related(origin, ignored_relation: ignored_relations) }
 
   it 'is an AR scope' do
     expect(directly_related)

@@ -75,7 +75,7 @@ RSpec.describe WorkPackages::Scopes::Relatable, '.relatable scope' do
   let(:relation_type) { Relation::TYPE_FOLLOWS }
   let(:ignored_relation) { nil }
 
-  subject(:relatable) { WorkPackage.relatable(origin, relation_type, ignore_relation: ignored_relation) }
+  subject(:relatable) { WorkPackage.relatable(origin, relation_type, ignored_relation:) }
 
   it 'is an AR scope' do
     expect(relatable)

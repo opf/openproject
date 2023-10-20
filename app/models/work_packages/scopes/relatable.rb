@@ -173,8 +173,8 @@ module WorkPackages::Scopes
       # work packages are relatable. This can be helpful in case an existing relation is updated
       # especially if the the direction is switched. Only a single relation can be provided and
       # that one has to either be from or to the work package queried for.
-      def relatable(work_package, relation_type, ignore_relation: nil)
-        relatable_ensure_single_relation(ignore_relation, work_package)
+      def relatable(work_package, relation_type, ignored_relation: nil)
+        relatable_ensure_single_relation(ignored_relation, work_package)
 
         return all if work_package.new_record?
 
@@ -184,11 +184,11 @@ module WorkPackages::Scopes
                 when Relation::TYPE_CHILD
                   not_having_potential_tree_relation_child(work_package)
                 else
-                  where.not(id: directly_related(work_package, ignore_relation:))
+                  where.not(id: directly_related(work_package, ignored_relation:))
                 end
 
         scope = scope
-                  .not_having_transitive_relation(work_package, relation_type, ignore_relation:)
+                  .not_having_transitive_relation(work_package, relation_type, ignored_relation:)
                   .where.not(id: work_package.id)
 
         if Setting.cross_project_work_package_relations
@@ -198,7 +198,7 @@ module WorkPackages::Scopes
         end
       end
 
-      def not_having_transitive_relation(work_package, relation_type, ignore_relation:)
+      def not_having_transitive_relation(work_package, relation_type, ignored_relation:)
         if relation_type == Relation::TYPE_RELATES
           # Bypassing the recursive query in this case as only children and parent needs to be excluded.
           # Using this more complicated statement since
@@ -211,7 +211,7 @@ module WorkPackages::Scopes
           sql = <<~SQL.squish
             WITH
               RECURSIVE
-              #{non_relatable_paths_sql(work_package, relation_type, ignore_relation:)}
+              #{non_relatable_paths_sql(work_package, relation_type, ignored_relation:)}
 
               SELECT id
               FROM related
@@ -250,7 +250,7 @@ module WorkPackages::Scopes
           .where.not(id: where(parent_id: work_package.id).select(:id))
       end
 
-      def non_relatable_paths_sql(work_package, relation_type, ignore_relation: nil)
+      def non_relatable_paths_sql(work_package, relation_type, ignored_relation: nil)
         <<~SQL.squish
           related (id,
                    from_hierarchy,
@@ -275,7 +275,7 @@ module WorkPackages::Scopes
               FROM
                 related
               JOIN LATERAL (
-                #{joined_existing_connections(relation_type, ignore_relation:)}
+                #{joined_existing_connections(relation_type, ignored_relation:)}
               ) relations ON 1 = 1
           )
         SQL
@@ -315,7 +315,7 @@ module WorkPackages::Scopes
                     id: work_package.id
       end
 
-      def joined_existing_connections(relation_type, ignore_relation:)
+      def joined_existing_connections(relation_type, ignored_relation:)
         unions = [existing_hierarchy_lateral(with_descendants: relation_type != Relation::TYPE_CHILD)]
 
         case relation_type
@@ -323,14 +323,14 @@ module WorkPackages::Scopes
           unions << existing_relation_of_type_lateral(Relation::TYPE_FOLLOWS, limit_direction: true)
           unions << existing_relation_of_type_lateral(Relation::TYPE_PRECEDES, limit_direction: true)
         else
-          unions << existing_relation_of_type_lateral(relation_type, ignore_relation:)
+          unions << existing_relation_of_type_lateral(relation_type, ignored_relation:)
         end
 
         unions.join(' UNION ')
       end
 
       # rubocop:disable Metrics/PerceivedComplexity
-      def existing_relation_of_type_lateral(relation_type, ignore_relation: nil, limit_direction: false)
+      def existing_relation_of_type_lateral(relation_type, ignored_relation: nil, limit_direction: false)
         canonical_type = Relation.canonical_type(relation_type)
 
         is_canonical = canonical_type == relation_type
@@ -363,7 +363,7 @@ module WorkPackages::Scopes
           WHERE (relations.#{direction2} = related.id AND relations.relation_type = :relation_type)
             AND NOT related.from_#{direction2}
             #{direction_limit ? "AND NOT #{direction_limit}" : ''}
-            #{ignore_relation&.id ? " AND NOT relations.id = #{ignore_relation.id}" : ''}
+            #{ignored_relation&.id ? " AND NOT relations.id = #{ignored_relation.id}" : ''}
         SQL
 
         ::OpenProject::SqlSanitization
