@@ -35,7 +35,7 @@ zh-CN:
         storages/project_storage:
           attributes:
             project_folder_mode:
-              mode_unavailable: "is not available for this storage."
+              mode_unavailable: "对于此存储不可用。"
         storages/storage:
           attributes:
             host:
