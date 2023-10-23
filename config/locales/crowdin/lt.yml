@@ -2254,10 +2254,11 @@ lt:
       work_packages:
         allowed_actions: 'Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių.'
         open_work_package: 'Atverti darbo paketą'
-        reason: 'bendrino su jumis šį darbo paketą tokiomis %{role_rights} teisėmis:'
         see_in_open_project: 'Žiūrėkite darbo paketą OpenProject'
         subject: 'Su jumis bendrinamas darbo paketas #%{id}'
-        summary: '%{user} pasidalinto darbo paketu su jumis'
+        summary:
+          user: '%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}'
+          group: '%{user} bendrino darbo paketą su grupe %{group}, kurios narys jūs esate, su teisėmis %{role_rights}'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."

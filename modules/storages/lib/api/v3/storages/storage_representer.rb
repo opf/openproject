@@ -75,8 +75,11 @@ module API::V3::Storages
     extend ClassMethods
 
     def initialize(model, current_user:, embed_links: nil)
-      @connection_manager =
-        ::OAuthClients::ConnectionManager.new(user: current_user, configuration: model.oauth_configuration)
+      if model.oauth_configuration.present?
+        # Do not instantiate a connection manager, if representer is used for parsing
+        @connection_manager =
+          ::OAuthClients::ConnectionManager.new(user: current_user, configuration: model.oauth_configuration)
+      end
 
       super
     end

@@ -2169,10 +2169,11 @@ zh-CN:
       work_packages:
         allowed_actions: '你可以 %{allowed_actions} 这个工作包。这可以基于你的项目角色和权限而变化。'
         open_work_package: '打开工作包'
-        reason: '如下工作包伴随 %{role_rights} 权限被分享给你'
         see_in_open_project: '在 OpenProject 中查看工作包'
         subject: '工作包 %{id} 已被共享给你'
-        summary: '%{user} 分享了一个工作包给你'
+        summary:
+          user: '%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包'
+          group: '%{user} 向您所属的拥有 %{role_rights} 权限的 %{group} 组共享了一个工作包'
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"

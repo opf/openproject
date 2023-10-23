@@ -143,7 +143,7 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
       end
     end
 
-    context 'with changes to the roles do' do
+    context 'with changes to the roles' do
       let(:first_role) { build_stubbed(:project_role) }
       let(:second_role) { build_stubbed(:project_role) }
       let(:third_role) { build_stubbed(:project_role) }
@@ -162,6 +162,31 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
         it 'adds the new role and marks the other for destruction' do
           expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(first_role.id, second_role.id, third_role.id)
           expect(subject.result.member_roles.detect { _1.role_id == first_role.id }).to be_marked_for_destruction
+        end
+
+        context 'when a role being assigned is already inherited via a group' do
+          let(:member) do
+            build_stubbed(:work_package_member, roles: [first_role, second_role, third_role])
+          end
+
+          before do
+            allow(member.member_roles.detect { _1.role_id == third_role.id })
+              .to receive(:inherited_from)
+                    .and_return(true)
+          end
+
+          it 'still adds the role and marks the ones not added for destruction' do
+            membership = subject.result
+
+            expect(membership.member_roles.map(&:role_id))
+              .to contain_exactly(first_role.id,
+                                  second_role.id,
+                                  third_role.id, # One is inherited
+                                  third_role.id) # The other one isn't
+
+            expect(membership.member_roles.select(&:marked_for_destruction?).map(&:role_id))
+              .to contain_exactly(first_role.id)
+          end
         end
       end
 

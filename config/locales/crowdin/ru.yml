@@ -2256,10 +2256,11 @@ ru:
       work_packages:
         allowed_actions: 'Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта.'
         open_work_package: 'Открыть пакет работ'
-        reason: 'поделился с вами следующим пакетом работ с %{role_rights} правами:'
         see_in_open_project: 'Посмотреть пакет работ в OpenProject'
         subject: 'Вам предоставили общий доступ к пакету работ #%{id}'
-        summary: '%{user} поделился с вами пакетом работ'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
