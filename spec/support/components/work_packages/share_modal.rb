@@ -45,6 +45,77 @@ module Components
         @work_package = work_package
       end
 
+      def select_shares(*principals)
+        within shares_list do
+          principals.each do |principal|
+            check principal.name
+          end
+        end
+      end
+
+      def deselect_shares(*principals)
+        within shares_list do
+          principals.each do |principal|
+            uncheck principal.name
+          end
+        end
+      end
+
+      def toggle_select_all
+        within shares_header do
+          if page.find_field('toggle_all').checked?
+            uncheck 'toggle_all'
+          else
+            check 'toggle_all'
+          end
+        end
+      end
+
+      def expect_selected(*principals)
+        within shares_list do
+          principals.each do |principal|
+            expect(page).to have_checked_field(principal.name)
+          end
+        end
+      end
+
+      def expect_deselected(*principals)
+        within shares_list do
+          principals.each do |principal|
+            expect(page).to have_unchecked_field(principal.name)
+          end
+        end
+      end
+
+      def expect_selected_count_of(count)
+        expect(shares_header)
+          .to have_text("#{count} selected")
+      end
+
+      def expect_select_all_toggled
+        within shares_header do
+          expect(page).to have_checked_field('toggle_all')
+        end
+      end
+
+      def expect_select_all_untoggled
+        within shares_header do
+          expect(page).to have_unchecked_field('toggle_all')
+        end
+      end
+
+      def bulk_remove
+        within shares_header do
+          click_button 'Remove'
+        end
+      end
+
+      def expect_blankslate
+        within_modal do
+          expect(page).to have_text(I18n.t('work_package.sharing.text_empty_state_description'))
+        end
+      end
+
       def invite_user(user, role_name)
         # Adding a user to the list of shared users
         select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
@@ -115,16 +186,18 @@ module Components
         end
       end
 
-      def expect_not_shared_with(user)
+      def expect_not_shared_with(*principals)
         within shares_list do
-          expect(page)
-            .not_to have_text(user.name)
+          principals.each do |principal|
+            expect(page)
+              .not_to have_text(principal.name)
+          end
         end
       end
 
       def expect_shared_count_of(count)
-        expect(active_list)
-          .to have_css('[data-test-selector="op-share-wp-active-count"]', text: "#{count} users")
+        expect(shares_header)
+          .to have_text(I18n.t('work_package.sharing.count', count:))
       end
 
       def expect_no_invite_option
@@ -135,13 +208,21 @@ module Components
       end
 
       def user_row(user)
-        modal_element
+        shares_list
           .find("[data-test-selector=\"op-share-wp-active-user-#{user.id}\"]")
       end
 
       def active_list
         modal_element
           .find('[data-test-selector="op-share-wp-active-list"]')
+      end
+
+      def shares_header
+        active_list.find('[data-test-selector="op-share-wp-header"]')
+      end
+
+      def shares_counter
+        shares_header.find('[data-test-selector="op-share-wp-active-count"]')
       end
 
       def shares_list
