@@ -1,7 +1,7 @@
 <% if @provider.persisted? && @provider.name == 'azure' && @provider.tenant.empty? %>
   <div class="op-toast -warning">
     <div class="op-toast--content">
-      <p><%= 'The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.' %></p>
+      <p><%= I18n.t('openid_connect.setting_instructions.azure_deprecation_warning') %></p>
     </div>
   </div>
 <% end %>
