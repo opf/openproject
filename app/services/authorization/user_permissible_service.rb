@@ -30,20 +30,16 @@ module Authorization
       perms = contextual_permissions(permission, :project)
       return true if admin_and_all_granted_to_admin?(perms)
 
-      # If no projects matching the scope exists, it could still be that the user has access to the
-      # permission either via the anonymous or non-member role, especially when there are no projects
-      #  in the database. So if this returns false, we check non-member and anonymous permissions as well.
       Project.allowed_to(user, perms).exists? ||
-        non_member_permissions.intersect?(perms.map { |perm| perm.name.to_sym }) ||
-        anonymous_permissions.intersect?(perms.map { |perm| perm.name.to_sym })
+        no_projects_but_granted_to_non_member?(perms) ||
+        no_projects_but_granted_to_anonymous?(perms)
     end
 
     def allowed_in_entity?(permission, entities_to_check, entity_class)
       return false if entities_to_check.blank?
       return false unless authorizable_user?
 
-      perms = contextual_permissions(permission,
-                                     context_name(entity_class))
+      perms = contextual_permissions(permission, context_name(entity_class))
 
       entities = Array(entities_to_check)
 
@@ -52,7 +48,7 @@ module Authorization
       end
     end
 
-    def allowed_in_any_entity?(permission, entity_class, in_project: nil) # rubocop:disable Metrics/AbcSize
+    def allowed_in_any_entity?(permission, entity_class, in_project: nil)
       perms = contextual_permissions(permission, context_name(entity_class))
       return true if admin_and_all_granted_to_admin?(perms)
 
@@ -62,12 +58,7 @@ module Authorization
       if in_project
         allowed_scope.exists?(project: in_project)
       else
-        # If no entities matching the scope exists, it could still be that the user has access to the
-        # permission either via the anonymous or non-member role, especially when there are no projects
-        # or entities in the database. So if this returns false, we check non-member and anonymous permissions as well.
-        allowed_scope.exists? ||
-          non_member_permissions.intersect?(perms.map { |perm| perm.name.to_sym }) ||
-          anonymous_permissions.intersect?(perms.map { |perm| perm.name.to_sym })
+        allowed_scope.exists? || no_projects_but_granted_to_non_member?(perms) || no_projects_but_granted_to_anonymous?(perms)
       end
     end
 
@@ -132,16 +123,23 @@ module Authorization
       entity_class.model_name.element.to_sym
     end
 
+    def no_projects_but_granted_to_non_member?(permissions)
+      Project.none? &&
+        non_member_permissions.intersect?(permissions.map { |perm| perm.name.to_sym })
+    end
+
+    def no_projects_but_granted_to_anonymous?(permissions)
+      Project.none? &&
+        user.anonymous? &&
+        anonymous_permissions.intersect?(permissions.map { |perm| perm.name.to_sym })
+    end
+
     def non_member_permissions
       @non_member_permissions ||= ProjectRole.non_member.permissions
     end
 
     def anonymous_permissions
-      @anonymous_permissions ||= if user.anonymous?
-                                   ProjectRole.anonymous.permissions
-                                 else
-                                   []
-                                 end
+      @anonymous_permissions ||= ProjectRole.anonymous.permissions
     end
   end
 end
