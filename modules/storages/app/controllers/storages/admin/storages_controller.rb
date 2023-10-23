@@ -111,9 +111,14 @@ class Storages::Admin::StoragesController < ApplicationController
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
   def update
+    storage_params = permitted_storage_params
+    parts = storage_params[:drive_id].split(',')
+
+    storage_params[:drive_id] = parts.count > 1 ? parts[1] : parts[0]
+
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user, model: @storage)
-                       .call(permitted_storage_params)
+                       .call(storage_params)
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
