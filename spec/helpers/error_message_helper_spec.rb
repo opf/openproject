@@ -97,14 +97,6 @@ RSpec.describe ErrorMessageHelper do
     end
   end
 
-  describe '#error_messages_for_contract' do
-    let(:errors) { ActiveModel::Errors.new(model) }
-
-    subject(:rendered) { helper.error_messages_for_contract(model, errors) }
-
-    include_examples 'error messages rendering'
-  end
-
   describe '#error_messages_for' do
     let(:errors) { model.errors }
 

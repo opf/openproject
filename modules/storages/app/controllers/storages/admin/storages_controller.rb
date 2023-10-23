@@ -80,7 +80,6 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      @errors = service_result.errors
       render :new
     end
 
@@ -119,7 +118,6 @@ class Storages::Admin::StoragesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to edit_admin_settings_storage_path(@storage)
     else
-      @errors = service_result.errors
       render :edit
     end
   end
@@ -147,7 +145,6 @@ class Storages::Admin::StoragesController < ApplicationController
       @oauth_application = service_result.result
       render :show_oauth_application
     else
-      @errors = service_result.errors
       render :edit
     end
   end
