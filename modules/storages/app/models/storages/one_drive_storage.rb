@@ -50,14 +50,5 @@ module Storages
     def connect_src
       %w[https://*.sharepoint.com https://*.up.1drv.com]
     end
-
-    def open_link
-      ::Storages::Peripherals::Registry.resolve("queries.one_drive.open_drive_link")
-                                       .call(storage: self, user: User.current)
-                                       .match(
-                                         on_success: ->(web_url) { web_url },
-                                         on_failure: ->(*) { '' }
-                                       )
-    end
   end
 end

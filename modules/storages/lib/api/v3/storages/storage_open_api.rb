@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,28 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
-  helpers Storages::Peripherals::Scopes
+class API::V3::Storages::StorageOpenAPI < API::OpenProjectAPI
+  helpers Storages::Peripherals::StorageErrorHelper
 
-  resources :storages do
-    post &API::V3::Utilities::Endpoints::Create.new(model: Storages::Storage).mount
+  using Storages::Peripherals::ServiceResultRefinements
 
-    get &API::V3::Utilities::Endpoints::Index.new(model: Storages::Storage, scope: -> { visible_storages }).mount
-
-    route_param :storage_id, type: Integer, desc: 'Storage id' do
-      after_validation do
-        @storage = visible_storages.find(params[:storage_id])
-      end
-
-      get &API::V3::Utilities::Endpoints::Show.new(model: Storages::Storage).mount
-
-      patch &API::V3::Utilities::Endpoints::Update.new(model: Storages::Storage).mount
-
-      delete &API::V3::Utilities::Endpoints::Delete.new(model: Storages::Storage).mount
-
-      mount API::V3::StorageFiles::StorageFilesAPI
-      mount API::V3::OAuthClient::OAuthClientCredentialsAPI
-      mount API::V3::Storages::StorageOpenAPI
+  resources :open do
+    get do
+      Storages::Peripherals::Registry
+        .resolve("queries.#{@storage.short_provider_type}.open_storage")
+        .call(storage: @storage, user: current_user)
+        .match(
+          on_success: ->(url) do
+            redirect url, body: "The requested resource can be viewed at #{url}"
+            status 303
+          end,
+          on_failure: ->(error) { raise_error(error) }
+        )
     end
   end
 end

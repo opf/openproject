@@ -116,10 +116,6 @@ module Storages
       ["#{uri.scheme}://#{uri.host}"]
     end
 
-    def open_link
-      raise Errors::SubclassResponsibility
-    end
-
     def oauth_configuration
       raise Errors::SubclassResponsibility
     end

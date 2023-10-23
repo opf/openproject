@@ -33,8 +33,6 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesInfoQuery
-          include StorageErrorHelper
-
           using ServiceResultRefinements
 
           def self.call(storage:, user:, file_ids: [])
