@@ -19,7 +19,7 @@ $user-avatar-mini-height: 20px
   vertical-align: middle
   cursor: inherit
   user-select: none
-  // Default size, 36 - 2(border pixels)
+  // (Default height) 36 - 2(border pixels)
   line-height: 34px
   font-size: 16px
   border: 1px solid var(--avatar-border-color)
@@ -33,7 +33,8 @@ $user-avatar-mini-height: 20px
     width: $user-avatar-mini-width
     min-width: $user-avatar-mini-width
     height: $user-avatar-mini-height
-    line-height: $user-avatar-mini-height
+    // (mini height) 20 - 2(border pixels)
+    line-height: 18px
     font-size: 10px
 
   &_medium
@@ -41,7 +42,8 @@ $user-avatar-mini-height: 20px
     width: $user-avatar-medium-width
     min-width: $user-avatar-medium-width
     height: $user-avatar-medium-height
-    line-height: $user-avatar-medium-height
+    // (medium height) 28 - 2(border pixels)
+    line-height: 26px
     font-size: 13px
 
   // Different border styling for placeholders
