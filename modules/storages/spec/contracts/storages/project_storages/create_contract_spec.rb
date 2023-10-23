@@ -28,12 +28,9 @@
 
 require 'spec_helper'
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
 RSpec.describe Storages::ProjectStorages::CreateContract do
-  include_context 'ModelContract shared context'
-
   it_behaves_like 'ProjectStorages contract' do
     # current_user, project, storage and other objects defined in the shared_contract_examples
     # that includes all the stuff shared between create and update.
@@ -50,27 +47,27 @@ RSpec.describe Storages::ProjectStorages::CreateContract do
     subject(:contract) do
       described_class.new(project_storage, current_user)
     end
-  end
 
-  context 'when checking creator_id' do
-    let(:contract) { described_class.new(project_storage, current_user) }
-    let(:project_storage) { build(:project_storage, creator:) }
-    let(:current_user) { build_stubbed(:admin) }
+    context 'when checking creator_id' do
+      let(:contract) { described_class.new(project_storage, current_user) }
+      let(:project_storage) { build(:project_storage, creator:) }
+      let(:current_user) { build_stubbed(:admin) }
 
-    before do
-      login_as(current_user)
-    end
+      before do
+        login_as(current_user)
+      end
 
-    context 'as creator_id == current_user_id' do
-      let(:creator) { current_user }
+      context 'as creator_id == current_user_id' do
+        let(:creator) { current_user }
 
-      it_behaves_like 'contract is valid'
-    end
+        it_behaves_like 'contract is valid'
+      end
 
-    context 'as creator_id != current_user_id' do
-      let(:creator) { build_stubbed(:user) }
+      context 'as creator_id != current_user_id' do
+        let(:creator) { build_stubbed(:user) }
 
-      it_behaves_like 'contract is invalid', creator: :invalid
+        it_behaves_like 'contract is invalid', creator: :invalid
+      end
     end
   end
 end

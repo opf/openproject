@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'placeholder user contract' do
   let(:placeholder_user_name) { 'UX Designer' }
@@ -77,5 +78,9 @@ RSpec.shared_examples_for 'placeholder user contract' do
         it_behaves_like 'contract is invalid'
       end
     end
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:current_user) { build_stubbed(:admin) }
   end
 end

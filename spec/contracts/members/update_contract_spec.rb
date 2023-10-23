@@ -27,8 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
-require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
 RSpec.describe Members::UpdateContract do
   include_context 'ModelContract shared context'

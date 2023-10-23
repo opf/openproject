@@ -83,4 +83,6 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
       it_behaves_like 'contract is valid'
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end
