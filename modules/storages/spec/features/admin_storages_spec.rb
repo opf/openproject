@@ -100,9 +100,32 @@ RSpec.describe 'Admin storages',
       expect(page).to have_test_selector('storage-name-title', text: storage.name.capitalize)
 
       aggregate_failures 'General information' do
+        expect(page).to have_test_selector('storage-provider-label', text: 'Storage provider')
+        expect(page).to have_test_selector('label-host_name_configured-status', text: 'Connected')
         expect(page).to have_test_selector('storage-description', text: [storage.short_provider_type.capitalize,
                                                                          storage.name,
                                                                          storage.host].join(' - '))
+      end
+
+      aggregate_failures 'OAuth application' do
+        expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
+        expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Incomplete')
+      end
+
+      aggregate_failures 'Nextcloud OAuth' do
+        expect(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
+        expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
+        expect(page).to have_test_selector('storage-oauth-client-id-description',
+                                           text: "Allow OpenProject to access Nextcloud data using an OAuth.")
+      end
+
+      aggregate_failures 'Automatically managed project folders' do
+        expect(page).to have_test_selector('storage-managed-project-folders-label',
+                                           text: 'Automatically managed folders')
+        expect(page).to have_test_selector('label-managed-project-folders-status',
+                                           text: 'Incomplete')
+        expect(page).to have_test_selector('storage-automatically-managed-project-folders-description',
+                                           text: 'Let OpenProject create folders per project automatically.')
       end
     end
   end
