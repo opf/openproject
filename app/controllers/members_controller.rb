@@ -27,6 +27,7 @@
 #++
 
 class MembersController < ApplicationController
+  include MemberCreation
   model_object Member
   before_action :find_model_object_and_project
   before_action :authorize
@@ -135,90 +136,6 @@ class MembersController < ApplicationController
     filters[:project_id] = @project.id.to_s
 
     @members_query = Members::UserFilterComponent.query(filters)
-  end
-
-  def create_members
-    overall_result = nil
-
-    each_new_member_param do |member_params|
-      service_call = Members::CreateService
-                       .new(user: current_user)
-                       .call(member_params)
-
-      if overall_result
-        overall_result.merge!(service_call)
-      else
-        overall_result = service_call
-      end
-    end
-
-    overall_result
-  end
-
-  def each_new_member_param
-    user_ids = user_ids_for_new_members(params[:member])
-
-    group_ids = Group.where(id: user_ids).pluck(:id)
-
-    user_ids.sort_by! { |id| group_ids.include?(id) ? 1 : -1 }
-
-    user_ids.each do |id|
-      yield permitted_params.member.merge(user_id: id, project: @project)
-    end
-  end
-
-  def user_ids_for_new_members(member_params)
-    invite_new_users possibly_separated_ids_for_entity(member_params, :user)
-  end
-
-  def invite_new_users(user_ids)
-    user_ids.filter_map do |id|
-      if id.to_i == 0 && id.present? # we've got an email - invite that user
-        # Only users with the create_user permission can add users.
-        if current_user.allowed_to_globally?(:create_user) && enterprise_allow_new_users?
-          # The invitation can pretty much only fail due to the user already
-          # having been invited. So look them up if it does.
-          user = UserInvitation.invite_new_user(email: id) ||
-                 User.find_by_mail(id)
-
-          user&.id
-        end
-      else
-        id
-      end
-    end
-  end
-
-  def enterprise_allow_new_users?
-    !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
-  end
-
-  def each_comma_separated(array, &block)
-    array.map do |e|
-      if e.to_s.match? /\d(,\d)*/
-        block.call(e)
-      else
-        e
-      end
-    end.flatten
-  end
-
-  def transform_array_of_comma_separated_ids(array)
-    return array if array.blank?
-
-    each_comma_separated(array) do |elem|
-      elem.to_s.split(',')
-    end
-  end
-
-  def possibly_separated_ids_for_entity(array, entity = :user)
-    if !array[:"#{entity}_ids"].nil?
-      transform_array_of_comma_separated_ids(array[:"#{entity}_ids"])
-    elsif !array[:"#{entity}_id"].nil? && (id = array[:"#{entity}_id"]).present?
-      [id]
-    else
-      []
-    end
   end
 
   def members_added_notice(members)

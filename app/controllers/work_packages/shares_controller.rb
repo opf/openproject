@@ -28,6 +28,7 @@
 
 class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
+  include MemberCreation
 
   before_action :find_work_package, only: %i[index create]
   before_action :find_share, only: %i[destroy update]
@@ -39,10 +40,18 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
+    user_id = params[:member][:user_id]
+
+    # In case, the user does not exist yet: create one
+    if user_id.to_i == 0
+      service_call = create_members
+      user_id = service_call.result.user_id
+    end
+
     @share = WorkPackageMembers::CreateOrUpdateService
       .new(user: current_user)
       .call(entity: @work_package,
-            user_id: params[:member][:user_id],
+            user_id:,
             role_ids: find_role_ids(params[:member][:role_id])).result
 
 
