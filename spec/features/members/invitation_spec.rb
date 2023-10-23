@@ -56,7 +56,7 @@ RSpec.describe 'invite user via email', js: true do
       click_on 'Add member'
 
       members_page.search_and_select_principal! 'finkelstein@openproject.com',
-                                                'Send invite to "finkelstein@openproject.com"'
+                                                'Send invite to finkelstein@openproject.com'
       members_page.select_role! 'Developer'
       expect(members_page).to have_selected_new_principal('finkelstein@openproject.com')
 
