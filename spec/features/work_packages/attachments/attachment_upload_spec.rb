@@ -324,6 +324,9 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
       # Drop zone should become hidden again
       expect(container).not_to be_visible
 
+      # Drop zone should become hidden again
+      expect(container).not_to be_visible
+
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)

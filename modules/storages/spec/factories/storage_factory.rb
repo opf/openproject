@@ -42,6 +42,10 @@ FactoryBot.define do
     trait :as_generic do
       provider_type { 'Storages::Storage' }
     end
+
+    trait :as_generic do
+      provider_type { 'Storages::Storage' }
+    end
   end
 
   factory :nextcloud_storage,
