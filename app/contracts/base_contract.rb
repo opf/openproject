@@ -258,4 +258,12 @@ class BaseContract < Disposable::Twin
       true
     end
   end
+
+  def with_merged_former_errors
+    former_errors = errors.dup
+
+    yield
+
+    errors.merge!(former_errors)
+  end
 end

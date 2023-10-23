@@ -62,10 +62,9 @@ module Storages::Storages
 
       # Validating the contract will clear the errors
       # of this contract so we save them for later.
-      former_errors = errors.dup
-
-      contract.validate
-      errors.merge!(former_errors)
+      with_merged_former_errors do
+        contract.validate
+      end
     end
   end
 end
