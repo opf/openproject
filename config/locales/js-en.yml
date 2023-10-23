@@ -1098,6 +1098,7 @@ en:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."
