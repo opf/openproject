@@ -1,0 +1,10 @@
+<%=
+  component_wrapper(class: 'op-share-wp-modal-body--header--counter--container',
+                    data: { test_selector: 'op-share-wp-active-count'}) do
+    if sharing_manageable?
+      render(WorkPackages::Share::BulkSelectionCounterComponent.new(count:))
+    else
+      render(WorkPackages::Share::ShareCounterComponent.new(count:))
+    end
+  end
+%>

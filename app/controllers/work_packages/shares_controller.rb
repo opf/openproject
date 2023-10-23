@@ -89,7 +89,7 @@ class WorkPackages::SharesController < ApplicationController
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::ShareCounterComponent.new(count: current_visible_member_count)
+      component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
     prepend_via_turbo_stream(
@@ -106,7 +106,7 @@ class WorkPackages::SharesController < ApplicationController
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::ShareCounterComponent.new(count: current_visible_member_count)
+      component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
     respond_with_turbo_streams

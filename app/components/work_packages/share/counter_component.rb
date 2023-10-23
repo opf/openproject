@@ -30,16 +30,22 @@
 
 module WorkPackages
   module Share
-    class ShareCounterComponent < ApplicationComponent
-      def initialize(count:)
+    class CounterComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
+      include WorkPackages::Share::Concerns::Authorization
+
+      def initialize(work_package:, count:)
         super
 
+        @work_package = work_package
         @count = count
       end
 
       private
 
-      attr_reader :count
+      attr_reader :work_package, :count
     end
   end
 end
