@@ -258,8 +258,7 @@ class RepositoriesController < ApplicationController
     # allow object_src self to be able to load dynamic stats SVGs from ./graph
     override_content_security_policy_directives object_src: %w('self')
 
-    @show_commits_per_author = current_user.allowed_to_in_project?(:view_commit_author_statistics,
-                                                                   @project)
+    @show_commits_per_author = current_user.allowed_in_project?(:view_commit_author_statistics, @project)
   end
 
   def graph
@@ -268,7 +267,7 @@ class RepositoriesController < ApplicationController
     when 'commits_per_month'
       data = graph_commits_per_month(@repository)
     when 'commits_per_author'
-      unless current_user.allowed_to_in_project?(:view_commit_author_statistics, @project)
+      unless current_user.allowed_in_project?(:view_commit_author_statistics, @project)
         return deny_access
       end
 
