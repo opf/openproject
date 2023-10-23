@@ -211,12 +211,6 @@ RSpec.describe Authorization::UserPermissibleService do
             let(:permission) { :view_news }
 
             it { is_expected.to be_allowed_in_any_project(permission) }
-
-            context 'and no project exists' do
-              before { Project.destroy_all }
-
-              it { is_expected.to be_allowed_in_any_project(permission) }
-            end
           end
 
           context 'and the user is the anonymous user' do
@@ -224,12 +218,6 @@ RSpec.describe Authorization::UserPermissibleService do
             let(:permission) { :view_meetings }
 
             it { is_expected.to be_allowed_in_any_project(permission) }
-
-            context 'and no project exists' do
-              before { Project.destroy_all }
-
-              it { is_expected.to be_allowed_in_any_project(permission) }
-            end
           end
 
           context 'and the project is archived' do

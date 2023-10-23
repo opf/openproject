@@ -30,9 +30,7 @@ module Authorization
       perms = contextual_permissions(permission, :project)
       return true if admin_and_all_granted_to_admin?(perms)
 
-      Project.allowed_to(user, perms).exists? ||
-        no_projects_but_granted_to_non_member?(perms) ||
-        no_projects_but_granted_to_anonymous?(perms)
+      Project.allowed_to(user, perms).exists?
     end
 
     def allowed_in_entity?(permission, entities_to_check, entity_class)
@@ -58,7 +56,7 @@ module Authorization
       if in_project
         allowed_scope.exists?(project: in_project)
       else
-        allowed_scope.exists? || no_projects_but_granted_to_non_member?(perms) || no_projects_but_granted_to_anonymous?(perms)
+        allowed_scope.exists?
       end
     end
 
@@ -121,25 +119,6 @@ module Authorization
 
     def context_name(entity_class)
       entity_class.model_name.element.to_sym
-    end
-
-    def no_projects_but_granted_to_non_member?(permissions)
-      Project.none? &&
-        non_member_permissions.intersect?(permissions.map { |perm| perm.name.to_sym })
-    end
-
-    def no_projects_but_granted_to_anonymous?(permissions)
-      Project.none? &&
-        user.anonymous? &&
-        anonymous_permissions.intersect?(permissions.map { |perm| perm.name.to_sym })
-    end
-
-    def non_member_permissions
-      @non_member_permissions ||= ProjectRole.non_member.permissions
-    end
-
-    def anonymous_permissions
-      @anonymous_permissions ||= ProjectRole.anonymous.permissions
     end
   end
 end
