@@ -87,7 +87,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             },
             if: ->(project) {
               User.current.allowed_globally?(:add_project) ||
-                User.current.allowed_to?(:add_subprojects, project)
+                User.current.allowed_in_project?(:add_subprojects, project)
             }
 
   menu.push :invite_user,

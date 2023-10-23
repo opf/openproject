@@ -55,12 +55,12 @@ class SCM::AuthorizationPolicy
   ##
   # Returns whether the user has read access permission to the repository
   def read_access?
-    user.allowed_to?(:browse_repository, project)
+    user.allowed_in_project?(:browse_repository, project)
   end
 
   ##
   # Returns whether the user has read/write access permission to the repository
   def write_access?
-    user.allowed_to?(:commit_access, project)
+    user.allowed_in_project?(:commit_access, project)
   end
 end
