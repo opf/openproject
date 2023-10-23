@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
                                       inputName: "member[user_ids][]",
                                       inputBindValue: "id",
                                       url: api_v3_paths.principals,
-                                      addTag: true,
+                                      addTag: current_user.allowed_to_globally?(:create_user),
                                       addTagText: I18n.t('members.send_invite_to'),
                                       searchKey: 'any_name_attribute',
                                       filters: [{ name: "member", operator: "!", values: [@project.id.to_s] },
