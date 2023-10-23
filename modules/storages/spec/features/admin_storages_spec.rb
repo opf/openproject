@@ -91,8 +91,9 @@ RSpec.describe 'Admin storages',
 
   describe 'File storage edit view', with_flag: { storage_primer_design: true } do
     let(:storage) { create(:nextcloud_storage) }
+    let(:oauth_application) { create(:oauth_application, integration: storage) }
 
-    before { storage }
+    before { oauth_application }
 
     it 'renders the edit view' do
       visit edit_admin_settings_storage_path(storage)
@@ -105,11 +106,38 @@ RSpec.describe 'Admin storages',
         expect(page).to have_test_selector('storage-description', text: [storage.short_provider_type.capitalize,
                                                                          storage.name,
                                                                          storage.host].join(' - '))
+
+        # Update a storage - happy path
+        find_test_selector('storage-edit-host-button').click
+        within_test_selector('storage-general-info-form') do
+          select 'Nextcloud', from: 'storages_nextcloud_storage_provider_type'
+          fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
+          click_button 'Save and continue'
+        end
+
+        expect(page).to have_test_selector('storage-description', text: [storage.short_provider_type.capitalize,
+                                                                         'My Nextcloud',
+                                                                         storage.host].join(' - '))
+
+        # Update a storage - unhappy path
+        find_test_selector('storage-edit-host-button').click
+        within_test_selector('storage-general-info-form') do
+          fill_in 'storages_nextcloud_storage_name', with: nil
+          fill_in 'storages_nextcloud_storage_host', with: nil
+          click_button 'Save and continue'
+
+          expect(page).to have_text("Name can't be blank.")
+          expect(page).to have_text("Host is not a valid URL.")
+
+          click_link 'Cancel'
+        end
       end
 
       aggregate_failures 'OAuth application' do
         expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
-        expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Incomplete')
+        expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Connected')
+        expect(page).to have_test_selector('storage-openproject-oauth-client-description',
+                                           text: "OAuth Client ID: #{oauth_application.uid}")
       end
 
       aggregate_failures 'Nextcloud OAuth' do
