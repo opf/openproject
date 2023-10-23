@@ -407,6 +407,40 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
     end
   end
 
+  describe 'GET /api/v3/storages/:storage_id/open' do
+    let(:path) { api_v3_paths.storage_open(storage.id) }
+    let(:location) { 'https://deathstar.storage.org/files' }
+
+    before do
+      Storages::Peripherals::Registry.stub(
+        'queries.nextcloud.open_storage',
+        ->(_) { ServiceResult.success(result: location) }
+      )
+    end
+
+    context 'as admin' do
+      let(:current_user) { create(:admin) }
+
+      it_behaves_like 'redirect response'
+    end
+
+    context 'if user belongs to a project using the given storage' do
+      it_behaves_like 'redirect response'
+
+      context 'if user is missing permission view_file_links' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'not found'
+      end
+
+      context 'if no storage with that id exists' do
+        let(:path) { api_v3_paths.storage_open('1337') }
+
+        it_behaves_like 'not found'
+      end
+    end
+  end
+
   describe 'POST /api/v3/storages/:storage_id/oauth_client_credentials' do
     let(:path) { api_v3_paths.storage_oauth_client_credentials(storage.id) }
     let(:client_id) { 'myl1ttlecl13ntidii' }

@@ -1,4 +1,4 @@
-# Data flow and Usage
+# Data flow and usage
 
 Regardless of the type of installation of OpenProject, the following diagram provides a high-level overview of through which systems data related to OpenProject is flowing.
 

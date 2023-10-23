@@ -28,28 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
-  helpers Storages::Peripherals::Scopes
+require 'spec_helper'
+require_module_spec_helper
 
-  resources :storages do
-    post &API::V3::Utilities::Endpoints::Create.new(model: Storages::Storage).mount
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::OpenStorageQuery do
+  let(:storage) { create(:nextcloud_storage, host: 'https://example.com') }
+  let(:user) { create(:user) }
 
-    get &API::V3::Utilities::Endpoints::Index.new(model: Storages::Storage, scope: -> { visible_storages }).mount
+  it 'responds to .call' do
+    expect(described_class).to respond_to(:call)
 
-    route_param :storage_id, type: Integer, desc: 'Storage id' do
-      after_validation do
-        @storage = visible_storages.find(params[:storage_id])
-      end
+    method = described_class.method(:call)
+    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user])
+  end
 
-      get &API::V3::Utilities::Endpoints::Show.new(model: Storages::Storage).mount
+  it 'returns the url for opening the file on storage' do
+    url = described_class.call(storage:, user:).result
+    expect(url).to eq("#{storage.host}/index.php/apps/files")
+  end
 
-      patch &API::V3::Utilities::Endpoints::Update.new(model: Storages::Storage).mount
+  context 'with a storage with host url with a sub path' do
+    let(:storage) { create(:nextcloud_storage, host: 'https://example.com/html') }
 
-      delete &API::V3::Utilities::Endpoints::Delete.new(model: Storages::Storage).mount
-
-      mount API::V3::StorageFiles::StorageFilesAPI
-      mount API::V3::OAuthClient::OAuthClientCredentialsAPI
-      mount API::V3::Storages::StorageOpenAPI
+    it 'returns the url for opening the file on storage' do
+      url = described_class.call(storage:, user:).result
+      expect(url).to eq("#{storage.host}/index.php/apps/files")
     end
   end
 end

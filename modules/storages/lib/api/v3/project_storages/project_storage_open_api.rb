@@ -26,28 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::FileLinks::FileLinksOpenAPI < API::OpenProjectAPI
+class API::V3::ProjectStorages::ProjectStorageOpenAPI < API::OpenProjectAPI
   helpers Storages::Peripherals::StorageErrorHelper
 
   using Storages::Peripherals::ServiceResultRefinements
 
   resources :open do
     get do
-      Storages::Peripherals::Registry
-        .resolve("queries.#{@file_link.storage.short_provider_type}.open_file_link")
-        .call(
-          storage: @file_link.storage,
-          user: current_user,
-          file_id: @file_link.origin_id,
-          open_location: ActiveModel::Type::Boolean.new.cast(params[:location])
-        )
-        .match(
-          on_success: ->(url) do
-            redirect url, body: "The requested resource can be viewed at #{url}"
-            status 303
-          end,
-          on_failure: ->(error) { raise_error(error) }
-        )
+      query_result = if @project_storage.project_folder_inactive?
+                       Storages::Peripherals::Registry
+                         .resolve("queries.#{@project_storage.storage.short_provider_type}.open_storage")
+                         .call(
+                           storage: @project_storage.storage,
+                           user: current_user
+                         )
+                     else
+                       Storages::Peripherals::Registry
+                         .resolve("queries.#{@project_storage.storage.short_provider_type}.open_file_link")
+                         .call(
+                           storage: @project_storage.storage,
+                           user: current_user,
+                           file_id: @project_storage.project_folder_id
+                         )
+                     end
+
+      query_result.match(
+        on_success: ->(url) do
+          redirect url, body: "The requested resource can be viewed at #{url}"
+          status 303
+        end,
+        on_failure: ->(error) { raise_error(error) }
+      )
     end
   end
 end
