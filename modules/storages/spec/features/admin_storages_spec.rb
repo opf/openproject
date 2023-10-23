@@ -136,8 +136,28 @@ RSpec.describe 'Admin storages',
       aggregate_failures 'OAuth application' do
         expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
         expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Connected')
-        expect(page).to have_test_selector('storage-openproject-oauth-client-description',
+        expect(page).to have_test_selector('storage-openproject-oauth-application-description',
                                            text: "OAuth Client ID: #{oauth_application.uid}")
+
+        accept_confirm do
+          find_test_selector('storage-replace-openproject-oauth-application-button').click
+        end
+
+        within_test_selector('storage-openproject-oauth-application-form') do
+          warning_section = find_test_selector('storage-openproject_oauth_application_warning')
+          expect(warning_section).to have_text('The client secret value will not be accessible again after you close ' \
+                                               'this window. Please copy these values into the Nextcloud ' \
+                                               'OpenProject Integration settings.')
+          expect(warning_section).to have_link('Nextcloud OpenProject Integration settings',
+                                               href: "#{storage.host}/settings/admin/openproject")
+
+          expect(page).to have_css('#openproject_oauth_application_uid',
+                                   value: storage.reload.oauth_application.uid)
+          expect(page).to have_css('#openproject_oauth_application_secret',
+                                   value: storage.reload.oauth_application.secret)
+
+          click_link 'Done, continue'
+        end
       end
 
       aggregate_failures 'Nextcloud OAuth' do
