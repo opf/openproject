@@ -94,7 +94,7 @@ module Versions
     private
 
     def validate_sharing_included
-      if model.sharing_changed? && !assignable_sharings.include?(model.sharing)
+      if model.sharing_changed? && assignable_sharings.exclude?(model.sharing)
         errors.add :sharing, :inclusion
       end
     end
