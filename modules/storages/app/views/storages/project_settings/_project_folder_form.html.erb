@@ -88,18 +88,20 @@ See COPYRIGHT and LICENSE files for more details.
     <%= t(:"storages.instructions.no_specific_folder") %>
   </span>
 
-  <div class="form--field-container">
-    <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
-      <%= f.radio_button :project_folder_mode,
-                         'automatic',
-                         no_label: true,
-                         data: { action: 'project-storage-form#updateForm' } %>
-      <%= t(:"storages.label_automatic_folder") %>
-    <% end %>
-  </div>
-  <span class="form--field-instructions -xwide -with-bottom-spacing">
-    <%= t(:"storages.instructions.automatic_folder") %>
-  </span>
+  <% if @project_storage.automatic_management_possible? %>
+    <div class="form--field-container">
+      <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+        <%= f.radio_button :project_folder_mode,
+                          'automatic',
+                          no_label: true,
+                          data: { action: 'project-storage-form#updateForm' } %>
+        <%= t(:"storages.label_automatic_folder") %>
+      <% end %>
+    </div>
+    <span class="form--field-instructions -xwide -with-bottom-spacing">
+      <%= t(:"storages.instructions.automatic_folder") %>
+    </span>
+  <% end %>
 
   <div class="form--field-container">
     <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>

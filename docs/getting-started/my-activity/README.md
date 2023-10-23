@@ -18,7 +18,9 @@ You will see two lists by default.
 
 **Projects** will show all projects you are a member of. 
 
-**Activity** will show all of your activities that are being recorded in OpenProject. Note that only activities from projects that have enabled the "Activity" module will be shown.
+**Activity** will show all of your activities that are being recorded in OpenProject. 
+
+>Please note that only activities from projects that have the **Activity** module enabled will be shown.
 
 ![Openproject_my_activity_page](openproject_my_activity_overview.png)
 
