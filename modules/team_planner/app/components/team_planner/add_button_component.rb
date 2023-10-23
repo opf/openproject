@@ -35,7 +35,7 @@ module TeamPlanner
       if current_project
         User.current.allowed_to?(:manage_team_planner, current_project)
       else
-        User.current.allowed_to_globally?(:manage_team_planner)
+        User.current.allowed_in_any_project?(:manage_team_planner)
       end
     end
 
