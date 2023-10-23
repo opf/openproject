@@ -83,10 +83,41 @@ class MembersController < ApplicationController
     redirect_to project_members_path(project_id: @project)
   end
 
+  def autocomplete_for_member
+    @principals = possible_members(params[:q], 100)
+
+    @email = suggest_invite_via_email? current_user,
+                                       params[:q],
+                                       (@principals | @project.principals)
+
+    respond_to do |format|
+      format.json do
+        render json: build_members
+      end
+    end
+  end
+
   private
 
   def authorize_for(controller, action)
     current_user.allowed_to?({ controller:, action: }, @project)
+  end
+
+  def build_members
+    paths = API::V3::Utilities::PathHelper::ApiV3Path
+    principals = @principals.map do |principal|
+      {
+        id: principal.id,
+        name: principal.name,
+        href: paths.send(principal.type.underscore, principal.id)
+      }
+    end
+
+    if @email
+      principals << { id: @email, name: I18n.t('members.invite_by_mail', mail: @email) }
+    end
+
+    principals
   end
 
   def members_table_options(roles)
@@ -109,6 +140,17 @@ class MembersController < ApplicationController
       clear_url: project_members_path(@project),
       project: @project
     }
+  end
+
+  def suggest_invite_via_email?(user, query, principals)
+    user.allowed_to_globally?(:create_user) &&
+      query =~ mail_regex &&
+      principals.none? { |p| p.mail == query || p.login == query } &&
+      query # finally return email
+  end
+
+  def mail_regex
+    /\A\S+@\S+\.\S+\z/
   end
 
   def set_index_data!

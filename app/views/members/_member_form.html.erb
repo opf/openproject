@@ -48,16 +48,11 @@ See COPYRIGHT and LICENSE files for more details.
           %>
           <%= styled_label_tag :member_user_ids, user_id_title %>
 
-          <%= angular_component_tag 'opce-user-autocompleter',
+          <%= angular_component_tag 'opce-members-autocompleter',
                                     inputs: {
                                       inputName: "member[user_ids][]",
                                       inputBindValue: "id",
-                                      url: api_v3_paths.principals,
-                                      addTag: true,
-                                      addTagText: I18n.t('members.send_invite_to'),
-                                      searchKey: 'any_name_attribute',
-                                      filters: [{ name: "member", operator: "!", values: [@project.id.to_s] },
-                                                { name: "status", operator: "!", values: [Principal.statuses[:locked]]}],
+                                      url: autocomplete_for_member_project_members_path + '.json',
                                       appendTo: "body",
                                       multiple: true
                                     }

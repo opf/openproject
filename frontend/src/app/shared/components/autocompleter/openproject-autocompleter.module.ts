@@ -51,6 +51,9 @@ import {
 import { OpSearchHighlightDirective } from 'core-app/shared/directives/search-highlight.directive';
 import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 import {
+  MembersAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component';
+import {
   UserAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
 import { ProjectAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter-template.component';
@@ -95,6 +98,7 @@ export class OpenprojectAutocompleterModule {
     registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
     registerCustomElement('opce-project-autocompleter', ProjectAutocompleterComponent, { injector });
     registerCustomElement('opce-select-decoration', AutocompleteSelectDecorationComponent, { injector });
+    registerCustomElement('opce-members-autocompleter', MembersAutocompleterComponent, { injector });
     registerCustomElement('opce-user-autocompleter', UserAutocompleterComponent, { injector });
   }
 }
