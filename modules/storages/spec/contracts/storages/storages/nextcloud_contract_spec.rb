@@ -119,5 +119,19 @@ RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, w
         end
       end
     end
+
+    context 'when the storage host is nil' do
+      let(:storage) { build(:nextcloud_storage, :as_automatically_managed, host: nil) }
+
+      before do
+        allow(NextcloudApplicationCredentialsValidator).to receive(:new).and_call_original
+      end
+
+      it 'fails validation' do
+        expect(subject).not_to be_valid
+        expect(subject.errors.to_hash).to eq({ host: ["is not a valid URL."] })
+        expect(NextcloudApplicationCredentialsValidator).not_to have_received(:new)
+      end
+    end
   end
 end
