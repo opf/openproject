@@ -69,6 +69,16 @@ module WorkPackages
       def share_editable?
         @share_editable ||= User.current != share.principal && sharing_manageable?
       end
+
+      def select_share_checkbox_options
+        {
+          name: "share_ids",
+          value: share.id,
+          scheme: :array,
+          label: principal.name,
+          visually_hide_label: true
+        }
+      end
     end
   end
 end
