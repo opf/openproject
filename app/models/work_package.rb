@@ -222,7 +222,7 @@ class WorkPackage < ApplicationRecord
 
   # Returns true if usr or current user is allowed to view the work_package
   def visible?(usr = nil)
-    (usr || User.current).allowed_to?(:view_work_packages, project)
+    (usr || User.current).allowed_in_project?(:view_work_packages, project)
   end
 
   # RELATIONS
@@ -354,8 +354,13 @@ class WorkPackage < ApplicationRecord
   # check if user is allowed to edit WorkPackage Journals.
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
-    user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
-      (user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id)
+    if project.present?
+      user.allowed_in_project?(:edit_work_package_notes, project) ||
+        (user.allowed_in_project?(:edit_own_work_package_notes, project) && journal.user_id == user.id)
+    else
+      user.allowed_in_any_project?(:edit_work_package_notes, project) ||
+        (user.allowed_in_any_project?(:edit_own_work_package_notes, project) && journal.user_id == user.id)
+    end
   end
 
   # Returns a scope for the projects

@@ -99,7 +99,7 @@ class MembersController < ApplicationController
   private
 
   def authorize_for(controller, action)
-    current_user.allowed_to?({ controller:, action: }, @project)
+    current_user.allowed_in_project?({ controller:, action: }, @project)
   end
 
   def build_members
