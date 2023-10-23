@@ -103,7 +103,7 @@ module Users::PermissionChecks
   end
 
   def allowed_to_in_project?(action, project)
-    # OpenProject::Deprecation.replaced(:allowed_to_in_project?, :allowed_in_project?, caller)
+    OpenProject::Deprecation.replaced(:allowed_to_in_project?, :allowed_in_project?, caller)
     allowed_to?(action, project)
   end
 
