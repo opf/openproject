@@ -34,8 +34,12 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
   component.with_header(title: I18n.t('label_information_plural'))
 
-  if (product_version = OpenProject::VERSION.product_version).present?
-    component.with_attribute(key: t(:label_product_version), value: product_version)
+  if Setting.show_product_version?
+    core_link = linked_sha_reference(OpenProject::VERSION.core_sha, OpenProject::VERSION.core_url)
+    component.with_attribute(key: t(:label_core_build), value: core_link) if core_link.present?
+
+    product_link = linked_sha_reference(OpenProject::VERSION.product_sha, OpenProject::VERSION.product_url)
+    component.with_attribute(key: t(:label_product_version), value: product_link) if product_link.present?
   end
 
   component.with_attribute(key: t(:label_core_version), value: OpenProject::Info.versioned_name)
