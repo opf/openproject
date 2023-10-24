@@ -92,6 +92,8 @@ RSpec.shared_examples_for 'relation contract' do
   let(:relatable) { true }
   let(:permissions) { [:manage_work_package_relations] }
 
+  subject(:contract) { described_class.new relation, current_user }
+
   before do
     mock_permissions_for(current_user) do |mock|
       mock.allow_in_project *permissions, project: canonical_relation_from.project
@@ -119,15 +121,7 @@ RSpec.shared_examples_for 'relation contract' do
       it_behaves_like 'contract is invalid', to: :error_not_found
     end
 
-    Relation::TYPES.keys.select { Relation::TYPES[_1][:reverse].nil? }.each do |available_type|
-      context "when having the type '#{available_type}'" do
-        let(:relation_type) { available_type }
-
-        it_behaves_like 'contract is valid'
-      end
-    end
-
-    Relation::TYPES.keys.select { Relation::TYPES[_1][:reverse].present? }.each do |available_type|
+    Relation::TYPES.each_key do |available_type|
       context "when having the type '#{available_type}'" do
         let(:relation_type) { available_type }
 

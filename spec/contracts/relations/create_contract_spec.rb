@@ -37,7 +37,5 @@ RSpec.describe Relations::CreateContract do
                    relation_type:,
                    delay: relation_delay
     end
-
-    subject(:contract) { described_class.new relation, current_user }
   end
 end

@@ -38,8 +38,6 @@ RSpec.describe Relations::UpdateContract do
                     relation_type:,
                     delay: relation_delay)
     end
-
-    let(:contract) { described_class.new(relation, current_user) }
   end
 
   describe 'valid?' do

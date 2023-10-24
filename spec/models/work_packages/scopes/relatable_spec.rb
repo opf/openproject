@@ -156,7 +156,7 @@ RSpec.describe WorkPackages::Scopes::Relatable, '.relatable scope' do
         let(:relation_type) { current_type }
         let(:ignored_relation) { directly_related_work_package.relations.first }
 
-        it 'is empty' do
+        it 'contains the directly related work package' do
           expect(relatable)
             .to contain_exactly directly_related_work_package
         end
@@ -314,7 +314,7 @@ RSpec.describe WorkPackages::Scopes::Relatable, '.relatable scope' do
       let(:transitively_related_work_package_type) { Relation::TYPE_BLOCKS }
       let(:ignored_relation) { origin.relations.first }
 
-      it 'contains the the related work packages' do
+      it 'contains the related work packages' do
         expect(relatable)
           .to contain_exactly(directly_related_work_package, transitively_related_work_package)
       end
@@ -325,7 +325,7 @@ RSpec.describe WorkPackages::Scopes::Relatable, '.relatable scope' do
       let(:transitively_related_work_package_type) { Relation::TYPE_PRECEDES }
       let(:ignored_relation) { origin.relations.first }
 
-      it 'contains the the related work packages' do
+      it 'contains the related work packages' do
         expect(relatable)
           .to contain_exactly(directly_related_work_package, transitively_related_work_package)
       end
@@ -1592,7 +1592,7 @@ RSpec.describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     end
   end
 
-  context 'when ignoring anything else then a single relation' do
+  context 'when ignoring anything else than a single relation' do
     let(:ignored_relation) { transitively_related_work_package.relations }
 
     it 'raises an error' do
