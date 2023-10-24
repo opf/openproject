@@ -67,7 +67,7 @@ module OpenProject
         locale: I18n.locale,
         version: OpenProject::VERSION.to_semver,
         core_hash: OpenProject::VERSION.revision,
-        core_version: OpenProject::VERSION.core_version,
+        core_version: OpenProject::VERSION.core_sha,
         product_version: OpenProject::VERSION.product_sha
       }.compact
     end
