@@ -336,9 +336,6 @@ de:
   themes:
     light: "Hell"
     light_high_contrast: "Hell (hoher Kontrast)"
-    dark: "Dunkel"
-    dark_dimmed: "Dunkel gedimmt"
-    dark_high_contrast: "Dunkel (hoher Kontrast)"
   types:
     index:
       no_results_title_text: Derzeit gibt es keine Typen.
@@ -571,6 +568,7 @@ de:
         time_zone: "Zeitzone"
         auto_hide_popups: "Benachrichtigungen erfolgreicher Aktionen automatisch ausblenden"
         warn_on_leaving_unsaved: "Beim Verlassen einer Arbeitspaket-Seite mit ungespeichertem Text warnen"
+        theme: "Mode"
       version:
         effective_date: "Endtermin"
         sharing: "Gemeinsame Verwendung"

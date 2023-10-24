@@ -341,9 +341,6 @@ si:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: දැනට වර්ග නොමැත.
@@ -576,6 +573,7 @@ si:
         time_zone: "වේලා කලාපය"
         auto_hide_popups: "ස්වයං සඟවන්න සාර්ථකත්වය දැනුම්දීම්"
         warn_on_leaving_unsaved: "නොගැලවූ වෙනස්කම් සහිත වැඩ පැකේජයකින් පිටවන විට මට අනතුරු අඟවන්න"
+        theme: "Mode"
       version:
         effective_date: "අවසන් දිනය"
         sharing: "බෙදාගැනීම"

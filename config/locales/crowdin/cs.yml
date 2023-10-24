@@ -341,9 +341,6 @@ cs:
   themes:
     light: "Světlý"
     light_high_contrast: "Světlý kontrast"
-    dark: "Tmavý"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Tmavý vysoký kontrast"
   types:
     index:
       no_results_title_text: V současné době neexistují žádné typy.
@@ -578,6 +575,7 @@ cs:
         time_zone: "Časové pásmo"
         auto_hide_popups: "Automaticky skrýt oznámení o úspěchu"
         warn_on_leaving_unsaved: "Upozornit mě při opuštění pracovního balíčku s neuloženými změnami"
+        theme: "Mode"
       version:
         effective_date: "Datum dokončení"
         sharing: "Sdílení"

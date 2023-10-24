@@ -341,9 +341,6 @@
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -576,6 +573,7 @@
         time_zone: "Tidssone"
         auto_hide_popups: "Auto-skjul suksessvarsler"
         warn_on_leaving_unsaved: "Varsle meg når jeg forlater en arbeidspakke med ulagrede endringer"
+        theme: "Mode"
       version:
         effective_date: "Sluttdato"
         sharing: "Deling"

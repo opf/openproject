@@ -338,9 +338,6 @@ es:
   themes:
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
-    dark: "Oscuro"
-    dark_dimmed: "Oscuro atenuado"
-    dark_high_contrast: "Contraste alto oscuro"
   types:
     index:
       no_results_title_text: Actualmente no existen tipos.
@@ -573,6 +570,7 @@ es:
         time_zone: "Zona horaria"
         auto_hide_popups: "Auto-ocultar notificaciones satisfactorias"
         warn_on_leaving_unsaved: "Avisarme cuando salga de un paquete de trabajo con cambios sin guardar"
+        theme: "Mode"
       version:
         effective_date: "Fecha de finalización"
         sharing: "Compartiendo"

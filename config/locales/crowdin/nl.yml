@@ -338,9 +338,6 @@ nl:
   themes:
     light: "Licht"
     light_high_contrast: "Licht hoog contrast"
-    dark: "Donker"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Donker hoog contrast"
   types:
     index:
       no_results_title_text: Er zijn momenteel geen types.
@@ -573,6 +570,7 @@ nl:
         time_zone: "Tijdzone"
         auto_hide_popups: "Automatisch verbergen geslaagd-meldingen"
         warn_on_leaving_unsaved: "Mij waarschuwen bij het verlaten van een werkpakket met niet-opgeslagen wijzigingen"
+        theme: "Mode"
       version:
         effective_date: "Einddatum"
         sharing: "Delen"

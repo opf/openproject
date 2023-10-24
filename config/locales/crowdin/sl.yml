@@ -339,9 +339,6 @@ sl:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Trenutno ni vrst.
@@ -575,6 +572,7 @@ sl:
         time_zone: "Časovni pas"
         auto_hide_popups: "Samodejno skrij obvestila o uspehu"
         warn_on_leaving_unsaved: "Opozori me, kadar zapuščam stran z neshranjenim besedilom"
+        theme: "Mode"
       version:
         effective_date: "Končni datum"
         sharing: "Delitev"

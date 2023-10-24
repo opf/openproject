@@ -338,9 +338,6 @@ lt:
   themes:
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
-    dark: "Tamsi"
-    dark_dimmed: "Tamsi pritemdyta"
-    dark_high_contrast: "Tamsi kontrastinga"
   types:
     index:
       no_results_title_text: Nėra jokių rūšių.
@@ -575,6 +572,7 @@ lt:
         time_zone: "Laiko juosta"
         auto_hide_popups: "Automatiškai slėpti sėkmės pranešimus"
         warn_on_leaving_unsaved: "Įspėti mane, kai palieku darbų paketą su neišsaugotais pakeitimais"
+        theme: "Mode"
       version:
         effective_date: "Pabaigos data"
         sharing: "Pasidalijimas"

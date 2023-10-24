@@ -338,9 +338,6 @@ it:
   themes:
     light: "Chiaro"
     light_high_contrast: "Chiaro ad alto contrasto"
-    dark: "Scuro"
-    dark_dimmed: "Scuro oscurato"
-    dark_high_contrast: "Scuro ad alto contrasto"
   types:
     index:
       no_results_title_text: Al momento non esistono tipi.
@@ -573,6 +570,7 @@ it:
         time_zone: "Fuso orario"
         auto_hide_popups: "Nascondi automaticamente le notifiche di successo"
         warn_on_leaving_unsaved: "Avvisami quando sto lasciando una macro-attività non salvata"
+        theme: "Mode"
       version:
         effective_date: "Data di fine"
         sharing: "Condivisione"

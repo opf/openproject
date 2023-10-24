@@ -340,9 +340,6 @@ sv:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Det finns för närvarande inga typer.
@@ -575,6 +572,7 @@ sv:
         time_zone: "Tidszon"
         auto_hide_popups: "Dölj automatiskt meddelanden om åtgärder som lyckats"
         warn_on_leaving_unsaved: "Varna mig när jag lämnar ett arbetspaket med osparade ändringar"
+        theme: "Mode"
       version:
         effective_date: "Slutdatum"
         sharing: "Delas"

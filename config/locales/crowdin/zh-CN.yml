@@ -338,9 +338,6 @@ zh-CN:
   themes:
     light: "浅色"
     light_high_contrast: "浅色高对比度"
-    dark: "深色"
-    dark_dimmed: "深色变暗"
-    dark_high_contrast: "深色高对比度"
   types:
     index:
       no_results_title_text: 目前没有类型。
@@ -571,6 +568,7 @@ zh-CN:
         time_zone: "时区"
         auto_hide_popups: "自动隐藏成功通知"
         warn_on_leaving_unsaved: "离开未保存更改的工作包时提示我"
+        theme: "Mode"
       version:
         effective_date: "完成日期"
         sharing: "共享"

@@ -339,9 +339,6 @@ hu:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Jelenleg nincsenek típusok.
@@ -573,6 +570,7 @@ hu:
         time_zone: "Idő zóna"
         auto_hide_popups: "Siker értesítések automatikus elrejtése"
         warn_on_leaving_unsaved: "Figyelmeztess, ha úgy hagyom el a munkacsomagot, hogy nem mentett változások vannak rajta"
+        theme: "Mode"
       version:
         effective_date: "Befejezési dátum"
         sharing: "Megosztás"

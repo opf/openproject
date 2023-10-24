@@ -336,9 +336,6 @@ uk:
   themes:
     light: "Світла"
     light_high_contrast: "Світла, високий контраст"
-    dark: "Темна"
-    dark_dimmed: "Темна затінена"
-    dark_high_contrast: "Темна, високий контраст"
   types:
     index:
       no_results_title_text: Наразі немає типів.
@@ -573,6 +570,7 @@ uk:
         time_zone: "Часовий пояс"
         auto_hide_popups: "Автоматичне приховування сповіщень про успіх"
         warn_on_leaving_unsaved: "Попереджати мене, коли залишив робочий пакет із незбереженими змінами"
+        theme: "Mode"
       version:
         effective_date: "Дата закінчення"
         sharing: "Поширення"

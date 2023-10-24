@@ -341,9 +341,6 @@ fil:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga uri.
@@ -576,6 +573,7 @@ fil:
         time_zone: "Time zone"
         auto_hide_popups: "Auto-hide success ang mga abiso"
         warn_on_leaving_unsaved: "Balaan mo ako kung aalais ng worj package na walang pag-save ng pagbabago"
+        theme: "Mode"
       version:
         effective_date: "Finish date"
         sharing: "Pagbababahagi"

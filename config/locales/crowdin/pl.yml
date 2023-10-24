@@ -338,9 +338,6 @@ pl:
   themes:
     light: "Jasny"
     light_high_contrast: "Jasny, wysoki kontrast"
-    dark: "Ciemny"
-    dark_dimmed: "Ciemny przyciemniony"
-    dark_high_contrast: "Ciemny, wysoki kontrast"
   types:
     index:
       no_results_title_text: Nie ma jeszcze żadnych typów.
@@ -575,6 +572,7 @@ pl:
         time_zone: "Strefa czasowa"
         auto_hide_popups: "Automatyczne ukrycie powiadomień o sukcesie"
         warn_on_leaving_unsaved: "Ostrzegaj mnie, gdy opuszczam zadanie z niezapisanymi zmianami"
+        theme: "Mode"
       version:
         effective_date: "Data zakończenia"
         sharing: "Udostępnianie"
