@@ -58,18 +58,20 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
     allow(subject)
       .to receive(:represented)
       .and_return(work_package)
-    %i[view_time_entries
-       view_own_time_entries
-       view_hourly_rates
-       view_own_hourly_rate
-       view_cost_rates
-       view_own_cost_entries
-       view_cost_entries
-       view_budgets].each do |permission|
-      allow(subject)
-        .to receive(:current_user_allowed_to)
-        .with(permission, context: work_package.project)
-        .and_return send(permission)
+
+    permissions = []
+
+    permissions << :view_time_entries if view_time_entries
+    permissions << :view_own_time_entries if view_own_time_entries
+    permissions << :view_hourly_rates if view_hourly_rates
+    permissions << :view_own_hourly_rate if view_own_hourly_rate
+    permissions << :view_cost_rates if view_cost_rates
+    permissions << :view_own_cost_entries if view_own_cost_entries
+    permissions << :view_cost_entries if view_cost_entries
+    permissions << :view_budgets if view_budgets
+
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project: work_package.project
     end
   end
 
