@@ -418,12 +418,21 @@ module Redmine::MenuManager::MenuHelper
 
     url = node.url(project)
     return true unless url
+    return false unless user
 
-    # TODO: Maybe we need a bit more logic here, to figure out if this is a project or global role?
-    if project
-      user&.allowed_in_project?(url, project)
-    else
-      user&.allowed_in_any_project?(url)
+    permissions = Authorization.permissions_for(url)
+
+    permissions.any? do |permission|
+      if permission.global?
+        user.allowed_globally?(permission)
+      elsif permission.project? && project
+        user.allowed_in_project?(permission, project)
+      elsif permission.project? && !project
+        user.allowed_in_any_project?(permission)
+      else
+        false
+        # TODO: Handle entity permissions
+      end
     end
   end
 
