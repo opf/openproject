@@ -85,7 +85,7 @@ module Storages
     def apply_permissions_to_folders
       remote_admins = admin_client_tokens_scope.pluck(:origin_user_id)
 
-      active_project_storages_scope.find_each do |project_storage|
+      active_project_storages_scope.where.not(project_folder_id: nil).find_each do |project_storage|
         set_folders_permissions(remote_admins, project_storage)
       end
 
@@ -216,7 +216,9 @@ module Storages
         .resolve("commands.nextcloud.create_folder")
         .call(storage: @storage, folder_path:)
         .result_or do |error|
-        error_msg = "MKCOL #{folder_path} #{error.log_message}. Response: #{error.data.inspect}"
+        error_msg = { command: 'nextcloud.create_folder',
+                      folder: folder_path,
+                      data: { status: error.data.code, body: error.data.body } }.to_json
 
         return OpenProject.logger.warn(error_msg)
       end
