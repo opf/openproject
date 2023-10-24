@@ -42,6 +42,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object, only: %i[show destroy edit update replace_oauth_application]
+  before_action :parse_drive_id, only: %i[update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -111,14 +112,9 @@ class Storages::Admin::StoragesController < ApplicationController
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
   def update
-    storage_params = permitted_storage_params
-    parts = storage_params[:drive_id].split(',')
-
-    storage_params[:drive_id] = parts.count > 1 ? parts[1] : parts[0]
-
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user, model: @storage)
-                       .call(storage_params)
+                       .call(@storage_params)
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
@@ -175,6 +171,16 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   private
+
+  def parse_drive_id
+    @storage_params = permitted_storage_params
+
+    if @storage.provider_type_one_drive? && @storage.drive_id.nil?
+      parts = @storage_params[:drive_id].split(',')
+
+      @storage_params[:drive_id] = parts.count > 1 ? parts[1] : parts[0]
+    end
+  end
 
   def oauth_application(service_result)
     service_result.dependent_results&.first&.result
