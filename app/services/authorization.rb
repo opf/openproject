@@ -80,8 +80,10 @@ module Authorization
     perms = permissions_for(action)
 
     if perms.blank?
-      Rails.logger.debug { "Used permission \"#{action}\" that is not defined. It will never return true." }
-      raise UnknownPermissionError.new(action) if raise_on_unknown && !OpenProject::AccessControl.disabled_permission?(action)
+      if !OpenProject::AccessControl.disabled_permission?(action)
+        Rails.logger.debug { "Used permission \"#{action}\" that is not defined. It will never return true." }
+        raise UnknownPermissionError.new(action) if raise_on_unknown
+      end
 
       return []
     end
