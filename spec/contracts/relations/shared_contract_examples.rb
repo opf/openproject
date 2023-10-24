@@ -70,7 +70,7 @@ RSpec.shared_examples_for 'relation contract' do
 
     allow(scope)
       .to receive(:where)
-            .with(id: canonical_relation_to)
+            .with(id: canonical_relation_to.id)
             .and_return(scope)
 
     allow(scope)
