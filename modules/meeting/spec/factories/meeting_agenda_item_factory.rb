@@ -32,6 +32,13 @@ FactoryBot.define do
     work_package { nil }
     author factory: :user
     duration_in_minutes { 10 }
+    item_type { :simple }
     m.sequence(:title) { |n| "Agenda item #{n}" }
+
+    factory(:wp_meeting_agenda_item) do
+      item_type { :work_package }
+      work_package
+      title { nil }
+    end
   end
 end
