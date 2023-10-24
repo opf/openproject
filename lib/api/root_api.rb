@@ -141,7 +141,13 @@ module API
       #
       # @raise [API::Errors::Unauthorized] when permission is not met
       def authorize(permission, context: nil, global: false, user: current_user, &block)
-        auth_service = -> { user.allowed_to?(permission, context, global:) }
+        auth_service = -> do
+          if global
+            user.allowed_in_any_project?(permission)
+          else
+            user.allowed_in_project?(permission, context)
+          end
+        end
         authorize_by_with_raise auth_service, &block
       end
 
