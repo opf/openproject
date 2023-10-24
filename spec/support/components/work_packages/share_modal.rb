@@ -61,6 +61,14 @@ module Components
         end
       end
 
+      def expect_not_selectable(*principals)
+        principals.each do |principal|
+          within user_row(principal) do
+            expect(page).not_to have_field(principal.name)
+          end
+        end
+      end
+
       def toggle_select_all
         within shares_header do
           if page.find_field('toggle_all').checked?
@@ -92,6 +100,16 @@ module Components
           .to have_text("#{count} selected")
       end
 
+      def expect_select_all_available
+        expect(shares_header)
+          .to have_field('toggle_all')
+      end
+
+      def expect_select_all_not_available
+        expect(shares_header)
+          .not_to have_field('toggle_all', wait: 0)
+      end
+
       def expect_select_all_toggled
         within shares_header do
           expect(page).to have_checked_field('toggle_all')
@@ -104,9 +122,39 @@ module Components
         end
       end
 
+      def expect_bulk_actions_available
+        within shares_header do
+          expect(page).to have_button 'Remove'
+          expect(page).to have_test_selector('op-share-wp-bulk-update-role')
+        end
+      end
+
+      def expect_bulk_actions_not_available
+        within shares_header do
+          expect(page).not_to have_button 'Remove'
+          expect(page).not_to have_test_selector('op-share-wp-bulk-update-role')
+        end
+      end
+
       def bulk_remove
         within shares_header do
           click_button 'Remove'
+        end
+      end
+
+      def bulk_update(role_name)
+        within shares_header do
+          find('[data-test-selector="op-share-wp-bulk-update-role"]').click
+
+          find('.ActionListContent', text: role_name).click
+        end
+      end
+
+      def expect_bulk_update_label(label_text)
+        within shares_header do
+          expect(page)
+            .to have_css('[data-test-selector="op-share-wp-bulk-update-role"] .Button-label',
+                         text: label_text)
         end
       end
 

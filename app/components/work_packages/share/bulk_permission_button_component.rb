@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,41 +26,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 module WorkPackages
   module Share
-    class PermissionButtonComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-
-      def initialize(share:, **system_arguments)
+    class BulkPermissionButtonComponent < ApplicationComponent
+      def initialize(work_package:)
         super
 
-        @share = share
-        @system_arguments = system_arguments
+        @work_package = work_package
       end
 
-      # Switches the component to either update the share directly (by sending a PATCH to the share path)
-      # or be passive and work like a select inside a form.
       def update_path
-        if share.persisted?
-          work_packages_share_path(share)
-        end
+        work_package_shares_bulk_path(@work_package)
       end
-
-      def option_active?(option)
-        option[:value] == active_role.builtin
-      end
-
-      def wrapper_uniq_by
-        share.id || @system_arguments.dig(:data, :'test-selector')
-      end
-
-      private
-
-      attr_reader :share
 
       def options
         [
@@ -72,20 +53,6 @@ module WorkPackages
             value: Role::BUILTIN_WORK_PACKAGE_VIEWER,
             description: I18n.t('work_package.sharing.permissions.view_description') }
         ]
-      end
-
-      def active_role
-        if share.persisted?
-          share.roles
-               .merge(MemberRole.only_non_inherited)
-               .first
-        else
-          share.roles.first
-        end
-      end
-
-      def permission_name(value)
-        options.select { |option| option[:value] == value }
       end
     end
   end

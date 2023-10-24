@@ -33,10 +33,21 @@ class WorkPackages::Shares::BulkController < ApplicationController
 
   before_action :find_work_package
   before_action :find_shares
+  before_action :find_role_ids, only: :update
   before_action :find_project
   before_action :authorize
 
-  def update; end
+  def update
+    @shares.each do |share|
+      WorkPackageMembers::CreateOrUpdateService
+        .new(user: current_user)
+        .call(entity: @work_package,
+              user_id: share.principal.id,
+              role_ids: @role_ids).result
+    end
+
+    respond_with_update_permission_buttons
+  end
 
   def destroy
     @shares.each do |share|
@@ -53,6 +64,17 @@ class WorkPackages::Shares::BulkController < ApplicationController
   end
 
   private
+
+  def respond_with_update_permission_buttons
+    @shares.each do |share|
+      replace_via_turbo_stream(
+        component: WorkPackages::Share::PermissionButtonComponent.new(share:,
+                                                                      data: { 'test-selector': 'op-share-wp-update-role' })
+      )
+    end
+
+    respond_with_turbo_streams
+  end
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
@@ -85,7 +107,15 @@ class WorkPackages::Shares::BulkController < ApplicationController
   end
 
   def find_shares
-    @shares = Member.of_work_package(@work_package).where(id: params[:share_ids])
+    @shares = Member.includes(:principal)
+                    .of_work_package(@work_package)
+                    .where(id: params[:share_ids])
+  end
+
+  def find_role_ids
+    @role_ids = WorkPackageRole.unscoped
+                               .where(builtin: params[:role_ids])
+                               .pluck(:id)
   end
 
   def current_visible_member_count

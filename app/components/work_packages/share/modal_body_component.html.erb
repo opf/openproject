@@ -31,10 +31,22 @@
                   render(WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: shared_principals.size))
                 end
 
-                header_grid.with_area(:remove, tag: :div) do
-                  form_with url: work_package_shares_bulk_path, method: :delete do
-                    concat(content_tag(:div, {}, data: { 'work-packages--share--bulk-selection-target': 'hiddenShareIdsContainer' }))
-                    concat(render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') })
+                header_grid.with_area(:actions,
+                                      tag: :div,
+                                      hidden: true, # Prevent flicker on initial render
+                                      data: { 'work-packages--share--bulk-selection-target': 'actions' }) do
+                  if sharing_manageable?
+                    concat(
+                      render(WorkPackages::Share::BulkPermissionButtonComponent.new(work_package: @work_package))
+                    )
+
+                    concat(
+                      form_with(url: work_package_shares_bulk_path,
+                                method: :delete,
+                                data: { 'work-packages--share--bulk-selection-target': 'bulkForm' }) do
+                        render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+                      end
+                    )
                   end
                 end
               end

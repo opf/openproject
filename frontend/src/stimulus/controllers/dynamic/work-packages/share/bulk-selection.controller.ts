@@ -31,30 +31,72 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class BulkSelectionController extends Controller {
+  static values = {
+    bulkUpdateRoleLabel: { type: String, default: I18n.t('js.work_packages.sharing.selection.mixed') },
+  };
+
+  declare bulkUpdateRoleLabelValue:string;
+
   static targets = [
     'toggleAll',
+    'shareCheckbox',
     'sharedCounter',
     'selectedCounter',
-    'shareCheckbox',
-    'hiddenShareIdsContainer',
+    'actions',
+    'bulkForm',
+    'hiddenShare',
+    'userRowRole',
+    'bulkUpdateRole',
   ];
 
+  // Checkboxes
   declare readonly toggleAllTarget:HTMLInputElement;
+  declare readonly shareCheckboxTargets:HTMLInputElement[];
+
+  // Counters
   declare readonly sharedCounterTarget:HTMLElement;
   declare readonly selectedCounterTarget:HTMLElement;
-  declare readonly shareCheckboxTargets:HTMLInputElement[];
-  declare readonly hiddenShareIdsContainerTargets:HTMLElement[];
 
-  toggleAllTargetConnected() {
-    this.refresh();
-  }
+  // Bulk Forms
+  declare readonly bulkFormTargets:HTMLFormElement[];
+  declare readonly hiddenShareTargets:HTMLInputElement[];
+  declare readonly actionsTarget:HTMLElement;
 
+  // Permission Buttons
+  declare readonly userRowRoleTargets:HTMLButtonElement[];
+  declare readonly bulkUpdateRoleTarget:HTMLButtonElement;
+
+  // Refresh when a user is invited
   shareCheckboxTargetConnected() {
     this.refresh();
   }
 
+  // Refresh when a user is uninvited
   shareCheckboxTargetDisconnected() {
     this.refresh();
+  }
+
+  /*
+    This allows for the Rails controller to be oblivious of the order in which the
+    turbo stream actions must be declared. If all shares are selected and subsequently
+    one is individually removed, the "Toggle All" checkbox should remain selected. If
+    we only listen on the shares being added or removed, the event could fire before
+    the new counter connects, making it appear not toggled.
+   */
+  toggleAllTargetConnected() {
+    this.refresh();
+  }
+
+  // Refresh Bulk Update Label when a Role is updated inline
+  // as the updated share might have been selected and the label
+  // may no longer be correct
+  userRowRoleTargetConnected() {
+    this.updateBulkUpdateRoleLabelValue();
+  }
+
+  bulkUpdateRoleLabelValueChanged(current:string, _old:string) {
+    const label = this.bulkUpdateRoleTarget.querySelector('.Button-label') as HTMLElement;
+    label.textContent = current;
   }
 
   toggle(e:Event) {
@@ -71,51 +113,97 @@ export default class BulkSelectionController extends Controller {
     this.updateCounter();
   }
 
-  triggerInputEvent(checkbox:HTMLInputElement) {
+  refresh() {
+    const checkedSharesCount = this.checked.length;
+    const sharesCount = this.shareCheckboxTargets.length;
+    this.toggleAllTarget.checked = checkedSharesCount === sharesCount;
+
+    if (this.checked.length === 0) {
+      this.actionsTarget.setAttribute('hidden', 'true');
+    } else {
+      this.actionsTarget.removeAttribute('hidden');
+    }
+
+    this.updateBulkUpdateRoleLabelValue();
+    this.updateCounter();
+  }
+
+  // Private Methods
+
+  private triggerInputEvent(checkbox:HTMLInputElement) {
     const event = new Event('input', { bubbles: false, cancelable: true });
     checkbox.dispatchEvent(event);
   }
 
-  refresh() {
-    const checkedSharesCount = this.checked.length;
-    const sharesCount = this.shareCheckboxTargets.length;
-
-    this.toggleAllTarget.checked = checkedSharesCount === sharesCount;
-    this.updateCounter();
+  private updateBulkUpdateRoleLabelValue() {
+    if (new Set(this.selectedPermissions).size > 1) {
+      this.bulkUpdateRoleLabelValue = I18n.t('js.work_packages.sharing.selection.mixed');
+    } else {
+      this.bulkUpdateRoleLabelValue = this.selectedPermissions[0];
+    }
   }
 
-  updateCounter() {
+  private updateCounter() {
     if (this.checked.length === 0) {
-      this.sharedCounterTarget.removeAttribute('hidden');
-      this.selectedCounterTarget.setAttribute('hidden', 'true');
+      this.showSharedCounter();
     } else {
-      this.sharedCounterTarget.setAttribute('hidden', 'true');
-      this.selectedCounterTarget.removeAttribute('hidden');
-      this.selectedCounterTarget.textContent = I18n.t('js.work_packages.sharing.selected_count', { count: this.checked.length });
+      this.showSelectedCounter();
     }
 
-    this.hiddenShareIdsContainerTargets.forEach((checkboxIdsContainer) => {
-      checkboxIdsContainer.innerHTML = '';
-      const hiddenShareIds = this.createHiddenShareIds();
-      hiddenShareIds.forEach((hiddenShare) => checkboxIdsContainer.appendChild(hiddenShare));
+    this.repopulateHiddenShares();
+  }
+
+  private showSharedCounter() {
+    this.sharedCounterTarget.removeAttribute('hidden');
+    this.selectedCounterTarget.setAttribute('hidden', 'true');
+  }
+
+  private showSelectedCounter() {
+    this.selectedCounterTarget.textContent = I18n.t('js.work_packages.sharing.selected_count', { count: this.checked.length });
+    this.sharedCounterTarget.setAttribute('hidden', 'true');
+    this.selectedCounterTarget.removeAttribute('hidden');
+  }
+
+  private repopulateHiddenShares() {
+    this.hiddenShareTargets.forEach((hiddenInput) => hiddenInput.remove());
+
+    this.bulkFormTargets.forEach((form) => {
+      const hiddenShares = this.createHiddenShares();
+      hiddenShares.forEach((hiddenShare) => form.appendChild(hiddenShare));
     });
   }
 
-  createHiddenShareIds() {
+  private createHiddenShares() {
     return this.checked.map((checkbox) => {
       const hiddenInput = document.createElement('input');
+
       hiddenInput.type = 'hidden';
       hiddenInput.name = 'share_ids[]';
       hiddenInput.value = checkbox.value;
+      hiddenInput.setAttribute('data-work-packages--share--bulk-selection-target', 'hiddenShare');
+
       return hiddenInput;
     });
   }
 
-  get checked() {
-    return this.shareCheckboxTargets.filter((checkbox) => checkbox.checked);
+  private get selectedPermissions() {
+    return this.selectedRoleButtons.map((button) => {
+      const label = button.querySelector('.Button-label') as HTMLElement;
+
+      return label.textContent;
+    }) as string[];
   }
 
-  get unchecked() {
-    return this.shareCheckboxTargets.filter((checkbox) => !checkbox.checked);
+  private get selectedRoleButtons() {
+    const checkedShareIds = this.checked.map((checkbox) => checkbox.value);
+
+    return this.userRowRoleTargets.filter((button) => {
+      const shareId = button.getAttribute('data-share-id') as string;
+      return checkedShareIds.includes(shareId);
+    });
+  }
+
+  private get checked() {
+    return this.shareCheckboxTargets.filter((checkbox) => checkbox.checked);
   }
 }

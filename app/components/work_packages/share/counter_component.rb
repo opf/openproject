@@ -46,6 +46,12 @@ module WorkPackages
       private
 
       attr_reader :work_package, :count
+
+      def shared_with_anyone_else_other_than_myself?
+        Member.of_work_package(@work_package)
+              .where.not(principal: User.current)
+              .any?
+      end
     end
   end
 end

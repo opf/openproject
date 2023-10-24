@@ -70,6 +70,14 @@ module WorkPackages
         @share_editable ||= User.current != share.principal && sharing_manageable?
       end
 
+      def grid_css_classes
+        if sharing_manageable?
+          'op-share-wp-modal-body--user-row-manageable'
+        else
+          'op-share-wp-modal-body--user-row'
+        end
+      end
+
       def select_share_checkbox_options
         {
           name: "share_ids",
