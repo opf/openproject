@@ -34,6 +34,7 @@ FactoryBot.define do
     duration_in_minutes { 10 }
     item_type { :simple }
     m.sequence(:title) { |n| "Agenda item #{n}" }
+    notes { 'Agenda Item Notes' }
 
     factory(:wp_meeting_agenda_item) do
       item_type { :work_package }
