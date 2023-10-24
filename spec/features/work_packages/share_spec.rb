@@ -282,4 +282,46 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_no_invite_option
     end
   end
+
+  context 'when having global invite permission' do
+    shared_let(:global_manage_user) { create(:user, global_permissions: %i[manage_user create_user]) }
+    let(:current_user) { global_manage_user }
+
+    it 'allows inviting and directly sharing with a user who is not part of the instance yet' do
+      work_package_page.visit!
+      click_button 'Share'
+
+      share_modal.expect_open
+      share_modal.expect_shared_count_of(6)
+
+      share_modal.create_and_invite_user('hello@world.de', 'View')
+
+      share_modal.expect_shared_count_of(7)
+
+      new_user = User.last
+      share_modal.expect_shared_with(new_user, 'View', position: 1)
+
+      # perform_enqueued_jobs
+      # Only one combined email for create and share should be send out
+      # expect(ActionMailer::Base.deliveries.size).to eq(1)
+    end
+  end
+
+  context 'when lacking global invite permission' do
+    shared_let(:global_manage_user) { create(:user, global_permissions: %i[]) }
+    let(:current_user) { global_manage_user }
+
+    it 'does not allow creating a user who is not part of the instance yet' do
+      work_package_page.visit!
+      click_button 'Share'
+
+      share_modal.expect_open
+      share_modal.expect_shared_count_of(6)
+
+      share_modal.search_user('hello@world.de')
+
+      share_modal.expect_no_ng_option("", "Send invite to\"hello@world.de\"", results_selector: "body")
+      share_modal.expect_ng_option("", "No items found", results_selector: "body")
+    end
+  end
 end

@@ -42,7 +42,7 @@ module WorkPackages::Share
           filters: [{ name: 'type', operator: '=', values: %w[User Group] },
                     { name: 'id', operator: '!', values: [::Queries::Filters::MeValue::KEY] }],
           searchKey: 'any_name_attribute',
-          addTag: true,
+          addTag: User.current.allowed_to_globally?(:create_user),
           addTagText: I18n.t('members.send_invite_to'),
           focusDirectly: true,
           appendTo: 'body',
