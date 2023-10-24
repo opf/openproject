@@ -32,7 +32,7 @@ module Groups::Scopes
 
     class_methods do
       def visible(current_user = User.current)
-        if current_user.allowed_to_globally?(:manage_members)
+        if current_user.allowed_in_any_project?(:manage_members)
           Group.all
         else
           Group

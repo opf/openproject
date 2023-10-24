@@ -340,9 +340,6 @@ ko:
   themes:
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
-    dark: "다크"
-    dark_dimmed: "다크 딤드"
-    dark_high_contrast: "다크 하이 콘트라스트"
   types:
     index:
       no_results_title_text: 타입이 없습니다.
@@ -574,6 +571,7 @@ ko:
         time_zone: "표준 시간대"
         auto_hide_popups: "자동 숨김 성공 알림"
         warn_on_leaving_unsaved: "저장하지 않고 작업 패키지를 벗어날 때 알려주세요."
+        theme: "Mode"
       version:
         effective_date: "완료 날짜"
         sharing: "공유"
@@ -2172,10 +2170,11 @@ ko:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
         see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."

@@ -60,7 +60,7 @@ module API
         end
 
         def current_user_can_manage?
-          current_user&.allowed_to_globally?(:manage_placeholder_user)
+          current_user&.allowed_globally?(:manage_placeholder_user)
         end
       end
     end

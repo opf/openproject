@@ -54,7 +54,7 @@ module Users
     # Only admins can edit other admins
     # Only users with manage_user permission can edit other users
     def can_manage_user?
-      user.allowed_to_globally?(:manage_user) && (user.admin? || !model.admin?)
+      user.allowed_globally?(:manage_user) && (user.admin? || !model.admin?)
     end
   end
 end

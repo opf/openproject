@@ -192,23 +192,23 @@ module Journals
     # used as the values returned by the overall SQL statement so that an AR instance can be instantiated with it.
     #
     def create_journal_sql(predecessor, notes, cause)
+      journal_modifications = journal_modification_sql(predecessor, notes, cause)
+      relation_modifications = relation_modifications_sql(predecessor)
+
+      journal_cte_clauses = [journal_modifications]
+      journal_cte_clauses << relation_modifications if relation_modifications.any?
+
       <<~SQL
-        WITH cleanup_predecessor_data AS (
+        WITH #{journal_cte_clauses.join(',')}
+        SELECT * from inserted_journal
+      SQL
+    end
+
+    def journal_modification_sql(predecessor, notes, cause)
+      <<~SQL
+        cleanup_predecessor_data AS (
           #{cleanup_predecessor_data(predecessor)}
-        ),
-        cleanup_predecessor_attachable AS (
-          #{cleanup_predecessor_attachable(predecessor)}
-        ),
-        cleanup_predecessor_customizable AS (
-          #{cleanup_predecessor_customizable(predecessor)}
-        ),
-        cleanup_predecessor_storable AS (
-          #{cleanup_predecessor_storable(predecessor)}
-        ),
-        cleanup_predecessor_agenda_itemable AS (
-          #{cleanup_predecessor_agenda_itemable(predecessor)}
-        ),
-        max_journals AS (
+        ), max_journals AS (
           #{select_max_journal_sql(predecessor)}
         ), changes AS (
           #{select_changed_sql}
@@ -222,17 +222,36 @@ module Journals
           #{update_predecessor_sql(predecessor, notes, cause)}
         ), inserted_journal AS (
           #{update_or_insert_journal_sql(predecessor, notes, cause)}
-        ), insert_attachable AS (
-          #{insert_attachable_sql}
-        ), insert_customizable AS (
-          #{insert_customizable_sql}
-        ), insert_storable AS (
-          #{insert_storable_sql}
-        ), insert_agenda_itemable AS (
-          #{insert_agenda_itemable_sql}
         )
+      SQL
+    end
 
-        SELECT * from inserted_journal
+    def relation_modifications_sql(predecessor)
+      relations = []
+
+      associations = {
+        attachable?: :attachable,
+        customizable?: :customizable,
+        file_links: :storable,
+        agenda_items: :agenda_itemable
+      }
+
+      associations.each do |is_associated, association|
+        if journable.respond_to?(is_associated)
+          relations << association_modifications_sql(association, predecessor)
+        end
+      end
+
+      relations
+    end
+
+    def association_modifications_sql(association, predecessor)
+      <<~SQL
+        cleanup_predecessor_#{association} AS (
+          #{send("cleanup_predecessor_#{association}", predecessor)}
+        ), insert_#{association} AS (
+          #{send("insert_#{association}_sql")}
+        )
       SQL
     end
 

@@ -154,7 +154,7 @@ module API::V3::Storages
     end
 
     link :open do
-      { href: represented.open_link }
+      { href: api_v3_paths.storage_open(represented.id) }
     end
 
     link :authorizationState do
