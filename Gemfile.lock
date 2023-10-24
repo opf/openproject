@@ -574,8 +574,11 @@ GEM
     htmlbeautifier (1.4.2)
     htmldiff (0.0.1)
     htmlentities (4.3.4)
+    http-2-next (1.0.1)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
+    httpx (1.0.2)
+      http-2-next (>= 1.0.1)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     i18n-js (4.2.3)
@@ -1115,6 +1118,7 @@ DEPENDENCIES
   grids!
   html-pipeline (~> 2.14.0)
   htmldiff
+  httpx
   i18n-js (~> 4.2.3)
   json_schemer (~> 2.1.0)
   json_spec (~> 1.1.4)
@@ -1245,4 +1249,4 @@ RUBY VERSION
    ruby 3.2.1p31
 
 BUNDLED WITH
-   2.4.7
+   2.4.6

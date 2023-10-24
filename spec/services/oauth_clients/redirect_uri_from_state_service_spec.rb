@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'webmock/rspec'
 
 RSpec.describe OAuthClients::RedirectUriFromStateService, type: :model do
   let(:state) { 'asdf123425' }

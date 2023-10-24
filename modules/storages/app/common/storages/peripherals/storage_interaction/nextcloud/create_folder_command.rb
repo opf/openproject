@@ -44,28 +44,34 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:disable Metrics/AbcSize
     def call(folder_path:)
-      response = Util.http(@uri).mkcol(
-        Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(@username), Util.escape_path(folder_path)),
-        nil,
-        Util.basic_auth_header(@username, @password)
-      )
+      response = Util
+                   .httpx
+                   .basic_auth(@username, @password)
+                   .mkcol(
+                     Util.join_uri_path(
+                       @uri,
+                       "remote.php/dav/files",
+                       CGI.escapeURIComponent(@username),
+                       Util.escape_path(folder_path)
+                     )
+                   )
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
-      case response
-      when Net::HTTPSuccess
+      case response.status
+      when 201
         ServiceResult.success(message: 'Folder was successfully created.')
-      when Net::HTTPMethodNotAllowed
+      when 405
         if Util.error_text_from_response(response) == 'The resource you tried to create already exists'
           ServiceResult.success(message: 'Folder already exists.')
         else
           Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
         end
-      when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
-      when Net::HTTPUnauthorized
+      when 401
         Util.error(:unauthorized, 'Outbound request not authorized', error_data)
-      when Net::HTTPConflict
+      when 404
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
+      when 409
         Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
         Util.error(:error, 'Outbound request failed', error_data)

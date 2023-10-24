@@ -43,21 +43,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:disable Metrics/AbcSize
     def call(user:, group: @group)
-      response = Util.http(@uri).delete(
-        Util.join_uri_path(@uri.path,
-                           "ocs/v1.php/cloud/users",
-                           CGI.escapeURIComponent(user),
-                           "groups?groupid=#{CGI.escapeURIComponent(group)}"),
-        Util.basic_auth_header(@username, @password).merge(
-          'OCS-APIRequest' => 'true'
-        )
-      )
+      response = Util
+                   .httpx
+                   .basic_auth(@username, @password)
+                   .with(headers: { 'OCS-APIRequest' => 'true' })
+                   .delete(
+                     Util.join_uri_path(@uri,
+                                        "ocs/v1.php/cloud/users",
+                                        CGI.escapeURIComponent(user),
+                                        "groups?groupid=#{CGI.escapeURIComponent(group)}")
+                   )
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
-      case response
-      when Net::HTTPSuccess
-        statuscode = Nokogiri::XML(response.body).xpath('/ocs/meta/statuscode').text
+      case response.status
+      when 200
+        statuscode = Nokogiri::XML(response.body.to_s).xpath('/ocs/meta/statuscode').text
         case statuscode
         when "100"
           ServiceResult.success(message: "User has been removed from group")
@@ -73,13 +74,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           message = Nokogiri::XML(response.body).xpath('/ocs/meta/message').text
           Util.error(:error, "Failed to remove user #{user} from group #{group}: #{message}", error_data)
         end
-      when Net::HTTPMethodNotAllowed
+      when 405
         Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
-      when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
-      when Net::HTTPUnauthorized
+      when 401
         Util.error(:unauthorized, 'Outbound request not authorized', error_data)
-      when Net::HTTPConflict
+      when 404
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
+      when 409
         Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
         Util.error(:error, 'Outbound request failed', error_data)

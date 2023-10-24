@@ -60,22 +60,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def files_info(file_ids, token)
-      response = Util.http(@uri).post(
-        Util.join_uri_path(@uri.path, FILES_INFO_PATH),
-        { fileIds: file_ids }.to_json,
-        {
-          'Authorization' => "Bearer #{token.access_token}",
-          'Accept' => 'application/json',
-          'Content-Type' => 'application/json',
-          'OCS-APIRequest' => 'true'
-        }
-      )
-      case response
-      when Net::HTTPSuccess
-        ServiceResult.success(result: response.body)
-      when Net::HTTPNotFound
+      httpx = HTTPX.with(headers:
+                           {
+                             'Authorization' => "Bearer #{token.access_token}",
+                             'Accept' => 'application/json',
+                             'Content-Type' => 'application/json',
+                             'OCS-APIRequest' => 'true'
+                           }
+                        )
+      response = httpx.post(Util.join_uri_path(@uri.to_s, FILES_INFO_PATH), json: { fileIds: file_ids })
+
+      case response.status
+      when 200
+        ServiceResult.success(result: response.body.to_s)
+      when 404
         Util.error(:not_found, 'Outbound request destination not found!', response)
-      when Net::HTTPUnauthorized
+      when 401
         Util.error(:unauthorized, 'Outbound request not authorized!', response)
       else
         Util.error(:error, 'Outbound request failed!', response)
