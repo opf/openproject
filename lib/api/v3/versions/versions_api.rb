@@ -59,7 +59,7 @@ module API
 
                 permissions = %i(view_work_packages manage_versions)
 
-                authorize_any(permissions, projects:, user: current_user) do
+                authorize_in_projects(permissions, projects:) do
                   raise ::API::Errors::NotFound.new
                 end
               end

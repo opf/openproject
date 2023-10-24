@@ -42,7 +42,7 @@ module API
             after_validation do
               @revision = Changeset.find(params[:id])
 
-              authorize(:view_changesets, context: revision.project) do
+              authorize_in_project(:view_changesets, project: revision.project) do
                 raise API::Errors::NotFound.new
               end
             end

@@ -90,13 +90,12 @@ module Users::PermissionChecks
       .roles(self, context)
       .includes(:role_permissions)
       .pluck(:permission)
-      .map(&:to_sym)
 
     if context.is_a?(Project) || context.nil?
-      permissions + OpenProject::AccessControl.public_permissions.map(&:name)
-    else
-      permissions
-    end.compact.uniq
+      permissions += OpenProject::AccessControl.public_permissions.map(&:name)
+    end
+
+    permissions.compact.uniq.map(&:to_sym)
   end
 
   # Old allowed_to? interface. Marked as deprecated, should be removed at some point ... Guessing 14.0?

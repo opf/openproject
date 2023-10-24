@@ -36,7 +36,7 @@ module API
           route_param :id, type: Integer, desc: 'Category ID' do
             after_validation do
               @category = Category.find(params[:id])
-              authorize(:view_project, context: @category.project) do
+              authorize_in_project(:view_project, project: @category.project) do
                 raise API::Errors::NotFound.new
               end
             end
