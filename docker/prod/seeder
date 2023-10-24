@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+# Wait for the DB to be up
+WAIT_FOR_MIGRATIONS=false bundle exec rails runner $SCRIPT_DIR/wait_for_db.rb
+
 OUTPUT=$(echo "\dt" | psql `echo $DATABASE_URL | cut -d? -f1` 2>&1)
 
 if [[ "$OUTPUT" = "No relations found." ]]; then
