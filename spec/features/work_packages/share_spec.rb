@@ -301,9 +301,9 @@ RSpec.describe 'Work package sharing',
       new_user = User.last
       share_modal.expect_shared_with(new_user, 'View', position: 1)
 
-      # perform_enqueued_jobs
+      perform_enqueued_jobs
       # Only one combined email for create and share should be send out
-      # expect(ActionMailer::Base.deliveries.size).to eq(1)
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end
 

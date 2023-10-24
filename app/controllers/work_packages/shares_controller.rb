@@ -44,7 +44,7 @@ class WorkPackages::SharesController < ApplicationController
 
     # In case, the user does not exist yet: create one
     if user_id.to_i == 0
-      service_call = create_members
+      service_call = create_members(send_notification: false)
       user_id = service_call.result.user_id
     end
 
