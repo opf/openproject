@@ -32,8 +32,8 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
   class CostsApiUserPermissionCheckTestClass
     # mimic representer
     def view_time_entries_allowed?
-      current_user_allowed_to(:view_time_entries, context: represented.project) ||
-        current_user_allowed_to(:view_own_time_entries, context: represented.project)
+      current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+        current_user.allowed_in_project?(:view_own_time_entries, represented.project)
     end
 
     include API::V3::CostsApiUserPermissionCheck
@@ -58,11 +58,6 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
     allow(subject)
       .to receive(:represented)
       .and_return(work_package)
-  end
-
-  subject { CostsApiUserPermissionCheckTestClass.new }
-
-  before do
     %i[view_time_entries
        view_own_time_entries
        view_hourly_rates
@@ -77,6 +72,8 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
         .and_return send(permission)
     end
   end
+
+  subject { CostsApiUserPermissionCheckTestClass.new }
 
   describe '#overall_costs_visible?' do
     describe :overall_costs_visible? do
