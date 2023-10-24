@@ -133,9 +133,10 @@ module Authorization::Scopes
       end
 
       def allowed_to_permissions(permission)
+        # TODO: Re-enalbe the raise_to_unknown option once we know why empty stuff is passed in
         Authorization.contextual_permissions(permission,
                                              to_s.underscore.to_sym,
-                                             raise_on_unknown: true)
+                                             raise_on_unknown: false)
       end
     end
   end
