@@ -28,6 +28,8 @@
 
 module MeetingAgendaItems
   class CreateContract < BaseContract
+    attribute :item_type
+
     validate :user_allowed_to_add, :validate_meeting_existence
 
     def self.assignable_meetings(user)

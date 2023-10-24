@@ -26,24 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  module TouchMeeting
-    extend ActiveSupport::Concern
+class API::V3::Storages::StorageOpenAPI < API::OpenProjectAPI
+  helpers Storages::Peripherals::StorageErrorHelper
 
-    included do
-      private
+  using Storages::Peripherals::ServiceResultRefinements
 
-      def touch(meeting)
-        # We allow invalid meetings to be saved as
-        # adding the attachments does not change the validity of the meeting
-        # but without that leeway, the user needs to fix the meeting before
-        # the agenda_item can be added.
-        # However we want the meeting to be updated when updating an agenda_item. This is important,
-        # e.g. for invalidating caches and also for journalizing
-
-        meeting.update_column(:updated_at, Time.current)
-        meeting.save_journals if meeting.respond_to?(:save_journals)
-      end
+  resources :open do
+    get do
+      Storages::Peripherals::Registry
+        .resolve("queries.#{@storage.short_provider_type}.open_storage")
+        .call(storage: @storage, user: current_user)
+        .match(
+          on_success: ->(url) do
+            redirect url, body: "The requested resource can be viewed at #{url}"
+            status 303
+          end,
+          on_failure: ->(error) { raise_error(error) }
+        )
     end
   end
 end

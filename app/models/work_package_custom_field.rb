@@ -39,7 +39,7 @@ class WorkPackageCustomField < CustomField
            source_type: "WorkPackage"
 
   scope :visible_by_user, ->(user) {
-    if user.allowed_to_globally?(:select_custom_fields)
+    if user.allowed_in_any_project?(:select_custom_fields)
       all
     else
       where(projects: { id: Project.visible(user) })

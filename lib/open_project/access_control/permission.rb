@@ -111,6 +111,10 @@ module OpenProject
       def disable!
         @enabled = false
       end
+
+      def enable!
+        @enabled = true
+      end
     end
   end
 end

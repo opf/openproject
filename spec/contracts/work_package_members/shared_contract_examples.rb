@@ -79,8 +79,7 @@ RSpec.shared_examples_for 'work package member contract' do
       it_behaves_like 'contract is invalid', base: :error_unauthorized
     end
 
-    # Needs to be changed once groups are introduced
-    context 'if more than one role is assigned' do
+    context 'if more than one non-inherited role is assigned' do
       let(:member_roles) do
         [build_stubbed(:view_work_package_role), build_stubbed(:comment_work_package_role)]
       end

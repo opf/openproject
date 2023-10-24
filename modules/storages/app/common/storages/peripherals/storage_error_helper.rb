@@ -39,7 +39,7 @@ module Storages::Peripherals
       when :forbidden
         raise API::Errors::OutboundRequestForbidden.new
       else
-        raise API::Errors::InternalError.new
+        raise API::Errors::InternalError.new(error.log_message)
       end
     end
   end

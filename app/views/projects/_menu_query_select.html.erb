@@ -12,7 +12,7 @@
   </div>
 
   <div class="op-sidebar--footer">
-    <% if User.current.allowed_to_globally?(:add_project) %>
+    <% if User.current.allowed_globally?(:add_project) %>
       <%= button_to new_project_path,
                   { method: :get,
                     class: 'button -alt-highlight -expand',

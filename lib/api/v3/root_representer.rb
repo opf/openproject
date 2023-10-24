@@ -44,8 +44,8 @@ module API
       end
 
       link :memberships do
-        next unless current_user.allowed_to_globally?(:view_members) ||
-                    current_user.allowed_to_globally?(:manage_members)
+        next unless current_user.allowed_in_any_project?(:view_members) ||
+                    current_user.allowed_in_any_project?(:manage_members)
 
         {
           href: api_v3_paths.memberships

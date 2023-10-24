@@ -44,7 +44,7 @@ module WorkPackages
 
     def user_allowed_to_add
       if (model.project && !@user.allowed_to?(:add_work_packages, model.project)) ||
-         !@user.allowed_to_globally?(:add_work_packages)
+         !@user.allowed_in_any_project?(:add_work_packages)
         errors.add(:base, :error_unauthorized)
       end
     end

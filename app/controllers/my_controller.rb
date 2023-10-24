@@ -92,9 +92,9 @@ class MyController < ApplicationController
       .where(user: @user, oauth_client: { integration_type: 'Storages::Storage' }).find_by(id: params[:id])
 
     if token&.destroy
-      flash[:info] = I18n.t('my.access_tokens.storages.removed')
+      flash[:info] = I18n.t('my_account.access_tokens.storages.removed')
     else
-      flash[:error] = I18n.t('my.access_tokens.storages.failed')
+      flash[:error] = I18n.t('my_account.access_tokens.storages.failed')
     end
     redirect_to action: :access_token
   end

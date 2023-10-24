@@ -338,9 +338,6 @@ es:
   themes:
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
-    dark: "Oscuro"
-    dark_dimmed: "Oscuro atenuado"
-    dark_high_contrast: "Contraste alto oscuro"
   types:
     index:
       no_results_title_text: Actualmente no existen tipos.
@@ -573,6 +570,7 @@ es:
         time_zone: "Zona horaria"
         auto_hide_popups: "Auto-ocultar notificaciones satisfactorias"
         warn_on_leaving_unsaved: "Avisarme cuando salga de un paquete de trabajo con cambios sin guardar"
+        theme: "Mode"
       version:
         effective_date: "Fecha de finalización"
         sharing: "Compartiendo"
@@ -2198,10 +2196,11 @@ es:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
         see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
   mail_body_account_activation_request: "Ha registrado un nuevo usuario (%{value}). La cuenta está pendiente de aprobación:"
   mail_body_account_information: "Información de su cuenta"
   mail_body_account_information_external: "Puede usar su %{value} cuenta para ingresar."

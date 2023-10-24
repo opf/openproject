@@ -57,7 +57,12 @@ class WorkPackageMeetingsTabController < ApplicationController
   def add_work_package_to_meeting
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
-      .call(add_work_package_to_meeting_params.merge(work_package_id: @work_package.id))
+      .call(
+        add_work_package_to_meeting_params.merge(
+          work_package_id: @work_package.id,
+          item_type: MeetingAgendaItem::ITEM_TYPES[:work_package]
+        )
+      )
 
     meeting_agenda_item = call.result
 
