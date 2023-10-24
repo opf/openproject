@@ -166,6 +166,30 @@ RSpec.describe 'Admin storages',
         expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
         expect(page).to have_test_selector('storage-oauth-client-id-description',
                                            text: "Allow OpenProject to access Nextcloud data using an OAuth.")
+
+        accept_confirm do
+          find_test_selector('storage-edit-oauth-client-button').click
+        end
+
+        within_test_selector('storage-oauth-client-form') do
+          expect(page).to have_css('#oauth_client_client_id', value: '')
+          expect(page).to have_css('#oauth_client_client_secret', value: '')
+
+          # Unhappy path - Attempt to submit null values
+          click_button 'Save and continue'
+          # TODO: This should be "Client ID can't be blank." but primer assumes the label is "Client"
+          expect(page).to have_text("Client can't be blank.")
+          expect(page).to have_text("Client secret can't be blank.")
+
+          # Happy path - Submit valid values
+          fill_in 'oauth_client_client_id', with: '1234567890'
+          fill_in 'oauth_client_client_secret', with: '0987654321'
+          click_button 'Save and continue'
+        end
+
+        expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Connected')
+        expect(page).to have_test_selector('storage-oauth-client-id-description',
+                                           text: "OAuth Client ID: 1234567890")
       end
 
       aggregate_failures 'Automatically managed project folders' do
