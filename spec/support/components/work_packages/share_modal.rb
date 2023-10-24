@@ -55,7 +55,7 @@ module Components
         select_invite_role(role_name)
 
         within modal_element do
-          click_button 'Invite'
+          click_button 'Share'
         end
       end
 
@@ -71,7 +71,7 @@ module Components
         select_invite_role(role_name)
 
         within modal_element do
-          click_button 'Invite'
+          click_button 'Share'
         end
       end
 
