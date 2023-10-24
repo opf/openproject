@@ -97,11 +97,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           Util.error(:error, "nc:acl properly has not been set for #{path}")
         end
       when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found!', response)
+        Util.error(:not_found, 'Outbound request destination not found', response)
       when Net::HTTPUnauthorized
-        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+        Util.error(:unauthorized, 'Outbound request not authorized', response)
       else
-        Util.error(:error, 'Outbound request failed!', response)
+        Util.error(:error, 'Outbound request failed', response)
       end
     end
     # rubocop:enable Metrics/AbcSize

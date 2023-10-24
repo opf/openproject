@@ -619,14 +619,152 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       create(:oauth_client_token, origin_user_id: 'Yoda', user: single_project_user, oauth_client:)
       create(:oauth_client_token, origin_user_id: 'Darth Vader', user: admin, oauth_client:)
 
-      request_stubs << stub_request(:proppatch, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
-                         .with(
-                           body: set_permissions_request_body1,
-                           headers: {
-                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-                           }
-                         ).to_return(status: 207, body: set_permissions_response_body1, headers: {})
+      setup_request_stubs
+    end
 
+    it 'sets project folders properties' do
+      described_class.new(storage).call
+
+      expect(project_storage1.reload.project_folder_id).to eq('819')
+      expect(project_storage2.reload.project_folder_id).to eq('123')
+      expect(project_storage3.reload.project_folder_id).to eq('2600003')
+
+      expect(request_stubs).to all have_been_requested
+    end
+
+    context 'when remove_user_from_group_command fails unexpectedly' do
+      let(:remove_user_from_group_response) do
+        <<~XML
+          <?xml version="1.0"?>
+          <ocs>
+              <meta>
+                  <status>failure</status>
+                  <statuscode>105</statuscode>
+                  <message>Not viable to remove user from the last group you are SubAdmin of</message>
+              </meta>
+              <data/>
+          </ocs>
+        XML
+      end
+
+      it 'sets project folders properties, but does not remove inactive user from group' do
+        allow(OpenProject.logger).to receive(:warn)
+        expect(project_storage1.project_folder_id).to be_nil
+        expect(project_storage2.project_folder_id).to eq('123')
+
+        described_class.new(storage).call
+
+        expect(OpenProject.logger).to have_received(:warn) do |msg, _|
+          expect(msg).to eq({ command: 'nextcloud.remove_user_from_group',
+                              group: 'OpenProject',
+                              user: 'Darth Maul',
+                              message: "Failed to remove user Darth Maul from group OpenProject: " \
+                                       "Not viable to remove user from the last group you are SubAdmin of" }.to_json)
+        end
+
+        expect(request_stubs).to all have_been_requested
+        project_storage1.reload
+        project_storage2.reload
+        expect(project_storage1.project_folder_id).to eq('819')
+        expect(project_storage2.project_folder_id).to eq('123')
+      end
+    end
+
+    describe 'error handling and flow control' do
+      context 'when getting the root folder properties fail' do
+        context 'on a handled error case' do
+          before do
+            request_stubs[0] = stub_request(:propfind, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
+                                 .with(
+                                   body: propfind_request_body,
+                                   headers: {
+                                     'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                                     'Depth' => '1'
+                                   }
+                                 ).to_return(status: 404, body: "", headers: {})
+          end
+
+          it 'stops the flow immediately if the response is anything but a success' do
+            described_class.new(storage).call
+
+            request_stubs[1..].each { |request| expect(request).not_to have_been_requested }
+          end
+
+          it "logs an error message" do
+            allow(OpenProject.logger).to receive(:warn)
+            described_class.new(storage).call
+
+            expect(OpenProject.logger).to have_received(:warn) do |msg, _|
+              expect(msg).to eq({ command: 'nextcloud.file_ids',
+                                  folder: 'OpenProject',
+                                  message: 'Outbound request destination not found',
+                                  data: { status: "404", body: '' } }.to_json)
+            end
+          end
+        end
+
+        it 'raises an error when dealing with an unhandled error case' do
+          request_stubs[0] = stub_request(:propfind, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
+                               .with(
+                                 body: propfind_request_body,
+                                 headers: {
+                                   'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                                   'Depth' => '1'
+                                 }
+                               ).to_return(status: 500, body: "", headers: {})
+
+          expect { described_class.new(storage).call }.to raise_error RuntimeError
+        end
+      end
+
+      context 'when setting the root folder permissions fail' do
+        context 'on a handled error case' do
+          before do
+            request_stubs[1] = stub_request(:proppatch, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
+                                 .with(
+                                   body: set_permissions_request_body1,
+                                   headers: { 'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=' }
+                                 ).to_return(status: 401, body: 'Heute nicht', headers: {})
+          end
+
+          it 'interrupts the flow' do
+            described_class.new(storage).call
+
+            expect(request_stubs[0..1]).to all(have_been_requested)
+            request_stubs[2..].each { |request| expect(request).not_to have_been_requested }
+          end
+
+          it 'logs an error message' do
+            allow(OpenProject.logger).to receive(:warn)
+            described_class.new(storage).call
+
+            expect(OpenProject.logger).to have_received(:warn) do |msg, _|
+              expect(msg).to eq({ command: 'nextcloud.set_permissions',
+                                  folder: 'OpenProject',
+                                  message: 'Outbound request not authorized',
+                                  data: { status: '401', body: 'Heute nicht' } }.to_json)
+            end
+          end
+        end
+
+        it 'raises an error in case of an unhandled error case' do
+          request_stubs[1] = stub_request(:proppatch, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
+                               .with(
+                                 body: set_permissions_request_body1,
+                                 headers: {
+                                   'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+                                 }
+                               ).to_return(status: 500, body: 'this is a failure', headers: {})
+
+          expect { described_class.new(storage).call }.to raise_error RuntimeError
+        end
+      end
+    end
+
+    private
+
+    def setup_request_stubs
+      # Root folder FileIds
       request_stubs << stub_request(:propfind, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
                          .with(
                            body: propfind_request_body,
@@ -635,6 +773,14 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
                              'Depth' => '1'
                            }
                          ).to_return(status: 207, body: propfind_response_body1, headers: {})
+
+      request_stubs << stub_request(:proppatch, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
+                         .with(
+                           body: set_permissions_request_body1,
+                           headers: {
+                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+                           }
+                         ).to_return(status: 207, body: set_permissions_response_body1, headers: {})
 
       request_stubs << stub_request(
         :mkcol,
@@ -803,52 +949,6 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         headers: { 'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=' },
         body: propfind_request_body
       ).to_return(status: 200, body: propfind_response_body3, headers: {})
-    end
-
-    it 'sets project folders properties' do
-      described_class.new(storage).call
-
-      expect(project_storage1.reload.project_folder_id).to eq('819')
-      expect(project_storage2.reload.project_folder_id).to eq('123')
-      expect(project_storage3.reload.project_folder_id).to eq('2600003')
-
-      expect(request_stubs).to all have_been_requested
-    end
-
-    context 'when remove_user_from_group_command fails unexpectedly' do
-      let(:remove_user_from_group_response) do
-        <<~XML
-          <?xml version="1.0"?>
-          <ocs>
-              <meta>
-                  <status>failure</status>
-                  <statuscode>105</statuscode>
-                  <message>Not viable to remove user from the last group you are SubAdmin of</message>
-              </meta>
-              <data/>
-          </ocs>
-        XML
-      end
-
-      it 'sets project folders properties, but does not remove inactive user from group' do
-        allow(OpenProject.logger).to receive(:warn)
-        expect(project_storage1.project_folder_id).to be_nil
-        expect(project_storage2.project_folder_id).to eq('123')
-
-        described_class.new(storage).call
-
-        # expect(OpenProject.logger).to have_received(:warn) do |msg, _|
-        #   expect(msg).to eq "Nextcloud user Darth Maul has not been removed from Nextcloud group " \
-        #                     "OpenProject: 'Failed to remove user Darth Maul from group OpenProject: Not viable to remove " \
-        #                     "user from the last group you are SubAdmin of'"
-        # end
-
-        expect(request_stubs).to all have_been_requested
-        project_storage1.reload
-        project_storage2.reload
-        expect(project_storage1.project_folder_id).to eq('819')
-        expect(project_storage2.project_folder_id).to eq('123')
-      end
     end
   end
 end

@@ -59,19 +59,24 @@ module Storages
     # rubocop:disable Metrics/AbcSize
     def prepare_remote_folders
       remote_folders = remote_root_folder_properties.result_or do |error|
-        error_msg = "PROPFIND #{@storage.group_folder} #{error.log_message}. Response: #{error.data.inspect}"
+        error_msg = { command: 'nextcloud.file_ids',
+                      folder: @storage.group_folder,
+                      message: error.log_message,
+                      data: { status: error.data.code, body: error.data.body } }.to_json
+
         raise error_msg if error.code == :error
 
-        OpenProject.logger.warn error_msg
-        return false
+        return OpenProject.logger.warn error_msg
       end
 
       ensure_root_folder_permissions.error_and do |error|
-        error_msg = "PROPPATCH #{@storage.group_folder} #{error.log_message}. Response: #{error.data.inspect}"
+        error_msg = { command: 'nextcloud.set_permissions',
+                      folder: @storage.group_folder,
+                      message: error.log_message,
+                      data: { status: error.data.code, body: error.data.body } }.to_json
         raise error_msg if error.code == :error
 
-        OpenProject.logger.warn error_msg
-        return false
+        return OpenProject.logger.warn(error_msg)
       end
 
       ensure_folders_exist(remote_folders) and hide_inactive_folders(remote_folders)
@@ -93,13 +98,19 @@ module Storages
 
       (remote_users - local_users - [@storage.username]).each do |user|
         remove_user_from_remote_group(user).result_or do |error|
-          OpenProject.logger.warn "POST #{@storage.group} #{user} #{error.log_message}. Response: #{error.data.inspect}"
+          OpenProject.logger.warn({ command: 'nextcloud.remove_user_from_group',
+                                    group: @storage.group,
+                                    user:,
+                                    message: error.log_message }.to_json)
         end
       end
 
       (local_users - remote_users - [@storage.username]).each do |user|
         add_user_to_remote_group(user).result_or do |error|
-          OpenProject.logger.warn "DELETE #{@storage.group} #{user} #{error.log_message}. Response: #{error.data.inspect}"
+          OpenProject.logger.warn({ command: 'nextcloud.add_users_to_group',
+                                    group: @storage.group,
+                                    user:,
+                                    message: error.log_message }.to_json)
         end
       end
     end
@@ -218,6 +229,7 @@ module Storages
       project_storage.update(project_folder_id: folder_ids.dig(folder_path, 'fileid'))
       project_storage.reload.project_folder_id
     end
+
     # rubocop:enable Metrics/AbcSize
 
     def ensure_root_folder_permissions

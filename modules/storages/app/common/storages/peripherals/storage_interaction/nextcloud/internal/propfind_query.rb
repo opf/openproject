@@ -124,9 +124,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
       when Net::HTTPUnauthorized
         UTIL.error(:unauthorized)
       when Net::HTTPNotFound
-        UTIL.error(:not_found)
+        UTIL.error(:not_found, 'Outbound request destination not found', response)
       else
-        UTIL.error(:error)
+        UTIL.error(:error, '', response)
       end
     end
 
