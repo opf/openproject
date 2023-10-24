@@ -61,7 +61,7 @@ class Storages::FileLinks::CreateContract < ModelContract
 
   def validate_user_allowed_to_manage
     container = model.container
-    if container.present? && !user.allowed_to?(:manage_file_links, container.project)
+    if container.present? && !user.allowed_in_project?(:manage_file_links, container.project)
       errors.add(:base, :error_unauthorized)
     end
   end

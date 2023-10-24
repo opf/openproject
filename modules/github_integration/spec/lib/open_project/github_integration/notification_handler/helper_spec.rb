@@ -89,7 +89,6 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
 
       it 'finds work packages visible to the user' do
         expect(find_visible_work_packages).to eql(expected)
-        expect(user).to have_received(:allowed_to?).exactly(ids.length).times
       end
     end
 

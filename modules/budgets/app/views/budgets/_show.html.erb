@@ -96,7 +96,7 @@ See COPYRIGHT and LICENSE files for more details.
                 </tr>
                 <% end %>
               </tbody>
-              <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+              <% if User.current.allowed_in_project?(:view_cost_rates, @project) %>
               <tfoot>
                 <tr>
                   <td colspan="3"></td>
@@ -198,7 +198,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <% end %>
                 <% end %>
               </tbody>
-              <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+              <% if User.current.allowed_in_project?(:view_cost_rates, @project) %>
               <tfoot>
                 <tr>
                   <td colspan="3"></td>
@@ -293,7 +293,7 @@ See COPYRIGHT and LICENSE files for more details.
                 </tr>
                 <% end %>
               </tbody>
-              <% if User.current.allowed_to?(:view_hourly_rates, @project) || User.current.allowed_to?(:view_own_hourly_rate, @project) %>
+              <% if User.current.allowed_in_project?(:view_hourly_rates, @project) || User.current.allowed_in_project?(:view_own_hourly_rate, @project) %>
               <tfoot>
                 <tr>
                   <td colspan="3"></td>

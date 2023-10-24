@@ -55,14 +55,23 @@ module Acts::Journalized
       editable = if respond_to? :editable_by?
                    editable_by?(user)
                  else
-                   p = @project || (project if respond_to? :project)
-                   user.allowed_to? journable_edit_permission, p, global: p.present?
+                   permissible_project = @project || (project if respond_to? :project)
+                   allowed_edit_permission?(permissible_project)
                  end
 
       editable && journal.user_id == user.id
     end
 
     private
+
+    def allowed_edit_permission?(project)
+      if project
+        user.allowed_in_project?(journable_edit_permission, project)
+      else
+        # TODO: Maybe this also is rather a global permission? Let's see
+        user.allowed_in_any_project?(journable_edit_permission)
+      end
+    end
 
     def journable_edit_permission
       if respond_to? :journal_permission

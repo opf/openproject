@@ -45,7 +45,7 @@ module Costs
 
     module TableComponent
       def sort_collection(query, sort_clause, sort_columns)
-        q = super query, sort_clause.gsub(/current_rate/, 'COALESCE(rate, 0.0)'), sort_columns
+        q = super query, sort_clause.gsub("current_rate", 'COALESCE(rate, 0.0)'), sort_columns
 
         if sort_columns.include? :current_rate
           join_rate q
@@ -189,11 +189,11 @@ module Costs
       end
 
       def allow_view?
-        table.current_user.allowed_to? :view_hourly_rates, project
+        table.current_user.allowed_in_project?(:view_hourly_rates, project)
       end
 
       def allow_edit?
-        table.current_user.allowed_to? :edit_hourly_rates, project
+        table.current_user.allowed_in_project?(:edit_hourly_rates, project)
       end
     end
   end

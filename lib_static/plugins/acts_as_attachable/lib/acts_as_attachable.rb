@@ -201,9 +201,10 @@ module Redmine
           def allowed_to_on_attachment?(user, permissions)
             Array(permissions).any? do |permission|
               if respond_to?(:project)
-                user.allowed_to?(permission, project)
+                user.allowed_in_project?(permission, project)
               else
-                user.allowed_to_globally?(permission)
+                # TODO: Maybe also global permission? Let's see
+                user.allowed_in_any_project?(permission)
               end
             end
           end

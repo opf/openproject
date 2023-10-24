@@ -73,9 +73,13 @@ module ::Boards
     end
 
     def authorize_work_package_permission
-      unless current_user.allowed_to?(:view_work_packages, @project, global: @project.nil?)
-        deny_access
-      end
+      permitted = if @project
+                    current_user.allowed_in_project?(:view_work_packages, @project)
+                  else
+                    current_user.allowed_in_any_project?(:view_work_packages)
+                  end
+
+      deny_access unless permitted
     end
 
     def build_board_grid

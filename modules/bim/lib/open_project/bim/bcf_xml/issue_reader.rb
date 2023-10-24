@@ -138,7 +138,7 @@ module OpenProject::Bim::BcfXml
       return User.system if author.nil?
 
       # If found, check if the author can comment
-      return User.system unless author.allowed_to?(:add_work_package_notes, project)
+      return User.system unless author.allowed_in_project?(:add_work_package_notes, project)
 
       author
     end

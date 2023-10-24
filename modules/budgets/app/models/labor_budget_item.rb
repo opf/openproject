@@ -83,7 +83,7 @@ class LaborBudgetItem < ApplicationRecord
   end
 
   def costs_visible_by?(usr)
-    usr.allowed_to?(:view_hourly_rates, budget.project) ||
-      (usr.id == user_id && usr.allowed_to?(:view_own_hourly_rate, budget.project))
+    usr.allowed_in_project?(:view_hourly_rates, budget.project) ||
+      (usr.id == user_id && usr.allowed_in_project?(:view_own_hourly_rate, budget.project))
   end
 end

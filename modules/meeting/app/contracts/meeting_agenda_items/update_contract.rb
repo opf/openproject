@@ -34,7 +34,7 @@ module MeetingAgendaItems
     # Meeting agenda items can currently be only edited
     # through the project permission :edit_meetings
     def user_allowed_to_edit
-      unless user.allowed_to?(:edit_meetings, model.project)
+      unless user.allowed_in_project?(:edit_meetings, model.project)
         errors.add :base, :error_unauthorized
       end
     end

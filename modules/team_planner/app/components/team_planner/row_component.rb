@@ -54,7 +54,7 @@ module TeamPlanner
     end
 
     def delete_link
-      if table.current_user.allowed_to?(:manage_team_planner, project)
+      if table.current_user.allowed_in_project?(:manage_team_planner, project)
         link_to(
           '',
           project_team_planner_path(project, query.id),

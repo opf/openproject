@@ -49,7 +49,7 @@ class API::V3::FileLinks::FileLinksAPI < API::OpenProjectAPI
         @file_link = Storages::FileLink.find(params[:file_link_id])
 
         unless @file_link.container.present? &&
-               current_user.allowed_to?(:view_file_links, @file_link.project) &&
+               current_user.allowed_in_project?(:view_file_links, @file_link.project) &&
                @file_link.project.storage_ids.include?(@file_link.storage_id)
           raise ::API::Errors::NotFound.new
         end
