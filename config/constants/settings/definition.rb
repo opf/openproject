@@ -871,6 +871,10 @@ module Settings
         default: true,
         writable: false
       },
+      show_product_version: {
+        description: 'Show product version information in the administration section',
+        default: true,
+      },
       show_pending_migrations_warning: {
         description: 'Enable or disable warning bar in case of pending migrations',
         default: true,

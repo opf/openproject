@@ -68,7 +68,7 @@ module OpenProject
         version: OpenProject::VERSION.to_semver,
         core_hash: OpenProject::VERSION.revision,
         core_version: OpenProject::VERSION.core_version,
-        product_version: OpenProject::VERSION.product_version
+        product_version: OpenProject::VERSION.product_sha
       }.compact
     end
   end
