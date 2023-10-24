@@ -420,7 +420,11 @@ module Redmine::MenuManager::MenuHelper
     return true unless url
 
     # TODO: Maybe we need a bit more logic here, to figure out if this is a project or global role?
-    user&.allowed_in_project?(url, project)
+    if project
+      user&.allowed_in_project?(url, project)
+    else
+      user&.allowed_in_any_project?(url)
+    end
   end
 
   def visible_node?(menu, node)

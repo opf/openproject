@@ -114,7 +114,8 @@ module Authorization
     end
 
     def contextual_permissions(permission, context)
-      Authorization.contextual_permissions(permission, context, raise_on_unknown: true)
+      # TODO: Re-enable the raise on unknown once we know why those permissions are not there
+      Authorization.contextual_permissions(permission, context, raise_on_unknown: false)
     end
 
     def context_name(entity_class)
