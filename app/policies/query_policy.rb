@@ -129,7 +129,7 @@ class QueryPolicy < BasePolicy
     @share_via_ical_cache[query.project]
   end
 
-  def allowed_in_project_or_any_project(permission, project)
+  def allowed_in_project_or_any_project?(permission, project)
     if project
       user.allowed_in_project?(permission, project)
     else

@@ -92,7 +92,7 @@ module API
                    if represented.project
                      current_user.allowed_in_project?(:manage_public_queries, represented.project)
                    else
-                     current_user.allowed_in_any_project?(:manage_public_queries, represented.project)
+                     current_user.allowed_in_any_project?(:manage_public_queries)
                    end
                  end,
                  has_default: true
