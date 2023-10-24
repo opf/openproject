@@ -206,6 +206,27 @@ RSpec.describe Authorization do
         it 'returns only the global permission' do
           expect(subject).to eq([global_permission])
         end
+
+        context 'with a disabled permission' do
+          let(:action) { global_permission.name }
+          let(:returned_permissions) { [] }
+
+          around do |example|
+            global_permission.disable!
+            OpenProject::AccessControl.clear_caches
+            example.run
+          ensure
+            global_permission.enable!
+            OpenProject::AccessControl.clear_caches
+          end
+
+          it 'returns an empty array and does not warn or raise' do
+            expect(Rails.logger).not_to receive(:debug)
+            expect do
+              expect(subject).to be_empty
+            end.not_to raise_error
+          end
+        end
       end
 
       context 'when no global permission is part of the returned permissions' do

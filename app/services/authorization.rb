@@ -61,7 +61,7 @@ module Authorization
   #  - Hash with :controller and :action (e.g. { controller: 'work_packages', action: 'show' })
   def permissions_for(action)
     return [action] if action.is_a?(OpenProject::AccessControl::Permission)
-    return action if action.is_a?(Array) && action.all?(OpenProject::AccessControl::Permission)
+    return action if action.is_a?(Array) && (action.empty? || action.all?(OpenProject::AccessControl::Permission))
 
     if action.is_a?(Hash)
       OpenProject::AccessControl.allow_actions(action)

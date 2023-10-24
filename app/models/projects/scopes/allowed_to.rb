@@ -34,9 +34,7 @@ module Projects::Scopes
     class_methods do
       private
 
-      def allowed_to_non_member_relation(user, permission)
-        permissions = allowed_to_permissions(permission)
-
+      def allowed_to_non_member_relation(user, permissions)
         joins(allowed_to_enabled_module_join(permissions))
           .joins(allowed_to_builtin_roles_in_active_project_join(user))
           .joins(allowed_to_role_permission_join(permissions))
