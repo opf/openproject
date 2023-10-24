@@ -42,9 +42,9 @@ module API
                 when WorkPackageCustomField
                   authorized_work_package_option(custom_option)
                 when ProjectCustomField
-                  authorize_any(%i[view_project], global: true) { raise API::Errors::NotFound }
+                  authorize_in_any_project(%i[view_project]) { raise API::Errors::NotFound }
                 when TimeEntryCustomField
-                  authorize_any(%i[log_time log_own_time], global: true) { raise API::Errors::NotFound }
+                  authorize_in_any_project(%i[log_time log_own_time]) { raise API::Errors::NotFound }
                 when UserCustomField, GroupCustomField
                   true
                 else

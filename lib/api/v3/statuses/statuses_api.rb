@@ -35,7 +35,7 @@ module API
       class StatusesAPI < ::API::OpenProjectAPI
         resources :statuses do
           after_validation do
-            authorize(:view_work_packages, global: true)
+            authorize_in_any_project(:view_work_packages)
           end
 
           get do

@@ -36,7 +36,7 @@ module API
           end
 
           after_validation do
-            authorize Backup.permission, global: true
+            authorize_globally(Backup.permission)
           end
 
           params do

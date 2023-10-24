@@ -121,36 +121,6 @@ module API
         current_user && (current_user.admin? || !current_user.anonymous?)
       end
 
-      # Checks that the current user has the given permission or raise
-      # {API::Errors::Unauthorized}.
-      #
-      # @param permission [String] the permission name
-      #
-      # @param context [Project, Array<Project>, nil] can be:
-      #   * a project : returns true if user is allowed to do the specified
-      #     action on this project
-      #   * a group of projects : returns true if user is allowed on every
-      #     project
-      #   * +nil+ with +options[:global]+ set: check if user has at least one
-      #     role allowed for this action, or falls back to Non Member /
-      #     Anonymous permissions depending if the user is logged
-      #
-      # @param global [Boolean] when +true+ and with +context+ set to +nil+:
-      #   checks that the current user is allowed to do the specified action on
-      #   any project
-      #
-      # @raise [API::Errors::Unauthorized] when permission is not met
-      def authorize(permission, context: nil, global: false, user: current_user, &block)
-        auth_service = -> do
-          if global
-            user.allowed_in_any_project?(permission)
-          else
-            user.allowed_in_project?(permission, context)
-          end
-        end
-        authorize_by_with_raise auth_service, &block
-      end
-
       def authorize_by_with_raise(callable)
         is_authorized = callable.respond_to?(:call) ? callable.call : callable
 
@@ -165,23 +135,44 @@ module API
         false
       end
 
-      # checks whether the user has
-      # any of the provided permission in any of the provided
-      # projects
-      def authorize_any(permissions, projects: nil, global: false, user: current_user, &block)
-        raise ArgumentError if projects.nil? && !global
+      def authorize_in_project(permission_or_permissions, project:, user: current_user, &block)
+        permissions = Array(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_in_project?(permission, project)
+        end
+
+        authorize_by_with_raise(authorized, &block)
+      end
+
+      # checks whether the user has any of the provided permission in any of the provided specific projects
+      def authorize_in_projects(permission_or_permissions, projects:, user: current_user, &block)
+        raise ArgumentError if projects.blank?
+
+        permissions = Array(permission_or_permissions)
 
         projects = Array(projects)
 
         authorized = permissions.any? do |permission|
-          if global
-            authorize(permission, global: true, user:) do
-              false
-            end
-          else
-            allowed_projects = Project.allowed_to(user, permission)
-            !(allowed_projects & projects).empty?
-          end
+          allowed_projects = Project.allowed_to(user, permission)
+          allowed_projects.intersect?(projects)
+        end
+
+        authorize_by_with_raise(authorized, &block)
+      end
+
+      def authorize_in_any_project(permission_or_permissions, user: current_user, &block)
+        permissions = Array(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_in_any_project?(permission)
+        end
+
+        authorize_by_with_raise(authorized, &block)
+      end
+
+      def authorize_globally(permission_or_permissions, user: current_user, &block)
+        permissions = Array(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_globally?(permission)
         end
 
         authorize_by_with_raise(authorized, &block)
