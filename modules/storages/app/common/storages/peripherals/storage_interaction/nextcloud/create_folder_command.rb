@@ -60,9 +60,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           Util.error(:not_allowed, 'Outbound request method not allowed', response)
         end
       when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found!', response)
+        Util.error(:not_found, 'Outbound request destination not found', response)
       when Net::HTTPUnauthorized
-        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+        Util.error(:unauthorized, 'Outbound request not authorized', response)
       when Net::HTTPConflict
         Util.error(:conflict, Util.error_text_from_response(response), response)
       else

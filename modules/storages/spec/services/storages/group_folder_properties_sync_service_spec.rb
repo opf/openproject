@@ -776,7 +776,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         it 'continues normally ignoring that folder' do
           expect { described_class.new(storage).call }.not_to change(project_storage1, :project_folder_id)
 
-          expect(request_stubs.delete_at(7)).not_to have_been_requested
+          expect(request_stubs.delete_at(5)).not_to have_been_requested
           expect(request_stubs.delete_at(3)).not_to have_been_requested
           expect(request_stubs).to all(have_been_requested)
         end
@@ -792,20 +792,38 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
           end
         end
       end
-      #
-      # context 'when renaming a folder fail' do
-      #   it 'logs the occurrence'
-      #   it 'logs the occurrence' do
-      #     skip 'to be implemented'
-      #     allow(OpenProject.logger).to receive(:warn)
-      #     described_class.new(storage).call
-      #
-      #     expect(OpenProject.logger).to have_received(:warn) do |msg|
-      #       expect(msg).to eq({}.to_json)
-      #     end
-      #   end
-      # end
-      #
+
+      context 'when renaming a folder fail' do
+        before do
+          request_stubs[4] = stub_request(:move,
+                                          "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
+                                          "Lost%20Jedi%20Project%20Folder%20%233/")
+                               .with(headers: {
+                                       'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                                       'Destination' => "/remote.php/dav/files/OpenProject/OpenProject/" \
+                                                        "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/"
+                                     })
+                               .to_return(status: 404, body: "", headers: {})
+        end
+
+        it 'we stop processing to avoid issues with permissions' do
+          described_class.new(storage).call
+          request_stubs[5..].each { |request| expect(request).not_to have_been_requested }
+        end
+
+        it 'logs the occurrence' do
+          allow(OpenProject.logger).to receive(:warn)
+          described_class.new(storage).call
+
+          expect(OpenProject.logger).to have_received(:warn) do |msg, _|
+            expect(msg).to eq({ command: 'nextcloud.rename_file',
+                                source: "OpenProject/Lost Jedi Project Folder #3/",
+                                target: project_storage2.project_folder_path,
+                                data: { status: '404', body: '' } }.to_json)
+          end
+        end
+      end
+
       # context 'when hiding a folder fail' do
       #   it 'logs the occurrence' do
       #     skip 'to be implemented'
@@ -905,45 +923,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         }
       ).to_return(status: 207, body: created_folder_propfind_response_body, headers: {})
 
-      request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Obi-Wan/groups")
-                         .with(
-                           body: "groupid=OpenProject",
-                           headers: {
-                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-                             'Ocs-Apirequest' => 'true'
-                           }
-                         ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
-
-      request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Yoda/groups")
-                         .with(
-                           body: "groupid=OpenProject",
-                           headers: {
-                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-                             'Ocs-Apirequest' => 'true'
-                           }
-                         ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
-
-      request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Darth%20Vader/groups")
-                         .with(
-                           body: "groupid=OpenProject",
-                           headers: {
-                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-                             'Ocs-Apirequest' => 'true'
-                           }
-                         ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
-
-      # 7 - Set Permissions for the Created Folder
-      request_stubs << stub_request(
-        :proppatch,
-        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})/"
-      ).with(
-        body: created_folder_set_permissions_request_body,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-        }
-      ).to_return(status: 207, body: created_folder_set_permissions_response_body, headers: {})
-
+      # 4 - Move/Rename Folder
       request_stubs << stub_request(
         :move,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -955,6 +935,18 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
                            "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/"
         }
       ).to_return(status: 201, body: "", headers: {})
+
+      # 5 - Set Permissions for the Created Folder
+      request_stubs << stub_request(
+        :proppatch,
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
+        "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})/"
+      ).with(
+        body: created_folder_set_permissions_request_body,
+        headers: {
+          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+        }
+      ).to_return(status: 207, body: created_folder_set_permissions_response_body, headers: {})
 
       request_stubs << stub_request(
         :proppatch,
@@ -1043,6 +1035,33 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
           <s:message>The resource you tried to create already exists</s:message>
         </d:error>
       XML
+
+      request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Obi-Wan/groups")
+                         .with(
+                           body: "groupid=OpenProject",
+                           headers: {
+                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                             'Ocs-Apirequest' => 'true'
+                           }
+                         ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
+
+      request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Yoda/groups")
+                         .with(
+                           body: "groupid=OpenProject",
+                           headers: {
+                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                             'Ocs-Apirequest' => 'true'
+                           }
+                         ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
+
+      request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Darth%20Vader/groups")
+                         .with(
+                           body: "groupid=OpenProject",
+                           headers: {
+                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                             'Ocs-Apirequest' => 'true'
+                           }
+                         ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
 
       request_stubs << stub_request(
         :propfind,

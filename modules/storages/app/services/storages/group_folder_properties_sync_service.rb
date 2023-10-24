@@ -190,12 +190,16 @@ module Storages
       active_project_storages_scope.map do |project_storage|
         next create_folder(project_storage) unless id_folder_map.key?(project_storage.project_folder_id)
 
-        if id_folder_map[project_storage.project_folder_id] == project_storage.project_folder_path
+        current_path = id_folder_map[project_storage.project_folder_id]
+        if current_path == project_storage.project_folder_path
           project_storage.project_folder_id
         else
-          move_folder(project_storage, id_folder_map[project_storage.project_folder_id])
+          move_folder(project_storage, current_path)
             .result_or do |error|
-            error_msg = "MOVE #{project_storage.project_folder_path} #{error.log_message}. Response: #{error.data.inspect}"
+            error_msg = { command: 'nextcloud.rename_file',
+                          source: current_path,
+                          target: project_storage.project_folder_path,
+                          data: { status: error.data.code, body: error.data.body } }.to_json
 
             # we need to stop as this would mess with the other processes
             return OpenProject.logger.warn error_msg
