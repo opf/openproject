@@ -759,6 +759,15 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
           expect { described_class.new(storage).call }.to raise_error RuntimeError
         end
       end
+
+      context 'when folder creation fails'
+      context 'when renaming a folder fail'
+      context 'when hiding a folder fail'
+
+      context 'when setting project folder permissions fail'
+
+      context 'when adding a user to the group fails'
+      context 'when removing a user to the group fails'
     end
 
     private
