@@ -713,6 +713,7 @@ en:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Assignee'
           responsible: 'Accountable'
+          shared: 'Shared'
           watched: 'Watcher'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'

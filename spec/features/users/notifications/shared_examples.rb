@@ -17,6 +17,7 @@ RSpec.shared_examples 'notification settings workflow' do
       # Set settings for global email
       settings_page.configure_global assignee: true,
                                      responsible: true,
+                                     shared: true,
                                      work_package_commented: true,
                                      work_package_created: true,
                                      work_package_processed: true,
@@ -32,6 +33,7 @@ RSpec.shared_examples 'notification settings workflow' do
       settings_page.configure_project project:,
                                       assignee: true,
                                       responsible: true,
+                                      shared: true,
                                       work_package_commented: false,
                                       work_package_created: false,
                                       work_package_processed: false,
@@ -56,6 +58,7 @@ RSpec.shared_examples 'notification settings workflow' do
       expect(global_settings.responsible).to be_truthy
       expect(global_settings.mentioned).to be_truthy
       expect(global_settings.watched).to be_truthy
+      expect(global_settings.shared).to be_truthy
       expect(global_settings.work_package_commented).to be_truthy
       expect(global_settings.work_package_created).to be_truthy
       expect(global_settings.work_package_processed).to be_truthy
@@ -70,6 +73,7 @@ RSpec.shared_examples 'notification settings workflow' do
       expect(project_settings.responsible).to be_truthy
       expect(project_settings.mentioned).to be_truthy
       expect(project_settings.watched).to be_truthy
+      expect(project_settings.shared).to be_truthy
       expect(project_settings.work_package_commented).to be_falsey
       expect(project_settings.work_package_created).to be_falsey
       expect(project_settings.work_package_processed).to be_falsey

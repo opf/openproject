@@ -20,6 +20,7 @@ example:
     - watched: false
       involved: true
       mentioned: false
+      shared: true
       newsAdded: false,
       newsCommented: false
       documentAdded: false
