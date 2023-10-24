@@ -35,13 +35,21 @@ module Storages::Admin
         caption: I18n.t('storages.instructions.provider_type',
                         type_link_text: I18n.t('storages.instructions.type_link_text')),
         include_blank: false,
-        required: true
+        required: true,
+        disabled: @storage.persisted?
       ) do |storage_provider_list|
-        ::Storages::Storage::PROVIDER_TYPES.each do |provider_type|
+        if @storage.persisted?
           storage_provider_list.option(
-            label: I18n.t("storages.provider_types.#{::Storages::Storage.shorten_provider_type(provider_type)}.name"),
-            value: provider_type
+            label: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name"),
+            value: @storage.provider_type
           )
+        else
+          ::Storages::Storage::PROVIDER_TYPES.each do |provider_type|
+            storage_provider_list.option(
+              label: I18n.t("storages.provider_types.#{::Storages::Storage.shorten_provider_type(provider_type)}.name"),
+              value: provider_type
+            )
+          end
         end
       end
 
@@ -59,6 +67,11 @@ module Storages::Admin
         required: true,
         caption: I18n.t('storages.instructions.host')
       )
+    end
+
+    def initialize(storage:)
+      super()
+      @storage = storage
     end
   end
 end

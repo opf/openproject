@@ -7,7 +7,7 @@
     ) do |form|
       flex_layout do |general_info_row|
         general_info_row.with_row(mb: 3) do
-          render(Storages::Admin::StorageProviderForm.new(form))
+          render(Storages::Admin::StorageProviderForm.new(form, storage:))
         end
 
         general_info_row.with_row do

@@ -110,7 +110,8 @@ RSpec.describe 'Admin storages',
         # Update a storage - happy path
         find_test_selector('storage-edit-host-button').click
         within_test_selector('storage-general-info-form') do
-          select 'Nextcloud', from: 'storages_nextcloud_storage_provider_type'
+          expect(page).to have_css('#storages_nextcloud_storage_provider_type[disabled]')
+
           fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
           click_button 'Save and continue'
         end
