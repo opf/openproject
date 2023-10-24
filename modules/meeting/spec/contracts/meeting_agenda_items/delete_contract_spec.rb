@@ -41,7 +41,7 @@ RSpec.describe MeetingAgendaItems::DeleteContract do
 
   context 'with permission' do
     let(:user) do
-      create(:user, member_with_permissions: { project => [:edit_meetings] })
+      create(:user, member_with_permissions: { project => [:manage_agendas] })
     end
 
     it_behaves_like 'contract is valid'

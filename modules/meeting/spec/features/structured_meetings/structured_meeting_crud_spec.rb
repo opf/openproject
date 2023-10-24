@@ -43,7 +43,8 @@ RSpec.describe 'Structured meetings CRUD',
   shared_let(:user) do
     create(:user,
            lastname: 'First',
-           member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings view_work_packages] }).tap do |u|
+           member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings manage_agendas
+                                                    view_work_packages] }).tap do |u|
       u.pref[:time_zone] = 'utc'
 
       u.save!
@@ -151,14 +152,14 @@ RSpec.describe 'Structured meetings CRUD',
     expect(wp_item).to be_present
 
     # user can see actions
-    expect(page).to have_selector('#meeting-agenda-items-new-button-component')
+    expect(page).to have_css('#meeting-agenda-items-new-button-component')
     expect(page).to have_test_selector('op-meeting-agenda-actions', count: 3)
 
     # other_use can view, but not edit
     login_as other_user
     show_page.visit!
 
-    expect(page).not_to have_selector('#meeting-agenda-items-new-button-component')
+    expect(page).not_to have_css('#meeting-agenda-items-new-button-component')
     expect(page).not_to have_test_selector('op-meeting-agenda-actions')
   end
 

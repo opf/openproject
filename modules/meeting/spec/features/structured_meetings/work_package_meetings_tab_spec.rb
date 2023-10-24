@@ -41,7 +41,8 @@ RSpec.describe 'Open the Meetings tab', :js do
     create(:project_role,
            permissions: %i(view_work_packages
                            view_meetings
-                           edit_meetings))
+                           edit_meetings
+                           manage_agendas))
   end
   let(:meetings_tab) { Pages::MeetingsTab.new(work_package.id) }
 
@@ -278,7 +279,7 @@ RSpec.describe 'Open the Meetings tab', :js do
           meetings_tab.open_add_to_meeting_dialog
 
           fill_in('meeting_agenda_item_meeting_id', with: past_meeting.title)
-          expect(page).not_to have_selector('.ng-option-marked', text: past_meeting.title)
+          expect(page).not_to have_css('.ng-option-marked', text: past_meeting.title)
         end
 
         it 'does not enable the user to select a closed, upcoming meeting' do
@@ -288,7 +289,7 @@ RSpec.describe 'Open the Meetings tab', :js do
           meetings_tab.open_add_to_meeting_dialog
 
           fill_in('meeting_agenda_item_meeting_id', with: closed_upcoming_meeting.title)
-          expect(page).not_to have_selector('.ng-option-marked', text: closed_upcoming_meeting.title)
+          expect(page).not_to have_css('.ng-option-marked', text: closed_upcoming_meeting.title)
         end
 
         it 'requires a meeting to be selected' do
