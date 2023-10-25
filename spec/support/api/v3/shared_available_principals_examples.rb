@@ -31,23 +31,20 @@ require 'rack/test'
 RSpec.shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
-  current_user do
-    create(:user, member_with_roles: { project => role })
+  shared_let(:project) { create(:project) }
+
+  shared_let(:authorizable_role) do
+    create(:project_role, permissions: %i[view_work_packages])
   end
-  let(:other_user) do
-    create(:user, member_with_roles: { project => assignable_role })
+  shared_let(:assignable_role) do
+    create(:project_role, permissions: [:work_package_assigned])
   end
-  let(:role) { create(:project_role, permissions:) }
-  let(:assignable_role) { create(:project_role, permissions: assignable_permissions) }
-  let(:project) { create(:project) }
-  let(:group) do
-    create(:group, member_with_roles: { project => assignable_role })
+  shared_let(:authorizable_and_assignable_role) do
+    create(:project_role, permissions: %i[view_work_packages work_package_assigned])
   end
-  let(:placeholder_user) do
-    create(:placeholder_user, member_with_roles: { project => assignable_role })
+  shared_let(:non_authorizable_role) do
+    create(:project_role, permissions: [])
   end
-  let(:permissions) { [:view_work_packages] }
-  let(:assignable_permissions) { [:work_package_assigned] }
 
   shared_context "request available #{principals}" do
     before { get href }
@@ -60,39 +57,50 @@ RSpec.shared_examples_for 'available principals' do |principals|
       it_behaves_like 'API V3 collection response', total, count, klass
     end
 
+    shared_current_user do
+      create(:user, member_with_roles: { project => authorizable_role })
+    end
+
     describe 'users' do
       let(:permissions) { %i[view_work_packages work_package_assigned] }
 
-      context 'for a single user' do
-        # The current user
-
-        it_behaves_like "returns available #{principals}", 1, 1, 'User'
-      end
-
-      context 'for multiple users' do
-        before do
-          other_user
-          # and the current user
+      context 'if the current user has the assignable permission' do
+        shared_current_user do
+          create(:user, member_with_roles: { project => authorizable_and_assignable_role })
         end
 
-        it_behaves_like "returns available #{principals}", 2, 2, 'User'
+        context 'for a single user' do
+          # The current user
+          it_behaves_like "returns available #{principals}", 1, 1, 'User'
+        end
+
+        context 'for multiple users' do
+          shared_let(:other_user) do
+            create(:user, member_with_roles: { project => assignable_role })
+          end
+          # And the current user
+
+          it_behaves_like "returns available #{principals}", 2, 2, 'User'
+        end
       end
 
       context 'if the user lacks the assignable permission' do
-        let(:permissions) { %i[view_work_packages] }
-
         it_behaves_like "returns available #{principals}", 0, 0, 'User'
       end
     end
 
     describe 'groups' do
-      let!(:users) { [group] }
+      shared_let(:group) do
+        create(:group, member_with_roles: { project => assignable_role })
+      end
 
       it_behaves_like "returns available #{principals}", 1, 1, 'Group'
     end
 
     describe 'placeholder users' do
-      let!(:users) { [placeholder_user] }
+      shared_let(:placeholder_user) do
+        create(:placeholder_user, member_with_roles: { project => assignable_role })
+      end
 
       it_behaves_like "returns available #{principals}", 1, 1, 'PlaceholderUser'
     end
@@ -100,7 +108,10 @@ RSpec.shared_examples_for 'available principals' do |principals|
 
   describe 'if not allowed' do
     include Rack::Test::Methods
-    let(:permissions) { [] }
+
+    shared_current_user do
+      create(:user, member_with_roles: { project => non_authorizable_role })
+    end
 
     before { get href }
 
