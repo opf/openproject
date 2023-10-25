@@ -23,7 +23,7 @@ jobs:
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
-    container: ubuntu:22
+    container: ubuntu:22.04
     runs-on: ubuntu-latest
     timeout-minutes: 40
     services:
