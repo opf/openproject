@@ -11,7 +11,7 @@ export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 export LOG_FILE=/tmp/op-output.log
 
 run_psql() {
-	psql -v ON_ERROR_STOP=1 -U postgres -h localhost "$@"
+	psql -v ON_ERROR_STOP=1 "$@"
 }
 
 cleanup() {

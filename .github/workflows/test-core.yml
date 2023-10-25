@@ -45,7 +45,10 @@ jobs:
       CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
-      DATABASE_URL: "postgres://postgres:p4ssw0rd@localhost:5432/postgres"
+      DATABASE_URL: "postgres://postgres:p4ssw0rd@localhost/postgres"
+      PGPASSWORD: p4ssw0rd
+      PGUSER: postgres
+      PGHOST: localhost
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
@@ -66,9 +69,15 @@ jobs:
         DATABASE_URL=nulldb://db bin/rails openproject:plugins:register_frontend assets:precompile
         cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
         cp docker/ci/database.yml config/
+        ls -al frontend/.angular/cache/16.2.7/
         find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
-    - name: Tests
-      run: ./docker/ci/entrypoint.sh setup-tests run-units run-features
+    - name: Setup Tests
+      run: ./docker/ci/entrypoint.sh setup-tests
+    - name: Unit Tests
+      run: ./docker/ci/entrypoint.sh run-units
+      continue-on-error: true
+    - name: Feature Tests
+      run: ./docker/ci/entrypoint.sh run-features
       continue-on-error: true
 
     # - name: cache
