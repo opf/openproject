@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -e
 
 # export PATH="/usr/lib/postgresql/$PGVERSION/bin:$PATH"
 export JOBS="${CI_JOBS:=$(nproc)}"
@@ -11,8 +11,8 @@ export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 export LOG_FILE=/tmp/op-output.log
 export PGUSER=${PGUSER:=postgres}
 export PGHOST=${PGHOST:=localhost}
-
-: $PGPASSWORD
+export PGPASSWORD=${PGPASSWORD:=p4ssw0rd}
+export DATABASE_URL="postgres://$PGUSER:$PGPASSWORD@$PGHOST/postgres"
 
 run_psql() {
 	psql -v ON_ERROR_STOP=1 "$@"

@@ -45,10 +45,6 @@ jobs:
       CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
-      DATABASE_URL: "postgres://postgres:p4ssw0rd@localhost/postgres"
-      PGPASSWORD: p4ssw0rd
-      PGUSER: postgres
-      PGHOST: localhost
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
