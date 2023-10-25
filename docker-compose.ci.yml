@@ -3,20 +3,38 @@ version: "3.7"
 networks:
   testing:
 
+name: "openproject-ci"
+
 services:
+  db:
+    image: postgres:13
+    tmpfs:
+      - /var/lib/postgresql/data
+    volumes:
+      - ./docker/ci/postgresql.conf:/etc/postgresql/postgresql.conf
+    environment:
+      POSTGRES_PASSWORD: p4ssw0rd
   ci:
     build:
       context: .
       dockerfile: ./docker/ci/Dockerfile
+      args:
+        - APP_USER_UID
+        - APP_USER_GID
+        - RUBY_VERSION
     environment:
       CI_JOBS: "${CI_JOBS}"
       RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
       CAPYBARA_AWS_ACCESS_KEY_ID: "${CAPYBARA_AWS_ACCESS_KEY_ID}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${CAPYBARA_AWS_SECRET_ACCESS_KEY}"
+      PGHOST: db
     tmpfs:
       - "/tmp"
+    depends_on:
+      - db
     volumes:
-      # the spec folder is docker-ignored, so we need to mount it explicitly
-      - "./spec:/app/spec"
-      # used to store stuff that must persist between CI runs, e.g. turbo_tests runtime logs
-      - "${CI_CACHE_PATH:-/tmp}/op-cache:/cache"
+      - .:/app
+      - ${LOCAL_CACHE_PATH}/bundle:/usr/local/bundle
+      - ${LOCAL_CACHE_PATH}/npm:/app/.npm
+      - ${LOCAL_CACHE_PATH}/angular:/app/frontend/.angular/cache
+      - ${LOCAL_CACHE_PATH}/runtime-logs:/app/spec/support/runtime-logs
