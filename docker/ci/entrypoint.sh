@@ -1,17 +1,17 @@
 #!/bin/bash
 set -e
 
-export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
+# export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 export JOBS="${CI_JOBS:=$(nproc)}"
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
 export PARALLEL_TEST_FIRST_IS_1=true
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
-export NODE_OPTIONS="--max-old-space-size=8192"
+# export NODE_OPTIONS="--max-old-space-size=8192"
 export LOG_FILE=/tmp/op-output.log
 
 run_psql() {
-	$PGBIN/psql -v ON_ERROR_STOP=1 -U dev -h 127.0.0.1 "$@"
+	$PGBIN/psql -v ON_ERROR_STOP=1 -U postgres -h localhost "$@"
 }
 
 cleanup() {
@@ -60,12 +60,12 @@ setup_tests() {
 		execute_quiet "rm -rf '$folder' ; mkdir -p '$folder' ; chmod 1777 '$folder'"
 	done
 
-	if [ ! -d "/tmp/nulldb" ]; then
-		execute_quiet "$PGBIN/initdb -E UTF8 -D /tmp/nulldb"
-		execute_quiet "cp docker/ci/postgresql.conf /tmp/nulldb/"
-		execute_quiet "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start"
-		echo "create database appdb; create user appuser with superuser encrypted password 'p4ssw0rd'; grant all privileges on database appdb to appuser;" | run_psql -d postgres
-	fi
+	# if [ ! -d "/tmp/nulldb" ]; then
+	# 	execute_quiet "$PGBIN/initdb -E UTF8 -D /tmp/nulldb"
+	# 	execute_quiet "cp docker/ci/postgresql.conf /tmp/nulldb/"
+	# 	execute_quiet "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start"
+	# 	echo "create database appdb; create user appuser with superuser encrypted password 'p4ssw0rd'; grant all privileges on database appdb to appuser;" | run_psql -d postgres
+	# fi
 
 	# create test database "app" and dump schema because db/structure.sql is not checked in
 	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check"
