@@ -101,7 +101,8 @@ module Storages
           OpenProject.logger.warn({ command: 'nextcloud.remove_user_from_group',
                                     group: @storage.group,
                                     user:,
-                                    message: error.log_message }.to_json)
+                                    message: error.log_message,
+                                    data: { status: error.data.code, body: error.data.body } }.to_json)
         end
       end
 
@@ -110,7 +111,8 @@ module Storages
           OpenProject.logger.warn({ command: 'nextcloud.add_users_to_group',
                                     group: @storage.group,
                                     user:,
-                                    message: error.log_message }.to_json)
+                                    message: error.log_message,
+                                    data: { status: error.data.code, body: error.data.body } }.to_json)
         end
       end
     end
@@ -149,7 +151,12 @@ module Storages
       Peripherals::Registry
         .resolve("commands.nextcloud.set_permissions")
         .call(storage: @storage, **command_params)
-        .result_or { |error| OpenProject.logger.warn "PROPPATCH #{path} #{error.log_message}. Response: #{error.data.inspect}" }
+        .result_or do |error|
+        OpenProject.logger.warn({ command: 'nextcloud.set_permissions',
+                                  folder: project_storage.project_folder_path,
+                                  message: error.log_message,
+                                  data: { status: error.data.code, body: error.data.body } }.to_json)
+      end
     end
 
     def project_tokens(project_storage)
@@ -179,12 +186,10 @@ module Storages
           .resolve("commands.nextcloud.set_permissions")
           .call(storage: @storage, **command_params)
           .result_or do |error|
-          error_msg = { command: 'nextcloud.set_permissions',
-                        folder: path,
-                        message: error.log_message,
-                        data: { status: error.data.code, body: error.data.body } }.to_json
-
-          OpenProject.logger.warn error_msg
+          OpenProject.logger.warn({ command: 'nextcloud.set_permissions',
+                                    folder: path,
+                                    message: error.log_message,
+                                    data: { status: error.data.code, body: error.data.body } }.to_json)
         end
       end
     end

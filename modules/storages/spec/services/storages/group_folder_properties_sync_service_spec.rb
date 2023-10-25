@@ -332,7 +332,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         </d:multistatus>
       XML
     end
-    let(:set_permissions_request_body4) do
+    let(:set_permissions_request_body) do
       <<~XML
         <?xml version="1.0"?>
         <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
@@ -369,7 +369,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         </d:propertyupdate>
       XML
     end
-    let(:set_permissions_response_body4) do
+    let(:set_permissions_response_body) do
       <<~XML
         <?xml version="1.0"?>
         <d:multistatus
@@ -632,44 +632,6 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
       expect(request_stubs).to all have_been_requested
     end
 
-    context 'when remove_user_from_group_command fails unexpectedly' do
-      let(:remove_user_from_group_response) do
-        <<~XML
-          <?xml version="1.0"?>
-          <ocs>
-              <meta>
-                  <status>failure</status>
-                  <statuscode>105</statuscode>
-                  <message>Not viable to remove user from the last group you are SubAdmin of</message>
-              </meta>
-              <data/>
-          </ocs>
-        XML
-      end
-
-      it 'sets project folders properties, but does not remove inactive user from group' do
-        allow(OpenProject.logger).to receive(:warn)
-        expect(project_storage1.project_folder_id).to be_nil
-        expect(project_storage2.project_folder_id).to eq('123')
-
-        described_class.new(storage).call
-
-        expect(OpenProject.logger).to have_received(:warn) do |msg, _|
-          expect(msg).to eq({ command: 'nextcloud.remove_user_from_group',
-                              group: 'OpenProject',
-                              user: 'Darth Maul',
-                              message: "Failed to remove user Darth Maul from group OpenProject: " \
-                                       "Not viable to remove user from the last group you are SubAdmin of" }.to_json)
-        end
-
-        expect(request_stubs).to all have_been_requested
-        project_storage1.reload
-        project_storage2.reload
-        expect(project_storage1.project_folder_id).to eq('819')
-        expect(project_storage2.project_folder_id).to eq('123')
-      end
-    end
-
     describe 'error handling and flow control' do
       context 'when getting the root folder properties fail' do
         context 'on a handled error case' do
@@ -855,44 +817,105 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         end
       end
 
-      # context 'when setting project folder permissions fail' do
-      #   it 'logs the occurrence' do
-      #     skip 'to be implemented'
-      #
-      #     allow(OpenProject.logger).to receive(:warn)
-      #     described_class.new(storage).call
-      #
-      #     expect(OpenProject.logger).to have_received(:warn) do |msg|
-      #       expect(msg).to eq({}.to_json)
-      #     end
-      #   end
-      # end
-      #
-      # context 'when adding a user to the group fails' do
-      #   it 'logs the occurrence' do
-      #     skip 'to be implemented'
-      #
-      #     allow(OpenProject.logger).to receive(:warn)
-      #     described_class.new(storage).call
-      #
-      #     expect(OpenProject.logger).to have_received(:warn) do |msg|
-      #       expect(msg).to eq({}.to_json)
-      #     end
-      #   end
-      # end
-      #
-      # context 'when removing a user to the group fails' do
-      #   it 'logs the occurrence' do
-      #     skip 'to be implemented'
-      #
-      #     allow(OpenProject.logger).to receive(:warn)
-      #     described_class.new(storage).call
-      #
-      #     expect(OpenProject.logger).to have_received(:warn) do |msg|
-      #       expect(msg).to eq({}.to_json)
-      #     end
-      #   end
-      # end
+      context 'when setting project folder permissions fail' do
+        before do
+          request_stubs[8] = stub_request(:proppatch,
+                                          "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
+                                          "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/")
+                               .with(body: set_permissions_request_body,
+                                     headers: { 'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=' })
+                               .to_return(status: 500,
+                                          body: 'Divide by cucumber error. Please reinstall universe and reboot.',
+                                          headers: {})
+        end
+
+        it 'does not interrupt the flow' do
+          described_class.new(storage).call
+
+          expect(request_stubs).to all(have_been_requested)
+        end
+
+        it 'logs the occurrence' do
+          allow(OpenProject.logger).to receive(:warn)
+          described_class.new(storage).call
+
+          expect(OpenProject.logger).to have_received(:warn) do |msg|
+            expect(msg).to eq({ command: 'nextcloud.set_permissions',
+                                folder: "OpenProject/Jedi Project Folder ||| (#{project2.id})/",
+                                message: 'Outbound request failed',
+                                data: { status: '500',
+                                        body: 'Divide by cucumber error. Please reinstall universe and reboot.' } }.to_json)
+          end
+        end
+      end
+
+      context 'when adding a user to the group fails' do
+        before do
+          request_stubs[12] = stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Obi-Wan/groups")
+                                .with(
+                                  body: "groupid=OpenProject",
+                                  headers: {
+                                    'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                                    'Ocs-Apirequest' => 'true'
+                                  }
+                                ).to_return(status: 302, body: '', headers: {})
+        end
+
+        it 'does not interrupt te flow' do
+          described_class.new(storage).call
+
+          expect(request_stubs).to all have_been_requested
+        end
+
+        it 'logs the occurrence' do
+          allow(OpenProject.logger).to receive(:warn)
+          described_class.new(storage).call
+
+          expect(OpenProject.logger).to have_received(:warn) do |msg|
+            expect(msg).to eq({ command: 'nextcloud.add_users_to_group',
+                                group: 'OpenProject',
+                                user: 'Obi-Wan',
+                                message: 'Outbound request failed',
+                                data: { status: '302', body: '' } }.to_json)
+          end
+        end
+      end
+
+      context 'when removing a user to the group fails' do
+        let(:remove_user_from_group_response) do
+          <<~XML
+            <?xml version="1.0"?>
+            <ocs>
+                <meta>
+                    <status>failure</status>
+                    <statuscode>105</statuscode>
+                    <message>Not viable to remove user from the last group you are SubAdmin of</message>
+                </meta>
+                <data/>
+            </ocs>
+          XML
+        end
+
+        it 'does not interrupt the flow' do
+          described_class.new(storage).call
+
+          expect(request_stubs).to all have_been_requested
+        end
+
+        it 'logs the occurrence and continues the flow' do
+          allow(OpenProject.logger).to receive(:warn)
+          described_class.new(storage).call
+
+          expect(OpenProject.logger).to have_received(:warn) do |msg, _|
+            expect(msg).to eq({ command: 'nextcloud.remove_user_from_group',
+                                group: 'OpenProject',
+                                user: 'Darth Maul',
+                                message: "Failed to remove user Darth Maul from group OpenProject: " \
+                                         "Not viable to remove user from the last group you are SubAdmin of",
+                                data: { status: '200', body: remove_user_from_group_response } }.to_json)
+          end
+        end
+      end
     end
 
     private
@@ -966,7 +989,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         }
       ).to_return(status: 207, body: created_folder_set_permissions_response_body, headers: {})
 
-      # 6 - Hide Inactive Folder
+      # 6 - Hide Unknown Inactive Folder
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -978,17 +1001,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         }
       ).to_return(status: 207, body: hide_folder_set_permissions_response_body, headers: {})
 
-      request_stubs << stub_request(
-        :proppatch,
-        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/"
-      ).with(
-        body: set_permissions_request_body4,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-        }
-      ).to_return(status: 207, body: set_permissions_response_body4, headers: {})
-
+      # 7 - Hide Inactive Project Folder
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -1000,6 +1013,19 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         }
       ).to_return(status: 207, body: set_permissions_response_body5, headers: {})
 
+      # 8 - Set folder Permissions
+      request_stubs << stub_request(
+        :proppatch,
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
+        "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/"
+      ).with(
+        body: set_permissions_request_body,
+        headers: {
+          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+        }
+      ).to_return(status: 207, body: set_permissions_response_body, headers: {})
+
+      # 9 - Set public project folder permissions
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -1016,12 +1042,13 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
         "Project3%20%28#{project3.id}%29/"
       ).with(
-        body: set_permissions_request_body4,
+        body: set_permissions_request_body,
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 207, body: set_permissions_response_body7, headers: {})
 
+      # 11 - Get all user in the remote group
       request_stubs << stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/groups/#{storage.group}")
                          .with(
                            headers: {
@@ -1030,31 +1057,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
                            }
                          ).to_return(status: 200, body: group_users_response_body, headers: {})
 
-      request_stubs << stub_request(
-        :delete,
-        "#{storage.host}/ocs/v1.php/cloud/users/Darth%20Maul/groups?groupid=OpenProject"
-      ).with(
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-          'Ocs-Apirequest' => 'true'
-        }
-      ).to_return(status: 200, body: remove_user_from_group_response, headers: {})
-
-      request_stubs << stub_request(
-        :mkcol,
-        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20(#{project3.id})/"
-      ).with(
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-        }
-      ).to_return(status: 405, body: <<~XML, headers: {})
-        <?xml version="1.0" encoding="utf-8"?>
-        <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
-          <s:exception>Sabre\\DAV\\Exception\\MethodNotAllowed</s:exception>
-          <s:message>The resource you tried to create already exists</s:message>
-        </d:error>
-      XML
-
+      # 12 - Add user to group
       request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Obi-Wan/groups")
                          .with(
                            body: "groupid=OpenProject",
@@ -1082,6 +1085,34 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
                            }
                          ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
 
+      # remove user from group
+      request_stubs << stub_request(
+        :delete,
+        "#{storage.host}/ocs/v1.php/cloud/users/Darth%20Maul/groups?groupid=OpenProject"
+      ).with(
+        headers: {
+          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+          'Ocs-Apirequest' => 'true'
+        }
+      ).to_return(status: 200, body: remove_user_from_group_response, headers: {})
+
+      # Create an already existing folder
+      request_stubs << stub_request(
+        :mkcol,
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20(#{project3.id})/"
+      ).with(
+        headers: {
+          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+        }
+      ).to_return(status: 405, body: <<~XML, headers: {})
+        <?xml version="1.0" encoding="utf-8"?>
+        <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+          <s:exception>Sabre\\DAV\\Exception\\MethodNotAllowed</s:exception>
+          <s:message>The resource you tried to create already exists</s:message>
+        </d:error>
+      XML
+
+      # Get the already existing folder id
       request_stubs << stub_request(
         :propfind,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20(#{project3.id})/"
