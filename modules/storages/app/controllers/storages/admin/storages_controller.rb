@@ -42,7 +42,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object, only: %i[show destroy edit update replace_oauth_application]
-  before_action :parse_drive_id, only: %i[update]
+  before_action :prepare_update_params, only: %i[update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -172,7 +172,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   private
 
-  def parse_drive_id
+  def prepare_update_params
     @storage_params = permitted_storage_params
 
     if @storage.provider_type_one_drive? && @storage.drive_id.nil?

@@ -129,7 +129,7 @@ en:
         tenant_id: >
           Please insert the tenant ID you got from your SharePoint administrator.
         drive_id: >
-          The drive ID can be obtained by you SharePoint Administrator.
+          The drive ID can be obtained by you SharePoint administrator.
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project.
