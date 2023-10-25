@@ -36,6 +36,9 @@ RSpec.describe Queries::ICalSharingContract do
   # real database checks which should not be mocked
 
   let(:project) { create(:project) }
+  let(:public) { false }
+  let(:user) { current_user }
+  let(:permissions) { %i() }
   let(:query) do
     create(:query, project:, public:, user:)
   end
@@ -154,4 +157,6 @@ RSpec.describe Queries::ICalSharingContract do
       end
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

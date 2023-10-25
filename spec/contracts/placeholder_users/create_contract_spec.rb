@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
 RSpec.describe PlaceholderUsers::CreateContract do

@@ -375,4 +375,6 @@ RSpec.describe UserPreferences::UpdateContract do
       it_behaves_like 'contract is invalid', pause_reminders: :blank
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

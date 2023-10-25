@@ -63,7 +63,6 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     @oauth_client = service_result.result
 
     service_result.on_failure do
-      @errors = service_result.errors
       render '/storages/admin/storages/new_oauth_client'
     end
 

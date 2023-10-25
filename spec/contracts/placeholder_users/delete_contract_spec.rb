@@ -59,4 +59,8 @@ RSpec.describe PlaceholderUsers::DeleteContract do
       it_behaves_like 'contract user is unauthorized'
     end
   end
+
+  include_examples 'contract reuses the model errors' do
+    let(:current_user) { build_stubbed(:admin) }
+  end
 end

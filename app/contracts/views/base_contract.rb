@@ -41,9 +41,10 @@ module Views
       # needs to validate additionally. E.g. a contract can have additional permission checks.
       if (strategy_class = Constants::Views.contract_strategy(model.type))
         strategy = strategy_class.new(model, user)
-        strategy.valid?
 
-        errors.merge!(strategy.errors)
+        with_merged_former_errors do
+          strategy.valid?
+        end
       end
 
       errors.empty?

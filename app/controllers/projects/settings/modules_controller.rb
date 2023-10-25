@@ -39,7 +39,6 @@ class Projects::Settings::ModulesController < Projects::SettingsController
 
       redirect_to project_settings_modules_path(@project)
     else
-      @errors = call.errors
       render 'show'
     end
   end

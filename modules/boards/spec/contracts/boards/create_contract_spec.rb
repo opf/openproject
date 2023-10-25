@@ -52,4 +52,6 @@ RSpec.describe Boards::CreateContract do
 
     it_behaves_like 'contract is invalid', name: :blank
   end
+
+  include_examples 'contract reuses the model errors'
 end
