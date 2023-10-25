@@ -2,8 +2,6 @@
 
 Regardless of the type of installation of OpenProject, the following diagram provides a high-level overview of through which systems data related to OpenProject is flowing.
 
-
-
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 
@@ -43,8 +41,6 @@ The external web server acts as a proxy/reverse-proxy for the OpenProject Puma a
 
 In the course of using the application, background tasks are enqueued in the database such as outgoing emails, cleanup tasks, or notification processing. These tasks are performed in a separate process, the background worker queue. This process accesses the same services as the application server process to access or modify data. It might connect to external integrations such as a Nextcloud instance to set up file sharings depending on actions performed by the users.
 
-
-
 ## Exemplary request flow
 
 - **User request**: An end-user sends an HTTPS request to the load balancer or proxying server.
@@ -68,8 +64,6 @@ In the course of using the application, background tasks are enqueued in the dat
 
 - **Background worker:** Operate on periodical background data, or perform actions requested by the web request of user (sending emails, exporting data, communicating with external services)
 
-
-
 ## Schema information
 
 OpenProject's database schema is considered an internal API, please do not rely on it as a stable point of references. Schema modifications by the OpenProject core might be performed in any upgrade, including patch releases. Modifications to the database schema are considered a third-party customization and might prevent us from giving proper support. If you have an active support contract with OpenProject, please note that modifications affect our warranty. For more information, please consult the [Terms of Services](https://www.openproject.org/legal/terms-of-service/#-5-warranty).
@@ -90,16 +84,12 @@ OpenProject makes use of technical cookies to identity the browser client and/or
 | `autologin` (name is configurable)             | (Optional feature, requires opt-in under Administration > Authentication settings) <br />enables the user to automatically log in again after the session expired (e.g. because the browser was closed). It is set when the user checks the '*Stay logged in*' box in the login form.<br /> | Cookie 1 year<br />+ server-side token N days (configurable) | secure<br />httponly<br />Samesite=Lax<br />encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/app/controllers/concerns/accounts/user_login.rb#L19C1-L29) |
 | `op2fa_remember_token`                         | the presence of that cookie suppresses the need for the user to provide a second factor upon login for N days (configurable by administration) if the user selects to do so when entering the 2fa information. | N days (configurable)                                        | secure<br />httponly<br />Samesite=Lax<br />encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/modules/two_factor_authentication/app/controllers/concerns/two_factor_authentication/remember_token.rb#L28-L34) |
 
-
-
 On top of that, for cloud instances:
 
 - `openproject_cloud_instances` contains a list of instances the user recently accessed.
 - additional technical cookies might be set by the load balancer and intermediate processes (i.e., to remember a sticky load balancer and ensuring subsequent requests are routed similarly).
 
-
-
-# Processing of Personally Identifiable Information
+# Processing of personally identifiable information
 
 As OpenProject is dealing with user account data, it is processing personally identifiable information (PII). This data encompasses:
 
@@ -110,17 +100,13 @@ As OpenProject is dealing with user account data, it is processing personally id
 - IP addresses in log files
 - Possibly data that is filled as part of user custom fields, configurable data fields shown and editable for users. The content of these fields are user-provided and not systematically processed by OpenProject however.
 
-
-
 Affected services:
 
 - PostgreSQL database (stores user account data)
 - Object storage or NFS (stores user pictures as files)
 - Memcached (Might contain references to cached information of user data)
 
-
-
-## Deletion and Anonymization of PII
+## Deletion and anonymization of personally identifiable information
 
 Whenever users in OpenProject are fully deleted, the system scrubs and removes all structural PII. For more information on user account deletion, please see [the user administration guide](../../system-admin-guide/users-permissions/users/#delete-users).
 
