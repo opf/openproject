@@ -52,23 +52,47 @@ module Components
                             select_text: user.name,
                             results_selector: 'body'
 
-        within modal_element.find('[data-test-selector="op-share-wp-invite-role"]') do
-          # Open the ActionMenu
-          click_button 'View'
-
-          find('.ActionListContent', text: role_name).click
-        end
+        select_invite_role(role_name)
 
         within modal_element do
-          click_button 'Invite'
+          click_button 'Share'
         end
       end
 
       alias_method :invite_group, :invite_user
 
+      def create_and_invite_user(email, role_name)
+        # Adding a user to the list of shared users
+        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+                            query: email,
+                            select_text: "Send invite to\"#{email}\"",
+                            results_selector: 'body'
+
+        select_invite_role(role_name)
+
+        within modal_element do
+          click_button 'Share'
+        end
+      end
+
+      def search_user(search_string)
+        search_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+                            query: search_string,
+                            results_selector: 'body'
+      end
+
       def remove_user(user)
         within user_row(user) do
           click_button 'Remove'
+        end
+      end
+
+      def select_invite_role(role_name)
+        within modal_element.find('[data-test-selector="op-share-wp-invite-role"]') do
+          # Open the ActionMenu
+          click_button 'View'
+
+          find('.ActionListContent', text: role_name).click
         end
       end
 
