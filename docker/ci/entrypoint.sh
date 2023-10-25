@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
+# export PATH="/usr/lib/postgresql/$PGVERSION/bin:$PATH"
 export JOBS="${CI_JOBS:=$(nproc)}"
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
@@ -11,7 +11,7 @@ export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 export LOG_FILE=/tmp/op-output.log
 
 run_psql() {
-	$PGBIN/psql -v ON_ERROR_STOP=1 -U postgres -h localhost "$@"
+	psql -v ON_ERROR_STOP=1 -U postgres -h localhost "$@"
 }
 
 cleanup() {
