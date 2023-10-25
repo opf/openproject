@@ -29,22 +29,32 @@
 
 
 class MeetingMailer < UserMailer
-  def content_for_review(content, content_type, user)
-    @author = User.current
-    @meeting = content.meeting
-    @content_type = content_type
+  def invited(meeting, user, author)
+    @author = author
+    @meeting = meeting
 
     open_project_headers 'Project' => @meeting.project.identifier,
                          'Meeting-Id' => @meeting.id
 
     User.execute_as(user) do
-      subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
-      mail to: user.mail, subject:
+      timezone = Time.zone || Time.zone_default
+
+      @formatted_timezone = format_timezone_offset timezone, @meeting.start_time
+
+      ::Meetings::ICalService
+        .new(user:, meeting: @meeting)
+        .call
+        .on_success do |call|
+        attachments['meeting.ics'] = call.result
+
+        subject = "[#{@meeting.project.name}] #{@meeting.title}"
+        mail(to: user.mail, subject:)
+      end
     end
   end
 
-  def icalendar_notification(content, content_type, user)
-    @meeting = content.meeting
+  def icalendar_notification(meeting, content_type, user)
+    @meeting = meeting
     @content_type = content_type
 
     set_headers @meeting

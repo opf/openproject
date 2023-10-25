@@ -85,7 +85,10 @@ module OpenProject::Meeting
                    permissible_on: :project,
                    require: :member
         permission :send_meeting_agendas_notification,
-                   { meeting_agendas: [:notify] },
+                   {
+                     meetings: [:notify],
+                     meeting_agendas: [:notify]
+                   },
                    permissible_on: :project,
                    require: :member
         permission :send_meeting_agendas_icalendar,

@@ -36,7 +36,12 @@ class Meeting < ApplicationRecord
   has_one :agenda, dependent: :destroy, class_name: 'MeetingAgenda'
   has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
-  has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
+
+  has_many :participants,
+           dependent: :destroy,
+           class_name: 'MeetingParticipant',
+           after_add: :send_participant_added_mail
+
   has_many :agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
 
   default_scope do
@@ -309,5 +314,9 @@ class Meeting < ApplicationRecord
     participants.select(&:new_record?).each do |p|
       add_watcher(p.user)
     end
+  end
+
+  def send_participant_added_mail(participant)
+    MeetingMailer.invited(self, participant.user, User.current).deliver_later
   end
 end

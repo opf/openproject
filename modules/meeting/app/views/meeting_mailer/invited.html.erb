@@ -38,9 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
 </ul>
 
 <p>
-  <%=raw t(:"text_review_#{@content_type}",
+  <%= raw t(:text_review_meeting,
            :author => h(@author),
-           :link => link_to(t(:"text_#{@content_type}_for_meeting",
-                              :meeting => @meeting.title),
-                            meeting_url(@meeting))) %>
+            :link => link_to(@meeting.title, meeting_url(@meeting))) %>
 </p>

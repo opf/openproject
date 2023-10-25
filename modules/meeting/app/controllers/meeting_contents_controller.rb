@@ -92,8 +92,8 @@ class MeetingContentsController < ApplicationController
 
   def notify
     unless @content.new_record?
-      service = MeetingNotificationService.new(@meeting, @content_type)
-      result = service.call(@content, :content_for_review)
+      service = MeetingNotificationService.new(@meeting)
+      result = service.call(:invited)
 
       if result.success?
         flash[:notice] = I18n.t(:notice_successful_notification)
@@ -107,8 +107,8 @@ class MeetingContentsController < ApplicationController
 
   def icalendar
     unless @content.new_record?
-      service = MeetingNotificationService.new(@meeting, @content_type)
-      result = service.call(@content, :icalendar_notification, include_author: true)
+      service = MeetingNotificationService.new(@meeting)
+      result = service.call(:icalendar_notification, include_author: true)
 
       if result.success?
         flash[:notice] = I18n.t(:notice_successful_notification)

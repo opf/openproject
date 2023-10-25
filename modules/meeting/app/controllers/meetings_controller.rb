@@ -210,6 +210,20 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def notify
+    service = MeetingNotificationService.new(@meeting)
+    result = service.call(:invited)
+
+    if result.success?
+      flash[:notice] = I18n.t(:notice_successful_notification)
+    else
+      flash[:error] = I18n.t(:error_notification_with_errors,
+                             recipients: result.errors.map(&:name).join('; '))
+    end
+
+    redirect_to action: :show, id: @meeting
+  end
+
   private
 
   def load_query
@@ -264,8 +278,8 @@ class MeetingsController < ApplicationController
 
   def find_meeting
     @meeting = Meeting
-               .includes([:project, :author, { participants: :user }, :agenda, :minutes])
-               .find(params[:id])
+      .includes([:project, :author, { participants: :user }, :agenda, :minutes])
+      .find(params[:id])
     @project = @meeting.project
   rescue ActiveRecord::RecordNotFound
     render_404
