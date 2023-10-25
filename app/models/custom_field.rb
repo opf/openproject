@@ -282,7 +282,7 @@ class CustomField < ApplicationRecord
 
   def multi_value_possible?
     %w[version user list].include?(field_format) &&
-      [ProjectCustomField, WorkPackageCustomField].include?(self.class)
+      [ProjectCustomField, WorkPackageCustomField, TimeEntryCustomField, VersionCustomField].include?(self.class)
   end
 
   def allow_non_open_versions?
@@ -290,7 +290,8 @@ class CustomField < ApplicationRecord
   end
 
   def allow_non_open_versions_possible?
-    version? && [ProjectCustomField, WorkPackageCustomField].include?(self.class)
+    version? &&
+      [ProjectCustomField, WorkPackageCustomField, TimeEntryCustomField, VersionCustomField].include?(self.class)
   end
 
   ##

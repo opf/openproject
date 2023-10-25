@@ -78,7 +78,7 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
       label_possible_values = I18n.t('activerecord.attributes.custom_field.possible_values').upcase # Possible values, capitalized on UI
       label_default_value = I18n.t('activerecord.attributes.custom_field.default_value') # Default value
       label_is_required = I18n.t('activerecord.attributes.custom_field.is_required') # Required
-      label_searchable = I18n.t('activerecord.attributes.custom_field.searchable') # Searchable
+      # Spent time SFs don't show "Searchable". Not tested here.
       # Project CFs don't show "For all projects" and "Used as a filter". Not tested here.
       # Content right to left is not shown for Project CFs Long text. Strange. Not tested.
 
@@ -96,13 +96,13 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
 
       select "Text", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required, label_searchable)
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
       expect_page_not_to_have_texts(
         label_multi_value, label_allow_non_open_versions, label_possible_values)
 
       select "Long text", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required, label_searchable)
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
       expect_page_not_to_have_texts(
         label_multi_value, label_allow_non_open_versions, label_possible_values)
 
@@ -111,17 +111,17 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
       expect_page_to_have_texts(
         label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
       expect_page_not_to_have_texts(
-        label_multi_value, label_allow_non_open_versions, label_possible_values, label_searchable)
+        label_multi_value, label_allow_non_open_versions, label_possible_values)
 
       select "Float", from: "custom_field_field_format"
       expect_page_to_have_texts(
         label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
       expect_page_not_to_have_texts(
-        label_multi_value, label_allow_non_open_versions, label_possible_values, label_searchable)
+        label_multi_value, label_allow_non_open_versions, label_possible_values)
 
       select "List", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_multi_value, label_possible_values, label_is_required, label_searchable)
+        label_multi_value, label_possible_values, label_is_required)
       expect_page_not_to_have_texts(
         label_min_length, label_max_length, label_regexp, label_allow_non_open_versions, label_default_value)
 
@@ -129,28 +129,28 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
       expect_page_to_have_texts(label_is_required)
       expect_page_not_to_have_texts(
         label_min_length, label_max_length, label_regexp, label_multi_value,
-        label_allow_non_open_versions, label_possible_values, label_default_value, label_searchable)
+        label_allow_non_open_versions, label_possible_values, label_default_value)
 
       select "Boolean", from: "custom_field_field_format"
       expect_page_to_have_texts(
         label_default_value, label_is_required)
       expect_page_not_to_have_texts(
         label_min_length, label_max_length, label_regexp, label_multi_value,
-        label_allow_non_open_versions, label_possible_values, label_searchable)
+        label_allow_non_open_versions, label_possible_values)
 
       select "User", from: "custom_field_field_format"
       expect_page_to_have_texts(
         label_multi_value, label_is_required)
       expect_page_not_to_have_texts(
         label_min_length, label_max_length, label_regexp, label_allow_non_open_versions,
-        label_possible_values, label_default_value, label_searchable)
+        label_possible_values, label_default_value)
 
       select "Version", from: "custom_field_field_format"
       expect_page_to_have_texts(
         label_multi_value, label_allow_non_open_versions, label_is_required)
       expect_page_not_to_have_texts(
         label_min_length, label_max_length, label_regexp,
-        label_possible_values, label_default_value, label_searchable)
+        label_possible_values, label_default_value)
     end
   end
 
@@ -160,6 +160,14 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
 
   describe 'work packages' do
     it_behaves_like "creating a new custom field", 'Work packages'
+  end
+
+  describe 'time entries' do
+    it_behaves_like "creating a new custom field", 'Spent time'
+  end
+
+  describe 'versions' do
+    it_behaves_like "creating a new custom field", 'Versions'
   end
 
   context "with an existing list custom field" do
