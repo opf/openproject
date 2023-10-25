@@ -282,4 +282,63 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_no_invite_option
     end
   end
+
+  context 'when having global invite permission' do
+    let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
+    let(:current_user) { global_manager_user }
+
+    it 'allows inviting and directly sharing with a user who is not part of the instance yet' do
+      work_package_page.visit!
+      click_button 'Share'
+
+      share_modal.expect_open
+      share_modal.expect_shared_count_of(6)
+
+      # Invite a user that does not exist yet
+      share_modal.create_and_invite_user('hello@world.de', 'View')
+
+      # New user is shown in the list of shares
+      share_modal.expect_shared_count_of(7)
+
+      # New user is created
+      new_user = User.last
+      share_modal.expect_shared_with(new_user, 'View', position: 1)
+
+      perform_enqueued_jobs
+      # Only one combined email for create and share should be send out
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
+
+      # The new user can be interacted with
+      share_modal.change_role(new_user, 'Comment')
+      share_modal.expect_shared_with(new_user, 'Comment', position: 1)
+      share_modal.expect_shared_count_of(7)
+
+      # The new user can be updated
+      share_modal.invite_user(new_user, 'Edit')
+      share_modal.expect_shared_with(new_user, 'Edit', position: 1)
+      share_modal.expect_shared_count_of(7)
+
+      # The new user can be deleted
+      share_modal.remove_user(new_user)
+      share_modal.expect_not_shared_with(new_user)
+      share_modal.expect_shared_count_of(6)
+    end
+  end
+
+  context 'when lacking global invite permission' do
+    it 'does not allow creating a user who is not part of the instance yet' do
+      work_package_page.visit!
+      click_button 'Share'
+
+      share_modal.expect_open
+      share_modal.expect_shared_count_of(6)
+
+      # Search for a user that does not exist
+      share_modal.search_user('hello@world.de')
+
+      # There is no option to directly create and share the WP for the unknown email address
+      share_modal.expect_no_ng_option("", 'Send invite to"hello@world.de"', results_selector: "body")
+      share_modal.expect_ng_option("", "No items found", results_selector: "body")
+    end
+  end
 end

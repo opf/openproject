@@ -44,8 +44,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/omniauth-openid_connect-providers.git
-  revision: 7559f44e70203f94572a90e1b4d1d1f8279cd40f
-  ref: 7559f44e70203f94572a90e1b4d1d1f8279cd40f
+  revision: c7e2498a8b093cfc5693d4960cae2e903a5e10cd
+  ref: c7e2498a8b093cfc5693d4960cae2e903a5e10cd
   specs:
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
