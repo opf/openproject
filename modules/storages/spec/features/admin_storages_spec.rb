@@ -95,7 +95,7 @@ RSpec.describe 'Admin storages',
 
     before { oauth_application }
 
-    it 'renders the edit view' do
+    it 'renders the edit view', :webmock do
       visit edit_admin_settings_storage_path(storage)
 
       expect(page).to have_test_selector('storage-name-title', text: storage.name.capitalize)
@@ -199,6 +199,42 @@ RSpec.describe 'Admin storages',
                                            text: 'Incomplete')
         expect(page).to have_test_selector('storage-automatically-managed-project-folders-description',
                                            text: 'Let OpenProject create folders per project automatically.')
+
+        find_test_selector('storage-edit-automatically-managed-project-folders-button').click
+
+        within_test_selector('storage-automatically-managed-project-folders-form') do
+          automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+          application_password_input = page.find_by_id('storages_nextcloud_storage_password')
+          expect(automatically_managed_switch).to be_checked
+          expect(application_password_input.value).to be_empty
+
+          # Clicking submit with application password empty should show an error
+          click_button('Done, complete setup')
+          expect(page).to have_text("Password can't be blank.")
+
+          # Test the error path for an invalid storage password.
+          # Mock a valid response (=401) for example.com, so the password validation should fail
+          mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890",
+                                                                          response_code: 401)
+          automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+          expect(automatically_managed_switch).to be_checked
+          fill_in 'storages_nextcloud_storage_password', with: "1234567890"
+          # Clicking submit with application password empty should show an error
+          click_button('Done, complete setup')
+          expect(page).to have_text("Password is not valid.")
+
+          # Test the happy path for a valid storage password.
+          # Mock a valid response (=200) for example.com, so the password validation should succeed
+          # Fill in application password and submit
+          mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890")
+          automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+          expect(automatically_managed_switch).to be_checked
+          fill_in 'storages_nextcloud_storage_password', with: "1234567890"
+          click_button('Done, complete setup')
+        end
+
+        expect(page).to have_test_selector('label-managed-project-folders-status',
+                                           text: 'Active')
       end
     end
   end
