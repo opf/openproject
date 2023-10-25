@@ -58,6 +58,7 @@ jobs:
         cache-dependency-path: frontend/package-lock.json
     - name: precompile assets
       run: |
+        npm install
         DATABASE_URL=nulldb://db bin/rails openproject:plugins:register_frontend assets:precompile
         cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
         cp docker/ci/database.yml config/
