@@ -1,5 +1,9 @@
 # Data privacy information
 
+Purpose of this document is to provide users a starting point for creating their data privacy information documentation imposed by the GDPR.
+
+TODO: Discalmer  
+
 ## Scope of data processing
 
 ### Registration of a user account
@@ -337,8 +341,8 @@ subgraph openproject[OpenProject]
   		end
 
   subgraph nextcloud[Nextcloud]
-  	groupfolder[App Group Folder]
-  	appopenprojectintegration[App OpenProject Integration]
+  	groupfolder[Group Folder App]
+  	appopenprojectintegration[OpenProject Integration App]
   	nextcloudapi[API]
 	end 
   
