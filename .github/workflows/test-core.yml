@@ -25,12 +25,10 @@ jobs:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
     timeout-minutes: 40
-    container: ubuntu-22.04
+    container: ubuntu:22.04
     services:
       postgres:
         image: postgres:13
-        ports:
-          - 5432:5432
         env:
           POSTGRES_PASSWORD: p4ssw0rd
         options: >-
@@ -46,6 +44,7 @@ jobs:
       CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
+      PGHOST: postgres
     steps:
     - uses: actions/checkout@v4
     - name: Setup deps
