@@ -919,13 +919,14 @@ zh-CN:
     models:
       attachment: "文件"
       attribute_help_text: "属性帮助文本"
-      forum: "论坛"
+      category: "类别"
       comment: "评论"
       custom_action: "自定义操作"
       custom_field: "自定义字段"
+      'doorkeeper/application': "OAuth应用程序"
+      forum: "论坛"
+      global_role: "全局角色"
       group: "组"
-      category: "类别"
-      status: "工作包状态"
       member: "成员"
       news: "新闻"
       notification:
@@ -935,14 +936,14 @@ zh-CN:
       query: "自定义查询"
       role:
         other: "角色"
+      status: "工作包状态"
       type: "类型"
       user: "用户"
       version: "版本"
-      wiki: "维基"
-      wiki_page: "维基页面"
       workflow: "工作流"
       work_package: "工作包"
-      'doorkeeper/application': "OAuth应用程序"
+      wiki: "维基"
+      wiki_page: "维基页面"
   errors:
     header_invalid_fields:
       other: "以下字段有问题："
@@ -1564,11 +1565,13 @@ zh-CN:
   label_ldap_auth_source: "LDAP 连接"
   label_ldap_auth_source_plural: "LDAP 连接"
   label_authentication: "身份验证"
-  label_available_project_work_package_categories: '可用的工作包类别'
-  label_available_project_work_package_types: '可用的工作包类型'
-  label_available_project_forums: '可用论坛'
-  label_available_project_versions: '可用版本'
-  label_available_project_repositories: '可用存储库'
+  label_available_global_roles: "可用的全局角色"
+  label_available_project_forums: "可用论坛"
+  label_available_project_repositories: "可用存储库"
+  label_available_project_versions: "可用版本"
+  label_available_project_work_package_categories: "可用的工作包类别"
+  label_available_project_work_package_types: "可用的工作包类型"
+  label_available_projects: "可用的项目"
   label_api_documentation: "API 文档"
   label_backup: "备份"
   label_between: "介于"

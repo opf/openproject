@@ -929,13 +929,14 @@ pl:
     models:
       attachment: "Plik"
       attribute_help_text: "Tekst pomocy atrybutu"
-      forum: "Forum"
+      category: "Kategoria"
       comment: "Komentarz"
       custom_action: "Działanie niestandardowe"
       custom_field: "Pola niestandardowe"
+      'doorkeeper/application': "Aplikacje OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grupa"
-      category: "Kategoria"
-      status: "Status pakietu roboczego"
       member: "Członek"
       news: "Aktualności"
       notification:
@@ -951,14 +952,14 @@ pl:
         few: "Rol"
         many: "Rol"
         other: "Rol"
+      status: "Status pakietu roboczego"
       type: "Typ"
       user: "Użytkownik"
       version: "Wersja"
-      wiki: "Wiki"
-      wiki_page: "Strona wiki"
       workflow: "Przepływ pracy"
       work_package: "Pakiet roboczy"
-      'doorkeeper/application': "Aplikacje OAuth"
+      wiki: "Wiki"
+      wiki_page: "Strona wiki"
   errors:
     header_invalid_fields:
       one: "Wystąpił problem z następującym polem:"
@@ -1628,11 +1629,13 @@ pl:
   label_ldap_auth_source: "Połączenie LDAP"
   label_ldap_auth_source_plural: "Połączenia LDAP"
   label_authentication: "Uwierzytelnianie"
-  label_available_project_work_package_categories: 'Dostępne kategorie Zadań'
-  label_available_project_work_package_types: 'Dostępne typy pakietów roboczych'
-  label_available_project_forums: 'Dostępne fora'
-  label_available_project_versions: 'Dostępne wersje'
-  label_available_project_repositories: 'Dostępne repozytoria'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Dostępne fora"
+  label_available_project_repositories: "Dostępne repozytoria"
+  label_available_project_versions: "Dostępne wersje"
+  label_available_project_work_package_categories: "Dostępne kategorie Zadań"
+  label_available_project_work_package_types: "Dostępne typy pakietów roboczych"
+  label_available_projects: "Available projects"
   label_api_documentation: "Dokumentacja API"
   label_backup: "Kopia zapasowa"
   label_between: "pomiędzy"
@@ -2831,7 +2834,7 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_attachment_added: "%{label} %{value} dodano jako załącznik"
-  text_journal_attachment_deleted: "%{label} %{value} usunięto jako załącznik"
+  text_journal_attachment_deleted: "%{label} %{old} usunięto jako załącznik"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"

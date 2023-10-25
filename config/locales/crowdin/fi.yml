@@ -926,13 +926,14 @@ fi:
     models:
       attachment: "Tiedosto"
       attribute_help_text: "Attribute help text"
-      forum: "Keskustelupalsta"
+      category: "Kategoria"
       comment: "Kommentti"
       custom_action: "Custom action"
       custom_field: "Mukautettu kenttä"
+      'doorkeeper/application': "OAuth application"
+      forum: "Keskustelupalsta"
+      global_role: "Global role"
       group: "Ryhmä"
-      category: "Kategoria"
-      status: "Tehtävän tila"
       member: "Jäsen"
       news: "Uutiset"
       notification:
@@ -944,14 +945,14 @@ fi:
       role:
         one: "Rooli"
         other: "Roolit"
+      status: "Tehtävän tila"
       type: "Tyyppi"
       user: "Käyttäjä"
       version: "Versio"
-      wiki: "Wiki"
-      wiki_page: "Wiki-sivu"
       workflow: "Työnkulku"
       work_package: "Työpaketti"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Wiki-sivu"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1589,11 +1590,13 @@ fi:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Kirjautuminen"
-  label_available_project_work_package_categories: 'Olemassa olevat tehtäväluokat'
-  label_available_project_work_package_types: 'Olemassa olevat tehtävätyypit'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Saatavana olevat versiot'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Saatavana olevat versiot"
+  label_available_project_work_package_categories: "Olemassa olevat tehtäväluokat"
+  label_available_project_work_package_types: "Olemassa olevat tehtävätyypit"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-dokumentaatio"
   label_backup: "Backup"
   label_between: "välillä"

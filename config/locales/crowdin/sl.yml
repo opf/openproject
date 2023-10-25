@@ -929,13 +929,14 @@ sl:
     models:
       attachment: "Datoteka"
       attribute_help_text: "Tekst pomoči atributa"
-      forum: "Forum"
+      category: "Kategorija"
       comment: "Komentar"
       custom_action: "Dejanja po meri"
       custom_field: "Polje po meri"
+      'doorkeeper/application': "Aplikacija OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Skupina"
-      category: "Kategorija"
-      status: "Stanje delovnega paketa"
       member: "Član"
       news: "Novice"
       notification:
@@ -951,14 +952,14 @@ sl:
         two: "Vloge"
         few: "Vloge"
         other: "Vloge"
+      status: "Stanje delovnega paketa"
       type: "Vrsta"
       user: "Uporabnik"
       version: "Različica"
-      wiki: "Wiki"
-      wiki_page: "Wiki stran"
       workflow: "Potek dela"
       work_package: "Zahtevek"
-      'doorkeeper/application': "Aplikacija OAuth"
+      wiki: "Wiki"
+      wiki_page: "Wiki stran"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1628,11 +1629,13 @@ sl:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Avtentikacija"
-  label_available_project_work_package_categories: 'Razpoložljive kategorije delovnih paketov'
-  label_available_project_work_package_types: 'Razpoložljive vrste delovnih paketov'
-  label_available_project_forums: 'Razpoložljivi forumi'
-  label_available_project_versions: 'Razpoložljiva različica'
-  label_available_project_repositories: 'Razpoložljiva odlagališča'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Razpoložljivi forumi"
+  label_available_project_repositories: "Razpoložljiva odlagališča"
+  label_available_project_versions: "Razpoložljiva različica"
+  label_available_project_work_package_categories: "Razpoložljive kategorije delovnih paketov"
+  label_available_project_work_package_types: "Razpoložljive vrste delovnih paketov"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentacija"
   label_backup: "Varnostna kopija"
   label_between: "med"

@@ -86,7 +86,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
 
       response = UTIL.http(@uri).propfind(
         UTIL.join_uri_path(
-          @uri,
+          @uri.path,
           'remote.php/dav/files',
           CGI.escapeURIComponent(@username),
           UTIL.escape_path(path)

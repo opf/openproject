@@ -927,13 +927,14 @@ uk:
     models:
       attachment: "Файл"
       attribute_help_text: "Текст довідки атрибута"
-      forum: "Форум"
+      category: "Категорія"
       comment: "Коментар"
       custom_action: "Спеціальні дії"
       custom_field: "Користувацьке поле"
+      'doorkeeper/application': "Програма OAuth"
+      forum: "Форум"
+      global_role: "Global role"
       group: "Група"
-      category: "Категорія"
-      status: "Стан робочого пакета"
       member: "Учасник"
       news: "Новини"
       notification:
@@ -949,14 +950,14 @@ uk:
         few: "Роль"
         many: "Роль"
         other: "Роль"
+      status: "Стан робочого пакета"
       type: "Тип"
       user: "Користувач"
       version: "Версія"
-      wiki: "Wiki"
-      wiki_page: "Сторінка Wiki"
       workflow: "Робочий процес"
       work_package: "Пакет робіт"
-      'doorkeeper/application': "Програма OAuth"
+      wiki: "Wiki"
+      wiki_page: "Сторінка Wiki"
   errors:
     header_invalid_fields:
       one: "Виникла проблема з таким полем:"
@@ -1626,11 +1627,13 @@ uk:
   label_ldap_auth_source: "LDAP-підключення"
   label_ldap_auth_source_plural: "LDAP-підключення"
   label_authentication: "Автентифікація"
-  label_available_project_work_package_categories: 'Доступні категорії робочих пакетів'
-  label_available_project_work_package_types: 'Доступні типи пакетів робіт'
-  label_available_project_forums: 'Доступні форуми'
-  label_available_project_versions: 'Доступні версії'
-  label_available_project_repositories: 'Доступні сховища'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Доступні форуми"
+  label_available_project_repositories: "Доступні сховища"
+  label_available_project_versions: "Доступні версії"
+  label_available_project_work_package_categories: "Доступні категорії робочих пакетів"
+  label_available_project_work_package_types: "Доступні типи пакетів робіт"
+  label_available_projects: "Available projects"
   label_api_documentation: "Документація API"
   label_backup: "Резервна копія"
   label_between: "між ними"

@@ -926,13 +926,14 @@ si:
     models:
       attachment: "ගොනුව"
       attribute_help_text: "උපකාරය පෙළ ගුණාංග"
-      forum: "සංසදය"
+      category: "ප්රවර්ගය"
       comment: "අදහස් දක්වන්න"
       custom_action: "අභිරුචි පියවර"
       custom_field: "අභිරුචි ක්ෂේත්රය"
+      'doorkeeper/application': "OAUTH අයදුම්"
+      forum: "සංසදය"
+      global_role: "Global role"
       group: "කණ්ඩායම"
-      category: "ප්රවර්ගය"
-      status: "වැඩ පැකේජ තත්ත්වය"
       member: "සාමාජික"
       news: "පුවත්"
       notification:
@@ -944,14 +945,14 @@ si:
       role:
         one: "කාර්යභාරය"
         other: "භූමිකාවන්"
+      status: "වැඩ පැකේජ තත්ත්වය"
       type: "වර්ගය"
       user: "පරිශීලක"
       version: "අනුවාදය"
-      wiki: "විකි"
-      wiki_page: "විකි පිටුව"
       workflow: "කාර්ය ප්රවාහ"
       work_package: "වැඩ පැකේජය"
-      'doorkeeper/application': "OAUTH අයදුම්"
+      wiki: "විකි"
+      wiki_page: "විකි පිටුව"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1589,11 +1590,13 @@ si:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "සත්යාපන"
-  label_available_project_work_package_categories: 'ලබාගත හැකි වැඩ පැකේජ කාණ්ඩ'
-  label_available_project_work_package_types: 'ලබා ගත හැකි වැඩ පැකේජය වර්ග'
-  label_available_project_forums: 'පවතින සංසද'
-  label_available_project_versions: 'පවතින අනුවාදයන්'
-  label_available_project_repositories: 'පවතින ගබඩාවලදී'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "පවතින සංසද"
+  label_available_project_repositories: "පවතින ගබඩාවලදී"
+  label_available_project_versions: "පවතින අනුවාදයන්"
+  label_available_project_work_package_categories: "ලබාගත හැකි වැඩ පැකේජ කාණ්ඩ"
+  label_available_project_work_package_types: "ලබා ගත හැකි වැඩ පැකේජය වර්ග"
+  label_available_projects: "Available projects"
   label_api_documentation: "API ප්රලේඛනය"
   label_backup: "Backup"
   label_between: "අතර"

@@ -107,97 +107,77 @@ RSpec.describe UsersController do
   end
 
   describe 'GET deletion_info' do
-    describe "WHEN the current user is the requested user
-              WHEN the setting users_deletable_by_self is set to true" do
-      let(:params) { { 'id' => user.id.to_s } }
+    let(:params) { { 'id' => user.id.to_s } }
 
-      before do
-        allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
+    context 'when the current user is the requested user' do
+      current_user { user }
 
-        as_logged_in_user user do
+      context "when the setting users_deletable_by_self is set to true",
+              with_settings: { users_deletable_by_self: true } do
+        before do
           get :deletion_info, params:
         end
+
+        it { expect(response).to have_http_status(:success) }
+
+        it 'assigns @user to requested user' do
+          expect(assigns(:user)).to eq(user)
+        end
+
+        it { expect(response).to render_template('deletion_info') }
       end
 
-      it do
-        expect(response).to be_successful
-      end
+      context "when the setting users_deletable_by_self is set to false",
+              with_settings: { users_deletable_by_self: false } do
+        before do
+          get :deletion_info, params:
+        end
 
-      it do
-        expect(assigns(:user)).to eq(user)
+        it { expect(response).to have_http_status(:not_found) }
       end
-
-      it { expect(response).to render_template('deletion_info') }
     end
 
-    describe "WHEN the current user is the requested user
-              WHEN the setting users_deletable_by_self is set to false" do
-      let(:params) { { 'id' => user.id.to_s } }
+    context 'when the current user is the anonymous user' do
+      current_user { anonymous }
 
       before do
-        allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
-
-        as_logged_in_user user do
-          get :deletion_info, params:
-        end
-      end
-
-      it { expect(response.response_code).to eq(404) }
-    end
-
-    describe 'WHEN the current user is the anonymous user' do
-      let(:params) { { 'id' => anonymous.id.to_s } }
-
-      before do
-        as_logged_in_user anonymous do
-          get :deletion_info, params:
-        end
+        get :deletion_info, params:
       end
 
       it {
         expect(response).to redirect_to(controller: 'account',
                                         action: 'login',
-                                        back_url: @controller.url_for(controller: 'users',
-                                                                      action: 'deletion_info'))
+                                        back_url: controller.url_for(controller: 'users',
+                                                                     action: 'deletion_info'))
       }
     end
 
-    describe "WHEN the current user is admin
-              WHEN the setting users_deletable_by_admins is set to true" do
-      let(:params) { { 'id' => user.id.to_s } }
+    context "when the current user is admin" do
+      current_user { admin }
 
-      before do
-        allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
-
-        as_logged_in_user admin do
+      context "when the setting users_deletable_by_admins is set to true",
+              with_settings: { users_deletable_by_admins: true } do
+        before do
           get :deletion_info, params:
         end
+
+        it { expect(response).to have_http_status(:success) }
+
+        it 'assigns @user to requested user' do
+          expect(assigns(:user)).to eq(user)
+        end
+
+        it { expect(response).to render_template('deletion_info') }
       end
 
-      it do
-        expect(response).to be_successful
-      end
-
-      it do
-        expect(assigns(:user)).to eq(user)
-      end
-
-      it { expect(response).to render_template('deletion_info') }
-    end
-
-    describe "WHEN the current user is admin
-              WHEN the setting users_deletable_by_admins is set to false" do
-      let(:params) { { 'id' => user.id.to_s } }
-
-      before do
-        allow(Setting).to receive(:users_deletable_by_admins?).and_return(false)
-
-        as_logged_in_user admin do
+      context "when the setting users_deletable_by_admins is set to false",
+              with_settings: { users_deletable_by_admins: false } do
+        before do
           get :deletion_info, params:
         end
-      end
 
-      it { expect(response.response_code).to eq(404) }
+        it { expect(response).to have_http_status(:not_found) }
+      end
     end
   end
 
@@ -269,9 +249,12 @@ RSpec.describe UsersController do
   describe 'POST destroy' do
     let(:base_params) { { 'id' => user.id.to_s, back_url: my_account_path } }
 
-    context 'WHEN the password confirmation is missing' do
+    before do
+      disable_flash_sweep
+    end
+
+    context 'when the password confirmation is missing' do
       before do
-        disable_flash_sweep
         allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
@@ -286,112 +269,88 @@ RSpec.describe UsersController do
       it { expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed)) }
     end
 
-    context 'WHEN password confirmation is present' do
-      let(:base_params) do
-        { 'id' => user.id.to_s, :_password_confirmation => user_password, back_url: my_account_path }
+    context 'when password confirmation is present' do
+      let(:params) do
+        base_params.merge(_password_confirmation: user_password)
       end
 
-      describe "WHEN the current user is the requested one
-                WHEN the setting users_deletable_by_self is set to true" do
-        before do
-          disable_flash_sweep
-          allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
+      context 'when the current user is the requested one' do
+        current_user { user }
 
-          as_logged_in_user user do
-            post :destroy, params: base_params
+        context "when the setting users_deletable_by_self is set to true",
+                with_settings: { users_deletable_by_self: true } do
+          before do
+            post :destroy, params:
           end
-        end
 
-        it do
-          expect(response).to redirect_to(controller: 'account', action: 'login')
-        end
-
-        it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
-      end
-
-      describe "WHEN the current user is the requested one
-                WHEN the setting users_deletable_by_self is set to false" do
-        before do
-          disable_flash_sweep
-          allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
-
-          as_logged_in_user user do
-            post :destroy, params: base_params
+          it do
+            expect(response).to redirect_to(controller: 'account', action: 'login')
           end
+
+          it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
         end
 
-        it { expect(response.response_code).to eq(404) }
-      end
-
-      describe "WHEN the current user is the anonymous user
-                EVEN when the setting login_required is set to false" do
-        before do
-          allow(@controller).to receive(:find_current_user).and_return(anonymous)
-          allow(Setting).to receive(:login_required?).and_return(false)
-
-          as_logged_in_user anonymous do
-            post :destroy, params: base_params.merge(id: anonymous.id.to_s)
+        context 'when the setting users_deletable_by_self is set to false',
+                with_settings: { users_deletable_by_self: false } do
+          before do
+            post :destroy, params:
           end
-        end
 
-        # redirecting post is not possible for now
-        it { expect(response.response_code).to eq(403) }
-      end
-
-      describe "WHEN the current user is the admin
-                WHEN the given password does not match
-                WHEN the setting users_deletable_by_admins is set to true" do
-        shared_let(:admin) { create(:admin) }
-
-        before do
-          disable_flash_sweep
-          allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
-
-          as_logged_in_user admin do
-            post :destroy, params: base_params
-          end
-        end
-
-        it 'redirects with error' do
-          expect(response).to redirect_to(controller: 'my', action: 'account')
-          expect(flash[:notice]).to be_nil
-          expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed))
+          it { expect(response).to have_http_status(:not_found) }
         end
       end
 
-      describe "WHEN the current user is the admin
-                WHEN the given password does match
-                WHEN the setting users_deletable_by_admins is set to true" do
-        before do
-          disable_flash_sweep
-          allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
+      context 'when the current user is the anonymous user' do
+        current_user { anonymous }
 
-          as_logged_in_user admin do
-            post :destroy, params: base_params.merge(_password_confirmation: 'adminADMIN!')
+        context 'even when the setting login_required is set to false and users_deletable_by_self is set to true',
+                with_settings: { login_required: false, users_deletable_by_self: true } do
+          before do
+            post :destroy, params: params.merge(id: anonymous.id.to_s)
           end
-        end
 
-        it do
-          expect(response).to redirect_to(controller: 'users', action: 'index')
+          # redirecting post is not possible for now
+          it { expect(response).to have_http_status(:forbidden) }
         end
-
-        it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
       end
 
-      describe "WHEN the current user is the admin
-                WHEN the setting users_deletable_by_admins is set to false" do
-        shared_let(:admin) { create(:admin) }
+      context 'when the current user is the admin' do
+        current_user { admin }
 
-        before do
-          disable_flash_sweep
-          allow(Setting).to receive(:users_deletable_by_admins).and_return(false)
+        context "when the given password does NOT match and the setting users_deletable_by_admins is set to true",
+                with_settings: { users_deletable_by_admins: true } do
+          before do
+            post :destroy, params:
+          end
 
-          as_logged_in_user admin do
-            post :destroy, params: base_params
+          it 'redirects with error' do
+            expect(response).to redirect_to(controller: 'my', action: 'account')
+            expect(flash[:notice]).to be_nil
+            expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed))
           end
         end
 
-        it { expect(response.response_code).to eq(404) }
+        context "when the given password does match and the setting users_deletable_by_admins is set to true",
+                with_settings: { users_deletable_by_admins: true } do
+          before do
+            post :destroy, params: params.merge(_password_confirmation: 'adminADMIN!')
+          end
+
+          it do
+            expect(response).to redirect_to(controller: 'users', action: 'index')
+          end
+
+          it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
+        end
+
+        context "when the setting users_deletable_by_admins is set to false",
+                with_settings: { users_deletable_by_admins: false } do
+          before do
+            post :destroy, params:
+          end
+
+          it { expect(response).to have_http_status(:not_found) }
+        end
       end
     end
   end
@@ -523,7 +482,7 @@ RSpec.describe UsersController do
 
     it 'assigns users' do
       expect(assigns(:users))
-        .to match_array([user, admin])
+        .to contain_exactly(user, admin)
     end
 
     context 'with a name filter' do
@@ -531,7 +490,7 @@ RSpec.describe UsersController do
 
       it 'assigns users' do
         expect(assigns(:users))
-          .to match_array([user])
+          .to contain_exactly(user)
       end
     end
 
@@ -544,7 +503,7 @@ RSpec.describe UsersController do
 
       it 'assigns users' do
         expect(assigns(:users))
-          .to match_array([user])
+          .to contain_exactly(user)
       end
     end
   end
@@ -652,23 +611,21 @@ RSpec.describe UsersController do
   end
 
   describe 'PATCH #update' do
-    context 'fields' do
+    shared_let(:user_with_manage_user_global_permission) do
+      create(:user, login: 'human-resources', global_permissions: [:manage_user])
+    end
+    shared_let(:some_user) { create(:user, firstname: 'User being updated') }
+    shared_let(:some_admin) { create(:admin, firstname: 'Admin being updated') }
+
+    context 'when updating fields as an admin' do
       current_user { admin }
 
-      let(:user) do
-        create(:user,
-               firstname: 'Firstname',
-               admin: true,
-               login: 'testlogin',
-               force_password_change: false)
-      end
       let(:params) do
         {
-          id: user.id,
+          id: some_user.id,
           user: {
-            admin: false,
             firstname: 'Changed',
-            login: 'changedlogin',
+            login: 'changed_login',
             force_password_change: true
           },
           pref: {
@@ -685,38 +642,37 @@ RSpec.describe UsersController do
       end
 
       it 'redirects to the edit page' do
-        expect(response).to redirect_to(edit_user_url(user))
+        expect(response).to redirect_to(edit_user_url(some_user))
       end
 
       it 'is assigned their new values' do
-        user_from_db = User.find(user.id)
-        expect(user_from_db.admin).to be_falsey
-        expect(user_from_db.firstname).to eql('Changed')
-        expect(user_from_db.login).to eql('changedlogin')
-        expect(user_from_db.force_password_change).to be(true)
-        expect(user_from_db.pref[:hide_mail]).to be_truthy
-        expect(user_from_db.pref[:comments_sorting]).to eql('desc')
+        some_user_from_db = User.find(some_user.id)
+        expect(some_user_from_db.firstname).to eq('Changed')
+        expect(some_user_from_db.login).to eq('changed_login')
+        expect(some_user_from_db.force_password_change).to be(true)
+        expect(some_user_from_db.pref[:hide_mail]).to be_truthy
+        expect(some_user_from_db.pref[:comments_sorting]).to eq('desc')
       end
 
       it 'sends no mail' do
-        expect(ActionMailer::Base.deliveries.empty?).to be_truthy
+        expect(ActionMailer::Base.deliveries).to be_empty
       end
 
       context 'when updating the password' do
         let(:params) do
           {
-            id: user.id,
+            id: some_user.id,
             user: { password: 'newpassPASS!',
                     password_confirmation: 'newpassPASS!' },
             send_information: '1'
           }
         end
 
-        it 'sends a mail' do
+        it 'sends an email to the user with the password in it' do
           mail = ActionMailer::Base.deliveries.last
 
           expect(mail.to)
-            .to match_array [user.mail]
+            .to contain_exactly(some_user.mail)
 
           expect(mail.body.encoded)
             .to include('newpassPASS!')
@@ -726,7 +682,7 @@ RSpec.describe UsersController do
       context 'with invalid params' do
         let(:params) do
           {
-            id: user.id,
+            id: some_user.id,
             user: {
               firstname: ''
             }
@@ -738,52 +694,134 @@ RSpec.describe UsersController do
             .to have_http_status(:ok)
         end
 
-        it 'renders the edit template' do
+        it 'renders the edit template with errors' do
           expect(response)
             .to have_rendered('edit')
+          expect(assigns(:errors).first)
+            .to have_attributes(attribute: :firstname, type: :blank)
         end
       end
     end
 
+    shared_examples 'it can update field' do |field:, value:, edited_user:, current_user:|
+      it "can change field #{field} " \
+         "of #{edited_user.to_s.humanize(capitalize: false)} " \
+         "as #{current_user.to_s.humanize(capitalize: false)}" do
+        login_as send(current_user)
+        params = {
+          id: send(edited_user).id,
+          user: {
+            field => value
+          }
+        }
+        expect { put :update, params: }
+          .to change { send(edited_user).reload.send(field) }
+          .to(value)
+      end
+    end
+
+    shared_examples 'it cannot update field' do |field:, value:, edited_user:, current_user:|
+      it "cannot change field #{field} " \
+         "of #{edited_user.to_s.humanize(capitalize: false)} " \
+         "as #{current_user.to_s.humanize(capitalize: false)}" do
+        login_as send(current_user)
+        params = {
+          id: send(edited_user).id,
+          user: {
+            field => value
+          }
+        }
+
+        expect { put :update, params: }
+          .not_to change { send(edited_user).reload.send(field) }
+      end
+    end
+
+    # admin field
+    include_examples 'it can update field',
+                     field: :admin,
+                     value: true,
+                     edited_user: :some_user,
+                     current_user: :admin
+    include_examples 'it can update field',
+                     field: :admin,
+                     value: false,
+                     edited_user: :some_admin,
+                     current_user: :admin
+    include_examples 'it cannot update field',
+                     field: :admin,
+                     value: true,
+                     edited_user: :some_user,
+                     current_user: :user
+    include_examples 'it cannot update field',
+                     field: :admin,
+                     value: true,
+                     edited_user: :some_user,
+                     current_user: :user_with_manage_user_global_permission
+
+    # email field
+    include_examples 'it can update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_user,
+                     current_user: :admin
+    include_examples 'it can update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_admin,
+                     current_user: :admin
+    include_examples 'it can update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_user,
+                     current_user: :user_with_manage_user_global_permission
+    include_examples 'it cannot update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_admin,
+                     current_user: :user_with_manage_user_global_permission
+    include_examples 'it cannot update field',
+                     field: :mail,
+                     value: 'another_email@example.com',
+                     edited_user: :some_user,
+                     current_user: :user
+
     context 'with external authentication' do
-      let(:user) { create(:user, identity_url: 'some:identity') }
+      let(:some_user) { create(:user, identity_url: 'some:identity') }
 
       before do
         as_logged_in_user(admin) do
-          put :update, params: { id: user.id, user: { force_password_change: 'true' } }
+          put :update, params: { id: some_user.id, user: { force_password_change: 'true' } }
         end
-        user.reload
+        some_user.reload
       end
 
       it 'ignores setting force_password_change' do
-        expect(user.force_password_change).to be(false)
+        expect(some_user.force_password_change).to be(false)
       end
     end
 
-    context 'ldap auth source' do
+    context 'with ldap auth source' do
       let(:ldap_auth_source) { create(:ldap_auth_source) }
 
-      it 'switchting to internal authentication on a password change' do
-        user.ldap_auth_source = ldap_auth_source
+      it 'switching to internal authentication on a password change' do
+        some_user.ldap_auth_source = ldap_auth_source
         as_logged_in_user admin do
           put :update,
               params: {
-                id: user.id,
+                id: some_user.id,
                 user: { ldap_auth_source_id: '', password: 'newpassPASS!',
                         password_confirmation: 'newpassPASS!' }
               }
         end
 
-        expect(user.reload.ldap_auth_source).to be_nil
-        expect(user.check_password?('newpassPASS!')).to be_truthy
+        expect(some_user.reload.ldap_auth_source).to be_nil
+        expect(some_user.check_password?('newpassPASS!')).to be true
       end
     end
 
-    context 'with disabled_password_choice' do
-      before do
-        expect(OpenProject::Configuration).to receive(:disable_password_choice?).and_return(true)
-      end
-
+    context 'with disabled_password_choice',
+            with_config: { disable_password_choice: true } do
       it 'ignores password parameters and leaves the password unchanged' do
         as_logged_in_user(admin) do
           put :update,
@@ -931,7 +969,7 @@ RSpec.describe UsersController do
       it 'includes the number of reported work packages' do
         label = Regexp.escape(I18n.t(:label_reported_work_packages))
 
-        expect(response.body).to have_selector('p', text: /#{label}.*42/)
+        expect(response.body).to have_css('p', text: /#{label}.*42/)
       end
     end
   end
@@ -973,7 +1011,7 @@ RSpec.describe UsersController do
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.to)
-        .to match_array [params[:user][:mail]]
+        .to contain_exactly(params[:user][:mail])
 
       activation_link = Regexp.new(
         "http://#{Setting.host_name}/account/activate\\?token=[a-f0-9]+",

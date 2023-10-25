@@ -921,13 +921,14 @@ de:
     models:
       attachment: "Datei"
       attribute_help_text: "Hilfe-Text für Attribute"
-      forum: "Forum"
+      category: "Kategorie"
       comment: "Kommentar"
       custom_action: "Benutzerdefinierte Aktion"
       custom_field: "Benutzerdefiniertes Feld"
+      'doorkeeper/application': "OAuth-Anwendung"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Gruppe"
-      category: "Kategorie"
-      status: "Arbeitspaket-Status"
       member: "Mitglied"
       news: "Neuigkeiten"
       notification:
@@ -939,14 +940,14 @@ de:
       role:
         one: "Rolle"
         other: "Rollen"
+      status: "Arbeitspaket-Status"
       type: "Typ"
       user: "Benutzer"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki-Seite"
       workflow: "Workflow"
       work_package: "Arbeitspaket"
-      'doorkeeper/application': "OAuth-Anwendung"
+      wiki: "Wiki"
+      wiki_page: "Wiki-Seite"
   errors:
     header_invalid_fields:
       one: "Bei dem folgenden Feld traten Fehler auf:"
@@ -1584,11 +1585,13 @@ de:
   label_ldap_auth_source: "LDAP-Verbindung"
   label_ldap_auth_source_plural: "LDAP-Verbindungen"
   label_authentication: "Authentifizierung"
-  label_available_project_work_package_categories: 'Verfügbare Arbeitspaket-Kategorien'
-  label_available_project_work_package_types: 'Verfügbare Arbeitspaket-Typen'
-  label_available_project_forums: 'Verfügbare Foren'
-  label_available_project_versions: 'Verfügbare Versionen'
-  label_available_project_repositories: 'Verfügbare Projektarchive'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Verfügbare Foren"
+  label_available_project_repositories: "Verfügbare Projektarchive"
+  label_available_project_versions: "Verfügbare Versionen"
+  label_available_project_work_package_categories: "Verfügbare Arbeitspaket-Kategorien"
+  label_available_project_work_package_types: "Verfügbare Arbeitspaket-Typen"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-Dokumentation"
   label_backup: "Backup"
   label_between: "zwischen"
@@ -2101,8 +2104,8 @@ de:
     zero: "Keine Projekte"
   label_yesterday: "gestern"
   label_role_type: "Typ"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Projektrolle"
+  label_global_role: "Globale Rolle"
   label_not_changeable: "(nicht veränderbar)"
   label_global: "Global"
   label_seeded_from_env_warning: Dieser Datensatz wurde durch eine Konfigurationsrichtlinie oder Umgebungsvariable erstellt. Er kann nicht über die Benutzeroberfläche bearbeitet werden.
@@ -2330,7 +2333,7 @@ de:
   permission_add_work_package_notes: "Kommentare hinzufügen"
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
-  permission_add_project: "Create projects"
+  permission_add_project: "Projekte erstellen"
   permission_archive_project: "Projekt archivieren"
   permission_create_user: "Benutzer erstellen"
   permission_manage_user: "Benutzer bearbeiten"

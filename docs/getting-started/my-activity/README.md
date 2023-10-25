@@ -14,7 +14,13 @@ You can open your **My Activity** page by clicking on your user avatar in the up
 
 ![OpenProject navigate to My Activity Page](openproject_select_my_actvity.png)
 
-You will see two lists by default. **Projects** will show all projects you are a member of. **Activity** will show all of your activities that are being recorded in OpenProject.
+You will see two lists by default. 
+
+**Projects** will show all projects you are a member of. 
+
+**Activity** will show all of your activities that are being recorded in OpenProject. 
+
+>Please note that only activities from projects that have the **Activity** module enabled will be shown.
 
 ![Openproject_my_activity_page](openproject_my_activity_overview.png)
 

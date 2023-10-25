@@ -929,13 +929,14 @@ lv:
     models:
       attachment: "Fails"
       attribute_help_text: "Attribute help text"
-      forum: "Forum"
+      category: "Sadaļa"
       comment: "Comment"
       custom_action: "Custom action"
       custom_field: "Custom field"
+      'doorkeeper/application': "OAuth application"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Group"
-      category: "Sadaļa"
-      status: "Work package status"
       member: "Member"
       news: "Jaunumi"
       notification:
@@ -949,14 +950,14 @@ lv:
         zero: "Lomas"
         one: "Loma"
         other: "Lomas"
+      status: "Work package status"
       type: "Veids"
       user: "User"
       version: "Versija"
-      wiki: "Wiki"
-      wiki_page: "Wiki page"
       workflow: "Darbplūsma"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Wiki page"
   errors:
     header_invalid_fields:
       zero: "There were problems with the following fields:"
@@ -1176,6 +1177,7 @@ lv:
     errors: "Error"
     project_custom_fields: 'Custom fields on project'
     x_objects_of_this_type:
+      zero: 'No objects of this type'
       one: 'One object of this type'
       other: '%{count} objects of this type'
     text:
@@ -1609,11 +1611,13 @@ lv:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Pieejamās darbu kompleksu kategorijas'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Pieejamās versijas'
-  label_available_project_repositories: 'Pieejamās krātuves'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Pieejamās krātuves"
+  label_available_project_versions: "Pieejamās versijas"
+  label_available_project_work_package_categories: "Pieejamās darbu kompleksu kategorijas"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentācija"
   label_backup: "Backup"
   label_between: "between"
@@ -2111,15 +2115,19 @@ lv:
   label_x_closed_work_packages_abbr:
     one: "%{count} slēgts"
     other: "%{count} slēgti"
+    zero: "0 closed"
   label_x_comments:
     one: "%{count} komentārs"
     other: "%{count} komentāri"
+    zero: "no comments"
   label_x_open_work_packages_abbr:
     one: "%{count} atvērts"
     other: "%{count} atvērti"
+    zero: "0 open"
   label_x_projects:
     one: "%{count} projekts"
     other: "%{count} projekti"
+    zero: "no projects"
   label_yesterday: "yesterday"
   label_role_type: "Veids"
   label_member_role: "Project role"

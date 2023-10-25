@@ -926,13 +926,14 @@ eo:
     models:
       attachment: "Dosiero"
       attribute_help_text: "Atributa helpteksto"
-      forum: "Forumo"
+      category: "Kategorio"
       comment: "Komento"
       custom_action: "Adaptita ago"
       custom_field: "Propra kampo"
+      'doorkeeper/application': "OAuth aplikaĵo"
+      forum: "Forumo"
+      global_role: "Global role"
       group: "Grupo"
-      category: "Kategorio"
-      status: "Stato de la Laborpakaĵo"
       member: "Membro"
       news: "Novaĵoj"
       notification:
@@ -944,14 +945,14 @@ eo:
       role:
         one: "Rolo"
         other: "Roloj"
+      status: "Stato de la Laborpakaĵo"
       type: "Tipo"
       user: "Uzanto"
       version: "Versio"
-      wiki: "Vikio"
-      wiki_page: "Vikipaĝo"
       workflow: "Laborfluo"
       work_package: "Laborpakaĵo"
-      'doorkeeper/application': "OAuth aplikaĵo"
+      wiki: "Vikio"
+      wiki_page: "Vikipaĝo"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1589,11 +1590,13 @@ eo:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Aŭtentigo"
-  label_available_project_work_package_categories: 'disponeblaj laborpakaĵaj kategorioj'
-  label_available_project_work_package_types: 'Disponeblaj laborpakaĵaj tipoj'
-  label_available_project_forums: 'Disponeblaj forumoj'
-  label_available_project_versions: 'Disponeblaj versioj'
-  label_available_project_repositories: 'Disponeblaj deponejoj'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Disponeblaj forumoj"
+  label_available_project_repositories: "Disponeblaj deponejoj"
+  label_available_project_versions: "Disponeblaj versioj"
+  label_available_project_work_package_categories: "disponeblaj laborpakaĵaj kategorioj"
+  label_available_project_work_package_types: "Disponeblaj laborpakaĵaj tipoj"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentado"
   label_backup: "Backup"
   label_between: "inter"

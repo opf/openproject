@@ -925,13 +925,14 @@ pt:
     models:
       attachment: "Arquivo"
       attribute_help_text: "Texto de ajuda do atributo"
-      forum: "Fórum"
+      category: "Categoria"
       comment: "Comentário"
       custom_action: "Ação personalizada"
       custom_field: "Campo personalizado"
+      'doorkeeper/application': "Aplicação OAuth"
+      forum: "Fórum"
+      global_role: "Global role"
       group: "Grupo"
-      category: "Categoria"
-      status: "Situação do pacote de trabalho"
       member: "Membro"
       news: "Notícias"
       notification:
@@ -943,14 +944,14 @@ pt:
       role:
         one: "Papel"
         other: "Papéis"
+      status: "Situação do pacote de trabalho"
       type: "Tipo"
       user: "Usuário"
       version: "Versão"
-      wiki: "Wiki"
-      wiki_page: "Página wiki"
       workflow: "Fluxo de Trabalho"
       work_package: "Pacote de trabalho"
-      'doorkeeper/application': "Aplicação OAuth"
+      wiki: "Wiki"
+      wiki_page: "Página wiki"
   errors:
     header_invalid_fields:
       one: "Ocorreu um problema com o seguinte campo:"
@@ -1588,11 +1589,13 @@ pt:
   label_ldap_auth_source: "Conexão LDAP"
   label_ldap_auth_source_plural: "Conexões LDAP"
   label_authentication: "Autenticação"
-  label_available_project_work_package_categories: 'Categorias de pacote de trabalho disponíveis'
-  label_available_project_work_package_types: 'Tipos de pacote de trabalho disponíveis'
-  label_available_project_forums: 'Fóruns disponíveis'
-  label_available_project_versions: 'Versões disponíveis'
-  label_available_project_repositories: 'Repositórios disponíveis'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Fóruns disponíveis"
+  label_available_project_repositories: "Repositórios disponíveis"
+  label_available_project_versions: "Versões disponíveis"
+  label_available_project_work_package_categories: "Categorias de pacote de trabalho disponíveis"
+  label_available_project_work_package_types: "Tipos de pacote de trabalho disponíveis"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentação da API"
   label_backup: "Backup"
   label_between: "entre"

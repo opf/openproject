@@ -32,6 +32,10 @@ de:
       messages:
         not_linked_to_project: "ist nicht mit dem Projekt verknüpft."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:
@@ -60,7 +64,7 @@ de:
       edit_automatically_managed_project_folders: "Automatisch verwaltete Projektordner bearbeiten"
       replace_openproject_oauth: "OpenProject OAuth ersetzen"
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
-      save: "Save"
+      save: "Speichern"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
       select_folder: "Ordner auswählen"
@@ -134,7 +138,7 @@ de:
     label_provider_type: "Anbieter-Typ"
     label_project_folder: "Projektordner"
     label_new_storage: "Neuer Speicher"
-    label_edit_storage: "Edit storage"
+    label_edit_storage: "Speicherplatz bearbeiten"
     label_existing_manual_folder: "Vorhandener Ordner mit manuell verwalteten Berechtigungen"
     label_no_specific_folder: "Kein spezifischer Ordner"
     label_automatic_folder: "Neuer Ordner mit automatisch verwalteten Berechtigungen"

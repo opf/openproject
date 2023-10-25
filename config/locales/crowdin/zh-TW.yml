@@ -923,13 +923,14 @@ zh-TW:
     models:
       attachment: "檔案"
       attribute_help_text: "屬性說明文字"
-      forum: "討論區"
+      category: "類別"
       comment: "評論"
       custom_action: "自訂動作"
       custom_field: "自訂欄位"
+      'doorkeeper/application': "Oauth 應用程式"
+      forum: "討論區"
+      global_role: "Global role"
       group: "群組"
-      category: "類別"
-      status: "工作項目狀態"
       member: "成員"
       news: "新知"
       notification:
@@ -939,14 +940,14 @@ zh-TW:
       query: "自訂查詢"
       role:
         other: "角色"
+      status: "工作項目狀態"
       type: "類型"
       user: "使用者"
       version: "版本"
-      wiki: "維基"
-      wiki_page: "維基頁面"
       workflow: "工作流程"
       work_package: "工作項目"
-      'doorkeeper/application': "Oauth 應用程式"
+      wiki: "維基"
+      wiki_page: "維基頁面"
   errors:
     header_invalid_fields:
       other: "There were problems with the following fields:"
@@ -1568,11 +1569,13 @@ zh-TW:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "身份驗證"
-  label_available_project_work_package_categories: '可用的工作項目類別'
-  label_available_project_work_package_types: '可用的工作包類型'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: '可用的版本'
-  label_available_project_repositories: '可用的版本庫'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "可用的版本庫"
+  label_available_project_versions: "可用的版本"
+  label_available_project_work_package_categories: "可用的工作項目類別"
+  label_available_project_work_package_types: "可用的工作包類型"
+  label_available_projects: "Available projects"
   label_api_documentation: "API文件"
   label_backup: "備份"
   label_between: "介於"

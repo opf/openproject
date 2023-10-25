@@ -923,13 +923,14 @@ hu:
     models:
       attachment: "File"
       attribute_help_text: "Attribútum-súgószöveg"
-      forum: "Fórum"
+      category: "Kategória"
       comment: "Vélemény"
       custom_action: "Egyéni művelet"
       custom_field: "Választható mező"
+      'doorkeeper/application': "OAuth alkalmazás"
+      forum: "Fórum"
+      global_role: "Global role"
       group: "Csoport"
-      category: "Kategória"
-      status: "Feladatcsoport állapot"
       member: "Tag"
       news: "Hírek"
       notification:
@@ -941,14 +942,14 @@ hu:
       role:
         one: "Szerepkör"
         other: "Szerepkörök"
+      status: "Feladatcsoport állapot"
       type: "Típus"
       user: "Felhasználó"
       version: "Verzió"
-      wiki: "Wiki"
-      wiki_page: "Wiki oldal"
       workflow: "Munkafolyamat"
       work_package: "Feladatcsoport"
-      'doorkeeper/application': "OAuth alkalmazás"
+      wiki: "Wiki"
+      wiki_page: "Wiki oldal"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1586,11 +1587,13 @@ hu:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Hitelesítés"
-  label_available_project_work_package_categories: 'Rendelkezésre álló munkacsomag kategóriák'
-  label_available_project_work_package_types: 'Rendelkezésre álló munkacsomag típusok'
-  label_available_project_forums: 'Elérhető fórumok'
-  label_available_project_versions: 'Rendelkezésre álló verziók'
-  label_available_project_repositories: 'Rendelkezésre álló tárolók'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Elérhető fórumok"
+  label_available_project_repositories: "Rendelkezésre álló tárolók"
+  label_available_project_versions: "Rendelkezésre álló verziók"
+  label_available_project_work_package_categories: "Rendelkezésre álló munkacsomag kategóriák"
+  label_available_project_work_package_types: "Rendelkezésre álló munkacsomag típusok"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentáció"
   label_backup: "Biztonsági mentés"
   label_between: "között"

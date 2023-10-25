@@ -932,13 +932,14 @@ cs:
     models:
       attachment: "Soubor"
       attribute_help_text: "Text nápovědy pro atribut"
-      forum: "Fórum"
+      category: "Kategorie"
       comment: "Komentář"
       custom_action: "Vlastní akce"
       custom_field: "Vlastní pole"
+      'doorkeeper/application': "OAuth aplikace"
+      forum: "Fórum"
+      global_role: "Global role"
       group: "Skupina"
-      category: "Kategorie"
-      status: "Stav pracovního balíčku"
       member: "Člen"
       news: "Novinky"
       notification:
@@ -954,14 +955,14 @@ cs:
         few: "Role"
         many: "Role"
         other: "Role"
+      status: "Stav pracovního balíčku"
       type: "Typ"
       user: "Uživatel"
       version: "Verze"
-      wiki: "Wiki"
-      wiki_page: "Stránka wiki"
       workflow: "Pracovní postup"
       work_package: "Pracovní balíček"
-      'doorkeeper/application': "OAuth aplikace"
+      wiki: "Wiki"
+      wiki_page: "Stránka wiki"
   errors:
     header_invalid_fields:
       one: "Došlo k potížím s následujícím polem:"
@@ -1631,11 +1632,13 @@ cs:
   label_ldap_auth_source: "Připojení LDAP"
   label_ldap_auth_source_plural: "Připojení LDAP"
   label_authentication: "Ověření"
-  label_available_project_work_package_categories: 'Dostupné kategorie pracovních balíčků'
-  label_available_project_work_package_types: 'Dostupné kategorie pracovních balíčků'
-  label_available_project_forums: 'Dostupná fóra'
-  label_available_project_versions: 'Dostupné verze'
-  label_available_project_repositories: 'Dostupné repozitáře'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Dostupná fóra"
+  label_available_project_repositories: "Dostupné repozitáře"
+  label_available_project_versions: "Dostupné verze"
+  label_available_project_work_package_categories: "Dostupné kategorie pracovních balíčků"
+  label_available_project_work_package_types: "Dostupné kategorie pracovních balíčků"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentace"
   label_backup: "Záloha"
   label_between: "mezi"

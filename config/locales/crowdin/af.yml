@@ -926,13 +926,14 @@ af:
     models:
       attachment: "Lêer"
       attribute_help_text: "Attribute help text"
-      forum: "Forum"
+      category: "Kategorie"
       comment: "Opmerking"
       custom_action: "Custom action"
       custom_field: "Pasgemaakte veld"
+      'doorkeeper/application': "OAuth application"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Groep"
-      category: "Kategorie"
-      status: "Werkspakket status"
       member: "Lid"
       news: "Nuus"
       notification:
@@ -944,14 +945,14 @@ af:
       role:
         one: "Rol"
         other: "Rolle"
+      status: "Werkspakket status"
       type: "Soort"
       user: "Gebruiker"
       version: "Weergawe"
-      wiki: "Wiki"
-      wiki_page: "Wiki bladsy"
       workflow: "Werksvloei"
       work_package: "Werkspakket"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Wiki bladsy"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1589,11 +1590,13 @@ af:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Waarmerking"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Backup"
   label_between: "between"

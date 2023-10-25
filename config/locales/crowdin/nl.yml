@@ -923,13 +923,14 @@ nl:
     models:
       attachment: "Bestand"
       attribute_help_text: "Kenmerk help-teksten"
-      forum: "Forum"
+      category: "Categorie"
       comment: "Commentaar"
       custom_action: "Aangepaste actie"
       custom_field: "Aangepast veld"
+      'doorkeeper/application': "OAuth-authenticatie"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Groep"
-      category: "Categorie"
-      status: "Status werkpakket"
       member: "Deelnemer"
       news: "Nieuws"
       notification:
@@ -941,14 +942,14 @@ nl:
       role:
         one: "Rol"
         other: "Rollen"
+      status: "Status werkpakket"
       type: "Type"
       user: "Gebruiker"
       version: "Versie"
-      wiki: "Wiki"
-      wiki_page: "Wikipagina"
       workflow: "Werkstroom"
       work_package: "Werkpakket"
-      'doorkeeper/application': "OAuth-authenticatie"
+      wiki: "Wiki"
+      wiki_page: "Wikipagina"
   errors:
     header_invalid_fields:
       one: "Er was een probleem met het volgende veld:"
@@ -1586,11 +1587,13 @@ nl:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Verificatie"
-  label_available_project_work_package_categories: 'Beschikbare werkpakket categorieën'
-  label_available_project_work_package_types: 'Beschikbare werkpakkettypes'
-  label_available_project_forums: 'Beschikbare forums'
-  label_available_project_versions: 'Beschikbare versies'
-  label_available_project_repositories: 'Beschikbare opslagplaatsen'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Beschikbare forums"
+  label_available_project_repositories: "Beschikbare opslagplaatsen"
+  label_available_project_versions: "Beschikbare versies"
+  label_available_project_work_package_categories: "Beschikbare werkpakket categorieën"
+  label_available_project_work_package_types: "Beschikbare werkpakkettypes"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentatie"
   label_backup: "Back-up"
   label_between: "tussen"

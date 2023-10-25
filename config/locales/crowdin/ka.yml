@@ -926,13 +926,14 @@ ka:
     models:
       attachment: "ფაილი"
       attribute_help_text: "Attribute help text"
-      forum: "ფორუმი"
+      category: "კატეგორია"
       comment: "კომენტარი"
       custom_action: "Custom action"
       custom_field: "Custom field"
+      'doorkeeper/application': "OAuth application"
+      forum: "ფორუმი"
+      global_role: "Global role"
       group: "ჯგუფი"
-      category: "კატეგორია"
-      status: "Work package status"
       member: "წევრი"
       news: "სიახლეები"
       notification:
@@ -944,14 +945,14 @@ ka:
       role:
         one: "როლი"
         other: "როლი"
+      status: "Work package status"
       type: "ტიპი"
       user: "მომხმარებელი"
       version: "ვერსია"
-      wiki: "ვიკი"
-      wiki_page: "ვიკი გვერდი"
       workflow: "სამუშაო პროცესი"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "ვიკი"
+      wiki_page: "ვიკი გვერდი"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1589,11 +1590,13 @@ ka:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "მარქაფი"
   label_between: "მითითებულ დროის შუალედში"

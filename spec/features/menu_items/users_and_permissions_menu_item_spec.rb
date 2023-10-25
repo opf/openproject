@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,42 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require_relative '../../lib_static/open_project/migration_statement_timeout/manager'
-require_relative '../../lib_static/open_project/migration_statement_timeout/migration_extensions'
+require 'spec_helper'
 
-ActiveRecord::Migration.prepend(MigrationStatementTimeout::Manager)
-ActiveRecord::Migration.extend(MigrationStatementTimeout::MigrationExtensions)
+RSpec.describe 'Menu items',
+               'User and permissions' do
+  shared_current_user { create(:admin) }
+
+  context "when I visit the /users path" do
+    before do
+      visit(users_path)
+    end
+
+    it 'renders the "Users and permissions" menu with its children entries', :aggregate_failures do
+      within '#menu-sidebar' do
+        expect(page)
+          .to have_link(I18n.t(:label_user_and_permission))
+
+        expect(page)
+          .to have_link(I18n.t(:label_users_settings))
+
+        expect(page)
+          .to have_link(I18n.t(:label_placeholder_user_plural))
+
+        expect(page)
+          .to have_link(I18n.t(:label_group_plural))
+
+        expect(page)
+          .to have_link(I18n.t(:label_role_and_permissions))
+
+        expect(page)
+          .to have_link(I18n.t(:label_permissions_report))
+
+        expect(page)
+          .to have_link(I18n.t(:label_avatar_plural))
+      end
+    end
+  end
+end

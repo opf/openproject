@@ -150,6 +150,9 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
+  include ::Scopes::Scoped
+  scopes :allowed_to
+
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
@@ -206,12 +209,6 @@ class Project < ApplicationRecord
   # role's permissions.
   def self.visible_by(user = User.current)
     allowed_to(user, :view_project)
-  end
-
-  # Returns a ActiveRecord::Relation to find all projects for which
-  # +user+ has the given +permission+
-  def self.allowed_to(user, permission)
-    Authorization.projects(permission, user)
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.

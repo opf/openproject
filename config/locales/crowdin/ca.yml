@@ -922,13 +922,14 @@ ca:
     models:
       attachment: "Fitxer"
       attribute_help_text: "Texts d'ajuda d'atributs"
-      forum: "Fòrum"
+      category: "Categoria"
       comment: "Comentari"
       custom_action: "Accions personalitzades"
       custom_field: "Camp personalitzat"
+      'doorkeeper/application': "Aplicació OAuth"
+      forum: "Fòrum"
+      global_role: "Global role"
       group: "Grup"
-      category: "Categoria"
-      status: "Estat del paquet de treball"
       member: "Membre"
       news: "Notícies"
       notification:
@@ -940,14 +941,14 @@ ca:
       role:
         one: "Rol"
         other: "Rols"
+      status: "Estat del paquet de treball"
       type: "Classe"
       user: "Usuari"
       version: "Versió"
-      wiki: "Wiki"
-      wiki_page: "Pàgina wiki"
       workflow: "Flux de treball"
       work_package: "Paquet de treball"
-      'doorkeeper/application': "Aplicació OAuth"
+      wiki: "Wiki"
+      wiki_page: "Pàgina wiki"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1585,11 +1586,13 @@ ca:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autenticació"
-  label_available_project_work_package_categories: 'Categories de paquet de treball disponibles'
-  label_available_project_work_package_types: 'Classes de paquet de treball disponibles'
-  label_available_project_forums: 'Fòrums disponibles'
-  label_available_project_versions: 'Versions disponibles'
-  label_available_project_repositories: 'Repositòris disponibles'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Fòrums disponibles"
+  label_available_project_repositories: "Repositòris disponibles"
+  label_available_project_versions: "Versions disponibles"
+  label_available_project_work_package_categories: "Categories de paquet de treball disponibles"
+  label_available_project_work_package_types: "Classes de paquet de treball disponibles"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentació d'API"
   label_backup: "Còpia de seguretat"
   label_between: "entre"

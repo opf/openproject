@@ -926,13 +926,14 @@ bg:
     models:
       attachment: "Файл"
       attribute_help_text: "Attribute help text"
-      forum: "Форум"
+      category: "Категория"
       comment: "Коментар"
       custom_action: "Custom action"
       custom_field: "Потребителски полета"
+      'doorkeeper/application': "OAuth application"
+      forum: "Форум"
+      global_role: "Global role"
       group: "Група"
-      category: "Категория"
-      status: "Статус на работен пакет"
       member: "Член"
       news: "Новини"
       notification:
@@ -944,14 +945,14 @@ bg:
       role:
         one: "Роля"
         other: "Роли"
+      status: "Статус на работен пакет"
       type: "Тип"
       user: "Потребител"
       version: "Версия"
-      wiki: "Wiki"
-      wiki_page: "Wiki страница"
       workflow: "Работен поток"
       work_package: "Работен пакет"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Wiki страница"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1589,11 +1590,13 @@ bg:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Оторизация"
-  label_available_project_work_package_categories: 'Налични категории работни пакети'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Налични версии'
-  label_available_project_repositories: 'Достъпни хранилища'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Достъпни хранилища"
+  label_available_project_versions: "Налични версии"
+  label_available_project_work_package_categories: "Налични категории работни пакети"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API документация"
   label_backup: "Backup"
   label_between: "между"

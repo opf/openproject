@@ -929,13 +929,14 @@ ro:
     models:
       attachment: "Fișier"
       attribute_help_text: "Text de ajutor pentru atribute"
-      forum: "Forum"
+      category: "Categorie"
       comment: "Comentariu"
       custom_action: "Adaugă acțiune personalizată"
       custom_field: "Câmp personalizat"
+      'doorkeeper/application': "Aplicație OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grup"
-      category: "Categorie"
-      status: "Stare pachet de lucru"
       member: "Membru"
       news: "Noutăţi"
       notification:
@@ -949,14 +950,14 @@ ro:
         one: "Rol"
         few: "Roluri"
         other: "Roluri"
+      status: "Stare pachet de lucru"
       type: "Tip"
       user: "Utilizator"
       version: "Versiune"
-      wiki: "Wiki"
-      wiki_page: "Pagină wiki"
       workflow: "Flux de lucru"
       work_package: "Pachet de lucru"
-      'doorkeeper/application': "Aplicație OAuth"
+      wiki: "Wiki"
+      wiki_page: "Pagină wiki"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1610,11 +1611,13 @@ ro:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentificare"
-  label_available_project_work_package_categories: 'Categorii de pachete de lucru disponibile'
-  label_available_project_work_package_types: 'Tipuri de pachete de lucru disponibile'
-  label_available_project_forums: 'Forumuri disponibile'
-  label_available_project_versions: 'Versiuni disponibile'
-  label_available_project_repositories: 'Arhive disponibile'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Forumuri disponibile"
+  label_available_project_repositories: "Arhive disponibile"
+  label_available_project_versions: "Versiuni disponibile"
+  label_available_project_work_package_categories: "Categorii de pachete de lucru disponibile"
+  label_available_project_work_package_types: "Tipuri de pachete de lucru disponibile"
+  label_available_projects: "Available projects"
   label_api_documentation: "Documentație API"
   label_backup: "Backup"
   label_between: "între"

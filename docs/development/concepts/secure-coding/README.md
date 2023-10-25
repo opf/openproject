@@ -182,6 +182,33 @@ https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
 
 
 
+## Virus and Malware protection
+
+As OpenProject may handle and distribute sensitive user data, attack vectors such as malicious user input as specified in the previous section pose a threat to the integrity, confidentiality, and availaibility of data. In the following, we will evaluate different risks and guidelines on the protection against viruses and other malware during operation of an OpenProject instance.
+
+
+
+**Risks and impacts**
+
+- *Viruses and malware uploads*: Whenever users are able to upload files to a system, potentially malicous files could be provided and distributed through OpenProject by users with the appropriate upload permission. 
+- *Malware in software*: OpenProject carefully selects and updates third-party dependencies. Please see the following section on [external dependencies](#external-dependencies) for more information on the best practices of external dependencies.
+
+
+
+**Guidelines**
+
+- Virus and malware uploads
+  - OpenProject provides users with fine-grained access to control which user groups are allowed to upload files
+  - Whitelist for uploads can be provided by MIME type, rejecting any nonmatching files
+  - OpenProject currently does not provide a built-in virus scanner. However, using [webhooks](https://www.openproject.org/docs/system-admin-guide/api-and-webhooks/#webhooks) and the [attachments API](https://www.openproject.org/docs/api/endpoints/attachments/), users can plug existing virus scanning tools and scrub any uploaded files.
+- *Malware in software*:
+  - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artefacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
+  - We recommend users to perform their own 
+
+
+
+
+
 ## External dependencies
 
 OpenProject includes a number of external dependencies both in Ruby as well as in the JavaScript ecosystem. Regardless of the selection of these dependencies, maintaining and keeping the dependencies up-to-date is a critical part of the security of the application. We have seen a lot of attacks surface in the past years originating from either outdated or manipulated dependencies.

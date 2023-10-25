@@ -924,13 +924,14 @@ hi:
     models:
       attachment: "फ़ाइल"
       attribute_help_text: "Attribute help text"
-      forum: "मंच"
+      category: "श्रेणी"
       comment: "टिप्पणी"
       custom_action: "विशेष या कस्टम क्रियाएँ"
       custom_field: "रुचि के अनुसार फिल्ड"
+      'doorkeeper/application': "OAuth application"
+      forum: "मंच"
+      global_role: "Global role"
       group: "समूह"
-      category: "श्रेणी"
-      status: "कार्य पैकेज स्थिति"
       member: "सदस्य"
       news: "नया"
       notification:
@@ -942,14 +943,14 @@ hi:
       role:
         one: "भूमिका"
         other: "भूमिका"
+      status: "कार्य पैकेज स्थिति"
       type: "प्रकार"
       user: "उपयोगकर्ता"
       version: "संस्करण"
-      wiki: "विकी"
-      wiki_page: "विकी पृष्ठ"
       workflow: "कार्यप्रवाह"
       work_package: "कार्य पैकेज"
-      'doorkeeper/application': "OAuth application"
+      wiki: "विकी"
+      wiki_page: "विकी पृष्ठ"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1587,11 +1588,13 @@ hi:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "प्रमाणीकरण"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Backup"
   label_between: "between"
