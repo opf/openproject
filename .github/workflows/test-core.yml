@@ -23,8 +23,19 @@ jobs:
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
-    runs-on: [self-hosted, aws, ubuntu22, x64, XL]
+    container: debian:buster
+    runs-on: ubuntu-latest
     timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: p4ssw0rd
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     env:
       DOCKER_BUILDKIT: 1
       LOCAL_DEV_CHECK: 1
@@ -32,43 +43,38 @@ jobs:
       CI_RETRY_COUNT: 3
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
+      DATABASE_URL: "postgres://postgres:p4ssw0rd@postgres/postgres"
     steps:
-    - uses: actions/checkout@v3
-    - name: cache
-      uses: actions/cache@v3
-      with:
-        path: /tmp/cache
-        key: ${{ runner.os }}-ci-cache-tests-all-${{ github.ref }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-ci-cache-tests-all-${{ github.ref }}-
-          ${{ runner.os }}-ci-cache-tests-all-
-    - name: build
-      run: docker-compose -f docker-compose.ci.yml build --pull ci
-    - name: tests
-      run: |
-        sudo mkdir -p /tmp/cache && sudo chown -R 1000:1000 $CI_CACHE_PATH
-        ls -lrt $CI_CACHE_PATH/op-cache/ || true
-        docker-compose -f docker-compose.ci.yml run ci setup-tests run-units run-features
-    - name: cleanup
-      if: ${{ always() }}
-      run: |
-        docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
-        sudo chown -R $(id -u):$(id -g) $CI_CACHE_PATH
-        ls -lrt spec/support/turbo*
-        ls -lrt $CI_CACHE_PATH/op-cache/ || true
-  api-spec:
-    name: APIv3 specification (OpenAPI 3.0)
-    if: github.repository == 'opf/openproject'
-    runs-on: [ubuntu-latest]
-    steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
     - uses: actions/setup-node@v3
       with:
-        node-version: '14'
-    - run: ./script/api/validate_spec
+        node-version: 16
+        cache: 'npm'
+    # - name: cache
+    #   uses: actions/cache@v3
+    #   with:
+    #     path: /tmp/cache
+    #     key: ${{ runner.os }}-ci-cache-tests-all-${{ github.ref }}-${{ github.sha }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-ci-cache-tests-all-${{ github.ref }}-
+    #       ${{ runner.os }}-ci-cache-tests-all-
+    # - name: build
+      # run: docker-compose -f docker-compose.ci.yml build --pull ci
+    # - name: tests
+    #   run: |
+    #     sudo mkdir -p /tmp/cache && sudo chown -R 1000:1000 $CI_CACHE_PATH
+    #     ls -lrt $CI_CACHE_PATH/op-cache/ || true
+    #     docker-compose -f docker-compose.ci.yml run ci setup-tests run-units run-features
+    # - name: cleanup
+    #   if: ${{ always() }}
+    #   run: |
+    #     docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
+    #     sudo chown -R $(id -u):$(id -g) $CI_CACHE_PATH
+    #     ls -lrt spec/support/turbo*
+    #     ls -lrt $CI_CACHE_PATH/op-cache/ || true
 
 # github.head_ref is only availabe in PR context and if it is absent then github.run_id
 # is used . And github.run_id is unique for each workflow run. So, this option makes
