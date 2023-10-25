@@ -12,6 +12,7 @@ module Primer
         def initialize(input:, autocomplete_options:)
           super()
           @input = input
+          @data_attributes = autocomplete_options.delete(:data) { {} }
           @autocomplete_options = autocomplete_options
         end
       end
