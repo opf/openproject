@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe Principals::Scopes::PossibleAssignee do
-  let(:project) { create(:project) }
-  let(:other_project) { create(:project) }
+  shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
   let(:role_assignable) { true }
   let(:role) { create(:project_role, permissions: (role_assignable ? [:work_package_assigned] : [])) }
   let(:user_status) { :active }
