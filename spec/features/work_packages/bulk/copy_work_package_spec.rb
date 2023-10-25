@@ -72,7 +72,7 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
         context_menu.open_for work_package
         context_menu.choose 'Bulk copy'
 
-        expect(page).to have_selector('#new_project_id') # rubocop:disable RSpec/ExpectInHook
+        expect(page).to have_css('#new_project_id') # rubocop:disable RSpec/ExpectInHook
         expect_page_reload do
           select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
                               query: project2.name,
@@ -143,7 +143,7 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
           context_menu.open_for work_package
           context_menu.choose 'Bulk copy'
 
-          expect(page).to have_selector('#new_project_id') # rubocop:disable RSpec/ExpectInHook
+          expect(page).to have_css('#new_project_id') # rubocop:disable RSpec/ExpectInHook
           expect_page_reload do
             select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
                                 query: project2.name,
