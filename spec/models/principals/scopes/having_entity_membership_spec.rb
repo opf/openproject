@@ -28,9 +28,13 @@
 
 require 'spec_helper'
 
-RSpec.describe Users::Scopes::HavingEntityMembership do
+RSpec.describe Principals::Scopes::HavingEntityMembership do
+  shared_association_default(:status) { create(:status) }
+  shared_association_default(:priority) { create(:priority) }
+  shared_association_default(:author, factory_name: :user) { create(:user) }
+
   describe '.having_entity_membership' do
-    subject { User.having_entity_membership(work_package) }
+    subject { Principal.having_entity_membership(work_package) }
 
     context 'with some sharing' do
       let(:project_role) { create(:project_role) }
@@ -44,26 +48,34 @@ RSpec.describe Users::Scopes::HavingEntityMembership do
       end
       let(:work_package) do
         create(:work_package, project:) do |wp|
-          create(:member, entity: wp, user: view_user, roles: [view_work_package_role])
-          create(:member, entity: wp, user: comment_user, roles: [comment_work_package_role])
-          create(:member, entity: wp, user: edit_user, roles: [edit_work_package_role])
-          create(:member, entity: wp, user: shared_project_user, roles: [edit_work_package_role])
+          create(:work_package_member, entity: wp, user: view_user, roles: [view_work_package_role])
+          create(:work_package_member, entity: wp, user: comment_user, roles: [comment_work_package_role])
+          create(:work_package_member, entity: wp, user: edit_user, roles: [edit_work_package_role])
+          create(:work_package_member, entity: wp, user: comment_group, roles: [comment_work_package_role])
+          create(:work_package_member, entity: wp, user: shared_project_user, roles: [edit_work_package_role])
         end
       end
 
       let!(:view_user) { create(:user) }
       let!(:comment_user) { create(:user) }
       let!(:edit_user) { create(:user) }
+      let!(:comment_group) { create(:group) }
       let!(:non_shared_project_user) { create(:user) }
       let!(:shared_project_user) { create(:user) }
 
       it 'returns all those users having an entity membership' do
-        expect(subject).to contain_exactly(view_user, comment_user, edit_user, shared_project_user)
+        expect(subject)
+          .to contain_exactly(view_user,
+                              comment_user,
+                              edit_user,
+                              comment_group,
+                              shared_project_user)
       end
     end
 
     context 'without any sharing' do
-      let(:work_package) { create(:work_package) }
+      let(:project) { create(:project) }
+      let(:work_package) { create(:work_package, project:) }
 
       let!(:user) { create(:user) }
 

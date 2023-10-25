@@ -341,9 +341,6 @@ mn:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -576,6 +573,7 @@ mn:
         time_zone: "Time zone"
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        theme: "Mode"
       version:
         effective_date: "Finish date"
         sharing: "Sharing"
@@ -1679,6 +1677,7 @@ mn:
   label_copy_workflow_from: "Copy workflow from"
   label_copy_project: "Copy project"
   label_core_version: "Core version"
+  label_core_build: "Core build"
   label_current_status: "Current status"
   label_current_version: "Current version"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -2201,10 +2200,11 @@ mn:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
         see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."

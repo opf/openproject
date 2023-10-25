@@ -30,7 +30,7 @@ module OpenProject
   module Cache
     module CacheKey
       def self.key(*parts)
-        version_part = expand([OpenProject::VERSION, OpenProject::VERSION.product_version].compact)
+        version_part = expand([OpenProject::VERSION, OpenProject::VERSION.product_sha].compact)
 
         [version_part] + parts.flatten(1)
       end

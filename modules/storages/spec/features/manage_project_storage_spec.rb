@@ -34,7 +34,9 @@ require_module_spec_helper
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-RSpec.describe 'Activation of storages in projects', :js, :webmock do
+RSpec.describe(
+  'Activation of storages in projects', :js, :webmock
+) do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -149,7 +151,6 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock do
     page.find('.icon.icon-edit').click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
                                                                                  id: Storages::ProjectStorage.last)
-
     expect(page).to have_text('Edit the file storage to this project')
     expect(page).not_to have_select('storages_project_storage_storage_id')
     expect(page).to have_text(storage.name)
@@ -198,7 +199,8 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock do
 
   describe 'automatic project folder mode' do
     context 'when the storage is not automatically managed' do
-      let(:storage) { create(:nextcloud_storage, :as_not_automatically_managed) }
+      let(:oauth_application) { create(:oauth_application) }
+      let(:storage) { create(:nextcloud_storage, :as_not_automatically_managed, oauth_application:) }
       let(:project_storage) { create(:project_storage, storage:, project:) }
 
       it 'automatic option is not available' do
@@ -209,7 +211,8 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock do
     end
 
     context 'when the storage is automatically managed' do
-      let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
+      let(:oauth_application) { create(:oauth_application) }
+      let(:storage) { create(:nextcloud_storage, :as_automatically_managed, oauth_application:) }
       let(:project_storage) { create(:project_storage, storage:, project:) }
 
       it 'automatic option is available' do

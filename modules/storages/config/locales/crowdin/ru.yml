@@ -32,6 +32,10 @@ ru:
       messages:
         not_linked_to_project: "не связан с проектом."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "не доступен для этого хранилища."
         storages/storage:
           attributes:
             host:

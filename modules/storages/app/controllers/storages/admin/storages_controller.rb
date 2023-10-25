@@ -42,6 +42,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object, only: %i[show destroy edit edit_host update replace_oauth_application]
+  before_action :prepare_update_params, only: %i[update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -88,7 +89,7 @@ class Storages::Admin::StoragesController < ApplicationController
       case @storage.provider_type
       when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
         flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to new_admin_settings_storage_oauth_client_path(@storage)
+        render '/storages/admin/storages/one_drive/edit'
       when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
         if @oauth_application.present?
           flash.now[:notice] = I18n.t(:notice_successful_create)
@@ -102,6 +103,9 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # rubocop:enable Metrics/AbcSize
 
+  # Edit page is very similar to new page, except that we don't need to set
+  # default attribute values because the object already exists;
+  # Called by: Global app/config/routes.rb to serve Web page
   def edit; end
   def edit_host; end
 
@@ -111,7 +115,7 @@ class Storages::Admin::StoragesController < ApplicationController
   def update
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user, model: @storage)
-                       .call(permitted_storage_params)
+                       .call(@storage_params)
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
@@ -175,6 +179,16 @@ class Storages::Admin::StoragesController < ApplicationController
 
   private
 
+  def prepare_update_params
+    @storage_params = permitted_storage_params
+
+    if @storage.provider_type_one_drive? && @storage.drive_id.nil?
+      parts = @storage_params[:drive_id].split(',')
+
+      @storage_params[:drive_id] = parts.count > 1 ? parts[1] : parts[0]
+    end
+  end
+
   def oauth_application(service_result)
     service_result.dependent_results&.first&.result
   end
@@ -184,7 +198,7 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params
     params
       .require(storage_provider_parameter_name)
-      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret')
+      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret', 'tenant_id', 'drive_id')
   end
 
   # TODO: Work out how to retrieve the storage provider resource name as it's based on the provider type

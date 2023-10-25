@@ -338,9 +338,6 @@ zh-CN:
   themes:
     light: "浅色"
     light_high_contrast: "浅色高对比度"
-    dark: "深色"
-    dark_dimmed: "深色变暗"
-    dark_high_contrast: "深色高对比度"
   types:
     index:
       no_results_title_text: 目前没有类型。
@@ -571,6 +568,7 @@ zh-CN:
         time_zone: "时区"
         auto_hide_popups: "自动隐藏成功通知"
         warn_on_leaving_unsaved: "离开未保存更改的工作包时提示我"
+        theme: "Mode"
       version:
         effective_date: "完成日期"
         sharing: "共享"
@@ -1648,6 +1646,7 @@ zh-CN:
   label_copy_workflow_from: "复制工作流自"
   label_copy_project: "复制项目"
   label_core_version: "核心版本"
+  label_core_build: "Core build"
   label_current_status: "当前状态"
   label_current_version: "当前版本"
   label_custom_field_add_no_type: "将此字段添加到工作包类型中"
@@ -2169,10 +2168,11 @@ zh-CN:
       work_packages:
         allowed_actions: '你可以 %{allowed_actions} 这个工作包。这可以基于你的项目角色和权限而变化。'
         open_work_package: '打开工作包'
-        reason: '如下工作包伴随 %{role_rights} 权限被分享给你'
         see_in_open_project: '在 OpenProject 中查看工作包'
         subject: '工作包 %{id} 已被共享给你'
-        summary: '%{user} 分享了一个工作包给你'
+        summary:
+          user: '%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包'
+          group: '%{user} 向您所属的拥有 %{role_rights} 权限的 %{group} 组共享了一个工作包'
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"

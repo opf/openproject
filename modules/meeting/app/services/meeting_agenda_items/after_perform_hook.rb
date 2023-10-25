@@ -29,14 +29,13 @@
 module MeetingAgendaItems
   module AfterPerformHook
     extend ActiveSupport::Concern
-    include TouchMeeting
 
     included do
       def after_perform(call)
         meeting_agenda_item = call.result
         meeting = meeting_agenda_item.meeting
 
-        touch(meeting) unless meeting.nil?
+        meeting&.touch_and_save_journals
 
         call
       end

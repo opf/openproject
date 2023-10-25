@@ -341,9 +341,6 @@ zh-TW:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: 目前沒有類型
@@ -575,6 +572,7 @@ zh-TW:
         time_zone: "時區"
         auto_hide_popups: "自動隱藏成功通知"
         warn_on_leaving_unsaved: "離開尚未儲存的工作包時提示我"
+        theme: "Mode"
       version:
         effective_date: "完成日期"
         sharing: "分享"
@@ -1652,6 +1650,7 @@ zh-TW:
   label_copy_workflow_from: "工作流程來自於"
   label_copy_project: "複製專案"
   label_core_version: "核心版本"
+  label_core_build: "Core build"
   label_current_status: "目前狀態"
   label_current_version: "目前版本"
   label_custom_field_add_no_type: "新增此欄位至一個工作項目類別"
@@ -2173,10 +2172,11 @@ zh-TW:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
         see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
   mail_body_account_information: "您的帳號資訊"
   mail_body_account_information_external: "您可以使用您的帳號 %{value} 登錄。"

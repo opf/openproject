@@ -70,7 +70,10 @@ class WorkPackage < ApplicationRecord
   has_many :members, as: :entity, dependent: :destroy
   has_many :member_principals, through: :members, class_name: 'Principal', source: :principal
 
-  has_many :meeting_agenda_items, dependent: :destroy # Question: What about finalized minutes within an agenda item?
+  has_many :meeting_agenda_items, dependent: :nullify
+  # The MeetingAgendaItem has a default order, but the ordered field is not part of the select
+  # that retrieves the meetings, hence we need to remove the order.
+  has_many :meetings, -> { unscope(:order).distinct }, through: :meeting_agenda_items, source: :meeting
 
   scope :recently_updated, -> {
     order(updated_at: :desc)
@@ -141,6 +144,9 @@ class WorkPackage < ApplicationRecord
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
   before_save :close_duplicates, :update_done_ratio_from_status
   before_create :default_assign
+  # By using prepend: true, the callback will be performed before the meeting_agenda_items are nullified,
+  # thus the associated agenda items will be available at the time the callback method is performed.
+  around_destroy :save_agenda_item_journals, prepend: true, if: -> { meeting_agenda_items.any? }
 
   acts_as_customizable
 
@@ -635,5 +641,15 @@ class WorkPackage < ApplicationRecord
     if invalid_attachment = attachments.detect(&:invalid?)
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
+  end
+
+  def save_agenda_item_journals
+    ##
+    # Meetings are stored before they become dissociated from the work package,
+    # but the meeting journals are saved only after the agenda items are dissociated (nullified).
+    # By saving the meeting journals, the agenda item journals are also saved.
+    stored_meetings = meetings.to_a
+    yield
+    stored_meetings.each(&:touch_and_save_journals)
   end
 end

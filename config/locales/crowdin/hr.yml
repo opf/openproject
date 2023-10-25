@@ -341,9 +341,6 @@ hr:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Trenutno ne postoji niti jedan tip projekta.
@@ -577,6 +574,7 @@ hr:
         time_zone: "Vremenska zona"
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        theme: "Mode"
       version:
         effective_date: "Finish date"
         sharing: "Dijeljenje"
@@ -1706,6 +1704,7 @@ hr:
   label_copy_workflow_from: "Kopiranje tijek rada iz"
   label_copy_project: "Kopiraj projekt"
   label_core_version: "Temeljna verzija"
+  label_core_build: "Core build"
   label_current_status: "Trenutni status"
   label_current_version: "Trenutna verzija"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -2229,10 +2228,11 @@ hr:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
         see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
   mail_body_account_activation_request: "Novi korisnik je (%{value}) je registriran. Čeka se na vaše odobrenje:"
   mail_body_account_information: "Informacije o vašem korisničkom računu"
   mail_body_account_information_external: "Možete koristiti vaš %{value} korisnički račun za pristup sustavu."

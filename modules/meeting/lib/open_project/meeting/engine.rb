@@ -115,7 +115,7 @@ module OpenProject::Meeting
 
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
-          User.current.allowed_to_globally?(:view_meetings)
+          User.current.allowed_in_any_project?(:view_meetings)
       end
 
       menu :top_menu,

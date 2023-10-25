@@ -32,7 +32,6 @@ require_relative '../../../support/bcf_topic_with_stubbed_comment'
 RSpec.describe API::V3::Activities::ActivityRepresenter do
   include API::Bim::Utilities::PathHelper
 
-  include_context 'user with stubbed permissions'
   include_context 'bcf_topic with stubbed comment'
   let(:other_user) { build_stubbed(:user) }
   let(:project) do
@@ -59,8 +58,14 @@ RSpec.describe API::V3::Activities::ActivityRepresenter do
   let(:permissions) { %i(edit_work_package_notes view_linked_issues) }
   let(:representer) { described_class.new(journal, current_user: user) }
 
+  let(:user) { build_stubbed(:user) }
+
   before do
-    login_as(user)
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
+
+    login_as user
   end
 
   subject(:generated) { representer.to_json }

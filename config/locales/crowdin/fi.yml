@@ -341,9 +341,6 @@ fi:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Ei tyyppejä tällä hetkellä.
@@ -576,6 +573,7 @@ fi:
         time_zone: "Aikavyöhyke"
         auto_hide_popups: "Piilota ilmoitukset onnistuneista toiminnoista"
         warn_on_leaving_unsaved: "Varoita tallentamattomista muutoksista"
+        theme: "Mode"
       version:
         effective_date: "Päättymispäivä"
         sharing: "Jakaminen"
@@ -1679,6 +1677,7 @@ fi:
   label_copy_workflow_from: "Kopioi työnkulku"
   label_copy_project: "Kopioi projekti"
   label_core_version: "Nykyinen versio"
+  label_core_build: "Core build"
   label_current_status: "Nykyinen tila"
   label_current_version: "Nykyinen versio"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -2201,10 +2200,11 @@ fi:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
         see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
   mail_body_account_activation_request: "Uusi käyttäjä (%{value}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:"
   mail_body_account_information: "Kirjautumistiedot"
   mail_body_account_information_external: "Voit nyt käyttää %{value} tiliäsi kirjautuaksesi järjestelmään."

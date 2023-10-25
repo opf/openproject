@@ -53,6 +53,14 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
 
       it_behaves_like 'contract is invalid', base: I18n.t(:text_meeting_not_editable_anymore)
     end
+
+    context 'when an item_type is provided' do
+      before do
+        allow(item).to receive(:changed).and_return(['item_type'])
+      end
+
+      it_behaves_like 'contract is invalid', item_type: :error_readonly
+    end
   end
 
   context 'without permission' do

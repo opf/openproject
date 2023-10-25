@@ -34,15 +34,6 @@ RSpec.describe Bim::Bcf::Viewpoints::CreateContract do
                             issue: viewpoint_issue,
                             json_viewpoint: viewpoint_json_viewpoint)
   end
-  let(:current_user) do
-    build_stubbed(:user)
-  end
-  let!(:allowed_to) do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
-      permissions.include?(permission) && project == permission_project
-    end
-  end
   let(:viewpoint_uuid) { 'issue uuid' }
   let(:viewpoint_json_viewpoint) do
     {
@@ -61,6 +52,13 @@ RSpec.describe Bim::Bcf::Viewpoints::CreateContract do
   end
   let(:project) { build_stubbed(:project) }
   let(:permissions) { [:manage_bcf] }
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
+  end
 
   subject(:contract) { described_class.new(viewpoint, current_user) }
 

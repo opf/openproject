@@ -61,6 +61,14 @@ RSpec.describe MeetingAgendaItems::CreateContract do
 
       it_behaves_like 'contract is invalid', base: :error_unauthorized
     end
+
+    context 'when an item_type is provided' do
+      before do
+        allow(item).to receive(:changed).and_return(['item_type'])
+      end
+
+      it_behaves_like 'contract is valid'
+    end
   end
 
   context 'without permission' do

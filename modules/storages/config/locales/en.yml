@@ -142,6 +142,10 @@ en:
           Copy the client secret from the Azure portal. For a newly created application the secret first needs to be
           created manually. For authorization of web applications a secret is mandatory.
         missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        tenant_id: >
+          Please insert the tenant ID you got from your SharePoint administrator.
+        drive_id: >
+          The drive ID can be obtained by you SharePoint administrator.
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project.
@@ -190,6 +194,7 @@ en:
     label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
     label_oauth_client_id: "OAuth Client ID"
     label_oauth_client_secret: "OAuth Client Secret"
+    label_information: "Additional information"
     label_provider_type: "Provider type"
     label_project_folder: "Project folder"
     label_new_storage: "New storage"
