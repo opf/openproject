@@ -46,9 +46,17 @@
     &-title
       flex-grow: 1
 
-    &-close
+    &-close-button
+      border-radius: 6px
+      border-color: transparent
+      margin-right: -$spot-spacing-0-5
+
       &:hover
         cursor: pointer
+
+      &-icon
+        &:focus
+          outline: none
 
     &_highlight
       background-color: var(--header-bg-color)
