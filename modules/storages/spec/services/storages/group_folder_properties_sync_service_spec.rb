@@ -287,7 +287,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         </ocs>
       XML
     end
-    let(:set_permissions_request_body3) do
+    let(:hide_folder_set_permissions_request_body) do
       <<~XML
         <?xml version="1.0"?>
         <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
@@ -312,7 +312,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         </d:propertyupdate>
       XML
     end
-    let(:set_permissions_response_body3) do
+    let(:hide_folder_set_permissions_response_body) do
       <<~XML
         <?xml version="1.0"?>
         <d:multistatus
@@ -824,19 +824,37 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         end
       end
 
-      # context 'when hiding a folder fail' do
-      #   it 'logs the occurrence' do
-      #     skip 'to be implemented'
-      #
-      #     allow(OpenProject.logger).to receive(:warn)
-      #     described_class.new(storage).call
-      #
-      #     expect(OpenProject.logger).to have_received(:warn) do |msg|
-      #       expect(msg).to eq({}.to_json)
-      #     end
-      #   end
-      # end
-      #
+      context 'when hiding a folder fail' do
+        before do
+          request_stubs[6] = stub_request(:proppatch,
+                                          "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
+                                          "Lost%20Jedi%20Project%20Folder%20%232/")
+                               .with(body: hide_folder_set_permissions_request_body,
+                                     headers: {
+                                       'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+                                     })
+                               .to_return(status: 500, body: 'A server error occurred', headers: {})
+        end
+
+        it 'does not interrupt the flow' do
+          described_class.new(storage).call
+
+          expect(request_stubs).to all(have_been_requested)
+        end
+
+        it 'logs the occurrence' do
+          allow(OpenProject.logger).to receive(:warn)
+          described_class.new(storage).call
+
+          expect(OpenProject.logger).to have_received(:warn) do |msg|
+            expect(msg).to eq({ command: 'nextcloud.set_permissions',
+                                folder: 'OpenProject/Lost Jedi Project Folder #2/',
+                                message: 'Outbound request failed',
+                                data: { status: '500', body: 'A server error occurred' } }.to_json)
+          end
+        end
+      end
+
       # context 'when setting project folder permissions fail' do
       #   it 'logs the occurrence' do
       #     skip 'to be implemented'
@@ -948,16 +966,17 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         }
       ).to_return(status: 207, body: created_folder_set_permissions_response_body, headers: {})
 
+      # 6 - Hide Inactive Folder
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
         "Lost%20Jedi%20Project%20Folder%20%232/"
       ).with(
-        body: set_permissions_request_body3,
+        body: hide_folder_set_permissions_request_body,
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
-      ).to_return(status: 207, body: set_permissions_response_body3, headers: {})
+      ).to_return(status: 207, body: hide_folder_set_permissions_response_body, headers: {})
 
       request_stubs << stub_request(
         :proppatch,

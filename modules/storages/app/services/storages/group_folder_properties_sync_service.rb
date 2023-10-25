@@ -179,7 +179,12 @@ module Storages
           .resolve("commands.nextcloud.set_permissions")
           .call(storage: @storage, **command_params)
           .result_or do |error|
-          OpenProject.logger.warn "PROPPATCH #{path} #{error.log_message}. Response: #{error.data.inspect}"
+          error_msg = { command: 'nextcloud.set_permissions',
+                        folder: path,
+                        message: error.log_message,
+                        data: { status: error.data.code, body: error.data.body } }.to_json
+
+          OpenProject.logger.warn error_msg
         end
       end
     end
