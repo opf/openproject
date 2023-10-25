@@ -25,6 +25,7 @@ jobs:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    container: ubuntu-22.04
     services:
       postgres:
         image: postgres:13
@@ -47,6 +48,12 @@ jobs:
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
     steps:
     - uses: actions/checkout@v4
+    - name: Setup deps
+      run: |
+        mkdir -p /opt/hostedtoolcache
+        apt-get update -qq
+        apt-get install -y libgmp-dev libyaml-dev
+        mkdir -p /home/runner
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
