@@ -1673,6 +1673,7 @@ ca:
   label_copy_workflow_from: "Copia el flux de treball des de"
   label_copy_project: "Copiar projecte"
   label_core_version: "Versió base"
+  label_core_build: "Core build"
   label_current_status: "Estat actual"
   label_current_version: "Versió actual"
   label_custom_field_add_no_type: "Afegeix aquest camp a una classe de paquet de treball"

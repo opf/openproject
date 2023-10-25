@@ -1677,6 +1677,7 @@ fr:
   label_copy_workflow_from: "Copier flux de travail à partir de"
   label_copy_project: "Copier projet"
   label_core_version: "Version du cœur"
+  label_core_build: "Core build"
   label_current_status: "Statut actuel"
   label_current_version: "Version actuelle"
   label_custom_field_add_no_type: "Ajouter ce champ à un type de lot de travaux"

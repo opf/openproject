@@ -1650,6 +1650,7 @@ zh-TW:
   label_copy_workflow_from: "工作流程來自於"
   label_copy_project: "複製專案"
   label_core_version: "核心版本"
+  label_core_build: "Core build"
   label_current_status: "目前狀態"
   label_current_version: "目前版本"
   label_custom_field_add_no_type: "新增此欄位至一個工作項目類別"

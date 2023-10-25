@@ -1731,6 +1731,7 @@ sk:
   label_copy_workflow_from: "Kopírovať pracovný postup z"
   label_copy_project: "Kópíruj projekt"
   label_core_version: "Základná verzia"
+  label_core_build: "Core build"
   label_current_status: "Aktuálny stav"
   label_current_version: "Aktuálna verzia"
   label_custom_field_add_no_type: "Pridať toto pole do typu pracovného balíčka"

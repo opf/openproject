@@ -1677,6 +1677,7 @@ et:
   label_copy_workflow_from: "Kopeeri töövoog"
   label_copy_project: "Kopeeri projekt"
   label_core_version: "Tuumiku versioon"
+  label_core_build: "Core build"
   label_current_status: "Praegune olek"
   label_current_version: "Praegune versioon"
   label_custom_field_add_no_type: "Add this field to a work package type"

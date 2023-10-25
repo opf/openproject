@@ -1785,6 +1785,7 @@ ar:
   label_copy_workflow_from: "نسخ تدفق العمل من"
   label_copy_project: "نسخ المشروع"
   label_core_version: "النسخة الأساسية"
+  label_core_build: "Core build"
   label_current_status: "الحالة الحالية"
   label_current_version: "النسخة الحالية"
   label_custom_field_add_no_type: "Add this field to a work package type"

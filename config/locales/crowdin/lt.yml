@@ -572,7 +572,7 @@ lt:
         time_zone: "Laiko juosta"
         auto_hide_popups: "Automatiškai slėpti sėkmės pranešimus"
         warn_on_leaving_unsaved: "Įspėti mane, kai palieku darbų paketą su neišsaugotais pakeitimais"
-        theme: "Mode"
+        theme: "Režimas"
       version:
         effective_date: "Pabaigos data"
         sharing: "Pasidalijimas"
@@ -1728,6 +1728,7 @@ lt:
   label_copy_workflow_from: "Kopijuoti darbų eigą iš"
   label_copy_project: "Kopijuoti projektą"
   label_core_version: "Branduolio versija"
+  label_core_build: "Core build"
   label_current_status: "Dabartinė būsena"
   label_current_version: "Esama versija"
   label_custom_field_add_no_type: "Pridėti šį laukelį prie darbų paketo tipo"

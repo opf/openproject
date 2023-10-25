@@ -1726,6 +1726,7 @@ uk:
   label_copy_workflow_from: "Копіювати робочий процес з"
   label_copy_project: "Копіювати проект"
   label_core_version: "Версія ядра"
+  label_core_build: "Core build"
   label_current_status: "Поточний статус"
   label_current_version: "Поточна версія"
   label_custom_field_add_no_type: "Додайте це поле до типу робочого пакета"

@@ -1731,6 +1731,7 @@ he:
   label_copy_workflow_from: "העתק זרימת עבודה זו מתוך"
   label_copy_project: "העתק פרוייקט"
   label_core_version: "גרסת ליבה"
+  label_core_build: "Core build"
   label_current_status: "המצב הנוכחי"
   label_current_version: "גרסה נוכחית"
   label_custom_field_add_no_type: "Add this field to a work package type"

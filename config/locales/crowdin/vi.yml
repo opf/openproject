@@ -1652,6 +1652,7 @@ vi:
   label_copy_workflow_from: "Sao chép quy trình từ"
   label_copy_project: "Sao chép dự án"
   label_core_version: "Phiên bản lõi"
+  label_core_build: "Core build"
   label_current_status: "Tình trạng hiện tại"
   label_current_version: "Phiên bản hiện tại"
   label_custom_field_add_no_type: "Thêm trường này vào một loại work package"

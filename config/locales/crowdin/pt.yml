@@ -1676,6 +1676,7 @@ pt:
   label_copy_workflow_from: "Copiar o fluxo de trabalho de"
   label_copy_project: "Cópiar projeto"
   label_core_version: "Versão do núcleo"
+  label_core_build: "Core build"
   label_current_status: "Situação atual"
   label_current_version: "Versão atual"
   label_custom_field_add_no_type: "Adicionar este campo a um tipo de pacote de trabalho"

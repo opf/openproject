@@ -1675,6 +1675,7 @@ da:
   label_copy_workflow_from: "Kopier arbejdsgang fra"
   label_copy_project: "Kopier projekt"
   label_core_version: "Kerneversion"
+  label_core_build: "Core build"
   label_current_status: "Nuværende status"
   label_current_version: "Nuværende version"
   label_custom_field_add_no_type: "Add this field to a work package type"

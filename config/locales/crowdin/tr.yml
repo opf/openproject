@@ -1676,6 +1676,7 @@ tr:
   label_copy_workflow_from: "İş akışı kopyala"
   label_copy_project: "Projeyi kopyala"
   label_core_version: "Çekirdek sürümü"
+  label_core_build: "Core build"
   label_current_status: "Mevcut durum"
   label_current_version: "Mevcut sürüm"
   label_custom_field_add_no_type: "Bu alanı bir iş paketi türüne ekleyin"

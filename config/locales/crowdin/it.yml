@@ -1674,6 +1674,7 @@ it:
   label_copy_workflow_from: "Copia flusso di lavoro da"
   label_copy_project: "Copia progetto"
   label_core_version: "Versione core"
+  label_core_build: "Core build"
   label_current_status: "Stato attuale"
   label_current_version: "Versione corrente"
   label_custom_field_add_no_type: "Aggiungi questo campo a un tipo di macro-attività"

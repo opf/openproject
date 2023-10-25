@@ -1677,6 +1677,7 @@ az:
   label_copy_workflow_from: "Copy workflow from"
   label_copy_project: "Copy project"
   label_core_version: "Core version"
+  label_core_build: "Core build"
   label_current_status: "Current status"
   label_current_version: "Current version"
   label_custom_field_add_no_type: "Add this field to a work package type"

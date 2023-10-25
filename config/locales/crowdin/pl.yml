@@ -1728,6 +1728,7 @@ pl:
   label_copy_workflow_from: "Kopiowanie pracy z"
   label_copy_project: "Kopiuj projekt"
   label_core_version: "Wersja bazowa"
+  label_core_build: "Core build"
   label_current_status: "Aktualny stan"
   label_current_version: "Aktualna wersja"
   label_custom_field_add_no_type: "Dodaj to pole do typu zadania"

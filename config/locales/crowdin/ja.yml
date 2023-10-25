@@ -1646,6 +1646,7 @@ ja:
   label_copy_workflow_from: "ワークフローをここからコピー"
   label_copy_project: "プロジェクトをコピー"
   label_core_version: "メインのバージョン"
+  label_core_build: "Core build"
   label_current_status: "現在のステータス"
   label_current_version: "最新版"
   label_custom_field_add_no_type: "このフィールドをワークパッケージタイプに追加"

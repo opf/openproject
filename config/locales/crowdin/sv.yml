@@ -1676,6 +1676,7 @@ sv:
   label_copy_workflow_from: "Kopiera arbetsflöde från"
   label_copy_project: "Kopiera projekt"
   label_core_version: "Kärnversion"
+  label_core_build: "Core build"
   label_current_status: "Nuvarande status"
   label_current_version: "Aktuell version"
   label_custom_field_add_no_type: "Lägg till det här fältet till en arbetspaketstyp"

@@ -1650,6 +1650,7 @@ th:
   label_copy_workflow_from: "คัดลอกกระบวนการทำงานจาก"
   label_copy_project: "คัดลอกโครงการ"
   label_core_version: "เวอร์ชั่นหลัก"
+  label_core_build: "Core build"
   label_current_status: "สถานะปัจจุบัน"
   label_current_version: "เวอร์ชันปัจจุบัน"
   label_custom_field_add_no_type: "Add this field to a work package type"

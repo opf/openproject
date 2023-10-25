@@ -1674,6 +1674,7 @@ es:
   label_copy_workflow_from: "Copiar flujo de trabajo desde"
   label_copy_project: "Copiar proyecto"
   label_core_version: "Versión base"
+  label_core_build: "Core build"
   label_current_status: "Estado actual"
   label_current_version: "Version actual"
   label_custom_field_add_no_type: "Agregue este campo a un tipo de paquete de trabajo"

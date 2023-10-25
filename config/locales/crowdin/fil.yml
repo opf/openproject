@@ -1677,6 +1677,7 @@ fil:
   label_copy_workflow_from: "Kopyahin ang workflow mula sa"
   label_copy_project: "Kopyahin ang proyekto"
   label_core_version: "Ang core bersyon"
+  label_core_build: "Core build"
   label_current_status: "Kasulukuyang bersyon"
   label_current_version: "Kasukukuyang bersyon"
   label_custom_field_add_no_type: "Idagdag ang patlang na ito sa uri ng work package"

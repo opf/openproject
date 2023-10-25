@@ -1704,6 +1704,7 @@ ro:
   label_copy_workflow_from: "Copiere flux de la"
   label_copy_project: "Copiere proiect"
   label_core_version: "Versiune de bază"
+  label_core_build: "Core build"
   label_current_status: "Stare actuală"
   label_current_version: "Versiune actuală"
   label_custom_field_add_no_type: "Adaugați acest câmp la un pachet de lucru"

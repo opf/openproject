@@ -1730,6 +1730,7 @@ ru:
   label_copy_workflow_from: "Копировать рабочий поток из"
   label_copy_project: "Копировать проект"
   label_core_version: "Текущая версия"
+  label_core_build: "Core build"
   label_current_status: "Текущий статус"
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"

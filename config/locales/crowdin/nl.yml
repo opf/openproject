@@ -1674,6 +1674,7 @@ nl:
   label_copy_workflow_from: "Kopieer workflow van"
   label_copy_project: "Project kopiëren"
   label_core_version: "Core-versie"
+  label_core_build: "Core build"
   label_current_status: "Huidige status"
   label_current_version: "Huidige versie"
   label_custom_field_add_no_type: "Voegt dit veld toe aan een werkpakket type"

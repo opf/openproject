@@ -1646,6 +1646,7 @@ zh-CN:
   label_copy_workflow_from: "复制工作流自"
   label_copy_project: "复制项目"
   label_core_version: "核心版本"
+  label_core_build: "Core build"
   label_current_status: "当前状态"
   label_current_version: "当前版本"
   label_custom_field_add_no_type: "将此字段添加到工作包类型中"

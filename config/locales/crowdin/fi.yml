@@ -1677,6 +1677,7 @@ fi:
   label_copy_workflow_from: "Kopioi työnkulku"
   label_copy_project: "Kopioi projekti"
   label_core_version: "Nykyinen versio"
+  label_core_build: "Core build"
   label_current_status: "Nykyinen tila"
   label_current_version: "Nykyinen versio"
   label_custom_field_add_no_type: "Add this field to a work package type"

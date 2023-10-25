@@ -1728,6 +1728,7 @@ sl:
   label_copy_workflow_from: "Kopiraj potek dela iz"
   label_copy_project: "Kopiraj projekt"
   label_core_version: "Osnovna različica"
+  label_core_build: "Core build"
   label_current_status: "Trenutno stanje"
   label_current_version: "Trenutna različica"
   label_custom_field_add_no_type: "To polje dodajte v tip delovnega paketa"

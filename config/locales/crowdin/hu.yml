@@ -1674,6 +1674,7 @@ hu:
   label_copy_workflow_from: "Munkafolyamat másolása  -ból"
   label_copy_project: "Projekt másolása"
   label_core_version: "Core verzió"
+  label_core_build: "Core build"
   label_current_status: "Jelenlegi állapot"
   label_current_version: "Jelenlegi verzió"
   label_custom_field_add_no_type: "Mező hozzáadása egy feladatcsoport típushoz"

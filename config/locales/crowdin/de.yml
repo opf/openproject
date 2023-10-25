@@ -1672,6 +1672,7 @@ de:
   label_copy_workflow_from: "Workflow kopieren von"
   label_copy_project: "Projekt kopieren"
   label_core_version: "Core Version"
+  label_core_build: "Core build"
   label_current_status: "Gegenwärtiger Status"
   label_current_version: "Gegenwärtige Version"
   label_custom_field_add_no_type: "Dieses Feld zu einem Arbeitspaket-Typ hinzufügen"

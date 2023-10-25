@@ -1643,6 +1643,7 @@ id:
   label_copy_workflow_from: "Copy Alur-Tugas dari"
   label_copy_project: "Copy Project"
   label_core_version: "Core versi"
+  label_core_build: "Core build"
   label_current_status: "Status saat ini"
   label_current_version: "Versi saat ini"
   label_custom_field_add_no_type: "Tambahkan field ini ke sebuah jenis paket kerja"

@@ -1673,6 +1673,7 @@ el:
   label_copy_workflow_from: "Αντιγραφή ροής εργασίας από"
   label_copy_project: "Αντιγραφή έργου"
   label_core_version: "Βασική έκδοση"
+  label_core_build: "Core build"
   label_current_status: "Τρέχουσα κατάσταση"
   label_current_version: "Τρέχουσα έκδοση"
   label_custom_field_add_no_type: "Προσθέστε αυτό το πεδίο σε έναν τύπο πακέτου εργασίας"
