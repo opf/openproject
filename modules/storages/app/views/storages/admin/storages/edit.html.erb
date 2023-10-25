@@ -36,7 +36,21 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% header.with_actions do %>
-      <%= render(Storages::Admin::DeleteStorageButtonComponent.new(@storage)) %>
+      <%=
+        render(Primer::Beta::Button.new(
+          scheme: :danger,
+          size: :medium,
+          tag: :a,
+          role: :button,
+          href: admin_settings_storage_path(@storage),
+          aria: { label: I18n.t("storages.label_delete_storage") },
+          data: { confirm: I18n.t('storages.delete_warning.storage') },
+          method: :delete
+        )) do |button|
+          button.with_leading_visual_icon(icon: :trash)
+          I18n.t('button_delete')
+        end
+      %>
     <% end %>
   <% end %>
 
