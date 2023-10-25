@@ -53,7 +53,6 @@ module API
                    :assignable_categories,
                    :assignable_priorities,
                    :assignable_versions,
-                   :all_versions,
                    :assignable_budgets,
                    to: :contract
 

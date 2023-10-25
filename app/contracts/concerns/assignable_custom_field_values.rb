@@ -35,11 +35,7 @@ module AssignableCustomFieldValues
       when 'list'
         custom_field.possible_values
       when 'version'
-        if custom_field.allow_non_open_versions?
-          all_versions
-        else
-          assignable_versions
-        end
+        assignable_versions(only_open: !custom_field.allow_non_open_versions?)
       end
     end
   end
