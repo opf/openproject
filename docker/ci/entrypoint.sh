@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 
 # export PATH="/usr/lib/postgresql/$PGVERSION/bin:$PATH"
 export JOBS="${CI_JOBS:=$(nproc)}"
@@ -9,6 +9,10 @@ export PARALLEL_TEST_FIRST_IS_1=true
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 # export NODE_OPTIONS="--max-old-space-size=8192"
 export LOG_FILE=/tmp/op-output.log
+export PGUSER=${PGUSER:=postgres}
+export PGHOST=${PGHOST:=localhost}
+
+: $PGPASSWORD
 
 run_psql() {
 	psql -v ON_ERROR_STOP=1 "$@"
@@ -49,7 +53,7 @@ reset_dbs() {
 	execute_quiet "cat db/structure.sql | run_psql -d appdb"
 	# create and load schema for test databases "appdb1" to "appdb$JOBS", far faster than using parallel_rspec tasks for that
 	for i in $(seq 1 $JOBS); do
-		execute_quiet "echo 'drop database if exists appdb$i ; create database appdb$i with template appdb owner appuser;' | run_psql -d postgres"
+		execute_quiet "echo 'drop database if exists appdb$i ; create database appdb$i with template appdb owner $PGUSER;' | run_psql -d postgres"
 	done
 }
 
