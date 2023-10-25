@@ -23,12 +23,13 @@ jobs:
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
-    container: ubuntu:22.04
     runs-on: ubuntu-latest
     timeout-minutes: 40
     services:
       postgres:
         image: postgres:13
+        ports:
+          - 5432:5432
         env:
           POSTGRES_PASSWORD: p4ssw0rd
         options: >-
@@ -43,7 +44,7 @@ jobs:
       CI_RETRY_COUNT: 3
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
-      DATABASE_URL: "postgres://postgres:p4ssw0rd@postgres/postgres"
+      DATABASE_URL: "postgres://postgres:p4ssw0rd@localhost:5432/postgres"
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
