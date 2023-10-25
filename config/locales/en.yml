@@ -2294,7 +2294,7 @@ en:
         subject: 'You have been shared work package #%{id}'
         summary:
           user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
 
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
