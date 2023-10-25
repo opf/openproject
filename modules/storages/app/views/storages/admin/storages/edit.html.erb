@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% header.with_actions do %>
-      <%= render(Storages::Admin::StorageButtonComponent.new(@storage, action: :delete)) %>
+      <%= render(Storages::Admin::DeleteStorageButtonComponent.new(@storage)) %>
     <% end %>
   <% end %>
 
