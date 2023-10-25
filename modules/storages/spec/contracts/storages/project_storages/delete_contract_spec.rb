@@ -54,4 +54,6 @@ RSpec.describe Storages::ProjectStorages::DeleteContract do
 
   # Generic checks that the contract is valid for valid admin, but invalid otherwise
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  include_examples 'contract reuses the model errors'
 end

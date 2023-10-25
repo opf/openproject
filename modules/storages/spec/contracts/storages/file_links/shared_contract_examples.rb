@@ -30,8 +30,11 @@
 
 require 'spec_helper'
 require_module_spec_helper
+require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'file_link contract' do
+  include_context 'ModelContract shared context'
+
   let(:current_user) { create(:user) }
   let(:role) { create(:project_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { current_user => role }) }
@@ -166,4 +169,6 @@ RSpec.shared_examples_for 'file_link contract' do
       end
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

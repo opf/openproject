@@ -27,8 +27,11 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'member contract' do
+  include_context 'ModelContract shared context'
+
   let(:current_user) { build_stubbed(:user, admin: current_user_admin) }
 
   before do
@@ -147,4 +150,6 @@ RSpec.shared_examples_for 'member contract' do
         .to eql(member.project)
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

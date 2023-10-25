@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: 'projects/settings/form_toolbar', locals: { form_name: "edit_project_#{@project.id}" } %>
 <% end %>
 
-<%= error_messages_for_contract(@project, @errors) %>
+<%= error_messages_for(@project) %>
 
 <%= labelled_tabular_form_for @project,
                               url: project_settings_modules_path(@project) do |form| %>

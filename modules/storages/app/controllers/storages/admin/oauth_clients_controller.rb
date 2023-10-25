@@ -63,12 +63,6 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     @oauth_client = service_result.result
 
     service_result.on_failure do
-      if OpenProject::FeatureDecisions.storage_primer_design_active?
-        @oauth_client = ServiceResultErrorsPresenter.new(service_result)
-      else
-        @errors = service_result.errors
-      end
-
       render '/storages/admin/storages/new_oauth_client'
     end
 

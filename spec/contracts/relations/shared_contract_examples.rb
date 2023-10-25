@@ -135,4 +135,6 @@ RSpec.shared_examples_for 'relation contract' do
       it_behaves_like 'contract is invalid', relation_type: :inclusion
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

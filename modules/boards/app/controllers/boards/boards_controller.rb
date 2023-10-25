@@ -37,7 +37,6 @@ module ::Boards
         flash[:notice] = I18n.t(:notice_successful_create)
         redirect_to project_work_package_board_path(@project, @board_grid)
       else
-        @errors = service_result.errors
         render action: :new
       end
     end

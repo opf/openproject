@@ -108,4 +108,6 @@ RSpec.shared_examples_for 'view contract' do |disabled_permission_checks|
       end
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

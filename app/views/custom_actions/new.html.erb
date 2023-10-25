@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% local_assigns[:additional_breadcrumb] = t('custom_actions.new') %>
 <%= breadcrumb_toolbar t('custom_actions.new') %>
 
-<%= error_messages_for_contract @custom_action, @errors %>
+<%= error_messages_for @custom_action %>
 
 <%= labelled_tabular_form_for @custom_action do |f| %>
   <%= render partial: 'form', locals: { f: f } %>

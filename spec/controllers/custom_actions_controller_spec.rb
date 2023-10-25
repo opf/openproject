@@ -209,11 +209,6 @@ RSpec.describe CustomActionsController, with_ee: %i[custom_actions] do
           expect(assigns[:custom_action])
             .to eql action
         end
-
-        it 'assigns errors' do
-          expect(assigns[:errors])
-            .to eql service_result.errors
-        end
       end
     end
 
@@ -349,11 +344,6 @@ RSpec.describe CustomActionsController, with_ee: %i[custom_actions] do
         it 'assigns the action' do
           expect(assigns[:custom_action])
             .to eql(action)
-        end
-
-        it 'assigns errors' do
-          expect(assigns[:errors])
-            .to eql service_result.errors
         end
       end
     end

@@ -81,7 +81,6 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      @errors = service_result.errors
       render :new
     end
 
@@ -124,7 +123,6 @@ class Storages::Admin::StoragesController < ApplicationController
       @storage = ServiceResultErrorsPresenter.new(service_result)
       render :edit_host
     else
-      @errors = service_result.errors
       render :edit
     end
   end
@@ -155,7 +153,6 @@ class Storages::Admin::StoragesController < ApplicationController
       @oauth_application = ServiceResultErrorsPresenter.new(service_result)
       render :show_oauth_application
     else
-      @errors = service_result.errors
       render :edit
     end
   end
