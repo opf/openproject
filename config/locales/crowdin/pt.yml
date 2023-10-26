@@ -272,6 +272,7 @@ pt:
       no_results_title_text: Atualmente, não há membros deste projeto.
       no_results_content_text: Adicionar um membro ao projeto
     invite_by_mail: "Enviar convite para %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
@@ -2198,12 +2199,12 @@ pt:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
         summary:
           user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
@@ -3003,7 +3004,7 @@ pt:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       permissions:

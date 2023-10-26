@@ -273,6 +273,7 @@ zh-TW:
       no_results_title_text: 目前這個專案沒有成員
       no_results_content_text: 新增一個成員到這個專案
     invite_by_mail: "Send invite to %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "無法重置訪問憑證: %{error}"
@@ -2171,12 +2172,12 @@ zh-TW:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
         summary:
           user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
   mail_body_account_information: "您的帳號資訊"
   mail_body_account_information_external: "您可以使用您的帳號 %{value} 登錄。"
@@ -2976,7 +2977,7 @@ zh-TW:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       permissions:
