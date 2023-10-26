@@ -421,7 +421,7 @@ RSpec.describe CustomField do
     context 'with a wp int cf' do
       let(:field) { build_stubbed(:integer_wp_custom_field) }
 
-      it 'is true' do
+      it 'is false' do
         expect(field)
           .not_to be_multi_value_possible
       end
@@ -448,7 +448,7 @@ RSpec.describe CustomField do
     context 'with a project int cf' do
       let(:field) { build_stubbed(:integer_project_custom_field) }
 
-      it 'is true' do
+      it 'is false' do
         expect(field)
           .not_to be_multi_value_possible
       end
@@ -459,7 +459,7 @@ RSpec.describe CustomField do
 
       it 'is true' do
         expect(field)
-          .not_to be_multi_value_possible
+          .to be_multi_value_possible
       end
     end
 
@@ -468,7 +468,81 @@ RSpec.describe CustomField do
 
       it 'is true' do
         expect(field)
-          .not_to be_multi_value_possible
+          .to be_multi_value_possible
+      end
+    end
+  end
+
+  describe '#allow_non_open_versions?' do
+    context 'with a wp list cf' do
+      let(:field) { build_stubbed(:list_wp_custom_field) }
+
+      it 'is false' do
+        expect(field)
+          .not_to be_allow_non_open_versions_possible
+      end
+    end
+
+    context 'with a wp user cf' do
+      let(:field) { build_stubbed(:user_wp_custom_field) }
+
+      it 'is false' do
+        expect(field)
+          .not_to be_allow_non_open_versions_possible
+      end
+    end
+
+    context 'with a wp int cf' do
+      let(:field) { build_stubbed(:integer_wp_custom_field) }
+
+      it 'is false' do
+        expect(field)
+          .not_to be_allow_non_open_versions_possible
+      end
+    end
+
+    context 'with a work package user cf' do
+      let(:field) { build_stubbed(:wp_custom_field, :user) }
+
+      it 'is false' do
+        expect(field)
+          .not_to be_allow_non_open_versions_possible
+      end
+    end
+
+    context 'with a work package version cf' do
+      let(:field) { build_stubbed(:wp_custom_field, :version) }
+
+      it 'is true' do
+        expect(field)
+          .to be_allow_non_open_versions_possible
+      end
+    end
+
+    context 'with a version cf for version' do
+      let(:field) { build_stubbed(:version_custom_field, :version) }
+
+      it 'is true' do
+        expect(field)
+          .to be_allow_non_open_versions_possible
+      end
+    end
+
+    context 'with a project version cf' do
+      let(:field) { build_stubbed(:project_custom_field, :version) }
+
+      it 'is true' do
+        expect(field)
+          .to be_allow_non_open_versions_possible
+      end
+    end
+
+    context 'with a time entry version cf' do
+      let(:field) { build_stubbed(:time_entry_custom_field, :version) }
+
+      it 'is true' do
+        expect(field)
+          .to be_allow_non_open_versions_possible
       end
     end
   end
