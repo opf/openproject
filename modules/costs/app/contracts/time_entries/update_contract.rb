@@ -57,12 +57,12 @@ module TimeEntries
     private
 
     def user_allowed_to_update_in?(project)
-      user.allowed_to?(:edit_time_entries, project) ||
-        (model.user == user && user.allowed_to?(:edit_own_time_entries, project))
+      user.allowed_in_project?(:edit_time_entries, project) ||
+        (model.user == user && user.allowed_in_project?(:edit_own_time_entries, project))
     end
 
     def user_allowed_to_modify_ongoing?(project)
-      model.user == user && (user.allowed_to?(:log_time, project) || user.allowed_to?(:log_own_time, project))
+      model.user == user && (user.allowed_in_project?(:log_time, project) || user.allowed_in_project?(:log_own_time, project))
     end
   end
 end

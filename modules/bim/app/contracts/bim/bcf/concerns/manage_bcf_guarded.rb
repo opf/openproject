@@ -37,7 +37,7 @@ module Bim::Bcf
         private
 
         def validate_user_allowed_to_manage
-          unless model.project && user.allowed_to?(:manage_bcf, model.project)
+          unless model.project && user.allowed_in_project?(:manage_bcf, model.project)
             errors.add :base, :error_unauthorized
           end
         end

@@ -77,7 +77,7 @@ module Projects
     def validate_parent_assignable
       if model.parent &&
          model.parent_id_changed? &&
-         !assignable_parents.where(id: parent.id).exists?
+         !assignable_parents.exists?(id: parent.id)
         errors.add(:parent, :does_not_exist)
       end
     end
@@ -90,7 +90,7 @@ module Projects
 
     def validate_user_allowed_to_manage
       with_unchanged_id do
-        errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+        errors.add :base, :error_unauthorized unless user.allowed_in_project?(manage_permission, model)
       end
     end
 

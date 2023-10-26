@@ -239,7 +239,7 @@ class BaseContract < Disposable::Twin
     attributes
   end
 
-  def reduce_by_writable_permissions(attributes)
+  def reduce_by_writable_permissions(attributes) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     attributes.reject do |attribute|
@@ -253,7 +253,8 @@ class BaseContract < Disposable::Twin
 
       # This will break once a model that does not respond to project is used.
       # This is intended to be worked on then with the additional knowledge.
-      next if permissions.any? { |p| user.allowed_to?(p, model.project, global: model.project.nil?) }
+      next if model.project.present? && permissions.any? { |perm| user.allowed_in_project?(perm, model.project) }
+      next if model.project.blank? && permissions.any? { |perm| user.allowed_in_any_project?(perm) }
 
       true
     end
