@@ -185,7 +185,7 @@ You can also embed attribute values and [their help texts](../../system-admin-gu
 
 The following lists show the supported attributes for work packages and projects.
 
-> **Please note**: If you are using a different language than, English a translation of the commands can only be used in the text editor if all user languages (of all useres) of an instance are set to the same language (for example: German). In this case, only the attribute to which the command refers is translated, e.g. (`workPackageValue:1234:"translated attribute"`).
+> **Please note**: If you are using a different language than, English a translation of the commands can only be used in the text editor if all user languages (of all useres) of an instance are set to the same language (for example: German). In this case, only the attribute to which the command refers is translated, e.g. (`workPackageValue:1234:"translated attribute"`). We recommend against using translated attributes, as they might break in future version due to fixes or changes to texts.
 
 ### Available attributes for work packages
 
