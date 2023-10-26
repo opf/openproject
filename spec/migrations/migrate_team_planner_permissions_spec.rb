@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.join("db/migrate/20220414085531_migrate_team_planner_permissions.rb")
 require 'spec_helper'
+require Rails.root.join("db/migrate/20220414085531_migrate_team_planner_permissions.rb")
 
 RSpec.describe MigrateTeamPlannerPermissions, type: :model do
   # Silencing migration logs, since we are not interested in that during testing
@@ -53,9 +53,10 @@ RSpec.describe MigrateTeamPlannerPermissions, type: :model do
 
   shared_examples_for 'adding permissions' do |new_permissions|
     it "adds the #{new_permissions} permissions for the role" do
+      public_permissions = OpenProject::AccessControl.public_permissions.map(&:name)
       expect { subject }.to change { role.reload.permissions }
-        .from(match_array(permissions))
-        .to match_array(permissions + new_permissions)
+        .from(match_array(permissions + public_permissions))
+        .to match_array(permissions + public_permissions + new_permissions)
     end
 
     it "adds #{new_permissions.size} new permissions" do
