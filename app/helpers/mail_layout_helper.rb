@@ -68,4 +68,13 @@ module MailLayoutHelper
 
     content_tag('td', '&nbsp;'.html_safe, style:)
   end
+
+  def user_salutation(user)
+    case Setting.emails_salutation
+    when :name
+      I18n.t(:'mail.salutation', user: user.name)
+    else
+      I18n.t(:'mail.salutation', user: user.firstname)
+    end
+  end
 end

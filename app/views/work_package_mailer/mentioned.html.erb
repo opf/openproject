@@ -14,7 +14,6 @@
                    button_href: notifications_path(@work_package.id),
                    button_text: I18n.t(:'mail.notification.see_in_center'),
                    user: @user,
-                   salutation: I18n.t(:'mail.salutation', user: @user.firstname)
                  } %>
 
       <%= render layout: 'mailer/notification_row',

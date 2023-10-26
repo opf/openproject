@@ -59,22 +59,5 @@ RSpec.describe AnnouncementMailer do
       expect(mail.to)
         .to match_array [recipient.mail]
     end
-
-    context 'with custom salutation' do
-      subject(:mail) do
-        described_class.announce(recipient,
-                                 subject: announcement_subject,
-                                 salutation: "What's up %<name>s?",
-                                 body: announcement_body)
-      end
-
-      it 'includes the body' do
-        expect(mail.body.encoded)
-          .to include("What's up #{recipient.name}")
-
-        expect(mail.body.encoded)
-          .not_to include("Hey #{recipient.name}!")
-      end
-    end
   end
 end

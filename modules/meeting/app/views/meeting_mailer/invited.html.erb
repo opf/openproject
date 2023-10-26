@@ -30,8 +30,8 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render layout: 'mailer/spacer_table' do %>
   <%= render partial: 'mailer/mailer_header',
              locals: {
-               caption: I18n.t('meeting.email.invited.header', title: @meeting.title),
-               subcaption: I18n.t('meeting.email.invited.summary', actor: @actor),
+               user: @user,
+               summary: I18n.t('meeting.email.invited.summary', title: @meeting.title, actor: @actor),
                bottom_spacing: false
              } %>
 
@@ -76,7 +76,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= @meeting.author %>
             </td>
           </tr>
-          <% if @meeting.participants.any? %>
+          <% if @meeting.participants.exists? %>
             <tr>
               <td style="<%= placeholder_text_styles(width: '30%') %>">
                 <%= Meeting.human_attribute_name(:participants_invited) %>

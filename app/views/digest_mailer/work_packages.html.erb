@@ -14,7 +14,6 @@
                    button_href: notifications_center_url,
                    button_text: I18n.t(:'mail.notification.center'),
                    user: @user,
-                   salutation: I18n.t(:'mail.salutation', user: @user.firstname)
                  } %>
 
       <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do |work_package, notifications_by_work_package| %>

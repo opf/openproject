@@ -30,6 +30,7 @@ class MeetingMailer < UserMailer
   def invited(meeting, user, actor)
     @actor = actor
     @meeting = meeting
+    @user = user
 
     open_project_headers 'Project' => @meeting.project.identifier,
                          'Meeting-Id' => @meeting.id
@@ -42,6 +43,7 @@ class MeetingMailer < UserMailer
 
   def rescheduled(meeting, user, actor, changes:)
     @actor = actor
+    @user = user
     @meeting = meeting
     @changes = changes
 
