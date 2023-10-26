@@ -90,7 +90,7 @@ RSpec.describe Roles::SetAttributesService, type: :model do
         let(:permissions) { [] }
 
         it 'assigns the permissions the non member role has' do
-          expect(model_instance.permissions).to match_array(ProjectRole.non_member.permissions + OpenProject::AccessControl.public_permissions.map(&:name))
+          expect(model_instance.permissions).to match_array(ProjectRole.non_member.permissions) # public permissions are included via the factory
         end
       end
     end
