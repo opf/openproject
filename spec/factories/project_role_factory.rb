@@ -33,6 +33,10 @@ FactoryBot.define do
     permissions { [] }
     sequence(:name) { |n| "Project role #{n}" }
 
+    after(:create) do |role|
+      role.add_permission!(*OpenProject::AccessControl.public_permissions.map(&:name))
+    end
+
     factory :non_member do
       name { 'Non member' }
       builtin { Role::BUILTIN_NON_MEMBER }
