@@ -103,11 +103,17 @@ Depending on the individual use the following personal data is processed:
 
 ### Logging
 
-Technically, every use of a browser-based SaaS application is accompanied by a usage log in the form of a so-called web log, which focuses on the IP address of the calling computer and the time of the page call, supplemented by information on the version of the operating system and browser used.
+Technically, every use of a browser-based web application is accompanied by a usage log in the form of a so-called web log, which focuses on the IP address of the calling computer and the time of the page call, supplemented by information on the version of the operating system and browser used.
 
-## System overview
+More technical information about the logging mechanism can be found in the operations documentation:
 
-Regardless of the type of installation of OpenProject, the following diagram provides a high-level overview of through which systems data related to OpenProject is flowing.
+* [Monitoring your OpenProject installation](../installation-and-operations/operation/monitoring/)
+
+## Data flows of personal data
+
+### System overview
+
+The following diagram provides an overview of the data flows of personal data in OpenProject. This applies to the different installation methods.
 
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
@@ -152,6 +158,11 @@ end
 	browser
 	A1
 	A2
+	
+	click idp href "https://www.openproject.org" _self
+	
+	
+	
 end
 
   
@@ -159,7 +170,7 @@ end
 
 ```
 
-As a web application, the primary data flow is between the Client Browser (or attached API clients) through an external proxying web server (this might be a load balancer or proxying server). We're assuming it is the one responsible for terminating TLS connections for the course of this document - although encrypted connections between Load balancer and Puma server are possible. In case of packaged or Kubernetes installations, this proxying server might be part of the OpenProject stack (e.g., an Apache2 packaged installation server or nginx ingress).
+As a web application, the primary data flow is between the Client Browser (or attached API clients) through an external proxying web server (this might be a load balancer or proxying server). Depending on the individual setup the proxying server is responsible for terminating TLS connections for the course of this document - although encrypted connections between Load balancer and Puma server are possible. In case of packaged or Kubernetes installations, this proxying server might be part of the OpenProject stack (e.g., an Apache2 packaged installation server or nginx ingress).
 
 The external web server acts as a proxy/reverse-proxy for the OpenProject Puma application server, relaying requests for it to handle and respond. In the course of the request, access to external services such as the PostgreSQL database, a caching server, or attached storages might be performed. In case of S3-compatible object storage set ups, OpenProject performs calls to the object storage to put or request files from it. Likewise, for network-attached storages linked into the application, underlying network requests are performed. These are out of scope for this evaluation, as they are provided and maintained by the operator of the system.
 
@@ -183,9 +194,7 @@ In the course of using the application, background tasks are enqueued in the dat
 - **Response**: Sends the HTTP response back through the Puma server and load balancer to the end-user.
 - **Background worker:** Operate on periodical background data, or perform actions requested by the web request of user (sending emails, exporting data, communicating with external services)
 
-## Data flows of personal data
-
-### Login using an identity provider
+### Sign-in using an identity provider
 
 #### Overview
 
