@@ -13,6 +13,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
   selector: 'op-notification-settings-table',
@@ -26,6 +27,8 @@ export class NotificationSettingsTableComponent implements OnInit {
   @Input() settings:UntypedFormArray;
 
   public eeShowBanners = false;
+
+  public displaySharedOption = false;
 
   public availableTimes = [
     {
@@ -81,10 +84,12 @@ export class NotificationSettingsTableComponent implements OnInit {
     private I18n:I18nService,
     private pathHelper:PathHelperService,
     readonly bannersService:BannersService,
+    readonly configurationService:ConfigurationService,
   ) {}
 
   ngOnInit():void {
     this.eeShowBanners = this.bannersService.eeShowBanners;
+    this.displaySharedOption = this.configurationService.activeFeatureFlags.includes('workPackageSharing');
   }
 
   projectLink(href:string) {

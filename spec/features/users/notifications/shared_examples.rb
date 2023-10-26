@@ -1,5 +1,7 @@
 RSpec.shared_examples 'notification settings workflow' do
-  describe 'with another project the user can see', with_ee: %i[date_alerts] do
+  describe 'with another project the user can see',
+           with_ee: %i[date_alerts],
+           with_flag: { work_package_sharing: true } do
     shared_let(:project) { create(:project) }
     shared_let(:project_alt) { create(:project) }
     shared_let(:role) { create(:project_role, permissions: %i[view_project]) }

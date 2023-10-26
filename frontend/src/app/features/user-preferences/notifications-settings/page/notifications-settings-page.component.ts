@@ -20,6 +20,7 @@ import { INotificationSetting } from 'core-app/features/user-preferences/state/n
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
 
@@ -65,6 +66,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   public availableTimesOverdue = OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES;
 
   public eeShowBanners = false;
+
+  public displaySharedOption = false;
 
   public form = new UntypedFormGroup({
     assignee: new UntypedFormControl(false),
@@ -142,6 +145,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     private currentUserService:CurrentUserService,
     private uiRouterGlobals:UIRouterGlobals,
     readonly bannersService:BannersService,
+    readonly configurationService:ConfigurationService,
   ) {
     super();
   }
@@ -150,6 +154,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     this.form.disable();
     this.userId = (this.userId || this.uiRouterGlobals.params.userId) as string;
     this.eeShowBanners = this.bannersService.eeShowBanners;
+    this.displaySharedOption = this.configurationService.activeFeatureFlags.includes('workPackageSharing');
 
     this
       .currentUserService

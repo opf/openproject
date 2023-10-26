@@ -56,6 +56,7 @@
   <spot-selector-field
     [label]="text.shared"
     [control]="form.get('shared')"
+    *ngIf="displaySharedOption"
   >
     <input
       slot="input"
