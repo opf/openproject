@@ -1,4 +1,4 @@
-# Data privacy information
+# Processing of personal data
 
 > **Note:** Purpose of this document is to provide users a starting point for creating their own data privacy information documentation imposed by the GDPR. The legal information for using services provided by the OpenProject GmbH can be found here:
 > * [Privacy Policy](https://www.openproject.org/legal/privacy/)
@@ -6,11 +6,17 @@
 > * [Sub-Processors](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
 > * [Technical and Organizational Data Security Measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures/)
 
-## Scope of data processing
+Status of this document: DRAFT 2023-10-26
+
+## Purpose and subject of processing
+
+### Anonymous access of OpenProject
+
+Depending on the individual permission and authentications settings persons can access OpenProject [anonymously](../system-admin-guide/users-permissions/roles-permissions/#anonymous) without a user account. The [OpenProject community platform](https://community.openproject.org) is an example of an OpenProject installation where individual projects where set to public.  
 
 ### Registration of a user account
 
-To use our SaaS platform, the registration of a user account is required. In this process, we collect and process the following personal data:
+To sign-in to the OpenProject platform, the registration of a user account is required. For registered user's the following personal data are processed:
 
 - Name
 - Username
@@ -31,9 +37,11 @@ To use our SaaS platform, the registration of a user account is required. In thi
 - Telephone number for sending one-time passwords via SMS,
 - OATH secret code (e.g. for the 2FA app FreeOTP).
 
+> **Note:** Administrators can add so-called [custom fields](../system-admin-guide/custom-fields/) to their OpenProject installation which extend the data fields of a user.
+
 ### Using OpenProject
 
-Depending on the individual use the following personal data is processed:
+Depending on the individual use and permissions of the user the following personal data is processed:
 
 - Comments in work packages, meetings, wiki pages and project news
   - Change history
@@ -77,7 +85,7 @@ Depending on the individual use the following personal data is processed:
   - Change history
   - Persons named in the boards
   - Assignments of work packages to persons
-- calendar
+- Calendar
   - Change history
   - Persons named in the calendars
   - Assignments of work packages to persons
@@ -123,29 +131,29 @@ flowchart TD
   A1[API or Native Clients] -->|"HTTP(s) requests"| loadbalancer
   A2[SVN or Git Clients] -->|"HTTP(s) requests"| loadbalancer
   loadbalancer -->|Proxy| openproject
+  
   subgraph openproject[OpenProject Core Application]
-    C[Puma app server]
-    D[Background worker]
+    openprojectrailsapp[Rails Application]
+    C[Puma App Server]
+    D[Background Worker]
   end
 
 
   subgraph integrations[External Integrations]
   direction TB
-    idp[Identity Provider]
-    N[Nextcloud]
-    GitHub
-  	O[Other integrations]
-  	
-  	sms[SMS Gateways]
-  	
+    idp["Identity Provider (idp)"]
+    N["Nextcloud (nc)"]
+    GitHub["GitHub (gh)"]
+  	O["API Integrations (API)"]
+ 
 end
 
   subgraph services[Internal Services]
   direction TB
-  	M[memcached]
+  	M[Memcached]
 	  P[PostgreSQL]
-	  S[Object storage or NFS]
-	  email[Email Gateways]
+	  S[Object Storage or NFS]
+	  email["Email Gateways (email)"]
   end
 
 
@@ -159,7 +167,6 @@ end
 	A1
 	A2
 	
-	click idp href "https://www.openproject.org" _self
 	
 	
 	
@@ -174,23 +181,22 @@ As a web application, the primary data flow is between the Client Browser (or at
 
 The external web server acts as a proxy/reverse-proxy for the OpenProject Puma application server, relaying requests for it to handle and respond. In the course of the request, access to external services such as the PostgreSQL database, a caching server, or attached storages might be performed. In case of S3-compatible object storage set ups, OpenProject performs calls to the object storage to put or request files from it. Likewise, for network-attached storages linked into the application, underlying network requests are performed. These are out of scope for this evaluation, as they are provided and maintained by the operator of the system.
 
-In the course of using the application, background tasks are enqueued in the database such as outgoing emails, cleanup tasks, or notification processing. These tasks are performed in a separate process, the background worker queue. This process accesses the same services as the application server process to access or modify data. It might connect to external integrations such as a Nextcloud instance to set up file sharings depending on actions performed by the users.
+In the course of using the application, background tasks are enqueued in the database such as outgoing emails, cleanup tasks, or notification processing. These tasks are performed in a separate process, the background worker queue. This process accesses the same services as the application server process to access or modify data. It might connect to external integrations such as a [Nextcloud](../user-guide/nextcloud-integration/) instance to set up file sharings depending on actions performed by the users.
 
 **Exemplary request flow**
 
 - **User request**: An end-user sends an HTTPS request to the load balancer or proxying server.
 - **Load balancer**: The external load balancer or proxying server receives the request, terminates TLS, and forwards the HTTP request to the Puma application server.
-- **Puma server**: Processes the request and invokes the appropriate Rails middlewares and controller.
+- **Puma app server**: Processes the request and invokes the appropriate Rails middlewares and controller.
 - **Rails application**:
-
-  - Authenticates the user according to the mechanisms outlined in the [secure coding guidelines](../concepts/secure-coding)
+- Authenticates the user according to the mechanisms outlined in the [secure coding guidelines](../concepts/secure-coding)
   - Validates session and input data
   - Responsible for error handling, logging, and auditing aggregation
-
-  - Retrieves or updates resources to the PostgreSQL database via models
+  
+- Retrieves or updates resources to the PostgreSQL database via models
   - Calls or interacts with external services for requests, such as retrieving files or attachments from object storage
-
-  - Renders the appropriate views
+  
+- Renders the appropriate views
 - **Response**: Sends the HTTP response back through the Puma server and load balancer to the end-user.
 - **Background worker:** Operate on periodical background data, or perform actions requested by the web request of user (sending emails, exporting data, communicating with external services)
 
