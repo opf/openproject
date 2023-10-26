@@ -22,6 +22,8 @@ zh-CN:
       plural: OpenID 提供商
       singular: OpenID 提供商
     setting_instructions:
+      azure_deprecation_warning: >
+        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
       azure_graph_api: >
         使用 graph.microsoft.com userinfo 端点请求用户数据。除非您有更低版本的 Azure 应用程序，否则这应该是默认设置。
       azure_tenant_html: >

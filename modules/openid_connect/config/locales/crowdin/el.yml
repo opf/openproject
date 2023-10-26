@@ -22,6 +22,8 @@ el:
       plural: Πάροχοι OpenID
       singular: Πάροχος OpenID
     setting_instructions:
+      azure_deprecation_warning: >
+        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
       azure_graph_api: >
         Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
       azure_tenant_html: >
