@@ -44,4 +44,13 @@ class MeetingMailerPreview < ActionMailer::Preview
 
     MeetingMailer.rescheduled(meeting, user, actor, changes:)
   end
+
+  def invited
+    language = params['locale'] || I18n.default_locale
+    actor = FactoryBot.build_stubbed(:user, lastname: 'Actor')
+    user = FactoryBot.build_stubbed(:user, language:)
+    meeting = FactoryBot.build_stubbed(:meeting)
+
+    MeetingMailer.invited(meeting, user, actor)
+  end
 end

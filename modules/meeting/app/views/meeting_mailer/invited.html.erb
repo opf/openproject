@@ -27,18 +27,88 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<h1><%= link_to(@meeting.project.name, project_url(@meeting.project)) %>: <%= link_to(@meeting.title, meeting_url(@meeting)) %></h1>
-<em><%= @meeting.author %></em>
+<%= render layout: 'mailer/spacer_table' do %>
+  <%= render partial: 'mailer/mailer_header',
+             locals: {
+               caption: I18n.t('meeting.email.invited.header', title: @meeting.title),
+               subcaption: I18n.t('meeting.email.invited.summary', actor: @actor),
+               bottom_spacing: false
+             } %>
 
-<ul>
-<li><%=t :label_meeting_date_time %>: <%= format_time_as_date @meeting.start_time %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %> <%= Time.zone %></li>
-<li><%=Meeting.human_attribute_name(:location) %>: <%= @meeting.location %></li>
-<li><%=Meeting.human_attribute_name(:participants_invited) %>: <%= @meeting.participants.invited.sort.join("; ") %></li>
-<li><%=Meeting.human_attribute_name(:participants_attended) %>: <%= @meeting.participants.attended.sort.join("; ") %></li>
-</ul>
+  <%= render layout: 'mailer/border_table' do %>
+    <tr>
+      <%= placeholder_cell('24px', vertical: true) %>
+      <td>
+        <table>
+          <tr>
+            <td style="<%= placeholder_text_styles(width: '30%') %>">
+              <%= I18n.t(:label_meeting_date_time) %>
+            </td>
+            <td style="<%= placeholder_text_styles %>">
+              <%= format_time_as_date @meeting.start_time %> <%= format_time @meeting.start_time, false %>
+              -
+              <%= format_time @meeting.end_time, false %> <%= Time.zone %>
+            </td>
+          </tr>
+          <% if @meeting.location.present? %>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: '30%') %>">
+                <%= Meeting.human_attribute_name(:location) %>
+              </td>
+              <td style="<%= placeholder_text_styles %>">
+                <%= auto_link @meeting.location %>
+              </td>
+            </tr>
+          <% end %>
+          <tr>
+            <td style="<%= placeholder_text_styles(width: '30%') %>">
+              <%= Meeting.human_attribute_name(:project) %>
+            </td>
+            <td style="<%= placeholder_text_styles %>">
+              <%= link_to @meeting.project.name, project_url(@meeting.project) %>
+            </td>
+          </tr>
+          <tr>
+            <td style="<%= placeholder_text_styles(width: '30%') %>">
+              <%= Meeting.human_attribute_name(:author) %>
+            </td>
+            <td style="<%= placeholder_text_styles %>">
+              <%= @meeting.author %>
+            </td>
+          </tr>
+          <% if @meeting.participants.any? %>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: '30%') %>">
+                <%= Meeting.human_attribute_name(:participants_invited) %>
+              </td>
+              <td style="<%= placeholder_text_styles %>">
+                <%= @meeting.participants.invited.sort.join("; ") %>
+              </td>
+            </tr>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: '30%') %>">
+                <%= Meeting.human_attribute_name(:participants_attended) %>
+              </td>
+              <td style="<%= placeholder_text_styles %>">
+                <%= @meeting.participants.attended.sort.join("; ") %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+  <% end %>
 
-<p>
-  <%= raw t(:text_review_meeting,
-           :author => h(@author),
-            :link => link_to(@meeting.title, meeting_url(@meeting))) %>
-</p>
+  <table>
+    <tr>
+      <%= placeholder_cell('20px', vertical: false) %>
+    </tr>
+  </table>
+
+  <%= action_button do %>
+    <%= link_to I18n.t(:'meeting.email.open_meeting_link'),
+                meeting_url(@meeting),
+                target: '_blank',
+                style: "color: #333333; text-decoration: none; font-size: 14px;white-space: nowrap;" %>
+  <% end %>
+<% end %>

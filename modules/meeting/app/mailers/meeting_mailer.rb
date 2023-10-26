@@ -27,8 +27,8 @@
 #++
 
 class MeetingMailer < UserMailer
-  def invited(meeting, user, author)
-    @author = author
+  def invited(meeting, user, actor)
+    @actor = actor
     @meeting = meeting
 
     open_project_headers 'Project' => @meeting.project.identifier,

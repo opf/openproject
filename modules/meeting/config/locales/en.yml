@@ -112,6 +112,9 @@ en:
   meeting:
     email:
       open_meeting_link: "Open meeting"
+      invited:
+        header: "Invitation to Meeting %{title}"
+        summary: "%{actor} has sent you an invitation to participate."
       rescheduled:
         header: "Meeting %{title} rescheduled by %{actor}"
         summary: "Meeting has been rescheduled by %{actor}"
@@ -152,7 +155,6 @@ en:
   text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
-  text_review_meeting: "%{author} has sent you an invitation to the meeting %{link}."
   text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
 
   text_meeting_empty_heading: "Your meeting is empty"
