@@ -271,6 +271,7 @@ da:
       no_results_title_text: There are currently no members part of this project.
       no_results_content_text: Tilføj et deltager til projektet
     invite_by_mail: "Send invitation til %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -2197,12 +2198,12 @@ da:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
         summary:
           user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "En ny bruger ( %{value}) har registreret sig. Kontoen afventer din godkendelse:"
   mail_body_account_information: "Din kontoinformation"
   mail_body_account_information_external: "Du kan bruge din %{value} konto til at logge ind."
@@ -3003,7 +3004,7 @@ da:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       permissions:

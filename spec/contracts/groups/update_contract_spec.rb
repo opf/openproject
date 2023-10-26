@@ -27,12 +27,9 @@
 #++
 
 require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
 RSpec.describe Groups::UpdateContract do
-  include_context 'ModelContract shared context'
-
   it_behaves_like 'group contract' do
     let(:group) do
       build_stubbed(:group,

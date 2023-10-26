@@ -115,6 +115,10 @@ ko:
         oauth_client_secret: >
           Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
         missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        tenant_id: >
+          Please insert the tenant ID you got from your SharePoint administrator.
+        drive_id: >
+          The drive ID can be obtained by you SharePoint administrator.
     help_texts:
       project_folder: >
         프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
@@ -153,6 +157,7 @@ ko:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth 애플리케이션 세부 정보"
     label_oauth_client_details: "OAuth 클라이언트 세부 정보"
+    label_information: "Additional information"
     label_provider_type: "공급자 유형"
     label_project_folder: "프로젝트 폴더"
     label_new_storage: "새로운 저장소"

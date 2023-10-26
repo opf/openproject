@@ -68,4 +68,8 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
 
     it_behaves_like 'contract is invalid', base: :error_unauthorized
   end
+
+  include_examples 'contract reuses the model errors' do
+    let(:user) { build_stubbed(:user) }
+  end
 end

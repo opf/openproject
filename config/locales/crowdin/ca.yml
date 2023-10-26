@@ -270,6 +270,7 @@ ca:
       no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest projecte.
       no_results_content_text: Afegeix un membre al projecte
     invite_by_mail: "Envia invitació a %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
@@ -2195,12 +2196,12 @@ ca:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
         summary:
           user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El teu compte està pendent d'aprovació:"
   mail_body_account_information: "Informació del teu compte"
   mail_body_account_information_external: "Pots utilitzar el compte «%{value}» per entrar."
@@ -2996,7 +2997,7 @@ ca:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       permissions:

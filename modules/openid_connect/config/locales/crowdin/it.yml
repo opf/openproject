@@ -22,6 +22,8 @@ it:
       plural: OpenID provider
       singular: Provider OpenID
     setting_instructions:
+      azure_deprecation_warning: >
+        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
       azure_graph_api: >
         Usa l'endpoint userinfo di graph.microsoft.com per richiedere i dati utente. Questa dovrebbe essere l'impostazione predefinita, a meno che non si disponga di un'applicazione Azure precedente.
       azure_tenant_html: >

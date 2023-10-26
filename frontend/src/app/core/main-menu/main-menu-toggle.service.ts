@@ -93,8 +93,8 @@ export class MainMenuToggleService {
       this.saveWidth(this.defaultWidth);
     }
 
-    // mobile version default: hide menu on initialization
-    this.closeWhenOnMobile();
+    // tablet version default: hide menu on initialization
+    this.closeWhenOnTablet();
   }
 
   // click on arrow or hamburger icon
@@ -105,7 +105,7 @@ export class MainMenuToggleService {
     }
 
     if (!this.showNavigation) { // sidebar is hidden -> show menu
-      if (this.deviceService.isMobile) { // mobile version
+      if (this.deviceService.isTablet) { // tablet version
         this.setWidth(window.innerWidth);
       } else { // desktop version
         const savedWidth = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string);
@@ -131,8 +131,8 @@ export class MainMenuToggleService {
     jQuery('.searchable-menu--search-input').blur();
   }
 
-  public closeWhenOnMobile():void {
-    if (this.deviceService.isMobile) {
+  public closeWhenOnTablet():void {
+    if (this.deviceService.isTablet) {
       this.closeMenu();
       window.OpenProject.guardedLocalStorage(this.localStorageStateKey, 'false');
     }
@@ -147,7 +147,7 @@ export class MainMenuToggleService {
   public setWidth(width?:any):void {
     if (width !== undefined) {
       // Leave a minimum amount of space for space for the content
-      const maxMenuWidth = this.deviceService.isMobile ? window.innerWidth - 120 : window.innerWidth - 520;
+      const maxMenuWidth = this.deviceService.isTablet ? window.innerWidth - 120 : window.innerWidth - 520;
       if (width > maxMenuWidth) {
         this.elementWidth = maxMenuWidth;
       } else {

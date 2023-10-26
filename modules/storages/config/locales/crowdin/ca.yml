@@ -115,6 +115,10 @@ ca:
         oauth_client_secret: >
           Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
         missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        tenant_id: >
+          Please insert the tenant ID you got from your SharePoint administrator.
+        drive_id: >
+          The drive ID can be obtained by you SharePoint administrator.
     help_texts:
       project_folder: >
         La carpeta de projecte és la carpeta per defecte on es carregaran els fitxers d'aquest projecte. Tot i això, els usuaris podran carregar fitxers en altres carpetes.
@@ -153,6 +157,7 @@ ca:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Detalls de l'aplicació OAuth"
     label_oauth_client_details: "Detalls del client OAuth"
+    label_information: "Additional information"
     label_provider_type: "Tipus de proveïdor"
     label_project_folder: "Carpeta del projecte"
     label_new_storage: "Nou emmagatzematge"

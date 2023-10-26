@@ -273,6 +273,7 @@ sk:
       no_results_title_text: Tento projekt nemá momentálne pridelených žiadnych členov.
       no_results_content_text: Pridať člena do projektu
     invite_by_mail: "Send invite to %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Nepodarilo sa obnoviť prístupový token: %{error}"
@@ -2255,12 +2256,12 @@ sk:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
         summary:
           user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Bol zaregistrovaný nový používateľ (%{value}). Účet čaká na vaše schválenie:"
   mail_body_account_information: "Informácie o vašom účte"
   mail_body_account_information_external: "Môžete sa prihlásiť pomocou vášho účtu %{value}."
@@ -3066,7 +3067,7 @@ sk:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       permissions:

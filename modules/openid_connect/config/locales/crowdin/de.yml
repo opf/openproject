@@ -22,6 +22,8 @@ de:
       plural: OpenID-Anbieter
       singular: OpenID-Anbieter
     setting_instructions:
+      azure_deprecation_warning: >
+        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
       azure_graph_api: >
         Endpunkt graph.microsoft.com für OpenID Connect userinfo Anfragen, um Benutzerdaten anzufordern. Dies sollte die Standardeinstellung sein, es sei denn, Sie haben eine ältere azure Anwendung.
       azure_tenant_html: >

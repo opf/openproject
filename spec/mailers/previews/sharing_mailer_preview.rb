@@ -43,4 +43,14 @@ class SharingMailerPreview < ActionMailer::Preview
 
     SharingMailer.shared_work_package(sharer, user_membership, group)
   end
+
+  def shared_work_package_via_invitation
+    sharer = User.first
+    work_package_membership = Member.includes(:principal)
+                                    .where(entity_type: 'WorkPackage')
+                                    .where(principal: { status: :invited })
+                                    .first
+
+    SharingMailer.shared_work_package(sharer, work_package_membership)
+  end
 end

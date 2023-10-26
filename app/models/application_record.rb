@@ -15,6 +15,13 @@ class ApplicationRecord < ActiveRecord::Base
     errors[attribute].empty?
   end
 
+  # We want to add a validation error whenever someone sets a property that we don't know.
+  # However AR will cleverly try to resolve the value for erroneous properties. Thus we need
+  # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
+  def read_attribute_for_validation(attribute)
+    super if respond_to?(attribute)
+  end
+
   ##
   # Get the newest recently changed resource for the given record classes
   #

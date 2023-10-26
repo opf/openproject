@@ -27,8 +27,11 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'user contract' do
+  include_context 'ModelContract shared context'
+
   let(:user_firstname) { 'Bob' }
   let(:user_lastname) { 'Bobbit' }
   let(:user_login) { 'bob' }
@@ -42,6 +45,8 @@ RSpec.shared_examples_for 'user contract' do
     let(:current_user) { build_stubbed(:admin) }
 
     it_behaves_like 'contract is valid'
+
+    include_examples 'contract reuses the model errors'
   end
 
   context 'when global user' do
@@ -82,11 +87,15 @@ RSpec.shared_examples_for 'user contract' do
 
       it_behaves_like 'contract is invalid', identity_url: :error_readonly
     end
+
+    include_examples 'contract reuses the model errors'
   end
 
   context 'when unauthorized user' do
     let(:current_user) { build_stubbed(:user) }
 
     it_behaves_like 'contract user is unauthorized'
+
+    include_examples 'contract reuses the model errors'
   end
 end
