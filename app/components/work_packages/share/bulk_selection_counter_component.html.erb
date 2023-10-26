@@ -9,13 +9,13 @@
   )
 
   concat(
-    render(Primer::Beta::Text.new(pl: 2, data: { 'work-packages--share--bulk-selection-target': 'sharedCounter' })) do
+    render(Primer::Beta::Text.new(ml: 2, data: { 'work-packages--share--bulk-selection-target': 'sharedCounter' })) do
       I18n.t('work_package.sharing.count', count:)
     end
   )
 
   # Text contents managed by Stimulus controller
   concat(
-    render(Primer::Beta::Text.new(pl: 2, data: { 'work-packages--share--bulk-selection-target': 'selectedCounter' }))
+    render(Primer::Beta::Text.new(ml: 2, data: { 'work-packages--share--bulk-selection-target': 'selectedCounter' }))
   )
 %>
