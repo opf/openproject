@@ -237,6 +237,21 @@ RSpec.describe 'Admin storages',
                                            text: 'Active')
       end
     end
+
+    it 'renders a delete button' do
+      storage = create(:nextcloud_storage, name: "Foo Nextcloud")
+      visit edit_admin_settings_storage_path(storage)
+
+      storage_delete_button = find_test_selector('storage-delete-button')
+      expect(storage_delete_button).to have_text('Delete')
+
+      accept_confirm do
+        storage_delete_button.click
+      end
+
+      expect(page).to have_current_path(admin_settings_storages_path)
+      expect(page).not_to have_text("Foo Nextcloud")
+    end
   end
 
   it 'creates, edits and deletes storages', :webmock do

@@ -37,18 +37,24 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% header.with_actions do %>
       <%=
-        render(Primer::Beta::Button.new(
-          scheme: :danger,
-          size: :medium,
-          tag: :a,
-          role: :button,
-          href: admin_settings_storage_path(@storage),
-          aria: { label: I18n.t("storages.label_delete_storage") },
-          data: { confirm: I18n.t('storages.delete_warning.storage') },
+        primer_form_with(
+          model: @storage,
+          url: admin_settings_storage_path(@storage),
           method: :delete
-        )) do |button|
-          button.with_leading_visual_icon(icon: :trash)
-          I18n.t('button_delete')
+        ) do |_form|
+          render(
+            Primer::Beta::Button.new(
+              scheme: :danger,
+              size: :medium,
+              type: :submit,
+              aria: { label: I18n.t("storages.label_delete_storage") },
+              data: { confirm: I18n.t('storages.delete_warning.storage') },
+              test_selector: 'storage-delete-button'
+            )
+          ) do |button|
+            button.with_leading_visual_icon(icon: :trash)
+            I18n.t('button_delete')
+          end
         end
       %>
     <% end %>
