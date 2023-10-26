@@ -120,7 +120,7 @@ RSpec.describe MigrateTeamPlannerPermissions, type: :model do
     it_behaves_like 'migration is idempotent'
   end
 
-  context 'for a role with manage_team_planner' do
+  context 'for a role that already has the manage_team_planner and view_team_planner permission' do
     let(:permissions) do
       %i[manage_team_planner view_team_planner view_work_packages add_work_packages
          edit_work_packages save_queries manage_public_queries permission1 permission2]

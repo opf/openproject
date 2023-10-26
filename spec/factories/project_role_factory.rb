@@ -33,7 +33,7 @@ FactoryBot.define do
     permissions { [] }
     sequence(:name) { |n| "Project role #{n}" }
     transient do
-      add_public_permissions { nil }
+      add_public_permissions { true }
     end
 
     after(:create) do |role, evaluator|
