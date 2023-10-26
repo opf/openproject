@@ -37,7 +37,7 @@ To sign-in to the OpenProject platform, the registration of a user account is re
 - Telephone number for sending one-time passwords via SMS,
 - OATH secret code (e.g. for the 2FA app FreeOTP).
 
-> **Note:** Administrators can add so-called [custom fields](../system-admin-guide/custom-fields/) to their OpenProject installation which extend the data fields of a user.
+> **Note:** Administrators can add so-called [custom fields](../../system-admin-guide/custom-fields/) to their OpenProject installation which extend the data fields of a user.
 
 ### Using OpenProject
 
@@ -115,7 +115,7 @@ Technically, every use of a browser-based web application is accompanied by a us
 
 More technical information about the logging mechanism can be found in the operations documentation:
 
-* [Monitoring your OpenProject installation](../installation-and-operations/operation/monitoring/)
+* [Monitoring your OpenProject installation](../../installation-and-operations/operation/monitoring/)
 
 ## Data flows of personal data
 
