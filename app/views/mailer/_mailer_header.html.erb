@@ -15,6 +15,7 @@
               <tr>
                 <%= placeholder_cell('8px', vertical: false) %>
               </tr>
+              <% if local_assigns[:summary] %>
               <tr>
                 <td>
                   <span style="font-size:16px; color: #1A67A3; font-weight: 600;">
@@ -22,6 +23,7 @@
                   </span>
                 </td>
               </tr>
+              <% end %>
               <tr>
                 <%= placeholder_cell('24px', vertical: false) %>
               </tr>

@@ -8,7 +8,7 @@
   <tr>
     <%= placeholder_cell('12px', vertical: true) %>
     <td>
-      <%= render partial: 'mailer/notification_mailer_header',
+      <%= render partial: 'mailer/mailer_header',
                  locals: {
                    summary: "#{I18n.t(:'mail.digests.you_have')} #{digest_summary_text(@notification_ids.length, @mentioned_count)}",
                    button_href: notifications_center_url,

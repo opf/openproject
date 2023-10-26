@@ -110,6 +110,14 @@ en:
 
 
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      rescheduled:
+        header: "Meeting %{title} rescheduled by %{actor}"
+        summary: "Meeting has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
     label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Classic'

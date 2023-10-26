@@ -1,0 +1,22 @@
+<table <%= placeholder_table_styles(style: 'font-size:14px;') %>>
+  <tr>
+    <td>
+      <table <%= placeholder_table_styles(width: '100%', style: 'width:100%;') %>>
+        <tr>
+          <td>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <%= placeholder_cell('10px', vertical: true) %>
+    <td>
+      <table <%= placeholder_table_styles %>>
+        <tr>
+          <td style="padding: 8px 12px; border: 1px solid #878787; border-radius: 16px; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;">
+            <%= capture(&block) %>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

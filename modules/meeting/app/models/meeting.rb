@@ -62,11 +62,11 @@ class Meeting < ApplicationRecord
   acts_as_watchable permission: :view_meetings
 
   acts_as_searchable columns: [
-                       "#{table_name}.title",
-                       "#{MeetingContent.table_name}.text",
-                       "#{MeetingAgendaItem.table_name}.title",
-                       "#{MeetingAgendaItem.table_name}.notes"
-                     ],
+    "#{table_name}.title",
+    "#{MeetingContent.table_name}.text",
+    "#{MeetingAgendaItem.table_name}.title",
+    "#{MeetingAgendaItem.table_name}.notes"
+  ],
                      include: %i[contents project agenda_items],
                      references: %i[meeting_contents agenda_items],
                      date_column: "#{table_name}.created_at"
@@ -87,11 +87,11 @@ class Meeting < ApplicationRecord
   end
 
   validate :validate_date_and_time
+
   before_save :update_start_time!
-
   before_save :add_new_participants_as_watcher
-
   after_initialize :set_initial_values
+  after_update :send_rescheduling_mail, if: -> { saved_change_to_start_time? || saved_change_to_duration? }
 
   enum state: {
     open: 0, # 0 -> default, leave values for future states between open and closed
@@ -155,7 +155,7 @@ class Meeting < ApplicationRecord
     changeable_participants = participants.select(&:invited).collect(&:user)
     changeable_participants = changeable_participants + participants.select(&:attended).collect(&:user)
     changeable_participants = changeable_participants + \
-                              User.allowed_members(:view_meetings, project)
+      User.allowed_members(:view_meetings, project)
 
     changeable_participants
       .compact
@@ -220,6 +220,7 @@ class Meeting < ApplicationRecord
   end
 
   alias :original_participants_attributes= :participants_attributes=
+
   def participants_attributes=(attrs)
     attrs.each do |participant|
       participant['_destroy'] = true if !(participant['attended'] || participant['invited'])
@@ -317,6 +318,20 @@ class Meeting < ApplicationRecord
   end
 
   def send_participant_added_mail(participant)
-    MeetingMailer.invited(self, participant.user, User.current).deliver_later
+    if persisted?
+      MeetingMailer.invited(self, participant.user, User.current).deliver_later
+    end
+  end
+
+  def send_rescheduling_mail
+    MeetingNotificationService
+      .new(self)
+      .call :rescheduled,
+            changes: {
+              old_start: saved_change_to_start_time? ? saved_change_to_start_time.first : start_time,
+              new_start: start_time,
+              old_duration: saved_change_to_duration? ? saved_change_to_duration.first : duration,
+              new_duration: duration
+            }
   end
 end
