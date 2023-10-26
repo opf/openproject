@@ -32,6 +32,7 @@ module WorkPackages
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackages::Share::Concerns::DisplayableRoles
 
       def initialize(share:, **system_arguments)
         super
@@ -59,20 +60,6 @@ module WorkPackages
       private
 
       attr_reader :share
-
-      def options
-        [
-          { label: I18n.t('work_package.sharing.permissions.edit'),
-            value: Role::BUILTIN_WORK_PACKAGE_EDITOR,
-            description: I18n.t('work_package.sharing.permissions.edit_description') },
-          { label: I18n.t('work_package.sharing.permissions.comment'),
-            value: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
-            description: I18n.t('work_package.sharing.permissions.comment_description') },
-          { label: I18n.t('work_package.sharing.permissions.view'),
-            value: Role::BUILTIN_WORK_PACKAGE_VIEWER,
-            description: I18n.t('work_package.sharing.permissions.view_description') }
-        ]
-      end
 
       def active_role
         if share.persisted?
