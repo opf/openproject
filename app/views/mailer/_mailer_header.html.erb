@@ -44,9 +44,11 @@
                   </td>
                 </tr>
               <% end %>
+              <% if local_assigns[:bottom_spacing] != false %>
               <tr>
                 <%= placeholder_cell('40px', vertical: false) %>
               </tr>
+              <% end %>
             </table>
           </td>
           <%= placeholder_cell('16px', vertical: true) %>
