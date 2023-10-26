@@ -1,8 +1,10 @@
 # Data privacy information
 
-Purpose of this document is to provide users a starting point for creating their data privacy information documentation imposed by the GDPR.
-
-TODO: Discalmer  
+> **Note:** Purpose of this document is to provide users a starting point for creating their own data privacy information documentation imposed by the GDPR. The legal information for using services provided by the OpenProject GmbH can be found here:
+> * [Privacy Policy](https://www.openproject.org/legal/privacy/)
+> * [Data Processing Agreement](https://www.openproject.org/legal/data-processing-agreement/)
+> * [Sub-Processors](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
+> * [Technical and Organizational Data Security Measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures/)
 
 ## Scope of data processing
 
@@ -181,7 +183,7 @@ In the course of using the application, background tasks are enqueued in the dat
 - **Response**: Sends the HTTP response back through the Puma server and load balancer to the end-user.
 - **Background worker:** Operate on periodical background data, or perform actions requested by the web request of user (sending emails, exporting data, communicating with external services)
 
-## Data flow of personal data
+## Data flows of personal data
 
 ### Login using an identity provider
 
