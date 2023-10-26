@@ -46,7 +46,8 @@ export default class BulkSelectionController extends Controller {
     'bulkForm',
     'hiddenShare',
     'userRowRole',
-    'bulkUpdateRole',
+    'bulkUpdateRoleLabel',
+    'bulkUpdateRoleForm',
   ];
 
   // Checkboxes
@@ -59,12 +60,14 @@ export default class BulkSelectionController extends Controller {
 
   // Bulk Forms
   declare readonly bulkFormTargets:HTMLFormElement[];
+  // Specific target for bulk update permission forms
+  declare readonly bulkUpdateRoleFormTargets:HTMLFormElement[];
   declare readonly hiddenShareTargets:HTMLInputElement[];
   declare readonly actionsTarget:HTMLElement;
 
   // Permission Buttons
   declare readonly userRowRoleTargets:HTMLButtonElement[];
-  declare readonly bulkUpdateRoleTarget:HTMLButtonElement;
+  declare readonly bulkUpdateRoleLabelTarget:HTMLButtonElement;
 
   // Refresh when a user is invited
   shareCheckboxTargetConnected() {
@@ -91,11 +94,15 @@ export default class BulkSelectionController extends Controller {
   // as the updated share might have been selected and the label
   // may no longer be correct
   userRowRoleTargetConnected() {
+    if (this.checked.length === 0) {
+      return;
+    }
+
     this.updateBulkUpdateRoleLabelValue();
   }
 
   bulkUpdateRoleLabelValueChanged(current:string, _old:string) {
-    const label = this.bulkUpdateRoleTarget.querySelector('.Button-label') as HTMLElement;
+    const label = this.bulkUpdateRoleLabelTarget.querySelector('.Button-label') as HTMLElement;
     label.textContent = current;
   }
 
@@ -122,9 +129,9 @@ export default class BulkSelectionController extends Controller {
       this.actionsTarget.setAttribute('hidden', 'true');
     } else {
       this.actionsTarget.removeAttribute('hidden');
+      this.updateBulkUpdateRoleLabelValue();
     }
 
-    this.updateBulkUpdateRoleLabelValue();
     this.updateCounter();
   }
 
@@ -138,8 +145,14 @@ export default class BulkSelectionController extends Controller {
   private updateBulkUpdateRoleLabelValue() {
     if (new Set(this.selectedPermissions).size > 1) {
       this.bulkUpdateRoleLabelValue = I18n.t('js.work_packages.sharing.selection.mixed');
+      this.bulkPermissionButtons.forEach((button) => button.setAttribute('aria-checked', 'false'));
     } else {
       this.bulkUpdateRoleLabelValue = this.selectedPermissions[0];
+      const bulkUpdateRoleForm = this.bulkUpdateRoleFormTargets.find((form) => {
+        return form.getAttribute('data-role-name') === this.bulkUpdateRoleLabelValue.trim();
+      }) as HTMLFormElement;
+      const button = bulkUpdateRoleForm.querySelector('button[type=submit]') as HTMLButtonElement;
+      button.setAttribute('aria-checked', 'true');
     }
   }
 
@@ -183,6 +196,12 @@ export default class BulkSelectionController extends Controller {
       hiddenInput.setAttribute('data-work-packages--share--bulk-selection-target', 'hiddenShare');
 
       return hiddenInput;
+    });
+  }
+
+  private get bulkPermissionButtons():HTMLButtonElement[] {
+    return this.bulkUpdateRoleFormTargets.map((bulkUpdateForm) => {
+      return bulkUpdateForm.querySelector('button[type=submit]') as HTMLButtonElement;
     });
   }
 

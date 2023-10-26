@@ -155,7 +155,32 @@ module Components
           expect(page)
             .to have_css('[data-test-selector="op-share-wp-bulk-update-role"] .Button-label',
                          text: label_text)
+          if label_text == 'Mixed'
+            %w[View Comment Edit].each do |permission_name|
+              within bulk_update_form(permission_name) do
+                expect(page)
+                  .to have_css(unchecked_permission, visible: :all)
+              end
+            end
+          else
+            within bulk_update_form(label_text) do
+              expect(page)
+                .to have_css(checked_permission, visible: :all)
+            end
+          end
         end
+      end
+
+      def bulk_update_form(permission_name)
+        find("[data-test-selector='op-share-wp-bulk-update-role-permission-#{permission_name}']", visible: :all)
+      end
+
+      def checked_permission
+        'button[type=submit][aria-checked=true]'
+      end
+
+      def unchecked_permission
+        'button[type=submit][aria-checked="false"]'
       end
 
       def expect_blankslate
