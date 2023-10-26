@@ -101,7 +101,7 @@ Depending on the individual use and permissions of the user the following person
   - Change history
   - Persons named in project attributes
 
-- File attachments
+- Files
   - Change history
   - Persons named in file attachments incl. file attributes
 
@@ -128,7 +128,7 @@ The following diagram provides an overview of the data flows of personal data in
 
 flowchart TD
   browser[Client Browser] -->|"HTTP(s) requests"| loadbalancer(Load Balancer / Proxy)
-  A1[API or Native Clients] -->|"HTTP(s) requests"| loadbalancer
+  A1[Native Clients] -->|"HTTP(s) requests"| loadbalancer
   A2[SVN or Git Clients] -->|"HTTP(s) requests"| loadbalancer
   loadbalancer -->|Proxy| openproject
   
@@ -218,15 +218,18 @@ flowchart LR
   
   end
   
-  subgraph openproject[OpenProject]
+  subgraph openproject["Relying Party (OpenProject) "]
    direction LR
-  	sso[Single Sign On]
+  	ssoclient[SSO Client]
   	ldapauthentication[LDAP Authentication]
   	ldapgroupsync[LDAP Group Sync]
   	
 	end
 
-  
+  subgraph localclients[Local Clients]
+   direction LR
+  	Browser
+  	end
   
 ```
 
@@ -239,9 +242,9 @@ flowchart LR
 
 #### Security measures
 
-* `idp-01` https transport encryption
-* `idp-02` https transport encryption
-* `idp-03` https transport encryption
+* `idp-01` TLS
+* `idp-02` TLS
+* `idp-03` TLS
 
 ### Email 
 
@@ -257,7 +260,7 @@ flowchart LR
   C <-->|email-03| D[Email Notification Service]
 
  
-   subgraph localclient[Local Client]
+   subgraph localclients[Local Clients]
   direction TB
   	A
     end
@@ -286,14 +289,16 @@ flowchart LR
 
 #### Purpose
 
-* Create a new work package by sending an email to configured email adress.
+* Create a new work package by sending an email to a configured email adress.
 * Adding a comment to an existing work package by answering to an email notification.
+* TODO Incoming email
+* Sending email notifications about updates in OpenProject (e.g [email reminder](../../system-admin-guide/emails-and-notifications/))
 
 #### Security measures
 
-* `email-01` SSL/TLS transport encryption (not controlled by the OpenProject system)
-* `email-02` SSL/TLS transport encryption (not controlled by the OpenProject system)
-* `email-03` SSL/TLS transport encryption (encryption can be activated in the email settings in the OpenProject Administration)
+* `email-01` TLS (not controlled by the OpenProject system)
+* `email-02` TLS (not controlled by the OpenProject system)
+* `email-03` TLS (encryption can be activated in the email settings in the OpenProject Administration)
 * **Note**: OpenProject does not support end-to-end encryption using GPG or S/MIME.
 
 ### Calendar
@@ -330,9 +335,9 @@ flowchart LR
 
 #### Security measures
 
-* `cal-01` https transport encryption
-* `cal-02` https transport encryption (not controlled by the OpenProject system)
-* `cal-03` https transport encryption (not controlled by the OpenProject system) 
+* `cal-01` TLS
+* `cal-02` TLS (not controlled by the OpenProject system)
+* `cal-03` TLS (not controlled by the OpenProject system) 
 
 ### Nextcloud
 
@@ -343,7 +348,7 @@ flowchart LR
 flowchart LR
   Browser <--> |nc-01| openproject
   Browser <-->|nc-02| nextcloud
-  nextclouddesktopclient[Nextcloud Desktop Client] -->|nc-03| nextcloudapi
+  nextclouddesktopclient[Nextcloud Desktop Client] <-->|nc-03| nextcloudapi
   appopenprojectintegration <-->|nc-04| openprojectapi
   
   subgraph local[Local Clients]
@@ -372,10 +377,10 @@ subgraph openproject[OpenProject]
 
 #### Security measures
 
-* `nc-01` https transport encryption
-* `nc-02` https transport encryption
-* `nc-03` https transport encryption
-* `nc-04` https transport encryption
+* `nc-01` TLS
+* `nc-02` TLS
+* `nc-03` TLS
+* `nc-04` TLS
 
 ### GitHub
 
@@ -384,11 +389,9 @@ subgraph openproject[OpenProject]
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 flowchart LR
-	githubdesktopclient -->|gh-01| githubapi
-	githubcli <-->|gh-02| githubapi
-	gitclient <-->|gh-03| githubapi
-	githubapi <-->|gh-04| opgithubintegration
-	githubwebhooks -->|gh-05| opgithubintegration
+	gitclient <-->|gh-01| githubapi
+	githubapi <-->|gh-02| opgithubintegration
+	githubwebhooks -->|gh-03| opgithubintegration
 
   subgraph GitHub
    direction TB
@@ -399,8 +402,6 @@ flowchart LR
 	
 	subgraph localclients[Local Clients]
    direction TB
-  	githubdesktopclient[GitHub Desktop Client]
-  	githubcli[GitHub CLI]
   	gitclient[Git Client]
 	end
 
@@ -419,11 +420,9 @@ flowchart LR
 
 #### Security measure
 
-* `gh-01` https transport encryption
-* `gh-02` https transport encryption
-* `gh-03` https transport encryption
-* `gh-04` https transport encryption
-* `gh-05` https transport encryption
+* `gh-01` TLS
+* `gh-02` TLS
+* `gh-03` TLS
 
 ## Database schema 
 
