@@ -272,6 +272,7 @@ ru:
       no_results_title_text: На данный момент у этого проекта нет участников.
       no_results_content_text: Добавить участника в проект
     invite_by_mail: "Отправить приглашение на %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
@@ -340,9 +341,6 @@ ru:
   themes:
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
-    dark: "Тёмная"
-    dark_dimmed: "Тёмная затемненная"
-    dark_high_contrast: "Темный высокий контраст"
   types:
     index:
       no_results_title_text: В данный момент типы отсутствуют.
@@ -432,7 +430,7 @@ ru:
     error_self_registration_disabled: >
       Регистрация пользователя в этой системе отключена. Попросите администратора создать учетную запись для Вас.
     error_self_registration_limited_provider: >
-      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
+      Регистрация пользователей ограничена для поставщика системы единого входа «%{name}».  Попросите администратора активировать для вас учетную запись или изменить лимит самостоятельной регистрации для этого провайдера.
     login_with_auth_provider: "или войдите своей учетной записью"
     signup_with_auth_provider: "Или зарегистрируйтесь с помощью"
     auth_source_login: Пожалуйста, авторизируйтесь как <em>%{login}</em> для активации вашей учетной записи.
@@ -577,6 +575,7 @@ ru:
         time_zone: "Часовой пояс"
         auto_hide_popups: "Автоматически скрывать успешные уведомления"
         warn_on_leaving_unsaved: "При покидании рабочего пакета предупреждать о не сохраненных изменениях"
+        theme: "Mode"
       version:
         effective_date: "Дата окончания"
         sharing: "Совместное использование"
@@ -1732,6 +1731,7 @@ ru:
   label_copy_workflow_from: "Копировать рабочий поток из"
   label_copy_project: "Копировать проект"
   label_core_version: "Текущая версия"
+  label_core_build: "Core build"
   label_current_status: "Текущий статус"
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
@@ -2255,11 +2255,12 @@ ru:
     sharing:
       work_packages:
         allowed_actions: 'Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Открыть пакет работ'
-        reason: 'поделился с вами следующим пакетом работ с %{role_rights} правами:'
-        see_in_open_project: 'Посмотреть пакет работ в OpenProject'
         subject: 'Вам предоставили общий доступ к пакету работ #%{id}'
-        summary: '%{user} поделился с вами пакетом работ'
+        summary:
+          user: ''
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
@@ -2431,8 +2432,8 @@ ru:
   permission_add_work_packages: "Добавление пакетов работ"
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создание проектов"
-  permission_add_work_package_attachments: "Add attachments"
-  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
+  permission_add_work_package_attachments: "Добавить вложения"
+  permission_add_work_package_attachments_explanation: "Позволяет добавлять вложения без права редактирования пакетов работ"
   permission_archive_project: "Архивировать проект"
   permission_create_user: "Создать пользователей"
   permission_manage_user: "Изменить пользователей"
@@ -3062,17 +3063,17 @@ ru:
         zero: "0 пользователей"
         one: "1 пользователь"
         other: "%{count} пользователей"
-      invite: "Пригласить"
+      share: "Share"
       label_search: "Искать пользователей для приглашения"
       label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
       permissions:
         comment: "Комментарий"
-        comment_description: "Can view and comment this work package."
+        comment_description: "Может просматривать и комментировать этот пакет работ."
         denied: "У вас нет прав на предоставление общего доступа к пакетам работ."
         edit: "Правка"
-        edit_description: "Can view, comment and edit this work package."
+        edit_description: "Может просматривать, комментировать и редактировать этот пакет работ."
         view: "Просмотр"
-        view_description: "Can view this work package."
+        view_description: "Может просматривать этот пакет работ."
       remove: "Удалить"
       text_empty_state_description: "Пакет работ еще не передан никому."
       text_empty_state_header: "Нет общих пользователей"

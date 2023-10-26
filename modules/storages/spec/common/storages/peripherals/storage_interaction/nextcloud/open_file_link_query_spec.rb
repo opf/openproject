@@ -31,9 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::OpenLinkQuery do
-  include JsonResponseHelper
-
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::OpenFileLinkQuery do
   let(:storage) { create(:nextcloud_storage, host: 'https://example.com') }
   let(:user) { create(:user) }
   let(:file_id) { '1337' }

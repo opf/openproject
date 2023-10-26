@@ -28,12 +28,9 @@
 
 require 'spec_helper'
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
 RSpec.describe Storages::Storages::CreateContract do
-  include_context 'ModelContract shared context'
-
   let(:storage) do
     build_stubbed(:one_drive_storage,
                   creator: storage_creator,

@@ -43,7 +43,8 @@ RSpec.describe 'Structured meetings CRUD',
   shared_let(:user) do
     create(:user,
            lastname: 'First',
-           member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings view_work_packages] }).tap do |u|
+           member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings manage_agendas
+                                                    view_work_packages] }).tap do |u|
       u.pref[:time_zone] = 'utc'
 
       u.save!
@@ -151,14 +152,14 @@ RSpec.describe 'Structured meetings CRUD',
     expect(wp_item).to be_present
 
     # user can see actions
-    expect(page).to have_selector('#meeting-agenda-items-new-button-component')
+    expect(page).to have_css('#meeting-agenda-items-new-button-component')
     expect(page).to have_test_selector('op-meeting-agenda-actions', count: 3)
 
     # other_use can view, but not edit
     login_as other_user
     show_page.visit!
 
-    expect(page).not_to have_selector('#meeting-agenda-items-new-button-component')
+    expect(page).not_to have_css('#meeting-agenda-items-new-button-component')
     expect(page).not_to have_test_selector('op-meeting-agenda-actions')
   end
 
@@ -198,7 +199,7 @@ RSpec.describe 'Structured meetings CRUD',
     let!(:other_wp) { create(:work_package, project: other_project, author: current_user, subject: 'Private task') }
     let!(:role) { create(:project_role, permissions: %w[view_work_packages]) }
     let!(:membership) { create(:member, principal: user, project: other_project, roles: [role]) }
-    let!(:agenda_item) { create(:meeting_agenda_item, meeting:, author: current_user, work_package: other_wp) }
+    let!(:agenda_item) { create(:wp_meeting_agenda_item, meeting:, author: current_user, work_package: other_wp) }
     let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
     it 'shows correctly for author, but returns an unresolved reference for the second user' do

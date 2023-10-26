@@ -45,9 +45,9 @@ div.autocomplete
       padding: 2px
       cursor: pointer
       font-size: 90%
-      border: 1px solid #ccc
-      border-left: 1px solid #ccc
-      border-right: 1px solid #ccc
+      border: 1px solid var(--color-border-muted)
+      border-left: 1px solid var(--color-border-muted)
+      border-right: 1px solid var(--color-border-muted)
       background-color: white
       &.selected
         background-color: #ffb
@@ -80,6 +80,7 @@ div.autocomplete
     z-index: auto !important
     height: 30px !important
     min-height: 30px !important
+    border-color: var(--color-border-default) !important
 
     .ng-value-container
       overflow: visible !important

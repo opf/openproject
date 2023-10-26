@@ -121,7 +121,7 @@ RSpec.describe WorkPackagesController do
       before do
         mock_permissions_for(current_user) do |mock|
           mock.allow_in_project :view_work_packages, project: other_project
-          mock.allow_in_project :view_work_packages, project:
+          mock.allow_in_project(:view_work_packages, project:) if project
         end
 
         allow(controller).to receive(:retrieve_query).and_return(query)

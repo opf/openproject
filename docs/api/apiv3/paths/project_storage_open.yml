@@ -1,0 +1,50 @@
+# /api/v3/project_storage/{id}/open
+---
+get:
+  summary: Open the project storage
+  operationId: open_project_storage
+  tags:
+    - File Links
+  description: |-
+    Gets a redirect to the location of the project storage's remote origin. If the project storage has a project
+    folder, it is opened at this location. If not, the storage root is opened.
+  parameters:
+    - name: id
+      description: Project storage id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+  responses:
+    '303':
+      description: Redirect
+      headers:
+        Location:
+          schema:
+            type: string
+            format: uri
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the authorization token of the current user grants no permission to access the remote storage.
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the project storage does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view file links

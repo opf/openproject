@@ -273,6 +273,7 @@ ar:
       no_results_title_text: لا يوجد حالياً قسم للأعضاء في هذا المشروع.
       no_results_content_text: أضف عضواً إلى المشروع
     invite_by_mail: "Send invite to %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -341,9 +342,6 @@ ar:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: لا يوجد حالياً أي أنواع.
@@ -580,6 +578,7 @@ ar:
         time_zone: "المنطقة الزمنية"
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        theme: "Mode"
       version:
         effective_date: "Finish date"
         sharing: "مشاركة"
@@ -1787,6 +1786,7 @@ ar:
   label_copy_workflow_from: "نسخ تدفق العمل من"
   label_copy_project: "نسخ المشروع"
   label_core_version: "النسخة الأساسية"
+  label_core_build: "Core build"
   label_current_status: "الحالة الحالية"
   label_current_version: "النسخة الحالية"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -2312,11 +2312,12 @@ ar:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "وقد سجل مستخدم جديد (%{value}). الحساب انتظار الموافقة الخاصة بك:"
   mail_body_account_information: "معلومات الحساب الخاص بك"
   mail_body_account_information_external: "يمكنك استخدام حساب %{value} الخاص بك لتسجيل الدخول."
@@ -3125,7 +3126,7 @@ ar:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       permissions:

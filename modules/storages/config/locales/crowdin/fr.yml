@@ -32,6 +32,10 @@ fr:
       messages:
         not_linked_to_project: "n'est pas lié au projet."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:
@@ -111,6 +115,10 @@ fr:
         oauth_client_secret: >
           Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
         missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        tenant_id: >
+          Please insert the tenant ID you got from your SharePoint administrator.
+        drive_id: >
+          The drive ID can be obtained by you SharePoint administrator.
     help_texts:
       project_folder: >
         Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
@@ -149,6 +157,7 @@ fr:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Détails de l'application OAuth"
     label_oauth_client_details: "Détails du client OAuth"
+    label_information: "Additional information"
     label_provider_type: "Type de fournisseur"
     label_project_folder: "Dossier du projet"
     label_new_storage: "Nouveau stockage"

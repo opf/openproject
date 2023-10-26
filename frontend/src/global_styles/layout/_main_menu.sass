@@ -32,6 +32,7 @@ $arrow-left-width: 40px
 @mixin main-menu-hover
   background: var(--main-menu-bg-hover-background)
   color: var(--main-menu-hover-font-color)
+  border: 1px solid var(--main-menu-hover-border-color)
 
 @mixin main-menu-selected
   background: var(--main-menu-bg-selected-background)
@@ -136,6 +137,7 @@ $arrow-left-width: 40px
     @include main-menu-hover
 
   a
+    border: 1px solid transparent
     &.selected, &.selected + a
       @include main-menu-selected
 
@@ -185,10 +187,12 @@ $arrow-left-width: 40px
   border-radius: 3px
   padding-left: 14px
   padding-right: 14px
+  border: 1px solid transparent
   &:hover, &:focus, &:active
     @include main-menu-hover
 
 a.main-menu--parent-node
+  border: 1px solid transparent
   display: inline-block
   padding: 0 11px 0 11px
   font-size: var(--main-menu-font-size)

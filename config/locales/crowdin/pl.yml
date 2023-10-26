@@ -270,6 +270,7 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
       no_results_content_text: Dodaj członka projektu
     invite_by_mail: "Wyślij zaproszenie do %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
@@ -338,9 +339,6 @@ pl:
   themes:
     light: "Jasny"
     light_high_contrast: "Jasny, wysoki kontrast"
-    dark: "Ciemny"
-    dark_dimmed: "Ciemny przyciemniony"
-    dark_high_contrast: "Ciemny, wysoki kontrast"
   types:
     index:
       no_results_title_text: Nie ma jeszcze żadnych typów.
@@ -575,6 +573,7 @@ pl:
         time_zone: "Strefa czasowa"
         auto_hide_popups: "Automatyczne ukrycie powiadomień o sukcesie"
         warn_on_leaving_unsaved: "Ostrzegaj mnie, gdy opuszczam zadanie z niezapisanymi zmianami"
+        theme: "Mode"
       version:
         effective_date: "Data zakończenia"
         sharing: "Udostępnianie"
@@ -1730,6 +1729,7 @@ pl:
   label_copy_workflow_from: "Kopiowanie pracy z"
   label_copy_project: "Kopiuj projekt"
   label_core_version: "Wersja bazowa"
+  label_core_build: "Core build"
   label_current_status: "Aktualny stan"
   label_current_version: "Aktualna wersja"
   label_custom_field_add_no_type: "Dodaj to pole do typu zadania"
@@ -2253,11 +2253,12 @@ pl:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Informacje o koncie"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -3061,7 +3062,7 @@ pl:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       permissions:

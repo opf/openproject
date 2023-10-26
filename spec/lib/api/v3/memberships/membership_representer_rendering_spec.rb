@@ -66,7 +66,7 @@ RSpec.describe API::V3::Memberships::MembershipRepresenter, 'rendering' do
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.allow_in_project *permissions, project:
+      mock.allow_in_project *permissions, project: project || build_stubbed(:project)
     end
   end
 

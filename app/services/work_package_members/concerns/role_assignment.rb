@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Users::Scopes
-  module HavingEntityMembership
-    extend ActiveSupport::Concern
+module WorkPackageMembers::Concerns::RoleAssignment
+  include Members::Concerns::RoleAssignment
 
-    class_methods do
-      # Returns users having an entity membership for the given entity.
-      def having_entity_membership(work_package)
-        where(id: Member.of_work_package(work_package).select(:user_id))
-      end
-    end
+  # Work package memberships have a unique distinction from
+  # project memberships. A User should be able to be granted
+  # "Role X" independently and via a group. Meaning that for role assignment
+  # as compared to Project memberships, the existing roles we want to take
+  # into account are those that have not been inherited.
+  def existing_ids
+    model.member_roles
+         .select { _1.inherited_from.nil? }
+         .map(&:role_id)
   end
 end

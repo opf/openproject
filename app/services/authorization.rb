@@ -61,7 +61,7 @@ module Authorization
   #  - Hash with :controller and :action (e.g. { controller: 'work_packages', action: 'show' })
   def permissions_for(action)
     return [action] if action.is_a?(OpenProject::AccessControl::Permission)
-    return action if action.is_a?(Array) && action.all?(OpenProject::AccessControl::Permission)
+    return action if action.is_a?(Array) && (action.empty? || action.all?(OpenProject::AccessControl::Permission))
 
     if action.is_a?(Hash)
       OpenProject::AccessControl.allow_actions(action)
@@ -80,8 +80,10 @@ module Authorization
     perms = permissions_for(action)
 
     if perms.blank?
-      Rails.logger.debug { "Used permission \"#{action}\" that is not defined. It will never return true." }
-      raise UnknownPermissionError.new(action) if raise_on_unknown && !OpenProject::AccessControl.disabled_permission?(action)
+      if !OpenProject::AccessControl.disabled_permission?(action)
+        Rails.logger.debug { "Used permission \"#{action}\" that is not defined. It will never return true." }
+        raise UnknownPermissionError.new(action) if raise_on_unknown
+      end
 
       return []
     end

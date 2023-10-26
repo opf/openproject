@@ -30,6 +30,8 @@ require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_context 'with queries contract' do
+  include_context 'ModelContract shared context'
+
   let(:project) { build_stubbed(:project) }
   let(:name) { 'Some query name' }
   let(:public) { false }
@@ -43,7 +45,7 @@ RSpec.shared_context 'with queries contract' do
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.allow_in_project *permissions, project:
+      mock.allow_in_project(*permissions, project:) if project
     end
   end
 
@@ -69,4 +71,6 @@ RSpec.shared_context 'with queries contract' do
       it_behaves_like 'contract is invalid', name: :blank
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

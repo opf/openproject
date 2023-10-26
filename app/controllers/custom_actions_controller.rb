@@ -77,7 +77,6 @@ class CustomActionsController < ApplicationController
 
       call.on_failure do
         @custom_action = call.result
-        @errors = call.errors
         render action: render_action
       end
     }

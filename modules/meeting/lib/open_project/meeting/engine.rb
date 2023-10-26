@@ -53,7 +53,6 @@ module OpenProject::Meeting
         permission :edit_meetings,
                    {
                      meetings: %i[edit cancel_edit update update_title update_details update_participants],
-                     meeting_agenda_items: %i[new cancel_new create edit cancel_edit update destroy drop move],
                      work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting]
                    },
                    permissible_on: :project,
@@ -66,11 +65,12 @@ module OpenProject::Meeting
                    { meetings: [:icalendar] },
                    permissible_on: :project,
                    require: :member
-        permission :create_meeting_agendas,
+        permission :manage_agendas,
                    {
-                     meeting_agendas: %i[update preview]
+                     meeting_agendas: %i[update preview],
+                     meeting_agenda_items: %i[new cancel_new create edit cancel_edit update destroy drop move]
                    },
-                   permissible_on: :project,
+                   permissible_on: :project, # TODO: Change this to :meeting when MeetingRoles are available
                    require: :member
         permission :close_meeting_agendas,
                    {
@@ -115,7 +115,7 @@ module OpenProject::Meeting
 
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
-          User.current.allowed_to_globally?(:view_meetings)
+          User.current.allowed_in_any_project?(:view_meetings)
       end
 
       menu :top_menu,

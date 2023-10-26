@@ -65,10 +65,10 @@ module OpenProject::Reporting
       should_render = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
           (
-            User.current.allowed_to_globally?(:view_time_entries) ||
-              User.current.allowed_to_globally?(:view_own_time_entries) ||
-              User.current.allowed_to_globally?(:view_cost_entries) ||
-              User.current.allowed_to_globally?(:view_own_cost_entries)
+            User.current.allowed_in_any_project?(:view_time_entries) ||
+              User.current.allowed_in_any_work_package?(:view_own_time_entries) ||
+              User.current.allowed_in_any_project?(:view_cost_entries) ||
+              User.current.allowed_in_any_project?(:view_own_cost_entries)
           )
       end
 

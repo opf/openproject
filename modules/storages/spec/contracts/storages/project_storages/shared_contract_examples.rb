@@ -31,9 +31,12 @@
 # Include OpenProject support/*.rb files
 require 'spec_helper'
 require_module_spec_helper
+require 'contracts/shared/model_contract_shared_context'
 
 # Purpose: Common testing logic shared between create and update specs.
 RSpec.shared_examples_for 'ProjectStorages contract' do
+  include_context 'ModelContract shared context'
+
   let(:current_user) { create(:user) }
   # The user needs "edit_project" to see the project's settings page
   let(:role) { create(:project_role, permissions: %i[manage_storages_in_project edit_project]) }
@@ -77,4 +80,6 @@ RSpec.shared_examples_for 'ProjectStorages contract' do
       it_behaves_like 'contract user is unauthorized'
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

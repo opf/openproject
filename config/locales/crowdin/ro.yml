@@ -273,6 +273,7 @@ ro:
       no_results_title_text: În acest moment nu există niciun participant la acest proiect.
       no_results_content_text: Adăugare participant la proiect
     invite_by_mail: "Trimiteți invitația la %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Resetarea tokenului de acces nu a reușit: %{error}"
@@ -341,9 +342,6 @@ ro:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: În acest moment nu există tipuri.
@@ -577,6 +575,7 @@ ro:
         time_zone: "Fus orar"
         auto_hide_popups: "Ascunderea automată a notificărilor de succes"
         warn_on_leaving_unsaved: "Mă avertizează când părăsesc un pachet de lucru cu modificări nesalvate"
+        theme: "Mode"
       version:
         effective_date: "Data de finalizare"
         sharing: "Distribuire"
@@ -1706,6 +1705,7 @@ ro:
   label_copy_workflow_from: "Copiere flux de la"
   label_copy_project: "Copiere proiect"
   label_core_version: "Versiune de bază"
+  label_core_build: "Core build"
   label_current_status: "Stare actuală"
   label_current_version: "Versiune actuală"
   label_custom_field_add_no_type: "Adaugați acest câmp la un pachet de lucru"
@@ -2228,11 +2228,12 @@ ro:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "A fost înregistrat un nou user (%{value}). Activarea este în așteptarea aprobării:"
   mail_body_account_information: "Informații despre contul dumneavoastră"
   mail_body_account_information_external: "Puteți utiliza contul %{value} pentru autentificare."
@@ -3036,7 +3037,7 @@ ro:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       permissions:

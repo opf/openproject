@@ -46,7 +46,7 @@ module OpenProject::Calendar
 
       should_render = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
-        User.current.allowed_to_globally?(:view_calendar)
+        User.current.allowed_in_any_project?(:view_calendar)
       end
 
       menu :top_menu,

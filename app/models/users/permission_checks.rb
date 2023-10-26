@@ -103,12 +103,12 @@ module Users::PermissionChecks
   end
 
   def allowed_to_in_project?(action, project)
-    # OpenProject::Deprecation.replaced(:allowed_to_in_project?, :allowed_in_project?, caller)
+    OpenProject::Deprecation.replaced(:allowed_to_in_project?, :allowed_in_project?, caller)
     allowed_to?(action, project)
   end
 
   def allowed_to_globally?(action)
-    # OpenProject::Deprecation.replaced(:allowed_to_globally?, :allowed_globally?, caller)
+    OpenProject::Deprecation.replaced(:allowed_to_globally?, :allowed_globally?, caller)
     allowed_to?(action, nil, global: true)
   end
 

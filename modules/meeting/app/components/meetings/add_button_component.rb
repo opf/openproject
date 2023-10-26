@@ -35,7 +35,7 @@ module Meetings
       if current_project
         User.current.allowed_to?(:create_meetings, current_project)
       else
-        User.current.allowed_to_globally?(:create_meetings)
+        User.current.allowed_in_any_project?(:create_meetings)
       end
     end
 

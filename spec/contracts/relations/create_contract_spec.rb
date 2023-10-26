@@ -27,51 +27,15 @@
 #++
 
 require 'spec_helper'
+require_relative 'shared_contract_examples'
 
 RSpec.describe Relations::CreateContract do
-  let(:from) { build_stubbed(:work_package) }
-  let(:to) { build_stubbed(:work_package) }
-  let(:user) { build_stubbed(:admin) }
-
-  let(:relation) do
-    Relation.new from:, to:, relation_type: "follows", delay: 42
-  end
-
-  subject(:contract) { described_class.new relation, user }
-
-  before do
-    allow(WorkPackage)
-      .to receive_message_chain(:visible, :exists?)
-      .and_return(true)
-  end
-
-  describe 'to' do
-    context 'not visible' do
-      before do
-        allow(WorkPackage)
-          .to receive_message_chain(:visible, :exists?)
-          .with(to.id)
-          .and_return(false)
-      end
-
-      it 'is invalid' do
-        expect(subject).not_to be_valid
-      end
-    end
-  end
-
-  describe 'from' do
-    context 'not visible' do
-      before do
-        allow(WorkPackage)
-          .to receive_message_chain(:visible, :exists?)
-          .with(from.id)
-          .and_return(false)
-      end
-
-      it 'is invalid' do
-        expect(subject).not_to be_valid
-      end
+  it_behaves_like 'relation contract' do
+    let(:relation) do
+      Relation.new from: relation_from,
+                   to: relation_to,
+                   relation_type:,
+                   delay: relation_delay
     end
   end
 end

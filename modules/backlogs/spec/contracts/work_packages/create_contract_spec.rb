@@ -40,15 +40,17 @@ RSpec.describe WorkPackages::CreateContract do
   end
   let(:changed_values) { [] }
 
-  include_context 'user with stubbed permissions'
-
-  subject(:contract) { described_class.new(work_package, user) }
-
-  include_context 'user with stubbed permissions'
+  let(:user) { build_stubbed(:user) }
 
   before do
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
+
     allow(work_package).to receive(:changed).and_return(changed_values)
   end
+
+  subject(:contract) { described_class.new(work_package, user) }
 
   describe 'story points' do
     before do

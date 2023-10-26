@@ -41,7 +41,7 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
 
   context 'with permission' do
     let(:user) do
-      create(:user, member_with_permissions: { project => [:edit_meetings] })
+      create(:user, member_with_permissions: { project => [:manage_agendas] })
     end
 
     it_behaves_like 'contract is valid'
@@ -53,11 +53,23 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
 
       it_behaves_like 'contract is invalid', base: I18n.t(:text_meeting_not_editable_anymore)
     end
+
+    context 'when an item_type is provided' do
+      before do
+        allow(item).to receive(:changed).and_return(['item_type'])
+      end
+
+      it_behaves_like 'contract is invalid', item_type: :error_readonly
+    end
   end
 
   context 'without permission' do
     let(:user) { build_stubbed(:user) }
 
     it_behaves_like 'contract is invalid', base: :error_unauthorized
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:user) { build_stubbed(:user) }
   end
 end

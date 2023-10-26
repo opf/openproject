@@ -85,7 +85,7 @@ RSpec.describe Storages::ProjectStorage do
     let(:project_storage) { build_stubbed(:project_storage, storage:) }
 
     context 'when the storage is not a NextcloudStorage' do
-      let(:storage) { build_stubbed(:storage) }
+      let(:storage) { build_stubbed(:storage, :as_generic) }
 
       it "returns false" do
         expect(project_storage.automatic_management_possible?).to be false
