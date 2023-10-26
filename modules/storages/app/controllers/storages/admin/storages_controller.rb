@@ -203,7 +203,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # See: https://github.com/opf/primer_view_components/blob/79fb58474771bd06946554f8325cd0b1bdd6dd31/app/helpers/primer/form_helper.rb#L7
   #
   def storage_provider_parameter_name
-    if OpenProject::FeatureDecisions.storage_primer_design_active?
+    if params.key?(:storages_nextcloud_storage)
       :storages_nextcloud_storage
     else
       :storages_storage
