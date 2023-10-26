@@ -1,0 +1,7 @@
+# Example: Create Membership for a global role
+value:
+  _links:
+    principal:
+      href: '/api/v3/users/14'
+    roles:
+      - href: '/api/v3/roles/4'
