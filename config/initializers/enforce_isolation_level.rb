@@ -27,8 +27,6 @@
 #++
 
 # We need to ensure that we operate on a well-known TRANSACTION ISOLATION LEVEL
-# However, the default isolation level is different for MySQL and PostgreSQL and it is also
-# possible (at least for MySQL) to globally override the default for your DBMS installation.
 # Therefore we want to ensure that the isolation level is consistent on a session basis.
 # We chose READ COMMITTED as our expected default isolation level, this is the default of
 # PostgreSQL.
@@ -42,10 +40,7 @@ module ConnectionIsolationLevel
   end
 
   def self.set_connection_isolation_level(connection)
-    isolation_level = 'ISOLATION LEVEL READ COMMITTED'
-    if OpenProject::Database.postgresql?(connection)
-      connection.execute("SET SESSION CHARACTERISTICS AS TRANSACTION #{isolation_level}")
-    end
+    connection.execute("SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL READ COMMITTED")
   end
 end
 
