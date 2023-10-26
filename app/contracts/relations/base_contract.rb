@@ -44,13 +44,6 @@ module Relations
       Relation
     end
 
-    def valid?(*args)
-      # same as before_validation callback
-      model.send(:reverse_if_needed)
-
-      super
-    end
-
     private
 
     def validate_from_exists

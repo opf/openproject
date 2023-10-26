@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpIconComponent } from './icon.component';
-import { ShareAndroidIconComponent } from '@openproject/octicons-angular';
+import {
+  ShareAndroidIconComponent,
+  XIconComponent,
+} from '@openproject/octicons-angular';
 
 @NgModule({
   imports: [
     CommonModule,
 
     ShareAndroidIconComponent,
+    XIconComponent,
   ],
   declarations: [
     OpIconComponent,
@@ -18,6 +22,7 @@ import { ShareAndroidIconComponent } from '@openproject/octicons-angular';
     OpIconComponent,
 
     ShareAndroidIconComponent,
+    XIconComponent,
   ],
 })
 export class IconModule {}

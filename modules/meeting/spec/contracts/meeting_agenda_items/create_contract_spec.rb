@@ -41,7 +41,7 @@ RSpec.describe MeetingAgendaItems::CreateContract do
 
   context 'with permission' do
     let(:user) do
-      create(:user, member_with_permissions: { project => %i[view_meetings edit_meetings] })
+      create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas] })
     end
 
     it_behaves_like 'contract is valid'
@@ -75,5 +75,9 @@ RSpec.describe MeetingAgendaItems::CreateContract do
     let(:user) { build_stubbed(:user) }
 
     it_behaves_like 'contract is invalid', base: :does_not_exist
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:user) { build_stubbed(:user) }
   end
 end

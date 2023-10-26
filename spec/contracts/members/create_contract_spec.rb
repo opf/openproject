@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 require_relative 'shared_contract_examples'
-require 'contracts/shared/model_contract_shared_context'
 
 RSpec.describe Members::CreateContract do
   include_context 'ModelContract shared context'

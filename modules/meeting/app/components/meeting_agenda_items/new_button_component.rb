@@ -41,7 +41,7 @@ module MeetingAgendaItems
     end
 
     def render?
-      User.current.allowed_to?(:edit_meetings, @meeting.project)
+      User.current.allowed_to?(:manage_agendas, @meeting.project)
     end
   end
 end

@@ -41,7 +41,7 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
 
   context 'with permission' do
     let(:user) do
-      create(:user, member_with_permissions: { project => [:edit_meetings] })
+      create(:user, member_with_permissions: { project => [:manage_agendas] })
     end
 
     it_behaves_like 'contract is valid'
@@ -67,5 +67,9 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
     let(:user) { build_stubbed(:user) }
 
     it_behaves_like 'contract is invalid', base: :error_unauthorized
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:user) { build_stubbed(:user) }
   end
 end

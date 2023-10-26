@@ -273,6 +273,7 @@ ko:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
       no_results_content_text: 프로젝트에 새 멤버 추가
     invite_by_mail: "%{mail}에 초대 보내기"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
@@ -2170,12 +2171,12 @@ ko:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
         summary:
           user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
@@ -2973,7 +2974,7 @@ ko:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       permissions:

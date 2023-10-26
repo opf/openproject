@@ -115,6 +115,10 @@ es:
         oauth_client_secret: >
           Copie la clave secreta del cliente desde el portal Azure. Para una nueva aplicación la clave secreta primero necesita ser creada manualmente. Para la autorización de aplicaciones web una clave secreta es obligatoria.
         missing_client_id_for_redirect_uri: "Falta el ID de cliente para proporcionar la URI de redirección."
+        tenant_id: >
+          Please insert the tenant ID you got from your SharePoint administrator.
+        drive_id: >
+          The drive ID can be obtained by you SharePoint administrator.
     help_texts:
       project_folder: >
         La carpeta del proyecto es la carpeta predeterminada para la carga de archivos de este proyecto. No obstante, los usuarios pueden subir archivos a otras ubicaciones.
@@ -153,6 +157,7 @@ es:
       one_drive: "OAuth de OneDrive"
     label_oauth_application_details: "Detalles de aplicación OAuth"
     label_oauth_client_details: "Detalles del cliente OAuth"
+    label_information: "Additional information"
     label_provider_type: "Tipo de proveedor"
     label_project_folder: "Carpeta del proyecto"
     label_new_storage: "Nuevo almacén"

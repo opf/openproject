@@ -270,6 +270,7 @@ lt:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
       no_results_content_text: Įtraukti narį į projektą
     invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -1728,7 +1729,7 @@ lt:
   label_copy_workflow_from: "Kopijuoti darbų eigą iš"
   label_copy_project: "Kopijuoti projektą"
   label_core_version: "Branduolio versija"
-  label_core_build: "Core build"
+  label_core_build: "Branduolio versija"
   label_current_status: "Dabartinė būsena"
   label_current_version: "Esama versija"
   label_custom_field_add_no_type: "Pridėti šį laukelį prie darbų paketo tipo"
@@ -2252,12 +2253,12 @@ lt:
     sharing:
       work_packages:
         allowed_actions: 'Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Atverti darbo paketą'
-        see_in_open_project: 'Žiūrėkite darbo paketą OpenProject'
         subject: 'Su jumis bendrinamas darbo paketas #%{id}'
         summary:
           user: '%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}'
-          group: '%{user} bendrino darbo paketą su grupe %{group}, kurios narys jūs esate, su teisėmis %{role_rights}'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
@@ -3059,7 +3060,7 @@ lt:
         zero: "0 naudotojų"
         one: "1 naudotojas"
         other: "%{count} naudotojai"
-      invite: "Pakviesti"
+      share: "Share"
       label_search: "Ieškoti naudotojų pakvietimui"
       label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
       permissions:
