@@ -12,7 +12,7 @@ Status of this document: DRAFT 2023-10-26
 
 ### Anonymous access of OpenProject
 
-Depending on the individual permission and authentications settings persons can access OpenProject [anonymously](../system-admin-guide/users-permissions/roles-permissions/#anonymous) without a user account. The [OpenProject community platform](https://community.openproject.org) is an example of an OpenProject installation where individual projects where set to public.  
+Depending on the individual permission and authentications settings persons can access OpenProject [anonymously](../../system-admin-guide/users-permissions/roles-permissions/#anonymous) without a user account. The [OpenProject community platform](https://community.openproject.org) is an example of an OpenProject installation where individual projects where set to public.  
 
 ### Registration of a user account
 
