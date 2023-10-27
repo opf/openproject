@@ -6,110 +6,147 @@
 > * [Sub-Processors](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
 > * [Technical and Organizational Data Security Measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures/)
 
-Status of this document: DRAFT 2023-10-26
+Status of this document: DRAFT 2023-10-27
 
 ## Purpose and subject of processing
 
-### Anonymous access of OpenProject
+### A1: Anonymous access of OpenProject
 
 Depending on the individual permission and authentications settings persons can access OpenProject [anonymously](../../system-admin-guide/users-permissions/roles-permissions/#anonymous) without a user account. The [OpenProject community platform](https://community.openproject.org) is an example of an OpenProject installation where individual projects where set to public.  
 
-### Registration of a user account
+### B: Registration of a user account
 
 To sign-in to the OpenProject platform, the registration of a user account is required. For registered user's the following personal data are processed:
 
+##### bu-01: User profile
+
 - Name
 - Username
-- Email address
 - Avatar
+
+##### bu-02: User settings
+
+- Email address
 - Notification settings
 - Email reminder settings
-- Hourly rate history
-- Display settings: High contrast mode, standard mode, dark mode, and custom themes.
-- Project roles
-- Global roles
+- Language settings
 - Time zones
+- Display settings: High contrast mode, standard mode, dark mode, and custom themes.
+
+##### bu-03: User authentication
+
+* Access token
+* User sessions
+* Password (encrypted)
+* Telephone number for sending one-time passwords via SMS
+* OATH secret code
+
+##### bu-04: User notification settings
+
+- Default notification settings
+- Notification settings per project 
+- Default email reminder settings
+- Email reminder settings per project
+
+##### bu-05: User roles and permissions
+
 - Group memberships
-- Password (encrypted)
-- Display language
-- Standard weblog data (IP address of calling computer, time of call, version of operating system and browser used)
+- Project roles 
+- Global roles
 
-- Telephone number for sending one-time passwords via SMS,
-- OATH secret code (e.g. for the 2FA app FreeOTP).
+##### bu-06: User rates
 
-> **Note:** Administrators can add so-called [custom fields](../../system-admin-guide/custom-fields/) to their OpenProject installation which extend the data fields of a user.
+* Default hourly rate
+* Hourly rate per project
 
-### Using OpenProject
+**Note:** Administrators can add so-called [custom fields](../../system-admin-guide/custom-fields/) to their OpenProject installation which extend the data fields of a user.
+
+### C: Using OpenProject
 
 Depending on the individual use and permissions of the user the following personal data is processed:
 
-- Comments in work packages, meetings, wiki pages and project news
-  - Change history
-  - Persons named in comments
+##### cb-01: Boards
 
-- Work packages
-  - Change history
-  - Persons named in attributes and text fields
+- Change history
+- Persons named in boards
+- Assignments of work packages to persons
 
-- Project plans
-  - Change history
-  - Persons named in schedules
+##### cb-02: Budgets
 
-- Work package lists
-  - Change history
-  - Visibility settings
-  - Filter settings
-  - Sort settings
-  - Display settings
-  - Persons named in work package lists
+- Change history
+- Assignments of persons to budgets
+- Persons named in budget descriptions
 
-- Wiki pages
-  - Modification history
-  - Persons named in wiki pages
-- Time tracking
-  - Change history
-  - Persons named in time entries
+##### cc-01: Comments
 
-- Meeting agendas and minutes
-  - Change history
-  - Invitees
-  - Participants
-  - Persons named in agenda items
+- Change history
+- Persons named in comments
 
-- Team planner
-  - Change history
-  - Persons named in team planners
-  - Assignments of work packages to persons
+##### cd-01: Documents 
 
-- Boards
-  - Change history
-  - Persons named in the boards
-  - Assignments of work packages to persons
-- Calendar
-  - Change history
-  - Persons named in the calendars
-  - Assignments of work packages to persons
-- Project news
-  - Change history
-  - Persons named in project news
+- Change history
+- Persons named in file attachments incl. file attributes
 
-- Project status information
-  - Change history
-  - Persons named in project status information
+##### ce-01: Email notifications
 
-- Project attributes
-  - Change history
-  - Persons named in project attributes
+- Email header including sender and recipients
+- Persons named in the emails
 
-- Files
-  - Change history
-  - Persons named in file attachments incl. file attributes
+##### cm-01: Meetings
 
-- Project overviews
-  - Change history
-  - Persons named in project overviews
+- Change history
+- Invitees
+- Participants
+- Persons named in agenda items
 
-### Logging
+##### cp-01: Projects
+
+- Change history
+
+- Persons name in project overviews
+
+- Persons named in project attributes
+
+- Persons named in project status information
+
+
+##### cp-02: Project calendars
+
+- Change history
+- Persons named in the calendars
+- Assignments of work packages to persons
+
+##### cp-03: Project news
+
+- Change history
+- Persons named in project news
+
+##### ct-01: Team planner
+
+- Change history
+- Persons named in team planners
+- Assignments of work packages to persons
+
+##### ct-02: Time tracking
+
+- Change history
+- Persons named in time entries
+
+##### cw-01: Wiki pages
+
+- Modification history
+- Persons named in wiki pages
+
+##### cw-02: Work packages
+
+- Change history
+- Persons named in lists and project schedules
+- Persons named in attributes and text fields
+- Persons named in linked files
+- Persons named in linked pull requests (GitHub)
+
+
+### D: Logging
 
 Every interaction (i.e. web request) of a browser or other client results in an entry written to logfiles. These files support the operation of the application as they provide information on faulty behaviour of the system (i.e. bugs and lack of performance).
 
@@ -214,7 +251,7 @@ In the course of using the application, background tasks are enqueued in the dat
 - **Response**: Sends the HTTP response back through the Puma server and load balancer to the end-user.
 - **Background worker:** Operate on periodical background data, or perform actions requested by the web request of user (sending emails, exporting data, communicating with external services)
 
-### Sign-in using an identity provider
+### idp: Sign-in using an identity provider
 
 #### Overview
 
@@ -254,6 +291,12 @@ flowchart LR
 * Single sign out
 * Syncing LDAP groups with OpenProject groups  
 
+#### Processed data
+
+* `bu-01`
+* `bu-02`
+* `bu-03`
+
 #### Security measures
 
 * `idp-01` TLS
@@ -262,16 +305,16 @@ flowchart LR
 
 ### Email 
 
-#### Overview
+#### Data flows between subsystems 
 
 
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 
 flowchart LR
-  A[User's Email Client] <-->|email-01| B[User's Email Hoster]
-  B <-->|email-02| C[Email Gateway]
-  C <-->|email-03| D[Email Notification Service]
+  A[User's Email Client] <-->|eml-01| B[User's Email Hoster]
+  B <-->|eml-02| C[Email Gateway]
+  C <-->|eml-03| D[Email Notification Service]
 
  
    subgraph localclients[Local Clients]
@@ -305,14 +348,23 @@ flowchart LR
 
 * Create a new work package by sending an email to a configured email adress.
 * Adding a comment to an existing work package by answering to an email notification.
-* TODO Incoming email
-* Sending email notifications about updates in OpenProject (e.g [email reminder](../../system-admin-guide/emails-and-notifications/))
+* Sending email notifications about updates in OpenProject (e.g [email reminder](../../system-admin-guide/emails-and-notifications/), meeting updates, project invitation, wiki notifications)
+
+#### Processed data
+
+* `bu-01`
+* `bu-04`
+* `bu-05` 
+* `cc-01`
+* `cm-01`
+* `cp-01`
+* `cw-02`
 
 #### Security measures
 
-* `email-01` TLS (not controlled by the OpenProject system)
-* `email-02` TLS (not controlled by the OpenProject system)
-* `email-03` TLS (encryption can be activated in the email settings in the OpenProject Administration)
+* `eml-01` TLS (not controlled by the OpenProject system)
+* `eml-02` TLS (not controlled by the OpenProject system)
+* `eml-03` TLS (encryption can be activated in the email settings in the OpenProject Administration)
 * **Note**: OpenProject does not support end-to-end encryption using GPG or S/MIME.
 
 ### Calendar
@@ -347,6 +399,8 @@ flowchart LR
 
 * Users can import project calendars into their calendar applications using the iCal format.
 
+#### Processed data
+
 #### Security measures
 
 * `cal-01` TLS
@@ -360,10 +414,10 @@ flowchart LR
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 flowchart LR
-  Browser <--> |nc-01| openproject
-  Browser <-->|nc-02| nextcloud
-  nextclouddesktopclient[Nextcloud Desktop Client] <-->|nc-03| nextcloudapi
-  appopenprojectintegration <-->|nc-04| openprojectapi
+  Browser <--> |nex-01| openproject
+  Browser <-->|nex-02| nextcloud
+  nextclouddesktopclient[Nextcloud Desktop Client] <-->|nex-03| nextcloudapi
+  appopenprojectintegration <-->|nex-04| openprojectapi
   
   subgraph local[Local Clients]
   	Browser
@@ -389,12 +443,19 @@ subgraph openproject[OpenProject]
 * Users can link files stored in Nextcloud with work package in OpenProject.
 * Project folders in Nextcloud can be managed in OpenProject (create, delete, update, user permissions).
 
+#### Processed data
+
+* `bu-01`
+* `bu-03 (iCalendar access tokens)`
+* `cm-01`
+* `cw-02`
+
 #### Security measures
 
-* `nc-01` TLS
-* `nc-02` TLS
-* `nc-03` TLS
-* `nc-04` TLS
+* `nex-01` TLS
+* `nex-02` TLS
+* `nex-03` TLS
+* `nex-04` TLS
 
 ### GitHub
 
@@ -403,9 +464,9 @@ subgraph openproject[OpenProject]
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 flowchart LR
-	gitclient <-->|gh-01| githubapi
-	githubapi <-->|gh-02| opgithubintegration
-	githubwebhooks -->|gh-03| opgithubintegration
+	gitclient <-->|gih-01| githubapi
+	githubapi <-->|gih-02| opgithubintegration
+	githubwebhooks -->|gih-03| opgithubintegration
 
   subgraph GitHub
    direction TB
@@ -432,11 +493,15 @@ flowchart LR
 - Connect pull requests in GitHub with work packages in OpenProject.
 - Show the status of pull requests in related work packages.
 
+#### Processed data
+
+* cw-02
+
 #### Security measure
 
-* `gh-01` TLS
-* `gh-02` TLS
-* `gh-03` TLS
+* `gih-01` TLS
+* `gih-02` TLS
+* `gih-03` TLS
 
 ## Database schema 
 
