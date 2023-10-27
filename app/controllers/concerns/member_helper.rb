@@ -26,26 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MemberCreation
+module MemberHelper
   module_function
 
-  def create_members(send_notification: true)
+  def find_or_create_users(send_notification: true)
     @send_notification = send_notification
-    overall_result = nil
 
     each_new_member_param do |member_params|
-      service_call = Members::CreateService
-                       .new(user: current_user)
-                       .call(member_params)
-
-      if overall_result
-        overall_result.push(service_call)
-      else
-        overall_result = [service_call]
-      end
+      yield member_params
     end
-
-    overall_result
   end
 
   def each_new_member_param

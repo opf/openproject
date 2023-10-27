@@ -28,7 +28,7 @@
 
 class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
-  include MemberCreation
+  include MemberHelper
 
   before_action :find_work_package, only: %i[index create]
   before_action :find_share, only: %i[destroy update]
@@ -40,28 +40,33 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    service_calls = create_members(send_notification: false)
+    overall_result = nil
 
-    unless service_calls.nil?
-      service_calls.each do |service_call|
-        @share = WorkPackageMembers::CreateOrUpdateService
-                   .new(user: current_user)
-                   .call(entity: @work_package,
-                         user_id: service_call.result.user_id,
-                         role_ids: find_role_ids(params[:member][:role_id])).result
+    find_or_create_users(send_notification: false) do |member_params|
+      service_call = WorkPackageMembers::CreateOrUpdateService
+                      .new(user: current_user)
+                      .call(entity: @work_package,
+                            user_id: member_params[:user_id],
+                            role_ids: find_role_ids(params[:member][:role_id]))
 
+      @share = service_call.result
+
+      if overall_result
+        overall_result.push(service_call)
+      else
+        overall_result = [service_call]
       end
     end
 
+    @shares = overall_result.map(&:result)
 
-    # Todo: Be smarter
-    respond_with_replace_modal
-
-    # if current_visible_member_count > 1
-    #   respond_with_prepend_share
-    # else
-    #   respond_with_replace_modal
-    # end
+    unless overall_result.nil?
+      if current_visible_member_count > 1
+        respond_with_prepend_share
+      else
+        respond_with_replace_modal
+      end
+    end
   end
 
   def update
@@ -103,10 +108,12 @@ class WorkPackages::SharesController < ApplicationController
       component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
-    prepend_via_turbo_stream(
-      component: WorkPackages::Share::ShareRowComponent.new(share: @share),
-      target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
-    )
+    @shares.each do |share|
+      prepend_via_turbo_stream(
+        component: WorkPackages::Share::ShareRowComponent.new(share:),
+        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+      )
+    end
 
     respond_with_turbo_streams
   end

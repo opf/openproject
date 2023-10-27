@@ -389,27 +389,27 @@ RSpec.describe 'Work package sharing',
       # New user is created
       new_users = User.last(2)
 
-      share_modal.expect_shared_with(new_users[0], 'Comment', position: 1)
-      share_modal.expect_shared_with(new_users[1], 'Comment', position: 2)
+      share_modal.expect_shared_with(new_users[0], 'Comment', position: 2)
+      share_modal.expect_shared_with(new_users[1], 'Comment', position: 1)
 
       # The new users can be interacted with
       share_modal.change_role(new_users[0], 'View')
-      share_modal.expect_shared_with(new_user, 'View', position: 1)
+      share_modal.expect_shared_with(new_users[0], 'View', position: 2)
       share_modal.change_role(new_users[1], 'View')
-      share_modal.expect_shared_with(new_user, 'View', position: 2)
+      share_modal.expect_shared_with(new_users[1], 'View', position: 1)
       share_modal.expect_shared_count_of(8)
 
       # The new users can be updated simultaneously
       share_modal.invite_user(new_users, 'Edit')
-      share_modal.expect_shared_with(new_users[0], 'Edit', position: 1)
-      share_modal.expect_shared_with(new_users[1], 'Edit', position: 2)
+      share_modal.expect_shared_with(new_users[0], 'Edit', position: 2)
+      share_modal.expect_shared_with(new_users[1], 'Edit', position: 1)
       share_modal.expect_shared_count_of(8)
 
       # The new users can be deleted
-      share_modal.remove_user(new_user[0])
-      share_modal.expect_not_shared_with(new_user[0])
-      share_modal.remove_user(new_user[1])
-      share_modal.expect_not_shared_with(new_user[1])
+      share_modal.remove_user(new_users[0])
+      share_modal.expect_not_shared_with(new_users[0])
+      share_modal.remove_user(new_users[1])
+      share_modal.expect_not_shared_with(new_users[1])
       share_modal.expect_shared_count_of(6)
     end
 
@@ -417,7 +417,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_open
       share_modal.expect_shared_count_of(6)
 
-      # Add an existing and a non-existing user to the automcompleter
+      # Add an existing and a non-existing user to the autocompleter
       share_modal.select_existing_user not_shared_yet_with_user
       share_modal.select_not_existing_user_option "hello@world.de"
 

@@ -27,7 +27,7 @@
 #++
 
 class MembersController < ApplicationController
-  include MemberCreation
+  include MemberHelper
   model_object Member
   before_action :find_model_object_and_project, except: [:autocomplete_for_member]
   before_action :find_project_by_project_id, only: [:autocomplete_for_member]
@@ -38,15 +38,28 @@ class MembersController < ApplicationController
   end
 
   def create
-    # Todo: Handle correctly
-    service_call = create_members.first
+    overall_result = []
 
-    if service_call.success?
-      display_success(members_added_notice(service_call.all_results))
+    find_or_create_users(send_notification: false) do |member_params|
+      service_call = Members::CreateService
+                       .new(user: current_user)
+                       .call(member_params)
+
+      if overall_result
+        overall_result.push(service_call)
+      else
+        overall_result = [service_call]
+      end
+    end
+
+    if overall_result.empty?
+      redirect_to project_members_path(project_id: @project, status: 'all')
+    elsif overall_result.all?(&:success?)
+      display_success(members_added_notice(overall_result.count))
 
       redirect_to project_members_path(project_id: @project, status: 'all')
     else
-      display_error(service_call)
+      display_error(overall_result.first)
 
       set_index_data!
 
