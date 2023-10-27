@@ -30,7 +30,7 @@
 
 module WorkPackages
   module Share
-    class ShareCounterComponent < ApplicationComponent
+    class BulkSelectionCounterComponent < ApplicationComponent
       def initialize(count:)
         super
 

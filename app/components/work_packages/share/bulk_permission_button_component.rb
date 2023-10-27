@@ -30,16 +30,18 @@
 
 module WorkPackages
   module Share
-    class ShareCounterComponent < ApplicationComponent
-      def initialize(count:)
+    class BulkPermissionButtonComponent < ApplicationComponent
+      include WorkPackages::Share::Concerns::DisplayableRoles
+
+      def initialize(work_package:)
         super
 
-        @count = count
+        @work_package = work_package
       end
 
-      private
-
-      attr_reader :count
+      def update_path
+        work_package_shares_bulk_path(@work_package)
+      end
     end
   end
 end

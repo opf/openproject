@@ -192,6 +192,8 @@ RSpec.describe 'Work package sharing',
         # Updating a group's share role also propagates to the inherited member roles of
         # its users
         share_modal.change_role(not_shared_yet_with_group, 'Comment')
+        wait_for_network_idle
+
         share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment')
         share_modal.expect_shared_count_of(8)
         expect(inherited_member_roles(group: not_shared_yet_with_group))
@@ -206,12 +208,13 @@ RSpec.describe 'Work package sharing',
         # When removing a group's share, its users also get their inherited member roles removed
         # while keeping member roles that were granted independently of the group
         share_modal.remove_user(not_shared_yet_with_group)
+        wait_for_network_idle
+
         share_modal.expect_not_shared_with(not_shared_yet_with_group)
         share_modal.expect_not_shared_with(richard)
         share_modal.expect_shared_with(dinesh, 'Edit')
         share_modal.expect_shared_with(gilfoyle, 'Comment')
         share_modal.expect_shared_count_of(7)
-
         expect(inherited_member_roles(group: not_shared_yet_with_group))
           .to be_empty
 

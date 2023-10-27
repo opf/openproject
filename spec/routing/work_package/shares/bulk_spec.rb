@@ -28,18 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module WorkPackages
-  module Share
-    class ShareCounterComponent < ApplicationComponent
-      def initialize(count:)
-        super
+require 'spec_helper'
 
-        @count = count
-      end
+RSpec.describe 'Work package bulk sharing routing' do
+  describe 'DELETE /work_packages/:work_package_id/shares' do
+    it 'routes to work_packages/shares/bulk#destroy' do
+      expect(delete('/work_packages/1/shares/bulk'))
+        .to route_to(controller: 'work_packages/shares/bulk',
+                     action: 'destroy',
+                     work_package_id: '1')
+    end
+  end
 
-      private
-
-      attr_reader :count
+  describe 'PATCH /work_packages/:work_package_id/shares' do
+    it 'routes to work_packages/shares/bulk#update' do
+      expect(patch('/work_packages/1/shares/bulk'))
+        .to route_to(controller: 'work_packages/shares/bulk',
+                     action: 'update',
+                     work_package_id: '1')
     end
   end
 end

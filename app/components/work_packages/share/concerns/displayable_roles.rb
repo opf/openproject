@@ -30,16 +30,22 @@
 
 module WorkPackages
   module Share
-    class ShareCounterComponent < ApplicationComponent
-      def initialize(count:)
-        super
-
-        @count = count
+    module Concerns
+      module DisplayableRoles
+        def options
+          [
+            { label: I18n.t('work_package.sharing.permissions.edit'),
+              value: Role::BUILTIN_WORK_PACKAGE_EDITOR,
+              description: I18n.t('work_package.sharing.permissions.edit_description') },
+            { label: I18n.t('work_package.sharing.permissions.comment'),
+              value: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
+              description: I18n.t('work_package.sharing.permissions.comment_description') },
+            { label: I18n.t('work_package.sharing.permissions.view'),
+              value: Role::BUILTIN_WORK_PACKAGE_VIEWER,
+              description: I18n.t('work_package.sharing.permissions.view_description') }
+          ]
+        end
       end
-
-      private
-
-      attr_reader :count
     end
   end
 end
