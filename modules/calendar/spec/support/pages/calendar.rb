@@ -58,20 +58,22 @@ module Pages
     end
 
     def resize_date(work_package, date, end_date: true)
-      wp_strip = event(work_package)
+      retry_block do
+        wp_strip = event(work_package)
 
-      page
-        .driver
-        .browser
-        .action
-        .move_to(wp_strip.native)
-        .perform
+        page
+          .driver
+          .browser
+          .action
+          .move_to(wp_strip.native)
+          .perform
 
-      selector = end_date ? '.fc-event-resizer-end' : '.fc-event-resizer-start'
-      resizer = wp_strip.find(selector)
-      end_container = date_container date
+        selector = end_date ? '.fc-event-resizer-end' : '.fc-event-resizer-start'
+        resizer = wp_strip.find(selector)
+        end_container = date_container date
 
-      drag_n_drop_element(from: resizer, to: end_container)
+        drag_n_drop_element(from: resizer, to: end_container)
+      end
     end
 
     def drag_event(work_package, target)
