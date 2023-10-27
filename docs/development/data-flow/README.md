@@ -6,7 +6,7 @@
 > * [Sub-Processors](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
 > * [Technical and Organizational Data Security Measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures/)
 
-Status of this document: DRAFT 2023-10-26
+Status of this document: DRAFT 2023-10-27
 
 ## Purpose and subject of processing
 
