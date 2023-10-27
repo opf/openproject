@@ -189,12 +189,11 @@ module Components
         end
       end
 
-      def invite_user(user, role_name)
+      def invite_user(users, role_name)
         # Adding a user to the list of shared users
-        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
-                            query: user.firstname,
-                            select_text: user.name,
-                            results_selector: 'body'
+        Array(users).each do |user|
+          select_existing_user user
+        end
 
         select_invite_role(role_name)
 
@@ -205,12 +204,11 @@ module Components
 
       alias_method :invite_group, :invite_user
 
-      def create_and_invite_user(email, role_name)
+      def create_and_invite_user(emails, role_name)
         # Adding a user to the list of shared users
-        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
-                            query: email,
-                            select_text: "Send invite to\"#{email}\"",
-                            results_selector: 'body'
+        Array(emails).each do |email|
+          select_not_existing_user_option email
+        end
 
         select_invite_role(role_name)
 
@@ -324,6 +322,20 @@ module Components
 
       def shares_list
         active_list.find_by_id('op-share-wp-active-shares')
+      end
+
+      def select_existing_user(user)
+        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+                            query: user.firstname,
+                            select_text: user.name,
+                            results_selector: 'body'
+      end
+
+      def select_not_existing_user_option(email)
+        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+                            query: email,
+                            select_text: "Send invite to\"#{email}\"",
+                            results_selector: 'body'
       end
     end
   end
