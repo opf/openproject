@@ -22,6 +22,8 @@ def register_firefox(language, name: :"firefox_#{language}")
     # only one FF process
     profile['dom.ipc.processCount'] = 1
 
+    profile['general.smoothScroll'] = false
+
     options = Selenium::WebDriver::Firefox::Options.new(profile:)
 
     yield(profile, options) if block_given?
