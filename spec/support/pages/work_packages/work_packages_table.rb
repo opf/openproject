@@ -217,12 +217,16 @@ module Pages
         .new.open_and_choose(label)
     end
 
-    def save_as(name)
-      click_setting_item 'Save as'
-
-      fill_in 'save-query-name', with: name
-
-      click_button 'Save'
+    def save_as(name, by_title: false)
+      if by_title
+        title_input = find('.editable-toolbar-title--input')
+        title_input.set(name)
+        title_input.send_keys(:enter)
+      else
+        click_setting_item 'Save as'
+        fill_in 'save-query-name', with: name
+        click_button 'Save'
+      end
 
       expect_toast message: 'Successful creation.'
       expect_title name
