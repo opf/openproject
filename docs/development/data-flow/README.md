@@ -18,13 +18,13 @@ Depending on the individual permission and authentications settings persons can 
 
 To sign-in to the OpenProject platform, the registration of a user account is required. For registered user's the following personal data are processed:
 
-##### bu-01: User profile
+##### `bu-01` User profile
 
 - Name
 - Username
 - Avatar
 
-##### bu-02: User settings
+##### `bu-02` User settings
 
 - Email address
 - Notification settings
@@ -33,7 +33,7 @@ To sign-in to the OpenProject platform, the registration of a user account is re
 - Time zones
 - Display settings: High contrast mode, standard mode, dark mode, and custom themes.
 
-##### bu-03: User authentication
+##### `bu-03` User authentication
 
 * Access token
 * User sessions
@@ -41,20 +41,20 @@ To sign-in to the OpenProject platform, the registration of a user account is re
 * Telephone number for sending one-time passwords via SMS
 * OATH secret code
 
-##### bu-04: User notification settings
+##### `bu-04` User notification settings
 
 - Default notification settings
 - Notification settings per project 
 - Default email reminder settings
 - Email reminder settings per project
 
-##### bu-05: User roles and permissions
+##### `bu-05` User roles and permissions
 
 - Group memberships
 - Project roles 
 - Global roles
 
-##### bu-06: User rates
+##### `bu-06` User rates
 
 * Default hourly rate
 * Hourly rate per project
@@ -65,41 +65,41 @@ To sign-in to the OpenProject platform, the registration of a user account is re
 
 Depending on the individual use and permissions of the user the following personal data is processed:
 
-##### cb-01: Boards
+##### `cb-01` Boards
 
 - Change history
 - Persons named in boards
 - Assignments of work packages to persons
 
-##### cb-02: Budgets
+##### `cb-02` Budgets
 
 - Change history
 - Assignments of persons to budgets
 - Persons named in budget descriptions
 
-##### cc-01: Comments
+##### `cc-01` Comments
 
 - Change history
 - Persons named in comments
 
-##### cd-01: Documents 
+##### `cd-01` Documents 
 
 - Change history
 - Persons named in file attachments incl. file attributes
 
-##### ce-01: Email notifications
+##### `ce-01` Email notifications
 
 - Email header including sender and recipients
 - Persons named in the emails
 
-##### cm-01: Meetings
+##### `cm-01` Meetings
 
 - Change history
 - Invitees
 - Participants
 - Persons named in agenda items
 
-##### cp-01: Projects
+##### `cp-01` Projects
 
 - Change history
 
@@ -110,34 +110,34 @@ Depending on the individual use and permissions of the user the following person
 - Persons named in project status information
 
 
-##### cp-02: Project calendars
+##### `cp-02` Project calendars
 
 - Change history
 - Persons named in the calendars
 - Assignments of work packages to persons
 
-##### cp-03: Project news
+##### `cp-03` Project news
 
 - Change history
 - Persons named in project news
 
-##### ct-01: Team planner
+##### `ct-01` Team planner
 
 - Change history
 - Persons named in team planners
 - Assignments of work packages to persons
 
-##### ct-02: Time tracking
+##### `ct-02` Time tracking
 
 - Change history
 - Persons named in time entries
 
-##### cw-01: Wiki pages
+##### `cw-01` Wiki pages
 
 - Modification history
 - Persons named in wiki pages
 
-##### cw-02: Work packages
+##### `cw-02` Work packages
 
 - Change history
 - Persons named in lists and project schedules
@@ -193,8 +193,9 @@ flowchart TD
   subgraph integrations[External Integrations]
   direction TB
     idp["Identity Provider (idp)"]
-    N["Nextcloud (nc)"]
-    GitHub["GitHub (gh)"]
+    nex["Nextcloud (nex)"]
+    gih["GitHub (gih)"]
+    cal["Calendar (cal)"]
   	O["API Integrations (API)"]
  
 end
@@ -204,7 +205,7 @@ end
   	M[Memcached]
 	  P[PostgreSQL]
 	  S[Object Storage or NFS]
-	  email["Email Gateways (email)"]
+	  email["Email Gateways (eml)"]
   end
 
 
@@ -251,7 +252,7 @@ In the course of using the application, background tasks are enqueued in the dat
 - **Response**: Sends the HTTP response back through the Puma server and load balancer to the end-user.
 - **Background worker:** Operate on periodical background data, or perform actions requested by the web request of user (sending emails, exporting data, communicating with external services)
 
-### idp: Sign-in using an identity provider
+### `idp` Sign-in using an identity provider
 
 #### Overview
 
@@ -303,7 +304,7 @@ flowchart LR
 * `idp-02` TLS
 * `idp-03` TLS
 
-### Email 
+### `eml` Email 
 
 #### Data flows between subsystems 
 
@@ -367,7 +368,7 @@ flowchart LR
 * `eml-03` TLS (encryption can be activated in the email settings in the OpenProject Administration)
 * **Note**: OpenProject does not support end-to-end encryption using GPG or S/MIME.
 
-### Calendar
+### `cal` Calendar
 
 #### Overview
 
@@ -407,7 +408,7 @@ flowchart LR
 * `cal-02` TLS (not controlled by the OpenProject system)
 * `cal-03` TLS (not controlled by the OpenProject system) 
 
-### Nextcloud
+### `nex` Nextcloud
 
 #### Overview
 
@@ -457,7 +458,7 @@ subgraph openproject[OpenProject]
 * `nex-03` TLS
 * `nex-04` TLS
 
-### GitHub
+### `gih` GitHub
 
 #### Overview
 
