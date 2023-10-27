@@ -27,33 +27,27 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin
+  class OAuthApplicationCredentialsCopyComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages', except: [:show] do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
-                                                         only: %i[new edit update]
+    attr_reader :storage
+    alias_method :oauth_application, :model
 
-        member do
-          get '/edit_host' => '/storages/admin/storages#edit_host'
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
-        end
-      end
+    def initialize(oauth_application:, storage:, **options)
+      super(oauth_application, **options)
+      @storage = storage
     end
-  end
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do
-        member do
-          # Destroy uses a get request to prompt the user before the actual DELETE request
-          get :destroy_info, as: 'confirm_destroy'
-        end
-
-        resources :members, controller: '/storages/project_settings/project_storage_members', only: %i[index]
-      end
+    def oauth_application_details_link
+      render(
+        Primer::Beta::Link.new(
+          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
+                                                                                         'settings/admin/openproject'),
+          target: '_blank'
+        )
+      ) { I18n.t('storages.instructions.oauth_application_details_link_text') }
     end
   end
 end

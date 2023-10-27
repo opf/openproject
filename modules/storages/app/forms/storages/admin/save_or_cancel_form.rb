@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,32 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages', except: [:show] do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
-                                                         only: %i[new edit update]
-
-        member do
-          get '/edit_host' => '/storages/admin/storages#edit_host'
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
-        end
+module Storages::Admin
+  class SaveOrCancelForm < ApplicationForm
+    form do |buttons|
+      buttons.group(layout: :horizontal) do |button_group|
+        button_group.submit(name: :submit,
+                            scheme: :primary,
+                            label: @submit_label)
+        button_group.button(name: :cancel,
+                            scheme: :default,
+                            tag: :a,
+                            href: Rails.application.routes.url_helpers.edit_admin_settings_storage_path(@storage),
+                            label: I18n.t('button_cancel'))
       end
     end
-  end
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do
-        member do
-          # Destroy uses a get request to prompt the user before the actual DELETE request
-          get :destroy_info, as: 'confirm_destroy'
-        end
-
-        resources :members, controller: '/storages/project_settings/project_storage_members', only: %i[index]
-      end
+    def initialize(storage:, submit_label: I18n.t('storages.buttons.save_and_continue'))
+      super()
+      @storage = storage
+      @submit_label = submit_label
     end
   end
 end

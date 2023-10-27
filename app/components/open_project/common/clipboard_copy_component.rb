@@ -27,33 +27,46 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module OpenProject::Common
+  class ClipboardCopyComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages', except: [:show] do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
-                                                         only: %i[new edit update]
+    options visually_hide_label: true,
+            readonly: true,
+            required: false
 
-        member do
-          get '/edit_host' => '/storages/admin/storages#edit_host'
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
-        end
+    def text_field_options
+      { name: options[:name],
+        label: options[:label],
+        classes: "rounded-right-0",
+        visually_hide_label:,
+        value: value_to_copy,
+        inset: true,
+        readonly:,
+        required: }
+    end
+
+    def clipboard_copy_options
+      { value: value_to_copy,
+        aria: { label: clipboard_copy_aria_label },
+        classes: clipboard_copy_classes }
+    end
+
+    private
+
+    def clipboard_copy_classes
+      %w[Button Button--iconOnly Button--secondary Button--medium rounded-left-0 border-left-0].tap do |classes|
+        classes << "mt-4" unless visually_hide_label
       end
     end
-  end
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do
-        member do
-          # Destroy uses a get request to prompt the user before the actual DELETE request
-          get :destroy_info, as: 'confirm_destroy'
-        end
+    def clipboard_copy_aria_label
+      options[:clipboard_copy_aria_label] || I18n.t('button_copy_to_clipboard')
+    end
 
-        resources :members, controller: '/storages/project_settings/project_storage_members', only: %i[index]
-      end
+    def value_to_copy
+      options[:value_to_copy]
     end
   end
 end

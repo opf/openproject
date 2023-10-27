@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,32 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages', except: [:show] do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
-                                                         only: %i[new edit update]
-
-        member do
-          get '/edit_host' => '/storages/admin/storages#edit_host'
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
-        end
-      end
+module Storages::Admin::ManagedProjectFolders
+  class ApplicationPasswordInput < ApplicationForm
+    form do |application_password_form|
+      application_password_form.text_field(
+        name: :password,
+        label: I18n.t(:'storages.label_managed_project_folders.application_password'),
+        required: true,
+        caption: application_password_caption
+      )
     end
-  end
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do
-        member do
-          # Destroy uses a get request to prompt the user before the actual DELETE request
-          get :destroy_info, as: 'confirm_destroy'
-        end
+    def initialize(storage:)
+      super()
+      @storage = storage
+    end
 
-        resources :members, controller: '/storages/project_settings/project_storage_members', only: %i[index]
-      end
+    private
+
+    def application_password_caption
+      I18n.t(:'storages.instructions.managed_project_folders_application_password_caption',
+             provider_type_link:).html_safe
+    end
+
+    def provider_type_link
+      render(
+        Primer::Beta::Link.new(
+          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(@storage.host,
+                                                                                         'settings/admin/openproject'),
+          target: '_blank'
+        )
+      ) { I18n.t("storages.instructions.#{@storage.short_provider_type}.integration") }
     end
   end
 end

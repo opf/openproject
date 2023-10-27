@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,32 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages', except: [:show] do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
-                                                         only: %i[new edit update]
+module Storages::Admin
+  class OAuthClientForm < ApplicationForm
+    form do |oauth_client_form|
+      oauth_client_form.text_field(name: :client_id,
+                                   label: label_client_id,
+                                   required: true)
 
-        member do
-          get '/edit_host' => '/storages/admin/storages#edit_host'
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
-        end
-      end
+      oauth_client_form.text_field(name: :client_secret,
+                                   label: label_client_secret,
+                                   required: true)
     end
-  end
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do
-        member do
-          # Destroy uses a get request to prompt the user before the actual DELETE request
-          get :destroy_info, as: 'confirm_destroy'
-        end
+    def initialize(storage:)
+      super()
+      @storage = storage
+    end
 
-        resources :members, controller: '/storages/project_settings/project_storage_members', only: %i[index]
-      end
+    private
+
+    def label_client_id
+      [label_provider_name, I18n.t('storages.label_oauth_client_id')].join(' ')
+    end
+
+    def label_client_secret
+      [label_provider_name, I18n.t('storages.label_oauth_client_secret')].join(' ')
+    end
+
+    def label_provider_name
+      I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")
     end
   end
 end
