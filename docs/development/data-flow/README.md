@@ -46,15 +46,12 @@ Depending on the individual use and permissions of the user the following person
 - Comments in work packages, meetings, wiki pages and project news
   - Change history
   - Persons named in comments
-
 - Work packages
   - Change history
   - Persons named in attributes and text fields
-
 - Project plans
   - Change history
   - Persons named in schedules
-
 - Work package lists
   - Change history
   - Visibility settings
@@ -62,25 +59,21 @@ Depending on the individual use and permissions of the user the following person
   - Sort settings
   - Display settings
   - Persons named in work package lists
-
 - Wiki pages
   - Modification history
   - Persons named in wiki pages
 - Time tracking
   - Change history
   - Persons named in time entries
-
 - Meeting agendas and minutes
   - Change history
   - Invitees
   - Participants
   - Persons named in agenda items
-
 - Team planner
   - Change history
   - Persons named in team planners
   - Assignments of work packages to persons
-
 - Boards
   - Change history
   - Persons named in the boards
@@ -92,22 +85,26 @@ Depending on the individual use and permissions of the user the following person
 - Project news
   - Change history
   - Persons named in project news
-
 - Project status information
   - Change history
   - Persons named in project status information
-
 - Project attributes
   - Change history
   - Persons named in project attributes
-
-- Files
-  - Change history
-  - Persons named in file attachments incl. file attributes
-
 - Project overviews
   - Change history
   - Persons named in project overviews
+- Files
+  - Change history
+  - Persons named in file attachments incl. file attributes
+- PD12: Email notifications (outgoing)
+  - Email header including sender and recipients
+  - Persons named in the emails
+
+- PD 13: Email notifications (incoming)
+  - Email header including sender and recipients
+  - Persons named in the emails
+
 
 ### Logging
 
@@ -254,7 +251,7 @@ flowchart LR
 * Single sign out
 * Syncing LDAP groups with OpenProject groups  
 
-#### Process Data
+#### Process data
 
 #### Security measures
 
@@ -264,7 +261,7 @@ flowchart LR
 
 ### Email 
 
-#### Overview
+#### Data flows between subsystems 
 
 
 ```mermaid
@@ -310,9 +307,9 @@ flowchart LR
 * TODO Incoming email
 * Sending email notifications about updates in OpenProject (e.g [email reminder](../../system-admin-guide/emails-and-notifications/))
 
-#### Process Data
+#### Processed data
 
-
+* PD12 - PD13
 
 #### Security measures
 
