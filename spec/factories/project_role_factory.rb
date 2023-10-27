@@ -32,6 +32,15 @@ FactoryBot.define do
   factory :project_role do
     permissions { [] }
     sequence(:name) { |n| "Project role #{n}" }
+    transient do
+      add_public_permissions { true }
+    end
+
+    after(:create) do |role, evaluator|
+      if evaluator.add_public_permissions
+        role.add_permission!(*OpenProject::AccessControl.public_permissions.map(&:name))
+      end
+    end
 
     factory :non_member do
       name { 'Non member' }
