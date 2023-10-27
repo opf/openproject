@@ -148,7 +148,7 @@ class CostReportsController < ApplicationController
   # RecordNotFound if the query at :id does not exist
   def destroy
     if @query
-      @query.destroy if allowed_to? :destroy, @query
+      @query.destroy if allowed_in_report(:destroy, @query)
     else
       raise ActiveRecord::RecordNotFound
     end
@@ -385,7 +385,7 @@ class CostReportsController < ApplicationController
     # in this project.
 
     if report.project
-      Array(permissions).any? { |permission| user.allowed_to?(permission, @project) }
+      Array(permissions).any? { |permission| user.allowed_in_project?(permission, @project) }
     else
       Array(permissions).any? { |permission| user.allowed_in_any_project?(permission) }
     end
