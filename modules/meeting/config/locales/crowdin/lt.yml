@@ -104,7 +104,7 @@ lt:
   permission_edit_meetings: "Redaguoti pasitarimus"
   permission_delete_meetings: "Šalinti pasitarimus"
   permission_view_meetings: "Peržiūrėti pasitarimus"
-  permission_create_meeting_agendas: "Valdyti darbotvarkes"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Uždaryti darbotvarkes"
   permission_send_meeting_agendas_notification: "Siųsti peržiūros pranešimą darbotvarkėms"
   permission_create_meeting_minutes: "Valdyti minutes"

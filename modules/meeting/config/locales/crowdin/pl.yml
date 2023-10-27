@@ -104,7 +104,7 @@ pl:
   permission_edit_meetings: "Modyfikuj spotkania"
   permission_delete_meetings: "Usuń spotkania"
   permission_view_meetings: "Zobacz spotkania"
-  permission_create_meeting_agendas: "Zarządzaj planami"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Zamknij plany"
   permission_send_meeting_agendas_notification: "Wyślij powiadomienie o przeglądzie planów"
   permission_create_meeting_minutes: "Zarządzaj protokołami ze spotkań"

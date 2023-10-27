@@ -104,7 +104,7 @@ nl:
   permission_edit_meetings: "Vergaderingen bewerken"
   permission_delete_meetings: "Verwijder vergaderingen"
   permission_view_meetings: "Bekijk vergaderingen"
-  permission_create_meeting_agendas: "Agenda's beheren"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Sluit agenda's"
   permission_send_meeting_agendas_notification: "Stuur review notificatie voor agenda's"
   permission_create_meeting_minutes: "Minuten beheren"

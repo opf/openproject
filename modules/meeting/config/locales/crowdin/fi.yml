@@ -104,7 +104,7 @@ fi:
   permission_edit_meetings: "Muokkaa kokouksia"
   permission_delete_meetings: "Poista kokouksia"
   permission_view_meetings: "Tarkastele kokouksia"
-  permission_create_meeting_agendas: "Hallita esityslistoja"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Sulje esityslistoja"
   permission_send_meeting_agendas_notification: "Lähetä esityslistoja hyväksyttäväksi"
   permission_create_meeting_minutes: "Hallitse pöytäkirjoja"

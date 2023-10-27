@@ -104,7 +104,7 @@ hu:
   permission_edit_meetings: "Megbeszélések szerkesztése"
   permission_delete_meetings: "Megbeszélések törlése"
   permission_view_meetings: "Megbeszélések megtekintése"
-  permission_create_meeting_agendas: "Napirendek kezelése"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Napirendek lezárása"
   permission_send_meeting_agendas_notification: "Napirend véleményezésre küldésének értesítése"
   permission_create_meeting_minutes: "Jegyzőkönyvek kezelése"

@@ -104,7 +104,7 @@ et:
   permission_edit_meetings: "Koosolekute muutmine"
   permission_delete_meetings: "Koosolekute kustutamine"
   permission_view_meetings: "Koosolekute vaatamine"
-  permission_create_meeting_agendas: "Päpevakavade haldamine"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Päevakavade sulgemine"
   permission_send_meeting_agendas_notification: "Send review notification for agendas"
   permission_create_meeting_minutes: "Manage minutes"
