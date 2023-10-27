@@ -111,11 +111,25 @@ Depending on the individual use and permissions of the user the following person
 
 ### Logging
 
-Technically, every use of a browser-based web application is accompanied by a usage log in the form of a so-called web log, which focuses on the IP address of the calling computer and the time of the page call, supplemented by information on the version of the operating system and browser used.
+Every interaction (i.e. web request) of a browser or other client results in an entry written to logfiles. These files support the operation of the application as they provide information on faulty behaviour of the system (i.e. bugs and lack of performance).
+
+Those log files contain the following person related data:
+* id of the user performing the request
+* time of the request
+* url called
+* parameters sent to the server as part of the request which comprises the user's input in the form of e.g. work package title and description, wiki page content, comment text, SAML user information etc.
+
+Data that can be identified as sensitive information like passwords are not logged.
+
+The data listed above is generated upon entering the application. When actually processing the request within the application, events deemed noteworthy by the developers might be logged additionally. An example of this are failed login attempts.
+
+The logfiles are automatically removed based on a first-in-first-out mechanism. This is done to limit the disk space which ensures the server's operation and at the same time serves as a means to erase the log entries once they have served their purpose of supporting operations. The deciding criteria for how long log entries are kept is by default the size of the logfiles. Once the logfiles reach the limit, the oldest entries are removed. As such, the log entries are not kept for a fixed set of days. If there are a lot of requests, old entries are removed faster then if there are less requests. Administrators of the servers might decide to configure a different behaviour that factors in the age of the log entries as well.
 
 More technical information about the logging mechanism can be found in the operations documentation:
 
 * [Monitoring your OpenProject installation](../../installation-and-operations/operation/monitoring/)
+
+On top of the log files OpenProject manages, additional logs might be written by systems that are part of the used network infrastructure (e.g., load balancers, proxying servers, or other network components). These are out of scope for this documentation but oftentimes contain additional information such as the IP address. On the other hand, since TLS is employed for all connections by default, those intermediary systems do not have access to the full request body so they are not able to see for example the request parameters.
 
 ## Data flows of personal data
 
