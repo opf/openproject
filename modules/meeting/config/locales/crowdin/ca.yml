@@ -104,7 +104,7 @@ ca:
   permission_edit_meetings: "Edita reunions"
   permission_delete_meetings: "Elimina reunions"
   permission_view_meetings: "Veure reunions"
-  permission_create_meeting_agendas: "Administrar agendes"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Tancar agendes"
   permission_send_meeting_agendas_notification: "Enviar una notificació de revisió per agendes"
   permission_create_meeting_minutes: "Administra actes"

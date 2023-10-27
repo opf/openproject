@@ -104,7 +104,7 @@ sv:
   permission_edit_meetings: "Redigera möten"
   permission_delete_meetings: "Ta bort möten"
   permission_view_meetings: "Visa möten"
-  permission_create_meeting_agendas: "Hantera agendor"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Stäng agendor"
   permission_send_meeting_agendas_notification: "Skicka underrättelse om granskning av agendor"
   permission_create_meeting_minutes: "Hantera protokoll"

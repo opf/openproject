@@ -104,7 +104,7 @@ af:
   permission_edit_meetings: "Edit meetings"
   permission_delete_meetings: "Delete meetings"
   permission_view_meetings: "View meetings"
-  permission_create_meeting_agendas: "Manage agendas"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Close agendas"
   permission_send_meeting_agendas_notification: "Send review notification for agendas"
   permission_create_meeting_minutes: "Manage minutes"

@@ -104,7 +104,7 @@ ar:
   permission_edit_meetings: "تعديل الاجتماعات"
   permission_delete_meetings: "إلغاء الاجتماعات"
   permission_view_meetings: "عرض الاجتماعات"
-  permission_create_meeting_agendas: "إدارة جداول الأعمال"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "إغلاق جداول الأعمال"
   permission_send_meeting_agendas_notification: "أرسِل إشعارًا لمراجعة جداول الأعمال"
   permission_create_meeting_minutes: "إدارة محضر الجلسة"

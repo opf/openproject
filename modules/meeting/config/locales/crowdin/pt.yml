@@ -104,7 +104,7 @@ pt:
   permission_edit_meetings: "Editar reuniões"
   permission_delete_meetings: "Excluir reuniões"
   permission_view_meetings: "Visualizar reuniões"
-  permission_create_meeting_agendas: "Gerenciar agendas"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Fechar agendas"
   permission_send_meeting_agendas_notification: "Enviar notificação de revisão para agendas"
   permission_create_meeting_minutes: "Gerenciar atas"

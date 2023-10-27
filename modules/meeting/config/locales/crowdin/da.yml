@@ -104,7 +104,7 @@ da:
   permission_edit_meetings: "Rediger møder"
   permission_delete_meetings: "Slet møder"
   permission_view_meetings: "Se møder"
-  permission_create_meeting_agendas: "Håndter dagsordner"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Luk dagsordner"
   permission_send_meeting_agendas_notification: "Send påmindelse om vurdering af dagsorden"
   permission_create_meeting_minutes: "Håndter referater"

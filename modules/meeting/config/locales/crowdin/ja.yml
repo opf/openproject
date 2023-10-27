@@ -104,7 +104,7 @@ ja:
   permission_edit_meetings: "会議の編集"
   permission_delete_meetings: "会議の削除"
   permission_view_meetings: "会議を表示"
-  permission_create_meeting_agendas: "議題を管理する"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "議題を閉じる"
   permission_send_meeting_agendas_notification: "議題のレビュー通知を送信する"
   permission_create_meeting_minutes: "議事録の管理"

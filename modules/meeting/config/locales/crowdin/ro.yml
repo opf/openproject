@@ -104,7 +104,7 @@ ro:
   permission_edit_meetings: "Editarea ședințelor"
   permission_delete_meetings: "Ștergeți întâlnirile"
   permission_view_meetings: "Vezi întâlniri"
-  permission_create_meeting_agendas: "Gestionați agendele"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Închideți agendele"
   permission_send_meeting_agendas_notification: "Trimiteți o notificare de revizuire pentru agende"
   permission_create_meeting_minutes: "Gestionați minutele"

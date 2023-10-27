@@ -104,7 +104,7 @@ it:
   permission_edit_meetings: "Modificare riunioni"
   permission_delete_meetings: "Annullare riunioni"
   permission_view_meetings: "Vedere riunioni"
-  permission_create_meeting_agendas: "Gestire gli ordini del giorno"
+  permission_manage_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Chiudere gli ordini del giorno"
   permission_send_meeting_agendas_notification: "Inviare notifiche di modifica degli ordini del giorno"
   permission_create_meeting_minutes: "Gestire i verbali"

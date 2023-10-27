@@ -91,8 +91,8 @@ module Users::PermissionChecks
       .includes(:role_permissions)
       .pluck(:permission)
       .compact
-      .uniq
       .map(&:to_sym)
+      .uniq
   end
 
   # Old allowed_to? interface. Marked as deprecated, should be removed at some point ... Guessing 14.0?

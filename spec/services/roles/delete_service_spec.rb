@@ -46,7 +46,7 @@ RSpec.describe Roles::DeleteService, type: :model do
     expect(result).to be_success
     expect(OpenProject::Notifications).to have_received(:send).with(
       OpenProject::Events::ROLE_DESTROYED,
-      permissions: existing_permissions
+      permissions: existing_permissions + OpenProject::AccessControl.public_permissions.map(&:name)
     )
   end
 end
