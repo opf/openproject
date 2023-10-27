@@ -50,8 +50,7 @@ module WorkPackageMembers
     end
 
     def user_allowed_to_manage?
-      user.allowed_to?(:share_work_packages,
-                       model.project)
+      user.allowed_in_project?(:share_work_packages, model.project)
     end
 
     def single_non_inherited_role

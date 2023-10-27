@@ -36,7 +36,7 @@ module MeetingAgendaItems
     # When MeetingRole becomes available, agenda items will
     # be edited through meeting permissions :manage_agendas
     def user_allowed_to_edit
-      unless user.allowed_to?(:manage_agendas, model.project)
+      unless user.allowed_in_project?(:manage_agendas, model.project)
         errors.add :base, :error_unauthorized
       end
     end
