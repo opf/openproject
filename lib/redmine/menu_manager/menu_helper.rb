@@ -414,11 +414,18 @@ module Redmine::MenuManager::MenuHelper
 
   def node_action_allowed?(node, project, user)
     return true if node.skip_permissions_check?
+    return false if user.nil?
 
     url = node.url(project)
     return true unless url
 
-    user&.allowed_in_project?(url, project)
+    begin
+      user.allowed_in_project?(url, project)
+    rescue Authorization::UnknownPermissionError
+      # As we might throw every possible URL in here, we might also have URLs
+      # that are not backed by any permissions. Let's just ignore those.
+      false
+    end
   end
 
   def visible_node?(menu, node)
