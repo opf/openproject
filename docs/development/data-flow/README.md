@@ -254,6 +254,8 @@ flowchart LR
 * Single sign out
 * Syncing LDAP groups with OpenProject groups  
 
+#### Process Data
+
 #### Security measures
 
 * `idp-01` TLS
@@ -307,6 +309,10 @@ flowchart LR
 * Adding a comment to an existing work package by answering to an email notification.
 * TODO Incoming email
 * Sending email notifications about updates in OpenProject (e.g [email reminder](../../system-admin-guide/emails-and-notifications/))
+
+#### Process Data
+
+
 
 #### Security measures
 
