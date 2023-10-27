@@ -38,7 +38,8 @@ class MembersController < ApplicationController
   end
 
   def create
-    service_call = create_members
+    # Todo: Handle correctly
+    service_call = create_members.first
 
     if service_call.success?
       display_success(members_added_notice(service_call.all_results))

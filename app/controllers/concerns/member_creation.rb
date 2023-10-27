@@ -39,9 +39,9 @@ module MemberCreation
                        .call(member_params)
 
       if overall_result
-        overall_result.merge!(service_call)
+        overall_result.push(service_call)
       else
-        overall_result = service_call
+        overall_result = [service_call]
       end
     end
 
@@ -88,11 +88,7 @@ module MemberCreation
 
   def each_comma_separated(array, &block)
     array.map do |e|
-      if e.to_s.match? /\d(,\d)*/
-        block.call(e)
-      else
-        e
-      end
+      block.call(e)
     end.flatten
   end
 
@@ -107,8 +103,8 @@ module MemberCreation
   def possibly_separated_ids_for_entity(array, entity = :user)
     if !array[:"#{entity}_ids"].nil?
       transform_array_of_comma_separated_ids(array[:"#{entity}_ids"])
-    elsif !array[:"#{entity}_id"].nil? && (id = array[:"#{entity}_id"]).present?
-      [id]
+    elsif !array[:"#{entity}_id"].nil?
+      transform_array_of_comma_separated_ids(array[:"#{entity}_id"])
     else
       []
     end

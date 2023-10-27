@@ -40,26 +40,28 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    user_id = params[:member][:user_id]
+    service_calls = create_members(send_notification: false)
 
-    # In case, the user does not exist yet: create one
-    if user_id.to_i == 0
-      service_call = create_members(send_notification: false)
-      user_id = service_call.result.user_id
+    unless service_calls.nil?
+      service_calls.each do |service_call|
+        @share = WorkPackageMembers::CreateOrUpdateService
+                   .new(user: current_user)
+                   .call(entity: @work_package,
+                         user_id: service_call.result.user_id,
+                         role_ids: find_role_ids(params[:member][:role_id])).result
+
+      end
     end
 
-    @share = WorkPackageMembers::CreateOrUpdateService
-      .new(user: current_user)
-      .call(entity: @work_package,
-            user_id:,
-            role_ids: find_role_ids(params[:member][:role_id])).result
 
+    # Todo: Be smarter
+    respond_with_replace_modal
 
-    if current_visible_member_count > 1
-      respond_with_prepend_share
-    else
-      respond_with_replace_modal
-    end
+    # if current_visible_member_count > 1
+    #   respond_with_prepend_share
+    # else
+    #   respond_with_replace_modal
+    # end
   end
 
   def update
