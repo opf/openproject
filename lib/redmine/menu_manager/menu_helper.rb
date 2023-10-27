@@ -425,6 +425,17 @@ module Redmine::MenuManager::MenuHelper
       # As we might throw every possible URL in here, we might also have URLs
       # that are not backed by any permissions. Let's just ignore those.
       false
+    rescue Authorization::IllegalPermissionContextError => e
+      # We tried to check the permission in project context, but it seems to be
+      # a global permission. Let's try again in global context.
+      #
+      # Eventhough this was NOT done in the old system.
+      # TODO: Maybe remove, when we now show weird new links in unexpected places
+      if e.allowed_contexts.include?(:global)
+        user.allowed_globally?(url)
+      else
+        false
+      end
     end
   end
 
