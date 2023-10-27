@@ -413,11 +413,13 @@ RSpec.describe 'baseline rendering',
         baseline_modal.toggle_drop_modal
         baseline_modal.select_filter 'yesterday'
         baseline_modal.apply
+
+        wait_for_reload # Ensure page is fully loaded
       end
 
       context 'and the query is saved' do
         before do
-          wp_table.save_as 'My Baseline Query'
+          wp_table.save_as('My Baseline Query', by_title: true)
         end
 
         it_behaves_like 'selecting a builtin view'
