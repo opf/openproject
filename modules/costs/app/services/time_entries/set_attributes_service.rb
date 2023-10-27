@@ -31,7 +31,7 @@ module TimeEntries
     private
 
     def set_attributes(attributes)
-      super
+      model.attributes = params
 
       ##
       # Update project context if moving time entry
@@ -39,14 +39,16 @@ module TimeEntries
         model.project = model.work_package&.project
       end
 
+      set_default_attributes(params) if model.new_record?
+
       # Always set the logging user as logged_by
       set_logged_by
     end
 
     def set_default_attributes(*)
       set_default_user
-      set_default_activity
       set_default_hours
+      set_default_activity if model.activity.nil?
     end
 
     def set_logged_by
@@ -62,7 +64,25 @@ module TimeEntries
     end
 
     def set_default_activity
-      model.activity ||= TimeEntryActivity.default
+      return unless TimeEntryActivity.default
+
+      if model.project
+        assign_default_project_activity
+      else
+        assign_default_activity
+      end
+    end
+
+    def assign_default_project_activity
+      if TimeEntryActivity.active_in_project(model.project).exists?(id: TimeEntryActivity.default.id)
+        assign_default_activity
+      end
+    end
+
+    def assign_default_activity
+      model.change_by_system do
+        model.activity = TimeEntryActivity.default
+      end
     end
 
     def set_default_hours
