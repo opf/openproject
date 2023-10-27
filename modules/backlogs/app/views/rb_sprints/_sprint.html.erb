@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="v"><%= id_or_empty(sprint) %></div>
   </div>
 
-  <% User.current.allowed_to?(:update_sprints, @project) ? editable = "editable" :  editable = "" %>
+  <% User.current.allowed_in_project?(:update_sprints, @project) ? editable = "editable" :  editable = "" %>
 
   <div class="show">
     <div class="effective_date date <%= editable %>" fieldname="effective_date" field_id=<%= sprint.id %>>
@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="name <%= editable %>" fieldname="name" field_id="<%= sprint.id %>"><%= sprint.name %></div>
   </div>
 
-  <% if User.current.allowed_to?(:update_sprints, @project) %>
+  <% if User.current.allowed_in_project?(:update_sprints, @project) %>
     <div class="editors permanent">
       <%= angular_component_tag "op-basic-single-date-picker",
                             inputs: {
