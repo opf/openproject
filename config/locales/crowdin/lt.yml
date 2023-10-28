@@ -3063,6 +3063,7 @@ lt:
       share: "Share"
       label_search: "Ieškoti naudotojų pakvietimui"
       label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
+      label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Komentuoti"
         comment_description: "Gali žiūrėti ir komentuoti šį darbo paketą."

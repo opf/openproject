@@ -599,6 +599,7 @@ af:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -643,6 +644,7 @@ af:
         mentioned: 'Mentioned'
         watched: 'Dophouer'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -665,6 +667,7 @@ af:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Gedelegeerde'
           responsible: 'Accountable'
+          shared: 'Shared'
           watched: 'Dophouer'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -1021,6 +1024,9 @@ af:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."
