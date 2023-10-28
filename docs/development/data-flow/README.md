@@ -6,7 +6,7 @@
 > * [Sub-Processors](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
 > * [Technical and Organizational Data Security Measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures/)
 
-Status of this document: DRAFT 2023-10-27
+Status of this document: DRAFT 2023-10-28
 
 ## Purpose and subject of processing
 
@@ -18,13 +18,13 @@ Depending on the individual permission and authentications settings persons can 
 
 To sign-in to the OpenProject platform, the registration of a user account is required. For registered user's the following personal data are processed:
 
-##### `bu-01` User profile
+##### User profile (bu-01)
 
 - Name
 - Username
 - Avatar
 
-##### `bu-02` User settings
+##### User settings (bu-02)
 
 - Email address
 - Notification settings
@@ -33,7 +33,7 @@ To sign-in to the OpenProject platform, the registration of a user account is re
 - Time zones
 - Display settings: High contrast mode, standard mode, dark mode, and custom themes.
 
-##### `bu-03` User authentication
+##### User authentication (bu-03)
 
 * Access token
 * User sessions
@@ -41,20 +41,20 @@ To sign-in to the OpenProject platform, the registration of a user account is re
 * Telephone number for sending one-time passwords via SMS
 * OATH secret code
 
-##### `bu-04` User notification settings
+##### User notification settings (bu-04)
 
 - Default notification settings
 - Notification settings per project 
 - Default email reminder settings
 - Email reminder settings per project
 
-##### `bu-05` User roles and permissions
+##### User roles and permissions (bu-05)
 
 - Group memberships
 - Project roles 
 - Global roles
 
-##### `bu-06` User rates
+##### User rates (bu-06)
 
 * Default hourly rate
 * Hourly rate per project
@@ -65,41 +65,41 @@ To sign-in to the OpenProject platform, the registration of a user account is re
 
 Depending on the individual use and permissions of the user the following personal data is processed:
 
-##### `cb-01` Boards
+##### Boards (cb-01) 
 
 - Change history
 - Persons named in boards
 - Assignments of work packages to persons
 
-##### `cb-02` Budgets
+##### Budgets (cb-02)
 
 - Change history
 - Assignments of persons to budgets
 - Persons named in budget descriptions
 
-##### `cc-01` Comments
+##### Comments (cc-01)
 
 - Change history
 - Persons named in comments
 
-##### `cd-01` Documents 
+##### Documents (cd-01) 
 
 - Change history
 - Persons named in file attachments incl. file attributes
 
-##### `ce-01` Email notifications
+##### Email notifications (ce-01)
 
 - Email header including sender and recipients
 - Persons named in the emails
 
-##### `cm-01` Meetings
+##### Meetings (cm-01)
 
 - Change history
 - Invitees
 - Participants
 - Persons named in agenda items
 
-##### `cp-01` Projects
+##### Projects (cp-01)
 
 - Change history
 
@@ -110,34 +110,34 @@ Depending on the individual use and permissions of the user the following person
 - Persons named in project status information
 
 
-##### `cp-02` Project calendars
+##### Project calendars (cp-02)
 
 - Change history
 - Persons named in the calendars
 - Assignments of work packages to persons
 
-##### `cp-03` Project news
+##### Project news (cp-03)
 
 - Change history
 - Persons named in project news
 
-##### `ct-01` Team planner
+##### Team planner (ct-01)
 
 - Change history
 - Persons named in team planners
 - Assignments of work packages to persons
 
-##### `ct-02` Time tracking
+##### Time tracking (ct-02)
 
 - Change history
 - Persons named in time entries
 
-##### `cw-01` Wiki pages
+##### Wiki pages (cw-01)
 
 - Modification history
 - Persons named in wiki pages
 
-##### `cw-02` Work packages
+##### Work packages (cw-02)
 
 - Change history
 - Persons named in lists and project schedules
@@ -178,25 +178,25 @@ The following diagram provides an overview of the data flows of personal data in
 %%{init: {'theme':'neutral'}}%%
 
 flowchart TD
-  browser[Client Browser] -->|"HTTP(s) requests"| loadbalancer(Load Balancer / Proxy)
-  A1[Native Clients] -->|"HTTP(s) requests"| loadbalancer
-  A2[SVN or Git Clients] -->|"HTTP(s) requests"| loadbalancer
+  browser[Client browser] -->|"HTTP(s) requests"| loadbalancer(Load balancer / proxy)
+  A1[Native clients] -->|"HTTP(s) requests"| loadbalancer
+  A2[SVN or Git clients] -->|"HTTP(s) requests"| loadbalancer
   loadbalancer -->|Proxy| openproject
   
   subgraph openproject[OpenProject Core Application]
-    openprojectrailsapp[Rails Application]
-    C[Puma App Server]
-    D[Background Worker]
+    openprojectrailsapp[Rails application]
+    C[Puma app server]
+    D[Background worker]
   end
 
 
   subgraph integrations[External Integrations]
   direction TB
-    idp["Identity Provider (idp)"]
+    idp["Identity provider (idp)"]
     nex["Nextcloud (nex)"]
     gih["GitHub (gih)"]
     cal["Calendar (cal)"]
-  	O["API Integrations (API)"]
+  	O["API integrations (api)"]
  
 end
 
@@ -204,8 +204,8 @@ end
   direction TB
   	M[Memcached]
 	  P[PostgreSQL]
-	  S[Object Storage or NFS]
-	  email["Email Gateways (eml)"]
+	  S[Object storage or NFS]
+	  email["Email gateways (eml)"]
   end
 
 
@@ -252,7 +252,7 @@ In the course of using the application, background tasks are enqueued in the dat
 - **Response**: Sends the HTTP response back through the Puma server and load balancer to the end-user.
 - **Background worker:** Operate on periodical background data, or perform actions requested by the web request of user (sending emails, exporting data, communicating with external services)
 
-### `idp` Sign-in using an identity provider
+### Identity provider (idp)
 
 #### Overview
 
@@ -265,20 +265,20 @@ flowchart LR
   
   subgraph IDP[Identity Provider]
    direction LR
-  	ssoprovider[SSO Provider]
+  	ssoprovider[SSO provider]
   	LDAP
   
   end
   
   subgraph openproject["Relying Party (OpenProject) "]
    direction LR
-  	ssoclient[SSO Client]
-  	ldapauthentication[LDAP Authentication]
-  	ldapgroupsync[LDAP Group Sync]
+  	ssoclient[SSO client]
+  	ldapauthentication[LDAP authentication]
+  	ldapgroupsync[LDAP group sync]
   	
 	end
 
-  subgraph localclients[Local Clients]
+  subgraph localclients[Local clients]
    direction LR
   	Browser
   	end
@@ -304,7 +304,7 @@ flowchart LR
 * `idp-02` TLS
 * `idp-03` TLS
 
-### `eml` Email 
+### Email (eml) 
 
 #### Data flows between subsystems 
 
@@ -313,12 +313,12 @@ flowchart LR
 %%{init: {'theme':'neutral'}}%%
 
 flowchart LR
-  A[User's Email Client] <-->|eml-01| B[User's Email Hoster]
-  B <-->|eml-02| C[Email Gateway]
-  C <-->|eml-03| D[Email Notification Service]
+  A[User's email client] <-->|eml-01| B[User's email hoster]
+  B <-->|eml-02| C[Email gateway]
+  C <-->|eml-03| D[Email notification service]
 
  
-   subgraph localclients[Local Clients]
+   subgraph localclients[Local clients]
   direction TB
   	A
     end
@@ -368,7 +368,7 @@ flowchart LR
 * `eml-03` TLS (encryption can be activated in the email settings in the OpenProject Administration)
 * **Note**: OpenProject does not support end-to-end encryption using GPG or S/MIME.
 
-### `cal` Calendar
+### Calendar (cal)
 
 #### Overview
 
@@ -376,10 +376,10 @@ flowchart LR
 %%{init: {'theme':'neutral'}}%%
 flowchart LR
  opicalapi[OpenProject's iCal API] --> |cal-01|B
- B[Calendar Web Application] -->|cal-03| localcalendarapp[Local Calendar Application] 
+ B[Calendar web application] -->|cal-03| localcalendarapp[Local calendar application] 
   opicalapi -->|cal-02| localcalendarapp
   
-  subgraph localclient[Local Clients]
+  subgraph localclient[Local clients]
   	direction TB
   		localcalendarapp
     end
@@ -392,7 +392,7 @@ flowchart LR
     
     subgraph OpenProject
  		direction TB
-  			projectcalendar[Project Calendar] --> opicalapi 
+  			projectcalendar[Project calendar] --> opicalapi 
     end
 ```
 
@@ -408,7 +408,7 @@ flowchart LR
 * `cal-02` TLS (not controlled by the OpenProject system)
 * `cal-03` TLS (not controlled by the OpenProject system) 
 
-### `nex` Nextcloud
+### Nextcloud (nex)
 
 #### Overview
 
@@ -417,23 +417,23 @@ flowchart LR
 flowchart LR
   Browser <--> |nex-01| openproject
   Browser <-->|nex-02| nextcloud
-  nextclouddesktopclient[Nextcloud Desktop Client] <-->|nex-03| nextcloudapi
+  nextclouddesktopclient[Nextcloud desktop client] <-->|nex-03| nextcloudapi
   appopenprojectintegration <-->|nex-04| openprojectapi
   
-  subgraph local[Local Clients]
+  subgraph local[Local clients]
   	Browser
   	nextclouddesktopclient
    end
 
 subgraph openproject[OpenProject]
    
-  	opnextcloudintegrattion[Nextcloud Integration]
+  	opnextcloudintegrattion[Nextcloud integration]
   	openprojectapi[API]
   		end
 
   subgraph nextcloud[Nextcloud]
-  	groupfolder[Group Folder App]
-  	appopenprojectintegration[OpenProject Integration App]
+  	groupfolder[Group folder app]
+  	appopenprojectintegration[OpenProject integration app]
   	nextcloudapi[API]
 	end 
   
@@ -458,7 +458,7 @@ subgraph openproject[OpenProject]
 * `nex-03` TLS
 * `nex-04` TLS
 
-### `gih` GitHub
+### GitHub (gih)
 
 #### Overview
 
@@ -476,14 +476,14 @@ flowchart LR
 
 	end
 	
-	subgraph localclients[Local Clients]
+	subgraph localclients[Local clients]
    direction TB
-  	gitclient[Git Client]
+  	gitclient[Git client]
 	end
 
   subgraph openproject[OpenProject]
    direction TB
-  	opgithubintegration[Github Integration] --- workpackagesmodule[Work Packages Module]
+  	opgithubintegration[Github integration] --- workpackagesmodule[Work packages module]
 	end
   
   
@@ -503,6 +503,42 @@ flowchart LR
 * `gih-01` TLS
 * `gih-02` TLS
 * `gih-03` TLS
+
+### API integrations (api)
+
+#### Overview
+
+```mermaid
+%%{init: {'theme':'neutral'}}%%
+flowchart LR
+	api <-->|api-01| apiintegration[API integration]
+	
+	subgraph externalintegreations[External integrations]
+   direction TB
+  	apiintegration
+	end
+
+  subgraph openproject[OpenProject]
+   direction TB
+  	api[API]
+	end
+  
+  
+```
+
+#### Purpose
+
+- Create, read, update and delete data from OpenProject.
+
+#### Processed data
+
+* All data the user has permissions to.
+
+> **Note**: Please the [API documentation](https://www.openproject.org/docs/api) for further information about all API endpoints.
+
+#### Security measure
+
+* `api-01` TLS
 
 ## Database schema 
 
