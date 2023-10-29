@@ -89,7 +89,8 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       'disable-gpu': nil,
       'disable-popup-blocking': nil,
       lang: language,
-      'no-sandbox': nil
+      'no-sandbox': nil,
+      'disable-smooth-scrolling': true
     }
 
     if ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'].present?

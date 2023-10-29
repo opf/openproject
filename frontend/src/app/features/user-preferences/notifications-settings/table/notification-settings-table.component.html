@@ -72,6 +72,21 @@
           </td>
         </ng-container>
       </tr>
+      <tr *ngIf="displaySharedOption">
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.shared }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="shared"
+              data-qa-project-notification-type="shared"
+              [attr.data-qa-project]="item.controls.project.value.title"
+            />
+          </td>
+        </ng-container>
+      </tr>
 
       <tr *ngIf="!eeShowBanners">
         <th class="op-table--cell op-table--cell_soft-heading">

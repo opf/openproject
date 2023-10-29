@@ -26,6 +26,7 @@ nl:
         name: "Naam"
         creator: "Maker"
         provider_type: "Provider type"
+        host: "Host"
       storages/file_link:
         origin_id: "Oorsprong ID"
     errors:
@@ -60,21 +61,32 @@ nl:
     default_name: "My storage"
     unknown_storage: "Onbekende opslag"
     buttons:
+      done_continue: "Done, continue"
       done_continue_setup: "Klaar. Ga verder met instellen"
       done_complete_setup: "Voltooid, installatie voltooien"
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Vervang OpenProject OAuth"
       replace_provider_type_oauth: "Vervang %{provider_type} OAuth"
       save: "Save"
+      save_and_continue: "Save and continue"
       save_and_continue_setup: "Opslaan en doorgaan met instellen"
       save_and_complete_setup: "Opslaan en de installatie voltooien"
       select_folder: "Selecteer map"
       configure: "Configureren"
+    file_storage_view:
+      general_information: "General information"
+      oauth_applications: "OAuth applications"
+      project_folders: "Project folders"
+      storage_provider: "Storage provider"
+      openproject_oauth: "OpenProject OAuth"
+      nextcloud_oauth: "Nextcloud OAuth"
+      automatically_managed_folders: "Automatically managed folders"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Automatisch beheerde projectmappen"
+        subtitle_short: "Let OpenProject create folders per project automatically."
         subtitle: >
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
@@ -87,12 +99,14 @@ nl:
         title: "Verbindingsstatus leden"
         subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
+      provider_type: "Please make sure you have administration privileges in your Nextcloud instance and the application %{type_link_text} is installed before doing the setup."
       type: "Zorg ervoor dat u beheerrechten heeft in uw Nextcloud en dat de volgende applicatie geïnstalleerd is voordat u de installatie uitvoert:"
       type_link_text: "Integratie met OpenProject\""
       name: "Geef uw opslag een naam zodat gebruikers onderscheid kunnen maken tussen meerdere opslagplaatsen."
       host: "Voeg het hostadres van je opslag toe, inclusief de https://. Het mag niet langer dan 255 tekens zijn."
       managed_project_folders_application_password: >
         Kopieer deze waarde van:
+      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
       no_storage_set_up: "Er zijn nog geen bestandsopslagplaatsen ingesteld."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
@@ -105,6 +119,8 @@ nl:
       setting_up_storages: "Voor het opzetten van extra bestandsopslag, bezoek a.u.b."
       setting_up_storages_non_admin: "Beheerders kunnen bestandsopslag in Administratie / Bestandsopslag instellen."
       all_available_storages_already_added: "Alle beschikbare opslagplaatsen zijn al toegevoegd aan het project."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
       copy_from: "Kopieer deze waarde van"
       nextcloud:
         integration: "Nextcloud administratie / OpenProject"
@@ -124,6 +140,7 @@ nl:
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     configuration_checks:
       incomplete: "The setup of this storage is incomplete."
+      oauth_client_incomplete: "Allow OpenProject to access %{provider} data using an OAuth."
     delete_warning:
       storage: >
         Weet u zeker dat u deze opslag wilt verwijderen? Dit zal ook de opslag verwijderen uit alle projecten waar het wordt gebruikt. Bovendien zal het alle links van werkpakketten naar bestanden die in die opslag zijn opgeslagen verwijderen.
@@ -138,12 +155,14 @@ nl:
       description: "Add a storage to see them here."
     label_active: "Actief"
     label_add_new_storage: "Add new storage"
+    label_delete_storage: "Delete storage"
     label_inactive: "Inactief"
     label_creator: "Maker"
     label_provider: "Provider"
     label_file_link: "Bestand link"
     label_file_links: "Bestand links"
     label_creation_time: "Creation time"
+    label_connected: "Connected"
     label_incomplete: "Incomplete"
     label_name: "Naam"
     label_host: "Host URL"
@@ -157,11 +176,18 @@ nl:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth applicatie details"
     label_oauth_client_details: "OAuth clientdetails"
+    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
     label_information: "Additional information"
     label_provider_type: "Provider type"
     label_project_folder: "Projectmap"
     label_new_storage: "Nieuwe opslag"
     label_edit_storage: "Edit storage"
+    label_edit_storage_host: "Edit storage host"
+    label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Bestaande map met handmatig beheerde machtigingen"
     label_no_specific_folder: "Geen specifieke map"
     label_automatic_folder: "Nieuwe map met automatisch beheerde machtigingen"

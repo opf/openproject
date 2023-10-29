@@ -598,6 +598,7 @@ ru:
         processed: 'обработано'
         prioritized: 'приоритизировано'
         dateAlert: 'Дата оповещения'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Дата контрольной точки'
         overdue: 'Просрочено'
@@ -644,6 +645,7 @@ ru:
         mentioned: 'Упомянутые'
         watched: 'Наблюдатель'
         date_alert: 'Дата оповещения'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Измените <a target="_blank" href="%{url}">настройки уведомлений</a> , чтобы не пропустить важное обновление.'
         title: "Настройки уведомлений"
@@ -666,6 +668,7 @@ ru:
             description: 'Получать уведомления каждый раз, когда кто-то упоминает меня'
           assignee: 'Назначенный'
           responsible: 'Подотчетный'
+          shared: 'Shared'
           watched: 'Наблюдатель'
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
@@ -1022,6 +1025,9 @@ ru:
       sharing:
         share: 'Поделиться'
         title: "Поделиться пакетом работ"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Настроить таблицу пакета работ'
         summary: "Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах."

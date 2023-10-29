@@ -41,7 +41,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
-  before_action :find_model_object, only: %i[show destroy edit update replace_oauth_application]
+  before_action :find_model_object, only: %i[show destroy edit edit_host update replace_oauth_application]
   before_action :prepare_update_params, only: %i[update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
@@ -106,6 +106,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # default attribute values because the object already exists;
   # Called by: Global app/config/routes.rb to serve Web page
   def edit; end
+  def edit_host; end
 
   # Update is similar to create above
   # See also: create above
@@ -114,10 +115,13 @@ class Storages::Admin::StoragesController < ApplicationController
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user, model: @storage)
                        .call(@storage_params)
+    @storage = service_result.result
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to edit_admin_settings_storage_path(@storage)
+    elsif OpenProject::FeatureDecisions.storage_primer_design_active?
+      render :edit_host
     else
       render :edit
     end
@@ -140,10 +144,12 @@ class Storages::Admin::StoragesController < ApplicationController
   def replace_oauth_application
     @storage.oauth_application.destroy
     service_result = ::Storages::OAuthApplications::CreateService.new(storage: @storage, user: current_user).call
+    @oauth_application = service_result.result
 
     if service_result.success?
       flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
-      @oauth_application = service_result.result
+      render :show_oauth_application
+    elsif OpenProject::FeatureDecisions.storage_primer_design_active?
       render :show_oauth_application
     else
       render :edit
@@ -187,7 +193,20 @@ class Storages::Admin::StoragesController < ApplicationController
   # update parameters are correctly set.
   def permitted_storage_params
     params
-      .require(:storages_storage)
+      .require(storage_provider_parameter_name)
       .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret', 'tenant_id', 'drive_id')
+  end
+
+  # TODO: Work out how to retrieve the storage provider resource name as it's based on the provider type
+  # PrimerForms implements Rails `form_with` which doesn't support overriding the form name as we would with
+  # `form_for`.
+  # See: https://github.com/opf/primer_view_components/blob/79fb58474771bd06946554f8325cd0b1bdd6dd31/app/helpers/primer/form_helper.rb#L7
+  #
+  def storage_provider_parameter_name
+    if params.key?(:storages_nextcloud_storage)
+      :storages_nextcloud_storage
+    else
+      :storages_storage
+    end
   end
 end

@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, webmock: true do
+RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, :webmock do
   let(:current_user) { create(:admin) }
   let(:storage_host) { 'https://host1.example.com' }
   let(:storage) { build(:nextcloud_storage, host: storage_host) }
@@ -55,13 +55,13 @@ RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, w
   end
 
   describe 'Nextcloud application credentials validation' do
-    before do
-      mock_server_capabilities_response(storage.host)
-      mock_server_config_check_response(storage.host)
-    end
-
     context 'with valid credentials' do
       let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
+
+      before do
+        mock_server_capabilities_response(storage.host)
+        mock_server_config_check_response(storage.host)
+      end
 
       it 'passes validation' do
         credentials_request = mock_nextcloud_application_credentials_validation(storage.host)
@@ -117,6 +117,20 @@ RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, w
           expect(subject).to be_valid
           expect(credentials_request).to have_been_made.once
         end
+      end
+    end
+
+    context 'when the storage host is nil' do
+      let(:storage) { build(:nextcloud_storage, :as_automatically_managed, host: nil) }
+
+      before do
+        allow(NextcloudApplicationCredentialsValidator).to receive(:new).and_call_original
+      end
+
+      it 'fails validation' do
+        expect(subject).not_to be_valid
+        expect(subject.errors.to_hash).to eq({ host: ["is not a valid URL."] })
+        expect(NextcloudApplicationCredentialsValidator).not_to have_received(:new)
       end
     end
   end

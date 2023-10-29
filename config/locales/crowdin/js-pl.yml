@@ -599,6 +599,7 @@ pl:
         processed: 'przetworzono'
         prioritized: 'priorytetowo'
         dateAlert: 'Alert dotyczący daty'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data  kamienia milowego'
         overdue: 'Przekroczony termin'
@@ -645,6 +646,7 @@ pl:
         mentioned: 'Wzmianka'
         watched: 'Obserwator'
         date_alert: 'Data ostrzeżenia'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Możesz zmodyfikować <a target="_blank" href="%{url}">ustawienia powiadomień</a>, aby upewnić się, że nigdy nie przegapisz ważnej aktualizacji.'
         title: "Ustawienia powiadomień"
@@ -667,6 +669,7 @@ pl:
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
           assignee: 'Przypisana osoba'
           responsible: 'Osoba odpowiedzialna'
+          shared: 'Shared'
           watched: 'Obserwator'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'
@@ -1023,6 +1026,9 @@ pl:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."

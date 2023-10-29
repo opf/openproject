@@ -599,6 +599,7 @@ it:
         processed: 'elaborato'
         prioritized: 'prioritizzato'
         dateAlert: 'Avviso data'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data inizio'
         overdue: 'In ritardo'
@@ -643,6 +644,7 @@ it:
         mentioned: 'Menzionato'
         watched: 'Osservatore'
         date_alert: 'Avviso data'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Puoi modificare le tue <a target="_blank" href="%{url}">impostazioni di notifica</a> per assicurarti di non perderti mai un aggiornamento importante.'
         title: "Impostazioni notifiche"
@@ -665,6 +667,7 @@ it:
             description: 'Ricevi una notifica ogni volta che qualcuno ti menziona ovunque'
           assignee: 'Assegnatario'
           responsible: 'Responsabile'
+          shared: 'Shared'
           watched: 'Osservatore'
           work_package_commented: 'Tutti i nuovi commenti'
           work_package_created: 'Nuove macro-attività'
@@ -1021,6 +1024,9 @@ it:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configura la tabella della macro-attività'
         summary: "Tabella con righe di macro-attività e colonne dei loro attributi."

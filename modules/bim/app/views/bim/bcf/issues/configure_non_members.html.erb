@@ -5,7 +5,7 @@
                                                  error_objects: @importer.aggregations.non_members,
                                                  error_default_text: t('bcf.bcf_xml.import.unknown_property')} %>
   <% if @roles.any? %>
-    <% if User.current.allowed_to?(:manage_members, @project) %>
+    <% if User.current.allowed_in_project?(:manage_members, @project) %>
 
       <%= render partial: 'import_solution', locals: { solution_select_id: 'non_members_chose_role_ids',
                                                        hidden_field_identifier: 'non_members_action',

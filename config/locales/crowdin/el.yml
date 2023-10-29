@@ -3005,6 +3005,7 @@ el:
       share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Comment"
         comment_description: "Can view and comment this work package."

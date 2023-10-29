@@ -1,24 +1,27 @@
 #!/bin/bash
 set -e
 
-export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
+export PATH="/usr/lib/postgresql/$PGVERSION/bin:$PATH"
 export JOBS="${CI_JOBS:=$(nproc)}"
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
 export PARALLEL_TEST_FIRST_IS_1=true
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
-export NODE_OPTIONS="--max-old-space-size=8192"
+# export NODE_OPTIONS="--max-old-space-size=8192"
 export LOG_FILE=/tmp/op-output.log
+export PGUSER=${PGUSER:=postgres}
+export PGHOST=${PGHOST:=localhost}
+export PGPASSWORD=${PGPASSWORD:=p4ssw0rd}
+export DATABASE_URL="postgres://$PGUSER:$PGPASSWORD@$PGHOST/postgres"
 
 run_psql() {
-	$PGBIN/psql -v ON_ERROR_STOP=1 -U dev -h 127.0.0.1 "$@"
+	psql -v ON_ERROR_STOP=1 "$@"
 }
 
 cleanup() {
 	exit_code=$?
 	echo "CLEANUP"
 	rm -rf tmp/cache/parallel*
-	if [ -d tmp/features ]; then mv tmp/features spec/ ; fi
 
 	if [ ! $exit_code -eq "0" ]; then
 		echo "ERROR: exit code $exit_code"
@@ -49,8 +52,16 @@ reset_dbs() {
 	execute_quiet "cat db/structure.sql | run_psql -d appdb"
 	# create and load schema for test databases "appdb1" to "appdb$JOBS", far faster than using parallel_rspec tasks for that
 	for i in $(seq 1 $JOBS); do
-		execute_quiet "echo 'drop database if exists appdb$i ; create database appdb$i with template appdb owner appuser;' | run_psql -d postgres"
+		execute_quiet "echo 'drop database if exists appdb$i ; create database appdb$i with template appdb owner $PGUSER;' | run_psql -d postgres"
 	done
+}
+
+precompile_assets() {
+	execute "JOBS=8 npm install"
+	execute_quiet "DATABASE_URL=nulldb://db bin/rails openproject:plugins:register_frontend assets:precompile"
+	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
+	# ls -al frontend/.angular/cache/
+	# find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
 }
 
 setup_tests() {
@@ -60,49 +71,44 @@ setup_tests() {
 		execute_quiet "rm -rf '$folder' ; mkdir -p '$folder' ; chmod 1777 '$folder'"
 	done
 
-	if [ ! -d "/tmp/nulldb" ]; then
-		execute_quiet "$PGBIN/initdb -E UTF8 -D /tmp/nulldb"
-		execute_quiet "cp docker/ci/postgresql.conf /tmp/nulldb/"
-		execute_quiet "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start"
-		echo "create database appdb; create user appuser with superuser encrypted password 'p4ssw0rd'; grant all privileges on database appdb to appuser;" | run_psql -d postgres
-	fi
+	execute_quiet "cp docker/ci/database.yml config/"
+	execute_quiet "mkdir -p spec/support/runtime-logs/"
+
+	execute "BUNDLE_JOBS=4 bundle install"
+	execute_quiet "bundle clean --force"
 
 	# create test database "app" and dump schema because db/structure.sql is not checked in
-	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check"
+	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump zeitwerk:check"
 
 	# pre-cache browsers and their drivers binaries
 	execute "$(bundle show selenium)/bin/linux/selenium-manager --browser chrome --debug"
 	execute "$(bundle show selenium)/bin/linux/selenium-manager --browser firefox --debug"
+
+	precompile_assets
 }
 
 run_units() {
 	shopt -s extglob
 	reset_dbs
-	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/ || true"
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)"
-	execute_quiet "cp -f spec/support/turbo_runtime_units.log /cache/ || true"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)"
 	cleanup
 }
 
 run_features() {
 	shopt -s extglob
 	reset_dbs
-	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/ || true"
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features modules/**/spec/features"
-	execute_quiet "cp -f spec/support/turbo_runtime_features.log /cache/ || true"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log spec/features modules/**/spec/features"
 	cleanup
 }
 
 run_all() {
 	shopt -s globstar
 	reset_dbs
-	execute_quiet "cp -f /cache/turbo_runtime_all.log spec/support/ || true"
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_all.log spec modules/**/spec"
-	execute_quiet "cp -f spec/support/turbo_runtime_all.log /cache/ || true"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_all.log spec modules/**/spec"
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql reset_dbs setup_tests run_units run_features
+export -f cleanup execute execute_quiet run_psql reset_dbs setup_tests precompile_assets run_units run_features
 
 if [ "$1" == "setup-tests" ]; then
 	shift

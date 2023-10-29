@@ -598,6 +598,7 @@ tr:
         processed: 'işlem uygulandı'
         prioritized: 'öncelik verildi'
         dateAlert: 'Tarih uyarısı'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Kilometre taşı tarihi'
         overdue: 'Süresi geçmiş'
@@ -642,6 +643,7 @@ tr:
         mentioned: 'Bahsedilen'
         watched: 'İzleyici'
         date_alert: 'Tarih uyarısı'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Önemli bir güncellemeyi asla kaçırmamak için <a target="_blank" href="%{url}">bildirim ayarlarınızı</a> değiştirebilirsiniz.'
         title: "Bildirim ayarları"
@@ -664,6 +666,7 @@ tr:
             description: 'Birisi herhangi bir yerde benden her bahsettiğinde bir bildirim alın'
           assignee: 'Atanan'
           responsible: 'Sorumlu'
+          shared: 'Shared'
           watched: 'İzleyici'
           work_package_commented: 'Tüm yeni yorumlar'
           work_package_created: 'Yeni iş paketleri'
@@ -1020,6 +1023,9 @@ tr:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'İş paketi tablosunu kopyala'
         summary: "İş paketi satır tabloları ve iş paketi nitelik sütunları."

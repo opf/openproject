@@ -3066,6 +3066,7 @@ ru:
       share: "Share"
       label_search: "Искать пользователей для приглашения"
       label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
+      label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Комментарий"
         comment_description: "Может просматривать и комментировать этот пакет работ."

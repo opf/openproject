@@ -598,6 +598,7 @@ zh-CN:
         processed: '已处理'
         prioritized: '已优先安排'
         dateAlert: '日期提醒'
+        shared: 'shared'
       date_alerts:
         milestone_date: '里程碑日期'
         overdue: '逾期'
@@ -641,6 +642,7 @@ zh-CN:
         mentioned: '被提及'
         watched: '关注者'
         date_alert: '日期提醒'
+        shared: 'Shared'
       settings:
         change_notification_settings: '您可以修改您的<a target="_blank" href="%{url}">通知设置</a>，以确保您不会错过重要的更新。'
         title: "通知设置"
@@ -663,6 +665,7 @@ zh-CN:
             description: '每当有人在任何位置提及我时都接收通知'
           assignee: '受理人'
           responsible: '负责人'
+          shared: 'Shared'
           watched: '关注者'
           work_package_commented: '所有新评论'
           work_package_created: '新工作包'
@@ -1019,6 +1022,9 @@ zh-CN:
       sharing:
         share: '共享'
         title: "共享工作包"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: '配置工作包表'
         summary: "行为工作包且列为工作包属性的表格。"

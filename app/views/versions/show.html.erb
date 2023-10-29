@@ -66,7 +66,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render partial: 'versions/overview', locals: { version: @version } %>
   </div>
 
-  <% if @version.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
+  <% if @version.estimated_hours > 0 || User.current.allowed_in_project?(:view_time_entries, @project) %>
     <div class="widget-box -thin">
       <fieldset class="form--fieldset">
         <legend class="form--fieldset-legend"><%= t(:label_estimates_and_time) %></legend>
@@ -75,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
             <td width="130px" align="right"><%= Version.human_attribute_name(:estimated_hours) %></td>
             <td width="240px" class="total-hours" align="right"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
           </tr>
-          <% if User.current.allowed_to?(:view_time_entries, @project) %>
+          <% if User.current.allowed_in_project?(:view_time_entries, @project) %>
             <tr>
               <td width="130px" align="right"><%= t(:label_spent_time) %></td>
               <td width="240px" class="total-hours" align="right"><%= html_hours(l_hours(@version.spent_hours)) %></td>
