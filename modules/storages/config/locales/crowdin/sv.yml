@@ -68,7 +68,7 @@ sv:
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save: "Spara"
-      save_and_continue: "Save and continue"
+      save_and_continue: "Spara och fortsätt"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"

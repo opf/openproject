@@ -132,9 +132,9 @@ lt:
           Kopijuokite kliento paslaptį iš Azure portalo. Naujai sukurtai aplikacijai paslaptį visų pirma reikia sukurti rankomis. Žiniatinklio aplikacijos autorizacijai paslaptis yra privaloma.
         missing_client_id_for_redirect_uri: "Trūksta kliento ID, kad būtų teikiamas nukreipimo URI."
         tenant_id: >
-          Please insert the tenant ID you got from your SharePoint administrator.
+          Prašome įterpti tiekėjo ID, kurį jūs gavote iš jūsų SharePoint administratoriaus.
         drive_id: >
-          The drive ID can be obtained by you SharePoint administrator.
+          Disko ID galima gauti iš jūsų SharePoint administratoriaus.
     help_texts:
       project_folder: >
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
@@ -180,7 +180,7 @@ lt:
     label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
     label_oauth_client_id: "OAuth Client ID"
     label_oauth_client_secret: "OAuth Client Secret"
-    label_information: "Additional information"
+    label_information: "Papildoma informacija"
     label_provider_type: "Tiekėjo tipas"
     label_project_folder: "Projekto aplankas"
     label_new_storage: "Nauja saugykla"
