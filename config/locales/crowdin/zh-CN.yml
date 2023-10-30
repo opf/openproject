@@ -2970,7 +2970,7 @@ zh-CN:
       share: "分享"
       label_search: "搜索要邀请的用户"
       label_search_placeholder: "按用户名或电子邮件地址搜索"
-      label_toggle_all: "Toggle all shares"
+      label_toggle_all: "切换所有共享"
       permissions:
         comment: "评论"
         comment_description: "可以查看和评论此工作包。"

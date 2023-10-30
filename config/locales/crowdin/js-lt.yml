@@ -599,7 +599,7 @@ lt:
         processed: 'apdorota'
         prioritized: 'prioritetizuota'
         dateAlert: 'Datos įspėjimas'
-        shared: 'shared'
+        shared: 'bendrinta'
       date_alerts:
         milestone_date: 'Gairės data'
         overdue: 'Vėluojama'
@@ -646,7 +646,7 @@ lt:
         mentioned: 'Paminėtas'
         watched: 'Stebėtojas'
         date_alert: 'Datos įspėjimas'
-        shared: 'Shared'
+        shared: 'Bendrinta'
       settings:
         change_notification_settings: 'Jūs galite keisti savo <a target="_blank" href="%{url}">pranešimų nustatymus</a>, kad užtikrintumėte, jog niekada nepraleisite svarbaus atnaujinimo.'
         title: "Pranešimų nustatymai"
@@ -669,7 +669,7 @@ lt:
             description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
           assignee: 'Paskirtas'
           responsible: 'Atsakingas'
-          shared: 'Shared'
+          shared: 'Bendrinta'
           watched: 'Stebėtojas'
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'
@@ -1026,9 +1026,9 @@ lt:
       sharing:
         share: 'Dalintis'
         title: "Dalintis darbo paketu"
-        selected_count: "%{count} selected"
+        selected_count: "%{count} pažymėta"
         selection:
-          mixed: "Mixed"
+          mixed: "Mišrus"
       table:
         configure_button: 'Sukonfigūruokite darbų paketo lentelę'
         summary: "Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų."
