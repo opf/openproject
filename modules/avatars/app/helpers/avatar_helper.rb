@@ -45,8 +45,8 @@ module AvatarHelper
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(principal, size: 'default', hide_name: true, **options)
-    build_principal_avatar_tag principal, size:, hide_name:, **options
+  def avatar(principal, size: 'default', hide_name: true, classes_for_name: '', **options)
+    build_principal_avatar_tag principal, size:, hide_name:, classes_for_name:, **options
   rescue StandardError => e
     Rails.logger.error "Failed to create avatar for #{principal}: #{e}"
     ''.html_safe
