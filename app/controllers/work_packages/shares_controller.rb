@@ -58,11 +58,11 @@ class WorkPackages::SharesController < ApplicationController
       end
     end
 
-    @shares = overall_result.map(&:result)
+    @shares = overall_result.map(&:result).reverse
 
     unless overall_result.nil?
       if current_visible_member_count > 1
-        respond_with_prepend_share
+        respond_with_prepend_shares
       else
         respond_with_replace_modal
       end
@@ -99,7 +99,7 @@ class WorkPackages::SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def respond_with_prepend_share
+  def respond_with_prepend_shares
     replace_via_turbo_stream(
       component: WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package)
     )
