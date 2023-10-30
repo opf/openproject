@@ -38,7 +38,14 @@ FactoryBot.define do
     trait :with_oauth_client do
       oauth_client { build(:oauth_client) }
     end
-    # rubocop:enable FactoryBot/FactoryAssociationWithStrategy
+
+    trait :as_generic do
+      provider_type { 'Storages::Storage' }
+    end
+
+    trait :as_generic do
+      provider_type { 'Storages::Storage' }
+    end
   end
 
   factory :nextcloud_storage,

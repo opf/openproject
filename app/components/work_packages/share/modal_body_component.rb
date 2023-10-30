@@ -32,6 +32,7 @@ module WorkPackages
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include WorkPackages::Share::Concerns::Authorization
 
       def initialize(work_package:)
         super
@@ -72,12 +73,13 @@ module WorkPackages
         list_container.instance_variable_set(:@list_arguments, new_list_arguments)
       end
 
-      def shared_users
-        @shared_users ||= User
-                          .having_entity_membership(@work_package)
-                          .includes(work_package_shares: :roles)
-                          .where(work_package_shares: { entity: @work_package })
-                          .ordered_by_name
+      def shared_principals
+        @shared_principals ||= Principal
+                                .having_entity_membership(@work_package)
+                                .includes(work_package_shares: :roles)
+                                .where(work_package_shares: { entity: @work_package })
+                                .merge(MemberRole.only_non_inherited)
+                                .ordered_by_name
       end
     end
   end

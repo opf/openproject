@@ -41,6 +41,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotificationPageQueryParameters } from '../../in-app-notifications.routes';
 import { IanMenuService } from './state/ian-menu.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const ianMenuSelector = 'op-ian-menu';
 
@@ -102,6 +103,13 @@ export class IanMenuComponent implements OnInit {
     },
   ];
 
+  sharedMenuItem = {
+    key: 'shared',
+    title: this.I18n.t('js.notifications.menu.shared'),
+    icon: 'share',
+    ...getUiLinkForFilters({ filter: 'reason', name: 'shared' }),
+  };
+
   notificationsByProject$ = this.ianMenuService.notificationsByProject$.pipe(
     map((items) => items
       .map((item) => ({
@@ -162,7 +170,12 @@ export class IanMenuComponent implements OnInit {
     readonly ianMenuService:IanMenuService,
     readonly state:StateService,
     readonly bannersService:BannersService,
-  ) { }
+    readonly configurationService:ConfigurationService,
+  ) {
+    if (this.configurationService.activeFeatureFlags.includes('workPackageSharing')) {
+      this.reasonMenuItems.push(this.sharedMenuItem);
+    }
+  }
 
   ngOnInit():void {
     this.ianMenuService.reload();

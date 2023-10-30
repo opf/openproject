@@ -599,6 +599,7 @@ cs:
         processed: 'zpracováno'
         prioritized: 'upřednostněno'
         dateAlert: 'Upozornění na datum'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Datum milníku'
         overdue: 'Po termínu'
@@ -645,6 +646,7 @@ cs:
         mentioned: 'Zmíněné'
         watched: 'Sledující'
         date_alert: 'Upozornění na datum'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Nastavení oznámení"
@@ -667,6 +669,7 @@ cs:
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           assignee: 'Řešitel'
           responsible: 'Odpovědný'
+          shared: 'Shared'
           watched: 'Sledující'
           work_package_commented: 'Všechny nové komentáře'
           work_package_created: 'Nový pracovní balíček'
@@ -1023,6 +1026,9 @@ cs:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Konfigurovat tabulku pracovních balíčků'
         summary: "Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku."

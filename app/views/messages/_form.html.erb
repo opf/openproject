@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.check_box :locked, label: I18n.t('js.label_board_locked') %>
   </div>
 <% end %>
-<% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
+<% if !replying && !@message.new_record? && User.current.allowed_in_project?(:edit_messages, @project) %>
   <div class="form--field">
     <%= f.select :forum_id, @project.forums.collect {|b| [b.name, b.id]}, label: Forum.model_name.human, container_class: '-wide' %>
   </div>

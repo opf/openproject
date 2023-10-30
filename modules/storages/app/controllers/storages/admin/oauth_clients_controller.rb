@@ -63,16 +63,18 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     @oauth_client = service_result.result
 
     service_result.on_failure do
-      @errors = service_result.errors
       render '/storages/admin/storages/new_oauth_client'
     end
 
     service_result.on_success do
       flash[:notice] = I18n.t(:notice_successful_create)
 
-      if @storage.provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD &&
-        @storage.automatic_management_unspecified?
-        redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
+      if @storage.provider_type_nextcloud? && @storage.automatic_management_unspecified?
+        if OpenProject::FeatureDecisions.storage_primer_design_active?
+          redirect_to edit_admin_settings_storage_path(@storage)
+        else
+          redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
+        end
       else
         redirect_to edit_admin_settings_storage_path(@storage)
       end

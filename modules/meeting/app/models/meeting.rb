@@ -56,25 +56,17 @@ class Meeting < ApplicationRecord
 
   acts_as_watchable
 
-  acts_as_searchable columns: ["#{table_name}.title", "#{MeetingContent.table_name}.text"],
-                     include: %i[contents project],
-                     references: :meeting_contents,
+  acts_as_searchable columns: [
+                       "#{table_name}.title",
+                       "#{MeetingContent.table_name}.text",
+                       "#{MeetingAgendaItem.table_name}.title",
+                       "#{MeetingAgendaItem.table_name}.notes"
+                     ],
+                     include: %i[contents project agenda_items],
+                     references: %i[meeting_contents agenda_items],
                      date_column: "#{table_name}.created_at"
 
-  acts_as_journalized
-  acts_as_event title: Proc.new { |o|
-                         "#{I18n.t(:label_meeting)}: #{o.title} \
-        #{format_date o.start_time} \
-        #{format_time o.start_time, false}-#{format_time o.end_time, false})"
-                       },
-                url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
-                author: Proc.new(&:user),
-                description: ''
-
-  register_journal_formatted_fields(:plaintext, 'title')
-  register_journal_formatted_fields(:fraction, 'duration')
-  register_journal_formatted_fields(:datetime, 'start_time')
-  register_journal_formatted_fields(:plaintext, 'location')
+  include Meeting::Journalized
 
   accepts_nested_attributes_for :participants, allow_destroy: true
 

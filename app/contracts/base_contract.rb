@@ -125,15 +125,6 @@ class BaseContract < Disposable::Twin
     @options = options
   end
 
-  # we want to add a validation error whenever someone sets a property that we don't know.
-  # However AR will cleverly try to resolve the value for erroneous properties. Thus we need
-  # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
-  def read_attribute_for_validation(attribute)
-    if respond_to? attribute
-      send attribute
-    end
-  end
-
   def writable_attributes
     @writable_attributes ||= reduce_writable_attributes(collect_writable_attributes)
   end
@@ -156,6 +147,14 @@ class BaseContract < Disposable::Twin
 
   def self.model_name
     ActiveModel::Name.new(model, nil)
+  end
+
+  def errors
+    if model.respond_to?(:errors)
+      model.errors
+    else
+      super
+    end
   end
 
   def self.model
@@ -240,7 +239,7 @@ class BaseContract < Disposable::Twin
     attributes
   end
 
-  def reduce_by_writable_permissions(attributes)
+  def reduce_by_writable_permissions(attributes) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     attributes.reject do |attribute|
@@ -254,9 +253,18 @@ class BaseContract < Disposable::Twin
 
       # This will break once a model that does not respond to project is used.
       # This is intended to be worked on then with the additional knowledge.
-      next if permissions.any? { |p| user.allowed_to?(p, model.project, global: model.project.nil?) }
+      next if model.project.present? && permissions.any? { |perm| user.allowed_in_project?(perm, model.project) }
+      next if model.project.blank? && permissions.any? { |perm| user.allowed_in_any_project?(perm) }
 
       true
     end
+  end
+
+  def with_merged_former_errors
+    former_errors = errors.dup
+
+    yield
+
+    errors.merge!(former_errors)
   end
 end

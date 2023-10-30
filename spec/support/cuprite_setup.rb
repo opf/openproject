@@ -76,6 +76,10 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       options = options.merge(window_size:)
     end
 
+    if headful_mode? && ENV['OPENPROJECT_TESTING_SLOWDOWN_FACTOR']
+      options = options.merge(slowmo: ENV['OPENPROJECT_TESTING_SLOWDOWN_FACTOR'])
+    end
+
     if ENV['CHROME_URL'].present?
       options = options.merge(url: ENV['CHROME_URL'])
     end
@@ -85,7 +89,8 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       'disable-gpu': nil,
       'disable-popup-blocking': nil,
       lang: language,
-      'no-sandbox': nil
+      'no-sandbox': nil,
+      'disable-smooth-scrolling': true
     }
 
     if ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'].present?

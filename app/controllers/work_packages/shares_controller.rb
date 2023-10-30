@@ -28,6 +28,7 @@
 
 class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
+  include MemberCreation
 
   before_action :find_work_package, only: %i[index create]
   before_action :find_share, only: %i[destroy update]
@@ -39,14 +40,22 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
+    user_id = params[:member][:user_id]
+
+    # In case, the user does not exist yet: create one
+    if user_id.to_i == 0
+      service_call = create_members(send_notification: false)
+      user_id = service_call.result.user_id
+    end
+
     @share = WorkPackageMembers::CreateOrUpdateService
       .new(user: current_user)
       .call(entity: @work_package,
-            user_id: params[:member][:user_id],
+            user_id:,
             role_ids: find_role_ids(params[:member][:role_id])).result
 
 
-    if current_member_count > 1
+    if current_visible_member_count > 1
       respond_with_prepend_share
     else
       respond_with_replace_modal
@@ -58,7 +67,7 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call(role_ids: find_role_ids(params[:role_ids]))
 
-    head :no_content
+    respond_with_update_permission_button
   end
 
   def destroy
@@ -66,7 +75,7 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call
 
-    if current_member_count.zero?
+    if current_visible_member_count.zero?
       respond_with_replace_modal
     else
       respond_with_remove_share
@@ -89,12 +98,21 @@ class WorkPackages::SharesController < ApplicationController
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::ShareCounterComponent.new(count: current_member_count)
+      component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
     prepend_via_turbo_stream(
       component: WorkPackages::Share::ShareRowComponent.new(share: @share),
       target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def respond_with_update_permission_button
+    replace_via_turbo_stream(
+      component: WorkPackages::Share::PermissionButtonComponent.new(share: @share,
+                                                                    data: { 'test-selector': 'op-share-wp-update-role' })
     )
 
     respond_with_turbo_streams
@@ -106,7 +124,7 @@ class WorkPackages::SharesController < ApplicationController
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::ShareCounterComponent.new(count: current_member_count)
+      component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
     respond_with_turbo_streams
@@ -131,7 +149,11 @@ class WorkPackages::SharesController < ApplicationController
     WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
   end
 
-  def current_member_count
-    @current_member_count ||= Member.of_work_package(@work_package).size
+  def current_visible_member_count
+    @current_visible_member_count ||= Member
+                                        .joins(:member_roles)
+                                        .of_work_package(@work_package)
+                                        .merge(MemberRole.only_non_inherited)
+                                        .size
   end
 end

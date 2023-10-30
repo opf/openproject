@@ -32,7 +32,7 @@ module Storages
   module Peripherals
     module StorageInteraction
       module OneDrive
-        class OpenLinkQuery
+        class OpenFileLinkQuery
           using ::Storages::Peripherals::ServiceResultRefinements
 
           def self.call(storage:, user:, file_id:, open_location: false)

@@ -29,6 +29,7 @@ $meeting-agenda-item--author-width: 300px
   @media screen and (max-width: $breakpoint-lg)
     grid-template-columns: 20px auto 1fr 50px
     grid-template-areas: "drag-handle content content actions" ". author author duration" ". notes notes notes"
+ 
+    &--author
+      justify-self: stretch
 
-    &--duration
-      justify-self: end

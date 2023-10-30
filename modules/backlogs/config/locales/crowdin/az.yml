@@ -27,7 +27,7 @@ az:
     attributes:
       work_package:
         position: "Vəzifə"
-        remaining_hours: "Remaining hours"
+        remaining_hours: "Qalan vaxt %d saat"
         remaining_time: "Remaining hours"
         derived_remaining_hours: "Derived remaining hours"
         derived_remaining_time: "Derived remaining hours"

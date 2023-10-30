@@ -30,8 +30,6 @@ require 'spec_helper'
 require_relative 'shared_contract_examples'
 
 RSpec.describe WorkPackageMembers::UpdateContract do
-  include_context 'ModelContract shared context'
-
   it_behaves_like 'work package member contract' do
     let(:member) do
       build_stubbed(:work_package_member,

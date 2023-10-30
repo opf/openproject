@@ -32,7 +32,7 @@ module Storages
   module Peripherals
     module StorageInteraction
       module OneDrive
-        class OpenDriveLinkQuery
+        class OpenStorageQuery
           def self.call(storage:, user:)
             new(storage).call(user:)
           end
@@ -44,13 +44,13 @@ module Storages
 
           def call(user:)
             Util.using_user_token(@storage, user) do |token|
-              make_request(token).map(&web_url)
+              request_drive(token).map(&web_url)
             end
           end
 
           private
 
-          def make_request(token)
+          def request_drive(token)
             response_data = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
               http.get(drive_uri_path, { 'Authorization' => "Bearer #{token.access_token}" })
             end
@@ -60,22 +60,23 @@ module Storages
 
           def handle_responses(response)
             json = MultiJson.load(response.body, symbolize_keys: true)
+            error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
 
             case response
             when Net::HTTPSuccess
               ServiceResult.success(result: json)
             when Net::HTTPNotFound
               ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data: json))
+                                    errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
             when Net::HTTPForbidden
               ServiceResult.failure(result: :forbidden,
-                                    errors: ::Storages::StorageError.new(code: :forbidden, data: json))
+                                    errors: ::Storages::StorageError.new(code: :forbidden, data: error_data))
             when Net::HTTPUnauthorized
               ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: json))
+                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
             else
               ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data: json))
+                                    errors: ::Storages::StorageError.new(code: :error, data: error_data))
             end
           end
 

@@ -28,6 +28,13 @@
 #
 
 class MeetingAgendaItem < ApplicationRecord
+  ITEM_TYPES = {
+    simple: 0,
+    work_package: 1
+  }.freeze
+
+  enum item_type: ITEM_TYPES
+
   belongs_to :meeting, foreign_key: 'meeting_id', class_name: 'StructuredMeeting'
   belongs_to :work_package, class_name: '::WorkPackage'
   has_one :project, through: :meeting
@@ -37,8 +44,8 @@ class MeetingAgendaItem < ApplicationRecord
   default_scope { order(:position) }
 
   validates :meeting_id, presence: true
-  validates :title, presence: true, if: Proc.new { |item| item.work_package_id.blank? }
-  validates :work_package_id, presence: true, if: Proc.new { |item| item.title.blank? }
+  validates :title, presence: true, if: Proc.new { |item| item.simple? }
+  validates :work_package_id, presence: true, if: Proc.new { |item| item.work_package? }, on: :create
 
   validates :duration_in_minutes,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1440 },
@@ -55,14 +62,18 @@ class MeetingAgendaItem < ApplicationRecord
   end
 
   def linked_work_package?
-    work_package.present?
+    item_type == "work_package" && work_package.present?
   end
 
   def visible_work_package?
     linked_work_package? && work_package.visible?(User.current)
   end
 
+  def deleted_work_package?
+    item_type == "work_package" && work_package_id.nil?
+  end
+
   def editable?
-    !meeting&.closed?
+    !meeting&.closed? && !deleted_work_package?
   end
 end

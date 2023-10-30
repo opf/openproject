@@ -598,6 +598,7 @@ de:
         processed: 'verarbeitet'
         prioritized: 'priorisiert'
         dateAlert: 'Datums-Erinnerung'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Datum des Meilensteins'
         overdue: 'Überfällig'
@@ -642,6 +643,7 @@ de:
         mentioned: 'Erwähnt'
         watched: 'Beobachter'
         date_alert: 'Datums-Erinnerung'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Sie können Ihre <a target="_blank" href="%{url}">Benachrichtigungseinstellungen</a> ändern, um sicherzustellen, dass Sie keine wichtige Aktualisierung verpassen.'
         title: "Benachrichtigungseinstellungen"
@@ -664,6 +666,7 @@ de:
             description: 'Jedes Mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
           assignee: 'Zugewiesen an'
           responsible: 'Verantwortlich'
+          shared: 'Shared'
           watched: 'Beobachter'
           work_package_commented: 'Alle neuen Kommentare'
           work_package_created: 'Neue Arbeitspakete'
@@ -1020,6 +1023,9 @@ de:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."

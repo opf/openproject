@@ -599,6 +599,7 @@ es:
         processed: 'procesado'
         prioritized: 'priorizar'
         dateAlert: 'Alerta de fecha'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Fecha de hito'
         overdue: 'Vencido'
@@ -643,6 +644,7 @@ es:
         mentioned: 'Mencionado'
         watched: 'Observador'
         date_alert: 'Alerta de fecha'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Puede modificar su <a target="_blank" href="%{url}">configuración de notificaciones</a> para asegurarse que nunca se pierda una actualización importante.'
         title: "Ajustes de notificación"
@@ -665,6 +667,7 @@ es:
             description: 'Recibir una notificación cada vez que un usuario me mencione'
           assignee: 'Asignado a'
           responsible: 'Responsable'
+          shared: 'Shared'
           watched: 'Observador'
           work_package_commented: 'Todos los nuevos comentarios'
           work_package_created: 'Nuevos paquetes de trabajo'
@@ -1021,6 +1024,9 @@ es:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."

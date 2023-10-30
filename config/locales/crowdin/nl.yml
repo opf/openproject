@@ -270,6 +270,7 @@ nl:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
       no_results_content_text: Een lid toevoegen aan het project
     invite_by_mail: "Stuur een uitnodiging naar %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Reset-toegangstoken mislukt: %{error}"
@@ -338,9 +339,6 @@ nl:
   themes:
     light: "Licht"
     light_high_contrast: "Licht hoog contrast"
-    dark: "Donker"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Donker hoog contrast"
   types:
     index:
       no_results_title_text: Er zijn momenteel geen types.
@@ -573,6 +571,7 @@ nl:
         time_zone: "Tijdzone"
         auto_hide_popups: "Automatisch verbergen geslaagd-meldingen"
         warn_on_leaving_unsaved: "Mij waarschuwen bij het verlaten van een werkpakket met niet-opgeslagen wijzigingen"
+        theme: "Mode"
       version:
         effective_date: "Einddatum"
         sharing: "Delen"
@@ -1676,6 +1675,7 @@ nl:
   label_copy_workflow_from: "Kopieer workflow van"
   label_copy_project: "Project kopiëren"
   label_core_version: "Core-versie"
+  label_core_build: "Core build"
   label_current_status: "Huidige status"
   label_current_version: "Huidige versie"
   label_custom_field_add_no_type: "Voegt dit veld toe aan een werkpakket type"
@@ -2197,11 +2197,12 @@ nl:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Een nieuwe gebruiker (%{value}) heeft zich geregistreerd. Het account wacht op uw goedkeuring:"
   mail_body_account_information: "Uw accountinformatie"
   mail_body_account_information_external: "U kunt uw account %{value} gebruiken om in te loggen."
@@ -3002,9 +3003,10 @@ nl:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Comment"
         comment_description: "Can view and comment this work package."

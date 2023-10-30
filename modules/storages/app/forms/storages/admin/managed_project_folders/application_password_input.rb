@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,28 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Peripherals
-    module StorageInteraction
-      module Nextcloud
-        class OpenLinkQuery
-          def initialize(storage)
-            @uri = storage.uri
-          end
+module Storages::Admin::ManagedProjectFolders
+  class ApplicationPasswordInput < ApplicationForm
+    form do |application_password_form|
+      application_password_form.text_field(
+        name: :password,
+        label: I18n.t(:'storages.label_managed_project_folders.application_password'),
+        required: true,
+        caption: application_password_caption
+      )
+    end
 
-          def self.call(storage:, user:, file_id:, open_location: false)
-            new(storage).call(user:, file_id:, open_location:)
-          end
+    def initialize(storage:)
+      super()
+      @storage = storage
+    end
 
-          # rubocop:disable Lint/UnusedMethodArgument
-          def call(user:, file_id:, open_location: false)
-            location_flag = open_location ? 0 : 1
-            ServiceResult.success(result: File.join(@uri.to_s, "index.php/f/#{file_id}?openfile=#{location_flag}"))
-          end
+    private
 
-          # rubocop:enable Lint/UnusedMethodArgument
-        end
-      end
+    def application_password_caption
+      I18n.t(:'storages.instructions.managed_project_folders_application_password_caption',
+             provider_type_link:).html_safe
+    end
+
+    def provider_type_link
+      render(
+        Primer::Beta::Link.new(
+          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(@storage.host,
+                                                                                         'settings/admin/openproject'),
+          target: '_blank'
+        )
+      ) { I18n.t("storages.instructions.#{@storage.short_provider_type}.integration") }
     end
   end
 end

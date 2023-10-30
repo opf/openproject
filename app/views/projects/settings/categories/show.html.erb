@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= toolbar title: t(:label_work_package_category_plural) do -%>
-  <% if current_user.allowed_to?(:manage_categories, @project)  %>
+  <% if current_user.allowed_in_project?(:manage_categories, @project)  %>
     <li class="toolbar-item">
       <%= link_to_if_authorized({ controller: '/categories', action: 'new', project_id: @project },
                                 { aria: { label: t(:label_work_package_category_new) },

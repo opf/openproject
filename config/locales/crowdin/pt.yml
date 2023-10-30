@@ -272,6 +272,7 @@ pt:
       no_results_title_text: Atualmente, não há membros deste projeto.
       no_results_content_text: Adicionar um membro ao projeto
     invite_by_mail: "Enviar convite para %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
@@ -340,9 +341,6 @@ pt:
   themes:
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
-    dark: "Escuro"
-    dark_dimmed: "Escurecido"
-    dark_high_contrast: "Alto contraste escuro"
   types:
     index:
       no_results_title_text: Atualmente, não há nenhum tipo.
@@ -575,6 +573,7 @@ pt:
         time_zone: "Fuso horário"
         auto_hide_popups: "Auto-ocultar notificações de sucesso"
         warn_on_leaving_unsaved: "Alertar-me ao sair de um pacote de trabalho sem salvar as alterações"
+        theme: "Mode"
       version:
         effective_date: "Data de conclusão"
         sharing: "Compartilhamento"
@@ -1678,6 +1677,7 @@ pt:
   label_copy_workflow_from: "Copiar o fluxo de trabalho de"
   label_copy_project: "Cópiar projeto"
   label_core_version: "Versão do núcleo"
+  label_core_build: "Core build"
   label_current_status: "Situação atual"
   label_current_version: "Versão atual"
   label_custom_field_add_no_type: "Adicionar este campo a um tipo de pacote de trabalho"
@@ -2199,11 +2199,12 @@ pt:
     sharing:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
         open_work_package: 'Open work package'
-        reason: 'shared the following work package with you with %{role_rights} rights:'
-        see_in_open_project: 'See work package in OpenProject'
         subject: 'You have been shared work package #%{id}'
-        summary: '%{user} shared a work package with you'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
@@ -3003,9 +3004,10 @@ pt:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      invite: "Invite"
+      share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Comment"
         comment_description: "Can view and comment this work package."

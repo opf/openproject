@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <div class="user-rate-history-list">
 <div class="contextual">
-  <% if project && User.current.allowed_to?({:controller => '/hourly_rates', :action => 'edit'}, project) %>
+  <% if project && User.current.allowed_in_project?({:controller => '/hourly_rates', :action => 'edit'}, project) %>
     <%= link_to t(:button_update), {:controller => '/hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
   <% end %>
 </div>

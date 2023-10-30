@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Top menu items', js: true do
+RSpec.describe 'Top menu items', :js do
   let(:user) { create(:user) }
   let(:open_menu) { true }
 
@@ -53,7 +53,7 @@ RSpec.describe 'Top menu items', js: true do
     # the click might be ignored
 
     within '.op-app-menu--item_has-dropdown .op-app-menu--dropdown[aria-expanded=true]' do
-      expect(page).not_to have_selector('[style~=overflow]')
+      expect(page).not_to have_css('[style~=overflow]')
 
       page.click_link(title)
     end
@@ -64,8 +64,8 @@ RSpec.describe 'Top menu items', js: true do
     create(:anonymous_role)
     create(:non_member)
 
-    if ex.metadata.key?(:allowed_to)
-      allow(user).to receive(:allowed_to_globally?).and_return(ex.metadata[:allowed_to])
+    if ex.metadata.key?(:allow_all_permissions)
+      mock_permissions_for(user, &:allow_everything)
     end
 
     visit root_path
@@ -73,7 +73,7 @@ RSpec.describe 'Top menu items', js: true do
   end
 
   describe 'Modules' do
-    !let(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
+    let!(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
 
     let(:reporting_item) { I18n.t('cost_reports_title') }
 
@@ -96,7 +96,7 @@ RSpec.describe 'Top menu items', js: true do
       end
     end
 
-    context 'as a user with permissions', allowed_to: true do
+    context 'as a user with permissions', :allow_all_permissions do
       it 'displays all options' do
         has_menu_items?(reporting_item)
       end

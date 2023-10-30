@@ -697,7 +697,7 @@ RSpec.describe UsersController do
         it 'renders the edit template with errors' do
           expect(response)
             .to have_rendered('edit')
-          expect(assigns(:errors).first)
+          expect(assigns(:user).errors.first)
             .to have_attributes(attribute: :firstname, type: :blank)
         end
       end

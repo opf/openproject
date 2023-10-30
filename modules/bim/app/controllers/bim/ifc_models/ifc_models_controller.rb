@@ -140,7 +140,6 @@ module Bim
           flash[:notice] = t('ifc_models.flash_messages.upload_successful')
           redirect_to action: :index
         else
-          @errors = service_result.errors
           render action: :new
         end
       end
@@ -160,7 +159,6 @@ module Bim
           flash[:notice] = t(:notice_successful_update)
           redirect_to action: :index
         else
-          @errors = service_result.errors
           render action: :edit
         end
       end

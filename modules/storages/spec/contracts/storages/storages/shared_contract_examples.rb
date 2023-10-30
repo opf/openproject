@@ -30,6 +30,7 @@
 
 require 'spec_helper'
 require_module_spec_helper
+require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'storage contract' do
   describe 'validations' do
@@ -71,9 +72,13 @@ RSpec.shared_examples_for 'storage contract' do
       end
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end
 
 RSpec.shared_examples_for 'onedrive storage contract' do
+  include_context 'ModelContract shared context'
+
   let(:current_user) { create(:admin) }
   let(:storage_name) { 'Storage 1' }
   let(:storage_provider_type) { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
@@ -85,6 +90,8 @@ RSpec.shared_examples_for 'onedrive storage contract' do
 end
 
 RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers, webmock: true do
+  include_context 'ModelContract shared context'
+
   # Only admins have the right to create/delete storages.
   let(:current_user) { create(:admin) }
   let(:storage_name) { 'Storage 1' }

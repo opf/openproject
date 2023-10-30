@@ -37,13 +37,14 @@ module Authorization::Scopes
         permissions = allowed_to_permissions(permission)
 
         return none if user.locked?
+        return none if permissions.empty?
 
         if user.admin? && permissions.all?(&:grant_to_admin?)
           allowed_to_admin(permissions)
         elsif user.anonymous?
-          allowed_to_anonymous(user, permission)
+          allowed_to_anonymous(user, permissions)
         else
-          allowed_to_member(user, permission)
+          allowed_to_member(user, permissions)
         end
       end
 
@@ -53,15 +54,15 @@ module Authorization::Scopes
         where(id: allowed_to_admin_relation(permissions))
       end
 
-      def allowed_to_anonymous(user, permission)
-        where(id: allowed_to_non_member_relation(user, allowed_to_permissions(permission)))
+      def allowed_to_anonymous(user, permissions)
+        where(id: allowed_to_non_member_relation(user, permissions))
       end
 
-      def allowed_to_member(user, permission)
-        where(arel_table[:id].in(allowed_to_member_relation(user, permission)
+      def allowed_to_member(user, permissions)
+        where(arel_table[:id].in(allowed_to_member_relation(user, permissions)
                                    .select(arel_table[:id])
                                    .arel
-                                   .union(:all, allowed_to_non_member_relation(user, permission).select(:id).arel)))
+                                   .union(:all, allowed_to_non_member_relation(user, permissions).select(:id).arel)))
       end
 
       def allowed_to_admin_relation(permissions)
@@ -69,9 +70,7 @@ module Authorization::Scopes
           .where(Project.arel_table[:active].eq(true))
       end
 
-      def allowed_to_member_relation(user, permission)
-        permissions = allowed_to_permissions(permission)
-
+      def allowed_to_member_relation(user, permissions)
         Member
           .joins(allowed_to_member_in_active_project_join(user))
           .joins(allowed_to_enabled_module_join(permissions))

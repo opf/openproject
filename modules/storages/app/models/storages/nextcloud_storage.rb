@@ -60,10 +60,6 @@ module Storages
       Peripherals::OAuthConfigurations::NextcloudConfiguration.new(self)
     end
 
-    def open_link
-      File.join(uri.to_s, 'index.php/apps/files')
-    end
-
     def automatic_management_unspecified?
       automatically_managed.nil?
     end

@@ -38,6 +38,11 @@ RSpec.describe UserPreferences::ParamsContract do
     build_stubbed(:user_preference,
                   user: preference_user)
   end
+  let(:notification_settings) do
+    [
+      { project_id: 1234, news_added: true }
+    ]
+  end
   let(:params) do
     {
       hide_mail: true,
@@ -214,4 +219,6 @@ RSpec.describe UserPreferences::ParamsContract do
       it_behaves_like 'contract is valid'
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

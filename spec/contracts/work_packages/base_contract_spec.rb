@@ -1218,4 +1218,6 @@ RSpec.describe WorkPackages::BaseContract do
       expect(subject.assignable_values(:category, current_user)).to contain_exactly(category)
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

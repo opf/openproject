@@ -46,6 +46,18 @@ RSpec.shared_examples_for 'successful no content response' do |code = 204|
   end
 end
 
+RSpec.shared_examples_for 'redirect response' do |code = 303|
+  let(:location) { '' }
+
+  it "has the status code #{code}" do
+    expect(last_response.status).to eq(code)
+  end
+
+  it 'redirects to expected location' do
+    expect(last_response.headers['Location']).to eq(location)
+  end
+end
+
 RSpec.shared_examples_for 'error response' do |code, id, provided_message = nil|
   let(:expected_message) do
     provided_message || message
@@ -113,7 +125,7 @@ RSpec.shared_examples_for 'parse error' do |details|
   it 'shows the given details' do
     if details
       expect(last_response.body).to be_json_eql(details.to_json)
-        .at_path('_embedded/details/parseError')
+                                      .at_path('_embedded/details/parseError')
     end
   end
 end

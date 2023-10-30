@@ -28,6 +28,6 @@
 
 module WorkPackageMembers
   class DeleteContract < ::DeleteContract
-    delete_permission -> { user.allowed_to?(:share_work_packages, model.entity.project) }
+    delete_permission -> { user.allowed_in_project?(:share_work_packages, model.entity.project) }
   end
 end

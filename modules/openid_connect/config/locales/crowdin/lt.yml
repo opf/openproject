@@ -22,6 +22,8 @@ lt:
       plural: OpenID tiekėjai
       singular: OpenID tiekėjas
     setting_instructions:
+      azure_deprecation_warning: >
+        Sukonfigūruota Azure aplikacija rodo į pasenusį Azure API. Prašome sukurti naują Azure aplikaciją, kad užtikrintumėte veikimą ateityje.
       azure_graph_api: >
         Naudotojo duomenų atsiuntimui naudoti graph.microsoft.com. Tai turėtų būti numatyta parinktis, nebent jūs turite senesnę azure aplikaciją.
       azure_tenant_html: >

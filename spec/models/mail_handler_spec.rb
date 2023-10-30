@@ -732,11 +732,11 @@ RSpec.describe MailHandler do
         context 'with unknown_user: \'accept\' and permission check present' do
           let(:expected) do
             'MailHandler: work_package could not be created by Anonymous due to ' \
-              '#["may not be accessed.", ' \
-              '"Type was attempted to be written but is not writable.", ' \
+              '#["Type was attempted to be written but is not writable.", ' \
               '"Project was attempted to be written but is not writable.", ' \
               '"Subject was attempted to be written but is not writable.", ' \
-              '"Description was attempted to be written but is not writable."]'
+              '"Description was attempted to be written but is not writable.", ' \
+              '"may not be accessed."]'
           end
           let(:permission) { nil }
 

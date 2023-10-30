@@ -26,12 +26,17 @@ de:
         name: "Name"
         creator: "Ersteller"
         provider_type: "Anbieter-Typ"
+        host: "Host"
       storages/file_link:
         origin_id: "Ursprungs-ID"
     errors:
       messages:
         not_linked_to_project: "ist nicht mit dem Projekt verknüpft."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:
@@ -56,21 +61,32 @@ de:
     default_name: "Mein Speicherplatz"
     unknown_storage: "Unbekannter Speicher"
     buttons:
+      done_continue: "Done, continue"
       done_continue_setup: "Fertig. Setup fortsetzen"
       done_complete_setup: "Fertig, Einrichtung abgeschlossen"
       edit_automatically_managed_project_folders: "Automatisch verwaltete Projektordner bearbeiten"
       replace_openproject_oauth: "OpenProject OAuth ersetzen"
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
       save: "Speichern"
+      save_and_continue: "Save and continue"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
       select_folder: "Ordner auswählen"
       configure: "Konfigurieren"
+    file_storage_view:
+      general_information: "General information"
+      oauth_applications: "OAuth applications"
+      project_folders: "Project folders"
+      storage_provider: "Storage provider"
+      openproject_oauth: "OpenProject OAuth"
+      nextcloud_oauth: "Nextcloud OAuth"
+      automatically_managed_folders: "Automatically managed folders"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Automatisch verwaltete Projektordner"
+        subtitle_short: "Let OpenProject create folders per project automatically."
         subtitle: >
           Lassen Sie OpenProject Ordner pro Projekt automatisch erstellen. Dies wird empfohlen, da mit dieser Option jedes Teammitglied immer über die richtigen Zugriffsrechte verfügt.
       project_settings:
@@ -83,12 +99,14 @@ de:
         title: "Verbindungsstatus der Mitglieder"
         subtitle: "Überprüfen Sie den Verbindungsstatus für den Speicher- %{storage_name_link} aller Projektmitglieder."
     instructions:
+      provider_type: "Please make sure you have administration privileges in your Nextcloud instance and the application %{type_link_text} is installed before doing the setup."
       type: "Bitte stellen Sie sicher, dass Sie Administrationsrechte in Ihrer Nextcloud-Instanz haben und die folgende Anwendung vor dem Setup installiert wurde:"
       type_link_text: "„OpenProject Integration“"
       name: "Geben Sie Ihrem Speicher einen Namen, damit Benutzer zwischen mehreren Speichern unterscheiden können."
       host: "Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
       managed_project_folders_application_password: >
         Diesen Wert kopieren von:
+      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
       no_storage_set_up: "Es sind noch keine Dateispeicher eingerichtet."
       no_specific_folder: "Standardmäßig startet jeder Benutzer in seinem eigenen Home-Ordner, wenn er eine Datei hochlädt."
       automatic_folder: "Dies wird automatisch einen Stammordner für dieses Projekt erstellen und die Zugriffsberechtigungen für jedes Projektmitglied verwalten."
@@ -101,6 +119,8 @@ de:
       setting_up_storages: "Zum Einrichten von Dateispeichern besuchen Sie bitte"
       setting_up_storages_non_admin: "Administratoren können Datei-Speicher in Administration / Datei-Speicher einrichten."
       all_available_storages_already_added: "Alle verfügbaren Speicher sind dem Projekt bereits hinzugefügt."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
       copy_from: "Diesen Wert kopieren von"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
@@ -111,11 +131,16 @@ de:
         oauth_client_secret: >
           Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
         missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        tenant_id: >
+          Please insert the tenant ID you got from your SharePoint administrator.
+        drive_id: >
+          The drive ID can be obtained by you SharePoint administrator.
     help_texts:
       project_folder: >
         Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
     configuration_checks:
       incomplete: "Die Einrichtung dieses Speicherplatzes ist unvollständig."
+      oauth_client_incomplete: "Allow OpenProject to access %{provider} data using an OAuth."
     delete_warning:
       storage: >
         Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
@@ -130,12 +155,14 @@ de:
       description: "Add a storage to see them here."
     label_active: "Aktiv"
     label_add_new_storage: "Add new storage"
+    label_delete_storage: "Delete storage"
     label_inactive: "Inaktiv"
     label_creator: "Ersteller"
     label_provider: "Provider"
     label_file_link: "Datei-Link"
     label_file_links: "Datei-Links"
     label_creation_time: "Creation time"
+    label_connected: "Connected"
     label_incomplete: "Incomplete"
     label_name: "Name"
     label_host: "Host-URL"
@@ -149,10 +176,18 @@ de:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth Anwendungsdetails"
     label_oauth_client_details: "OAuth-Client-Details"
+    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
+    label_information: "Additional information"
     label_provider_type: "Anbieter-Typ"
     label_project_folder: "Projektordner"
     label_new_storage: "Neuer Speicher"
     label_edit_storage: "Speicherplatz bearbeiten"
+    label_edit_storage_host: "Edit storage host"
+    label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Vorhandener Ordner mit manuell verwalteten Berechtigungen"
     label_no_specific_folder: "Kein spezifischer Ordner"
     label_automatic_folder: "Neuer Ordner mit automatisch verwalteten Berechtigungen"

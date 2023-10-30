@@ -64,17 +64,20 @@ RSpec.describe User, "permission check methods" do
 
     let!(:non_member) { create(:non_member, permissions: %i[view_work_packages manage_members]) }
 
+    let(:public_permissions) { OpenProject::AccessControl.public_permissions.map(&:name) }
+
     subject do
       create(:user, global_permissions: [:create_user],
                     member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
     end
 
     it 'returns all permissions given on the project' do
-      expect(subject.all_permissions_for(project)).to match_array(%i[view_work_packages edit_work_packages])
+      expect(subject.all_permissions_for(project)).to match_array(%i[view_work_packages edit_work_packages] + public_permissions)
     end
 
     it 'returns non-member permissions given on the project the user is not a member of' do
-      expect(subject.all_permissions_for(other_project)).to match_array(%i[view_work_packages manage_members])
+      expect(subject.all_permissions_for(other_project)).to match_array(%i[view_work_packages
+                                                                           manage_members] + public_permissions)
     end
 
     it 'returns all global permissions' do
@@ -87,7 +90,7 @@ RSpec.describe User, "permission check methods" do
     it 'returns all permissions the user has (with project and global permissions)' do
       expect(subject.all_permissions_for(nil)).to match_array(%i[create_user
                                                                  view_work_packages edit_work_packages
-                                                                 manage_members])
+                                                                 manage_members] + public_permissions)
     end
   end
 end

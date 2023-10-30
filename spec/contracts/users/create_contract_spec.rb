@@ -27,12 +27,9 @@
 #++
 
 require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
 RSpec.describe Users::CreateContract do
-  include_context 'ModelContract shared context'
-
   it_behaves_like 'user contract' do
     let(:user) { User.new(attributes) }
     let(:contract) { described_class.new(user, current_user) }

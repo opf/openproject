@@ -43,14 +43,14 @@ module WorkPackages
     private
 
     def user_allowed_to_add
-      if (model.project && !@user.allowed_to?(:add_work_packages, model.project)) ||
-         !@user.allowed_to_globally?(:add_work_packages)
+      if (model.project && !@user.allowed_in_project?(:add_work_packages, model.project)) ||
+         !@user.allowed_in_any_project?(:add_work_packages)
         errors.add(:base, :error_unauthorized)
       end
     end
 
     def user_allowed_to_manage_file_links
-      if model.file_links.present? && model.project.present? && !user.allowed_to?(:manage_file_links, model.project)
+      if model.file_links.present? && model.project.present? && !user.allowed_in_project?(:manage_file_links, model.project)
         errors.add(:base, :error_unauthorized)
       end
     end

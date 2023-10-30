@@ -32,8 +32,7 @@ module Users
 
     attribute :login,
               writable: ->(*) {
-                (user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user)) &&
-                model.id != user.id
+                can_create_or_manage_users? && model.id != user.id
               }
     attribute :firstname
     attribute :lastname
@@ -43,10 +42,10 @@ module Users
     attribute :language
 
     attribute :ldap_auth_source_id,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user) }
+              writable: ->(*) { can_create_or_manage_users? }
 
     attribute :status,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user) }
+              writable: ->(*) { can_create_or_manage_users? }
 
     attribute :identity_url,
               writable: ->(*) { user.admin? }
@@ -96,5 +95,9 @@ module Users
       end
     end
     # rubocop:enable Rails/DynamicFindBy
+
+    def can_create_or_manage_users?
+      user.allowed_globally?(:manage_user) || user.allowed_globally?(:create_user)
+    end
   end
 end

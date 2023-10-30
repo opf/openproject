@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,26 +26,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module MeetingAgendaItems
-  module TouchMeeting
-    extend ActiveSupport::Concern
+module WorkPackageMembers::Concerns::RoleAssignment
+  include Members::Concerns::RoleAssignment
 
-    included do
-      private
-
-      def touch(meeting)
-        # We allow invalid meetings to be saved as
-        # adding the attachments does not change the validity of the meeting
-        # but without that leeway, the user needs to fix the meeting before
-        # the agenda_item can be added.
-        # However we want the meeting to be updated when updating an agenda_item. This is important,
-        # e.g. for invalidating caches and also for journalizing
-
-        meeting.update_column(:updated_at, Time.current)
-        meeting.save_journals if meeting.respond_to?(:save_journals)
-      end
-    end
+  # Work package memberships have a unique distinction from
+  # project memberships. A User should be able to be granted
+  # "Role X" independently and via a group. Meaning that for role assignment
+  # as compared to Project memberships, the existing roles we want to take
+  # into account are those that have not been inherited.
+  def existing_ids
+    model.member_roles
+         .select { _1.inherited_from.nil? }
+         .map(&:role_id)
   end
 end

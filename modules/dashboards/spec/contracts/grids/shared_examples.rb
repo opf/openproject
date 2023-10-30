@@ -45,9 +45,8 @@ RSpec.shared_context 'grid contract' do
   let(:permissions) { %i[manage_dashboards save_queries manage_public_queries] }
 
   before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission, context|
-      project == context && permissions.include?(permission)
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project:
     end
   end
 end
@@ -72,7 +71,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
     it 'notes the error' do
       instance.validate
       expect(instance.errors.details[:scope])
-        .to match_array [{ error: :inclusion }]
+        .to contain_exactly({ error: :inclusion })
     end
   end
 
@@ -107,7 +106,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :inclusion }]
+          .to contain_exactly({ error: :inclusion })
       end
     end
 
@@ -133,7 +132,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :overlaps }, { error: :overlaps }]
+          .to contain_exactly({ error: :overlaps }, { error: :overlaps })
       end
     end
 
@@ -194,7 +193,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :outside }]
+          .to contain_exactly({ error: :outside })
       end
     end
 
@@ -215,7 +214,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :outside }]
+          .to contain_exactly({ error: :outside })
       end
     end
 
@@ -251,7 +250,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :end_before_start }]
+          .to contain_exactly({ error: :end_before_start })
       end
     end
 
@@ -272,7 +271,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :end_before_start }]
+          .to contain_exactly({ error: :end_before_start })
       end
     end
 
@@ -293,7 +292,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :end_before_start }]
+          .to contain_exactly({ error: :end_before_start })
       end
     end
 
@@ -314,7 +313,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :end_before_start }]
+          .to contain_exactly({ error: :end_before_start })
       end
     end
   end

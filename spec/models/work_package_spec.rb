@@ -70,6 +70,8 @@ RSpec.describe WorkPackage do
     it { is_expected.to have_and_belong_to_many(:github_pull_requests) }
     it { is_expected.to have_many(:members).dependent(:destroy) }
     it { is_expected.to have_many(:member_principals).through(:members).class_name('Principal').source(:principal) }
+    it { is_expected.to have_many(:meeting_agenda_items) }
+    it { is_expected.to have_many(:meetings).through(:meeting_agenda_items).source(:meeting) }
   end
 
   describe '.new' do
@@ -722,6 +724,58 @@ RSpec.describe WorkPackage do
         expect(described_class.new.ignore_non_working_days)
           .to be false
       end
+    end
+  end
+
+  context 'when destroying with agenda items' do
+    let(:meeting_agenda_items) { create_list(:meeting_agenda_item, 3, work_package:) }
+    let(:other_agenda_item) { create(:meeting_agenda_item, work_package_id: create(:work_package).id) }
+    let(:other_meeting) { other_agenda_item.meeting }
+    let(:latest_journals) do
+      Journal
+        .select('DISTINCT ON (journable_id) *')
+        .where(journable_type: 'Meeting', journable_id: meeting_agenda_items.pluck(:meeting_id))
+        .order('journable_id, updated_at DESC')
+    end
+
+    subject { work_package.destroy }
+
+    before do
+      work_package.save
+      meeting_agenda_items
+      other_agenda_item
+      Meeting.find_each(&:save_journals)
+    end
+
+    it 'dissociates the agenda items' do
+      expect { subject }
+        .to change { MeetingAgendaItem.find(meeting_agenda_items).pluck(:work_package_id) }
+        .from(Array.new(3, work_package.id))
+        .to(Array.new(3, nil))
+    end
+
+    it 'does not affect other agenda items' do
+      expect { subject }.not_to change(other_agenda_item, :reload)
+    end
+
+    it 'updates the agenda item journal' do
+      expect { subject }
+        .to change {
+          Journal::MeetingAgendaItemJournal
+            .where(agenda_item: meeting_agenda_items)
+            .pluck(:work_package_id)
+        }
+        .from(Array.new(3, work_package.id))
+        .to(Array.new(3, nil))
+    end
+
+    it 'does not affect the agenda item journal' do
+      expect { subject }
+        .not_to change {
+          Journal::MeetingAgendaItemJournal
+            .find_by(agenda_item: other_agenda_item)
+            .work_package_id
+        }
     end
   end
 end

@@ -41,14 +41,12 @@ RSpec.shared_examples_for 'ifc model contract' do
       .to receive(:ifc_attachment)
       .and_return(ifc_attachment)
 
-    allow(other_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
-      permissions.include?(permission) && model_project == permission_project
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*permissions, project: model_project) if model_project
     end
 
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
-      permissions.include?(permission) && model_project == permission_project
+    mock_permissions_for(other_user) do |mock|
+      mock.allow_in_project(*permissions, project: model_project) if model_project
     end
   end
 

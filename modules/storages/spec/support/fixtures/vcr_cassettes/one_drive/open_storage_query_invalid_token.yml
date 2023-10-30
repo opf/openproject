@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs?$select=webUrl
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer 1234567890-1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - dc3446a9-9239-4e75-a70e-4db0f73167dd
+      Client-Request-Id:
+      - dc3446a9-9239-4e75-a70e-4db0f73167dd
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000165"}}'
+      Www-Authenticate:
+      - Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize",
+        client_id="00000003-0000-0000-c000-000000000000"
+      Date:
+      - Wed, 18 Oct 2023 11:33:26 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"InvalidAuthenticationToken","message":"CompactToken
+        parsing failed with error code: 80049217","innerError":{"date":"2023-10-18T11:33:27","request-id":"dc3446a9-9239-4e75-a70e-4db0f73167dd","client-request-id":"dc3446a9-9239-4e75-a70e-4db0f73167dd"}}}'
+  recorded_at: Wed, 18 Oct 2023 11:33:27 GMT
+recorded_with: VCR 6.2.0

@@ -8,6 +8,7 @@ module Authorization
 
     def allowed_globally?(permission)
       perms = contextual_permissions(permission, :global)
+      return false unless authorizable_user?
       return true if admin_and_all_granted_to_admin?(perms)
 
       cached_permissions(nil).intersect?(perms.map(&:name))
@@ -36,8 +37,7 @@ module Authorization
       return false if entities_to_check.blank?
       return false unless authorizable_user?
 
-      perms = contextual_permissions(permission,
-                                     context_name(entity_class))
+      perms = contextual_permissions(permission, context_name(entity_class))
 
       entities = Array(entities_to_check)
 

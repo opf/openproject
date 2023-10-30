@@ -598,6 +598,7 @@ ro:
         processed: 'prelucrate'
         prioritized: 'prioritizat'
         dateAlert: 'Alertă de dată'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data etapa'
         overdue: 'Restanțe'
@@ -643,6 +644,7 @@ ro:
         mentioned: 'Menţionat'
         watched: 'Observator'
         date_alert: 'Alertă de dată'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Puteți modifica setările <a target="_blank" href="%{url}">de notificare</a> pentru a vă asigura că nu pierdeți niciodată o actualizare importantă.'
         title: "Setări de notificare"
@@ -665,6 +667,7 @@ ro:
             description: 'Primește o notificare de fiecare dată când cineva mă menționează oriunde'
           assignee: 'Responsabil'
           responsible: 'Responsabil'
+          shared: 'Shared'
           watched: 'Observator'
           work_package_commented: 'Toate comentariile noi'
           work_package_created: 'Pachete de lucru noi'
@@ -1021,6 +1024,9 @@ ro:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configurarea tabelului pachetului de lucru'
         summary: "Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane."

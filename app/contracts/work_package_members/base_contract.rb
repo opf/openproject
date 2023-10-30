@@ -35,7 +35,7 @@ module WorkPackageMembers
 
     validate :user_allowed_to_manage
     validate :role_grantable
-    validate :single_role
+    validate :single_non_inherited_role
     validate :project_set
     validate :entity_set
 
@@ -50,12 +50,11 @@ module WorkPackageMembers
     end
 
     def user_allowed_to_manage?
-      user.allowed_to?(:share_work_packages,
-                       model.project)
+      user.allowed_in_project?(:share_work_packages, model.project)
     end
 
-    def single_role
-      errors.add(:roles, :more_than_one) if active_roles.count > 1
+    def single_non_inherited_role
+      errors.add(:roles, :more_than_one) if active_non_inherited_roles.count > 1
     end
 
     def role_grantable
@@ -67,7 +66,15 @@ module WorkPackageMembers
     end
 
     def active_roles
-      model.member_roles.reject(&:marked_for_destruction?).map(&:role)
+      active_member_roles.map(&:role)
+    end
+
+    def active_non_inherited_roles
+      active_member_roles.reject(&:inherited_from).map(&:role)
+    end
+
+    def active_member_roles
+      model.member_roles.reject(&:marked_for_destruction?)
     end
 
     def entity_set
