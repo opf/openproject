@@ -169,8 +169,8 @@ module API
                  type: 'Duration',
                  required: false,
                  show_if: ->(*) {
-                   current_user_allowed_to(:view_time_entries, context: represented.project) ||
-                     current_user_allowed_to(:view_own_time_entries, context: represented.project)
+                   current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+                   current_user.allowed_in_project?(:view_own_time_entries, represented.project)
                  }
 
           schema :percentage_done,
@@ -299,7 +299,7 @@ module API
                                            }
                                          },
                                          show_if: ->(*) {
-                                           current_user_allowed_to(:view_budgets, context: represented.project)
+                                           current_user.allowed_in_project?(:view_budgets, represented.project)
                                          }
 
           def attribute_groups

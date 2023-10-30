@@ -32,8 +32,8 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
   class CostsApiUserPermissionCheckTestClass
     # mimic representer
     def view_time_entries_allowed?
-      current_user_allowed_to(:view_time_entries, context: represented.project) ||
-        current_user_allowed_to(:view_own_time_entries, context: represented.project)
+      current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+      current_user.allowed_in_project?(:view_own_time_entries, represented.project)
     end
 
     include API::V3::CostsApiUserPermissionCheck
@@ -52,31 +52,22 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
   let(:work_package) { build_stubbed(:work_package, project:) }
 
   before do
-    allow(subject)
-      .to receive(:current_user)
-      .and_return(user)
-    allow(subject)
-      .to receive(:represented)
-      .and_return(work_package)
+    allow(subject).to receive(:current_user).and_return(user)
+    allow(subject).to receive(:represented).and_return(work_package)
+
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project :view_time_entries, project: work_package.project if view_time_entries
+      mock.allow_in_project :view_own_time_entries, project: work_package.project if view_own_time_entries
+      mock.allow_in_project :view_hourly_rates, project: work_package.project if view_hourly_rates
+      mock.allow_in_project :view_own_hourly_rate, project: work_package.project if view_own_hourly_rate
+      mock.allow_in_project :view_cost_rates, project: work_package.project if view_cost_rates
+      mock.allow_in_project :view_own_cost_entries, project: work_package.project if view_own_cost_entries
+      mock.allow_in_project :view_cost_entries, project: work_package.project if view_cost_entries
+      mock.allow_in_project :view_budgets, project: work_package.project if view_budgets
+    end
   end
 
   subject { CostsApiUserPermissionCheckTestClass.new }
-
-  before do
-    %i[view_time_entries
-       view_own_time_entries
-       view_hourly_rates
-       view_own_hourly_rate
-       view_cost_rates
-       view_own_cost_entries
-       view_cost_entries
-       view_budgets].each do |permission|
-      allow(subject)
-        .to receive(:current_user_allowed_to)
-        .with(permission, context: work_package.project)
-        .and_return send(permission)
-    end
-  end
 
   describe '#overall_costs_visible?' do
     describe :overall_costs_visible? do
