@@ -135,7 +135,10 @@ module API
         end
 
         links :representations do
-          representation_formats if current_user.allowed_to?(:export_work_packages, project, global: project.nil?)
+          if (project && current_user.allowed_in_project?(:export_work_packages, project)) ||
+              (!project && current_user.allowed_in_any_project?(:export_work_packages))
+            representation_formats
+          end
         end
 
         collection :elements,

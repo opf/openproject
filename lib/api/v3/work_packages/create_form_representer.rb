@@ -54,8 +54,7 @@ module API
 
         link :commit do
           if represented.project &&
-             current_user.allowed_to?(:add_work_packages,
-                                      represented.project) &&
+             current_user.allowed_in_project?(:add_work_packages, represented.project) &&
              @errors.empty?
             {
               href: api_v3_paths.work_packages,
