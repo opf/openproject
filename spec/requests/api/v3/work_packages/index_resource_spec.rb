@@ -107,9 +107,13 @@ RSpec.describe 'API v3 Work package resource',
     end
 
     context 'with a user not seeing any work packages' do
-      include_context 'with non-member permissions from non_member_permissions'
+      # Create a public project so that the non-member permission has something to attach to
+      let!(:public_project) { create(:project, public: true, active: true) }
+
       let(:current_user) { create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
+
+      include_context 'with non-member permissions from non_member_permissions'
 
       it 'succeeds' do
         expect(subject.status).to be 200
