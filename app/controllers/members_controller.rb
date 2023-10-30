@@ -55,7 +55,7 @@ class MembersController < ApplicationController
     if overall_result.empty?
       redirect_to project_members_path(project_id: @project, status: 'all')
     elsif overall_result.all?(&:success?)
-      display_success(members_added_notice(overall_result.count))
+      display_success(members_added_notice(overall_result.map(&:result)))
 
       redirect_to project_members_path(project_id: @project, status: 'all')
     else
