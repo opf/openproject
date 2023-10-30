@@ -190,9 +190,13 @@ module Components
       end
 
       def invite_user(users, role_name)
-        # Adding a user to the list of shared users
         Array(users).each do |user|
-          select_existing_user user
+          case user
+          when String
+            select_not_existing_user_option(user)
+          when Principal
+            select_existing_user(user)
+          end
         end
 
         select_invite_role(role_name)
@@ -202,20 +206,8 @@ module Components
         end
       end
 
+      alias_method :invite_users, :invite_user
       alias_method :invite_group, :invite_user
-
-      def create_and_invite_user(emails, role_name)
-        # Adding a user to the list of shared users
-        Array(emails).each do |email|
-          select_not_existing_user_option email
-        end
-
-        select_invite_role(role_name)
-
-        within modal_element do
-          click_button 'Share'
-        end
-      end
 
       def search_user(search_string)
         search_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),

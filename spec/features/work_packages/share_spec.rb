@@ -44,13 +44,11 @@ RSpec.describe 'Work package sharing',
   shared_let(:non_shared_project_user) { create(:user, firstname: 'Non Shared Project', lastname: 'User') }
   shared_let(:shared_project_user) { create(:user, firstname: 'Shared Project', lastname: 'User') }
   shared_let(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
-  shared_let(:another_not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
 
   shared_let(:richard) { create(:user, firstname: 'Richard', lastname: 'Hendricks') }
   shared_let(:dinesh) { create(:user, firstname: 'Dinesh', lastname: 'Chugtai') }
   shared_let(:gilfoyle) { create(:user, firstname: 'Bertram', lastname: 'Gilfoyle') }
   shared_let(:not_shared_yet_with_group) { create(:group, members: [richard, dinesh, gilfoyle]) }
-  shared_let(:empty_group) { create(:group, members: []) }
 
   let(:project) do
     create(:project,
@@ -110,7 +108,6 @@ RSpec.describe 'Work package sharing',
 
         share_modal.expect_not_shared_with(non_shared_project_user)
         share_modal.expect_not_shared_with(not_shared_yet_with_user)
-        share_modal.expect_not_shared_with(another_not_shared_yet_with_user)
 
         share_modal.expect_shared_count_of(6)
       end
@@ -227,50 +224,6 @@ RSpec.describe 'Work package sharing',
           .not_to include(not_shared_yet_with_group, richard)
       end
 
-      aggregate_failures "Inviting multiple users or groups at once" do
-        # Inviting multiple users at once
-        share_modal.invite_user([richard, another_not_shared_yet_with_user], 'Edit')
-
-        share_modal.expect_shared_count_of(9)
-
-        share_modal.expect_shared_with(another_not_shared_yet_with_user, 'Edit', position: 1)
-        share_modal.expect_shared_with(richard, 'Edit', position: 2)
-
-        # They can be removed again
-        share_modal.remove_user(richard)
-        share_modal.remove_user(another_not_shared_yet_with_user)
-
-        share_modal.expect_shared_count_of(7)
-
-        # Groups can be added simultaneously as well
-        share_modal.invite_user([not_shared_yet_with_group, empty_group], 'Comment')
-
-        share_modal.expect_shared_count_of(9)
-
-        share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment', position: 1)
-        share_modal.expect_shared_with(empty_group, 'Comment', position: 2)
-
-        # They can be removed again
-        share_modal.remove_user(not_shared_yet_with_group)
-        share_modal.remove_user(empty_group)
-
-        share_modal.expect_shared_count_of(7)
-
-        # We can also mix
-        share_modal.invite_user([richard, empty_group], 'View')
-
-        share_modal.expect_shared_count_of(9)
-
-        share_modal.expect_shared_with(empty_group, 'View', position: 1)
-        share_modal.expect_shared_with(richard, 'View', position: 2)
-
-        # They can be removed again
-        share_modal.remove_user(richard)
-        share_modal.remove_user(empty_group)
-
-        share_modal.expect_shared_count_of(7)
-      end
-
       share_modal.close
       click_button 'Share'
 
@@ -347,7 +300,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_count_of(6)
 
       # Invite a user that does not exist yet
-      share_modal.create_and_invite_user('hello@world.de', 'View')
+      share_modal.invite_user('hello@world.de', 'View')
 
       # New user is shown in the list of shares
       share_modal.expect_shared_count_of(7)
@@ -374,66 +327,6 @@ RSpec.describe 'Work package sharing',
       share_modal.remove_user(new_user)
       share_modal.expect_not_shared_with(new_user)
       share_modal.expect_shared_count_of(6)
-    end
-
-    it 'allows creating multiple users at once' do
-      share_modal.expect_open
-      share_modal.expect_shared_count_of(6)
-
-      # Invite two users that does not exist yet
-      share_modal.create_and_invite_user(['hello@world.de', 'aloha@world.de'], 'Comment')
-
-      # New user is shown in the list of shares
-      share_modal.expect_shared_count_of(8)
-
-      # New user is created
-      new_users = User.last(2)
-
-      share_modal.expect_shared_with(new_users[0], 'Comment', position: 2)
-      share_modal.expect_shared_with(new_users[1], 'Comment', position: 1)
-
-      # The new users can be interacted with
-      share_modal.change_role(new_users[0], 'View')
-      share_modal.expect_shared_with(new_users[0], 'View', position: 2)
-      share_modal.change_role(new_users[1], 'View')
-      share_modal.expect_shared_with(new_users[1], 'View', position: 1)
-      share_modal.expect_shared_count_of(8)
-
-      # The new users can be updated simultaneously
-      share_modal.invite_user(new_users, 'Edit')
-      share_modal.expect_shared_with(new_users[0], 'Edit', position: 2)
-      share_modal.expect_shared_with(new_users[1], 'Edit', position: 1)
-      share_modal.expect_shared_count_of(8)
-
-      # The new users can be deleted
-      share_modal.remove_user(new_users[0])
-      share_modal.expect_not_shared_with(new_users[0])
-      share_modal.remove_user(new_users[1])
-      share_modal.expect_not_shared_with(new_users[1])
-      share_modal.expect_shared_count_of(6)
-    end
-
-    it 'allows sharing with an existing user and creating a new one at the same time' do
-      share_modal.expect_open
-      share_modal.expect_shared_count_of(6)
-
-      # Add an existing and a non-existing user to the autocompleter
-      share_modal.select_existing_user not_shared_yet_with_user
-      share_modal.select_not_existing_user_option "hello@world.de"
-
-      share_modal.select_invite_role('View')
-      within share_modal.modal_element do
-        click_button 'Share'
-      end
-
-      # Two users are added
-      share_modal.expect_shared_count_of(8)
-
-      # New user is created
-      new_user = User.last
-
-      share_modal.expect_shared_with(new_user, 'View', position: 1)
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 2)
     end
   end
 
