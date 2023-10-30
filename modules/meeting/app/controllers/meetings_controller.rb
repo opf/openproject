@@ -257,7 +257,7 @@ class MeetingsController < ApplicationController
   end
 
   def global_upcoming_meetings
-    projects = Project.allowed_to(User.current, :view_meetings)
+    projects = Project.allowed_in_project(User.current, :view_meetings)
 
     Meeting.where(project: projects).from_today
   end
