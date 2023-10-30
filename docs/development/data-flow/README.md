@@ -573,14 +573,6 @@ flowchart LR
 
 * `api-01` TLS
 
-## Database schema 
-
-OpenProject's database schema is considered an internal API, please do not rely on it as a stable point of references. Schema modifications by the OpenProject core might be performed in any upgrade, including patch releases. Modifications to the database schema are considered a third-party customization and might prevent us from giving proper support. If you have an active support contract with OpenProject, please note that modifications affect our warranty. For more information, please consult the [Terms of Services](https://www.openproject.org/legal/terms-of-service/#-5-warranty).
-
-We recommend you use existing database tools to inspect and export the database as an ERD. That being said, we've prepared an export of an ERD of the current state of the database. Note that this diagram is not regularly updated. Use tools like IntelliJ database explorer or [mermerd](https://github.com/KarnerTh/mermerd) to generate a live ERD of your database set up instead.
-
-[![OpenProject database schema ERD](openproject-erd.jpg)](openproject-erd.jpg)
-
 ## Use of technical cookies
 
 OpenProject makes use of technical cookies to identity the browser client and/or remember information such as 2FA login state. The core application makes use of these cookies:
