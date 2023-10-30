@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
-RSpec.describe 'Create BCF',
-               js: true,
+RSpec.describe 'Create BCF', :js,
                with_config: { edition: 'bim' } do
   let(:project) do
     create(:project,
@@ -32,7 +31,7 @@ RSpec.describe 'Create BCF',
     create(:integer_wp_custom_field)
   end
 
-  shared_examples 'bcf details creation' do |with_viewpoints|
+  shared_examples 'bcf details creation' do |with_viewpoints:|
     it "can create a new #{with_viewpoints ? 'bcf' : 'plain'} work package" do
       create_page = index_page.create_wp_by_button(type)
 
@@ -105,7 +104,7 @@ RSpec.describe 'Create BCF',
         index_page.visit_and_wait_until_finished_loading!
       end
 
-      it_behaves_like 'bcf details creation', true
+      it_behaves_like 'bcf details creation', with_viewpoints: true
     end
 
     context 'when going to split table view first' do
@@ -115,7 +114,7 @@ RSpec.describe 'Create BCF',
         index_page.switch_view 'Viewer and table'
       end
 
-      it_behaves_like 'bcf details creation', true
+      it_behaves_like 'bcf details creation', with_viewpoints: true
     end
 
     context 'when going to cards view first' do
@@ -125,7 +124,7 @@ RSpec.describe 'Create BCF',
         index_page.switch_view 'Cards'
       end
 
-      it_behaves_like 'bcf details creation', false
+      it_behaves_like 'bcf details creation', with_viewpoints: false
     end
 
     context 'when going to table view first' do
@@ -135,7 +134,7 @@ RSpec.describe 'Create BCF',
         index_page.switch_view 'Table'
       end
 
-      it_behaves_like 'bcf details creation', false
+      it_behaves_like 'bcf details creation', with_viewpoints: false
     end
 
     context 'when starting on the details page of an existing work package' do
@@ -143,10 +142,11 @@ RSpec.describe 'Create BCF',
 
       before do
         visit bcf_project_frontend_path(project, "details/#{work_package.id}")
+        index_page.finished_loading
         index_page.expect_details_path
       end
 
-      it_behaves_like 'bcf details creation', true
+      it_behaves_like 'bcf details creation', with_viewpoints: true
     end
   end
 
@@ -168,7 +168,7 @@ RSpec.describe 'Create BCF',
         index_page.visit_and_wait_until_finished_loading!
       end
 
-      it_behaves_like 'bcf details creation', false
+      it_behaves_like 'bcf details creation', with_viewpoints: false
     end
   end
 end
