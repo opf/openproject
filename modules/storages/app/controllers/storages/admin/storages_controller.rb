@@ -119,7 +119,10 @@ class Storages::Admin::StoragesController < ApplicationController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to edit_admin_settings_storage_path(@storage)
+      respond_to do |format|
+        format.html { redirect_to edit_admin_settings_storage_path(@storage) }
+        format.turbo_stream
+      end
     elsif OpenProject::FeatureDecisions.storage_primer_design_active?
       render :edit_host
     else

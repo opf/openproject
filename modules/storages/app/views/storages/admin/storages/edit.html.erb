@@ -32,7 +32,9 @@ See COPYRIGHT and LICENSE files for more details.
 <% if OpenProject::FeatureDecisions.storage_primer_design_active? %>
   <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
     <% header.with_title(test_selector: 'storage-name-title') do %>
-      <%= @storage.name %>
+      <%= render OpTurbo::FrameComponent.new(@storage, context: :edit_storage_header) do %>
+        <%= @storage.name %>
+      <% end %>
     <% end %>
 
     <% header.with_actions do %>
@@ -77,9 +79,9 @@ See COPYRIGHT and LICENSE files for more details.
       <% component.with_header(title: "OpenProject #{t(:'storages.label_oauth_application_details')}") %>
 
       <% component.with_attributes([
-                                    { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}", value: @storage.oauth_application.uid },
-                                    { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}", value: "●●●●●●●●●●●●●●●●" },
-                                  ]) %>
+                                     { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}", value: @storage.oauth_application.uid },
+                                     { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}", value: "●●●●●●●●●●●●●●●●" },
+                                   ]) %>
 
       <%= link_to(t("storages.buttons.replace_openproject_oauth"),
                   replace_oauth_application_admin_settings_storage_path(@storage),
@@ -99,15 +101,15 @@ See COPYRIGHT and LICENSE files for more details.
         <%= link_to(t("storages.buttons.configure"), new_admin_settings_storage_automatically_managed_project_folders_path(@storage), class: 'button -with-icon icon-add') %>
       <% else %>
         <% component.with_attribute(
-            key: t(:"storages.label_managed_project_folders.automatically_managed_folders"),
-            value: @storage.automatically_managed? ? t(:"storages.label_active") : t(:"storages.label_inactive")
-          ) %>
+             key: t(:"storages.label_managed_project_folders.automatically_managed_folders"),
+             value: @storage.automatically_managed? ? t(:"storages.label_active") : t(:"storages.label_inactive")
+           ) %>
 
         <% if @storage.automatically_managed? %>
           <% component.with_attribute(
-              key: t(:"storages.label_managed_project_folders.application_password"),
-              value: "●●●●●●●●●●●●●●●●"
-            ) %>
+               key: t(:"storages.label_managed_project_folders.application_password"),
+               value: "●●●●●●●●●●●●●●●●"
+             ) %>
         <% end %>
 
         <%= link_to(t("storages.buttons.edit_automatically_managed_project_folders"),
