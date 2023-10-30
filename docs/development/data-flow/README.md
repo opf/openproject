@@ -20,11 +20,13 @@ A project management software like OpenProject processes personal data of four d
 - **Logfiles:** Automatically created protocols of user activity
 - **Content data:** Person mentioned in text or shown in pictures. Does not need to be a user.
 
-### A: Anonymous access of OpenProject
+### A: Usage without user account
 
-Depending on the individual permission and authentications settings persons can access OpenProject [anonymously](../../system-admin-guide/users-permissions/roles-permissions/#anonymous) without a user account. The [OpenProject community platform](https://community.openproject.org) is an example of an OpenProject installation where individual projects where set to public.  
+Depending on the permission and authentication settings an OpenProject project can be accessed for read-only [anonymously](../../system-admin-guide/users-permissions/roles-permissions/#anonymous) without a user account. The [OpenProject community platform](https://community.openproject.org) is an example of an OpenProject installation where individual projects where set to public.
 
-### B: Registration of a user account
+Anonymity is not complete because the underlying webserver might still generate its common logfile (weblog).
+
+### B: User master data
 
 To sign-in to the OpenProject platform, the registration of a user account is required. For registered user's the following personal data are processed:
 
@@ -41,14 +43,14 @@ To sign-in to the OpenProject platform, the registration of a user account is re
 - Email reminder settings
 - Language settings
 - Time zones
-- Display settings: High contrast mode, standard mode, dark mode, and custom themes.
+- Display settings (contrast modes, custom themes)
 
 ##### User authentication (bu-03)
 
 * Access token
 * User sessions
 * Password (encrypted)
-* Telephone number for sending one-time passwords via SMS
+* Phone number for sending one-time passwords via SMS
 * OATH secret code
 
 ##### User notification settings (bu-04)
