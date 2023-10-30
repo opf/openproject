@@ -32,5 +32,27 @@ module Storages::Admin::Forms
   class GeneralInfoFormComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     alias_method :storage, :model
+
+    options form_method: :post,
+            render_host: true,
+            cancel_button_should_break_from_frame: false,
+            cancel_button_path: Rails.application.routes.url_helpers.admin_settings_storages_path
+
+    alias_method :render_host?, :render_host
+
+    def form_url
+      options[:form_url] || default_form_url
+    end
+
+    private
+
+    def default_form_url
+      case form_method
+      when :get, :post
+        Rails.application.routes.url_helpers.admin_settings_storages_path
+      when :patch, :put
+        Rails.application.routes.url_helpers.admin_settings_storage_path(storage)
+      end
+    end
   end
 end

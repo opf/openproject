@@ -1,5 +1,11 @@
 <%=
   render(OpTurbo::FrameComponent.new(@storage, context: :storage_view_general_info)) do
-    render(Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage))
+    render(
+      Storages::Admin::Forms::GeneralInfoFormComponent.new(
+        @storage,
+        form_method: :patch,
+        cancel_button_path: edit_admin_settings_storage_path(@storage)
+      )
+    )
   end
 %>
