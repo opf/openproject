@@ -32,7 +32,7 @@ module API
       class UpdateFormAPI < ::API::OpenProjectAPI
         resource :form do
           after_validation do
-            authorize_in_project :edit_project, project: @project
+            authorize_in_project(:edit_project, project: @project)
           end
 
           post &::API::V3::Utilities::Endpoints::UpdateForm.new(model: Project)

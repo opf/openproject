@@ -31,7 +31,7 @@ module API
     module Versions
       class AvailableProjectsAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_in_any_project :manage_versions
+          authorize_in_any_project(:manage_versions)
         end
 
         resources :available_projects do

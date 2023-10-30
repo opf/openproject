@@ -57,7 +57,7 @@ module API
           end
 
           get do
-            authorize_in_any_project %i(view_work_packages manage_public_queries)
+            authorize_in_any_project(%i(view_work_packages manage_public_queries))
 
             queries_scope = Query.all.includes(QueryRepresenter.to_eager_load)
 

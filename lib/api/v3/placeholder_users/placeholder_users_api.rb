@@ -41,8 +41,8 @@ module API
 
           route_param :id, type: Integer, desc: 'Placeholder user ID' do
             after_validation do
-              authorize_globally :manage_placeholder_user do
-                authorize_in_any_project :manage_members
+              authorize_globally(:manage_placeholder_user) do
+                authorize_in_any_project(:manage_members)
               end
               @placeholder_user = PlaceholderUser.visible.find(params[:id])
             end

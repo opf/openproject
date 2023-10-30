@@ -32,7 +32,7 @@ module API
       class NotificationsAPI < ::API::OpenProjectAPI
         resources :notifications do
           after_validation do
-            authorize_by_with_raise current_user.logged?
+            authorize_by_with_raise(current_user.logged?)
           end
 
           helpers do

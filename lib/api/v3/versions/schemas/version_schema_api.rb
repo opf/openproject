@@ -33,7 +33,7 @@ module API
         class VersionSchemaAPI < ::API::OpenProjectAPI
           resources :schema do
             before do
-              authorize_in_any_project %i[manage_versions view_work_packages]
+              authorize_in_any_project(%i[manage_versions view_work_packages])
             end
 
             get &::API::V3::Utilities::Endpoints::Schema.new(model: Version).mount
