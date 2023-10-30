@@ -11,9 +11,16 @@
 
 Status of this document: DRAFT 2023-10-30
 
-## Purpose and subject of processing
+## Groups of personal data
 
-### A1: Anonymous access of OpenProject
+A project management software like OpenProject processes personal data of four different groups:
+
+- **User master data:** Serves the administration of a user account
+- **(Functional) Assignments:** Connects a user with tasks, projects, teams, budgets etc.
+- **Logfiles:** Automatically created protocols of user activity
+- **Content data:** Person mentioned in text or shown in pictures. Does not need to be a user.
+
+### A: Anonymous access of OpenProject
 
 Depending on the individual permission and authentications settings persons can access OpenProject [anonymously](../../system-admin-guide/users-permissions/roles-permissions/#anonymous) without a user account. The [OpenProject community platform](https://community.openproject.org) is an example of an OpenProject installation where individual projects where set to public.  
 
