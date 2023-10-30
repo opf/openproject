@@ -33,11 +33,11 @@ module API
         resources :activities do
           route_param :id, type: Integer, desc: 'Time entry activity ID' do
             after_validation do
-              authorize_any(%i(log_time
-                               view_time_entries
-                               edit_time_entries
-                               edit_own_time_entries
-                               manage_project_activities), global: true) do
+              authorize_in_any_project(%i(log_time
+                                          view_time_entries
+                                          edit_time_entries
+                                          edit_own_time_entries
+                                          manage_project_activities)) do
                 raise API::Errors::NotFound.new
               end
 

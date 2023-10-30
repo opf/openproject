@@ -63,7 +63,7 @@ module API
                 get do
                   project = find_project
 
-                  authorize(:view_linked_issues, context: project) do
+                  authorize_in_project(:view_linked_issues, project:) do
                     raise API::Errors::NotFound.new
                   end
 
@@ -79,7 +79,7 @@ module API
                 post do
                   project = find_project
 
-                  authorize(:manage_bcf, context: project) do
+                  authorize_in_project(:manage_bcf, project:) do
                     raise API::Errors::NotFound.new
                   end
 

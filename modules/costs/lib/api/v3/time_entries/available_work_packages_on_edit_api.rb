@@ -31,8 +31,8 @@ module API
     module TimeEntries
       class AvailableWorkPackagesOnEditAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_any %i[log_time log_own_time edit_time_entries edit_own_time_entries],
-                        projects: @time_entry.project
+          authorize_in_projects(%i[log_time log_own_time edit_time_entries edit_own_time_entries],
+                                projects: @time_entry.project)
         end
 
         helpers AvailableWorkPackagesHelper
