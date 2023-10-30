@@ -37,12 +37,7 @@
             end
 
             grid.with_area(:user, tag: :div, color: :subtle, mr: 3, font_weight: :light, data: { 'test-selector': 'storage-creator' }, classes: 'ellipsis') do
-              render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true))
-            end
-
-
-            grid.with_area(:user, tag: :div, color: :subtle, mr: 3, font_weight: :light, data: { 'test-selector': 'storage-creator' }, classes: 'op-storage-list--row--user_avatar') do
-              render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: false))
+              render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true, classes_for_name: 'hidden-for-mini-laptop'))
             end
 
             grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm, data: { 'test-selector': 'storage-provider' }) do
