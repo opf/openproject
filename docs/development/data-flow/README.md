@@ -79,83 +79,90 @@ Depending on the individual use and permissions of the user the following person
 
 ##### Boards (cb-01) 
 
+- Assignment of a work package to a person
 - Change history
-- Persons named in boards
-- Assignments of work packages to persons
+- Person mentioned in a board
 
 ##### Budgets (cb-02)
 
+- Assignment of a person to a budget
 - Change history
-- Assignments of persons to budgets
-- Persons named in budget descriptions
+- Person mentioned in a budget description
 
 ##### Comments (cc-01)
 
+- Assignment of comment or reaction to a person (comment's author)
 - Change history
-- Persons named in comments
+- Person mentioned in a comment
 
 ##### Documents (cd-01) 
 
+- Assignment of a document to an uploader or creator
 - Change history
-- Persons named in file attachments incl. file attributes
+- Person mentioned in a document (incl. file attributes)
 
 ##### Email notifications (ce-01)
 
 - Email header including sender and recipients
-- Persons named in the emails
+- Person mentioned in an email
 
 ##### Meetings (cm-01)
 
+- Assignment of a person (invitee, participant) to a meeting
 - Change history
-- Invitees
-- Participants
-- Persons named in agenda items
+- Person mentioned in an agenda item
 
 ##### Projects (cp-01)
 
+- Assignment of a contributor to a project
+
 - Change history
 
-- Persons name in project overviews
+- Person mentioned in a project overview
 
-- Persons named in project attributes
+- Person mentioned in a project attribute
 
-- Persons named in project status information
+- Persons mentioned in a project status information
 
 
 ##### Project calendars (cp-02)
 
+- Assignment of a timed work package to a person
 - Change history
-- Persons named in the calendars
-- Assignments of work packages to persons
+- Person mentioned in a calendar item
 
 ##### Project news (cp-03)
 
+- Assignment of a project news to a person (author)
 - Change history
-- Persons named in project news
+- Person mentioned in a project news
 
 ##### Team planner (ct-01)
 
+- Assignment of a work package to a person
 - Change history
-- Persons named in team planners
-- Assignments of work packages to persons
+- Persons mentioned in team planners
 
 ##### Time tracking (ct-02)
 
+- Assignments of a time entry to a person
 - Change history
-- Persons named in time entries
+- Person mentioned in a time entry
 
 ##### Wiki pages (cw-01)
 
-- Modification history
-- Persons named in wiki pages
+- Assignment of an wiki page edit to a person (author, contributor)
+- Change history
+- Person mentioned in a wiki page
 
 ##### Work packages (cw-02)
 
+- Assignment of a work package to a person
 - Change history
-- Persons named in lists and project schedules
-- Persons named in attributes and text fields
-- Persons named in linked files
-- Persons named in linked pull requests (GitHub)
+- Person mentioned in a list or project schedule
+- Person mentioned in an attributs or text field
+- Person mentioned in a linked file
+- Person mentioned in a linked pull request (i.e., GitHub)
 
 
 ### D: Logging
