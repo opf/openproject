@@ -1,6 +1,6 @@
 <%=
   if storages.present?
-    render(Primer::Beta::BorderBox.new(classes: 'op-storage-list--box')) do |component|
+    render(Primer::Beta::BorderBox.new) do |component|
       component.with_header(color: :subtle) do
         grid_layout('op-storage-list--header', tag: :div, align_items: :center) do |grid|
           grid.with_area(:name, tag: :div, mr: 3) do
