@@ -44,6 +44,9 @@ module ApplicationHelper
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)
     User.current.allowed_in_project?({ controller:, action: }, project)
+  rescue Authorization::UnknownPermissionError
+    # TODO: Temporary fix until we find something better
+    false
   end
 
   # Display a link if user is authorized

@@ -62,9 +62,7 @@ module OpenProject::Meeting
                    permissible_on: :project,
                    require: :member
         permission :meetings_send_invite,
-                   {
-                     meetings: [:icalendar]
-                   },
+                   { meetings: [:icalendar] },
                    permissible_on: :project,
                    require: :member
         permission :manage_agendas,
@@ -94,7 +92,7 @@ module OpenProject::Meeting
                    permissible_on: :project,
                    require: :member
         permission :send_meeting_minutes_notification,
-                   { meeting_minutes: %i[notify icalendar] },
+                   { meeting_minutes: %i[notify] },
                    permissible_on: :project,
                    require: :member
       end
