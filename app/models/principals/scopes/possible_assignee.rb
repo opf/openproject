@@ -41,17 +41,53 @@ module Principals::Scopes
       # User instances need to be non locked (status).
       # Only principals with a role marked as assignable in the project are returned.
       # If more than one project is given, the principals need to be assignable in all of the projects (intersection).
-      # @project [Project, [Project]] The project for which eligible candidates are to be searched
+      # @project [Project, [Project], WorkPackage, [WorkPackage]] The entity for which eligible candidates are to be searched
       # @return [ActiveRecord::Relation] A scope of eligible candidates
-      def possible_assignee(project)
-        where(
-          id: Member
-              .assignable
-              .of(project)
+      def possible_assignee(entities)
+        entities = Array(entities)
+
+        unless single_entity_type?(entities)
+          raise ArgumentError,
+                "Don't query for multiple types of entities"
+        end
+
+        case entities_type(entities)
+        when Project
+          where(id: member_users_in_all_projects(entities))
+        when WorkPackage
+          projects = Project.where(id: WorkPackage.where(id: entities).select('project_id'))
+
+          where(id: member_users_in_all_work_packages(entities))
+            .or(where(id: member_users_in_all_projects(projects)))
+        else
+          raise ArgumentError,
+                "Unsupported entity type queried for"
+        end
+      end
+
+      def single_entity_type?(entities)
+        entities.map(&:class).uniq.size == 1
+      end
+
+      def entities_type(entities)
+        entities.first
+      end
+
+      def member_users_in_all_projects(projects)
+        Member
+          .assignable
+          .of(projects)
+          .group('user_id')
+          .having(["COUNT(DISTINCT(project_id, user_id)) = ?", projects.size])
+          .select('user_id')
+      end
+
+      def member_users_in_all_work_packages(work_packages)
+        Member.assignable
+              .of_work_package(work_packages)
               .group('user_id')
-              .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).size])
+              .having(["COUNT(DISTINCT(entity_type, entity_id, user_id)) = ?", work_packages.size])
               .select('user_id')
-        )
       end
     end
   end
