@@ -65,7 +65,7 @@ Capybara::Cuprite::Driver.prepend(SetCupriteDownloadPath)
 def register_better_cuprite(language, name: :"better_cuprite_#{language}")
   Capybara.register_driver(name) do |app|
     options = {
-      process_timeout: 10,
+      process_timeout: 20,
       inspector: true,
       headless: headless_mode?,
       window_size: [1920, 1080]

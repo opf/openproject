@@ -83,11 +83,5 @@ module Costs
       time_entries_with_rate = time_entries.select { |c| c.costs_visible_by?(@user) }
       time_entries_with_rate.blank? ? nil : time_entries_with_rate.sum(&:real_costs)
     end
-
-    def user_allowed_to?(*privileges)
-      privileges.inject(false) do |result, privilege|
-        result || @user.allowed_to?(privilege, @work_package.project)
-      end
-    end
   end
 end
