@@ -2,7 +2,6 @@ import { wpOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/to
 import {
   OnboardingTourNames,
   onboardingTourStorageKey,
-  preventClickHandler,
   ProjectName,
   waitForElement,
 } from 'core-app/core/setup/globals/onboarding/helpers';
@@ -40,7 +39,7 @@ export type OnboardingStep = {
   onBeforeStart?:() => void,
 };
 
-function initializeTour(storageValue:string, disabledElements?:string) {
+function initializeTour(storageValue:string) {
   window.onboardingTourInstance = new window.EnjoyHint({
     onStart() {
       jQuery('#content-wrapper, #menu-sidebar').addClass('-hidden-overflow');
@@ -51,9 +50,6 @@ function initializeTour(storageValue:string, disabledElements?:string) {
     },
     onSkip() {
       sessionStorage.setItem(onboardingTourStorageKey, 'skipped');
-      if (disabledElements) {
-        jQuery(disabledElements).removeClass('-disabled').unbind('click', preventClickHandler);
-      }
       jQuery('#content-wrapper, #menu-sidebar').removeClass('-hidden-overflow');
     },
   });
@@ -115,7 +111,7 @@ export function start(name:OnboardingTourNames, project?:ProjectName):void {
       startTour(scrumTaskBoardTourSteps());
       break;
     case 'homescreen':
-      initializeTour('startProjectTour', '.widget-box--blocks--buttons a');
+      initializeTour('startProjectTour');
       startTour(homescreenOnboardingTourSteps());
       break;
     case 'main':
