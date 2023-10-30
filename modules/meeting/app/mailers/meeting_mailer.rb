@@ -57,9 +57,8 @@ class MeetingMailer < UserMailer
     end
   end
 
-  def icalendar_notification(meeting, content_type, user)
+  def icalendar_notification(meeting, user, _actor, **)
     @meeting = meeting
-    @content_type = content_type
 
     set_headers @meeting
 

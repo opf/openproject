@@ -36,7 +36,12 @@ RSpec.describe MeetingContentsController do
   shared_let(:watcher2) { create(:user, member_with_roles: { project => role }) }
   shared_let(:meeting) do
     User.execute_as author do
-      create(:meeting, author:, project:)
+      meeting = build(:meeting, author:, project:)
+      meeting.participants.build(user: watcher1, invited: true, attended: false)
+      meeting.participants.build(user: watcher2, invited: true, attended: false)
+
+      meeting.save!
+      meeting
     end
   end
   shared_let(:meeting_agenda) do
@@ -49,9 +54,6 @@ RSpec.describe MeetingContentsController do
     ActionMailer::Base.deliveries = []
     allow_any_instance_of(MeetingContentsController).to receive(:find_content)
     allow(controller).to receive(:authorize)
-    meeting.participants.merge([meeting.participants.build(user: watcher1, invited: true, attended: false),
-                                meeting.participants.build(user: watcher2, invited: true, attended: false)])
-    meeting.save!
     controller.instance_variable_set(:@content, meeting_agenda.meeting.agenda)
     controller.instance_variable_set(:@content_type, 'meeting_agenda')
   end
@@ -59,7 +61,11 @@ RSpec.describe MeetingContentsController do
   shared_examples_for 'delivered by mail' do
     before { put action, params: { meeting_id: meeting.id } }
 
-    it { expect(ActionMailer::Base.deliveries.count).to eql(mail_count) }
+    it 'submits the mails' do
+      perform_enqueued_jobs
+
+      expect(ActionMailer::Base.deliveries.count).to eql(mail_count)
+    end
   end
 
   describe 'PUT' do
@@ -76,7 +82,7 @@ RSpec.describe MeetingContentsController do
 
       context 'with an error during deliver' do
         before do
-          allow(MeetingMailer).to receive(:content_for_review).and_raise(Net::SMTPError)
+          allow(MeetingMailer).to receive(:invited).and_raise(Net::SMTPError)
         end
 
         it 'does not raise an error' do
@@ -84,7 +90,7 @@ RSpec.describe MeetingContentsController do
         end
 
         it 'produces a flash message containing the mail addresses raising the error' do
-          put 'notify',  params: { meeting_id: meeting.id }
+          put 'notify', params: { meeting_id: meeting.id }
           meeting.participants.each do |participant|
             expect(flash[:error]).to include(participant.name)
           end
@@ -106,7 +112,7 @@ RSpec.describe MeetingContentsController do
       context 'with an error during deliver' do
         before do
           author.save!
-          allow(MeetingMailer).to receive(:content_for_review).and_raise(Net::SMTPError)
+          allow(MeetingMailer).to receive(:invited).and_raise(Net::SMTPError)
         end
 
         it 'does not raise an error' do

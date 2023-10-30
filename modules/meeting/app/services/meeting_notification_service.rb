@@ -12,14 +12,14 @@ class MeetingNotificationService
 
   private
 
-  def send_notifications!(action, include_author:, **params)
+  def send_notifications!(action, include_author:, **)
     author_mail = meeting.author.mail
 
     recipients_with_errors = []
     meeting.participants.includes(:user).find_each do |recipient|
       next if recipient.mail == author_mail && !include_author
 
-      MeetingMailer.send(action, meeting, recipient.user, User.current, **params).deliver_later
+      MeetingMailer.send(action, meeting, recipient.user, User.current, **).deliver_later
     rescue StandardError => e
       Rails.logger.error do
         "Failed to deliver #{action} notification to #{recipient.mail}: #{e.message}"
