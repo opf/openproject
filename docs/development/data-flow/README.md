@@ -1,6 +1,9 @@
-# Processing of personal data
+# Flows of personal data
 
-> **Note:** Purpose of this document is to provide users a starting point for creating their own data privacy information documentation imposed by the GDPR. The legal information for using services provided by the OpenProject GmbH can be found here:
+> **Note:** This document describes the flows of personal data in the OpenProject open source software. The information supports data controllers in drafting their data protection documents as required by the GDPR. 
+>
+> Customer of the [OpenProject Enterprise Edition](https://www.openproject.org/enterprise-edition/) (a software-as-a-serive by the OpenProject GmbH) please check the following legal documents:
+>
 > * [Privacy Policy](https://www.openproject.org/legal/privacy/)
 > * [Data Processing Agreement](https://www.openproject.org/legal/data-processing-agreement/)
 > * [Sub-Processors](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
