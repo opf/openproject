@@ -116,6 +116,7 @@ RSpec.describe 'Admin storages',
           click_button 'Save and continue'
         end
 
+        expect(page).to have_test_selector('storage-name-title', text: 'My Nextcloud')
         expect(page).to have_test_selector('storage-description', text: [storage.short_provider_type.capitalize,
                                                                          'My Nextcloud',
                                                                          storage.host].join(' - '))
