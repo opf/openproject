@@ -47,11 +47,24 @@ RSpec.describe 'baseline query saving',
            member_with_permissions: { project => %i[view_work_packages save_queries manage_public_queries] })
   end
 
+  # 1 or 2 depending on daylight saving time
+  shared_let(:berlin_hours_offset) { berlin_user.time_zone.tzinfo.observed_utc_offset / 3600 }
+  # "+01:00" or "+02:00" depending on daylight saving time
+  shared_let(:berlin_time_offset) { "+0#{berlin_hours_offset}:00" }
+  # "UTC+1" or "UTC+2" depending on daylight saving time
+  shared_let(:berlin_utc_offset) { "UTC+#{berlin_hours_offset}" }
+
   shared_let(:tokyo_user) do
     create(:user,
            preferences: { time_zone: 'Asia/Tokyo' },
            member_with_permissions: { project => %i[view_work_packages save_queries manage_public_queries] })
   end
+  # always 9 as Japan does not observe daylight saving time
+  shared_let(:tokyo_hours_offset) { tokyo_user.time_zone.tzinfo.observed_utc_offset / 3600 }
+  # always "+09:00"
+  shared_let(:tokyo_time_offset) { "+0#{tokyo_hours_offset}:00" }
+  # always "UTC+9"
+  shared_let(:tokyo_utc_offset) { "UTC+#{tokyo_hours_offset}" }
 
   it 'shows a warning when an incompatible filter is used' do
     login_as berlin_user
@@ -65,7 +78,7 @@ RSpec.describe 'baseline query saving',
 
     baseline_modal.select_filter 'yesterday'
     baseline_modal.set_time '09:00'
-    baseline_modal.expect_offset 'UTC+2'
+    baseline_modal.expect_offset berlin_utc_offset
     baseline_modal.apply
 
     loading_indicator_saveguard
@@ -75,7 +88,7 @@ RSpec.describe 'baseline query saving',
 
     loading_indicator_saveguard
 
-    expect(page).to have_selector(
+    expect(page).to have_css(
       '.op-toast.-warning',
       text: 'Baseline mode is on but some of your active filters are not included in the comparison.'
     )
@@ -96,7 +109,7 @@ RSpec.describe 'baseline query saving',
 
     baseline_modal.select_filter 'yesterday'
     baseline_modal.set_time '09:00'
-    baseline_modal.expect_offset 'UTC+2'
+    baseline_modal.expect_offset berlin_utc_offset
     baseline_modal.apply
 
     loading_indicator_saveguard
@@ -107,33 +120,35 @@ RSpec.describe 'baseline query saving',
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_closed
     baseline.expect_legends
-    baseline.expect_legend_text "Changes since yesterday (#{Date.yesterday.iso8601} 9:00 AM UTC+2)"
-    expect(page).to have_selector(".op-baseline-legends--details-added", text: 'Now meets filter criteria (1)')
-    expect(page).to have_selector(".op-baseline-legends--details-removed", text: 'No longer meets filter criteria (0)')
-    expect(page).to have_selector(".op-baseline-legends--details-changed", text: 'Maintained with changes (0)')
+    baseline.expect_legend_text "Changes since yesterday (#{Date.yesterday.iso8601} 9:00 AM #{berlin_utc_offset})"
+    expect(page).to have_css(".op-baseline-legends--details-added", text: 'Now meets filter criteria (1)')
+    expect(page).to have_css(".op-baseline-legends--details-removed", text: 'No longer meets filter criteria (0)')
+    expect(page).to have_css(".op-baseline-legends--details-changed", text: 'Maintained with changes (0)')
 
     wp_table.save_as 'Baseline query'
     wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
 
     query = retry_block { Query.find_by! name: 'Baseline query' }
-    expect(query.timestamps.map(&:to_s)).to eq ['oneDayAgo@09:00+02:00', 'PT0S']
+    expect(query.timestamps.map(&:to_s)).to eq ["oneDayAgo@09:00#{berlin_time_offset}", 'PT0S']
     query.update! public: true
 
     login_as tokyo_user
     wp_table.visit_query query
-    baseline.expect_legend_text "Changes since yesterday (#{Date.yesterday.iso8601} 9:00 AM UTC+2)"
-    baseline.expect_legend_tooltip "In your local timezone: #{Date.yesterday.iso8601} 4:00 PM UTC+9"
+    baseline.expect_legend_text "Changes since yesterday (#{Date.yesterday.iso8601} 9:00 AM #{berlin_utc_offset})"
+    expected_tokyo_time = berlin_user.time_zone.tzinfo.dst? ? "4:00" : "5:00"
+    baseline.expect_legend_tooltip "In your local timezone: " \
+                                   "#{Date.yesterday.iso8601} #{expected_tokyo_time} PM #{tokyo_utc_offset}"
 
     baseline_modal.expect_closed
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
     baseline_modal.expect_selected 'yesterday'
     baseline_modal.expect_selected_time '09:00'
-    baseline_modal.expect_offset 'UTC+2'
+    baseline_modal.expect_offset berlin_utc_offset
     baseline_modal.select_filter '-'
 
     baseline_modal.select_filter 'yesterday'
-    baseline_modal.expect_offset 'UTC+9'
+    baseline_modal.expect_offset tokyo_utc_offset
     baseline_modal.select_filter '-'
 
     baseline_modal.apply
@@ -150,7 +165,7 @@ RSpec.describe 'baseline query saving',
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
     baseline_modal.select_filter 'a specific date'
-    baseline_modal.expect_offset 'UTC+9'
+    baseline_modal.expect_offset tokyo_utc_offset
     baseline_modal.set_time '06:00'
     baseline_modal.set_date '2023-05-20'
     baseline_modal.apply
@@ -177,6 +192,12 @@ RSpec.describe 'baseline query saving',
     baseline_modal.expect_time_help_text "In your local time: 2023-05-19 11:00 PM"
     baseline_modal.select_filter 'between two specific dates'
 
+    # TODO: on the 2023-05-19, utc offset is +2 hours. But when current date is
+    # outside of DST (from November to February for instance), then on time
+    # selection input the displayed offset is UTC+1. While technically ok, it
+    # would be better to change the offset depending on the selected date: here
+    # UTC+2 offset should be used so that 8:00 is really 8:00 in Berlin on this
+    # date, and not 9:00 (because 8:00 UTC+1 is 9:00 UTC+2).
     baseline_modal.set_between_dates from: '2023-05-19',
                                      to: '2023-05-25',
                                      from_time: '08:00',
@@ -190,12 +211,15 @@ RSpec.describe 'baseline query saving',
     wp_table.expect_and_dismiss_toaster(message: 'Successful update.')
 
     query.reload
-    expect(query.timestamps.map(&:to_s)).to eq ['2023-05-19T08:00+02:00', '2023-05-25T20:00+02:00']
+    expect(query.timestamps.map(&:to_s)).to eq ["2023-05-19T08:00#{berlin_time_offset}", "2023-05-25T20:00#{berlin_time_offset}"]
 
     login_as tokyo_user
     wp_table.visit_query query
-    baseline.expect_legend_text "Changes between 2023-05-19 8:00 AM UTC+2 and 2023-05-25 8:00 PM UTC+2"
-    baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 3:00 PM UTC+9 - 2023-05-26 3:00 AM UTC+9"
+    baseline.expect_legend_text "Changes between 2023-05-19 8:00 AM #{berlin_utc_offset} " \
+                                "and 2023-05-25 8:00 PM #{berlin_utc_offset}"
+    expected_tokyo_time = berlin_user.time_zone.tzinfo.dst? ? "3:00" : "4:00"
+    baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 #{expected_tokyo_time} PM #{tokyo_utc_offset} " \
+                                   "- 2023-05-26 #{expected_tokyo_time} AM #{tokyo_utc_offset}"
 
     baseline_modal.expect_closed
     baseline_modal.toggle_drop_modal
@@ -206,6 +230,6 @@ RSpec.describe 'baseline query saving',
                                         from_time: '08:00',
                                         to_time: '20:00'
 
-    baseline_modal.expect_offset 'UTC+2', count: 2
+    baseline_modal.expect_offset berlin_utc_offset, count: 2
   end
 end
