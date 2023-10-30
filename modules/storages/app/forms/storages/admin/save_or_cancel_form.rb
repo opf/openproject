@@ -36,15 +36,23 @@ module Storages::Admin
         button_group.button(name: :cancel,
                             scheme: :default,
                             tag: :a,
-                            href: Rails.application.routes.url_helpers.edit_admin_settings_storage_path(@storage),
-                            label: I18n.t('button_cancel'))
+                            href: @cancel_button_path,
+                            label: I18n.t('button_cancel'),
+                            target: @cancel_button_target)
       end
     end
 
-    def initialize(storage:, submit_label: I18n.t('storages.buttons.save_and_continue'))
+    def initialize(
+      storage:,
+      cancel_button_path: nil,
+      cancel_button_should_break_from_frame: false,
+      submit_label: I18n.t('storages.buttons.save_and_continue')
+    )
       super()
       @storage = storage
       @submit_label = submit_label
+      @cancel_button_path = cancel_button_path || Rails.application.routes.url_helpers.edit_admin_settings_storage_path(storage)
+      @cancel_button_target = '_top' if cancel_button_should_break_from_frame
     end
   end
 end

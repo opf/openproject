@@ -19,7 +19,14 @@
         end
 
         general_info_row.with_row do
-          render(Storages::Admin::SaveOrCancelForm.new(form, storage:))
+          render(
+            Storages::Admin::SaveOrCancelForm.new(
+              form,
+              storage:,
+              cancel_button_path:,
+              cancel_button_should_break_from_frame:
+            )
+          )
         end
       end
     end
