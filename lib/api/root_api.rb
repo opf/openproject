@@ -154,7 +154,7 @@ module API
 
         authorized = permissions.any? do |permission|
           allowed_projects = Project.allowed_to(user, permission)
-          allowed_projects.intersect?(projects)
+          projects.intersect?(allowed_projects)
         end
 
         authorize_by_with_raise(authorized, &block)
