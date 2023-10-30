@@ -21,6 +21,23 @@
       </ul>
   </div>
 
-  <grid *ngIf="grid" [grid]="grid"></grid>
+  <div class="d-flex">
+    <div class="flex-1">
+      <grid *ngIf="grid" [grid]="grid"></grid>
+    </div>
+    <div *ngIf="isTurboFrameSidebarEnabled()" class="op-grid-page--sidebar hidden-for-mobile hidden-for-tablet">
+      <turbo-frame [src]="turboFrameSidebarSrc()" [id]="turboFrameSidebarId()">
+        <op-content-loader viewBox="0 0 100 100">
+          <svg:rect x="0" y="0" width="70" height="5" rx="1" />
+
+          <svg:rect x="75" y="0" width="25" height="5" rx="1" />
+
+          <svg:rect x="0" y="10" width="100" height="8" rx="1" />
+
+          <svg:rect x="0" y="25" width="100" height="12" rx="1" />
+        </op-content-loader>
+      </turbo-frame>
+    </div>
+  </div>
 
 </div>

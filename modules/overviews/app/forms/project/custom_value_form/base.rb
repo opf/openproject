@@ -26,18 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomField < CustomField
-  # belongs_to :project_custom_field_section
-
-  def type_name
-    :label_project_plural
+class Project::CustomValueForm::Base < ApplicationForm
+  def initialize(custom_field:, custom_field_value:, project:)
+    @custom_field = custom_field
+    @custom_field_value = custom_field_value
+    @project = project
   end
 
-  def self.visible(user = User.current)
-    if user.admin?
-      all
+  def base_config
+    {
+      name:,
+      id:,
+      scope_name_to_model: false,
+      scope_id_to_model: false,
+      placeholder: @custom_field.name,
+      label: @custom_field.name,
+      value: @custom_field_value.value,
+      required: @custom_field.is_required?,
+      invalid: @custom_field_value.errors.any?,
+      validation_message: @custom_field_value.errors.any? ? @custom_field_value.errors.full_messages&.join(" ") : nil
+    }
+  end
+
+  def name
+    if @custom_field_value.new_record?
+      "project[new_custom_field_values_attributes][#{@custom_field_value.custom_field_id}][value]"
     else
-      where(visible: true)
+      "project[custom_field_values_attributes][#{@custom_field_value.id}][value]"
     end
+  end
+
+  def id
+    name.gsub(/[\[\]]/, "_")
   end
 end

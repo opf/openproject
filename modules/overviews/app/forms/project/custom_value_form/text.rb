@@ -26,18 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomField < CustomField
-  # belongs_to :project_custom_field_section
-
-  def type_name
-    :label_project_plural
-  end
-
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    else
-      where(visible: true)
-    end
+class Project::CustomValueForm::Text < Project::CustomValueForm::Base
+  form do |custom_value_form|
+    # TODO: rich_text_area not working yet
+    # Uncaught DOMException: Failed to execute 'querySelector' on 'Element': '#project_project[new_custom_field_values_attributes][xyz][value]' is not a valid selector.
+    # --> rich_text_area is not using the configured id, which is not scoped to model via base_config
+    # --> ids with '[' ']' are not valid selectors
+    # using simple text area for now
+    custom_value_form.text_area(**base_config)
   end
 end

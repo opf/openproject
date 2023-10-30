@@ -26,18 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomField < CustomField
-  # belongs_to :project_custom_field_section
+module ProjectAttributes
+  module Section
+    module CustomFieldValue
+      class ShowComponent < ApplicationComponent
+        include ApplicationHelper
+        include OpPrimer::ComponentHelpers
 
-  def type_name
-    :label_project_plural
-  end
+        def initialize(custom_field_value:)
+          super
 
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    else
-      where(visible: true)
+          @custom_field_value = custom_field_value
+        end
+
+        private
+
+        def formated_value
+          case @custom_field_value.custom_field.field_format
+          when "text"
+            ::OpenProject::TextFormatting::Renderer.format_text(@custom_field_value.typed_value)
+          when "date"
+            format_date(@custom_field_value.typed_value)
+          else
+            @custom_field_value.typed_value&.to_s
+          end
+        end
+      end
     end
   end
 end

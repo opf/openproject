@@ -1,0 +1,7 @@
+<%=
+  content_tag("turbo-frame", id: "project-attributes-sidebar") do
+    component_wrapper do
+      render(ProjectAttributes::Section::ShowComponent.new(project: @project))
+    end
+  end
+%>

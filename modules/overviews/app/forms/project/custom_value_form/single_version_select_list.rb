@@ -26,18 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomField < CustomField
-  # belongs_to :project_custom_field_section
-
-  def type_name
-    :label_project_plural
-  end
-
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    else
-      where(visible: true)
+class Project::CustomValueForm::SingleVersionSelectList < Project::CustomValueForm::Base
+  form do |custom_value_form|
+    custom_value_form.autocompleter(**base_config) do |list|
+      @project.versions.each do |version|
+        list.option(
+          label: version.name, value: version.id,
+          selected: version.id == @custom_field_value.value&.to_i
+        )
+      end
     end
   end
+
+  def base_config
+    super.merge(
+      {
+        include_blank: @custom_field.is_required? ? false : '_blank', # autocompleter does not send '_blank' as value when no option is selected
+        autocomplete_options: {
+          multiple: false,
+          decorated: true,
+          inputId: id,
+          inputName: name,
+        }
+      }
+    )
+  end
+
 end

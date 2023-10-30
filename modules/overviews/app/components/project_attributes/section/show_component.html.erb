@@ -1,0 +1,30 @@
+<%=
+  component_wrapper do
+    flex_layout(border: :bottom, pb: 2) do |details_container|
+      details_container.with_row(mb: 2) do
+        flex_layout(align_items: :center, justify_content: :space_between) do |heading|
+          heading.with_column(flex: 1) do
+            render(Primer::Beta::Heading.new(tag: :h4)) { "Basic info" }
+          end
+
+          heading.with_column do
+            render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
+              id: "edit-project-attributes-dialog",
+              src: project_attribute_section_dialog_path(@project),
+              size: :medium_portrait,
+              title: "Edit basic info",
+              button_icon: :pencil,
+              button_attributes: { scheme: :invisible }
+            ))
+          end
+        end
+      end
+
+      @project.custom_field_values.each do |custom_field_value|
+        details_container.with_row(mb: 1) do
+          render(ProjectAttributes::Section::CustomFieldValue::ShowComponent.new(custom_field_value: custom_field_value))
+        end
+      end
+    end
+  end
+%>

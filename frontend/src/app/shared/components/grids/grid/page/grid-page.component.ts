@@ -30,6 +30,10 @@ export abstract class GridPageComponent implements OnInit, OnDestroy {
 
   public grid:GridResource;
 
+  protected isTurboFrameSidebarEnabled():boolean {
+    return false;
+  }
+
   ngOnInit() {
     this.renderer.addClass(document.body, 'widget-grid-layout');
     this

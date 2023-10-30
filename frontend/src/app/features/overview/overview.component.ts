@@ -13,6 +13,18 @@ export class OverviewComponent extends GridPageComponent {
     return 'overviews';
   }
 
+  protected isTurboFrameSidebarEnabled():boolean {
+    return true;
+  }
+
+  protected turboFrameSidebarSrc():string {
+    return `${this.pathHelper.staticBase}/projects/${this.currentProject.identifier!}/attributes_sidebar`;
+  }
+
+  protected turboFrameSidebarId():string {
+    return "project-attributes-sidebar";
+  }
+
   protected gridScopePath():string {
     return this.pathHelper.projectPath(this.currentProject.identifier!);
   }

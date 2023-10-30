@@ -26,18 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomField < CustomField
-  # belongs_to :project_custom_field_section
-
-  def type_name
-    :label_project_plural
-  end
-
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    else
-      where(visible: true)
-    end
+class Project::CustomValueForm::String < Project::CustomValueForm::Base
+  form do |custom_value_form|
+    custom_value_form.text_field(**base_config)
   end
 end

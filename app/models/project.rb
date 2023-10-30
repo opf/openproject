@@ -41,6 +41,8 @@ class Project < ApplicationRecord
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w(new).freeze
 
+  # belongs_to :project_type ---> mimic `work_package -> type -> custom_fields` structure ?
+
   has_many :members, -> {
     # TODO: check whether this should
     # remain to be limited to User only

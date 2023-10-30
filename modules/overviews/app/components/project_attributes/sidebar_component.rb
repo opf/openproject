@@ -26,18 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomField < CustomField
-  # belongs_to :project_custom_field_section
 
-  def type_name
-    :label_project_plural
-  end
+module ProjectAttributes
+  class SidebarComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    else
-      where(visible: true)
+    def initialize(project:)
+      super
+
+      @project = project
     end
   end
 end

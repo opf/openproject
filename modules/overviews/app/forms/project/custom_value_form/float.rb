@@ -26,18 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomField < CustomField
-  # belongs_to :project_custom_field_section
-
-  def type_name
-    :label_project_plural
+class Project::CustomValueForm::Float < Project::CustomValueForm::Base
+  form do |custom_value_form|
+    custom_value_form.text_field(**base_config)
   end
 
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    else
-      where(visible: true)
-    end
+  def base_config
+    super.merge({ type: "number", step: :any })
   end
 end

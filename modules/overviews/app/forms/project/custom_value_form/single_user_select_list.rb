@@ -26,18 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomField < CustomField
-  # belongs_to :project_custom_field_section
-
-  def type_name
-    :label_project_plural
+class Project::CustomValueForm::SingleUserSelectList < Project::CustomValueForm::Base
+  form do |custom_value_form|
+    custom_value_form.autocompleter(**base_config)
   end
 
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    else
-      where(visible: true)
-    end
+  def base_config
+    super.merge({
+      autocomplete_options: {
+        inputId: id,
+        placeholder: "Search for a user",
+        resource: 'users',
+        # filters: [{ name: 'type', operator: '=', values: ['User'] },
+        #           { name: 'id', operator: '!', values: [::Queries::Filters::MeValue::KEY] }],
+        searchKey: 'any_name_attribute',
+        inputName: name,
+        inputValue: @custom_field_value&.value&.to_i || '',
+        # focusDirectly: true,
+        # appendTo: 'body',
+        # disabled: @disabled
+      }
+    })
   end
 end
