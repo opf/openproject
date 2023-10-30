@@ -178,7 +178,7 @@ module OpenProject::Bim
 
       links :bcfViewpoints do
         journable = represented.journable
-        next unless current_user.allowed_in_project?(:view_linked_issues, represented.format) &&
+        next unless current_user.allowed_in_project?(:view_linked_issues, represented.project) &&
           represented.bcf_comment.present? && journable.bcf_issue?
 
         # There will only be one viewpoint per comment but we nevertheless return a collection here so that it is more
