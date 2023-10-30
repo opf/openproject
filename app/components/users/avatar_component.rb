@@ -32,7 +32,7 @@ module Users
     include AvatarHelper
     include OpPrimer::ComponentHelpers
 
-    def initialize(user:, show_name: true, link: true, size: 'default', classes: '', title: nil)
+    def initialize(user:, show_name: true, link: true, size: 'default', classes: '', title: nil, classes_for_name: '')
       super
 
       @user = user
@@ -41,6 +41,7 @@ module Users
       @size = size
       @title = title
       @classes = classes
+      @classes_for_name = classes_for_name
     end
 
     def render?
@@ -54,7 +55,8 @@ module Users
         link: @link,
         hide_name: !@show_name,
         title: @title,
-        class: @classes
+        class: @classes,
+        classes_for_name: @classes_for_name
       )
     end
   end

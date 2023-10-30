@@ -106,6 +106,7 @@ module AvatarHelper
                             link: tag_options[:link],
                             size: tag_options[:size],
                             hideName: tag_options[:hide_name],
+                            classesForName: tag_options[:classes_for_name],
                             title: tag_options.fetch(:title, '')
                           }
   end

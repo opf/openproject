@@ -76,7 +76,7 @@ export class MultipleUserFieldModule extends ResourcesDisplayField {
     this.principalRenderer.renderMultiple(
       element,
       valueForDisplay,
-      { hide: false, link: false },
+      { hide: false, link: false, classes: '' },
       { hide: false, size: 'medium' },
       false,
     );

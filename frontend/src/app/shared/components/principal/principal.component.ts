@@ -70,6 +70,8 @@ export class OpPrincipalComponent implements OnInit {
 
   @Input() hideName = false;
 
+  @Input() classesForName = '';
+
   @Input() link = true;
 
   @Input() size:AvatarSize = 'default';
@@ -97,6 +99,7 @@ export class OpPrincipalComponent implements OnInit {
         {
           hide: this.hideName,
           link: this.link,
+          classes: this.classesForName,
         },
         {
           hide: this.hideAvatar,
