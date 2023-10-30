@@ -193,7 +193,7 @@ As such, the log entries are not kept for a fixed period of time. If there are a
 
 ## Flows of personal data
 
-### System overview
+### A: System overview
 
 The following diagram provides an overview of the flows of personal data in OpenProject. This applies to the different installation methods.
 
@@ -276,7 +276,7 @@ In the course of using the application, background tasks are enqueued in the dat
 
 - **Background worker:** Operates on periodical background data, or performs actions requested by the web request of user (sending emails, exporting data, communicating with external services)
 
-### Identity provider (idp)
+### B: Identity provider (idp)
 
 #### Overview
 
@@ -328,9 +328,9 @@ flowchart LR
 * `idp-02` TLS
 * `idp-03` TLS
 
-### Email (eml) 
+### C: Email (eml) 
 
-#### Data flows between subsystems 
+#### Overview 
 
 
 ```mermaid
@@ -388,11 +388,14 @@ flowchart LR
 #### Security measures
 
 * `eml-01` TLS (not controlled by the OpenProject system)
-* `eml-02` TLS (not controlled by the OpenProject system)
-* `eml-03` TLS (encryption can be activated in the email settings in the OpenProject Administration)
-* **Note**: OpenProject does not support end-to-end encryption using GPG or S/MIME.
 
-### Calendar (cal)
+* `eml-02` TLS (not controlled by the OpenProject system)
+
+* `eml-03` TLS (encryption can be activated in the email settings in the OpenProject Administration)
+
+  **Note**: OpenProject does not support end-to-end encryption using GPG or S/MIME.
+
+### D: Calendar (cal)
 
 #### Overview
 
@@ -422,9 +425,15 @@ flowchart LR
 
 #### Purpose
 
-* Users can import project calendars into their calendar applications using the iCal format.
+* Users can import project calendars into their calendar application using the iCal format.
 
 #### Processed data
+
+* `bu-01`
+* `bu-03 (iCalendar access tokens)`
+* `cm-01`
+* `cp-02`
+* `ct-01`
 
 #### Security measures
 
@@ -432,7 +441,7 @@ flowchart LR
 * `cal-02` TLS (not controlled by the OpenProject system)
 * `cal-03` TLS (not controlled by the OpenProject system) 
 
-### Nextcloud (nex)
+### E: Nextcloud (nex)
 
 #### Overview
 
@@ -463,7 +472,7 @@ subgraph openproject[OpenProject]
   
 ```
 
-#### Reason for the data processing
+#### Purpose
 
 * Users can link files stored in Nextcloud with work package in OpenProject.
 * Project folders in Nextcloud can be managed in OpenProject (create, delete, update, user permissions).
@@ -482,7 +491,7 @@ subgraph openproject[OpenProject]
 * `nex-03` TLS
 * `nex-04` TLS
 
-### GitHub (gih)
+### F: GitHub (gih)
 
 #### Overview
 
@@ -528,7 +537,7 @@ flowchart LR
 * `gih-02` TLS
 * `gih-03` TLS
 
-### API integrations (api)
+### G: API integrations (api)
 
 #### Overview
 
@@ -558,7 +567,7 @@ flowchart LR
 
 * All data the user has permissions to.
 
-> **Note**: Please the [API documentation](https://www.openproject.org/docs/api) for further information about all API endpoints.
+> **Note**: Please see the [API documentation](https://www.openproject.org/docs/api) for further information about all API endpoints.
 
 #### Security measure
 
