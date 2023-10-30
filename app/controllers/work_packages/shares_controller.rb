@@ -61,7 +61,9 @@ class WorkPackages::SharesController < ApplicationController
     @shares = overall_result.map(&:result).reverse
 
     unless overall_result.nil?
-      if current_visible_member_count > 1
+      # In case the number of newly added shares is equal to the whole number of shares,
+      # we have to render the whole modal again to get rid of the blankslate
+      if current_visible_member_count > 1 && @shares.size < current_visible_member_count
         respond_with_prepend_shares
       else
         respond_with_replace_modal

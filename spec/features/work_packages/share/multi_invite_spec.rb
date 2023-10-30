@@ -154,6 +154,39 @@ RSpec.describe 'Work package sharing',
     end
   end
 
+  context 'when starting with no shares yet' do
+    let(:work_package) { create(:work_package, project:) }
+    let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
+    let(:current_user) { global_manager_user }
+
+    before do
+      work_package_page.visit!
+      click_button 'Share'
+    end
+
+    it 'allows adding multiple users and updates the modal correctly' do
+      share_modal.expect_open
+      share_modal.expect_blankslate
+
+      share_modal.invite_users([not_shared_yet_with_user, another_not_shared_yet_with_user], 'Edit')
+
+      share_modal.expect_shared_count_of(2)
+
+      # Due to the exception of starting from a blankslate, the whole modal is re-rendered.
+      # Thus the principals are sorted alphabetically, and not by the time there were added
+      share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit', position: 2)
+      share_modal.expect_shared_with(another_not_shared_yet_with_user, 'Edit', position: 1)
+
+      # They can be removed again
+      share_modal.remove_user(not_shared_yet_with_user)
+      # The additional check is needed because the second removal would otherwise be too fast for the test execution
+      share_modal.expect_shared_count_of(1)
+
+      share_modal.remove_user(another_not_shared_yet_with_user)
+      share_modal.expect_blankslate
+    end
+  end
+
   context 'when having global invite permission' do
     let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manager_user }
