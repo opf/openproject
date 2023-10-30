@@ -136,7 +136,7 @@ module API
       end
 
       def authorize_in_project(permission_or_permissions, project:, user: current_user, &block)
-        permissions = Array(permission_or_permissions)
+        permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
           user.allowed_in_project?(permission, project)
         end
@@ -148,7 +148,7 @@ module API
       def authorize_in_projects(permission_or_permissions, projects:, user: current_user, &block)
         raise ArgumentError if projects.blank?
 
-        permissions = Array(permission_or_permissions)
+        permissions = Array.wrap(permission_or_permissions)
 
         projects = Array(projects)
 
@@ -161,7 +161,7 @@ module API
       end
 
       def authorize_in_any_project(permission_or_permissions, user: current_user, &block)
-        permissions = Array(permission_or_permissions)
+        permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
           user.allowed_in_any_project?(permission)
         end
@@ -170,7 +170,7 @@ module API
       end
 
       def authorize_globally(permission_or_permissions, user: current_user, &block)
-        permissions = Array(permission_or_permissions)
+        permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
           user.allowed_globally?(permission)
         end
