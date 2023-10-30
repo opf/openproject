@@ -72,8 +72,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         {
           'Authorization' => "Bearer #{token.access_token}",
           'Accept' => 'application/json',
-          'Content-Type' => 'application/json',
-          'OCS-APIRequest' => 'true'
+          'Content-Type' => 'application/json'
         }
       )
       case response
