@@ -128,11 +128,17 @@ class WorkPackagesController < ApplicationController
   end
 
   def protect_from_unauthorized_export
-    if (supported_list_formats + %w[atom]).include?(params[:format]) &&
-       !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
-
+    if (supported_list_formats + %w[atom]).include?(params[:format]) && !user_allowed_to_export?
       deny_access
       false
+    end
+  end
+
+  def user_allowed_to_export?
+    if @project
+      User.current.allowed_in_project?(:export_work_packages, @project)
+    else
+      User.current.allowed_in_any_project?(:export_work_packages)
     end
   end
 
