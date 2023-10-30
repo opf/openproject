@@ -253,7 +253,7 @@ module Pages
 
       if expect_success
         expect_and_dismiss_toaster message: 'Successful update'
-        sleep 1
+        wait_for_network_idle
       end
     end
 

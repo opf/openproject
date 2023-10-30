@@ -34,7 +34,7 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 RSpec.describe 'New work package datepicker',
-               js: true, selenium: true, with_settings: { date_format: '%Y-%m-%d' } do
+               :js, :with_cuprite, with_settings: { date_format: '%Y-%m-%d' } do
   let(:project) { create(:project_with_types, public: true) }
   let(:user) { create(:admin) }
 
@@ -45,6 +45,7 @@ RSpec.describe 'New work package datepicker',
     login_as(user)
 
     wp_page_create.visit!
+    wait_for_reload
   end
 
   it 'can open and select the datepicker' do
