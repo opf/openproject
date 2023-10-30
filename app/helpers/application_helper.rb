@@ -43,7 +43,10 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)
-    User.current.allowed_to?({ controller:, action: }, project)
+    User.current.allowed_in_project?({ controller:, action: }, project)
+  rescue Authorization::UnknownPermissionError
+    # TODO: Temporary fix until we find something better
+    false
   end
 
   # Display a link if user is authorized
@@ -326,6 +329,7 @@ module ApplicationHelper
     mode, _theme_suffix = User.current.pref.theme.split("_", 2)
     "data-color-mode=#{mode} data-#{mode}-theme=#{User.current.pref.theme}"
   end
+
   def highlight_default_language(lang_options)
     lang_options.map do |(language_name, code)|
       if code == Setting.default_language
