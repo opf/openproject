@@ -27,7 +27,7 @@
 #++
 
 module Storages::Admin
-  class SaveOrCancelForm < ApplicationForm
+  class SubmitOrCancelForm < ApplicationForm
     form do |buttons|
       buttons.group(layout: :horizontal) do |button_group|
         button_group.submit(**@submit_button_options)

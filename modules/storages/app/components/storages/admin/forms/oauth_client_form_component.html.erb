@@ -19,7 +19,7 @@
 
         oauth_client_row.with_row do
           render(
-            Storages::Admin::SaveOrCancelForm.new(
+            Storages::Admin::SubmitOrCancelForm.new(
               form,
               storage:,
               cancel_button_options: {

@@ -29,7 +29,7 @@
 
         project_folders_form.with_row do
           render(
-            Storages::Admin::SaveOrCancelForm.new(
+            Storages::Admin::SubmitOrCancelForm.new(
               form,
               storage:,
               submit_button_options: {

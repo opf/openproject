@@ -22,7 +22,7 @@
 
         general_info_row.with_row do
           render(
-            Storages::Admin::SaveOrCancelForm.new(
+            Storages::Admin::SubmitOrCancelForm.new(
               form,
               storage:,
               submit_button_options: {
