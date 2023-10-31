@@ -37,7 +37,7 @@ class Queries::WorkPackages::Filter::WatcherFilter <
       # more, e.g. all users could watch issues in public projects,
       # but won't necessarily be shown here
       values = me_allowed_value
-      if User.current.allowed_to?(:view_work_package_watchers, project, global: project.nil?)
+      if view_work_package_watchers_allowed?
         values += principal_loader.user_values
       end
       values
@@ -62,6 +62,14 @@ class Queries::WorkPackages::Filter::WatcherFilter <
   end
 
   private
+
+  def view_work_package_watchers_allowed?
+    if project
+      User.current.allowed_in_project?(:view_work_package_watchers, project)
+    else
+      User.current.allowed_in_any_project?(:view_work_package_watchers)
+    end
+  end
 
   def where_any_watcher
     db_table = Watcher.table_name
