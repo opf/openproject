@@ -65,12 +65,27 @@ class Storages::Admin::StoragesController < ApplicationController
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
     # That service inherits from ::BaseServices::SetAttributes
+    model_class = OpenProject::FeatureDecisions.storage_primer_design_active? ? Storages::Storage : Storages::NextcloudStorage
     @storage = ::Storages::Storages::SetAttributesService
                  .new(user: current_user,
-                      model: Storages::NextcloudStorage.new,
+                      model: model_class.new,
                       contract_class: EmptyContract)
                  .call
                  .result
+  end
+
+  def select_provider
+    @object = Storages::Storage.new(permitted_storage_params(:storages_storage))
+    service_result = ::Storages::Storages::SetAttributesService
+                 .new(user: current_user,
+                      model: @object,
+                      contract_class: Storages::Storages::BaseContract,
+                      contract_options: { skip_provider_type_strategy: true })
+                 .call
+    @storage = service_result.result
+
+    service_result.on_failure { render :new }
+    service_result.on_success { render :storage_view_component }
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -194,9 +209,9 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # Called by create and update above in order to check if the
   # update parameters are correctly set.
-  def permitted_storage_params
+  def permitted_storage_params(model_parameter_name = storage_provider_parameter_name)
     params
-      .require(storage_provider_parameter_name)
+      .require(model_parameter_name)
       .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret', 'tenant_id', 'drive_id')
   end
 
