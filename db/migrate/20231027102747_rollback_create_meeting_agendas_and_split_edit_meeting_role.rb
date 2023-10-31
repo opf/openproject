@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-modules_permissions:
-  meeting:
-  - role: :default_role_member
-    add:
-    - :create_meetings
-    - :edit_meetings
-    - :delete_meetings
-    - :view_meetings
-    - :create_meeting_agendas
-    - :manage_agendas
-    - :close_meeting_agendas
-    - :send_meeting_agendas_notification
-    - :send_meeting_agendas_icalendar
-    - :create_meeting_minutes
-    - :send_meeting_minutes_notification
-  - role: :default_role_reader
-    add:
-    - :view_meetings
+require Rails.root.join("db/migrate/migration_utils/permission_adder")
+
+class RollbackCreateMeetingAgendasAndSplitEditMeetingRole < ActiveRecord::Migration[7.0]
+  def up
+    # Rollback the create_meeting_agendas permission
+    RolePermission.where(permission: 'manage_agendas').update_all(permission: 'create_meeting_agendas')
+
+    # Introduce manage_agendas permission, that is being split from the edit_meeting permission
+    ::Migration::MigrationUtils::PermissionAdder
+      .add(:edit_meetings,
+           :manage_agendas)
+  end
+
+  def down
+    RolePermission.where(permission: 'manage_agendas').destroy_all
+    RolePermission.where(permission: 'create_meeting_agendas').update_all(permission: 'manage_agendas')
+  end
+end

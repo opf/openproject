@@ -65,9 +65,14 @@ module OpenProject::Meeting
                    { meetings: [:icalendar] },
                    permissible_on: :project,
                    require: :member
+        permission :create_meeting_agendas,
+                   {
+                     meeting_agendas: %i[update preview]
+                   },
+                   permissible_on: :project,
+                   require: :member
         permission :manage_agendas,
                    {
-                     meeting_agendas: %i[update preview],
                      meeting_agenda_items: %i[new cancel_new create edit cancel_edit update destroy drop move]
                    },
                    permissible_on: :project, # TODO: Change this to :meeting when MeetingRoles are available
