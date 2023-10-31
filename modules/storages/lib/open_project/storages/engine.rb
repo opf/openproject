@@ -156,7 +156,7 @@ module OpenProject::Storages
         if project.present? &&
           User.current.logged? &&
           User.current.member_of?(project) &&
-          User.current.allowed_to?(:view_file_links, project)
+          User.current.allowed_in_project?(:view_file_links, project)
           project.project_storages.each do |project_storage|
             storage = project_storage.storage
             href = "/api/v3/project_storages/#{project_storage.id}/open"
