@@ -74,7 +74,7 @@ class MessagesController < ApplicationController
   def edit
     return render_403 unless @message.editable_by?(User.current)
 
-    @message.attributes = permitted_params.message(@message)
+    @message.attributes = permitted_params.message(@message.project)
   end
 
   # Create a new topic
