@@ -98,9 +98,6 @@ module Redmine
 
         def possible_watcher?(user)
           user.allowed_in_project?(self.class.acts_as_watchable_permission, project)
-        rescue Authorization::UnknownPermissionError
-          # As not every acts_as_watchable permission is defined, we deal with those here for now
-          false
         end
 
         # Returns all users that could potentially be watchers.
