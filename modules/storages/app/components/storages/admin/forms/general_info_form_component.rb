@@ -35,10 +35,12 @@ module Storages::Admin::Forms
 
     options form_method: :post,
             render_host: true,
+            submit_button_disabled: false,
             cancel_button_should_break_from_frame: false,
             cancel_button_path: Rails.application.routes.url_helpers.admin_settings_storages_path
 
     alias_method :render_host?, :render_host
+    alias_method :submit_button_disabled?, :submit_button_disabled
 
     def form_url
       options[:form_url] || default_form_url

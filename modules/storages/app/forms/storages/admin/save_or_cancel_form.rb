@@ -30,29 +30,37 @@ module Storages::Admin
   class SaveOrCancelForm < ApplicationForm
     form do |buttons|
       buttons.group(layout: :horizontal) do |button_group|
-        button_group.submit(name: :submit,
-                            scheme: :primary,
-                            label: @submit_label)
-        button_group.button(name: :cancel,
-                            scheme: :default,
-                            tag: :a,
-                            href: @cancel_button_path,
-                            label: I18n.t('button_cancel'),
-                            target: @cancel_button_target)
+        button_group.submit(**@submit_button_options)
+        button_group.button(**@cancel_button_options)
       end
     end
 
-    def initialize(
-      storage:,
-      cancel_button_path: nil,
-      cancel_button_should_break_from_frame: false,
-      submit_label: I18n.t('storages.buttons.save_and_continue')
-    )
+    def initialize(storage:, submit_button_options: {}, cancel_button_options: {})
       super()
       @storage = storage
-      @submit_label = submit_label
-      @cancel_button_path = cancel_button_path || Rails.application.routes.url_helpers.edit_admin_settings_storage_path(storage)
-      @cancel_button_target = '_top' if cancel_button_should_break_from_frame
+      @submit_button_options = default_submit_button_options.merge(submit_button_options)
+      @cancel_button_options = default_cancel_button_options.merge(cancel_button_options)
+    end
+
+    private
+
+    def default_submit_button_options
+      {
+        name: :submit,
+        scheme: :primary,
+        label: I18n.t('storages.buttons.save_and_continue'),
+        disabled: false
+      }
+    end
+
+    def default_cancel_button_options
+      {
+        name: :cancel,
+        scheme: :default,
+        tag: :a,
+        href: Rails.application.routes.url_helpers.admin_settings_storages_path,
+        label: I18n.t('button_cancel')
+      }
     end
   end
 end

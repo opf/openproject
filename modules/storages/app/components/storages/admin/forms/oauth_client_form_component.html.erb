@@ -18,7 +18,15 @@
         end
 
         oauth_client_row.with_row do
-          render(Storages::Admin::SaveOrCancelForm.new(form, storage:))
+          render(
+            Storages::Admin::SaveOrCancelForm.new(
+              form,
+              storage:,
+              cancel_button_options: {
+                href: edit_admin_settings_storage_path(storage)
+              }
+            )
+          )
         end
       end
     end
