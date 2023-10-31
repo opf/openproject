@@ -27,11 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("project_module_storages"), t('storages.label_new_storage') %>
-<% local_assigns[:additional_breadcrumb] = t('storages.label_new_storage') %>
-
-<%=
-  render(OpTurbo::FrameComponent.new(id: :storages_storage, context: :select_storage_provider)) do
-    render(Storages::Admin::StorageViewComponent.new(@storage))
-  end
-%>
+<%= turbo_stream.update :select_storage_provider do %>
+  <%= render(Storages::Admin::StorageViewComponent.new(@storage)) %>
+<% end %>

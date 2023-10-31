@@ -85,7 +85,10 @@ class Storages::Admin::StoragesController < ApplicationController
     @storage = service_result.result
 
     service_result.on_failure { render :new }
-    service_result.on_success { render :storage_view_component }
+
+    service_result.on_success do
+      respond_to { |format| format.turbo_stream }
+    end
   end
 
   # rubocop:disable Metrics/AbcSize

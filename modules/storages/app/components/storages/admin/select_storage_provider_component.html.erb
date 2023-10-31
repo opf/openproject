@@ -1,5 +1,5 @@
 <%=
-  render(OpTurbo::FrameComponent.new(id: :storages_storage, context: :select_storage_provider)) do
+  render(OpTurbo::FrameComponent.new(id: :select_storage_provider)) do
     render(Primer::Beta::BorderBox.new) do |component|
       component.with_header(color: :default) do
         render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.file_storage_view.general_information') }
