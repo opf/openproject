@@ -93,7 +93,13 @@ module Storages
     end
 
     def add_remove_users_to_group
-      remote_users = remote_group_users.result_or { puts :error }
+      remote_users = remote_group_users.result_or do |error|
+        return OpenProject.logger.warn({ command: 'nextcloud.group_users',
+                                         group: @storage.group,
+                                         message: error.log_message,
+                                         data: { status: error.data.code, body: error.data.body } }.to_json)
+      end
+
       local_users = client_tokens_scope.order(:id).pluck(:origin_user_id)
 
       (remote_users - local_users - [@storage.username]).each do |user|
@@ -204,7 +210,7 @@ module Storages
         if current_path == project_storage.project_folder_path
           project_storage.project_folder_id
         else
-          move_folder(project_storage, current_path)
+          rename_folder(project_storage, current_path)
             .result_or do |error|
             error_msg = { command: 'nextcloud.rename_file',
                           source: current_path,
@@ -218,7 +224,7 @@ module Storages
       end
     end
 
-    def move_folder(project_storage, current_name)
+    def rename_folder(project_storage, current_name)
       Peripherals::Registry
         .resolve("commands.nextcloud.rename_file")
         .call(storage: @storage, source: current_name, target: project_storage.project_folder_path)
@@ -237,12 +243,17 @@ module Storages
         return OpenProject.logger.warn(error_msg)
       end
 
-      folder_ids = Peripherals::Registry
-                     .resolve('queries.nextcloud.file_ids')
-                     .call(storage: @storage, path: folder_path)
-                     .result_or { |_error| puts :error } # Log this
+      folder_id = Peripherals::Registry
+                    .resolve('queries.nextcloud.file_ids')
+                    .call(storage: @storage, path: folder_path)
+                    .result_or do |error|
+        return OpenProject.logger.warn({ command: 'nextcloud.file_ids',
+                                         path:,
+                                         message: error.log_message,
+                                         data: { status: error.data.code, body: error.data.body } }.to_json)
+      end
 
-      project_storage.update(project_folder_id: folder_ids.dig(folder_path, 'fileid'))
+      project_storage.update(project_folder_id: folder_id.dig(folder_path, 'fileid'))
       project_storage.reload.project_folder_id
     end
 
