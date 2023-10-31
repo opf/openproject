@@ -22,6 +22,16 @@ This chart bootstraps an OpenProject instance, optionally with a PostgreSQL data
 - Helm 3.0.0+
 - PV provisioner support in the underlying infrastructure
 
+
+
+### ReadWriteMany volumes
+
+By default and when using filesystem-based attachments, OpenProject requires the Kubernetes cluster to support `ReadWriteMany` (rwx) volumes. This is due to the fact that multiple container instances need access to write to the attachment storage.
+
+To avoid using ReadWriteMany, you will need to configure an S3 compatible object storage instead which is shown in the [advanced configuration guide](../../configuration/#attachments-storage).
+
+
+
 ## Installing the Chart
 
 You can install the chart with the release name `my-openproject` in its own namespace like this:
