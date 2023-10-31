@@ -70,7 +70,7 @@ module OpenProject
 
           permissions.detect { |p| p.controller_actions.include?(permission_path) }
         else
-          permissions.detect { |p| p.name == action }
+          permissions.detect { |p| p.name == action&.to_sym }
         end
       end
 
