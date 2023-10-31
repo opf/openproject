@@ -135,6 +135,15 @@ module API
         false
       end
 
+      # Checks that the current user has the given permission on the given project or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @param project [Project] the project the permission needs to be checked on
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
       def authorize_in_project(permission_or_permissions, project:, user: current_user, &block)
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
@@ -144,7 +153,15 @@ module API
         authorize_by_with_raise(authorized, &block)
       end
 
-      # checks whether the user has any of the provided permission in any of the provided specific projects
+      # Checks that the current user has the given permission in any of the given projects or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @param projects [[Project]] the projects the permission needs to be checked on
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
       def authorize_in_projects(permission_or_permissions, projects:, user: current_user, &block)
         raise ArgumentError if projects.blank?
 
@@ -160,6 +177,13 @@ module API
         authorize_by_with_raise(authorized, &block)
       end
 
+      # Checks that the current user has the given permission on any project or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
       def authorize_in_any_project(permission_or_permissions, user: current_user, &block)
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
@@ -169,6 +193,13 @@ module API
         authorize_by_with_raise(authorized, &block)
       end
 
+      # Checks that the current user has the given permission globally or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
       def authorize_globally(permission_or_permissions, user: current_user, &block)
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
