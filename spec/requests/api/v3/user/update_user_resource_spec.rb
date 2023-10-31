@@ -30,9 +30,9 @@ require 'rack/test'
 
 RSpec.describe API::V3::Users::UsersAPI do
   include API::V3::Utilities::PathHelper
+  include_context 'with default admin'
 
   let(:path) { api_v3_paths.user(user.id) }
-
   let(:user) { create(:user) }
   let(:parameters) { {} }
 
