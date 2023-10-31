@@ -26,16 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ProjectAttributes
-  class SidebarComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+class ProjectCustomFieldSection < ApplicationRecord
+  has_many :project_custom_field_section_mappings, dependent: :destroy
+  has_many :project_custom_fields, through: :project_custom_field_section_mappings
 
-    def initialize(project:)
-      super
-
-      @project = project
-    end
-  end
+  acts_as_list
 end

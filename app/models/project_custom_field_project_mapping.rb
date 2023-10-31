@@ -26,16 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ProjectAttributes
-  class SidebarComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+class ProjectCustomFieldProjectMapping < ApplicationRecord
+  belongs_to :project
+  belongs_to :project_custom_field, class_name: 'ProjectCustomField', foreign_key: 'custom_field_id',
+                                    inverse_of: :project_custom_field_section_mappings
 
-    def initialize(project:)
-      super
+  # # Additionally to the database-level unique constraint, the application-level validation ensures that a
+  # # custom_field is associated with only one section
+  # validate :project_custom_field_uniqueness
 
-      @project = project
-    end
-  end
+  # private
+
+  # def project_custom_field_uniqueness
+  #   if ProjectCustomFieldSectionMapping.where(custom_field_id:).where.not(id:).exists?
+  #     errors.add(:project_custom_field, "is already associated with another section")
+  #   end
+  # end
 end

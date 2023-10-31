@@ -33,11 +33,20 @@ module ProjectAttributes
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(project:, custom_field_values:)
+      def initialize(project:, project_custom_field_section:, custom_field_values:)
         super
 
         @project = project
+        @project_custom_field_section = project_custom_field_section
         @custom_field_values = custom_field_values
+      end
+
+      private
+
+      def project_custom_field_values_of_section
+        @custom_field_values.to_a.select do |cfv|
+          @project_custom_field_section.project_custom_fields.pluck(:id).include?(cfv.custom_field_id)
+        end
       end
 
       def render_custom_field_value_input(form, custom_field_id, custom_field_values)
@@ -69,7 +78,8 @@ module ProjectAttributes
         when "user"
           render(Project::CustomValueForm::SingleUserSelectList.new(form, custom_field:, custom_field_value:, project: @project))
         when "version"
-          render(Project::CustomValueForm::SingleVersionSelectList.new(form, custom_field:, custom_field_value:, project: @project))
+          render(Project::CustomValueForm::SingleVersionSelectList.new(form, custom_field:, custom_field_value:,
+                                                                             project: @project))
         end
       end
 
@@ -80,7 +90,8 @@ module ProjectAttributes
         when "user"
           render(Project::CustomValueForm::MultiUserSelectList.new(form, custom_field:, custom_field_values:, project: @project))
         when "version"
-          render(Project::CustomValueForm::MultiVersionSelectList.new(form, custom_field:, custom_field_values:, project: @project))
+          render(Project::CustomValueForm::MultiVersionSelectList.new(form, custom_field:, custom_field_values:,
+                                                                            project: @project))
         end
       end
     end

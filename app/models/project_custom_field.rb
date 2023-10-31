@@ -27,7 +27,18 @@
 #++
 
 class ProjectCustomField < CustomField
-  # belongs_to :project_custom_field_section
+  # don't pollute the custom_fields table with a section_id column which is only used by ProjectCustomFields
+  # use a separate mapping table instead
+  has_many :project_custom_field_section_mappings,
+           dependent: :destroy,
+           inverse_of: :project_custom_field,
+           class_name: 'ProjectCustomFieldSectionMapping',
+           foreign_key: 'custom_field_id'
+
+  has_many :project_custom_field_sections,
+           through: :project_custom_field_section_mappings
+
+  validate :exactly_one_section_mapped
 
   def type_name
     :label_project_plural
@@ -38,6 +49,26 @@ class ProjectCustomField < CustomField
       all
     else
       where(visible: true)
+    end
+  end
+
+  def exactly_one_section_mapped
+    unless project_custom_field_sections.count == 1
+      errors.add(:base, "Exactly one section must be mapped to this custom field.")
+    end
+  end
+
+  def project_custom_field_section
+    project_custom_field_sections.first
+  end
+
+  def project_custom_field_section=(section)
+    # without this reload, a nil assignment is not recovered properly
+    project_custom_field_sections.reload
+
+    ActiveRecord::Base.transaction do
+      project_custom_field_sections.clear
+      project_custom_field_sections << section
     end
   end
 end

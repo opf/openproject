@@ -26,7 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-
 module ProjectAttributes
   module Section
     class ShowComponent < ApplicationComponent
@@ -34,10 +33,27 @@ module ProjectAttributes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(project:)
+      def initialize(project:, project_custom_field_section:)
         super
 
         @project = project
+        @project_custom_field_section = project_custom_field_section
+      end
+
+      private
+
+      def project_custom_field_values
+        active_custom_field_ids_of_project = ProjectCustomFieldProjectMapping
+          .where(project_id: @project.id)
+          .pluck(:custom_field_id)
+
+        CustomValue.where(custom_field_id: active_custom_field_ids_of_project, customized_id: @project.id)
+      end
+
+      def project_custom_field_values_of_section
+        project_custom_field_values.select do |cfv|
+          @project_custom_field_section.project_custom_fields.pluck(:id).include?(cfv.custom_field_id)
+        end
       end
     end
   end

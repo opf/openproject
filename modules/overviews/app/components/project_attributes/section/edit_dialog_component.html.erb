@@ -1,16 +1,16 @@
 
 <%=
-  content_tag("turbo-frame", id: "edit-project-attributes-dialog-frame") do
+  content_tag("turbo-frame", id: "edit-project-attributes-dialog-#{@project_custom_field_section.id}-frame") do
     component_wrapper do
       primer_form_with(
         model: @project,
         method: :put,
-        url: project_update_attributes_path(@project)
+        url: project_update_attributes_path(project_id: @project.id, section_id: @project_custom_field_section.id),
       ) do |f|
         component_collection do |collection|
           collection.with_component(Primer::Alpha::Dialog::Body.new(style: "max-height: 500px;")) do
             flex_layout(my: 3) do |flex|
-              @custom_field_values.group_by { |cfv| cfv.custom_field_id }.sort.each do |custom_field_id, custom_field_values|
+              project_custom_field_values_of_section.group_by { |cfv| cfv.custom_field_id }.sort.each do |custom_field_id, custom_field_values|
                 flex.with_row(mb: 2) do
                   render_custom_field_value_input(f, custom_field_id, custom_field_values)
                 end
@@ -21,7 +21,7 @@
             component_collection do |collection1|
               collection1.with_component(Primer::ButtonComponent.new(
                 data: {
-                  'close-dialog-id': "edit-project-attributes-dialog"
+                  'close-dialog-id': "edit-project-attributes-dialog-#{@project_custom_field_section.id}"
                 }
               )) do
                 t("button_cancel")

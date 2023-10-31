@@ -16,10 +16,19 @@ module ::Overviews
     end
 
     def attribute_section_dialog
+      section = ProjectCustomFieldSection.find(params[:section_id])
+
+      active_custom_field_ids_of_project = ProjectCustomFieldProjectMapping
+          .where(project_id: @project.id)
+          .pluck(:custom_field_id)
+
+      custom_field_values = CustomValue.where(custom_field_id: active_custom_field_ids_of_project, customized_id: @project.id)
+
       render(
         ProjectAttributes::Section::EditDialogComponent.new(
           project: @project,
-          custom_field_values: @project.custom_field_values
+          project_custom_field_section: section,
+          custom_field_values:
         ),
         layout: false
       )
@@ -28,6 +37,8 @@ module ::Overviews
     def update_attributes
       # manual nested attributes update as the project model is not yet natively supporting it
       # needs refactoring
+
+      section = ProjectCustomFieldSection.find(params[:section_id])
 
       modified_custom_field_values = []
       has_errors = false
@@ -85,6 +96,7 @@ module ::Overviews
           update_via_turbo_stream(
             component: ProjectAttributes::Section::EditDialogComponent.new(
               project: @project,
+              project_custom_field_section: section,
               custom_field_values: modified_custom_field_values
             )
           )
