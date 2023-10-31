@@ -148,7 +148,7 @@ RSpec.describe Meeting do
       meeting.save!
     end
 
-    it { expect(meeting.watchers.collect(&:user)).to match_array([user1, user2]) }
+    it { expect(meeting.watchers.collect(&:user)).to contain_exactly(user1, user2) }
   end
 
   describe '#close_agenda_and_copy_to_minutes' do
@@ -233,6 +233,20 @@ RSpec.describe Meeting do
         copy = meeting.copy({})
         expect(copy.participants.map(&:user_id)).to eq [user1.id]
       end
+    end
+  end
+
+  describe 'acts_as_watchable' do
+    it 'is watchable' do
+      expect(described_class).to include(Redmine::Acts::Watchable::InstanceMethods)
+    end
+
+    it 'uses the :view_meetings permission' do
+      expect(described_class.acts_as_watchable_permission).to eq(:view_meetings)
+    end
+
+    it 'uses the :view_meetings permission in STI classes' do
+      expect(StructuredMeeting.acts_as_watchable_permission).to eq(:view_meetings)
     end
   end
 end
