@@ -54,7 +54,7 @@ class Meeting < ApplicationRecord
       .merge(Project.allowed_to(args.first || User.current, :view_meetings))
   }
 
-  acts_as_watchable
+  acts_as_watchable permission: :view_meetings
 
   acts_as_searchable columns: [
                        "#{table_name}.title",
