@@ -47,5 +47,21 @@ RSpec.describe OpTurbo::FrameComponent, type: :component do
         expect(component.turbo_frame_id).to eq('storages_nextcloud_storage_1')
       end
     end
+
+    context 'with `id:` option' do
+      it 'returns the turbo frame id' do
+        component = described_class.new(id: 'test_id')
+
+        expect(component.turbo_frame_id).to eq('test_id')
+      end
+    end
+
+    context 'with `id:` and `context:` option' do
+      it 'returns the turbo frame id' do
+        component = described_class.new(id: 'test_id', context: :general_info)
+
+        expect(component.turbo_frame_id).to eq('general_info_test_id')
+      end
+    end
   end
 end
