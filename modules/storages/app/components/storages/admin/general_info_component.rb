@@ -29,9 +29,10 @@
 #++
 #
 module Storages::Admin
-  class StorageGeneralInfoComponent < ApplicationComponent
+  class GeneralInfoComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
-    alias_method :storage, :model
     include StorageViewInformation
+
+    alias_method :storage, :model
   end
 end
