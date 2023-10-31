@@ -118,7 +118,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
           .role_permissions
           # n.b. public permissions are now stored in the database just like others, so to keep the tests like they are
           # we need to filter them out here
-          .reject { |permission| OpenProject::AccessControl.permission(permission.permission).public? }
+          .reject { |permission| OpenProject::AccessControl.permission(permission.permission.to_sym).public? }
           .map(&:destroy)
         end
 
