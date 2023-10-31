@@ -74,11 +74,15 @@ RSpec.describe MeetingMailer do
     end
 
     it 'renders the text body' do
-      check_meeting_mail_content mail.text_part.body
+      User.execute_as(watcher1) do
+        check_meeting_mail_content mail.text_part.body
+      end
     end
 
     it 'renders the html body' do
-      check_meeting_mail_content mail.html_part.body
+      User.execute_as(watcher1) do
+        check_meeting_mail_content mail.html_part.body
+      end
     end
 
     context 'with a recipient with another time zone' do
@@ -204,10 +208,8 @@ RSpec.describe MeetingMailer do
 
       it 'renders the mail with the correct locale' do
         expect(mail.text_part.body).to include('01/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
-        expect(mail.text_part.body).to include("#{author.name} has put the")
         expect(mail.html_part.body).to include('01/19/2021 07:00 PM')
         expect(mail.html_part.body).to include('08:00 PM (GMT+09:00) Asia/Tokyo')
-        expect(mail.html_part.body).to include("#{author.name} has put the")
 
         expect(mail.to).to contain_exactly(watcher1.mail)
       end
@@ -222,11 +224,12 @@ RSpec.describe MeetingMailer do
       end
 
       describe 'it renders november 9th for Berlin zone' do
-        let(:mail) { described_class.icalendar_notification(meeting, watcher1, author) }
+        let(:mail) { described_class.icalendar_notification(meeting, author, author) }
 
         it 'renders the mail with the correct locale' do
           expect(mail.text_part.body).to include('11/09/2021 11:00 PM-12:00 AM (GMT+01:00) Europe/Berlin')
-          expect(mail.html_part.body).to include('11/09/2021 11:00 PM-12:00 AM (GMT+01:00) Europe/Berlin')
+          expect(mail.html_part.body).to include('11/09/2021 11:00 PM')
+          expect(mail.html_part.body).to include('12:00 AM (GMT+01:00) Europe/Berlin')
 
           expect(mail.to).to contain_exactly(author.mail)
         end
