@@ -1,22 +1,38 @@
-# Processing of personal data
+# Flows of personal data
 
-> **Note:** Purpose of this document is to provide users a starting point for creating their own data privacy information documentation imposed by the GDPR. The legal information for using services provided by the OpenProject GmbH can be found here:
+Status of this document: 2023-10-31
+
+## Purpose of this document
+
+This document describes the flows of personal data in the OpenProject software. The purpose of this document is to support the data controllers of organizations that are using OpenProject in their own infrastructure to prepare their own data protection documents as required by the GDPR. 
+
+> **Note:** Customers of the [OpenProject GmbH](https://www.openproject.org/legal/imprint/) that subscribed to the [OpenProject Enterprise Edition Cloud](https://www.openproject.org/enterprise-edition/) (a software-as-a-service) please check the following legal documents:
+>
 > * [Privacy Policy](https://www.openproject.org/legal/privacy/)
 > * [Data Processing Agreement](https://www.openproject.org/legal/data-processing-agreement/)
 > * [Sub-Processors](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
 > * [Technical and Organizational Data Security Measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures/)
 
-Status of this document: DRAFT 2023-10-28
 
-## Purpose and subject of processing
 
-### A1: Anonymous access of OpenProject
+## Groups of personal data
 
-Depending on the individual permission and authentications settings persons can access OpenProject [anonymously](../../system-admin-guide/users-permissions/roles-permissions/#anonymous) without a user account. The [OpenProject community platform](https://community.openproject.org) is an example of an OpenProject installation where individual projects where set to public.  
+OpenProject is a project management and team collaboration software. The software processes personal data of four different groups:
 
-### B: Registration of a user account
+- **User master data:** Serves the administration of a user account
+- **Functional assignments:** Connects a user with work packages, projects, teams, budgets, time logs etc.
+- **Logfiles:** Automatically created protocols of user activity
+- **Content data:** Person mentioned in text or shown in pictures. Those persons do not necessarily not need to be a user.
 
-To sign-in to the OpenProject platform, the registration of a user account is required. For registered user's the following personal data are processed:
+### A: Usage without user account
+
+Depending on the individual [permission](../../system-admin-guide/users-permissions/) and [authentication](../../system-admin-guide/authentication/) settings an OpenProject project can be accessed for read-only [anonymously](../../system-admin-guide/users-permissions/roles-permissions/#anonymous) without a user account. The [OpenProject community platform](https://community.openproject.org) is an example of an OpenProject installation where individual projects where set to public.
+
+Anonymity is not complete because the underlying webserver might still generate its common logfile (weblog).
+
+### B: User master data
+
+To sign-in to the OpenProject platform, the [registration of a user account](../../system-admin-guide/users-permissions/users/#create-users) is required. For registered user's the following personal data are processed:
 
 ##### User profile (bu-01)
 
@@ -30,23 +46,23 @@ To sign-in to the OpenProject platform, the registration of a user account is re
 - Notification settings
 - Email reminder settings
 - Language settings
-- Time zones
-- Display settings: High contrast mode, standard mode, dark mode, and custom themes.
+- Time zone settings
+- Display settings (contrast modes, custom themes)
 
 ##### User authentication (bu-03)
 
-* Access token
+* Access tokens
 * User sessions
 * Password (encrypted)
-* Telephone number for sending one-time passwords via SMS
-* OATH secret code
+* Phone number for sending one-time passwords via SMS
+* OATH secret codes
 
 ##### User notification settings (bu-04)
 
 - Default notification settings
-- Notification settings per project 
+- Project-specific notification settings 
 - Default email reminder settings
-- Email reminder settings per project
+- Project-specific email reminder settings
 
 ##### User roles and permissions (bu-05)
 
@@ -67,88 +83,100 @@ Depending on the individual use and permissions of the user the following person
 
 ##### Boards (cb-01) 
 
+- Assignments of person to a work package (author, assignee, responsible, user custom fields)
 - Change history
-- Persons named in boards
-- Assignments of work packages to persons
+- Person mentioned in a board
 
 ##### Budgets (cb-02)
 
+- Assignments of a person to a budget
 - Change history
-- Assignments of persons to budgets
-- Persons named in budget descriptions
+- Person mentioned in a budget description
 
 ##### Comments (cc-01)
 
+- Author of a comment
 - Change history
-- Persons named in comments
+- Reactions of a user to a comment
+- Person mentioned in a comment
 
 ##### Documents (cd-01) 
 
+- Assignment of a document to an uploader or creator
 - Change history
-- Persons named in file attachments incl. file attributes
+- Person mentioned in a document (incl. file attributes)
 
 ##### Email notifications (ce-01)
 
 - Email header including sender and recipients
-- Persons named in the emails
+- Person mentioned in an email
 
 ##### Meetings (cm-01)
 
+- Assignment of a person (author, invitee, participant) to a meeting
 - Change history
-- Invitees
-- Participants
-- Persons named in agenda items
+- Person mentioned in an agenda item
 
 ##### Projects (cp-01)
 
+- Assignment of a person to a project (author, project member)
+
 - Change history
 
-- Persons name in project overviews
+- Person mentioned in a project overview
 
-- Persons named in project attributes
+- Person mentioned in a project attribute
 
-- Persons named in project status information
+- Persons mentioned in a project status information
 
 
 ##### Project calendars (cp-02)
 
+- Assignment of objects shown in the calendar (meetings, work packages, versions, milestones) to a person
 - Change history
-- Persons named in the calendars
-- Assignments of work packages to persons
+- Person mentioned in a calendar item
 
 ##### Project news (cp-03)
 
+- Author of a project news
 - Change history
-- Persons named in project news
+- Person mentioned in a project news
 
 ##### Team planner (ct-01)
 
+- Assignment of a work package to a person
 - Change history
-- Persons named in team planners
-- Assignments of work packages to persons
+- Persons mentioned in team planners
 
 ##### Time tracking (ct-02)
 
+- Assignments of a time entry to a person
 - Change history
-- Persons named in time entries
+- Person mentioned in a time entry
 
 ##### Wiki pages (cw-01)
 
-- Modification history
-- Persons named in wiki pages
+- Assignment of an wiki page edit to a person (author, contributor)
+- Change history
+- Person mentioned in a wiki page
 
 ##### Work packages (cw-02)
 
+- Assignment of a work package to a person
 - Change history
-- Persons named in lists and project schedules
-- Persons named in attributes and text fields
-- Persons named in linked files
-- Persons named in linked pull requests (GitHub)
+- Person mentioned in a list or project schedule
+- Person mentioned in an attributs or text field
+- Person mentioned in a linked file
+- Person mentioned in a linked pull request (i.e. GitHub)
 
 
 ### D: Logging
 
-Every interaction (i.e. web request) of a browser or other client results in an entry written to logfiles. These files support the operation of the application as they provide information on faulty behaviour of the system (i.e. bugs and lack of performance).
+#### Logged information
+
+Activities in OpenProject are automatically journalized. It allows users to understand the change history of those objects (e.g. the [baseline comparison](../../user-guide/work-packages/baseline-comparison/)).
+
+Independently of the change history every interaction (i.e. web request) of a browser or other client results in an entry written to the server logfiles. These files support the operation of the application as they provide information on faulty behavior of the system (i.e. bugs and lack of performance).
 
 Those log files contain the following person related data:
 * id of the user performing the request
@@ -156,31 +184,37 @@ Those log files contain the following person related data:
 * url called
 * parameters sent to the server as part of the request which comprises the user's input in the form of e.g. work package title and description, wiki page content, comment text, SAML user information etc.
 
-Data that can be identified as sensitive information like passwords are not logged.
+**Note:** Passwords are not logged in plain text.
 
 The data listed above is generated upon entering the application. When actually processing the request within the application, events deemed noteworthy by the developers might be logged additionally. An example of this are failed login attempts.
 
-The logfiles are automatically removed based on a first-in-first-out mechanism. This is done to limit the disk space which ensures the server's operation and at the same time serves as a means to erase the log entries once they have served their purpose of supporting operations. The deciding criteria for how long log entries are kept is by default the size of the logfiles. Once the logfiles reach the limit, the oldest entries are removed. As such, the log entries are not kept for a fixed set of days. If there are a lot of requests, old entries are removed faster then if there are less requests. Administrators of the servers might decide to configure a different behaviour that factors in the age of the log entries as well.
+#### Retention period
 
-More technical information about the logging mechanism can be found in the operations documentation:
+Logfiles are automatically removed based on a first-in-first-out mechanism. This is done to limit the disk space which ensures the server's operation and at the same time serves as a means to erase the log entries once they have served their purpose of supporting operations. By default the retention period is determined by the size of the logfile. Once the logfile reaches its storage limit, the oldest entries are removed. 
+
+As such, the log entries are not kept for a fixed period of time. If there are a lot of requests, old entries are removed faster then if there are less requests. Administrators of an OpenProject installation might decide to configure a different behaviour that factors in the age of the log entries.
+
+#### Technical documentation
+
+Detaild technical about the logging mechanism can be found in the operations documentation:
 
 * [Monitoring your OpenProject installation](../../installation-and-operations/operation/monitoring/)
 
-On top of the log files OpenProject manages, additional logs might be written by systems that are part of the used network infrastructure (e.g., load balancers, proxying servers, or other network components). These are out of scope for this documentation but oftentimes contain additional information such as the IP address. On the other hand, since TLS is employed for all connections by default, those intermediary systems do not have access to the full request body so they are not able to see for example the request parameters.
+> **Note:** Additional logfiles might be generated by systems that are part of the used network infrastructure (e.g., load balancers, proxying servers, or other network components). These are out of scope for this documentation but they often contain additional information such as the IP address. On the other hand, since TLS is employed for all connections by default, those intermediary systems do not have access to the full request body so they are not able to see for example the request parameters.
 
-## Data flows of personal data
+## Flows of personal data
 
-### System overview
+### A: System overview
 
-The following diagram provides an overview of the data flows of personal data in OpenProject. This applies to the different installation methods.
+The following diagram provides an overview of the flows of personal data in OpenProject. This applies to the different installation methods.
 
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 
 flowchart TD
-  browser[Client browser] -->|"HTTP(s) requests"| loadbalancer(Load balancer / proxy)
-  A1[Native clients] -->|"HTTP(s) requests"| loadbalancer
-  A2[SVN or Git clients] -->|"HTTP(s) requests"| loadbalancer
+  browser[Web browser] -->|"HTTP(s) requests"| loadbalancer(Load balancer / proxy)
+  A1[Native client] -->|"HTTP(s) requests"| loadbalancer
+  A2[SVN or Git client] -->|"HTTP(s) requests"| loadbalancer
   loadbalancer -->|Proxy| openproject
   
   subgraph openproject[OpenProject Core Application]
@@ -213,7 +247,7 @@ end
   openproject --> integrations
   loadbalancer <--> integrations
   
-  subgraph localclients[Local Clients]
+  subgraph localclients[Local Client / User device]
   direction TB
 	browser
 	A1
@@ -229,9 +263,9 @@ end
 
 ```
 
-As a web application, the primary data flow is between the Client Browser (or attached API clients) through an external proxying web server (this might be a load balancer or proxying server). Depending on the individual setup the proxying server is responsible for terminating TLS connections for the course of this document - although encrypted connections between Load balancer and Puma server are possible. In case of packaged or Kubernetes installations, this proxying server might be part of the OpenProject stack (e.g., an Apache2 packaged installation server or nginx ingress).
+As a web application, the primary data flow is between the user's web browser (or attached API clients) through an external proxying web server (this might be a load balancer or proxying server). Depending on the individual setup the proxying server is responsible for terminating TLS connections for the course of this document - although encrypted connections between Load balancer and Puma server are possible. In case of packaged or Kubernetes installations, this proxying server might be part of the OpenProject stack (e.g., an Apache2 packaged installation server or nginx ingress).
 
-The external web server acts as a proxy/reverse-proxy for the OpenProject Puma application server, relaying requests for it to handle and respond. In the course of the request, access to external services such as the PostgreSQL database, a caching server, or attached storages might be performed. In case of S3-compatible object storage set ups, OpenProject performs calls to the object storage to put or request files from it. Likewise, for network-attached storages linked into the application, underlying network requests are performed. These are out of scope for this evaluation, as they are provided and maintained by the operator of the system.
+The external web server acts as a proxy/reverse-proxy for the OpenProject Puma app server, relaying requests for it to handle and respond. In the course of the request, access to external services such as the PostgreSQL database, a caching server, or attached storages might be performed. In case of S3-compatible object storage set ups, OpenProject performs calls to the object storage to put or request files from it. Likewise, for network-attached storages linked into the application, underlying network requests are performed. These are out of scope for this evaluation, as they are provided and maintained by the operator of the system.
 
 In the course of using the application, background tasks are enqueued in the database such as outgoing emails, cleanup tasks, or notification processing. These tasks are performed in a separate process, the background worker queue. This process accesses the same services as the application server process to access or modify data. It might connect to external integrations such as a [Nextcloud](../user-guide/nextcloud-integration/) instance to set up file sharings depending on actions performed by the users.
 
@@ -241,18 +275,19 @@ In the course of using the application, background tasks are enqueued in the dat
 - **Load balancer**: The external load balancer or proxying server receives the request, terminates TLS, and forwards the HTTP request to the Puma application server.
 - **Puma app server**: Processes the request and invokes the appropriate Rails middlewares and controller.
 - **Rails application**:
-- Authenticates the user according to the mechanisms outlined in the [secure coding guidelines](../concepts/secure-coding)
-  - Validates session and input data
-  - Responsible for error handling, logging, and auditing aggregation
-  
-- Retrieves or updates resources to the PostgreSQL database via models
-  - Calls or interacts with external services for requests, such as retrieving files or attachments from object storage
-  
-- Renders the appropriate views
-- **Response**: Sends the HTTP response back through the Puma server and load balancer to the end-user.
-- **Background worker:** Operate on periodical background data, or perform actions requested by the web request of user (sending emails, exporting data, communicating with external services)
+  - Authenticates the user according to the mechanisms outlined in the [secure coding guidelines](../concepts/secure-coding)
+    - Validates session and input data
+    - Responsible for error handling, logging, and auditing aggregation
 
-### Identity provider (idp)
+  - Retrieves or updates resources to the PostgreSQL database via models
+    - Calls or interacts with external services for requests, such as retrieving files or attachments from object storage
+
+  - Renders the appropriate views
+  - **Response**: Sends the HTTP response back through the Puma server and load balancer to the end-user.
+
+- **Background worker:** Operates on periodical background data, or performs actions requested by the web request of user (sending emails, exporting data, communicating with external services)
+
+### B: Identity provider (idp)
 
 #### Overview
 
@@ -288,15 +323,15 @@ flowchart LR
 #### Purpose
 
 * Centralized identity and access management
-* Single sign on
-* Single sign out
-* Syncing LDAP groups with OpenProject groups  
+* Single sign on and single sign out ([OIDC](../../system-admin-guide/authentication/openid-providers/), [SAML](../../system-admin-guide/authentication/saml/))
+* [Syncing LDAP groups with OpenProject groups](../../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/)  
 
 #### Processed data
 
 * `bu-01`
 * `bu-02`
 * `bu-03`
+* `bu-05` (group memberships trough LDAP groups)
 
 #### Security measures
 
@@ -304,9 +339,9 @@ flowchart LR
 * `idp-02` TLS
 * `idp-03` TLS
 
-### Email (eml) 
+### C: Email (eml) 
 
-#### Data flows between subsystems 
+#### Overview 
 
 
 ```mermaid
@@ -364,11 +399,14 @@ flowchart LR
 #### Security measures
 
 * `eml-01` TLS (not controlled by the OpenProject system)
-* `eml-02` TLS (not controlled by the OpenProject system)
-* `eml-03` TLS (encryption can be activated in the email settings in the OpenProject Administration)
-* **Note**: OpenProject does not support end-to-end encryption using GPG or S/MIME.
 
-### Calendar (cal)
+* `eml-02` TLS (not controlled by the OpenProject system)
+
+* `eml-03` TLS (encryption can be activated in the email settings in the OpenProject Administration)
+
+  **Note**: OpenProject does not support end-to-end encryption using GPG or S/MIME.
+
+### D: Calendar (cal)
 
 #### Overview
 
@@ -398,9 +436,15 @@ flowchart LR
 
 #### Purpose
 
-* Users can import project calendars into their calendar applications using the iCal format.
+* Users can import project calendars into their calendar application using the iCal format.
 
 #### Processed data
+
+* `bu-01`
+* `bu-03 (iCalendar access tokens)`
+* `cm-01`
+* `cp-02`
+* `ct-01`
 
 #### Security measures
 
@@ -408,7 +452,7 @@ flowchart LR
 * `cal-02` TLS (not controlled by the OpenProject system)
 * `cal-03` TLS (not controlled by the OpenProject system) 
 
-### Nextcloud (nex)
+### E: Nextcloud (nex)
 
 #### Overview
 
@@ -439,7 +483,7 @@ subgraph openproject[OpenProject]
   
 ```
 
-#### Reason for the data processing
+#### Purpose
 
 * Users can link files stored in Nextcloud with work package in OpenProject.
 * Project folders in Nextcloud can be managed in OpenProject (create, delete, update, user permissions).
@@ -458,7 +502,7 @@ subgraph openproject[OpenProject]
 * `nex-03` TLS
 * `nex-04` TLS
 
-### GitHub (gih)
+### F: GitHub (gih)
 
 #### Overview
 
@@ -504,7 +548,7 @@ flowchart LR
 * `gih-02` TLS
 * `gih-03` TLS
 
-### API integrations (api)
+### G: API integrations (api)
 
 #### Overview
 
@@ -534,19 +578,11 @@ flowchart LR
 
 * All data the user has permissions to.
 
-> **Note**: Please the [API documentation](https://www.openproject.org/docs/api) for further information about all API endpoints.
+> **Note**: Please see the [API documentation](https://www.openproject.org/docs/api) for further information about all API endpoints.
 
 #### Security measure
 
 * `api-01` TLS
-
-## Database schema 
-
-OpenProject's database schema is considered an internal API, please do not rely on it as a stable point of references. Schema modifications by the OpenProject core might be performed in any upgrade, including patch releases. Modifications to the database schema are considered a third-party customization and might prevent us from giving proper support. If you have an active support contract with OpenProject, please note that modifications affect our warranty. For more information, please consult the [Terms of Services](https://www.openproject.org/legal/terms-of-service/#-5-warranty).
-
-We recommend you use existing database tools to inspect and export the database as an ERD. That being said, we've prepared an export of an ERD of the current state of the database. Note that this diagram is not regularly updated. Use tools like IntelliJ database explorer or [mermerd](https://github.com/KarnerTh/mermerd) to generate a live ERD of your database set up instead.
-
-[![OpenProject database schema ERD](openproject-erd.jpg)](openproject-erd.jpg)
 
 ## Use of technical cookies
 
@@ -558,15 +594,18 @@ OpenProject makes use of technical cookies to identity the browser client and/or
 | `autologin` (name is configurable)             | (Optional feature, requires opt-in under Administration > Authentication settings) <br />enables the user to automatically log in again after the session expired (e.g. because the browser was closed). It is set when the user checks the '*Stay logged in*' box in the login form.<br /> | Cookie 1 year<br />+ server-side token N days (configurable) | secure<br />httponly<br />Samesite=Lax<br />encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/app/controllers/concerns/accounts/user_login.rb#L19C1-L29) |
 | `op2fa_remember_token`                         | the presence of that cookie suppresses the need for the user to provide a second factor upon login for N days (configurable by administration) if the user selects to do so when entering the 2fa information. | N days (configurable)                                        | secure<br />httponly<br />Samesite=Lax<br />encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/modules/two_factor_authentication/app/controllers/concerns/two_factor_authentication/remember_token.rb#L28-L34) |
 
-On top of that, for cloud instances:
+## Deletion of personal data
 
-- `openproject_cloud_instances` contains a list of instances the user recently accessed.
-- additional technical cookies might be set by the load balancer and intermediate processes (i.e., to remember a sticky load balancer and ensuring subsequent requests are routed similarly).
+Whenever a user in OpenProject is fully deleted, the system scrubs and removes all user master data, all functional assignments, and all references to a user in the change histories. All actions performed in the name of the user are being replaced with a singular "**Deleted user**" reference in order to maintain integrity of database references, such as being an author of a work package that remains. Finally, the user data itself will be deleted, removing all structural traces of PII in the system. 
 
-## Deletion and anonymization of personally identifiable information
+**Note:** Due to the user references changing, respective cache keys for information such as work packages or projects are invalidated automatically.
 
-Whenever users in OpenProject are fully deleted, the system scrubs and removes all structural PII. For more information on user account deletion, please see [the user administration guide](../../system-admin-guide/users-permissions/users/#delete-users).
+**Note:** Deleting a user account is a permanent action and cannot be reversed. 
 
-Deleting a user account is a permanent action and cannot be reversed. All actions performed in the name of the user are being scrubbed and replaced with a singular "Deleted user" reference in order to maintain integrity of database references, such as being an author of a work package that remains. Finally, the user data itself will be deleted, removing all structural traces of PII in the system. Due to the user references changing, respective cache keys for information such as work packages or projects are invalidated automatically. Note that user-input data such as text or comments cannot be deleted or scrubbed in an automated fashion.
+For more information on user account deletion, please see [the user administration guide](../../system-admin-guide/users-permissions/users/#delete-users).
 
-Log files might still retain PII data of the user for the configured retention period. Memory references in memcached might still refer to (invalidated) user data until it is being reassigned.
+**Note:** Input created by a user such as text or comments cannot be deleted or scrubbed in an automated fashion. The content stays but will be referenced to the non-personal "Deleted User".
+
+**Note:** Persons mentioned in text or shown in uploaded pictures cannot be deleted or scrubbed in an automated fashion. All references to persons in text or pictures need to be deleted either one by one or by deleting the project in total. Memory references in memcached might still refer to (invalidated) user data until it is being reassigned.
+
+**Note:** Logfiles might retain personal data for the configured retention period of the logfile. See "D: Logging" above.
