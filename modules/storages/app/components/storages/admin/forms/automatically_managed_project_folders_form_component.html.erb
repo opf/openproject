@@ -28,7 +28,14 @@
         end
 
         project_folders_form.with_row do
-          render(Storages::Admin::SaveOrCancelForm.new(form, storage:, submit_label: I18n.t("storages.buttons.done_complete_setup")))
+          render(
+            Storages::Admin::SaveOrCancelForm.new(
+              form,
+              storage:,
+              submit_label: I18n.t("storages.buttons.done_complete_setup"),
+              cancel_button_path: edit_admin_settings_storage_path(storage)
+            )
+          )
         end
       end
     end
