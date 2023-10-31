@@ -236,7 +236,7 @@ RSpec.describe LdapAuthSource do
              account_password: 'secret',
              base_dn: 'ou=people,dc=example,dc=com',
              filter_string:,
-             onthefly_register: true,
+             onthefly_register:,
              attr_login: 'uid',
              attr_firstname: 'givenName',
              attr_lastname: 'sn',
@@ -244,6 +244,7 @@ RSpec.describe LdapAuthSource do
              attr_admin:)
     end
 
+    let(:onthefly_register) { true }
     let(:filter_string) { nil }
     let(:attr_admin) { nil }
 
@@ -252,44 +253,143 @@ RSpec.describe LdapAuthSource do
         let(:attr_admin) { 'isAdmin' }
 
         it 'maps for the admin user in ldap', :aggregate_failures do
-          admin_attributes = ldap.find_user('ldap_admin')
-          expect(admin_attributes).to be_a Hash
-          expect(admin_attributes[:firstname]).to eq 'LDAP'
-          expect(admin_attributes[:lastname]).to eq 'Adminuser'
-          expect(admin_attributes[:admin]).to eq true
+          admin = ldap.find_user('ldap_admin')
+          expect(admin).to be_a User
+          expect(admin.firstname).to eq 'LDAP'
+          expect(admin.lastname).to eq 'Adminuser'
+          expect(admin.admin).to eq true
 
-          admin_attributes = ldap.find_user('bb459')
-          expect(admin_attributes).to be_a Hash
-          expect(admin_attributes[:firstname]).to eq 'Belle'
-          expect(admin_attributes[:lastname]).to eq 'Baldwin'
-          expect(admin_attributes[:admin]).to eq false
+          user = ldap.find_user('bb459')
+          expect(user).to be_a User
+          expect(user.firstname).to eq 'Belle'
+          expect(user.lastname).to eq 'Baldwin'
+          expect(user.admin).to eq false
+        end
+
+        context 'with an existing user and different attributes' do
+          let!(:user) { create(:user, ldap_auth_source: ldap, login: 'ldap_admin') }
+
+          it 'updates the user' do
+            expect(user.firstname).to eq 'Bob'
+            expect(user).not_to be_admin
+
+            user = ldap.find_user('ldap_admin')
+            expect(user).to be_a User
+            expect(user.firstname).to eq 'LDAP'
+            expect(user.lastname).to eq 'Adminuser'
+            expect(user).to be_admin
+            expect(user.ldap_auth_source_id).to eq ldap.id
+          end
         end
       end
     end
 
-    describe '#authenticate' do
+    describe 'looking up and authenticating users' do
       context 'with a valid LDAP user' do
-        it 'returns the user attributes' do
-          attributes = ldap.authenticate('bb459', 'niwdlab')
-          expect(attributes).to be_a Hash
-          expect(attributes[:firstname]).to eq 'Belle'
-          expect(attributes[:lastname]).to eq 'Baldwin'
-          expect(attributes[:mail]).to eq 'belle@example.org'
-          expect(attributes[:ldap_auth_source_id]).to eq ldap.id
+        it 'authenticates the user' do
+          user = ldap.authenticate('bb459', 'niwdlab')
+          expect(user).to be_a User
+          expect(user.firstname).to eq 'Belle'
+          expect(user.lastname).to eq 'Baldwin'
+          expect(user.mail).to eq 'belle@example.org'
+          expect(user.ldap_auth_source_id).to eq ldap.id
+        end
 
-          expect { User.new(attributes) }.not_to raise_error
+        it 'finds the user' do
+          user = ldap.find_user('bb459')
+          expect(user).to be_a User
+          expect(user.firstname).to eq 'Belle'
+          expect(user.lastname).to eq 'Baldwin'
+          expect(user.mail).to eq 'belle@example.org'
+          expect(user.ldap_auth_source_id).to eq ldap.id
+        end
+      end
+
+      context 'with an existing user and different attributes' do
+        let!(:user) { create(:user, ldap_auth_source: ldap, login: 'bb459') }
+
+        it 'updates the user' do
+          expect(user.firstname).to eq 'Bob'
+
+          user = ldap.find_user('bb459')
+          expect(user).to be_a User
+          expect(user.firstname).to eq 'Belle'
+          expect(user.lastname).to eq 'Baldwin'
+          expect(user.mail).to eq 'belle@example.org'
+          expect(user.ldap_auth_source_id).to eq ldap.id
+        end
+      end
+
+      context 'with a valid LDAP user that exists, but not for the ldap connection' do
+        let!(:other_ldap) { create(:ldap_auth_source, name: 'other') }
+        let!(:user) { create(:user, ldap_auth_source: other_ldap, login: 'bb459') }
+
+        it 'does not authenticate as the user does not exist for the ldap' do
+          user = ldap.authenticate('bb459', 'niwdlab')
+          expect(user).to be_nil
+        end
+
+        it 'does not find as the user does not exist for the ldap' do
+          user = ldap.find_user('bb459')
+          expect(user).to be_nil
+        end
+      end
+
+      context 'when the LDAP is not onthefly_register' do
+        let(:onthefly_register) { false }
+
+        context 'with a valid LDAP user that does not exist' do
+          it 'does not authenticate as the user does not exist' do
+            user = ldap.authenticate('bb459', 'niwdlab')
+            expect(user).to be_nil
+          end
+
+          it 'does not find as the user does not exist' do
+            user = ldap.find_user('bb459')
+            expect(user).to be_nil
+          end
+        end
+
+        context 'with a valid LDAP user that exists, but not for the ldap connection' do
+          let!(:other_ldap) { create(:ldap_auth_source, name: 'other') }
+          let!(:user) { create(:user, ldap_auth_source: other_ldap, login: 'bb459') }
+
+          it 'does not authenticate as the user does not exist for the ldap' do
+            user = ldap.authenticate('bb459', 'niwdlab')
+            expect(user).to be_nil
+          end
+
+          it 'does not find as the user does not exist for the ldap' do
+            user = ldap.find_user('bb459')
+            expect(user).to be_nil
+          end
+        end
+      end
+
+      context 'with the wrong LDAP user password' do
+        it 'does not authenticate' do
+          user = ldap.authenticate('bb459', 'asdf')
+          expect(user).to be_nil
         end
       end
 
       context 'with an invalid LDAP user' do
-        it 'returns nil' do
+        it 'returns nil for authenticate' do
           expect(ldap.authenticate('nouser', 'whatever')).to be_nil
+        end
+
+        it 'returns nil for find_user' do
+          expect(ldap.find_user('nouser')).to be_nil
         end
       end
 
       context 'without a login' do
-        it 'returns nil' do
+        it 'returns nil for authenticate' do
           expect(ldap.authenticate('', 'whatever')).to be_nil
+        end
+
+        it 'returns nil for find_user' do
+          expect(ldap.find_user('')).to be_nil
         end
       end
 
@@ -306,9 +406,20 @@ RSpec.describe LdapAuthSource do
           expect(ldap.authenticate('bb459', 'niwdlab')).to be_nil
         end
 
+        it 'no longer finds bb254' do
+          expect(ldap.find_user('bb459')).to be_nil
+        end
+
+        it 'still finds aa729' do
+          user = ldap.find_user('aa729')
+          expect(user).to be_a User
+          expect(user.firstname).to eq 'Alexandra'
+        end
+
         it 'still authenticates aa729' do
-          attributes = ldap.authenticate('aa729', 'smada')
-          expect(attributes[:firstname]).to eq 'Alexandra'
+          user = ldap.authenticate('aa729', 'smada')
+          expect(user).to be_a User
+          expect(user.firstname).to eq 'Alexandra'
         end
       end
     end
