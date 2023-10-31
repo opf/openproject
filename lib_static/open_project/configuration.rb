@@ -94,7 +94,7 @@ module OpenProject
       end
 
       def redis_cache_configuration
-        url = self['cache_redis_url']
+        url = String(self['cache_redis_url']).split(",").map(&:strip)
         raise ArgumentError, "CACHE_SERVER is set to redis, but CACHE_REDIS_URL is not set." if url.blank?
 
         [
