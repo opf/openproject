@@ -47,7 +47,8 @@ module Storages::Storages
 
     attribute :provider_fields
 
-    validate :provider_type_strategy, unless: -> { errors.include?(:provider_type) }
+    validate :provider_type_strategy,
+             unless: -> { errors.include?(:provider_type) || @options.delete(:skip_provider_type_strategy) }
 
     private
 
