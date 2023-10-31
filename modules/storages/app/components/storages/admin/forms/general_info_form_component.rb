@@ -40,10 +40,19 @@ module Storages::Admin::Forms
             cancel_button_path: Rails.application.routes.url_helpers.admin_settings_storages_path
 
     alias_method :render_host?, :render_host
-    alias_method :submit_button_disabled?, :submit_button_disabled
 
     def form_url
       options[:form_url] || default_form_url
+    end
+
+    def submit_button_options
+      { disabled: submit_button_disabled }
+    end
+
+    def cancel_button_options
+      { href: cancel_button_path }.tap do |options_hash|
+        options_hash[:target] = '_top' if cancel_button_should_break_from_frame
+      end
     end
 
     private

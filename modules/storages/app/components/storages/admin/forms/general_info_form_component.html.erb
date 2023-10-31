@@ -25,13 +25,8 @@
             Storages::Admin::SubmitOrCancelForm.new(
               form,
               storage:,
-              submit_button_options: {
-                disabled: submit_button_disabled?,
-              },
-              cancel_button_options: {
-                href: cancel_button_path,
-                target: '_top'
-              }
+              submit_button_options:,
+              cancel_button_options:
             )
           )
         end
