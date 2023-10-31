@@ -375,6 +375,7 @@ GEM
     compare-xml (0.66)
       nokogiri (~> 1.8)
     concurrent-ruby (1.2.2)
+    connection_pool (2.4.1)
     cookiejar (0.3.3)
     crack (0.4.5)
       rexml
@@ -814,6 +815,10 @@ GEM
       psych (>= 4.0.0)
     recaptcha (5.16.0)
     redcarpet (3.6.0)
+    redis (5.0.8)
+      redis-client (>= 0.17.0)
+    redis-client (0.18.0)
+      connection_pool
     regexp_parser (2.8.2)
     reline (0.3.9)
       io-console (~> 0.5)
@@ -1151,6 +1156,7 @@ DEPENDENCIES
   rails-controller-testing (~> 1.0.2)
   rails-i18n (~> 7.0.0)
   rdoc (>= 2.4.2)
+  redis (~> 5.0.8)
   request_store (~> 1.5.0)
   responders (~> 3.0)
   retriable (~> 3.1.1)
