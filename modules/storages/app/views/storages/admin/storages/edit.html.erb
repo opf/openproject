@@ -28,6 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @storage.name) %>
+<% local_assigns[:additional_breadcrumb] = @storage.name %>
 
 <% if OpenProject::FeatureDecisions.storage_primer_design_active? %>
   <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
@@ -37,6 +38,8 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
 
+    <% header.with_back_button(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) %>
+   
     <% header.with_actions do %>
       <%=
         primer_form_with(
@@ -64,7 +67,6 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
 <% else %>
-  <% local_assigns[:additional_breadcrumb] = @storage.name %>
   <%= toolbar title: t('label_edit_x', x: @storage.name) %>
 
   <%= render(::Storages::Admin::ConfigurationChecksComponent.new(storage: @storage)) %>
