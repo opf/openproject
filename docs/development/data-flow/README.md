@@ -83,7 +83,7 @@ Depending on the individual use and permissions of the user the following person
 
 ##### Boards (cb-01) 
 
-- Assignments of person to a work package (author, assignee, responsible, user custom fields)
+- Assignment of a person to a work package (author, assignee, responsible, user custom fields)
 - Change history
 - Person mentioned in a board
 
