@@ -32,7 +32,6 @@ require_relative '../support/pages/taskboard'
 RSpec.describe 'Tasks on taskboard',
                js: true,
                with_cuprite: false do
-  include_context 'with default admin'
   let!(:project) do
     create(:project,
            types: [story, task, other_story],
