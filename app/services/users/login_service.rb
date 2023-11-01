@@ -115,14 +115,21 @@ module Users
     end
 
     def retained_session_values
+      controller.session.to_h.slice *(default_retained_keys + omniauth_provider_keys)
+    end
+
+    def omniauth_provider_keys
       provider_name = session[:omniauth_provider]
-      return unless provider_name
+      return [] unless provider_name
 
       provider = ::OpenProject::Plugins::AuthPlugin.find_provider_by_name(provider_name)
-      return unless provider && provider[:retain_from_session]
+      return [] unless provider && provider[:retain_from_session]
 
-      retained_keys = provider[:retain_from_session] + ['omniauth_provider']
-      controller.session.to_h.slice(*retained_keys)
+      provider[:retain_from_session]
+    end
+
+    def default_retained_keys
+      %w[omniauth_provider user_from_auth_header]
     end
 
     ##
