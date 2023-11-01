@@ -58,7 +58,10 @@ module WorkPackages
           wp_map.store(work_package.id, wp_copy.result.id)
         end
 
-        copy_relations unless result.failure?
+        result.on_success do
+          copy_relations
+        end
+
         result.result = false if result.failure?
 
         result
