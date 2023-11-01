@@ -29,7 +29,7 @@
 #++
 #
 module Storages::Admin
-  class OAuthApplicationCredentialsCopyComponent < ApplicationComponent
+  class OAuthApplicationInfoCopyComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
     attr_reader :storage

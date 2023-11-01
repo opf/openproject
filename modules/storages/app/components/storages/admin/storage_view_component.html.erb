@@ -33,7 +33,7 @@
           render(Storages::Admin::OAuthApplicationInfoComponent.new(oauth_application:, storage:))
         else
           render(
-            Storages::Admin::OAuthApplicationCredentialsCopyComponent.new(
+            Storages::Admin::OAuthApplicationInfoCopyComponent.new(
               oauth_application:,
               storage:,
               submit_button_path: show_oauth_application_admin_settings_storage_path(storage),
