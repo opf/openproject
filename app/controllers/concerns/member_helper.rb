@@ -82,6 +82,7 @@ module MemberHelper
   end
 
   def transform_array_of_comma_separated_ids(array)
+    return Array(array) unless array.is_a?(Array)
     return array if array.blank?
 
     each_comma_separated(array) do |elem|
