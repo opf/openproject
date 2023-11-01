@@ -4,6 +4,10 @@ module Storages::Admin
   module StorageViewInformation
     private
 
+    def editable_storage?
+      storage.persisted?
+    end
+
     def storage_description
       [storage.short_provider_type.capitalize,
        storage.name,

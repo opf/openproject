@@ -9,19 +9,21 @@
       render(Primer::Beta::Truncate.new(font_weight: :light)) { storage_description }
     end
 
-    grid.with_area(:"icon-button", tag: :div, color: :subtle) do
-      flex_layout(justify_content: :flex_end) do |icons_container|
-        icons_container.with_column do
-          render(
-            Primer::Beta::IconButton.new(
-              icon: :pencil,
-              tag: :a,
-              scheme: :invisible,
-              href: edit_host_admin_settings_storage_path(storage),
-              aria: { label: I18n.t('storages.label_edit_storage_host') } ,
-              test_selector: 'storage-edit-host-button'
+    if editable_storage?
+      grid.with_area(:"icon-button", tag: :div, color: :subtle) do
+        flex_layout(justify_content: :flex_end) do |icons_container|
+          icons_container.with_column do
+            render(
+              Primer::Beta::IconButton.new(
+                icon: :pencil,
+                tag: :a,
+                scheme: :invisible,
+                href: edit_host_admin_settings_storage_path(storage),
+                aria: { label: I18n.t('storages.label_edit_storage_host') } ,
+                test_selector: 'storage-edit-host-button'
+              )
             )
-          )
+          end
         end
       end
     end

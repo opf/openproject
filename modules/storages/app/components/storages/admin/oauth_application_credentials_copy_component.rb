@@ -49,5 +49,13 @@ module Storages::Admin
         )
       ) { I18n.t('storages.instructions.oauth_application_details_link_text') }
     end
+
+    def submit_button_path
+      options[:submit_button_path] || edit_admin_settings_storage_path(storage)
+    end
+
+    def cancel_button_path
+      options[:cancel_button_path] || edit_admin_settings_storage_path(storage)
+    end
   end
 end

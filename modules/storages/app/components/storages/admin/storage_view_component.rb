@@ -31,7 +31,17 @@
 module Storages::Admin
   class StorageViewComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
-    alias_method :storage, :model
     include StorageViewInformation
+
+    options openproject_oauth_application_section_open: false
+
+    alias_method :storage, :model
+    alias_method :openproject_oauth_application_section_open?, :openproject_oauth_application_section_open
+
+    delegate :oauth_application, to: :model
+
+    def openproject_oauth_application_section_closed?
+      !openproject_oauth_application_section_open?
+    end
   end
 end

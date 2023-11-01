@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if OpenProject::FeatureDecisions.storage_primer_design_active? %>
   <%=
-    render(OpTurbo::FrameComponent.new(@storage, context: :automatically_managed_project_folders)) do
+    render(OpTurbo::FrameComponent.new(id: :automatically_managed_project_folders_section)) do
       render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(@storage))
     end
   %>

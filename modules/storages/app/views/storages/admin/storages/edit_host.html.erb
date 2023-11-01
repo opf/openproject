@@ -1,5 +1,5 @@
 <%=
-  render(OpTurbo::FrameComponent.new(@storage, context: :general_info)) do
+  render(OpTurbo::FrameComponent.new(id: :storage_general_info_section)) do
     render(
       Storages::Admin::Forms::GeneralInfoFormComponent.new(
         @storage,

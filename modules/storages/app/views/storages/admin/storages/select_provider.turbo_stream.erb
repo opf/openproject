@@ -28,5 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= turbo_stream.update :select_storage_provider do %>
-  <%= render(Storages::Admin::StorageViewComponent.new(@storage)) %>
+  <%=
+    render(Storages::Admin::StorageViewComponent.new(@storage))
+  %>
 <% end %>

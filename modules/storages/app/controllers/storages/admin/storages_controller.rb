@@ -41,7 +41,8 @@ class Storages::Admin::StoragesController < ApplicationController
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
-  before_action :find_model_object, only: %i[show destroy edit edit_host update replace_oauth_application]
+  before_action :find_model_object,
+                only: %i[show show_oauth_application destroy edit edit_host update replace_oauth_application]
   before_action :prepare_update_params, only: %i[update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
@@ -91,34 +92,51 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def create
-    service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
+  def create # rubocop:disable Metrics/AbcSize
+    service_result = Storages::Storages::CreateService
+                      .new(user: current_user)
+                      .call(permitted_storage_params)
 
     @storage = service_result.result
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      render :new
+      if OpenProject::FeatureDecisions.storage_primer_design_active?
+        respond_to do |format|
+          format.turbo_stream { render :select_provider }
+        end
+      else
+        render :new
+      end
     end
 
     service_result.on_success do
-      case @storage.provider_type
-      when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
-        flash[:notice] = I18n.t(:notice_successful_create)
-        render '/storages/admin/storages/one_drive/edit'
-      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-        if @oauth_application.present?
-          flash.now[:notice] = I18n.t(:notice_successful_create)
-          render :show_oauth_application
+      if OpenProject::FeatureDecisions.storage_primer_design_active?
+        respond_to do |format|
+          format.turbo_stream { render :show_oauth_application }
         end
       else
-        raise "Unknown provider type: #{storage_params['provider_type']}"
+        case @storage.provider_type
+        when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
+          flash.now[:notice] = I18n.t(:notice_successful_create)
+          render '/storages/admin/storages/one_drive/edit'
+        when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+          if @oauth_application.present?
+            flash.now[:notice] = I18n.t(:notice_successful_create)
+            render :show_oauth_application
+          end
+        else
+          raise "Unknown provider type: #{storage_params['provider_type']}"
+        end
       end
     end
   end
 
-  # rubocop:enable Metrics/AbcSize
+  def show_oauth_application
+    @oauth_application = @storage.oauth_application
+
+    respond_to { |format| format.turbo_stream }
+  end
 
   # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists;
