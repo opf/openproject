@@ -25,7 +25,7 @@
                                        controller: 'work-packages--share--bulk-selection',
                                        application_target: 'dynamic' }) do
           invited_user_list do |border_box|
-            border_box.with_header(color: :subtle, data: { 'test-selector': 'op-share-wp-header' }) do
+            border_box.with_header(color: :subtle, pt: 2, pb: 2, data: { 'test-selector': 'op-share-wp-header' }) do
               grid_layout('op-share-wp-modal-body--header', tag: :div, align_items: :center) do |header_grid|
                 header_grid.with_area(:counter, tag: :div) do
                   render(WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: shared_principals.size))
@@ -67,7 +67,7 @@
                 header_grid.with_area(:actions,
                                       tag: :div,
                                       hidden: true, # Prevent flicker on initial render
-                                      data: { 'work-packages--share--bulk-selection-target': 'actions' }) do
+                                      data: { 'work-packages--share--bulk-selection-target': 'bulkActions' }) do
                   if sharing_manageable?
                     concat(
                       render(WorkPackages::Share::BulkPermissionButtonComponent.new(work_package: @work_package))

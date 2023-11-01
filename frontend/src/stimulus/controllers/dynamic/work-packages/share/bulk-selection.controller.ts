@@ -42,7 +42,8 @@ export default class BulkSelectionController extends Controller {
     'shareCheckbox',
     'sharedCounter',
     'selectedCounter',
-    'actions',
+    'defaultActions',
+    'bulkActions',
     'bulkForm',
     'hiddenShare',
     'userRowRole',
@@ -63,7 +64,8 @@ export default class BulkSelectionController extends Controller {
   // Specific target for bulk update permission forms
   declare readonly bulkUpdateRoleFormTargets:HTMLFormElement[];
   declare readonly hiddenShareTargets:HTMLInputElement[];
-  declare readonly actionsTarget:HTMLElement;
+  declare readonly bulkActionsTarget:HTMLElement;
+  declare readonly defaultActionsTarget:HTMLElement;
 
   // Permission Buttons
   declare readonly userRowRoleTargets:HTMLButtonElement[];
@@ -126,9 +128,11 @@ export default class BulkSelectionController extends Controller {
     this.toggleAllTarget.checked = checkedSharesCount === sharesCount;
 
     if (this.checked.length === 0) {
-      this.actionsTarget.setAttribute('hidden', 'true');
+      this.bulkActionsTarget.setAttribute('hidden', 'true');
+      this.defaultActionsTarget.removeAttribute('hidden');
     } else {
-      this.actionsTarget.removeAttribute('hidden');
+      this.bulkActionsTarget.removeAttribute('hidden');
+      this.defaultActionsTarget.setAttribute('hidden', 'true');
       this.updateBulkUpdateRoleLabelValue();
     }
 
