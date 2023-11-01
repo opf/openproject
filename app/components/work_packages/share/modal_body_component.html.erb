@@ -33,6 +33,39 @@
 
                 header_grid.with_area(:actions,
                                       tag: :div,
+                                      data: { 'work-packages--share--bulk-selection-target': 'defaultActions' }) do
+                  flex_layout do |header_actions|
+                    header_actions.with_column(mr: 2) do
+                      render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
+                                                           color: :subtle)) do |menu|
+                        menu.with_show_button(scheme: :invisible, color: :subtle) do |button|
+                          button.with_trailing_action_icon(icon: "triangle-down")
+                          I18n.t('work_package.sharing.filter.type')
+                        end
+                        menu.with_item(label: I18n.t('work_package.sharing.filter.project_member'))
+                        menu.with_item(label: I18n.t('work_package.sharing.filter.not_project_member'))
+                        menu.with_item(label: I18n.t('work_package.sharing.filter.project_group'))
+                        menu.with_item(label: I18n.t('work_package.sharing.filter.not_project_group'))
+                      end
+                    end
+
+                    header_actions.with_column do
+                      render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
+                                                           color: :subtle)) do |menu|
+                        menu.with_show_button(scheme: :invisible, color: :subtle) do |button|
+                          button.with_trailing_action_icon(icon: "triangle-down")
+                          I18n.t('work_package.sharing.filter.role')
+                        end
+                        menu.with_item(label: I18n.t('work_package.sharing.permissions.view'))
+                        menu.with_item(label: I18n.t('work_package.sharing.permissions.comment'))
+                        menu.with_item(label: I18n.t('work_package.sharing.permissions.edit'))
+                      end
+                    end
+                  end
+                end
+
+                header_grid.with_area(:actions,
+                                      tag: :div,
                                       hidden: true, # Prevent flicker on initial render
                                       data: { 'work-packages--share--bulk-selection-target': 'actions' }) do
                   if sharing_manageable?
