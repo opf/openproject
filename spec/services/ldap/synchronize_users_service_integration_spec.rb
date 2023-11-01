@@ -2,7 +2,6 @@ require 'spec_helper'
 
 RSpec.describe Ldap::SynchronizeUsersService do
   include_context 'with temporary LDAP'
-  include_context 'with default admin'
 
   subject do
     described_class.new(ldap_auth_source).call

@@ -29,8 +29,6 @@ require 'spec_helper'
 require 'services/base_services/behaves_like_update_service'
 
 RSpec.describe Users::UpdateService do
-  include_context 'with default admin'
-
   it_behaves_like 'BaseServices update service' do
     # The user service also tries to save the preferences
     before do
@@ -40,7 +38,7 @@ RSpec.describe Users::UpdateService do
 
   describe 'updating attributes' do
     let(:instance) { described_class.new(model: update_user, user: current_user) }
-    let(:current_user) { build_stubbed(:admin) }
+    let(:current_user) { create(:admin) }
     let(:update_user) { create(:user, mail: 'correct@example.org') }
 
     subject { instance.call(attributes:) }

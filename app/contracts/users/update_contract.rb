@@ -49,7 +49,11 @@ module Users
     end
 
     def at_least_one_admin_is_active
-      if (model.locked? || !model.admin?) && User.active.admin.where.not(id: model).none?
+      return unless
+        (model.admin_changed? && !model.admin?) ||
+        (model.admin? && model.status_changed? && model.locked?)
+
+      if User.active.admin.where.not(id: model).none?
         errors.add :base, :one_must_be_active
       end
     end
