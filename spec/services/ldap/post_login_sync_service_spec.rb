@@ -28,6 +28,7 @@ RSpec.describe Ldap::PostLoginSyncService do
 
       expect(subject).to be_success
       expect(subject.result).to be_a User
+      expect(subject.result).to eq user.reload
       expect(subject.result).to be_valid
       expect(subject.result.firstname).to eq 'Alexandra'
       expect(subject.result.lastname).to eq 'Adams'

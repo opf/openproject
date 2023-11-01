@@ -273,7 +273,8 @@ RSpec.describe LdapAuthSource do
             expect(user.firstname).to eq 'Bob'
             expect(user).not_to be_admin
 
-            user = ldap.find_user('ldap_admin')
+            ldap.find_user('ldap_admin')
+            user.reload
             expect(user).to be_a User
             expect(user.firstname).to eq 'LDAP'
             expect(user.lastname).to eq 'Adminuser'
@@ -311,7 +312,8 @@ RSpec.describe LdapAuthSource do
         it 'updates the user' do
           expect(user.firstname).to eq 'Bob'
 
-          user = ldap.find_user('bb459')
+          ldap.find_user('bb459')
+          user.reload
           expect(user).to be_a User
           expect(user.firstname).to eq 'Belle'
           expect(user.lastname).to eq 'Baldwin'
@@ -402,7 +404,7 @@ RSpec.describe LdapAuthSource do
       context 'with a filter string returning only users with a*' do
         let(:filter_string) { '(uid=a*)' }
 
-        it 'no longer authenticates bb254' do
+        it 'no longer authenticates bb459' do
           expect(ldap.authenticate('bb459', 'niwdlab')).to be_nil
         end
 

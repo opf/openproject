@@ -60,7 +60,7 @@ RSpec.describe AuthSourceSSO, :skip_2fa_stage, # Prevent redirects to 2FA stage
       expect(user).to be_active
       expect(session[:user_id]).to eq user.id
       expect(session[:user_from_auth_header]).to eq true
-      expect(response).to redirect_to '/?first_time_user=true'
+      expect(response).to redirect_to '/projects'
     end
   end
 

@@ -111,6 +111,13 @@ module AuthSourceSSO
     end
   end
 
+  def find_user_from_auth_source(login)
+    User
+      .by_login(login)
+      .where.not(ldap_auth_source_id: nil)
+      .first
+  end
+
   def build_user_from_auth_source(login)
     attrs = LdapAuthSource.get_user_attributes(login)
     return unless attrs
