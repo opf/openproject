@@ -39,7 +39,7 @@ class AdminUserSeeder < Seeder
   end
 
   def applicable?
-    User.not_builtin.admin.empty?
+    User.not_builtin.admin.empty? && !User.exists?(mail: Setting.seed_admin_user_mail)
   end
 
   def lookup_existing_references
