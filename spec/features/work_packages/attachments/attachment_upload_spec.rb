@@ -29,17 +29,16 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true do
+RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages add_work_packages edit_work_packages add_work_package_notes])
   end
   let(:dev) do
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
@@ -72,15 +71,11 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
 
         field.submit_by_click
 
-        expect(field.display_element).to have_selector('img')
+        expect(field.display_element).to have_css('img')
         expect(field.display_element).to have_content('Some image caption')
       end
 
-      context 'with a user that is not allowed to add images (Regression #28541)' do
-        let(:role) do
-          create(:role,
-                 permissions: %i[view_work_packages add_work_packages add_work_package_notes])
-        end
+      context 'when editing comment' do
         let(:selector) { '.work-packages--activity--add-comment' }
         let(:comment_field) do
           TextEditorField.new wp_page,
@@ -89,17 +84,43 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
         end
         let(:editor) { Components::WysiwygEditor.new '.work-packages--activity--add-comment' }
 
-        it 'can open the editor to add an image, but image upload is not shown' do
-          # Add comment
-          comment_field.activate!
+        context 'with a user that is not allowed to add images (Regression #28541)' do
+          let(:role) do
+            create(:project_role,
+                   permissions: %i[view_work_packages add_work_packages add_work_package_notes])
+          end
 
-          # Button should be hidden
-          editor.expect_no_button 'Insert image'
+          it 'can open the editor to add an image, but image upload is not shown' do
+            # Add comment
+            comment_field.activate!
 
-          editor.click_and_type_slowly 'this is a comment!1'
-          comment_field.submit_by_click
+            # Button should be hidden
+            editor.expect_no_button 'Insert image'
 
-          wp_page.expect_comment text: 'this is a comment!1'
+            editor.click_and_type_slowly 'this is a comment!1'
+            comment_field.submit_by_click
+
+            wp_page.expect_comment text: 'this is a comment!1'
+          end
+        end
+
+        context 'with a user that is allowed add attachments but not edit WP (#29203)' do
+          let(:role) do
+            create(:project_role,
+                   permissions: %i[view_work_packages add_work_package_attachments add_work_package_notes])
+          end
+
+          it 'can open the editor and image upload is shown' do
+            comment_field.activate!
+
+            editor.expect_button 'Insert image'
+
+            editor.click_and_type_slowly 'this is a comment!2'
+            editor.drag_attachment image_fixture.path, 'Some image caption'
+            comment_field.submit_by_click
+
+            wp_page.expect_comment text: 'this is a comment!2'
+          end
         end
       end
     end
@@ -126,8 +147,8 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
         editor.wait_until_upload_progress_toaster_cleared
 
         editor.in_editor do |_container, editable|
-          expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
-          expect(editable).not_to have_selector('.ck-upload-placeholder-loader')
+          expect(editable).to have_css('img[src*="/api/v3/attachments/"]', wait: 20)
+          expect(editable).not_to have_css('.ck-upload-placeholder-loader')
         end
 
         sleep 2 unless example.metadata[:with_cuprite]
@@ -141,7 +162,7 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
         split_view = Pages::SplitWorkPackage.new(WorkPackage.last)
 
         field = split_view.edit_field :description
-        expect(field.display_element).to have_selector('img')
+        expect(field.display_element).to have_css('img')
 
         wp = WorkPackage.last
         expect(wp.subject).to eq('My subject')
@@ -194,8 +215,8 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
           editor.wait_until_upload_progress_toaster_cleared
 
           editor.in_editor do |_container, editable|
-            expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
-            expect(editable).not_to have_selector('.ck-upload-placeholder-loader')
+            expect(editable).to have_css('img[src*="/api/v3/attachments/"]', wait: 20)
+            expect(editable).not_to have_css('.ck-upload-placeholder-loader')
           end
 
           sleep 2 unless example.metadata[:with_cuprite]
@@ -207,7 +228,7 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
           )
 
           field = wp_page.edit_field :description
-          expect(field.display_element).to have_selector('img')
+          expect(field.display_element).to have_css('img')
 
           wp = WorkPackage.last
           expect(wp.subject).to eq('My subject')
@@ -226,7 +247,7 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
       # everywhere so if this works it should work everywhere else too.
       # TODO: Add better_cuprite_billy. I'm not sure what needs to be set up so the request to AWS passes.
       # Need help
-      context 'with direct uploads', with_cuprite: false, with_direct_uploads: true do
+      context 'with direct uploads', :with_direct_uploads, with_cuprite: false do
         before do
           allow_any_instance_of(Attachment).to receive(:diskfile).and_return Struct.new(:path).new(image_fixture.path.to_s)
         end
@@ -247,41 +268,61 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
   end
 
   describe 'attachment dropzone' do
-    it 'can drag something to the files tab and have it open' do
-      wp_page.expect_tab 'Activity'
-      attachments.drag_and_drop_file '[data-qa-selector="op-attachments--drop-box"]',
-                                     image_fixture.path,
-                                     :center,
-                                     page.find('[data-qa-tab-id="files"]'),
-                                     delay_dragleave: true
+    shared_examples 'attachment dropzone common' do
+      it 'can drag something to the files tab and have it open' do
+        wp_page.expect_tab 'Activity'
+        attachments.drag_and_drop_file test_selector('op-attachments--drop-box'),
+                                       image_fixture.path,
+                                       :center,
+                                       page.find('[data-qa-tab-id="files"]'),
+                                       delay_dragleave: true
 
-      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 10)
-      editor.wait_until_upload_progress_toaster_cleared
-      wp_page.expect_tab 'Files'
+        expect(page).to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', wait: 10)
+        editor.wait_until_upload_progress_toaster_cleared
+        wp_page.expect_tab 'Files'
+      end
+
+      it 'can drag something from the files tab and create a comment with it' do
+        wp_page.switch_to_tab(tab: 'files')
+
+        attachments.drag_and_drop_file '.work-package-comment',
+                                       image_fixture.path,
+                                       :center,
+                                       page.find('[data-qa-tab-id="activity"]'),
+                                       delay_dragleave: true
+
+        wp_page.expect_tab 'Activity'
+      end
     end
 
-    it 'can drag something from the files tab and create a comment with it' do
-      wp_page.switch_to_tab(tab: 'files')
+    include_examples 'attachment dropzone common'
 
-      attachments.drag_and_drop_file '.work-package-comment',
-                                     image_fixture.path,
-                                     :center,
-                                     page.find('[data-qa-tab-id="activity"]'),
-                                     delay_dragleave: true
+    context 'with a user that is allowed to add attachments but not edit WP (#29203)' do
+      let(:role) do
+        create(:project_role,
+               permissions: %i[view_work_packages add_work_package_attachments add_work_package_notes])
+      end
 
-      wp_page.expect_tab 'Activity'
+      include_examples 'attachment dropzone common'
     end
 
+    # This one is not shared, because it requires edit WP
     it 'can upload an image via attaching and drag & drop' do
       wp_page.switch_to_tab(tab: 'files')
-      container = page.find('[data-qa-selector="op-attachments--drop-box"]')
+      container = page.find_test_selector('op-attachments--drop-box')
 
       ##
       # Attach file manually
-      expect(page).not_to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
+      expect(page).not_to have_test_selector('op-files-tab--file-list-item-title')
       attachments.attach_file_on_input(image_fixture.path)
       editor.wait_until_upload_progress_toaster_cleared
-      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)
+      expect(page)
+        .to have_test_selector('op-files-tab--file-list-item-title',
+                               text: 'image.png',
+                               wait: 5)
+
+      # Drop zone should become hidden again
+      expect(container).not_to be_visible
 
       # Drop zone should become hidden again
       expect(container).not_to be_visible
@@ -291,7 +332,10 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
       attachments.drag_and_drop_file(container, image_fixture.path)
       editor.wait_until_upload_progress_toaster_cleared
       expect(page)
-        .to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', count: 2, wait: 5)
+        .to have_test_selector('op-files-tab--file-list-item-title',
+                               text: 'image.png',
+                               count: 2,
+                               wait: 5)
 
       # Drop zone should become hidden again
       expect(container).not_to be_visible
@@ -305,7 +349,10 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
 
       editor.wait_until_upload_progress_toaster_cleared
       expect(page)
-        .to have_css('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', count: 3, wait: 5)
+        .to have_test_selector('op-files-tab--file-list-item-title',
+                               text: 'image.png',
+                               count: 3,
+                               wait: 5)
 
       # Drop zone should become hidden again
       expect(container).not_to be_visible
@@ -321,7 +368,10 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
 
       editor.wait_until_upload_progress_toaster_cleared
       expect(page)
-        .to have_css('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', count: 3, wait: 5)
+        .to have_test_selector('op-files-tab--file-list-item-title',
+                               text: 'image.png',
+                               count: 3,
+                               wait: 5)
 
       # Drop zone should become hidden again
       expect(container).not_to be_visible

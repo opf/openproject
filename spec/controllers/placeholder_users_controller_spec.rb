@@ -105,7 +105,7 @@ RSpec.describe PlaceholderUsersController do
           expect { post :create, params: }.not_to change { PlaceholderUser.count }
           expect(response).to be_successful
 
-          expect(assigns(:errors).details[:base])
+          expect(assigns(:placeholder_user).errors.details[:base])
             .to eq([error: :error_enterprise_only, action: "Placeholder Users"])
         end
       end
@@ -248,7 +248,7 @@ RSpec.describe PlaceholderUsersController do
   end
 
   context 'as a user with global permission' do
-    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
+    current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
     it_behaves_like 'authorized flows'
   end
 

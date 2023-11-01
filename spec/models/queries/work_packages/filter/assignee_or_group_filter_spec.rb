@@ -52,7 +52,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -67,7 +67,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -92,7 +92,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -123,7 +123,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -179,7 +179,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
       it 'remove the invalid value' do
         instance.valid_values!
 
-        expect(instance.values).to match_array [user.id.to_s]
+        expect(instance.values).to contain_exactly(user.id.to_s)
       end
     end
   end

@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <div data-controller="project"
      data-application-target="dynamic">
   <%= toolbar title: t(:label_project_plural), html: { class: '-with-dropdown' } do %>
-    <% if User.current.allowed_to_globally?(:add_project) %>
+    <% if User.current.allowed_globally?(:add_project) %>
       <li class="toolbar-item">
         <%= link_to new_project_path,
                     { class: 'button -alt-highlight',
@@ -71,7 +71,7 @@ See COPYRIGHT and LICENSE files for more details.
         aria-haspopup="true"
         title="<%= t(:label_more) %>"
         class="button"
-        data-qa-selector="project-more-dropdown-menu"
+        data-test-selector="project-more-dropdown-menu"
       >
         <%= op_icon('button--icon icon-show-more') %>
       </a>

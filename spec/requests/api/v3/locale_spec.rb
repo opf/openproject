@@ -39,7 +39,9 @@ RSpec.describe 'API localization' do
   let(:project) { create(:project) }
   let(:type) { create(:type) }
   let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
-  let(:current_user) { create(:user, member_in_project: project, language: :fr) }
+  let(:current_user) do
+    create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }, language: :fr)
+  end
 
   describe 'GET /api/v3/work_packages/schemas/:id' do
     before do

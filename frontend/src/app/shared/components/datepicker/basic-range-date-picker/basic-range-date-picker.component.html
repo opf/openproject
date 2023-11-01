@@ -3,7 +3,7 @@
   #input
   type="text"
   class="spot-input op-basic-range-datepicker--input"
-  data-qa-selector="op-basic-range-date-picker"
+  data-test-selector="op-basic-range-date-picker"
   [ngClass]="inputClassNames"
   [attr.data-value]="value"
   [id]="id"
@@ -18,7 +18,7 @@
   <input
     type="date"
     class="spot-input"
-    data-qa-selector="op-basic-range-date-picker-start"
+    data-test-selector="op-basic-range-date-picker-start"
     [ngClass]="inputClassNames"
     id="{{ id }}-start"
     name="{{ name }}-start"
@@ -31,7 +31,7 @@
   <input
     type="date"
     class="spot-input"
-    data-qa-selector="op-basic-range-date-picker-end"
+    data-test-selector="op-basic-range-date-picker-end"
     [ngClass]="inputClassNames"
     id="{{ id }}-end"
     name="{{ name }}-end"
@@ -42,7 +42,7 @@
   />
   <input
     type="hidden"
-    data-qa-selector="op-basic-range-date-picker--value"
+    data-test-selector="op-basic-range-date-picker--value"
     [attr.data-value]="stringValue"
     [id]="id"
     [name]="name"

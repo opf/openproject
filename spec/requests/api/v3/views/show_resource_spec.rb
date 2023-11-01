@@ -33,7 +33,7 @@ RSpec.describe API::V3::Views::ViewsAPI,
   include API::V3::Utilities::PathHelper
 
   shared_let(:permitted_user) { create(:user) }
-  shared_let(:role) { create(:role, permissions: %w[view_work_packages]) }
+  shared_let(:role) { create(:project_role, permissions: %w[view_work_packages]) }
   shared_let(:project) do
     create(:project,
            members: { permitted_user => role })
@@ -81,8 +81,7 @@ RSpec.describe API::V3::Views::ViewsAPI,
   context 'with a user not allowed to see the query' do
     current_user do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     it 'returns a 404 response' do

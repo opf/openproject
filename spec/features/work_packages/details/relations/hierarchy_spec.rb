@@ -192,13 +192,12 @@ RSpec.shared_examples 'work package relations tab', js: true, selenium: true do
     describe 'with limited permissions' do
       let(:permissions) { %i(view_work_packages) }
       let(:user_role) do
-        create(:role, permissions:)
+        create(:project_role, permissions:)
       end
 
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: user_role)
+               member_with_roles: { project => user_role })
       end
 
       context 'as view-only user, with parent set' do
@@ -220,7 +219,7 @@ RSpec.shared_examples 'work package relations tab', js: true, selenium: true do
           expect(page).not_to have_selector('#hierarchy--add-new-child')
 
           # But it should show the linked parent
-          expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb-parent"]', text: parent.subject)
+          expect(page).to have_test_selector('op-wp-breadcrumb-parent', text: parent.subject)
 
           # And it should count the two relations
           tabs.expect_counter(relations_tab, 2)

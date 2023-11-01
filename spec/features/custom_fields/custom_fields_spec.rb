@@ -27,14 +27,14 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
         find(".custom-option-default-value input").set true
       end
 
-      page.find('[data-qa-selector="add-custom-option"]').click
+      page.find_test_selector('add-custom-option').click
 
       expect(page).to have_selector('.custom-option-row', count: 2)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Linux"
       end
 
-      page.find('[data-qa-selector="add-custom-option"]').click
+      page.find_test_selector('add-custom-option').click
 
       expect(page).to have_selector('.custom-option-row', count: 3)
       within all(".custom-option-row").last do
@@ -89,7 +89,7 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
     end
 
     it "adds new options" do
-      page.find('[data-qa-selector="add-custom-option"]').click
+      page.find_test_selector('add-custom-option').click
       wait_for_reload
 
       expect(page).to have_selector('.custom-option-row', count: 5)
@@ -97,7 +97,7 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
         find(".custom-option-value input").set "Sega"
       end
 
-      page.find('[data-qa-selector="add-custom-option"]').click
+      page.find_test_selector('add-custom-option').click
       wait_for_reload
 
       expect(page).to have_selector('.custom-option-row', count: 6)

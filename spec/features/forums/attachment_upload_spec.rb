@@ -29,14 +29,13 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Upload attachment to forum message', js: true do
+RSpec.describe 'Upload attachment to forum message', :js do
   let(:forum) { create(:forum) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_messages
-                                       add_messages
-                                       edit_messages])
+           member_with_permissions: { project => %i[view_messages
+                                                    add_messages
+                                                    edit_messages] })
   end
   let(:project) { forum.project }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
@@ -62,7 +61,7 @@ RSpec.describe 'Upload attachment to forum message', js: true do
     editor.attachments_list.expect_attached('image.png')
     editor.wait_until_upload_progress_toaster_cleared
 
-    show_page = create_page.click_save
+    click_button 'Create'
 
     expect(page).to have_selector('#content .wiki img', count: 1)
     expect(page).to have_content('Image uploaded on creation')
@@ -82,7 +81,7 @@ RSpec.describe 'Upload attachment to forum message', js: true do
     editor.attachments_list.expect_attached('image.png', count: 2)
     editor.wait_until_upload_progress_toaster_cleared
 
-    show_page.click_save
+    click_button 'Save'
 
     expect(page).to have_selector('#content .wiki img', count: 2)
     expect(page).to have_content('Image uploaded on creation')
@@ -108,10 +107,9 @@ RSpec.describe 'Upload attachment to forum message', js: true do
     editor.attachments_list.expect_attached('image.png')
     editor.wait_until_upload_progress_toaster_cleared
 
-    show_page = create_page.click_save
+    click_button 'Create'
 
     attachments_list.expect_attached('image.png')
-
     within '.toolbar-items' do
       click_on "Edit"
     end
@@ -122,7 +120,7 @@ RSpec.describe 'Upload attachment to forum message', js: true do
     editor.attachments_list.expect_attached('image.png', count: 2)
     editor.wait_until_upload_progress_toaster_cleared
 
-    show_page.click_save
+    click_button 'Save'
 
     attachments_list.expect_attached('image.png', count: 2)
   end

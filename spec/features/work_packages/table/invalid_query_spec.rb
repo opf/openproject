@@ -12,7 +12,7 @@ RSpec.describe 'Invalid query spec', js: true do
     create(:member,
            user:,
            project:,
-           roles: [create(:role)])
+           roles: [create(:project_role)])
   end
   let(:status) do
     create(:status)

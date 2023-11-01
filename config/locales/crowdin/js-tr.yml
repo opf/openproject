@@ -598,6 +598,7 @@ tr:
         processed: 'işlem uygulandı'
         prioritized: 'öncelik verildi'
         dateAlert: 'Tarih uyarısı'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Kilometre taşı tarihi'
         overdue: 'Süresi geçmiş'
@@ -642,6 +643,7 @@ tr:
         mentioned: 'Bahsedilen'
         watched: 'İzleyici'
         date_alert: 'Tarih uyarısı'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Önemli bir güncellemeyi asla kaçırmamak için <a target="_blank" href="%{url}">bildirim ayarlarınızı</a> değiştirebilirsiniz.'
         title: "Bildirim ayarları"
@@ -664,6 +666,7 @@ tr:
             description: 'Birisi herhangi bir yerde benden her bahsettiğinde bir bildirim alın'
           assignee: 'Atanan'
           responsible: 'Sorumlu'
+          shared: 'Shared'
           watched: 'İzleyici'
           work_package_commented: 'Tüm yeni yorumlar'
           work_package_created: 'Yeni iş paketleri'
@@ -980,6 +983,7 @@ tr:
         recently_created: "Son oluşturulanlar"
         all_open: "Tüm açık"
         summary: "Özet"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Tablo numaralandırmaya yönlendir"
         label_pagination: "İş paketleri tablosuna geçiş yapmak ve numaralandırma sayfasına gitmek için buraya tıklayın"
@@ -1016,6 +1020,12 @@ tr:
       scheduling:
         is_parent: "Bu çalışma paketinin tarihleri otomatik olarak çocuklarından çıkarılır. Tarihleri ayarlamak için 'Manuel zamanlama'yı etkinleştirin."
         is_switched_from_manual_to_automatic: "Bu çalışma paketinin tarihlerinin, diğer çalışma paketleriyle olan ilişkiler nedeniyle manuelden otomatik zamanlamaya geçtikten sonra yeniden hesaplanması gerekebilir."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'İş paketi tablosunu kopyala'
         summary: "İş paketi satır tabloları ve iş paketi nitelik sütunları."

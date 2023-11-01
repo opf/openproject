@@ -1,6 +1,13 @@
-# OpenProject Team Planner module
+# -- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2021-2023 the OpenProject GmbH
 #
-# Copyright (C) 2021 OpenProject GmbH
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,6 +22,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+# ++
 
 module OpenProject::TeamPlanner
   class Engine < ::Rails::Engine
@@ -29,17 +39,23 @@ module OpenProject::TeamPlanner
       project_module :team_planner_view, dependencies: :work_package_tracking, enterprise_feature: true do
         permission :view_team_planner,
                    { 'team_planner/team_planner': %i[index show upsale overview] },
+                   permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { team_planner: %i[read] }
         permission :manage_team_planner,
                    { 'team_planner/team_planner': %i[index show new create destroy upsale] },
-                   dependencies: %i[view_team_planner add_work_packages edit_work_packages save_queries manage_public_queries],
+                   permissible_on: :project,
+                   dependencies: %i[view_team_planner
+                                    add_work_packages
+                                    edit_work_packages
+                                    save_queries
+                                    manage_public_queries],
                    contract_actions: { team_planner: %i[create update destroy] }
       end
 
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
-        User.current.allowed_to_globally?(:view_team_planner)
+        User.current.allowed_in_any_project?(:view_team_planner)
       end
 
       menu :global_menu,

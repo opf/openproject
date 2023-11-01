@@ -58,7 +58,7 @@ module ProjectsHelper
   end
 
   def no_projects_result_box_params
-    if User.current.allowed_to_globally?(:add_project)
+    if User.current.allowed_globally?(:add_project)
       { action_url: new_project_path, display_action: true }
     else
       {}
@@ -149,7 +149,7 @@ module ProjectsHelper
   end
 
   def project_more_menu_subproject_item(project)
-    if User.current.allowed_to? :add_subprojects, project
+    if User.current.allowed_in_project?(:add_subprojects, project)
       [t(:label_subproject_new),
        new_project_path(parent_id: project.id),
        { class: 'icon-context icon-add',
@@ -158,7 +158,8 @@ module ProjectsHelper
   end
 
   def project_more_menu_settings_item(project)
-    if User.current.allowed_to?({ controller: '/projects/settings/general', action: 'show', project_id: project.id }, project)
+    if User.current.allowed_in_project?({ controller: '/projects/settings/general', action: 'show', project_id: project.id },
+                                        project)
       [t(:label_project_settings),
        project_settings_general_path(project),
        { class: 'icon-context icon-settings',
@@ -167,7 +168,7 @@ module ProjectsHelper
   end
 
   def project_more_menu_activity_item(project)
-    if User.current.allowed_to?(:view_project_activity, project)
+    if User.current.allowed_in_project?(:view_project_activity, project)
       [
         t(:label_project_activity),
         project_activity_index_path(project, event_types: ['project_attributes']),
@@ -178,7 +179,7 @@ module ProjectsHelper
   end
 
   def project_more_menu_archive_item(project)
-    if User.current.allowed_to?(:archive_project, project) && project.active?
+    if User.current.allowed_in_project?(:archive_project, project) && project.active?
       [t(:button_archive),
        project_archive_path(project, status: params[:status]),
        { data: { confirm: t('project.archive.are_you_sure', name: project.name) },
@@ -199,7 +200,7 @@ module ProjectsHelper
   end
 
   def project_more_menu_copy_item(project)
-    if User.current.allowed_to?(:copy_projects, project) && !project.archived?
+    if User.current.allowed_in_project?(:copy_projects, project) && !project.archived?
       [t(:button_copy),
        copy_project_path(project),
        { class: 'icon-context icon-copy',
@@ -266,12 +267,12 @@ module ProjectsHelper
   # Just like sort_header tag but removes sorting by
   # lft from the sort criteria as lft is mutually exclusive with
   # the other criteria.
-  def projects_sort_header_tag(*args)
+  def projects_sort_header_tag(*)
     former_criteria = @sort_criteria.criteria.dup
 
     @sort_criteria.criteria.reject! { |a, _| a == 'lft' }
 
-    sort_header_tag(*args)
+    sort_header_tag(*)
   ensure
     @sort_criteria.criteria = former_criteria
   end

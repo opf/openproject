@@ -273,6 +273,7 @@ ko:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
       no_results_content_text: 프로젝트에 새 멤버 추가
     invite_by_mail: "%{mail}에 초대 보내기"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
@@ -340,9 +341,6 @@ ko:
   themes:
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
-    dark: "다크"
-    dark_dimmed: "다크 딤드"
-    dark_high_contrast: "다크 하이 콘트라스트"
   types:
     index:
       no_results_title_text: 타입이 없습니다.
@@ -428,6 +426,8 @@ ko:
       당신의 계정이 아직 활성화되지 않았습니다. 관리자가 계정을 승인할때까지 기다려 주십시오.
     error_self_registration_disabled: >
       사용자 등록은 이 시스템에서 비활성화되어 있습니다. 계정 생성을 원한다면 관리자에게 요청하십시오.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "또는 이미 있는 계정으로 로그인"
     signup_with_auth_provider: "또는 사용 가입하기"
     auth_source_login: <em>%{login}</em> 계정을 활성화하려면 로그인하시기 바랍니다.
@@ -572,6 +572,7 @@ ko:
         time_zone: "표준 시간대"
         auto_hide_popups: "자동 숨김 성공 알림"
         warn_on_leaving_unsaved: "저장하지 않고 작업 패키지를 벗어날 때 알려주세요."
+        theme: "Mode"
       version:
         effective_date: "완료 날짜"
         sharing: "공유"
@@ -908,6 +909,7 @@ ko:
           attributes:
             roles:
               ungrantable: "할당할 수 없는 역할이 있습니다."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "프로젝트에 할당할 수 없습니다."
         version:
@@ -1245,10 +1247,22 @@ ko:
         other: "1일\n%{count}일"
       x_minutes:
         other: "1분\n%{count}분"
+      x_minutes_abbreviated:
+        other: "%{count} mins"
+      x_hours:
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        other: "%{count} hrs"
+      x_weeks:
+        other: "%{count} weeks"
       x_months:
         other: "1개월\n%{count}개월"
+      x_years:
+        other: "%{count} years"
       x_seconds:
         other: "1초\n%{count}초"
+      x_seconds_abbreviated:
+        other: "%{count} s"
     units:
       hour:
         other: "시간"
@@ -1530,6 +1544,7 @@ ko:
   label_add_related_work_packages: "관련 작업 패키지 추가"
   label_add_subtask: "하위 작업 추가"
   label_added: "추가됨"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "%{author}이(가) %{age} 전에 추가함"
   label_additional_workflow_transitions_for_assignee: "사용자가 담당자일 때 허용되는 추가 전환"
   label_additional_workflow_transitions_for_author: "사용자가 작성자일 때 허용되는 추가 전환"
@@ -1635,6 +1650,7 @@ ko:
   label_copy_workflow_from: "다음에서 워크플로 복사"
   label_copy_project: "프로젝트 복사"
   label_core_version: "코어 버전"
+  label_core_build: "Core build"
   label_current_status: "현재 상태"
   label_current_version: "현재 버전"
   label_custom_field_add_no_type: "작업 패키지 유형에 이 필드 추가"
@@ -1779,6 +1795,10 @@ ko:
   label_login: "로그인"
   label_custom_logo: "사용자 정의 로고"
   label_custom_export_logo: "사용자 지정 내보내기 로고"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "사용자 지정 favicon"
   label_custom_touch_icon: "사용자 지정 터치 아이콘"
   label_logout: "로그아웃"
@@ -1849,6 +1869,7 @@ ko:
   label_operator_none: "비어 있음"
   label_operator_equals_or: "(OR)"
   label_operator_equals_all: "(AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "메뉴 열기"
   label_open_work_packages: "열기"
   label_open_work_packages_plural: "열기"
@@ -2140,12 +2161,22 @@ ko:
         assigned: '할당됨'
         responsible: '담당'
         mentioned: '멘션됨'
+        shared: 'Shared'
         subscribed: '모두'
         prefix: '수신 이유는 다음 알림 설정입니다: %{reason}'
         date_alert_start_date: '날짜 경보'
         date_alert_due_date: '날짜 경보'
       see_all: '모두 보기'
       updated_at: '%{timestamp}, %{user} 님이 업데이트함'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
@@ -2314,6 +2345,8 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "프로젝트 보관"
   permission_create_user: "사용자 만들기"
   permission_manage_user: "사용자 편집"
@@ -2326,6 +2359,7 @@ ko:
   permission_comment_news: "뉴스에 코멘트 달기"
   permission_commit_access: "리포지토리(커밋)에 대한 읽기/쓰기 액세스"
   permission_copy_projects: "프로젝트 복사"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "주시자 삭제"
   permission_delete_work_packages: "작업 패키지 삭제"
@@ -2368,23 +2402,31 @@ ko:
   permission_protect_wiki_pages: "위키 페이지 보호"
   permission_rename_wiki_pages: "위키 페이지 이름 바꾸기"
   permission_save_queries: "보기 저장"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "사용자 지정 필드 선택"
   permission_select_project_modules: "프로젝트 모듈 선택"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "유형 선택"
+  permission_view_project: "View projects"
   permission_view_changesets: "OpenProject에서 리포지토리 수정 사항 보기"
   permission_view_commit_author_statistics: "커밋 작성자 통계 보기"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "주시자 목록 보기"
   permission_view_work_packages: "작업 패키지 보기"
   permission_view_messages: "메시지 보기"
+  permission_view_news: "View news"
   permission_view_members: "멤버 보기"
   permission_view_reportings: "보고 보기"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "소요 시간 보기"
   permission_view_timelines: "타임라인 보기"
   permission_view_wiki_edits: "위키 기록 보기"
   permission_view_wiki_pages: "위키 보기"
   permission_work_package_assigned: "담당자/책임자 되기"
   permission_work_package_assigned_explanation: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2420,11 +2462,12 @@ ko:
   query_fields:
     active_or_archived: "활성 또는 보관됨"
     assigned_to_role: "담당자의 역할"
-    member_of_group: "담당자의 그룹"
     assignee_or_group: "담당자 또는 소속 그룹"
-    subproject_id: "하위 프로젝트 포함"
-    only_subproject_id: "하위 프로젝트만"
+    member_of_group: "담당자의 그룹"
     name_or_identifier: "이름 또는 식별자"
+    only_subproject_id: "하위 프로젝트만"
+    shared_with_user: "Shared with user"
+    subproject_id: "하위 프로젝트 포함"
   repositories:
     at_identifier: '- %{identifier}'
     atom_revision_feed: 'Atom 수정 피드'
@@ -2737,6 +2780,8 @@ ko:
     투명한 배경에 흰색 로고가 권장됩니다. 기존 디스플레이와 레티나 디스플레이 둘 다에서 최상의 결과를 위해 이미지의 크기는 460px x 60px여야 합니다.
   text_custom_export_logo_instructions: >
     PDF 내보내기에서 표시되는 로고입니다. PNG 또는 JPEG 이미지 파일이어야 합니다. 투명 또는 흰색 바탕에 검은색 또는 컬러 로고를 사용하는 것이 좋습니다.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     페이지 제목 옆의 브라우저 창/탭에 나타나는 작은 아이콘입니다. 투명한 배경을 가진 정사각형 32x32 픽셀 크기의 PNG 이미지 파일이어야 합니다.
   text_custom_touch_icon_instructions: >
@@ -2924,6 +2969,26 @@ ko:
     destroy:
       info: "작업 패키지 삭제는 취소할 수 없는 작업입니다."
       title: "작업 패키지 삭제"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.

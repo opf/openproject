@@ -600,6 +600,7 @@ ja:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -643,6 +644,7 @@ ja:
         mentioned: 'Mentioned'
         watched: 'ウォッチャー'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -665,6 +667,7 @@ ja:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: '担当者'
           responsible: '責任者'
+          shared: 'Shared'
           watched: 'ウォッチャー'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -981,6 +984,7 @@ ja:
         recently_created: "最近作成された"
         all_open: "未完了"
         summary: "サマリ"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "表のページ設定に移動する"
         label_pagination: "ここをクリックすると、作業項目表をスキップしてページ設定に移動します"
@@ -1017,6 +1021,12 @@ ja:
       scheduling:
         is_parent: "このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。"
         is_switched_from_manual_to_automatic: "他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。"
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'ワークパッケージテーブルを設定する'
         summary: "作業項目の行と、作業項目の属性の列から成る表。"

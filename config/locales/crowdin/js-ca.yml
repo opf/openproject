@@ -95,7 +95,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitzar"
+    button_update: "Actualitza"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -599,6 +599,7 @@ ca:
         processed: 'processat'
         prioritized: 'prioritzat'
         dateAlert: 'Alerta per dates'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data de fita'
         overdue: 'Vençut'
@@ -643,6 +644,7 @@ ca:
         mentioned: 'Mencionat'
         watched: 'Observador'
         date_alert: 'Alerta per dates'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Pots modificar la teva <a target="_blank" href="%{url}">configuració de notificacions</a> per assegurar-te que mai et perds informació important.'
         title: "Configuració de notificacions"
@@ -665,6 +667,7 @@ ca:
             description: 'Rep una notificació cada vegada que algú em menciona a qualsevol lloc'
           assignee: 'Assignat a'
           responsible: 'Responsable'
+          shared: 'Shared'
           watched: 'Observador'
           work_package_commented: 'Tots els nous comentaris'
           work_package_created: 'Paquets de treball nou'
@@ -747,7 +750,7 @@ ca:
           label: 'Pausa els correu electrònic recordatori temporalment'
           first_day: 'Primer dia'
           last_day: 'Últim dia'
-    text_are_you_sure: "N'estas segur?"
+    text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
     types:
       attribute_groups:
@@ -981,6 +984,7 @@ ca:
         recently_created: "Creat recentment"
         all_open: "Tots els oberts"
         summary: "Resum"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Saltar a la paginació de la taula"
         label_pagination: "Fes clic aquí per saltar per sobre la taula de paquets de treball i anar a paginació"
@@ -1017,6 +1021,12 @@ ca:
       scheduling:
         is_parent: "Les dates d'aquest paquet de treball estan derivades automàticament dels seus fills. Activa la \"Planificació manual\" per canviar les dates."
         is_switched_from_manual_to_automatic: "Pot ser que les dates d'aquest paquet de treball no es tornin a calcular automàticament en canviar de planificació manual a automàtica a causa de les relacions amb altres paquets de treball."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configura la taula de paquets de treball'
         summary: "Taula amb fileres de paquets de treball i columnes amb els atributs dels paquets de treball."

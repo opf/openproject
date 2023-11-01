@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,17 +30,17 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FolderFilesFileIdsDeepQuery
-    def initialize(storage)
-      @query = ::Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQuery.new(storage)
-    end
 
-    def call(path:)
-      @query.call(
-        depth: 'infinity',
-        path:,
-        # nc:acl-list is only required to avoid https://community.openproject.org/wp/49628. See comment #4.
-        props: %w[oc:fileid nc:acl-list]
-      )
+    def self.call(storage:, path:)
+      ::Storages::Peripherals::Registry
+        .resolve("queries.nextcloud.propfind")
+        .call(
+          storage:,
+          depth: 'infinity',
+          path:,
+          # nc:acl-list is only required to avoid https://community.openproject.org/wp/49628. See comment #4.
+          props: %w[oc:fileid nc:acl-list]
+        )
     end
   end
 end

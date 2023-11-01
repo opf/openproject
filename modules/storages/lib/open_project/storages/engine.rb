@@ -35,6 +35,7 @@ module OpenProject::Storages
     def self.permissions
       @permissions ||= Storages::GroupFolderPropertiesSyncService::PERMISSIONS_KEYS
     end
+
     # engine name is used as a default prefix for module tables when generating
     # tables with the rails command.
     # It may also be used in other places, please investigate.
@@ -45,6 +46,8 @@ module OpenProject::Storages
 
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
+      OpenProject::FeatureDecisions.add :storage_one_drive_integration
+      OpenProject::FeatureDecisions.add :storage_primer_design
     end
 
     initializer 'openproject_storages.event_subscriptions' do
@@ -112,20 +115,24 @@ module OpenProject::Storages
                      dependencies: :work_package_tracking do
         permission :view_file_links,
                    {},
+                   permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { file_links: %i[view] }
         permission :manage_file_links,
                    {},
+                   permissible_on: :project,
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/project_storages': %i[index members new edit update create destroy destroy_info
-                                                           set_permissions],
+                   { 'storages/admin/project_storages': %i[index members new
+                                                           edit update create
+                                                           destroy destroy_info set_permissions],
                      'storages/project_settings/project_storage_members': %i[index] },
+                   permissible_on: :project,
                    dependencies: %i[]
 
         OpenProject::Storages::Engine.permissions.each do |p|
-          permission(p, {}, dependencies: %i[])
+          permission(p, {}, permissible_on: :project, dependencies: %i[])
         end
       end
 
@@ -152,10 +159,11 @@ module OpenProject::Storages
           User.current.allowed_to?(:view_file_links, project)
           project.project_storages.each do |project_storage|
             storage = project_storage.storage
-            href = if project_storage.project_folder_inactive?
-                     storage.host
+            href = "/api/v3/project_storages/#{project_storage.id}/open"
+            icon = if storage.provider_type_nextcloud?
+                     'nextcloud-circle'
                    else
-                     ::Storages::Peripherals::StorageUrlHelper.storage_url_open_file(storage, project_storage.project_folder_id)
+                     'hosting'
                    end
 
             menu.push(
@@ -163,8 +171,8 @@ module OpenProject::Storages
               href,
               caption: storage.name,
               before: :members,
-              icon: "#{storage.short_provider_type}-circle",
-              icon_after: "external-link",
+              icon:,
+              icon_after: 'external-link',
               skip_permissions_check: true
             )
           end
@@ -192,12 +200,18 @@ module OpenProject::Storages
           exclude filter
         end
 
+        ::Queries::Register.register(::Queries::Projects::ProjectQuery) do
+          filter ::Queries::Storages::Projects::Filter::StorageIdFilter
+          filter ::Queries::Storages::Projects::Filter::StorageUrlFilter
+        end
+
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
           filter ::Queries::Storages::FileLinks::Filter::StorageFilter
         end
 
         ::Queries::Register.register(::Queries::Storages::ProjectStorages::ProjectStoragesQuery) do
           filter ::Queries::Storages::ProjectStorages::Filter::StorageIdFilter
+          filter ::Queries::Storages::ProjectStorages::Filter::StorageUrlFilter
           filter ::Queries::Storages::ProjectStorages::Filter::ProjectIdFilter
         end
       end
@@ -214,11 +228,19 @@ module OpenProject::Storages
     end
 
     add_api_path :project_storage do |id|
-      "#{root}/project_storages/#{id}"
+      "#{project_storages}/#{id}"
+    end
+
+    add_api_path :project_storage_open do |id|
+      "#{project_storage(id)}/open"
     end
 
     add_api_path :storage do |storage_id|
       "#{storages}/#{storage_id}"
+    end
+
+    add_api_path :storage_open do |storage_id|
+      "#{storage(storage_id)}/open"
     end
 
     add_api_path :storage_files do |storage_id|

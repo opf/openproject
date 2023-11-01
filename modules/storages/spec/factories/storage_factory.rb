@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,28 +29,114 @@
 #++
 
 FactoryBot.define do
-  factory :storage, class: '::Storages::Storage' do
-    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+  factory :storage, class: 'Storages::Storage' do
     sequence(:name) { |n| "Storage #{n}" }
-    sequence(:host) { |n| "https://host#{n}.example.com" }
     creator factory: :user
+
+    # rubocop:disable FactoryBot/FactoryAssociationWithStrategy
+    # For some reason the order of saving breaks STI
+    trait :with_oauth_client do
+      oauth_client { build(:oauth_client) }
+    end
 
     trait :as_generic do
       provider_type { 'Storages::Storage' }
     end
 
-    factory :nextcloud_storage, class: '::Storages::NextcloudStorage' do
-      provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+    trait :as_generic do
+      provider_type { 'Storages::Storage' }
+    end
+  end
 
-      trait :as_automatically_managed do
-        automatically_managed { true }
-        username { 'OpenProject' }
-        password { 'Password123' }
-      end
+  factory :nextcloud_storage,
+          parent: :storage,
+          class: '::Storages::NextcloudStorage' do
+    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+    sequence(:host) { |n| "https://host#{n}.example.com" }
 
-      trait :as_not_automatically_managed do
-        automatically_managed { false }
-      end
+    trait :as_automatically_managed do
+      automatically_managed { true }
+      username { 'OpenProject' }
+      password { 'Password123' }
+    end
+
+    trait :as_not_automatically_managed do
+      automatically_managed { false }
+    end
+  end
+
+  factory :nextcloud_storage_with_local_connection,
+          parent: :nextcloud_storage,
+          traits: [:as_not_automatically_managed] do
+    transient do
+      oauth_client_token_user { association :user }
+    end
+
+    name { 'Nextcloud Local' }
+    host { 'https://nextcloud.local' }
+
+    initialize_with do
+      Storages::NextcloudStorage.create_or_find_by(attributes.except(:oauth_client, :oauth_application))
+    end
+
+    after(:create) do |storage, evaluator|
+      create(:oauth_client,
+             client_id: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID', 'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID'),
+             client_secret: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET', 'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET'),
+             integration: storage)
+
+      create(:oauth_application,
+             uid: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_UID', 'MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_UID'),
+             secret: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_SECRET', 'MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_SECRET'),
+             redirect_uri: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_REDIRECT_URI',
+                                     "https://nextcloud.local/index.php/apps/integration_openproject/oauth-redirect"),
+             scopes: 'api_v3',
+             integration: storage)
+
+      create(:oauth_client_token,
+             oauth_client: storage.oauth_client,
+             user: evaluator.oauth_client_token_user,
+             access_token: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN',
+                                     'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN'),
+             refresh_token: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN',
+                                      'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN'),
+             token_type: 'bearer',
+             origin_user_id: 'admin')
+    end
+  end
+
+  factory :one_drive_storage,
+          parent: :storage,
+          class: '::Storages::OneDriveStorage' do
+    host { nil }
+  end
+
+  factory :sharepoint_dev_drive_storage,
+          parent: :one_drive_storage do
+    transient do
+      oauth_client_token_user { association :user }
+    end
+
+    name { 'Sharepoint VCR drive' }
+    tenant_id { ENV.fetch('ONE_DRIVE_TEST_TENANT_ID', '4d44bf36-9b56-45c0-8807-bbf386dd047f') }
+    drive_id { ENV.fetch('ONE_DRIVE_TEST_DRIVE_ID', 'b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs') }
+
+    after(:create) do |storage, evaluator|
+      create(:oauth_client,
+             client_id: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_ID', 'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ID'),
+             client_secret: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_SECRET',
+                                      'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_SECRET'),
+             integration: storage)
+
+      create(:oauth_client_token,
+             oauth_client: storage.oauth_client,
+             user: evaluator.oauth_client_token_user,
+             access_token: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN',
+                                     'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN'),
+             refresh_token: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN',
+                                      'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN'),
+             token_type: 'bearer',
+             origin_user_id: 'admin')
     end
   end
 end

@@ -43,17 +43,8 @@ RSpec.describe API::V3::WikiPages::WikiPageRepresenter, 'rendering' do
   let(:representer) do
     described_class.create(wiki_page, current_user: user, embed_links: true)
   end
-  let(:permissions) { all_permissions }
-  let(:all_permissions) { %i(edit_wiki_pages) }
 
   subject { representer.to_json }
-
-  before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission, _project|
-      permissions.include?(permission)
-    end
-  end
 
   describe '_links' do
     it_behaves_like 'has an untitled link' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
   let(:oauth_application) { build_stubbed(:oauth_application) }
@@ -42,9 +45,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
     allow(OAuthClients::ConnectionManager)
       .to receive(:new).and_return(connection_manager)
     allow(connection_manager)
-      .to receive(:authorization_state).and_return(:connected)
-    allow(connection_manager)
-      .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
+      .to receive_messages(authorization_state: :connected, get_authorization_uri: 'https://example.com/authorize')
   end
 
   describe '_links' do
@@ -85,8 +86,8 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
         let(:storage) { create(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
         let(:user) { create(:user) }
         let(:another_user) { create(:user) }
-        let(:no_permissions_role) { create(:role, permissions: []) }
-        let(:uploader_role) { create(:role, permissions: [:manage_file_links]) }
+        let(:no_permissions_role) { create(:project_role, permissions: []) }
+        let(:uploader_role) { create(:project_role, permissions: [:manage_file_links]) }
 
         # rubocop:disable RSpec/ExampleLength
         it 'contains upload information for each of these projects' do
@@ -141,6 +142,15 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
           let(:link) { 'oauthApplication' }
           let(:href) { "/api/v3/oauth_applications/#{oauth_application.id}" }
           let(:title) { oauth_application.name }
+        end
+
+        context 'with invalid configured storage with missing oauth application' do
+          let(:oauth_application) { nil }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'oauthApplication' }
+            let(:href) { nil }
+          end
         end
       end
     end
@@ -262,7 +272,13 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
 
       context 'with a non-Nextcloud storage' do
         let(:storage) do
-          build(:storage, provider_type: 'unknown', oauth_application:, oauth_client: oauth_client_credentials)
+          build(:one_drive_storage, oauth_application:, oauth_client: oauth_client_credentials)
+        end
+
+        before do
+          Storages::Peripherals::Registry.stub('queries.one_drive.open_storage', ->(_) do
+            ServiceResult.success(result: 'https://my.sharepoint.com/sites/DeathStar/Documents')
+          end)
         end
 
         it 'does not include the property hasApplicationPassword' do

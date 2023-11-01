@@ -37,6 +37,7 @@ class Meeting < ApplicationRecord
   has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
   has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
+  has_many :agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
 
   default_scope do
     order("#{Meeting.table_name}.start_time DESC")
@@ -53,27 +54,19 @@ class Meeting < ApplicationRecord
       .merge(Project.allowed_to(args.first || User.current, :view_meetings))
   }
 
-  acts_as_watchable
+  acts_as_watchable permission: :view_meetings
 
-  acts_as_searchable columns: ["#{table_name}.title", "#{MeetingContent.table_name}.text"],
-                     include: %i[contents project],
-                     references: :meeting_contents,
+  acts_as_searchable columns: [
+                       "#{table_name}.title",
+                       "#{MeetingContent.table_name}.text",
+                       "#{MeetingAgendaItem.table_name}.title",
+                       "#{MeetingAgendaItem.table_name}.notes"
+                     ],
+                     include: %i[contents project agenda_items],
+                     references: %i[meeting_contents agenda_items],
                      date_column: "#{table_name}.created_at"
 
-  acts_as_journalized
-  acts_as_event title: Proc.new { |o|
-                         "#{I18n.t(:label_meeting)}: #{o.title} \
-        #{format_date o.start_time} \
-        #{format_time o.start_time, false}-#{format_time o.end_time, false})"
-                       },
-                url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
-                author: Proc.new(&:user),
-                description: ''
-
-  register_journal_formatted_fields(:plaintext, 'title')
-  register_journal_formatted_fields(:fraction, 'duration')
-  register_journal_formatted_fields(:datetime, 'start_time')
-  register_journal_formatted_fields(:plaintext, 'location')
+  include Meeting::Journalized
 
   accepts_nested_attributes_for :participants, allow_destroy: true
 
@@ -94,6 +87,11 @@ class Meeting < ApplicationRecord
   before_save :add_new_participants_as_watcher
 
   after_initialize :set_initial_values
+
+  enum state: {
+    open: 0, # 0 -> default, leave values for future states between open and closed
+    closed: 5
+  }
 
   ##
   # Return the computed start_time when changed
@@ -136,8 +134,16 @@ class Meeting < ApplicationRecord
   end
 
   # Returns true if user or current user is allowed to view the meeting
-  def visible?(user = nil)
-    (user || User.current).allowed_to?(:view_meetings, project)
+  def visible?(user = User.current)
+    user.allowed_in_project?(:view_meetings, project)
+  end
+
+  def editable?(user = User.current)
+    open? && user.allowed_in_project?(:edit_meetings, project)
+  end
+
+  def invited_or_attended_participants
+    participants.where(invited: true).or(participants.where(attended: true))
   end
 
   def all_changeable_participants
@@ -271,9 +277,7 @@ class Meeting < ApplicationRecord
     date = parsed_start_date
     time = parsed_start_time_hour
 
-    if date.nil? || time.nil?
-      raise ArgumentError, 'Provided composite start_time is invalid.'
-    end
+    return if date.nil? || time.nil?
 
     Time.zone.local(
       date.year,

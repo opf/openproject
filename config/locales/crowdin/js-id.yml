@@ -95,7 +95,7 @@ id:
     button_save: "Simpan"
     button_settings: "Pengaturan"
     button_uncheck_all: "Uncek semua"
-    button_update: "Perbarui"
+    button_update: "Update"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     button_create: "Buat baru"
@@ -599,6 +599,7 @@ id:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Peringatan tanggal'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -642,6 +643,7 @@ id:
         mentioned: 'Mentioned'
         watched: 'Pemantau'
         date_alert: 'Peringatan tanggal'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -664,6 +666,7 @@ id:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Pelimpahan'
           responsible: 'Akuntabel'
+          shared: 'Shared'
           watched: 'Pemantau'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -980,6 +983,7 @@ id:
         recently_created: "Recently created"
         all_open: "Semua terbuka"
         summary: "Ringkasan"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
@@ -1016,6 +1020,12 @@ id:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."

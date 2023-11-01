@@ -33,13 +33,12 @@ RSpec.describe 'BIM navigation spec',
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
-    create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
+    create(:project_role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
   end
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let(:model) do
@@ -75,7 +74,7 @@ RSpec.describe 'BIM navigation spec',
         model_page.model_viewer_shows_a_toolbar true
         model_page.page_shows_a_toolbar true
         model_tree.sidebar_shows_viewer_menu true
-        expect(page).to have_selector('[data-qa-selector="op-wp-card-view"]')
+        expect(page).to have_test_selector('op-wp-card-view')
         card_view.expect_work_package_listed work_package
       end
 
@@ -104,13 +103,13 @@ RSpec.describe 'BIM navigation spec',
         model_page.switch_view 'Viewer'
 
         model_page.model_viewer_visible true
-        expect(page).not_to have_selector('[data-qa-selector="op-wp-card-view"]')
+        expect(page).not_to have_test_selector('op-wp-card-view')
 
         # Go to list only
         model_page.switch_view 'Cards'
 
         model_page.model_viewer_visible false
-        expect(page).to have_selector('[data-qa-selector="op-wp-card-view"]')
+        expect(page).to have_test_selector('op-wp-card-view')
         card_view.expect_work_package_listed work_package
 
         # Go to details view

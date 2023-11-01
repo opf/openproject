@@ -30,11 +30,9 @@ require 'spec_helper'
 
 RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) do
     %i(view_work_packages edit_work_packages add_work_packages move_work_packages manage_subtasks)
   end
@@ -126,7 +124,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
       create(:member,
              user:,
              project: p,
-             roles: [create(:role, permissions: target_permissions)])
+             roles: [create(:project_role, permissions: target_permissions)])
 
       p
     end
@@ -136,30 +134,21 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
     let(:target_types) { [type] }
 
     it 'is is success and updates the project' do
-      expect(subject)
-        .to be_success
-
-      expect(work_package.reload.project)
-        .to eql target_project
+      expect(subject).to be_success
+      expect(work_package.reload.project).to eql target_project
     end
 
     context 'with missing permissions' do
       let(:target_permissions) { [] }
 
       it 'is failure' do
-        expect(subject)
-          .to be_failure
+        expect(subject).to be_failure
       end
     end
 
     describe 'time_entries' do
       let!(:time_entries) do
-        [create(:time_entry,
-                project:,
-                work_package:),
-         create(:time_entry,
-                project:,
-                work_package:)]
+        create_list(:time_entry, 2, project:, work_package:)
       end
 
       it 'moves the time entries along' do
@@ -168,6 +157,36 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
         expect(TimeEntry.where(id: time_entries.map(&:id)).pluck(:project_id).uniq)
           .to contain_exactly(target_project.id)
+      end
+    end
+
+    describe 'memberships' do
+      let(:wp_role) { create(:work_package_role, permissions: [:view_work_packages]) }
+      let(:other_user) { create(:user) }
+      let!(:membership) do
+        create(:member, project:, entity: work_package, principal: other_user, roles: [wp_role])
+      end
+
+      it 'moves memberships for the entity to the new project' do
+        expect do
+          subject
+          membership.reload
+        end.to change(membership, :project).from(project).to(target_project)
+      end
+
+      describe 'when the work package has descendents' do
+        let!(:child_membership) do
+          create(:member, project:, entity: child_work_package, principal: other_user, roles: [wp_role])
+        end
+
+        it 'moves memberships for the entity and its descendents to the new project' do
+          expect do
+            subject
+            membership.reload
+            child_membership.reload
+          end.to change(membership, :project).from(project).to(target_project).and \
+            change(child_membership, :project).from(project).to(target_project)
+        end
       end
     end
 

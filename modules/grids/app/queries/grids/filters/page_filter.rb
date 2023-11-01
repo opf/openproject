@@ -36,13 +36,13 @@ module Grids
       def allowed_values_subset
         values
           .map { |page| [page, ::Grids::Configuration.attributes_from_scope(page)] }
-          .map do |page, config|
+          .filter_map do |page, config|
             next unless config && config[:class]
 
             if (config[:id] && config[:class].visible.exists?(config[:id])) || config[:class].visible.any?
               page
             end
-          end.compact
+          end
       end
 
       def type

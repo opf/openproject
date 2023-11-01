@@ -135,6 +135,10 @@ OpenProject::Application.routes.draw do
       as: 'custom_style_export_logo',
       constraints: { filename: /[^\/]*/ }
 
+  get 'custom_style/:digest/export_cover/:filename' => 'custom_styles#export_cover_download',
+      as: 'custom_style_export_cover',
+      constraints: { filename: /[^\/]*/ }
+
   get 'custom_style/:digest/favicon/:filename' => 'custom_styles#favicon_download',
       as: 'custom_style_favicon',
       constraints: { filename: /[^\/]*/ }
@@ -352,11 +356,15 @@ OpenProject::Application.routes.draw do
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/export_logo' => 'custom_styles#export_logo_delete', as: 'custom_style_export_logo_delete'
+    delete 'design/export_cover' => 'custom_styles#export_cover_delete', as: 'custom_style_export_cover_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
     delete 'design/touch_icon' => 'custom_styles#touch_icon_delete', as: 'custom_style_touch_icon_delete'
     get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
     post 'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
     post 'design/themes' => 'custom_styles#update_themes', as: 'update_design_themes'
+    post 'design/export_cover_text_color' => 'custom_styles#update_export_cover_text_color',
+         as: 'update_custom_style_export_cover_text_color'
+
     resource :custom_style, only: %i[update show create], path: 'design'
 
     resources :attribute_help_texts, only: %i(index new create edit update destroy) do
@@ -445,6 +453,8 @@ OpenProject::Application.routes.draw do
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
     get '/bulk' => 'bulk#destroy'
+
+    resources :shares, only: %i[destroy update]
   end
 
   resources :work_packages, only: [:index] do
@@ -456,6 +466,13 @@ OpenProject::Application.routes.draw do
 
     # states managed by client-side routing on work_package#index
     get 'details/*state' => 'work_packages#index', on: :collection, as: :details
+
+    # Rails managed sharing route
+    resources :shares, controller: 'work_packages/shares', only: %i[index create] do
+      collection do
+        resource :bulk, controller: 'work_packages/shares/bulk', only: %i[update destroy], as: :shares_bulk
+      end
+    end
 
     # states managed by client-side (angular) routing on work_package#show
     get '/' => 'work_packages#index', on: :collection, as: 'index'

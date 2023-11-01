@@ -41,13 +41,11 @@ RSpec.describe 'subject inplace editor', js: true, selenium: true do
   let(:work_package) { create(:work_package, project:) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages edit_work_packages manage_versions assign_versions])
+           member_with_permissions: { project => %i[view_work_packages edit_work_packages manage_versions assign_versions] })
   end
   let(:second_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages edit_work_packages assign_versions])
+           member_with_permissions: { project => %i[view_work_packages edit_work_packages assign_versions] })
   end
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }

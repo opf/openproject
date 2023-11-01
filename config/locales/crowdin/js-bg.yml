@@ -599,6 +599,7 @@ bg:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -643,6 +644,7 @@ bg:
         mentioned: 'Mentioned'
         watched: 'Наблюдател'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -665,6 +667,7 @@ bg:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Изпълнител'
           responsible: 'Accountable'
+          shared: 'Shared'
           watched: 'Наблюдател'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -981,6 +984,7 @@ bg:
         recently_created: "Recently created"
         all_open: "Всичко отворено"
         summary: "Обобщение"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
@@ -1017,6 +1021,12 @@ bg:
       scheduling:
         is_parent: "Датите на този работен пакет се извеждат автоматично от неговите деца. Активирайте „Ръчно планиране“, за да зададете датите."
         is_switched_from_manual_to_automatic: "Датите на този работен пакет може да се наложи да бъдат преизчислени след преминаване от ръчно към автоматично планиране поради връзки с други работни пакети."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configure work package table'
         summary: "Таблица с атрибути от редове и колони на работен пакет."

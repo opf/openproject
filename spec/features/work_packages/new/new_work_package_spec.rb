@@ -3,7 +3,7 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
-RSpec.describe 'new work package', js: true, with_cuprite: true do
+RSpec.describe 'new work package', :js, :with_cuprite do
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
   shared_let(:type_task) { create(:type_task) }
@@ -16,9 +16,7 @@ RSpec.describe 'new work package', js: true, with_cuprite: true do
 
   let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages work_package_assigned] }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -394,8 +392,8 @@ RSpec.describe 'new work package', js: true, with_cuprite: true do
   end
 
   context 'as a user with no permissions' do
-    let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create(:role, permissions: %i(view_work_packages)) }
+    let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
+    let(:user) { create(:user, member_with_roles: { project => role }) }
     let(:wp_page) { Pages::Page.new }
 
     let(:paths) do
@@ -416,8 +414,8 @@ RSpec.describe 'new work package', js: true, with_cuprite: true do
   end
 
   context 'as a user with add_work_packages permission, but not edit_work_packages permission (Regression 28580)' do
-    let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create(:role, permissions: %i(view_work_packages add_work_packages)) }
+    let(:role) { create(:project_role, permissions: %i(view_work_packages add_work_packages)) }
+    let(:user) { create(:user, member_with_roles: { project => role }) }
     let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
     before do
@@ -498,7 +496,7 @@ RSpec.describe 'new work package', js: true, with_cuprite: true do
 
       split_create_page.expect_attributes(combinedDate: "no start date - #{parent.due_date.strftime('%m/%d/%Y')}")
 
-      expect(split_create_page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{parent.subject}")
+      expect(split_create_page).to have_test_selector('op-wp-breadcrumb', text: "Parent:\n#{parent.subject}")
     end
 
     it 'can navigate to the fullscreen page (Regression #49565)' do
@@ -533,7 +531,7 @@ RSpec.describe 'new work package', js: true, with_cuprite: true do
 
       wp_page.expect_attributes(combinedDate: "#{parent.start_date.strftime('%m/%d/%Y')} - #{parent.due_date.strftime('%m/%d/%Y')}")
 
-      expect(wp_page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{parent.subject}")
+      expect(wp_page).to have_test_selector('op-wp-breadcrumb', text: "Parent:\n#{parent.subject}")
     end
   end
 end

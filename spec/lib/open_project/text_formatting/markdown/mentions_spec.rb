@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './expected_markdown'
+require_relative 'expected_markdown'
 
 RSpec.describe OpenProject::TextFormatting,
                'mentions' do
@@ -39,15 +39,14 @@ RSpec.describe OpenProject::TextFormatting,
     let(:options) { { project: } }
 
     shared_let(:role) do
-      create(:role,
+      create(:project_role,
              permissions: %i(view_work_packages edit_work_packages
                              browse_repository view_changesets view_wiki_pages))
     end
 
     shared_let(:project_member) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     before do
@@ -56,15 +55,14 @@ RSpec.describe OpenProject::TextFormatting,
 
     context 'User links' do
       let(:role) do
-        create(:role,
+        create(:project_role,
                permissions: %i[view_work_packages edit_work_packages
                                browse_repository view_changesets view_wiki_pages])
       end
 
       let(:linked_project_member) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
 
       context 'User link via mention' do
@@ -87,7 +85,8 @@ RSpec.describe OpenProject::TextFormatting,
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
                             title: "User #{linked_project_member.name}",
-                            class: 'user-mention op-uc-link')}
+                            class: 'user-mention op-uc-link',
+                            target: '_top')}
                 </p>
               EXPECTED
             end
@@ -133,7 +132,8 @@ RSpec.describe OpenProject::TextFormatting,
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
                             title: "User #{linked_project_member.name}",
-                            class: 'user-mention op-uc-link')}
+                            class: 'user-mention op-uc-link',
+                            target: '_top')}
                 </p>
               EXPECTED
             end
@@ -156,7 +156,8 @@ RSpec.describe OpenProject::TextFormatting,
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
                             title: "User #{linked_project_member.name}",
-                            class: 'user-mention op-uc-link')}
+                            class: 'user-mention op-uc-link',
+                            target: '_top')}
                 </p>
               EXPECTED
             end
@@ -180,7 +181,8 @@ RSpec.describe OpenProject::TextFormatting,
                     #{link_to(linked_project_member.name,
                               { controller: :users, action: :show, id: linked_project_member.id },
                               title: "User #{linked_project_member.name}",
-                              class: 'user-mention op-uc-link')}
+                              class: 'user-mention op-uc-link',
+                              target: '_top')}
                   </p>
                 EXPECTED
               end
@@ -190,8 +192,7 @@ RSpec.describe OpenProject::TextFormatting,
           context "with an email address as login name" do
             let(:linked_project_member) do
               create(:user,
-                     member_in_project: project,
-                     member_through_role: role,
+                     member_with_roles: { project => role },
                      login: "foo@bar.com")
             end
 
@@ -208,7 +209,8 @@ RSpec.describe OpenProject::TextFormatting,
                     #{link_to(linked_project_member.name,
                               { controller: :users, action: :show, id: linked_project_member.id },
                               title: "User #{linked_project_member.name}",
-                              class: 'user-mention op-uc-link')}
+                              class: 'user-mention op-uc-link',
+                              target: '_top')}
                   </p>
                 EXPECTED
               end
@@ -232,7 +234,8 @@ RSpec.describe OpenProject::TextFormatting,
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
                             title: "User #{linked_project_member.name}",
-                            class: 'user-mention op-uc-link')}
+                            class: 'user-mention op-uc-link',
+                            target: '_top')}
                 </p>
               EXPECTED
             end
@@ -261,19 +264,17 @@ RSpec.describe OpenProject::TextFormatting,
 
         context 'when visible user exists' do
           let(:project) { create(:project) }
-          let(:role) { create(:role, permissions: %i(view_work_packages)) }
+          let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
           let(:current_user) do
             create(:user,
-                   member_in_project: project,
-                   member_through_role: role)
+                   member_with_roles: { project => role })
           end
           let(:user) do
             create(:user,
                    login: 'foo@bar.com',
                    firstname: 'Foo',
                    lastname: 'Barrit',
-                   member_in_project: project,
-                   member_through_role: role)
+                   member_with_roles: { project => role })
           end
 
           before do
@@ -292,7 +293,7 @@ RSpec.describe OpenProject::TextFormatting,
               let(:expected) do
                 <<~EXPECTED
                   <p class="op-uc-p">
-                    Link to <a class="user-mention op-uc-link" href="/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>
+                    Link to <a class="user-mention op-uc-link" target="_top" href="/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>
                   </p>
                 EXPECTED
               end
@@ -312,7 +313,7 @@ RSpec.describe OpenProject::TextFormatting,
               let(:expected) do
                 <<~EXPECTED
                   <p class="op-uc-p">
-                    Link to <a class="user-mention op-uc-link" href="http://openproject.org/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>
+                    Link to <a class="user-mention op-uc-link" target="_top" href="http://openproject.org/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>
                   </p>
                 EXPECTED
               end
@@ -324,17 +325,12 @@ RSpec.describe OpenProject::TextFormatting,
 
     context 'Group reference' do
       let(:role) do
-        create(:role,
+        create(:project_role,
                permissions: [])
       end
 
       let(:linked_project_member_group) do
-        create(:group).tap do |group|
-          create(:member,
-                 principal: group,
-                 project:,
-                 roles: [role])
-        end
+        create(:group, member_with_roles: { project => role })
       end
 
       context 'via hash syntax' do
@@ -351,6 +347,7 @@ RSpec.describe OpenProject::TextFormatting,
                 <p class="op-uc-p">
                   Link to
                   <a class="user-mention op-uc-link"
+                     target="_top"
                      href="/groups/#{linked_project_member_group.id}"
                      title="Group #{linked_project_member_group.name}">
                     #{linked_project_member_group.name}
@@ -396,6 +393,7 @@ RSpec.describe OpenProject::TextFormatting,
               <<~EXPECTED
                 <p class="op-uc-p">
                   <a class="user-mention op-uc-link"
+                     target="_top"
                      href="/groups/#{linked_project_member_group.id}"
                      title="Group #{linked_project_member_group.name}">
                     #{linked_project_member_group.name}

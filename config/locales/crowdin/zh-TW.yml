@@ -273,6 +273,7 @@ zh-TW:
       no_results_title_text: 目前這個專案沒有成員
       no_results_content_text: 新增一個成員到這個專案
     invite_by_mail: "Send invite to %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "無法重置訪問憑證: %{error}"
@@ -341,9 +342,6 @@ zh-TW:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: 目前沒有類型
@@ -429,6 +427,8 @@ zh-TW:
       您的帳號尚未啟用。請等待管理員啟用您的帳號。
     error_self_registration_disabled: >
       此系統禁止使用者註冊。請通知管理員為您建立帳號。
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "或使用您的現有帳號登錄"
     signup_with_auth_provider: "或者註冊"
     auth_source_login: 請登入 <em>%{login}</em> 來啟用您的帳號。
@@ -573,6 +573,7 @@ zh-TW:
         time_zone: "時區"
         auto_hide_popups: "自動隱藏成功通知"
         warn_on_leaving_unsaved: "離開尚未儲存的工作包時提示我"
+        theme: "Mode"
       version:
         effective_date: "完成日期"
         sharing: "分享"
@@ -909,6 +910,7 @@ zh-TW:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -1246,10 +1248,22 @@ zh-TW:
         other: "%{count} 天"
       x_minutes:
         other: "%{count} 分"
+      x_minutes_abbreviated:
+        other: "%{count} mins"
+      x_hours:
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        other: "%{count} hrs"
+      x_weeks:
+        other: "%{count} weeks"
       x_months:
         other: "%{count} 月"
+      x_years:
+        other: "%{count} years"
       x_seconds:
         other: "%{count} 秒"
+      x_seconds_abbreviated:
+        other: "%{count} s"
     units:
       hour:
         other: "小時"
@@ -1531,6 +1545,7 @@ zh-TW:
   label_add_related_work_packages: "新增相關的工作項目"
   label_add_subtask: "新增子任務"
   label_added: "已新增"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "由%{author}於%{age}前新增"
   label_additional_workflow_transitions_for_assignee: "當使用者是被指派者，其他過度狀態是被允許的"
   label_additional_workflow_transitions_for_author: "當使用者是作者，其他過度狀態是被允許的"
@@ -1636,6 +1651,7 @@ zh-TW:
   label_copy_workflow_from: "工作流程來自於"
   label_copy_project: "複製專案"
   label_core_version: "核心版本"
+  label_core_build: "Core build"
   label_current_status: "目前狀態"
   label_current_version: "目前版本"
   label_custom_field_add_no_type: "新增此欄位至一個工作項目類別"
@@ -1780,6 +1796,10 @@ zh-TW:
   label_login: "登入"
   label_custom_logo: "自訂logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "自訂圖示"
   label_custom_touch_icon: "自訂觸控圖示"
   label_logout: "登出"
@@ -1850,6 +1870,7 @@ zh-TW:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "開啟選單"
   label_open_work_packages: "打開"
   label_open_work_packages_plural: "打開"
@@ -2141,12 +2162,22 @@ zh-TW:
         assigned: '指派'
         responsible: '負責人'
         mentioned: '提醒'
+        shared: 'Shared'
         subscribed: '所有'
         prefix: '因為通知設定而收到：%{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: '全部顯示'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
   mail_body_account_information: "您的帳號資訊"
   mail_body_account_information_external: "您可以使用您的帳號 %{value} 登錄。"
@@ -2315,6 +2346,8 @@ zh-TW:
   permission_add_work_packages: "新增工作項目"
   permission_add_messages: "張貼訊息"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "專案歸檔"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2327,6 +2360,7 @@ zh-TW:
   permission_comment_news: "對新聞發表評論"
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "刪除監看者"
   permission_delete_work_packages: "刪除工作項目"
@@ -2369,23 +2403,31 @@ zh-TW:
   permission_protect_wiki_pages: "專案維基頁面"
   permission_rename_wiki_pages: "重新命名維基頁面"
   permission_save_queries: "保存視圖"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "選擇專案的模組"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "選擇類型"
+  permission_view_project: "View projects"
   permission_view_changesets: "在 OpenProject 檢視版本庫修訂"
   permission_view_commit_author_statistics: "檢視 Commit 的作者統計資訊"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "檢視監看者清單"
   permission_view_work_packages: "檢視工作項目"
   permission_view_messages: "檢視訊息"
+  permission_view_news: "View news"
   permission_view_members: "檢視成員"
   permission_view_reportings: "檢視報表"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "檢視耗時"
   permission_view_timelines: "檢視時間軸"
   permission_view_wiki_edits: "檢視維基歷史"
   permission_view_wiki_pages: "檢視維基"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "可以將工作包分配給在相應專案中擁有此角色的使用者和群組"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2421,11 +2463,12 @@ zh-TW:
   query_fields:
     active_or_archived: "啟用或封存"
     assigned_to_role: "負責執行者的角色"
-    member_of_group: "負責執行者的群組"
     assignee_or_group: "被指派或所屬的人或群組"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "負責執行者的群組"
     name_or_identifier: "名稱或識別碼"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: '在 %{identifier}'
     atom_revision_feed: '單一修訂串流'
@@ -2740,6 +2783,8 @@ zh-TW:
     建議使用背景透明的白色標誌。為了確保在一般及視網膜螢幕上有最佳效果，請確保您的圖片解析度在 460px X 60px。
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -2927,6 +2972,26 @@ zh-TW:
     destroy:
       info: "刪除工作項目是一個不可逆的動作"
       title: "刪除工作項目"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

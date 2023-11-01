@@ -31,10 +31,9 @@ require 'spec_helper'
 RSpec.describe 'Wiki Activity', :js, :with_cuprite do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[view_wiki_pages
-                                       edit_wiki_pages
-                                       view_wiki_edits])
+           member_with_permissions: { project => %i[view_wiki_pages
+                                                    edit_wiki_pages
+                                                    view_wiki_edits] })
   end
   let(:project) { create(:project, enabled_module_names: %w[wiki activity]) }
   let(:wiki) { project.wiki }

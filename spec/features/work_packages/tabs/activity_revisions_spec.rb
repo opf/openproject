@@ -110,14 +110,13 @@ RSpec.describe 'Activity tab', js: true, with_cuprite: true do
 
     context 'with permission' do
       let(:role) do
-        create(:role, permissions: %i[view_work_packages
+        create(:project_role, permissions: %i[view_work_packages
                                       view_changesets
                                       add_work_package_notes])
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
       let(:activities) do
         [creation_journal, subject_change_journal, revision, comment_journal]
@@ -191,12 +190,11 @@ RSpec.describe 'Activity tab', js: true, with_cuprite: true do
 
     context 'with no permission' do
       let(:role) do
-        create(:role, permissions: [:view_work_packages])
+        create(:project_role, permissions: [:view_work_packages])
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
       let(:activities) do
         [creation_journal, subject_change_journal, comment_journal]

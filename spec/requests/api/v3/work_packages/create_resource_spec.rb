@@ -36,12 +36,12 @@ RSpec.describe 'API v3 Work package resource',
   shared_let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[add_work_packages view_project view_work_packages] + extra_permissions }
   let(:extra_permissions) { [] }
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   describe 'POST /api/v3/work_packages' do
@@ -77,8 +77,7 @@ RSpec.describe 'API v3 Work package resource',
     describe 'notifications' do
       let(:other_user) do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: permissions,
+               member_with_permissions: { project => permissions },
                notification_settings: [
                  build(:notification_setting,
                        work_package_created: true)
@@ -262,7 +261,7 @@ RSpec.describe 'API v3 Work package resource',
     end
 
     context 'when file links are being claimed' do
-      let(:storage) { create(:storage) }
+      let(:storage) { create(:nextcloud_storage) }
       let(:file_link) do
         create(:file_link,
                container_id: nil,

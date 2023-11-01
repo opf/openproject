@@ -599,6 +599,7 @@ lv:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -644,6 +645,7 @@ lv:
         mentioned: 'Mentioned'
         watched: 'Sekotājs'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -666,6 +668,7 @@ lv:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Pašreizējais atbildīgais'
           responsible: 'Accountable'
+          shared: 'Shared'
           watched: 'Sekotājs'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -982,6 +985,7 @@ lv:
         recently_created: "Recently created"
         all_open: "All open"
         summary: "Kopsavilkums"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
@@ -1018,6 +1022,12 @@ lv:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."
@@ -1151,9 +1161,11 @@ lv:
       hour:
         one: "1 h"
         other: "%{count} h"
+        zero: "0 h"
       day:
         one: "%{count} dienas"
         other: "%{count} dienām"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

@@ -273,6 +273,7 @@ th:
       no_results_title_text: There are currently no members part of this project.
       no_results_content_text: เพิ่มสมาชิกไปที่โครงการ
     invite_by_mail: "ส่งคำเชิญไปยัง %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -341,9 +342,6 @@ th:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -429,6 +427,8 @@ th:
       บัญชีผู้ใช้ของคุณยังไม่ได้เปิดใช้งาน กรุณารอเพื่อให้ผู้ดูแลระบบ เปิดใช้งานบัญชีผู้ใช้ของคุณเสียก่อน
     error_self_registration_disabled: >
       ระบบไม่ได้เปิดให้ผู้ใช้ลงทะเบียนใช้งานด้วยตัวเอง โปรดสอบถามผู้ดูแลระบบให้สร้างบัญชีผู้ใช้ให้กับคุณ
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "หรือเข้าสู่ระบบ ด้วยบัญชีผู้ใช้ที่คุณมีอยู่แล้ว"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
@@ -573,6 +573,7 @@ th:
         time_zone: "โซนเวลา"
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        theme: "Mode"
       version:
         effective_date: "Finish date"
         sharing: "แบ่งปัน"
@@ -909,6 +910,7 @@ th:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -1246,10 +1248,22 @@ th:
         other: "%{count} วัน"
       x_minutes:
         other: "%{count} นาที"
+      x_minutes_abbreviated:
+        other: "%{count} mins"
+      x_hours:
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        other: "%{count} hrs"
+      x_weeks:
+        other: "%{count} weeks"
       x_months:
         other: "%{count} เดือน"
+      x_years:
+        other: "%{count} years"
       x_seconds:
         other: "%{count} วินาที"
+      x_seconds_abbreviated:
+        other: "%{count} s"
     units:
       hour:
         other: "ชั่วโมง"
@@ -1531,6 +1545,7 @@ th:
   label_add_related_work_packages: "เพิ่มชุดภารกิจที่เกี่ยวข้อง"
   label_add_subtask: "เพิ่มงานย่อย"
   label_added: "เพิ่มแล้ว"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "ถูกเพิ่มโดย %{author} เมื่อ %{age} ที่ผ่านมา"
   label_additional_workflow_transitions_for_assignee: "ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้ได้รับมอบหมายความรับผิดชอบ"
   label_additional_workflow_transitions_for_author: "ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้สร้าง"
@@ -1636,6 +1651,7 @@ th:
   label_copy_workflow_from: "คัดลอกกระบวนการทำงานจาก"
   label_copy_project: "คัดลอกโครงการ"
   label_core_version: "เวอร์ชั่นหลัก"
+  label_core_build: "Core build"
   label_current_status: "สถานะปัจจุบัน"
   label_current_version: "เวอร์ชันปัจจุบัน"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -1780,6 +1796,10 @@ th:
   label_login: "ลงชื่อเข้าใช้"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "ออกจากระบบ"
@@ -1850,6 +1870,7 @@ th:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "เปิดเมนู"
   label_open_work_packages: "เปิด"
   label_open_work_packages_plural: "เปิด"
@@ -2141,12 +2162,22 @@ th:
         assigned: 'Assigned'
         responsible: 'Accountable'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'ทั้งหมด'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "มีผู้ใช้ใหม่ (%{value}) ได้ลงทะเบียนเข้ามา ขณะนี้บัญชีอยู่ระหว่างการพิจารณาอนุมัติของคุณ:"
   mail_body_account_information: "ข้อมูลบัญชีของคุณ"
   mail_body_account_information_external: "คุณสามารถใช้บัญชีของคุณ %{value} เพื่อเข้าสู่ระบบ"
@@ -2316,6 +2347,8 @@ th:
   permission_add_work_packages: "เพิ่มลำดับภารกิจ"
   permission_add_messages: "โพสต์ข้อความ"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2328,6 +2361,7 @@ th:
   permission_comment_news: "แสดงความคิดเห็นเกี่ยวกับข่าว"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "คัดลอกโครงการ"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "ลบผู้เฝ้าดู"
   permission_delete_work_packages: "ลบชุดภารกิจ"
@@ -2370,23 +2404,31 @@ th:
   permission_protect_wiki_pages: "ป้องกันหน้าวิกิ"
   permission_rename_wiki_pages: "เปลี่ยนชื่อหน้าวิกิ"
   permission_save_queries: "Save views"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "เลือกโมดูลของโครงการ"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "เลือกชนิด"
+  permission_view_project: "View projects"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "ดูการส่งมอบสถิติผู้เขียน"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "ดูรายชื่อผู้เฝ้าดู"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "ดูข้อความ"
+  permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "ดูรายงาน"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "ดูเวลาที่ใช้"
   permission_view_timelines: "ดูแผนภูมิเวลา"
   permission_view_wiki_edits: "ดูประวัติวิกิ"
   permission_view_wiki_pages: "ดูวิกิ"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2422,11 +2464,12 @@ th:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "บทบาทของผู้รับผิดชอบ"
-    member_of_group: "กลุ่มของผู้รับผิดชอบ"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "กลุ่มของผู้รับผิดชอบ"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'at %{identifier}'
     atom_revision_feed: 'Atom revision feed'
@@ -2741,6 +2784,8 @@ th:
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -2928,6 +2973,26 @@ th:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

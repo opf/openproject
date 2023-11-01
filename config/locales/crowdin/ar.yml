@@ -273,6 +273,7 @@ ar:
       no_results_title_text: لا يوجد حالياً قسم للأعضاء في هذا المشروع.
       no_results_content_text: أضف عضواً إلى المشروع
     invite_by_mail: "Send invite to %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -341,9 +342,6 @@ ar:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: لا يوجد حالياً أي أنواع.
@@ -434,6 +432,8 @@ ar:
       حسابك لم يُفعل حتى الآن، من فضلك انتظر المدير ليفعّله لك.
     error_self_registration_disabled: >
       تسجيل المستخدم معطّل على هذا النظام، من فضلك اطلب من المدير أن ينشئ حسابًا لك.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "أو سجل دخولك من خلال حسابك الموجود مسبقا"
     signup_with_auth_provider: "أو قم بالتسجيل مستخدماً"
     auth_source_login: الرجاء الدخول ك <em>%{login}</em>لتفعيل حسابك.
@@ -578,6 +578,7 @@ ar:
         time_zone: "المنطقة الزمنية"
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        theme: "Mode"
       version:
         effective_date: "Finish date"
         sharing: "مشاركة"
@@ -919,6 +920,7 @@ ar:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -1336,6 +1338,34 @@ ar:
         few: "دقائق %{count}"
         many: "دقائق %{count}"
         other: "دقائق %{count}"
+      x_minutes_abbreviated:
+        zero: "%{count} mins"
+        one: "1 min"
+        two: "%{count} mins"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        zero: "%{count} hours"
+        one: "1 hour"
+        two: "%{count} hours"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        zero: "%{count} hrs"
+        one: "1 hr"
+        two: "%{count} hrs"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        zero: "%{count} weeks"
+        one: "1 week"
+        two: "%{count} weeks"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         zero: "%{count} ساعه"
         one: "1 month"
@@ -1343,6 +1373,13 @@ ar:
         few: "%{count} ساعه"
         many: "%{count} ساعه"
         other: "%{count} ساعه"
+      x_years:
+        zero: "%{count} years"
+        one: "1 year"
+        two: "%{count} years"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         zero: "%{count} ثانية"
         one: "1 ثانية\n\n%{count} ثانية"
@@ -1350,6 +1387,13 @@ ar:
         few: "%{count} ثانية"
         many: "%{count} ثانية"
         other: "%{count} ثانية"
+      x_seconds_abbreviated:
+        zero: "%{count} s"
+        one: "1 s"
+        two: "%{count} s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         zero: "ساعه"
@@ -1636,6 +1680,7 @@ ar:
   label_add_related_work_packages: "اضف حزم العمل ذات الصلة"
   label_add_subtask: "اضف مهمة فرعية"
   label_added: "تمت الإضافة"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "أضيفت من قبل %{age} %{author} قبل ذلك"
   label_additional_workflow_transitions_for_assignee: "يسمح بالتحولات إضافية عندما يكون العمل قد احيل للمستخدم"
   label_additional_workflow_transitions_for_author: "يسمح بالتحولات الإضافية عندما يكون المستخدم هو منشئ مجموعة العمل"
@@ -1741,6 +1786,7 @@ ar:
   label_copy_workflow_from: "نسخ تدفق العمل من"
   label_copy_project: "نسخ المشروع"
   label_core_version: "النسخة الأساسية"
+  label_core_build: "Core build"
   label_current_status: "الحالة الحالية"
   label_current_version: "النسخة الحالية"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -1885,6 +1931,10 @@ ar:
   label_login: "تسجيل الدخول"
   label_custom_logo: "Custom logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "تسجيل الخروج"
@@ -1955,6 +2005,7 @@ ar:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "فتح القائمة"
   label_open_work_packages: "افتح"
   label_open_work_packages_plural: "افتح"
@@ -2251,12 +2302,22 @@ ar:
         assigned: 'Assigned'
         responsible: 'Accountable'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'الكل'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "وقد سجل مستخدم جديد (%{value}). الحساب انتظار الموافقة الخاصة بك:"
   mail_body_account_information: "معلومات الحساب الخاص بك"
   mail_body_account_information_external: "يمكنك استخدام حساب %{value} الخاص بك لتسجيل الدخول."
@@ -2431,6 +2492,8 @@ ar:
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2443,6 +2506,7 @@ ar:
   permission_comment_news: "أخبار التعليق"
   permission_commit_access: "الوصول للقراءة/الكتابة إلى المستودع (الالتزام)"
   permission_copy_projects: "نسخ المشاريع"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "حذف مراقبات"
   permission_delete_work_packages: "حذف مجموعات العمل"
@@ -2485,23 +2549,31 @@ ar:
   permission_protect_wiki_pages: "حماية صفحات wiki"
   permission_rename_wiki_pages: "قم بإعادة تسمية صفحات wiki"
   permission_save_queries: "Save views"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "حدد وحدات المشروع"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "حدد أنواع"
+  permission_view_project: "View projects"
   permission_view_changesets: "عرض مستودع التنقيحات في أوبينبروجيكت"
   permission_view_commit_author_statistics: "عرض إحصائيات المؤلِّف المنفّذة"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "عرض قائمة المراقبين"
   permission_view_work_packages: "عرض كتب العمل"
   permission_view_messages: "عرض الرسائل"
+  permission_view_news: "View news"
   permission_view_members: "عرض الأعضاء"
   permission_view_reportings: "عرض التقارير"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "عرض الوقت المنقضي"
   permission_view_timelines: "عرض الخطوط الزمنية"
   permission_view_wiki_edits: "عرض تاريخ wiki"
   permission_view_wiki_pages: "عرض wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2537,11 +2609,12 @@ ar:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "دور الموكل إليه"
-    member_of_group: "مجموعة الموكل إليه"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "مجموعة الموكل إليه"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'في %{identifier}'
     atom_revision_feed: 'مراجعة تغذية ذرية'
@@ -2854,6 +2927,8 @@ ar:
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -3046,6 +3121,26 @@ ar:
     destroy:
       info: "حذف مجموعة العمل إجراء لا رجعة فيه."
       title: "حذف حزمة العمل"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

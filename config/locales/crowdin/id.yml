@@ -267,6 +267,7 @@ id:
       no_results_title_text: There are currently no members part of this project.
       no_results_content_text: Add a member to the project
     invite_by_mail: "Kirim undangan ke %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Gagal untuk menset ulang akses token: %{error}"
@@ -335,9 +336,6 @@ id:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -422,6 +420,8 @@ id:
       Akun Anda belum diaktifkan. Harap menunggu Administrator untuk mengaktifkan akun Anda.
     error_self_registration_disabled: >
       Pendaftaran user dinonaktifkan untuk saat ini. Silakan minta Administrator untuk membuatkan akun Anda.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "atau Login dengan akun yang ada"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
@@ -566,6 +566,7 @@ id:
         time_zone: "Time Zone"
         auto_hide_popups: "Pemberitahuan Auto-hide sukses"
         warn_on_leaving_unsaved: "Ingatkan saya ketika meninggalkan sebuah paket kerja dengan perubahan yang belum disimpan"
+        theme: "Mode"
       version:
         effective_date: "Tanggal selesai"
         sharing: "Sharing"
@@ -902,6 +903,7 @@ id:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -1239,10 +1241,22 @@ id:
         other: "%{count} hari"
       x_minutes:
         other: "%{count} menit"
+      x_minutes_abbreviated:
+        other: "%{count} mins"
+      x_hours:
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        other: "%{count} hrs"
+      x_weeks:
+        other: "%{count} weeks"
       x_months:
         other: "%{count} bulan"
+      x_years:
+        other: "%{count} years"
       x_seconds:
         other: "%{count} detik"
+      x_seconds_abbreviated:
+        other: "%{count} s"
     units:
       hour:
         other: "jam"
@@ -1524,6 +1538,7 @@ id:
   label_add_related_work_packages: "Tambahkan Paket-Penugasan terkait"
   label_add_subtask: "Tambahkan Sub-Tugas"
   label_added: "ditambahkan"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Ditambahkan oleh %{author} %{age} yang lalu"
   label_additional_workflow_transitions_for_assignee: "Tambahan transisi diperbolehkan ketika user mendapat penugasan"
   label_additional_workflow_transitions_for_author: "Tambahan transisi diperbolehkan ketika user adalah Penulis"
@@ -1629,6 +1644,7 @@ id:
   label_copy_workflow_from: "Copy Alur-Tugas dari"
   label_copy_project: "Copy Project"
   label_core_version: "Core versi"
+  label_core_build: "Core build"
   label_current_status: "Status saat ini"
   label_current_version: "Versi saat ini"
   label_custom_field_add_no_type: "Tambahkan field ini ke sebuah jenis paket kerja"
@@ -1703,7 +1719,7 @@ id:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
-  label_filter_plural: "Penyaring"
+  label_filter_plural: "Filter"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
   label_folder: "Folder"
@@ -1773,6 +1789,10 @@ id:
   label_login: "Login"
   label_custom_logo: "Logo khusus"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Favicon sesuai keinginan"
   label_custom_touch_icon: "Ikon sentuh sesuai keinginan"
   label_logout: "Logout"
@@ -1843,6 +1863,7 @@ id:
   label_operator_none: "kosong"
   label_operator_equals_or: "adalah (ATAU)"
   label_operator_equals_all: "adalah (DAN)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Buka menu"
   label_open_work_packages: "buka"
   label_open_work_packages_plural: "buka"
@@ -2134,12 +2155,22 @@ id:
         assigned: 'Assigned'
         responsible: 'Akuntabel'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'semua'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Peringatan tanggal'
         date_alert_due_date: 'Peringatan tanggal'
       see_all: 'Lihat semua'
       updated_at: 'Diperbarui pada %{timestamp} oleh %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "User (%{value}) telah terdaftar. Akun Anda menunggu persetujuan Anda:"
   mail_body_account_information: "Info akun Anda"
   mail_body_account_information_external: "Anda dapat gunakan akun %{value} untuk login."
@@ -2307,6 +2338,8 @@ id:
   permission_add_work_packages: "Tambah Paket-Penugasan"
   permission_add_messages: "Kirim pesan"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Proyek arsip"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2319,6 +2352,7 @@ id:
   permission_comment_news: "Komentar berita"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy Project"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Hapus pemantau"
   permission_delete_work_packages: "Hapus Paket-Penugasan"
@@ -2361,23 +2395,31 @@ id:
   permission_protect_wiki_pages: "Proteksi halaman Wiki"
   permission_rename_wiki_pages: "Rename halaman Wiki"
   permission_save_queries: "Simpan tampilan"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Pilih bidang khusus"
   permission_select_project_modules: "Pilih modul Project"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Pilih Tipe"
+  permission_view_project: "View projects"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Lihat commit statistik penulis"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Lihat daftar pemantau"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "Lihat pesan"
+  permission_view_news: "View news"
   permission_view_members: "Tampilkan Anggota"
   permission_view_reportings: "Lihat laporan"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Lihat durasi"
   permission_view_timelines: "Lihat Timeline"
   permission_view_wiki_edits: "Lihat Wiki histori"
   permission_view_wiki_pages: "Lihat Wiki"
   permission_work_package_assigned: "Menjadi penerima tugas/penanggung jawab"
   permission_work_package_assigned_explanation: "Paket kerja dapat ditetapkan untuk pengguna-pengguna tunggal dan kelompok-kelompok yang memiliki peran dalam proyek masing-masing"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "Hapus nilai"
   project:
@@ -2413,11 +2455,12 @@ id:
   query_fields:
     active_or_archived: "Aktif atau arsip"
     assigned_to_role: "Ditugaskan untuk Role"
-    member_of_group: "Ditugaskan untuk Grup"
     assignee_or_group: "Penerima atau anggota kelompok"
-    subproject_id: "Termasuk subproyek"
-    only_subproject_id: "Hanya subproyek"
+    member_of_group: "Ditugaskan untuk Grup"
     name_or_identifier: "Nama atau pengenal"
+    only_subproject_id: "Hanya subproyek"
+    shared_with_user: "Shared with user"
+    subproject_id: "Termasuk subproyek"
   repositories:
     at_identifier: 'at %{identifier}'
     atom_revision_feed: 'Atom revision feed'
@@ -2730,6 +2773,8 @@ id:
     Logo putih dalam latar belakang transparan lebih disarankan. Untuk hasil terbaik pada keduanya, konvensional dan tampilan retina, pastikan dimensi gambar Anda adalah 460px kali 110px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -2917,6 +2962,26 @@ id:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Hari yang tidak dipilih akan dilewati saat menjadwalkan paket pekerjaan (dan tidak termasuk dalam hitungan hari). Ini dapat diganti pada tingkat paket kerja.

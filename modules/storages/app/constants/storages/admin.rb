@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,7 +30,10 @@
 
 module Storages
   module Admin
-    LABEL_OAUTH_CLIENT_ID = 'OAuth Client ID'.freeze
-    LABEL_OAUTH_CLIENT_SECRET = 'OAuth Client Secret'.freeze
+    LABEL_OAUTH_CLIENT_ID = 'OAuth Client ID'
+    LABEL_OAUTH_CLIENT_SECRET = 'OAuth Client Secret'
+    LABEL_OAUTH_REDIRECT_URI = 'OAuth Redirect URI'
+    LABEL_TENANT_ID = 'Tenant ID'
+    LABEL_DRIVE_ID = 'Drive ID'
   end
 end

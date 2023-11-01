@@ -226,7 +226,7 @@ it:
           status_label: "Stato:"
           status_confirmed: "confermato"
           status_waiting: "email inviata, in attesa di conferma"
-          test_ee: "Prova l'Enterprise Edition gratuitamente per 14 giorni"
+          test_ee: "Prova l'Enterprise edition gratuitamente per 14 giorni"
           quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra nell'edizione OpenProject Enterprise."
         upsale:
           become_hero: "Diventa un eroe!"
@@ -599,6 +599,7 @@ it:
         processed: 'elaborato'
         prioritized: 'prioritizzato'
         dateAlert: 'Avviso data'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data inizio'
         overdue: 'In ritardo'
@@ -643,6 +644,7 @@ it:
         mentioned: 'Menzionato'
         watched: 'Osservatore'
         date_alert: 'Avviso data'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Puoi modificare le tue <a target="_blank" href="%{url}">impostazioni di notifica</a> per assicurarti di non perderti mai un aggiornamento importante.'
         title: "Impostazioni notifiche"
@@ -665,6 +667,7 @@ it:
             description: 'Ricevi una notifica ogni volta che qualcuno ti menziona ovunque'
           assignee: 'Assegnatario'
           responsible: 'Responsabile'
+          shared: 'Shared'
           watched: 'Osservatore'
           work_package_commented: 'Tutti i nuovi commenti'
           work_package_created: 'Nuove macro-attività'
@@ -981,6 +984,7 @@ it:
         recently_created: "Creato di recente"
         all_open: "Apri tutto"
         summary: "Sommario"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Salta alla impaginazione tabella"
         label_pagination: "Clicca qui per saltare la tabella macro-attività e passare alla impaginazione"
@@ -1017,6 +1021,12 @@ it:
       scheduling:
         is_parent: "Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date."
         is_switched_from_manual_to_automatic: "Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configura la tabella della macro-attività'
         summary: "Tabella con righe di macro-attività e colonne dei loro attributi."

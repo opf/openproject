@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -39,7 +41,7 @@ FactoryBot.define do
     storage_url { "https://nextcloud.example.com" }
 
     trait :invalid do
-      origin_id { "I'm invalid" }
+      origin_id { ' ' }
     end
 
     initialize_with do

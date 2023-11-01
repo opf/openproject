@@ -273,6 +273,7 @@ sv:
       no_results_title_text: Det finns för närvarande inga medlemmar i detta projekt.
       no_results_content_text: Lägg till en medlem i projektet
     invite_by_mail: "Send invite to %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Misslyckades med att återställa åtkomst-token: %{error}"
@@ -340,9 +341,6 @@ sv:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Det finns för närvarande inga typer.
@@ -429,6 +427,8 @@ sv:
       Ditt konto har ännu inte aktiverats. Du måste vänta på att en administratör aktiverar ditt konto.
     error_self_registration_disabled: >
       Användarregistrering är inaktiverat på det här systemet. Be en administratör att skapa ett konto för dig.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "eller logga in med ditt befintliga konto"
     signup_with_auth_provider: "eller registrera dig via"
     auth_source_login: Vänligen logga in som <em>%{login}</em> för att aktivera ditt konto.
@@ -573,6 +573,7 @@ sv:
         time_zone: "Tidszon"
         auto_hide_popups: "Dölj automatiskt meddelanden om åtgärder som lyckats"
         warn_on_leaving_unsaved: "Varna mig när jag lämnar ett arbetspaket med osparade ändringar"
+        theme: "Mode"
       version:
         effective_date: "Slutdatum"
         sharing: "Delas"
@@ -910,6 +911,7 @@ sv:
           attributes:
             roles:
               ungrantable: "har en ej tilldelbar roll."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "kan inte tilldelas till ett projekt."
         version:
@@ -1263,12 +1265,30 @@ sv:
       x_minutes:
         one: "1 minut"
         other: "%{count} minuter"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} min"
+      x_hours:
+        one: "1 timme"
+        other: "%{count} timmar"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 vecka"
+        other: "%{count} veckor"
       x_months:
         one: "En månad"
         other: "%{count} månader"
+      x_years:
+        one: "1 år"
+        other: "%{count} år"
       x_seconds:
         one: "En sekund"
         other: "%{count} sekunder"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "timme"
@@ -1551,6 +1571,7 @@ sv:
   label_add_related_work_packages: "Lägg till relaterade arbetspaket"
   label_add_subtask: "Lägg till deluppgift"
   label_added: "lagt till"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Lagts till av %{author} %{age} sen"
   label_additional_workflow_transitions_for_assignee: "Ytterligare övergångar tillåtna när användaren är tilldelad"
   label_additional_workflow_transitions_for_author: "Ytterligare övergångar tillåtna när användaren är författaren"
@@ -1656,6 +1677,7 @@ sv:
   label_copy_workflow_from: "Kopiera arbetsflöde från"
   label_copy_project: "Kopiera projekt"
   label_core_version: "Kärnversion"
+  label_core_build: "Core build"
   label_current_status: "Nuvarande status"
   label_current_version: "Aktuell version"
   label_custom_field_add_no_type: "Lägg till det här fältet till en arbetspaketstyp"
@@ -1800,6 +1822,10 @@ sv:
   label_login: "Logga in"
   label_custom_logo: "Anpassad logotyp"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Anpassad favicon"
   label_custom_touch_icon: "Anpassad touch-ikon"
   label_logout: "Logga ut"
@@ -1870,6 +1896,7 @@ sv:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Öppna meny"
   label_open_work_packages: "öppna"
   label_open_work_packages_plural: "öppna"
@@ -2162,12 +2189,22 @@ sv:
         assigned: 'Assigned'
         responsible: 'Huvudansvarig'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'alla'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "En ny användare (%{value}) har registrerats. Kontot väntar på ditt godkännande:"
   mail_body_account_information: "Din kontoinformation"
   mail_body_account_information_external: "Du kan använda ditt %{value} konto för att logga in."
@@ -2338,6 +2375,8 @@ sv:
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
   permission_add_project: "Skapa projekt"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Arkivera projekt"
   permission_create_user: "Skapa användare"
   permission_manage_user: "Redigera användare"
@@ -2350,6 +2389,7 @@ sv:
   permission_comment_news: "Kommentera nyhet"
   permission_commit_access: "Läs- och skrivbehörighet till databasen (incheckning)"
   permission_copy_projects: "Kopiera projekt"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Ta bort bevakare"
   permission_delete_work_packages: "Ta bort arbetspaket"
@@ -2392,23 +2432,31 @@ sv:
   permission_protect_wiki_pages: "Skydda wiki-sidor"
   permission_rename_wiki_pages: "Byt namn på wiki-sidor"
   permission_save_queries: "Spara vyer"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Välj anpassade fält"
   permission_select_project_modules: "Välj projektmoduler"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Välj typer"
+  permission_view_project: "View projects"
   permission_view_changesets: "Visa databasrevisioner i OpenProject"
   permission_view_commit_author_statistics: "Visa statistik över incheckningar per författare"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Visa lista med bevakare"
   permission_view_work_packages: "Visa arbetspaket"
   permission_view_messages: "Visa meddelanden"
+  permission_view_news: "View news"
   permission_view_members: "Visa medlemmar"
   permission_view_reportings: "Visa rapporter"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Visa förbrukad tid"
   permission_view_timelines: "Visa tidslinjer"
   permission_view_wiki_edits: "Visa historik över wiki"
   permission_view_wiki_pages: "Visa wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2444,11 +2492,12 @@ sv:
   query_fields:
     active_or_archived: "Aktiv eller arkiverad"
     assigned_to_role: "Tilldelades roll"
-    member_of_group: "Den tilldelades grupp"
     assignee_or_group: "Tilldelad eller tillhörandegrupp"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Den tilldelades grupp"
     name_or_identifier: "Namn eller identifierare"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'på %{identifier}'
     atom_revision_feed: 'Atom revisionsflöde'
@@ -2761,6 +2810,8 @@ sv:
     En vit logotyp på transparent bakgrund rekommenderas. För bästa resultat på både vanliga och Retina-skärmar bör bilden vara minst 460x60 px.
   text_custom_export_logo_instructions: >
     Det här är loggan som syns i dina PDF-exporter. Det behöver vara en PNG eller JPEG bildfil. En svart eller färglagd logga på en transparent eller vit bakgrund rekommenderas.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -2948,6 +2999,26 @@ sv:
     destroy:
       info: "Att radera arbetspaketet går inte att ångra."
       title: "Radera arbetspaketet"
+    sharing:
+      count:
+        zero: "0 användare"
+        one: "1 användare"
+        other: "%{count} användare"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Redigera"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

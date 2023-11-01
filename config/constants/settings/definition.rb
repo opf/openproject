@@ -209,7 +209,13 @@ module Settings
         description: 'The memcache server host and IP',
         format: :string,
         default: nil,
-        writable: false
+        writable: false,
+      },
+      cache_redis_url: {
+        description: 'URL to the redis cache server',
+        format: :string,
+        default: nil,
+        writable: false,
       },
       cache_namespace: {
         format: :string,
@@ -556,7 +562,7 @@ module Settings
         writable: false
       },
       ldap_users_disable_sync_job: {
-        description: 'Deactive user attributes synchronization from LDAP',
+        description: 'Deactivate user attributes synchronization from LDAP',
         default: false,
         writable: false
       },
@@ -703,7 +709,7 @@ module Settings
         format: :symbol,
         default: :file_store,
         writable: false,
-        allowed: %i[file_store memcache]
+        allowed: %i[file_store memcache redis]
       },
       rails_relative_url_root: {
         description: 'Set a URL prefix / base path to run OpenProject under, e.g., host.tld/openproject',
@@ -870,6 +876,10 @@ module Settings
         description: 'Enable or disable links to OpenProject community instances',
         default: true,
         writable: false
+      },
+      show_product_version: {
+        description: 'Show product version information in the administration section',
+        default: true,
       },
       show_pending_migrations_warning: {
         description: 'Enable or disable warning bar in case of pending migrations',

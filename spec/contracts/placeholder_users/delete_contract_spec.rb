@@ -33,7 +33,7 @@ RSpec.describe PlaceholderUsers::DeleteContract do
   include_context 'ModelContract shared context'
 
   let(:placeholder_user) { create(:placeholder_user) }
-  let(:role) { create(:existing_role, permissions: [:manage_members]) }
+  let(:role) { create(:existing_project_role, permissions: [:manage_members]) }
   let(:shared_project) { create(:project, members: { placeholder_user => role, current_user => role }) }
   let(:not_shared_project) { create(:project, members: { placeholder_user => role }) }
   let(:contract) { described_class.new(placeholder_user, current_user) }
@@ -41,7 +41,7 @@ RSpec.describe PlaceholderUsers::DeleteContract do
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   context 'when user with global permission to manage_placeholders' do
-    let(:current_user) { create(:user, global_permission: %i[manage_placeholder_user]) }
+    let(:current_user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
     before do
       shared_project
@@ -58,5 +58,9 @@ RSpec.describe PlaceholderUsers::DeleteContract do
 
       it_behaves_like 'contract user is unauthorized'
     end
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:current_user) { build_stubbed(:admin) }
   end
 end

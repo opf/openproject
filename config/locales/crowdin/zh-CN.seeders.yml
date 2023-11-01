@@ -41,7 +41,14 @@ zh-CN:
           name: 技术规范
         item_2:
           name: 其他
-      roles:
+      work_package_roles:
+        item_0:
+          name: 工作包编辑者
+        item_1:
+          name: 工作包评价者
+        item_2:
+          name: 工作包查看者
+      project_roles:
         item_0:
           name: 非成员
         item_1:
@@ -49,10 +56,11 @@ zh-CN:
         item_2:
           name: 成员
         item_3:
-          name: 只读
+          name: 阅读者
         item_4:
           name: 项目管理员
-        item_5:
+      global_roles:
+        item_0:
           name: 员工和项目经理
     standard:
       priorities:
@@ -138,7 +146,7 @@ zh-CN:
         demo-project:
           name: 演示项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是对此演示 Scrum 项目目标的简短摘要。
+          description: 这是对此演示项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
@@ -241,7 +249,7 @@ zh-CN:
         scrum-project:
           name: Scrum 项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是对此演示 Scrum 项目目标的简短摘要。
+          description: 这是对此演示Scrum项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的 Scrum 演示项目

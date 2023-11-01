@@ -27,8 +27,11 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'group contract' do
+  include_context 'ModelContract shared context'
+
   let(:group_name) { 'The group' }
   let(:group_users_user_ids) { [42, 43] }
   let(:group_users) do
@@ -88,5 +91,9 @@ RSpec.shared_examples_for 'group contract' do
 
       it_behaves_like 'contract is invalid', group_users: :taken
     end
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:current_user) { build_stubbed(:user) }
   end
 end

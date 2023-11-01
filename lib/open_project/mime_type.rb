@@ -116,7 +116,7 @@ module OpenProject
     # the mime type of name
     def self.css_class_of(name)
       mime = of(name)
-      mime && mime.gsub('/', '-')
+      mime && mime.tr('/', '-')
     end
 
     def self.main_mimetype_of(name)

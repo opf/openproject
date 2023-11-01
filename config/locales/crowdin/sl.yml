@@ -272,6 +272,7 @@ sl:
       no_results_title_text: Trenutno ni nobenega člana tega projekta.
       no_results_content_text: Dodaj člana v projekt
     invite_by_mail: "Pošlji vabilo %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Neuspešna poenostavitev \"dostopnega simbola\": %{error}"
@@ -339,9 +340,6 @@ sl:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Trenutno ni vrst.
@@ -429,6 +427,8 @@ sl:
       Vaš račun še ni aktiviran. Prosimo počakajte, da skrbnik aktivira vaš račun.
     error_self_registration_disabled: >
       Registracija uporabnika je v tem sistemu onemogočena. Prosite administratorja, da vam ustvari račun.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "ali se pa prijavite z obstoječim računom."
     signup_with_auth_provider: "ali se prijavite s/z"
     auth_source_login: Prosim prijavite se kot <em>%{login}</em> , da aktivirate svoj račun.
@@ -573,6 +573,7 @@ sl:
         time_zone: "Časovni pas"
         auto_hide_popups: "Samodejno skrij obvestila o uspehu"
         warn_on_leaving_unsaved: "Opozori me, kadar zapuščam stran z neshranjenim besedilom"
+        theme: "Mode"
       version:
         effective_date: "Končni datum"
         sharing: "Delitev"
@@ -912,6 +913,7 @@ sl:
           attributes:
             roles:
               ungrantable: "ima nedodeljivo vlogo"
+              more_than_one: "has more than one role."
             principal:
               unassignable: "ni mogoče dodeliti projektu."
         version:
@@ -1242,8 +1244,8 @@ sl:
       - "avgust"
       - "september"
       - "oktober"
-      - "november"
-      - "december"
+      - "November"
+      - "December"
     #Used in date_select and datetime_select.
     order:
       - :leto
@@ -1297,16 +1299,46 @@ sl:
         two: "%{count} minut"
         few: "%{count} minut"
         other: "%{count} minut"
+      x_minutes_abbreviated:
+        one: "1 min"
+        two: "%{count} mins"
+        few: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        two: "%{count} hours"
+        few: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        two: "%{count} hrs"
+        few: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        two: "%{count} weeks"
+        few: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "1 mesec"
         two: "%{count} mesecov"
         few: "%{count} mesecov"
         other: "%{count} mesecov"
+      x_years:
+        one: "1 year"
+        two: "%{count} years"
+        few: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "1 sekunda"
         two: "%{count} sekund"
         few: "%{count} sekund"
         other: "%{count} sekund"
+      x_seconds_abbreviated:
+        one: "1 s"
+        two: "%{count} s"
+        few: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "ura"
@@ -1591,6 +1623,7 @@ sl:
   label_add_related_work_packages: "Dodajte povezane delovne pakete"
   label_add_subtask: "Dodaj podrejeno nalogo"
   label_added: "Dodano"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Dodal %{author} %{age} nazaj"
   label_additional_workflow_transitions_for_assignee: "Dovoljeni so tako dodatni prehodi, kadar je uporabnik prejemnik"
   label_additional_workflow_transitions_for_author: "Dovoljeni so dodatni prehodi, ko je uporabnik avtor"
@@ -1696,6 +1729,7 @@ sl:
   label_copy_workflow_from: "Kopiraj potek dela iz"
   label_copy_project: "Kopiraj projekt"
   label_core_version: "Osnovna različica"
+  label_core_build: "Core build"
   label_current_status: "Trenutno stanje"
   label_current_version: "Trenutna različica"
   label_custom_field_add_no_type: "To polje dodajte v tip delovnega paketa"
@@ -1840,6 +1874,10 @@ sl:
   label_login: "Prijava"
   label_custom_logo: "Logotip po meri"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Prilagodi favicon"
   label_custom_touch_icon: "Ikona za dotik po meri"
   label_logout: "Odjava"
@@ -1910,6 +1948,7 @@ sl:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Odpri meni"
   label_open_work_packages: "odpri"
   label_open_work_packages_plural: "odpri"
@@ -2204,12 +2243,22 @@ sl:
         assigned: 'Assigned'
         responsible: 'Odgovorni'
         mentioned: 'Omenjen'
+        shared: 'Shared'
         subscribed: 'vsi'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Spremenjeno ob %{timestamp} od %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). Račun čaka na vašo odobritev:"
   mail_body_account_information: "Informacije vašega računa"
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
@@ -2382,6 +2431,8 @@ sl:
   permission_add_work_packages: "Dodaj delovne pakete"
   permission_add_messages: "Objavi sporočila"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Arhivirani projekti"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2394,6 +2445,7 @@ sl:
   permission_comment_news: "Komentiraj novice"
   permission_commit_access: "Beri/piši dostop do skladišča (storiti)"
   permission_copy_projects: "Kopiraj projekte"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Izbriši opazovalce"
   permission_delete_work_packages: "Izbriši delovni paket"
@@ -2436,23 +2488,31 @@ sl:
   permission_protect_wiki_pages: "Zaščiti wiki strani"
   permission_rename_wiki_pages: "Preimenujte wiki strani"
   permission_save_queries: "Shrani poglede …"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Izberi module projekta"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Izberi vrste"
+  permission_view_project: "View projects"
   permission_view_changesets: "Oglejte si revizije repozitorija v OpenProject"
   permission_view_commit_author_statistics: "Oglejte si statistiko avtorjev"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Oglej si listo spremeljevalcev"
   permission_view_work_packages: "Oglejte si delovne pakete"
   permission_view_messages: "Poglej sporočila"
+  permission_view_news: "View news"
   permission_view_members: "Poglej člane"
   permission_view_reportings: "Ogled poročil"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Porabljen čas"
   permission_view_timelines: "Oglejte si časovnice"
   permission_view_wiki_edits: "Poglej wiki zgodovino"
   permission_view_wiki_pages: "Poglej wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2488,11 +2548,12 @@ sl:
   query_fields:
     active_or_archived: "Aktivno ali arhivirano"
     assigned_to_role: "Pooblaščenčeva vloga"
-    member_of_group: "Pooblaščenčeva skupina"
     assignee_or_group: "Prejemnik ali pripadajoča skupina"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Samo podprojekt"
+    member_of_group: "Pooblaščenčeva skupina"
     name_or_identifier: "Ime ali identifikator"
+    only_subproject_id: "Samo podprojekt"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'at %{identifier}'
     atom_revision_feed: 'Atom revizijski vir'
@@ -2806,6 +2867,8 @@ sl:
     Priporočljiv je bel logotip na transparentnem ozadju. Za najboljše rezultate na običajnih zaslonih in mrežnici se prepričajte, da so dimenzije vaše slike 460px za 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -2996,6 +3059,26 @@ sl:
     destroy:
       info: "Brisanje delovnega paketa je nepovraten ukrep."
       title: "Izbriši delovni paket"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

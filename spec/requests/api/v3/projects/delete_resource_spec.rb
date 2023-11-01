@@ -36,12 +36,12 @@ RSpec.describe 'API v3 Project resource delete', content_type: :json do
   let(:project) do
     create(:project, public: false)
   end
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let(:path) { api_v3_paths.project(project.id) }
   let(:setup) do
     # overwritten in some examples
   end
-  let(:member_user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:member_user) { create(:user, member_with_roles: { project => role }) }
 
   current_user { create(:admin) }
 
@@ -80,7 +80,7 @@ RSpec.describe 'API v3 Project resource delete', content_type: :json do
         create(:member,
                project:,
                principal: current_user,
-               roles: [create(:role)])
+               roles: [create(:project_role)])
       end
       let(:member_role) { member.member_roles.first }
       let(:setup) do

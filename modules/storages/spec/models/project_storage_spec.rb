@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,12 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::ProjectStorage do
   let(:creator) { create(:user) }
   let(:project) { create(:project, enabled_module_names: %i[storages work_packages]) }
-  let(:storage) { create(:storage) }
+  let(:storage) { create(:nextcloud_storage) }
   let(:attributes) do
     {
       storage:,
@@ -55,7 +58,7 @@ RSpec.describe Storages::ProjectStorage do
       end
 
       it "fails if it is not unique per storage and project" do
-        expect(described_class.create(attributes.merge)).to be_invalid
+        expect(described_class.create(attributes.merge)).not_to be_valid
       end
     end
   end
@@ -73,7 +76,7 @@ RSpec.describe Storages::ProjectStorage do
     end
 
     it "does not destroy associated FileLink records" do
-      expect(Storages::ProjectStorage.count).to eq 0
+      expect(described_class.count).to eq 0
       expect(Storages::FileLink.count).not_to eq 0
     end
   end

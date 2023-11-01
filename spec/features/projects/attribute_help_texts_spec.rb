@@ -68,7 +68,7 @@ RSpec.describe 'Project attribute help texts', js: true, with_cuprite: true do
         click_link "Overview"
       end
 
-      expect(page).to have_selector('[data-qa-selector="op-widget-box--header"] .help-text--entry', wait: 10)
+      expect(page).to have_selector("#{test_selector('op-widget-box--header')} .help-text--entry", wait: 10)
 
       # Open help text modal
       modal.open!
@@ -102,12 +102,11 @@ RSpec.describe 'Project attribute help texts', js: true, with_cuprite: true do
 
   describe 'as regular user' do
     let(:view_role) do
-      create(:role, permissions: [:view_project])
+      create(:project_role, permissions: [:view_project])
     end
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: view_role)
+             member_with_roles: { project => view_role })
     end
 
     it_behaves_like 'allows to view help texts'

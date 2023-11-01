@@ -33,13 +33,12 @@ require_relative './support/board_page'
 RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   # The identifier is important to test https://community.openproject.com/wp/29754
   let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
   let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:admin) { create(:admin) }
   let!(:priority) { create(:default_priority) }
   let!(:status) { create(:default_status) }
@@ -67,7 +66,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
     wp = WorkPackage.last
     expect(wp.subject).to eq 'Task 1'
     # Double click leads to the full view
-    click_target = board_page.find('[data-qa-selector="op-wp-single-card--content-type"]')
+    click_target = page.find_test_selector('op-wp-single-card--content-type')
     page.driver.browser.action.double_click(click_target.native).perform
 
     expect(page).to have_current_path project_work_package_path(project, wp.id, 'activity')
@@ -103,7 +102,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
     item = page.find('#menu-sidebar li[data-name="boards"]', wait: 10)
     item.find('.toggler').click
 
-    subitem = page.find('[data-qa-selector="op-sidemenu--item-action--Myboard"]', wait: 10)
+    subitem = page.find_test_selector('op-sidemenu--item-action--Myboard', wait: 10)
     # Ends with boards due to lazy route
     expect(subitem[:href]).to end_with project_work_package_boards_path(project)
 

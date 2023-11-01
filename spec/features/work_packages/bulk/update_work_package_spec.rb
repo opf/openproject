@@ -13,26 +13,24 @@ RSpec.describe 'Bulk update work packages through Rails view', js: true, with_cu
   end
 
   shared_let(:dev_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages])
   end
   shared_let(:mover_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages copy_work_packages move_work_packages manage_subtasks add_work_packages])
   end
   shared_let(:dev) do
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: dev_role)
+           member_with_roles: { project => dev_role })
   end
   shared_let(:mover) do
     create(:admin,
            firstname: 'Manager',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: mover_role)
+           member_with_roles: { project => mover_role })
   end
 
   shared_let(:work_package) do

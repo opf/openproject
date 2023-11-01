@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,19 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
-RSpec.describe 'Project menu', js: true, with_cuprite: true do
-  let(:storage) { create(:storage, name: "Storage 1") }
-  let(:another_storage) { create(:storage, name: "Storage 2") }
-  let(:unlinked_storage) { create(:storage, name: "Storage 3") }
+RSpec.describe 'Project menu', :js, :with_cuprite do
+  include API::V3::Utilities::PathHelper
+
+  let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
+  let(:another_storage) { create(:nextcloud_storage, name: "Storage 2") }
+  let(:unlinked_storage) { create(:nextcloud_storage, name: "Storage 3") }
   let(:project) { create(:project, enabled_module_names: %i[storages]) }
   let(:project_storage_without_folder) { create(:project_storage, project:, storage:) }
   let(:project_storage_with_manual_folder) do
     create(:project_storage, project:, storage: another_storage, project_folder_mode: 'manual', project_folder_id: '42')
   end
   let(:permissions) { %i[view_file_links] }
-  let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before do
     project_storage_without_folder
@@ -53,10 +58,10 @@ RSpec.describe 'Project menu', js: true, with_cuprite: true do
     it 'has links to enabled storages' do
       visit(project_path(id: project.id))
 
-      expect(page).to have_link(storage.name, href: storage.host)
-      project_folder_id = project_storage_with_manual_folder.project_folder_id
-      folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
-      expect(page).to have_link(another_storage.name, href: folder_href)
+      expect(page).to have_link(storage.name,
+                                href: api_v3_paths.project_storage_open(project_storage_without_folder.id))
+      expect(page).to have_link(another_storage.name,
+                                href: api_v3_paths.project_storage_open(project_storage_with_manual_folder.id))
       expect(page).not_to have_link(unlinked_storage.name)
     end
 
@@ -66,11 +71,10 @@ RSpec.describe 'Project menu', js: true, with_cuprite: true do
       it 'has no links to enabled storage' do
         visit(project_path(id: project.id))
 
-        expect(page).not_to have_link(storage.name, href: storage.host)
-        project_folder_id = project_storage_with_manual_folder.project_folder_id
-        folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
-        expect(page).not_to have_link(another_storage.name, href: folder_href)
-        expect(page).not_to have_link(another_storage.name, href: another_storage.host)
+        expect(page).not_to have_link(storage.name,
+                                      href: api_v3_paths.project_storage_open(project_storage_without_folder.id))
+        expect(page).not_to have_link(another_storage.name,
+                                      href: api_v3_paths.project_storage_open(project_storage_with_manual_folder.id))
         expect(page).not_to have_link(unlinked_storage.name)
       end
     end

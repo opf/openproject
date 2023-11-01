@@ -270,6 +270,8 @@ paths:
     "$ref": "./paths/project_storages.yml"
   "/api/v3/project_storages/{id}":
     "$ref": "./paths/project_storage.yml"
+  "/api/v3/project_storages/{id}/open":
+    "$ref": "./paths/project_storage_open.yml"
   "/api/v3/projects":
     "$ref": "./paths/projects.yml"
   "/api/v3/projects/form":
@@ -374,6 +376,8 @@ paths:
     "$ref": "./paths/storage_files_prepare_upload.yml"
   "/api/v3/storages/{id}/oauth_client_credentials":
     "$ref": "./paths/storage_oauth_client_credentials.yml"
+  "/api/v3/storages/{id}/open":
+    "$ref": "./paths/storage_open.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -483,6 +487,8 @@ components:
       "$ref": "./components/examples/query.yml"
     QuerySchemaModel:
       "$ref": "./components/examples/query_schema.yml"
+    StoragesSimpleCollectionModel:
+      "$ref": "./components/examples/storages-simple-collection-response.yml"
     ValuesPropertyStartDateSchema:
       "$ref": "./components/examples/values_property_start_date_schema.yml"
     ValuesPropertyDueDateSchema:
@@ -705,6 +711,8 @@ components:
       "$ref": "./components/schemas/status_model.yml"
     StatusesModel:
       "$ref": "./components/schemas/statuses_model.yml"
+    StorageCollectionModel:
+      "$ref": "./components/schemas/storage_collection_model.yml"
     StorageFileModel:
       "$ref": "./components/schemas/storage_file_model.yml"
     StorageFilesModel:

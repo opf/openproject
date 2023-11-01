@@ -30,8 +30,8 @@ class Authorization::UserRolesQuery < Authorization::AbstractUserQuery
   self.model = Role
   self.base_table = users_table
 
-  def self.query(*args)
-    arel = transformed_query(*args)
+  def self.query(*)
+    arel = transformed_query(*)
 
     model.where(roles_table[:id].in(arel))
   end

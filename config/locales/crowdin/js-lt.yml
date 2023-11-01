@@ -599,6 +599,7 @@ lt:
         processed: 'apdorota'
         prioritized: 'prioritetizuota'
         dateAlert: 'Datos įspėjimas'
+        shared: 'bendrinta'
       date_alerts:
         milestone_date: 'Gairės data'
         overdue: 'Vėluojama'
@@ -645,6 +646,7 @@ lt:
         mentioned: 'Paminėtas'
         watched: 'Stebėtojas'
         date_alert: 'Datos įspėjimas'
+        shared: 'Bendrinta'
       settings:
         change_notification_settings: 'Jūs galite keisti savo <a target="_blank" href="%{url}">pranešimų nustatymus</a>, kad užtikrintumėte, jog niekada nepraleisite svarbaus atnaujinimo.'
         title: "Pranešimų nustatymai"
@@ -667,6 +669,7 @@ lt:
             description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
           assignee: 'Paskirtas'
           responsible: 'Atsakingas'
+          shared: 'Bendrinta'
           watched: 'Stebėtojas'
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'
@@ -983,6 +986,7 @@ lt:
         recently_created: "Neseniai sukurti"
         all_open: "Visi atviri"
         summary: "Santrauka"
+        shared_with_users: "Bendrinamas su naudotojais"
       jump_marks:
         pagination: "Pereiti į lentelės laužymą puslapiais"
         label_pagination: "Paspauskite čia, kad praleistumėte darbų paketų lentelės peržiūrą ir patektumėte į atvaizdavimą puslapiais"
@@ -1019,6 +1023,12 @@ lt:
       scheduling:
         is_parent: "Šio darbų paketo datos yra automatiškai nustatomos pagal jo vaikų datas. Norėdami nustatyti kitokias datas įjunkite „Rankinį tvarkaraščio parinkimą“"
         is_switched_from_manual_to_automatic: "Po perjungimo iš rankinio į automatinį tvarkaraščio parinkimą, šio darbų paketo datas gali reikėti perskaičiuoti, nes yra sąryšių su kitais darbų paketais."
+      sharing:
+        share: 'Dalintis'
+        title: "Dalintis darbo paketu"
+        selected_count: "%{count} pažymėta"
+        selection:
+          mixed: "Mišrus"
       table:
         configure_button: 'Sukonfigūruokite darbų paketo lentelę'
         summary: "Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų."

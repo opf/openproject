@@ -54,9 +54,8 @@ RSpec.describe API::V3::Attachments::AttachmentRepresenter do
   end
 
   before do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission|
-      permissions.include? permission
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: container&.project || build_stubbed(:project)
     end
   end
 

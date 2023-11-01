@@ -122,9 +122,8 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def global_add_permissions?
-    %i[add_project manage_members].any? do |permission|
-      User.current.allowed_to_globally?(permission)
-    end
+    User.current.allowed_globally?(:add_project) ||
+      User.current.allowed_in_any_project?(:manage_members)
   end
 
   def add_subproject_permission?

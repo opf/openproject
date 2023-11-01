@@ -28,17 +28,15 @@
 
 require 'spec_helper'
 
-RSpec.describe 'wiki child pages', js: true do
+RSpec.describe 'wiki child pages', :js do
   let(:project) do
     create(:project)
   end
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_wiki_pages edit_wiki_pages])
   end
   let(:parent_page) do
@@ -64,7 +62,7 @@ RSpec.describe 'wiki child pages', js: true do
     click_button 'Save'
 
     # hierarchy displayed in the breadcrumb
-    expect(page).to have_selector('#breadcrumb [data-qa-selector="op-breadcrumb"]',
+    expect(page).to have_selector("#breadcrumb #{test_selector('op-breadcrumb')}",
                                   text: parent_page.title.to_s)
 
     # hierarchy displayed in the sidebar

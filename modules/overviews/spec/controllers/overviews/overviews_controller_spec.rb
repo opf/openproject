@@ -32,17 +32,6 @@ RSpec.describe Overviews::OverviewsController do
   let(:permissions) do
     %i(view_project)
   end
-  let(:current_user) do
-    build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?) do |permission, permission_project, _global|
-        permission_project == project &&
-          (permissions.include?(permission) ||
-          [{ controller: 'overviews/overviews', action: 'show' },
-           { controller: '/news', action: 'index' }].include?(permission))
-      end
-    end
-  end
   let(:project) do
     build_stubbed(:project).tap do |p|
       allow(Project)
@@ -51,12 +40,17 @@ RSpec.describe Overviews::OverviewsController do
         .and_return(p)
     end
   end
-
   let(:main_app_routes) do
     Rails.application.routes.url_helpers
   end
 
+  let(:current_user) { build_stubbed(:user) }
+
   before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, :view_news, :manage_overview, project:
+    end
+
     login_as current_user
   end
 

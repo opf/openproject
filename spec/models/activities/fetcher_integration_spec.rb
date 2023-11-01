@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe Activities::Fetcher, 'integration' do
   shared_let(:user) { create(:user) }
   shared_let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits] }
-  shared_let(:role) { create(:role, permissions:) }
+  shared_let(:role) { create(:project_role, permissions:) }
   # execute as user so that the user is the author of the project, and the
   # project create event will be displayed in user activities
   shared_let(:project) { User.execute_as(user) { create(:project, members: { user => role }) } }
@@ -76,7 +76,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
         it 'finds only events for which permissions are satisfied' do
           # project attributes, news and message only require the user to be member
           expect(subject.map(&:journable_id))
-            .to match_array([project.id, message.id, news.id])
+            .to contain_exactly(project.id, message.id, news.id)
         end
       end
 
@@ -98,7 +98,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
 
         it 'finds only events matching the scope' do
           expect(subject.map(&:journable_id))
-            .to match_array([message.id, time_entry.id])
+            .to contain_exactly(message.id, time_entry.id)
         end
       end
     end
@@ -114,13 +114,18 @@ RSpec.describe Activities::Fetcher, 'integration' do
 
       context 'if lacking permissions' do
         before do
-          role.role_permissions.destroy_all
+          role
+          .role_permissions
+          # n.b. public permissions are now stored in the database just like others, so to keep the tests like they are
+          # we need to filter them out here
+          .reject { |permission| OpenProject::AccessControl.permission(permission.permission.to_sym).public? }
+          .map(&:destroy)
         end
 
         it 'finds only events for which permissions are satisfied' do
           # project attributes, news and message only require the user to be member
           expect(subject.map(&:journable_id))
-            .to match_array([project.id, message.id, news.id])
+            .to contain_exactly(project.id, message.id, news.id)
         end
       end
 
@@ -142,7 +147,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
 
         it 'finds only events matching the scope' do
           expect(subject.map(&:journable_id))
-            .to match_array([message.id, time_entry.id])
+            .to contain_exactly(message.id, time_entry.id)
         end
       end
     end
@@ -159,7 +164,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
         create(:member,
                user:,
                project: subproject,
-               roles: [create(:role, permissions:)])
+               roles: [create(:project_role, permissions:)])
       end
 
       let!(:activities) { [project, subproject, news, subproject_news, work_package, subproject_work_package] }
@@ -184,7 +189,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
 
         it 'lacks events from subproject' do
           expect(subject.map(&:journable_id))
-            .to match_array [project.id, news.id, work_package.id]
+            .to contain_exactly(project.id, news.id, work_package.id)
         end
       end
 
@@ -193,7 +198,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
 
         it 'lacks events from subproject' do
           expect(subject.map(&:journable_id))
-            .to match_array [project.id, news.id, work_package.id]
+            .to contain_exactly(project.id, news.id, work_package.id)
         end
       end
 
@@ -203,13 +208,13 @@ RSpec.describe Activities::Fetcher, 'integration' do
           create(:member,
                  user:,
                  project: subproject,
-                 roles: [create(:role, permissions: [])])
+                 roles: [create(:project_role, permissions: [])])
         end
 
         it 'finds only events for which permissions are satisfied' do
           # project attributes and news only require the user to be member
           expect(subject.map(&:journable_id))
-            .to match_array([project.id, subproject.id, news.id, subproject_news.id, work_package.id])
+            .to contain_exactly(project.id, subproject.id, news.id, subproject_news.id, work_package.id)
           expect(subject.filter { |e| e.event_type.starts_with?('work_package') }.map(&:journable_id))
             .not_to include(subproject_work_package.id)
         end
@@ -224,7 +229,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
 
         it 'lacks events from subproject' do
           expect(subject.map(&:journable_id))
-            .to match_array [project.id, news.id, work_package.id]
+            .to contain_exactly(project.id, news.id, work_package.id)
         end
       end
     end
@@ -271,7 +276,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
         it 'finds only events for which permissions are satisfied' do
           # project attributes, news and message only require the user to be member
           expect(subject.map(&:journable_id))
-            .to match_array([project.id, message.id, news.id])
+            .to contain_exactly(project.id, message.id, news.id)
         end
       end
 
@@ -282,7 +287,7 @@ RSpec.describe Activities::Fetcher, 'integration' do
 
         it 'finds only events matching the scope' do
           expect(subject.map(&:journable_id))
-            .to match_array([message.id, time_entry.id])
+            .to contain_exactly(message.id, time_entry.id)
         end
       end
     end

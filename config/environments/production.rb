@@ -89,10 +89,10 @@ OpenProject::Application.configure do
         relative_url = Regexp.escape(OpenProject::Configuration['rails_relative_url_root'])
 
         # When we match SYS controller API, allow non-https access
-        return true if request.path =~ /#{relative_url}\/sys\//
+        return true if /#{relative_url}\/sys\//.match?(request.path)
 
         # When we match health checks
-        return true if request.path =~ /#{relative_url}\/health_checks/
+        return true if /#{relative_url}\/health_checks/.match?(request.path)
 
         false
       end
@@ -106,7 +106,7 @@ OpenProject::Application.configure do
   config.assets.quiet = true unless config.log_level == :debug
 
   # Prepend all log lines with the following tags.
-  # config.log_tags = [ :subdomain, :uuid ]
+  config.log_tags = [:request_id]
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)

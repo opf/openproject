@@ -41,19 +41,27 @@ ko:
           name: 사양
         item_2:
           name: 기타
-      roles:
+      work_package_roles:
         item_0:
-          name: 멤버 없음
+          name: Work Package Editor
         item_1:
-          name: 익명
+          name: Work Package Commenter
         item_2:
-          name: 멤버
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: 참관자
+          name: Reader
         item_4:
-          name: 프로젝트 관리자
-        item_5:
-          name: 스태프 및 프로젝트 관리자
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

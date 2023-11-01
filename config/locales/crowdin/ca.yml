@@ -270,6 +270,7 @@ ca:
       no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest projecte.
       no_results_content_text: Afegeix un membre al projecte
     invite_by_mail: "Envia invitació a %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
@@ -338,9 +339,6 @@ ca:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Actualment no hi ha cap tipus.
@@ -426,6 +424,8 @@ ca:
       El teu compte encara no ha estat activat. Espera a que un administrador l'activi.
     error_self_registration_disabled: >
       El registre d'usuaris està deshabilitat en aquest sistema. Demana a un administrador que et creï un compte.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "o inicia la sessió amb el teu compte"
     signup_with_auth_provider: "o registra't mitjançant"
     auth_source_login: Si us plau, entra com a <em>%{login}</em> per activar el teu compte.
@@ -570,6 +570,7 @@ ca:
         time_zone: "Zona horària"
         auto_hide_popups: "Oculta automàticament les notificacions de succés"
         warn_on_leaving_unsaved: "Avisa quan es deixi un paquet de treball amb canvis no desats"
+        theme: "Mode"
       version:
         effective_date: "Data de finalització"
         sharing: "Compartint"
@@ -907,6 +908,7 @@ ca:
           attributes:
             roles:
               ungrantable: "té un rol no assignable."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "no pot ser assignat a un projecte."
         version:
@@ -1260,12 +1262,30 @@ ca:
       x_minutes:
         one: "Un minut"
         other: "%{count} minuts"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         one: "Un mes"
         other: "%{count} mesos"
+      x_years:
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         one: "Un segon"
         other: "%{count} segons"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "hora"
@@ -1548,6 +1568,7 @@ ca:
   label_add_related_work_packages: "Afegir paquets de treball relacionats"
   label_add_subtask: "Afegir subtasca"
   label_added: "afegit"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Afegit per %{author} fa %{age}"
   label_additional_workflow_transitions_for_assignee: "Transicions addicionals permeses quan l'usuari és l'assignat"
   label_additional_workflow_transitions_for_author: "Transicions addicionals permeses quan l'usuari és l'autor"
@@ -1653,6 +1674,7 @@ ca:
   label_copy_workflow_from: "Copia el flux de treball des de"
   label_copy_project: "Copiar projecte"
   label_core_version: "Versió base"
+  label_core_build: "Core build"
   label_current_status: "Estat actual"
   label_current_version: "Versió actual"
   label_custom_field_add_no_type: "Afegeix aquest camp a una classe de paquet de treball"
@@ -1797,6 +1819,10 @@ ca:
   label_login: "Iniciar sessió"
   label_custom_logo: "Logotips personalitzats"
   label_custom_export_logo: "Exportar logo personalitzat"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Favicon personalitzat"
   label_custom_touch_icon: "Icona \"touch\" personalitzada"
   label_logout: "Tancar sessió"
@@ -1867,6 +1893,7 @@ ca:
   label_operator_none: "està buit"
   label_operator_equals_or: "és (OR)"
   label_operator_equals_all: "és (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Obrir menú"
   label_open_work_packages: "obrir"
   label_open_work_packages_plural: "obrir"
@@ -2159,12 +2186,22 @@ ca:
         assigned: 'Assignat'
         responsible: 'Responsable'
         mentioned: 'Mencionat'
+        shared: 'Shared'
         subscribed: 'tot'
         prefix: 'Rebut a causa de la configuració de notificacions: %{reason}'
         date_alert_start_date: 'Alerta per dates'
         date_alert_due_date: 'Alerta per dates'
       see_all: 'Veure tot'
       updated_at: 'Actualitzat a les %{timestamp} per %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El teu compte està pendent d'aprovació:"
   mail_body_account_information: "Informació del teu compte"
   mail_body_account_information_external: "Pots utilitzar el compte «%{value}» per entrar."
@@ -2330,6 +2367,8 @@ ca:
   permission_add_work_packages: "Afegir paquets de treball"
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Arxiva el projecte"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2342,6 +2381,7 @@ ca:
   permission_comment_news: "Comentar noticies"
   permission_commit_access: "Accés de lectura/escriptura al repositori (commit)"
   permission_copy_projects: "Copiar projectes"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Suprimir observadors"
   permission_delete_work_packages: "Eliminar paquets de treball"
@@ -2384,23 +2424,31 @@ ca:
   permission_protect_wiki_pages: "Protegir les pàgines wiki"
   permission_rename_wiki_pages: "Canviar el nom de les pàgines wiki"
   permission_save_queries: "Desar les vistes"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Selecciona camps personalitzats"
   permission_select_project_modules: "Selecciona els mòduls del projecte"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Seleccioneu tipus"
+  permission_view_project: "View projects"
   permission_view_changesets: "Veure les revisions del repositori a OpenProject"
   permission_view_commit_author_statistics: "Veure les estadístiques de commits de l'autor"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Veure la llista d'observadors"
   permission_view_work_packages: "Veure els paquets de treball"
   permission_view_messages: "Visualitzar els missatges"
+  permission_view_news: "View news"
   permission_view_members: "Veure els membres"
   permission_view_reportings: "Veure els informes"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Visualitzar el temps invertit"
   permission_view_timelines: "Veure els terminis"
   permission_view_wiki_edits: "Visualitza l'historial de la wiki"
   permission_view_wiki_pages: "Visualitzar la wiki"
   permission_work_package_assigned: "Esdevé assignat/responsable"
   permission_work_package_assigned_explanation: "Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2436,11 +2484,12 @@ ca:
   query_fields:
     active_or_archived: "Actiu o arxivat"
     assigned_to_role: "Rol de l'assignat"
-    member_of_group: "Grup de l'assignat"
     assignee_or_group: "Assignat o part d'un grup"
-    subproject_id: "Incloent subprojectes"
-    only_subproject_id: "Només subprojecte"
+    member_of_group: "Grup de l'assignat"
     name_or_identifier: "Nom o identificador"
+    only_subproject_id: "Només subprojecte"
+    shared_with_user: "Shared with user"
+    subproject_id: "Incloent subprojectes"
   repositories:
     at_identifier: 'a %{identifier}'
     atom_revision_feed: 'Feed de revisió d''Atom'
@@ -2753,6 +2802,8 @@ ca:
     Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
   text_custom_export_logo_instructions: >
     Aquest és logotip que apareix en les teves exportacions PDF. Necessita ser una imatge en format PNG o JPG. Es recomana un logotip negre o de color amb fons transparent o blanc.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Aquest és la icona petita que apareix a la pantalla del navegador just al costat del títol de la pàgina. Ha de ser un PNG de 32 per 32 píxels amb un fons transparent.
   text_custom_touch_icon_instructions: >
@@ -2941,6 +2992,26 @@ ca:
     destroy:
       info: "Suprimir el paquet de treball és una acció irreversible."
       title: "Suprimir el paquet de treball"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.

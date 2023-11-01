@@ -62,11 +62,11 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="form--field">
                 <label class="form--label" for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
                   <div class="form--field-container">
-                    <%= angular_component_tag 'op-project-autocompleter',
+                    <%= angular_component_tag 'opce-project-autocompleter',
                                               inputs: {
-                                                apiFilters: [['user_action', '=', ['work_packages/move']]],
-                                                name: 'new_project_id',
-                                                value: @target_project,
+                                                filters: [{ name: 'user_action', operator: '=', values: ['work_packages/move'] }],
+                                                inputName: 'new_project_id',
+                                                model: @target_project,
                                                 appendTo: 'body',
                                                 hiddenFieldAction: 'change->refresh-on-form-changes#triggerReload',
                                                 clearable: false,
@@ -74,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
                                               id: 'new_project_id',
                                               class: 'remote-field--input',
                                               data: {
-                                                'qa-selector': 'new_project_id'
+                                                'test-selector': 'new_project_id'
                                               }
                     %>
                   </div>

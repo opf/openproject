@@ -30,26 +30,35 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe 'Appendix of default CSP for external file storage hosts' do
+  def parse_csp(csp_string)
+    csp_string
+      .split('; ')
+      .map(&:split)
+      .each_with_object({}) { |csp_part, csp_hash_map| csp_hash_map[csp_part[0]] = csp_part[1..] }
+  end
+
   shared_let(:project) { create(:project) }
-  shared_let(:storage) { create(:storage) }
+  shared_let(:storage) { create(:nextcloud_storage) }
   shared_let(:project_storage) { create(:project_storage, project:, storage:) }
 
   describe 'GET /' do
     context 'when logged in' do
-      current_user { create(:user, member_in_project: project, member_with_permissions: %i[manage_file_links]) }
+      current_user { create(:user, member_with_permissions: { project => %i[manage_file_links] }) }
 
-      it 'appends to storage host to the connect-src CSP' do
+      it 'appends storage host to the connect-src CSP' do
         get '/'
 
-        expect(last_response.headers['Content-Security-Policy']).to match /#{storage.host}/
+        csp = parse_csp(last_response.headers['Content-Security-Policy'])
+        expect(csp['connect-src']).to include(storage.host)
       end
     end
 
     context 'when not logged in' do
-      it 'does not append the storage host to connect-src CSP' do
+      it 'does not append host to connect-src CSP' do
         get '/'
 
-        expect(last_response.headers['Content-Security-Policy']).not_to match /#{storage.host}/
+        csp = parse_csp(last_response.headers['Content-Security-Policy'])
+        expect(csp['connect-src']).not_to include(storage.host)
       end
     end
   end

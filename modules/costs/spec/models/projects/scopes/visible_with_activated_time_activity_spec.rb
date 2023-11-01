@@ -39,12 +39,12 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
       create(:member,
              project:,
              principal: u,
-             roles: [create(:role, permissions: project_permissions)])
+             roles: [create(:project_role, permissions: project_permissions)])
 
       create(:member,
              project: other_project,
              principal: u,
-             roles: [create(:role, permissions: other_project_permissions)])
+             roles: [create(:project_role, permissions: other_project_permissions)])
     end
   end
 

@@ -32,8 +32,7 @@ require 'features/work_packages/work_packages_page'
 RSpec.describe 'Filter updates pagination', js: true do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages])
+           member_with_permissions: { project => %i[view_work_packages] })
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }

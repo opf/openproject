@@ -62,5 +62,5 @@ See COPYRIGHT and LICENSE files for more details.
 }
 
 th {
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }

@@ -38,9 +38,7 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
            list_custom_field.attribute_name => list_custom_field.custom_options.first)
   end
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:text_custom_field) do
     create(:text_project_custom_field)
@@ -57,7 +55,7 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
     end
   end
   let(:parent_project_role) do
-    create(:role, permissions: parent_project_permissions)
+    create(:project_role, permissions: parent_project_permissions)
   end
   let(:permissions) { [:edit_project] }
   let(:parent_project_permissions) { [:add_subprojects] }

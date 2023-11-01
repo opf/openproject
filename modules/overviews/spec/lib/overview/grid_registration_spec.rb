@@ -9,9 +9,8 @@ RSpec.describe Overviews::GridRegistration do
     let(:permissions) { %i[manage_overview view_project] }
 
     before do
-      allow(user)
-        .to receive(:allowed_to?) do |queried_permission, queried_project|
-        project == queried_project && permissions.include?(queried_permission)
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project *permissions, project:
       end
     end
 

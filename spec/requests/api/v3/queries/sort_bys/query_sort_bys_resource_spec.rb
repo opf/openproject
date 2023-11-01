@@ -38,12 +38,11 @@ RSpec.describe 'API v3 Query Sort Bys resource' do
     let(:column_name) { 'status' }
     let(:direction) { 'desc' }
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     before do

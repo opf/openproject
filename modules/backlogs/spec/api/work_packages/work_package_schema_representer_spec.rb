@@ -30,25 +30,19 @@ require 'spec_helper'
 
 RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { build(:custom_field) }
-  let(:work_package) { build_stubbed(:work_package, type: build_stubbed(:type)) }
-
-  let(:current_user) do
-    build_stubbed(:user, member_in_project: work_package.project).tap do |user|
-      allow(user).to receive(:allowed_to?).and_return(false)
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:edit_work_packages, work_package.project, global: false)
-        .and_return(true)
-    end
-  end
-
   let(:schema) do
     API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
   end
-
   let(:representer) { described_class.create(schema, self_link: nil, current_user:) }
+  let(:work_package) { build_stubbed(:work_package, type: build_stubbed(:type)) }
+
+  let(:current_user) { build_stubbed(:user) }
 
   before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project :edit_work_packages, project: work_package.project
+    end
+
     login_as(current_user)
 
     allow(schema.project).to receive(:backlogs_enabled?).and_return(true)

@@ -83,6 +83,7 @@
 @mixin widget-box--style
   background: var(--body-background)
   margin: 10px
+  border: 1px solid var(--color-border-muted)
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1)
 
 @mixin widget-box--hover-style
@@ -287,7 +288,7 @@ $scrollbar-size: 10px
 
     &:hover
       cursor: default
-      border-color: #c7c7c7
+      border-color: var(--color-fg-muted)
       background: rgba(218,223,225,0.75)
 
 @mixin unset-button-styles
@@ -337,7 +338,7 @@ $scrollbar-size: 10px
   border-radius: 0.5rem
   padding: 0 0.15rem 0 0.15rem
   font-size: 0.7rem
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
   background: #00A3FF
   color: white
   flex-shrink: 0

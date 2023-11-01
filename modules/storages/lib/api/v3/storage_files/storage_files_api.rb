@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -33,10 +35,12 @@ module API::V3::StorageFiles
 
     resources :files do
       get do
-        Storages::Peripherals::StorageRequests
-          .new(storage: @storage)
-          .files_query
-          .call(user: current_user, folder: params[:parent])
+        Storages::Peripherals::Registry
+          .resolve("queries.#{@storage.short_provider_type}.files")
+          .call(
+            storage: @storage,
+            user: current_user, folder: params[:parent]
+          )
           .match(
             on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, @storage, current_user:) },
             on_failure: ->(error) { raise_error(error) }
@@ -45,23 +49,16 @@ module API::V3::StorageFiles
 
       route_param :file_id, type: String, desc: 'Storage file id' do
         get do
-          service_result = Storages::Peripherals::StorageRequests
-                             .new(storage: @storage)
-                             .files_info_query
-                             .call(user: current_user, file_ids: [params[:file_id]]).map(&:first)
-
-          if service_result.success? && service_result.result.status_code == 403
-            storage_error = Storages::StorageError.new(code: :forbidden, log_message: 'no access to file', data: nil)
-            service_result = ServiceResult.failure(result: :forbidden, errors: storage_error)
-          end
-
-          service_result.map { |file_info| to_storage_file(file_info) }
-                        .match(
-                          on_success: ->(storage_file) {
-                            API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
-                          },
-                          on_failure: ->(error) { raise_error(error) }
-                        )
+          Storages::Peripherals::Registry
+            .resolve("queries.#{@storage.short_provider_type}.file_info")
+            .call(storage: @storage, user: current_user, file_id: params[:file_id])
+            .map { |file_info| to_storage_file(file_info) }
+            .match(
+              on_success: ->(storage_file) {
+                API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
+              },
+              on_failure: ->(error) { raise_error(error) }
+            )
         end
       end
 
@@ -70,17 +67,16 @@ module API::V3::StorageFiles
           case request_body.transform_keys(&:to_sym)
           in { projectId: project_id, fileName: file_name, parent: parent }
             authorize(:manage_file_links, context: Project.find(project_id))
-            ServiceResult.success(result: { fileName: file_name, parent: }.transform_keys(&:to_s))
+            ServiceResult.success(result: { file_name:, parent: }.transform_keys(&:to_s))
           else
             ServiceResult.failure(errors: Storages::StorageError.new(code: :bad_request, log_message: 'Request body malformed!'))
           end
         end
 
         validate.call(request_body) >> ->(data) do
-          Storages::Peripherals::StorageRequests
-            .new(storage: @storage)
-            .upload_link_query
-            .call(user: current_user, data:)
+          Storages::Peripherals::Registry
+            .resolve("queries.#{@storage.short_provider_type}.upload_link")
+            .call(storage: @storage, user: current_user, data:)
             .match(
               on_success: ->(link) { API::V3::StorageFiles::StorageUploadLinkRepresenter.new(link, current_user:) },
               on_failure: ->(error) { raise_error(error) }

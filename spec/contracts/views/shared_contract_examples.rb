@@ -32,14 +32,14 @@ require 'contracts/shared/model_contract_shared_context'
 RSpec.shared_examples_for 'view contract' do |disabled_permission_checks|
   include_context 'ModelContract shared context'
 
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project, **_args|
-        permissions.include?(permission) && query_project == permission_project
-      end
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: query_project
     end
   end
+
   let(:view_query) do
     build_stubbed(:query,
                   user: query_user,
@@ -108,4 +108,6 @@ RSpec.shared_examples_for 'view contract' do |disabled_permission_checks|
       end
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

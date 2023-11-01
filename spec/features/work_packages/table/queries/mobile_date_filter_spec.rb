@@ -51,8 +51,8 @@ RSpec.describe 'mobile date filter work packages', :js, :with_cuprite do
       filters.add_filter('Finish date')
       filters.set_operator('Finish date', 'between', 'dueDate')
 
-      start_field = find('[data-qa-selector="op-basic-range-date-picker-start"]')
-      end_field = find('[data-qa-selector="op-basic-range-date-picker-end"]')
+      start_field = find_test_selector('op-basic-range-date-picker-start')
+      end_field = find_test_selector('op-basic-range-date-picker-end')
 
       clear_input_field_contents(start_field)
       clear_input_field_contents(end_field)

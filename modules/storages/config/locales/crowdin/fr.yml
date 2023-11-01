@@ -26,6 +26,7 @@ fr:
         name: "Nom"
         creator: "Créateur"
         provider_type: "Type de fournisseur"
+        host: "Host"
       storages/file_link:
         origin_id: "Id d'origine"
     errors:
@@ -57,21 +58,35 @@ fr:
     errors:
       too_many_elements_created_at_once: "Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Espace de stockage inconnu"
     buttons:
+      done_continue: "Done, continue"
       done_continue_setup: "Terminé. Poursuivre la configuration"
       done_complete_setup: "Configuration terminée."
       edit_automatically_managed_project_folders: "Modifier les dossiers de projet gérés automatiquement"
       replace_openproject_oauth: "Remplacer OAuth OpenProject"
       replace_provider_type_oauth: "Remplacer OAuth %{provider_type}"
       save: "Save"
+      save_and_continue: "Save and continue"
       save_and_continue_setup: "Enregistrer et continuer la configuration"
       save_and_complete_setup: "Enregistrer et terminer la configuration"
       select_folder: "Sélectionner un dossier"
       configure: "Configurer"
+    file_storage_view:
+      general_information: "General information"
+      oauth_applications: "OAuth applications"
+      project_folders: "Project folders"
+      storage_provider: "Storage provider"
+      openproject_oauth: "OpenProject OAuth"
+      nextcloud_oauth: "Nextcloud OAuth"
+      automatically_managed_folders: "Automatically managed folders"
     page_titles:
+      file_storages:
+        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Répertoires de projet gérés automatiquement"
+        subtitle_short: "Let OpenProject create folders per project automatically."
         subtitle: >
           Laisser OpenProject créer automatiquement des dossiers par projet. Cette option est recommandée, car elle garantit que chaque membre de l'équipe dispose toujours des autorisations d'accès correctes.
       project_settings:
@@ -84,12 +99,14 @@ fr:
         title: "Statut de connexion des membres"
         subtitle: "Vérifiez l'état de la connexion pour l'espace de stockage %{storage_name_link} de tous les membres du projet."
     instructions:
+      provider_type: "Please make sure you have administration privileges in your Nextcloud instance and the application %{type_link_text} is installed before doing the setup."
       type: "Veuillez vous assurer que vous avez les privilèges d'administration dans votre instance Nextcloud et que l'application suivante est installée avant de procéder à l'installation :"
       type_link_text: "« Intégration OpenProject »"
       name: "Donnez à votre stockage un nom pour que les utilisateurs puissent se différencier entre plusieurs stockages."
       host: "Veuillez ajouter l'adresse d'hôte de votre stockage, y compris le https://. Il ne doit pas dépasser 255 caractères."
       managed_project_folders_application_password: >
         Copier cette valeur depuis :
+      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
       no_storage_set_up: "Aucun espace de stockage de fichiers n'a été configuré pour le moment."
       no_specific_folder: "Par défaut, chaque utilisateur démarrera dans son propre dossier d'accueil lorsqu'il téléversera un fichier."
       automatic_folder: "Cela créera automatiquement un dossier racine pour ce projet et gérera les autorisations d'accès pour chaque membre du projet."
@@ -102,14 +119,28 @@ fr:
       setting_up_storages: "Pour configurer des stockages de fichiers, veuillez visiter"
       setting_up_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers dans Administration / Stockages de fichiers."
       all_available_storages_already_added: "Tous les stockages disponibles sont déjà ajoutés au projet."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
       copy_from: "Copier cette valeur depuis"
       nextcloud:
         integration: "Administration Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        tenant_id: >
+          Please insert the tenant ID you got from your SharePoint administrator.
+        drive_id: >
+          The drive ID can be obtained by you SharePoint administrator.
     help_texts:
       project_folder: >
         Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
     configuration_checks:
       incomplete: "The setup of this storage is incomplete."
+      oauth_client_incomplete: "Allow OpenProject to access %{provider} data using an OAuth."
     delete_warning:
       storage: >
         Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
@@ -119,11 +150,20 @@ fr:
       project_storage_delete_result_2: "Si cet espace de stockage a un dossier de projet géré automatiquement, lui et ses fichiers seront définitivement supprimés."
       input_delete_confirmation: "Saisissez le nom de l'espace de stockage des fichiers %{file_storage} pour confirmer la suppression."
       irreversible_notice: "La suppression d'un espace de stockage de fichiers est une action irréversible."
+    storage_list_blank_slate:
+      heading: "You don't have any storages yet."
+      description: "Add a storage to see them here."
     label_active: "Actif"
+    label_add_new_storage: "Add new storage"
+    label_delete_storage: "Delete storage"
     label_inactive: "Inactif"
     label_creator: "Créateur"
+    label_provider: "Provider"
     label_file_link: "Lien du fichier"
     label_file_links: "Liens de fichier"
+    label_creation_time: "Creation time"
+    label_connected: "Connected"
+    label_incomplete: "Incomplete"
     label_name: "Nom"
     label_host: "URL de l'hôte"
     label_managed_project_folders:
@@ -133,12 +173,21 @@ fr:
     label_oauth_breadcrumb:
       openproject: "OAuth OpenProject"
       nextcloud: "OAuth Nextcloud"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Détails de l'application OAuth"
     label_oauth_client_details: "Détails du client OAuth"
+    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
+    label_information: "Additional information"
     label_provider_type: "Type de fournisseur"
     label_project_folder: "Dossier du projet"
     label_new_storage: "Nouveau stockage"
     label_edit_storage: "Edit storage"
+    label_edit_storage_host: "Edit storage host"
+    label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Répertoire existant avec permissions gérées manuellement"
     label_no_specific_folder: "Aucun dossier spécifique"
     label_automatic_folder: "Nouveau dossier avec permissions gérées automatiquement"
@@ -158,7 +207,9 @@ fr:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "par ex. Nextcloud"
-        default_name: "Mon Nextcloud"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Êtes-vous sûr ? Tous les utilisateurs devront réautoriser OpenProject."
     confirm_replace_oauth_client: "Êtes-vous sûr ? Tous les utilisateurs devront réautoriser sur le stockage."
     oauth_client_details_missing: "Pour terminer la configuration, veuillez ajouter les identifiants du client OAuth depuis votre espace de stockage."

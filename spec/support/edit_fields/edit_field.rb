@@ -38,7 +38,7 @@ class EditField
   end
 
   def label_element
-    context.find ".wp-replacement-label[data-qa-selector='#{property_name}']"
+    context.find ".wp-replacement-label[data-test-selector='#{property_name}']"
   end
 
   def clear(with_backspace: false)
@@ -268,7 +268,7 @@ class EditField
     when :priority, :status, :type, :category, :workPackage, :parent
       'create-autocompleter'
     when :project
-      'op-autocompleter'
+      'op-project-autocompleter'
     when :activity
       'activity-autocompleter'
     else

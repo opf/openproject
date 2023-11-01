@@ -273,6 +273,7 @@ fr:
       no_results_title_text: Aucun membre dans ce projet pour le moment.
       no_results_content_text: Ajouter un membre au projet
     invite_by_mail: "Envoyer une invitation à %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
@@ -341,9 +342,6 @@ fr:
   themes:
     light: "Clair"
     light_high_contrast: "Clair avec contraste élevé"
-    dark: "Sombre"
-    dark_dimmed: "Sombre atténué"
-    dark_high_contrast: "Sombre avec contraste élevé"
   types:
     index:
       no_results_title_text: Il n'y a actuellement aucun type.
@@ -430,6 +428,8 @@ fr:
       Votre compte n'a pas encore été activé. Veuillez attendre qu'un administrateur active votre compte.
     error_self_registration_disabled: >
       L'inscription des utilisateurs est désactivée sur ce système. Demandez à un administrateur de créer un compte pour vous.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "ou connectez-vous avec votre compte existant"
     signup_with_auth_provider: "ou inscrivez-vous à l'aide de"
     auth_source_login: Veuillez vous connecter en tant que <em>%{login}</em> pour activer votre compte.
@@ -574,6 +574,7 @@ fr:
         time_zone: "Fuseau horaire"
         auto_hide_popups: "Masquer automatiquement les notifications de succès"
         warn_on_leaving_unsaved: "M'avertir lorsque je quitte un lot de travaux contenant des modifications non enregistrées"
+        theme: "Mode"
       version:
         effective_date: "Date de fin"
         sharing: "Partage"
@@ -911,6 +912,7 @@ fr:
           attributes:
             roles:
               ungrantable: "a un rôle ne pouvant pas être assigné."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "ne peut pas être assigné à un projet."
         version:
@@ -1264,12 +1266,30 @@ fr:
       x_minutes:
         one: "une minute"
         other: "%{count} minutes"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         one: "un mois"
         other: "%{count} mois"
+      x_years:
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         one: "une seconde"
         other: "%{count} seconde"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "heure"
@@ -1552,6 +1572,7 @@ fr:
   label_add_related_work_packages: "Ajouter des Lots de Travaux associés"
   label_add_subtask: "Ajouter une sous-tâche"
   label_added: "ajouté"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Ajouté par %{author} il y a %{age}"
   label_additional_workflow_transitions_for_assignee: "Transitions supplémentaires autorisées lorsque l'utilisateur est l'assigné"
   label_additional_workflow_transitions_for_author: "Transitions supplémentaires autorisées lorsque l'utilisateur est l'auteur"
@@ -1657,6 +1678,7 @@ fr:
   label_copy_workflow_from: "Copier flux de travail à partir de"
   label_copy_project: "Copier projet"
   label_core_version: "Version du cœur"
+  label_core_build: "Core build"
   label_current_status: "Statut actuel"
   label_current_version: "Version actuelle"
   label_custom_field_add_no_type: "Ajouter ce champ à un type de lot de travaux"
@@ -1801,6 +1823,10 @@ fr:
   label_login: "Connexion"
   label_custom_logo: "Logo personnalisé"
   label_custom_export_logo: "Logo d'exportation personnalisé"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Favicon personnalisé"
   label_custom_touch_icon: "Icône de contact personnalisé"
   label_logout: "Déconnexion"
@@ -1871,6 +1897,7 @@ fr:
   label_operator_none: "est vide"
   label_operator_equals_or: "est (OU)"
   label_operator_equals_all: "est (ET)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Ouvrir le menu"
   label_open_work_packages: "ouverts"
   label_open_work_packages_plural: "ouverts"
@@ -2163,12 +2190,22 @@ fr:
         assigned: 'Assigné'
         responsible: 'Responsable'
         mentioned: 'Mentionné'
+        shared: 'Shared'
         subscribed: 'tous'
         prefix: 'Reçu en raison du paramètre de notification : %{reason}'
         date_alert_start_date: 'Alarmes'
         date_alert_due_date: 'Alarmes'
       see_all: 'Voir tout'
       updated_at: 'Mis à jour le %{timestamp} par %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Un nouvel utilisateur (%{value}) s'est enregistré. Le compte attend votre approbation:"
   mail_body_account_information: "Informations sur votre compte"
   mail_body_account_information_external: "Vous pouvez utiliser votre compte %{value} pour vous connecter."
@@ -2339,6 +2376,8 @@ fr:
   permission_add_work_packages: "Ajouter des lots de travaux"
   permission_add_messages: "Poster des messages"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archiver le projet"
   permission_create_user: "Créer des utilisateurs"
   permission_manage_user: "Modifier les utilisateurs"
@@ -2351,6 +2390,7 @@ fr:
   permission_comment_news: "Commenter les actualités"
   permission_commit_access: "Accès au dépôt en lecture/écriture (« commit »)"
   permission_copy_projects: "Copier des projets"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Supprimer des observateurs"
   permission_delete_work_packages: "Supprimer des lots de travaux"
@@ -2393,23 +2433,31 @@ fr:
   permission_protect_wiki_pages: "Protéger les pages wiki"
   permission_rename_wiki_pages: "Renommer les pages wiki"
   permission_save_queries: "Enregistrer les vues"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Sélectionner les champs personnalisés"
   permission_select_project_modules: "Sélectionner modules de projet"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Sélectionner types"
+  permission_view_project: "View projects"
   permission_view_changesets: "Voir révisions du dépôt dans OpenProject"
   permission_view_commit_author_statistics: "Voir les statistiques des auteurs de «commit»"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Voir la liste des observateurs"
   permission_view_work_packages: "Voir les lots de travaux"
   permission_view_messages: "Voir les messages"
+  permission_view_news: "View news"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
   permission_view_wiki_pages: "Voir le wiki"
   permission_work_package_assigned: "Devenir assigné/responsable"
   permission_work_package_assigned_explanation: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2445,11 +2493,12 @@ fr:
   query_fields:
     active_or_archived: "Actif ou archivé"
     assigned_to_role: "Rôle du Destinataire"
-    member_of_group: "Groupe du Destinataire"
     assignee_or_group: "Cessionnaire ou groupe d’appartenance"
-    subproject_id: "Inclure le sous-projet"
-    only_subproject_id: "Seulement le sous-projet"
+    member_of_group: "Groupe du Destinataire"
     name_or_identifier: "Nom ou identifiant"
+    only_subproject_id: "Seulement le sous-projet"
+    shared_with_user: "Shared with user"
+    subproject_id: "Inclure le sous-projet"
   repositories:
     at_identifier: '%{identifier}'
     atom_revision_feed: 'Flux Atom des révisions'
@@ -2764,6 +2813,8 @@ fr:
     Un logo blanc sur fond transparent est recommandé. Pour obtenir les meilleurs résultats sur les deux, affichage classique et retina, assurez-vous que les dimensions de votre image soient de 460px par 60px.
   text_custom_export_logo_instructions: >
     Il s'agit du logo qui apparaît dans vos exportations PDF. Il doit s'agir d'un fichier image PNG ou JPEG. Un logo noir ou coloré sur fond transparent ou blanc est recommandé.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Il s'agit de la petite icône qui apparaît dans la fenêtre/onglet de votre navigateur à côté du titre de la page. Il doit s'agir d'une image PNG carrée de 32 pixels x 32 pixels avec un fond transparent.
   text_custom_touch_icon_instructions: >
@@ -2951,6 +3002,26 @@ fr:
     destroy:
       info: "La suppression du lot de travaux est une action irréversible."
       title: "Supprimer le lot de travaux"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.

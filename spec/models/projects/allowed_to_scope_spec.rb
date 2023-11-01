@@ -46,7 +46,7 @@ RSpec.describe Project, 'allowed to' do
   let(:project_status) { true }
 
   let(:role) do
-    build(:role,
+    build(:project_role,
           permissions:)
   end
   let(:anonymous_role) do
@@ -246,6 +246,14 @@ RSpec.describe Project, 'allowed to' do
 
       it_behaves_like 'is empty'
     end
+
+    context 'with the user being locked' do
+      before do
+        user.update!(status: Principal.statuses[:locked])
+      end
+
+      it_behaves_like 'is empty'
+    end
   end
 
   context 'with the project being private' do
@@ -291,6 +299,23 @@ RSpec.describe Project, 'allowed to' do
       context 'with the anonymous role having the permission' do
         it 'includes the project' do
           expect(described_class.allowed_to(anonymous, action)).to contain_exactly(project)
+        end
+      end
+
+      context 'with the permission being disabled' do
+        let(:permission) { OpenProject::AccessControl.permission(action) }
+
+        around do |example|
+          permission.disable!
+          OpenProject::AccessControl.clear_caches
+          example.run
+        ensure
+          permission.enable!
+          OpenProject::AccessControl.clear_caches
+        end
+
+        it 'is empty' do
+          expect(described_class.allowed_to(anonymous, action)).to be_empty
         end
       end
 

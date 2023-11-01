@@ -273,6 +273,7 @@ ro:
       no_results_title_text: În acest moment nu există niciun participant la acest proiect.
       no_results_content_text: Adăugare participant la proiect
     invite_by_mail: "Trimiteți invitația la %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Resetarea tokenului de acces nu a reușit: %{error}"
@@ -341,9 +342,6 @@ ro:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: În acest moment nu există tipuri.
@@ -431,6 +429,8 @@ ro:
       Contul nu a fost încă activat. Așteptați ca administratorul să vă activeze contul.
     error_self_registration_disabled: >
       Înregistrarea utilizatorilor este dezactivată în acest sistem. Vă rugăm să cereţi unui administrator să vă creeze un cont.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "sau conectaţi-vă cu contul existent"
     signup_with_auth_provider: "sau înregistrează-te folosind"
     auth_source_login: Autentifică-te ca <em>%{login}</em> pentru a activa contul.
@@ -575,6 +575,7 @@ ro:
         time_zone: "Fus orar"
         auto_hide_popups: "Ascunderea automată a notificărilor de succes"
         warn_on_leaving_unsaved: "Mă avertizează când părăsesc un pachet de lucru cu modificări nesalvate"
+        theme: "Mode"
       version:
         effective_date: "Data de finalizare"
         sharing: "Distribuire"
@@ -913,6 +914,7 @@ ro:
           attributes:
             roles:
               ungrantable: "are un rol neatribuit."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "nu poate fi atribuit unui proiect."
         version:
@@ -1282,14 +1284,38 @@ ro:
         one: "un minut"
         few: "%{count} minute"
         other: "%{count} minute"
+      x_minutes_abbreviated:
+        one: "1 min"
+        few: "%{count} mins"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        few: "%{count} hours"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        few: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        few: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "o lună"
         few: "%{count} luni"
         other: "%{count} luni"
+      x_years:
+        one: "1 year"
+        few: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "o secundă"
         few: "%{count} secunde"
         other: "%{count} secunde"
+      x_seconds_abbreviated:
+        one: "1 s"
+        few: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "oră"
@@ -1573,6 +1599,7 @@ ro:
   label_add_related_work_packages: "Adăugare pachet de lucru asociat"
   label_add_subtask: "Adăugare sub-activitate"
   label_added: "adăugat"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Adăugat de %{author} acum %{age}"
   label_additional_workflow_transitions_for_assignee: "Tranziții suplimentare permise când utilizatorul este executantul"
   label_additional_workflow_transitions_for_author: "Tranziții suplimentare permise când utilizatorul este autorul"
@@ -1678,6 +1705,7 @@ ro:
   label_copy_workflow_from: "Copiere flux de la"
   label_copy_project: "Copiere proiect"
   label_core_version: "Versiune de bază"
+  label_core_build: "Core build"
   label_current_status: "Stare actuală"
   label_current_version: "Versiune actuală"
   label_custom_field_add_no_type: "Adaugați acest câmp la un pachet de lucru"
@@ -1822,6 +1850,10 @@ ro:
   label_login: "Autentificare"
   label_custom_logo: "Custom Logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Pictogramă personalizată"
   label_custom_touch_icon: "Pictogramă touch personalizată"
   label_logout: "Deconectare"
@@ -1892,6 +1924,7 @@ ro:
   label_operator_none: "este gol"
   label_operator_equals_or: "este (SAU)"
   label_operator_equals_all: "este (ȘI)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Deschidere meniu"
   label_open_work_packages: "deschise"
   label_open_work_packages_plural: "deschise"
@@ -2185,12 +2218,22 @@ ro:
         assigned: 'Alocat'
         responsible: 'Responsabil'
         mentioned: 'Menţionat'
+        shared: 'Shared'
         subscribed: 'toate'
         prefix: 'Primită din cauza setării de notificare: %{reason}'
         date_alert_start_date: 'Alertă de dată'
         date_alert_due_date: 'Alertă de dată'
       see_all: 'Vezi tot'
       updated_at: 'Actualizat la %{timestamp} de %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "A fost înregistrat un nou user (%{value}). Activarea este în așteptarea aprobării:"
   mail_body_account_information: "Informații despre contul dumneavoastră"
   mail_body_account_information_external: "Puteți utiliza contul %{value} pentru autentificare."
@@ -2361,6 +2404,8 @@ ro:
   permission_add_work_packages: "Adăugare pachete de lucru"
   permission_add_messages: "Publicare mesaje"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Proiect de arhivă"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2373,6 +2418,7 @@ ro:
   permission_comment_news: "Comentare noutăți"
   permission_commit_access: "Acces de citire/scriere la repo (încărcare)"
   permission_copy_projects: "Copiere proiecte"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Eliminare observatori"
   permission_delete_work_packages: "Ștergere pachete de lucru"
@@ -2415,23 +2461,31 @@ ro:
   permission_protect_wiki_pages: "Protejare pagini wiki"
   permission_rename_wiki_pages: "Redenumire pagini wiki"
   permission_save_queries: "Salvați vizualizările"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Selectați câmpurile personalizate"
   permission_select_project_modules: "Selectare module proiect"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Selectare tipuri"
+  permission_view_project: "View projects"
   permission_view_changesets: "Vizualizare revizii repo în OpenProject"
   permission_view_commit_author_statistics: "Vizualizare statistici autor înregistrări"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Vizualizare listă observatori"
   permission_view_work_packages: "Vizualizare pachete de lucru"
   permission_view_messages: "Vizualizare mesaje"
+  permission_view_news: "View news"
   permission_view_members: "Vezi membrii"
   permission_view_reportings: "Vizualizare raportări"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Vizualizare timp consumat"
   permission_view_timelines: "Vizualizare linii de timp"
   permission_view_wiki_edits: "Vizualizare istoric wiki"
   permission_view_wiki_pages: "Vizualizare wiki"
   permission_work_package_assigned: "Deveniți cesionar/responsabil"
   permission_work_package_assigned_explanation: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2467,11 +2521,12 @@ ro:
   query_fields:
     active_or_archived: "Activ sau arhivat"
     assigned_to_role: "Rolul executantului"
-    member_of_group: "Grupul executantului"
     assignee_or_group: "Destinatarul sau grupul de apartenență"
-    subproject_id: "Inclusiv subproiectul"
-    only_subproject_id: "Numai subproiect"
+    member_of_group: "Grupul executantului"
     name_or_identifier: "Nume sau identificator"
+    only_subproject_id: "Numai subproiect"
+    shared_with_user: "Shared with user"
+    subproject_id: "Inclusiv subproiectul"
   repositories:
     at_identifier: 'la %{identifier}'
     atom_revision_feed: 'Lista de revizii Atom'
@@ -2786,6 +2841,8 @@ ro:
     Este recomandată utilizarea unui logo cu fundal transparent. Pentru a obține rezultate satisfăcătoare pe afișajele convenționale dar și pe cele de tipe retina, asigurați-vă că dimensiunea imaginii este de 460px pe 110px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -2975,6 +3032,26 @@ ro:
     destroy:
       info: "Ştergerea pachetul de lucru este o acţiune ireversibilă."
       title: "Ştergere a pachetului de lucru"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

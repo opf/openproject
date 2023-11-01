@@ -95,7 +95,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновить"
+    button_update: "Обновление"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -598,6 +598,7 @@ ru:
         processed: 'обработано'
         prioritized: 'приоритизировано'
         dateAlert: 'Дата оповещения'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Дата контрольной точки'
         overdue: 'Просрочено'
@@ -644,6 +645,7 @@ ru:
         mentioned: 'Упомянутые'
         watched: 'Наблюдатель'
         date_alert: 'Дата оповещения'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Измените <a target="_blank" href="%{url}">настройки уведомлений</a> , чтобы не пропустить важное обновление.'
         title: "Настройки уведомлений"
@@ -666,6 +668,7 @@ ru:
             description: 'Получать уведомления каждый раз, когда кто-то упоминает меня'
           assignee: 'Назначенный'
           responsible: 'Подотчетный'
+          shared: 'Shared'
           watched: 'Наблюдатель'
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
@@ -982,6 +985,7 @@ ru:
         recently_created: "Недавно созданное"
         all_open: "Все открытые"
         summary: "Сводка"
+        shared_with_users: "Доступно пользователям"
       jump_marks:
         pagination: "Перейти вёрстке таблицы"
         label_pagination: "Кликните здесь чтобы пропустить таблицу рабочих пакетов и перейти к вёрстке"
@@ -1018,6 +1022,12 @@ ru:
       scheduling:
         is_parent: "Даты этого пакета работ выводятся автоматически из дочерних пакетов работ. Используйте «Ручной планировщик», чтобы установить даты."
         is_switched_from_manual_to_automatic: "Даты этого пакета работ могут быть пересчитаны после переключения с ручного на автоматическое планирование из-за связей с другими пакетами работ."
+      sharing:
+        share: 'Поделиться'
+        title: "Поделиться пакетом работ"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Настроить таблицу пакета работ'
         summary: "Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах."

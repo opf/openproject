@@ -599,6 +599,7 @@ pl:
         processed: 'przetworzono'
         prioritized: 'priorytetowo'
         dateAlert: 'Alert dotyczący daty'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data  kamienia milowego'
         overdue: 'Przekroczony termin'
@@ -645,6 +646,7 @@ pl:
         mentioned: 'Wzmianka'
         watched: 'Obserwator'
         date_alert: 'Data ostrzeżenia'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Możesz zmodyfikować <a target="_blank" href="%{url}">ustawienia powiadomień</a>, aby upewnić się, że nigdy nie przegapisz ważnej aktualizacji.'
         title: "Ustawienia powiadomień"
@@ -667,6 +669,7 @@ pl:
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
           assignee: 'Przypisana osoba'
           responsible: 'Osoba odpowiedzialna'
+          shared: 'Shared'
           watched: 'Obserwator'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'
@@ -983,6 +986,7 @@ pl:
         recently_created: "Utworzone niedawno"
         all_open: "Wszystkie otwarte"
         summary: "Podsumowanie"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Przejdź do stronicowania tabeli"
         label_pagination: "Kliknij tutaj, aby pominąć tablicę zadań i przejść do stronicowania"
@@ -1019,6 +1023,12 @@ pl:
       scheduling:
         is_parent: "Daty tego pakietu roboczego są automatycznie odejmowane od jego elementów podrzędnych. Włącz funkcję Planowanie ręczne, aby ustawić daty."
         is_switched_from_manual_to_automatic: "Po przełączeniu planowania z ręcznego na automatyczne konieczne może być ponowne obliczenie dat tego pakietu roboczego ze względu na jego powiązania z innymi pakietami roboczymi."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."

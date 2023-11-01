@@ -97,4 +97,15 @@ RSpec.describe AdminUserSeeder do
       expect(seed_data.find_reference(:openproject_admin)).to eq(User.user.admin.first)
     end
   end
+
+  context 'when a non-admin user exists with the same email' do
+    before do
+      User.system
+      create(:user, mail: Setting.seed_admin_user_mail)
+    end
+
+    it 'does not create another admin user' do
+      expect { seeder.seed! }.not_to change { User.admin.count }
+    end
+  end
 end

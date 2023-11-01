@@ -59,18 +59,25 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   # Called by: Global app/config/routes.rb to serve Web page
   def create # rubocop:disable Metrics/AbcSize
     service_result = ::OAuthClients::CreateService.new(user: User.current)
-                                                  .call(permitted_oauth_client_params.merge(integration: @storage))
+                                                  .call(oauth_client_params.merge(integration: @storage))
     @oauth_client = service_result.result
-    if service_result.success?
+
+    service_result.on_failure do
+      render '/storages/admin/storages/new_oauth_client'
+    end
+
+    service_result.on_success do
       flash[:notice] = I18n.t(:notice_successful_create)
-      if @storage.automatic_management_unspecified?
-        redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
+
+      if @storage.provider_type_nextcloud? && @storage.automatic_management_unspecified?
+        if OpenProject::FeatureDecisions.storage_primer_design_active?
+          redirect_to edit_admin_settings_storage_path(@storage)
+        else
+          redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
+        end
       else
         redirect_to edit_admin_settings_storage_path(@storage)
       end
-    else
-      @errors = service_result.errors
-      render '/storages/admin/storages/new_oauth_client'
     end
   end
 
@@ -91,7 +98,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
   # Called by create and update above in order to check if the
   # update parameters are correctly set.
-  def permitted_oauth_client_params
+  def oauth_client_params
     params
       .require(:oauth_client)
       .permit('client_id', 'client_secret')

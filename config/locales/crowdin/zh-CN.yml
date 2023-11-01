@@ -70,7 +70,7 @@ zh-CN:
         text: "您确定要删除当前使用的企业版令牌吗？"
         title: "删除令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购本地部署版的 Enterprise edition"
+      order: "订购本地部署的 Enterprise edition"
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -270,6 +270,7 @@ zh-CN:
       no_results_title_text: 目前这个项目没有成员。
       no_results_content_text: 将成员添加到该项目
     invite_by_mail: "发送邀请到 %{mail}"
+    send_invite_to: "发送邀请至"
   my:
     access_token:
       failed_to_reset_token: "无法重置访问令牌: %{error}"
@@ -338,9 +339,6 @@ zh-CN:
   themes:
     light: "浅色"
     light_high_contrast: "浅色高对比度"
-    dark: "深色"
-    dark_dimmed: "深色变暗"
-    dark_high_contrast: "深色高对比度"
   types:
     index:
       no_results_title_text: 目前没有类型。
@@ -425,6 +423,8 @@ zh-CN:
       您的帐户尚未激活。请等待管理员激活您的帐户。
     error_self_registration_disabled: >
       此系统上禁用了用户注册。请让管理员为您创建帐户。
+    error_self_registration_limited_provider: >
+      用户注册在'%{name}'单点登录提供商上受限。请向管理员请求激活您的账户，或者更改该提供商的自主注册限制。
     login_with_auth_provider: "或使用您的现有帐户登录"
     signup_with_auth_provider: "或注册使用"
     auth_source_login: 请使用 <em>%{login}</em> 登录来激活您的帐户，
@@ -569,6 +569,7 @@ zh-CN:
         time_zone: "时区"
         auto_hide_popups: "自动隐藏成功通知"
         warn_on_leaving_unsaved: "离开未保存更改的工作包时提示我"
+        theme: "模式"
       version:
         effective_date: "完成日期"
         sharing: "共享"
@@ -905,6 +906,7 @@ zh-CN:
           attributes:
             roles:
               ungrantable: "具有不可分配的角色。"
+              more_than_one: "有一个以上的角色。"
             principal:
               unassignable: "无法分配至项目。"
         version:
@@ -1242,9 +1244,21 @@ zh-CN:
         other: "%{count} 天"
       x_minutes:
         other: "%{count} 分钟"
+      x_minutes_abbreviated:
+        other: "%{count} 分钟"
+      x_hours:
+        other: "%{count} 小时"
+      x_hours_abbreviated:
+        other: "%{count} 小时"
+      x_weeks:
+        other: "%{count} 周"
       x_months:
         other: "%{count} 个月"
+      x_years:
+        other: "%{count} 年"
       x_seconds:
+        other: "%{count} 秒"
+      x_seconds_abbreviated:
         other: "%{count} 秒"
     units:
       hour:
@@ -1527,6 +1541,7 @@ zh-CN:
   label_add_related_work_packages: "添加相关的工作包"
   label_add_subtask: "添加子任务"
   label_added: "已添加"
+  label_added_by: "由%{author}添加"
   label_added_time_by: "由 %{author} %{age} 前添加"
   label_additional_workflow_transitions_for_assignee: "当用户是受理人时允许额外的转移"
   label_additional_workflow_transitions_for_author: "当用户是作者时允许额外转移"
@@ -1632,6 +1647,7 @@ zh-CN:
   label_copy_workflow_from: "复制工作流自"
   label_copy_project: "复制项目"
   label_core_version: "核心版本"
+  label_core_build: "核心构建"
   label_current_status: "当前状态"
   label_current_version: "当前版本"
   label_custom_field_add_no_type: "将此字段添加到工作包类型中"
@@ -1776,6 +1792,10 @@ zh-CN:
   label_login: "登录"
   label_custom_logo: "自定义徽标"
   label_custom_export_logo: "自定义导出徽标"
+  label_custom_export_cover: "自定义导出封面背景"
+  label_custom_export_cover_overlay: "自定义导出封面背景叠加"
+  label_custom_export_cover_text_color: "文本颜色"
+  label_custom_pdf_export_settings: "自定义 PDF 导出设置"
   label_custom_favicon: "自定义图标"
   label_custom_touch_icon: "自定义触摸图标"
   label_logout: "注销"
@@ -1846,6 +1866,7 @@ zh-CN:
   label_operator_none: "为空"
   label_operator_equals_or: "是 (OR)"
   label_operator_equals_all: "是 (AND)"
+  label_operator_shared_with_user_any: "任一"
   label_open_menu: "打开菜单"
   label_open_work_packages: "打开"
   label_open_work_packages_plural: "打开"
@@ -1937,7 +1958,7 @@ zh-CN:
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
   label_roadmap: "路线图"
-  label_roadmap_edit: "编辑路线图%{name}"
+  label_roadmap_edit: "编辑路线图 %{name}"
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
@@ -2137,12 +2158,22 @@ zh-CN:
         assigned: '已分配'
         responsible: '负责人'
         mentioned: '被提及'
+        shared: '共享'
         subscribed: '所有'
         prefix: '接收原因为以下通知设置：%{reason}'
         date_alert_start_date: '日期提醒'
         date_alert_due_date: '日期提醒'
       see_all: '查看全部'
       updated_at: '由 %{user} 于 %{timestamp} 更新'
+    sharing:
+      work_packages:
+        allowed_actions: '你可以 %{allowed_actions} 这个工作包。这可以基于你的项目角色和权限而变化。'
+        create_account: '要访问此工作包，您需要创建一个 %{instance} 帐户。'
+        open_work_package: '打开工作包'
+        subject: '工作包 %{id} 已被共享给你'
+        summary:
+          user: '%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包'
+          group: '%{user} 向您所属的 %{group} 组共享了一个工作包。'
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
@@ -2308,6 +2339,8 @@ zh-CN:
   permission_add_work_packages: "添加工作包"
   permission_add_messages: "发布消息"
   permission_add_project: "创建项目"
+  permission_add_work_package_attachments: "添加附件"
+  permission_add_work_package_attachments_explanation: "允许在没有编辑工作包权限的情况下添加附件"
   permission_archive_project: "归档项目"
   permission_create_user: "创建用户"
   permission_manage_user: "编辑用户"
@@ -2320,6 +2353,7 @@ zh-CN:
   permission_comment_news: "评论新闻"
   permission_commit_access: "读/写访问存储库 (提交)"
   permission_copy_projects: "复制项目"
+  permission_copy_work_packages: "复制工作包"
   permission_create_backup: "创建备份"
   permission_delete_work_package_watchers: "删除关注者"
   permission_delete_work_packages: "删除工作包"
@@ -2362,23 +2396,31 @@ zh-CN:
   permission_protect_wiki_pages: "保护维基页面"
   permission_rename_wiki_pages: "重命名维基页面"
   permission_save_queries: "保存界面设置"
+  permission_search_project: "搜索项目"
   permission_select_custom_fields: "选择自定义字段"
   permission_select_project_modules: "选择项目模块"
+  permission_share_work_packages: "共享工作包"
   permission_manage_types: "选择类型"
+  permission_view_project: "查看项目"
   permission_view_changesets: "查看 OpenProject 存储库修订"
   permission_view_commit_author_statistics: "查看提交作者统计信息"
   permission_view_dashboards: "查看仪表板"
   permission_view_work_package_watchers: "查看关注者列表"
   permission_view_work_packages: "查看工作包"
   permission_view_messages: "查看消息"
+  permission_view_news: "查看新闻"
   permission_view_members: "查看成员"
   permission_view_reportings: "查看报告"
+  permission_view_shared_work_packages: "查看共享工作包"
   permission_view_time_entries: "查看消耗时间"
   permission_view_timelines: "查看时间线"
   permission_view_wiki_edits: "查看维基历史记录"
   permission_view_wiki_pages: "查看维基"
   permission_work_package_assigned: "成为受理人/责任人"
   permission_work_package_assigned_explanation: "工作包可以分配给在各自项目中拥有此角色的用户和组"
+  permission_view_project_activity: "查看项目活动"
+  permission_save_bcf_queries: "保存 BCF 查询"
+  permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
   placeholders:
     default: "-"
   project:
@@ -2414,11 +2456,12 @@ zh-CN:
   query_fields:
     active_or_archived: "激活或已存档"
     assigned_to_role: "受理人角色"
-    member_of_group: "受理人用户组"
     assignee_or_group: "受理人或所属组"
-    subproject_id: "包括子项目"
-    only_subproject_id: "仅子项目"
+    member_of_group: "受理人用户组"
     name_or_identifier: "名称或标识符"
+    only_subproject_id: "仅子项目"
+    shared_with_user: "与用户共享"
+    subproject_id: "包括子项目"
   repositories:
     at_identifier: '在 %{identifier}'
     atom_revision_feed: 'Atom 修订 feed'
@@ -2501,7 +2544,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -2636,7 +2679,7 @@ zh-CN:
   setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
-  setting_sys_api_enabled: "启用存储库管理网页服务"
+  setting_sys_api_enabled: "启用版本库管理 web 服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
@@ -2731,6 +2774,8 @@ zh-CN:
     建议使用透明背景的白色Logo。为了在普通及Retina显示屏上获得最佳效果，请确保图像尺寸为460像素 × 60像素。
   text_custom_export_logo_instructions: >
     这是在 PDF 导出文件中显示的徽标。它需要为 PNG 或 JPEG 图像文件。建议使用带有透明或白色背景的黑色或彩色徽标。
+  text_custom_export_cover_instructions: >
+    这是在您的 PDF 导出的封面页面背景中显示的图像。 它需要是大约800像素宽度 × 500像素高度的 PNG 或 JPEG 图像文件。
   text_custom_favicon_instructions: >
     这是显示在浏览器窗口/选项卡中页面标题旁边的小图标。它是具有透明背景，大小为 32x32 像素的正方形 PNG 图像文件。
   text_custom_touch_icon_instructions: >
@@ -2891,7 +2936,7 @@ zh-CN:
   warning_user_limit_reached: >
     达到用户限制。 您无法再激活任何用户。 请<a href="%{upgrade_url}">升级您的计划</a>或阻止会员以允许其他用户。
   warning_user_limit_reached_instructions: >
-    您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+    您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2917,6 +2962,26 @@ zh-CN:
     destroy:
       info: "删除工作包是不可逆的操作。"
       title: "删除工作包"
+    sharing:
+      count:
+        zero: "0 个用户"
+        one: "1 个用户"
+        other: "%{count} 个用户"
+      share: "分享"
+      label_search: "搜索要邀请的用户"
+      label_search_placeholder: "按用户名或电子邮件地址搜索"
+      label_toggle_all: "切换所有共享"
+      permissions:
+        comment: "评论"
+        comment_description: "可以查看和评论此工作包。"
+        denied: "您没有共享工作包的权限。"
+        edit: "编辑"
+        edit_description: "可以查看、评论和编辑此工作包。"
+        view: "查看"
+        view_description: "可以查看此工作包。"
+      remove: "移除"
+      text_empty_state_description: "工作包尚未共享给任何人。"
+      text_empty_state_header: "没有共享的用户"
   working_days:
     info: >
       当安排工作包时，未选择的日期将被跳过（不计入天数）。这些日期可以在工作包级别进行覆盖。

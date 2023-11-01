@@ -29,13 +29,17 @@
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesQuery
     def initialize(storage)
-      @uri = URI(storage.host).normalize
-      @oauth_client = storage.oauth_client
+      @uri = storage.uri
+      @configuration = storage.oauth_configuration
+    end
+
+    def self.call(storage:, user:, folder:)
+      new(storage).call(user:, folder:)
     end
 
     # rubocop:disable Metrics/AbcSize
     def call(user:, folder:)
-      result = Util.token(user:, oauth_client: @oauth_client) do |token|
+      result = Util.token(user:, configuration: @configuration) do |token|
         base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files")
         @location_prefix = Util.join_uri_path(base_path, token.origin_user_id.gsub(' ', '%20'))
 
@@ -54,7 +58,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when Net::HTTPNotFound
           Util.error(:not_found)
         when Net::HTTPUnauthorized
-          Util.error(:not_authorized)
+          Util.error(:unauthorized)
         else
           Util.error(:error)
         end
@@ -86,7 +90,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             xml['d'].getcontenttype
             xml['d'].getlastmodified
             xml['oc'].permissions
-            xml['oc'].send('owner-display-name')
+            xml['oc'].send(:'owner-display-name')
           end
         end
       end.to_xml

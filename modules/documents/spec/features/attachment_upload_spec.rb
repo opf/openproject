@@ -29,21 +29,17 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Upload attachment to documents',
-         js: true,
-         with_settings: {
-           journal_aggregation_time_minutes: 0
-         } do
+RSpec.describe 'Upload attachment to documents', :js,
+               with_settings: {
+                 journal_aggregation_time_minutes: 0
+               } do
   let!(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_documents
-                                       manage_documents])
+           member_with_permissions: { project => %i[view_documents manage_documents] })
   end
   let!(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_documents],
+           member_with_permissions: { project => %i[view_documents] },
            notification_settings: [build(:notification_setting, all: true)])
   end
   let!(:category) do
@@ -63,13 +59,13 @@ RSpec.describe 'Upload attachment to documents',
     it 'can upload an image' do
       visit new_project_document_path(project)
 
-      expect(page).to have_selector('#new_document', wait: 10)
+      expect(page).to have_css('#new_document', wait: 10)
       SeleniumHubWaiter.wait
       select(category.name, from: 'Category')
       fill_in "Title", with: 'New documentation'
 
       # adding an image via the attachments-list
-      find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+      find_test_selector("op-attachments--drop-box").drop(image_fixture.path)
 
       editor.attachments_list.expect_attached('image.png')
 
@@ -80,12 +76,12 @@ RSpec.describe 'Upload attachment to documents',
 
       perform_enqueued_jobs do
         click_on 'Create'
-      end
 
-      # Expect it to be present on the index page
-      expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
-      expect(page).to have_selector('#content img', count: 1)
-      expect(page).to have_content('Image uploaded on creation')
+        # Expect it to be present on the index page
+        expect(page).to have_css('.document-category-elements--header', text: 'New documentation')
+        expect(page).to have_css('#content img', count: 1)
+        expect(page).to have_content('Image uploaded on creation')
+      end
 
       document = Document.last
       expect(document.title).to eq 'New documentation'
@@ -94,7 +90,7 @@ RSpec.describe 'Upload attachment to documents',
       SeleniumHubWaiter.wait
       find('.document-category-elements--header a', text: 'New documentation').click
       expect(page).to have_current_path "/documents/#{document.id}", wait: 10
-      expect(page).to have_selector('#content img', count: 1)
+      expect(page).to have_css('#content img', count: 1)
       expect(page).to have_content('Image uploaded on creation')
 
       # Adding a second image
@@ -120,29 +116,29 @@ RSpec.describe 'Upload attachment to documents',
 
       perform_enqueued_jobs do
         click_on 'Save'
-      end
 
-      # Expect both images to be present on the show page
-      expect(page).to have_selector('#content img', count: 2)
-      expect(page).to have_content('Image uploaded on creation')
-      expect(page).to have_content('Image uploaded the second time')
-      attachments_list.expect_attached('image.png', count: 4)
+        # Expect both images to be present on the show page
+        expect(page).to have_css('#content img', count: 2)
+        expect(page).to have_content('Image uploaded on creation')
+        expect(page).to have_content('Image uploaded the second time')
+        attachments_list.expect_attached('image.png', count: 4)
+      end
 
       # Expect a mail to be sent to the user having subscribed to all notifications
       expect(ActionMailer::Base.deliveries.size)
         .to eq 1
 
       expect(ActionMailer::Base.deliveries.last.to)
-        .to match_array [other_user.mail]
+        .to contain_exactly(other_user.mail)
 
       expect(ActionMailer::Base.deliveries.last.subject)
         .to include 'New documentation'
     end
   end
 
-  context 'with direct uploads (Regression #34285)', with_direct_uploads: true do
+  context 'with direct uploads (Regression #34285)', :with_direct_uploads do
     before do
-      allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture
+      allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture # rubocop:disable RSpec/AnyInstance
     end
 
     it_behaves_like 'can upload an image'

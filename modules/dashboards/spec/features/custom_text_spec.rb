@@ -43,11 +43,11 @@ RSpec.describe 'Project description widget on dashboard', js: true do
   end
 
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
 
   let(:user) do
-    create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
@@ -136,7 +136,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
       editor.drag_attachment image_fixture.path, 'Image uploaded'
 
       within custom_text_widget.area do
-        expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+        expect(page).to have_test_selector('op-attachment-list-item', text: 'image.png')
         expect(page).not_to have_selector('notifications-upload-progress')
 
         field.save!
@@ -149,7 +149,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
           .to have_selector('#content img', count: 1)
 
         expect(page)
-          .not_to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+          .not_to have_test_selector('op-attachment-list-item', text: 'image.png')
       end
     end
   end

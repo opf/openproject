@@ -41,7 +41,14 @@ sr:
           name: Specification
         item_2:
           name: Other
-      roles:
+      work_package_roles:
+        item_0:
+          name: Work Package Editor
+        item_1:
+          name: Work Package Commenter
+        item_2:
+          name: Work Package Viewer
+      project_roles:
         item_0:
           name: Non member
         item_1:
@@ -52,7 +59,8 @@ sr:
           name: Reader
         item_4:
           name: Project admin
-        item_5:
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:

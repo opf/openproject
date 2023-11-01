@@ -272,6 +272,7 @@ ru:
       no_results_title_text: На данный момент у этого проекта нет участников.
       no_results_content_text: Добавить участника в проект
     invite_by_mail: "Отправить приглашение на %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
@@ -340,9 +341,6 @@ ru:
   themes:
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
-    dark: "Тёмная"
-    dark_dimmed: "Тёмная затемненная"
-    dark_high_contrast: "Темный высокий контраст"
   types:
     index:
       no_results_title_text: В данный момент типы отсутствуют.
@@ -431,6 +429,8 @@ ru:
       Ваша учетная запись не была активирована. Пожалуйста, подождите пока администратор активирует Вашу учетную запись.
     error_self_registration_disabled: >
       Регистрация пользователя в этой системе отключена. Попросите администратора создать учетную запись для Вас.
+    error_self_registration_limited_provider: >
+      Регистрация пользователей ограничена для поставщика системы единого входа «%{name}».  Попросите администратора активировать для вас учетную запись или изменить лимит самостоятельной регистрации для этого провайдера.
     login_with_auth_provider: "или войдите своей учетной записью"
     signup_with_auth_provider: "Или зарегистрируйтесь с помощью"
     auth_source_login: Пожалуйста, авторизируйтесь как <em>%{login}</em> для активации вашей учетной записи.
@@ -575,6 +575,7 @@ ru:
         time_zone: "Часовой пояс"
         auto_hide_popups: "Автоматически скрывать успешные уведомления"
         warn_on_leaving_unsaved: "При покидании рабочего пакета предупреждать о не сохраненных изменениях"
+        theme: "Mode"
       version:
         effective_date: "Дата окончания"
         sharing: "Совместное использование"
@@ -914,6 +915,7 @@ ru:
           attributes:
             roles:
               ungrantable: "имеет неназначаемую роль."
+              more_than_one: "имеет более чем одну роль."
             principal:
               unassignable: "не может быть присвоен проекту."
         version:
@@ -1299,16 +1301,46 @@ ru:
         few: "%{count} минут"
         many: "%{count} минут"
         other: "%{count} минут"
+      x_minutes_abbreviated:
+        one: "1 мин"
+        few: "%{count} минут"
+        many: "%{count} минут"
+        other: "%{count} минут"
+      x_hours:
+        one: "1 час"
+        few: "%{count} часов"
+        many: "%{count} часов"
+        other: "%{count} часов"
+      x_hours_abbreviated:
+        one: "1 ч"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 неделя"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_months:
         one: "1 месяц"
         few: "%{count} месяца"
         many: "%{count} месяцев"
         other: "%{count} месяца"
+      x_years:
+        one: "1 год"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
       x_seconds:
         one: "1 секунда"
         few: "%{count} секунды"
         many: "%{count} секунд"
         other: "%{count} секунды"
+      x_seconds_abbreviated:
+        one: "1 с"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "час"
@@ -1593,6 +1625,7 @@ ru:
   label_add_related_work_packages: "Добавить связанные пакеты работ"
   label_add_subtask: "Добавить подзадачу"
   label_added: "Добавлено"
+  label_added_by: "Добавлено %{author}"
   label_added_time_by: "Добавлено %{author} %{age} назад"
   label_additional_workflow_transitions_for_assignee: "Дополнительные переходы допускается, если пользователь является правопреемником"
   label_additional_workflow_transitions_for_author: "Дополнительные переходы допускаются, если пользователь является автором"
@@ -1698,6 +1731,7 @@ ru:
   label_copy_workflow_from: "Копировать рабочий поток из"
   label_copy_project: "Копировать проект"
   label_core_version: "Текущая версия"
+  label_core_build: "Core build"
   label_current_status: "Текущий статус"
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
@@ -1842,6 +1876,10 @@ ru:
   label_login: "Войти"
   label_custom_logo: "Свой логотип"
   label_custom_export_logo: "Пользовательский логотип экспорта"
+  label_custom_export_cover: "Фон обложки для экспорта"
+  label_custom_export_cover_overlay: "Накладываемое фоновое покрытие для экспорта"
+  label_custom_export_cover_text_color: "Цвет текста"
+  label_custom_pdf_export_settings: "Настройки экспорта PDF"
   label_custom_favicon: "Пользовательские иконки"
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
@@ -1912,6 +1950,7 @@ ru:
   label_operator_none: "пусто"
   label_operator_equals_or: "ИЛИ"
   label_operator_equals_all: "И"
+  label_operator_shared_with_user_any: "любой"
   label_open_menu: "Открыть меню"
   label_open_work_packages: "открыто"
   label_open_work_packages_plural: "открыт"
@@ -2206,12 +2245,22 @@ ru:
         assigned: 'Назначено'
         responsible: 'Подотчетный'
         mentioned: 'Упомянутые'
+        shared: 'Общий доступ'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
         date_alert_start_date: 'Дата оповещения'
         date_alert_due_date: 'Дата оповещения'
       see_all: 'Показать все'
       updated_at: 'Обновлено в %{timestamp} пользователем %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Открыть пакет работ'
+        subject: 'Вам предоставили общий доступ к пакету работ #%{id}'
+        summary:
+          user: ''
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
@@ -2383,6 +2432,8 @@ ru:
   permission_add_work_packages: "Добавление пакетов работ"
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создание проектов"
+  permission_add_work_package_attachments: "Добавить вложения"
+  permission_add_work_package_attachments_explanation: "Позволяет добавлять вложения без права редактирования пакетов работ"
   permission_archive_project: "Архивировать проект"
   permission_create_user: "Создать пользователей"
   permission_manage_user: "Изменить пользователей"
@@ -2395,6 +2446,7 @@ ru:
   permission_comment_news: "Комментировать новость"
   permission_commit_access: "Возможность чтения/записи в репозиторий (commit)"
   permission_copy_projects: "Копировать проект"
+  permission_copy_work_packages: "Копировать пакеты работ"
   permission_create_backup: "Создание резервных копий"
   permission_delete_work_package_watchers: "Удалить наблюдателей"
   permission_delete_work_packages: "Удалить пакеты работ"
@@ -2437,23 +2489,31 @@ ru:
   permission_protect_wiki_pages: "Защитить wiki-страницы"
   permission_rename_wiki_pages: "Переименование wiki-страниц"
   permission_save_queries: "Сохранить представления"
+  permission_search_project: "Поиск проекта"
   permission_select_custom_fields: "Выберите настраиваемые поля"
   permission_select_project_modules: "Выбор модулей проекта"
+  permission_share_work_packages: "Поделиться пакетами работ"
   permission_manage_types: "Выберите типы"
+  permission_view_project: "Просмотр проектов"
   permission_view_changesets: "Просмотр изменений репозитория в OpenProject"
   permission_view_commit_author_statistics: "Посмотреть статистику автора, внесшего свою часть работы"
   permission_view_dashboards: "Просмотр панелей инструментов"
   permission_view_work_package_watchers: "Посмотреть список наблюдателей"
   permission_view_work_packages: "Просмотр пакетов работ"
   permission_view_messages: "Просмотр сообщений"
+  permission_view_news: "Просмотр новостей"
   permission_view_members: "Просмотреть участников"
   permission_view_reportings: "Просмотр отчетов"
+  permission_view_shared_work_packages: "Просмотр общих пакетов работ"
   permission_view_time_entries: "Просмотр потраченного времени"
   permission_view_timelines: "Просмотр графиков"
   permission_view_wiki_edits: "Просмотр истории wiki"
   permission_view_wiki_pages: "Просмотр wiki"
   permission_work_package_assigned: "Назначиться/стать отвественным"
   permission_work_package_assigned_explanation: "Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта"
+  permission_view_project_activity: "Просмотр деятельности по проекту"
+  permission_save_bcf_queries: "Сохранить запросы BCF"
+  permission_manage_public_bcf_queries: "Управление публичными BCF запросами"
   placeholders:
     default: "-"
   project:
@@ -2489,11 +2549,12 @@ ru:
   query_fields:
     active_or_archived: "активно или в архиве"
     assigned_to_role: "Роль назначенного"
-    member_of_group: "Группа назначенного"
     assignee_or_group: "Назначенец или его группа"
-    subproject_id: "Включая подпроект"
-    only_subproject_id: "Только подпроект"
+    member_of_group: "Группа назначенного"
     name_or_identifier: "Имя или идентификатор"
+    only_subproject_id: "Только подпроект"
+    shared_with_user: "Доступно пользователю"
+    subproject_id: "Включая подпроект"
   repositories:
     at_identifier: 'в %{identifier}'
     atom_revision_feed: 'Atom-канал'
@@ -2806,6 +2867,8 @@ ru:
     Рекомендуется использовать белый логотип с прозрачным фоном. Для оптимального отображения на обычных и retina-дисплеях размер картинки должен быть 460 на 110 пикселей.
   text_custom_export_logo_instructions: >
     Это логотип, который отображается при экспорте в формате PDF. Это должен быть файл изображения в формате PNG или JPEG. Рекомендуется использовать черный или цветной логотип на прозрачном или белом фоне.
+  text_custom_export_cover_instructions: >
+    Это изображение, которое появляется на обложке страницы в экспорте PDF. Он должен быть около 800px ширины на 500px высоты в PNG или JPEG файл изображения.
   text_custom_favicon_instructions: >
     Это крошечный значок, который появляется в окне / вкладке вашего браузера рядом с заголовком страницы. Это должен быть файл изображения в формате PNG размером 32 на 32 пикселя с прозрачным фоном.
   text_custom_touch_icon_instructions: >
@@ -2995,6 +3058,26 @@ ru:
     destroy:
       info: "Удаление рабочего пакета – действие необратимое."
       title: "Удалить пакет работ"
+    sharing:
+      count:
+        zero: "0 пользователей"
+        one: "1 пользователь"
+        other: "%{count} пользователей"
+      share: "Share"
+      label_search: "Искать пользователей для приглашения"
+      label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Комментарий"
+        comment_description: "Может просматривать и комментировать этот пакет работ."
+        denied: "У вас нет прав на предоставление общего доступа к пакетам работ."
+        edit: "Правка"
+        edit_description: "Может просматривать, комментировать и редактировать этот пакет работ."
+        view: "Просмотр"
+        view_description: "Может просматривать этот пакет работ."
+      remove: "Удалить"
+      text_empty_state_description: "Пакет работ еще не передан никому."
+      text_empty_state_header: "Нет общих пользователей"
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.

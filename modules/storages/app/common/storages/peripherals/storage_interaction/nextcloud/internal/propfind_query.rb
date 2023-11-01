@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -61,10 +63,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
     # ].freeze
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
       @group = storage.group
+    end
+
+    def self.call(storage:, depth:, path:, props:)
+      new(storage).call(depth:, path:, props:)
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -114,13 +120,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
 
         ServiceResult.success(result:)
       when Net::HTTPMethodNotAllowed
-        UTIL.error(:not_allowed)
-      when Net::HTTPUnauthorized
-        UTIL.error(:not_authorized)
+        UTIL.error(:not_allowed, 'Outbound request method not allowed', response)
       when Net::HTTPNotFound
-        UTIL.error(:not_found)
+        UTIL.error(:not_found, 'Outbound request destination not found', response)
+      when Net::HTTPUnauthorized
+        UTIL.error(:unauthorized, 'Outbound request not authorized', response)
       else
-        UTIL.error(:error)
+        UTIL.error(:error, 'Outbound request failed', response)
       end
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,12 +29,14 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
-  let(:storage) { build_stubbed(:storage) }
+  let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:container) { build_stubbed(:work_package) }
+  let(:project) { container.project }
   let(:creator) { build_stubbed(:user, firstname: 'Rey', lastname: 'Palpatine') }
   let(:origin_permission) { :view }
   let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:, origin_permission:) }
@@ -122,24 +126,10 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
-    describe 'originOpen' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'originOpen' }
-        let(:href) { "#{storage.host}/index.php/f/#{file_link.origin_id}?openfile=1" }
-      end
-    end
-
     describe 'staticOriginOpen' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'staticOriginOpen' }
         let(:href) { "/api/v3/file_links/#{file_link.id}/open" }
-      end
-    end
-
-    describe 'originOpenLocation' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'originOpenLocation' }
-        let(:href) { "#{storage.host}/index.php/f/#{file_link.origin_id}?openfile=0" }
       end
     end
 

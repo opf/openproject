@@ -134,7 +134,7 @@ RSpec.describe API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
       it 'busts the cache on different OpenProject::VERSION.product_version' do
         allow(OpenProject::VERSION)
           .to receive(:instance_variable_get)
-          .with(:@product_version)
+                .with(:@product_sha)
           .and_return(4)
 
         allow(instance)

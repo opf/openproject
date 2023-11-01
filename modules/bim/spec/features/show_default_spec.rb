@@ -33,12 +33,11 @@ RSpec.describe 'show default model',
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:show_default_page) { Pages::IfcModels::ShowDefault.new(project) }
-  let(:role) { create(:role, permissions: %i[view_ifc_models view_work_packages manage_ifc_models]) }
+  let(:role) { create(:project_role, permissions: %i[view_ifc_models view_work_packages manage_ifc_models]) }
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let(:model) do

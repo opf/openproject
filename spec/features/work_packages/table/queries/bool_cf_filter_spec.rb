@@ -39,7 +39,7 @@ RSpec.describe 'Work package filtering by bool custom field', js: true do
       project.work_package_custom_fields << cf
     end
   end
-  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
   let!(:work_package_true) do
     create(:work_package,
            type:,
@@ -71,8 +71,7 @@ RSpec.describe 'Work package filtering by bool custom field', js: true do
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages save_queries])
+           member_with_permissions: { project => %i[view_work_packages save_queries] })
   end
 
   it 'shows the work package matching the bool cf filter' do
@@ -86,7 +85,7 @@ RSpec.describe 'Work package filtering by bool custom field', js: true do
 
     # Turn the added filter to the "true" value.
     # Ideally this would be the default.
-    page.find("#div-values-customField#{bool_cf.id} [data-qa-selector='spot-switch-handle']").click
+    page.find("#div-values-customField#{bool_cf.id} #{test_selector('spot-switch-handle')}").click
 
     wp_table.ensure_work_package_not_listed!(work_package_false, work_package_without, work_package_other_type)
     wp_table.expect_work_package_listed(work_package_true)
@@ -103,7 +102,7 @@ RSpec.describe 'Work package filtering by bool custom field', js: true do
     filters.open
 
     # Inverting the filter
-    page.find("#div-values-customField#{bool_cf.id} [data-qa-selector='spot-switch-handle']").click
+    page.find("#div-values-customField#{bool_cf.id} #{test_selector('spot-switch-handle')}").click
 
     wp_table.ensure_work_package_not_listed!(work_package_true)
     wp_table.expect_work_package_listed(work_package_false, work_package_without, work_package_other_type)

@@ -34,19 +34,17 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
   end
   shared_let(:user_without_rights) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[
+           member_with_permissions: { project => %w[
              view_work_packages edit_work_packages add_work_packages
              view_team_planner
-           ])
+           ] })
   end
   shared_let(:user_with_rights) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[
+           member_with_permissions: { project => %w[
              view_work_packages edit_work_packages add_work_packages
              view_team_planner manage_team_planner
-           ])
+           ] })
   end
 
   context 'within the global menu' do
@@ -79,7 +77,7 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
             click_link 'Team planners'
           end
 
-          expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
+          expect(page).not_to have_test_selector('team-planner--create-button')
         end
       end
 
@@ -91,7 +89,7 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
             click_link 'Team planners'
           end
 
-          expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
+          expect(page).not_to have_test_selector('team-planner--create-button')
         end
       end
     end
@@ -107,7 +105,7 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
             click_link 'Team planners'
           end
 
-          expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
+          expect(page).not_to have_test_selector('team-planner--create-button')
         end
       end
 
@@ -119,7 +117,7 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
             click_link 'Team planners'
           end
 
-          expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
+          expect(page).to have_test_selector('team-planner--create-button')
         end
       end
     end

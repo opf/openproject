@@ -599,6 +599,7 @@ uk:
         processed: 'оброблено'
         prioritized: 'надано пріоритет'
         dateAlert: 'Оповіщення про дату'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Дата віхи'
         overdue: 'Прострочено'
@@ -645,6 +646,7 @@ uk:
         mentioned: 'Згадано'
         watched: 'Спостерігач'
         date_alert: 'Оповіщення про дату'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Ви можете змінити <a target="_blank" href="%{url}">налаштування сповіщень</a>, щоб ніколи не пропускати важливі оновлення.'
         title: "Налаштування сповіщень"
@@ -667,6 +669,7 @@ uk:
             description: 'Отримувати сповіщення щоразу, коли хтось згадує мене де завгодно'
           assignee: 'Виконавець'
           responsible: 'Відповідальний'
+          shared: 'Shared'
           watched: 'Спостерігач'
           work_package_commented: 'Усі нові коментарі'
           work_package_created: 'Нові пакети робіт'
@@ -983,6 +986,7 @@ uk:
         recently_created: "Нещодавно створений"
         all_open: "Всі відкрити"
         summary: "Резюме"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Перейти до розбиття таблиці на сторінки"
         label_pagination: "Клацніть тут, щоб пропустити пакунки робіт і перейти до розбивки на сторінки"
@@ -1019,6 +1023,12 @@ uk:
       scheduling:
         is_parent: "Дати цього пакета робіт автоматично виводяться з його дочірніх елементів. Активуйте «Ручне планування», щоб установити ці дати."
         is_switched_from_manual_to_automatic: "Можливо, дати цього пакета робіт знадобиться перерахувати після переходу з ручного на автоматичне планування через зв’язок з іншими пакетами робіт."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Налаштуйте таблицю робочих пакетів'
         summary: "Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт."

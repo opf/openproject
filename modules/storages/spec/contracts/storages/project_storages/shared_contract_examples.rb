@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,19 +30,23 @@
 
 # Include OpenProject support/*.rb files
 require 'spec_helper'
+require_module_spec_helper
+require 'contracts/shared/model_contract_shared_context'
 
 # Purpose: Common testing logic shared between create and update specs.
 RSpec.shared_examples_for 'ProjectStorages contract' do
+  include_context 'ModelContract shared context'
+
   let(:current_user) { create(:user) }
   # The user needs "edit_project" to see the project's settings page
-  let(:role) { create(:role, permissions: %i[manage_storages_in_project edit_project]) }
+  let(:role) { create(:project_role, permissions: %i[manage_storages_in_project edit_project]) }
   # Create a project managed by current user and with Storages enabled.
   let(:project) do
     create(:project,
            members: { current_user => role },
            enabled_module_names: %i[storages])
   end
-  let(:storage) { create(:storage, name: "Storage 1") }
+  let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
   let(:storage_creator) { current_user }
 
   # This is not 100% precise, as the required permission is not :admin
@@ -74,4 +80,6 @@ RSpec.shared_examples_for 'ProjectStorages contract' do
       it_behaves_like 'contract user is unauthorized'
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

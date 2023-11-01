@@ -52,9 +52,9 @@ RSpec.describe 'OpenProject child pages macro' do
            identifier: 'other-project',
            enabled_module_names: %w[wiki])
   end
-  let(:role) { create(:role, permissions: [:view_wiki_pages]) }
+  let(:role) { create(:project_role, permissions: [:view_wiki_pages]) }
   let(:user) do
-    create(:user, member_in_projects: [project, member_project], member_through_role: role)
+    create(:user, member_with_roles: { project => role, member_project => role })
   end
 
   let(:current_page) do

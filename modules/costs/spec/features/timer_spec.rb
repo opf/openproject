@@ -39,7 +39,7 @@ RSpec.describe 'Work Package timer', js: true do
   let(:time_logging_modal) { Components::TimeLoggingModal.new }
   let(:timer_button) { Components::WorkPackages::TimerButton.new }
 
-  let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before do
     login_as user
@@ -61,7 +61,7 @@ RSpec.describe 'Work Package timer', js: true do
       page.find('.op-top-menu-user').click
       expect(page).to have_selector('.op-timer-account-menu', wait: 10)
       expect(page).to have_selector('.op-timer-account-menu--wp-details', text: "##{work_package_a.id}: WP A")
-      page.find('[data-qa-selector="op-timer-account-menu-stop"]').click
+      page.find_test_selector('op-timer-account-menu-stop').click
 
       time_logging_modal.is_visible true
 

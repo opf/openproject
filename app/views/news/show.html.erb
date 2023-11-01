@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}".html_safe do %>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
+  <% if User.current.allowed_in_project?(:manage_news, @project) %>
     <li class="toolbar-item">
       <%= link_to(edit_news_path(@news),
         accesskey: accesskey(:edit),
@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
   <li class="toolbar-item">
     <%= watcher_link(@news, User.current) %>
   </li>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
+  <% if User.current.allowed_in_project?(:manage_news, @project) %>
     <li class="toolbar-item">
       <%= link_to(news_path(@news),
         data: { confirm: t(:text_are_you_sure) },

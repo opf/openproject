@@ -270,6 +270,7 @@ nl:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
       no_results_content_text: Een lid toevoegen aan het project
     invite_by_mail: "Stuur een uitnodiging naar %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Reset-toegangstoken mislukt: %{error}"
@@ -338,9 +339,6 @@ nl:
   themes:
     light: "Licht"
     light_high_contrast: "Licht hoog contrast"
-    dark: "Donker"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Donker hoog contrast"
   types:
     index:
       no_results_title_text: Er zijn momenteel geen types.
@@ -427,6 +425,8 @@ nl:
       Uw account is nog niet geactiveerd. Wacht totdat een beheerder uw account activeert.
     error_self_registration_disabled: >
       Gebruikersregistratie is uitgeschakeld op dit systeem. Vraag een beheerder om een account voor u aan te maken.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "of log in met een bestaand account"
     signup_with_auth_provider: "of meld je aan via"
     auth_source_login: Gelieve in te loggen als <em>%{login}</em> om uw account te activeren.
@@ -571,6 +571,7 @@ nl:
         time_zone: "Tijdzone"
         auto_hide_popups: "Automatisch verbergen geslaagd-meldingen"
         warn_on_leaving_unsaved: "Mij waarschuwen bij het verlaten van een werkpakket met niet-opgeslagen wijzigingen"
+        theme: "Mode"
       version:
         effective_date: "Einddatum"
         sharing: "Delen"
@@ -908,6 +909,7 @@ nl:
           attributes:
             roles:
               ungrantable: "heeft een niet-toewijsbare rol."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "kan niet worden toegewezen aan een project."
         version:
@@ -1261,12 +1263,30 @@ nl:
       x_minutes:
         one: "1 minuut"
         other: "%{count} minuten"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         one: "%{count} maand"
         other: "%{count} maanden"
+      x_years:
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         one: "1 seconde"
         other: "%{count} seconden"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "uur"
@@ -1549,6 +1569,7 @@ nl:
   label_add_related_work_packages: "Toevoegen van verwante werkpakketten"
   label_add_subtask: "Subtaak toevoegen"
   label_added: "toegevoegd"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Toegevoegd door %{author} %{age} geleden"
   label_additional_workflow_transitions_for_assignee: "Extra overgangen zijn toegestaan als de gebruiker de eigenaar is"
   label_additional_workflow_transitions_for_author: "Extra overgangen zijn toegestaan als de gebruiker de auteur is"
@@ -1654,6 +1675,7 @@ nl:
   label_copy_workflow_from: "Kopieer workflow van"
   label_copy_project: "Project kopiëren"
   label_core_version: "Core-versie"
+  label_core_build: "Core build"
   label_current_status: "Huidige status"
   label_current_version: "Huidige versie"
   label_custom_field_add_no_type: "Voegt dit veld toe aan een werkpakket type"
@@ -1798,6 +1820,10 @@ nl:
   label_login: "Aanmelden"
   label_custom_logo: "Eigen logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Aangepaste favicon"
   label_custom_touch_icon: "Aangepaste touch-pictogram"
   label_logout: "Afmelden"
@@ -1868,6 +1894,7 @@ nl:
   label_operator_none: "is leeg"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Menu openen"
   label_open_work_packages: "Open"
   label_open_work_packages_plural: "Open"
@@ -2160,12 +2187,22 @@ nl:
         assigned: 'Toegewezen'
         responsible: 'Verantwoording afleggen'
         mentioned: 'Genoemd'
+        shared: 'Shared'
         subscribed: 'alle'
         prefix: 'Ontvangen vanwege de meldingsinstelling: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'Alles bekijken'
       updated_at: 'Bijgewerkt op %{timestamp} door %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Een nieuwe gebruiker (%{value}) heeft zich geregistreerd. Het account wacht op uw goedkeuring:"
   mail_body_account_information: "Uw accountinformatie"
   mail_body_account_information_external: "U kunt uw account %{value} gebruiken om in te loggen."
@@ -2335,6 +2372,8 @@ nl:
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Project archiveren"
   permission_create_user: "Gebruikers aanmaken"
   permission_manage_user: "Gebruikers bewerken"
@@ -2347,6 +2386,7 @@ nl:
   permission_comment_news: "Opmerking nieuws"
   permission_commit_access: "Lees/schrijf toegang tot opslagplaats (bevestig)"
   permission_copy_projects: "Kopiëren van projecten"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Kijkers verwijderen"
   permission_delete_work_packages: "Werkpakketten verwijderen"
@@ -2389,23 +2429,31 @@ nl:
   permission_protect_wiki_pages: "Wiki-pagina's beveiligen"
   permission_rename_wiki_pages: "Wiki-pagina's wijzigen"
   permission_save_queries: "Weergaves opslaan"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Aangepaste velden selecteren"
   permission_select_project_modules: "Selecteer project modules"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Selecteer typen"
+  permission_view_project: "View projects"
   permission_view_changesets: "Bekijk opslagplaats wijzigingen in OpenProject"
   permission_view_commit_author_statistics: "Bekijk de commit auteur statistieken"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Lijst van de watchers weergave"
   permission_view_work_packages: "Bekijk werkpakketten"
   permission_view_messages: "Berichten weergeven"
+  permission_view_news: "View news"
   permission_view_members: "Bekijk leden"
   permission_view_reportings: "Weergave rapporteringen"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Verbruikte tijd weergeven"
   permission_view_timelines: "Weergave tijdlijnen"
   permission_view_wiki_edits: "Wiki weergavegeschiedenis"
   permission_view_wiki_pages: "Weergave wiki"
   permission_work_package_assigned: "Toewijzer/verantwoordelijk worden"
   permission_work_package_assigned_explanation: "Werkpakketten kunnen worden toegewezen aan gebruikers en groepen met deze rol in het respectieve project"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2441,11 +2489,12 @@ nl:
   query_fields:
     active_or_archived: "Actieve of gearchiveerde"
     assigned_to_role: "Werknemer's rol"
-    member_of_group: "Werknemer's groep"
     assignee_or_group: "Toegekend aan of hoort bij groep"
-    subproject_id: "Inclusief subproject"
-    only_subproject_id: "Alleen subproject"
+    member_of_group: "Werknemer's groep"
     name_or_identifier: "Naam of id"
+    only_subproject_id: "Alleen subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Inclusief subproject"
   repositories:
     at_identifier: 'op %{identifier}'
     atom_revision_feed: 'Atom wijzigingsfeed'
@@ -2760,6 +2809,8 @@ nl:
     Een wit logo op transparante achtergrond wordt aanbevolen. Voor de beste resultaten op zowel conventionele en retina displays, doet u door ervoor te zorgen dat uw afbeelding afmetingen zijn 460px bij 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -2947,6 +2998,26 @@ nl:
     destroy:
       info: "Het verwijderen van het werkpakket is een onomkeerbare actie."
       title: "Werkpakket verwijderen"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

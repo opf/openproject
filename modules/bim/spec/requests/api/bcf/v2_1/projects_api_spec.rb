@@ -29,19 +29,17 @@
 require 'spec_helper'
 require 'rack/test'
 
-require_relative './shared_responses'
+require_relative 'shared_responses'
 
 RSpec.describe 'BCF 2.1 projects resource', content_type: :json do
   include Rack::Test::Methods
 
   let(:view_only_user) do
-    create(:user,
-           member_in_project: project)
+    create(:user, member_with_permissions: { project => %i[view_work_packages] })
   end
   let(:edit_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: [:edit_project])
+           member_with_permissions: { project => [:edit_project] })
   end
   let(:non_member_user) do
     create(:user)

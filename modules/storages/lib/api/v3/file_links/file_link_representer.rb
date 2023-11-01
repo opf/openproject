@@ -50,7 +50,6 @@ module API::V3::FileLinks
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
     include ::API::Caching::CachedRepresenter
-    include Storages::Peripherals::StorageUrlHelper
 
     property :id
 
@@ -90,21 +89,9 @@ module API::V3::FileLinks
       PERMISSION_LINKS[represented.origin_permission]
     end
 
-    link :originOpen do
-      {
-        href: storage_url_open_file(represented.storage, represented.origin_id)
-      }
-    end
-
     link :staticOriginOpen do
       {
         href: api_v3_paths.file_link_open(represented.id)
-      }
-    end
-
-    link :originOpenLocation do
-      {
-        href: storage_url_open_file(represented.storage, represented.origin_id, open_location: true)
       }
     end
 

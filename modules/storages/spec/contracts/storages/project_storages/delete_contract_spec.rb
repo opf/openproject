@@ -34,7 +34,7 @@ RSpec.describe Storages::ProjectStorages::DeleteContract do
   include_context 'ModelContract shared context'
 
   let(:current_user) { create(:user) }
-  let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
+  let(:role) { create(:project_role, permissions: [:manage_storages_in_project]) }
   let(:project) { create(:project, members: { current_user => role }) }
   let(:project_storage) { create(:project_storage, project:) }
   let(:contract) { described_class.new(project_storage, current_user) }
@@ -47,11 +47,13 @@ RSpec.describe Storages::ProjectStorages::DeleteContract do
   # Now we remove the permissions from the user by creating a role without special perms.
   context 'without manage_storages_in_project permission for project' do
     # existing_role is a role _without_ the :manage_storages_in_project permission
-    let(:role) { create(:existing_role) }
+    let(:role) { create(:project_role) }
 
     it_behaves_like 'contract is invalid'
   end
 
   # Generic checks that the contract is valid for valid admin, but invalid otherwise
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  include_examples 'contract reuses the model errors'
 end

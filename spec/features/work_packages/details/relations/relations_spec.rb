@@ -149,13 +149,12 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
   describe 'with limited permissions' do
     let(:permissions) { %i(view_work_packages) }
     let(:user_role) do
-      create(:role, permissions:)
+      create(:project_role, permissions:)
     end
 
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: user_role)
+             member_with_roles: { project => user_role })
     end
 
     context 'as view-only user, with parent set' do
@@ -249,7 +248,7 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
 
         # Wait for the relations table to be present
         sleep 2
-        expect(page).to have_selector("[data-qa-selector='op-relation--row-subject']")
+        expect(page).to have_test_selector('op-relation--row-subject')
 
         scroll_to_element find('.detail-panel--relations')
 

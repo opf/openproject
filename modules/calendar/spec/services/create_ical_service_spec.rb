@@ -64,7 +64,7 @@ RSpec.describe Calendar::CreateICalService, type: :model do
   let(:frozen_date_time) { DateTime.now }
 
   let(:formatted_result) do
-    subject.result.gsub("\r\n ", "").gsub("\r", "").gsub("\\n", "\n")
+    subject.result.gsub("\r\n ", "").delete("\r").gsub("\\n", "\n")
   end
 
   before do
@@ -84,11 +84,12 @@ RSpec.describe Calendar::CreateICalService, type: :model do
 
   # rubocop:disable RSpec/ExampleLength
   it 'converts work_packages to an ical string which contains all required ical fields in the correct format and order' do
-    expected_ical_string = <<~EOICAL.gsub("\r ", "").gsub("\r", "")
+    expected_ical_string = <<~EOICAL.gsub("\r ", "").delete("\r")
       BEGIN:VCALENDAR
       VERSION:2.0
       PRODID:-//OpenProject GmbH//OpenProject Core Project//EN
       CALSCALE:GREGORIAN
+      REFRESH-INTERVAL;VALUE=DURATION:PT1H
       X-WR-CALNAME:#{query_name}
       BEGIN:VEVENT
       DTSTAMP:#{work_package_with_due_date.updated_at.utc.strftime('%Y%m%dT%H%M%SZ')}

@@ -45,12 +45,11 @@ RSpec.describe 'API v3 Principals resource' do
     let(:project) { create(:project) }
     let(:other_project) { create(:project) }
     let(:non_member_project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { [] }
     let(:user) do
       user = create(:user,
-                    member_in_project: project,
-                    member_through_role: role,
+                    member_with_roles: { project => role },
                     lastname: 'Aaaa',
                     mail: 'aaaa@example.com')
 
@@ -63,26 +62,22 @@ RSpec.describe 'API v3 Principals resource' do
     end
     let!(:other_user) do
       create(:user,
-             member_in_project: other_project,
-             member_through_role: role,
+             member_with_roles: { other_project => role },
              lastname: 'Bbbb')
     end
     let!(:user_in_non_member_project) do
       create(:user,
-             member_in_project: non_member_project,
-             member_through_role: role,
+             member_with_roles: { non_member_project => role },
              lastname: 'Cccc')
     end
     let!(:group) do
       create(:group,
-             member_in_project: project,
-             member_through_role: role,
+             member_with_roles: { project => role },
              lastname: 'Gggg')
     end
     let!(:placeholder_user) do
       create(:placeholder_user,
-             member_in_project: project,
-             member_through_role: role,
+             member_with_roles: { project => role },
              name: 'Pppp')
     end
 
@@ -165,6 +160,30 @@ RSpec.describe 'API v3 Principals resource' do
 
       it_behaves_like 'API V3 collection response', 1, 1, 'User' do
         let(:elements) { [current_user] }
+      end
+    end
+
+    context 'with the permission to `manage_members`' do
+      let(:permissions) { [:manage_members] }
+
+      it_behaves_like 'API V3 collection response', 5, 5 do
+        let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
+      end
+    end
+
+    context 'with the permission to `manage_user`' do
+      let(:permissions) { [:manage_user] }
+
+      it_behaves_like 'API V3 collection response', 5, 5 do
+        let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
+      end
+    end
+
+    context 'with the permission to `share_work_packages`' do
+      let(:permissions) { [:share_work_packages] }
+
+      it_behaves_like 'API V3 collection response', 5, 5 do
+        let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
       end
     end
 

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'API v3 project storages resource', content_type: :json, webmock: true do
+RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:view_permissions) { %i(view_work_packages view_file_links) }
@@ -38,9 +38,9 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
   let(:project1) { create(:project) }
   let(:project2) { create(:project) }
   let(:project3) { create(:project) }
-  let(:storage1) { create(:storage) }
-  let(:storage2) { create(:storage) }
-  let(:storage3) { create(:storage) }
+  let(:storage1) { create(:nextcloud_storage) }
+  let(:storage2) { create(:nextcloud_storage) }
+  let(:storage3) { create(:nextcloud_storage) }
   let!(:project_storage11) { create(:project_storage, project: project1, storage: storage1) }
   let!(:project_storage12) { create(:project_storage, project: project1, storage: storage2) }
   let!(:project_storage13) { create(:project_storage, project: project1, storage: storage3) }
@@ -108,7 +108,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
         end
       end
 
-      context 'with storage filter' do
+      context 'with storage id filter' do
         let(:filters) { [{ storageId: { operator: "=", values: [storage_id] } }] }
         let(:path) { api_v3_paths.path_for(:project_storages, filters:) }
 
@@ -120,15 +120,45 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
           end
         end
 
-        context 'with invalid storage id' do
+        context 'with unknown storage id' do
           let(:storage_id) { '1337' }
+
+          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+            let(:elements) { [] }
+          end
+        end
+
+        context 'with storage id of storage with no linked projects' do
+          let(:storage) { create(:nextcloud_storage) }
+          let(:storage_id) { storage.id }
+
+          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+            let(:elements) { [] }
+          end
+        end
+      end
+
+      context 'with storage url filter' do
+        let(:filters) { [{ storageUrl: { operator: "=", values: [storage_url] } }] }
+        let(:path) { api_v3_paths.path_for(:project_storages, filters:) }
+
+        describe 'gets all project storages of the filtered project' do
+          let(:storage_url) { CGI.escape(storage3.host) }
+
+          it_behaves_like 'API V3 collection response', 2, 2, 'ProjectStorage', 'Collection' do
+            let(:elements) { [project_storage23, project_storage13] }
+          end
+        end
+
+        context 'with invalid storage url' do
+          let(:storage_url) { nil }
 
           it_behaves_like 'invalid filters'
         end
 
-        context 'with storage id of storage with no linked projects' do
-          let(:storage) { create(:storage) }
-          let(:storage_id) { storage.id }
+        context 'with storage url of storage with no linked projects' do
+          let(:storage) { create(:nextcloud_storage) }
+          let(:storage_url) { storage.host }
 
           it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
             let(:elements) { [] }
@@ -139,7 +169,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
 
     context 'as user with permissions' do
       let(:current_user) do
-        create(:user, member_in_projects: [project1, project3], member_with_permissions: view_permissions)
+        create(:user, member_with_permissions: { project1 => view_permissions, project3 => view_permissions })
       end
 
       it_behaves_like 'API V3 collection response', 4, 4, 'ProjectStorage', 'Collection' do
@@ -156,7 +186,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
 
     context 'as user without permissions' do
       let(:current_user) do
-        create(:user, member_in_projects: [project1, project2, project3], member_with_permissions: [])
+        create(:user, member_with_permissions: { project1 => [], project2 => [], project3 => [] })
       end
 
       it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
@@ -176,7 +206,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
     let(:project_storage_id) { project_storage.id }
     let(:path) { api_v3_paths.project_storage(project_storage_id) }
     let(:current_user) do
-      create(:user, member_in_project: project3, member_with_permissions: view_permissions)
+      create(:user, member_with_permissions: { project3 => view_permissions })
     end
 
     subject { last_response.body }
@@ -189,7 +219,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
 
     context 'if user has permission to see file storages in project' do
       let(:current_user) do
-        create(:user, member_in_project: project3, member_with_permissions: [])
+        create(:user, member_with_permissions: { project3 => [] })
       end
 
       it_behaves_like 'not found'
@@ -203,6 +233,63 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
 
     context 'if project storage does not exists' do
       let(:project_storage_id) { '1337' }
+
+      it_behaves_like 'not found'
+    end
+  end
+
+  describe 'GET /api/v3/project_storages/:id/open' do
+    let(:path) { api_v3_paths.project_storage_open(project_storage11.id) }
+    let(:location) { 'https://deathstar.storage.org/files' }
+    let(:location_project_folder) { 'https://deathstar.storage.org/files/data/project_destroy_alderan' }
+    let(:current_user) do
+      create(:user, member_with_permissions: { project1 => view_permissions })
+    end
+
+    before do
+      Storages::Peripherals::Registry.stub(
+        'queries.nextcloud.open_storage',
+        ->(_) { ServiceResult.success(result: location) }
+      )
+      Storages::Peripherals::Registry.stub(
+        'queries.nextcloud.open_file_link',
+        ->(_) { ServiceResult.success(result: location_project_folder) }
+      )
+    end
+
+    context 'as admin' do
+      let(:current_user) { create(:admin) }
+
+      it_behaves_like 'redirect response'
+    end
+
+    context 'if user belongs to a project related to project storage' do
+      it_behaves_like 'redirect response'
+
+      context 'if project storage has a configured project folder' do
+        let!(:project_storage12) do
+          create(:project_storage,
+                 project: project1,
+                 storage: storage2,
+                 project_folder_id: '1337',
+                 project_folder_mode: 'manual')
+        end
+        let(:path) { api_v3_paths.project_storage_open(project_storage12.id) }
+
+        it_behaves_like 'redirect response' do
+          let(:location) { location_project_folder }
+        end
+      end
+
+      context 'if user is missing permission view_file_links' do
+        let(:view_permissions) { [] }
+
+        it_behaves_like 'not found'
+      end
+    end
+
+    context 'if user is not member of the project' do
+      let(:path) { api_v3_paths.project_storage_open(project_storage21.id) }
 
       it_behaves_like 'not found'
     end

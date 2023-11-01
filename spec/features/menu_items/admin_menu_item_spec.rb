@@ -44,9 +44,9 @@ RSpec.describe 'Admin menu items',
 
   context 'without having any menu items hidden in configuration' do
     it 'must display all menu items' do
-      expect(page).to have_selector('[data-qa-selector="menu-blocks--container"]')
-      expect(page).to have_selector('[data-qa-selector="menu-block"]', count: 20)
-      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', count: 21) # All plus 'overview'
+      expect(page).to have_test_selector('menu-blocks--container')
+      expect(page).to have_test_selector('menu-block', count: 20)
+      expect(page).to have_test_selector('op-menu--item-action', count: 21) # All plus 'overview'
     end
   end
 
@@ -55,23 +55,23 @@ RSpec.describe 'Admin menu items',
             'hidden_menu_items' => { 'admin_menu' => ['colors'] }
           } do
     it 'must not display the hidden menu items and blocks' do
-      expect(page).to have_selector('[data-qa-selector="menu-blocks--container"]')
-      expect(page).to have_selector('[data-qa-selector="menu-block"]', count: 19)
-      expect(page).not_to have_selector('[data-qa-selector="menu-block"]', text: I18n.t(:label_color_plural))
+      expect(page).to have_test_selector('menu-blocks--container')
+      expect(page).to have_test_selector('menu-block', count: 19)
+      expect(page).not_to have_test_selector('menu-block', text: I18n.t(:label_color_plural))
 
-      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', count: 20) # All plus 'overview'
-      expect(page).not_to have_selector('[data-qa-selector="op-menu--item-action"]', text: I18n.t(:label_color_plural))
+      expect(page).to have_test_selector('op-menu--item-action', count: 20) # All plus 'overview'
+      expect(page).not_to have_test_selector('op-menu--item-action', text: I18n.t(:label_color_plural))
     end
   end
 
   context 'when logged in with a non-admin user with specific admin permissions' do
-    shared_let(:user) { create(:user, global_permission: %i[manage_user create_backup]) }
+    shared_let(:user) { create(:user, global_permissions: %i[manage_user create_backup]) }
 
     it 'must display only the actions allowed by global permissions' do
-      expect(page).to have_selector('[data-qa-selector="menu-block"]', text: I18n.t('label_user_plural'))
-      expect(page).to have_selector('[data-qa-selector="menu-block"]', text: I18n.t('label_backup'))
-      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', text: I18n.t('label_user_plural'))
-      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', text: I18n.t('label_backup'))
+      expect(page).to have_test_selector('menu-block', text: I18n.t('label_user_plural'))
+      expect(page).to have_test_selector('menu-block', text: I18n.t('label_backup'))
+      expect(page).to have_test_selector('op-menu--item-action', text: I18n.t('label_user_plural'))
+      expect(page).to have_test_selector('op-menu--item-action', text: I18n.t('label_backup'))
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -31,9 +33,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
+    end
+
+    def self.call(storage:, path:, permissions:)
+      new(storage).call(path:, permissions:)
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -50,21 +56,21 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         ) do
           xml['d'].set do
             xml['d'].prop do
-              xml['nc'].send('acl-list') do
+              xml['nc'].send(:'acl-list') do
                 groups_permissions.each do |group, group_permissions|
                   xml['nc'].acl do
-                    xml['nc'].send('acl-mapping-type', 'group')
-                    xml['nc'].send('acl-mapping-id', group)
-                    xml['nc'].send('acl-mask', '31')
-                    xml['nc'].send('acl-permissions', group_permissions.to_s)
+                    xml['nc'].send(:'acl-mapping-type', 'group')
+                    xml['nc'].send(:'acl-mapping-id', group)
+                    xml['nc'].send(:'acl-mask', '31')
+                    xml['nc'].send(:'acl-permissions', group_permissions.to_s)
                   end
                 end
                 users_permissions.each do |user, user_permissions|
                   xml['nc'].acl do
-                    xml['nc'].send('acl-mapping-type', 'user')
-                    xml['nc'].send('acl-mapping-id', user)
-                    xml['nc'].send('acl-mask', '31')
-                    xml['nc'].send('acl-permissions', user_permissions.to_s)
+                    xml['nc'].send(:'acl-mapping-type', 'user')
+                    xml['nc'].send(:'acl-mapping-id', user)
+                    xml['nc'].send(:'acl-mask', '31')
+                    xml['nc'].send(:'acl-permissions', user_permissions.to_s)
                   end
                 end
               end
@@ -86,16 +92,16 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPSuccess
         doc = Nokogiri::XML(response.body)
         if doc.xpath("/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list").present?
-          ServiceResult.success
+          ServiceResult.success(result: :success)
         else
           Util.error(:error, "nc:acl properly has not been set for #{path}")
         end
       when Net::HTTPNotFound
-        Util.error(:not_found)
+        Util.error(:not_found, 'Outbound request destination not found', response)
       when Net::HTTPUnauthorized
-        Util.error(:not_authorized)
+        Util.error(:unauthorized, 'Outbound request not authorized', response)
       else
-        Util.error(:error)
+        Util.error(:error, 'Outbound request failed', response)
       end
     end
     # rubocop:enable Metrics/AbcSize

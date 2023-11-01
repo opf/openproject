@@ -27,13 +27,21 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require_relative 'shared_contract_examples'
 
 RSpec.describe Roles::UpdateContract do
   it_behaves_like 'roles contract' do
+    let(:work_package_role) do
+      build_stubbed(:work_package_role,
+                    name: 'Some name') do |r|
+        r.name = role_name
+        r.permissions = role_permissions
+      end
+    end
+
     let(:role) do
-      build_stubbed(:role,
-                    name: 'Some name').tap do |r|
+      build_stubbed(:project_role,
+                    name: 'Some name') do |r|
         r.name = role_name
         r.permissions = role_permissions
       end
@@ -41,7 +49,7 @@ RSpec.describe Roles::UpdateContract do
 
     let(:global_role) do
       build_stubbed(:global_role,
-                    name: 'Some name').tap do |r|
+                    name: 'Some name') do |r|
         r.name = role_name
         r.permissions = role_permissions
       end

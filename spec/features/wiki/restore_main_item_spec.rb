@@ -31,10 +31,7 @@ require 'spec_helper'
 RSpec.describe 'Wiki page - restoring main wiki item' do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_wiki_pages
-                                       rename_wiki_pages])
+    create(:user, member_with_permissions: { project => %i[view_wiki_pages rename_wiki_pages] })
   end
 
   before do

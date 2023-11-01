@@ -38,11 +38,11 @@ RSpec.describe 'BCF XML API v1 bcf_xml resource' do
   let!(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking], types: [type]) }
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role, firstname: "BIMjamin")
+    create(:user, member_with_roles: { project => role, firstname: "BIMjamin" })
   end
   let(:work_package) { create(:work_package, status:, priority:, project:) }
   let(:bcf_issue) { create(:bcf_issue_with_comment, work_package:) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_work_packages view_linked_issues) }
   let(:filename) { 'MaximumInformation.bcf' }
   let(:bcf_xml_file) do

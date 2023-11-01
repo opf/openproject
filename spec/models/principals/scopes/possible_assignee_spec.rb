@@ -32,28 +32,21 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
   let(:role_assignable) { true }
-  let(:role) { create(:role, permissions: (role_assignable ? [:work_package_assigned] : [])) }
+  let(:role) { create(:project_role, permissions: (role_assignable ? [:work_package_assigned] : [])) }
   let(:user_status) { :active }
   let!(:member_user) do
     create(:user,
            status: user_status,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let!(:member_placeholder_user) do
-    create(:placeholder_user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:placeholder_user, member_with_roles: { project => role })
   end
   let!(:member_group) do
-    create(:group,
-           member_in_project: project,
-           member_through_role: role)
+    create(:group, member_with_roles: { project => role })
   end
   let!(:other_project_member_user) do
-    create(:group,
-           member_in_project: other_project,
-           member_through_role: role)
+    create(:group, member_with_roles: { other_project => role })
   end
 
   describe '.possible_assignee' do
@@ -63,9 +56,7 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
       context 'with the user status being active' do
         it 'returns non locked users, groups and placeholder users that are members' do
           expect(subject)
-            .to match_array([member_user,
-                             member_placeholder_user,
-                             member_group])
+            .to contain_exactly(member_user, member_placeholder_user, member_group)
         end
       end
 
@@ -74,9 +65,7 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
 
         it 'returns non locked users, groups and placeholder users that are members' do
           expect(subject)
-            .to match_array([member_user,
-                             member_placeholder_user,
-                             member_group])
+            .to contain_exactly(member_user, member_placeholder_user, member_group)
         end
       end
 
@@ -85,9 +74,7 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
 
         it 'returns non locked users, groups and placeholder users that are members' do
           expect(subject)
-            .to match_array([member_user,
-                             member_placeholder_user,
-                             member_group])
+            .to contain_exactly(member_user, member_placeholder_user, member_group)
         end
       end
 
@@ -96,8 +83,7 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
 
         it 'returns non locked users, groups and placeholder users that are members' do
           expect(subject)
-            .to match_array([member_placeholder_user,
-                             member_group])
+            .to contain_exactly(member_placeholder_user, member_group)
         end
       end
     end
@@ -123,7 +109,7 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
 
       it 'returns users assignable in all of the provided projects (intersection)' do
         expect(subject)
-          .to match_array([member_user])
+          .to contain_exactly(member_user)
       end
     end
   end

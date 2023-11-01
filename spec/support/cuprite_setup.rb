@@ -39,6 +39,20 @@ def headless_mode?
   !headful_mode?
 end
 
+module WindowResolutionManagement
+  DIMENSION_SEPARATOR = 'x'
+
+  class << self
+    # @param [String] resolution, "1920x1080"
+    # @return [Array<Int,Int>] width and height representation of the resolution, [1920, 1080]
+    def extract_dimensions(resolution)
+      resolution.downcase
+                .split(DIMENSION_SEPARATOR)
+                .map(&:to_i)
+    end
+  end
+end
+
 # Customize browser download path until https://github.com/rubycdp/cuprite/pull/217 is released.
 module SetCupriteDownloadPath
   def initialize(app, options = {})
@@ -51,11 +65,20 @@ Capybara::Cuprite::Driver.prepend(SetCupriteDownloadPath)
 def register_better_cuprite(language, name: :"better_cuprite_#{language}")
   Capybara.register_driver(name) do |app|
     options = {
-      process_timeout: 10,
+      process_timeout: 20,
       inspector: true,
-      headless: headless_mode?
+      headless: headless_mode?,
+      window_size: [1920, 1080]
     }
-    options = options.merge(window_size: [1920, 1080]) if headless_mode?
+
+    if headful_mode? && ENV['CAPYBARA_WINDOW_RESOLUTION']
+      window_size = WindowResolutionManagement.extract_dimensions(ENV['CAPYBARA_WINDOW_RESOLUTION'])
+      options = options.merge(window_size:)
+    end
+
+    if headful_mode? && ENV['OPENPROJECT_TESTING_SLOWDOWN_FACTOR']
+      options = options.merge(slowmo: ENV['OPENPROJECT_TESTING_SLOWDOWN_FACTOR'])
+    end
 
     if ENV['CHROME_URL'].present?
       options = options.merge(url: ENV['CHROME_URL'])
@@ -66,7 +89,8 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       'disable-gpu': nil,
       'disable-popup-blocking': nil,
       lang: language,
-      'no-sandbox': nil
+      'no-sandbox': nil,
+      'disable-smooth-scrolling': true
     }
 
     if ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'].present?

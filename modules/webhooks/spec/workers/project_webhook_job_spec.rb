@@ -36,7 +36,7 @@ RSpec.describe ProjectWebhookJob, type: :job, webmock: true do
 
   shared_examples "a project webhook call" do
     let(:event) { "project:created" }
-    let(:job) { ProjectWebhookJob.perform_now(webhook.id, project, event) }
+    let(:job) { described_class.perform_now(webhook.id, project, event) }
 
     let(:stubbed_url) { request_url }
 

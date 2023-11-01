@@ -35,6 +35,7 @@ modules_permissions:
     - :delete_meetings
     - :view_meetings
     - :create_meeting_agendas
+    - :manage_agendas
     - :close_meeting_agendas
     - :send_meeting_agendas_notification
     - :send_meeting_agendas_icalendar

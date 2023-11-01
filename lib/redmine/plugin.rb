@@ -131,7 +131,7 @@ module Redmine # :nodoc:
     end
 
     def name(*args)
-      name = args.empty? ? instance_variable_get("@name") : instance_variable_set("@name", *args)
+      name = args.empty? ? instance_variable_get(:@name) : instance_variable_set(:@name, *args)
 
       return ::I18n.t(name) if name.is_a?(Symbol)
       return name if name
@@ -141,7 +141,7 @@ module Redmine # :nodoc:
     end
 
     def description(*args)
-      description = args.empty? ? instance_variable_get("@description") : instance_variable_set("@description", *args)
+      description = args.empty? ? instance_variable_get(:@description) : instance_variable_set(:@description, *args)
 
       description || ::I18n.t("plugin_#{id}.description", default: gemspec&.description)
     end

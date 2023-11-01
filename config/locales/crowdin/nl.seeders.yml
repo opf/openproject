@@ -41,19 +41,27 @@ nl:
           name: Specificatie
         item_2:
           name: Overige
-      roles:
+      work_package_roles:
         item_0:
-          name: Derde
+          name: Work Package Editor
         item_1:
-          name: Anoniem
+          name: Work Package Commenter
         item_2:
-          name: Deelnemer
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Lezer
+          name: Reader
         item_4:
           name: Project admin
-        item_5:
-          name: Medewerker en projectbeheerder
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

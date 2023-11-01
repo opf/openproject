@@ -599,6 +599,7 @@ ko:
         processed: '처리됨'
         prioritized: '우선 순위 지정됨'
         dateAlert: '날짜 경보'
+        shared: 'shared'
       date_alerts:
         milestone_date: '마일스톤 날짜'
         overdue: '기한 지남'
@@ -642,6 +643,7 @@ ko:
         mentioned: '멘션됨'
         watched: '주시자'
         date_alert: '날짜 경보'
+        shared: 'Shared'
       settings:
         change_notification_settings: '중요 업데이트를 놓치지 않도록 <a target="_blank" href="%{url}">알림 설정</a>을 수정할 수 있습니다.'
         title: "알림 설정"
@@ -664,6 +666,7 @@ ko:
             description: '어디에서든 누군가가 나를 멘션할 때마다 알림 받기'
           assignee: '담당자'
           responsible: '책임자'
+          shared: 'Shared'
           watched: '주시자'
           work_package_commented: '모든 새로운 코멘트'
           work_package_created: '새 작업 패키지'
@@ -980,6 +983,7 @@ ko:
         recently_created: "최근에 만듦"
         all_open: "모두 열림"
         summary: "요약"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "테이블 페이지 매김으로 이동"
         label_pagination: "여기를 클릭하여 작업 패키지 테이블로 건너뛰고 페이지 매김으로 이동"
@@ -1016,6 +1020,12 @@ ko:
       scheduling:
         is_parent: "이 작업 패키지의 날짜는 자식으로부터 자동으로 추정됩니다. '수동 스케줄링'을 활성화하여 날짜를 설정할 수 있습니다."
         is_switched_from_manual_to_automatic: "다른 작업 패키지와의 관계로 인해 수동 스케줄링에서 자동 스케줄링으로 전환한 후 이 작업 패키지의 날짜를 다시 계산해야 할 수 있습니다."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: '작업 패키지 테이블 구성'
         summary: "작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블."

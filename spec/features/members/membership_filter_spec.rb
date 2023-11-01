@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'group memberships through groups page', js: true do
+RSpec.describe 'group memberships through groups page', :js do
   shared_let(:admin) { create(:admin) }
   let!(:project) { create(:project, name: 'Project 1', identifier: 'project1') }
 
@@ -37,8 +37,7 @@ RSpec.describe 'group memberships through groups page', js: true do
            firstname: 'Peter',
            lastname: 'Pan',
            mail: 'foo@example.org',
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            preferences: { hide_mail: false })
   end
 
@@ -47,11 +46,10 @@ RSpec.describe 'group memberships through groups page', js: true do
            firstname: 'Pan',
            lastname: 'Hannibal',
            mail: 'foo@example.com',
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            preferences: { hide_mail: true })
   end
-  let(:role) { create(:role, permissions: %i(add_work_packages)) }
+  let(:role) { create(:project_role, permissions: %i(add_work_packages)) }
   let(:members_page) { Pages::Members.new project.identifier }
 
   before do

@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), t(:label_permissions_report) %>
 
 <% (@calls || []).select(&:failure?).each do |call| %>
-  <%= error_messages_for_contract(call.result, call.errors) %>
+  <%= error_messages_for(call.result) %>
 <% end %>
 
 <%= form_tag(roles_path, method: :put, id: 'permissions_form') do %>

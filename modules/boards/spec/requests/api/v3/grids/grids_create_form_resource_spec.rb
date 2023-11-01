@@ -42,11 +42,11 @@ RSpec.describe "POST /api/v3/grids/form for Board Grids", content_type: :json do
   let(:params) { {} }
 
   shared_let(:current_user) do
-    create(:user, member_in_project: project, member_with_permissions: [:manage_board_views])
+    create(:user, member_with_permissions: { project => [:manage_board_views] })
   end
 
   shared_let(:prohibited_user) do
-    create(:user, member_in_project: project, member_with_permissions: [:show_board_views])
+    create(:user, member_with_permissions: { project => [:show_board_views] })
   end
 
   subject(:response) { last_response }

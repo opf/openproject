@@ -41,19 +41,27 @@ ro:
           name: Specificație
         item_2:
           name: Altele
-      roles:
+      work_package_roles:
         item_0:
-          name: Non-membru
+          name: Work Package Editor
         item_1:
-          name: Anonim
+          name: Work Package Commenter
         item_2:
-          name: Membru
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Cititor
+          name: Reader
         item_4:
-          name: Admin proiect
-        item_5:
-          name: Manager de personal și de proiecte
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

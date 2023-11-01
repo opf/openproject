@@ -30,14 +30,13 @@ require 'spec_helper'
 
 RSpec.describe 'Update status from WP card', js: true, with_cuprite: true do
   let(:manager_role) do
-    create(:role, permissions: %i[view_work_packages edit_work_packages])
+    create(:project_role, permissions: %i[view_work_packages edit_work_packages])
   end
   let(:manager) do
     create(:user,
            firstname: 'Manager',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: manager_role)
+           member_with_roles: { project => manager_role })
   end
   let(:status1) { create(:status) }
   let(:status2) { create(:status) }

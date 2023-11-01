@@ -270,6 +270,7 @@ lt:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
       no_results_content_text: Įtraukti narį į projektą
     invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
+    send_invite_to: "Siųsti pakvietimą"
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -338,9 +339,6 @@ lt:
   themes:
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
-    dark: "Tamsi"
-    dark_dimmed: "Tamsi pritemdyta"
-    dark_high_contrast: "Tamsi kontrastinga"
   types:
     index:
       no_results_title_text: Nėra jokių rūšių.
@@ -429,6 +427,8 @@ lt:
       Jūsų paskyra neaktyvuota. Prašome palaukti, kol administratorius patvirtins Jūsų registraciją.
     error_self_registration_disabled: >
       Naudotojų registracija išjungta šioje sistemoje. Susisiekite su administratoriumi, kad jis sukurtų Jūsų asmeninę paskyrą.
+    error_self_registration_limited_provider: >
+      Naudotojų registracija ribojama tik vieno prisijungimo tiekėjui „%{name}“. Prašome paprašyti administratoriaus, kad aktyvuotų jūsų paskyrą arba pakeistų savarankiškų registracijų apribojimą šiam tiekėjui.
     login_with_auth_provider: "arba prisijunkite su jau turima paskyra"
     signup_with_auth_provider: "arba prisiregistruokite naudodami"
     auth_source_login: Prisijunkite kaip <em>%{login}</em>, norėdami aktyvuoti savo paskyrą.
@@ -573,6 +573,7 @@ lt:
         time_zone: "Laiko juosta"
         auto_hide_popups: "Automatiškai slėpti sėkmės pranešimus"
         warn_on_leaving_unsaved: "Įspėti mane, kai palieku darbų paketą su neišsaugotais pakeitimais"
+        theme: "Režimas"
       version:
         effective_date: "Pabaigos data"
         sharing: "Pasidalijimas"
@@ -912,6 +913,7 @@ lt:
           attributes:
             roles:
               ungrantable: "turi nepriskiriamą vaidmenį."
+              more_than_one: "turi daugiau nei vieną vaidmenį"
             principal:
               unassignable: "negalima priskirti projektui."
         version:
@@ -1297,16 +1299,46 @@ lt:
         few: "%{count} minutes"
         many: "%{count} minučių"
         other: "%{count} minutes"
+      x_minutes_abbreviated:
+        one: "1 min"
+        few: "%{count} min"
+        many: "%{count} min"
+        other: "%{count} min"
+      x_hours:
+        one: "1 valanda"
+        few: "%{count} valandos"
+        many: "%{count} valandų"
+        other: "%{count} valandos"
+      x_hours_abbreviated:
+        one: "1 val."
+        few: "%{count} val."
+        many: "%{count} val."
+        other: "%{count} val."
+      x_weeks:
+        one: "1 savaitė"
+        few: "%{count} savaitės"
+        many: "%{count} savaičių"
+        other: "%{count} savaitės"
       x_months:
         one: "1 mėnesį"
         few: "%{count} mėnesius"
         many: "%{count} mėnesių"
         other: "%{count} mėnesius"
+      x_years:
+        one: "1 metai"
+        few: "%{count} metai"
+        many: "%{count} metų"
+        other: "%{count} metai"
       x_seconds:
         one: "1 sekundę"
         few: "%{count} sekundes"
         many: "%{count} sekundžių"
         other: "%{count} sekundes"
+      x_seconds_abbreviated:
+        one: "1 s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
     units:
       hour:
         one: "valanda"
@@ -1591,6 +1623,7 @@ lt:
   label_add_related_work_packages: "Pridėti susijusių darbų paketų"
   label_add_subtask: "Pridėti antrinę užduotį"
   label_added: "pridėtas"
+  label_added_by: "Pridėjo %{author}"
   label_added_time_by: "%{author} pridėjo prieš %{age}"
   label_additional_workflow_transitions_for_assignee: "Papildomi darbų eigos variantai leistini, kai darbas paskirtas vartotojui"
   label_additional_workflow_transitions_for_author: "Papildomi darbų eigos variantai leistini, kai vartotojas yra autorius"
@@ -1696,6 +1729,7 @@ lt:
   label_copy_workflow_from: "Kopijuoti darbų eigą iš"
   label_copy_project: "Kopijuoti projektą"
   label_core_version: "Branduolio versija"
+  label_core_build: "Branduolio versija"
   label_current_status: "Dabartinė būsena"
   label_current_version: "Esama versija"
   label_custom_field_add_no_type: "Pridėti šį laukelį prie darbų paketo tipo"
@@ -1840,6 +1874,10 @@ lt:
   label_login: "Prisijungti"
   label_custom_logo: "Savo sukurtas logotipas"
   label_custom_export_logo: "Savas eksporto logotipas"
+  label_custom_export_cover: "Savas eksporto viršelio fonas"
+  label_custom_export_cover_overlay: "Savas eksporto viršelio fono perdengimas"
+  label_custom_export_cover_text_color: "Teksto spalva"
+  label_custom_pdf_export_settings: "Savi PDF eksporto nustatymai"
   label_custom_favicon: "Pasirinktinė piktograma"
   label_custom_touch_icon: "Pasirinktinė prisilietimo piktograma"
   label_logout: "Atsijungti"
@@ -1910,6 +1948,7 @@ lt:
   label_operator_none: "yra tuščias"
   label_operator_equals_or: "yra (ARBA)"
   label_operator_equals_all: "yra (IR)"
+  label_operator_shared_with_user_any: "bet kuris"
   label_open_menu: "Atidaryti meniu"
   label_open_work_packages: "atidarytas"
   label_open_work_packages_plural: "atidarytas"
@@ -2204,12 +2243,22 @@ lt:
         assigned: 'Paskirtas'
         responsible: 'Atsakingas'
         mentioned: 'Paminėtas'
+        shared: 'Bendras'
         subscribed: 'visi'
         prefix: 'Gauta dėl pranešimų nustatymo: %{reason}'
         date_alert_start_date: 'Datos įspėjimas'
         date_alert_due_date: 'Datos įspėjimas'
       see_all: 'Žiūrėti visus'
       updated_at: 'Pakeitė %{user} %{timestamp}'
+    sharing:
+      work_packages:
+        allowed_actions: 'Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių.'
+        create_account: 'Kas prieitumėte prie šio darbo paketo, jums reikia sukurti %{instance} paskyrą. '
+        open_work_package: 'Atverti darbo paketą'
+        subject: 'Su jumis bendrinamas darbo paketas #%{id}'
+        summary:
+          user: '%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}'
+          group: '%{user} bendrino darbo paketą su grupe %{group}, kurios narys esate ir jūs'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
@@ -2380,6 +2429,8 @@ lt:
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Kurti projektus"
+  permission_add_work_package_attachments: "Prisegti priedus"
+  permission_add_work_package_attachments_explanation: "Leidžia pridėti priedus be darbo paketo keitimo teisių"
   permission_archive_project: "Archyvuoti projektą"
   permission_create_user: "Kurti naudotojus"
   permission_manage_user: "Keisti naudotojus"
@@ -2392,6 +2443,7 @@ lt:
   permission_comment_news: "Komentuoti naujienas"
   permission_commit_access: "Skaitymo/rašymo prieiga į repozitoriją"
   permission_copy_projects: "Kopijuoti projekus"
+  permission_copy_work_packages: "Kopijuoti darbų paketus"
   permission_create_backup: "Kurti atsargines kopijas"
   permission_delete_work_package_watchers: "Pašalinti stebėtojus"
   permission_delete_work_packages: "Pašalinti darbų paketus"
@@ -2434,23 +2486,31 @@ lt:
   permission_protect_wiki_pages: "Apsaugoti wiki puslapius"
   permission_rename_wiki_pages: "Pervadinti wiki puslapius"
   permission_save_queries: "Įrašyti vaizdus"
+  permission_search_project: "Ieškoti projekte"
   permission_select_custom_fields: "Parinkite savo laukus"
   permission_select_project_modules: "Parinkti projekto modulius"
+  permission_share_work_packages: "Bendrinti darbo paketus"
   permission_manage_types: "Pasirinkti tipus"
+  permission_view_project: "Peržiūrėti projektus"
   permission_view_changesets: "Rodyti repozitorijos pakeitimus OpenProject"
   permission_view_commit_author_statistics: "Peržiūrėti autorių pakeitimų pateikimo statistiką"
   permission_view_dashboards: "Peržiūrėti švieslentes"
   permission_view_work_package_watchers: "Peržiūrėti stebėtojų sąrašą"
   permission_view_work_packages: "Rodyti darbų paketus"
   permission_view_messages: "Peržiūrėti žinutes"
+  permission_view_news: "Žiūrėti naujienas"
   permission_view_members: "Rodyti narius"
   permission_view_reportings: "Peržiūrėti ataskaitas"
+  permission_view_shared_work_packages: "Žiūrėti bendrinamus darbų paketus"
   permission_view_time_entries: "Peržiūrėti dirbtą laiką"
   permission_view_timelines: "Peržiūrėti laiko juostas"
   permission_view_wiki_edits: "Peržiūrėti wiki istoriją"
   permission_view_wiki_pages: "Peržiūrėti wiki"
   permission_work_package_assigned: "Tapti paskirtuoju/atsakinguoju"
   permission_work_package_assigned_explanation: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal vaidmenį atitinkamame projekte"
+  permission_view_project_activity: "Žiūrėti veiksmus projekte"
+  permission_save_bcf_queries: "Įrašyti BCF užklausas"
+  permission_manage_public_bcf_queries: "Valdyti viešas BCF užklausas"
   placeholders:
     default: "-"
   project:
@@ -2486,11 +2546,12 @@ lt:
   query_fields:
     active_or_archived: "Aktyvus arba suarchyvuotas"
     assigned_to_role: "Priskirtojo asmens vaidmuo"
-    member_of_group: "Priskirtojo asmens grupė"
     assignee_or_group: "Paskirtas ar priklausanti grupė"
-    subproject_id: "Įtraukti sub-projektus"
-    only_subproject_id: "Tik sub-projektai"
+    member_of_group: "Priskirtojo asmens grupė"
     name_or_identifier: "Pavadinimas arba identifikatorius"
+    only_subproject_id: "Tik sub-projektai"
+    shared_with_user: "Bendrinamas su naudotoju"
+    subproject_id: "Įtraukti sub-projektus"
   repositories:
     at_identifier: '%{identifier}'
     atom_revision_feed: 'Atominių pakeitimų naujienų srautas'
@@ -2803,6 +2864,8 @@ lt:
     Baltas logotipas su permatomu fonu yra rekomenduojamas. Gariausiems rezultatams pasiekti tradiciniuose ir retina ekranuose, būkite įsitikinę, kad paveikslėlio dimensijos yra 460px 60px.
   text_custom_export_logo_instructions: >
     Tai logotipas, kuris rodomas jūsų PDF eksportuose. Tai turi būti PNG arba JPEG piešinio failas. Rekomenduojamas juodas arba spalvotas logotipas ant permatomo balto fono.
+  text_custom_export_cover_instructions: >
+    Tai yra nuotrauka, kuri rodoma jūsų PDF eksportų viršelio puslapio fone. Ji turi būti daugmaž 800px pločio ir 500px aukščio, PNG arba JPEG formato nuotrauka.
   text_custom_favicon_instructions: >
     Šis mažas paveikslėlis atsiranda Jūsų naršyklės lange, kortelėje šalia puslapio pavadinimo. Jis turi būti kvadratinis 32 pikselio ilgio ir pločio PNG paveikslėlis su permatomu fonu.
   text_custom_touch_icon_instructions: >
@@ -2992,6 +3055,26 @@ lt:
     destroy:
       info: "Darbų paketo ištrynimas yra negrįžtamas veiksmas."
       title: "Ištrinti darbų paketą"
+    sharing:
+      count:
+        zero: "0 naudotojų"
+        one: "1 naudotojas"
+        other: "%{count} naudotojai"
+      share: "Dalintis"
+      label_search: "Ieškoti naudotojų pakvietimui"
+      label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
+      label_toggle_all: "Perjungti visus bendrinimus"
+      permissions:
+        comment: "Komentuoti"
+        comment_description: "Gali žiūrėti ir komentuoti šį darbo paketą."
+        denied: "Jūs neturite teisės benrinti darbo paketus."
+        edit: "Redaguoti"
+        edit_description: "Gali žiūrėti, komentuoti ir keisti šį darbo paketą."
+        view: "Žiūrėti"
+        view_description: "Gali žiūrėti šį darbo paketą."
+      remove: "Išimti"
+      text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
+      text_empty_state_header: "Nėra bendrinamų naudotojų"
   working_days:
     info: >
       Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.

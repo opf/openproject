@@ -36,7 +36,7 @@ RSpec.describe 'bcf view management',
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:bcf_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %w[
              view_work_packages
              save_queries
@@ -49,8 +49,7 @@ RSpec.describe 'bcf view management',
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let!(:model) do
@@ -68,5 +67,6 @@ RSpec.describe 'bcf view management',
   it_behaves_like 'module specific query view management' do
     let(:module_page) { bcf_page }
     let(:default_name) { 'All open' }
+    let(:initial_filter_count) { 0 }
   end
 end

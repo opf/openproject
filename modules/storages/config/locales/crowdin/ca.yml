@@ -26,6 +26,7 @@ ca:
         name: "Nom"
         creator: "Autor"
         provider_type: "Tipus de proveïdor"
+        host: "Host"
       storages/file_link:
         origin_id: "ID d'origen"
     errors:
@@ -57,21 +58,35 @@ ca:
     errors:
       too_many_elements_created_at_once: "Masses elements creats alhora. S'esperen %{max} com a màxim, i s'han obtingut %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Unknown storage"
     buttons:
+      done_continue: "Done, continue"
       done_continue_setup: "Fet. Continua la instal·lació"
       done_complete_setup: "Done, complete setup"
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Substitueix l'OAuth d'OpenProject"
       replace_provider_type_oauth: "Substitueix l'OAuth de %{provider_type}"
       save: "Save"
+      save_and_continue: "Save and continue"
       save_and_continue_setup: "Desar i continua la configuració"
       save_and_complete_setup: "Desar i completa la configuració"
       select_folder: "Seleccionar carpeta"
       configure: "Configure"
+    file_storage_view:
+      general_information: "General information"
+      oauth_applications: "OAuth applications"
+      project_folders: "Project folders"
+      storage_provider: "Storage provider"
+      openproject_oauth: "OpenProject OAuth"
+      nextcloud_oauth: "Nextcloud OAuth"
+      automatically_managed_folders: "Automatically managed folders"
     page_titles:
+      file_storages:
+        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Automatically managed project folders"
+        subtitle_short: "Let OpenProject create folders per project automatically."
         subtitle: >
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
@@ -84,12 +99,14 @@ ca:
         title: "Members connection status"
         subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
+      provider_type: "Please make sure you have administration privileges in your Nextcloud instance and the application %{type_link_text} is installed before doing the setup."
       type: "Si us plau, assegura't que tens privilegis d'administrador a la instància Nextcloud i tens la següent aplicació instal·lada abans de fer la configuració:"
       type_link_text: "\"Integració d'OpenProject\""
       name: "Dona un nom al teu emmagatzematge per tal que els usuaris el puguin diferenciar d'altres."
       host: "Si us plau, afegeix l'adreça d'allotjament del teu emmagatzematge incloent el https://. No pot més llarg de 255 caràcters."
       managed_project_folders_application_password: >
         Copy this value from:
+      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
       no_storage_set_up: "No hi ha emmagatzematges de fitxers configurats encara."
       no_specific_folder: "Per defecte, cada usuari començarà a la seva carpeta d'inici en carregar un fitxer."
       automatic_folder: "Això crearà automàticament una carpeta per defecte per aquest projecte i administrarà l'accés per a cada membre del projecte."
@@ -102,14 +119,28 @@ ca:
       setting_up_storages: "Per configurar emmagatzematges de fitxers, si us plau, visita"
       setting_up_storages_non_admin: "Els administradors poden configurar emmagatzematges de fitxers a través d'Administració / Emmagatzematges de fitxers."
       all_available_storages_already_added: "Tots els emmagatzematges disponibles ja s'han afegit al projecte."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
       copy_from: "Copia aquest valor de"
       nextcloud:
         integration: "Administració Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        tenant_id: >
+          Please insert the tenant ID you got from your SharePoint administrator.
+        drive_id: >
+          The drive ID can be obtained by you SharePoint administrator.
     help_texts:
       project_folder: >
         La carpeta de projecte és la carpeta per defecte on es carregaran els fitxers d'aquest projecte. Tot i això, els usuaris podran carregar fitxers en altres carpetes.
     configuration_checks:
       incomplete: "The setup of this storage is incomplete."
+      oauth_client_incomplete: "Allow OpenProject to access %{provider} data using an OAuth."
     delete_warning:
       storage: >
         Estàs segur que vols eliminar aquest emmagatzematge? Aquesta acció també eliminarà l'emmagatzematge de tots els projectes on s'utilitza. També eliminarà tots els enllaços de fitxers dels paquets de treball que s'emmagatzemen en aquest emmagatzematge.
@@ -119,11 +150,20 @@ ca:
       project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
       input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
       irreversible_notice: "Deleting a file storage is an irreversible action."
+    storage_list_blank_slate:
+      heading: "You don't have any storages yet."
+      description: "Add a storage to see them here."
     label_active: "Active"
+    label_add_new_storage: "Add new storage"
+    label_delete_storage: "Delete storage"
     label_inactive: "Inactive"
     label_creator: "Autor"
+    label_provider: "Provider"
     label_file_link: "Enllaç a fitxer"
     label_file_links: "Enllaços a fitxer"
+    label_creation_time: "Creation time"
+    label_connected: "Connected"
+    label_incomplete: "Incomplete"
     label_name: "Nom"
     label_host: "URL d'allotjament"
     label_managed_project_folders:
@@ -133,12 +173,21 @@ ca:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Detalls de l'aplicació OAuth"
     label_oauth_client_details: "Detalls del client OAuth"
+    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
+    label_information: "Additional information"
     label_provider_type: "Tipus de proveïdor"
     label_project_folder: "Carpeta del projecte"
     label_new_storage: "Nou emmagatzematge"
     label_edit_storage: "Edit storage"
+    label_edit_storage_host: "Edit storage host"
+    label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Carpeta existent amb permisos gestionats automàticament"
     label_no_specific_folder: "Cap carpeta específica"
     label_automatic_folder: "Nova carpeta amb administració de permisos automàtica"
@@ -158,7 +207,9 @@ ca:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "ex. Nextcloud"
-        default_name: "El meu Nextcloud"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra OpenProject."
     confirm_replace_oauth_client: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra l'emmagatzematge."
     oauth_client_details_missing: "Per tal de completar la configuració, si us plau afegeix les credencials de client OAuth del teu emmagatzematge."

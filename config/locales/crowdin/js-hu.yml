@@ -599,6 +599,7 @@ hu:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -643,6 +644,7 @@ hu:
         mentioned: 'Megemlített'
         watched: 'Megfigyelő'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Értesítési beállítások"
@@ -665,6 +667,7 @@ hu:
             description: 'Értesítés fogadása minden alkalommal, amikor bárki bárhol megemlít'
           assignee: 'Megbízott'
           responsible: 'Felelős'
+          shared: 'Shared'
           watched: 'Megfigyelő'
           work_package_commented: 'Új megjegyzések'
           work_package_created: 'Új munkacsomagok'
@@ -981,6 +984,7 @@ hu:
         recently_created: "Nemrégiben létrehozott"
         all_open: "Nyitottak"
         summary: "Összegzés"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Ugrás a táblázat lapszámozásához"
         label_pagination: "Kattints ide, hogy átugorj a munkacsomag táblán és a lapszámozáshoz menj"
@@ -1017,6 +1021,12 @@ hu:
       scheduling:
         is_parent: "A munkacsomag dátumait automatikusan levezetik a gyermekeiből. A dátumok beállításához aktiválja a „Kézi ütemezést”"
         is_switched_from_manual_to_automatic: "Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.\n"
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Feladatcsoport táblázat beállítása'
         summary: "Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok."

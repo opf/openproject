@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,10 +28,66 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_relative 'shared_base_storage_spec'
+require_module_spec_helper
 
 RSpec.describe Storages::NextcloudStorage do
   let(:storage) { build(:nextcloud_storage) }
+
+  it_behaves_like 'base storage'
+
+  describe '#provider_type?' do
+    it { expect(storage).to be_a_provider_type_nextcloud }
+    it { expect(storage).not_to be_a_provider_type_one_drive }
+  end
+
+  describe '#configured?' do
+    context 'with a complete configuration' do
+      let(:storage) do
+        build(:nextcloud_storage,
+              oauth_application: build(:oauth_application),
+              oauth_client: build(:oauth_client))
+      end
+
+      it 'returns true' do
+        expect(storage.configured?).to be(true)
+
+        aggregate_failures 'configuration_checks' do
+          expect(storage.configuration_checks)
+            .to eq(host_name_configured: true,
+                   storage_oauth_client_configured: true,
+                   openproject_oauth_application_configured: true)
+        end
+      end
+    end
+
+    context 'without host name' do
+      let(:storage) { build(:nextcloud_storage, host: nil, name: nil) }
+
+      it 'returns false' do
+        aggregate_failures do
+          expect(storage.configured?).to be(false)
+          aggregate_failures 'configuration_checks' do
+            expect(storage.configuration_checks[:host_name_configured]).to be(false)
+          end
+        end
+      end
+    end
+
+    context 'without openproject and storage integrations' do
+      let(:storage) { build(:nextcloud_storage) }
+
+      it 'returns false' do
+        expect(storage.configured?).to be(false)
+
+        aggregate_failures 'configuration_checks' do
+          expect(storage.configuration_checks[:openproject_oauth_application_configured]).to be(false)
+          expect(storage.configuration_checks[:storage_oauth_client_configured]).to be(false)
+        end
+      end
+    end
+  end
 
   shared_examples 'a stored attribute with default value' do |attribute, default_value|
     context "when the provider fields are empty" do
@@ -146,9 +204,7 @@ RSpec.describe Storages::NextcloudStorage do
     let(:storage) { build(:nextcloud_storage) }
 
     it 'returns the default values for nextcloud' do
-      expect(storage.provider_fields_defaults).to eq(
-        { automatically_managed: true, username: 'OpenProject' }
-      )
+      expect(storage.provider_fields_defaults).to eq({ automatically_managed: true, username: 'OpenProject' })
     end
   end
 end

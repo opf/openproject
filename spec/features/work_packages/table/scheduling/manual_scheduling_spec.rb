@@ -4,7 +4,7 @@ RSpec.describe 'Manual scheduling', js: true do
   let(:project) { create(:project, types: [type]) }
   let(:type) { create(:type) }
 
-  let(:user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:user) { create(:user, member_with_roles: { project => role }) }
 
   let!(:parent) do
     create(:work_package,
@@ -40,7 +40,7 @@ RSpec.describe 'Manual scheduling', js: true do
   end
 
   context 'with a user allowed to edit dates' do
-    let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+    let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
 
     it 'allows to edit start and due date multiple times switching between scheduling modes' do
       start_date = wp_table.edit_field(parent, :startDate)
@@ -57,8 +57,8 @@ RSpec.describe 'Manual scheduling', js: true do
       start_date.within_modal do
         expect(page).to have_selector('input[name="startDate"][disabled]')
         expect(page).to have_selector('input[name="endDate"][disabled]')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Cancel')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Save')
       end
 
       start_date.toggle_scheduling_mode
@@ -67,8 +67,8 @@ RSpec.describe 'Manual scheduling', js: true do
       start_date.within_modal do
         expect(page).to have_selector('input[name="startDate"]:not([disabled])')
         expect(page).to have_selector('input[name="endDate"]:not([disabled])')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Cancel')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Save')
       end
 
       start_date.cancel_by_click
@@ -91,8 +91,8 @@ RSpec.describe 'Manual scheduling', js: true do
       start_date.within_modal do
         expect(page).to have_selector('input[name=startDate][disabled]')
         expect(page).to have_selector('input[name=endDate][disabled]')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Cancel')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Save')
       end
 
       start_date.toggle_scheduling_mode
@@ -119,6 +119,6 @@ RSpec.describe 'Manual scheduling', js: true do
   end
 
   context 'with a user allowed to view only' do
-    let(:role) { create(:role, permissions: %i[view_work_packages]) }
+    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   end
 end

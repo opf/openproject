@@ -77,9 +77,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   current_user { user }
 
   before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission|
-      permissions.nil? || permissions.include?(permission)
+    mock_permissions_for(user) do |mock|
+      if permissions && project
+        mock.allow_in_project *permissions, project:
+      else
+        mock.allow_everything
+      end
     end
   end
 
@@ -217,10 +220,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
       context 'when the user lacks the export_work_packages permission' do
         before do
-          allow(user)
-            .to receive(:allowed_to?)
-            .with(:export_work_packages, project, global: project.nil?)
-            .and_return(false)
+          mock_permissions_for(user, &:forbid_everything)
         end
 
         it 'has no export links' do
@@ -233,18 +233,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     describe 'customFields' do
       let(:project) { build_stubbed(:project) }
 
-      before do
-        allow(user)
-          .to receive(:allowed_to?)
-                .and_return(false)
-      end
-
       context 'with the permission to select custom fields' do
         before do
-          allow(user)
-            .to receive(:allowed_to?)
-                  .with(:select_custom_fields, project)
-                  .and_return(true)
+          mock_permissions_for(user) do |mock|
+            mock.allow_in_project :select_custom_fields, project:
+          end
         end
 
         it 'has a link to set the custom fields for that project' do
@@ -261,6 +254,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       end
 
       context 'without the permission to select custom fields' do
+        before do
+          mock_permissions_for(user, &:forbid_everything)
+        end
+
         it 'has no link to set the custom fields for that project' do
           expect(collection).not_to have_json_path('_links/customFields')
         end
@@ -281,6 +278,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       context 'for a work package that is not visible' do
         let(:total) { 1 }
         let(:permissions) { [] }
+        let(:project) { created_work_packages.first.project }
 
         it 'renders a reduced WorkPackage element' do
           expect(collection)
@@ -327,18 +325,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   context 'when the user has the edit_work_package permission in any project' do
     before do
-      allow(user)
-        .to receive(:allowed_to?)
-        .and_return(false)
-
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:edit_work_packages, nil, global: true)
-        .and_return(allowed)
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project *permissions, project: build_stubbed(:project) # any project
+      end
     end
 
     context 'when allowed' do
-      let(:allowed) { true }
+      let(:permissions) { [:edit_work_packages] }
 
       it 'has a link to templated edit work_package' do
         expect(collection)
@@ -348,7 +341,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'when not allowed' do
-      let(:allowed) { false }
+      let(:permissions) { [] }
 
       it 'has no link to templated edit work_package' do
         expect(collection).not_to have_json_path('_links/editWorkPackage')
@@ -358,14 +351,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   context 'when the user has the add_work_package permission in any project' do
     before do
-      allow(user)
-        .to receive(:allowed_to?)
-        .and_return(false)
-
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:add_work_packages, nil, global: true)
-        .and_return(true)
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project :add_work_packages, project: build_stubbed(:project) # any project
+      end
     end
 
     it 'has a link to create work_packages' do
@@ -409,9 +397,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   context 'when the user lacks the add_work_package permission' do
     before do
-      allow(user)
-        .to receive(:allowed_to?)
-        .and_return(false)
+      mock_permissions_for(user, &:forbid_everything)
     end
 
     it 'has no link to create work_packages' do
@@ -557,7 +543,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         create(:member,
                user: current_user,
                project: first_wp.project,
-               roles: create_list(:role, 1, permissions: [:view_work_packages]))
+               roles: create_list(:project_role, 1, permissions: [:view_work_packages]))
       end
       let(:created_work_packages) do
         # Let the work package behave as if it used to have a different type forcing the inclusion of
@@ -611,8 +597,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       create(:user,
              firstname: 'user',
              lastname: '1',
-             member_in_project: project,
-             member_with_permissions: %i[view_work_packages])
+             member_with_permissions: { project => %i[view_work_packages] })
     end
 
     shared_examples_for 'includes the properties of the current work package' do

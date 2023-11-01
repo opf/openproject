@@ -28,14 +28,12 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects index page',
-               js: true,
-               with_cuprite: true,
+RSpec.describe 'Projects index page', :js, :with_cuprite,
                with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
-  shared_let(:manager)   { create(:role, name: 'Manager') }
-  shared_let(:developer) { create(:role, name: 'Developer') }
+  shared_let(:manager)   { create(:project_role, name: 'Manager') }
+  shared_let(:developer) { create(:project_role, name: 'Developer') }
 
   shared_let(:custom_field) { create(:project_custom_field) }
   shared_let(:invisible_custom_field) { create(:project_custom_field, visible: false) }
@@ -87,7 +85,7 @@ RSpec.describe 'Projects index page',
   describe 'project visibility restriction' do
     context 'for an anonymous user' do
       specify 'only public projects shall be visible' do
-        Role.anonymous
+        ProjectRole.anonymous
         visit projects_path
 
         expect(page).not_to have_text(project.name)
@@ -101,15 +99,14 @@ RSpec.describe 'Projects index page',
     context 'for project members', with_ee: %i[custom_fields_in_projects_list] do
       shared_let(:user) do
         create(:user,
-               member_in_project: development_project,
-               member_through_role: developer,
+               member_with_roles: { development_project => developer },
                login: 'nerd',
                firstname: 'Alan',
                lastname: 'Turing')
       end
 
       specify 'only public projects or those the user is a member of shall be visible' do
-        Role.non_member
+        ProjectRole.non_member
         login_as(user)
         visit projects_path
 
@@ -216,7 +213,7 @@ RSpec.describe 'Projects index page',
     let(:current_user) { admin }
 
     before do
-      Role.non_member
+      ProjectRole.non_member
       login_as current_user
       projects_page.visit!
     end
@@ -238,8 +235,7 @@ RSpec.describe 'Projects index page',
 
     context 'with the "My projects" filter' do
       shared_let(:member) do
-        create(:user,
-               member_in_project: project)
+        create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
       end
 
       let(:current_user) { member }
@@ -490,10 +486,10 @@ RSpec.describe 'Projects index page',
     end
 
     describe 'I am member or not' do
-      shared_let(:member) { create(:user, member_in_project: project) }
+      shared_let(:member) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
 
       it "filters for projects I'm a member on and those where I'm not" do
-        Role.non_member
+        ProjectRole.non_member
         load_and_open_filters member
 
         projects_page.expect_projects_listed(project, public_project)
@@ -843,10 +839,10 @@ RSpec.describe 'Projects index page',
 
   context 'for non-admins with role with permission' do
     shared_let(:can_copy_projects_role) do
-      create(:role, name: 'Can Copy Projects Role', permissions: [:copy_projects])
+      create(:project_role, name: 'Can Copy Projects Role', permissions: [:copy_projects])
     end
     shared_let(:can_add_subprojects_role) do
-      create(:role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects])
+      create(:project_role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects])
     end
 
     shared_let(:parent_project) do
@@ -857,23 +853,20 @@ RSpec.describe 'Projects index page',
 
     shared_let(:can_copy_projects_manager) do
       create(:user,
-             member_in_project: parent_project,
-             member_through_role: can_copy_projects_role)
+             member_with_roles: { parent_project => can_copy_projects_role })
     end
     shared_let(:can_add_subprojects_manager) do
       create(:user,
-             member_in_project: parent_project,
-             member_through_role: can_add_subprojects_role)
+             member_with_roles: { parent_project => can_add_subprojects_role })
     end
     let(:simple_member) do
       create(:user,
-             member_in_project: parent_project,
-             member_through_role: developer)
+             member_with_roles: { parent_project => developer })
     end
 
     before do
       # We are not admin so we need to force the built-in roles to have them.
-      Role.non_member
+      ProjectRole.non_member
 
       # Remove public projects from the default list for these scenarios.
       public_project.update(active: false)
@@ -1084,11 +1077,10 @@ RSpec.describe 'Projects index page',
   describe 'project activity menu item' do
     context 'for projects with activity module enabled' do
       shared_let(:project_with_activity_enabled) { project }
-      shared_let(:work_packages_viewer) { create(:role, name: 'Viewer', permissions: [:view_work_packages]) }
+      shared_let(:work_packages_viewer) { create(:project_role, name: 'Viewer', permissions: [:view_work_packages]) }
       shared_let(:simple_member) do
         create(:user,
-               member_in_project: project_with_activity_enabled,
-               member_through_role: work_packages_viewer)
+               member_with_roles: { project_with_activity_enabled => work_packages_viewer })
       end
       shared_let(:work_package) { create(:work_package, project: project_with_activity_enabled) }
 

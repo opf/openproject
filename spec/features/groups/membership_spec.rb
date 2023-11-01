@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'group memberships through project members page',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'group memberships through project members page', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:project) { create(:project, name: 'Project 1', identifier: 'project1', members: project_member) }
 
@@ -38,8 +36,8 @@ RSpec.describe 'group memberships through project members page',
   let(:bob)   { create(:user, firstname: 'Bob', lastname: 'Bobbit') }
   let(:group) { create(:group, lastname: 'group1') }
 
-  let!(:alpha) { create(:role, name: 'alpha', permissions: [:manage_members]) }
-  let!(:beta)  { create(:role, name: 'beta') }
+  let!(:alpha) { create(:project_role, name: 'alpha', permissions: [:manage_members]) }
+  let!(:beta)  { create(:project_role, name: 'beta') }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:groups_page)  { Pages::Groups.new }

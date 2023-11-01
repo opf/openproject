@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 RSpec.describe MeetingContentsController do
-  shared_let(:role) { create(:role, permissions: [:view_meetings]) }
+  shared_let(:role) { create(:project_role, permissions: [:view_meetings]) }
   shared_let(:project) { create(:project) }
-  shared_let(:author) { create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:watcher1) { create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:watcher2) { create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:author) { create(:user, member_with_roles: { project => role }) }
+  shared_let(:watcher1) { create(:user, member_with_roles: { project => role }) }
+  shared_let(:watcher2) { create(:user, member_with_roles: { project => role }) }
   shared_let(:meeting) do
     User.execute_as author do
       create(:meeting, author:, project:)
@@ -114,7 +114,7 @@ RSpec.describe MeetingContentsController do
         end
 
         it 'produces a flash message containing the mail addresses raising the error' do
-          put 'notify',  params: { meeting_id: meeting.id }
+          put 'notify', params: { meeting_id: meeting.id }
           meeting.participants.each do |participant|
             expect(flash[:error]).to include(participant.name)
           end

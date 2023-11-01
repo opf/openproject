@@ -273,6 +273,7 @@ si:
       no_results_title_text: මෙම ව්යාපෘතියේ සාමාජිකයන් කොටසක් දැනට නොමැත.
       no_results_content_text: ව්‍යාපෘතියකට සාමාජිකයෙකු එකතුකරන්න
     invite_by_mail: "Send invite to %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "ප්රවේශ ටෝකනය නැවත සකස් කිරීමට අපොහොසත් විය: %{error}"
@@ -341,9 +342,6 @@ si:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: දැනට වර්ග නොමැත.
@@ -430,6 +428,8 @@ si:
       ඔබගේ ගිණුම තවමත් සක්රිය කර නොමැත. කරුණාකර ඔබේ ගිණුම සක්රිය කිරීමට පරිපාලකයෙකු බලා සිටින්න.
     error_self_registration_disabled: >
       මෙම පද්ධතිය මත පරිශීලක ලියාපදිංචිය අක්රීය කර ඇත. කරුණාකර ඔබ වෙනුවෙන් ගිණුමක් නිර්මාණය කිරීමට පරිපාලකයෙකුගෙන් විමසන්න.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "හෝ ඔබගේ පවතින ගිණුම සමඟ පුරනය වන්න"
     signup_with_auth_provider: "හෝ භාවිතා කර ලියාපදිංචි වන්න"
     auth_source_login: කරුණාකර ඔබගේ ගිණුම සක්රිය කිරීමට <em>%{login}</em> ලෙස ලොගින් වන්න.
@@ -574,6 +574,7 @@ si:
         time_zone: "වේලා කලාපය"
         auto_hide_popups: "ස්වයං සඟවන්න සාර්ථකත්වය දැනුම්දීම්"
         warn_on_leaving_unsaved: "නොගැලවූ වෙනස්කම් සහිත වැඩ පැකේජයකින් පිටවන විට මට අනතුරු අඟවන්න"
+        theme: "Mode"
       version:
         effective_date: "අවසන් දිනය"
         sharing: "බෙදාගැනීම"
@@ -911,6 +912,7 @@ si:
           attributes:
             roles:
               ungrantable: "පැවරුම් කළ නොහැකි කාර්යභාරයක් ඇත."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "ව්යාපෘතියකට පැවරිය නොහැක."
         version:
@@ -1264,12 +1266,30 @@ si:
       x_minutes:
         one: "විනාඩි 1"
         other: "විනාඩි%{count}"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         one: "මාස 1"
         other: "මාස%{count}"
+      x_years:
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         one: "1 දෙවන"
         other: "තත්පර%{count}"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "පැය"
@@ -1552,6 +1572,7 @@ si:
   label_add_related_work_packages: "අදාළ වැඩ පැකේජ එකතු කරන්න"
   label_add_subtask: "උප කාර්යය එකතු කරන්න"
   label_added: "එකතු"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "%{author} %{age} පෙර විසින් එකතු කරන ලදි"
   label_additional_workflow_transitions_for_assignee: "පරිශීලකයා වන විට අතිරේක සංක්රමණයන් අවසර දෙනු ලැබේ"
   label_additional_workflow_transitions_for_author: "පරිශීලකයා කතුවරයා වන විට අතිරේක සංක්රමණයන් අවසර දෙනු ලැබේ"
@@ -1657,6 +1678,7 @@ si:
   label_copy_workflow_from: "සිට කාර්ය ප්රවාහ පිටපත්"
   label_copy_project: "ව්යාපෘතිය පිටපත් කරන්න"
   label_core_version: "ප්රධාන අනුවාදය"
+  label_core_build: "Core build"
   label_current_status: "වත්මන් තත්ත්වය"
   label_current_version: "වත්මන් අනුවාදය"
   label_custom_field_add_no_type: "වැඩ පැකේජ වර්ගයකට මෙම ක්ෂේත්රය එක් කරන්න"
@@ -1801,6 +1823,10 @@ si:
   label_login: "පුරනය වන්න"
   label_custom_logo: "අභිරුචි ලාංඡනය"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "අභිරුචි ප්රියතම"
   label_custom_touch_icon: "අභිරුචි ස්පර්ශ අයිකනය"
   label_logout: "ලියාපදිංචි වන්න"
@@ -1871,6 +1897,7 @@ si:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "මෙනුව විවෘත කරන්න"
   label_open_work_packages: "විවෘත"
   label_open_work_packages_plural: "විවෘත"
@@ -2163,12 +2190,22 @@ si:
         assigned: 'Assigned'
         responsible: 'වගවීම'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'සියලු'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "නව පරිශීලකයෙකු (%{value}) ලියාපදිංචි වී ඇත. ගිණුම ඔබගේ අනුමැතිය ලබා ගනී:"
   mail_body_account_information: "ඔබගේ ගිණුම් තොරතුරු"
   mail_body_account_information_external: "ඔබට ඔබගේ %{value} ගිණුම භාවිතා කළ හැකිය."
@@ -2339,6 +2376,8 @@ si:
   permission_add_work_packages: "වැඩ පැකේජ එකතු කරන්න"
   permission_add_messages: "තැපැල් පණිවිඩ"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "සංරක්ෂිත ව්යාපෘතිය"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2351,6 +2390,7 @@ si:
   permission_comment_news: "අදහස් ප්රවෘත්ති"
   permission_commit_access: "කියවීමට/ගබඩාවට ප්රවේශ වීම (කැප කිරීම)"
   permission_copy_projects: "ව්යාපෘති පිටපත් කරන්න"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "මුරකරුවන් මකන්න"
   permission_delete_work_packages: "වැඩ පැකේජ මකන්න"
@@ -2393,23 +2433,31 @@ si:
   permission_protect_wiki_pages: "විකි පිටු ආරක්ෂා කරන්න"
   permission_rename_wiki_pages: "විකි පිටු නැවත නම් කරන්න"
   permission_save_queries: "අදහස් සුරකින්න"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "ව්යාපෘති මොඩියුල තෝරන්න"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "වර්ග තෝරන්න"
+  permission_view_project: "View projects"
   permission_view_changesets: "OpenProject හි නිධි සංශෝධන බලන්න"
   permission_view_commit_author_statistics: "කතෘ සංඛ්යා ලේඛන බලන්න"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "මුරකරුවන් ලැයිස්තුව බලන්න"
   permission_view_work_packages: "වැඩ පැකේජ බලන්න"
   permission_view_messages: "පණිවිඩ බලන්න"
+  permission_view_news: "View news"
   permission_view_members: "සාමාජිකයන් බලන්න"
   permission_view_reportings: "වාර්තා බලන්න"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "ගත කළ කාලය බලන්න"
   permission_view_timelines: "කාල නියමයන් බලන්න"
   permission_view_wiki_edits: "විකි ඉතිහාසය බලන්න"
   permission_view_wiki_pages: "විකි දැක්ම"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "අදාළ ව්යාපෘතියේ මෙම කාර්යභාරය සතුව ඇති පරිශීලකයින්ට සහ කණ්ඩායම්වලට වැඩ පැකේජ පැවරිය හැකිය"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2445,11 +2493,12 @@ si:
   query_fields:
     active_or_archived: "සක්රීය හෝ සංරක්ෂිත"
     assigned_to_role: "ඇසිග්නීගේ භූමිකාව"
-    member_of_group: "අස්සිග්නි කණ්ඩායම"
     assignee_or_group: "Assignee හෝ අයත් පිරිසක්"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "අස්සිග්නි කණ්ඩායම"
     name_or_identifier: "නම හෝ හඳුනාගැනීමේ"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: '%{identifier}දී'
     atom_revision_feed: 'පරමාණු සංශෝධනය පෝෂණය'
@@ -2764,6 +2813,8 @@ si:
     විනිවිද පෙනෙන පසුබිම මත සුදු ලාංඡනය නිර්දේශ කරනු ලැබේ. දෙකම මත හොඳම ප්රතිඵල සඳහා, සාම්ප්රදායික හා දෘෂ්ටි විතානයේ ප්රදර්ශනය, ඔබගේ රූපයේ මානයන් 60px විසින් 460px බවට වග බලා ගන්න.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -2952,6 +3003,26 @@ si:
     destroy:
       info: "වැඩ පැකේජය මකා දැමීම ආපසු හැරවිය නොහැකි ක්රියාවකි."
       title: "වැඩ පැකේජය මකන්න"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

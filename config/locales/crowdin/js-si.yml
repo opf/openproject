@@ -599,6 +599,7 @@ si:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -643,6 +644,7 @@ si:
         mentioned: 'Mentioned'
         watched: 'මුරකරු'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -665,6 +667,7 @@ si:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'අස්ගිනී'
           responsible: 'වගවීම'
+          shared: 'Shared'
           watched: 'මුරකරු'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -981,6 +984,7 @@ si:
         recently_created: "මෑතකදී නිර්මාණය"
         all_open: "සියල්ල විවෘතයි"
         summary: "සාරාංශය"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "මේසය පේනීම වෙත පනින්න"
         label_pagination: "වැඩ පැකේජ වගුව හරහා මඟ හැරීමට සහ පේනිෂන් වෙත යන්න මෙහි ක්ලික් කරන්න"
@@ -1017,6 +1021,12 @@ si:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'වැඩ පැකේජ වගුව සකසන්න'
         summary: "වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව."

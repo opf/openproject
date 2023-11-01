@@ -35,8 +35,9 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
 
   let(:file_link_permissions) { %i(view_work_packages view_file_links) }
 
-  let(:role1) { create(:role, permissions: file_link_permissions) }
-  let(:role2) { create(:role, permissions: file_link_permissions) }
+  # rubocop:disable RSpec/IndexedLet
+  let(:role1) { create(:project_role, permissions: file_link_permissions) }
+  let(:role2) { create(:project_role, permissions: file_link_permissions) }
 
   let(:current_user) { create(:user) }
   let(:project1) { create(:project, members: { current_user => role1 }) }
@@ -46,8 +47,8 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
   let(:work_package2) { create(:work_package, author: current_user, project: project1) }
   let(:work_package3) { create(:work_package, author: current_user, project: project2) }
 
-  let(:storage1) { create(:storage, creator: current_user) }
-  let(:storage2) { create(:storage, creator: current_user) }
+  let(:storage1) { create(:nextcloud_storage, creator: current_user) }
+  let(:storage2) { create(:nextcloud_storage, creator: current_user) }
 
   let(:project_storage1) { create(:project_storage, project: project1, storage: storage1) }
   let(:project_storage2) { create(:project_storage, project: project1, storage: storage2) }
@@ -65,6 +66,7 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
   # This link is considered invisible, as it is linking a work package to a file, where the work package's project
   # and the file's storage are not linked together.
   let(:file_link4) { create(:file_link, creator: current_user, container: work_package3, storage: storage1) }
+  # rubocop:enable RSpec/IndexedLet
 
   subject(:response) { last_response }
 
@@ -105,7 +107,7 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
       end
 
       context 'if one project has not sufficient permissions' do
-        let(:role2) { create(:role, permissions: %i(view_work_packages)) }
+        let(:role2) { create(:project_role, permissions: %i(view_work_packages)) }
 
         it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [work_package1] }
@@ -163,7 +165,7 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
       end
 
       context 'if one project has not sufficient permissions' do
-        let(:role1) { create(:role, permissions: %i(view_work_packages)) }
+        let(:role1) { create(:project_role, permissions: %i(view_work_packages)) }
 
         it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [] }
@@ -205,7 +207,7 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
       end
 
       context 'if one project has not sufficient permissions' do
-        let(:role2) { create(:role, permissions: %i(view_work_packages)) }
+        let(:role2) { create(:project_role, permissions: %i(view_work_packages)) }
 
         it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [] }

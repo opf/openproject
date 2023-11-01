@@ -69,16 +69,14 @@ RSpec.describe 'baseline rendering',
     create(:admin,
            firstname: 'Itsa',
            lastname: 'Me',
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages edit_work_packages work_package_assigned assign_versions])
+           member_with_permissions: { project => %i[view_work_packages edit_work_packages work_package_assigned assign_versions] })
   end
 
   shared_let(:assignee) do
     create(:user,
            firstname: 'Assigned',
            lastname: 'User',
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages edit_work_packages work_package_assigned])
+           member_with_permissions: { project => %i[view_work_packages edit_work_packages work_package_assigned] })
   end
 
   shared_let(:default_priority) do
@@ -415,11 +413,13 @@ RSpec.describe 'baseline rendering',
         baseline_modal.toggle_drop_modal
         baseline_modal.select_filter 'yesterday'
         baseline_modal.apply
+
+        wait_for_reload # Ensure page is fully loaded
       end
 
       context 'and the query is saved' do
         before do
-          wp_table.save_as 'My Baseline Query'
+          wp_table.save_as('My Baseline Query', by_title: true)
         end
 
         it_behaves_like 'selecting a builtin view'

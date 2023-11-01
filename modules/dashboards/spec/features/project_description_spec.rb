@@ -48,11 +48,11 @@ RSpec.describe 'Project description widget on dashboard', js: true do
   end
 
   let(:read_only_user) do
-    create(:user, member_in_project: project, member_with_permissions: read_only_permissions)
+    create(:user, member_with_permissions: { project => read_only_permissions })
   end
 
   let(:editing_user) do
-    create(:user, member_in_project: project, member_with_permissions: editing_permissions)
+    create(:user, member_with_permissions: { project => editing_permissions })
   end
 
   let(:dashboard_page) do
@@ -124,7 +124,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
     end
 
     let(:current_user) do
-      create(:user, member_in_project: project, member_with_permissions: editing_permissions + %i[add_work_packages])
+      create(:user, member_with_permissions: { project => editing_permissions + %i[add_work_packages] })
     end
     let(:editor) { Components::WysiwygEditor.new 'body' }
 

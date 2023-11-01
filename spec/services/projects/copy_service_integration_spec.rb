@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -30,7 +32,8 @@ require 'spec_helper'
 
 RSpec.describe(
   Projects::CopyService,
-  'integration', :webmock,
+  'integration',
+  :webmock,
   type: :model,
   with_ee: %i[readonly_work_packages]
 ) do
@@ -55,8 +58,7 @@ RSpec.describe(
 
   let(:current_user) do
     create(:user,
-           member_in_project: source,
-           member_through_role: role)
+           member_with_roles: { source => role })
   end
   let(:instance) { described_class.new(source:, user: current_user) }
   let(:only_args) { nil }
@@ -69,14 +71,14 @@ RSpec.describe(
   let(:send_notifications) { true }
 
   shared_let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[copy_projects
                            view_work_packages
                            work_package_assigned
                            manage_storages_in_project
                            manage_file_links])
   end
-  shared_let(:new_project_role) { create(:role, permissions: %i[]) }
+  shared_let(:new_project_role) { create(:project_role, permissions: %i[]) }
 
   before do
     allow(Setting)
@@ -145,8 +147,7 @@ RSpec.describe(
           let(:user_custom_field) { create(:user_project_custom_field) }
           let(:user_value) do
             create(:user,
-                   member_in_project: source,
-                   member_through_role: role)
+                   member_with_roles: { source => role })
           end
 
           before do
@@ -260,10 +261,13 @@ RSpec.describe(
       let(:new_project_folder_id) { "819" }
 
       shared_let(:source_automatic_project_storage) do
-        create(:project_storage, project: source, project_folder_id: '123', project_folder_mode: 'automatic')
+        storage = create(:nextcloud_storage)
+        create(:project_storage, storage:, project: source, project_folder_id: '123', project_folder_mode: 'automatic')
       end
+
       shared_let(:source_manual_project_storage) do
-        create(:project_storage, project: source, project_folder_id: '345', project_folder_mode: 'manual')
+        storage = create(:nextcloud_storage)
+        create(:project_storage, storage:, project: source, project_folder_id: '345', project_folder_mode: 'manual')
       end
 
       before do
@@ -458,7 +462,7 @@ RSpec.describe(
         #  merged with the role the user already had.
         member = project_copy.members.last
         expect(member.principal).to eql(current_user)
-        expect(member.roles).to contain_exactly(role, new_project_role)
+        expect(member.roles.reload).to contain_exactly(role, new_project_role)
 
         expect(project_copy.project_storages.count).to eq(2)
         automatic_project_storage_copy = project_copy.project_storages.find_by(storage: storage1)
@@ -579,7 +583,7 @@ RSpec.describe(
         let(:only_args) { %w[members] }
 
         let!(:user) { create(:user) }
-        let!(:another_role) { create(:role) }
+        let!(:another_role) { create(:project_role) }
         let!(:group) { create(:group, members: [user]) }
 
         it 'copies them as well' do
@@ -799,8 +803,7 @@ RSpec.describe(
         end
 
         context 'with watchers' do
-          let(:watcher_role) { create(:role, permissions: [:view_work_packages]) }
-          let(:watcher) { create(:user, member_in_project: source, member_through_role: watcher_role) }
+          let(:watcher) { create(:user, member_with_permissions: { source => [:view_work_packages] }) }
 
           let(:only_args) { %w[work_packages members] }
 
@@ -865,8 +868,7 @@ RSpec.describe(
         context 'when work_package is assigned to somebody' do
           let(:assigned_user) do
             create(:user,
-                   member_in_project: source,
-                   member_through_role: role)
+                   member_with_roles: { source => role })
           end
 
           before do
@@ -905,8 +907,7 @@ RSpec.describe(
         context 'when work_package has a responsible person' do
           let(:responsible_user) do
             create(:user,
-                   member_in_project: source,
-                   member_through_role: role)
+                   member_with_roles: { source => role })
           end
 
           before do
@@ -1052,7 +1053,7 @@ RSpec.describe(
     end
 
     context 'without anything selected' do
-      let!(:source_member) { create(:user, member_in_project: source, member_through_role: role) }
+      let!(:source_member) { create(:user, member_with_roles: { source => role }) }
       let(:only_args) { nil }
 
       # rubocop:disable RSpec/MultipleExpectations
@@ -1096,7 +1097,7 @@ RSpec.describe(
 
       context 'with group memberships' do
         let!(:user) { create(:user) }
-        let!(:another_role) { create(:role) }
+        let!(:another_role) { create(:project_role) }
         let!(:group) do
           create(:group, members: [user])
         end

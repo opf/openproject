@@ -57,6 +57,8 @@ module Pages::Messages
 
       click_button 'Submit'
 
+      expect(page).to have_selector('.forum-message--comments', text:)
+
       Message.last
     end
 
@@ -84,6 +86,9 @@ module Pages::Messages
       # Therefor, submitting by enter key.
       subject_field = find_by_id('reply_subject')
       subject_field.native.send_keys(:return)
+
+      text = (quoted_message || Message.first).content
+      expect(page).to have_selector('.forum-message--comments blockquote', text:)
 
       Message.last
     end

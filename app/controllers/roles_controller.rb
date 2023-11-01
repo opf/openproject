@@ -31,7 +31,7 @@ class RolesController < ApplicationController
 
   layout 'admin'
 
-  before_action :require_admin, except: [:autocomplete_for_role]
+  before_action :require_admin
 
   menu_item :roles, except: :report
   menu_item :permissions_report, only: :report
@@ -45,7 +45,7 @@ class RolesController < ApplicationController
   end
 
   def new
-    @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
+    @role = ProjectRole.new(permitted_params.role? || { permissions: ProjectRole.non_member.permissions })
 
     @roles = roles_scope
   end
@@ -96,7 +96,7 @@ class RolesController < ApplicationController
   end
 
   def report
-    @roles = Role.order(Arel.sql('builtin, position'))
+    @roles = roles_scope
     @permissions = OpenProject::AccessControl.permissions.reject(&:public?)
   end
 
@@ -112,20 +112,6 @@ class RolesController < ApplicationController
       @calls = calls
       @permissions = OpenProject::AccessControl.permissions.reject(&:public?)
       render action: 'report'
-    end
-  end
-
-  def autocomplete_for_role
-    size = params[:page_limit].to_i
-    page = params[:page].to_i
-
-    @roles = Role.paginated_search(params[:q], page:, page_limit: size)
-    # we always get all the items on a page, so just check if we just got the last
-    @more = @roles.total_pages > page
-    @total = @roles.total_entries
-
-    respond_to do |format|
-      format.json
     end
   end
 
@@ -154,7 +140,7 @@ class RolesController < ApplicationController
   end
 
   def roles_scope
-    Role.order(Arel.sql('builtin, position'))
+    Role.visible.ordered_by_builtin_and_position
   end
 
   def default_breadcrumb

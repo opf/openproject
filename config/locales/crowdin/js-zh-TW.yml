@@ -598,6 +598,7 @@ zh-TW:
         processed: '已處理'
         prioritized: '優先'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -641,6 +642,7 @@ zh-TW:
         mentioned: '被標記'
         watched: "關注者\n"
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "通知設定"
@@ -663,6 +665,7 @@ zh-TW:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: '負責執行者'
           responsible: '負責人'
+          shared: 'Shared'
           watched: "關注者\n"
           work_package_commented: '新評論'
           work_package_created: '新工作包'
@@ -979,6 +982,7 @@ zh-TW:
         recently_created: "最近創建的"
         all_open: "全部打開"
         summary: "大綱"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作包表格並轉到分頁"
@@ -1015,6 +1019,12 @@ zh-TW:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: '配置工作包表'
         summary: "由工作項目和工作項目屬性列組成的表格。"

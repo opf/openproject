@@ -39,7 +39,7 @@ RSpec.describe Meeting do
   end
   let(:project_members) { {} }
 
-  let(:role) { create(:role, permissions: [:view_meetings]) }
+  let(:role) { create(:project_role, permissions: [:view_meetings]) }
 
   it { is_expected.to belong_to :project }
   it { is_expected.to belong_to :author }
@@ -72,7 +72,7 @@ RSpec.describe Meeting do
       it 'marks invalid start dates' do
         meeting.start_date = '-'
         expect(meeting.start_date).to eq('-')
-        expect { meeting.start_time }.to raise_error(ArgumentError)
+        expect(meeting.start_time).to be_nil
         expect(meeting).not_to be_valid
         expect(meeting.errors.count).to eq(1)
       end
@@ -80,7 +80,7 @@ RSpec.describe Meeting do
       it 'marks invalid start hours' do
         meeting.start_time_hour = '-'
         expect(meeting.start_time_hour).to eq('-')
-        expect { meeting.start_time }.to raise_error(ArgumentError)
+        expect(meeting.start_time).to be_nil
         expect(meeting).not_to be_valid
         expect(meeting.errors.count).to eq(1)
       end
@@ -96,8 +96,9 @@ RSpec.describe Meeting do
 
       it 'accepts changes after invalid dates' do
         meeting.start_date = '-'
-        expect { meeting.start_time }.to raise_error(ArgumentError)
+        expect(meeting.start_time).to be_nil
         expect(meeting).not_to be_valid
+        expect(meeting.errors[:start_date]).to contain_exactly 'is not a valid date. Required format: YYYY-MM-DD.'
 
         meeting.start_date = Time.zone.today.iso8601
         expect(meeting).to be_valid
@@ -118,7 +119,7 @@ RSpec.describe Meeting do
     end
 
     describe 'WITH a user not having the view_meetings permission' do
-      let(:role2) { create(:role, permissions: []) }
+      let(:role2) { create(:project_role, permissions: []) }
       let(:project_members) { { user1 => role, user2 => role2 } }
 
       it 'does not contain the user' do
@@ -147,7 +148,7 @@ RSpec.describe Meeting do
       meeting.save!
     end
 
-    it { expect(meeting.watchers.collect(&:user)).to match_array([user1, user2]) }
+    it { expect(meeting.watchers.collect(&:user)).to contain_exactly(user1, user2) }
   end
 
   describe '#close_agenda_and_copy_to_minutes' do
@@ -232,6 +233,20 @@ RSpec.describe Meeting do
         copy = meeting.copy({})
         expect(copy.participants.map(&:user_id)).to eq [user1.id]
       end
+    end
+  end
+
+  describe 'acts_as_watchable' do
+    it 'is watchable' do
+      expect(described_class).to include(Redmine::Acts::Watchable::InstanceMethods)
+    end
+
+    it 'uses the :view_meetings permission' do
+      expect(described_class.acts_as_watchable_permission).to eq(:view_meetings)
+    end
+
+    it 'uses the :view_meetings permission in STI classes' do
+      expect(StructuredMeeting.acts_as_watchable_permission).to eq(:view_meetings)
     end
   end
 end

@@ -4,7 +4,7 @@
 }
 .highlight .cp {
   color: #999999;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .c1 {
   color: #999988;
@@ -12,7 +12,7 @@
 }
 .highlight .cs {
   color: #999999;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
   font-style: italic;
 }
 .highlight .c, .highlight .cd {
@@ -48,7 +48,7 @@
   color: #555555;
 }
 .highlight .gs {
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .gu {
   color: #aaaaaa;
@@ -58,31 +58,31 @@
 }
 .highlight .kc {
   color: #000000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .kd {
   color: #000000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .kn {
   color: #000000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .kp {
   color: #000000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .kr {
   color: #000000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .kt {
   color: #445588;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .k, .highlight .kv {
   color: #000000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .mf {
   color: #009999;
@@ -149,29 +149,29 @@
 }
 .highlight .nc {
   color: #445588;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .no {
   color: #008080;
 }
 .highlight .nd {
   color: #3c5d5d;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .ni {
   color: #800080;
 }
 .highlight .ne {
   color: #990000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .nf {
   color: #990000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .nl {
   color: #990000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .nn {
   color: #555555;
@@ -193,11 +193,11 @@
 }
 .highlight .ow {
   color: #000000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .o {
   color: #000000;
-  font-weight: bold;
+  font-weight: var(--base-text-weight-bold);
 }
 .highlight .w {
   color: #bbbbbb;

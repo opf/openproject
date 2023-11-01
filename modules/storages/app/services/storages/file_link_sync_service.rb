@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -36,7 +38,7 @@ class Storages::FileLinkSyncService
   def call(file_links)
     resulting_file_links = file_links
       .group_by(&:storage_id)
-      .map { |storage_id, storage_file_links| sync_nextcloud(storage_id, storage_file_links) }
+      .map { |storage_id, storage_file_links| sync_storage_data(storage_id, storage_file_links) }
       .reduce([]) do |state, sync_result|
         sync_result.match(
           on_success: ->(sr) { state + sr },
@@ -49,11 +51,11 @@ class Storages::FileLinkSyncService
 
   private
 
-  def sync_nextcloud(storage_id, file_links)
-    ::Storages::Peripherals::StorageRequests
-      .new(storage: ::Storages::Storage.find(storage_id))
-      .files_info_query
-      .call(user: @user, file_ids: file_links.map(&:origin_id))
+  def sync_storage_data(storage_id, file_links)
+    storage = ::Storages::Storage.find(storage_id)
+    ::Storages::Peripherals::Registry
+      .resolve("queries.#{storage.short_provider_type}.files_info")
+      .call(storage:, user: @user, file_ids: file_links.map(&:origin_id))
       .map { |file_infos| to_hash(file_infos) }
       .match(
         on_success: set_file_link_permissions(file_links),

@@ -599,6 +599,7 @@ ar:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -647,6 +648,7 @@ ar:
         mentioned: 'Mentioned'
         watched: 'المشاهد'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -669,6 +671,7 @@ ar:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'المُسند إليه'
           responsible: 'Accountable'
+          shared: 'Shared'
           watched: 'المشاهد'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -985,6 +988,7 @@ ar:
         recently_created: "Recently created"
         all_open: "All open"
         summary: "مُلخّص"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "الانتقال السريع إلى تقسيم الجدول"
         label_pagination: "اضغط هنا لتخطي جدول كتب العمل والانتقال للحدود الفاصلة"
@@ -1021,6 +1025,12 @@ ar:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configure work package table'
         summary: "أسطر الجدول كتب عمل والاعمدة واصفات لكتب العمل."
@@ -1160,9 +1170,11 @@ ar:
       hour:
         one: "1 h"
         other: "%{count} h"
+        zero: "0 h"
       day:
         one: "%{count} يوم"
         other: "%{count} يوم"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

@@ -43,7 +43,7 @@ RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
   shared_let(:project2) { create(:project) }
   shared_let(:user1) { create(:user) }
   shared_let(:user2) { create(:user) }
-  shared_let(:role1) { create(:role) }
+  shared_let(:role1) { create(:project_role) }
   shared_let(:admin) { create(:admin) }
 
   let(:group_projects) { [project1, project2] }
@@ -159,7 +159,7 @@ RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
   end
 
   context 'when the user was already a member in a project with only one role the group adds' do
-    let(:group_roles) { create_list(:role, 2) }
+    let(:group_roles) { create_list(:project_role, 2) }
     let!(:user_member) do
       create(:member,
              project: group_projects.first,
@@ -182,7 +182,7 @@ RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
   end
 
   context 'when a user was already a member in a project with a different role' do
-    let(:other_role) { create(:role) }
+    let(:other_role) { create(:project_role) }
     let(:previous_project) { group_projects.first }
     let!(:user_member) do
       create(:member,
@@ -258,6 +258,19 @@ RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
       # Does not add the role to a project not specified
       expect(Member.where(user_id: added_user, project: ignored_project))
         .not_to exist
+    end
+  end
+
+  context 'with a role that was granted to a specific entity' do
+    let(:project_ids) { nil }
+    let(:group_projects) { [] }
+    let(:work_package) { create(:work_package, project: project1) }
+    let!(:group_membership) { create(:member, principal: group, project: project1, entity: work_package, roles: [role1]) }
+
+    it 'inherits the roles of the group to the users also bound to the entity' do
+      expect do
+        expect(service_call).to be_success
+      end.to change(Member.where(project_id: work_package.project_id, entity: work_package), :count).by(user_ids.count)
     end
   end
 

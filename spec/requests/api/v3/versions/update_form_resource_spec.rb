@@ -35,9 +35,7 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
   let(:version) { create(:version, project:) }
   let(:project) { create(:project) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:permissions) { [:manage_versions] }
 
@@ -103,7 +101,7 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
 
     context 'with wanting to alter the project' do
       let(:other_project) do
-        role = create(:role, permissions:)
+        role = create(:project_role, permissions:)
 
         create(:project,
                members: { user => role })

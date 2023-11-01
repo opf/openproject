@@ -27,10 +27,10 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 require_relative '../support/components/add_existing_pane'
 
-RSpec.describe 'Team planner add existing work packages', js: true do
+RSpec.describe 'Team planner add existing work packages', :js do
   include_context 'with team planner full access'
 
   let(:closed_status) { create(:status, is_closed: true) }
@@ -39,10 +39,7 @@ RSpec.describe 'Team planner add existing work packages', js: true do
   let!(:other_user) do
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_team_planner
-           ])
+           member_with_permissions: { project => %w[view_work_packages view_team_planner] })
   end
 
   let!(:first_wp) do
@@ -203,14 +200,16 @@ RSpec.describe 'Team planner add existing work packages', js: true do
         create(:work_package, subject: 'Subtask', project: sub_project)
       end
 
+      let(:permissions) do
+        %w[
+          view_work_packages edit_work_packages add_work_packages
+          view_team_planner manage_team_planner
+          save_queries manage_public_queries
+        ]
+      end
+
       let!(:user) do
-        create(:user,
-               member_in_projects: [project, sub_project],
-               member_with_permissions: %w[
-                 view_work_packages edit_work_packages add_work_packages
-                 view_team_planner manage_team_planner
-                 save_queries manage_public_queries
-               ])
+        create(:user, member_with_permissions: { project => permissions, sub_project => permissions })
       end
 
       let(:dropdown) { Components::ProjectIncludeComponent.new }
@@ -259,7 +258,7 @@ RSpec.describe 'Team planner add existing work packages', js: true do
     end
 
     it 'does not show the button to add existing work packages' do
-      expect(page).not_to have_selector('[data-qa-selector="op-team-planner--add-existing-toggle"]')
+      expect(page).not_to have_test_selector('op-team-planner--add-existing-toggle')
       add_existing_pane.expect_closed
     end
   end

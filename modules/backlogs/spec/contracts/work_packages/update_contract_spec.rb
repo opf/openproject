@@ -35,7 +35,7 @@ RSpec.describe WorkPackages::UpdateContract do
            estimated_hours: 6.0,
            project:)
   end
-  let(:member) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:member) { create(:user, member_with_roles: { project => role }) }
   let(:project) { create(:project) }
   let(:current_user) { member }
   let(:permissions) do
@@ -49,7 +49,7 @@ RSpec.describe WorkPackages::UpdateContract do
       add_work_package_notes
     ]
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:changed_values) { [] }
 
   subject(:contract) { described_class.new(work_package, current_user) }

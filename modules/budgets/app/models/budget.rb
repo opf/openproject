@@ -106,7 +106,7 @@ class Budget < ApplicationRecord
   end
 
   def edit_allowed?
-    User.current.allowed_to? :edit_budgets, project
+    User.current.allowed_in_project?(:edit_budgets, project)
   end
 
   # Amount of the budget spent.  Expressed as as a percentage whole number

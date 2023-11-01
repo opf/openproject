@@ -272,6 +272,7 @@ pt:
       no_results_title_text: Atualmente, não há membros deste projeto.
       no_results_content_text: Adicionar um membro ao projeto
     invite_by_mail: "Enviar convite para %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
@@ -340,9 +341,6 @@ pt:
   themes:
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
-    dark: "Escuro"
-    dark_dimmed: "Escurecido"
-    dark_high_contrast: "Alto contraste escuro"
   types:
     index:
       no_results_title_text: Atualmente, não há nenhum tipo.
@@ -429,6 +427,8 @@ pt:
       Sua conta ainda não foi ativada. Por favor, espere um administrador ativar sua conta.
     error_self_registration_disabled: >
       O registro do usuário está desativado no sistema. Por favor peça a um administrador para criar uma conta para você.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "ou entre com a sua conta existente"
     signup_with_auth_provider: "ou cadastre-se usando"
     auth_source_login: Faça login como <em>%{login}</em> para ativar sua conta.
@@ -573,6 +573,7 @@ pt:
         time_zone: "Fuso horário"
         auto_hide_popups: "Auto-ocultar notificações de sucesso"
         warn_on_leaving_unsaved: "Alertar-me ao sair de um pacote de trabalho sem salvar as alterações"
+        theme: "Mode"
       version:
         effective_date: "Data de conclusão"
         sharing: "Compartilhamento"
@@ -910,6 +911,7 @@ pt:
           attributes:
             roles:
               ungrantable: "possui uma função não atribuível."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "não pode ser atribuído a um projeto."
         version:
@@ -1263,12 +1265,30 @@ pt:
       x_minutes:
         one: "1 minuto"
         other: "%{count} minutos"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         one: "1 mês"
         other: "%{count} meses"
+      x_years:
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         one: "1 segundo"
         other: "%{count} segundos"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "hora"
@@ -1551,6 +1571,7 @@ pt:
   label_add_related_work_packages: "Adicionar pacotes de trabalho relacionados"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Adicionado por %{author} %{age} atrás"
   label_additional_workflow_transitions_for_assignee: "Transições adicionais permitidas quando o usuário é o responsável"
   label_additional_workflow_transitions_for_author: "Transições adicionais permitidas quando o usuário é o autor"
@@ -1656,6 +1677,7 @@ pt:
   label_copy_workflow_from: "Copiar o fluxo de trabalho de"
   label_copy_project: "Cópiar projeto"
   label_core_version: "Versão do núcleo"
+  label_core_build: "Core build"
   label_current_status: "Situação atual"
   label_current_version: "Versão atual"
   label_custom_field_add_no_type: "Adicionar este campo a um tipo de pacote de trabalho"
@@ -1800,6 +1822,10 @@ pt:
   label_login: "Fazer login"
   label_custom_logo: "Logotipo personalizado"
   label_custom_export_logo: "Logo de exportação personalizado"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Ícone personalizado"
   label_custom_touch_icon: "Ícone de toque personalizado"
   label_logout: "Desconectar"
@@ -1870,6 +1896,7 @@ pt:
   label_operator_none: "está vazio"
   label_operator_equals_or: "é (OR)"
   label_operator_equals_all: "é (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
   label_open_work_packages_plural: "aberto"
@@ -2162,12 +2189,22 @@ pt:
         assigned: 'Atribuído'
         responsible: 'Responsável'
         mentioned: 'Mencionado'
+        shared: 'Shared'
         subscribed: 'todos'
         prefix: 'Recebido devido à configuração de notificação: %{reason}'
         date_alert_start_date: 'Alerta de data'
         date_alert_due_date: 'Alerta de data'
       see_all: 'Ver todas'
       updated_at: 'Atualizado em %{timestamp} por %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
@@ -2336,6 +2373,8 @@ pt:
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Arquivar projeto"
   permission_create_user: "Criar usuários"
   permission_manage_user: "Editar usuários"
@@ -2348,6 +2387,7 @@ pt:
   permission_comment_news: "Comentar notícias"
   permission_commit_access: "Acesso de leitura/gravação para o repositório (commit)"
   permission_copy_projects: "Copiar projetos"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Excluir observadores"
   permission_delete_work_packages: "Excluir pacotes de trabalho"
@@ -2390,23 +2430,31 @@ pt:
   permission_protect_wiki_pages: "Proteger páginas wiki"
   permission_rename_wiki_pages: "Renomear páginas wiki"
   permission_save_queries: "Salvar visões"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Selecionar campos personalizados"
   permission_select_project_modules: "Selecionar módulos do projeto"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Selecionar tipos"
+  permission_view_project: "View projects"
   permission_view_changesets: "Revisões do repositório vistas no OpenProject"
   permission_view_commit_author_statistics: "Ver estatísticas de commits do autor"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Visualizar lista de observadores"
   permission_view_work_packages: "Ver pacotes de trabalho"
   permission_view_messages: "Visualizar mensagens"
+  permission_view_news: "View news"
   permission_view_members: "Visualizar membros"
   permission_view_reportings: "Ver relatórios"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Ver tempo gasto"
   permission_view_timelines: "Ver cronogramas"
   permission_view_wiki_edits: "Ver histórico do wiki"
   permission_view_wiki_pages: "Ver wiki"
   permission_work_package_assigned: "Torne-se responsável"
   permission_work_package_assigned_explanation: "Pacotes de trabalho podem ser atribuídos a usuários e grupos em posse deste papel no respectivo projeto"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2442,11 +2490,12 @@ pt:
   query_fields:
     active_or_archived: "Ativo ou arquivado"
     assigned_to_role: "Atribuído ao papel"
-    member_of_group: "Atribuído ao grupo"
     assignee_or_group: "Responsável ou grupo"
-    subproject_id: "Incluindo Subprojeto"
-    only_subproject_id: "Apenas subprojeto"
+    member_of_group: "Atribuído ao grupo"
     name_or_identifier: "Nome ou identificador"
+    only_subproject_id: "Apenas subprojeto"
+    shared_with_user: "Shared with user"
+    subproject_id: "Incluindo Subprojeto"
   repositories:
     at_identifier: 'em %{identifier}'
     atom_revision_feed: 'Revisão de atom feed'
@@ -2761,6 +2810,8 @@ pt:
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
   text_custom_export_logo_instructions: >
     Este é o logotipo que aparece nas exportações de PDF. O arquivo de imagem precisa ser PNG ou JPEG. Recomenda-se um logotipo colorido ou preto em plano de fundo transparente ou branco.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     Este é o ícone pequeno que aparece em sua janela/aba do navegador ao lado do título da página. O arquivo de imagem precisa ser PNG de 32 por 32 pixels com fundo transparente.
   text_custom_touch_icon_instructions: >
@@ -2948,6 +2999,26 @@ pt:
     destroy:
       info: "Excluir o pacote de trabalho é uma ação irreversível."
       title: "Excluir o pacote de trabalho"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Dias que não são selecionados são pulados ao agendar pacotes de trabalho (e não são incluídos na contagem do dia). Estes podem ser substituídos a nível do pacotes de trabalho.

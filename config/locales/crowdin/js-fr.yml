@@ -599,6 +599,7 @@ fr:
         processed: 'traité'
         prioritized: 'priorisé'
         dateAlert: 'Alarmes'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Date jalon'
         overdue: 'En retard'
@@ -643,6 +644,7 @@ fr:
         mentioned: 'Mentionné'
         watched: 'Observateur'
         date_alert: 'Alarmes'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Vous pouvez modifier vos <a target="_blank" href="%{url}">paramètres de notification</a> pour vous assurer de ne jamais manquer une mise à jour importante.'
         title: "Paramètres de notifications"
@@ -665,6 +667,7 @@ fr:
             description: 'Recevoir une notification chaque fois que quelqu''un me mentionne n''importe où'
           assignee: 'Assigné'
           responsible: 'Responsable'
+          shared: 'Shared'
           watched: 'Observateur'
           work_package_commented: 'Tous les nouveaux commentaires'
           work_package_created: 'Nouveaux lots de travaux'
@@ -981,6 +984,7 @@ fr:
         recently_created: "Créé récemment"
         all_open: "Tous les ouverts"
         summary: "Résumé"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Passer à la pagination du tableau"
         label_pagination: "Cliquez ici pour sauter le tableau des lots de travaux et accéder à la pagination"
@@ -1017,6 +1021,12 @@ fr:
       scheduling:
         is_parent: "Les dates de ce lot de travaux sont automatiquement déduites de ses enfants. Activez la « Planification manuelle » pour définir les dates."
         is_switched_from_manual_to_automatic: "Les dates de ce lot de travaux peuvent avoir besoin d'être recalculées après avoir passé de la planification manuelle à la planification automatique en raison de relations avec d'autres lots de travaux."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."
@@ -1245,7 +1255,7 @@ fr:
         all: 'Tous les projets'
         selected: 'Uniquement la sélection'
       search_placeholder: 'Rechercher un projet...'
-      include_subprojects: 'Inclure tous les sous-projets'
+      include_subprojects: 'inclure tous les sous-projets'
       tooltip:
         include_all_selected: 'Projet déjà inclus puisque Include tous les sous-projets sont activés.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'

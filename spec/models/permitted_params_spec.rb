@@ -231,7 +231,9 @@ RSpec.describe PermittedParams do
       end
 
       before do
-        allow(user).to receive(:allowed_to?).with(:edit_messages, project).and_return(true)
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :edit_messages, project:
+        end
       end
 
       subject { PermittedParams.new(hash, user).message(project).to_h }
@@ -445,13 +447,19 @@ RSpec.describe PermittedParams do
       let(:project) { double('project') }
 
       before do
-        allow(user).to receive(:allowed_to?).with(:add_work_package_watchers, project).and_return(allowed_to)
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :add_work_package_watchers, project:
+        end
       end
 
       subject { PermittedParams.new(params, user).update_work_package(project:).to_h }
 
       context 'user is allowed to add watchers' do
-        let(:allowed_to) { true }
+        before do
+          mock_permissions_for(user) do |mock|
+            mock.allow_in_project :add_work_package_watchers, project:
+          end
+        end
 
         it do
           expect(subject).to eq(hash)
@@ -459,7 +467,9 @@ RSpec.describe PermittedParams do
       end
 
       context 'user is not allowed to add watchers' do
-        let(:allowed_to) { false }
+        before do
+          mock_permissions_for(user, &:forbid_everything)
+        end
 
         it do
           expect(subject).to eq({})
@@ -529,7 +539,7 @@ RSpec.describe PermittedParams do
       end
 
       context 'for a non-admin with global :create_user permission' do
-        let(:user) { create(:user, global_permission: :create_user) }
+        let(:user) { create(:user, global_permissions: [:create_user]) }
         let(:hash) { all_permissions.zip(all_permissions).to_h }
 
         it 'permits default permissions and "login"' do

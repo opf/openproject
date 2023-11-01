@@ -273,6 +273,7 @@ fi:
       no_results_title_text: Tähän projektiin ei kuulu yhtään henkilöä.
       no_results_content_text: Lisää henkilö tähän projektiin
     invite_by_mail: "Send invite to %{mail}"
+    send_invite_to: "Send invite to"
   my:
     access_token:
       failed_to_reset_token: "API-salasanan resetointi epäonnistui: %{error}"
@@ -341,9 +342,6 @@ fi:
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Ei tyyppejä tällä hetkellä.
@@ -430,6 +428,8 @@ fi:
       Tilisi ei ole vielä aktivoitu. Odota, kunnes järjestelmänvalvoja aktivoi tilisi.
     error_self_registration_disabled: >
       Rekisteröityminen ei ole käytössä tässä järjestelmässä. Pyydä järjestelmänvalvojaa luomaan tili.
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "tai kirjaudu sisään jo olemassa olevalle tilille"
     signup_with_auth_provider: "tai rekisteröidy käyttäen"
     auth_source_login: Kirjaudu sisään käyttäjänä <em>%{login}</em> aktivoidaksesi tilisi.
@@ -574,6 +574,7 @@ fi:
         time_zone: "Aikavyöhyke"
         auto_hide_popups: "Piilota ilmoitukset onnistuneista toiminnoista"
         warn_on_leaving_unsaved: "Varoita tallentamattomista muutoksista"
+        theme: "Mode"
       version:
         effective_date: "Päättymispäivä"
         sharing: "Jakaminen"
@@ -911,6 +912,7 @@ fi:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
@@ -1264,12 +1266,30 @@ fi:
       x_minutes:
         one: "minuutti"
         other: "%{count} minuuttia"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         one: "kuukausi"
         other: "%{count} kuukautta"
+      x_years:
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         one: "sekunti"
         other: "%{count} sekuntia"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "tunti"
@@ -1552,6 +1572,7 @@ fi:
   label_add_related_work_packages: "Lisää tehtävän riippuvuudet"
   label_add_subtask: "Lisätä alitehtävä"
   label_added: "lisätty"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Lisännyt %{author} %{age} sitten"
   label_additional_workflow_transitions_for_assignee: "Vastuulliselle käyttäjälle on olemassa lisää siirtymiä"
   label_additional_workflow_transitions_for_author: "Aloittajalle on olemassa lisää siirtymiä"
@@ -1657,6 +1678,7 @@ fi:
   label_copy_workflow_from: "Kopioi työnkulku"
   label_copy_project: "Kopioi projekti"
   label_core_version: "Nykyinen versio"
+  label_core_build: "Core build"
   label_current_status: "Nykyinen tila"
   label_current_version: "Nykyinen versio"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -1801,6 +1823,10 @@ fi:
   label_login: "Kirjaudu"
   label_custom_logo: "Oma logo"
   label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Mukautettu kuvake"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Kirjaudu ulos"
@@ -1871,6 +1897,7 @@ fi:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Avaa valikko"
   label_open_work_packages: "avoin"
   label_open_work_packages_plural: "avoin"
@@ -2163,12 +2190,22 @@ fi:
         assigned: 'Assigned'
         responsible: 'Vastuuhenkilö'
         mentioned: 'Mentioned'
+        shared: 'Shared'
         subscribed: 'kaikki'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
+    sharing:
+      work_packages:
+        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
+        create_account: 'To access this work package you will need to create an %{instance} account. '
+        open_work_package: 'Open work package'
+        subject: 'You have been shared work package #%{id}'
+        summary:
+          user: '%{user} shared a work package with you with %{role_rights} rights'
+          group: '%{user} shared a work package with the group %{group} you are a member of'
   mail_body_account_activation_request: "Uusi käyttäjä (%{value}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:"
   mail_body_account_information: "Kirjautumistiedot"
   mail_body_account_information_external: "Voit nyt käyttää %{value} tiliäsi kirjautuaksesi järjestelmään."
@@ -2339,6 +2376,8 @@ fi:
   permission_add_work_packages: "Lisää tehtävä"
   permission_add_messages: "Jätä viesti"
   permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Arkisto projekti"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2351,6 +2390,7 @@ fi:
   permission_comment_news: "Kommentoi uutisia"
   permission_commit_access: "Tee pääsyoikeus"
   permission_copy_projects: "Kopioi projekteja"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Poista seuraajia"
   permission_delete_work_packages: "Poista tehtäviä"
@@ -2393,23 +2433,31 @@ fi:
   permission_protect_wiki_pages: "Suojaa wiki sivut"
   permission_rename_wiki_pages: "Uudelleennimeä wiki sivuja"
   permission_save_queries: "Save views"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Valitse projektin modulit"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Valitse tyypit"
+  permission_view_project: "View projects"
   permission_view_changesets: "Näytä muutosryhmät"
   permission_view_commit_author_statistics: "Tarkastele tilastoja tekijöistä"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Tarkastele seuraajien luetteloa"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "Näytä viestejä"
+  permission_view_news: "View news"
   permission_view_members: "Näytä jäsenet"
   permission_view_reportings: "Tarkastele raportointeja"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Näytä käytetty aika"
   permission_view_timelines: "Tarkastele aikajanoja"
   permission_view_wiki_edits: "Näytä wiki historia"
   permission_view_wiki_pages: "Näytä wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2445,11 +2493,12 @@ fi:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Työn suorittajan rooli"
-    member_of_group: "Työn suorittajan ryhmä"
     assignee_or_group: "Työn suorittaja tai kuuluu ryhmään"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Työn suorittajan ryhmä"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    subproject_id: "Including subproject"
   repositories:
     at_identifier: 'klo %{identifier}'
     atom_revision_feed: 'Atom revision feed'
@@ -2764,6 +2813,8 @@ fi:
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
     This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
@@ -2952,6 +3003,26 @@ fi:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      share: "Share"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "No shared users"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

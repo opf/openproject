@@ -39,11 +39,11 @@ RSpec.describe API::V3::Memberships::MembershipRepresenter, 'rendering' do
   end
   let(:project) { build_stubbed(:project) }
   let(:roles) { [role1, role2] }
-  let(:role1) { build_stubbed(:role) }
+  let(:role1) { build_stubbed(:project_role) }
   let(:member_role1) { build_stubbed(:member_role, role: role1) }
-  let(:role2) { build_stubbed(:role) }
+  let(:role2) { build_stubbed(:project_role) }
   let(:member_role2) { build_stubbed(:member_role, role: role2) }
-  let(:marked_role) { build_stubbed(:role) }
+  let(:marked_role) { build_stubbed(:project_role) }
   let(:marked_member_role) do
     build_stubbed(:member_role, role: marked_role).tap do |mr|
       allow(mr)
@@ -65,9 +65,8 @@ RSpec.describe API::V3::Memberships::MembershipRepresenter, 'rendering' do
   subject { representer.to_json }
 
   before do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, context_project|
-      project == context_project && permissions.include?(permission)
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: project || build_stubbed(:project)
     end
   end
 

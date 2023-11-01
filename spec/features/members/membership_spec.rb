@@ -28,12 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Administrating memberships via the project settings', js: true do
+RSpec.describe 'Administrating memberships via the project settings', :js do
   shared_let(:admin) { create(:admin) }
   let(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: manager)
+           member_with_roles: { project => manager })
   end
   let!(:project) { create(:project) }
 
@@ -63,8 +62,8 @@ RSpec.describe 'Administrating memberships via the project settings', js: true d
     create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
-  let!(:manager)   { create(:role, name: 'Manager', permissions: [:manage_members]) }
-  let!(:developer) { create(:role, name: 'Developer') }
+  let!(:manager)   { create(:project_role, name: 'Manager', permissions: [:manage_members]) }
+  let!(:developer) { create(:project_role, name: 'Developer') }
   let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
   let(:member2) { create(:member, principal: hannibal, project:, roles: [developer]) }
   let(:member3) { create(:member, principal: group, project:, roles: [manager]) }

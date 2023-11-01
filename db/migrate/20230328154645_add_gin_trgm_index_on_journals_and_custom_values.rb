@@ -47,7 +47,7 @@ class AddGinTrgmIndexOnJournalsAndCustomValues < ActiveRecord::Migration[7.0]
   def safe_enable_pg_trgm_extension
     ActiveRecord::Base.connection.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA pg_catalog;")
   rescue StandardError => e
-    raise unless e.message =~ /pg_trgm/
+    raise unless e.message.include?('pg_trgm')
 
     # Rollback the transaction in order to recover from the error.
     ActiveRecord::Base.connection.execute 'ROLLBACK'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -30,11 +32,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesInfoQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    FILES_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/filesinfo'.freeze
+    FILES_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/filesinfo'
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
-      @oauth_client = storage.oauth_client
+      @uri = storage.uri
+      @configuration = storage.oauth_configuration
+    end
+
+    def self.call(storage:, user:, file_ids: [])
+      new(storage).call(user:, file_ids:)
     end
 
     def call(user:, file_ids: [])
@@ -46,7 +52,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         return ServiceResult.success(result: [])
       end
 
-      Util.token(user:, oauth_client: @oauth_client) do |token|
+      Util.token(user:, configuration: @configuration) do |token|
         files_info(file_ids, token).map(&parse_json) >> handle_failure >> create_storage_file_infos
       end
     end
@@ -54,27 +60,26 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def files_info(file_ids, token)
-      ServiceResult.success(
-        result: RestClient::Request.execute(
-          method: :post,
-          url: Util.join_uri_path(@uri, FILES_INFO_PATH),
-          payload: { fileIds: file_ids }.to_json,
-          headers: {
-            'Authorization' => "Bearer #{token.access_token}",
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            'OCS-APIRequest' => true
-          }
-        )
-      ).map(&:body)
-    rescue RestClient::Unauthorized => e
-      Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
-    rescue RestClient::NotFound => e
-      Util.error(:not_found, 'Outbound request destination not found!', e.response)
-    rescue RestClient::ExceptionWithResponse => e
-      Util.error(:error, 'Outbound request failed!', e.response)
-    rescue StandardError
-      Util.error(:error, 'Outbound request failed!')
+      response = Util.http(@uri).post(
+        Util.join_uri_path(@uri.path, FILES_INFO_PATH),
+        { fileIds: file_ids }.to_json,
+        {
+          'Authorization' => "Bearer #{token.access_token}",
+          'Accept' => 'application/json',
+          'Content-Type' => 'application/json',
+          'OCS-APIRequest' => 'true'
+        }
+      )
+      case response
+      when Net::HTTPSuccess
+        ServiceResult.success(result: response.body)
+      when Net::HTTPNotFound
+        Util.error(:not_found, 'Outbound request destination not found!', response)
+      when Net::HTTPUnauthorized
+        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+      else
+        Util.error(:error, 'Outbound request failed!', response)
+      end
     end
 
     def parse_json

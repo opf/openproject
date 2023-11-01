@@ -33,6 +33,7 @@ RSpec.describe API::V3::Versions::VersionCollectionRepresenter do
   let(:versions) { build_stubbed_list(:version, 3) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(versions, self_link:, current_user: user) }
+  let(:permissions) { [:manage_versions] }
 
   include API::V3::Utilities::PathHelper
 
@@ -43,20 +44,13 @@ RSpec.describe API::V3::Versions::VersionCollectionRepresenter do
 
     context '_links' do
       before do
-        allow(user)
-          .to receive(:allowed_to_globally?)
-          .and_return(false)
-
-        allow(user)
-          .to receive(:allowed_to_globally?)
-          .with(:manage_versions)
-          .and_return(allowed_to)
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project *permissions, project: build_stubbed(:project) # any project
+        end
       end
 
       describe 'createVersionImmediately' do
         context 'if the user is allowed to' do
-          let(:allowed_to) { true }
-
           it_behaves_like 'has an untitled link' do
             let(:link) { 'createVersionImmediately' }
             let(:href) { api_v3_paths.versions }
@@ -64,7 +58,7 @@ RSpec.describe API::V3::Versions::VersionCollectionRepresenter do
         end
 
         context 'if the user is not allowed to' do
-          let(:allowed_to) { false }
+          let(:permissions) { [] }
 
           it_behaves_like 'has no link' do
             let(:link) { 'createVersionImmediately' }
@@ -74,8 +68,6 @@ RSpec.describe API::V3::Versions::VersionCollectionRepresenter do
 
       describe 'createVersion' do
         context 'if the user is allowed to' do
-          let(:allowed_to) { true }
-
           it_behaves_like 'has an untitled link' do
             let(:link) { 'createVersion' }
             let(:href) { api_v3_paths.create_version_form }
@@ -83,7 +75,7 @@ RSpec.describe API::V3::Versions::VersionCollectionRepresenter do
         end
 
         context 'if the user is not allowed to' do
-          let(:allowed_to) { false }
+          let(:permissions) { [] }
 
           it_behaves_like 'has no link' do
             let(:link) { 'createVersion' }

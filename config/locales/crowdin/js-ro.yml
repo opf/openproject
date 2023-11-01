@@ -598,6 +598,7 @@ ro:
         processed: 'prelucrate'
         prioritized: 'prioritizat'
         dateAlert: 'Alertă de dată'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data etapa'
         overdue: 'Restanțe'
@@ -643,6 +644,7 @@ ro:
         mentioned: 'Menţionat'
         watched: 'Observator'
         date_alert: 'Alertă de dată'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Puteți modifica setările <a target="_blank" href="%{url}">de notificare</a> pentru a vă asigura că nu pierdeți niciodată o actualizare importantă.'
         title: "Setări de notificare"
@@ -665,6 +667,7 @@ ro:
             description: 'Primește o notificare de fiecare dată când cineva mă menționează oriunde'
           assignee: 'Responsabil'
           responsible: 'Responsabil'
+          shared: 'Shared'
           watched: 'Observator'
           work_package_commented: 'Toate comentariile noi'
           work_package_created: 'Pachete de lucru noi'
@@ -981,6 +984,7 @@ ro:
         recently_created: "Creat de"
         all_open: "Toate deschise"
         summary: "Descriere"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Salt la paginarea tabelului"
         label_pagination: "Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare"
@@ -1017,6 +1021,12 @@ ro:
       scheduling:
         is_parent: "Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați \"Programare manuală\" pentru a stabili datele."
         is_switched_from_manual_to_automatic: "Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configurarea tabelului pachetului de lucru'
         summary: "Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane."

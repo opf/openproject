@@ -487,7 +487,7 @@ cs:
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
-    label_star_query: "Oblíbené"
+    label_star_query: "Oblíbená"
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -599,6 +599,7 @@ cs:
         processed: 'zpracováno'
         prioritized: 'upřednostněno'
         dateAlert: 'Upozornění na datum'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Datum milníku'
         overdue: 'Po termínu'
@@ -645,6 +646,7 @@ cs:
         mentioned: 'Zmíněné'
         watched: 'Sledující'
         date_alert: 'Upozornění na datum'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Nastavení oznámení"
@@ -667,6 +669,7 @@ cs:
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           assignee: 'Řešitel'
           responsible: 'Odpovědný'
+          shared: 'Shared'
           watched: 'Sledující'
           work_package_commented: 'Všechny nové komentáře'
           work_package_created: 'Nový pracovní balíček'
@@ -746,7 +749,7 @@ cs:
           membership_updated: 'Členství bylo aktualizováno'
         title: 'E-mail upozornění '
         pause:
-          label: 'Dočasně pozastavit denní posílání oznámení e-mailem'
+          label: 'Dočasně pozastavit denní připomenutí e-mailem'
           first_day: 'První den'
           last_day: 'Poslední den'
     text_are_you_sure: "Jste si jisti?"
@@ -983,6 +986,7 @@ cs:
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
         summary: "Souhrn"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Přejít na stránku tabulky"
         label_pagination: "Kliknutím sem přeskočíte tabulku pracovních balíčků a přejděte na stránku"
@@ -1019,6 +1023,12 @@ cs:
       scheduling:
         is_parent: "Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat."
         is_switched_from_manual_to_automatic: "Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Konfigurovat tabulku pracovních balíčků'
         summary: "Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku."

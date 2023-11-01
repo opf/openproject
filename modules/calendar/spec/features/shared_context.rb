@@ -36,12 +36,11 @@ RSpec.shared_context 'with calendar full access' do
 
   shared_let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[
+           member_with_permissions: { project => %w[
              view_work_packages edit_work_packages add_work_packages
              manage_calendars view_calendar
              manage_public_queries
-           ])
+           ] })
   end
 
   let(:calendar) { Pages::Calendar.new project }

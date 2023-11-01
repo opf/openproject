@@ -31,7 +31,8 @@
 # WorkPackages in the project.
 # See also: file_link.rb and storage.rb
 class Storages::ProjectStorage < ApplicationRecord
-  # ProjectStorage sits between Project and Storage.
+  using Storages::Peripherals::ServiceResultRefinements
+
   belongs_to :project, touch: true
   belongs_to :storage, touch: true, class_name: 'Storages::Storage'
   belongs_to :creator, class_name: 'User'
@@ -56,7 +57,7 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   def project_folder_path
-    "#{storage.group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
+    "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/"
   end
 
   def project_folder_path_escaped
@@ -70,8 +71,6 @@ class Storages::ProjectStorage < ApplicationRecord
   private
 
   def escape_path(path)
-    ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(
-      path
-    )
+    ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)
   end
 end

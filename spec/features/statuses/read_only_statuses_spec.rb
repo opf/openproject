@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Read-only statuses affect work package editing',
-               js: true, with_ee: %i[readonly_work_packages] do
+RSpec.describe 'Read-only statuses affect work package editing', :js, with_ee: %i[readonly_work_packages] do
   let(:locked_status) { create(:status, name: 'Locked', is_readonly: true) }
   let(:unlocked_status) { create(:status, name: 'Unlocked', is_readonly: false) }
   let(:cf_all) do
@@ -45,11 +44,9 @@ RSpec.describe 'Read-only statuses affect work package editing',
            status: unlocked_status)
   end
 
-  let(:role) { create(:role, permissions: %i[edit_work_packages view_work_packages]) }
+  let(:role) { create(:project_role, permissions: %i[edit_work_packages view_work_packages]) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let!(:workflow1) do
@@ -76,7 +73,7 @@ RSpec.describe 'Read-only statuses affect work package editing',
 
   it 'locks the work package on a read only status' do
     wp_page.switch_to_tab(tab: 'FILES')
-    expect(page).to have_selector '[data-qa-selector="op-attachments--drop-box"]'
+    expect(page).to have_test_selector 'op-attachments--drop-box'
 
     subject_field = wp_page.edit_field :subject
     subject_field.activate!
@@ -95,7 +92,7 @@ RSpec.describe 'Read-only statuses affect work package editing',
     subject_field.expect_read_only
 
     # Expect attachments not available
-    expect(page).not_to have_selector '[data-qa-selector="op-attachments--drop-box"]'
+    expect(page).not_to have_test_selector 'op-attachments--drop-box'
 
     # Expect labels to not activate field editing (Regression#45032)
     assignee_field = wp_page.edit_field :assignee
