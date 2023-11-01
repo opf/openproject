@@ -1,6 +1,6 @@
 # Processing of personal data
 
-Status of this document: 2023-10-31
+Status of this document: 2023-11-01
 
 ## Purpose of this document
 
