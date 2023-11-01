@@ -272,7 +272,7 @@ class AccountController < ApplicationController
   def auth_source_sso_failed
     failure = session.delete :auth_source_sso_failure
     login = failure[:login]
-    user = find_or_create_sso_user(login, save: false)
+    user = build_user_from_auth_source(login)
 
     if user.try(:new_record?)
       return onthefly_creation_failed user, login: user.login, ldap_auth_source_id: user.ldap_auth_source_id

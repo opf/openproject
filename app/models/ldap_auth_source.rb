@@ -94,6 +94,21 @@ class LdapAuthSource < ApplicationRecord
     nil
   end
 
+  def self.get_user_attributes(login)
+    where(onthefly_register: true).find_each do |source|
+      begin
+        Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }
+        attrs = source.get_user_attributes login
+      rescue StandardError => e
+        Rails.logger.error "Error during authentication: #{e.message}"
+        attrs = nil
+      end
+
+      return attrs.except(:dn) if attrs
+    end
+    nil
+  end
+
   def seeded_from_env?
     Setting.seed_ldap&.key?(name)
   end
@@ -128,6 +143,29 @@ class LdapAuthSource < ApplicationRecord
       Rails.logger.debug { "Lookup successful for '#{login}'" }
       synchronize_user(login, attrs)
     end
+  rescue Net::LDAP::Error => e
+    raise LdapAuthSource::Error, "LdapError: #{e.message}"
+  end
+
+  # Get the user's dn and any attributes for them, given their login
+  def get_user_attributes(login)
+    ldap_con = initialize_ldap_con(account, account_password)
+
+    attrs = {}
+
+    filter = login_filter(login)
+    Rails.logger.debug do
+      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{filter})"
+    end
+
+    ldap_con.search(base: base_dn,
+                    filter:,
+                    attributes: search_attributes) do |entry|
+      attrs = get_user_attributes_from_ldap_entry(entry)
+      Rails.logger.debug { "DN found for #{login}: #{attrs[:dn]}" }
+    end
+
+    attrs
   rescue Net::LDAP::Error => e
     raise LdapAuthSource::Error, "LdapError: #{e.message}"
   end
@@ -288,27 +326,6 @@ class LdapAuthSource < ApplicationRecord
     if dn.present? && password.present?
       initialize_ldap_con(dn, password).bind
     end
-  end
-
-  # Get the user's dn and any attributes for them, given their login
-  def get_user_attributes(login)
-    ldap_con = initialize_ldap_con(account, account_password)
-
-    attrs = {}
-
-    filter = login_filter(login)
-    Rails.logger.debug do
-      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{filter})"
-    end
-
-    ldap_con.search(base: base_dn,
-                    filter:,
-                    attributes: search_attributes) do |entry|
-      attrs = get_user_attributes_from_ldap_entry(entry)
-      Rails.logger.debug { "DN found for #{login}: #{attrs[:dn]}" }
-    end
-
-    attrs
   end
 
   def self.get_attr(entry, attr_name)

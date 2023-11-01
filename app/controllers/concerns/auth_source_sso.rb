@@ -37,7 +37,8 @@ module AuthSourceSSO
 
     Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
 
-    user = find_or_create_sso_user(login, save: true)
+    # Try to find an existing, or autocreate a new user for onthefly ldap connections
+    user = find_auth_source_user(login)
     handle_sso_for! user, login
   end
 
@@ -49,6 +50,16 @@ module AuthSourceSSO
     ::Users::LogoutService.new(controller: self).call!(user)
 
     nil
+  end
+
+  def find_auth_source_user(login)
+    user = User
+      .active
+      .by_login(login)
+      .where.not(ldap_auth_source_id: nil)
+      .first
+
+    user || LdapAuthSource.find_user(login)
   end
 
   def read_sso_login
@@ -110,42 +121,15 @@ module AuthSourceSSO
     end
   end
 
-  def find_or_create_sso_user(login, save: false)
-    find_user_from_auth_source(login) || create_user_from_auth_source(login, save:)
-  end
-
-  def find_user_from_auth_source(login)
-    User
-      .by_login(login)
-      .where.not(ldap_auth_source_id: nil)
-      .first
-  end
-
-  def create_user_from_auth_source(login, save:)
-    attrs = LdapAuthSource.find_user(login)
+  def build_user_from_auth_source(login)
+    attrs = LdapAuthSource.get_user_attributes(login)
     return unless attrs
 
-    attrs[:login] = login
-
-    call =
-      if save
-        Users::CreateService
-          .new(user: User.system)
-          .call(attrs)
-      else
-        Users::SetAttributesService
-          .new(model: User.new, user: User.system, contract_class: Users::CreateContract)
-          .call(attrs)
-      end
+    call = Users::SetAttributesService
+      .new(model: User.new, user: User.system, contract_class: Users::CreateContract)
+      .call(attrs.merge(login:))
 
     user = call.result
-
-    call.on_success do
-      logger.info(
-        "User '#{user.login}' created from external auth source: " +
-          "#{user.ldap_auth_source.type} - #{user.ldap_auth_source.name}"
-      )
-    end
 
     call.on_failure do
       logger.error "Tried to create user '#{login}' from external auth source but failed: #{call.message}"
