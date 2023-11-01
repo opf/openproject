@@ -120,13 +120,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
 
         ServiceResult.success(result:)
       when Net::HTTPMethodNotAllowed
-        UTIL.error(:not_allowed)
-      when Net::HTTPUnauthorized
-        UTIL.error(:unauthorized)
+        UTIL.error(:not_allowed, 'Outbound request method not allowed', response)
       when Net::HTTPNotFound
-        UTIL.error(:not_found)
+        UTIL.error(:not_found, 'Outbound request destination not found', response)
+      when Net::HTTPUnauthorized
+        UTIL.error(:unauthorized, 'Outbound request not authorized', response)
       else
-        UTIL.error(:error)
+        UTIL.error(:error, 'Outbound request failed', response)
       end
     end
 

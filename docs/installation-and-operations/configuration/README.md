@@ -644,8 +644,13 @@ OPENPROJECT_SECURITY__BADGE__DISPLAYED="false"
 
 ### Cache configuration options
 
-* `rails_cache_store`: `memcache` for [memcached](https://www.memcached.org/) or `memory_store` (default: `file_store`)
-* `cache_memcache_server`: The memcache server host and IP (default: `nil`)
+* `rails_cache_store`: `memcache` for [memcached](https://www.memcached.org/), `redis` for [Redis cache](https://redis.io/), or `memory_store` (default: `file_store`)
+* When using `memcached`, the following configuration option is relevant:
+  * `cache_memcache_server`: The memcache server host and IP (default: `nil`)
+
+* When using `redis`, the following configuration option is relevant:
+  * `cache_redis_url`: The URL of the Redis host (e.g., `redis://host:6379`)
+
 * `cache_expires_in`: Expiration time for memcache entries (default: `nil`, no expiry)
 * `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: `nil`)
 
