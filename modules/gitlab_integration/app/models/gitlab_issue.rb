@@ -29,17 +29,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class GitlabMergeRequest < ApplicationRecord
+class GitlabIssue < ApplicationRecord
   LABEL_KEYS = %w[color title].freeze
 
   has_and_belongs_to_many :work_packages
-  has_many :gitlab_pipelines, dependent: :destroy
   belongs_to :gitlab_user, optional: true
-  belongs_to :merged_by, optional: true, class_name: 'GitlabUser'
 
   enum state: {
     opened: 'opened',
-    merged: 'merged',
     closed: 'closed'
   }
 
@@ -67,17 +64,6 @@ class GitlabMergeRequest < ApplicationRecord
     end
   end
 
-  ##
-  # When a MR lives long enough and receives many pushes, the same pipeline CI can be run multiple times.
-  # This method only returns the latest.
-
-  def latest_pipelines
-    with_logging do
-      gitlab_pipelines.select("DISTINCT ON (gitlab_pipelines.project_id, gitlab_pipelines.name) *")
-                      .order(project_id: :asc, name: :asc, started_at: :desc)
-    end
-  end
-
   def partial?
     [body].all?(&:nil?)
   end
@@ -94,7 +80,7 @@ class GitlabMergeRequest < ApplicationRecord
   def with_logging
     yield if block_given?
   rescue StandardError => e
-    Rails.logger.error "Error at latest_pipeline: #{e} #{e.message}"
+    Rails.logger.error "Error at gitlab issue: #{e} #{e.message}"
     raise e
   end
 end
