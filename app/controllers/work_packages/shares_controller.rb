@@ -28,7 +28,7 @@
 
 class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
-  include MemberCreation
+  include MemberHelper
 
   before_action :find_work_package, only: %i[index create]
   before_action :find_share, only: %i[destroy update]
@@ -40,25 +40,30 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    user_id = params[:member][:user_id]
+    overall_result = []
 
-    # In case, the user does not exist yet: create one
-    if user_id.to_i == 0
-      service_call = create_members(send_notification: false)
-      user_id = service_call.result.user_id
+    find_or_create_users(send_notification: false) do |member_params|
+      service_call = WorkPackageMembers::CreateOrUpdateService
+                      .new(user: current_user)
+                      .call(entity: @work_package,
+                            user_id: member_params[:user_id],
+                            role_ids: find_role_ids(params[:member][:role_id]))
+
+      @share = service_call.result
+
+      overall_result.push(service_call)
     end
 
-    @share = WorkPackageMembers::CreateOrUpdateService
-      .new(user: current_user)
-      .call(entity: @work_package,
-            user_id:,
-            role_ids: find_role_ids(params[:member][:role_id])).result
+    @shares = overall_result.map(&:result).reverse
 
-
-    if current_visible_member_count > 1
-      respond_with_prepend_share
-    else
-      respond_with_replace_modal
+    if overall_result.present?
+      # In case the number of newly added shares is equal to the whole number of shares,
+      # we have to render the whole modal again to get rid of the blankslate
+      if current_visible_member_count > 1 && @shares.size < current_visible_member_count
+        respond_with_prepend_shares
+      else
+        respond_with_replace_modal
+      end
     end
   end
 
@@ -92,7 +97,7 @@ class WorkPackages::SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def respond_with_prepend_share
+  def respond_with_prepend_shares
     replace_via_turbo_stream(
       component: WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package)
     )
@@ -101,10 +106,12 @@ class WorkPackages::SharesController < ApplicationController
       component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
-    prepend_via_turbo_stream(
-      component: WorkPackages::Share::ShareRowComponent.new(share: @share),
-      target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
-    )
+    @shares.each do |share|
+      prepend_via_turbo_stream(
+        component: WorkPackages::Share::ShareRowComponent.new(share:),
+        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+      )
+    end
 
     respond_with_turbo_streams
   end

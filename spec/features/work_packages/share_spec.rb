@@ -290,15 +290,17 @@ RSpec.describe 'Work package sharing',
     let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manager_user }
 
-    it 'allows inviting and directly sharing with a user who is not part of the instance yet' do
+    before do
       work_package_page.visit!
       click_button 'Share'
+    end
 
+    it 'allows inviting and directly sharing with a user who is not part of the instance yet' do
       share_modal.expect_open
       share_modal.expect_shared_count_of(6)
 
       # Invite a user that does not exist yet
-      share_modal.create_and_invite_user('hello@world.de', 'View')
+      share_modal.invite_user('hello@world.de', 'View')
 
       # New user is shown in the list of shares
       share_modal.expect_shared_count_of(7)
