@@ -43,6 +43,7 @@ class LdapAuthSource < ApplicationRecord
   def self.unique_attribute
     :name
   end
+
   prepend ::Mixins::UniqueFinder
 
   enum tls_mode: {
@@ -79,18 +80,18 @@ class LdapAuthSource < ApplicationRecord
     nil
   end
 
+  ##
+  # Find a user by login in any of the available sources.
+  # If it's an onthefly_register ldap connection, this might implictly create the user.
   def self.find_user(login)
-    where(onthefly_register: true).find_each do |source|
-      begin
-        Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }
-        user = source.find_user login
-      rescue StandardError => e
-        Rails.logger.error "Error during authentication: #{e.message}"
-        user = nil
-      end
-
+    find_each do |source|
+      Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }
+      user = source.find_user login
       return user if user
+    rescue StandardError => e
+      Rails.logger.error "Error during authentication: #{e.message}"
     end
+
     nil
   end
 

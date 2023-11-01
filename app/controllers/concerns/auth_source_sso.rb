@@ -38,7 +38,7 @@ module AuthSourceSSO
     Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
 
     # Try to find an existing, or autocreate a new user for onthefly ldap connections
-    user = find_auth_source_user(login)
+    user = LdapAuthSource.find_user(login)
     handle_sso_for! user, login
   end
 
@@ -50,16 +50,6 @@ module AuthSourceSSO
     ::Users::LogoutService.new(controller: self).call!(user)
 
     nil
-  end
-
-  def find_auth_source_user(login)
-    user = User
-      .active
-      .by_login(login)
-      .where.not(ldap_auth_source_id: nil)
-      .first
-
-    user || LdapAuthSource.find_user(login)
   end
 
   def read_sso_login

@@ -34,12 +34,6 @@ end
 
 RSpec.describe 'Login with auth source SSO',
                driver: :auth_source_sso do
-  before do
-    allow(OpenProject::Configuration)
-      .to receive(:auth_source_sso)
-            .and_return(sso_config)
-  end
-
   let(:sso_config) do
     {
       header: 'X-Remote-User',
@@ -47,8 +41,14 @@ RSpec.describe 'Login with auth source SSO',
     }
   end
 
-  let(:ldap_auth_source) { create(:ldap_auth_source) }
-  let!(:user) { create(:user, login: 'bob', ldap_auth_source:) }
+  let!(:user) { create(:user, login: 'bob') }
+
+  before do
+    allow(OpenProject::Configuration)
+      .to receive(:auth_source_sso)
+            .and_return(sso_config)
+    allow(LdapAuthSource).to receive(:find_user).with('bob').and_return(user)
+  end
 
   it 'can log out after multiple visits' do
     visit home_path

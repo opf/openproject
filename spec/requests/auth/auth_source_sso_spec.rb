@@ -43,25 +43,53 @@ RSpec.describe AuthSourceSSO, :skip_2fa_stage, # Prevent redirects to 2FA stage
             .and_return(sso_config)
   end
 
-  describe 'with an existing LDAP user' do
-    let(:ldap_auth_source) { create(:ldap_auth_source) }
-    let(:user) { create(:user, login: 'bob', ldap_auth_source:) }
+  include_context 'with temporary LDAP'
 
-    it 'redirects the user to that URL' do
-      get '/projects?foo=bar', headers: { 'X-Remote-User' => user.login }
-      expect(response).to redirect_to '/projects?foo=bar'
+  context 'when LDAP is onthefly_register' do
+    let(:onthefly_register) { true }
+
+    it 'creates the user on the fly' do
+      expect(User.find_by(login: 'aa729')).to be_nil
+
+      expect do
+        get '/projects', headers: { 'X-Remote-User' => 'aa729' }
+      end.to change(User.not_builtin, :count).by(1)
+
+      user = User.find_by(login: 'aa729')
+      expect(user).to be_present
+      expect(user).to be_active
+      expect(session[:user_id]).to eq user.id
+      expect(session[:user_from_auth_header]).to eq true
+      expect(response).to redirect_to '/?first_time_user=true'
     end
   end
 
-  describe 'with an actual LDAP connection' do
-    include_context 'with temporary LDAP'
+  context 'when LDAP is not onthefly_register' do
+    let(:onthefly_register) { false }
 
-    context 'when LDAP is onthefly_register' do
-      let(:onthefly_register) { true }
+    it 'returns an error when the user does not exist' do
+      get '/projects', headers: { 'X-Remote-User' => 'nonexistent' }
+
+      expect(response).to redirect_to '/sso'
+      expect(session[:auth_source_sso_failure]).to be_present
     end
 
-    context 'when LDAP is not onthefly_register' do
-      let(:onthefly_register) { false }
+    context 'when the user exists, but is outdated' do
+      let(:user) { create(:user, login: 'ldap_admin', admin: false, ldap_auth_source:) }
+
+      it 'redirects the user to that URL' do
+        expect(user).not_to be_admin
+        get '/projects?foo=bar', headers: { 'X-Remote-User' => user.login }
+        expect(response).to redirect_to '/projects?foo=bar'
+
+        user.reload
+        expect(user).to be_admin
+      end
+    end
+
+    context 'when the user exists in another auth source that is inaccessible' do
+      let(:other_ldap) { create(:ldap_auth_source, name: 'other_ldap') }
+      let(:user) { create(:user, login: 'ldap_admin', admin: false, ldap_auth_source: other_ldap) }
 
       it 'returns an error when the user does not exist' do
         get '/projects', headers: { 'X-Remote-User' => 'nonexistent' }
