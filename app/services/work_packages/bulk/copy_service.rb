@@ -29,6 +29,8 @@
 module WorkPackages
   module Bulk
     class CopyService < BulkedService
+      attr_reader :wp_map
+
       def initialize(user:, work_packages:)
         super
 
@@ -53,7 +55,7 @@ module WorkPackages
 
           result.add_dependent!(wp_copy)
 
-          @wp_map.store(work_package.id, wp_copy.result.id)
+          wp_map.store(work_package.id, wp_copy.result.id)
         end
 
         copy_relations unless result.failure?
@@ -63,12 +65,12 @@ module WorkPackages
       end
 
       def copy_relations
-        relations = Relation.where(to_id: @wp_map.keys, from_id: @wp_map.keys)
+        relations = Relation.where(to_id: wp_map.keys, from_id: wp_map.keys)
 
         relations.each do |relation|
           new_relation = relation.dup
-          new_relation.from_id = @wp_map[relation.from_id]
-          new_relation.to_id = @wp_map[relation.to_id]
+          new_relation.from_id = wp_map[relation.from_id]
+          new_relation.to_id = wp_map[relation.to_id]
           new_relation.save!
         end
       end
@@ -83,7 +85,7 @@ module WorkPackages
           .each do |wp|
           copied = copy_with_updated_parent_id(wp, attributes, ancestors)
 
-          @wp_map.store(wp.id, copied.result.id)
+          wp_map.store(wp.id, copied.result.id)
 
           result.add_dependent!(copied)
         end
