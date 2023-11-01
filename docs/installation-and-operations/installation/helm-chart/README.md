@@ -30,7 +30,15 @@ By default and when using filesystem-based attachments, OpenProject requires the
 
 To avoid using ReadWriteMany, you will need to configure an S3 compatible object storage instead which is shown in the [advanced configuration guide](../../configuration/#attachments-storage).
 
+```
+persistence:
+  enabled: false
 
+s3:
+  enabled: true
+  accessKeyId:
+  # etc.
+```
 
 ## Installing the Chart
 
@@ -135,8 +143,48 @@ Either increase the cluster's resources to have at least 4 CPUs or install the O
 --set resources.limits.cpu=2
 ```
 
-### Root access in OpenShift
+### OpenShift
 
-The OpenProject container performs tasks as root during setup.
-In [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) this is not allowed. You will have to [add](https://examples.openshift.pub/deploy/scc-anyuid/) the `anyuid` SCC (Security Context Constraint)
-to OpenProject's service account.
+For OpenProject to work in OpenShift without further adjustments,
+you need to use the following pod security context.
+
+```
+podSecurityContext:
+  supplementalGroups: [1000]
+  fsGroup: null
+```
+
+By default OpenProject requests `fsGroup: 1000` in the pod security context.
+This is not allowed by default. You have to allow it using
+a custom SCC (Security Context Constraint) in the cluster.
+
+The use of `supplementalGroups` is not necessary if you request the correct UID in the security context.
+
+```
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+```
+
+But this will not be allowed by default either. So the easiest way is the use of the `podSecurityContext` shown above.
+
+Due to the default restrictions in OpenShift there may also be issues running
+PostgreSQL and memcached. Again, you may have to create an SCC to fix this
+or adjust the policies in the subcharts accordingly.
+
+Assuming no further options for both, simply disabling the security context values to use the default works as well.
+
+```
+postgresql:
+  primary:
+    containerSecurityContext:
+      enabled: false
+    podSecurityContext:
+      enabled: false
+
+memcached:
+  containerSecurityContext:
+    enabled: false
+  podSecurityContext:
+    enabled: false
+```
