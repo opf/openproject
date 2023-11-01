@@ -113,6 +113,17 @@ RSpec.describe User, "permission check methods" do
         result
       end
     end
+
+    context 'with a project permission and no project or entity' do
+      let(:permission) { :manage_members }
+      let(:entity) { nil }
+      let(:project) { nil }
+
+      it 'uses the #allowed_in_any_project? method' do
+        expect(subject).to receive(:allowed_in_any_project?).with(permission_object)
+        result
+      end
+    end
   end
 
   describe '#all_permissions_for' do
