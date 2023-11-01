@@ -40,7 +40,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def create
-    overall_result = nil
+    overall_result = []
 
     find_or_create_users(send_notification: false) do |member_params|
       service_call = WorkPackageMembers::CreateOrUpdateService
@@ -51,16 +51,12 @@ class WorkPackages::SharesController < ApplicationController
 
       @share = service_call.result
 
-      if overall_result
-        overall_result.push(service_call)
-      else
-        overall_result = [service_call]
-      end
+      overall_result.push(service_call)
     end
 
     @shares = overall_result.map(&:result).reverse
 
-    unless overall_result.nil?
+    if overall_result.present?
       # In case the number of newly added shares is equal to the whole number of shares,
       # we have to render the whole modal again to get rid of the blankslate
       if current_visible_member_count > 1 && @shares.size < current_visible_member_count

@@ -45,11 +45,7 @@ class MembersController < ApplicationController
                        .new(user: current_user)
                        .call(member_params)
 
-      if overall_result
-        overall_result.push(service_call)
-      else
-        overall_result = [service_call]
-      end
+      overall_result.push(service_call)
     end
 
     if overall_result.empty?
