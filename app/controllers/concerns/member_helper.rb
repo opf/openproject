@@ -32,21 +32,19 @@ module MemberHelper
   def find_or_create_users(send_notification: true)
     @send_notification = send_notification
 
-    each_new_member_param do |member_params|
-      yield member_params
+    user_ids.each do |id|
+      yield permitted_params.member.merge(user_id: id, project: @project)
     end
   end
 
-  def each_new_member_param
+  def user_ids
     user_ids = user_ids_for_new_members(params[:member])
 
     group_ids = Group.where(id: user_ids).pluck(:id)
 
     user_ids.sort_by! { |id| group_ids.include?(id) ? 1 : -1 }
 
-    user_ids.each do |id|
-      yield permitted_params.member.merge(user_id: id, project: @project)
-    end
+    user_ids
   end
 
   def user_ids_for_new_members(member_params)
