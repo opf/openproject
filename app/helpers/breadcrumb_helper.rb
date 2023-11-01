@@ -27,30 +27,19 @@
 #++
 
 module BreadcrumbHelper
-  def full_breadcrumb
-    breadcrumb_list(*breadcrumb_paths)
-  end
+  def full_breadcrumbs
+    items = breadcrumb_paths.compact
+    render(Primer::Beta::Breadcrumbs.new) do |breadcrumbs|
+      items.each do |item|
+        item = anchor_string_to_object(item) if item.is_a?(String) && item.start_with?("\u003c")
 
-  def breadcrumb(*args)
-    elements = args.flatten
-    elements.any? ? content_tag('p', (args.join(' &#187; ') + ' &#187; ').html_safe, class: 'op-breadcrumb') : nil
-  end
-
-  def breadcrumb_list(*args)
-    elements = args.flatten
-    breadcrumb_elements = [content_tag(:li,
-                                       elements.shift.to_s,
-                                       class: 'first-breadcrumb-element')]
-
-    breadcrumb_elements += elements.map do |element|
-      if element
-        content_tag(:li,
-                    h(element.to_s),
-                    class: "icon4 icon-small icon-arrow-right5")
+        if item.is_a?(Hash)
+          breadcrumbs.with_item(href: item[:href]) { item[:text] }
+        else
+          breadcrumbs.with_item(href: "#") { item }
+        end
       end
     end
-
-    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'op-breadcrumb', 'data-test-selector': 'op-breadcrumb')
   end
 
   def breadcrumb_paths(*args)
@@ -70,5 +59,17 @@ module BreadcrumbHelper
     else
       false
     end
+  end
+
+  private
+
+  # transform anchor tag strings to {href, text} objects
+  # e.g "\u003ca href=\"/admin\"\u003eAdministration\u003c/a\u003e"
+  def anchor_string_to_object(html_string)
+    # Parse the HTML
+    doc = Nokogiri::HTML.fragment(html_string)
+    # Extract href and text
+    anchor = doc.at("a")
+    { href: anchor["href"], text: anchor.text }
   end
 end
