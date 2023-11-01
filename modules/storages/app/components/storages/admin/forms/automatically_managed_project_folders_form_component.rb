@@ -33,7 +33,17 @@ module Storages::Admin::Forms
     include OpPrimer::ComponentHelpers
     alias_method :storage, :model
 
+    options form_method: :patch
+
+    def form_url
+      options[:form_url] || default_form_url
+    end
+
     private
+
+    def default_form_url
+      admin_settings_storage_automatically_managed_project_folders_path(storage)
+    end
 
     def storage_provider_credentials_copy_instructions
       "#{I18n.t('storages.instructions.copy_from')}: #{provider_credentials_instructions_link}".html_safe

@@ -32,8 +32,8 @@
       end
 
       credentials_row.with_row do
-        concat(render(Primer::Beta::Button.new(scheme: :primary, tag: :a, href: submit_button_path)) { I18n.t('storages.buttons.done_continue') })
-        concat(render(Primer::Beta::Button.new(scheme: :default, tag: :a, href: cancel_button_path)) { I18n.t('button_cancel') })
+        concat(render(Primer::Beta::Button.new(**submit_button_options)) { I18n.t('storages.buttons.done_continue') })
+        concat(render(Primer::Beta::Button.new(**cancel_button_options)) { I18n.t('button_cancel') })
       end
     end
   end

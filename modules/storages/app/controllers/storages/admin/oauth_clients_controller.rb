@@ -46,12 +46,17 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
   # Show the admin page to create a new OAuthClient object.
   def new
-    @oauth_client = ::OAuthClients::SetAttributesService.new(user: User.current,
-                                                             model: OAuthClient.new,
-                                                             contract_class: EmptyContract)
-                                                        .call
-                                                        .result
-    render '/storages/admin/storages/new_oauth_client'
+    @oauth_client = ::OAuthClients::SetAttributesService
+                      .new(user: User.current,
+                           model: OAuthClient.new,
+                           contract_class: EmptyContract)
+                      .call
+                      .result
+
+    respond_to do |format|
+      format.html { render '/storages/admin/storages/new_oauth_client' }
+      format.turbo_stream
+    end
   end
 
   # Actually create a OAuthClient object.
@@ -61,6 +66,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     service_result = ::OAuthClients::CreateService.new(user: User.current)
                                                   .call(oauth_client_params.merge(integration: @storage))
     @oauth_client = service_result.result
+    @storage = @storage.reload
 
     service_result.on_failure do
       render '/storages/admin/storages/new_oauth_client'
@@ -71,7 +77,10 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
       if @storage.provider_type_nextcloud? && @storage.automatic_management_unspecified?
         if OpenProject::FeatureDecisions.storage_primer_design_active?
-          redirect_to edit_admin_settings_storage_path(@storage)
+          respond_to do |format|
+            format.html { redirect_to edit_admin_settings_storage_path(@storage) }
+            format.turbo_stream
+          end
         else
           redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
         end

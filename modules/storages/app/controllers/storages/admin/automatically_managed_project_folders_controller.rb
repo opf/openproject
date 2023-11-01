@@ -41,7 +41,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
 
   # specify which model #find_model_object should look up
   model_object Storages::NextcloudStorage
-  before_action :find_model_object, only: %i[new edit update]
+  before_action :find_model_object, only: %i[new create edit update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -66,6 +66,18 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     render '/storages/admin/storages/automatically_managed_project_folders/edit'
   end
 
+  def create
+    service_result = call_update_service
+
+    if service_result.success?
+      redirect_to edit_admin_settings_storage_path(@storage)
+    else
+      respond_to do |format|
+        format.turbo_stream { render partial: '/storages/admin/storages/automatically_managed_project_folders/form' }
+      end
+    end
+  end
+
   # Renders an edit page (allowing the user to change automatically_managed bool and password).
   # Used by: The StoragesController#edit, when user wants to update application credentials.
   # Called by: Global app/config/routes.rb to serve Web page
@@ -77,10 +89,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
   def update
-    service_result = ::Storages::Storages::UpdateService
-                       .new(user: current_user,
-                            model: @storage)
-                       .call(permitted_storage_params_with_defaults)
+    service_result = call_update_service
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
@@ -111,6 +120,13 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   def find_model_object(object_id = :storage_id)
     super(object_id)
     @storage = @object
+  end
+
+  def call_update_service
+    ::Storages::Storages::UpdateService
+      .new(user: current_user,
+           model: @storage)
+      .call(permitted_storage_params_with_defaults)
   end
 
   def permitted_storage_params_with_defaults
