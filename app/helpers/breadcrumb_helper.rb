@@ -43,9 +43,7 @@ module BreadcrumbHelper
   end
 
   def breadcrumb_paths(*args)
-    if args.nil?
-      nil
-    elsif args.empty?
+    if args.empty?
       @breadcrumb_paths ||= [default_breadcrumb]
     else
       @breadcrumb_paths ||= []
