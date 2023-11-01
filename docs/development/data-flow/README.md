@@ -1,4 +1,4 @@
-# Processed personal data and data flows
+# Processing of personal data
 
 Status of this document: 2023-10-31
 
