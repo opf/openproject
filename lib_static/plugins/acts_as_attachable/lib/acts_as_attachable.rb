@@ -199,12 +199,10 @@ module Redmine
           private
 
           def allowed_to_on_attachment?(user, permissions)
+            permission_project_context = (project if respond_to?(:project))
+
             Array(permissions).any? do |permission|
-              if respond_to?(:project)
-                user.allowed_to?(permission, project)
-              else
-                user.allowed_to_globally?(permission)
-              end
+              user.allowed_based_on_permission_context?(permission, project: permission_project_context)
             end
           end
 
