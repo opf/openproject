@@ -32,6 +32,8 @@ RSpec.describe API::V3::Users::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  include_context 'with default admin'
+
   shared_let(:text_custom_field) do
     create(:user_custom_field, :string)
   end

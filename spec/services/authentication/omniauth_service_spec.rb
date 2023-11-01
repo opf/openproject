@@ -28,6 +28,8 @@
 require 'spec_helper'
 
 RSpec.describe Authentication::OmniauthService do
+  include_context 'with default admin'
+
   let(:strategy) { double('Omniauth Strategy', name: 'saml') }
   let(:auth_hash) do
     OmniAuth::AuthHash.new(

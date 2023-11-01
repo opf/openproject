@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe MyController do
+  include_context 'with default admin'
+
   let(:user) { create(:user) }
 
   before do

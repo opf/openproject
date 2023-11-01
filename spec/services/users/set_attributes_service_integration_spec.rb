@@ -29,7 +29,9 @@
 require 'spec_helper'
 
 RSpec.describe Users::SetAttributesService, 'Integration', type: :model do
-  let(:input_user) { create(:user) }
+  include_context 'with default admin'
+
+  shared_let(:input_user) { create(:user) }
   let(:actor) { build_stubbed(:admin) }
 
   let(:instance) do

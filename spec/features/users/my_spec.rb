@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'my', js: true, with_cuprite: true do
+  include_context 'with default admin'
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     create(:user,

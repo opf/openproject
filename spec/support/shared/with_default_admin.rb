@@ -26,42 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Users
-  class UpdateContract < BaseContract
-    validate :user_allowed_to_update
-    validate :at_least_one_admin_is_active
-
-    ##
-    # Users can only be updated when
-    # - the user is editing herself
-    # - the user is an admin
-    # - the user has the global manage_user permission and is not editing an admin
-    def allowed_to_update?
-      editing_themself? || can_manage_user?
-    end
-
-    private
-
-    def user_allowed_to_update
-      unless allowed_to_update?
-        errors.add :base, :error_unauthorized
-      end
-    end
-
-    def at_least_one_admin_is_active
-      if (model.locked? || !model.admin?) && User.active.admin.where.not(id: model).none?
-        errors.add :base, :one_must_be_active
-      end
-    end
-
-    def editing_themself?
-      user == model
-    end
-
-    # Only admins can edit other admins
-    # Only users with manage_user permission can edit other users
-    def can_manage_user?
-      user.allowed_globally?(:manage_user) && (user.admin? || !model.admin?)
-    end
-  end
+RSpec.shared_context 'with default admin' do
+  shared_let(:default_admin) { create(:admin) }
 end
