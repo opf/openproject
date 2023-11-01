@@ -26,7 +26,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-class GitlabIntegrationModels < ActiveRecord::Migration[7.0]
+class AddGitlabIssues < ActiveRecord::Migration[7.0]
   # rubocop:disable Metrics/AbcSize
   def change
     create_table :gitlab_issues do |t|
