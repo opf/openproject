@@ -53,6 +53,7 @@ class MembersController < ApplicationController
     end
 
     if overall_result.empty?
+      flash[:error] = I18n.t('activerecord.errors.models.member.principal_blank')
       redirect_to project_members_path(project_id: @project, status: 'all')
     elsif overall_result.all?(&:success?)
       display_success(members_added_notice(overall_result.map(&:result)))
