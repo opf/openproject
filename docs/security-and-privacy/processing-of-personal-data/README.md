@@ -1,10 +1,17 @@
-# Flows of personal data
+---
+sidebar_navigation:
+  title: Processing of personal data
+  priority: 500
+description: Documentation of the data flows of personal data in OpenProject
+keywords: GDPR, data flow, processing personal data, data privacy information
+---
+# Processing of personal data
 
-Status of this document: 2023-10-31
+Status of this document: 2023-11-01
 
 ## Purpose of this document
 
-This document describes the flows of personal data in the OpenProject software. The purpose of this document is to support the data controllers of organizations that are using OpenProject in their own infrastructure to prepare their own data protection documents as required by the GDPR. 
+This document outlines how personal data flows through the OpenProject software and aims to assist data controllers in organizations using OpenProject on their own infrastructure in creating GDPR-compliant data protection documentation.
 
 > **Note:** Customers of the [OpenProject GmbH](https://www.openproject.org/legal/imprint/) that subscribed to the [OpenProject Enterprise Edition Cloud](https://www.openproject.org/enterprise-edition/) (a software-as-a-service) please check the following legal documents:
 >
@@ -13,16 +20,14 @@ This document describes the flows of personal data in the OpenProject software. 
 > * [Sub-Processors](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
 > * [Technical and Organizational Data Security Measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures/)
 
-
-
 ## Groups of personal data
 
-OpenProject is a project management and team collaboration software. The software processes personal data of four different groups:
+OpenProject is a project management and team collaboration software. The personal data processed by the software can be categorized into four different groups:
 
-- **User master data:** Serves the administration of a user account
-- **Functional assignments:** Connects a user with work packages, projects, teams, budgets, time logs etc.
-- **Logfiles:** Automatically created protocols of user activity
-- **Content data:** Person mentioned in text or shown in pictures. Those persons do not necessarily not need to be a user.
+- **User master data:** essential for administering user accounts.
+- **Functional assignments:** connects users to various entities such as work packages, projects, teams, budgets, time logs, etc.
+- **Logfiles:** automatically generated records of user activity.
+- **Content data:** Person mentioned in text or shown in pictures. Those persons do not necessarily need to be a user.
 
 ### A: Usage without user account
 
@@ -83,7 +88,7 @@ Depending on the individual use and permissions of the user the following person
 
 ##### Boards (cb-01) 
 
-- Assignments of person to a work package (author, assignee, responsible, user custom fields)
+- Assignment of a person to a work package (author, assignee, responsible, user custom fields)
 - Change history
 - Person mentioned in a board
 
@@ -196,7 +201,7 @@ As such, the log entries are not kept for a fixed period of time. If there are a
 
 #### Technical documentation
 
-Detaild technical about the logging mechanism can be found in the operations documentation:
+Detailed technical information about the logging mechanism can be found in the operations documentation:
 
 * [Monitoring your OpenProject installation](../../installation-and-operations/operation/monitoring/)
 
