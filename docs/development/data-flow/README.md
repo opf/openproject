@@ -196,7 +196,7 @@ As such, the log entries are not kept for a fixed period of time. If there are a
 
 #### Technical documentation
 
-Detaild technical about the logging mechanism can be found in the operations documentation:
+Detailed technical information about the logging mechanism can be found in the operations documentation:
 
 * [Monitoring your OpenProject installation](../../installation-and-operations/operation/monitoring/)
 
