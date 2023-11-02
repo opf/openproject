@@ -83,7 +83,9 @@ RSpec.describe Authorization do
   end
 
   describe '.permissions_for' do
-    subject { described_class.permissions_for(action) }
+    let(:raise_on_unknown) { false }
+
+    subject { described_class.permissions_for(action, raise_on_unknown:) }
 
     context 'when called with a Permission object' do
       let(:action) { OpenProject::AccessControl.permission(:view_work_packages) }
@@ -136,39 +138,29 @@ RSpec.describe Authorization do
       end
     end
 
-    context 'when action is a permission name that does not exist' do
-      let(:action) { :this_permission_does_not_exist }
+    context 'when there is a permission but it is disabled' do
+      let(:permission_object) { OpenProject::AccessControl.permission(:manage_user) }
+      let(:action) { permission_object.name }
 
-      it 'returns the Permission object wrapped in an array' do
-        expect(subject).to be_empty
+      around do |example|
+        permission_object.disable!
+        OpenProject::AccessControl.clear_caches
+        example.run
+      ensure
+        permission_object.enable!
+        OpenProject::AccessControl.clear_caches
       end
-    end
-  end
 
-  describe '.contextual_permissions' do
-    subject { described_class.contextual_permissions(action, context, raise_on_unknown:) }
-
-    let(:raise_on_unknown) { false }
-    let(:context) { nil }
-
-    let(:global_permission) { OpenProject::AccessControl.permission(:manage_user) }
-    let(:project_permission) { OpenProject::AccessControl.permission(:manage_members) }
-    let(:project_and_work_package_permission) { OpenProject::AccessControl.permission(:view_work_packages) }
-
-    let(:returned_permissions) do
-      [
-        global_permission,
-        project_permission,
-        project_and_work_package_permission
-      ]
-    end
-
-    before do
-      allow(described_class).to receive(:permissions_for).and_return(returned_permissions)
+      it 'returns an empty array and does not warn or raise' do
+        expect(Rails.logger).not_to receive(:debug)
+        expect do
+          expect(subject).to be_empty
+        end.not_to raise_error
+      end
     end
 
     context 'when there is no permission' do
-      let(:returned_permissions) { [] }
+      let(:action) { :this_permission_does_not_exist }
 
       context 'and raise_on_unknown is false' do
         let(:raise_on_unknown) { false }
@@ -199,77 +191,79 @@ RSpec.describe Authorization do
       end
     end
 
-    context 'with global context' do
-      let(:context) { :global }
+    describe '.contextual_permissions' do
+      subject { described_class.contextual_permissions(action, context, raise_on_unknown:) }
 
-      context 'when a global permission is part of the returned permissions' do
-        it 'returns only the global permission' do
-          expect(subject).to eq([global_permission])
-        end
+      let(:raise_on_unknown) { false }
+      let(:context) { nil }
 
-        context 'with a disabled permission' do
-          let(:action) { global_permission.name }
-          let(:returned_permissions) { [] }
+      let(:global_permission) { OpenProject::AccessControl.permission(:manage_user) }
+      let(:project_permission) { OpenProject::AccessControl.permission(:manage_members) }
+      let(:project_and_work_package_permission) { OpenProject::AccessControl.permission(:view_work_packages) }
 
-          around do |example|
-            global_permission.disable!
-            OpenProject::AccessControl.clear_caches
-            example.run
-          ensure
-            global_permission.enable!
-            OpenProject::AccessControl.clear_caches
+      let(:returned_permissions) do
+        [
+          global_permission,
+          project_permission,
+          project_and_work_package_permission
+        ]
+      end
+
+      before do
+        allow(described_class).to receive(:permissions_for).and_return(returned_permissions)
+      end
+
+      context 'with global context' do
+        let(:context) { :global }
+
+        context 'when a global permission is part of the returned permissions' do
+          it 'returns only the global permission' do
+            expect(subject).to eq([global_permission])
           end
+        end
 
-          it 'returns an empty array and does not warn or raise' do
-            expect(Rails.logger).not_to receive(:debug)
-            expect do
-              expect(subject).to be_empty
-            end.not_to raise_error
+        context 'when no global permission is part of the returned permissions' do
+          let(:returned_permissions) { [project_permission, project_and_work_package_permission] }
+
+          it 'raises an IllegalPermissionContextError' do
+            expect { subject }.to raise_error(Authorization::IllegalPermissionContextError)
           end
         end
       end
 
-      context 'when no global permission is part of the returned permissions' do
-        let(:returned_permissions) { [project_permission, project_and_work_package_permission] }
+      context 'with project context' do
+        let(:context) { :project }
 
-        it 'raises an IllegalPermissionContextError' do
-          expect { subject }.to raise_error(Authorization::IllegalPermissionContextError)
+        context 'when a project permission is part of the returned permissions' do
+          it 'returns only the project permissions' do
+            expect(subject).to eq([project_permission, project_and_work_package_permission])
+          end
         end
-      end
-    end
 
-    context 'with project context' do
-      let(:context) { :project }
+        context 'when no project permission is part of the returned permissions' do
+          let(:returned_permissions) { [global_permission] }
 
-      context 'when a project permission is part of the returned permissions' do
-        it 'returns only the project permissions' do
-          expect(subject).to eq([project_permission, project_and_work_package_permission])
-        end
-      end
-
-      context 'when no project permission is part of the returned permissions' do
-        let(:returned_permissions) { [global_permission] }
-
-        it 'raises an IllegalPermissionContextError' do
-          expect { subject }.to raise_error(Authorization::IllegalPermissionContextError)
-        end
-      end
-    end
-
-    context 'with work package context' do
-      let(:context) { :work_package }
-
-      context 'when a work package permission is part of the returned permissions' do
-        it 'returns only the work package permission' do
-          expect(subject).to eq([project_and_work_package_permission])
+          it 'raises an IllegalPermissionContextError' do
+            expect { subject }.to raise_error(Authorization::IllegalPermissionContextError)
+          end
         end
       end
 
-      context 'when no work package permission is part of the returned permissions' do
-        let(:returned_permissions) { [global_permission, project_permission] }
+      context 'with work package context' do
+        let(:context) { :work_package }
 
-        it 'raises an IllegalPermissionContextError' do
-          expect { subject }.to raise_error(Authorization::IllegalPermissionContextError)
+        context 'when a work package permission is part of the returned permissions' do
+          it 'returns only the work package permission' do
+            expect(subject).to eq([project_and_work_package_permission])
+          end
+        end
+
+        context 'when no work package permission is part of the returned permissions' do
+          let(:returned_permissions) { [global_permission, project_permission] }
+
+          it 'raises an IllegalPermissionContextError' do
+            expect { subject }.to raise_error(Authorization::IllegalPermissionContextError)
+          end
         end
       end
     end

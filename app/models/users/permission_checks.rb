@@ -98,7 +98,7 @@ module Users::PermissionChecks
   # Helper method to be used in places where we just throw anything into the permission check and don't know what
   # context it should be checked on. Things like menu item checks, controller action checks, generic services, etc.
   def allowed_based_on_permission_context?(permission, project: nil, entity: nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
-    permissions = Authorization.permissions_for(permission)
+    permissions = Authorization.permissions_for(permission, raise_on_unknown: true)
 
     permissions.any? do |perm|
       if perm.global?
