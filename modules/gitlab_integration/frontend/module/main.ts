@@ -63,36 +63,36 @@ export function workPackageGitlabMrsCount(
     );
 }
 
-export function workPackageGitlabIssuesCount(
-  workPackage:WorkPackageResource,
-  injector:Injector,
-):Observable<number> {
-  const gitlabIssueService = injector.get(WorkPackagesGitlabIssueService);
+// export function workPackageGitlabIssuesCount(
+//   workPackage:WorkPackageResource,
+//   injector:Injector,
+// ):Observable<number> {
+//   const gitlabIssueService = injector.get(WorkPackagesGitlabIssueService);
 
-  return gitlabIssueService
-    .requireAndStream(workPackage)
-    .pipe(
-      map((issue) => issue.length),
-    );
-}
+//   return gitlabIssueService
+//     .requireAndStream(workPackage)
+//     .pipe(
+//       map((issue) => issue.length),
+//     );
+// }
 
-export function calculateSum(
-  workPackage:WorkPackageResource,
-  injector:Injector,
-):Observable<number> {
-  return forkJoin([
-    workPackageGitlabMrsCount(  
-      workPackage,
-      injector,
-    ),
-    workPackageGitlabIssuesCount(
-      workPackage,
-      injector,
-    ),
-  ]).pipe(
-    map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
-  );
-}
+// export function calculateSum(
+//   workPackage:WorkPackageResource,
+//   injector:Injector,
+// ):Observable<number> {
+//   return forkJoin([
+//     workPackageGitlabMrsCount(  
+//       workPackage,
+//       injector,
+//     ),
+//     workPackageGitlabIssuesCount(
+//       workPackage,
+//       injector,
+//     ),
+//   ]).pipe(
+//     map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
+//   );
+// }
 
 export function initializeGitlabIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -101,7 +101,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
     name: I18n.t('js.gitlab_integration.work_packages.tab_name'),
     id: 'gitlab',
     displayable: (workPackage) => !!workPackage.gitlab,
-    count: calculateSum,
+    count: workPackageGitlabMrsCount,
   });
 }
 
