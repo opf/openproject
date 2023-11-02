@@ -50,6 +50,15 @@ GIT
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
 
+GIT
+  remote: https://github.com/rubycdp/cuprite.git
+  revision: d31b926b2afc4e11b516f15da8205dd3c34e7af1
+  ref: d31b926b2afc4e11b516f15da8205dd3c34e7af1
+  specs:
+    cuprite (0.14.3)
+      capybara (~> 3.0)
+      ferrum (~> 0.13.0)
+
 PATH
   remote: modules/auth_plugins
   specs:
@@ -382,9 +391,6 @@ GEM
     crass (1.0.6)
     css_parser (1.16.0)
       addressable
-    cuprite (0.14.3)
-      capybara (~> 3.0)
-      ferrum (~> 0.13.0)
     daemons (1.4.1)
     dalli (3.2.6)
     date (3.3.3)
@@ -1049,7 +1055,7 @@ DEPENDENCIES
   commonmarker (~> 0.23.9)
   compare-xml (~> 0.66)
   costs!
-  cuprite (~> 0.14.3)
+  cuprite!
   daemons
   dalli (~> 3.2.0)
   dashboards!

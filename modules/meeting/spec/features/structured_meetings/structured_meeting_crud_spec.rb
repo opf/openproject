@@ -31,12 +31,9 @@ require 'spec_helper'
 require_relative '../../support/pages/meetings/new'
 require_relative '../../support/pages/structured_meeting/show'
 
-# Cuprite has a bug where it sends keydown events without #key property
-# This breaks stimulus handling of the escape action
-# https://github.com/rubycdp/cuprite/issues/240
 RSpec.describe 'Structured meetings CRUD',
                :js,
-               with_cuprite: false do
+               :with_cuprite do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }

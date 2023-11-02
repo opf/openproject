@@ -251,7 +251,7 @@ group :test do
 
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
-  gem 'cuprite', '~> 0.14.3'
+  gem 'cuprite', github: 'rubycdp/cuprite', ref: 'd31b926b2afc4e11b516f15da8205dd3c34e7af1'
   gem 'selenium-webdriver', '~> 4.14.0'
 
   gem 'fuubar', '~> 2.5.0'
