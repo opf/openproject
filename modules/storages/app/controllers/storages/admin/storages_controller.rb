@@ -142,12 +142,15 @@ class Storages::Admin::StoragesController < ApplicationController
   # default attribute values because the object already exists;
   # Called by: Global app/config/routes.rb to serve Web page
   def edit; end
-  def edit_host; end
+
+  def edit_host
+    respond_to { |format| format.turbo_stream }
+  end
 
   # Update is similar to create above
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
-  def update
+  def update # rubocop:disable Metrics/AbcSize
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user, model: @storage)
                        .call(@storage_params)
@@ -155,14 +158,16 @@ class Storages::Admin::StoragesController < ApplicationController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
+
       respond_to do |format|
         format.html { redirect_to edit_admin_settings_storage_path(@storage) }
         format.turbo_stream
       end
-    elsif OpenProject::FeatureDecisions.storage_primer_design_active?
-      render :edit_host
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit }
+        format.turbo_stream { render :edit_host }
+      end
     end
   end
 

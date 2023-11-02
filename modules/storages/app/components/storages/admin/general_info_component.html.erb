@@ -20,7 +20,8 @@
                 scheme: :invisible,
                 href: edit_host_admin_settings_storage_path(storage),
                 aria: { label: I18n.t('storages.label_edit_storage_host') } ,
-                test_selector: 'storage-edit-host-button'
+                test_selector: 'storage-edit-host-button',
+                data: { turbo_stream: true }
               )
             )
           end
