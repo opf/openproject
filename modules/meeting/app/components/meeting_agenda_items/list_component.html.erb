@@ -23,20 +23,14 @@
           end
         end
       else
-        @meeting.agenda_items.each do |meeting_agenda_item|
-          border_box.with_row(
-            pl: 0,
-            scheme: :default,
-            data: {
-              id: meeting_agenda_item.id,
-              'drop-url': drop_meeting_agenda_item_path(meeting_agenda_item.meeting, meeting_agenda_item)
-            }
-          ) do
-            render(MeetingAgendaItems::ItemComponent.new(meeting_agenda_item:))
-          end
-        end
+        render(
+          MeetingAgendaItems::ItemComponent.with_collection(
+            @meeting.agenda_items,
+            container: border_box
+          )
+        )
       end
-      border_box.with_row(p: 0, border_top: 0) do
+      border_box.with_row(p: 0, border_top: 0, id: insert_target_modifier_id) do
         render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, hidden: @form_hidden, type: @form_type))
       end
     end

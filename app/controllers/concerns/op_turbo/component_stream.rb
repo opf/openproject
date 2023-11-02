@@ -68,6 +68,14 @@ module OpTurbo
       turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :prepend)
     end
 
+    def add_before_via_turbo_stream(component:, target_component:)
+      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :before)
+    end
+
+    def add_after_via_turbo_stream(component:, target_component:)
+      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :after)
+    end
+
     def turbo_streams
       @turbo_streams ||= []
     end
