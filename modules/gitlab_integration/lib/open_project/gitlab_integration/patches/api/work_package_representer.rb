@@ -58,7 +58,7 @@ module OpenProject::GitlabIntegration
 
               {
                 href: api_v3_paths.gitlab_issues_by_work_package(represented.id),
-                title: "Gitlab merge requests"
+                title: "Gitlab Issues"
               }
             end
           end

@@ -91,6 +91,10 @@ module OpenProject::GitlabIntegration
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::GitlabMergeRequests::GitlabMergeRequestsByWorkPackageAPI
     end
+    
+    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+      mount ::API::V3::GitlabIssues::GitlabIssuesByWorkPackageAPI
+    end
 
     config.to_prepare do
       # Register the cron job to clean up old gitlab merge requests
