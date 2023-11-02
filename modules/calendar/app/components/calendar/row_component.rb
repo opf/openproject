@@ -69,7 +69,7 @@ module Calendar
     private
 
     def render_delete_link?
-      table.current_project && table.current_user.allowed_to?(:manage_calendars, project)
+      table.current_project && table.current_user.allowed_in_project?(:manage_calendars, project)
     end
   end
 end
