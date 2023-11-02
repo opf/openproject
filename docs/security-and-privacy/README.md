@@ -12,7 +12,7 @@ The purpose of this document is to equip users of OpenProject with the  necessar
 
 ## Data privacy
 
-* Data privacy documentation: [Processing of personal data](/docs/security-and-privacy/processing-of-personal-data/)
+* Data privacy documentation: [Processing of personal data](./processing-of-personal-data/)
 
 ## Data security
 
