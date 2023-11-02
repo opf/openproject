@@ -151,6 +151,8 @@ As with the textile formatting syntax, you can link to other resources within Op
 
 To avoid processing these items, preceding them with a bang `!` character such as `!#12` will prevent linking to a work package with ID 12.
 
+> **Please note**: All these macros need to be written as a new word (i.e., with at least one space before it or at the beginning of a paragraph/sentence. Macros contained within a word such as `somethingmeeting#4` will not be parsed.
+
 
 
 ### Autocompletion for work packages and users
