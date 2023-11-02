@@ -75,15 +75,14 @@ export function workPackageGitlabIssuesCount(
     );
 }
 
-// Use forkJoin to combine the observables and get their values
-forkJoin([
-  workPackageGitlabMrsCount(workPackage:WorkPackageResource, injector:Injector),
-  workPackageGitlabIssuesCount(workPackage:WorkPackageResource, injector:Injector),
-]).subscribe(([mrsCount, issuesCount]) => {
-  // Calculate the sum
-  const totalCounter = mrsCount + issuesCount;
-  totalIssues = totalCounter;
-});
+export function calculateSum(workPackage:WorkPackageResource, injector:Injector): Observable<number> {
+  return forkJoin([
+    workPackageGitlabMrsCount(workPackage:WorkPackageResource, injector:Injector),
+    workPackageGitlabIssuesCount(workPackage:WorkPackageResource, injector:Injector),
+  ]).pipe(
+    map(([mrsCount, issuesCount]) => mrsCount + issuesCount)
+  );
+}
 
 export function initializeGitlabIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -92,7 +91,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
     name: I18n.t('js.gitlab_integration.work_packages.tab_name'),
     id: 'gitlab',
     displayable: (workPackage) => !!workPackage.gitlab,
-    count: totalIssues,
+    count: calculateSum,
   });
 }
 
