@@ -44,31 +44,44 @@ import { WorkPackagesGitlabIssueService } from './tab-issue/wp-gitlab-issue.serv
 import { MergeRequestComponent } from './merge-request/merge-request.component';
 import { IssueComponent } from './issue/issue.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export function workPackageGitlabCount(
+export function workPackageGitlabMrsCount(
   workPackage:WorkPackageResource,
   injector:Injector,
 ):Observable<number> {
   const gitlabMrsService = injector.get(WorkPackagesGitlabMrsService);
+
+  return gitlabMrsService
+    .requireAndStream(workPackage)
+    .pipe(
+      map((mrs) => mrs.length),
+    );
+}
+
+export function workPackageGitlabIssuesCount(
+  workPackage:WorkPackageResource,
+  injector:Injector,
+):Observable<number> {
   const gitlabIssueService = injector.get(WorkPackagesGitlabIssueService);
 
-  var issue_counter = gitlabIssueService
+  return gitlabIssueService
     .requireAndStream(workPackage)
     .pipe(
       map((issue) => issue.length),
     );
+}
 
-  var mr_counter = gitlabMrsService
-  .requireAndStream(workPackage)
-  .pipe(
-    map((mrs) => mrs.length),
-  );
+// Use forkJoin to combine the observables and get their values
+forkJoin([
+  workPackageGitlabMrsCount(workPackage:WorkPackageResource, injector:Injector),
+  workPackageGitlabIssuesCount(workPackage:WorkPackageResource, injector:Injector),
+]).subscribe(([mrsCount, issuesCount]) => {
+  // Calculate the sum
+  const totalCounter = mrsCount + issuesCount;
 
-  var total_counter = Number(issue_counter) + Number(mr_counter);
-
-  return total_counter;
+  return totalCounter;
 }
 
 export function initializeGitlabIntegrationPlugin(injector:Injector) {
@@ -78,7 +91,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
     name: I18n.t('js.gitlab_integration.work_packages.tab_name'),
     id: 'gitlab',
     displayable: (workPackage) => !!workPackage.gitlab,
-    count: workPackageGitlabCount,
+    count: forkJoin,
   });
 }
 
