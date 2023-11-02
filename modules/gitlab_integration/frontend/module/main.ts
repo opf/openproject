@@ -81,12 +81,12 @@ export function calculateSum(
 ):Observable<number> {
   return forkJoin([
     workPackageGitlabMrsCount(  
-      workPackage:WorkPackageResource,
-      injector:Injector,
+      workPackage,
+      injector,
     ),
     workPackageGitlabIssuesCount(
-      workPackage:WorkPackageResource,
-      injector:Injector,
+      workPackage,
+      injector,
     ),
   ]).pipe(
     map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
