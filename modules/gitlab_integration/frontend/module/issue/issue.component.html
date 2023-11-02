@@ -1,0 +1,46 @@
+<a
+  class='op-issue--link'
+  [href]="gitlabIssue.htmlUrl"
+  target="blank"
+  [textContent]="gitlabIssue.repository + '#' + gitlabIssue.number"
+></a>
+
+<div
+  class='op-issue--title'
+  [textContent]="gitlabIssue.title"
+></div>
+
+<div class="op-issue--info">
+  {{ text.label_created_by }}
+  <img
+    alt='Issue author avatar'
+    class='op-issue--avatar op-avatar op-avatar_mini'
+    [src]="gitlabIssue.gitlabUser.avatarUrl"
+    *ngIf="gitlabIssue.gitlabUser"
+  /> 
+  <span class='op-issue--user'> 
+    <a
+      [href]="'mailto:' + gitlabIssue.gitlabUser.email"
+      [textContent]="gitlabIssue.gitlabUser.login"
+      *ngIf="gitlabIssue.gitlabUser"
+    ></a>.
+  </span>
+
+  <span class='op-issue--date'>
+    {{ text.label_last_updated_on }}
+    <op-date-time [dateTimeValue]="gitlabIssue.gitlabUpdatedAt"></op-date-time>
+  </span>.
+</div>
+
+<span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
+  <op-icon icon-classes="button--icon icon-merge-branch"></op-icon>
+  {{state}}
+</span>
+
+<div class="op-issue--labels">
+  <span *ngFor="let label of gitlabIssue.labels">
+    <span class='op-issue--label' [ngStyle]="{'background-color': label.color}" >
+      {{label.title}}
+    </span>
+  </span>
+</div>

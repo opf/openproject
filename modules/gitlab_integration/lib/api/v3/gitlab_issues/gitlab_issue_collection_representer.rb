@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2021 Ben Tey
@@ -27,28 +29,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-en:
-  js:
-    gitlab_integration:
-      work_packages:
-        tab_name: "GitLab"
-      tab_header:
-        title: "Merge requests"
-        create_mr:
-          label: Create MR
-          description: Create a Merge Request
-        copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
-        git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: ✅ Copied!
-          copy_error: ❌ Copy failed!
-      tab_issue:
-        empty: There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.
-      tab_mrs:
-        empty: There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.
-      gitlab_pipelines: Pipelines
+module API
+  module V3
+    module GitlabIssues
+      class GitlabIssueCollectionRepresenter < ::API::Decorators::Collection
+        self.to_eager_load = ::API::V3::GitlabIssues::GitlabIssueRepresenter.to_eager_load
+      end
+    end
+  end
+end

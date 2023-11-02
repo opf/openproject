@@ -36,6 +36,25 @@ export interface ISnippet {
   textToCopy:()=>string
 }
 
+export interface IGitlabIssueResource extends HalResourceClass {
+  body?:{
+    format?:string;
+    raw?:string;
+    html?:string;
+  },
+  createdAt?:string;
+  gitlabUpdatedAt?:string;
+  htmlUrl?:string;
+  id?:number;
+  labels?:string[];
+  number?:number;
+  repository?:string;
+  state?:string;
+  title?:string;
+  updatedAt?:string;
+  gitlabUser?:IGitlabUserResource;
+}
+
 export interface IGitlabMergeRequestResource extends HalResourceClass {
   body?:{
     format?:string;

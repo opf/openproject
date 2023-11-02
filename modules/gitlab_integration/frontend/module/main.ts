@@ -36,10 +36,13 @@ import { WorkPackageTabsService } from 'core-app/features/work-packages/componen
 import { GitlabTabComponent } from './gitlab-tab/gitlab-tab.component';
 import { TabHeaderComponent } from './tab-header/tab-header.component';
 import { TabMrsComponent } from './tab-mrs/tab-mrs.component';
+import { TabIssueComponent } from './tab-issue/tab-issue.component';
 import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.directive';
 import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
 import { WorkPackagesGitlabMrsService } from './tab-mrs/wp-gitlab-mrs.service';
+import { WorkPackagesGitlabIssueService } from './tab-issue/wp-gitlab-issue.service';
 import { MergeRequestComponent } from './merge-request/merge-request.component';
+import { IssueComponent } from './issue/issue.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -56,6 +59,18 @@ export function workPackageGitlabMrsCount(
     );
 }
 
+export function workPackageGitlabIssueCount(
+  workPackage:WorkPackageResource,
+  injector:Injector,
+):Observable<number> {
+  const gitlabIssueService = injector.get(WorkPackagesGitlabIssueService);
+  return gitlabIssueService
+    .requireAndStream(workPackage)
+    .pipe(
+      map((issue) => issue.length),
+    );
+}
+
 export function initializeGitlabIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
   wpTabService.register({
@@ -63,7 +78,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
     name: I18n.t('js.gitlab_integration.work_packages.tab_name'),
     id: 'gitlab',
     displayable: (workPackage) => !!workPackage.gitlab,
-    count: workPackageGitlabMrsCount,
+    count: workPackageGitlabMrsCount + workPackageGitlabIssueCount,
   });
 }
 
@@ -75,19 +90,23 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
   ],
   providers: [
     WorkPackagesGitlabMrsService,
+    WorkPackagesGitlabIssueService,
   ],
   declarations: [
     GitlabTabComponent,
     TabHeaderComponent,
     TabMrsComponent,
+    TabIssueComponent,
     GitActionsMenuDirective,
     GitActionsMenuComponent,
     MergeRequestComponent,
+    IssueComponent,
   ],
   exports: [
     GitlabTabComponent,
     TabHeaderComponent,
     TabMrsComponent,
+    TabIssueComponent,
     GitActionsMenuDirective,
     GitActionsMenuComponent,
   ],
