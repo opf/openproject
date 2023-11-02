@@ -75,12 +75,21 @@ export function workPackageGitlabIssuesCount(
     );
 }
 
-export function calculateSum(workPackage:WorkPackageResource, injector:Injector): Observable<number> {
+export function calculateSum(
+  workPackage:WorkPackageResource,
+  injector:Injector,
+):Observable<number> {
   return forkJoin([
-    workPackageGitlabMrsCount(workPackage:WorkPackageResource, injector:Injector),
-    workPackageGitlabIssuesCount(workPackage:WorkPackageResource, injector:Injector),
+    workPackageGitlabMrsCount(  
+      workPackage:WorkPackageResource,
+      injector:Injector,
+    ),
+    workPackageGitlabIssuesCount(
+      workPackage:WorkPackageResource,
+      injector:Injector,
+    ),
   ]).pipe(
-    map(([mrsCount, issuesCount]) => mrsCount + issuesCount)
+    map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
   );
 }
 
