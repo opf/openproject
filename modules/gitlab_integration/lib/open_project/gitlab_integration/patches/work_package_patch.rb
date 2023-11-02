@@ -5,6 +5,7 @@ module OpenProject::GitlabIntegration
 
       included do
         has_and_belongs_to_many :gitlab_merge_requests
+        has_and_belongs_to_many :gitlab_issues
       end
     end
   end
