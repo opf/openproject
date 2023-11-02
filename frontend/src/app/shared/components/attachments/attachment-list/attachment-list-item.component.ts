@@ -120,7 +120,7 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
         this.principalRendererService.render(
           this.avatar.nativeElement,
           user,
-          { hide: true, link: false, classes: '' },
+          { hide: true, link: false },
           { hide: false, size: 'mini' },
         );
       });

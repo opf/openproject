@@ -47,7 +47,7 @@ export class UserDisplayField extends DisplayField {
       this.principalRenderer.render(
         element,
         this.attribute,
-        { hide: false, link: false, classes: '' },
+        { hide: false, link: false },
         { hide: false, size: 'medium' },
       );
     }

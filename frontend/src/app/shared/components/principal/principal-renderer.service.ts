@@ -21,7 +21,7 @@ export interface AvatarOptions {
 export interface NameOptions {
   hide:boolean;
   link:boolean;
-  classes:string;
+  classes?:string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -36,7 +36,7 @@ export class PrincipalRendererService {
   renderMultiple(
     container:HTMLElement,
     users:PrincipalLike[]|IPrincipal[],
-    name:NameOptions = { hide: false, link: false, classes: '' },
+    name:NameOptions = { hide: false, link: false },
     avatar:AvatarOptions = { hide: false, size: 'default' },
     multiLine = false,
   ):void {
@@ -66,7 +66,7 @@ export class PrincipalRendererService {
   render(
     container:HTMLElement,
     principal:PrincipalLike|IPrincipal,
-    name:NameOptions = { hide: false, link: true, classes: '' },
+    name:NameOptions = { hide: false, link: true },
     avatar:AvatarOptions = { hide: false, size: 'default' },
     title:string|null = null,
   ):void {
@@ -166,7 +166,9 @@ export class PrincipalRendererService {
     span.textContent = principal.name;
     span.classList.add('op-principal--name');
     span.title = title;
-    classes!== '' && span.classList.add(classes);
+    classes !== '' && classes.split(' ').forEach((cls)=>{
+      span.classList.add(cls);
+    });
     return span;
   }
 

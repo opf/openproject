@@ -125,14 +125,14 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       this.principalRendererService.render(
         this.avatar.nativeElement as HTMLElement,
         { name: this.originData.lastModifiedByName, href: '/external_users/1' },
-        { hide: true, link: false, classes: '' },
+        { hide: true, link: false },
         { hide: false, size: 'mini' },
       );
     } else {
       this.principalRendererService.render(
         this.avatar.nativeElement as HTMLElement,
         { name: 'Not Available', href: '/placeholder_users/1' },
-        { hide: true, link: false, classes: '' },
+        { hide: true, link: false },
         { hide: false, size: 'mini' },
       );
     }

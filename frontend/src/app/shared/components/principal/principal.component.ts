@@ -70,7 +70,7 @@ export class OpPrincipalComponent implements OnInit {
 
   @Input() hideName = false;
 
-  @Input() classesForName = '';
+  @Input() nameClasses? = '';
 
   @Input() link = true;
 
@@ -99,7 +99,7 @@ export class OpPrincipalComponent implements OnInit {
         {
           hide: this.hideName,
           link: this.link,
-          classes: this.classesForName,
+          classes: this.nameClasses,
         },
         {
           hide: this.hideAvatar,
