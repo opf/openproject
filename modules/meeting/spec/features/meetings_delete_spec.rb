@@ -56,6 +56,7 @@ RSpec.describe 'Meetings deletion' do
 
       click_link meeting.title
       accept_confirm do
+        find_test_selector('meetings-more-dropdown-menu').click
         click_link "Delete"
       end
 
@@ -64,6 +65,7 @@ RSpec.describe 'Meetings deletion' do
 
       click_link other_meeting.title
       accept_confirm do
+        find_test_selector('meetings-more-dropdown-menu').click
         click_link "Delete"
       end
 

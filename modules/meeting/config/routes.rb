@@ -74,8 +74,6 @@ OpenProject::Application.routes.draw do
         get :diff
         put :close
         put :open
-        put :notify
-        put :icalendar
         post :preview
       end
 
@@ -87,8 +85,6 @@ OpenProject::Application.routes.draw do
       member do
         get :history
         get :diff
-        put :notify
-        get :icalendar
       end
     end
 
@@ -96,7 +92,6 @@ OpenProject::Application.routes.draw do
       member do
         get :history
         get :diff
-        put :notify
         post :preview
       end
 

@@ -90,36 +90,6 @@ class MeetingContentsController < ApplicationController
     render_404
   end
 
-  def notify
-    unless @content.new_record?
-      service = MeetingNotificationService.new(@meeting)
-      result = service.call(:invited)
-
-      if result.success?
-        flash[:notice] = I18n.t(:notice_successful_notification)
-      else
-        flash[:error] = I18n.t(:error_notification_with_errors,
-                               recipients: result.errors.map(&:name).join('; '))
-      end
-    end
-    redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
-  end
-
-  def icalendar
-    unless @content.new_record?
-      service = MeetingNotificationService.new(@meeting)
-      result = service.call(:icalendar_notification, include_author: true)
-
-      if result.success?
-        flash[:notice] = I18n.t(:notice_successful_notification)
-      else
-        flash[:error] = I18n.t(:error_notification_with_errors,
-                               recipients: result.errors.map(&:name).join('; '))
-      end
-    end
-    redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
-  end
-
   def default_breadcrumb
     MeetingsController.new.send(:default_breadcrumb)
   end
