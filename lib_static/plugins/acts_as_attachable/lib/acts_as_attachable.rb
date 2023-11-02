@@ -146,7 +146,7 @@ module Redmine
           def attachments_addable?(user = User.current)
             (Array(attachable_options[:add_on_new_permission]) |
               Array(attachable_options[:add_on_persisted_permission])).any? do |permission|
-              user.allowed_to_globally?(permission)
+              user.allowed_based_on_permission_context?(permission)
             end
           end
 
