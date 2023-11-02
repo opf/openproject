@@ -73,12 +73,6 @@ module OpenProject
               redirect_to omniauth_start_path(h[:name]) + "/spslo"
             end
 
-            h[:openproject_attribute_map] = Proc.new do |auth|
-              {}.tap do |additional|
-                additional[:login] = auth.info[:login] if auth.info.key? :login
-                additional[:admin] = auth.info[:admin] if auth.info.key? :admin
-              end
-            end
             h.symbolize_keys
           end
         end

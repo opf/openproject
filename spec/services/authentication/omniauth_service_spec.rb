@@ -29,14 +29,19 @@ require 'spec_helper'
 
 RSpec.describe Authentication::OmniauthService do
   let(:strategy) { double('Omniauth Strategy', name: 'saml') }
+  let(:additional_info) do
+    {}
+  end
   let(:auth_hash) do
     OmniAuth::AuthHash.new(
       provider: 'google',
       uid: '123545',
-      info: { name: 'foo',
-              email: auth_email,
-              first_name: 'foo',
-              last_name: 'bar' }
+      info: {
+        name: 'foo',
+        email: auth_email,
+        first_name: 'foo',
+        last_name: 'bar'
+      }.merge(additional_info)
     )
   end
   let(:auth_email) { 'foo@bar.com' }
@@ -88,7 +93,7 @@ RSpec.describe Authentication::OmniauthService do
     let(:call) { instance.call }
 
     context 'with an active found user' do
-      let!(:user) { create(:user, login: 'foo@bar.com', identity_url: 'google:123545') }
+      shared_let(:user) { create(:user, login: 'foo@bar.com', identity_url: 'google:123545') }
 
       it 'does not call register user service and logs in the user' do
         allow(Users::RegisterUserService).to receive(:new)
@@ -104,6 +109,58 @@ RSpec.describe Authentication::OmniauthService do
         expect(call.result.mail).to eq 'foo@bar.com'
 
         expect(Users::RegisterUserService).not_to have_received(:new)
+      end
+
+      context 'if the user is to become admin' do
+        let(:additional_info) { { admin: true } }
+
+        it 'updates the user' do
+          expect(user).not_to be_admin
+          expect(call).to be_success
+          expect(call.result).to eq user
+          expect(call.result).to be_admin
+        end
+
+        context 'if the user cannot be updated for some reason' do
+          let(:stub) { instance_double(Users::UpdateService) }
+
+          it 'fails the request' do
+            allow(Users::UpdateService).to receive(:new).and_return(stub)
+            allow(stub).to receive(:call).and_return(ServiceResult.failure(message: 'Oh noes!'))
+
+            expect(call).not_to be_success
+            expect(call.result).to be_nil
+            expect(user.reload).not_to be_admin
+          end
+        end
+      end
+
+      context 'if the user is the last admin and is about to be revoked' do
+        let(:additional_info) { { admin: false } }
+
+        it 'does not revoke admin status' do
+          user.update!(admin: true)
+          expect(user).to be_admin
+
+          expect(call).not_to be_success
+          expect(call.result).to eq user
+          expect(user.reload).to be_admin
+          expect(call.errors.details[:base]).to contain_exactly({ error: :one_must_be_active })
+        end
+      end
+
+      context 'if the user is not the last admin and is about to be revoked' do
+        let!(:other_admin) { create(:admin) }
+        let(:additional_info) { { admin: false } }
+
+        it 'revokes admin status' do
+          user.update!(admin: true)
+          expect(user).to be_admin
+
+          expect(call).to be_success
+          expect(call.result).to eq user
+          expect(user.reload).not_to be_admin
+        end
       end
     end
 
