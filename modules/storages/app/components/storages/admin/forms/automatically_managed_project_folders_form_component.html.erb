@@ -32,12 +32,8 @@
             Storages::Admin::SubmitOrCancelForm.new(
               form,
               storage:,
-              submit_button_options: {
-                label: I18n.t("storages.buttons.done_complete_setup")
-              },
-              cancel_button_options: {
-                href: edit_admin_settings_storage_path(storage)
-              }
+              submit_button_options:,
+              cancel_button_options:
             )
           )
         end

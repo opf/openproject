@@ -70,7 +70,8 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     service_result = call_update_service
 
     if service_result.success?
-      redirect_to edit_admin_settings_storage_path(@storage)
+      flash[:notice] = I18n.t(:notice_successful_create)
+      redirect_to admin_settings_storages_path
     else
       respond_to { |format| format.turbo_stream }
     end

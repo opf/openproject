@@ -41,10 +41,30 @@ module Storages::Admin::Forms
       options[:form_url] || default_form_url
     end
 
+    def submit_button_options
+      { label: I18n.t("storages.buttons.done_complete_setup") }.tap do |options_hash|
+        # For create action, break from Turbo Frame and follow full page redirect
+        options_hash[:data] = { turbo: false } if new_record?
+      end
+    end
+
+    def cancel_button_options
+      { href: edit_admin_settings_storage_path(storage) }.tap do |options_hash|
+        if new_record?
+          options_hash[:href] = admin_settings_storages_path
+          options_hash[:target] = '_top'
+        end
+      end
+    end
+
     private
 
     def default_form_method
-      storage.automatic_management_unspecified? ? :post : :patch
+      new_record? ? :post : :patch
+    end
+
+    def new_record?
+      storage.automatic_management_unspecified?
     end
 
     def default_form_url
