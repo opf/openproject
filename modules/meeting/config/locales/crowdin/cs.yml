@@ -86,7 +86,7 @@ cs:
   permission_edit_meetings: "Upravit schůzku"
   permission_delete_meetings: "Odstranit schůzky"
   permission_view_meetings: "Zobrazit schůzky"
-  permission_create_meeting_agendas: "Správa agend"
+  permission_create_meeting_agendas: "Správa zápisů"
   permission_close_meeting_agendas: "uzavřít agendy"
   permission_send_meeting_agendas_notification: "Odeslat oznámení k revizi agendy"
   permission_create_meeting_minutes: "Spravovat zápisy"
