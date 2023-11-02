@@ -33,8 +33,8 @@ module API
     module CostEntries
       class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_any(%i[view_cost_entries view_own_cost_entries],
-                        projects: @work_package.project)
+          authorize_in_projects(%i[view_cost_entries view_own_cost_entries],
+                                projects: @work_package.project)
           @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
         end
 

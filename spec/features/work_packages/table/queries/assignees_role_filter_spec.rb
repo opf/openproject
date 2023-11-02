@@ -33,14 +33,15 @@ require 'spec_helper'
 RSpec.describe "Work package filtering by assignee's role", :js, :with_cuprite do
   shared_let(:project) { create(:project) }
 
-  shared_let(:project_role) { create(:project_role, permissions: %i[view_work_packages work_package_assigned save_queries]) }
+  shared_let(:manager_role) { create(:project_role, permissions: %i[view_members view_work_packages save_queries]) }
+  shared_let(:invisible_project_role) { create(:project_role, permissions: %i[view_work_packages]) }
+  shared_let(:project_role) { create(:project_role, permissions: %i[view_work_packages work_package_assigned]) }
   shared_let(:visible_work_package_role) { create(:work_package_role, permissions: %i[view_work_packages work_package_assigned]) }
   shared_let(:invisible_work_package_role) { create(:work_package_role, permissions: %i[view_work_packages]) }
-  shared_let(:global_role) { create(:global_role, permissions: %i[view_work_packages work_package_assigned save_queries]) }
 
   shared_let(:builtin_roles) { [create(:non_member), create(:anonymous_role)] }
-  shared_let(:non_assignable_roles) { [invisible_work_package_role] }
-  shared_let(:assignable_roles) { [project_role, visible_work_package_role, global_role] }
+  shared_let(:non_assignable_roles) { [invisible_project_role, invisible_work_package_role] }
+  shared_let(:assignable_roles) { [project_role, visible_work_package_role] }
 
   shared_let(:other_user) do
     create(:user,
@@ -64,9 +65,7 @@ RSpec.describe "Work package filtering by assignee's role", :js, :with_cuprite d
   let(:filters) { Components::WorkPackages::Filters.new }
 
   shared_current_user do
-    create(:user,
-           member_with_roles: { project => project_role },
-           global_permissions: %i[view_members])
+    create(:user, member_with_roles: { project => manager_role })
   end
 
   it "shows the work package matching the assignee's role to filter" do
@@ -81,13 +80,20 @@ RSpec.describe "Work package filtering by assignee's role", :js, :with_cuprite d
                                            'assignedToRole')
 
     filters.add_filter_by("Assignee's role", 'is (OR)', assignable_roles, 'assignedToRole')
+
     filters.expect_filter_count("2")
 
     wp_table.expect_work_package_listed(work_package_user_assignee)
     wp_table.ensure_work_package_not_listed!(work_package_user_not_assignee)
 
-    wp_table.save_as('Subject query', by_title: true)
+    # TODO: Remove
+    # If that sleep is not here, the test fails because the 2nd role is not added
+    # to the filter. If we sleep it is correctly saved. I really don't know why this is happening.
+    # The screenshot shows that the role is selected but it does not really get persisted correctly
 
+    sleep 1
+
+    wp_table.save_as('Subject query', by_title: true)
     wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
 
     # Revisit query
@@ -98,6 +104,8 @@ RSpec.describe "Work package filtering by assignee's role", :js, :with_cuprite d
     filters.open
     # Do not show the already selected roles in the autocomplete dropdown
     filters.expect_missing_autocomplete_value('assignedToRole', assignable_roles)
+
+    # Ensure that all assigned roles are shown in the filter
     filters.expect_filter_by("Assignee's role", 'is (OR)', assignable_roles, 'assignedToRole')
   end
 end

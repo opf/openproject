@@ -31,7 +31,7 @@ module API
     module Memberships
       class AvailableProjectsAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize :manage_members, global: true
+          authorize_in_any_project(:manage_members)
         end
 
         resources :available_projects do

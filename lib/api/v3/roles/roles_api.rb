@@ -32,7 +32,7 @@ module API
       class RolesAPI < ::API::OpenProjectAPI
         resources :roles do
           after_validation do
-            authorize_any(%i[view_members manage_members], global: true)
+            authorize_in_any_project(%i[view_members manage_members])
           end
 
           get &::API::V3::Utilities::Endpoints::Index.new(model: Role).mount

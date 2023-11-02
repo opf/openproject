@@ -35,7 +35,7 @@ module API
         class CopyAPI < ::API::OpenProjectAPI
           resource :copy do
             after_validation do
-              authorize(:copy_projects, context: @project)
+              authorize_in_project(:copy_projects, project: @project)
             end
 
             mount ::API::V3::Projects::Copy::CreateFormAPI

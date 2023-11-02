@@ -32,7 +32,7 @@ module API
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
           after_validation do
-            authorize :create_user, global: true
+            authorize_globally(:create_user)
           end
 
           post &::API::V3::Utilities::Endpoints::CreateForm.new(model: User)

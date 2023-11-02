@@ -132,7 +132,7 @@ module API::V3::FileLinks
     private
 
     def user_allowed_to_manage?(model)
-      model.container.present? && current_user.allowed_to?(:manage_file_links, model.project)
+      model.container.present? && current_user.allowed_in_project?(:manage_file_links, model.project)
     end
 
     def make_origin_data(model)

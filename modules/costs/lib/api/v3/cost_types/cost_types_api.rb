@@ -34,9 +34,7 @@ module API
       class CostTypesAPI < ::API::OpenProjectAPI
         resources :cost_types do
           after_validation do
-            authorize_any(%i[view_cost_entries view_own_cost_entries],
-                          global: true,
-                          user: current_user)
+            authorize_in_any_project(%i[view_cost_entries view_own_cost_entries])
           end
 
           route_param :id, type: Integer, desc: 'Cost type ID' do

@@ -48,7 +48,7 @@ module API
           # The namespace only exists to add the after_validation callback
           namespace '' do
             after_validation do
-              authorize_by_with_raise(current_user.allowed_globally?(:create_user))
+              authorize_globally(:create_user)
             end
 
             post &::API::V3::Utilities::Endpoints::Create.new(model: User).mount
@@ -57,7 +57,7 @@ module API
           # The namespace only exists to add the after_validation callback
           namespace '' do
             after_validation do
-              authorize_by_with_raise(current_user.allowed_globally?(:manage_user))
+              authorize_globally(:manage_user)
             end
 
             get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
