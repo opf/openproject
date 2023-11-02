@@ -32,21 +32,21 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
-  selector: 'tab-header',
-  templateUrl: './tab-header.template.html',
+  selector: 'tab-header-mr',
+  templateUrl: './tab-header-mr.template.html',
   styleUrls: [
-    './styles/tab-header.sass'
+    './styles/tab-header-mr.sass'
   ]
 })
 export class TabHeaderComponent {
   @Input() public workPackage:WorkPackageResource;
 
   public text = {
-    title: this.I18n.t('js.gitlab_integration.tab_header.title'),
+    title: this.I18n.t('js.gitlab_integration.tab_header_mr.title'),
     // createPrButtonLabel: this.I18n.t('js.gitlab_integration.tab_header.create_mr.label'),
     // createPrButtonDescription: this.I18n.t('js.gitlab_integration.tab_header.create_mr.description'),
-    gitMenuLabel: this.I18n.t('js.gitlab_integration.tab_header.copy_menu.label'),
-    gitMenuDescription: this.I18n.t('js.gitlab_integration.tab_header.copy_menu.description'),
+    gitMenuLabel: this.I18n.t('js.gitlab_integration.tab_header_mr.copy_menu.label'),
+    gitMenuDescription: this.I18n.t('js.gitlab_integration.tab_header_mr.copy_menu.description'),
   };
 
   constructor(readonly I18n:I18nService) {
