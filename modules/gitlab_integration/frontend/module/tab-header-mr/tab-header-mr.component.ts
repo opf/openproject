@@ -38,7 +38,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
     './styles/tab-header-mr.sass'
   ]
 })
-export class TabHeaderComponent {
+export class TabHeaderMrsComponent {
   @Input() public workPackage:WorkPackageResource;
 
   public text = {

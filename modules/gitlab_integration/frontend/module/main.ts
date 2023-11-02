@@ -34,7 +34,8 @@ import { WorkPackageTabsService } from 'core-app/features/work-packages/componen
 
 
 import { GitlabTabComponent } from './gitlab-tab/gitlab-tab.component';
-import { TabHeaderComponent } from './tab-header-mr/tab-header-mr.component';
+import { TabHeaderMrsComponent } from './tab-header-mr/tab-header-mr.component';
+import { TabHeaderIssueComponent } from './tab-header-issue/tab-header-issue.component';
 import { TabMrsComponent } from './tab-mrs/tab-mrs.component';
 import { TabIssueComponent } from './tab-issue/tab-issue.component';
 import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.directive';
@@ -116,7 +117,8 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
   ],
   declarations: [
     GitlabTabComponent,
-    TabHeaderComponent,
+    TabHeaderMrsComponent,
+    TabHeaderIssueComponent,
     TabMrsComponent,
     TabIssueComponent,
     GitActionsMenuDirective,
@@ -126,7 +128,8 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
   ],
   exports: [
     GitlabTabComponent,
-    TabHeaderComponent,
+    TabHeaderMrsComponent,
+    TabHeaderIssueComponent,
     TabMrsComponent,
     TabIssueComponent,
     GitActionsMenuDirective,
