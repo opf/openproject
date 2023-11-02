@@ -104,11 +104,11 @@ $ nodenv init
 
 You can find the latest LTS version here: [nodejs.org/en/download](https://nodejs.org/en/download/)
 
-At the time of writing this is v16.17.0. Install and activate it with:
+At the time of writing this is v20.9.0. Install and activate it with:
 
 ```shell
-nodenv install 16.17.0
-nodenv global 16.17.0
+nodenv install 20.9.0
+nodenv global 20.9.0
 ```
 
 ### Update NPM to the latest version
@@ -129,10 +129,10 @@ $ bundler --version
 Bundler version 2.4.7
 
 node --version
-v16.17.0
+v20.9.0
 
 npm --version
-8.12.1
+10.1.0
 ```
 
 # Install OpenProject
