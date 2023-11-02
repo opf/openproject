@@ -166,7 +166,7 @@ export class PrincipalRendererService {
     span.textContent = principal.name;
     span.classList.add('op-principal--name');
     span.title = title;
-    classes !== '' && classes.split(' ').forEach((cls)=>{
+    classes !== '' && classes.split(' ').forEach((cls) => {
       span.classList.add(cls);
     });
     return span;
