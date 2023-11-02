@@ -193,8 +193,6 @@ class Storages::Admin::StoragesController < ApplicationController
     if service_result.success?
       flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
       render :show_oauth_application
-    elsif OpenProject::FeatureDecisions.storage_primer_design_active?
-      render :show_oauth_application
     else
       render :edit
     end

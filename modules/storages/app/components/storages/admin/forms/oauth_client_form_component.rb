@@ -40,6 +40,10 @@ module Storages::Admin::Forms
       @storage = storage
     end
 
+    def cancel_button_path
+      storage.persisted? ? edit_admin_settings_storage_path(storage) : admin_settings_storages_path
+    end
+
     private
 
     def storage_provider_credentials_copy_instructions
