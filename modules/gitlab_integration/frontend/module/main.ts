@@ -47,6 +47,8 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+let totalIssues: number;
+
 export function workPackageGitlabMrsCount(
   workPackage:WorkPackageResource,
   injector:Injector,
@@ -80,9 +82,8 @@ forkJoin([
 ]).subscribe(([mrsCount, issuesCount]) => {
   // Calculate the sum
   const totalCounter = mrsCount + issuesCount;
-
-  return totalCounter;
-}
+  totalIssues = totalCounter;
+});
 
 export function initializeGitlabIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -91,7 +92,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
     name: I18n.t('js.gitlab_integration.work_packages.tab_name'),
     id: 'gitlab',
     displayable: (workPackage) => !!workPackage.gitlab,
-    count: forkJoin,
+    count: totalIssues,
   });
 }
 
