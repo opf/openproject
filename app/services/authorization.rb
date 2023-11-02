@@ -81,7 +81,7 @@ module Authorization
         raise UnknownPermissionError.new(action) if raise_on_unknown
       end
 
-      []
+      return []
     end
 
     perms
@@ -92,6 +92,7 @@ module Authorization
   #    attribute of the permission), an +IllegalPermissionContextError+ is raised
   def contextual_permissions(action, context, raise_on_unknown: false)
     perms = permissions_for(action, raise_on_unknown:)
+    return [] if perms.blank?
 
     context_perms = perms.select { |p| p.permissible_on?(context) }
     raise IllegalPermissionContextError.new(action, perms, context) if context_perms.blank?
