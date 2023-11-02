@@ -554,7 +554,6 @@ nl:
       steps:
         help_menu: 'Het Help (?) menu biedt <b>extra hulpbronnen</b>. Hier vindt u een gebruikershandleiding, handige how-to videos en meer. <br> Veel plezier met uw werk met OpenProject!'
         members: 'Nodig nieuwe <b>leden</b> uit om deel te nemen aan uw project.'
-        project_selection: 'Klik a.u.b. op een van de demoprojecten die we hebben voorbereid. Demogegevens zijn momenteel alleen beschikbaar in het Engels. <br> Het algemene <b>demo project</b> past het beste bij klassiek projectbeheer. terwijl het <b>Scrum-project</b> beter is voor agile projectbeheer.'
         quick_add_button: 'Klik op het plus (+) pictogram in de koptekst navigatie om <b>een nieuw project te maken</b> of <b>collega''s uit te nodigen</b>.'
         sidebar_arrow: "Gebruik de terug pijl in de linkerbovenhoek om terug te keren naar het project <b>hoofdmenu</b>."
         welcome: 'Neem drie minuten introductie rondleiding om de meeste <b>belangrijke kenmerken </b> te leren. <br> het is raadzaam de stappen uit te voeren tot het einde. U kunt de tour ieder moment opnieuw doen.'

@@ -44,8 +44,8 @@ ja:
         merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
         referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
         states:
-          opened: 'opened'
+          opened: 'オープン'
           closed: '完了'
-          draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          draft: 'ドラフト'
+          merged: 'マージ済'
+          ready_for_review: 'レビュー準備完了'

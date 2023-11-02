@@ -553,7 +553,6 @@ de:
       steps:
         help_menu: 'Das Menü Hilfe (?) bietet <b>zusätzliche Hilfe-Ressourcen</b>. Hier finden Sie eine Benutzeranleitung, hilfreiche Videos und vieles mehr. <br> Viel Spaß bei Ihrer Arbeit mit OpenProject!'
         members: 'Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.'
-        project_selection: 'Bitte wählen Sie eines der Projekte mit Demodaten aus. Die Demodaten sind derzeit lediglich in englischer Sprache verfügbar. <br> Das <b>„Demo project“</b> eignet sich für klassisches Projektmanagement, das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
         quick_add_button: 'Klicken Sie auf das Plus (+) Symbol in der Navigationsleiste um <b>neue Projekte zu erzeugen</b> oder <b>MitarbeiterInnen einzuladen</b>.'
         sidebar_arrow: "Benutzen Sie den Pfeil in der oberen linken Ecke um zum <b>Hauptmenü</b> des Projekts zurückzukehren."
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen, die Tour vollständig abzuschließen. Sie können diese jederzeit wieder neu starten.'
@@ -598,7 +597,7 @@ de:
         processed: 'verarbeitet'
         prioritized: 'priorisiert'
         dateAlert: 'Datums-Erinnerung'
-        shared: 'shared'
+        shared: 'geteilt'
       date_alerts:
         milestone_date: 'Datum des Meilensteins'
         overdue: 'Überfällig'
@@ -643,7 +642,7 @@ de:
         mentioned: 'Erwähnt'
         watched: 'Beobachter'
         date_alert: 'Datums-Erinnerung'
-        shared: 'Shared'
+        shared: 'Geteilt'
       settings:
         change_notification_settings: 'Sie können Ihre <a target="_blank" href="%{url}">Benachrichtigungseinstellungen</a> ändern, um sicherzustellen, dass Sie keine wichtige Aktualisierung verpassen.'
         title: "Benachrichtigungseinstellungen"
@@ -666,7 +665,7 @@ de:
             description: 'Jedes Mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
           assignee: 'Zugewiesen an'
           responsible: 'Verantwortlich'
-          shared: 'Shared'
+          shared: 'Geteilt'
           watched: 'Beobachter'
           work_package_commented: 'Alle neuen Kommentare'
           work_package_created: 'Neue Arbeitspakete'
@@ -983,7 +982,7 @@ de:
         recently_created: "Kürzlich erstellt"
         all_open: "Alle offenen"
         summary: "Zusammenfassung"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Geteilt mit Benutzern"
       jump_marks:
         pagination: "Zur Seitennavigation springen"
         label_pagination: "Hier klicken, um über die Tabelle der Arbeitspakete hinweg zur Seitennavigation zu springen"
@@ -1021,11 +1020,11 @@ de:
         is_parent: "Die Termine dieses Arbeitspakets werden automatisch von seinen Kindern aggregiert. Aktivieren Sie \"Manuelle Planung\", um die Termine frei zu setzen."
         is_switched_from_manual_to_automatic: "Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Teilen'
+        title: "Arbeitspaket teilen"
+        selected_count: "%{count} ausgewählt"
         selection:
-          mixed: "Mixed"
+          mixed: "Gemischt"
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."

@@ -554,7 +554,6 @@ lt:
       steps:
         help_menu: 'Pagalbos (?) meniu yra <b>papildomi pagalbos resursai</b>. Čia jūs galite rasti naudotojo vadovą, naudingus video kaip atlikti veiksmus ir dar daugiau. <br>Sėkmės naudojant OpenProject!'
         members: 'Pakvieskite naujus <b>narius</b> prisijungti prie projekto.'
-        project_selection: 'Prašome paspausti ant vieno iš mūsų paruoštų demonstracinių projektų. Demonstraciniai duomenys yra tik anglų kalba. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
         quick_add_button: 'Paspauskite pliuso (+) ženklą navigacijos antraštėje ir <b>sukursite naują projektą</b> arba </b>pakviesite bendradarbius</b>.'
         sidebar_arrow: "Pasinaudokite grįžimo rodykle viršutiniame kairiajame kampe grįžimui į projekto <b>pagrindinį meniu</b>."
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'

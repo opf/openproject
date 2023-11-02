@@ -883,6 +883,7 @@ ca:
           attributes:
             base:
               user_limit_reached: "Límit d'usuaris assolit. No es poden crear més comptes amb el pla actual."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "La confirmació de la contrasenya no coincideix."
               format: "%{message}"

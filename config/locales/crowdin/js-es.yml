@@ -554,7 +554,6 @@ es:
       steps:
         help_menu: 'El menú Ayuda (?) proporciona <b>recursos de ayuda adicionales</b>. Aquí puedes encontrar una guía de usuario, vídeos explicativos y más. <br> ¡Disfruta de tu trabajo con OpenProject!'
         members: 'Invitar a nuevos <b>miembros</b> a unirse a tu proyecto.'
-        project_selection: 'Haga clic en uno de los proyectos de demostración que hemos preparado. Los datos de demostración solo están disponibles en inglés actualmente. <br> El <b>proyecto general de demostración</b> es la opción recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto de Scrum</b> es más adecuado para la gestión de proyectos Agile.'
         quick_add_button: 'Haga clic en el icono del signo más (+) en el menú de navegación del encabezado para <b>crear un proyecto</b> o <b>invitar a compañeros</b>.'
         sidebar_arrow: "Usa la flecha de retorno en la esquina superior izquierda para regresar al <b>menú principal</b> del proyecto."
         welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>funciones más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'

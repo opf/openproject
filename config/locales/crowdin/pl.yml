@@ -886,6 +886,7 @@ pl:
           attributes:
             base:
               user_limit_reached: "Osiągnięto limit liczby użytkowników. Nie można utworzyć więcej kont w bieżącym planie."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Powtórzone hasło różni się od wprowadzonego hasła!"
               format: "%{message}"
