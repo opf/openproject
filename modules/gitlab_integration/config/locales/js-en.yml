@@ -32,7 +32,9 @@ en:
     gitlab_integration:
       work_packages:
         tab_name: "GitLab"
-      tab_header:
+      tab_header_issue:
+        title: "Issues"
+      tab_header_mr:
         title: "Merge requests"
         create_mr:
           label: Create MR

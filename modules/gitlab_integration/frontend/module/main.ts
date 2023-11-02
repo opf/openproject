@@ -66,7 +66,7 @@ export function workPackageGitlabCount(
     map((mrs) => mrs.length),
   );
 
-  var total_counter = issue_counter + mr_counter;
+  var total_counter = Number(issue_counter) + Number(mr_counter);
 
   return total_counter;
 }
