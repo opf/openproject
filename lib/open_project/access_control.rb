@@ -176,6 +176,7 @@ module OpenProject
       def grant_to_admin?(permission_name)
         # Parts of the application currently rely on granting not defined permissions,
         # e.g. :edit_attribute_help_texts to administrators.
+        # TODO: When we have added all permissions, we should remove this check.
         permission(permission_name).nil? || permission(permission_name).grant_to_admin?
       end
 

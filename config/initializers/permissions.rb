@@ -171,6 +171,12 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member,
                      contract_actions: { projects: %i[copy] }
+
+      map.permission :edit_attribute_help_texts,
+                     {},
+                     permissible_on: :global,
+                     require: :loggedin,
+                     grant_to_admin: true
     end
 
     map.project_module :work_package_tracking, order: 90 do |wpt|
