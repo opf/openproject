@@ -28,5 +28,5 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= turbo_stream.update :automatically_managed_project_folders_section do %>
-  <%= render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(@storage, form_method: :post)) %>
+  <%= render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(@storage)) %>
 <% end %>

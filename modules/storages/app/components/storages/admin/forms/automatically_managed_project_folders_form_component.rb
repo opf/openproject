@@ -33,13 +33,19 @@ module Storages::Admin::Forms
     include OpPrimer::ComponentHelpers
     alias_method :storage, :model
 
-    options form_method: :patch
+    def form_method
+      options[:form_method] || default_form_method
+    end
 
     def form_url
       options[:form_url] || default_form_url
     end
 
     private
+
+    def default_form_method
+      storage.automatic_management_unspecified? ? :post : :patch
+    end
 
     def default_form_url
       admin_settings_storage_automatically_managed_project_folders_path(storage)
