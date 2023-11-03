@@ -99,7 +99,7 @@ class WorkPackages::SharesController < ApplicationController
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares)
     )
 
     respond_with_turbo_streams
@@ -117,7 +117,7 @@ class WorkPackages::SharesController < ApplicationController
     @shares.each do |share|
       prepend_via_turbo_stream(
         component: WorkPackages::Share::ShareRowComponent.new(share:),
-        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares)
       )
     end
 
@@ -178,6 +178,10 @@ class WorkPackages::SharesController < ApplicationController
     # Set default filter on the entity
     @query.where('entity_id', '=', @work_package.id)
     @query.where('entity_type', '=', WorkPackage.name)
+
+    # Set role filter if defined
+    role_id = params.dig(:member, :role_id)
+    @query.where('role_id', '=', find_role_ids(role_id)) unless role_id.nil?
 
     @query.order(name: :asc) unless params[:sortBy]
 

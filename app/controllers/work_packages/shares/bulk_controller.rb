@@ -78,7 +78,7 @@ class WorkPackages::Shares::BulkController < ApplicationController
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares)
     )
 
     respond_with_turbo_streams

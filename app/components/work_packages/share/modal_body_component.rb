@@ -33,6 +33,7 @@ module WorkPackages
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include WorkPackages::Share::Concerns::Authorization
+      include WorkPackages::Share::Concerns::DisplayableRoles
 
       def initialize(work_package:, shares:)
         super
@@ -72,6 +73,10 @@ module WorkPackages
                                            .merge(id: insert_target_modifier_id)
 
         list_container.instance_variable_set(:@list_arguments, new_list_arguments)
+      end
+
+      def role_filter_option_active?(option)
+        option[:value] == params.dig(:member, :role_id).to_i
       end
     end
   end
