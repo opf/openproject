@@ -1,6 +1,16 @@
 <%= turbo_stream.update dom_id(@storage, :edit_storage_header) do %>
   <%= @storage.name %>
 <% end %>
+<%= turbo_stream.update :full_breadcrumbs do %>
+  <%
+    breadcrumb_paths(
+      link_to(t(:label_administration), admin_index_path),
+      default_breadcrumb,
+      @storage.name
+    )
+  %>
+  <%= full_breadcrumbs %>
+<% end %>
 
 <%= turbo_stream.update :storage_general_info_section do %>
   <%= render(::Storages::Admin::GeneralInfoComponent.new(@storage)) %>

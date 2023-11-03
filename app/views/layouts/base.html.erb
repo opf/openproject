@@ -118,7 +118,9 @@ See COPYRIGHT and LICENSE files for more details.
       <% if show_decoration %>
         <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>">
           <%= you_are_here_info %>
-          <%= full_breadcrumbs %>
+          <div id="full_breadcrumbs">
+            <%= full_breadcrumbs %>
+          </div>
           <%= call_hook :view_layouts_base_breadcrumb %>
         </div>
       <% end %>
