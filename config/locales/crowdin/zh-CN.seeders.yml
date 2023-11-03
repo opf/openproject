@@ -132,21 +132,21 @@ zh-CN:
       welcome:
         title: 欢迎使用 OpenProject！
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject是领先的开源项目管理软件。它支持经典、敏捷和混合型项目管理，并由您完全掌握自己的数据。
 
-          Core features and use cases:
+          核心功能和用例：
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [项目组合管理](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [项目规划和调度](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [任务管理和问题跟踪](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [敏捷看板（Scrum和Kanban）](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [需求管理和发布计划](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [时间和成本跟踪/预算](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [团队协作和文档](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          欢迎来到项目管理的未来。
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          对于管理员：您可以[在此]({{opSetting:base_url}}/admin/settings/general)更改此欢迎文本。
       projects:
         demo-project:
           name: 演示项目
