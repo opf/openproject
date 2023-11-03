@@ -64,7 +64,11 @@ module Storages::Admin::Forms
     end
 
     def new_record?
-      storage.automatic_management_unspecified?
+      if (provider_fields_changes_to_be_saved = storage.provider_fields_change_to_be_saved)
+        provider_fields_changes_to_be_saved.first["automatically_managed"].nil?
+      else
+        storage.automatic_management_unspecified?
+      end
     end
 
     def default_form_url

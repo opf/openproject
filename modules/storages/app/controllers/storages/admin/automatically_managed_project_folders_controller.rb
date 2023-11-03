@@ -60,10 +60,14 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     @storage = ::Storages::Storages::SetNextcloudProviderFieldsAttributesService
                 .new(user: current_user,
                      model: @object,
-                     contract_class: ::Storages::Storages::BaseContract)
+                     contract_class: EmptyContract)
                 .call
                 .result
-    render '/storages/admin/storages/automatically_managed_project_folders/edit'
+
+    respond_to do |format|
+      format.html { render '/storages/admin/storages/automatically_managed_project_folders/edit' }
+      format.turbo_stream { render :edit }
+    end
   end
 
   def create
@@ -73,7 +77,10 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
       flash[:notice] = I18n.t(:'storages.notice_successful_storage_connection')
       redirect_to admin_settings_storages_path
     else
-      respond_to { |format| format.turbo_stream }
+      respond_to do |format|
+        format.html { render '/storages/admin/storages/automatically_managed_project_folders/edit' }
+        format.turbo_stream
+      end
     end
   end
 
@@ -81,7 +88,10 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   # Used by: The StoragesController#edit, when user wants to update application credentials.
   # Called by: Global app/config/routes.rb to serve Web page
   def edit
-    render '/storages/admin/storages/automatically_managed_project_folders/edit'
+    respond_to do |format|
+      format.html { render '/storages/admin/storages/automatically_managed_project_folders/edit' }
+      format.turbo_stream
+    end
   end
 
   # Update is similar to create above

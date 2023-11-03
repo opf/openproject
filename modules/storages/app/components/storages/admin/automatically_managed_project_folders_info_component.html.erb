@@ -17,10 +17,11 @@
               Primer::Beta::IconButton.new(
                 icon: :pencil,
                 tag: :a,
-                href: new_admin_settings_storage_automatically_managed_project_folders_path(storage),
+                href: edit_button_path,
                 scheme: :invisible,
                 aria: { label: I18n.t('storages.label_edit_storage_automatically_managed_folders') },
-                test_selector: 'storage-edit-automatically-managed-project-folders-button'
+                test_selector: 'storage-edit-automatically-managed-project-folders-button',
+                data: { turbo_stream: true }
               )
             )
           end

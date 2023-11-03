@@ -34,5 +34,13 @@ module Storages::Admin
     include StorageViewInformation
 
     alias_method :storage, :model
+
+    def edit_button_path
+      if storage.automatic_management_unspecified?
+        new_admin_settings_storage_automatically_managed_project_folders_path(storage)
+      else
+        edit_admin_settings_storage_automatically_managed_project_folders_path(storage)
+      end
+    end
   end
 end

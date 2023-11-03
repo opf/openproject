@@ -77,6 +77,13 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
       if @storage.provider_type_nextcloud? && @storage.automatic_management_unspecified?
         if OpenProject::FeatureDecisions.storage_primer_design_active?
+          @storage = ::Storages::Storages::SetNextcloudProviderFieldsAttributesService
+              .new(user: current_user,
+                   model: @storage,
+                   contract_class: EmptyContract)
+              .call
+              .result
+
           respond_to do |format|
             format.html { redirect_to edit_admin_settings_storage_path(@storage) }
             format.turbo_stream
