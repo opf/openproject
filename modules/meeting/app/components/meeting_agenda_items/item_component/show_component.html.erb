@@ -54,10 +54,6 @@
                      author: @meeting_agenda_item.author.name,
                      age: helpers.distance_of_time_in_words(Time.zone.now, @meeting_agenda_item.created_at))
       flex_layout do |flex|
-        flex.with_column do
-          render(Primer::Beta::Text.new(color: :subtle, mr: 1)) { t("label_added_by", author: nil) }
-        end
-
         flex.with_column(classes: 'ellipsis') do
           render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini', title:, classes: 'op-principal_flex'))
         end
