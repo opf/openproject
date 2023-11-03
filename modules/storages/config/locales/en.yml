@@ -207,6 +207,7 @@ en:
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"
     label_no_selected_folder: "No selected folder"
+    label_select_provider: "Select provider"
     label_storage: "Storage"
     label_storages: "Storages"
     label_status: "Status"

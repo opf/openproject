@@ -33,13 +33,10 @@
                     select_list_options: {
                       # FIXME: Auto submit on provider select
                       # data: { action: 'change->storages--select-provider-form#showProviderForm' },
+                      include_blank: I18n.t('storages.label_select_provider'),
                     }
                   )
                 )
-              end
-
-              general_info_row.with_row(mb: 3) do
-                render(Storages::Admin::ProviderNameInputForm.new(form))
               end
 
               general_info_row.with_row do
