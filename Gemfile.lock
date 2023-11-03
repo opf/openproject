@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/crohr/turbo_tests.git
-  revision: 3148ae6c34828e969e8005eaa592935bfc1afbf3
+  revision: b700cdb344e1ed8e100fd1f56525ec12fa792b45
   ref: fix/runtime-info
   specs:
     turbo_tests (2.0.0)
@@ -310,8 +310,8 @@ GEM
     awesome_nested_set (3.6.0)
       activerecord (>= 4.0.0, < 7.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.838.0)
-    aws-sdk-core (3.185.1)
+    aws-partitions (1.843.0)
+    aws-sdk-core (3.185.2)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -326,7 +326,7 @@ GEM
     aws-sdk-sns (1.67.0)
       aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.6.0)
+    aws-sigv4 (1.6.1)
       aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.1.1)
     bcrypt (3.1.19)
@@ -375,6 +375,7 @@ GEM
     compare-xml (0.66)
       nokogiri (~> 1.8)
     concurrent-ruby (1.2.2)
+    connection_pool (2.4.1)
     cookiejar (0.3.3)
     crack (0.4.5)
       rexml
@@ -511,7 +512,7 @@ GEM
       i18n (>= 0.7)
       multi_json
       request_store (>= 1.0)
-    google-apis-core (0.11.1)
+    google-apis-core (0.11.2)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.16.2, < 2.a)
       httpclient (>= 2.8.1, < 3.a)
@@ -520,7 +521,7 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-gmail_v1 (0.34.0)
+    google-apis-gmail_v1 (0.35.0)
       google-apis-core (>= 0.11.0, < 2.a)
     googleauth (1.8.1)
       faraday (>= 0.17.3, < 3.a)
@@ -657,7 +658,7 @@ GEM
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oj (3.16.1)
-    okcomputer (1.18.4)
+    okcomputer (1.18.5)
     omniauth-saml (1.10.3)
       omniauth (~> 1.3, >= 1.3.2)
       ruby-saml (~> 1.9)
@@ -814,6 +815,10 @@ GEM
       psych (>= 4.0.0)
     recaptcha (5.16.0)
     redcarpet (3.6.0)
+    redis (5.0.8)
+      redis-client (>= 0.17.0)
+    redis-client (0.18.0)
+      connection_pool
     regexp_parser (2.8.2)
     reline (0.3.9)
       io-console (~> 0.5)
@@ -856,8 +861,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.12.1)
-    rubocop (1.57.1)
-      base64 (~> 0.1.1)
+    rubocop (1.57.2)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -868,7 +872,7 @@ GEM
       rubocop-ast (>= 1.28.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.29.0)
+    rubocop-ast (1.30.0)
       parser (>= 3.2.1.0)
     rubocop-capybara (2.19.0)
       rubocop (~> 1.41)
@@ -881,12 +885,12 @@ GEM
     rubocop-performance (1.19.1)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rails (2.21.2)
+    rubocop-rails (2.22.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rspec (2.24.1)
-      rubocop (~> 1.33)
+    rubocop-rspec (2.25.0)
+      rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
     ruby-duration (3.2.3)
@@ -983,7 +987,7 @@ GEM
       activemodel (>= 3.0.0)
       public_suffix
     vcr (6.2.0)
-    view_component (3.6.0)
+    view_component (3.7.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -1152,6 +1156,7 @@ DEPENDENCIES
   rails-controller-testing (~> 1.0.2)
   rails-i18n (~> 7.0.0)
   rdoc (>= 2.4.2)
+  redis (~> 5.0.8)
   request_store (~> 1.5.0)
   responders (~> 3.0)
   retriable (~> 3.1.1)
@@ -1207,4 +1212,4 @@ RUBY VERSION
    ruby 3.2.1p31
 
 BUNDLED WITH
-   2.4.7
+   2.4.6

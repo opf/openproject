@@ -554,7 +554,6 @@ ca:
       steps:
         help_menu: 'El menú d''Ajuda (?) proveeix <b>recursos d''ajuda addicionals</b>. Aquí podràs trobar la guia d''usuari, vídeos explicatius i molt més. <br> Gaudeix del teu treball amb OpenProject!'
         members: 'Convida nous <b>membres</b> a afegir-se al teu projecte.'
-        project_selection: 'Si us plau, fes clic a un dels projectes de demostració que hem preparat. Les dades de demostració de moment només estan disponibles en anglès. <br>El projecte general <b> de demostració</b> està configurat pensant en una gestió de projectes clàssica, mentre que el <b>projecte Scrum</b> és millor per a gestió de projectes "agile".'
         quick_add_button: 'Fes clic a la icona de més (+) en la navegació superior per <b>crear un nou projecte</b> o <b>convidar companys de feina</b>.'
         sidebar_arrow: "Utilitza la fletxa de retorn a la cantonada esquerra per tornar al <b>menú principal</b> del projecte."
         welcome: 'Segueix la introducció de tres minuts per aprendre les <b> funcions més importants</b>. <br>Recomanem completar les passes fins al final. Podràs tornar a començar aquesta introducció en qualsevol moment.'
@@ -599,6 +598,7 @@ ca:
         processed: 'processat'
         prioritized: 'prioritzat'
         dateAlert: 'Alerta per dates'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data de fita'
         overdue: 'Vençut'
@@ -643,6 +643,7 @@ ca:
         mentioned: 'Mencionat'
         watched: 'Observador'
         date_alert: 'Alerta per dates'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Pots modificar la teva <a target="_blank" href="%{url}">configuració de notificacions</a> per assegurar-te que mai et perds informació important.'
         title: "Configuració de notificacions"
@@ -665,6 +666,7 @@ ca:
             description: 'Rep una notificació cada vegada que algú em menciona a qualsevol lloc'
           assignee: 'Assignat a'
           responsible: 'Responsable'
+          shared: 'Shared'
           watched: 'Observador'
           work_package_commented: 'Tots els nous comentaris'
           work_package_created: 'Paquets de treball nou'
@@ -1021,6 +1023,9 @@ ca:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configura la taula de paquets de treball'
         summary: "Taula amb fileres de paquets de treball i columnes amb els atributs dels paquets de treball."

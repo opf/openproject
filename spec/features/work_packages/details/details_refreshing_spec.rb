@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Work package table refreshing due to split view', js: true do
+RSpec.describe 'Work package table refreshing due to split view', :js, :with_cuprite do
   let(:project) { create(:project_with_types) }
   let!(:work_package) { create(:work_package, project:) }
   let(:wp_split) { Pages::SplitWorkPackage.new work_package }
@@ -47,7 +47,7 @@ RSpec.describe 'Work package table refreshing due to split view', js: true do
 
     wp_table.expect_work_package_listed work_package
     page.within wp_table.row(work_package) do
-      expect(page).to have_selector('.wp-table--drag-and-drop-handle.icon-drag-handle', visible: :all)
+      expect(page).to have_css('.wp-table--drag-and-drop-handle.icon-drag-handle', visible: :all)
     end
   end
 end

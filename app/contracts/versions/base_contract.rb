@@ -69,7 +69,7 @@ module Versions
           when 'hierarchy', 'tree'
             # Only users allowed to manage versions of the root project can
             # set sharing to hierarchy or tree
-            model.project.nil? || user.allowed_to?(:manage_versions, model.project.root)
+            model.project.nil? || user.allowed_in_project?(:manage_versions, model.project.root)
           else
             true
           end
@@ -94,13 +94,13 @@ module Versions
     private
 
     def validate_sharing_included
-      if model.sharing_changed? && !assignable_sharings.include?(model.sharing)
+      if model.sharing_changed? && assignable_sharings.exclude?(model.sharing)
         errors.add :sharing, :inclusion
       end
     end
 
     def user_allowed_to_manage
-      if model.project && !user.allowed_to?(:manage_versions, model.project)
+      if model.project && !user.allowed_in_project?(:manage_versions, model.project)
         errors.add :base, :error_unauthorized
       end
     end

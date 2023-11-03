@@ -42,11 +42,11 @@ module MeetingAgendaItems
     private
 
     def drag_and_drop_enabled?
-      @meeting.open? && User.current.allowed_to?(:manage_agendas, @meeting.project)
+      @meeting.open? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
 
     def edit_enabled?
-      @meeting.open? && User.current.allowed_to?(:manage_agendas, @meeting.project)
+      @meeting.open? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
 
     def edit_action_item(menu)

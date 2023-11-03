@@ -29,6 +29,7 @@
 module Users
   class UpdateContract < BaseContract
     validate :user_allowed_to_update
+    validate :at_least_one_admin_is_active
 
     ##
     # Users can only be updated when
@@ -44,6 +45,16 @@ module Users
     def user_allowed_to_update
       unless allowed_to_update?
         errors.add :base, :error_unauthorized
+      end
+    end
+
+    def at_least_one_admin_is_active
+      return unless
+        (model.admin_changed? && !model.admin?) ||
+        (model.admin? && model.status_changed? && model.locked?)
+
+      if User.active.admin.where.not(id: model).none?
+        errors.add :base, :one_must_be_active
       end
     end
 

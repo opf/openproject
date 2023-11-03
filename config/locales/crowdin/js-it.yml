@@ -554,7 +554,6 @@ it:
       steps:
         help_menu: 'Il menu Aiuto (?) fornisce <b>ulteriori risorse di aiuto</b>. Qui puoi trovare una guida utente, video utili e altro ancora. <br> Goditi il tuo lavoro con OpenProject!'
         members: 'Invita nuovi <b>membri</b> per entrare al tuo progetto.'
-        project_selection: 'Clicca su uno dei progetti demo che abbiamo preparato. I dati demo sono attualmente disponibili solo in inglese. <br> Il <b>progetto demo</b> generale si adatta meglio alla gestione dei progetti classica, mentre il <b>progetto Scrum</b> è migliore per la gestione agile dei progetti.'
         quick_add_button: 'Clicca sull''icona più (+) nella navigazione dell''intestazione per <b>creare un nuovo progetto</b> o per <b>invitare colleghi</b>.'
         sidebar_arrow: "Utilizza la freccia di ritorno nell'angolo in alto a sinistra per tornare al <b>menu principale</b> del progetto."
         welcome: 'Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine. Puoi riavviare il tour in qualsiasi momento.'
@@ -599,6 +598,7 @@ it:
         processed: 'elaborato'
         prioritized: 'prioritizzato'
         dateAlert: 'Avviso data'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data inizio'
         overdue: 'In ritardo'
@@ -643,6 +643,7 @@ it:
         mentioned: 'Menzionato'
         watched: 'Osservatore'
         date_alert: 'Avviso data'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Puoi modificare le tue <a target="_blank" href="%{url}">impostazioni di notifica</a> per assicurarti di non perderti mai un aggiornamento importante.'
         title: "Impostazioni notifiche"
@@ -665,6 +666,7 @@ it:
             description: 'Ricevi una notifica ogni volta che qualcuno ti menziona ovunque'
           assignee: 'Assegnatario'
           responsible: 'Responsabile'
+          shared: 'Shared'
           watched: 'Osservatore'
           work_package_commented: 'Tutti i nuovi commenti'
           work_package_created: 'Nuove macro-attività'
@@ -1021,6 +1023,9 @@ it:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configura la tabella della macro-attività'
         summary: "Tabella con righe di macro-attività e colonne dei loro attributi."

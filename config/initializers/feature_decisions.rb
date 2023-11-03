@@ -39,5 +39,4 @@ require_relative '../../lib_static/open_project/feature_decisions'
 #     OpenProject::FeatureDecisions.add :some_flag
 #   end
 
-OpenProject::FeatureDecisions.add :personal_theme_selection
 OpenProject::FeatureDecisions.add :work_package_sharing

@@ -553,7 +553,6 @@ zh-TW:
       steps:
         help_menu: '幫助 (?) 菜單中提供了<b>其他幫助資源</b>。您可以在這裡找到用戶指南、實用的使用方法視頻等內容。<br>使用 OpenProject 盡情享受您的工作吧！'
         members: '邀請新 <b>會員</b> 加入您的專案。'
-        project_selection: '請選擇一個具有有用演示資料的專案開始。 <br> <b>演示專案</b> 最適合傳統專案管理, 而 <b>scrum 專案</b> 是更好的敏捷專案管理。'
         quick_add_button: '於頁首點按 (+) 鍵 <b>來建立新的專案</b> 或 <b>來邀請隊員</b>.'
         sidebar_arrow: "用左上方的返回鍵，返回至專案的 <b>主選單</b>."
         welcome: '觀看三分鐘的介紹導覽, 以瞭解最多 <b>重要功能</b>。 <br> 我們建議完成所有步驟直到結束。您可以隨時重新開始導覽。'
@@ -598,6 +597,7 @@ zh-TW:
         processed: '已處理'
         prioritized: '優先'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -641,6 +641,7 @@ zh-TW:
         mentioned: '被標記'
         watched: "關注者\n"
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "通知設定"
@@ -663,6 +664,7 @@ zh-TW:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: '負責執行者'
           responsible: '負責人'
+          shared: 'Shared'
           watched: "關注者\n"
           work_package_commented: '新評論'
           work_package_created: '新工作包'
@@ -1019,6 +1021,9 @@ zh-TW:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: '配置工作包表'
         summary: "由工作項目和工作項目屬性列組成的表格。"

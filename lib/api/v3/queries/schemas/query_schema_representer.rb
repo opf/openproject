@@ -88,11 +88,7 @@ module API
           schema :public,
                  type: 'Boolean',
                  required: false,
-                 writable: -> do
-                   current_user.allowed_to?(:manage_public_queries,
-                                            represented.project,
-                                            global: represented.project.nil?)
-                 end,
+                 writable: -> { allowed_to_manage_public_queries? },
                  has_default: true
 
           schema :sums,
@@ -287,6 +283,14 @@ module API
               api_v3_paths.query_project_filter_instance_schemas(represented.project.id)
             else
               api_v3_paths.query_filter_instance_schemas
+            end
+          end
+
+          def allowed_to_manage_public_queries?
+            if represented.project
+              current_user.allowed_in_project?(:manage_public_queries, represented.project)
+            else
+              current_user.allowed_in_any_project?(:manage_public_queries)
             end
           end
         end

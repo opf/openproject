@@ -884,6 +884,7 @@ nl:
           attributes:
             base:
               user_limit_reached: "Gebruikerslimiet bereikt. Er kunnen geen accounts meer worden gemaakt voor het huidige abonnement."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Wachtwoordbevestiging komt niet overeen met wachtwoord."
               format: "%{message}"
@@ -3006,6 +3007,7 @@ nl:
       share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Comment"
         comment_description: "Can view and comment this work package."

@@ -31,10 +31,7 @@
 class Queries::WorkPackages::Filter::SharedWithUserFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
   def available?
-    super && User.current
-                 .allowed_to?(:view_shared_work_packages,
-                              project,
-                              global: true)
+    super && view_shared_work_packages_allowed?
   end
 
   def scope
@@ -63,6 +60,14 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
   end
 
   private
+
+  def view_shared_work_packages_allowed?
+    if project
+      User.current.allowed_in_project?(:view_shared_work_packages, project)
+    else
+      User.current.allowed_in_any_project?(:view_shared_work_packages)
+    end
+  end
 
   def visible_shared_work_packages
     WorkPackage.joins("JOIN members ON members.entity_id = work_packages.id")

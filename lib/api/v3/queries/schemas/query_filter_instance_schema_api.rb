@@ -43,7 +43,7 @@ module API
             end
 
             after_validation do
-              authorize(:view_work_packages, global: true, user: current_user)
+              authorize_in_any_project(:view_work_packages)
             end
 
             get do

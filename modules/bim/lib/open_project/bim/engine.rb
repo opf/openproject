@@ -127,7 +127,7 @@ module OpenProject::Bim
       include API::Bim::Utilities::PathHelper
 
       link :bcfTopic,
-           cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
+           cache_if: -> { current_user.allowed_in_project?(:view_linked_issues, represented.project) } do
         next unless represented.bcf_issue?
 
         {
@@ -136,7 +136,7 @@ module OpenProject::Bim
       end
 
       link :convertBCF,
-           cache_if: -> { current_user_allowed_to(:manage_bcf) } do
+           cache_if: -> { current_user.allowed_in_project?(:manage_bcf, represented.project) } do
         next if represented.bcf_issue? || represented.project.nil?
 
         {
@@ -148,7 +148,7 @@ module OpenProject::Bim
       end
 
       links :bcfViewpoints,
-            cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
+            cache_if: -> { current_user.allowed_in_project?(:view_linked_issues, represented.project) } do
         next unless represented.bcf_issue?
 
         represented.bcf_issue.viewpoints.map do |viewpoint|
@@ -178,7 +178,8 @@ module OpenProject::Bim
 
       links :bcfViewpoints do
         journable = represented.journable
-        next unless current_user_allowed_to(:view_linked_issues) && represented.bcf_comment.present? && journable.bcf_issue?
+        next unless current_user.allowed_in_project?(:view_linked_issues, represented.project) &&
+          represented.bcf_comment.present? && journable.bcf_issue?
 
         # There will only be one viewpoint per comment but we nevertheless return a collection here so that it is more
         # similar to the work package representer.

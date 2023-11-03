@@ -553,7 +553,6 @@ sl:
       steps:
         help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Poglejte si tri minutni ogled, da se naučite čim več <b>pomembne lastnosti</b>. <br> Priporočamo, da ogled dokončat. Ogled lahko ponovno začnete kadar koli. '
@@ -598,6 +597,7 @@ sl:
         processed: 'procesirano'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -644,6 +644,7 @@ sl:
         mentioned: 'Omenjen'
         watched: 'Opazovalec'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Nastavitve obvestil"
@@ -666,6 +667,7 @@ sl:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Prevzemnik'
           responsible: 'Odgovorni'
+          shared: 'Shared'
           watched: 'Opazovalec'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -1022,6 +1024,9 @@ sl:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Uredi tabelo delovnega paketa'
         summary: "Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.\n"

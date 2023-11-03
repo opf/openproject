@@ -78,7 +78,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPUnauthorized
         Util.error(:unauthorized, 'Outbound request not authorized!', response)
       else
-        Util.error(:error, 'Outbound request failed!')
+        Util.error(:error, 'Outbound request failed!', response)
       end
     end
 

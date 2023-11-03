@@ -51,7 +51,7 @@ module API
           # Additionally to what would be checked by the contract,
           # we need to restrict permissions in some use cases of the mounts of this endpoint.
           def restrict_permissions(permissions)
-            authorize_any(permissions, projects: container.project) unless permissions.empty?
+            authorize_in_project(permissions, project: container.project) unless permissions.empty?
           end
         end
 

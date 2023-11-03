@@ -91,12 +91,11 @@ module Users::PermissionChecks
       .includes(:role_permissions)
       .pluck(:permission)
       .compact
-      .uniq
       .map(&:to_sym)
+      .uniq
   end
 
   # Old allowed_to? interface. Marked as deprecated, should be removed at some point ... Guessing 14.0?
-
   def allowed_to?(action, context, global: false)
     # OpenProject::Deprecation.deprecate_method(User, :allowed_to?)
     user_allowed_service.call(action, context, global:)

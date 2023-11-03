@@ -45,12 +45,159 @@ module Components
         @work_package = work_package
       end
 
-      def invite_user(user, role_name)
-        # Adding a user to the list of shared users
-        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
-                            query: user.firstname,
-                            select_text: user.name,
-                            results_selector: 'body'
+      def select_shares(*principals)
+        within shares_list do
+          principals.each do |principal|
+            check principal.name
+          end
+        end
+      end
+
+      def deselect_shares(*principals)
+        within shares_list do
+          principals.each do |principal|
+            uncheck principal.name
+          end
+        end
+      end
+
+      def expect_not_selectable(*principals)
+        principals.each do |principal|
+          within user_row(principal) do
+            expect(page).not_to have_field(principal.name)
+          end
+        end
+      end
+
+      def toggle_select_all
+        within shares_header do
+          if page.find_field('toggle_all').checked?
+            uncheck 'toggle_all'
+          else
+            check 'toggle_all'
+          end
+        end
+      end
+
+      def expect_selected(*principals)
+        within shares_list do
+          principals.each do |principal|
+            expect(page).to have_checked_field(principal.name)
+          end
+        end
+      end
+
+      def expect_deselected(*principals)
+        within shares_list do
+          principals.each do |principal|
+            expect(page).to have_unchecked_field(principal.name)
+          end
+        end
+      end
+
+      def expect_selected_count_of(count)
+        expect(shares_header)
+          .to have_text("#{count} selected")
+      end
+
+      def expect_select_all_available
+        expect(shares_header)
+          .to have_field('toggle_all')
+      end
+
+      def expect_select_all_not_available
+        expect(shares_header)
+          .not_to have_field('toggle_all', wait: 0)
+      end
+
+      def expect_select_all_toggled
+        within shares_header do
+          expect(page).to have_checked_field('toggle_all')
+        end
+      end
+
+      def expect_select_all_untoggled
+        within shares_header do
+          expect(page).to have_unchecked_field('toggle_all')
+        end
+      end
+
+      def expect_bulk_actions_available
+        within shares_header do
+          expect(page).to have_button 'Remove'
+          expect(page).to have_test_selector('op-share-wp-bulk-update-role')
+        end
+      end
+
+      def expect_bulk_actions_not_available
+        within shares_header do
+          expect(page).not_to have_button 'Remove'
+          expect(page).not_to have_test_selector('op-share-wp-bulk-update-role')
+        end
+      end
+
+      def bulk_remove
+        within shares_header do
+          click_button 'Remove'
+        end
+      end
+
+      def bulk_update(role_name)
+        within shares_header do
+          find('[data-test-selector="op-share-wp-bulk-update-role"]').click
+
+          find('.ActionListContent', text: role_name).click
+        end
+      end
+
+      def expect_bulk_update_label(label_text)
+        within shares_header do
+          expect(page)
+            .to have_css('[data-test-selector="op-share-wp-bulk-update-role"] .Button-label',
+                         text: label_text)
+          if label_text == 'Mixed'
+            %w[View Comment Edit].each do |permission_name|
+              within bulk_update_form(permission_name) do
+                expect(page)
+                  .to have_css(unchecked_permission, visible: :all)
+              end
+            end
+          else
+            within bulk_update_form(label_text) do
+              expect(page)
+                .to have_css(checked_permission, visible: :all)
+            end
+          end
+        end
+      end
+
+      def bulk_update_form(permission_name)
+        find("[data-test-selector='op-share-wp-bulk-update-role-permission-#{permission_name}']", visible: :all)
+      end
+
+      def checked_permission
+        'button[type=submit][aria-checked=true]'
+      end
+
+      def unchecked_permission
+        'button[type=submit][aria-checked="false"]'
+      end
+
+      def expect_blankslate
+        within_modal do
+          expect(page).to have_text(I18n.t('work_package.sharing.text_empty_state_description'))
+        end
+      end
+
+      def invite_user(users, role_name)
+        Array(users).each do |user|
+          case user
+          when String
+            select_not_existing_user_option(user)
+          when Principal
+            select_existing_user(user)
+          end
+        end
 
         select_invite_role(role_name)
 
@@ -59,21 +206,8 @@ module Components
         end
       end
 
+      alias_method :invite_users, :invite_user
       alias_method :invite_group, :invite_user
-
-      def create_and_invite_user(email, role_name)
-        # Adding a user to the list of shared users
-        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
-                            query: email,
-                            select_text: "Send invite to\"#{email}\"",
-                            results_selector: 'body'
-
-        select_invite_role(role_name)
-
-        within modal_element do
-          click_button 'Share'
-        end
-      end
 
       def search_user(search_string)
         search_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
@@ -139,16 +273,18 @@ module Components
         end
       end
 
-      def expect_not_shared_with(user)
+      def expect_not_shared_with(*principals)
         within shares_list do
-          expect(page)
-            .not_to have_text(user.name)
+          principals.each do |principal|
+            expect(page)
+              .not_to have_text(principal.name)
+          end
         end
       end
 
       def expect_shared_count_of(count)
-        expect(active_list)
-          .to have_css('[data-test-selector="op-share-wp-active-count"]', text: "#{count} users")
+        expect(shares_header)
+          .to have_text(I18n.t('work_package.sharing.count', count:))
       end
 
       def expect_no_invite_option
@@ -159,7 +295,7 @@ module Components
       end
 
       def user_row(user)
-        modal_element
+        shares_list
           .find("[data-test-selector=\"op-share-wp-active-user-#{user.id}\"]")
       end
 
@@ -168,8 +304,30 @@ module Components
           .find('[data-test-selector="op-share-wp-active-list"]')
       end
 
+      def shares_header
+        active_list.find('[data-test-selector="op-share-wp-header"]')
+      end
+
+      def shares_counter
+        shares_header.find('[data-test-selector="op-share-wp-active-count"]')
+      end
+
       def shares_list
         active_list.find_by_id('op-share-wp-active-shares')
+      end
+
+      def select_existing_user(user)
+        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+                            query: user.firstname,
+                            select_text: user.name,
+                            results_selector: 'body'
+      end
+
+      def select_not_existing_user_option(email)
+        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+                            query: email,
+                            select_text: "Send invite to\"#{email}\"",
+                            results_selector: 'body'
       end
     end
   end

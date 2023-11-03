@@ -554,7 +554,6 @@ es:
       steps:
         help_menu: 'El menú Ayuda (?) proporciona <b>recursos de ayuda adicionales</b>. Aquí puedes encontrar una guía de usuario, vídeos explicativos y más. <br> ¡Disfruta de tu trabajo con OpenProject!'
         members: 'Invitar a nuevos <b>miembros</b> a unirse a tu proyecto.'
-        project_selection: 'Haga clic en uno de los proyectos de demostración que hemos preparado. Los datos de demostración solo están disponibles en inglés actualmente. <br> El <b>proyecto general de demostración</b> es la opción recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto de Scrum</b> es más adecuado para la gestión de proyectos Agile.'
         quick_add_button: 'Haga clic en el icono del signo más (+) en el menú de navegación del encabezado para <b>crear un proyecto</b> o <b>invitar a compañeros</b>.'
         sidebar_arrow: "Usa la flecha de retorno en la esquina superior izquierda para regresar al <b>menú principal</b> del proyecto."
         welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>funciones más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
@@ -599,6 +598,7 @@ es:
         processed: 'procesado'
         prioritized: 'priorizar'
         dateAlert: 'Alerta de fecha'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Fecha de hito'
         overdue: 'Vencido'
@@ -643,6 +643,7 @@ es:
         mentioned: 'Mencionado'
         watched: 'Observador'
         date_alert: 'Alerta de fecha'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Puede modificar su <a target="_blank" href="%{url}">configuración de notificaciones</a> para asegurarse que nunca se pierda una actualización importante.'
         title: "Ajustes de notificación"
@@ -665,6 +666,7 @@ es:
             description: 'Recibir una notificación cada vez que un usuario me mencione'
           assignee: 'Asignado a'
           responsible: 'Responsable'
+          shared: 'Shared'
           watched: 'Observador'
           work_package_commented: 'Todos los nuevos comentarios'
           work_package_created: 'Nuevos paquetes de trabajo'
@@ -1021,6 +1023,9 @@ es:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."

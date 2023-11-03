@@ -28,8 +28,11 @@
 
 module Authorization
   class IllegalPermissionContextError < StandardError
+    attr_reader :allowed_contexts
+
     def initialize(permission, mapped_permissions, context)
-      super("Used permission \"#{permission}\" which maps to #{mapped_permissions.map(&:name).join(', ')} in #{context} context. Correct contexts for this permission are: #{mapped_permissions.flat_map(&:permissible_on).uniq.join(', ')}.")
+      @allowed_contexts = mapped_permissions.flat_map(&:permissible_on).uniq
+      super("Used permission \"#{permission}\" which maps to #{mapped_permissions.map(&:name).join(', ')} in #{context} context. Correct contexts for this permission are: #{@allowed_contexts.join(', ')}.")
     end
   end
 end

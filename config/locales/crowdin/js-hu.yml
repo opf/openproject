@@ -554,7 +554,6 @@ hu:
       steps:
         help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
-        project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
         quick_add_button: 'Kattintson a fejlécben található (+) ikonra hogy   <b>create a new project</b> vagy  <b>invite coworkers</b>.'
         sidebar_arrow: "Használja a vissza nyilat bal felül hogy visszatérjen a projektekhez <b>main menu</b>.."
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
@@ -599,6 +598,7 @@ hu:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -643,6 +643,7 @@ hu:
         mentioned: 'Megemlített'
         watched: 'Megfigyelő'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Értesítési beállítások"
@@ -665,6 +666,7 @@ hu:
             description: 'Értesítés fogadása minden alkalommal, amikor bárki bárhol megemlít'
           assignee: 'Megbízott'
           responsible: 'Felelős'
+          shared: 'Shared'
           watched: 'Megfigyelő'
           work_package_commented: 'Új megjegyzések'
           work_package_created: 'Új munkacsomagok'
@@ -1021,6 +1023,9 @@ hu:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Feladatcsoport táblázat beállítása'
         summary: "Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok."

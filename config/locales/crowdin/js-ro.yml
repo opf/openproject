@@ -553,7 +553,6 @@ ro:
       steps:
         help_menu: 'Meniul Ajutor (?) oferă <b>resurse suplimentare de ajutor</b>. Aici puteți găsi un ghid de utilizator, un ghid util pentru videoclipuri și multe altele. <br> Bucurați-vă de munca dumneavoastră cu OpenProject!'
         members: 'Invitați noi <b>membri</b> să se alăture proiectului dumneavoastră.'
-        project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele demo pe care le-am pregătit. Datele demo sunt disponibile în prezent doar în limba engleză. <br> Proiectul demonstrativ <b>general</b> se potrivește cel mai bine pentru gestionarea proiectelor clasice, în timp ce proiectul <b>Scrum</b> este mai bun pentru managementul agile al proiectului.'
         quick_add_button: 'Dă click pe pictograma plus (+) din antetul navigării pentru a <b>crea un nou proiect</b> sau <b>invita colaboratori</b>.'
         sidebar_arrow: "Folosește săgeata de întoarcere din colțul din stânga sus pentru a te întoarce în meniul <b>al proiectului</b>."
         welcome: 'Faceți un tur introductiv de trei minute pentru a afla cele mai <b>importante caracteristici</b>. <br> Vă recomandăm să parcurgeți pașii până la sfârșit. Puteți relua turul în orice moment.</br> '
@@ -598,6 +597,7 @@ ro:
         processed: 'prelucrate'
         prioritized: 'prioritizat'
         dateAlert: 'Alertă de dată'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data etapa'
         overdue: 'Restanțe'
@@ -643,6 +643,7 @@ ro:
         mentioned: 'Menţionat'
         watched: 'Observator'
         date_alert: 'Alertă de dată'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Puteți modifica setările <a target="_blank" href="%{url}">de notificare</a> pentru a vă asigura că nu pierdeți niciodată o actualizare importantă.'
         title: "Setări de notificare"
@@ -665,6 +666,7 @@ ro:
             description: 'Primește o notificare de fiecare dată când cineva mă menționează oriunde'
           assignee: 'Responsabil'
           responsible: 'Responsabil'
+          shared: 'Shared'
           watched: 'Observator'
           work_package_commented: 'Toate comentariile noi'
           work_package_created: 'Pachete de lucru noi'
@@ -1021,6 +1023,9 @@ ro:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configurarea tabelului pachetului de lucru'
         summary: "Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane."

@@ -886,6 +886,7 @@ sv:
           attributes:
             base:
               user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -1267,22 +1268,22 @@ sv:
         other: "%{count} minuter"
       x_minutes_abbreviated:
         one: "1 min"
-        other: "%{count} mins"
+        other: "%{count} min"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "1 timme"
+        other: "%{count} timmar"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
       x_weeks:
-        one: "1 week"
-        other: "%{count} weeks"
+        one: "1 vecka"
+        other: "%{count} veckor"
       x_months:
         one: "En månad"
         other: "%{count} månader"
       x_years:
-        one: "1 year"
-        other: "%{count} years"
+        one: "1 år"
+        other: "%{count} år"
       x_seconds:
         one: "En sekund"
         other: "%{count} sekunder"
@@ -3001,17 +3002,18 @@ sv:
       title: "Radera arbetspaketet"
     sharing:
       count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
+        zero: "0 användare"
+        one: "1 användare"
+        other: "%{count} användare"
       share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Comment"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Redigera"
         edit_description: "Can view, comment and edit this work package."
         view: "View"
         view_description: "Can view this work package."

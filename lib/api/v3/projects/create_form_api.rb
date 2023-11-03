@@ -32,7 +32,9 @@ module API
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
           after_validation do
-            authorize_any %i[add_project add_subprojects], global: true
+            authorize_globally(:add_project) do
+              authorize_in_any_project(:add_subprojects)
+            end
           end
 
           post &::API::V3::Utilities::Endpoints::CreateForm.new(model: Project)

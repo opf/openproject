@@ -124,7 +124,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     }
 
     begin
-      Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      Net::HTTP.start(uri.host, uri.port, req_options) do |http|
         http.request(request)
       end
     rescue StandardError => e

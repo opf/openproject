@@ -886,6 +886,7 @@ tr:
           attributes:
             base:
               user_limit_reached: "Kullanıcı sınırına ulaşıldı. Mevcut planda daha fazla hesap oluşturulamaz."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Parola onayı parolayla eşleşmiyor."
               format: "%{message}"
@@ -3006,6 +3007,7 @@ tr:
       share: "Share"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Comment"
         comment_description: "Can view and comment this work package."

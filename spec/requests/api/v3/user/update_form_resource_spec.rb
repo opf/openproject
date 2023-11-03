@@ -59,6 +59,8 @@ RSpec.describe API::V3::Users::UpdateFormAPI, content_type: :json do
   subject(:response) { last_response }
 
   context 'with authorized user' do
+    # Required to satisfy the Users::UpdateContract#at_least_one_admin_is_active
+    shared_let(:default_admin) { create(:admin) }
     shared_let(:current_user) do
       create(:user, global_permissions: [:manage_user])
     end

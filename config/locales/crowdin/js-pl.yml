@@ -554,7 +554,6 @@ pl:
       steps:
         help_menu: 'Menu Pomoc (?) zawiera <b>dodatkowe zasoby pomocy</b>. Tutaj znajdziesz przewodnik użytkownika, pomocne filmy instruktażowe i nie tylko. <br> Życzymy miłej pracy z OpenProject!'
         members: 'Zaproś nowych <b>członków</b> do swojego projektu.'
-        project_selection: 'Kliknij na jeden z projektów demonstracyjnych, które przygotowaliśmy. Dane demonstracyjne są obecnie dostępne tylko w języku angielskim. <br> Ogólny <b>projekt demo</b> najlepiej pasuje do klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest lepszy do zwinnego zarządzania projektami.'
         quick_add_button: 'Kliknij ikonę plus (+) w nawigacji nagłówka, aby <b>utworzyć nowy projekt</b> lub <b>zaprosić współpracowników</b>.'
         sidebar_arrow: "Użyj strzałki powrotu w lewym górnym rogu, aby wrócić do <b>menu głównego</b> projektu."
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>. \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej chwili zacząć od nowa."
@@ -599,6 +598,7 @@ pl:
         processed: 'przetworzono'
         prioritized: 'priorytetowo'
         dateAlert: 'Alert dotyczący daty'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data  kamienia milowego'
         overdue: 'Przekroczony termin'
@@ -645,6 +645,7 @@ pl:
         mentioned: 'Wzmianka'
         watched: 'Obserwator'
         date_alert: 'Data ostrzeżenia'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Możesz zmodyfikować <a target="_blank" href="%{url}">ustawienia powiadomień</a>, aby upewnić się, że nigdy nie przegapisz ważnej aktualizacji.'
         title: "Ustawienia powiadomień"
@@ -667,6 +668,7 @@ pl:
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
           assignee: 'Przypisana osoba'
           responsible: 'Osoba odpowiedzialna'
+          shared: 'Shared'
           watched: 'Obserwator'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'
@@ -1023,6 +1025,9 @@ pl:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."

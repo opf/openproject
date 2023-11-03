@@ -105,7 +105,7 @@ RSpec.describe 'Meetings', js: true do
       end
 
       context 'and edit permissions' do
-        let(:permissions) { %i[view_meetings manage_agendas] }
+        let(:permissions) { %i[view_meetings create_meeting_agendas] }
         let(:field) do
           TextEditorField.new(page,
                               '',

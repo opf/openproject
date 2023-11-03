@@ -31,9 +31,6 @@
 module WorkPackages
   module Share
     class ShareCounterComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpTurbo::Streamable
-
       def initialize(count:)
         super
 

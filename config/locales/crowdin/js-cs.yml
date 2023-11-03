@@ -554,7 +554,6 @@ cs:
       steps:
         help_menu: 'Menu nápovědy (?) poskytuje <b>další zdroje nápovědy</b>. Zde můžete najít uživatelskou příručku, užitečnou jak na videa a další. <br> Užijte si vaši práci s OpenProject!'
         members: 'Pozvěte nové <b>členy</b> , aby se připojili k vašemu projektu.'
-        project_selection: 'Pro začátek klikněte na jeden z projektů s ukázkovými daty. <br> <b>Demo projekt</b> vyhovuje nejlepší pro klasické řízení projektu, zatímco projekt <b>Scrum</b> je lepší pro řízení projektu Agile'
         quick_add_button: 'Klikněte na ikonu plus (+) v záhlaví pro <b>vytvoření nového projektu</b> nebo pro <b>pozvání spolupracovníků</b>.'
         sidebar_arrow: "Pomocí šipky zpět v levém horním rohu se vrátíte do <b>hlavního menu projektu</b>."
         welcome: 'Naučte se během tří minut <b>důležité funkce</b>. <br> Doporučujeme dokončit prohlídku až do konce. Prohlídku můžete kdykoliv restartovat.'
@@ -599,6 +598,7 @@ cs:
         processed: 'zpracováno'
         prioritized: 'upřednostněno'
         dateAlert: 'Upozornění na datum'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Datum milníku'
         overdue: 'Po termínu'
@@ -645,6 +645,7 @@ cs:
         mentioned: 'Zmíněné'
         watched: 'Sledující'
         date_alert: 'Upozornění na datum'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Nastavení oznámení"
@@ -667,6 +668,7 @@ cs:
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           assignee: 'Řešitel'
           responsible: 'Odpovědný'
+          shared: 'Shared'
           watched: 'Sledující'
           work_package_commented: 'Všechny nové komentáře'
           work_package_created: 'Nový pracovní balíček'
@@ -1023,6 +1025,9 @@ cs:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Konfigurovat tabulku pracovních balíčků'
         summary: "Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku."

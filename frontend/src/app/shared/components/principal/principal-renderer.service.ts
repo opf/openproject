@@ -21,6 +21,7 @@ export interface AvatarOptions {
 export interface NameOptions {
   hide:boolean;
   link:boolean;
+  classes?:string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -81,7 +82,7 @@ export class PrincipalRendererService {
     }
 
     if (!name.hide) {
-      const el = this.renderName(principal, type, name.link, title || principal.name);
+      const el = this.renderName(principal, type, name.link, title || principal.name, name.classes);
       container.appendChild(el);
     }
   }
@@ -148,6 +149,7 @@ export class PrincipalRendererService {
     type:PrincipalType,
     asLink = true,
     title = '',
+    classes = '',
   ) {
     if (asLink) {
       const link = document.createElement('a');
@@ -164,6 +166,9 @@ export class PrincipalRendererService {
     span.textContent = principal.name;
     span.classList.add('op-principal--name');
     span.title = title;
+    classes !== '' && classes.split(' ').forEach((cls) => {
+      span.classList.add(cls);
+    });
     return span;
   }
 

@@ -1,7 +1,6 @@
 // Dynamically loads and triggers the onboarding tour
 // when on the correct spots
 import {
-  demoProjectsLinks,
   OnboardingTourNames,
   onboardingTourStorageKey,
   ProjectName,
@@ -29,7 +28,7 @@ export function detectOnboardingTour():void {
   if (!isMobile && demoProjectsAvailable) {
     // Start after the intro modal (language selection)
     // This has to be changed once the project selection is implemented
-    if (url.searchParams.get('first_time_user') && demoProjectsLinks().length === 2) {
+    if (url.searchParams.get('first_time_user')) {
       currentTourPart = '';
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 

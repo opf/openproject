@@ -34,7 +34,9 @@ module API
       class AvailableParentsAPI < ::API::OpenProjectAPI
         resource :available_parent_projects do
           after_validation do
-            authorize_any(%i[add_project add_subprojects edit_project], global: true)
+            authorize_globally(:add_project) do
+              authorize_in_any_project(%i[add_subprojects edit_project])
+            end
           end
 
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex.new(model: Project,

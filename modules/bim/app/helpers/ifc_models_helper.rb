@@ -8,8 +8,8 @@ module IfcModelsHelper
       projects: [{ id: @project.identifier, name: @project.name }],
       xkt_attachment_ids: gon_ifc_model_xkt_attachment_ids(all_converted_models),
       permissions: {
-        manage_ifc_models: User.current.allowed_to?(:manage_ifc_models, @project),
-        manage_bcf: User.current.allowed_to?(:manage_bcf, @project)
+        manage_ifc_models: User.current.allowed_in_project?(:manage_ifc_models, @project),
+        manage_bcf: User.current.allowed_in_project?(:manage_bcf, @project)
       }
     }
   end

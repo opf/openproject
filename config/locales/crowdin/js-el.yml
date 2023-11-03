@@ -553,7 +553,6 @@ el:
       steps:
         help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Κάντε μια τρίλεπτη εισαγωγική περιήγηση για να μάθετε τα πιο <b>σημαντικά χαρακτηριστικά</b>. <br> Προτείνουμε να ολοκληρώσετε τα βήματα μέχρι το τέλος. Μπορείτε να επανεκκινήσετε την περιήγηση ανά πάσα στιγμή.'
@@ -598,6 +597,7 @@ el:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -642,6 +642,7 @@ el:
         mentioned: 'Mentioned'
         watched: 'Παρατηρητής'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -664,6 +665,7 @@ el:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Ανάθεση σε'
           responsible: 'Υπόλογος'
+          shared: 'Shared'
           watched: 'Παρατηρητής'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -1020,6 +1022,9 @@ el:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Διαμόρφωση του πίνακα πακέτων εργασίας'
         summary: "Πίνακας με γραμμές από πακέτα εργασίας και στήλες από χαρακτηριστικά πακέτων εργασίας."

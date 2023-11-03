@@ -554,7 +554,6 @@ ko:
       steps:
         help_menu: '도움말(?) 메뉴에서 <b>기타 도움말 리소스</b>가 제공됩니다. 여기에서 사용자 가이드와 유용한 사용 방법 동영상 등을 찾아볼 수 있습니다. <br> OpenProject로 즐겁게 작업하세요!'
         members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
-        project_selection: '준비된 데모 프로젝트 중 하나를 클릭하세요. 데모 데이터는 현재 영어로만 제공됩니다. <br> 일반 <b>데모 프로젝트</b>는 클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.'
         quick_add_button: '헤더 탐색에서 더하기(+) 아이콘을 클릭하여 <b>새 프로젝트를 생성</b>하거나 <b>동료를 초대</b>하세요.'
         sidebar_arrow: "프로젝트의 <b>기본 메뉴</b>로 돌아가려면 왼쪽 상단의 뒤로 화살표를 사용하세요."
         welcome: '3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다. 언제든지 투어를 다시 시작할 수 있습니다.'
@@ -599,6 +598,7 @@ ko:
         processed: '처리됨'
         prioritized: '우선 순위 지정됨'
         dateAlert: '날짜 경보'
+        shared: 'shared'
       date_alerts:
         milestone_date: '마일스톤 날짜'
         overdue: '기한 지남'
@@ -642,6 +642,7 @@ ko:
         mentioned: '멘션됨'
         watched: '주시자'
         date_alert: '날짜 경보'
+        shared: 'Shared'
       settings:
         change_notification_settings: '중요 업데이트를 놓치지 않도록 <a target="_blank" href="%{url}">알림 설정</a>을 수정할 수 있습니다.'
         title: "알림 설정"
@@ -664,6 +665,7 @@ ko:
             description: '어디에서든 누군가가 나를 멘션할 때마다 알림 받기'
           assignee: '담당자'
           responsible: '책임자'
+          shared: 'Shared'
           watched: '주시자'
           work_package_commented: '모든 새로운 코멘트'
           work_package_created: '새 작업 패키지'
@@ -1020,6 +1022,9 @@ ko:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: '작업 패키지 테이블 구성'
         summary: "작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블."

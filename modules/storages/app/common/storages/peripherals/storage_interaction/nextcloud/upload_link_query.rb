@@ -67,7 +67,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def outbound_response(method:, relative_path:, payload:, token:)
       response = Util.http(@uri).post(
-        Util.join_uri_path(@uri, relative_path),
+        Util.join_uri_path(@uri.path, relative_path),
         payload.to_json,
         {
           'Authorization' => "Bearer #{token.access_token}",
