@@ -44,7 +44,7 @@ module Meetings
     def render_author_link
       render(Primer::Beta::Link.new(font_size: :small, href: user_path(@meeting.author), underline: false,
                                     target: "_blank")) do
-        "#{@meeting.author.name}."
+        "#{@meeting.author.name}"
       end
     end
 
