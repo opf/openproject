@@ -239,14 +239,11 @@ class Storages::Admin::StoragesController < ApplicationController
       .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret', 'tenant_id', 'drive_id')
   end
 
-  # TODO: Work out how to retrieve the storage provider resource name as it's based on the provider type
-  # PrimerForms implements Rails `form_with` which doesn't support overriding the form name as we would with
-  # `form_for`.
-  # See: https://github.com/opf/primer_view_components/blob/79fb58474771bd06946554f8325cd0b1bdd6dd31/app/helpers/primer/form_helper.rb#L7
-  #
   def storage_provider_parameter_name
     if params.key?(:storages_nextcloud_storage)
       :storages_nextcloud_storage
+    elsif params.key?(:storages_one_drive_storage)
+      :storages_one_drive_storage
     else
       :storages_storage
     end

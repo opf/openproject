@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,40 +25,18 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin::Forms
-  class GeneralInfoFormComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    alias_method :storage, :model
 
-    options form_method: :post,
-            submit_button_disabled: false,
-            cancel_button_should_break_from_frame: false,
-            cancel_button_path: Rails.application.routes.url_helpers.admin_settings_storages_path
-
-    def form_url
-      options[:form_url] || default_form_url
-    end
-
-    def submit_button_options
-      { disabled: submit_button_disabled }
-    end
-
-    def cancel_button_options
-      { href: cancel_button_path }.tap do |options_hash|
-        options_hash[:target] = '_top' if cancel_button_should_break_from_frame
-      end
-    end
-
-    private
-
-    def default_form_url
-      case form_method
-      when :get, :post
-        Rails.application.routes.url_helpers.admin_settings_storages_path
-      when :patch, :put
-        Rails.application.routes.url_helpers.admin_settings_storage_path(storage)
-      end
+module Storages::Admin
+  class ProviderTenantIdInputForm < ApplicationForm
+    form do |storage_form|
+      storage_form.text_field(
+        name: :tenant_id,
+        label: I18n.t('activerecord.attributes.storages/storage.tenant'),
+        visually_hide_label: false,
+        required: true,
+        caption: I18n.t("storages.instructions.one_drive.tenant_id"),
+        placeholder: I18n.t("storages.instructions.one_drive.tenant_id_placeholder")
+      )
     end
   end
 end
