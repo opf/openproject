@@ -26,9 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { ID } from '@datorama/akita';
+
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 
 export interface IStorageLoginInput {
+  storageId:ID;
   storageType:string;
   authorizationLink:IHalResourceLink;
 }

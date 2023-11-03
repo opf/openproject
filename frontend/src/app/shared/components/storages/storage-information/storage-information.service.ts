@@ -97,6 +97,7 @@ export class StorageInformationService {
       this.text.authorizationFailureHeader(storageType),
       this.text.authorizationFailureContent(storageType),
       {
+        storageId: storage.id,
         storageType: storage._links.type.href,
         authorizationLink: storage._links.authorize,
       },

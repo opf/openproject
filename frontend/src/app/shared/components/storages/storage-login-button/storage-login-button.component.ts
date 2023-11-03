@@ -73,9 +73,11 @@ export class StorageLoginButtonComponent implements OnInit {
   }
 
   private setAuthorizationCallbackCookie(nonce:string):void {
-    this.cookieService.set(`oauth_state_${nonce}`, window.location.href, {
-      path: '/',
-    });
+    this.cookieService.set(
+      `oauth_state_${nonce}`,
+      JSON.stringify({ href: window.location.href, storageId: this.input.storageId }),
+      { path: '/' },
+    );
   }
 
   private static authorizationFailureActionUrl(baseUrl:string, nonce:string):string {

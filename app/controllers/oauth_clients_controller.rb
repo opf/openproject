@@ -133,7 +133,11 @@ class OAuthClientsController < ApplicationController
   end
 
   def find_oauth_client
-    @oauth_client = OAuthClient.find_by(client_id: params[:oauth_client_id])
+    # FIXME: This is a hack, fetching additional information of the storage to identify the oauth client.
+    # This must be fixed in #50872.
+    state_cookie = MultiJson.load(cookies["oauth_state_#{@oauth_state}"], symbolize_keys: true)
+    @oauth_client = OAuthClient.find_by(client_id: params[:oauth_client_id],
+                                        integration_id: state_cookie[:storageId])
     if @oauth_client.nil?
       # oauth_client can be nil if OAuthClient was not found.
       # This happens during admin setup if the user forgot to update the return_uri
