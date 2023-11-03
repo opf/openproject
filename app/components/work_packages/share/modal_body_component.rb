@@ -34,10 +34,11 @@ module WorkPackages
       include OpPrimer::ComponentHelpers
       include WorkPackages::Share::Concerns::Authorization
 
-      def initialize(work_package:)
+      def initialize(work_package:, shares:)
         super
 
         @work_package = work_package
+        @shared_principals = shares
       end
 
       def self.wrapper_key
@@ -71,15 +72,6 @@ module WorkPackages
                                            .merge(id: insert_target_modifier_id)
 
         list_container.instance_variable_set(:@list_arguments, new_list_arguments)
-      end
-
-      def shared_principals
-        @shared_principals ||= Principal
-                                .having_entity_membership(@work_package)
-                                .includes(work_package_shares: :roles)
-                                .where(work_package_shares: { entity: @work_package })
-                                .merge(MemberRole.only_non_inherited)
-                                .ordered_by_name
       end
     end
   end

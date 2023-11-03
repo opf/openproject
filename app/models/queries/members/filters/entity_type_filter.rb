@@ -26,24 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Members
-  ::Queries::Register.register(MemberQuery) do
-    filter Filters::NameFilter
-    filter Filters::AnyNameAttributeFilter
-    filter Filters::ProjectFilter
-    filter Filters::StatusFilter
-    filter Filters::BlockedFilter
-    filter Filters::GroupFilter
-    filter Filters::RoleFilter
-    filter Filters::PrincipalFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::UpdatedAtFilter
-    filter Filters::EntityIdFilter
-    filter Filters::EntityTypeFilter
+class Queries::Members::Filters::EntityTypeFilter < Queries::Members::Filters::MemberFilter
+  def type
+    :string
+  end
 
-    order Orders::DefaultOrder
-    order Orders::NameOrder
-    order Orders::EmailOrder
-    order Orders::StatusOrder
+  def self.key
+    :entity_type
   end
 end

@@ -36,7 +36,15 @@ class WorkPackages::SharesController < ApplicationController
   before_action :authorize
 
   def index
-    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package), layout: nil
+    query = load_query
+
+    unless query.valid?
+      flash.now[:error] = query.errors.full_messages
+    end
+
+    @shares = load_shares query
+
+    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares), layout: nil
   end
 
   def create
@@ -162,5 +170,22 @@ class WorkPackages::SharesController < ApplicationController
                                         .of_work_package(@work_package)
                                         .merge(MemberRole.only_non_inherited)
                                         .size
+  end
+
+  def load_query
+    @query = ParamsToQueryService.new(Member, current_user).call(params)
+
+    # Set default filter on the entity
+    @query.where('entity_id', '=', @work_package.id)
+    @query.where('entity_type', '=', WorkPackage.name)
+
+    @query.order(name: :asc) unless params[:sortBy]
+
+    @query
+  end
+
+  def load_shares(query)
+    query
+      .results
   end
 end

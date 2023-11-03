@@ -5,7 +5,7 @@
         render(WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package))
       end
 
-      if shared_principals.none?
+      if @shared_principals.none?
         modal_content.with_row(mt: 3) do
           render(Primer::Beta::Blankslate.new(border: true)) do |component|
             component.with_visual_icon(icon: :people, size: :medium)
@@ -28,7 +28,7 @@
             border_box.with_header(color: :subtle, pt: 2, pb: 2, data: { 'test-selector': 'op-share-wp-header' }) do
               grid_layout('op-share-wp-modal-body--header', tag: :div, align_items: :center) do |header_grid|
                 header_grid.with_area(:counter, tag: :div) do
-                  render(WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: shared_principals.size))
+                  render(WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: @shared_principals.size))
                 end
 
                 header_grid.with_area(:actions,
@@ -87,12 +87,8 @@
               end
             end
 
-            shared_principals.each do |principal|
-              share = principal.work_package_shares
-                               .where(entity: @work_package)
-                               .first
-
-              render(WorkPackages::Share::ShareRowComponent.new(share:, container: border_box))
+            @shared_principals.each do |principal|
+              render(WorkPackages::Share::ShareRowComponent.new(share: principal, container: border_box))
             end
           end
         end
