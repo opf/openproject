@@ -77,7 +77,7 @@ In the Administration, please navigate to Work packages -> Settings and change â
 
 In this mode, OpenProject does _not_ allow you to manually modify the
 **Progress (%)** field in the work packages.
-Instead, the **Progress (%)** value will be set automatically based on the the work package
+Instead, the **Progress (%)** value will be set automatically based on the work package
 status configuration page.
 
 Within the Administration, navigate to Work package -> Status and select the status you want to edit regarding the progress tracking. Here you can select the desired progress percentage from the drop-down menu in the progress line and add it to the status. Please do not forget to save your changes.
