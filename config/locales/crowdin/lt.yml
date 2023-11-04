@@ -886,7 +886,7 @@ lt:
           attributes:
             base:
               user_limit_reached: "Pasiekta naudotoj riba. Su dabartiniu planu daugiau paskyrų kurti nebegalima."
-              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
+              one_must_be_active: "Administratoriaus naudotojo negalima užrakinti/išmesti. Turi būti aktyvus bent vienas administratorius."
             password_confirmation:
               confirmation: "Slaptažodžio patvirtinimas nesutampa su įvestu slaptažodžiu."
               format: "%{message}"
