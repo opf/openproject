@@ -5,7 +5,7 @@
   [textContent]="gitlabIssue.repository + '#' + gitlabIssue.number"
 ></a>
 
-<div
+<!-- <div
   class='op-issue--title'
   [textContent]="gitlabIssue.title"
 ></div>
@@ -35,7 +35,7 @@
 <span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
   <op-icon icon-classes="button--icon icon-merge-branch"></op-icon>
   {{state}}
-</span>
+</span> -->
 
 <!-- <div class="op-issue--labels">
   <span *ngFor="let label of gitlabIssue.labels">
