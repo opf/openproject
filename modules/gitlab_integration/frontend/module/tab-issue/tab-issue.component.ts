@@ -43,7 +43,7 @@ import {ApiV3Service} from "core-app/core/apiv3/api-v3.service";
 export class TabIssueComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
 
-  public gitlabIssue:IGitlabIssueResource[] = [];
+  public gitlabIssues:IGitlabIssueResource[] = [];
 
   constructor(
     readonly I18n:I18nService,
@@ -59,7 +59,7 @@ export class TabIssueComponent implements OnInit {
     this.halResourceService
       .get<CollectionResource<IGitlabIssueResource>>(gitlabIssuePath)
       .subscribe((value) => {
-        this.gitlabIssue = value.elements;
+        this.gitlabIssues = value.elements;
         this.changeDetector.detectChanges();
       });
   }
