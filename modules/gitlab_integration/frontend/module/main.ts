@@ -50,36 +50,52 @@ import { map } from 'rxjs/operators';
 
 let totalIssues: number;
 
-export function workPackageGitlabMrsCount(
+export function workPackageGitlabCount(
   workPackage:WorkPackageResource,
   injector:Injector,
 ):Observable<number> {
   const gitlabMrsService = injector.get(WorkPackagesGitlabMrsService);
-
-  return gitlabMrsService
-    .requireAndStream(workPackage)
-    .pipe(
-      map((mrs) => mrs.length),
-    );
-}
-
-export function workPackageGitlabIssuesCount(
-  workPackage:WorkPackageResource,
-  injector:Injector,
-):Observable<number> {
   const gitlabIssueService = injector.get(WorkPackagesGitlabIssueService);
 
-  return gitlabIssueService
-    .requireAndStream(workPackage)
-    .pipe(
-      map((issue) => issue.length),
-    );
+  const mrsObservable = gitlabMrsService.requireAndStream(workPackage).pipe(
+    map((mrs) => mrs.length),
+  );
+
+  const issuesObservable = gitlabIssueService.requireAndStream(workPackage).pipe(
+    map((issues) => issues.length),
+  );
+
+  return Observable.combineLatest([mrsObservable, issuesObservable]).pipe(
+    map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
+  );
 }
 
-export function gitlabTotalCount(): Observable<number> {
-  return workPackageGitlabMrsCount(workPackage, injector)
-             .combineLatest(workPackageGitlabIssuesCount(workPackage, injector), (mrs, issues) => mrs + issues);
-}
+
+// export function workPackageGitlabMrsCount(
+//   workPackage:WorkPackageResource,
+//   injector:Injector,
+// ):Observable<number> {
+//   const gitlabMrsService = injector.get(WorkPackagesGitlabMrsService);
+
+//   return gitlabMrsService
+//     .requireAndStream(workPackage)
+//     .pipe(
+//       map((mrs) => mrs.length),
+//     );
+// }
+
+// export function workPackageGitlabIssuesCount(
+//   workPackage:WorkPackageResource,
+//   injector:Injector,
+// ):Observable<number> {
+//   const gitlabIssueService = injector.get(WorkPackagesGitlabIssueService);
+
+//   return gitlabIssueService
+//     .requireAndStream(workPackage)
+//     .pipe(
+//       map((issue) => issue.length),
+//     );
+// }
 
 // export function calculateSum(
 //   workPackage:WorkPackageResource,
@@ -106,7 +122,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
     name: I18n.t('js.gitlab_integration.work_packages.tab_name'),
     id: 'gitlab',
     displayable: (workPackage) => !!workPackage.gitlab,
-    count: gitlabTotalCount,
+    count: workPackageGitlabCount,
   });
 }
 
