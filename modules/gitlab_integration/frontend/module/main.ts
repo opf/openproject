@@ -45,7 +45,7 @@ import { WorkPackagesGitlabIssueService } from './tab-issue/wp-gitlab-issue.serv
 import { MergeRequestComponent } from './merge-request/merge-request.component';
 import { IssueComponent } from './issue/issue.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 let totalIssues: number;
@@ -65,7 +65,7 @@ export function workPackageGitlabCount(
     map((issues) => issues.length),
   );
 
-  return Observable.combineLatest([mrsObservable, issuesObservable]).pipe(
+  return combineLatest([mrsObservable, issuesObservable]).pipe(
     map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
   );
 }
