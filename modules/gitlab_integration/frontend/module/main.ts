@@ -76,23 +76,28 @@ export function workPackageGitlabIssuesCount(
     );
 }
 
-export function calculateSum(
-  workPackage:WorkPackageResource,
-  injector:Injector,
-):Observable<number> {
-  return forkJoin([
-    workPackageGitlabMrsCount(  
-      workPackage,
-      injector,
-    ),
-    workPackageGitlabIssuesCount(
-      workPackage,
-      injector,
-    ),
-  ]).pipe(
-    map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
-  );
+export function gitlabTotalCount(): Observable<number> {
+  return workPackageGitlabMrsCount(workPackage, injector)
+             .combineLatest(workPackageGitlabIssuesCount(workPackage, injector), (mrs, issues) => mrs + issues);
 }
+
+// export function calculateSum(
+//   workPackage:WorkPackageResource,
+//   injector:Injector,
+// ):Observable<number> {
+//   return forkJoin([
+//     workPackageGitlabMrsCount(  
+//       workPackage,
+//       injector,
+//     ),
+//     workPackageGitlabIssuesCount(
+//       workPackage,
+//       injector,
+//     ),
+//   ]).pipe(
+//     map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
+//   );
+// }
 
 export function initializeGitlabIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -101,7 +106,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
     name: I18n.t('js.gitlab_integration.work_packages.tab_name'),
     id: 'gitlab',
     displayable: (workPackage) => !!workPackage.gitlab,
-    count: calculateSum,
+    count: gitlabTotalCount,
   });
 }
 
