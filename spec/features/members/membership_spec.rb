@@ -30,13 +30,9 @@ require 'spec_helper'
 
 RSpec.describe 'Administrating memberships via the project settings', :js do
   shared_let(:admin) { create(:admin) }
-  let(:current_user) do
-    create(:user,
-           member_with_roles: { project => manager })
-  end
-  let!(:project) { create(:project) }
+  shared_let(:project) { create(:project) }
 
-  let!(:peter) do
+  shared_let(:peter) do
     create(:user,
            status: User.statuses[:active],
            firstname: 'Peter',
@@ -44,7 +40,7 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
            mail: 'foo@example.org',
            preferences: { hide_mail: false })
   end
-  let!(:hannibal) do
+  shared_let(:hannibal) do
     create(:user,
            status: User.statuses[:invited],
            firstname: 'Hannibal',
@@ -52,18 +48,19 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
            mail: 'boo@bar.org',
            preferences: { hide_mail: true })
   end
-  let!(:developer_placeholder) { create(:placeholder_user, name: 'Developer 1') }
-  let!(:crash) do
+  shared_let(:developer_placeholder) { create(:placeholder_user, name: 'Developer 1') }
+  shared_let(:crash) do
     create(:user,
            firstname: "<script>alert('h4x');</script>",
            lastname: "<script>alert('h4x');</script>")
   end
-  let!(:group) do
+  shared_let(:group) do
     create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
-  let!(:manager)   { create(:project_role, name: 'Manager', permissions: [:manage_members]) }
-  let!(:developer) { create(:project_role, name: 'Developer') }
+  shared_let(:manager)   { create(:project_role, name: 'Manager', permissions: [:manage_members]) }
+  shared_let(:developer) { create(:project_role, name: 'Developer') }
+
   let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
   let(:member2) { create(:member, principal: hannibal, project:, roles: [developer]) }
   let(:member3) { create(:member, principal: group, project:, roles: [manager]) }
@@ -72,9 +69,9 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
 
   let(:members_page) { Pages::Members.new project.identifier }
 
-  before do
-    login_as(admin)
+  current_user { admin }
 
+  before do
     members_page.visit!
 
     SeleniumHubWaiter.wait
