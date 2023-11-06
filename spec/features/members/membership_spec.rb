@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Administrating memberships via the project settings', :js do
+RSpec.describe 'Administrating memberships via the project settings', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
 
