@@ -23,38 +23,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MailNotificationHelper
-  include ::ColorsHelper
+class MeetingMailerPreview < ActionMailer::Preview
+  # Preview emails at http://localhost:3000/rails/mailers/meeting_mailer
 
-  def unique_reasons_of_notifications(notifications)
-    notifications
-      .map(&:reason)
-      .uniq
+  def rescheduled
+    language = params['locale'] || I18n.default_locale
+    actor = FactoryBot.build_stubbed(:user, lastname: 'Actor')
+    user = FactoryBot.build_stubbed(:user, language:)
+    meeting = FactoryBot.build_stubbed(:meeting, start_time: 1.day.from_now, duration: 1.0)
+
+    changes = {
+      old_start: meeting.start_time,
+      old_duration: meeting.duration,
+      new_start: 5.days.from_now,
+      new_duration: 2.5
+    }
+
+    MeetingMailer.rescheduled(meeting, user, actor, changes:)
   end
 
-  def notifications_path(id)
-    notifications_center_url(['details', id, 'activity'])
-  end
+  def invited
+    language = params['locale'] || I18n.default_locale
+    actor = FactoryBot.build_stubbed(:user, lastname: 'Actor')
+    user = FactoryBot.build_stubbed(:user, language:)
+    meeting = FactoryBot.build_stubbed(:meeting)
 
-  def shared_work_package_path(id)
-    work_package_url(id)
-  end
-
-  def type_color(type, default_fallback)
-    color_id = selected_color(type)
-    if color_id
-      color = Color.find(color_id)
-      return color.super_bright? ? color.darken(0.75) : color.hexcode
-    end
-
-    default_fallback
-  end
-
-  def status_colors(status)
-    color_id = selected_color(status)
-    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ') if color_id
+    MeetingMailer.invited(meeting, user, actor)
   end
 end

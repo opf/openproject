@@ -53,6 +53,7 @@ OpenProject::Application.routes.draw do
       put :update_details
       put :update_participants
       put :change_state
+      post :notify
     end
     resources :agenda_items, controller: 'meeting_agenda_items' do
       collection do
@@ -73,8 +74,6 @@ OpenProject::Application.routes.draw do
         get :diff
         put :close
         put :open
-        put :notify
-        put :icalendar
         post :preview
       end
 
@@ -86,8 +85,6 @@ OpenProject::Application.routes.draw do
       member do
         get :history
         get :diff
-        put :notify
-        get :icalendar
       end
     end
 
@@ -95,7 +92,6 @@ OpenProject::Application.routes.draw do
       member do
         get :history
         get :diff
-        put :notify
         post :preview
       end
 

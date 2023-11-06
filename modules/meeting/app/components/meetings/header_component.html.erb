@@ -26,6 +26,14 @@
                   item.with_leading_visual_icon(icon: :download)
                 end
 
+                if User.current.allowed_to?(:send_meeting_agendas_notification, @meeting.project)
+                  menu.with_item(label: t('meeting.label_mail_all_participants'),
+                                 href: notify_meeting_path(@meeting),
+                                 form_arguments: { method: :post, data: { turbo: 'false' } }) do |item|
+                    item.with_leading_visual_icon(icon: :mail)
+                  end
+                end
+
                 menu.with_item(label: t("label_meeting_delete"),
                                scheme: :danger,
                                href: meeting_path(@meeting),

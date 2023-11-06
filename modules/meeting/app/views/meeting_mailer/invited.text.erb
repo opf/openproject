@@ -27,6 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<%= I18n.t('meeting.email.invited.summary', title: @meeting.title, actor: @actor) %>
+
 <%= @meeting.project.name %>: <%= @meeting.title %> (<%= meeting_url(@meeting) %>)
 <%= @meeting.author %>
 
@@ -34,8 +36,3 @@ See COPYRIGHT and LICENSE files for more details.
 <%= Meeting.human_attribute_name(:location) %>: <%= @meeting.location %>
 <%= Meeting.human_attribute_name(:participants_invited) %>: <%= @meeting.participants.invited.sort.join("; ") %>
 <%= Meeting.human_attribute_name(:participants_attended) %>: <%= @meeting.participants.attended.sort.join("; ") %>
-
-<%=t(:"text_review_#{@content_type}",
-     :author => @author,
-     :link => t(:"text_#{@content_type}_for_meeting",
-                :meeting => @meeting.title) + " (#{meeting_url(@meeting)})") %>

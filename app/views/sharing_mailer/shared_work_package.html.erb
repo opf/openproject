@@ -16,12 +16,12 @@
                   end
       %>
 
-      <%= render partial: 'mailer/notification_mailer_header',
+      <%= render partial: 'mailer/mailer_header',
                  locals: {
+                   user: @shared_with_user,
                    summary:,
                    button_href: shared_work_package_path(@work_package.id),
                    button_text: I18n.t(:'mail.sharing.work_packages.open_work_package'),
-                   salutation: I18n.t(:'mail.salutation', user: @shared_with_user.firstname)
                  } %>
 
       <%= render layout: 'mailer/notification_row',

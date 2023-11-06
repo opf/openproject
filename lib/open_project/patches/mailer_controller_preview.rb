@@ -23,38 +23,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
+#
 
-module MailNotificationHelper
-  include ::ColorsHelper
+module OpenProject::Patches::MailerControllerCsp
+  extend ActiveSupport::Concern
 
-  def unique_reasons_of_notifications(notifications)
-    notifications
-      .map(&:reason)
-      .uniq
-  end
+  included do
+    prepend_before_action :extend_content_security_policy
 
-  def notifications_path(id)
-    notifications_center_url(['details', id, 'activity'])
-  end
-
-  def shared_work_package_path(id)
-    work_package_url(id)
-  end
-
-  def type_color(type, default_fallback)
-    color_id = selected_color(type)
-    if color_id
-      color = Color.find(color_id)
-      return color.super_bright? ? color.darken(0.75) : color.hexcode
+    def extend_content_security_policy
+      append_content_security_policy_directives(
+        script_src: %w('unsafe-inline'),
+      )
     end
-
-    default_fallback
   end
+end
 
-  def status_colors(status)
-    color_id = selected_color(status)
-    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ') if color_id
-  end
+OpenProject::Patches.patch_gem_version 'rails', '7.0.8' do
+  Rails::MailersController.include OpenProject::Patches::MailerControllerCsp
 end
