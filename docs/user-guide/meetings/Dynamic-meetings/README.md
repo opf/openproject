@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Automatic meetings
+  title: Dynamic meetings
   priority: 759
 description: Manage meetings with agenda and meeting minutes in OpenProject.
 keywords: meetings, agenda, minutes
