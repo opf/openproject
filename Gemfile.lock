@@ -498,7 +498,7 @@ GEM
     friendly_id (5.5.0)
       activerecord (>= 4.0.0)
     front_matter_parser (1.0.1)
-    fugit (1.8.1)
+    fugit (1.9.0)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
     fuubar (2.5.1)
