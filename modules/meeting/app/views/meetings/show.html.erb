@@ -62,7 +62,8 @@ See COPYRIGHT and LICENSE files for more details.
         <li>
           <%= link_to t('meeting.label_mail_all_participants'),
                       notify_meeting_path(@meeting),
-                      class: 'icon-context icon-mail1' %>
+                      class: 'icon-context icon-mail1',
+                      method: :post %>
         </li>
       <% end %>
       <% if authorize_for(:meetings, :icalendar) %>
