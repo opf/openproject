@@ -1009,8 +1009,8 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     will_paginate (4.0.0)
-    with_advisory_lock (4.6.0)
-      activerecord (>= 4.2)
+    with_advisory_lock (5.0.0)
+      activerecord (>= 6.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yard (0.9.34)
@@ -1206,7 +1206,7 @@ DEPENDENCIES
   warden-basic_auth (~> 0.2.1)
   webmock (~> 3.12)
   will_paginate (~> 4.0.0)
-  with_advisory_lock (~> 4.6.0)
+  with_advisory_lock (~> 5.0.0)
 
 RUBY VERSION
    ruby 3.2.1p31
