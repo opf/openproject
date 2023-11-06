@@ -49,6 +49,9 @@ module MeetingAgendaItems
       @meeting.open? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
 
+    def meeting_open?
+      @meeting.open?
+    end
     def edit_action_item(menu)
       menu.with_item(label: t("label_edit"),
                      href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
