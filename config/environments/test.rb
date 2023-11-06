@@ -89,6 +89,9 @@ OpenProject::Application.configure do
 
   config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV.fetch('TEST_ENV_NUMBER', nil)}")
 
+  # Use in-memory store for testing
+  Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+
   if ENV['TEST_ENV_NUMBER']
     assets_cache_path = Rails.root.join("tmp/cache/assets/paralleltests#{ENV['TEST_ENV_NUMBER']}")
     config.assets.cache = Sprockets::Cache::FileStore.new(assets_cache_path)

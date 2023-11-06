@@ -737,6 +737,10 @@ module Settings
         format: :string,
         default: nil
       },
+      rate_limiting: {
+        default: {},
+        description: 'Configure rate limiting for various endpoint rules. See configuration documentation for details.'
+      },
       registration_footer: {
         default: {
           'en' => ''
