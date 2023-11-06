@@ -536,6 +536,7 @@ en:
       custom_action:
         actions: "Actions"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Default value"
         editable: "Editable"
         field_format: "Format"

@@ -270,8 +270,15 @@ class Project < ApplicationRecord
   # (same object_id) for every work package having the same project this will
   # reduce the number of db queries when performing operations including the
   # project's versions.
-  def assignable_versions
-    @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
+  #
+  # For custom fields configured with "Allow non-open versions" this can be called
+  # with only_open: false, in which case locked and closed versions are returned as well.
+  def assignable_versions(only_open: true)
+    if only_open
+      @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
+    else
+      @assignable_versions_including_non_open ||= shared_versions.references(:project).order_by_semver_name.to_a
+    end
   end
 
   # Returns an AR scope of all custom fields enabled for project's work packages

@@ -25,17 +25,24 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module WorkPackage::Exports
+  module Formatters
+    class SpentUnits < ::Exports::Formatters::Default
+      def self.apply?(name, _export_format)
+        %i[costs_by_type spent_units].include?(name.to_sym)
+      end
 
-module AssignableCustomFieldValues
-  extend ActiveSupport::Concern
+      def format(work_package, **)
+        cost_helper = ::Costs::AttributesHelper.new(work_package, User.current)
+        values = cost_helper.summarized_cost_entries.map do |kvp|
+          cost_type = kvp[0]
+          volume = kvp[1]
+          type_unit = volume.to_d == 1.0.to_d ? cost_type.unit : cost_type.unit_plural
+          "#{volume} #{type_unit}"
+        end
+        return nil if values.empty?
 
-  included do
-    def assignable_custom_field_values(custom_field)
-      case custom_field.field_format
-      when 'list'
-        custom_field.possible_values
-      when 'version'
-        assignable_versions(only_open: !custom_field.allow_non_open_versions?)
+        values.join(', ')
       end
     end
   end
