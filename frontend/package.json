@@ -127,7 +127,7 @@
     "@vusion/webfonts-generator": "^0.8.0",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
     "@xeokit/xeokit-bim-viewer": "2.3.10",
-    "autoprefixer": "^9.6.1",
+    "autoprefixer": "^10.4.16",
     "byte-base64": "^1.1.0",
     "chart.js": "4.3.0",
     "chartjs-plugin-datalabels": "^2.2.0",
