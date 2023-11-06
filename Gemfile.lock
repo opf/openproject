@@ -34,8 +34,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/omniauth-openid-connect.git
-  revision: efddc061a72791db019259768a4656c0435709e8
-  ref: efddc061a72791db019259768a4656c0435709e8
+  revision: d63f5967514d10db9ddece798dadfa2ac532cbe0
+  ref: d63f5967514d10db9ddece798dadfa2ac532cbe0
   specs:
     omniauth-openid-connect (0.4.0)
       addressable (~> 2.5)
