@@ -31,9 +31,10 @@ module Members::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      # Find all members of a project
+      # Find all members of a project.
+      # Members on entities like WorkPackage are excluded.
       def of(project)
-        where(project_id: project)
+        where(project_id: project, entity: nil)
       end
     end
   end

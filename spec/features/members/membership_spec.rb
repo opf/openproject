@@ -171,4 +171,21 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
     expect(members_page).not_to have_alert_dialog
     expect(members_page).to have_search_result "<script>alert('h4x');</script>"
   end
+
+  context 'with work packages shared' do
+    let(:work_package) { create(:work_package, project:) }
+    let(:view_work_package_role) { create(:view_work_package_role) }
+    let(:member) { create(:member, entity: work_package, principal: peter, project:, roles: [view_work_package_role]) }
+
+    let!(:existing_members) { [member] }
+
+    it 'still allows adding the user the work package is shared with' do
+      members_page.open_new_member!
+
+      SeleniumHubWaiter.wait
+
+      members_page.search_principal! peter.firstname
+      expect(members_page).to have_search_result peter.name
+    end
+  end
 end

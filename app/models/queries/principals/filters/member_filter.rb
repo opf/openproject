@@ -59,6 +59,8 @@ class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters:
   end
 
   def member_included_scope
-    visible_scope.includes(:members)
+    visible_scope
+      .includes(:members)
+      .where(members: { entity: nil })
   end
 end
