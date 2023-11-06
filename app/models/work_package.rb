@@ -221,8 +221,8 @@ class WorkPackage < ApplicationRecord
   end
 
   # Returns true if usr or current user is allowed to view the work_package
-  def visible?(usr = nil)
-    (usr || User.current).allowed_to?(:view_work_packages, project)
+  def visible?(usr = User.current)
+    usr.allowed_in_project?(:view_work_packages, project)
   end
 
   # RELATIONS
@@ -261,10 +261,16 @@ class WorkPackage < ApplicationRecord
   #   * any open, shared version of the project the wp belongs to
   #   * the version it was already assigned to
   #     (to make sure, that you can still update closed tickets)
-  def assignable_versions
-    @assignable_versions ||= begin
-      current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
-      ((project&.assignable_versions || []) + [current_version]).compact.uniq
+  #   * for custom fields only_open: false can be used, if the CF is configured so
+  def assignable_versions(only_open: true)
+    if only_open
+      @assignable_versions ||= begin
+        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
+        ((project&.assignable_versions || []) + [current_version]).compact.uniq
+      end
+    else
+      # The called method memoizes the result, no need to memoize it here.
+      project&.assignable_versions(only_open: false)
     end
   end
 
@@ -354,8 +360,8 @@ class WorkPackage < ApplicationRecord
   # check if user is allowed to edit WorkPackage Journals.
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
-    user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
-      (user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id)
+    user.allowed_in_project?(:edit_work_package_notes, project) ||
+      (user.allowed_in_project?(:edit_own_work_package_notes, project) && journal.user_id == user.id)
   end
 
   # Returns a scope for the projects

@@ -112,7 +112,7 @@ class WikiPage < ApplicationRecord
   end
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_to?(:view_wiki_pages, project)
+    !user.nil? && user.allowed_in_project?(:view_wiki_pages, project)
   end
 
   def title=(value)
@@ -174,7 +174,7 @@ class WikiPage < ApplicationRecord
 
   # Returns true if usr is allowed to edit the page, otherwise false
   def editable_by?(usr)
-    !protected? || usr.allowed_to?(:protect_wiki_pages, wiki.project)
+    !protected? || usr.allowed_in_project?(:protect_wiki_pages, wiki.project)
   end
 
   def attachments_deletable?(usr = User.current)

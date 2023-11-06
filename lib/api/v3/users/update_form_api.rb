@@ -32,7 +32,7 @@ module API
       class UpdateFormAPI < ::API::OpenProjectAPI
         resource :form do
           after_validation do
-            authorize :manage_user, global: true
+            authorize_globally(:manage_user)
           end
 
           post &::API::V3::Utilities::Endpoints::UpdateForm.new(model: User)

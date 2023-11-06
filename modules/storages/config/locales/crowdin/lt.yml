@@ -77,16 +77,16 @@ lt:
       general_information: "Bendra informacija"
       oauth_applications: "OAuth aplikacijos"
       project_folders: "Projekto aplankai"
-      storage_provider: "Storage provider"
+      storage_provider: "Saugyklos tiekėjas"
       openproject_oauth: "OpenProject OAuth"
       nextcloud_oauth: "Nextcloud OAuth"
-      automatically_managed_folders: "Automatically managed folders"
+      automatically_managed_folders: "Automatiškai valdomi aplankai"
     page_titles:
       file_storages:
         subtitle: "Pridėkite išorinę failų saugyklą, jei norite įkelti, susieti ir valdyti failus darbo paketuose."
       managed_project_folders:
         title: "Automatiškai valdomi projekto aplankai"
-        subtitle_short: "Let OpenProject create folders per project automatically."
+        subtitle_short: "Leisti OpenProjet kurti aplankus projektams automatiškai"
         subtitle: >
           Leisti OpenProject automatiškai kurti projektų aplankus. Tai rekomenduojama, nes užtikrina, kad kiekvienas komandos narys visada turi reikiamas prieigos teises.
       project_settings:
@@ -99,14 +99,14 @@ lt:
         title: "Narių jungties būsena"
         subtitle: "Patikrinkite saugyklos %{storage_name_link} jungties būseną visiems projekto nariams."
     instructions:
-      provider_type: "Please make sure you have administration privileges in your Nextcloud instance and the application %{type_link_text} is installed before doing the setup."
+      provider_type: "Prašome prieš vykdant nustatymus įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje ir aplikacija %{type_link_text} yra įdiegta."
       type: "Prašome įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje bei kad įdiegtos šios aplikacijos, prieš tęsiant nustatymą:"
       type_link_text: "„Integration OpenProject“"
       name: "Suteikite jūsų saugyklai pavadinimą, kad naudotojai galėtų atskirti tarp skirtingų saugyklų."
       host: "Prašome pridėti jūsų saugyklos stoties adresą, įskaitant https://. Jis turi būti ne ilgesnis už 255 simbolius."
       managed_project_folders_application_password: >
         Kopijuoti šią reikšmę iš
-      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
+      managed_project_folders_application_password_caption: "Įjunkite automatiškai valdomus aplankus nukopijuodami šią reikšmę iš: %{provider_type_link}"
       no_storage_set_up: "Dar nėra nustatyta nei viena failų saugykla."
       no_specific_folder: "Pagal nutylėjimą visi naudotojai įkeldami naujus failus pradės savo namų aplanke."
       automatic_folder: "Tai automatiškai sukurs šakninį aplanką šiam projektui ir tvarkys prieigos teises kiekvienam projekto nariui."
@@ -119,8 +119,8 @@ lt:
       setting_up_storages: "Norėdami nustatyti failų saugyklas aplankykite"
       setting_up_storages_non_admin: "Administratoriai gali nustatyti failų saugyklas: Administravimas / Failų saugyklos"
       all_available_storages_already_added: "Visos galimos failų saugyklos jau pridėtos į projektą."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
-      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
+      oauth_application_details: "Kliento slapta reikšmė daugiau nebebus prieinama po to, kai uždarysite šį langą. Prašome nukopijuoti šias reikšmes į %{oauth_application_details_link}:"
+      oauth_application_details_link_text: "Nextcloud OpenProject integracijos nustatymai"
       copy_from: "Kopijuoti reikšmę iš"
       nextcloud:
         integration: "Nextclout Administravimas / OpenProject"
@@ -140,7 +140,7 @@ lt:
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
     configuration_checks:
       incomplete: "Šios saugyklos nustatymai nepilni"
-      oauth_client_incomplete: "Allow OpenProject to access %{provider} data using an OAuth."
+      oauth_client_incomplete: "Suteikti OpenProject prieigą prie %{provider} duomenų naudojant OAuth."
     delete_warning:
       storage: >
         Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.
@@ -155,14 +155,14 @@ lt:
       description: "Pridėkite saugyklą, kad matytumėte ją čia."
     label_active: "Aktyvus"
     label_add_new_storage: "Pridėti naują saugyklą"
-    label_delete_storage: "Delete storage"
+    label_delete_storage: "Trinti saugyklą"
     label_inactive: "Neaktyvus"
     label_creator: "Kūrėjas"
     label_provider: "Tiekėjas"
     label_file_link: "Failo nuoroda"
     label_file_links: "Failo nuorodos"
     label_creation_time: "Sukūrimo laikas"
-    label_connected: "Connected"
+    label_connected: "Prisijungta"
     label_incomplete: "Nebaigtas"
     label_name: "Pavadinimas"
     label_host: "Stoties URL"
@@ -176,18 +176,18 @@ lt:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth aplikacijos detalės"
     label_oauth_client_details: "OAuth kliento detalės"
-    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
-    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
+    label_openproject_oauth_application_id: "OpenProject OAuth kliento ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth kliento paslaptis"
+    label_oauth_client_id: "OAuth kliento ID"
+    label_oauth_client_secret: "OAuth kliento paslaptis"
     label_information: "Papildoma informacija"
     label_provider_type: "Tiekėjo tipas"
     label_project_folder: "Projekto aplankas"
     label_new_storage: "Nauja saugykla"
     label_edit_storage: "Keisti saugyklą"
-    label_edit_storage_host: "Edit storage host"
-    label_edit_storage_oauth_client: "Edit storage OAuth client"
-    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
+    label_edit_storage_host: "Keisti saugyklos adresą"
+    label_edit_storage_oauth_client: "Keisti saugyklos OAuth klientą"
+    label_edit_storage_automatically_managed_folders: "Keisti saugyklos automatiškai tvarkomus aplankus"
     label_existing_manual_folder: "Esamas aplankas su rankiniu būdu valdomomis teisėmis"
     label_no_specific_folder: "Jokio konkretaus aplanko"
     label_automatic_folder: "Naujas aplankas su automatiškai valdomomis teisėmis"

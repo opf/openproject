@@ -74,6 +74,18 @@ RSpec.describe OpenProject::Configuration, :settings_reset do
           expect(subject.first).to eq(:file_store)
         end
       end
+
+      context 'setting rails cache to redis', with_config: { 'rails_cache_store' => 'redis' } do
+        context 'when setting the URL', with_config: { 'cache_redis_url' => 'redis://localhost:1234' } do
+          it 'sets the cache to :redis_cache_store' do
+            expect(subject.first).to eq(:redis_cache_store)
+          end
+        end
+
+        it 'raises an error trying to set redis without an URL' do
+          expect { subject }.to raise_error(ArgumentError, /CACHE_REDIS_URL is not set/)
+        end
+      end
     end
   end
 

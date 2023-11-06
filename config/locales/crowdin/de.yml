@@ -270,7 +270,7 @@ de:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
       no_results_content_text: Mitglied zum Projekt hinzufügen
     invite_by_mail: "Einladung an %{mail} senden"
-    send_invite_to: "Send invite to"
+    send_invite_to: "Einladung senden an"
   my:
     access_token:
       failed_to_reset_token: "Zusatztoken konnte nicht zurückgesetzt werden: %{error}"
@@ -569,7 +569,7 @@ de:
         time_zone: "Zeitzone"
         auto_hide_popups: "Benachrichtigungen erfolgreicher Aktionen automatisch ausblenden"
         warn_on_leaving_unsaved: "Beim Verlassen einer Arbeitspaket-Seite mit ungespeichertem Text warnen"
-        theme: "Mode"
+        theme: "Modus"
       version:
         effective_date: "Endtermin"
         sharing: "Gemeinsame Verwendung"
@@ -882,6 +882,7 @@ de:
           attributes:
             base:
               user_limit_reached: "Benutzerlimit erreicht. Für den aktuellen Plan können keine weiteren Benutzerkonten erstellt werden."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Passwort und Bestätigung stimmt nicht überein."
               format: "%{message}"
@@ -907,7 +908,7 @@ de:
           attributes:
             roles:
               ungrantable: "hat eine nicht zuweisbare Rolle."
-              more_than_one: "has more than one role."
+              more_than_one: "hat mehr als eine Rolle."
             principal:
               unassignable: "kann keinem Projekt zugeordnet werden."
         version:
@@ -929,7 +930,7 @@ de:
       custom_field: "Benutzerdefiniertes Feld"
       'doorkeeper/application': "OAuth-Anwendung"
       forum: "Forum"
-      global_role: "Global role"
+      global_role: "Globale Rolle"
       group: "Gruppe"
       member: "Mitglied"
       news: "Neuigkeiten"
@@ -1262,29 +1263,29 @@ de:
         one: "1 Minute"
         other: "%{count} Minuten"
       x_minutes_abbreviated:
-        one: "1 min"
-        other: "%{count} mins"
+        one: "1 Min."
+        other: "{{count}} Min."
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "1 Stunde"
+        other: "%{count} Stunden"
       x_hours_abbreviated:
-        one: "1 hr"
-        other: "%{count} hrs"
+        one: "1 Std."
+        other: "%{count} Std."
       x_weeks:
-        one: "1 week"
-        other: "%{count} weeks"
+        one: "1 Woche"
+        other: "%{count} Wochen"
       x_months:
         one: "1 Monat"
         other: "%{count} Monate"
       x_years:
-        one: "1 year"
-        other: "%{count} years"
+        one: "1 Jahr"
+        other: "%{count} Jahre"
       x_seconds:
         one: "1 Sekunde"
         other: "%{count} Sekunden"
       x_seconds_abbreviated:
-        one: "1 s"
-        other: "%{count} s"
+        one: "1 Sek."
+        other: "%{count} Sek."
     units:
       hour:
         one: "Stunde"
@@ -1567,7 +1568,7 @@ de:
   label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_add_subtask: "Unteraufgabe hinzufügen"
   label_added: "hinzugefügt"
-  label_added_by: "Added by %{author}"
+  label_added_by: "Von %{author} hinzugefügt"
   label_added_time_by: "Von %{author} vor %{age} hinzugefügt"
   label_additional_workflow_transitions_for_assignee: "Zusätzliche Workflow-Übergänge für den Nutzer, dem ein Arbeitspaket zugewiesen ist"
   label_additional_workflow_transitions_for_author: "Zusätzliche Workflow-Übergänge wenn der Nutzer der Autor des Arbeitspakets ist"
@@ -1606,13 +1607,13 @@ de:
   label_ldap_auth_source: "LDAP-Verbindung"
   label_ldap_auth_source_plural: "LDAP-Verbindungen"
   label_authentication: "Authentifizierung"
-  label_available_global_roles: "Available global roles"
+  label_available_global_roles: "Verfügbare globale Rollen"
   label_available_project_forums: "Verfügbare Foren"
   label_available_project_repositories: "Verfügbare Projektarchive"
   label_available_project_versions: "Verfügbare Versionen"
   label_available_project_work_package_categories: "Verfügbare Arbeitspaket-Kategorien"
   label_available_project_work_package_types: "Verfügbare Arbeitspaket-Typen"
-  label_available_projects: "Available projects"
+  label_available_projects: "Verfügbare Projekte"
   label_api_documentation: "API-Dokumentation"
   label_backup: "Backup"
   label_between: "zwischen"
@@ -1820,8 +1821,8 @@ de:
   label_custom_export_logo: "Selbstdefiniertes Logo für PDF-Export"
   label_custom_export_cover: "Custom export cover background"
   label_custom_export_cover_overlay: "Custom export cover background overlay"
-  label_custom_export_cover_text_color: "Text color"
-  label_custom_pdf_export_settings: "Custom PDF export settings"
+  label_custom_export_cover_text_color: "Textfarbe"
+  label_custom_pdf_export_settings: "Benutzerdefinierte PDF-Export-Einstellungen"
   label_custom_favicon: "Benutzerdefiniertes Favicon"
   label_custom_touch_icon: "Benutzerdefiniertes Touch-Icon"
   label_logout: "Abmelden"
@@ -2185,7 +2186,7 @@ de:
         assigned: 'Zugewiesen'
         responsible: 'Verantwortlich'
         mentioned: 'Erwähnt'
-        shared: 'Shared'
+        shared: 'Geteilt'
         subscribed: 'alle'
         prefix: 'Erhalten aufgrund Benachrichtigungseinstellung: %{reason}'
         date_alert_start_date: 'Datums-Erinnerung'
@@ -2196,7 +2197,7 @@ de:
       work_packages:
         allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
         create_account: 'To access this work package you will need to create an %{instance} account. '
-        open_work_package: 'Open work package'
+        open_work_package: 'Arbeitspaket öffnen'
         subject: 'You have been shared work package #%{id}'
         summary:
           user: '%{user} shared a work package with you with %{role_rights} rights'
@@ -2371,7 +2372,7 @@ de:
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekte erstellen"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Anhänge hinzufügen"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Projekt archivieren"
   permission_create_user: "Benutzer erstellen"
@@ -2492,7 +2493,7 @@ de:
     member_of_group: "Gruppe der zugewiesenen Person"
     name_or_identifier: "Name oder Kennung"
     only_subproject_id: "Nur Unterprojekt"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Mit Benutzer geteilt"
     subproject_id: "Einschließlich Unterprojekt"
   repositories:
     at_identifier: 'auf %{identifier}'
@@ -2999,22 +3000,22 @@ de:
       title: "Arbeitspaket löschen"
     sharing:
       count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
-      share: "Share"
+        zero: "0 Benutzer"
+        one: "1 Benutzer"
+        other: "%{count} Benutzer"
+      share: "Teilen"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Kommentar"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Bearbeiten"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Ansicht"
         view_description: "Can view this work package."
-      remove: "Remove"
+      remove: "Entfernen"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
   working_days:

@@ -44,6 +44,7 @@ module WorkPackages::Share
           searchKey: 'any_name_attribute',
           addTag: User.current.allowed_globally?(:create_user),
           addTagText: I18n.t('members.send_invite_to'),
+          multiple: true,
           focusDirectly: true,
           appendTo: 'body',
           disabled: @disabled

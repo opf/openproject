@@ -46,7 +46,7 @@ module Storages
           authorization_check_wrapper do
             Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
               http.get(
-                util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
+                util.join_uri_path(@uri.path, '/ocs/v1.php/cloud/user'),
                 {
                   'Authorization' => "Bearer #{token}",
                   'OCS-APIRequest' => 'true',

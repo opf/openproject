@@ -75,7 +75,7 @@
     "storybook": "^7.0.18",
     "storybook-addon-designs": "^7.0.0-beta.2",
     "style-loader": "^3.3.1",
-    "theo": "^8.1.5",
+    "theo": "^4.3.0",
     "ts-node": "~8.3.0",
     "typescript": "4.9",
     "webpack-bundle-analyzer": "^4.4.2"
@@ -118,15 +118,16 @@
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
     "@openproject/octicons-angular": "^19.7.0",
-    "@openproject/primer-view-components": "^0.13.0",
+    "@openproject/primer-view-components": "^0.13.1",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.0.2",
     "@uirouter/angular": "^12.0.0",
     "@uirouter/core": "^6.0.8",
     "@uirouter/rx": "^1.0.0",
+    "@vusion/webfonts-generator": "^0.8.0",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
     "@xeokit/xeokit-bim-viewer": "2.3.10",
-    "autoprefixer": "^9.6.1",
+    "autoprefixer": "^10.4.16",
     "byte-base64": "^1.1.0",
     "chart.js": "4.3.0",
     "chartjs-plugin-datalabels": "^2.2.0",
@@ -172,7 +173,6 @@
     "typedjson": "^1.5.1",
     "urijs": "^1.19.11",
     "uuid": "^8.3.2",
-    "webfonts-generator": "^0.4.0",
     "zone.js": "~0.11.4"
   },
   "optionalDependencies": {
@@ -198,6 +198,6 @@
     "storybook:build": "ng run OpenProject:build-storybook"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.13.0"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.13.1"
   }
 }

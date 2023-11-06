@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -55,16 +57,16 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         if Util.error_text_from_response(response) == 'The resource you tried to create already exists'
           ServiceResult.success(message: 'Folder already exists.')
         else
-          Util.error(:not_allowed)
+          Util.error(:not_allowed, 'Outbound request method not allowed', response)
         end
-      when Net::HTTPUnauthorized
-        Util.error(:unauthorized)
       when Net::HTTPNotFound
-        Util.error(:not_found)
+        Util.error(:not_found, 'Outbound request destination not found', response)
+      when Net::HTTPUnauthorized
+        Util.error(:unauthorized, 'Outbound request not authorized', response)
       when Net::HTTPConflict
-        Util.error(:conflict, Util.error_text_from_response(response))
+        Util.error(:conflict, Util.error_text_from_response(response), response)
       else
-        Util.error(:error)
+        Util.error(:error, 'Outbound request failed', response)
       end
     end
     # rubocop:enable Metrics/AbcSize

@@ -49,13 +49,10 @@ RSpec.describe Storages::Admin::StoragesController, type: :controller, webmock: 
     login_as admin
     mock_server_capabilities_response(host)
     mock_server_config_check_response(host)
+    post :create, params:
   end
 
   describe 'with valid storage attributes' do
-    before do
-      post :create, params:
-    end
-
     it 'is successful' do
       expect(response).to be_successful
       expect(response.body).not_to include('Host is not providing a &quot;Secure Context&quot;.')
@@ -66,35 +63,9 @@ RSpec.describe Storages::Admin::StoragesController, type: :controller, webmock: 
   describe 'with invalid storage attributes' do
     let(:schema) { 'http' }
 
-    before do
-      post :create, params:
-    end
-
     it 'shows the errors of the dependent service result, complaining about HTTP being invalid' do
       expect(response).to be_successful # you get a 200 response despite errors...
       expect(response.body).to include('Host is not providing a &quot;Secure Context&quot;.')
-    end
-  end
-
-  describe 'with drive ID triple' do
-    let(:storage) { create(:one_drive_storage) }
-    let(:drive_id) { "1b4b6576-906d-4d94-8f49-6d00a9507b50" }
-    let(:params) do
-      {
-        id: storage.id,
-        storages_storage: {
-          drive_id: "example.sharepoint.com,#{drive_id},7ef259e8-8eed-4645-920a-8b367bb0d8e0"
-        }
-      }
-    end
-
-    before do
-      put :update, params:
-    end
-
-    it 'drive ID must be parsed down to a single UUID' do
-      storage.reload
-      expect(storage.drive_id).to eq(drive_id)
     end
   end
 end

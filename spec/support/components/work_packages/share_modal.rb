@@ -189,12 +189,15 @@ module Components
         end
       end
 
-      def invite_user(user, role_name)
-        # Adding a user to the list of shared users
-        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
-                            query: user.firstname,
-                            select_text: user.name,
-                            results_selector: 'body'
+      def invite_user(users, role_name)
+        Array(users).each do |user|
+          case user
+          when String
+            select_not_existing_user_option(user)
+          when Principal
+            select_existing_user(user)
+          end
+        end
 
         select_invite_role(role_name)
 
@@ -203,21 +206,8 @@ module Components
         end
       end
 
+      alias_method :invite_users, :invite_user
       alias_method :invite_group, :invite_user
-
-      def create_and_invite_user(email, role_name)
-        # Adding a user to the list of shared users
-        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
-                            query: email,
-                            select_text: "Send invite to\"#{email}\"",
-                            results_selector: 'body'
-
-        select_invite_role(role_name)
-
-        within modal_element do
-          click_button 'Share'
-        end
-      end
 
       def search_user(search_string)
         search_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
@@ -324,6 +314,20 @@ module Components
 
       def shares_list
         active_list.find_by_id('op-share-wp-active-shares')
+      end
+
+      def select_existing_user(user)
+        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+                            query: user.firstname,
+                            select_text: user.name,
+                            results_selector: 'body'
+      end
+
+      def select_not_existing_user_option(email)
+        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+                            query: email,
+                            select_text: "Send invite to\"#{email}\"",
+                            results_selector: 'body'
       end
     end
   end

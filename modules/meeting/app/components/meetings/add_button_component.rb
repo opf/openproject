@@ -33,7 +33,7 @@ module Meetings
   class AddButtonComponent < ::AddButtonComponent
     def render?
       if current_project
-        User.current.allowed_to?(:create_meetings, current_project)
+        User.current.allowed_in_project?(:create_meetings, current_project)
       else
         User.current.allowed_in_any_project?(:create_meetings)
       end

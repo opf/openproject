@@ -89,7 +89,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 4.1.0'
+gem 'rouge', '~> 4.2.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.1.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -165,6 +165,7 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   gem 'dalli', '~> 3.2.0'
+  gem 'redis', '~> 5.0.8'
 end
 
 gem 'i18n-js', '~> 4.2.3'
@@ -250,8 +251,8 @@ group :test do
 
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
-  gem 'cuprite', '~> 0.14.3'
-  gem 'selenium-webdriver', '~> 4.14.0'
+  gem 'cuprite', '~> 0.15.0'
+  gem 'selenium-webdriver', '~> 4.15.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -322,7 +323,7 @@ group :development, :test do
   gem 'brakeman', '~> 6.0.0'
 end
 
-gem 'bootsnap', '~> 1.16.0', require: false
+gem 'bootsnap', '~> 1.17.0', require: false
 
 # API gems
 gem 'grape', '~> 1.8.0'
@@ -349,7 +350,7 @@ platforms :mri, :mingw, :x64_mingw do
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
-  gem 'with_advisory_lock', '~> 4.6.0'
+  gem 'with_advisory_lock', '~> 5.0.0'
 end
 
 # Load Gemfile.modules explicitly to allow dependabot to work

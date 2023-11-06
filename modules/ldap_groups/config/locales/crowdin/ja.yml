@@ -6,11 +6,11 @@ ja:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP 接続'
         sync_users: 'ユーザーを同期'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAPフィルタ'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP 接続'
         group_name_attribute: "グループ名属性"
         sync_users: 'ユーザーを同期'
         base_dn: "ベース DN を検索"

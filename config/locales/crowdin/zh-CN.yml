@@ -882,6 +882,7 @@ zh-CN:
           attributes:
             base:
               user_limit_reached: "已达到用户限制。当前方案无法创建更多帐户。"
+              one_must_be_active: "管理员用户无法被锁定/移除。必须至少有一个管理员处于激活状态。"
             password_confirmation:
               confirmation: "确认密码与密码不一致。"
               format: "%{message}"

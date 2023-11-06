@@ -33,8 +33,7 @@ module API
         class MembershipSchemaAPI < ::API::OpenProjectAPI
           resources :schema do
             after_validation do
-              authorize_any %i[manage_members view_members],
-                            global: true
+              authorize_in_any_project(%i[manage_members view_members])
             end
 
             get &::API::V3::Utilities::Endpoints::Schema.new(model: Member,

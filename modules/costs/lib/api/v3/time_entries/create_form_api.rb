@@ -32,7 +32,7 @@ module API
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
           after_validation do
-            authorize_any %i[log_time log_own_time], global: true
+            authorize_in_any_project(%i[log_time log_own_time])
           end
 
           post &::API::V3::Utilities::Endpoints::CreateForm

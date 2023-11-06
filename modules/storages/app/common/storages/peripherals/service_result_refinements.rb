@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -67,6 +69,20 @@ module Storages::Peripherals
       def error_payload
         errors.data&.payload
       end
+
+      def result_or
+        return result if success?
+
+        yield errors
+      end
+      alias_method :error_and, :result_or
+
+      def result_and
+        return errors if failure?
+
+        yield result
+      end
+      alias_method :error_or, :result_and
     end
   end
 end

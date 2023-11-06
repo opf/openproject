@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -58,27 +60,27 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when "100"
           ServiceResult.success(message: "User has been removed from group")
         when "101"
-          Util.error(:error, "No group specified")
+          Util.error(:error, "No group specified", response)
         when "102"
-          Util.error(:error, "Group does not exist")
+          Util.error(:error, "Group does not exist", response)
         when "103"
-          Util.error(:error, "User does not exist")
+          Util.error(:error, "User does not exist", response)
         when "104"
-          Util.error(:error, "Insufficient privileges")
+          Util.error(:error, "Insufficient privileges", response)
         when "105"
           message = Nokogiri::XML(response.body).xpath('/ocs/meta/message').text
-          Util.error(:error, "Failed to remove user #{user} from group #{group}: #{message}")
+          Util.error(:error, "Failed to remove user #{user} from group #{group}: #{message}", response)
         end
       when Net::HTTPMethodNotAllowed
-        Util.error(:not_allowed)
-      when Net::HTTPUnauthorized
-        Util.error(:unauthorized)
+        Util.error(:not_allowed, 'Outbound request method not allowed', response)
       when Net::HTTPNotFound
-        Util.error(:not_found)
+        Util.error(:not_found, 'Outbound request destination not found', response)
+      when Net::HTTPUnauthorized
+        Util.error(:unauthorized, 'Outbound request not authorized', response)
       when Net::HTTPConflict
-        Util.error(:conflict)
+        Util.error(:conflict, Util.error_text_from_response(response), response)
       else
-        Util.error(:error)
+        Util.error(:error, 'Outbound request failed', response)
       end
     end
     # rubocop:enable Metrics/AbcSize

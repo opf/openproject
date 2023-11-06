@@ -43,7 +43,6 @@ class Storages::Admin::StoragesController < ApplicationController
   before_action :require_admin
   before_action :find_model_object,
                 only: %i[show show_oauth_application destroy edit edit_host update replace_oauth_application]
-  before_action :prepare_update_params, only: %i[update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -153,7 +152,7 @@ class Storages::Admin::StoragesController < ApplicationController
   def update # rubocop:disable Metrics/AbcSize
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user, model: @storage)
-                       .call(@storage_params)
+                       .call(permitted_storage_params)
     @storage = service_result.result
 
     if service_result.success?
@@ -216,16 +215,6 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   private
-
-  def prepare_update_params
-    @storage_params = permitted_storage_params
-
-    if @storage.provider_type_one_drive? && @storage.drive_id.nil?
-      parts = @storage_params[:drive_id].split(',')
-
-      @storage_params[:drive_id] = parts.count > 1 ? parts[1] : parts[0]
-    end
-  end
 
   def oauth_application(service_result)
     service_result.dependent_results&.first&.result

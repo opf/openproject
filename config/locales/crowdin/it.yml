@@ -884,6 +884,7 @@ it:
           attributes:
             base:
               user_limit_reached: "Limite utenti raggiunto. Non è possibile creare ulteriori account nel piano corrente."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Le password non corrispondono."
               format: "%{message}"

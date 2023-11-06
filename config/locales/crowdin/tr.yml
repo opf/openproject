@@ -886,6 +886,7 @@ tr:
           attributes:
             base:
               user_limit_reached: "Kullanıcı sınırına ulaşıldı. Mevcut planda daha fazla hesap oluşturulamaz."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Parola onayı parolayla eşleşmiyor."
               format: "%{message}"

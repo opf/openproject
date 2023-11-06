@@ -74,7 +74,7 @@ module Boards
     private
 
     def render_delete_link?
-      table.current_project && table.current_user.allowed_to?(:manage_board_views, table.current_project)
+      table.current_project && table.current_user.allowed_in_project?(:manage_board_views, table.current_project)
     end
   end
 end

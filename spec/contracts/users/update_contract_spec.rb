@@ -30,7 +30,10 @@ require 'spec_helper'
 require_relative 'shared_contract_examples'
 
 RSpec.describe Users::UpdateContract do
+  let!(:default_admin) { create(:admin) }
+
   it_behaves_like 'user contract' do
+    let(:current_user) { create(:admin) }
     let(:user) { build_stubbed(:user, attributes) }
     let(:contract) { described_class.new(user, current_user) }
     let(:attributes) do
@@ -42,6 +45,39 @@ RSpec.describe Users::UpdateContract do
         password: nil,
         password_confirmation: nil
       }
+    end
+
+    context 'with a system user' do
+      let(:current_user) { create(:system) }
+      let(:user) { create(:admin, attributes) }
+
+      context 'when admin flag is removed' do
+        before do
+          user.admin = false
+        end
+
+        it_behaves_like 'contract is valid'
+
+        context 'when no admins left' do
+          let(:default_admin) { nil }
+
+          it_behaves_like 'contract is invalid', base: :one_must_be_active
+        end
+      end
+
+      context 'when status is locked on an admin user' do
+        before do
+          user.status = :locked
+        end
+
+        it_behaves_like 'contract is valid'
+
+        context 'when no admins left' do
+          let(:default_admin) { nil }
+
+          it_behaves_like 'contract is invalid', base: :one_must_be_active
+        end
+      end
     end
 
     context 'when global user' do

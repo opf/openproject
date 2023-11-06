@@ -36,7 +36,7 @@ module WorkPackages
 
         included do
           def sharing_manageable?
-            User.current.allowed_to?(:share_work_packages, @work_package.project)
+            User.current.allowed_in_project?(:share_work_packages, @work_package.project)
           end
         end
       end

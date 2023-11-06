@@ -51,16 +51,18 @@ module OpenProject
         # Also use :mem_cache_store for when :dalli_store is configured
         cache_store = self['rails_cache_store'].try(:to_sym)
 
-        case cache_store
-        when :memcache, :dalli_store
-          cache_config = [:mem_cache_store]
-          cache_config << self['cache_memcache_server'] if self['cache_memcache_server']
-          # default to :file_store
-        when NilClass, :file_store
-          cache_config = [:file_store, Rails.root.join('tmp/cache')]
-        else
-          cache_config = [cache_store]
-        end
+        cache_config =
+          case cache_store
+          when :redis
+            redis_cache_configuration
+          when :memcache, :dalli_store
+            memcache_configuration
+            # default to :file_store
+          when NilClass, :file_store
+            [:file_store, Rails.root.join('tmp/cache')]
+          else
+            [cache_store]
+          end
 
         parameters = cache_store_parameters
         cache_config << parameters unless parameters.empty?
@@ -84,6 +86,27 @@ module OpenProject
       end
 
       private
+
+      def memcache_configuration
+        cache_config = [:mem_cache_store]
+        cache_config << self['cache_memcache_server'] if self['cache_memcache_server']
+        cache_config
+      end
+
+      def redis_cache_configuration
+        url = String(self['cache_redis_url']).split(",").map(&:strip)
+        raise ArgumentError, "CACHE_SERVER is set to redis, but CACHE_REDIS_URL is not set." if url.blank?
+
+        [
+          :redis_cache_store,
+          {
+            url:,
+            error_handler: ->(method:, exception:) {
+              OpenProject.logger.error("Error in redis cache store #{method}: #{exception.message}", exception:)
+            }
+          }
+        ]
+      end
 
       def method_missing(name, *args, &)
         setting_name = name.to_s.sub(/\?$/, '')

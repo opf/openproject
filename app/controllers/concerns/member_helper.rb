@@ -26,38 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MemberCreation
+module MemberHelper
   module_function
 
-  def create_members(send_notification: true)
+  def find_or_create_users(send_notification: true)
     @send_notification = send_notification
-    overall_result = nil
 
-    each_new_member_param do |member_params|
-      service_call = Members::CreateService
-                       .new(user: current_user)
-                       .call(member_params)
-
-      if overall_result
-        overall_result.merge!(service_call)
-      else
-        overall_result = service_call
-      end
+    user_ids.each do |id|
+      yield permitted_params.member.merge(user_id: id, project: @project)
     end
-
-    overall_result
   end
 
-  def each_new_member_param
+  def user_ids
     user_ids = user_ids_for_new_members(params[:member])
 
     group_ids = Group.where(id: user_ids).pluck(:id)
 
     user_ids.sort_by! { |id| group_ids.include?(id) ? 1 : -1 }
 
-    user_ids.each do |id|
-      yield permitted_params.member.merge(user_id: id, project: @project)
-    end
+    user_ids
   end
 
   def user_ids_for_new_members(member_params)
@@ -88,15 +75,12 @@ module MemberCreation
 
   def each_comma_separated(array, &block)
     array.map do |e|
-      if e.to_s.match? /\d(,\d)*/
-        block.call(e)
-      else
-        e
-      end
+      block.call(e)
     end.flatten
   end
 
   def transform_array_of_comma_separated_ids(array)
+    return Array(array) unless array.is_a?(Array)
     return array if array.blank?
 
     each_comma_separated(array) do |elem|
@@ -107,8 +91,8 @@ module MemberCreation
   def possibly_separated_ids_for_entity(array, entity = :user)
     if !array[:"#{entity}_ids"].nil?
       transform_array_of_comma_separated_ids(array[:"#{entity}_ids"])
-    elsif !array[:"#{entity}_id"].nil? && (id = array[:"#{entity}_id"]).present?
-      [id]
+    elsif !array[:"#{entity}_id"].nil?
+      transform_array_of_comma_separated_ids(array[:"#{entity}_id"])
     else
       []
     end

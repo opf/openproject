@@ -57,7 +57,7 @@ class News < ApplicationRecord
   end
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_to?(:view_news, project)
+    !user.nil? && user.allowed_in_project?(:view_news, project)
   end
 
   def description=(val)

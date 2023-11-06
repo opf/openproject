@@ -23,16 +23,16 @@ module API::V3::CostsApiUserPermissionCheck
   private
 
   def user_has_hourly_rate_permissions?
-    current_user_allowed_to(:view_hourly_rates, context: represented.project) ||
-      current_user_allowed_to(:view_own_hourly_rate, context: represented.project)
+    current_user.allowed_in_project?(:view_hourly_rates, represented.project) ||
+    current_user.allowed_in_project?(:view_own_hourly_rate, represented.project)
   end
 
   def user_has_cost_rates_permission?
-    current_user_allowed_to(:view_cost_rates, context: represented.project)
+    current_user.allowed_in_project?(:view_cost_rates, represented.project)
   end
 
   def user_has_cost_entry_permissions?
-    current_user_allowed_to(:view_own_cost_entries, context: represented.project) ||
-      current_user_allowed_to(:view_cost_entries, context: represented.project)
+    current_user.allowed_in_project?(:view_own_cost_entries, represented.project) ||
+    current_user.allowed_in_project?(:view_cost_entries, represented.project)
   end
 end

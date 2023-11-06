@@ -887,6 +887,7 @@ fr:
           attributes:
             base:
               user_limit_reached: "Limite d'utilisateurs atteinte. Aucun compte supplémentaire ne peut être créé sur le plan actuel."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "La confirmation du mot de passe ne correspond pas au mot de passe."
               format: "%{message}"

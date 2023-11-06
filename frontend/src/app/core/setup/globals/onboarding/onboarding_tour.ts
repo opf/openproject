@@ -1,9 +1,7 @@
 import { wpOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/work_package_tour';
 import {
-  demoProjectsLinks,
   OnboardingTourNames,
   onboardingTourStorageKey,
-  preventClickHandler,
   ProjectName,
   waitForElement,
 } from 'core-app/core/setup/globals/onboarding/helpers';
@@ -41,7 +39,7 @@ export type OnboardingStep = {
   onBeforeStart?:() => void,
 };
 
-function initializeTour(storageValue:string, disabledElements?:string, projectSelection?:boolean) {
+function initializeTour(storageValue:string) {
   window.onboardingTourInstance = new window.EnjoyHint({
     onStart() {
       jQuery('#content-wrapper, #menu-sidebar').addClass('-hidden-overflow');
@@ -52,14 +50,6 @@ function initializeTour(storageValue:string, disabledElements?:string, projectSe
     },
     onSkip() {
       sessionStorage.setItem(onboardingTourStorageKey, 'skipped');
-      if (disabledElements) {
-        jQuery(disabledElements).removeClass('-disabled').unbind('click', preventClickHandler);
-      }
-      if (projectSelection) {
-        jQuery.each(demoProjectsLinks(), (i, e) => {
-          jQuery(e).off('click');
-        });
-      }
       jQuery('#content-wrapper, #menu-sidebar').removeClass('-hidden-overflow');
     },
   });
@@ -121,7 +111,7 @@ export function start(name:OnboardingTourNames, project?:ProjectName):void {
       startTour(scrumTaskBoardTourSteps());
       break;
     case 'homescreen':
-      initializeTour('startProjectTour', '.widget-box--blocks--buttons a', true);
+      initializeTour('startProjectTour');
       startTour(homescreenOnboardingTourSteps());
       break;
     case 'main':

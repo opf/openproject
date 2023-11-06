@@ -31,8 +31,7 @@ module API
     module TimeEntries
       class AvailableProjectsAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_any %i[log_time edit_time_entries edit_own_time_entries],
-                        global: true
+          authorize_in_any_project(%i[log_time edit_time_entries edit_own_time_entries])
         end
 
         resources :available_projects do

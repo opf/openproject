@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -53,11 +55,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPSuccess
         ServiceResult.success
       when Net::HTTPNotFound
-        Util.error(:not_found)
+        Util.error(:not_found, 'Outbound request destination not found', response)
       when Net::HTTPUnauthorized
-        Util.error(:unauthorized)
+        Util.error(:unauthorized, 'Outbound request not authorized', response)
       else
-        Util.error(:error)
+        Util.error(:error, 'Outbound request failed', response)
       end
     end
   end

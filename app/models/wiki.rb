@@ -47,7 +47,7 @@ class Wiki < ApplicationRecord
   after_create :create_menu_item_for_start_page
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_to?(:view_wiki_pages, project)
+    !user.nil? && user.allowed_in_project?(:view_wiki_pages, project)
   end
 
   # find the page with the given title

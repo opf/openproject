@@ -34,7 +34,7 @@ module API
           helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
 
           after_validation do
-            authorize(:view_work_packages, context: @project, user: current_user)
+            authorize_in_project(:view_work_packages, project: @project)
           end
 
           mount API::V3::Queries::Schemas::QueryProjectFilterInstanceSchemaAPI
