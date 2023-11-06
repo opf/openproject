@@ -49,7 +49,8 @@ class Principal < ApplicationRecord
   has_many :memberships,
            -> {
              includes(:project, :roles)
-               .where(["projects.active = ? OR project_id IS NULL", true])
+               .where(entity: nil)
+               .where(["projects.active = ? OR members.project_id IS NULL", true])
                .order(Arel.sql('projects.name ASC'))
              # haven't been able to produce the order using hashes
            },
