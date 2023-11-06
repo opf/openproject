@@ -108,7 +108,7 @@ run_all() {
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql reset_dbs setup_tests precompile_assets run_units run_features
+export -f cleanup execute execute_quiet run_psql reset_dbs setup_tests precompile_assets run_units run_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift
