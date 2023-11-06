@@ -323,7 +323,7 @@ group :development, :test do
   gem 'brakeman', '~> 6.0.0'
 end
 
-gem 'bootsnap', '~> 1.16.0', require: false
+gem 'bootsnap', '~> 1.17.0', require: false
 
 # API gems
 gem 'grape', '~> 1.8.0'
