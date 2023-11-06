@@ -96,7 +96,7 @@ PATH
   remote: modules/calendar
   specs:
     openproject-calendar (1.0.0)
-      icalendar (~> 2.9.0)
+      icalendar (~> 2.10.0)
 
 PATH
   remote: modules/costs
@@ -139,7 +139,7 @@ PATH
   remote: modules/meeting
   specs:
     openproject-meeting (1.0.0)
-      icalendar (~> 2.9.0)
+      icalendar (~> 2.10.0)
 
 PATH
   remote: modules/my_page
@@ -557,7 +557,7 @@ GEM
     i18n-js (4.2.3)
       glob (>= 0.4.0)
       i18n
-    icalendar (2.9.0)
+    icalendar (2.10.0)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
     interception (0.5)
