@@ -185,8 +185,8 @@ module WorkPackages
       IssuePriority.active
     end
 
-    def assignable_versions
-      model.try(:assignable_versions) if model.project
+    def assignable_versions(only_open: true)
+      model.try(:assignable_versions, only_open:) if model.project
     end
 
     def assignable_budgets

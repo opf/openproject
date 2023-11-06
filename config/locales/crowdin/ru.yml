@@ -888,6 +888,7 @@ ru:
           attributes:
             base:
               user_limit_reached: "Достигнут лимит пользователей. В текущем тарифном плане аккаунтов больше нет."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Подтверждение пароля не совпадает с паролем."
               format: "%{message}"

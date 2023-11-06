@@ -105,7 +105,7 @@ module API
         end
 
         def manage_relations?
-          current_user_allowed_to :manage_work_package_relations, context: represented.from.project
+          current_user.allowed_in_project?(:manage_work_package_relations, represented.from.project)
         end
 
         self.to_eager_load = [:to,

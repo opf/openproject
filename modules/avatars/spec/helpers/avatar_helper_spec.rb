@@ -35,6 +35,7 @@ RSpec.describe AvatarHelper, with_settings: { protocol: 'http' } do
                           inputs: {
                             principal:,
                             hideName: true,
+                            nameClasses: '',
                             link: nil,
                             title: user.name,
                             size: 'default'

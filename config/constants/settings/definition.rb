@@ -402,6 +402,10 @@ module Settings
         default: nil,
         env_alias: 'EMAIL_DELIVERY_METHOD'
       },
+      emails_salutation: {
+        allowed: %w[firstname name],
+        default: :firstname
+      },
       emails_footer: {
         default: {
           'en' => ''

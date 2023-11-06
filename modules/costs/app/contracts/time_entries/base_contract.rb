@@ -77,10 +77,9 @@ module TimeEntries
       end
     end
 
-    # Necessary for custom fields
-    # of type version.
-    def assignable_versions
-      work_package.try(:assignable_versions) || project.try(:assignable_versions) || []
+    # Necessary for custom fields of type version.
+    def assignable_versions(only_open: true)
+      work_package.try(:assignable_versions, only_open:) || project.try(:assignable_versions, only_open:) || []
     end
 
     private

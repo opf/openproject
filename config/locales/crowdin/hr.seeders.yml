@@ -132,16 +132,21 @@ hr:
       welcome:
         title: Welcome to OpenProject!
         text: |
-          Select one of the demo projects to get started with some demo data we have prepared for you.
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
-          * [Demo project]({{opSetting:base_url}}/projects/demo-project): to get an overview about classical project management.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): to learn about Agile and Scrum project management.
+          Core features and use cases:
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Never stop collaborating. With open source and open mind.
+          Welcome to the future of project management.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project

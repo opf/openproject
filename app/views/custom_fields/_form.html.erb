@@ -105,6 +105,16 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </fieldset>
   <% end %>
+
+  <% if @custom_field.new_record? || @custom_field.version? || @custom_field.allow_non_open_versions_possible? %>
+    <div class="form--field" hidden>
+      <%= f.check_box :allow_non_open_versions,
+                      data: {
+                        'admin--custom-fields-target': 'allowNonOpenVersions'
+                      } %>
+    </div>
+  <% end %>
+
   <div data-admin--custom-fields-target="defaultValue">
     <div class="form--field" id="default_value_text">
       <% if @custom_field.new_record? || !%w[text bool].include?(@custom_field.field_format) %>

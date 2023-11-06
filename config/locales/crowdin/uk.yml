@@ -884,6 +884,7 @@ uk:
           attributes:
             base:
               user_limit_reached: "Досягнуто ліміту користувачів. За поточним тарифним планом більше не можна створювати облікових записів."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Підтвердження пароля та пароль не збігаються."
               format: "%{message}"

@@ -31,8 +31,17 @@ require 'spec_helper'
 RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
-  let(:type) { create(:type_bug) }
-  let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42', types: [type]) }
+  let(:type) do
+    create(:type_bug, custom_fields: [long_text_custom_field]).tap do |t|
+      t.attribute_groups.first.attributes.push(long_text_custom_field.attribute_name)
+    end
+  end
+  let(:project) do
+    create(:project,
+           name: 'Foo Bla. Report No. 4/2021 with/for Case 42',
+           types: [type],
+           work_package_custom_fields: [long_text_custom_field])
+  end
   let(:user) do
     create(:user,
            member_with_permissions: { project => %w[view_work_packages export_work_packages] })
@@ -42,6 +51,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
   let(:image_attachment) { Attachment.new author: user, file: File.open(image_path) }
   let(:attachments) { [image_attachment] }
+  let(:long_text_custom_field) { create(:issue_custom_field, :text, name: 'LongText') }
   let(:work_package) do
     description = <<~DESCRIPTION
       **Lorem** _ipsum_ ~~dolor~~ `sit` [amet](https://example.com/), consetetur sadipscing elitr.
@@ -62,16 +72,20 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            type:,
            subject: 'Work package 1',
            story_points: 1,
-           description:).tap do |wp|
+           description:,
+           custom_values: { long_text_custom_field.id => 'foo' }).tap do |wp|
       allow(wp)
         .to receive(:attachments)
               .and_return attachments
     end
   end
   let(:options) { {} }
+  let(:exporter) do
+    described_class.new(work_package, options)
+  end
   let(:export) do
     login_as(user)
-    described_class.new(work_package, options)
+    exporter
   end
   let(:export_pdf) do
     Timecop.freeze(export_time) do
@@ -95,14 +109,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
 
   describe 'with a request for a PDF' do
     it 'contains correct data' do
-      details = Query.available_columns(work_package.project)
-                       .reject { |column| %i[subject project].include?(column.name) }
-                       .flat_map do |column|
-        value = get_column_value(column.name)
-        value.blank? ? [] : [column.caption.upcase, value]
+      details = exporter.send(:attributes_data_by_wp, work_package)
+                  .flat_map do |item|
+        value = get_column_value(item[:name])
+        result = [item[:label].upcase]
+        result << value if value.present?
+        result
       end
-
-      expect(pdf[:strings]).to eq([
+      # Joining the results for comparison since word wrapping leads to a different array for the same content
+      expect(pdf[:strings].join(' ')).to eq([
                                     "#{type.name} ##{work_package.id} - #{work_package.subject}",
                                     *details,
                                     label_title(:description),
@@ -110,8 +125,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
                                     'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
                                     'Image Caption',
                                     'Foo',
-                                    '1', export_time_formatted, project.name
-                                  ])
+                                    '1', export_time_formatted, project.name,
+                                    'LongText', 'foo',
+                                    '2', export_time_formatted, project.name
+                                  ].join(' '))
       expect(pdf[:images].length).to eq(2)
     end
   end

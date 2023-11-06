@@ -27,20 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<h1><%= link_to(@meeting.project.name, project_url(@meeting.project)) %>: <%= link_to(@meeting.title, meeting_url(@meeting)) %></h1>
-<em><%= @meeting.author %></em>
+<%= @meeting.project.name %>: <%= @meeting.title %> (<%= meeting_url(@meeting) %>)
+<%= @meeting.author %>
 
-<ul>
-<li><%=t :label_meeting_date_time %>: <%= format_time_as_date @meeting.start_time %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %> <%= Time.zone %></li>
-<li><%=Meeting.human_attribute_name(:location) %>: <%= @meeting.location %></li>
-<li><%=Meeting.human_attribute_name(:participants_invited) %>: <%= @meeting.participants.invited.sort.join("; ") %></li>
-<li><%=Meeting.human_attribute_name(:participants_attended) %>: <%= @meeting.participants.attended.sort.join("; ") %></li>
-</ul>
+<%= t('meeting.email.rescheduled.body',
+      actor: @actor,
+      title: @meeting.title) %>
 
-<p>
-  <%=raw t(:"text_review_#{@content_type}",
-           :author => h(@author),
-           :link => link_to(t(:"text_#{@content_type}_for_meeting",
-                              :meeting => @meeting.title),
-                            meeting_url(@meeting))) %>
-</p>
+<%= t('meeting.email.rescheduled.old_date_time') %>:
+<%= format_time_as_date @changes[:old_start] %> <%= format_time @changes[:old_start], false %> - <%= format_time (@changes[:old_start] + @changes[:old_duration]), false %> <%= Time.zone %>
+
+<%= t('meeting.email.rescheduled.new_date_time') %>:
+<%= format_time_as_date @changes[:new_start] %> <%= format_time @changes[:new_start], false %> - <%= format_time (@changes[:new_start] + @changes[:new_duration]), false %> <%= Time.zone %>

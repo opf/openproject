@@ -9,8 +9,8 @@ ja:
   boards:
     label_board: "ボード"
     label_boards: "ボード"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "新しいボードを作成"
+    label_board_type: "ボードの種類"
     board_types:
       free: 基本
       action: "アクションボード (%{attribute})"

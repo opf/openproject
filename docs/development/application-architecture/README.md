@@ -15,36 +15,52 @@ keywords: architecture overview, hybrid application, Ruby on Rails, Angular
 %%{init: {'theme':'neutral'}}%%
 
 flowchart TD
-  A[Client Browser] -->|"HTTP(s) requests"| B(Load Balancer / Proxy)
-  A1[API or Native clients] -->|"HTTP(s) requests"| B(Load Balancer / Proxy)
-  A2[SVN or Git clients] -->|"HTTP(s) requests"| B(Load Balancer / Proxy)
-  B -->|Proxy| openproject
-
-  subgraph openproject[OpenProject]
+  browser[Web browser] -->|"HTTP(s) requests"| loadbalancer(Load balancer / proxy)
+  A1[Native client] -->|"HTTP(s) requests"| loadbalancer
+  A2[SVN or Git client] -->|"HTTP(s) requests"| loadbalancer
+  loadbalancer -->|Proxy| openproject
+  
+  subgraph openproject[OpenProject Core Application]
+    openprojectrailsapp[Rails application]
     C[Puma app server]
     D[Background worker]
   end
 
 
-  subgraph integrations[External integrations]
-	  O[Other integrations]
-    N[Nextcloud]
-  end
+  subgraph integrations[External Integrations]
+  direction TB
+    idp["Identity provider (idp)"]
+    nex["Nextcloud (nex)"]
+    gih["GitHub (gih)"]
+    cal["Calendar (cal)"]
+  	O["API integrations (api)"]
+ 
+end
 
-  subgraph services[Services]
-  	M[memcached]
+  subgraph services[Internal Services]
+  direction TB
+  	M[Memcached]
 	  P[PostgreSQL]
 	  S[Object storage or NFS]
+	  email["Email gateways (eml)"]
   end
 
 
   openproject <--> services
   openproject --> integrations
-  B <--> integrations
+  loadbalancer <--> integrations
+  
+  subgraph localclients[Local Client / User device]
+  direction TB
+	browser
+	A1
+	A2	
+	
+	
+end
+
 
 ```
-
-
 
 
 
@@ -146,10 +162,6 @@ The version is represented as [tags](https://www.openproject.org/docs/developmen
 # Components
 
 A typical installation of OpenProject uses a web server such as NGINX or Apache to proxy requests to and from the internal [Puma](https://puma.io/) application server. All web requests are handled internally by it. A background job queue is used to execute longer running data requests or asynchronous communications.
-
-For more information on the data flow between these components, please also see our [data flow documentation](../data-flow).
-
-
 
 ## Puma application server
 

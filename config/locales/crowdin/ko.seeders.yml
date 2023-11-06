@@ -132,16 +132,21 @@ ko:
       welcome:
         title: OpenProject에 오신 것을 환영합니다!
         text: |
-          준비된 데모 데이터로 시작하려면 데모 프로젝트 중 하나를 선택하세요.
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
-          * [데모 프로젝트]({{opSetting:base_url}}/projects/demo-project): 클래식 프로젝트 관리에 대한 개요를 확인합니다.
-          * [스크럼 프로젝트]({{opSetting:base_url}}/projects/your-scrum-project): 애자일 및 스크럼 프로젝트 관리에 대해 알아봅니다.
+          Core features and use cases:
 
-          또한 빈 [새로운 프로젝트]({{opSetting:base_url}}/projects/new)를 생성할 수 있습니다.
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          협업을 멈추지 마세요. 오픈 소스와 오픈 마인드로 계속하세요.
+          Welcome to the future of project management.
 
-          이 환영 텍스트는 [여기에서]({{opSetting:base_url}}/admin/settings/general) 변경할 수 있습니다.
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: 데모 프로젝트

@@ -132,16 +132,21 @@ pl:
       welcome:
         title: Witamy w OpenProject!
         text: |
-          Wybierz jeden z projektów demo, aby rozpocząć z pewnymi danymi demonstracyjnymi, które przygotowaliśmy dla Ciebie.
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
-          * [Projekt Demo]({{opSetting:base_url}}/projects/demo-project): ogólne ifnormacje o klasycznym zarządzaniu projektami.
-          * [Projekt Scrum]({{opSetting:base_url}}/projects/your-scrum-project): ogólne ifnormacje o zarządzaniu projektami Agile i Scrum.
+          Core features and use cases:
 
-          Możesz również utworzyć pusty [nowy projekt] ({{opSetting:base_url}}/projects/new).
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Nigdy nie przestanie współpracować. Z otwartym oprogramowaniem open source.
+          Welcome to the future of project management.
 
-          Możesz zmienić ten tekst powitalny [here]({{opSetting:base_url}}/admin/settings/general).
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Projekt demo

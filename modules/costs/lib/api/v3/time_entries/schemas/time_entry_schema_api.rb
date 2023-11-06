@@ -33,12 +33,11 @@ module API
         class TimeEntrySchemaAPI < ::API::OpenProjectAPI
           resources :schema do
             after_validation do
-              authorize_any %i[log_time
-                               log_own_time
-                               view_time_entries
-                               edit_time_entries
-                               edit_own_time_entries],
-                            global: true
+              authorize_in_any_project(%i[log_time
+                                          log_own_time
+                                          view_time_entries
+                                          edit_time_entries
+                                          edit_own_time_entries])
             end
 
             get &::API::V3::Utilities::Endpoints::Schema

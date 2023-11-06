@@ -45,11 +45,6 @@ module MeetingContentsHelper
     menu << meeting_content_edit_link(content_type) if can_edit_meeting_content?(content, content_type)
     menu << meeting_content_history_link(content_type, content.meeting)
 
-    if saved_meeting_content_text_present?(content)
-      menu << meeting_content_notify_link(content_type, content.meeting)
-      menu << meeting_content_icalendar_link(content_type, content.meeting)
-    end
-
     menu.join(' ')
   end
 
@@ -125,28 +120,6 @@ module MeetingContentsHelper
                             title: t(:label_history),
                             class: 'button') do
         text_with_icon(I18n.t(:label_history), 'icon-activity-history')
-      end
-    end
-  end
-
-  def meeting_content_notify_link(content_type, meeting)
-    content_tag :li, '', class: 'toolbar-item' do
-      link_to_if_authorized({ controller: '/' + content_type.pluralize,
-                              action: 'notify', meeting_id: meeting },
-                            method: :put,
-                            class: 'button') do
-        text_with_icon(I18n.t(:label_notify), 'icon-mail1')
-      end
-    end
-  end
-
-  def meeting_content_icalendar_link(content_type, meeting)
-    content_tag :li, '', class: 'toolbar-item' do
-      link_to_if_authorized({ controller: '/' + content_type.pluralize,
-                              action: 'icalendar', meeting_id: meeting },
-                            method: :put,
-                            class: 'button') do
-        text_with_icon(I18n.t(:label_icalendar), 'icon-calendar2')
       end
     end
   end
