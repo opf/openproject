@@ -97,7 +97,7 @@ RSpec.describe 'Work package sharing',
       click_button 'Share'
 
       aggregate_failures "Initial shares list" do
-        share_modal.expect_open
+        share_modal.expect_title(I18n.t('js.work_packages.sharing.title'))
         share_modal.expect_shared_with(comment_user, 'Comment', position: 1)
         share_modal.expect_shared_with(dinesh, 'Edit', position: 2)
         share_modal.expect_shared_with(edit_user, 'Edit', position: 3)
