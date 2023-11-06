@@ -60,8 +60,7 @@ RSpec.describe 'My spent time widget with a negative time zone', :js,
   let(:user) do
     create(:user,
            preferences: { time_zone: },
-           member_in_project: project,
-           member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_own_time])
+           member_with_permissions: { project => %i[view_time_entries edit_time_entries view_work_packages log_own_time] })
   end
   let(:my_page) { Pages::My::Page.new }
   let(:time_logging_modal) { Components::TimeLoggingModal.new }
