@@ -123,7 +123,7 @@ export class TimeEntryCalendarComponent {
 
   public scaleRatio = 1;
 
-  protected memoizedTimeEntries:{ start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>> };
+  protected memoizedTimeEntries:{ start:Moment, end:Moment, entries:Promise<CollectionResource<TimeEntryResource>> };
 
   public memoizedCreateAllowed = false;
 
@@ -216,7 +216,9 @@ export class TimeEntryCalendarComponent {
     successCallback:(events:EventInput[]) => void,
     failureCallback:(error:Error) => void,
   ):void|PromiseLike<EventInput[]> {
-    void this.fetchTimeEntries(fetchInfo.start, fetchInfo.end)
+    const start = moment(fetchInfo.startStr);
+    const end = moment(fetchInfo.endStr);
+    void this.fetchTimeEntries(start, end)
       .then(async (collection) => {
         this.entries.emit(collection);
 
@@ -225,10 +227,10 @@ export class TimeEntryCalendarComponent {
       .catch(failureCallback);
   }
 
-  protected fetchTimeEntries(start:Date, end:Date):Promise<CollectionResource<TimeEntryResource>> {
+  protected fetchTimeEntries(start:Moment, end:Moment):Promise<CollectionResource<TimeEntryResource>> {
     if (!this.memoizedTimeEntries
-      || this.memoizedTimeEntries.start.getTime() !== start.getTime()
-      || this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
+      || this.memoizedTimeEntries.start.valueOf() !== start.valueOf()
+      || this.memoizedTimeEntries.end.valueOf() !== end.valueOf()) {
       const promise = firstValueFrom(
         this
           .apiV3Service
@@ -388,9 +390,9 @@ export class TimeEntryCalendarComponent {
     };
   }
 
-  protected dmFilters(start:Date, end:Date):Array<[string, FilterOperator, string[]]> {
-    const startDate = moment(start).format('YYYY-MM-DD');
-    const endDate = moment(end).subtract(1, 'd').format('YYYY-MM-DD');
+  protected dmFilters(start:Moment, end:Moment):Array<[string, FilterOperator, string[]]> {
+    const startDate = start.format('YYYY-MM-DD');
+    const endDate = end.subtract(1, 'd').format('YYYY-MM-DD');
     return [['spentOn', '<>d', [startDate, endDate]] as [string, FilterOperator, string[]],
       ['user_id', '=', ['me']] as [string, FilterOperator, [string]]];
   }
@@ -399,7 +401,7 @@ export class TimeEntryCalendarComponent {
     if (event.event.extendedProps.entry) {
       this.editEvent(event.event.extendedProps.entry);
     } else if (event.el.classList.contains(ADD_ENTRY_CLASS_NAME) && !event.el.classList.contains(ADD_ENTRY_PROHIBITED_CLASS_NAME)) {
-      this.addEvent(moment(event.event.start));
+      this.addEvent(moment(event.event.startStr));
     }
   }
 
@@ -420,7 +422,7 @@ export class TimeEntryCalendarComponent {
 
     // Use end instead of start as when dragging, the event might be too long and would thus be start
     // on the day before by fullcalendar.
-    entry.spentOn = moment(event.event.end).format('YYYY-MM-DD');
+    entry.spentOn = moment(event.event.endStr).format('YYYY-MM-DD');
 
     void this
       .schemaCache
