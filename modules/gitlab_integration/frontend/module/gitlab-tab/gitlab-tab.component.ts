@@ -47,24 +47,3 @@ export class GitlabTabComponent implements TabComponent {
               readonly I18n:I18nService) {
   }
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-  // Your Intersection Observer code and any other JavaScript/TypeScript logic
-  const sectionHeaders = document.querySelectorAll('.gitlab-header');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      const sectionHeader = entry.target;
-
-      if (entry.isIntersecting) {
-        sectionHeader.classList.add('sticky');
-      } else {
-        sectionHeader.classList.remove('sticky');
-      }
-    });
-  }, { threshold: 1 });
-
-  sectionHeaders.forEach(sectionHeader => {
-    observer.observe(sectionHeader);
-  });
-});
