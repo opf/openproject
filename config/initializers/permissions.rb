@@ -177,18 +177,6 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :global,
                      require: :loggedin,
                      grant_to_admin: true
-
-      map.permission :view_grids,
-                     {},
-                     permissible_on: :global,
-                     require: :loggedin,
-                     grant_to_admin: true
-
-      map.permission :edit_grids,
-                     {},
-                     permissible_on: :global,
-                     require: :loggedin,
-                     grant_to_admin: true
     end
 
     map.project_module :work_package_tracking, order: 90 do |wpt|

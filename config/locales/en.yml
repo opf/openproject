@@ -2595,8 +2595,6 @@ en:
   permission_view_project_activity: "View project activity"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
-  permission_edit_grids: "Edit grids"
-  permission_view_grids: "View grids"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
 
   placeholders:

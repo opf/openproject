@@ -45,10 +45,6 @@ module Grids
       name.presence || self.class.to_s.demodulize
     end
 
-    acts_as_attachable allow_uncontainered: false,
-                       view_permission: :view_grids,
-                       add_on_new_permission: :edit_grids,
-                       add_on_persisted_permission: :edit_grids,
-                       delete_permission: :edit_grids
+    acts_as_attachable allow_uncontainered: false
   end
 end
