@@ -30,6 +30,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= toolbar title: t('users.sessions.title') -%>
 
-<p><%= t('users.sessions.instructions')%></p>
+<p><%= t('users.sessions.instructions') %></p>
 
-<%=  render ::Users::Sessions::TableComponent.new(rows: @sessions, current_session: session) %>
+<%= render ::Users::Sessions::TableComponent.new(rows: @sessions, current_session: session) %>
+
+<h2></h2>
+
+<% ::Token::AutoLogin.where(user: User.current).find_each do |token| %>
+  <%= token.data.inspect %>
+  <br/>
+<% end %>

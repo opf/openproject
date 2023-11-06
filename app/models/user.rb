@@ -259,7 +259,6 @@ class User < Principal
     token = Token::AutoLogin.find_by_plaintext_value(key)
     # Make sure there's only 1 token that matches the key
     if token && ((token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?)
-      token.user.log_successful_login
       token.user
     end
   end

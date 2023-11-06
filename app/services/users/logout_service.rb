@@ -35,18 +35,24 @@ module Users
     end
 
     def call(user)
+      OpenProject.logger.info { "Logging out ##{user.id}" }
       controller.reset_session
 
-      if user.logged?
-        remove_cookies! controller.send(:cookies)
+      remove_cookies! controller.send(:cookies)
+
+      if OpenProject::Configuration.drop_old_sessions_on_logout?
         remove_tokens! user
+        remove_sessions! user
       end
 
       User.current = User.anonymous
-      ServiceResult.failure(result: User.anonymous)
     end
 
     private
+
+    def remove_sessions!(user)
+      ::Sessions::UserSession.for_user(user.id).delete_all
+    end
 
     def remove_tokens!(user)
       Token::AutoLogin.where(user_id: user.id).delete_all

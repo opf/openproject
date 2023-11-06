@@ -263,7 +263,6 @@ When a filter is defined, synchronization happens directly during seeding for en
 * `attachments_storage_path`
 * `autologin_cookie_name` (default: 'autologin'),
 * `autologin_cookie_path` (default: '/')
-* `autologin_cookie_secure` (default: false)
 * `database_cipher_key`     (default: nil)
 * `scm_git_command` (default: 'git')
 * `scm_subversion_command` (default: 'svn')

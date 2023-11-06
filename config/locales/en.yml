@@ -321,6 +321,9 @@ en:
       no_results_content_text: Add a news item
 
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
+      title: "Remembered devices"
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
@@ -2143,7 +2146,6 @@ en:
   label_start_to_start: "start to start"
   label_statistics: "Statistics"
   label_status: "Status"
-  label_stay_logged_in: "Stay logged in"
   label_storage_free_space: "Remaining disk space"
   label_storage_used_space: "Used disk space"
   label_storage_group: "Storage filesystem %{identifier}"

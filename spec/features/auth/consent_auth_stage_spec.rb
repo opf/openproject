@@ -53,7 +53,8 @@ RSpec.describe 'Authentication Stages' do
       .and_return(consent_required)
   end
 
-  def expect_logged_in
+  def expect_logged_in(path = my_page_path)
+    expect(page).to have_current_path(path)
     visit my_account_path
     expect(page).to have_selector('.form--field-container', text: user.login)
   end
@@ -73,7 +74,7 @@ RSpec.describe 'Authentication Stages' do
     end
 
     it 'keeps the autologin request (Regression #33696)',
-       with_settings: { autologin: '1' } do
+       with_settings: { autologin: 1 } do
       expect(Setting::Autologin.enabled?).to be true
 
       login_with user.login, user_password, autologin: true
@@ -104,8 +105,11 @@ RSpec.describe 'Authentication Stages' do
           with_settings: { consent_info: { de: '# Einwilligung', en: '# Consent header!' } } do
     let(:consent_required) { true }
 
-    before do
+    around do |example|
       Capybara.current_session.driver.header('Accept-Language', 'de')
+      example.call
+    ensure
+      Capybara.current_session.driver.header('Accept-Language', 'en')
     end
 
     it 'shows localized consent as defined by the accept language header (ignoring users language)' do
@@ -116,7 +120,9 @@ RSpec.describe 'Authentication Stages' do
     end
   end
 
-  context 'when enabled, but consent exists', js: true, with_settings: { consent_info: { en: '# Consent header!' } } do
+  context 'when enabled, but consent exists',
+          :js,
+          with_settings: { consent_info: { en: '# Consent header!' } } do
     let(:consent_required) { true }
 
     after do
@@ -206,11 +212,11 @@ RSpec.describe 'Authentication Stages' do
       click_on I18n.t(:button_create)
 
       expect(page).to have_selector('.op-toast.-success')
-      expect_logged_in
+      expect_logged_in('/?first_time_user=true')
     end
 
     it 'keeps the autologin request (Regression #33696)',
-       with_settings: { autologin: '1' } do
+       with_settings: { autologin: 1 } do
       expect(Setting::Autologin.enabled?).to be true
 
       login_with user.login, user_password, autologin: true
@@ -228,8 +234,8 @@ RSpec.describe 'Authentication Stages' do
       manager = page.driver.browser.manage
       autologin_cookie = manager.cookie_named('autologin')
       expect(autologin_cookie[:name]).to eq 'autologin'
-      # Cookie always expires in 1 year, check is made with the token expiry date
-      expect(autologin_cookie[:expires].to_date).to eq (Date.today + 1.year)
+      # Cookie is set to expire at the given day
+      expect(autologin_cookie[:expires].to_date).to eq (Date.today + 1.day)
     end
 
     context 'with contact mail address', with_settings: { consent_decline_mail: 'foo@example.org' } do
