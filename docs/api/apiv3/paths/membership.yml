@@ -114,6 +114,18 @@ patch:
       example: 1
       schema:
         type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/membership_write_model.yml'
+        examples:
+          'global role':
+            $ref: '../components/examples/membership-create-request-global-role.yml'
+          'no notification':
+            $ref: '../components/examples/membership-create-request-no-notification.yml'
+          'custom message':
+            $ref: '../components/examples/membership-create-request-custom-message.yml'
   responses:
     '200':
       description: OK
