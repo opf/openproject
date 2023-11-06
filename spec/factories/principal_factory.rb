@@ -59,6 +59,17 @@ FactoryBot.define do
       end
     end
 
+    callback(:after_stub) do |_principal, evaluator|
+      uses_member_association = evaluator.member_with_permissions.present? ||
+        evaluator.member_with_roles.present? ||
+        evaluator.global_roles.present? ||
+        evaluator.global_permissions.present?
+      if uses_member_association
+        raise ArgumentError,
+              "To create memberships, you either need to use create(...) or use the `mock_permissions_for` helper on the stubbed models"
+      end
+    end
+
     callback(:after_create) do |principal, evaluator|
       evaluator.member_with_permissions.each do |object, permissions|
         if object.is_a?(Project)
