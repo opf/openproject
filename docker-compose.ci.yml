@@ -10,8 +10,7 @@ services:
     image: postgres:13
     tmpfs:
       - /var/lib/postgresql/data
-    volumes:
-      - ./docker/ci/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+    command: "-c autovacuum=off -c fsync=off -c synchronous_commit=off -c checkpoint_timeout=30min -c full_page_writes=off -c deadlock_timeout=5s -c track_activities=off -c track_counts=off -c max_connections=200 -c shared_buffers=8GB -c work_mem=10485kB -c min_wal_size=1GB -c max_wal_size=4GB -c max_worker_processes=16 -c max_parallel_workers=16"
     environment:
       POSTGRES_PASSWORD: p4ssw0rd
   ci:
