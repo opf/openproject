@@ -27,7 +27,7 @@ module OpenProject
 
       def apply!
         Rack::Attack.throttle(rule_name, limit:, period:) do |request|
-          limit_condition(request)
+          discriminator(request)
         end
 
         self
@@ -86,7 +86,7 @@ module OpenProject
         false
       end
 
-      def limit_condition(request)
+      def discriminator(request)
         raise NotImplementedError
       end
 

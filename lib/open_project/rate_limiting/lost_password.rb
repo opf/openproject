@@ -21,7 +21,7 @@ module OpenProject
         false
       end
 
-      def limit_condition(req)
+      def discriminator(req)
         if req.post? && req.path.end_with?('/account/lost_password')
           req.env.dig "rack.request.form_hash", "mail"
         end

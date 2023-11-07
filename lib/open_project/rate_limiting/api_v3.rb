@@ -15,7 +15,7 @@ module OpenProject
 
       protected
 
-      def limit_condition(req)
+      def discriminator(req)
         if req.post? && req.path.start_with?('/api/v3/') && req.path.end_with?('/form')
           session_id(req.env) || http_auth(req.env)
         end
