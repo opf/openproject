@@ -293,14 +293,14 @@ class ApplicationController < ActionController::Base
   # Authorize the user for the requested controller action.
   # To be used in before_action hooks
   def authorize(ctrl = params[:controller], action = params[:action])
-    OpenProject::Deprecation.deprecate_method(ApplicationController, :authorize)
+    # OpenProject::Deprecation.deprecate_method(ApplicationController, :authorize)
     do_authorize({ controller: ctrl, action: }, global: false)
   end
 
   # Authorize the user for the requested controller action outside a project
   # To be used in before_action hooks
   def authorize_global
-    OpenProject::Deprecation.deprecate_method(ApplicationController, :authorize_global)
+    # OpenProject::Deprecation.deprecate_method(ApplicationController, :authorize_global)
 
     action = { controller: params[:controller], action: params[:action] }
     do_authorize(action, global: true)
@@ -311,17 +311,21 @@ class ApplicationController < ActionController::Base
   # Action can be:
   # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
   # * a permission Symbol (eg. :edit_project)
-  def do_authorize(action, global: false)
-    OpenProject::Deprecation.deprecate_method(ApplicationController, :do_authorize)
+  def do_authorize(action, global: false) # rubocop:disable Metrics/PerceivedComplexity
+    # OpenProject::Deprecation.deprecate_method(ApplicationController, :do_authorize)
     # context = @project || @projects
-    # is_authorized = User.current.allowed_to?(action, context, global:)
+    # old_authorized = User.current.allowed_to?(action, context, global:)
 
-    is_authorized = if global
-                      User.current.allowed_based_on_permission_context?(action)
-                    else
-                      User.current.allowed_based_on_permission_context?(action, project: @project || @projects,
-                                                                                entity: @work_package || @work_packages)
-                    end
+    is_authorized = begin
+      if global
+        User.current.allowed_based_on_permission_context?(action)
+      else
+        User.current.allowed_based_on_permission_context?(action, project: @project || @projects,
+                                                                  entity: @work_package || @work_packages)
+      end
+    rescue Authorization::UnknownPermissionError
+      false
+    end
 
     unless is_authorized
       if @project&.archived?
