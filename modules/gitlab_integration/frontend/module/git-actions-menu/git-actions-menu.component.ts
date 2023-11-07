@@ -51,11 +51,11 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
   @Input() public workPackage:WorkPackageResource;
 
   public text = {
-    title: this.I18n.t('js.gitlab_integration.tab_header.git_actions.title'),
-    copyButtonHelpText: this.I18n.t('js.gitlab_integration.tab_header.git_actions.copy_button_help'),
+    title: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.title'),
+    copyButtonHelpText: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.copy_button_help'),
     copyResult: {
-      success: this.I18n.t('js.gitlab_integration.tab_header.git_actions.copy_success'),
-      error: this.I18n.t('js.gitlab_integration.tab_header.git_actions.copy_error')
+      success: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.copy_success'),
+      error: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.copy_error')
     }
   };
 
@@ -66,17 +66,17 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
   public snippets:ISnippet[] = [
     {
       id: 'branch',
-      name: this.I18n.t('js.gitlab_integration.tab_header.git_actions.branch_name'),
+      name: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.branch_name'),
       textToCopy: () => this.gitActions.branchName(this.workPackage)
     },
     {
       id: 'message',
-      name: this.I18n.t('js.gitlab_integration.tab_header.git_actions.commit_message'),
+      name: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.commit_message'),
       textToCopy: () => this.gitActions.commitMessage(this.workPackage)
     },
     {
       id: 'command',
-      name: this.I18n.t('js.gitlab_integration.tab_header.git_actions.cmd'),
+      name: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.cmd'),
       textToCopy: () => this.gitActions.gitCommand(this.workPackage)
     },
   ];
