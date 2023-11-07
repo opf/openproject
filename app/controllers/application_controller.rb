@@ -352,14 +352,14 @@ class ApplicationController < ActionController::Base
 
   def find_optional_project_and_raise_error
     @project = Project.find(params[:project_id]) if params[:project_id].present?
-    allowed = User.current.allowed_to?({ controller: params[:controller], action: params[:action] },
-                                       @project, global: @project.nil?)
+    allowed = User.current.allowed_based_on_permission_context?({ controller: params[:controller], action: params[:action] },
+                                                                project: @project)
     allowed ? true : deny_access
   end
 
   # Finds and sets @project based on @object.project
   def find_project_from_association
-    render_404 unless @object.present?
+    render_404 if @object.blank?
 
     @project = @object.project
   rescue ActiveRecord::RecordNotFound
@@ -370,7 +370,7 @@ class ApplicationController < ActionController::Base
     model = self.class._model_object
     if model
       @object = model.find(params[object_id])
-      instance_variable_set('@' + controller_name.singularize, @object) if @object
+      instance_variable_set("@#{controller_name.singularize}", @object) if @object
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -381,7 +381,7 @@ class ApplicationController < ActionController::Base
       model_object = self.class._model_object
       instance = model_object.find(params[object_id])
       @project = instance.project
-      instance_variable_set('@' + model_object.to_s.underscore, instance)
+      instance_variable_set("@#{model_object.to_s.underscore}", instance)
     else
       @project = Project.find(params[:project_id])
     end
