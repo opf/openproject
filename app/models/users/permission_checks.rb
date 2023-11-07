@@ -103,13 +103,17 @@ module Users::PermissionChecks
     permissions.any? do |perm|
       if perm.global?
         allowed_globally?(perm)
-      elsif perm.work_package? && entity.is_a?(WorkPackage)
+      elsif perm.work_package? && (entity.is_a?(WorkPackage) || (entity.is_a?(Array) && entity.all? { |e| e.is_a?(WorkPackage) }))
         allowed_in_work_package?(perm, entity)
+      elsif perm.work_package? && entity.blank? && project.blank?
+        allowed_in_any_work_package?(perm)
+      elsif perm.work_package? && project && entity.blank?
+        allowed_in_any_work_package?(perm, in_project: project)
       elsif perm.project? && project
         allowed_in_project?(perm, project)
       elsif perm.project? && entity && entity.respond_to?(:project)
         allowed_in_project?(perm, entity.project)
-      elsif perm.project? && entity.nil? && project.nil?
+      elsif perm.project? && entity.blank? && project.blank?
         allowed_in_any_project?(perm)
       else
         false
@@ -119,7 +123,7 @@ module Users::PermissionChecks
 
   # Old allowed_to? interface. Marked as deprecated, should be removed at some point ... Guessing 14.0?
   def allowed_to?(action, context, global: false)
-    # OpenProject::Deprecation.deprecate_method(User, :allowed_to?)
+    OpenProject::Deprecation.deprecate_method(User, :allowed_to?)
     user_allowed_service.call(action, context, global:)
   end
 
