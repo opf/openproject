@@ -27,6 +27,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+$icon-issues: '~icons/gitlab-icons.svg#issues';
+
+.icon_issues 
+  background: url('#{$icon-issues}') no-repeat
+
+
 .gitlab-issue-header
   display: flex
   flex-wrap: wrap-reverse
@@ -44,9 +50,6 @@
     line-height: 32px
     text-transform: uppercase
 
-  .gl-icon
-    fill: currentColor
-    
-  .gl-icon.s16
+  .s16
     width: 16px
     height: 16px

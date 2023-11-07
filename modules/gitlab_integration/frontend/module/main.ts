@@ -48,8 +48,6 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-let totalIssues: number;
-
 export function workPackageGitlabCount(
   workPackage:WorkPackageResource,
   injector:Injector,
@@ -69,51 +67,6 @@ export function workPackageGitlabCount(
     map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
   );
 }
-
-
-// export function workPackageGitlabMrsCount(
-//   workPackage:WorkPackageResource,
-//   injector:Injector,
-// ):Observable<number> {
-//   const gitlabMrsService = injector.get(WorkPackagesGitlabMrsService);
-
-//   return gitlabMrsService
-//     .requireAndStream(workPackage)
-//     .pipe(
-//       map((mrs) => mrs.length),
-//     );
-// }
-
-// export function workPackageGitlabIssuesCount(
-//   workPackage:WorkPackageResource,
-//   injector:Injector,
-// ):Observable<number> {
-//   const gitlabIssueService = injector.get(WorkPackagesGitlabIssueService);
-
-//   return gitlabIssueService
-//     .requireAndStream(workPackage)
-//     .pipe(
-//       map((issue) => issue.length),
-//     );
-// }
-
-// export function calculateSum(
-//   workPackage:WorkPackageResource,
-//   injector:Injector,
-// ):Observable<number> {
-//   return forkJoin([
-//     workPackageGitlabMrsCount(  
-//       workPackage,
-//       injector,
-//     ),
-//     workPackageGitlabIssuesCount(
-//       workPackage,
-//       injector,
-//     ),
-//   ]).pipe(
-//     map(([mrsCount, issuesCount]) => mrsCount + issuesCount),
-//   );
-// }
 
 export function initializeGitlabIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
