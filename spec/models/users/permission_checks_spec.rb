@@ -58,6 +58,74 @@ RSpec.describe User, "permission check methods" do
     end
   end
 
+  describe '#allowed_based_on_permission_context?' do
+    let(:project) { nil }
+    let(:entity) { nil }
+    let(:result) { subject.allowed_based_on_permission_context?(permission, project:, entity:) }
+    let(:permission_object) { OpenProject::AccessControl.permission(permission) }
+
+    context 'with a global permission' do
+      let(:permission) { :create_user }
+
+      it 'uses the #allowed_globally? method' do
+        expect(subject).to receive(:allowed_globally?).with(permission_object)
+        result
+      end
+    end
+
+    context 'with a project permission and a project' do
+      let(:permission) { :manage_members }
+      let(:project) { build_stubbed(:project) }
+
+      it 'uses the #allowed_in_project? method' do
+        expect(subject).to receive(:allowed_in_project?).with(permission_object, project)
+        result
+      end
+    end
+
+    context 'with a project permission and something that responds to #project' do
+      let(:permission) { :manage_members }
+      let(:entity) { build_stubbed(:meeting) }
+
+      it 'uses the #allowed_in_project? method' do
+        expect(subject).to receive(:allowed_in_project?).with(permission_object, entity.project)
+        result
+      end
+    end
+
+    context 'with a work package permission and a work package' do
+      let(:permission) { :log_own_time }
+      let(:entity) { build_stubbed(:work_package) }
+
+      it 'uses the #allowed_in_work_package? method' do
+        expect(subject).to receive(:allowed_in_work_package?).with(permission_object, entity)
+        result
+      end
+    end
+
+    context 'with a work package and project permission and a work package and a project' do
+      let(:permission) { :log_own_time }
+      let(:entity) { build_stubbed(:work_package) }
+      let(:project) { build_stubbed(:project) }
+
+      it 'uses the #allowed_in_work_package? method' do
+        expect(subject).to receive(:allowed_in_work_package?).with(permission_object, entity)
+        result
+      end
+    end
+
+    context 'with a project permission and no project or entity' do
+      let(:permission) { :manage_members }
+      let(:entity) { nil }
+      let(:project) { nil }
+
+      it 'uses the #allowed_in_any_project? method' do
+        expect(subject).to receive(:allowed_in_any_project?).with(permission_object)
+        result
+      end
+    end
+  end
+
   describe '#all_permissions_for' do
     let(:project) { create(:project) }
     let!(:other_project) { create(:project, public: true) }

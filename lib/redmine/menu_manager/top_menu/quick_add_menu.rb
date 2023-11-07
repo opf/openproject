@@ -105,7 +105,11 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def user_can_create_work_package?
-    User.current.allowed_to?(:add_work_packages, @project, global: !in_project_context?)
+    if in_project_context?
+      User.current.allowed_in_project?(:add_work_packages, @project)
+    else
+      User.current.allowed_in_any_project?(:add_work_packages)
+    end
   end
 
   def show_quick_add_menu?
@@ -128,7 +132,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def add_subproject_permission?
     in_project_context? &&
-      User.current.allowed_to?(:add_subprojects, @project)
+      User.current.allowed_in_project?(:add_subprojects, @project)
   end
 
   def any_types?
