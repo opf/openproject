@@ -182,7 +182,7 @@ en:
     label_file_links: "File links"
     label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_connected: "Connected"
+    label_completed: "Completed"
     label_incomplete: "Incomplete"
     label_name: "Name"
     label_host: "Host URL"

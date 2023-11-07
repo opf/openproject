@@ -14,9 +14,17 @@ module Storages::Admin
        storage.host].compact.join(' - ')
     end
 
-    def configuration_check_label_for(config)
-      if storage.configuration_checks[config.to_sym]
-        status_label(I18n.t('storages.label_connected'), scheme: :success, test_selector: "label-#{config}-status")
+    def configuration_check_label
+      if storage.provider_type_nextcloud?
+        configuration_check_label_for(:host_name_configured)
+      elsif storage.provider_type_one_drive?
+        configuration_check_label_for(:host_name_configured, :storage_tenant_drive_configured)
+      end
+    end
+
+    def configuration_check_label_for(*configs)
+      if storage.configuration_checks.slice(configs.map(&:to_sym)).values.all?
+        status_label(I18n.t('storages.label_completed'), scheme: :success, test_selector: "label-#{config}-status")
       else
         status_label(I18n.t('storages.label_incomplete'), scheme: :attention, test_selector: "label-#{config}-status")
       end
