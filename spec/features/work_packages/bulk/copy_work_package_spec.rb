@@ -146,7 +146,7 @@ RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite do
 
           expect(page).to have_css('#new_project_id') # rubocop:disable RSpec/ExpectInHook
           expect_page_reload do
-            select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+            select_autocomplete page.find_test_selector('new_project_id'),
                                 query: project2.name,
                                 select_text: project2.name,
                                 results_selector: 'body'
@@ -158,7 +158,7 @@ RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite do
           click_on 'Copy and follow'
 
           wp_table_target.expect_current_path
-          expect(page).to have_selector('#projects-menu', text: 'Target')
+          expect(page).to have_css('#projects-menu', text: 'Target')
 
           # Should not move the sources
           expect(work_package.reload.project_id).to eq(project.id)
