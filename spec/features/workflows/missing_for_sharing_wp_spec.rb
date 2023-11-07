@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Configuring the workflow for work package sharing',
-               with_config: { show_warning_bars: true } do
+               with_config: { show_warning_bars: true },
+               with_ee: %i[work_package_sharing] do
   let!(:role) { create(:project_role) }
   let!(:work_package_role) { create(:edit_work_package_role) }
   let!(:type) { create(:type) }

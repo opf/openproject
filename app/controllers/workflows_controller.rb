@@ -74,11 +74,11 @@ class WorkflowsController < ApplicationController
     @source_role = if params[:source_role_id].blank? || params[:source_role_id] == 'any'
                      nil
                    else
-                     ProjectRole.find(params[:source_role_id])
+                     eligible_roles.find(params[:source_role_id])
                    end
 
     @target_types = params[:target_type_ids].blank? ? nil : ::Type.where(id: params[:target_type_ids])
-    @target_roles = params[:target_role_ids].blank? ? nil : ProjectRole.where(id: params[:target_role_ids])
+    @target_roles = params[:target_role_ids].blank? ? nil : eligible_roles.where(id: params[:target_role_ids])
 
     if request.post?
       if params[:source_type_id].blank? || params[:source_role_id].blank? || (@source_type.nil? && @source_role.nil?)
@@ -148,7 +148,12 @@ class WorkflowsController < ApplicationController
   end
 
   def eligible_roles
-    Role.where(type: ProjectRole.name)
-        .or(Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR))
+    roles = Role.where(type: ProjectRole.name)
+
+    if EnterpriseToken.allows_to?(:work_package_sharing)
+      roles.or(Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR))
+    else
+      roles
+    end
   end
 end
