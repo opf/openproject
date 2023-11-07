@@ -278,11 +278,11 @@ class ApplicationController < ActionController::Base
     allowed
   end
 
-  def authorize_in_any_entity(ctrl = params[:controller], action = params[:action])
+  def authorize_in_any_model(ctrl = params[:controller], action = params[:action])
     allowed = if @project
-                User.current.allowed_in_any_entity?({ controller: ctrl, action: }, in_project: @project)
+                User.current.allowed_in_any_entity?({ controller: ctrl, action: }, model_object, in_project: @project)
               else
-                User.current.allowed_in_any_entity?({ controller: ctrl, action: })
+                User.current.allowed_in_any_entity?({ controller: ctrl, action: }, model_object)
               end
 
     deny_access unless allowed
