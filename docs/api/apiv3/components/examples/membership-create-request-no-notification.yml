@@ -1,4 +1,5 @@
-# Example: Create Membership without notification message
+description: |-
+  Create a membership without sending a notification message.
 value:
   _links:
     principal:

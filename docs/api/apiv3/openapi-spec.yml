@@ -468,59 +468,61 @@ components:
     DateAlertNotification:
       $ref: './components/examples/date_alert_notification.yml'
     GridSimpleCollectionResponse:
-      "$ref": "./components/examples/grid-simple-collection-response.yml"
+      $ref: './components/examples/grid-simple-collection-response.yml'
     GridSimplePatchModel:
-      "$ref": "./components/examples/grid-simple-patch-model.yml"
+      $ref: './components/examples/grid-simple-patch-model.yml'
     GridSimpleResponse:
-      "$ref": "./components/examples/grid-simple-response.yml"
+      $ref: './components/examples/grid-simple-response.yml'
     MembershipCreateRequestCustomMessage:
-      "$ref": "./components/examples/membership-create-request-custom-message.yml"
+      $ref: './components/examples/membership-create-request-custom-message.yml'
     MembershipCreateRequestGlobalRole:
-      "$ref": "./components/examples/membership-create-request-global-role.yml"
+      $ref: './components/examples/membership-create-request-global-role.yml'
     MembershipCreateRequestNoNotification:
-      "$ref": "./components/examples/membership-create-request-no-notification.yml"
+      $ref: './components/examples/membership-create-request-no-notification.yml'
     MembershipFormResponse:
-      "$ref": "./components/examples/membership-form-response.yml"
+      $ref: './components/examples/membership-form-response.yml'
     MembershipSchemaResponse:
-      "$ref": "./components/examples/membership-schema-response.yml"
+      $ref: './components/examples/membership-schema-response.yml'
     MembershipSimpleCollectionResponse:
-      "$ref": "./components/examples/membership-simple-collection-response.yml"
+      $ref: './components/examples/membership-simple-collection-response.yml'
     MembershipSimpleResponse:
-      "$ref": "./components/examples/membership-simple-response.yml"
+      $ref: './components/examples/membership-simple-response.yml'
+    MembershipUpdateAdditionalRoles:
+      $ref: './components/examples/membership-update-additional-roles.yml'
     MentionedNotification:
       $ref: './components/examples/mentioned_notification.yml'
     NotificationCollection:
       $ref: './components/examples/notification_collection.yml'
     Project:
-      $ref: "./components/examples/project.yml"
+      $ref: './components/examples/project.yml'
     ProjectBody:
-      $ref: "./components/examples/project_body.yml"
+      $ref: './components/examples/project_body.yml'
     QueriesModel:
-      "$ref": "./components/examples/queries.yml"
+      $ref: './components/examples/queries.yml'
     QueryModel:
-      "$ref": "./components/examples/query.yml"
+      $ref: './components/examples/query.yml'
     QuerySchemaModel:
-      "$ref": "./components/examples/query_schema.yml"
+      $ref: './components/examples/query_schema.yml'
     StoragesSimpleCollectionModel:
-      "$ref": "./components/examples/storages-simple-collection-response.yml"
+      $ref: './components/examples/storages-simple-collection-response.yml'
     ValuesPropertyStartDateSchema:
-      "$ref": "./components/examples/values_property_start_date_schema.yml"
+      $ref: './components/examples/values_property_start_date_schema.yml'
     ValuesPropertyDueDateSchema:
-      "$ref": "./components/examples/values_property_due_date_schema.yml"
+      $ref: './components/examples/values_property_due_date_schema.yml'
     ValuesPropertyDateSchema:
-      "$ref": "./components/examples/values_property_date_schema.yml"
+      $ref: './components/examples/values_property_date_schema.yml'
     ValuesPropertyStartDate:
-      "$ref": "./components/examples/values_property_start_date.yml"
+      $ref: './components/examples/values_property_start_date.yml'
     ValuesPropertyDueDate:
-      "$ref": "./components/examples/values_property_due_date.yml"
+      $ref: './components/examples/values_property_due_date.yml'
     ValuesPropertyDate:
-      "$ref": "./components/examples/values_property_date.yml"
+      $ref: './components/examples/values_property_date.yml'
     Views:
-      "$ref": "./components/examples/views.yml"
+      $ref: './components/examples/views.yml'
     ViewWorkPackagesTable:
-      "$ref": "./components/examples/view_work_packages_table.yml"
+      $ref: './components/examples/view_work_packages_table.yml'
     ViewTeamPlanner:
-      "$ref": "./components/examples/view_team_planner.yml"
+      $ref: './components/examples/view_team_planner.yml'
 
   responses:
     InvalidQuery:

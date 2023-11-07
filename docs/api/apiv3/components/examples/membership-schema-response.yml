@@ -1,5 +1,5 @@
-# Example: Membership schema response
----
+description: |-
+  A simple schema response example.
 value:
   _type: 'Schema'
   _dependencies: [ ]

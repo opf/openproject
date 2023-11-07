@@ -1,5 +1,5 @@
-# Example: Membership form response
----
+description: |- 
+  A simple form response example.
 value:
   _type: Form
   _embedded:

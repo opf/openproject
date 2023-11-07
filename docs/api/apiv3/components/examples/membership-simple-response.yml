@@ -1,5 +1,5 @@
-# Example: Simple membership response
----
+description: |-
+  A simple membership response example.
 value:
   _type: Membership
   id: 11

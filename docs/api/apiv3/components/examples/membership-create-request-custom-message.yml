@@ -1,4 +1,5 @@
-# Example: Create Membership with a custom notification message
+description: |-
+  Create a membership and send a custom notification message.
 value:
   _links:
     principal:
@@ -10,4 +11,4 @@ value:
   _meta:
     notificationMessage:
       format: markdown
-      raw: 'Execute Order *66*'
+      raw: 'Granted permission to execute Order *66*.'

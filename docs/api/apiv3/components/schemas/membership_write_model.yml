@@ -6,9 +6,6 @@ required:
 properties:
   _links:
     type: object
-    required:
-      - principal
-      - roles
     properties:
       principal:
         allOf:

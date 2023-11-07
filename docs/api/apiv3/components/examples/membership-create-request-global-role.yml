@@ -1,4 +1,5 @@
-# Example: Create Membership for a global role
+description: |-
+  Create a membership for a global role. To address global roles, no project must be set.
 value:
   _links:
     principal:

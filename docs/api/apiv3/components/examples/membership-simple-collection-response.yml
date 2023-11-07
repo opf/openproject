@@ -1,5 +1,5 @@
-# Example: Simple membership collection response
----
+description: |-
+  A simple membership collection response example.
 value:
   _type: Collection
   total: 2
