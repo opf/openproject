@@ -313,8 +313,15 @@ class ApplicationController < ActionController::Base
   # * a permission Symbol (eg. :edit_project)
   def do_authorize(action, global: false)
     OpenProject::Deprecation.deprecate_method(ApplicationController, :do_authorize)
-    context = @project || @projects
-    is_authorized = User.current.allowed_to?(action, context, global:)
+    # context = @project || @projects
+    # is_authorized = User.current.allowed_to?(action, context, global:)
+
+    is_authorized = if global
+                      User.current.allowed_based_on_permission_context?(action)
+                    else
+                      User.current.allowed_based_on_permission_context?(action, project: @project || @projects,
+                                                                                entity: @work_package || @work_packages)
+                    end
 
     unless is_authorized
       if @project&.archived?

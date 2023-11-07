@@ -105,6 +105,10 @@ module Users::PermissionChecks
         allowed_globally?(perm)
       elsif perm.work_package? && entity.is_a?(WorkPackage)
         allowed_in_work_package?(perm, entity)
+      elsif perm.work_package? && entity.nil? && project.nil?
+        allowed_in_any_work_package?(perm)
+      elsif perm.work_package? && project && entity.nil?
+        allowed_in_any_work_package?(perm, in_project: project)
       elsif perm.project? && project
         allowed_in_project?(perm, project)
       elsif perm.project? && entity && entity.respond_to?(:project)
