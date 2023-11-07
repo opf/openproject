@@ -23,10 +23,10 @@ module Storages::Admin
     end
 
     def configuration_check_label_for(*configs)
-      if storage.configuration_checks.slice(configs.map(&:to_sym)).values.all?
-        status_label(I18n.t('storages.label_completed'), scheme: :success, test_selector: "label-#{config}-status")
+      if storage.configuration_checks.slice(*configs.map(&:to_sym)).values.all?
+        status_label(I18n.t('storages.label_completed'), scheme: :success, test_selector: "label-completed-status")
       else
-        status_label(I18n.t('storages.label_incomplete'), scheme: :attention, test_selector: "label-#{config}-status")
+        status_label(I18n.t('storages.label_incomplete'), scheme: :attention, test_selector: "label-incomplete-status")
       end
     end
 
