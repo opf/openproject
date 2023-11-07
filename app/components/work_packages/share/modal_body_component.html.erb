@@ -52,31 +52,21 @@
                     end
 
                     header_actions.with_column do
-                      primer_form_with(
-                        model: @shared_principals,
-                        url: work_package_shares_path,
-                        method: :get
-                      ) do |form|
-                        render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
-                                                             select_variant: :single,
-                                                             color: :subtle,
-                                                             form_arguments: {
-                                                               builder: form,
-                                                               name: 'role_id',
-                                                             },
-                                                             data: { 'test-selector': 'op-share-wp-filter-role' })) do |menu|
-                          menu.with_show_button(scheme: :invisible, color: :subtle) do |button|
-                            button.with_trailing_action_icon(icon: "triangle-down")
-                            I18n.t('work_package.sharing.filter.role')
-                          end
-                          options.each do |option|
-                            menu.with_item(label: option[:label],
-                                           href: work_package_shares_path,
-                                           method: :get,
-                                           tag: :button,
-                                           active: role_filter_option_active?(option),
-                                           data: { value: option[:value] })
-                          end
+                      render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
+                                                           select_variant: :single,
+                                                           color: :subtle,
+                                                           data: { 'test-selector': 'op-share-wp-filter-role' })) do |menu|
+                        menu.with_show_button(scheme: :invisible, color: :subtle) do |button|
+                          button.with_trailing_action_icon(icon: "triangle-down")
+                          I18n.t('work_package.sharing.filter.role')
+                        end
+                        options.each do |option|
+                          menu.with_item(label: option[:label],
+                                         href: filter_url(role_option: option),
+                                         method: :get,
+                                         tag: :a,
+                                         active: role_filter_option_active?(option),
+                                         role: "menuitem")
                         end
                       end
                     end

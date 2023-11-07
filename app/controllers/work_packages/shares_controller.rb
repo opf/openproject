@@ -158,12 +158,6 @@ class WorkPackages::SharesController < ApplicationController
     @project = @work_package.project
   end
 
-  def find_role_ids(builtin_value)
-    # Role has a left join on permissions included leading to multiple ids being returned which
-    # is why we unscope.
-    WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
-  end
-
   def current_visible_member_count
     @current_visible_member_count ||= Member
                                         .joins(:member_roles)
@@ -178,10 +172,6 @@ class WorkPackages::SharesController < ApplicationController
     # Set default filter on the entity
     @query.where('entity_id', '=', @work_package.id)
     @query.where('entity_type', '=', WorkPackage.name)
-
-    # Set role filter if defined
-    role_id = params.dig(:member, :role_id)
-    @query.where('role_id', '=', find_role_ids(role_id)) unless role_id.nil?
 
     @query.order(name: :asc) unless params[:sortBy]
 

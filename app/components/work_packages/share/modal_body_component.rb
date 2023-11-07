@@ -30,6 +30,7 @@ module WorkPackages
   module Share
     class ModalBodyComponent < ApplicationComponent
       include ApplicationHelper
+      include MemberHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include WorkPackages::Share::Concerns::Authorization
@@ -76,7 +77,25 @@ module WorkPackages
       end
 
       def role_filter_option_active?(option)
-        option[:value] == params.dig(:member, :role_id).to_i
+        return false if params[:filters].nil?
+
+        given_role_filters = JSON.parse(params[:filters]).find { |filter| filter.key?('role_id') }
+        given_role_filter_value = given_role_filters ? given_role_filters['role_id']['values'].first.to_i : nil
+
+        find_role_ids(option[:value]).first == given_role_filter_value unless given_role_filter_value.nil?
+      end
+
+      def filter_url(role_option:)
+        args = {}
+        filter = []
+
+        unless role_filter_option_active?(role_option)
+          filter.push({ role_id: { operator: "=", values: find_role_ids(role_option[:value]) } })
+        end
+
+        args[:filters] = filter.to_json unless filter.empty?
+
+        work_package_shares_path(args)
       end
     end
   end

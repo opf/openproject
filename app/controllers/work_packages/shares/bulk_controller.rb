@@ -30,10 +30,11 @@
 
 class WorkPackages::Shares::BulkController < ApplicationController
   include OpTurbo::ComponentStream
+  include MemberHelper
 
   before_action :find_work_package
   before_action :find_shares
-  before_action :find_role_ids, only: :update
+  before_action :find_role_ids_from_params, only: :update
   before_action :find_project
   before_action :authorize
 
@@ -112,10 +113,8 @@ class WorkPackages::Shares::BulkController < ApplicationController
                     .where(id: params[:share_ids])
   end
 
-  def find_role_ids
-    @role_ids = WorkPackageRole.unscoped
-                               .where(builtin: params[:role_ids])
-                               .pluck(:id)
+  def find_role_ids_from_params
+    @role_ids = find_role_ids(params[:role_ids])
   end
 
   def current_visible_member_count
