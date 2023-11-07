@@ -51,8 +51,11 @@ module OAuthClients
     def oauth_state_cookie
       return nil if @state.blank?
 
-      state_cookie = MultiJson.load(@cookies["oauth_state_#{@state}"], symbolize_keys: true)
-      state_cookie[:href]
+      state_cookie = @cookies["oauth_state_#{@state}"]
+      return nil if state_cookie.blank?
+
+      state_value = MultiJson.load(@cookies["oauth_state_#{@state}"], symbolize_keys: true)
+      state_value[:href]
     end
   end
 end

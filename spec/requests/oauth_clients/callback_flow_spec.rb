@@ -51,12 +51,8 @@ RSpec.describe 'OAuthClient callback endpoint' do
            client_id: 'kETWr2XsjPxhVbN7Q5jmPq83xribuUTRzgfXthpYT0vSqyJWm4dOnivKzHiZasf0',
            client_secret: 'J1sg4L5PYbM2RZL3pUyxTnamvfpcP5eUcCPmeCQHJO60Gy6CJIdDaF4yXOeC8BPS')
   end
-  let(:rack_oauth2_client) do
-    instance_double(Rack::OAuth2::Client)
-  end
-  let(:connection_manager) do
-    instance_double(OAuthClients::ConnectionManager)
-  end
+  let(:rack_oauth2_client) { instance_double(Rack::OAuth2::Client) }
+  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
   let(:uri) { URI(File.join('oauth_clients', oauth_client.client_id, 'callback')) }
 
   subject(:response) { last_response }
@@ -66,13 +62,13 @@ RSpec.describe 'OAuthClient callback endpoint' do
 
     allow(Rack::OAuth2::Client).to receive(:new).and_return(rack_oauth2_client)
     allow(rack_oauth2_client)
-      .to receive(:access_token!).with(:body)
-            .and_return(
-              Rack::OAuth2::AccessToken::Bearer.new(access_token: 'xyzaccesstoken',
-                                                    refresh_token: 'xyzrefreshtoken')
-            )
+      .to receive(:access_token!)
+            .with(:body)
+            .and_return(Rack::OAuth2::AccessToken::Bearer.new(access_token: 'xyzaccesstoken',
+                                                              refresh_token: 'xyzrefreshtoken'))
     allow(rack_oauth2_client).to receive(:authorization_code=)
-    set_cookie "oauth_state_asdf1234=#{redirect_uri}"
+    state_cookie = CGI.escape({ href: redirect_uri, storageId: oauth_client.integration_id }.to_json)
+    set_cookie "oauth_state_asdf1234=#{state_cookie}"
   end
 
   # rubocop:disable RSpec/Rails/HaveHttpStatus
