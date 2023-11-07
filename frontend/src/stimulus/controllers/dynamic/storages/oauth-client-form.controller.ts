@@ -30,7 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class StorageFormController extends Controller {
+export default class OAuthClientFormController extends Controller {
   static targets = [
     'clientId',
     'redirectUri',
