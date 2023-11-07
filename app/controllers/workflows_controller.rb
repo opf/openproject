@@ -124,15 +124,15 @@ class WorkflowsController < ApplicationController
   end
 
   def find_roles
-    @roles = ProjectRole.order(Arel.sql('builtin, position'))
+    @roles = eligible_roles.order(:builtin, :position)
   end
 
   def find_types
-    @types = ::Type.order(Arel.sql('position'))
+    @types = ::Type.order(:position)
   end
 
   def find_role
-    @role = ProjectRole.find(params[:role_id])
+    @role = eligible_roles.find(params[:role_id])
   end
 
   def find_type
@@ -140,10 +140,15 @@ class WorkflowsController < ApplicationController
   end
 
   def find_optional_role
-    @role = ProjectRole.find_by(id: params[:role_id])
+    @role = eligible_roles.find_by(id: params[:role_id])
   end
 
   def find_optional_type
     @type = ::Type.find_by(id: params[:type_id])
+  end
+
+  def eligible_roles
+    Role.where(type: ProjectRole.name)
+        .or(Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR))
   end
 end
