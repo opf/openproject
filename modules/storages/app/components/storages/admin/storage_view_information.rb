@@ -48,7 +48,7 @@ module Storages::Admin
       if storage.oauth_client
         "#{I18n.t('storages.label_oauth_client_id')}: #{storage.oauth_client.client_id}"
       else
-        I18n.t('storages.configuration_checks.oauth_client_incomplete', provider: storage.short_provider_type.capitalize)
+        I18n.t("storages.configuration_checks.oauth_client_incomplete.#{storage.short_provider_type}")
       end
     end
   end

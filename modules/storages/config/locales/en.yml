@@ -89,6 +89,7 @@ en:
       project_folders: "Project folders"
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
+      one_drive_oauth: "Azure OAuth"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
@@ -143,7 +144,7 @@ en:
         oauth_client_secret: >
           Copy the client secret from the Azure portal. For a newly created application the secret first needs to be
           created manually. For authorization of web applications a secret is mandatory.
-        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
         tenant_id: "Please copy the tenant from your Azure application."
         tenant_id_placeholder: "Name or UUID"
         drive_id: "Please copy the drive ID from your Azure application."
@@ -154,7 +155,9 @@ en:
         Users can nevertheless still upload files to other locations.
     configuration_checks:
       incomplete: "The setup of this storage is incomplete."
-      oauth_client_incomplete: "Allow OpenProject to access %{provider} data using OAuth."
+      oauth_client_incomplete:
+        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
+        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
     delete_warning:
       storage: >
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used.
@@ -200,6 +203,7 @@ en:
     label_information: "Additional information"
     label_provider_type: "Provider type"
     label_project_folder: "Project folder"
+    label_redirect_uri: "Redirect URI"
     label_new_storage: "New storage"
     label_new_file_storage: "New file storage"
     label_edit_storage: "Edit storage"

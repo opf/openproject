@@ -33,15 +33,22 @@ import { Controller } from '@hotwired/stimulus';
 export default class OAuthClientFormController extends Controller {
   static targets = [
     'clientId',
+    'clientSecret',
     'redirectUri',
+    'submitButton',
   ];
 
   static values = {
     clientIdMissing: String,
   };
 
+  declare readonly hasClientIdTarget:boolean;
+  declare readonly hasClientSecretTarget:boolean;
+  declare readonly hasSubmitButtonTarget:boolean;
   declare readonly clientIdTarget:HTMLInputElement;
+  declare readonly clientSecretTarget:HTMLInputElement;
   declare readonly redirectUriTarget:HTMLInputElement;
+  declare readonly submitButtonTarget:HTMLInputElement;
 
   declare readonly clientIdMissingValue:string;
 
@@ -51,6 +58,21 @@ export default class OAuthClientFormController extends Controller {
     });
 
     this.redirectUriTarget.value = this.redirectUri();
+    this.toggleSubmitButtonDisabled();
+  }
+
+  public toggleSubmitButtonDisabled():void {
+    const targetsConfigured = this.hasClientIdTarget && this.hasClientSecretTarget && this.hasSubmitButtonTarget;
+
+    if (!targetsConfigured) {
+      return;
+    }
+
+    if (this.clientIdTarget.value === '' || this.clientSecretTarget.value === '') {
+      this.submitButtonTarget.disabled = true;
+    } else {
+      this.submitButtonTarget.disabled = false;
+    }
   }
 
   private redirectUri():string {

@@ -111,9 +111,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
     service_result.on_success do
       if OpenProject::FeatureDecisions.storage_primer_design_active?
-        respond_to do |format|
-          format.turbo_stream { render :show_oauth_application }
-        end
+        respond_to { |format| format.turbo_stream }
       else
         case @storage.provider_type
         when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE

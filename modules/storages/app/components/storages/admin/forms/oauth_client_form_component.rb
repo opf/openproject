@@ -44,7 +44,17 @@ module Storages::Admin::Forms
       storage.persisted? ? edit_admin_settings_storage_path(storage) : admin_settings_storages_path
     end
 
-    private
+    def submit_button_disabled?
+      !storage_oauth_client_configured?
+    end
+
+    def redirect_uri_or_instructions
+      if storage_oauth_client_configured?
+        oauth_client.redirect_uri
+      else
+        I18n.t("storages.instructions.one_drive.missing_client_id_for_redirect_uri")
+      end
+    end
 
     def storage_provider_credentials_copy_instructions
       "#{I18n.t('storages.instructions.copy_from')}: #{provider_credentials_instructions_link}".html_safe
@@ -58,6 +68,12 @@ module Storages::Admin::Forms
           target: '_blank'
         )
       ) { I18n.t("storages.instructions.#{@storage.short_provider_type}.integration") }
+    end
+
+    private
+
+    def storage_oauth_client_configured?
+      oauth_client.present? && oauth_client.client_id.present? && oauth_client.client_secret.present?
     end
   end
 end
