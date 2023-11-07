@@ -43,6 +43,11 @@
   &:last-child
     border-bottom: none
 
+  &--iconsize
+    width: 16px
+    height: 16px
+    vertical-align: -3px
+
   &--title
     @include text-shortener
     font-weight: bold
@@ -76,11 +81,10 @@
   &--label
     display: inline-block
     padding: 6px 9px
-    border-radius: 16px
+    border-radius: 10rem
     border: 1px solid #fff
     color: #fff
     font-size: 0.8rem
-    text-transform: capitalize
 
   &--date
     grid-area: info
@@ -93,18 +97,19 @@
   &--state
     grid-area: state
     display: inline-block
-    padding: 6px 10px
+    padding: 2px 0.5rem 2px 0.5rem
     border-radius: 10rem
-    border: 3px solid #fff
-    color: #fff
     font-size: 0.8rem
-    font-weight: 600
+    font-weight: 400
     text-transform: capitalize
+    align-self: center
 
     &_open
       background-color: #c3e6cd
       color: #24663b
+      fill: #24663b
 
     &_closed
-      background-color: #fdd4cd
-      color: #ae1800
+      background-color: #cbe2f9 
+      color: #0b5cad
+      fill: #0b5cad

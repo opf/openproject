@@ -17,7 +17,7 @@
     class='op-issue--avatar op-avatar op-avatar_mini'
     [src]="gitlabIssue.gitlabUser.avatarUrl"
     *ngIf="gitlabIssue.gitlabUser"
-  /> 
+  />&nbsp;
   <span class='op-issue--user'> 
     <a
       [href]="'mailto:' + gitlabIssue.gitlabUser.email"
@@ -33,7 +33,7 @@
 </div>
 
 <span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
-  <svg class="op-merge-request--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
+  <svg class="op-issue--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
   {{state}}
 </span>
 
