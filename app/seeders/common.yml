@@ -247,6 +247,7 @@ work_package_roles:
     permissions:
       - :view_work_packages
       - :edit_work_packages
+      - :change_work_package_status
       - :work_package_assigned
       - :add_work_package_notes
       - :edit_own_work_package_notes
@@ -300,6 +301,7 @@ project_roles:
       - :add_work_packages
       - :move_work_packages
       - :edit_work_packages
+      - :change_work_package_status
       - :assign_versions
       - :work_package_assigned
       - :add_work_package_notes

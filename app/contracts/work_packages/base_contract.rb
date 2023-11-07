@@ -34,6 +34,7 @@ module WorkPackages
     attribute :subject
     attribute :description
     attribute :status_id,
+              permission: :change_work_package_status,
               writable: ->(*) {
                 # If we did not change into the status,
                 # mark unwritable if status and version is closed

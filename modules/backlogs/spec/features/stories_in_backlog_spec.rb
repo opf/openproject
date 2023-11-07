@@ -56,6 +56,7 @@ RSpec.describe 'Stories in backlog',
                            add_work_packages
                            view_work_packages
                            edit_work_packages
+                           change_work_package_status
                            manage_subtasks
                            assign_versions))
   end

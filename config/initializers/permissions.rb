@@ -307,6 +307,11 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      dependencies: :view_work_packages
 
+      wpt.permission :change_work_package_status,
+                     {},
+                     permissible_on: :project,
+                     dependencies: :view_work_packages
+
       # A user having the following permission can become assignee and/or responsible of a work package.
       # This is a passive permission in the sense that a user having the permission isn't eligible to perform
       # actions but rather to have actions taken together with him/her.

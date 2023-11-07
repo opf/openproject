@@ -50,7 +50,7 @@ RSpec.describe 'Version action board', :js, with_ee: %i[board_view] do
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages manage_versions
-       edit_work_packages view_work_packages manage_public_queries assign_versions]
+       edit_work_packages view_work_packages manage_public_queries change_work_package_status assign_versions]
   end
   let(:permissions_board_manager) do
     %i[show_board_views manage_board_views view_work_packages manage_public_queries]

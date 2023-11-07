@@ -566,6 +566,7 @@ module API
         def current_user_update_allowed?
           @current_user_update_allowed ||=
             current_user.allowed_in_project?(:edit_work_packages, represented.project) ||
+              current_user.allowed_in_project?(:change_work_package_status, represented.project) ||
               current_user.allowed_in_project?(:assign_versions, represented.project)
         end
 
