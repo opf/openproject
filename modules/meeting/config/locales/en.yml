@@ -53,7 +53,7 @@ en:
       meeting_agenda_items:
         title: "Title"
         author: "Responsible"
-        duration_in_minutes: "Duration in minutes"
+        duration_in_minutes: "Duration (min)"
         description: "Notes"
     errors:
       messages:
