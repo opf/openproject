@@ -56,6 +56,11 @@ module OpenProject
 
       protected
 
+      # Provide a limit callback proc for the request, or use the default limit
+      # e.g.,
+      # def limit
+      #   proc { |req| req.env["REMOTE_USER"] == "admin" ? 100 : 1 }
+      # end
       def limit
         settings[:limit].presence || default_limit
       end
