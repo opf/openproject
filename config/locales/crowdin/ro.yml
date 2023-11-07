@@ -470,6 +470,7 @@ ro:
       custom_action:
         actions: "Acțiuni"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Valoare implicită"
         editable: "Editabil"
         field_format: "Format"
@@ -2204,6 +2205,7 @@ ro:
       see_in_center: 'Vezi comentariul în centrul de notificări'
       settings: 'Modificare setări e-mail'
     salutation: 'Salut %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Creat la %{timestamp} de %{user} '
       login_to_see_all: 'Autentifică-te pentru a vedea toate notificările.'
@@ -2653,6 +2655,7 @@ ro:
     Dacă pagina de documente este activată, puteți obține o vizualizare interactivă a documentației APIv3 la adresa <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Lista albă de încărcare a atașamentelor"
   setting_email_delivery_method: "Metoda de livrare e-mail"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Locația executabilului \"sendmail\""
   setting_smtp_enable_starttls_auto: "Utilizează automat STARTTLS dacă este disponibil"
   setting_smtp_ssl: "Utilizați conexiunea SSL"

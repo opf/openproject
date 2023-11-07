@@ -464,6 +464,7 @@ zh-CN:
       custom_action:
         actions: "操作"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "默认值"
         editable: "可编辑"
         field_format: "格式"
@@ -2146,6 +2147,7 @@ zh-CN:
       see_in_center: '在通知中心查看评论'
       settings: '更改电子邮件设置'
     salutation: '%{user}，您好！'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: '由 %{user} 于 %{timestamp} 创建'
       login_to_see_all: '登录以查看所有通知。'
@@ -2586,6 +2588,7 @@ zh-CN:
     如果启用了文档页面，您可以在此 <a href="%{link}" target="_blank">%{link}</a> 获得 API v3 文档的交互式视图。
   setting_attachment_whitelist: "附件上传白名单"
   setting_email_delivery_method: "电子邮件发送方法"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Sendmail 的执行位置"
   setting_smtp_enable_starttls_auto: "如果可用，自动使用 STARTTLS"
   setting_smtp_ssl: "使用 SSL 连接"

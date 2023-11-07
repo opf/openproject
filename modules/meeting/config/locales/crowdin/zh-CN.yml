@@ -92,6 +92,16 @@ zh-CN:
   label_time_zone: "时区"
   label_start_date: "开始日期"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: '经典'
       classic_text: '以格式化文本议程和协议组织您的会议。'
@@ -121,8 +131,6 @@ zh-CN:
   text_meeting_closing_are_you_sure: "确定要关闭该会议议程吗？"
   text_meeting_agenda_open_are_you_sure: "这将在几分钟内覆盖所有更改！要继续吗？"
   text_meeting_minutes_for_meeting: '“%{meeting}“会议记录'
-  text_review_meeting_agenda: "%{author} 已经将 %{link} 上传待审阅。"
-  text_review_meeting_minutes: "%{author} 已经将 %{link} 上传待审阅。"
   text_notificiation_invited: "此邮件包含以下会议的 ics 条目："
   text_meeting_empty_heading: "您的会议为空"
   text_meeting_empty_description_1: "从下面开始添加议程事项。每个事项可以简单地只有一个标题，但你也可以添加额外的细节，比如持续时间、备注和负责人。"

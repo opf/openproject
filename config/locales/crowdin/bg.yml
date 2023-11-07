@@ -469,6 +469,7 @@ bg:
       custom_action:
         actions: "Действия"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Стойност по подразбиране"
         editable: "Редактируемо"
         field_format: "Формат"
@@ -2177,6 +2178,7 @@ bg:
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
     salutation: 'Hello %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2625,6 +2627,7 @@ bg:
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Метод за доставка на имейл"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Местоположение на sendmail програма"
   setting_smtp_enable_starttls_auto: "Автоматично използвай STARTTLS ако е налично"
   setting_smtp_ssl: "Use SSL connection"

@@ -468,6 +468,7 @@ tr:
       custom_action:
         actions: "Eylemler"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Varsayılan değer"
         editable: "Düzenlenebilir"
         field_format: "Biçim"
@@ -2176,6 +2177,7 @@ tr:
       see_in_center: 'Bildirim merkezinde yorumu görün'
       settings: 'E-posta ayarlarını değiştir'
     salutation: 'Merhaba %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: '%{timestamp} tarihinde %{user} tarafından oluşturuldu'
       login_to_see_all: 'Tüm bildirimleri görmek için giriş yapın.'
@@ -2621,6 +2623,7 @@ tr:
     Dokümanlar sayfası etkinleştirildiyse, <a href="%{link}" target="_blank">%{link}</a> altında APIv3 belgelerinin etkileşimli bir görünümünü elde edebilirsiniz.
   setting_attachment_whitelist: "Ek yükleme beyaz listesi"
   setting_email_delivery_method: "E-posta teslim yöntemi"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Çalıştırılabilir sendmail aracının yolu"
   setting_smtp_enable_starttls_auto: "STARTTLS varsa otomatik olarak kullan"
   setting_smtp_ssl: "SSL bağlantısı kullan"

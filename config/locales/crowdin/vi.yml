@@ -470,6 +470,7 @@ vi:
       custom_action:
         actions: "Hành động"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Giá trị mặc định"
         editable: "Có thể chỉnh sửa"
         field_format: "Định dạng"
@@ -2152,6 +2153,7 @@ vi:
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
     salutation: 'Hello %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2598,6 +2600,7 @@ vi:
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Cách gửi email"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Vị trí của tệp thực thi sendmail (đường dẫn)"
   setting_smtp_enable_starttls_auto: "Tự động sử dụng STARTTLS nếu hiện hữu"
   setting_smtp_ssl: "Use SSL connection"

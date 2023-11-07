@@ -9,8 +9,8 @@ el:
   boards:
     label_board: "Πίνακας"
     label_boards: "Πίνακες"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Δημιουργία νέου πίνακα"
+    label_board_type: "Τύπος πίνακα"
     board_types:
       free: Βασικό
       action: "Πίνακας ενεργειών (%{attribute})"
@@ -23,9 +23,9 @@ el:
       basic: Βασικό
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Ξεκινήστε από την αρχή με έναν κενό πίνακα. Προσθέστε χειροκίνητα κάρτες και στήλες σε αυτόν τον πίνακα.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Βασικός πίνακας τύπου kanban με στήλες για την κατάσταση, όπως To Do, In Progress, Done.
       assignee: >
         Board with automated columns based on assigned users. Ideal for dispatching work packages.
       version: >
@@ -36,4 +36,4 @@ el:
         Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
     upsale:
       teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      upgrade: 'Αναβάθμιση τώρα'

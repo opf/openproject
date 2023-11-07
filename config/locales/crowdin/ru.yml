@@ -470,6 +470,7 @@ ru:
       custom_action:
         actions: "Действия"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Значение по умолчанию"
         editable: "Доступно для правки"
         field_format: "Формат"
@@ -2230,6 +2231,7 @@ ru:
       see_in_center: 'Смотрите комментарий в центре уведомлений'
       settings: 'Изменить настройки электронной почты'
     salutation: 'Здравствуйте, %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Создано %{timestamp} пользователем %{user} '
       login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'
@@ -2679,6 +2681,7 @@ ru:
     Если включена страница документации к документации, вы можете получить интерактивный вид документации APIv3 под <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Белый список загрузки вложений"
   setting_email_delivery_method: "Метод доставки электронной почты"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
   setting_smtp_enable_starttls_auto: "Автоматически использовать STARTTLS, если таковые имеются"
   setting_smtp_ssl: "Использовать SSL-подключение"

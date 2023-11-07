@@ -466,6 +466,7 @@ hu:
       custom_action:
         actions: "Műveletek"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Alap érték"
         editable: "Szerkeszthető"
         field_format: "Formátum"
@@ -2174,6 +2175,7 @@ hu:
       see_in_center: 'Lásd a megjegyzést az értesítési központban'
       settings: "E-mail beállítások módosítása\n"
     salutation: 'Hello %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: '%{timestamp} időpontban %{user} létrehozta'
       login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"
@@ -2621,6 +2623,7 @@ hu:
     Ha a Dokumentumok oldal engedélyezve van, interaktív nézetet kaphat az APIv3 dokumentációjáról a <a href="%{link}" target="_blank">%{link} </a> alatt.
   setting_attachment_whitelist: "Mellékletfeltöltési fehérlista"
   setting_email_delivery_method: "E-mail küldés módja"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "A sendmail program elérési útja"
   setting_smtp_enable_starttls_auto: "Automatikus STARTTLS, ha rendelkezésre áll"
   setting_smtp_ssl: "SSL-kapcsolat használata"
