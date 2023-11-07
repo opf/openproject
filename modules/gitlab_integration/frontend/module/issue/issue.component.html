@@ -33,7 +33,7 @@
 </div>
 
 <span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
-  <op-icon icon-classes="button--icon icon-merge-branch"></op-icon>
+  <svg class="op-merge-request--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
   {{state}}
 </span>
 
