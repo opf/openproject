@@ -468,6 +468,7 @@ zh-TW:
       custom_action:
         actions: "操作"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "預設值"
         editable: "可編輯"
         field_format: "格式"
@@ -2150,6 +2151,7 @@ zh-TW:
       see_in_center: 'See comment in notification center'
       settings: '更改電子郵件設定'
     salutation: 'Hello %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: '登入以查看所有通知'
@@ -2595,6 +2597,7 @@ zh-TW:
     如果啟用了文件頁面，您可以在 <a href="%{link}" target="_blank">%{link}</a> 下獲得 APIv3 文檔的互動式視圖
   setting_attachment_whitelist: "附件上傳白名單"
   setting_email_delivery_method: "電子郵件傳遞方法"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Sendmail 的執行位置"
   setting_smtp_enable_starttls_auto: "如果可用將自動使用 STARTTLS"
   setting_smtp_ssl: "SSL 連線"

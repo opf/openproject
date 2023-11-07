@@ -464,6 +464,7 @@ de:
       custom_action:
         actions: "Aktionen"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Standardwert"
         editable: "Bearbeitbar"
         field_format: "Format"
@@ -2172,6 +2173,7 @@ de:
       see_in_center: 'Kommentar in Benachrichtigungszentrale öffnen'
       settings: 'E-Mail-Einstellungen ändern'
     salutation: 'Hallo %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Erstellt %{timestamp} von %{user} '
       login_to_see_all: 'Melden Sie sich an, um alle Benachrichtigungen zu sehen.'
@@ -2620,6 +2622,7 @@ de:
     Wenn die Dokumentationsseite aktiviert ist,  sehen Sie eine interaktive APIv3 Dokumentation unter <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Positivliste für Dateiuploads"
   setting_email_delivery_method: "E-Mail Zustellungsoption"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Systempfad zu sendmail"
   setting_smtp_enable_starttls_auto: "Automatisch STARTTLS verwenden, falls vorhanden"
   setting_smtp_ssl: "Benutzen Sie eine SSL-Verbindung"

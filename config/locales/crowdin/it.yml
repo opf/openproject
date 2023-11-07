@@ -466,6 +466,7 @@ it:
       custom_action:
         actions: "Azioni"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Valore predefinito"
         editable: "Modificabile"
         field_format: "Formato"
@@ -2174,6 +2175,7 @@ it:
       see_in_center: 'Vedi commento nel centro notifiche'
       settings: 'Modifica impostazioni email'
     salutation: 'Ciao %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Creato il %{timestamp} da %{user} '
       login_to_see_all: 'Accedi per visualizzare tutte le notifiche.'
@@ -2622,6 +2624,7 @@ it:
     Se la pagina dei documenti è abilitata, puoi ottenere una vista interattiva della documentazione APIv3 sotto <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Whitelist di caricamento di allegati"
   setting_email_delivery_method: "Metodo di invio e-mail"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
   setting_smtp_enable_starttls_auto: "Usa automaticamente, se disponibile, STARTTLS"
   setting_smtp_ssl: "Usa connessione SSL"

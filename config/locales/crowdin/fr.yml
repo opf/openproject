@@ -469,6 +469,7 @@ fr:
       custom_action:
         actions: "Actions"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Valeur par défaut"
         editable: "Modifiable"
         field_format: "Format"
@@ -2177,6 +2178,7 @@ fr:
       see_in_center: 'Voir le commentaire dans le centre de notifications'
       settings: 'Modifier les paramètres d''e-mail'
     salutation: 'Bonjour %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Créé le %{timestamp} par %{user} '
       login_to_see_all: 'Connectez-vous pour voir toutes les notifications.'
@@ -2625,6 +2627,7 @@ fr:
     Si la page docs est activée, vous pouvez obtenir une vue interactive de la documentation APIv3 à l'adresse <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Liste blanche de téléversement des pièces jointes"
   setting_email_delivery_method: "Méthode de livraison d'e-mail"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Emplacement de l’exécutable sendmail"
   setting_smtp_enable_starttls_auto: "Utiliser automatiquement STARTTLS si disponible"
   setting_smtp_ssl: "Utiliser la connexion SSL"

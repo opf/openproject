@@ -92,6 +92,16 @@ de:
   label_time_zone: "Zeitzone"
   label_start_date: "Beginn"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Klassisch'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
@@ -121,8 +131,6 @@ de:
   text_meeting_closing_are_you_sure: "Sind Sie sicher, dass Sie die Agenda schließen wollen?"
   text_meeting_agenda_open_are_you_sure: "Es werden alle Änderungen im Protokoll überschrieben! Wollen Sie fortfahren?"
   text_meeting_minutes_for_meeting: 'das Protokoll für die Besprechung "%{meeting}"'
-  text_review_meeting_agenda: "%{author} hat %{link} zur Einsicht freigegeben."
-  text_review_meeting_minutes: "%{author} hat %{link} zur Einsicht freigegeben."
   text_notificiation_invited: "Diese Email enthält einen ics Eintrag für die untenstehende Besprechung:"
   text_meeting_empty_heading: "Ihre Besprechung ist leer"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."

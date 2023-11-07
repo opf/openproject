@@ -57,8 +57,8 @@ reset_dbs() {
 }
 
 precompile_assets() {
-	execute "JOBS=8 npm install"
-	execute_quiet "DATABASE_URL=nulldb://db bin/rails openproject:plugins:register_frontend assets:precompile"
+	execute "JOBS=8 time npm install"
+	execute_quiet "DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile"
 	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 	# ls -al frontend/.angular/cache/
 	# find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
@@ -108,7 +108,7 @@ run_all() {
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql reset_dbs setup_tests precompile_assets run_units run_features
+export -f cleanup execute execute_quiet run_psql reset_dbs setup_tests precompile_assets run_units run_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift

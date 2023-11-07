@@ -468,6 +468,7 @@ sl:
       custom_action:
         actions: "Akcije"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Privzeta vrednost"
         editable: "Možno urejati"
         field_format: "Format"
@@ -2228,6 +2229,7 @@ sl:
       see_in_center: 'Preglej komentar v središču za obvestila'
       settings: 'Change email settings'
     salutation: 'Hello %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2679,6 +2681,7 @@ sl:
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Način dostave po e-pošti"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Lokacija izvršljive pošte"
   setting_smtp_enable_starttls_auto: "Avtomatično uporabi STARTTLS, če je možno"
   setting_smtp_ssl: "Uporabi SSL povezavo"

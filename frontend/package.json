@@ -75,7 +75,7 @@
     "storybook": "^7.0.18",
     "storybook-addon-designs": "^7.0.0-beta.2",
     "style-loader": "^3.3.1",
-    "theo": "^8.1.5",
+    "theo": "^4.3.0",
     "ts-node": "~8.3.0",
     "typescript": "4.9",
     "webpack-bundle-analyzer": "^4.4.2"
@@ -118,7 +118,7 @@
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
     "@openproject/octicons-angular": "^19.7.0",
-    "@openproject/primer-view-components": "^0.13.0",
+    "@openproject/primer-view-components": "^0.13.1",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.0.2",
     "@uirouter/angular": "^12.0.0",
@@ -180,7 +180,7 @@
   },
   "scripts": {
     "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer -h 0.0.0.0 -p 9999 ../public/assets/frontend/stats.json",
-    "build:ci": "node ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map=false",
+    "build:ci": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration ci",
     "build:fast": "OPENPROJECT_ANGULAR_UGLIFY=false node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration fastprod",
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks",
@@ -198,6 +198,6 @@
     "storybook:build": "ng run OpenProject:build-storybook"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.13.0"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.13.1"
   }
 }

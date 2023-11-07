@@ -465,6 +465,7 @@ ca:
       custom_action:
         actions: "Accions"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Valor per defecte"
         editable: "Editable"
         field_format: "Format"
@@ -2173,6 +2174,7 @@ ca:
       see_in_center: 'Veure el comentari en el centre de notificacions'
       settings: 'Canvia la configuració dels correus electrònics'
     salutation: 'Hola %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Creat a les %{timestamp} per %{user}'
       login_to_see_all: 'Inicia sessió per veure totes les notificacions.'
@@ -2614,6 +2616,7 @@ ca:
     Si la pàgina docs està habilitada, pots tenir una vista interactiva de la documentació de l'APIv3 a <a href="%{link}" target="_blank">.
   setting_attachment_whitelist: "Llista de blanqueig de fitxers adjuntats pujats"
   setting_email_delivery_method: "Mètode de lliurament del correu electrònic"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Localització de l'executable de sendmail"
   setting_smtp_enable_starttls_auto: "Utilitza STARTTLS automàticament si està disponible"
   setting_smtp_ssl: "Utilitza una connexió SSL"

@@ -469,6 +469,7 @@ si:
       custom_action:
         actions: "ක්‍රියාමාර්ග"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "පෙරනිමි අගය"
         editable: "සංස්කරණය කළ හැකිය"
         field_format: "ආකෘතිය"
@@ -2177,6 +2178,7 @@ si:
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
     salutation: 'Hello %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2625,6 +2627,7 @@ si:
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "විද්යුත් තැපැල් බෙදාහැරීමේ ක්රමය"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "ක්රියාත්මක කළ හැකි sendmail ස්ථානය"
   setting_smtp_enable_starttls_auto: "තිබේ නම් ස්වයංක්රීයව STARTTLS භාවිතා කරන්න"
   setting_smtp_ssl: "SSL සම්බන්ධතාවය භාවිතා කරන්න"

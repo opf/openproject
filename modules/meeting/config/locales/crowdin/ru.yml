@@ -92,6 +92,16 @@ ru:
   label_time_zone: "Часовой пояс"
   label_start_date: "Дата начала"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Классический'
       classic_text: 'Организуйте свою встречу с помощью форматируемой текстовой повестки дня и протокола.'
@@ -121,8 +131,6 @@ ru:
   text_meeting_closing_are_you_sure: "Вы уверены, что хотите закрыть повестку дня собрания?"
   text_meeting_agenda_open_are_you_sure: "Все изменения в протоколах будут перезаписаны! Продолжить?"
   text_meeting_minutes_for_meeting: 'Протокол совещания «%{meeting}»'
-  text_review_meeting_agenda: "%{author} поставил %{link} для рецензии."
-  text_review_meeting_minutes: "%{author} поставил %{link} для рецензии."
   text_notificiation_invited: "Это сообщение содержит запись ics для совещания ниже:"
   text_meeting_empty_heading: "Встреча пуста"
   text_meeting_empty_description_1: "Начните с добавления пунктов повестки дня ниже. Каждый элемент может быть простым, например названием, но вы также можете добавить дополнительную информацию, такую как продолжительность, примечания и ответственное лицо."

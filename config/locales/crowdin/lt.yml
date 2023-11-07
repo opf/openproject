@@ -468,6 +468,7 @@ lt:
       custom_action:
         actions: "Veiksmai"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Numatytoji vertė"
         editable: "Galimas redaguoti"
         field_format: "Formatas"
@@ -2228,6 +2229,7 @@ lt:
       see_in_center: 'Žiūrėkite komentarą pranešimų centre'
       settings: 'Keisti e-pašto nustatymus'
     salutation: 'Sveiki, %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Sukūrė %{user} %{timestamp} '
       login_to_see_all: 'Prisijunkite, norėdami pamatyti visus pranešimus.'
@@ -2676,6 +2678,7 @@ lt:
     Jei dokumentų puslapis yra įjungtas, jūs galite gauti interaktyvią APIv3 dokumentaciją <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Leidžiamų failų tipų sąrašas"
   setting_email_delivery_method: "El. pašto pristatymo metodas"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Sendmail vykdomojo failo lokacija"
   setting_smtp_enable_starttls_auto: "Automatiškai naudoti STARTTLS, jei galima"
   setting_smtp_ssl: "Naudoti SSL jungtį"

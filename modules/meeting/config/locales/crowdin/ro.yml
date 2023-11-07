@@ -92,6 +92,16 @@ ro:
   label_time_zone: "Fus orar"
   label_start_date: "Data de început"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Classic'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
@@ -121,8 +131,6 @@ ro:
   text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "Acest lucru va suprascrie toate modificările din procesul-verbal! Doriți să continuați?"
   text_meeting_minutes_for_meeting: 'procesul-verbal al reuniunii "%{meeting}"'
-  text_review_meeting_agenda: "%{author} a pus %{link} pentru revizuire."
-  text_review_meeting_minutes: "%{author} a pus %{link} pentru revizuire."
   text_notificiation_invited: "Acest e-mail conține o intrare ics pentru întâlnirea de mai jos:"
   text_meeting_empty_heading: "Your meeting is empty"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."

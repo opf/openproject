@@ -466,6 +466,7 @@ nl:
       custom_action:
         actions: "Acties"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Standaardwaarde"
         editable: "Bewerkbaar"
         field_format: "Formaat"
@@ -2174,6 +2175,7 @@ nl:
       see_in_center: 'Bekijk commentaar in notificatie center'
       settings: 'E-mailinstellingen wijzigen'
     salutation: 'Hallo %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Aangemaakt op %{timestamp} door %{user} '
       login_to_see_all: 'Log in om alle meldingen te zien.'
@@ -2621,6 +2623,7 @@ nl:
     Als de documentenpagina is ingeschakeld, kunt u een interactieve weergave krijgen van de APIv3 documentatie onder <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Bijlage upload whitelist"
   setting_email_delivery_method: "Kies verzendmethode"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Locatie van het uitvoerbare sendmail"
   setting_smtp_enable_starttls_auto: "Gebruik STARTTLS automatisch wanneer deze beschikbaar is"
   setting_smtp_ssl: "SSL-verbinding gebruikt"

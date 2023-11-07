@@ -466,6 +466,7 @@ uk:
       custom_action:
         actions: "Дії"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Значення за замовчуванням"
         editable: "Може бути відредаговане"
         field_format: "Формат"
@@ -2226,6 +2227,7 @@ uk:
       see_in_center: 'Переглянути коментарі у центрі сповіщень'
       settings: 'Змінити налаштування електронної пошти'
     salutation: 'Добрий день, %{user}!'
+    salutation_full_name: 'Full name'
     work_packages:
       created_at: 'Створено о %{timestamp} користувачем %{user} '
       login_to_see_all: 'Увійдіть, щоб переглянути всі сповіщення.'
@@ -2675,6 +2677,7 @@ uk:
     Якщо сторінку документів увімкнено, ви можете отримати інтерактивне подання документації APIv3 за посиланням <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Дозволений список завантаження вкладень"
   setting_email_delivery_method: "Спосіб доставки електронної пошти"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Розташування виконуваного файлу sendmail"
   setting_smtp_enable_starttls_auto: "Автоматично використовуйте STARTTLS, якщо він доступний"
   setting_smtp_ssl: "Використовуйте SSL-з'єднання"
