@@ -1,0 +1,14 @@
+description: |-
+  Create a membership and send a custom notification message.
+value:
+  _links:
+    principal:
+      href: '/api/v3/users/14'
+    project:
+      href: '/api/v3/projects/21'
+    roles:
+      - href: '/api/v3/roles/4'
+  _meta:
+    notificationMessage:
+      format: markdown
+      raw: 'Granted permission to execute Order *66*.'
