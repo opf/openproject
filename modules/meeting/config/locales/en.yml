@@ -165,6 +165,7 @@ en:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "Created by"
   label_meeting_last_updated: "Last updated"
+  label_meeting_history: "History"
 
   label_agenda_item_undisclosed_wp: "Undisclosed work package reference #%{id}"
   label_agenda_item_deleted_wp: "Deleted work package reference"
