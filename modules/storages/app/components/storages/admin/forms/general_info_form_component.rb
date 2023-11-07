@@ -35,8 +35,7 @@ module Storages::Admin::Forms
 
     options form_method: :post,
             submit_button_disabled: false,
-            cancel_button_should_break_from_frame: false,
-            cancel_button_path: Rails.application.routes.url_helpers.admin_settings_storages_path
+            cancel_button_should_break_from_frame: false
 
     def form_url
       options[:form_url] || default_form_url
@@ -61,6 +60,10 @@ module Storages::Admin::Forms
       when :patch, :put
         Rails.application.routes.url_helpers.admin_settings_storage_path(storage)
       end
+    end
+
+    def cancel_button_path
+      options[:cancel_button_path] || Rails.application.routes.url_helpers.admin_settings_storages_path
     end
   end
 end
