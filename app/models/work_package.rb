@@ -138,7 +138,7 @@ class WorkPackage < ApplicationRecord
          :relatable,
          :directly_related
 
-  acts_as_watchable
+  acts_as_watchable(permission: :view_work_packages)
 
   after_validation :set_attachments_error_details,
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }

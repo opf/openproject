@@ -30,23 +30,19 @@ RSpec.shared_examples_for 'acts_as_attachable included' do
   let(:attachment1) { create(:attachment, container: nil, author: current_user) }
   let(:attachment2) { create(:attachment, container: nil, author: current_user) }
   let(:instance_project) { respond_to?(:project) ? project : model_instance.project }
-  let(:add_permission_user) do
-    permission = if model_instance.persisted?
-                   Array(described_class.attachable_options[:add_on_persisted_permission])
-                 else
-                   Array(described_class.attachable_options[:add_on_new_permission])
-                 end
-    create(:user,
-           member_with_permissions: { instance_project => permission })
+
+  let(:permission) do
+    if model_instance.persisted?
+      Array(described_class.attachable_options[:add_on_persisted_permission])
+    else
+      Array(described_class.attachable_options[:add_on_new_permission])
+    end
   end
-  let(:no_permission_user) do
-    create(:user,
-           member_with_permissions: { instance_project => [] })
-  end
-  let(:other_user) do
-    create(:user)
-  end
-  let(:current_user) { add_permission_user }
+
+  let(:user_with_permission) { create(:user, member_with_permissions: { instance_project => permission }) }
+  let(:user_without_permission) { create(:user, member_with_permissions: { instance_project => [] }) }
+  let(:other_user) { create(:user) }
+  let(:current_user) { user_with_permission }
 
   describe '#validations on attachments_claimed' do
     before do
@@ -72,16 +68,30 @@ RSpec.shared_examples_for 'acts_as_attachable included' do
 
     context 'for attachments that are unattached, created by the current_user, ' +
             'added to attachments_claimed and the user not having the permission' do
-      let(:current_user) { no_permission_user }
+      let(:current_user) { user_without_permission }
 
       it 'is invalid' do
+        skip 'Skipping because permission checks are skipped' if model_instance.class.attachable_options[:skip_permission_checks]
         model_instance.attachments_claimed = [attachment1, attachment2]
 
         expect(model_instance)
           .to be_invalid
 
         expect(model_instance.errors.symbols_for(:attachments))
-          .to match_array [:not_allowed]
+          .to contain_exactly(:not_allowed)
+      end
+    end
+
+    context 'for attachments that are unattached, created by the current_user, ' +
+    'added to attachments_claimed and the user not having the permission, but skipping permission checks' do
+      let(:current_user) { user_without_permission }
+
+      it 'is valid' do
+        skip 'Skipping because permission checks are not skipped' unless model_instance.class.attachable_options[:skip_permission_checks]
+        model_instance.attachments_claimed = [attachment1, attachment2]
+
+        expect(model_instance).to be_valid
+        expect(model_instance.errors.symbols_for(:attachments)).to be_empty
       end
     end
 
@@ -97,7 +107,7 @@ RSpec.shared_examples_for 'acts_as_attachable included' do
           .to be_invalid
 
         expect(model_instance.errors.symbols_for(:attachments))
-          .to match_array [:unchangeable]
+          .to contain_exactly(:unchangeable)
       end
     end
 
@@ -113,27 +123,27 @@ RSpec.shared_examples_for 'acts_as_attachable included' do
           .to be_invalid
 
         expect(model_instance.errors.symbols_for(:attachments))
-          .to match_array [:does_not_exist]
+          .to contain_exactly(:does_not_exist)
       end
     end
   end
 
   describe '#attachments_claimed' do
     before do
-      login_as(add_permission_user)
+      login_as(user_with_permission)
       model_instance.attachments_claimed = [attachment1, attachment2]
     end
 
     it 'updates all attachments to be linked to the model before saving' do
       model_instance.save
 
-      expect(model_instance.attachments.reload).to match_array [attachment1, attachment2]
+      expect(model_instance.attachments.reload).to contain_exactly(attachment1, attachment2)
       expect(attachment1.reload.container).to eql model_instance
       expect(attachment2.reload.container).to eql model_instance
 
       if described_class.journaled?
-        expect(model_instance.journals.last.attachable_journals.map(&:attachment_id)).to match_array [attachment1.id,
-                                                                                                      attachment2.id]
+        expect(model_instance.journals.last.attachable_journals.map(&:attachment_id)).to contain_exactly(attachment1.id,
+                                                                                                         attachment2.id)
       end
     end
   end
@@ -142,9 +152,9 @@ RSpec.shared_examples_for 'acts_as_attachable included' do
     let!(:attachment1) { create(:attachment, container: model_instance, author: current_user) }
 
     it 'allows access to a logged user when viewable_by_all_users is set' do
-      if model_instance.class.attachable_options[:viewable_by_all_users]
+      if model_instance.class.attachable_options[:viewable_by_all_users] || model_instance.class.attachable_options[:skip_permission_checks]
         expect(model_instance.attachments_visible?(other_user)).to be true
-        expect(attachment1.visible?(no_permission_user)).to be true
+        expect(attachment1.visible?(user_without_permission)).to be true
       else
         expect(model_instance.attachments_visible?(other_user)).to be false
         expect(attachment1.visible?(other_user)).to be false
