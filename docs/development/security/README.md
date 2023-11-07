@@ -16,6 +16,14 @@ To unsubscribe, you will find a link at the end of every email.
 
 Any security related information will also be published on our [blog](https://www.openproject.org/blog/) and in the [release notes](../../release-notes/).
 
+
+
+## Security advisory list
+
+OpenProject uses GitHub to manage and publish security advisory listings: https://github.com/opf/openproject/security/advisories
+
+
+
 ## Reporting a vulnerability
 
 We take all facets of security seriously at OpenProject. If you want to report a security concerns, have remarks, or contributions regarding security at OpenProject, please reach out to us at [security@openproject.com](mailto:security@openproject.com).
