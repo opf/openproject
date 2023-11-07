@@ -14,7 +14,6 @@ module OpenProject
     end
 
     def set_defaults!
-      Rack::Attack.reset!
       Rack::Attack.clear_configuration
       Rack::Attack.throttled_responder = ->(request) { OpenProject::RateLimiting.throttled_response(request) }
 

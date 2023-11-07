@@ -27,6 +27,7 @@
 RSpec.configure do |config|
   config.around :example, :with_rack_attack do |example|
     Rack::Attack.enabled = true
+    Rack::Attack.reset!
     OpenProject::RateLimiting.set_defaults!
 
     example.run
