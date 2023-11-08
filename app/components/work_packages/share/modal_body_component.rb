@@ -116,6 +116,7 @@ module WorkPackages
             # filter.push({ entity_and_no_project_member: { operator: "=", values: [params[:work_package_id]] } })
           end
 
+          filter.push({ principal_type: { operator: "=", values: [type_option[:value][:principal_type]] } })
         end
 
         unless role_option.nil? || role_filter_option_active?(role_option)

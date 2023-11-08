@@ -26,25 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Members
-  ::Queries::Register.register(MemberQuery) do
-    filter Filters::NameFilter
-    filter Filters::AnyNameAttributeFilter
-    filter Filters::ProjectFilter
-    filter Filters::StatusFilter
-    filter Filters::BlockedFilter
-    filter Filters::GroupFilter
-    filter Filters::RoleFilter
-    filter Filters::PrincipalFilter
-    filter Filters::PrincipalTypeFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::UpdatedAtFilter
-    filter Filters::EntityIdFilter
-    filter Filters::EntityTypeFilter
+class Queries::Members::Filters::PrincipalTypeFilter < Queries::Members::Filters::MemberFilter
+  def allowed_values
+    [[User.name, User.name], [Group.name, Group.name], [PlaceholderUser.name, PlaceholderUser.name]]
+  end
 
-    order Orders::DefaultOrder
-    order Orders::NameOrder
-    order Orders::EmailOrder
-    order Orders::StatusOrder
+  def joins
+    :principal
+  end
+
+  def type
+    :list
+  end
+
+  def self.key
+    :principal_type
+  end
+
+  def where
+    operator_strategy.sql_for_field(values, Principal.table_name, :type)
   end
 end
