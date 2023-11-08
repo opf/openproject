@@ -16,12 +16,12 @@
 
 <div class="op-merge-request--info_created">
   {{ text.label_created_by }}
-  <img
+  <!-- <img
     alt='MR author avatar'
     class='op-merge-request--avatar op-avatar op-avatar_mini'
     [src]="mergeRequest.gitlabUser.avatarUrl"
     *ngIf="mergeRequest.gitlabUser"
-  />&nbsp;
+  />&nbsp; -->
   <span class='op-merge-request--user'> 
     <a
       [href]="'mailto:' + mergeRequest.gitlabUser.email"

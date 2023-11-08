@@ -46,7 +46,7 @@ export class IssueComponent {
 
   public text = {
     label_created_by: this.I18n.t('js.label_created_by'),
-    label_last_updated_on: this.I18n.t('js.label_last_updated_on'),
+    label_last_updated_on: this.I18n.t('js.gitlab_integration.updated_on'),
     label_details: this.I18n.t('js.label_details'),
   };
 

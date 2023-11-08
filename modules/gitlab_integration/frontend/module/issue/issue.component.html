@@ -14,14 +14,18 @@
 ></a>
 </span>
 
+<span class='op-issue--label_icon'>
+  <svg class="op-issue--iconsize op-issue--label_icon_style"><use xlink:href="#labels" /></svg>
+</span>
+
 <div class="op-issue--info_created">
   {{ text.label_created_by }}
-  <img
+  <!-- <img
     alt='Issue author avatar'
     class='op-issue--avatar op-avatar op-avatar_mini'
     [src]="gitlabIssue.gitlabUser.avatarUrl"
     *ngIf="gitlabIssue.gitlabUser"
-  />&nbsp;
+  />&nbsp; -->
   <span class='op-issue--user'> 
     <a
       [href]="'mailto:' + gitlabIssue.gitlabUser.email"
