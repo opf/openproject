@@ -133,23 +133,32 @@ module Meetings
         )
       end
 
-      def add_item_before_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item)
-        add_before_via_turbo_stream(
-          component: MeetingAgendaItems::ItemComponent.new(
-            state: :show,
-            meeting_agenda_item:
-          ),
-          target_component: MeetingAgendaItems::ListComponent.new(meeting: @meeting)
-        )
+      def add_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false)
+        if clear_slate
+          update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
+        else
+          update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
+          add_before_via_turbo_stream(
+            component: MeetingAgendaItems::ItemComponent.new(
+              state: :show,
+              meeting_agenda_item:
+            ),
+            target_component: MeetingAgendaItems::ListComponent.new(meeting: @meeting)
+          )
+        end
       end
 
-      def remove_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item)
-        remove_via_turbo_stream(
-          component: MeetingAgendaItems::ItemComponent.new(
-            state: :show,
-            meeting_agenda_item:
+      def remove_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false)
+        if clear_slate
+          update_list_via_turbo_stream
+        else
+          remove_via_turbo_stream(
+            component: MeetingAgendaItems::ItemComponent.new(
+              state: :show,
+              meeting_agenda_item:
+            )
           )
-        )
+        end
       end
 
       def update_all_via_turbo_stream

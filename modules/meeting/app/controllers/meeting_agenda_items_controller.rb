@@ -58,6 +58,8 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def create
+    clear_slate = @meeting.agenda_items.empty?
+
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
       .call(
@@ -71,8 +73,7 @@ class MeetingAgendaItemsController < ApplicationController
 
     if call.success?
       # enable continue editing
-      add_item_before_via_turbo_stream
-      update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
+      add_item_via_turbo_stream(clear_slate:)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
     elsif call.errors[:base].present?
@@ -130,7 +131,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call
 
     if call.success?
-      remove_item_via_turbo_stream
+      remove_item_via_turbo_stream(clear_slate: @meeting.agenda_items.empty?)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
     else
