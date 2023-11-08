@@ -76,13 +76,12 @@ class MeetingAgendaItemsController < ApplicationController
       add_item_via_turbo_stream(clear_slate:)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
-    elsif call.errors[:base].present?
-      render_base_error_in_flash_message_via_turbo_stream(call)
     else
       # show errors
       update_new_component_via_turbo_stream(
         hidden: false, meeting_agenda_item: @meeting_agenda_item, type: @agenda_item_type
       )
+      render_base_error_in_flash_message_via_turbo_stream(call.errors)
     end
 
     respond_with_turbo_streams
@@ -114,12 +113,10 @@ class MeetingAgendaItemsController < ApplicationController
       update_item_via_turbo_stream
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
-    elsif call.errors[:base].present?
-      render_base_error_in_flash_message_via_turbo_stream(call)
     else
       # show errors
       update_item_via_turbo_stream(state: :edit)
-      render_base_error_in_flash_message_via_turbo_stream(call)
+      render_base_error_in_flash_message_via_turbo_stream(call.errors)
     end
 
     respond_with_turbo_streams
@@ -206,12 +203,6 @@ class MeetingAgendaItemsController < ApplicationController
     # updating all components resolves the stale state of that window
     update_all_via_turbo_stream
     # show additional base error message
-    render_base_error_in_flash_message_via_turbo_stream(call)
-  end
-
-  def render_base_error_in_flash_message_via_turbo_stream(call)
-    if call.errors[:base].present?
-      render_error_flash_message_via_turbo_stream(message: call.errors[:base].to_sentence)
-    end
+    render_base_error_in_flash_message_via_turbo_stream(call.errors)
   end
 end

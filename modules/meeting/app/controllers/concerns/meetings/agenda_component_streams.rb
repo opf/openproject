@@ -161,6 +161,12 @@ module Meetings
         end
       end
 
+      def render_base_error_in_flash_message_via_turbo_stream(errors)
+        if errors[:base].present?
+          render_error_flash_message_via_turbo_stream(message: errors[:base].to_sentence)
+        end
+      end
+
       def update_all_via_turbo_stream
         update_header_component_via_turbo_stream
         update_sidebar_component_via_turbo_stream
