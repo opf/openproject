@@ -1,16 +1,20 @@
-<a
-  class='op-merge-request--link'
-  [href]="mergeRequest.htmlUrl"
-  target="blank"
-  [textContent]="mergeRequest.repository + '#' + mergeRequest.number"
-></a>
-
 <div
   class='op-merge-request--title'
   [textContent]="mergeRequest.title"
 ></div>
 
-<div class="op-merge-request--info">
+<span class='op-merge-request--state' [ngClass]="'op-merge-request--state_' + state">
+  <svg class="op-merge-request--iconsize"><use [attr.xlink:href]="'#merge-request_' + state" /></svg>
+  {{state}} &#10093; 
+  <a
+  class='op-merge-request--link'
+  [href]="mergeRequest.htmlUrl"
+  target="blank"
+  [textContent]="mergeRequest.repository + '#' + mergeRequest.number"
+  ></a>
+</span>
+
+<div class="op-merge-request--info_created">
   {{ text.label_created_by }}
   <img
     alt='MR author avatar'
@@ -25,17 +29,14 @@
       *ngIf="mergeRequest.gitlabUser"
     ></a>.
   </span>
+</div>
 
+<div class="op-merge-request--info_updated">
   <span class='op-merge-request--date'>
     {{ text.label_last_updated_on }}
     <op-date-time [dateTimeValue]="mergeRequest.gitlabUpdatedAt"></op-date-time>
   </span>.
 </div>
-
-<span class='op-merge-request--state' [ngClass]="'op-merge-request--state_' + state">
-  <svg class="op-merge-request--iconsize"><use [attr.xlink:href]="'#merge-request_' + state" /></svg>
-  {{state}}
-</span>
 
 <div class="op-merge-request--labels">
   <span *ngFor="let label of mergeRequest.labels">

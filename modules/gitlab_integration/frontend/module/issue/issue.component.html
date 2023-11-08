@@ -1,16 +1,20 @@
-<a
-  class='op-issue--link'
-  [href]="gitlabIssue.htmlUrl"
-  target="blank"
-  [textContent]="gitlabIssue.repository + '#' + gitlabIssue.number"
-></a>
-
 <div
   class='op-issue--title'
   [textContent]="gitlabIssue.title"
 ></div>
 
-<div class="op-issue--info">
+<span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
+  <svg class="op-issue--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
+  {{state}} &#10093; 
+  <a
+  class='op-issue--link'
+  [href]="gitlabIssue.htmlUrl"
+  target="blank"
+  [textContent]="gitlabIssue.repository + '#' + gitlabIssue.number"
+></a>
+</span>
+
+<div class="op-issue--info_created">
   {{ text.label_created_by }}
   <img
     alt='Issue author avatar'
@@ -25,17 +29,14 @@
       *ngIf="gitlabIssue.gitlabUser"
     ></a>.
   </span>
+</div>
 
+<div class="op-issue--info_updated">
   <span class='op-issue--date'>
     {{ text.label_last_updated_on }}
     <op-date-time [dateTimeValue]="gitlabIssue.gitlabUpdatedAt"></op-date-time>
   </span>.
 </div>
-
-<span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
-  <svg class="op-issue--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
-  {{state}}
-</span>
 
 <div class="op-issue--labels">
   <span *ngFor="let label of gitlabIssue.labels">
