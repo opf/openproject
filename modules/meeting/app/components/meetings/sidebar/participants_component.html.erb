@@ -1,5 +1,5 @@
 <%=
-  component_wrapper do
+  component_wrapper(data: wrapper_data_attributes) do
     flex_layout do |participants_container|
       participants_container.with_row do
         flex_layout(align_items: :center, justify_content: :space_between) do |heading|
@@ -49,26 +49,20 @@
             end
 
             list.with_row(mt: 2) do
-              render Primer::Beta::Details.new do |hidden_details|
-                flex_layout do |flex|
-                  flex.with_row do
-                    hidden_details.with_summary(size: :small, scheme: :link) do
-                      t('label_meeting_show_hide_participants',
-                        count: @meeting.invited_or_attended_participants.count - MAX_SHOWN_PARTICIPANTS).to_s
-                    end
-                  end
-
-                  flex.with_row do
-                    hidden_details.with_body do
-                      flex_layout do |hidden_user_list|
-                        @meeting.invited_or_attended_participants.sort[MAX_SHOWN_PARTICIPANTS..].each do |participant|
-                          hidden_user_list.with_row(mt: 1) do
-                            render_participant(participant)
-                          end
-                        end
+              flex_layout do |flex|
+                flex.with_row(classes: 'd-none', data: { 'meetings-sidebar-participants-target': "hiddenParticipants" }) do
+                  flex_layout do |hidden_user_list|
+                    @meeting.invited_or_attended_participants.sort[MAX_SHOWN_PARTICIPANTS..].each do |participant|
+                      hidden_user_list.with_row(mt: 1) do
+                        render_participant(participant)
                       end
                     end
                   end
+                end
+                flex.with_row do
+                  render (Primer::Beta::Button.new(scheme: :invisible, 
+                  data: { 'meetings-sidebar-participants-target': "showHideButton" })) { I18n.t('label_meeting_show_hide_participants',
+                  count: @meeting.invited_or_attended_participants.count - MAX_SHOWN_PARTICIPANTS) }
                 end
               end
             end
