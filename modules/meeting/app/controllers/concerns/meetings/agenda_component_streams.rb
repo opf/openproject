@@ -88,6 +88,14 @@ module Meetings
         )
       end
 
+      def update_list_dropdown_menu_via_turbo_stream(meeting: @meeting)
+        meeting.agenda_items.each do |meeting_agenda_item|
+          update_via_turbo_stream(
+            component: MeetingAgendaItems::ItemComponent::MenuComponent.new(meeting_agenda_item:)
+          )
+        end
+      end
+
       def update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: nil, meeting: @meeting, type: :simple)
         update_via_turbo_stream(
           component: MeetingAgendaItems::NewComponent.new(

@@ -28,6 +28,7 @@
  * ++
  */
 
+import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 import { Drake } from 'dragula';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
@@ -71,9 +72,8 @@ export default class extends Controller {
       if (!response.ok) {
         debugLog('Failed to sort item');
       } else {
-        // Wait for the response, but don't render anything, because the order of items is already
-        // updated via the drop.
-        await response.text();
+        const text = await response.text();
+        Turbo.renderStreamMessage(text);
       }
     }
 

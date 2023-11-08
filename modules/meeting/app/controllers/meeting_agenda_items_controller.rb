@@ -74,6 +74,7 @@ class MeetingAgendaItemsController < ApplicationController
     if call.success?
       # enable continue editing
       add_item_via_turbo_stream(clear_slate:)
+      update_list_dropdown_menu_via_turbo_stream
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
     else
@@ -129,6 +130,7 @@ class MeetingAgendaItemsController < ApplicationController
 
     if call.success?
       remove_item_via_turbo_stream(clear_slate: @meeting.agenda_items.empty?)
+      update_list_dropdown_menu_via_turbo_stream
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
     else
@@ -144,7 +146,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call(position: params[:position].to_i)
 
     if call.success?
-      update_item_via_turbo_stream
+      update_list_dropdown_menu_via_turbo_stream
       update_header_component_via_turbo_stream
     else
       generic_call_failure_response(call)
