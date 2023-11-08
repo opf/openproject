@@ -1,0 +1,104 @@
+# Schema: MembershipReadModel
+---
+type: object
+required:
+  - _type
+  - id
+  - createdAt
+  - updatedAt
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - Membership
+  id:
+    type: integer
+    description: The membership's id
+    minimum: 1
+  createdAt:
+    type: string
+    format: date-time
+    description: The time the membership was created.
+  updatedAt:
+    type: string
+    format: date-time
+    description: The time the membership was last updated.
+  _embedded:
+    type: object
+    properties:
+      project:
+        $ref: './project_model.yml'
+      principal:
+        anyOf:
+          - $ref: './user_model.yml'
+          - $ref: './group_model.yml'
+      roles:
+        type: array
+        items:
+          $ref: './role_model.yml'
+  _links:
+    type: object
+    required:
+      - self
+      - schema
+      - project
+      - principal
+      - roles
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This membership.
+
+              **Resource**: Membership
+      schema:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This membership schema.
+
+              **Resource**: Schema
+      update:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The endpoint for updating the membership.
+
+              # Conditions
+              
+              **Permission**: manage_members
+      updateImmediately:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The endpoint for updating the membership without form validation.
+
+              # Conditions
+              
+              **Permission**: manage_members
+      project:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The project the membership is related to.
+
+              **Resource**: Project
+      principal:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The principal the membership is related to.
+
+              **Resource**: Principal
+      roles:
+        type: array
+        items:
+          allOf:
+            - $ref: './link.yml'
+            - description: |-
+                A role the principal has.
+  
+                **Resource**: Role
+    

@@ -132,8 +132,20 @@ class OAuthClientsController < ApplicationController
     )
   end
 
+  # rubocop:disable Metrics/AbcSize
   def find_oauth_client
-    @oauth_client = OAuthClient.find_by(client_id: params[:oauth_client_id])
+    oauth_client_from_cookie = -> do
+      cookie = cookies["oauth_state_#{@oauth_state}"]
+      return nil if cookie.blank?
+
+      # FIXME: This is a hack, fetching additional information of the storage to identify the oauth client.
+      # This must be fixed in #50872.
+      state_value = MultiJson.load(cookie, symbolize_keys: true)
+      @oauth_client = OAuthClient.find_by(client_id: params[:oauth_client_id],
+                                          integration_id: state_value[:storageId])
+    end
+
+    @oauth_client = oauth_client_from_cookie.call
     if @oauth_client.nil?
       # oauth_client can be nil if OAuthClient was not found.
       # This happens during admin setup if the user forgot to update the return_uri
@@ -148,6 +160,8 @@ class OAuthClientsController < ApplicationController
       end
     end
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   def redirect_user_or_admin(redirect_uri = nil)
     # This needs to be modified as soon as we support more integration types.

@@ -74,9 +74,9 @@ vi:
       paste: "Paste your Enterprise edition support token"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Thêm thông tin, nhấn vào đây."
-      start_trial: 'Bắt đầu dùng thử miễn phí'
-      book_now: 'Đặt chỗ ngay'
-      get_quote: 'Lấy trích dẫn'
+      start_trial: "Bắt đầu dùng thử miễn phí"
+      book_now: "Đặt chỗ ngay"
+      get_quote: "Lấy trích dẫn"
       buttons:
         upgrade: "Nâng cấp ngay"
         contact: "Liên hệ với chúng tôi để yêu cầu một bản demo"
@@ -91,14 +91,14 @@ vi:
     is_active: Đang hiển thị
     is_inactive: hiện tại không hiển thị
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
-    text_overview: 'Tại đây, bạn có thể tạo các văn bản hiển thị hỗ trợ. Khi hoàn thành, các văn bản có thể được hiển thị bằng cách nhấp vào biểu tượng trợ giúp bên cạnh các giá trị.'
-    label_plural: 'Thuộc tính văn bản trợ giúp'
-    show_preview: 'Văn bản xem trước'
-    add_new: 'Thêm văn bản trợ giúp'
+    note_public: "Any text and images you add to this field is publicly visible to all logged in users!"
+    text_overview: "Tại đây, bạn có thể tạo các văn bản hiển thị hỗ trợ. Khi hoàn thành, các văn bản có thể được hiển thị bằng cách nhấp vào biểu tượng trợ giúp bên cạnh các giá trị."
+    label_plural: "Thuộc tính văn bản trợ giúp"
+    show_preview: "Văn bản xem trước"
+    add_new: "Thêm văn bản trợ giúp"
     edit: "Chỉnh sửa văn bản trợ giúp cho %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
@@ -106,7 +106,7 @@ vi:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Biểu mẫu LDAP này yêu cầu kiến thức kỹ thuật về thiết lập LDAP / Active Directory của bạn.
       <br/>
@@ -138,21 +138,21 @@ vi:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-    connection_encryption: 'Mã hóa kết nối'
-    encryption_details: 'LDAPS / STARTTLS options'
-    system_account: 'Tài khoản hệ thống'
+    connection_encryption: "Mã hóa kết nối"
+    encryption_details: "LDAPS / STARTTLS options"
+    system_account: "Tài khoản hệ thống"
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'Chi tiết LDAP '
-    user_settings: 'Attribute mapping'
+    ldap_details: "Chi tiết LDAP "
+    user_settings: "Attribute mapping"
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
-      plain: 'không'
-      simple_tls: 'LDAPS'
-      start_tls: 'STARTTLS'
+      plain: "không"
+      simple_tls: "LDAPS"
+      start_tls: "STARTTLS"
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
       start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
@@ -185,23 +185,23 @@ vi:
   custom_actions:
     actions:
       name: "Hành động"
-      add: 'Thêm hành động'
+      add: "Thêm hành động"
       assigned_to:
-        executing_user_value: '(Assign to executing user)'
-    conditions: 'Điều kiện'
-    plural: 'Tác vụ tùy chỉnh'
-    new: 'Hành động tùy chỉnh mới'
-    edit: 'Chỉnh sửa hành động tùy chỉnh %{name}'
-    execute: 'Thực hiện %{name}'
+        executing_user_value: "(Assign to executing user)"
+    conditions: "Điều kiện"
+    plural: "Tác vụ tùy chỉnh"
+    new: "Hành động tùy chỉnh mới"
+    edit: "Chỉnh sửa hành động tùy chỉnh %{name}"
+    execute: "Thực hiện %{name}"
     upsale:
-      title: 'Tác vụ tùy chỉnh'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      title: "Tác vụ tùy chỉnh"
+      description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
     text_add_new_custom_field: >
       Để thêm các trường tùy chỉnh mới vào một dự án, trước tiên bạn cần tạo chúng trước khi có thể thêm vào dự án này.
-    is_enabled_globally: 'Is enabled globally'
-    enabled_in_project: 'Đã bật trong dự án'
-    contained_in_type: 'Contained in type'
+    is_enabled_globally: "Is enabled globally"
+    enabled_in_project: "Đã bật trong dự án"
+    contained_in_type: "Contained in type"
     confirm_destroy_option: "Xóa một tùy chọn sẽ xóa tất cả các sự kiện của nó (ví dụ như trong các gói công việc). Bạn có chắc bạn muốn xóa bỏ nó?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
@@ -209,7 +209,7 @@ vi:
       no_results_title_text: Không có hiện tại không có trường tùy chỉnh.
       no_results_content_text: Tạo trường tùy chỉnh mới
   concatenation:
-    single: 'hoặc'
+    single: "hoặc"
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -228,13 +228,13 @@ vi:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: "Project members"
+      overviews: "Project overview"
+      queries: "Work packages: saved views"
+      wiki_page_attachments: "Wiki pages: attachments"
+      work_package_attachments: "Work packages: attachments"
+      work_package_categories: "Work packages: categories"
+      work_package_file_links: "Work packages: file links"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Dự án không thể bị xóa: %{errors}"
@@ -244,7 +244,7 @@ vi:
       completed_text: "Yêu cầu xóa dự án '%{name}' đã được hoàn thành."
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
-      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt: "Open as Gantt view"
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Không có dự án nào
@@ -284,7 +284,7 @@ vi:
       no_results_title_text: Không có thẻ truy cập hiện hữu.
       notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
     index:
       no_results_title_text: Hiện không có tin tức báo cáo.
@@ -292,16 +292,16 @@ vi:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      browser: "Browser"
+      device: "Device / OS"
+      unknown_browser: "unknown browser"
+      unknown_os: "unknown operating system"
+      current: "Current session"
+      title: "Session management"
+      instructions: "This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to."
+      may_not_delete_current: "You cannot delete your current session."
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
+      member_in_these_groups: "This user is currently a member of the following groups:"
       no_results_title_text: Người dùng này hiện tại chưa là thành viên của bất kỳ nhóm nào
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
@@ -376,7 +376,7 @@ vi:
       no_results_title_text: There are currently no workflows.
   work_packages:
     x_descendants:
-      other: '%{count} gói sản phẩm phụ thuộc'
+      other: "%{count} gói sản phẩm phụ thuộc"
     bulk:
       copy_failed: "The work packages could not be copied."
       move_failed: "The work packages could not be moved."
@@ -387,7 +387,7 @@ vi:
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Có là tình trạng không có sẵn cho tất cả các gói đã chọn công việc. Tình trạng của họ không thể thay đổi."
-      unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
+      unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
     summary:
       reports:
         category:
@@ -411,8 +411,8 @@ vi:
     deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
-        other: "Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
-        self: "Of the data you created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
+        other: 'Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.'
+        self: 'Of the data you created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account.'
       heading: "Xóa tài khoản %{name}"
       info:
         other: "Một khi tài khoản người dùng bị xóa, nó sẽ không thể được phục hồi."
@@ -448,8 +448,8 @@ vi:
         filename: "Tệp"
         filesize: "Kích cỡ"
       attribute_help_text:
-        attribute_name: 'Thuộc tính'
-        help_text: 'Văn bản trợ giúp'
+        attribute_name: "Thuộc tính"
+        help_text: "Văn bản trợ giúp"
       ldap_auth_source:
         account: "Account"
         attr_firstname: "Firstname attribute"
@@ -519,15 +519,15 @@ vi:
           true: "public"
           false: "private"
         queries: "Truy vấn"
-        status_code: 'Tình trạng dự án'
-        status_explanation: 'Project status description'
+        status_code: "Tình trạng dự án"
+        status_explanation: "Project status description"
         status_codes:
-          not_started: 'Not started'
-          on_track: 'Theo dõi'
-          at_risk: 'Có rủi ro'
-          off_track: 'Không theo dõi'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: "Not started"
+          on_track: "Theo dõi"
+          at_risk: "Có rủi ro"
+          off_track: "Không theo dõi"
+          finished: "Finished"
+          discontinued: "Discontinued"
         templated: "Template project"
         templated_value:
           true: "marked as template"
@@ -554,7 +554,7 @@ vi:
         ongoing: "Ongoing"
       type:
         description: "Văn bản mặc định cho mô tả"
-        attribute_groups: ''
+        attribute_groups: ""
         is_in_roadmap: "Hiển thị trong lộ trình mặc định"
         is_default: "Kích hoạt cho các dự án mới theo mặc định"
         is_milestone: "Is milestone"
@@ -597,9 +597,9 @@ vi:
         end_deletion: "Kết thúc quá trình xóa"
         ignore_non_working_days: "Ignore non working days"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: "Working days"
+          false: "working days only"
+          true: "include non-working days"
         parent: "Cha"
         parent_issue: "Cha"
         parent_work_package: "Cha"
@@ -614,7 +614,7 @@ vi:
         type: "Kiểu"
         version: "Phiên bản"
         watcher: "Người quan sát"
-      'doorkeeper/application':
+      "doorkeeper/application":
         uid: "ID Khách hàng"
         secret: "Bí mật khách hàng"
         owner: "Người sở hữu"
@@ -654,8 +654,8 @@ vi:
         inclusion: "không nằm trong các giá trị cho phép"
         inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "không hợp lệ"
-        invalid_url: 'không phải là một URL hợp lệ.'
-        invalid_url_scheme: 'không phải là giao thức được hỗ trợ  (được phép: %{allowed_schemes}).'
+        invalid_url: "không phải là một URL hợp lệ."
+        invalid_url_scheme: "không phải là giao thức được hỗ trợ  (được phép: %{allowed_schemes})."
         less_than_or_equal_to: "phải nhỏ hơn hoặc bằng %{count}"
         not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
@@ -696,7 +696,7 @@ vi:
               format: "%{message}"
         capability:
           context:
-            global: 'Global'
+            global: "Global"
           query:
             filters:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
@@ -714,35 +714,35 @@ vi:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'không thể chứa một đoạn.'
-              invalid_uri: 'phải là một URI hợp lệ.'
-              relative_uri: 'phải là một URI tuyệt đối.'
+              fragment_present: "không thể chứa một đoạn."
+              invalid_uri: "phải là một URI hợp lệ."
+              relative_uri: "phải là một URI tuyệt đối."
               secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
-              forbidden_uri: 'bị chặn bởi máy chủ.'
+              forbidden_uri: "bị chặn bởi máy chủ."
             scopes:
               not_match_configured: "không phù hợp bất cứ phạm vi nào."
         enterprise_token:
           unreadable: "không thể đọc được. Bạn có chắc đó là mã thông báo hỗ trợ không?"
         grids/grid:
-          overlaps: 'chồng lấn.'
-          outside: 'nằm ngoài bảng dữ liệu.'
-          end_before_start: 'giá trị kết thúc cần lớn hơn giá trị bắt đầu.'
+          overlaps: "chồng lấn."
+          outside: "nằm ngoài bảng dữ liệu."
+          end_before_start: "giá trị kết thúc cần lớn hơn giá trị bắt đầu."
         ical_token_query_assignment:
           attributes:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: "cannot be set to true on notification creation."
             mail_reminder_sent:
-              set_on_creation: 'cannot be set to true on notification creation.'
+              set_on_creation: "cannot be set to true on notification creation."
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: "cannot be blank as IAN is chosen as a channel."
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: "cannot be blank as mail digest is chosen as a channel."
         non_working_day:
           attributes:
             date:
@@ -755,8 +755,8 @@ vi:
               invalid_values: "Giá trị không hợp lệ"
               id_filter_required: "Bộ lọc 'id' là bắt buộc."
         project:
-          archived_ancestor: 'Dự án có một khu vực lưu trữ'
-          foreign_wps_reference_version: 'Các gói công việc trong các phiên bản tham chiếu không kế thừa của dự án hoặc kế thừa nó.'
+          archived_ancestor: "Dự án có một khu vực lưu trữ"
+          foreign_wps_reference_version: "Các gói công việc trong các phiên bản tham chiếu không kế thừa của dự án hoặc kế thừa nó."
           attributes:
             base:
               archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
@@ -816,8 +816,8 @@ vi:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              working_days_are_missing: "At least one day of the week must be defined as a working day."
+              previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
         time_entry:
           attributes:
             hours:
@@ -829,10 +829,10 @@ vi:
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: "There must only be one global notification setting."
+              email_alerts_global: "The email notification settings can only be set globally."
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: "Wrong value for Start date, Due date, or Overdue."
         watcher:
           attributes:
             user_id:
@@ -876,7 +876,7 @@ vi:
               does_not_exist: "Thể loại đã chỉ định không tồn tại."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
             attribute_groups:
@@ -933,7 +933,7 @@ vi:
       comment: "Nhận xét"
       custom_action: "Tác vụ tùy chỉnh"
       custom_field: "Tùy chỉnh mục"
-      'doorkeeper/application': "OAuth application"
+      "doorkeeper/application": "OAuth application"
       forum: "Diễn đàn"
       global_role: "Global role"
       group: "Nhóm"
@@ -1090,7 +1090,7 @@ vi:
   button_check_all: "Đánh dấu tất cả"
   button_clear: "Xóa"
   button_click_to_reveal: "Chọn để xem"
-  button_close: 'Đóng'
+  button_close: "Đóng"
   button_collapse_all: "Thu gọn tất cả"
   button_configure: "Thiết lập"
   button_continue: "Tiếp tục"
@@ -1158,19 +1158,19 @@ vi:
     update_consent_last_time: "Last update of consent: %{update_time}"
   copy_project:
     title: 'Sao chép dự án "%{source_project_name}"'
-    started: "Bắt đầu sao chép dự án \"%{source_project_name}\" sang \"%{target_project_name}\". Bạn sẽ được thông báo bằng thư ngay sau khi \"%{target_project_name}\" sẵn sàng."
+    started: 'Bắt đầu sao chép dự án "%{source_project_name}" sang "%{target_project_name}". Bạn sẽ được thông báo bằng thư ngay sau khi "%{target_project_name}" sẵn sàng.'
     failed: "Không thể sao chép dự án %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
     succeeded: "Lập dự án %{target_project_name}"
     errors: "Lỗi"
-    project_custom_fields: 'Custom fields on project'
+    project_custom_fields: "Custom fields on project"
     x_objects_of_this_type:
-      zero: 'Không có đối tượng thuộc loại này'
-      one: 'Một đối tượng của loại này'
-      other: '%{count} đối tượng của loại này'
+      zero: "Không có đối tượng thuộc loại này"
+      one: "Một đối tượng của loại này"
+      other: "%{count} đối tượng của loại này"
     text:
-      failed: "Không thể chép dự án \"%{source_project_name}\" sang dự án \"%{target_project_name}\"."
-      succeeded: "Đã sao chép dự án \"%{source_project_name}\" sang \"%{target_project_name}\"."
+      failed: 'Không thể chép dự án "%{source_project_name}" sang dự án "%{target_project_name}".'
+      succeeded: 'Đã sao chép dự án "%{source_project_name}" sang "%{target_project_name}".'
   create_new_page: "Trang wiki"
   date:
     abbr_day_names:
@@ -1195,7 +1195,7 @@ vi:
       - "Thg 10"
       - "Thg 11"
       - "Thg 12"
-    abbr_week: 'Wk'
+    abbr_week: "Wk"
     day_names:
       - "Chủ Nhật"
       - "Thứ hai"
@@ -1212,7 +1212,7 @@ vi:
       long: "%d %B, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Tháng Một"
       - "Tháng hai"
@@ -1226,7 +1226,6 @@ vi:
       - "Tháng mười"
       - "Tháng Mười một"
       - "Tháng mười hai"
-    #Used in date_select and datetime_select.
     order:
       - ':năm'
       - ':tháng'
@@ -1317,8 +1316,8 @@ vi:
   error_can_not_archive_project: "Dự án này không thể lưu trữ: %{errors}"
   error_can_not_delete_entry: "Không thể xoá"
   error_can_not_delete_custom_field: "Không thể xóa mục tùy biến"
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
+  error_can_not_delete_in_use_archived_work_packages: "There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
   error_can_not_delete_standard_type: "Kiểu chuẩn không thể bị xóa."
@@ -1330,28 +1329,28 @@ vi:
   error_check_user_and_role: "Hãy chọn người dùng và một vai trò."
   error_code: "Lỗi %{code}"
   error_color_could_not_be_saved: "Color could not be saved"
-  error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
+  error_cookie_missing: "The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without."
   error_custom_option_not_found: "Tùy chọn không tồn tại."
   error_enterprise_activation_user_limit: "Không thể kích hoạt tài khoản của bạn (đã đạt đến giới hạn người dùng). Vui lòng liên hệ với quản trị viên của bạn để có quyền truy cập."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
-  error_failed_to_delete_entry: 'Không xóa được mục này.'
+  error_failed_to_delete_entry: "Không xóa được mục này."
   error_in_dependent: "Lỗi khi cố gắng thay đổi đối tượng phụ thuộc: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Giá trị đã chọn không hợp lệ."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
-  error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again.'
+  error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
   error_work_package_done_ratios_not_updated: "Tỉ lệ hoàn thành Work package không được cập nhật."
   error_work_package_not_found_in_project: "Work package không được tìm thấy hoặc không thuộc về dự án này"
   error_must_be_project_member: "phải là thành viên dự án"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
-  error_no_default_work_package_status: "Không có tình trạng mặc định được định nghĩa cho work package. Vui lòng kiểm tra cấu hình của bạn (đi đến \"Quản lý-> các trạng thái của work package\")."
+  error_no_default_work_package_status: 'Không có tình trạng mặc định được định nghĩa cho work package. Vui lòng kiểm tra cấu hình của bạn (đi đến "Quản lý-> các trạng thái của work package").'
   error_no_type_in_project: "Không có kiểu được liên kết với dự án này. Hãy kiểm tra lại phần \"Thiết Lập Dự Án\"."
   error_omniauth_registration_timed_out: "Đăng ký thông qua một nhà cung cấp bên ngoài xác thực hết thời gian. Xin vui lòng thử lại."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: %{value}"
   error_scm_not_found: "Mục hay revision không được tìm thấy trong kho."
   error_type_could_not_be_saved: "Type could not be saved"
@@ -1369,17 +1368,17 @@ vi:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    changeset: 'Đã chỉnh sửa Changeset (bộ thay đổi)'
+    changeset: "Đã chỉnh sửa Changeset (bộ thay đổi)"
     message: Đã chỉnh sửa tin nhắn
     news: Tin tức
-    project_attributes: 'Project attributes edited'
-    projects: 'Đã chỉnh sửa dự án'
+    project_attributes: "Project attributes edited"
+    projects: "Đã chỉnh sửa dự án"
     reply: Đã phản hồi
-    time_entry: 'Đã chỉnh sửa Timelog'
-    wiki_page: 'Đã chỉnh sửa trang Wiki'
-    work_package_closed: 'Đã đóng work package'
-    work_package_edit: 'Đã chỉnh sửa work package'
-    work_package_note: 'Đã thêm ghi chú của work package'
+    time_entry: "Đã chỉnh sửa Timelog"
+    wiki_page: "Đã chỉnh sửa trang Wiki"
+    work_package_closed: "Đã đóng work package"
+    work_package_edit: "Đã chỉnh sửa work package"
+    work_package_note: "Đã thêm ghi chú của work package"
     title:
       project: "Project: %{name}"
       subproject: "Subproject: %{name}"
@@ -1441,7 +1440,7 @@ vi:
       forums: "Diễn đàn cộng đồng"
       newsletter: "Security alerts / Newsletter"
   image_conversion:
-    imagemagick: 'Imagemagick'
+    imagemagick: "Imagemagick"
   journals:
     changes_retracted: "Những thay đổi đã bị rút lại"
     caused_changes:
@@ -1465,7 +1464,7 @@ vi:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
-    configuration_guide: 'Configuration guide'
+    configuration_guide: "Configuration guide"
     get_in_touch: "Nếu bạn còn những câu hỏi khác ? Hãy liên lạc với chúng tôi"
   instructions_after_registration: "Bạn có thể đăng nhập ngay sau khi tài khoản của bạn đã được kích hoạt bằng cách nhấn vào %{signin}."
   instructions_after_logout: "Bạn có thể đăng nhập một lần nữa bằng cách nhấp vào %{signin}."
@@ -1474,7 +1473,7 @@ vi:
     admin:
       mail_notification: "Thông báo qua email"
       mails_and_notifications: "Emails and notifications"
-      aggregation: 'Aggregation'
+      aggregation: "Aggregation"
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1496,7 +1495,7 @@ vi:
         disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
         disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
         empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
       oauth:
@@ -1533,13 +1532,13 @@ vi:
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
         We hope you find in-app notifications useful and that they makes you even more productive.
         Sincerely, The OpenProject team
-      body_header: 'Version 12.0 with Notification Center'
-      body_subheader: 'Tin tức'
-      subject: 'Important changes to notifications with the release of 12.0'
+      body_header: "Version 12.0 with Notification Center"
+      body_subheader: "Tin tức"
+      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Trợ năng"
   label_account: "Tài khoản"
   label_active: "Đang hoạt động"
-  label_activate_user: 'Người dùng kích họat'
+  label_activate_user: "Người dùng kích họat"
   label_active_in_new_projects: "Active in new projects"
   label_activity: "Hoạt động"
   label_add_edit_translations: "Add and edit translations"
@@ -1568,7 +1567,7 @@ vi:
   label_api_access_key_created_on: "Khoá truy cập API đựơc tạo cách đây %{value}"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_description: 'iCalendar token "%{token_name}" for "%{calendar_name}" in "%{project_name}"'
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
@@ -1609,7 +1608,7 @@ vi:
   label_branch: "Nhánh"
   label_browse: "Duyệt"
   label_bulk_edit_selected_work_packages: "Chỉnh sửa các work package đã chọn"
-  label_bundled: '(Tích hợp sẵn)'
+  label_bundled: "(Tích hợp sẵn)"
   label_calendar: "Lịch"
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Hiển thị Lịch"
@@ -1685,7 +1684,7 @@ vi:
   label_diff: "sự khác nhau"
   label_diff_inline: "nội tuyến"
   label_diff_side_by_side: "bên cạnh nhau"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "vô hiệu hoá"
   label_display: "Hiển thị"
   label_display_per_page: "Mỗi trang: %{value}"
@@ -1699,9 +1698,9 @@ vi:
   label_edit: "Chỉnh sửa"
   label_edit_x: "Chỉnh sửa: %{x}"
   label_enable_multi_select: "Bật/tắt đa lựa chọn"
-  label_enabled_project_custom_fields: 'Các trường tùy chỉnh đã bật'
-  label_enabled_project_modules: 'Các mô-đun đã bật'
-  label_enabled_project_activities: 'Enabled time tracking activities'
+  label_enabled_project_custom_fields: "Các trường tùy chỉnh đã bật"
+  label_enabled_project_modules: "Các mô-đun đã bật"
+  label_enabled_project_activities: "Enabled time tracking activities"
   label_end_to_end: "kết thúc đến kết thúc"
   label_end_to_start: "kết thúc đến bắt đầu"
   label_enumeration_new: "Giá trị liệt kê mới"
@@ -1762,12 +1761,12 @@ vi:
   label_in_more_than: "nhiều hơn"
   label_inactive: "Không hoạt động"
   label_incoming_emails: "Các thư đến"
-  label_includes: 'includes'
+  label_includes: "includes"
   label_index_by_date: "Chỉ mục theo ngày"
   label_index_by_title: "Chỉ mục theo tiêu đề"
   label_information: "Thông tin"
   label_information_plural: "Thông tin"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: "Installation guides"
   label_integer: "Số nguyên"
   label_internal: "Nội bộ"
   label_introduction_video: "Giới thiệu video"
@@ -1779,7 +1778,7 @@ vi:
   label_language: "Ngôn ngữ"
   label_languages: "Languages"
   label_jump_to_a_project: "Jump to a project..."
-  label_keyword_plural: 'Keywords'
+  label_keyword_plural: "Keywords"
   label_language_based: "Based on user's language"
   label_last_activity: "Last activity"
   label_last_change_on: "Thay đổi cuối trên"
@@ -1795,7 +1794,7 @@ vi:
   label_less_than_ago: "less than days ago"
   label_list: "Danh sách"
   label_loading: "Loading..."
-  label_lock_user: 'Lock user'
+  label_lock_user: "Lock user"
   label_logged_as: "Logged in as"
   label_login: "Đăng nhập"
   label_custom_logo: "Custom logo"
@@ -1815,12 +1814,12 @@ vi:
   label_member_new: "Thành viên mới"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Thành viên"
-  lable_membership_added: 'Thành viên đã thêm'
-  lable_membership_updated: 'Thành viên đã cập nhật'
+  lable_membership_added: "Thành viên đã thêm"
+  lable_membership_updated: "Thành viên đã cập nhật"
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: "pre-alpha"
+    alpha: "alpha"
+    beta: "beta"
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"
@@ -1864,7 +1863,7 @@ vi:
   label_no_parent_page: "Không có trang quan hệ"
   label_nothing_display: "Không có gì để hiển thị"
   label_nobody: "không ai"
-  label_not_found: 'không tìm thấy'
+  label_not_found: "không tìm thấy"
   label_none: "không"
   label_none_parentheses: "(trống)"
   label_not_contains: "không chứa"
@@ -1958,8 +1957,8 @@ vi:
   label_repository: "Kho lưu trữ"
   label_repository_root: "Repository root"
   label_repository_plural: "Kho lưu trữ"
-  label_required: 'bắt buộc'
-  label_requires: 'bắt buộc'
+  label_required: "bắt buộc"
+  label_requires: "bắt buộc"
   label_result_plural: "Các kết quả"
   label_reverse_chronological_order: "Newest first"
   label_revision: "Sửa đổi"
@@ -2026,7 +2025,7 @@ vi:
   label_updated_time: "Cập nhật cách đây %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Cập nhật bởi %{author} cách đây %{age}"
-  label_upgrade_guides: 'Hướng dẫn nâng cấp'
+  label_upgrade_guides: "Hướng dẫn nâng cấp"
   label_used_by: "Được dùng bởi"
   label_used_by_types: "Được sử dụng bởi các loại"
   label_used_in_projects: "Được sử dụng trong các dự án"
@@ -2121,31 +2120,31 @@ vi:
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macros:
-    placeholder: '[Placeholder] Macro %{macro_name}'
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
-      missing_or_invalid_parameter: 'Các tham số macro thiếu hoặc không hợp lệ.'
+      missing_or_invalid_parameter: "Các tham số macro thiếu hoặc không hợp lệ."
     legacy_warning:
-      timeline: 'Macro này đã bị xóa. Bạn có thể thay thế các chức năng với một table macro.'
+      timeline: "Macro này đã bị xóa. Bạn có thể thay thế các chức năng với một table macro."
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: "The macro does no longer exist."
     wiki_child_pages:
       errors:
         page_not_found: "Không tim thấy trang wiki %{name}."
     create_work_package_link:
       errors:
-        no_project_context: 'Calling create_work_package_link macro from outside project context.'
+        no_project_context: "Calling create_work_package_link macro from outside project context."
         invalid_type: "No type found with name '%{type}' in project '%{project}'."
-      link_name: 'Work package mới'
-      link_name_type: 'New %{type_name}'
+      link_name: "Work package mới"
+      link_name_type: "New %{type_name}"
   mail:
-    actions: 'Hành động'
+    actions: "Hành động"
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+      including_mention_singular: "including a mention"
+      including_mention_plural: "including %{number_mentioned} mentions"
+      unread_notification_singular: "1 unread notification"
+      unread_notification_plural: "%{number_unread} unread notifications"
+      you_have: "You have"
+    logo_alt_text: "Logo"
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
@@ -2155,34 +2154,34 @@ vi:
     salutation: 'Hello %{user}'
     salutation_full_name: 'Full name'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
-      mentioned_by: '%{user} mentioned you in a comment'
+      created_at: "Created at %{timestamp} by %{user} "
+      login_to_see_all: "Log in to see all notifications."
+      mentioned: "You have been <b>mentioned in a comment</b>"
+      mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        other: 'There are %{count} more work packages with notifications.'
-      open_in_browser: 'Open in browser'
+        other: "There are %{count} more work packages with notifications."
+      open_in_browser: "Open in browser"
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
-        responsible: 'Trách nhiệm'
-        mentioned: 'Mentioned'
-        shared: 'Shared'
-        subscribed: 'tất cả'
-        prefix: 'Received because of the notification setting: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
-      see_all: 'See all'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+        watched: "Watched"
+        assigned: "Assigned"
+        responsible: "Trách nhiệm"
+        mentioned: "Mentioned"
+        shared: "Shared"
+        subscribed: "tất cả"
+        prefix: "Received because of the notification setting: %{reason}"
+        date_alert_start_date: "Date alert"
+        date_alert_due_date: "Date alert"
+      see_all: "See all"
+      updated_at: "Updated at %{timestamp} by %{user}"
     sharing:
       work_packages:
-        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
-        create_account: 'To access this work package you will need to create an %{instance} account. '
-        open_work_package: 'Open work package'
-        subject: 'You have been shared work package #%{id}'
+        allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
+        create_account: "To access this work package you will need to create an %{instance} account. "
+        open_work_package: "Open work package"
+        subject: "You have been shared work package #%{id}"
         summary:
-          user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of'
+          user: "%{user} shared a work package with you with %{role_rights} rights"
+          group: "%{user} shared a work package with the group %{group} you are a member of"
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -2211,7 +2210,7 @@ vi:
   mail_body_register_closing: "Your OpenProject team"
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
-  mail_body_group_reminder: "%{count}  gói công việc được gán cho nhóm \"%{group}\" là do %{days} ngày tiếp theo:"
+  mail_body_group_reminder: '%{count}  gói công việc được gán cho nhóm "%{group}" là do %{days} ngày tiếp theo:'
   mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
@@ -2434,6 +2433,7 @@ vi:
   permission_view_project_activity: "View project activity"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
+  permission_edit_attribute_help_texts: "Edit attribute help texts"
   placeholders:
     default: "-"
   project:
@@ -2450,9 +2450,9 @@ vi:
     template:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+      use_template: "Use template"
+      make_template: "Set as template"
+      remove_from_templates: "Remove from templates"
     archive:
       are_you_sure: "Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?"
       archived: "Đã lưu"
@@ -2476,15 +2476,15 @@ vi:
     shared_with_user: "Shared with user"
     subproject_id: "Including subproject"
   repositories:
-    at_identifier: 'at %{identifier}'
-    atom_revision_feed: 'Atom revision feed'
+    at_identifier: "at %{identifier}"
+    atom_revision_feed: "Atom revision feed"
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
     checkout:
       access:
-        readwrite: 'Read + Write'
-        read: 'Read-only'
-        none: 'No checkout access, you may only view the repository through this application.'
-      access_permission: 'Your permissions on this repository'
+        readwrite: "Read + Write"
+        read: "Read-only"
+        none: "No checkout access, you may only view the repository through this application."
+      access_permission: "Your permissions on this repository"
       url: "Checkout URL"
       base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
       default_instructions:
@@ -2584,8 +2584,8 @@ vi:
     warnings:
       cannot_annotate: "This file cannot be annotated."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: "activated"
+    deactivated: "deactivated"
   search_input_placeholder: "Search ..."
   setting_apiv3_cors_enabled: "Enable CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
@@ -2733,9 +2733,9 @@ vi:
         priority: "Entire row by Priority"
     icalendar:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
-    language_name_being_default: '%{language_name} (default)'
+    language_name_being_default: "%{language_name} (default)"
     notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Khác"
     passwords: "Passwords"
@@ -2751,8 +2751,8 @@ vi:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
-    markdown: 'Gạch dưới'
-    plain: 'Văn bản thuần'
+    markdown: "Gạch dưới"
+    plain: "Văn bản thuần"
   status_active: "hoạt động"
   status_archived: "archived"
   status_invited: invited
@@ -2957,16 +2957,16 @@ vi:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: "HTTPS mode setup mismatch"
       text_html: >
         Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
-      title: 'Giao thức cài đặt không khớp'
+      title: "Giao thức cài đặt không khớp"
       text_html: >
         Ứng dụng của bạn đang chạy với cài đặt tên máy chủ được đặt thành <code>%{set_hostname}</code>, nhưng yêu cầu là <code>%{actual_hostname}</code> máy chủ  . Điều này sẽ dẫn đến lỗi! Truy cập <a href="%{setting_path}"> Cài đặt hệ thống </a> và thay đổi cài đặt "Tên máy chủ" để sửa lỗi này.
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
-  wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
+  wiki_menu_item_for: 'Menu item for wikipage "%{title}"'
   wiki_menu_item_setting: "Visibility"
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
@@ -3018,7 +3018,7 @@ vi:
   api_v3:
     attributes:
       lock_version: "Lock Version"
-      property: 'Property'
+      property: "Property"
     errors:
       code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."
@@ -3066,40 +3066,40 @@ vi:
         invalid_gzip: "is invalid gzip: %{message}"
         invalid_json: "is invalid json: %{message}"
     resources:
-      schema: 'Schema'
+      schema: "Schema"
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
-      status: 'Xác thực'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+      status: "Xác thực"
+    auth_url: "Auth URL"
+    access_token_url: "Access token URL"
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không được hỗ trợ hoặc không đúng định dạng.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+          unknown: "Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không được hỗ trợ hoặc không đúng định dạng."
+          missing_param: "Missing required parameter: %{value}."
+          request_not_authorized: "Request need to be authorized. Required parameter for authorizing request is missing or invalid."
         invalid_redirect_uri: "Uri chuyển hướng được yêu cầu không đúng định dạng hoặc không khớp với URI chuyển hướng máy khách."
-        unauthorized_client: 'Máy khách không được phép thực hiện yêu cầu bằng phương pháp này.'
-        access_denied: 'Chủ sở hữu tài nguyên hoặc máy chủ ủy quyền đã từ chối yêu cầu.'
-        invalid_scope: 'Phạm vi yêu cầu không hợp lệ, không xác định hoặc không đúng định dạng.'
-        invalid_code_challenge_method: 'Phương thức thử thách mã phải đơn giản hoặc S256.'
-        server_error: 'Máy chủ ủy quyền đã gặp phải một điều kiện không mong muốn khiến nó không thể đáp ứng yêu cầu.'
-        temporarily_unavailable: 'Máy chủ ủy quyền hiện không thể xử lý yêu cầu do quá tải tạm thời hoặc bảo trì máy chủ.'
+        unauthorized_client: "Máy khách không được phép thực hiện yêu cầu bằng phương pháp này."
+        access_denied: "Chủ sở hữu tài nguyên hoặc máy chủ ủy quyền đã từ chối yêu cầu."
+        invalid_scope: "Phạm vi yêu cầu không hợp lệ, không xác định hoặc không đúng định dạng."
+        invalid_code_challenge_method: "Phương thức thử thách mã phải đơn giản hoặc S256."
+        server_error: "Máy chủ ủy quyền đã gặp phải một điều kiện không mong muốn khiến nó không thể đáp ứng yêu cầu."
+        temporarily_unavailable: "Máy chủ ủy quyền hiện không thể xử lý yêu cầu do quá tải tạm thời hoặc bảo trì máy chủ."
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Quyền truy cập vào bảng quản trị bị cấm do Doorkeeper.configure.admin_authenticator không được định cấu hình.'
+        credential_flow_not_configured: "Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured."
+        resource_owner_authenticator_not_configured: "Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured."
+        admin_authenticator_not_configured: "Quyền truy cập vào bảng quản trị bị cấm do Doorkeeper.configure.admin_authenticator không được định cấu hình."
         #Access grant errors
-        unsupported_response_type: 'Máy chủ ủy quyền không hỗ trợ loại phản hồi này.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_type: "Máy chủ ủy quyền không hỗ trợ loại phản hồi này."
+        unsupported_response_mode: "The authorization server does not support this response mode."
         #Access token errors
-        invalid_client: 'Xác thực ứng dụng khách không thành công do máy khách không xác định, không bao gồm xác thực ứng dụng khách hoặc phương thức xác thực không được hỗ trợ.'
-        invalid_grant: 'Quyền được cung cấp không hợp lệ, hết hạn, bị thu hồi, không khớp với URI chuyển hướng được sử dụng trong yêu cầu ủy quyền hoặc được cấp cho một khách hàng khác.'
-        unsupported_grant_type: 'Loại cấp quyền không được hỗ trợ bởi máy chủ ủy quyền.'
+        invalid_client: "Xác thực ứng dụng khách không thành công do máy khách không xác định, không bao gồm xác thực ứng dụng khách hoặc phương thức xác thực không được hỗ trợ."
+        invalid_grant: "Quyền được cung cấp không hợp lệ, hết hạn, bị thu hồi, không khớp với URI chuyển hướng được sử dụng trong yêu cầu ủy quyền hoặc được cấp cho một khách hàng khác."
+        unsupported_grant_type: "Loại cấp quyền không được hỗ trợ bởi máy chủ ủy quyền."
         invalid_token:
           revoked: "Mã truy cập đã bị thu hồi"
           expired: "Mã truy cập đã hết hạn"
@@ -3111,7 +3111,7 @@ vi:
   unsupported_browser:
     title: "Trình duyệt của bạn đã lỗi thời hoặc không được hỗ trợ."
     message: "Bạn có thể gặp phải lỗi và trải nghiệm không mong muốn trên trang này."
-    update_message: 'Please update your browser.'
+    update_message: "Please update your browser."
     close_warning: "Ignore this warning."
   oauth:
     application:
@@ -3148,7 +3148,7 @@ vi:
       successful_application_revocation: "Revocation of application %{application_name} successful."
       none_given: "No OAuth applications have been granted access to your user account."
     x_active_tokens:
-      other: '%{count} active token'
+      other: "%{count} active token"
     flows:
       authorization_code: "Authorization code flow"
       client_credentials: "Client credentials flow"

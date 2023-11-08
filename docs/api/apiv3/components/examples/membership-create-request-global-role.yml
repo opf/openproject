@@ -1,0 +1,8 @@
+description: |-
+  Create a membership for a global role. To address global roles, no project must be set.
+value:
+  _links:
+    principal:
+      href: '/api/v3/users/14'
+    roles:
+      - href: '/api/v3/roles/4'
