@@ -4,7 +4,8 @@ RSpec.describe 'Inline editing work packages', js: true do
   let(:manager_role) do
     create(:project_role,
            permissions: %i[view_work_packages
-                           edit_work_packages])
+                           edit_work_packages
+                           change_work_package_status])
   end
   let(:manager) do
     create(:user,

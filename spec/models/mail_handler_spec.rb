@@ -52,6 +52,7 @@ RSpec.describe MailHandler do
   end
 
   shared_context 'for wp_on_given_project' do
+    # TODO: change_work_package_status helps with 18 tests, but should it be necessary?
     let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
     let!(:user) do
       create(:user,
@@ -68,6 +69,7 @@ RSpec.describe MailHandler do
   end
 
   shared_context 'for wp_on_given_project_case_insensitive' do
+    # TODO: change_work_package_status helps with 2 more tests, but should it be necessary?
     let(:permissions) { %i[add_work_packages assign_versions] }
     let!(:user) do
       create(:user,
@@ -149,6 +151,7 @@ RSpec.describe MailHandler do
   end
 
   shared_context 'with a reply to a wp mention' do
+    # TODO: change_work_package_status helps with 2 more tests, but should it be necessary?
     let(:permissions) { %i[add_work_package_notes view_work_packages] }
     let!(:user) do
       create(:user,
@@ -171,7 +174,7 @@ RSpec.describe MailHandler do
   end
 
   shared_context 'with a reply to a wp mention with attributes' do
-    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages work_package_assigned] }
+    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages change_work_package_status work_package_assigned] }
     let(:role) do
       create(:project_role, permissions:)
     end

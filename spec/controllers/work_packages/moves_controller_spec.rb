@@ -36,6 +36,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
                            view_work_packages
                            add_work_packages
                            edit_work_packages
+                           change_work_package_status
                            assign_versions
                            manage_subtasks
                            work_package_assigned))

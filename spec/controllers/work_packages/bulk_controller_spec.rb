@@ -58,6 +58,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
            permissions: %i[edit_work_packages
                            view_work_packages
                            manage_subtasks
+                           change_work_package_status
                            assign_versions
                            work_package_assigned])
   end
