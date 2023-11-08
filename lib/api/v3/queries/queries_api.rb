@@ -57,7 +57,11 @@ module API
           end
 
           get do
-            authorize_in_any_project(%i(view_work_packages manage_public_queries))
+            authorize_in_any_work_package(:view_work_packages) do
+              authorize_in_any_project(:manage_public_queries)
+            end
+
+            puts "*** API::V3::Queries::QueriesAPI.get: params = #{params.inspect}"
 
             queries_scope = Query.all.includes(QueryRepresenter.to_eager_load)
 
@@ -68,7 +72,7 @@ module API
 
           namespace 'available_projects' do
             after_validation do
-              authorize_in_any_project(:view_work_packages)
+              authorize_in_any_work_package(:view_work_packages)
             end
 
             get do
@@ -89,7 +93,7 @@ module API
             get do
               @query = Query.new_default(user: current_user)
 
-              authorize_by_policy(:show)
+              authorize_in_any_work_package(:view_work_packages)
 
               query_representer_response(@query, params, params.delete(:valid_subset))
             end
