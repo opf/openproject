@@ -7,7 +7,7 @@
   <svg class="op-merge-request--iconsize"><use [attr.xlink:href]="'#merge-request_' + state" /></svg>
   {{state}} | 
   <a
-  [ngClass]="'op-merge-request--link' + state"
+  [ngClass]="'op-merge-request--link_' + state"
   [href]="mergeRequest.htmlUrl"
   target="blank"
   [textContent]="mergeRequest.repository + '#' + mergeRequest.number"
