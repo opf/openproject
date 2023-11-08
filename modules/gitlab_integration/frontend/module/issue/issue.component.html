@@ -14,9 +14,9 @@
 ></a>
 </span>
 
-<span class='op-issue--label_icon'>
+<button (click)="toggleLabels(gitlabIssue.number)" class='op-issue--label_icon'>
   <svg class="op-issue--iconsize op-issue--label_icon_style"><use xlink:href="#labels" /></svg>
-</span>
+</button>
 
 <div class="op-issue--info_created">
   {{ text.label_created_by }}
@@ -43,7 +43,9 @@
   </span>.
 </div>
 
-<div class="op-issue--labels">
+<div 
+  class="op-issue--labels"
+  [ngClass]="'op-issue--labels-' + gitlabIssue.number >
   <span *ngFor="let label of gitlabIssue.labels">
     <span class='op-issue--label' [ngStyle]="{'background-color': label.color}" >
       {{label.title}}

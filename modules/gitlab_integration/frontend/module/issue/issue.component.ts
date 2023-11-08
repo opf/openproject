@@ -62,4 +62,11 @@ export class IssueComponent {
       return('closed');
     }
   }
+
+  toggleLabels(identifier: string) {
+    const labelsElement = document.querySelector(`.op-issue--labels-${identifier}`) as HTMLElement;
+
+    // Check the current display property and toggle it
+    labelsElement.style.display = labelsElement.style.display === 'none' ? 'block' : 'none';
+  }
 }

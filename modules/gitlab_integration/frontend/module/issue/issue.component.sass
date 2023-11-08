@@ -32,8 +32,8 @@
 :host,
 .op-issue
   display: grid
-  grid-template-columns: auto 1fr
-  grid-template-areas: "title title" "state info_created" "state info_updated" "label label"
+  grid-template-columns: auto auto 1fr
+  grid-template-areas: "title title title" "state label_icon info_created" "state label_icon info_updated" "label label label"
   margin-bottom: 5px
   margin-top: 5px
   padding-bottom: 4px
@@ -105,16 +105,17 @@
       fill: #0b5cad
 
   &--label_icon
-    grid-area: state
+    grid-area: label_icon
     display: inline-block
-    padding: 5px 0.6rem 5px 0.6rem
+    padding: 4px 6px
     border-radius: 10rem
     font-size: 0.8rem
     font-weight: 400
     align-self: center
     width: fit-content
     margin-right: 6px
-    border: 1px solid #737278
+    border: 1px solid #cecdd4
+    background-color: #f3f3f3
 
     &_style
       fill: #737278
