@@ -136,6 +136,7 @@ RSpec.describe 'Structured meetings CRUD',
     # Can remove
     show_page.remove_agenda_item first
     show_page.assert_agenda_order! 'Updated title', 'Second'
+    show_page.cancel_add_form
 
     # Can link work packages
     show_page.add_agenda_item(type: WorkPackage) do
@@ -170,7 +171,7 @@ RSpec.describe 'Structured meetings CRUD',
     expect(page).to have_current_path project_meetings_path(project)
   end
 
-  context 'exporting as ICS' do
+  context 'when exporting as ICS' do
     before do
       @download_list = DownloadList.new
     end
