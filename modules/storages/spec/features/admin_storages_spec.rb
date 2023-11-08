@@ -90,23 +90,50 @@ RSpec.describe 'Admin storages',
   end
 
   describe 'File storage edit view', with_flag: { storage_primer_design: true } do
-    let(:storage) { create(:nextcloud_storage) }
+    let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
     let(:oauth_application) { create(:oauth_application, integration: storage) }
+    let(:oauth_client) { create(:oauth_client, integration: storage) }
 
-    before { oauth_application }
+    before do
+      oauth_application
+      oauth_client
+    end
 
-    it 'renders the edit view', :webmock do
+    it 'renders an edit view', :webmock do
       visit edit_admin_settings_storage_path(storage)
 
       expect(page).to have_test_selector('storage-name-title', text: storage.name.capitalize)
 
-      aggregate_failures 'General information' do
+      aggregate_failures 'Storage edit view' do
+        # General information
         expect(page).to have_test_selector('storage-provider-label', text: 'Storage provider')
-        expect(page).to have_test_selector('label-host_name_configured-status', text: 'Connected')
+        expect(page).to have_test_selector('label-completed', text: 'Completed')
         expect(page).to have_test_selector('storage-description', text: [storage.short_provider_type.capitalize,
                                                                          storage.name,
                                                                          storage.host].join(' - '))
 
+        # OAuth application
+        expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
+        expect(page).to have_test_selector('label-completed', text: 'Completed')
+        expect(page).to have_test_selector('storage-openproject-oauth-application-description',
+                                           text: "OAuth Client ID: #{oauth_application.uid}")
+
+        # OAuth client
+        expect(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
+        expect(page).to have_test_selector('label-completed', text: 'Completed')
+        expect(page).to have_test_selector('storage-oauth-client-id-description',
+                                           text: "OAuth Client ID: #{oauth_client.client_id}")
+
+        # Automatically managed project folders
+        expect(page).to have_test_selector('storage-managed-project-folders-label',
+                                           text: 'Automatically managed folders')
+
+        expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Active')
+        expect(page).to have_test_selector('storage-automatically-managed-project-folders-description',
+                                           text: 'Let OpenProject create folders per project automatically.')
+      end
+
+      aggregate_failures 'General information' do
         # Update a storage - happy path
         find_test_selector('storage-edit-host-button').click
         within_test_selector('storage-general-info-form') do
@@ -137,7 +164,7 @@ RSpec.describe 'Admin storages',
 
       aggregate_failures 'OAuth application' do
         expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
-        expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Connected')
+        expect(page).to have_test_selector('label-completed', text: 'Completed')
         expect(page).to have_test_selector('storage-openproject-oauth-application-description',
                                            text: "OAuth Client ID: #{oauth_application.uid}")
 
@@ -163,44 +190,29 @@ RSpec.describe 'Admin storages',
       end
 
       aggregate_failures 'Nextcloud OAuth' do
-        expect(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
-        expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
-        expect(page).to have_test_selector('storage-oauth-client-id-description',
-                                           text: "Allow OpenProject to access Nextcloud data using an OAuth.")
-
         accept_confirm do
           find_test_selector('storage-edit-oauth-client-button').click
         end
 
         within_test_selector('storage-oauth-client-form') do
+          # With null values, submit button should be disabled
           expect(page).to have_css('#oauth_client_client_id', value: '')
           expect(page).to have_css('#oauth_client_client_secret', value: '')
-
-          # Unhappy path - Attempt to submit null values
-          click_button 'Save and continue'
-          # TODO: This should be "Client ID can't be blank." but primer assumes the label is "Client"
-          expect(page).to have_text("Client can't be blank.")
-          expect(page).to have_text("Client secret can't be blank.")
+          expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
 
           # Happy path - Submit valid values
           fill_in 'oauth_client_client_id', with: '1234567890'
           fill_in 'oauth_client_client_secret', with: '0987654321'
+          expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
           click_button 'Save and continue'
         end
 
-        expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Connected')
+        expect(page).to have_test_selector('label-completed', text: 'Completed')
         expect(page).to have_test_selector('storage-oauth-client-id-description',
                                            text: "OAuth Client ID: 1234567890")
       end
 
       aggregate_failures 'Automatically managed project folders' do
-        expect(page).to have_test_selector('storage-managed-project-folders-label',
-                                           text: 'Automatically managed folders')
-        expect(page).to have_test_selector('label-managed-project-folders-status',
-                                           text: 'Incomplete')
-        expect(page).to have_test_selector('storage-automatically-managed-project-folders-description',
-                                           text: 'Let OpenProject create folders per project automatically.')
-
         find_test_selector('storage-edit-automatically-managed-project-folders-button').click
 
         within_test_selector('storage-automatically-managed-project-folders-form') do
@@ -234,8 +246,7 @@ RSpec.describe 'Admin storages',
           click_button('Done, complete setup')
         end
 
-        expect(page).to have_test_selector('label-managed-project-folders-status',
-                                           text: 'Active')
+        expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Active')
       end
     end
 

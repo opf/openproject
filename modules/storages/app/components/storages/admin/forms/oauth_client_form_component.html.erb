@@ -6,7 +6,7 @@
       data: {
         controller: 'storages--oauth-client-form',
         application_target: 'dynamic',
-        'storages--oauth-client-form-client-id-missing-value': t(:"storages.instructions.#{storage.short_provider_type}.missing_client_id_for_redirect_uri")
+        'storages--oauth-client-form-client-id-missing-value': t(:"storages.instructions.one_drive.missing_client_id_for_redirect_uri")
       }
     ) do |form|
       flex_layout do |oauth_client_row|
@@ -67,7 +67,8 @@
                 disabled: submit_button_disabled?,
                 data: {
                   'storages--oauth-client-form-target': 'submitButton'
-                }
+                },
+                test_selector: 'storage-oauth-client-submit-button'
               },
               cancel_button_options: {
                 href: cancel_button_path
