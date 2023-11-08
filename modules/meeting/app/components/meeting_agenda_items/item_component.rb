@@ -32,11 +32,12 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting_agenda_item:, state: :show)
+    def initialize(meeting_agenda_item:, state: :show, display_notes_input: nil)
       super
 
       @meeting_agenda_item = meeting_agenda_item
       @state = state
+      @display_notes_input = display_notes_input
     end
 
     def wrapper_uniq_by
@@ -58,8 +59,9 @@ module MeetingAgendaItems
 
     def child_component_params
       {
-        meeting_agenda_item: @meeting_agenda_item
-      }
+        meeting_agenda_item: @meeting_agenda_item,
+        display_notes_input: (@display_notes_input if @state == :edit)
+    }.compact
     end
   end
 end
