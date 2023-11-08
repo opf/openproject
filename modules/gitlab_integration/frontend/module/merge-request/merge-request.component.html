@@ -43,7 +43,9 @@
   </span>.
 </div>
 
-<div class="op-merge-request--labels">
+<div 
+  class="op-merge-request--labels"
+  [ngClass]="'op-merge-request--labels-' + gitlabIssue.number">
   <span *ngFor="let label of mergeRequest.labels">
     <span class='op-merge-request--label' [ngStyle]="{'background-color': label.color}" >
       {{label.title}}
