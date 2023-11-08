@@ -62,6 +62,16 @@ module MeetingAgendaItems
       end
     end
 
+    def add_note_action_item(menu)
+      menu.with_item(label: t("label_agenda_item_add_notes"),
+                     href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item, display_notes_input: true),
+                     content_arguments: {
+                       data: { 'turbo-stream': true }
+                     }) do |item|
+        item.with_leading_visual_icon(icon: :note)
+      end
+    end
+
     def move_actions(menu)
       move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top") unless @meeting_agenda_item.first?
       move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless @meeting_agenda_item.first?

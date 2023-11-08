@@ -32,7 +32,7 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:, type: :simple)
+    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:, type: :simple, display_notes_input: nil)
       super
 
       @meeting = meeting
@@ -41,6 +41,7 @@ module MeetingAgendaItems
       @submit_path = submit_path
       @cancel_path = cancel_path
       @type = type
+      @display_notes_input = display_notes_input
     end
 
     def render?
@@ -58,11 +59,23 @@ module MeetingAgendaItems
     end
 
     def display_notes_input_value
-      @meeting_agenda_item.notes.blank? ? :none : nil
+      if @display_notes_input
+        :block
+      elsif @meeting_agenda_item.notes.blank?
+        :none
+      else
+        :block
+      end
     end
 
     def display_notes_add_button_value
-      @meeting_agenda_item.notes.blank? ? nil : :none
+      if @display_notes_input
+        :none
+      elsif @meeting_agenda_item.notes.blank?
+        :block
+      else
+        :none
+      end
     end
   end
 end

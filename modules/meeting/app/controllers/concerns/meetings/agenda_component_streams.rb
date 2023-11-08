@@ -124,7 +124,7 @@ module Meetings
         update_new_button_via_turbo_stream(disabled: false) if form_hidden == true
       end
 
-      def update_item_via_turbo_stream(state: :show, meeting_agenda_item: @meeting_agenda_item)
+      def update_item_via_turbo_stream(state: :show, meeting_agenda_item: @meeting_agenda_item, display_notes_input: nil)
         if @meeting_agenda_item.duration_in_minutes_previously_changed?
           # if duration was changed, all following items are affectected with their time-slot
           # thus update the whole list to reflect the changes on the UI immediately
@@ -133,7 +133,8 @@ module Meetings
           update_via_turbo_stream(
             component: MeetingAgendaItems::ItemComponent.new(
               state:,
-              meeting_agenda_item:
+              meeting_agenda_item:,
+              display_notes_input:
             )
           )
         end

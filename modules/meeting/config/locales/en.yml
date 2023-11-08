@@ -173,6 +173,7 @@ en:
   label_agenda_item_move_to_bottom: "Move to bottom"
   label_agenda_item_move_up: "Move up"
   label_agenda_item_move_down: "Move down"
+  label_agenda_item_add_notes: "Add notes"
 
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
