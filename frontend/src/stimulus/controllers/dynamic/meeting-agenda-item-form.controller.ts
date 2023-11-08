@@ -52,7 +52,9 @@ export default class extends Controller {
 
     setTimeout(() => {
       this.element.scrollIntoView({ block: 'center' });
-      if (titleInput) {
+      if (window.getComputedStyle(this.notesInputTarget).display !== 'none') {
+          this.focusCkEditor();
+      } else if (titleInput) {
         (titleInput as HTMLInputElement).focus();
       }
     }, 100);
@@ -76,6 +78,10 @@ export default class extends Controller {
   addNotes() {
     this.notesInputTarget.classList.remove('d-none');
     this.notesAddButtonTarget.classList.add('d-none');
+    this.focusCkEditor();
+  }
+
+  private focusCkEditor() {
     setTimeout(() => {
       const ckContent = this.element.querySelector<HTMLElement>('.ck-content');
       if (ckContent) {
