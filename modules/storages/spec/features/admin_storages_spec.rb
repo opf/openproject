@@ -107,20 +107,20 @@ RSpec.describe 'Admin storages',
       aggregate_failures 'Storage edit view' do
         # General information
         expect(page).to have_test_selector('storage-provider-label', text: 'Storage provider')
-        expect(page).to have_test_selector('label-completed', text: 'Completed')
+        expect(page).to have_test_selector('label-host_name_configured-status', text: 'Completed')
         expect(page).to have_test_selector('storage-description', text: [storage.short_provider_type.capitalize,
                                                                          storage.name,
                                                                          storage.host].join(' - '))
 
         # OAuth application
         expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
-        expect(page).to have_test_selector('label-completed', text: 'Completed')
+        expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Completed')
         expect(page).to have_test_selector('storage-openproject-oauth-application-description',
                                            text: "OAuth Client ID: #{oauth_application.uid}")
 
         # OAuth client
         expect(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
-        expect(page).to have_test_selector('label-completed', text: 'Completed')
+        expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
         expect(page).to have_test_selector('storage-oauth-client-id-description',
                                            text: "OAuth Client ID: #{oauth_client.client_id}")
 
@@ -163,11 +163,6 @@ RSpec.describe 'Admin storages',
       end
 
       aggregate_failures 'OAuth application' do
-        expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
-        expect(page).to have_test_selector('label-completed', text: 'Completed')
-        expect(page).to have_test_selector('storage-openproject-oauth-application-description',
-                                           text: "OAuth Client ID: #{oauth_application.uid}")
-
         accept_confirm do
           find_test_selector('storage-replace-openproject-oauth-application-button').click
         end
