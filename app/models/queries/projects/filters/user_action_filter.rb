@@ -35,24 +35,39 @@ module Queries
         end
 
         def type
-          :list
+          :list_all
         end
 
         def where
-          capability_select = Capability
-                                .where(action: values)
-                                .where(principal: User.current)
-                                .reselect(:context_id)
+          operator = if operator_class <= ::Queries::Operators::Equals || operator_class <= ::Queries::Operators::All
+                       'IN'
+                     elsif operator_class <= ::Queries::Operators::NotEquals
+                       'NOT IN'
+                     else
+                       raise ArgumentError
+                     end
 
-          sql_operator = if operator_class <= ::Queries::Operators::Equals
-                           "IN"
-                         elsif operator_class <= ::Queries::Operators::NotEquals
-                           "NOT IN"
-                         else
-                           raise ArgumentError
-                         end
+          capability_select_queries
+            .map { |query| "#{Project.table_name}.id #{operator} (#{query.to_sql})" }
+            .join(' AND ')
+        end
 
-          "#{Project.table_name}.id #{sql_operator} (#{capability_select.to_sql})"
+        private
+
+        def capability_select_queries
+          if operator_class <= ::Queries::Operators::All
+            values.map do |val|
+              Capability
+                .where(action: val)
+                .where(principal: User.current)
+                .reselect(:context_id)
+            end
+          else
+            [Capability
+               .where(action: values)
+               .where(principal: User.current)
+               .reselect(:context_id)]
+          end
         end
       end
     end
