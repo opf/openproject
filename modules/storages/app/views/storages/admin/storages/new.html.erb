@@ -1,8 +1,8 @@
 <!-- Standard Ruby view, please see the controller for comments -->
-<% html_title t(:label_administration), t("project_module_storages"), t('storages.label_new_file_storage') %>
-<% local_assigns[:additional_breadcrumb] = t('storages.label_new_file_storage') %>
-
 <% if OpenProject::FeatureDecisions.storage_primer_design_active? %>
+  <% html_title t(:label_administration), t("project_module_storages"), t('storages.label_new_file_storage') %>
+  <% local_assigns[:additional_breadcrumb] = t('storages.label_new_file_storage') %>
+
   <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
     <% header.with_title(test_selector: 'storage-name-title') do %>
       <%= t("storages.label_new_file_storage") %>
@@ -16,6 +16,8 @@
 
   <%= render(::Storages::Admin::SelectStorageProviderComponent.new(@storage)) %>
 <% else %>
+  <% html_title t(:label_administration), t("project_module_storages"), t('storages.label_new_storage') %>
+  <% local_assigns[:additional_breadcrumb] = t('storages.label_new_storage') %>
   <%= toolbar title: t("storages.label_new_storage") %>
 
   <%= labelled_tabular_form_for @storage, url: admin_settings_storages_path(@storage), as: :storages_storage do |f| -%>
