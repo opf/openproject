@@ -89,12 +89,14 @@ class JournalsController < ApplicationController
   end
 
   def ensure_permitted
-    permission =
-      case @journal.journable_type
-      when 'WorkPackage' then :view_work_packages
-      when 'Project' then :view_project
-      end
+    permission = case @journal.journable_type
+                 when 'WorkPackage' then :view_work_packages
+                 when 'Project' then :view_project
+                 end
+
     do_authorize(permission)
+  rescue Authorization::UnknownPermissionError
+    deny_access
   end
 
   def field_param
