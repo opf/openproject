@@ -88,7 +88,7 @@ class MeetingAgendaItemsController < ApplicationController
 
   def edit
     if @meeting_agenda_item.editable?
-      update_item_via_turbo_stream(state: :edit)
+      update_item_via_turbo_stream(state: :edit, display_notes_input: params[:display_notes_input])
     else
       update_all_via_turbo_stream
       render_error_flash_message_via_turbo_stream(message: t("text_meeting_not_editable_anymore"))
