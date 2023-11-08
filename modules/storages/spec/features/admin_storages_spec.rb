@@ -184,7 +184,7 @@ RSpec.describe 'Admin storages',
         end
       end
 
-      aggregate_failures 'Nextcloud OAuth' do
+      aggregate_failures 'OAuth Client' do
         accept_confirm do
           find_test_selector('storage-edit-oauth-client-button').click
         end
@@ -202,9 +202,8 @@ RSpec.describe 'Admin storages',
           click_button 'Save and continue'
         end
 
-        expect(page).to have_test_selector('label-completed', text: 'Completed')
-        expect(page).to have_test_selector('storage-oauth-client-id-description',
-                                           text: "OAuth Client ID: 1234567890")
+        expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
+        expect(page).to have_test_selector('storage-oauth-client-id-description', text: "OAuth Client ID: 1234567890")
       end
 
       aggregate_failures 'Automatically managed project folders' do
