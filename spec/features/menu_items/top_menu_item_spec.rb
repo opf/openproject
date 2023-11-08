@@ -138,8 +138,16 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
     context 'as an anonymous user' do
       let(:user) { create(:anonymous) }
 
-      it 'displays only projects, activity and news' do
-        has_menu_items? project_item, activity_item, news_item
+      context 'when login_required', with_settings: { login_required: true } do
+        it 'redirects to login' do
+          expect(page).to have_current_path /login/
+        end
+      end
+
+      context 'when not login_required', with_settings: { login_required: false } do
+        it 'displays only projects, activity and news' do
+          has_menu_items? project_item, activity_item, news_item
+        end
       end
     end
   end

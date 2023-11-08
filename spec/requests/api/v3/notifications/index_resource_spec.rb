@@ -376,8 +376,6 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
   describe 'as an anonymous user' do
     let(:current_user) { User.anonymous }
 
-    it 'returns a 403 response' do
-      expect(last_response.status).to eq(403)
-    end
+    it_behaves_like 'forbidden response based on login_required'
   end
 end

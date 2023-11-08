@@ -202,7 +202,7 @@ RSpec.describe 'API v3 Work package resource',
         get get_path
       end
 
-      it_behaves_like 'not found',
+      it_behaves_like 'not found response based on login_required',
                       I18n.t('api_v3.errors.not_found.work_package')
     end
   end
