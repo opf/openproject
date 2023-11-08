@@ -101,5 +101,5 @@ lt:
   text_meeting_agenda_open_are_you_sure: "Tai perrašys visus pakeitimus minutėse! Ar norite tęsti?"
   text_meeting_minutes_for_meeting: 'pasitarimo „%{meeting}“ minutės'
   text_review_meeting_agenda: "%{author} įdėjo %{link} peržiūroje."
-  text_review_meeting_minutes: "%{author} įdėjo %{link} peržiūrai."
+  text_review_meeting_minutes: "%{author} įdėjo %{link} peržiūroje."
   text_notificiation_invited: "Šis laiškas turi ics įrašą žemiau nurodytam susitikimui:"
