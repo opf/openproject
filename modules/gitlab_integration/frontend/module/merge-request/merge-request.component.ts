@@ -66,6 +66,13 @@ export class MergeRequestComponent {
     }
   }
 
+  toggleLabels(identifier: string) {
+    const labelsElement = document.querySelector(`.op-merge-request--labels-${identifier}`) as HTMLElement;
+
+    // Check the current display property and toggle it
+    labelsElement.style.display = labelsElement.style.display === 'none' ? 'block' : 'none';
+  }
+
   public pipelineStateText(pipeline:GitlabPipelineResource) {
     /* Github apps can *optionally* add an output object (and a title) which is the most relevant information to display.
        If that is not present, we can display the conclusion (which is present only on finished runs).

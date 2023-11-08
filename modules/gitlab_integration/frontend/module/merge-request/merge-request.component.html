@@ -14,6 +14,10 @@
   ></a>
 </span>
 
+<button *ngIf="mergeRequest.labels && mergeRequest.labels.length > 0" (click)="toggleLabels(mergeRequest.number)" class='op-merge-request--label_icon'>
+  <svg class="op-merge-request--iconsize op-merge-request--label_icon_style"><use xlink:href="#labels" /></svg>
+</button>
+
 <div class="op-merge-request--info_created">
   {{ text.label_created_by }}
   <!-- <img

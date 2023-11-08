@@ -32,8 +32,8 @@
 :host,
 .op-merge-request
   display: grid
-  grid-template-columns: auto 1fr
-  grid-template-areas: "title title" "state info_created" "state info_updated" "label label" "pipeline-label pipeline-label" "pipeline pipeline"
+  grid-template-columns: auto auto 1fr
+  grid-template-areas: "title title title" "state label_icon info_created" "state label_icon info_updated" "label label label" "pipeline-label pipeline-label pipeline-label" "pipeline pipeline pipeline"
   margin-bottom: 5px
   margin-top: 5px
   padding-bottom: 4px
@@ -76,7 +76,7 @@
     text-decoration: none
 
   &--labels
-    display: block
+    display: none
     grid-area: label
     font-size: 0.9rem
     color: var(--gray-dark)
@@ -113,6 +113,26 @@
       background-color: #fdd4cd
       color: #ae1800
       fill: #ae1800
+
+  &--label_icon
+    grid-area: label_icon
+    display: inline-block
+    padding: 4px 6px
+    border-radius: 10rem
+    font-size: 0.8rem
+    font-weight: 400
+    align-self: center
+    width: fit-content
+    margin-right: 6px
+    border: 1px solid #cecdd4
+    background-color: #f3f3f3
+
+    &:hover
+      border: 1px solid #b6b5ba
+      background-color: #e4e4e4
+
+    &_style
+      fill: #737278
 
   &--state
     grid-area: state
