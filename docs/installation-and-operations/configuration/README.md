@@ -291,6 +291,20 @@ When a filter is defined, synchronization happens directly during seeding for en
 
 
 
+## Allowing public access
+
+By default, any request to the OpenProject application needs to be authenticated. If you want to enable public unauthenticated access like we do for https://community.openproject.com, you can set the `login_required` to `false`. If not provided through environment variables, this setting is also accessible in the administrative UI. Please see the [authentication settings guide](../../system-admin-guide/authentication/authentication-settings/#general-authentication-settings) for more details.
+
+*default: true*
+
+To disable, set the configuration option:
+
+```yaml
+OPENPROJECT_LOGIN__REQUIRED="false"
+```
+
+
+
 ## Setting session options
 
 **Delete old sessions for the same user when logging in**
