@@ -44,10 +44,14 @@
                           button.with_trailing_action_icon(icon: "triangle-down")
                           I18n.t('work_package.sharing.filter.type')
                         end
-                        menu.with_item(label: I18n.t('work_package.sharing.filter.project_member'))
-                        menu.with_item(label: I18n.t('work_package.sharing.filter.not_project_member'))
-                        menu.with_item(label: I18n.t('work_package.sharing.filter.project_group'))
-                        menu.with_item(label: I18n.t('work_package.sharing.filter.not_project_group'))
+                        type_filter_options.each do |option|
+                          menu.with_item(label: option[:label],
+                                         href: filter_url(type_option: option),
+                                         method: :get,
+                                         tag: :a,
+                                         active: type_filter_option_active?(option),
+                                         role: "menuitem")
+                        end
                       end
                     end
 

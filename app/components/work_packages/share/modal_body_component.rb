@@ -76,6 +76,24 @@ module WorkPackages
         list_container.instance_variable_set(:@list_arguments, new_list_arguments)
       end
 
+      def type_filter_options
+        [
+          { label: I18n.t('work_package.sharing.filter.project_member'),
+            value: { principal_type: 'User', project_member: true } },
+          { label: I18n.t('work_package.sharing.filter.not_project_member'),
+            value: { principal_type: 'User', project_member: false } },
+          { label: I18n.t('work_package.sharing.filter.project_group'),
+            value: { principal_type: 'Group', project_member: true } },
+          { label: I18n.t('work_package.sharing.filter.not_project_group'),
+            value: { principal_type: 'Group', project_member: false } }
+        ]
+      end
+
+      def type_filter_option_active?(option)
+        # Todo
+        false
+      end
+
       def role_filter_option_active?(option)
         return false if params[:filters].nil?
 
@@ -85,13 +103,29 @@ module WorkPackages
         find_role_ids(option[:value]).first == given_role_filter_value unless given_role_filter_value.nil?
       end
 
-      def filter_url(role_option:)
+      def filter_url(type_option: nil, role_option: nil)
         args = {}
         filter = []
 
-        unless role_filter_option_active?(role_option)
-          filter.push({ role_id: { operator: "=", values: find_role_ids(role_option[:value]) } })
+        unless type_option.nil? || type_filter_option_active?(type_option)
+          if type_option[:value][:project_member]
+            # Todo
+            # filter.push({ entity_and_project_member: { operator: "=", values: [params[:work_package_id]] } })
+          else
+            # Todo
+            # filter.push({ entity_and_no_project_member: { operator: "=", values: [params[:work_package_id]] } })
+          end
+
         end
+
+        unless role_option.nil? || role_filter_option_active?(role_option)
+          filter.push({ role_id: { operator: "=", values: find_role_ids(role_option[:value]) } })
+
+          filter.push({ entity_type: { operator: "=", values: [WorkPackage.name] } })
+          filter.push({ entity_id: { operator: "=", values: [params[:work_package_id]] } })
+        end
+
+        # Todo: Keep options of the other filter defined in params
 
         args[:filters] = filter.to_json unless filter.empty?
 

@@ -28,7 +28,11 @@
 
 class Queries::Members::Filters::EntityTypeFilter < Queries::Members::Filters::MemberFilter
   def type
-    :string
+    :list_optional
+  end
+
+  def allowed_values
+    [[WorkPackage.name, WorkPackage.name]]
   end
 
   def self.key
