@@ -146,6 +146,7 @@ module Meetings
           update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
         else
           update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
+          update_list_dropdown_menu_via_turbo_stream
           add_before_via_turbo_stream(
             component: MeetingAgendaItems::ItemComponent.new(
               state: :show,
@@ -160,6 +161,7 @@ module Meetings
         if clear_slate
           update_list_via_turbo_stream
         else
+          update_list_dropdown_menu_via_turbo_stream
           remove_via_turbo_stream(
             component: MeetingAgendaItems::ItemComponent.new(
               state: :show,
@@ -167,6 +169,27 @@ module Meetings
             )
           )
         end
+      end
+
+      def move_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item)
+        update_list_dropdown_menu_via_turbo_stream
+        # Note: The `remove_component` and the `component` are pointing to the same
+        # component, but we still need to instantiate them separately, otherwise re-adding
+        # of the item will render and empty component.
+        remove_component = MeetingAgendaItems::ItemComponent.new(state: :show, meeting_agenda_item:)
+        remove_via_turbo_stream(component: remove_component)
+
+        component = MeetingAgendaItems::ItemComponent.new(state: :show, meeting_agenda_item:)
+        target_component =
+          if @meeting_agenda_item.lower_item
+            MeetingAgendaItems::ItemComponent.new(
+              state: :show,
+              meeting_agenda_item: @meeting_agenda_item.lower_item
+            )
+          else
+            MeetingAgendaItems::ListComponent.new(meeting: @meeting)
+          end
+        add_before_via_turbo_stream(component:, target_component:)
       end
 
       def render_base_error_in_flash_message_via_turbo_stream(errors)
