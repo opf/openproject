@@ -47,8 +47,8 @@ RSpec.describe Setting do
       expect(described_class).to be_self_registration
     end
 
-    it 'allows anonymous users to access public information' do
-      expect(described_class).not_to be_login_required
+    it 'allows users to not access public information by default' do
+      expect(described_class).to be_login_required
     end
   end
 

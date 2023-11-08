@@ -177,6 +177,6 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
       get get_path
     end
 
-    it_behaves_like 'not found'
+    it_behaves_like 'not found response based on login_required'
   end
 end

@@ -61,11 +61,17 @@ RSpec.describe API::V3::Days::WeekAPI,
   context 'for a not logged in user' do
     let(:user) { build(:anonymous) }
 
-    it_behaves_like 'successful response'
+    context 'when login_required', with_settings: { login_required: true } do
+      it_behaves_like 'unauthenticated access'
+    end
 
-    it 'responds with the correct day' do
-      expect(subject).to be_json_eql('WeekDay'.to_json).at_path('_type')
-      expect(subject).to be_json_eql(1.to_json).at_path('day')
+    context 'when not login_required', with_settings: { login_required: false } do
+      it_behaves_like 'successful response'
+
+      it 'responds with the correct day', :aggregate_failures do
+        expect(subject).to be_json_eql('WeekDay'.to_json).at_path('_type')
+        expect(subject).to be_json_eql(1.to_json).at_path('day')
+      end
     end
   end
 end

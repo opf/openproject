@@ -39,7 +39,7 @@ RSpec.describe ApplicationController do
     end
   end
 
-  describe 'logging requesting users' do
+  describe 'logging requesting users', with_settings: { login_required: false } do
     let(:user_message) do
       "OpenProject User: #{user.firstname} Crazy! Name with ## " +
         "Newline (#{user.login} ID: #{user.id} <#{user.mail}>)"
@@ -84,7 +84,7 @@ RSpec.describe ApplicationController do
     end
   end
 
-  describe 'unverified request' do
+  describe 'unverified request', with_settings: { login_required: false } do
     shared_examples 'handle_unverified_request resets session' do
       before do
         ActionController::Base.allow_forgery_protection = true
@@ -99,11 +99,11 @@ RSpec.describe ApplicationController do
 
         allow(controller)
           .to receive(:cookies)
-          .and_return(cookies_double)
+                .and_return(cookies_double)
 
         expect(cookies_double)
           .to receive(:delete)
-          .with(OpenProject::Configuration['autologin_cookie_name'])
+                .with(OpenProject::Configuration['autologin_cookie_name'])
 
         post :index
       end
@@ -149,7 +149,7 @@ RSpec.describe ApplicationController do
     end
   end
 
-  describe 'rack timeout duplicate error suppression' do
+  describe 'rack timeout duplicate error suppression', with_settings: { login_required: false } do
     controller do
       include OpenProjectErrorHelper
 
@@ -188,8 +188,8 @@ RSpec.describe ApplicationController do
         allow(controller.request.env).to receive(:[]).and_call_original
         allow(controller.request.env)
           .to receive(:[])
-          .with(Rack::Timeout::ENV_INFO_KEY)
-          .and_return(OpenStruct.new(state: :timed_out))
+                .with(Rack::Timeout::ENV_INFO_KEY)
+                .and_return(OpenStruct.new(state: :timed_out))
       end
 
       it "suppresses the (duplicate) error report" do

@@ -112,11 +112,7 @@ RSpec.describe 'Authentication Stages',
     end
 
     it 'redirects to authentication stage after registration via omniauth too' do
-      visit signin_path
-
-      within("#new_user") do
-        click_on "Omniauth Developer"
-      end
+      visit '/auth/developer'
 
       fill_in "first_name", with: "Adam"
       fill_in "last_name", with: "Apfel"
@@ -201,8 +197,6 @@ RSpec.describe 'Authentication Stages',
 
   it 'redirects to the referer if there is one' do
     visit "/projects"
-
-    click_on "Sign in"
 
     expect do
       within('#login-form') do
