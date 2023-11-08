@@ -5,9 +5,9 @@
 
 <span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
   <svg class="op-issue--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
-  {{state}} &#10093; 
+  {{state}} | 
   <a
-  class='op-issue--link'
+  [ngClass]="'op-issue--link_' + state"
   [href]="gitlabIssue.htmlUrl"
   target="blank"
   [textContent]="gitlabIssue.repository + '#' + gitlabIssue.number"
@@ -25,6 +25,7 @@
   <span class='op-issue--user'> 
     <a
       [href]="'mailto:' + gitlabIssue.gitlabUser.email"
+      class='op-issue--username'
       [textContent]="gitlabIssue.gitlabUser.login"
       *ngIf="gitlabIssue.gitlabUser"
     ></a>.

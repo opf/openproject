@@ -71,6 +71,10 @@
     color: var(--gray-dark)
     margin-top: -4px
 
+  &--username
+    color: var(--gray-dark)
+    text-decoration: none
+
   &--labels
     display: block
     grid-area: label
@@ -87,6 +91,27 @@
 
   &--link
     font-size: 0.8rem
+    text-decoration: none
+
+    &_open
+      background-color: #c3e6cd
+      color: #24663b
+      fill: #24663b
+
+    &_ready
+      background-color: #c3e6cd
+      color: #24663b
+      fill: #24663b
+
+    &_merged
+      background-color: #cbe2f9 
+      color: #0b5cad
+      fill: #0b5cad
+
+    &_closed
+      background-color: #fdd4cd
+      color: #ae1800
+      fill: #ae1800
 
   &--state
     grid-area: state

@@ -5,9 +5,9 @@
 
 <span class='op-merge-request--state' [ngClass]="'op-merge-request--state_' + state">
   <svg class="op-merge-request--iconsize"><use [attr.xlink:href]="'#merge-request_' + state" /></svg>
-  {{state}} &#10093; 
+  {{state}} | 
   <a
-  class='op-merge-request--link'
+  [ngClass]="'op-merge-request--link' + state"
   [href]="mergeRequest.htmlUrl"
   target="blank"
   [textContent]="mergeRequest.repository + '#' + mergeRequest.number"
@@ -25,6 +25,7 @@
   <span class='op-merge-request--user'> 
     <a
       [href]="'mailto:' + mergeRequest.gitlabUser.email"
+      class='op-merge-request--username'
       [textContent]="mergeRequest.gitlabUser.login"
       *ngIf="mergeRequest.gitlabUser"
     ></a>.
