@@ -92,6 +92,16 @@
   label_time_zone: "Tidssone"
   label_start_date: "Startdato"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Classic'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
@@ -121,8 +131,6 @@
   text_meeting_closing_are_you_sure: "Er du sikker på at du vil lukke agendaen?"
   text_meeting_agenda_open_are_you_sure: "Dette vil overskrive alle endringer i minuttene! Vil du fortsette?"
   text_meeting_minutes_for_meeting: 'referat for møtet "%{meeting}"'
-  text_review_meeting_agenda: "%{author} har lagt opp %{link} for gjennomgang."
-  text_review_meeting_minutes: "%{author} har lagt opp %{link} for gjennomgang."
   text_notificiation_invited: "Denne e-posten inneholder ny informasjon for møtet nedenfor:"
   text_meeting_empty_heading: "Your meeting is empty"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."

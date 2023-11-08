@@ -30,11 +30,11 @@ source 'https://rubygems.org'
 
 ruby '~> 3.2.1'
 
-gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.5.0'
 gem 'activerecord-session_store', '~> 2.1.0'
+gem 'ox'
 gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
@@ -89,7 +89,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 4.1.0'
+gem 'rouge', '~> 4.2.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.1.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -152,8 +152,8 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'prawn', '~> 2.4'
 gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'cc286655dfa2ea2b30bf2a149063f42f7081aa3d'
+gem 'prawn', '~> 2.4'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -251,8 +251,8 @@ group :test do
 
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
-  gem 'cuprite', github: 'rubycdp/cuprite', ref: 'd31b926b2afc4e11b516f15da8205dd3c34e7af1'
-  gem 'selenium-webdriver', '~> 4.14.0'
+  gem 'cuprite', '~> 0.15.0'
+  gem 'selenium-webdriver', '~> 4.15.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -310,10 +310,10 @@ group :development, :test do
 
   # ruby linting
   gem 'rubocop', require: false
+  gem 'rubocop-inflector', require: false
+  gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-inflector', require: false
 
   # erb linting
   gem "erb_lint", require: false
@@ -323,7 +323,7 @@ group :development, :test do
   gem 'brakeman', '~> 6.0.0'
 end
 
-gem 'bootsnap', '~> 1.16.0', require: false
+gem 'bootsnap', '~> 1.17.0', require: false
 
 # API gems
 gem 'grape', '~> 1.8.0'
@@ -350,7 +350,7 @@ platforms :mri, :mingw, :x64_mingw do
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
-  gem 'with_advisory_lock', '~> 4.6.0'
+  gem 'with_advisory_lock', '~> 5.0.0'
 end
 
 # Load Gemfile.modules explicitly to allow dependabot to work
@@ -365,6 +365,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-primer_view_components", '~>0.13.0'
 gem "openproject-octicons", '~>19.7.0'
 gem "openproject-octicons_helper", '~>19.7.0'
+gem "openproject-primer_view_components", '~>0.13.0'

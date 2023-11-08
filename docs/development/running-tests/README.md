@@ -278,10 +278,11 @@ Upgrade tests are manually performed for major code changes and data migrations 
 **Key objectives and effects**
 
 1. **Verify seamless installation**: Ensure that OpenProject can be installed as documented.
-2. **Check version compatibility**: Test the compatibility of the upgraded application with existing configurations, databases, and other dependent software.
-3. **Validate migrations**: Confirm that during an upgrade, data migration occurs without data loss or corruption.
-4. **Technical support**: Reduce the number of support tickets related to installation and upgrade issues.
-5. **Operational efficiency**: Minimize downtime and service interruptions during the upgrade process.
+2. **Correct and minimal configuration:** Ensure that the default configuration is minimal but sufficient to operate OpenProject securely, and check that the required necessary configuration is minimal. New configuration primitives should receive a secure default.
+3. **Check version compatibility**: Test the compatibility of the upgraded application with existing configurations, databases, and other dependent software.
+4. **Validate migrations**: Confirm that during an upgrade, data migration occurs without data loss or corruption.
+5. **Technical support**: Reduce the number of support tickets related to installation and upgrade issues.
+6. **Operational efficiency**: Minimize downtime and service interruptions during the upgrade process.
 
 
 

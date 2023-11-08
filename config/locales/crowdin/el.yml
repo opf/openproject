@@ -74,9 +74,9 @@ el:
       paste: "Paste your Enterprise edition support token"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
-      start_trial: 'Έναρξη δωρεάν δοκιμαστικής περιόδου'
-      book_now: 'Κάντε κράτηση τώρα'
-      get_quote: 'Λάβετε μια προσφορά'
+      start_trial: "Έναρξη δωρεάν δοκιμαστικής περιόδου"
+      book_now: "Κάντε κράτηση τώρα"
+      get_quote: "Λάβετε μια προσφορά"
       buttons:
         upgrade: "Αναβαθμίστε τώρα"
         contact: "Επικοινωνήστε μαζί μας για μια επίδειξη"
@@ -91,14 +91,14 @@ el:
     is_active: εμφανίζεται αυτή τη στιγμή
     is_inactive: δεν εμφανίζεται αυτή τη στιγμή
   attribute_help_texts:
-    note_public: 'Οποιοδήποτε κείμενο και εικόνες που προσθέτετε σε αυτό το πεδίο είναι δημόσια ορατό σε όλους τους συνδεδεμένους χρήστες!'
-    text_overview: 'Σε αυτήν την προβολή, μπορείτε να δημιουργήσετε προσαρμοσμένα κείμενα βοήθειας για προβολή χαρακτηριστικών. Όταν οριστεί, αυτά τα κείμενα μπορούν να προβληθούν κάνοντας κλικ στο παρακάτω εικονίδιο.'
-    label_plural: 'Κείμενα βοήθειας χαρακτηριστικών'
-    show_preview: 'Προεπισκόπηση κειμένου'
-    add_new: 'Προσθήκη βοηθητικού κειμένου'
+    note_public: "Οποιοδήποτε κείμενο και εικόνες που προσθέτετε σε αυτό το πεδίο είναι δημόσια ορατό σε όλους τους συνδεδεμένους χρήστες!"
+    text_overview: "Σε αυτήν την προβολή, μπορείτε να δημιουργήσετε προσαρμοσμένα κείμενα βοήθειας για προβολή χαρακτηριστικών. Όταν οριστεί, αυτά τα κείμενα μπορούν να προβληθούν κάνοντας κλικ στο παρακάτω εικονίδιο."
+    label_plural: "Κείμενα βοήθειας χαρακτηριστικών"
+    show_preview: "Προεπισκόπηση κειμένου"
+    add_new: "Προσθήκη βοηθητικού κειμένου"
     edit: "Επεξεργασία βοηθητικού κειμένου για %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
@@ -106,7 +106,7 @@ el:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Αυτή η φόρμα LDAP απαιτεί τεχνικές γνώσεις για την LDAP / Active Directory εγκατάσταση σας.
       <br/>
@@ -133,20 +133,20 @@ el:
       onthefly_register: |
         Αν επιλέξετε αυτό το κουτί, το OpenProject θα δημιουργεί αυτόματα καινούργιους χρήστες από τις καταχωρήσεις του LDAP όταν ταυτοποιούνται για πρώτη φορά στο OpenProject.
         Αφήστε το μη επιλεγμένο για να επιτρέψετε μόνο στους υπάρχοντες λογαριασμούς στο OpenProject να ταυτοποιηθούν μέσω LDAP!
-    connection_encryption: 'Κρυπτογράφηση σύνδεσης'
-    encryption_details: 'LDAPS / STARTTLS options'
-    system_account: 'Λογαριασμός συστήματος'
+    connection_encryption: "Κρυπτογράφηση σύνδεσης"
+    encryption_details: "LDAPS / STARTTLS options"
+    system_account: "Λογαριασμός συστήματος"
     system_account_legend: |
       Το OpenProject απαιτεί πρόσβαση ανάγνωσης-μόνο μέσω ενός λογαριασμού συστήματος για να αναζητά χρήστες και ομάδες στο LDAP δέντρο σας.
       Παρακαλούμε προσδιορίστε τα διαπιστευτήρια δέσμευσης για αυτόν τον χρήστη συστήματος στην παρακάτω ενότητα.
-    ldap_details: 'Λεπτομέρειες LDAP'
-    user_settings: 'Χαρτογράφηση χαρακτηριστικού'
+    ldap_details: "Λεπτομέρειες LDAP"
+    user_settings: "Χαρτογράφηση χαρακτηριστικού"
     user_settings_legend: |
       Τα ακόλουθα πεδία σχετίζονται με το πως οι χρήστες δημιουργούνται στο OpenProject από τις καταχωρήσεις LDAP και ποια χαρακτηριστικά LDAP χρησιμοποιούνται για να ορίσουν τα χαρακτηριστικά ενός χρήστη OpenProject (χαρτογράφηση χαρακτηριστικού).
     tls_mode:
-      plain: 'κανένα'
-      simple_tls: 'LDAPS'
-      start_tls: 'STARTTLS'
+      plain: "κανένα"
+      simple_tls: "LDAPS"
+      start_tls: "STARTTLS"
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
       start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
@@ -179,23 +179,23 @@ el:
   custom_actions:
     actions:
       name: "Ενέργειες"
-      add: 'Προσθήκη ενέργειας'
+      add: "Προσθήκη ενέργειας"
       assigned_to:
-        executing_user_value: '(Αναθέστε στον εκτελεστή χρήστη)'
-    conditions: 'Προϋποθέσεις'
-    plural: 'Προσαρμοσμένες ενέργειες'
-    new: 'Νέα προσαμοσμένη ενέργεια'
-    edit: 'Επεξεργασία της προσαρμοσμένης ενέργειας %{name}'
-    execute: 'Εκτέλεση %{name}'
+        executing_user_value: "(Αναθέστε στον εκτελεστή χρήστη)"
+    conditions: "Προϋποθέσεις"
+    plural: "Προσαρμοσμένες ενέργειες"
+    new: "Νέα προσαμοσμένη ενέργεια"
+    edit: "Επεξεργασία της προσαρμοσμένης ενέργειας %{name}"
+    execute: "Εκτέλεση %{name}"
     upsale:
-      title: 'Προσαρμοσμένες ενέργειες'
-      description: 'Οι προσαρμοσμένες ενέργειες είναι συντομεύσεις με ένα κλικ προς ένα σύνολο προκαθορισμένων ενεργειών που μπορείτε να διαθέσετε σε συγκεκριμένα πακέτα εργασίας με βάση την κατάσταση, ρόλος, τύπος ή έργο.'
+      title: "Προσαρμοσμένες ενέργειες"
+      description: "Οι προσαρμοσμένες ενέργειες είναι συντομεύσεις με ένα κλικ προς ένα σύνολο προκαθορισμένων ενεργειών που μπορείτε να διαθέσετε σε συγκεκριμένα πακέτα εργασίας με βάση την κατάσταση, ρόλος, τύπος ή έργο."
   custom_fields:
     text_add_new_custom_field: >
       Για να προσθέσετε νέα προσαρμοσμένα πεδία σε ένα έργο, πρέπει πρώτα να τα δημιουργήσετε για να τα προσθέσετε σε αυτό το έργο.
-    is_enabled_globally: 'Είναι ενεργοποιημένο σε όλο το σύστημα'
-    enabled_in_project: 'Ενεργοποιημένο στο έργο'
-    contained_in_type: 'Περιέχονται στον τύπο'
+    is_enabled_globally: "Είναι ενεργοποιημένο σε όλο το σύστημα"
+    enabled_in_project: "Ενεργοποιημένο στο έργο"
+    contained_in_type: "Περιέχονται στον τύπο"
     confirm_destroy_option: "Η διαγραφή μιας επιλογής θα διαγράψει όλα τα περιστατικά της (π.χ. σε πακέτα εργασίας). Είστε βέβαιοι ότι θέλετε να το διαγράψετε;"
     reorder_alphabetical: "Αναδιάταξη τιμών αλφαβητικά"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
@@ -203,7 +203,7 @@ el:
       no_results_title_text: Προς το παρόν δεν υπάρχουν προσαρμοσμένα πεδία.
       no_results_content_text: Δημιουργία νέου προσαρμοσμένου πεδίου
   concatenation:
-    single: 'ή'
+    single: "ή"
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -222,13 +222,13 @@ el:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Μέλη έργου'
-      overviews: 'Επισκόπηση έργου'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: "Μέλη έργου"
+      overviews: "Επισκόπηση έργου"
+      queries: "Work packages: saved views"
+      wiki_page_attachments: "Wiki pages: attachments"
+      work_package_attachments: "Work packages: attachments"
+      work_package_categories: "Work packages: categories"
+      work_package_file_links: "Work packages: file links"
     delete:
       scheduled: "Η διαγραφή έχει προγραμματιστεί και εκτελείται στο παρασκήνιο. Θα ειδοποιηθείτε για το αποτέλεσμα."
       schedule_failed: "Το έργο δεν μπορεί να διαγραφεί: %{errors}"
@@ -238,7 +238,7 @@ el:
       completed_text: "Το αίτημα για διαγραφή του έργου %{name} έχει ολοκληρωθεί."
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
-      open_as_gantt: 'Άνοιγμα ως προβολή Gantt'
+      open_as_gantt: "Άνοιγμα ως προβολή Gantt"
       open_as_gantt_title: "Χρησιμοποιήστε αυτό το κουμπί για να δημιουργήσετε μια προβολή Gantt που φιλτράρει τα πακέτα εργασίας για τα έργα που εμφανίζονται σε αυτή τη σελίδα."
       open_as_gantt_title_admin: "Μπορείτε να τροποποιήσετε τις ρυθμίσεις προβολής (όπως επιλεγμένοι τύποι πακέτων εργασίας) στη διαχείριση κάτω από τις ρυθμίσεις του έργου."
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
@@ -278,7 +278,7 @@ el:
       no_results_title_text: Δεν υπάρχουν προς το παρόν διαθέσιμα αναγνωριστικά πρόσβασης.
       notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
     index:
       no_results_title_text: Δεν υπάρχουν προς το παρόν νέα για αναφορά.
@@ -286,16 +286,16 @@ el:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      browser: "Browser"
+      device: "Device / OS"
+      unknown_browser: "unknown browser"
+      unknown_os: "unknown operating system"
+      current: "Current session"
+      title: "Session management"
+      instructions: "This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to."
+      may_not_delete_current: "You cannot delete your current session."
     groups:
-      member_in_these_groups: 'Αυτός ο χρήστης είναι μέλος των παρακάτω ομάδων:'
+      member_in_these_groups: "Αυτός ο χρήστης είναι μέλος των παρακάτω ομάδων:"
       no_results_title_text: Αυτός ο χρήστης, προς το παρόν, δεν είναι μέλος κάποιας ομάδας.
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
@@ -370,8 +370,8 @@ el:
       no_results_title_text: Δεν υπάρχουν ροές εργασίας αυτήν τη στιγμή.
   work_packages:
     x_descendants:
-      one: 'Ένα πακέτο εργασίας-απόγονος'
-      other: '%{count} πακέτα εργασίας-απόγονοι'
+      one: "Ένα πακέτο εργασίας-απόγονος"
+      other: "%{count} πακέτα εργασίας-απόγονοι"
     bulk:
       copy_failed: "The work packages could not be copied."
       move_failed: "The work packages could not be moved."
@@ -382,7 +382,7 @@ el:
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Δεν υπάρχει διαθέσιμη κατάσταση για όλα τα επιλεγμένα πακέτα εργασίας. Η κατάσταση τους δεν μπορεί να αλλάξει."
-      unsupported_for_multiple_projects: 'Η μαζική μετακίνηση/αντιγραφή δεν υποστηρίζεται για πακέτα εργασίας από πολλά έργα'
+      unsupported_for_multiple_projects: "Η μαζική μετακίνηση/αντιγραφή δεν υποστηρίζεται για πακέτα εργασίας από πολλά έργα"
     summary:
       reports:
         category:
@@ -406,8 +406,8 @@ el:
     deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
-        other: "Από τα δεδομένα που δημιούργησε ο χρήστης (π.χ. email, προτιμήσεις, πακέτα εργασίας, καταχωρίσεις wiki) θα διαγραφούν όσο το δυνατόν περισσότερα. Σημειώστε όμως ότι τα δεδομένα όπως τα πακέτα εργασίας και οι καταχωρίσεις wiki δεν μπορούν να διαγραφούν χωρίς να παρεμποδίσουν την εργασία των άλλων χρηστών. Ως εκ τούτου, τέτοια δεδομένα θα ανατεθούν σε ένα λογαριασμό που θα ονομάζεται \"Διαγραμμένος Χρήστης\". Εφόσον τα δεδομένα όλων των διαγραμμένων λογαριασμών ανατίθενται σε αυτόν το λογαριασμό, δεν θα είναι δυνατό να διακρίνετε τα δεδομένα που δημιούργησε ο χρήστης από τα δεδομένα κάποιου άλλου διαγραμμένου λογαριασμού."
-        self: "Από τα δεδομένα που δημιουργήσατε (π.χ. email, προτιμήσεις, πακέτα εργασίας, καταχωρίσεις wiki) θα διαγραφούν όσο το δυνατόν περισσότερα. Σημειώστε όμως ότι τα δεδομένα όπως τα πακέτα εργασίας και οι καταχωρίσεις wiki δεν μπορούν να διαγραφούν χωρίς να παρεμποδίσουν την εργασία των άλλων χρηστών. Ως εκ τούτου, τέτοια δεδομένα θα ανατεθούν σε ένα λογαριασμό που θα ονομάζεται \"Διαγραμμένος Χρήστης\". Εφόσον τα δεδομένα όλων των διαγραμμένων λογαριασμών ανατίθενται σε αυτόν το λογαριασμό, δεν θα είναι δυνατό να διακρίνετε τα δεδομένα που δημιουργήσατε από τα δεδομένα κάποιου άλλου διαγραμμένου λογαριασμού."
+        other: 'Από τα δεδομένα που δημιούργησε ο χρήστης (π.χ. email, προτιμήσεις, πακέτα εργασίας, καταχωρίσεις wiki) θα διαγραφούν όσο το δυνατόν περισσότερα. Σημειώστε όμως ότι τα δεδομένα όπως τα πακέτα εργασίας και οι καταχωρίσεις wiki δεν μπορούν να διαγραφούν χωρίς να παρεμποδίσουν την εργασία των άλλων χρηστών. Ως εκ τούτου, τέτοια δεδομένα θα ανατεθούν σε ένα λογαριασμό που θα ονομάζεται "Διαγραμμένος Χρήστης". Εφόσον τα δεδομένα όλων των διαγραμμένων λογαριασμών ανατίθενται σε αυτόν το λογαριασμό, δεν θα είναι δυνατό να διακρίνετε τα δεδομένα που δημιούργησε ο χρήστης από τα δεδομένα κάποιου άλλου διαγραμμένου λογαριασμού.'
+        self: 'Από τα δεδομένα που δημιουργήσατε (π.χ. email, προτιμήσεις, πακέτα εργασίας, καταχωρίσεις wiki) θα διαγραφούν όσο το δυνατόν περισσότερα. Σημειώστε όμως ότι τα δεδομένα όπως τα πακέτα εργασίας και οι καταχωρίσεις wiki δεν μπορούν να διαγραφούν χωρίς να παρεμποδίσουν την εργασία των άλλων χρηστών. Ως εκ τούτου, τέτοια δεδομένα θα ανατεθούν σε ένα λογαριασμό που θα ονομάζεται "Διαγραμμένος Χρήστης". Εφόσον τα δεδομένα όλων των διαγραμμένων λογαριασμών ανατίθενται σε αυτόν το λογαριασμό, δεν θα είναι δυνατό να διακρίνετε τα δεδομένα που δημιουργήσατε από τα δεδομένα κάποιου άλλου διαγραμμένου λογαριασμού.'
       heading: "Διαγραφή λογαριασμού %{name}"
       info:
         other: "Η διαγραφή του λογαριασμού χρήστη είναι μια μη αναστρέψιμη ενέργεια."
@@ -443,8 +443,8 @@ el:
         filename: "Aρχείο"
         filesize: "Μέγεθος"
       attribute_help_text:
-        attribute_name: 'Χαρακτηριστικό'
-        help_text: 'Κείμενο βοήθειας'
+        attribute_name: "Χαρακτηριστικό"
+        help_text: "Κείμενο βοήθειας"
       ldap_auth_source:
         account: "Account"
         attr_firstname: "Firstname attribute"
@@ -465,6 +465,7 @@ el:
       custom_action:
         actions: "Ενέργειες"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Προεπιλεγμένη τιμή"
         editable: "Επεξεργάσιμο"
         field_format: "Μορφοποίηση"
@@ -513,15 +514,15 @@ el:
           true: "public"
           false: "private"
         queries: "Αναζητήσεις"
-        status_code: 'Κατάσταση έργου'
-        status_explanation: 'Project status description'
+        status_code: "Κατάσταση έργου"
+        status_explanation: "Project status description"
         status_codes:
-          not_started: 'Not started'
-          on_track: 'Eντός πορείας'
-          at_risk: 'Σε κίνδυνο'
-          off_track: 'Eκτός πορείας'
-          finished: 'Ολοκληρωμένο'
-          discontinued: 'Discontinued'
+          not_started: "Not started"
+          on_track: "Eντός πορείας"
+          at_risk: "Σε κίνδυνο"
+          off_track: "Eκτός πορείας"
+          finished: "Ολοκληρωμένο"
+          discontinued: "Discontinued"
         templated: "Πρότυπο έργο"
         templated_value:
           true: "marked as template"
@@ -548,7 +549,7 @@ el:
         ongoing: "Ongoing"
       type:
         description: "Προεπιλεγμένο κείμενο για την περιγραφή"
-        attribute_groups: ''
+        attribute_groups: ""
         is_in_roadmap: "Εμφάνιση στο χάρτη πορείας από προεπιλογή"
         is_default: "Ενεργοποιημένα για καινούργια έργα από προεπιλογή"
         is_milestone: "Είναι ορόσημο"
@@ -591,9 +592,9 @@ el:
         end_deletion: "Λήξη της διαγραφής"
         ignore_non_working_days: "Ignore non working days"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: "Working days"
+          false: "working days only"
+          true: "include non-working days"
         parent: "Γονέας"
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"
@@ -608,7 +609,7 @@ el:
         type: "Τύπος"
         version: "Έκδοση"
         watcher: "Παρατηρητής"
-      'doorkeeper/application':
+      "doorkeeper/application":
         uid: "Ταυτότητα Πελάτη"
         secret: "Μυστικό πελάτη"
         owner: "Ιδιοκτήτης"
@@ -648,8 +649,8 @@ el:
         inclusion: "δεν έχει οριστεί σε μια από τις επιτρεπόμενες τιμές."
         inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "δεν είναι έγκυρο."
-        invalid_url: 'δεν είναι μια έγκυρη διεύθυνση URL.'
-        invalid_url_scheme: 'δεν είναι υποστηριζόμενο πρωτόκολλο (επιτρεπόμενα: %{allowed_schemes}).'
+        invalid_url: "δεν είναι μια έγκυρη διεύθυνση URL."
+        invalid_url_scheme: "δεν είναι υποστηριζόμενο πρωτόκολλο (επιτρεπόμενα: %{allowed_schemes})."
         less_than_or_equal_to: "πρέπει να είναι μικρότερο ή ίσο με %{count}."
         not_available: "is not available due to a system configuration."
         not_deletable: "δεν μπορεί να διαγραφεί."
@@ -690,7 +691,7 @@ el:
               format: "%{message}"
         capability:
           context:
-            global: 'Καθολικό'
+            global: "Καθολικό"
           query:
             filters:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
@@ -708,35 +709,35 @@ el:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'δεν μπορεί να περιέχει ένα τμήμα (fragment).'
-              invalid_uri: 'πρέπει να είναι έγκυρο URI.'
-              relative_uri: 'πρέπει να είναι απόλυτο URI.'
+              fragment_present: "δεν μπορεί να περιέχει ένα τμήμα (fragment)."
+              invalid_uri: "πρέπει να είναι έγκυρο URI."
+              relative_uri: "πρέπει να είναι απόλυτο URI."
               secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
-              forbidden_uri: 'απαγορεύεται από το διακομιστή.'
+              forbidden_uri: "απαγορεύεται από το διακομιστή."
             scopes:
               not_match_configured: "δεν ταιριάζει με τα διαθέσιμα φυσικά αντικείμενα."
         enterprise_token:
           unreadable: "δεν μπορεί να διαβαστεί. Είστε βέβαιοι ότι είναι token υποστήριξης;"
         grids/grid:
-          overlaps: 'επικάλυψη.'
-          outside: 'είναι εκτός πλέγματος.'
-          end_before_start: 'η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή.'
+          overlaps: "επικάλυψη."
+          outside: "είναι εκτός πλέγματος."
+          end_before_start: "η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή."
         ical_token_query_assignment:
           attributes:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: "cannot be set to true on notification creation."
             mail_reminder_sent:
-              set_on_creation: 'cannot be set to true on notification creation.'
+              set_on_creation: "cannot be set to true on notification creation."
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: "cannot be blank as IAN is chosen as a channel."
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: "cannot be blank as mail digest is chosen as a channel."
         non_working_day:
           attributes:
             date:
@@ -749,8 +750,8 @@ el:
               invalid_values: "Μια τιμή δεν είναι έγκυρη."
               id_filter_required: "Απαιτείται ένα φίλτρο 'Ταυτότητα'."
         project:
-          archived_ancestor: 'Το έργο έχει έναν αρχειοθετημένο πρόγονο.'
-          foreign_wps_reference_version: 'Πακέτα εργασίας σε εκδόσεις αναφοράς του έργου ή των απογόνων του έργου που δεν προέρχονται απο απογόνους.'
+          archived_ancestor: "Το έργο έχει έναν αρχειοθετημένο πρόγονο."
+          foreign_wps_reference_version: "Πακέτα εργασίας σε εκδόσεις αναφοράς του έργου ή των απογόνων του έργου που δεν προέρχονται απο απογόνους."
           attributes:
             base:
               archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
@@ -810,8 +811,8 @@ el:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              working_days_are_missing: "At least one day of the week must be defined as a working day."
+              previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
         time_entry:
           attributes:
             hours:
@@ -823,10 +824,10 @@ el:
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: "There must only be one global notification setting."
+              email_alerts_global: "The email notification settings can only be set globally."
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: "Wrong value for Start date, Due date, or Overdue."
         watcher:
           attributes:
             user_id:
@@ -870,7 +871,7 @@ el:
               does_not_exist: "Η καθορισμένη κατηγορία δεν υπάρχει."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "πρέπει να είναι >= 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
             attribute_groups:
@@ -883,6 +884,7 @@ el:
           attributes:
             base:
               user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -928,7 +930,7 @@ el:
       comment: "Σχόλιο"
       custom_action: "Προσαρμοσμένη ενέργεια"
       custom_field: "Προσαρμοσμένο πεδίο"
-      'doorkeeper/application': "OAuth εφαρμογή"
+      "doorkeeper/application": "OAuth εφαρμογή"
       forum: "Φόρουμ"
       global_role: "Global role"
       group: "Ομάδα"
@@ -1091,7 +1093,7 @@ el:
   button_check_all: "Επιλογή όλων"
   button_clear: "Εκκαθάριση"
   button_click_to_reveal: "Κάντε κλικ για να εμφανίσετε"
-  button_close: 'Κλείσιμο'
+  button_close: "Κλείσιμο"
   button_collapse_all: "Σύμπτυξη όλων"
   button_configure: "Ρύθμιση παραμέτρων"
   button_continue: "Συνέχεια"
@@ -1159,19 +1161,19 @@ el:
     update_consent_last_time: "Τελευταία ενημέρωση συναίνεσης: %{update_time}"
   copy_project:
     title: 'Αντιγραφή έργου "%{source_project_name}"'
-    started: "Έναρξη αντιγραφής έργου \"%{source_project_name}\" στο \"%{target_project_name}\". Θα ενημερωθείτε με email μόλις το \"%{target_project_name}\" είναι διαθέσιμο."
+    started: 'Έναρξη αντιγραφής έργου "%{source_project_name}" στο "%{target_project_name}". Θα ενημερωθείτε με email μόλις το "%{target_project_name}" είναι διαθέσιμο.'
     failed: "Δεν είναι δυνατή η αντιγραφή του έργου %{source_project_name}"
     failed_internal: "Η αντιγραφή απέτυχε λόγω ενός εσωτερικού σφάλματος."
     succeeded: "Δημιουργήθηκε το έργο %{target_project_name}"
     errors: "Σφάλμα"
-    project_custom_fields: 'Προσαρμοσμένα πεδία του έργου'
+    project_custom_fields: "Προσαρμοσμένα πεδία του έργου"
     x_objects_of_this_type:
-      zero: 'Δεν υπάρχουν αντικείμενα αυτού του τύπου'
-      one: 'Ένα αντικείμενο αυτού του τύπου'
-      other: '%{count} αντικείμενα αυτού του τύπου'
+      zero: "Δεν υπάρχουν αντικείμενα αυτού του τύπου"
+      one: "Ένα αντικείμενο αυτού του τύπου"
+      other: "%{count} αντικείμενα αυτού του τύπου"
     text:
-      failed: "Δεν ήταν δυνατή η αντιγραφή του έργου \"%{source_project_name}\" στο έργο \"%{target_project_name}\"."
-      succeeded: "Αντιγράφτηκε το έργο \"%{source_project_name}\" στο \"%{target_project_name}\"."
+      failed: 'Δεν ήταν δυνατή η αντιγραφή του έργου "%{source_project_name}" στο έργο "%{target_project_name}".'
+      succeeded: 'Αντιγράφτηκε το έργο "%{source_project_name}" στο "%{target_project_name}".'
   create_new_page: "Σελίδα Wiki"
   date:
     abbr_day_names:
@@ -1196,7 +1198,7 @@ el:
       - "Οκτ"
       - "Νοε"
       - "Δεκ"
-    abbr_week: 'Εβδ'
+    abbr_week: "Εβδ"
     day_names:
       - "Κυριακή"
       - "Δευτέρα"
@@ -1213,7 +1215,7 @@ el:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Ιανουάριος"
       - "Φεβρουάριος"
@@ -1227,7 +1229,6 @@ el:
       - "Οκτώβριος"
       - "Νοέμβριος"
       - "Δεκέμβριος"
-    #Used in date_select and datetime_select.
     order:
       - ':έτος'
       - ':μήνας'
@@ -1336,8 +1337,8 @@ el:
   error_can_not_archive_project: "Αυτό το έργο δεν μπορεί να αρχειοθετηθεί: %{errors}"
   error_can_not_delete_entry: "Δεν είναι δυνατή η διαγραφή καταχώρησης"
   error_can_not_delete_custom_field: "Δεν είναι δυνατή η διαγραφή του προσαρμοσμένου πεδίου"
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
+  error_can_not_delete_in_use_archived_work_packages: "There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
   error_can_not_delete_standard_type: "Οι κανονικοί τύποι δεν μπορούν να διαγραφούν."
@@ -1349,28 +1350,28 @@ el:
   error_check_user_and_role: "Παρακαλούμε επιλέξτε ένα χρήστη και ένα ρόλο."
   error_code: "Σφάλμα %{code}"
   error_color_could_not_be_saved: "Color could not be saved"
-  error_cookie_missing: 'Τα cookie του OpenProject λείπουν. Παρακαλούμε σιγουρευτείτε ότι τα cookies είναι ενεργοποιημένα, καθώς αυτή η εφαρμογή δεν θα μπορεί να λειτουργήσει σωστά χωρίς αυτά.'
+  error_cookie_missing: "Τα cookie του OpenProject λείπουν. Παρακαλούμε σιγουρευτείτε ότι τα cookies είναι ενεργοποιημένα, καθώς αυτή η εφαρμογή δεν θα μπορεί να λειτουργήσει σωστά χωρίς αυτά."
   error_custom_option_not_found: "Η επιλογή δεν υπάρχει."
   error_enterprise_activation_user_limit: "Ο λογαριασμός σας δεν ήταν δυνατό να ενεργοποιηθεί (επετεύχθη το όριο χρηστών). Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας για να αποκτήσετε πρόσβαση."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
-  error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
+  error_failed_to_delete_entry: "Αποτυχία διαγραφής αυτής της καταχώρησης."
   error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
   error_journal_attribute_not_present: "Το ημερολόγιο δεν περιέχει το χαρακτηριστικό %{attribute}."
   error_pdf_export_too_many_columns: "Επιλέχθηκαν πάρα πολλές στήλες για εξαγωγή σε PDF. Παρακαλούμε μειώστε τον αριθμό των στηλών."
   error_pdf_failed_to_export: "Η εξαγωγή σε PDF δεν ήταν δυνατό να αποθηκευτεί: %{error}"
-  error_token_authenticity: 'Δεν ήταν δυνατή η επαλήθευση του Cross-Site Request Forgery token. Προσπαθήσατε να υποβάλετε δεδομένα σε πολλαπλούς περιηγητές ή καρτέλες; Παρακαλούμε κλείστε όλες τις καρτέλες και δοκιμάστε ξανά.'
+  error_token_authenticity: "Δεν ήταν δυνατή η επαλήθευση του Cross-Site Request Forgery token. Προσπαθήσατε να υποβάλετε δεδομένα σε πολλαπλούς περιηγητές ή καρτέλες; Παρακαλούμε κλείστε όλες τις καρτέλες και δοκιμάστε ξανά."
   error_work_package_done_ratios_not_updated: "Η αναλογίες ολοκληρωμένων πακέτων εργασίας δεν έχουν ενημερωθεί."
   error_work_package_not_found_in_project: "Το πακέτο εργασίας δεν βρέθηκε ή δεν ανοίκει σε αυτό το έργο"
   error_must_be_project_member: "πρέπει να είναι μέλος έργου"
   error_migrations_are_pending: "Η εγκατάσταση OpenProject σας έχει μεταφορές βάσης δεδομένων που εκκρεμούν. Πιθανότατα δεν τρέξατε τις μεταφορές κατά τη διάρκεια της προηγούμενης αναβάθμιση. Παρακαλούμε ελέγξτε τον οδηγό αναβάθμισης για να αναβαθμίσετε την εγκατάσταση σας σωστά."
   error_migrations_visit_upgrade_guides: "Παρακαλούμε επισκεφθείτε την τεκμηρίωση οδηγού αναβάθμισης"
-  error_no_default_work_package_status: "Δεν έχει οριστεί η προεπιλογή κατάστασης πακέτων εργασίας. Παρακαλώ ελέγξτε τις ρυθμίσεις σας (Μεταβείτε στην \"Διαχείριση -> Κατάσταση Πακέτων Εργασίας\")."
+  error_no_default_work_package_status: 'Δεν έχει οριστεί η προεπιλογή κατάστασης πακέτων εργασίας. Παρακαλώ ελέγξτε τις ρυθμίσεις σας (Μεταβείτε στην "Διαχείριση -> Κατάσταση Πακέτων Εργασίας").'
   error_no_type_in_project: "Δεν υπάρχει τύπος που σχετίζεται με αυτό το έργο. Παρακαλώ ελέγξτε τις Ρυθμίσεις του Έργου."
   error_omniauth_registration_timed_out: "Η εγγραφή μέσω ενός εξωτερικού παρόχου ταυτοποίησης έληξε. Παρακαλούμε προσπαθήστε ξανά."
   error_omniauth_invalid_auth: "Οι πληροφορίες ελέγχου ταυτότητας που επιστράφηκαν από τον πάροχο ταυτότητας δεν ήταν έγκυρες. Επικοινωνήστε με το διαχειριστή σας για περαιτέρω βοήθεια."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Παρουσιάστηκε σφάλμα κατά την προσπάθεια πρόσβασης στο αποθετήριο: %{value}"
   error_scm_not_found: "Η καταχώρηση ή η αναθεώρηση δεν βρέθηκε στο αποθετήριο."
   error_type_could_not_be_saved: "Type could not be saved"
@@ -1388,17 +1389,17 @@ el:
   error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τη διάρκεια της εξωτερικής ταυτοποίησης. Παρακαλούμε προσπαθήστε ξανά."
   error_attribute_not_highlightable: "Δεν είναι δυνατή η επισήμανση του(-ών) χαρακτηριστικού(-ών): %{attributes}"
   events:
-    changeset: 'Οι αλλαγές επεξεργάστηκαν'
+    changeset: "Οι αλλαγές επεξεργάστηκαν"
     message: Το μήνυμα επεξεργάστηκε
     news: Νέα
-    project_attributes: 'Project attributes edited'
-    projects: 'Το έργο επεξεργάστηκε'
+    project_attributes: "Project attributes edited"
+    projects: "Το έργο επεξεργάστηκε"
     reply: Απάντησε
-    time_entry: 'Η καταγραφή χρόνου επεξεργάστηκε'
-    wiki_page: 'Η σελίδα Wiki επεξεργάστηκε'
-    work_package_closed: 'Το Πακέτο Εργασίας έκλεισε'
-    work_package_edit: 'Το πακέτο εργασίας επεξεργάστηκε'
-    work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
+    time_entry: "Η καταγραφή χρόνου επεξεργάστηκε"
+    wiki_page: "Η σελίδα Wiki επεξεργάστηκε"
+    work_package_closed: "Το Πακέτο Εργασίας έκλεισε"
+    work_package_edit: "Το πακέτο εργασίας επεξεργάστηκε"
+    work_package_note: "Προστέθηκε η σημείωση πακέτου εργασίας"
     title:
       project: "Project: %{name}"
       subproject: "Subproject: %{name}"
@@ -1460,7 +1461,7 @@ el:
       forums: "Φόρουμ κοινότητας"
       newsletter: "Ειδοποιήσεις ασφάλεια / Ενημερωτικό δελτίο"
   image_conversion:
-    imagemagick: 'Imagemagick'
+    imagemagick: "Imagemagick"
   journals:
     changes_retracted: "Οι αλλαγές αποσύρθηκαν."
     caused_changes:
@@ -1484,7 +1485,7 @@ el:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
-    configuration_guide: 'Οδηγός διαμόρφωσης'
+    configuration_guide: "Οδηγός διαμόρφωσης"
     get_in_touch: "Έχετε απορίες; Επικοινωνήστε μαζί μας."
   instructions_after_registration: "Μπορείτε να συνδεθείτε μόλις ο λογαριασμός σας ενεργοποιηθεί κάνοντας κλικ στο %{signin}."
   instructions_after_logout: "Μπορείτε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}."
@@ -1493,7 +1494,7 @@ el:
     admin:
       mail_notification: "Ειδοποιήσεις email"
       mails_and_notifications: "Emails and notifications"
-      aggregation: 'Aggregation'
+      aggregation: "Aggregation"
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Άνοιγμα μενού γρήγορης προσθήκης"
@@ -1515,7 +1516,7 @@ el:
         disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
         disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
         empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
       oauth:
@@ -1552,13 +1553,13 @@ el:
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
         We hope you find in-app notifications useful and that they makes you even more productive.
         Sincerely, The OpenProject team
-      body_header: 'Version 12.0 with Notification Center'
-      body_subheader: 'Νέα'
-      subject: 'Important changes to notifications with the release of 12.0'
+      body_header: "Version 12.0 with Notification Center"
+      body_subheader: "Νέα"
+      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Προσβασιμότητα"
   label_account: "Λογαριασμός"
   label_active: "Ενεργό"
-  label_activate_user: 'Ενεργοποίηση χρήστη'
+  label_activate_user: "Ενεργοποίηση χρήστη"
   label_active_in_new_projects: "Ενεργό σε καινούργια έργα"
   label_activity: "Δραστηριότητα"
   label_add_edit_translations: "Προσθέστε και επεξεργαστείτε μεταφράσεις"
@@ -1587,7 +1588,7 @@ el:
   label_api_access_key_created_on: "Tο κλειδί πρόσβασης API δημιουργήθηκε πριν από %{value}"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_description: 'iCalendar token "%{token_name}" for "%{calendar_name}" in "%{project_name}"'
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
@@ -1628,7 +1629,7 @@ el:
   label_branch: "Κλάδος"
   label_browse: "Περιήγηση"
   label_bulk_edit_selected_work_packages: "Μαζική επεξεργασία επιλεγμένων πακέτων εργασίας"
-  label_bundled: '(Πακεταρισμένο)'
+  label_bundled: "(Πακεταρισμένο)"
   label_calendar: "Ημερολόγιο"
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Εμφάνιση Ημερολογίου"
@@ -1704,7 +1705,7 @@ el:
   label_diff: "διαφορά"
   label_diff_inline: "inline"
   label_diff_side_by_side: "αντικριστά"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "απενεργοποιημένο"
   label_display: "Εμφάνιση"
   label_display_per_page: "Ανά σελίδα: %{value}"
@@ -1718,9 +1719,9 @@ el:
   label_edit: "Επεξεργασία"
   label_edit_x: "Επεξεργασία: %{x}"
   label_enable_multi_select: "Ενεργοποίηση πολλαπλής επιλογής"
-  label_enabled_project_custom_fields: 'Ενεργοποίηση προσαρμοσμένων πεδίων'
-  label_enabled_project_modules: 'Ενεργοποίηση ενοτήτων'
-  label_enabled_project_activities: 'Ενεργοποιημένες δραστηριότητες καταγραφής χρόνου'
+  label_enabled_project_custom_fields: "Ενεργοποίηση προσαρμοσμένων πεδίων"
+  label_enabled_project_modules: "Ενεργοποίηση ενοτήτων"
+  label_enabled_project_activities: "Ενεργοποιημένες δραστηριότητες καταγραφής χρόνου"
   label_end_to_end: "τέλος με τέλος"
   label_end_to_start: "από τη λήξη στην έναρξη"
   label_enumeration_new: "Νέα τιμή απαρίθμησης"
@@ -1781,12 +1782,12 @@ el:
   label_in_more_than: "σε περισσότερο από"
   label_inactive: "Ανενεργό"
   label_incoming_emails: "Εισερχόμενα email"
-  label_includes: 'περιλαμβάνει'
+  label_includes: "περιλαμβάνει"
   label_index_by_date: "Δείκτης ανά ημερομηνία"
   label_index_by_title: "Δείκτης ανά τίτλο"
   label_information: "Πληροφορίες"
   label_information_plural: "Πληροφορίες"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: "Installation guides"
   label_integer: "Ακέραιος"
   label_internal: "Εσωτερικό"
   label_introduction_video: "Εισαγωγικό βίντεο"
@@ -1798,7 +1799,7 @@ el:
   label_language: "Γλώσσα"
   label_languages: "Languages"
   label_jump_to_a_project: "Μεταβείτε σε ένα έργο..."
-  label_keyword_plural: 'Λέξεις-κλειδιά'
+  label_keyword_plural: "Λέξεις-κλειδιά"
   label_language_based: "Με βάση τη γλώσσα του χρήστη"
   label_last_activity: "Τελευταία δραστηριότητα"
   label_last_change_on: "Τελευταία τροποποίηση στις"
@@ -1814,7 +1815,7 @@ el:
   label_less_than_ago: "σε λιγότερο από ημέρες πριν"
   label_list: "Προβολή λίστας"
   label_loading: "Φόρτωση..."
-  label_lock_user: 'Κλείδωμα χρήστη'
+  label_lock_user: "Κλείδωμα χρήστη"
   label_logged_as: "Συνδεδεμένος ως"
   label_login: "Σύνδεση"
   label_custom_logo: "Προσαρμοσμένο λογότυπο"
@@ -1834,12 +1835,12 @@ el:
   label_member_new: "Νέο μέλος"
   label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_plural: "Μέλη"
-  lable_membership_added: 'Το μέλος προστέθηκε'
-  lable_membership_updated: 'Το μέλος ενημερώθηκε'
+  lable_membership_added: "Το μέλος προστέθηκε"
+  lable_membership_updated: "Το μέλος ενημερώθηκε"
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: "pre-alpha"
+    alpha: "alpha"
+    beta: "beta"
   label_menu_item_name: "Όνομα στοιχείου μενού"
   label_message: "Μήνυμα"
   label_message_last: "Τελευταίο μήνυμα"
@@ -1883,7 +1884,7 @@ el:
   label_no_parent_page: "Δεν υπάρχει σελίδα γονέα"
   label_nothing_display: "Δεν υπάρχει κάτι για εμφάνιση"
   label_nobody: "κανένας"
-  label_not_found: 'δεν βρέθηκε'
+  label_not_found: "δεν βρέθηκε"
   label_none: "κανένα"
   label_none_parentheses: "(κανένα)"
   label_not_contains: "δεν περιέχει"
@@ -1977,8 +1978,8 @@ el:
   label_repository: "Αποθετήριο"
   label_repository_root: "Ρίζα αποθετηρίου"
   label_repository_plural: "Αποθετήρια"
-  label_required: 'απαιτείται'
-  label_requires: 'απαιτεί'
+  label_required: "απαιτείται"
+  label_requires: "απαιτεί"
   label_result_plural: "Αποτελέσματα"
   label_reverse_chronological_order: "Newest first"
   label_revision: "Αναθεώρηση"
@@ -2045,7 +2046,7 @@ el:
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
-  label_upgrade_guides: 'Οδηγοί αναβάθμισης'
+  label_upgrade_guides: "Οδηγοί αναβάθμισης"
   label_used_by: "Χρησιμοποιείται από"
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"
@@ -2140,31 +2141,31 @@ el:
   macro_execution_error: "Σφάλμα στην εκτέλεση της μακροεντολής %{macro_name}"
   macro_unavailable: "Η μακροεντολή %{macro_name} δεν μπορεί να εμφανιστεί."
   macros:
-    placeholder: '[Placeholder] Μακροεντολή %{macro_name}'
+    placeholder: "[Placeholder] Μακροεντολή %{macro_name}"
     errors:
-      missing_or_invalid_parameter: 'Οι παράμετροι μακροεντολής λείπουν ή είναι λανθασμένες.'
+      missing_or_invalid_parameter: "Οι παράμετροι μακροεντολής λείπουν ή είναι λανθασμένες."
     legacy_warning:
-      timeline: 'Αυτή η ξεπερασμένη μακροεντολή χρονοδιαγράμματος έχει αφαιρεθεί και δεν είναι πια διαθέσιμη. Μπορείτε να αντικαταστήσετε την λειτουργικότητα της με μια ενσωματωμένη μακροεντολή πίνακα.'
+      timeline: "Αυτή η ξεπερασμένη μακροεντολή χρονοδιαγράμματος έχει αφαιρεθεί και δεν είναι πια διαθέσιμη. Μπορείτε να αντικαταστήσετε την λειτουργικότητα της με μια ενσωματωμένη μακροεντολή πίνακα."
     include_wiki_page:
-      removed: 'Η μακροεντολή δεν υπάρχει πια.'
+      removed: "Η μακροεντολή δεν υπάρχει πια."
     wiki_child_pages:
       errors:
         page_not_found: "Δεν ήταν δυνατή η εύρεση της σελίδας wiki '%{name}'."
     create_work_package_link:
       errors:
-        no_project_context: 'Κλήση της μακροεντολής create_work_package_link εκτός του πλαισίου του έργου.'
+        no_project_context: "Κλήση της μακροεντολής create_work_package_link εκτός του πλαισίου του έργου."
         invalid_type: "Δεν βρέθηκε τύπος με όνομα '%{type}' στο έργο '%{project}'."
-      link_name: 'Νέο πακέτο εργασίας'
-      link_name_type: 'Νέο %{type_name}'
+      link_name: "Νέο πακέτο εργασίας"
+      link_name_type: "Νέο %{type_name}"
   mail:
-    actions: 'Ενέργειες'
+    actions: "Ενέργειες"
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+      including_mention_singular: "including a mention"
+      including_mention_plural: "including %{number_mentioned} mentions"
+      unread_notification_singular: "1 unread notification"
+      unread_notification_plural: "%{number_unread} unread notifications"
+      you_have: "You have"
+    logo_alt_text: "Logo"
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
@@ -2172,36 +2173,37 @@ el:
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
     salutation: 'Hello %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
-      mentioned_by: '%{user} mentioned you in a comment'
+      created_at: "Created at %{timestamp} by %{user} "
+      login_to_see_all: "Log in to see all notifications."
+      mentioned: "You have been <b>mentioned in a comment</b>"
+      mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        one: 'There is 1 more work package with notifications.'
-        other: 'There are %{count} more work packages with notifications.'
-      open_in_browser: 'Open in browser'
+        one: "There is 1 more work package with notifications."
+        other: "There are %{count} more work packages with notifications."
+      open_in_browser: "Open in browser"
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
-        responsible: 'Υπόλογος'
-        mentioned: 'Mentioned'
-        shared: 'Shared'
-        subscribed: 'όλα'
-        prefix: 'Received because of the notification setting: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
-      see_all: 'See all'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+        watched: "Watched"
+        assigned: "Assigned"
+        responsible: "Υπόλογος"
+        mentioned: "Mentioned"
+        shared: "Shared"
+        subscribed: "όλα"
+        prefix: "Received because of the notification setting: %{reason}"
+        date_alert_start_date: "Date alert"
+        date_alert_due_date: "Date alert"
+      see_all: "See all"
+      updated_at: "Updated at %{timestamp} by %{user}"
     sharing:
       work_packages:
-        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
-        create_account: 'To access this work package you will need to create an %{instance} account. '
-        open_work_package: 'Open work package'
-        subject: 'You have been shared work package #%{id}'
+        allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
+        create_account: "To access this work package you will need to create an %{instance} account. "
+        open_work_package: "Open work package"
+        subject: "You have been shared work package #%{id}"
         summary:
-          user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of'
+          user: "%{user} shared a work package with you with %{role_rights} rights"
+          group: "%{user} shared a work package with the group %{group} you are a member of"
   mail_body_account_activation_request: "'Ένας νέος χρήστης (%{value}) έχει εγγραφεί. Ο λογαριασμός είναι σε στάδιο αναμονής της έγκρισης σας:"
   mail_body_account_information: "Πληροφορίες του λογαριασμού σας"
   mail_body_account_information_external: "Μπορείτε να χρησιμοποιήσετε τον λογαριασμό %{value} για να συνδεθείτε."
@@ -2230,7 +2232,7 @@ el:
   mail_body_register_closing: "Η ομάδα OpenProject σας"
   mail_body_register_ending: "Μείνετε συνδεδεμένοι! Με εκτίμηση,"
   mail_body_reminder: "%{count} πακέτο(τα) εργασίας που έχουν ανατεθεί σε εσάς έχουν προθεσμία στις επόμενες %{days} ημέρες:"
-  mail_body_group_reminder: "%{count} πακέτα εργασίας που έχουν ανατεθεί στην ομάδα \"%{group}\" έχουν προθεσμία στις επόμενες %{days} ημέρες:"
+  mail_body_group_reminder: '%{count} πακέτα εργασίας που έχουν ανατεθεί στην ομάδα "%{group}" έχουν προθεσμία στις επόμενες %{days} ημέρες:'
   mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Αίτηση ενεργοποίησης του λογαριασμού %{value}"
@@ -2453,6 +2455,7 @@ el:
   permission_view_project_activity: "View project activity"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
+  permission_edit_attribute_help_texts: "Edit attribute help texts"
   placeholders:
     default: "-"
   project:
@@ -2469,9 +2472,9 @@ el:
     template:
       copying: >
         Το έργο σας δημιουργείται από το επιλεγμένο πρότυπο. Θα ειδοποιηθείτε μέσω email μόλις το έργο είναι διαθέσιμο.
-      use_template: 'Χρήση προτύπου'
-      make_template: 'Ορισμός ως πρότυπο'
-      remove_from_templates: 'Αφαίρεση από τα πρότυπα'
+      use_template: "Χρήση προτύπου"
+      make_template: "Ορισμός ως πρότυπο"
+      remove_from_templates: "Αφαίρεση από τα πρότυπα"
     archive:
       are_you_sure: "Είστε σίγουροι ότι θέλετε να αρχειοθετήσετε το έργο %{name};"
       archived: "Αρχειοθετημένο"
@@ -2495,15 +2498,15 @@ el:
     shared_with_user: "Shared with user"
     subproject_id: "Including subproject"
   repositories:
-    at_identifier: 'στο %{identifier}'
-    atom_revision_feed: 'Τροφοδοσία αναθεώρησης Atom'
+    at_identifier: "στο %{identifier}"
+    atom_revision_feed: "Τροφοδοσία αναθεώρησης Atom"
     autofetch_information: "Επιλέξτε αυτό αν θέλετε τα αποθετήρια να ενημερώνονται αυτόματα όταν αποκτάτε πρόσβαση στη σελίδα ενότητας αποθετηρίου. Αυτό συμπεριλαμβάνει την ανάκτηση των δεσμεύσεων από το αποθετήριο και την ανανέωση του απαιτούμενου χώρου στο δίσκο."
     checkout:
       access:
-        readwrite: 'Ανάγνωση + Εγγραφή'
-        read: 'Μόνο για ανάγνωση'
-        none: 'Δεν υπάρχει πρόσβαση ολοκλήρωσης παραγγελίας, μπορείτε να δείτε το αποθετήριο μόνο μέσω της εφαρμογής.'
-      access_permission: 'Τα δικαιώματα σας σε αυτό το αποθετήριο'
+        readwrite: "Ανάγνωση + Εγγραφή"
+        read: "Μόνο για ανάγνωση"
+        none: "Δεν υπάρχει πρόσβαση ολοκλήρωσης παραγγελίας, μπορείτε να δείτε το αποθετήριο μόνο μέσω της εφαρμογής."
+      access_permission: "Τα δικαιώματα σας σε αυτό το αποθετήριο"
       url: "URL ολοκλήρωσης παραγγελίας"
       base_url_text: "Το βασικό URL για χρήση στη δημιουργία URL ολοκλήρωσης παραγγελίας (π.χ., https://myserver.example.org/repos/).\nΣημείωση: Το βασικό URL χρησιμοποιείται μόνο για επανεγγραφή των URL ολοκλήρωσης παραγγελίας στα διαχειριζόμενα αποθετήρια. Τα άλλα αποθετήρια δεν θα αλλαχθούν."
       default_instructions:
@@ -2603,8 +2606,8 @@ el:
     warnings:
       cannot_annotate: "Αυτό το αρχείο δεν μπορεί να σχολιαστεί."
   scheduling:
-    activated: 'ενεργοποιημένο'
-    deactivated: 'απενεργοποιημένο'
+    activated: "ενεργοποιημένο"
+    deactivated: "απενεργοποιημένο"
   search_input_placeholder: "Αναζήτηση ..."
   setting_apiv3_cors_enabled: "Ενεργοποίηση CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) επιτρεπόμενες προελεύσεις"
@@ -2619,6 +2622,7 @@ el:
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Μέθοδος αποστολής email"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Τοποθεσία του εκτελέσιμου sendmail"
   setting_smtp_enable_starttls_auto: "Αυτόματη χρήση STARTTLS αν είναι διαθέσιμο"
   setting_smtp_ssl: "Χρήση σύνδεσης SSL"
@@ -2751,9 +2755,9 @@ el:
         priority: "Ολόκληρη η σειρά ανά Προτεραιότητα"
     icalendar:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
-    language_name_being_default: '%{language_name} (default)'
+    language_name_being_default: "%{language_name} (default)"
     notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Άλλο"
     passwords: "Κωδικοί πρόσβασης"
@@ -2769,8 +2773,8 @@ el:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
-    markdown: 'Markdown'
-    plain: 'Απλό κείμενο'
+    markdown: "Markdown"
+    plain: "Απλό κείμενο"
   status_active: "ενεργό"
   status_archived: "αρχειοθετημένο"
   status_invited: προσκεκλημένος
@@ -2976,16 +2980,16 @@ el:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: "HTTPS mode setup mismatch"
       text_html: >
         Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
-      title: 'Δεν ταιριάζουν οι ρυθμίσεις ονόματος εξυπηρετητή'
+      title: "Δεν ταιριάζουν οι ρυθμίσεις ονόματος εξυπηρετητή"
       text_html: >
         Οι εφαρμογή τρέχει με τη ρύθμιση ονόματος εξυπηρετητή ορισμένη σε <code>%{set_hostname}</code>, αλλά το αίτημα είναι ένα <code>%{actual_hostname}</code> όνομα εξυπηρετητή. Αυτό θα έχει ως αποτέλεσμα σφάλματα! Πηγαίνετε στις <a href="%{setting_path}">Ρυθμίσεις Συστήματος</a> και αλλάξτε τη ρύθμιση "Όνομα Εξυπηρετητή" για να το διορθώσετε.
   menu_item: "Αντικείμενο μενού"
   menu_item_setting: "Ορατότητα"
-  wiki_menu_item_for: "Αντικείμενο μενού για την σελίδα wiki \"%{title}\""
+  wiki_menu_item_for: 'Αντικείμενο μενού για την σελίδα wiki "%{title}"'
   wiki_menu_item_setting: "Ορατότητα"
   wiki_menu_item_new_main_item_explanation: >
     Πρόκειται να διαγράψετε το μόνο κύριο αντικείμενο του μενού. Τώρα πρέπει να επιλέξετε μία σελίδα wiki για την οποία θα δημιουργηθεί ένα καινούργιο κύριο αντικείμενο. Για να διαγράψετε το wiki, πρέπει να απενεργοποιηθεί η ενότητα wiki από τους διαχειριστές έργου.
@@ -3037,7 +3041,7 @@ el:
   api_v3:
     attributes:
       lock_version: "Κλείδωμα Έκδοσης"
-      property: 'Property'
+      property: "Property"
     errors:
       code_400: "Λάθος αίτημα: %{message}"
       code_401: "Πρέπει να αυθεντικοποιήσετε τον λογαριασμό σας για να αποκτήσετε πρόσβαση σε αυτό τον πόρο."
@@ -3085,40 +3089,40 @@ el:
         invalid_gzip: "είναι μη έγκυρο gzip: %{message}"
         invalid_json: "είναι μη έγκυρο json: %{message}"
     resources:
-      schema: 'Σχήμα'
+      schema: "Σχήμα"
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
-      status: 'Πριν την εξουσιοδότηση'
-    auth_url: 'Auth URL'
-    access_token_url: 'URL token πρόσβασης'
+      status: "Πριν την εξουσιοδότηση"
+    auth_url: "Auth URL"
+    access_token_url: "URL token πρόσβασης"
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'Λείπει μία υποχρεωτική παράμετρος από το αίτημα, περιλαμβάνει μια μη υποστηριζόμενη τιμή παραμέτρου ή είναι παραμορφωμένη με κάποιο άλλο τρόπο.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+          unknown: "Λείπει μία υποχρεωτική παράμετρος από το αίτημα, περιλαμβάνει μια μη υποστηριζόμενη τιμή παραμέτρου ή είναι παραμορφωμένη με κάποιο άλλο τρόπο."
+          missing_param: "Missing required parameter: %{value}."
+          request_not_authorized: "Request need to be authorized. Required parameter for authorizing request is missing or invalid."
         invalid_redirect_uri: "Το ζητούμενο uri ανακατεύθυνσης είναι παραμορφωμένη ή δεν ταιριάζει με το URI ανακατεύθυνσης του client."
-        unauthorized_client: 'Ο πελάτης δεν έχει εξουσιοδότηση να εκτελέσει αυτό το αίτημα χρησιμοποιώντας αυτή τη μέθοδο.'
-        access_denied: 'Ο ιδιοκτήτης του πόρου ή ο διακομιστής ταυτοποίησης απέρριψε το αίτημα.'
-        invalid_scope: 'Το ζητούμενο φυσικό αντικείμενο δεν είναι έγκυρο, είναι άγνωστο ή είναι παραμορφωμένο.'
-        invalid_code_challenge_method: 'Η μέθοδος πρόκλησης κώδικα πρέπει να είναι απλή ή S256.'
-        server_error: 'Ο διακομιστής ταυτοποίησης συνάντησε μια απροσδόκητη κατάσταση η οποία τον απέτρεψε από την ολοκλήρωση του αιτήματος.'
-        temporarily_unavailable: 'Ο διακομιστής ταυτοποίησης δεν μπορεί να διαχειριστεί το αίτημα αυτή τη στιγμή λόγω προσωρινής υπερφόρτωσης ή συντήρησης του διακομιστή.'
+        unauthorized_client: "Ο πελάτης δεν έχει εξουσιοδότηση να εκτελέσει αυτό το αίτημα χρησιμοποιώντας αυτή τη μέθοδο."
+        access_denied: "Ο ιδιοκτήτης του πόρου ή ο διακομιστής ταυτοποίησης απέρριψε το αίτημα."
+        invalid_scope: "Το ζητούμενο φυσικό αντικείμενο δεν είναι έγκυρο, είναι άγνωστο ή είναι παραμορφωμένο."
+        invalid_code_challenge_method: "Η μέθοδος πρόκλησης κώδικα πρέπει να είναι απλή ή S256."
+        server_error: "Ο διακομιστής ταυτοποίησης συνάντησε μια απροσδόκητη κατάσταση η οποία τον απέτρεψε από την ολοκλήρωση του αιτήματος."
+        temporarily_unavailable: "Ο διακομιστής ταυτοποίησης δεν μπορεί να διαχειριστεί το αίτημα αυτή τη στιγμή λόγω προσωρινής υπερφόρτωσης ή συντήρησης του διακομιστή."
         #Configuration error messages
-        credential_flow_not_configured: 'Η ροή κατόχου του πόρου πιστοποιητικών κωδικών πρόσβασης απέτυχε λόγω της μη ρύθμισης του Doorkeeper.configure.resource_owner_from_credentials.'
-        resource_owner_authenticator_not_configured: 'Η αναζήτηση του κατόχου του πόρου απέτυχε εξαιτίας της μη ρύθμισης του Doorkeeper.configure.resource_owner_authenticator.'
-        admin_authenticator_not_configured: 'Η πρόσβαση στον πίνακα διαχείρισης απαγορεύεται επειδή το Doorkeeper.configure.admin_authenticator δεν είναι διαμορφωμένο.'
+        credential_flow_not_configured: "Η ροή κατόχου του πόρου πιστοποιητικών κωδικών πρόσβασης απέτυχε λόγω της μη ρύθμισης του Doorkeeper.configure.resource_owner_from_credentials."
+        resource_owner_authenticator_not_configured: "Η αναζήτηση του κατόχου του πόρου απέτυχε εξαιτίας της μη ρύθμισης του Doorkeeper.configure.resource_owner_authenticator."
+        admin_authenticator_not_configured: "Η πρόσβαση στον πίνακα διαχείρισης απαγορεύεται επειδή το Doorkeeper.configure.admin_authenticator δεν είναι διαμορφωμένο."
         #Access grant errors
-        unsupported_response_type: 'Ο διακομιστής ταυτοποίησης δεν υποστηρίζει αυτό τον τύπο απόκρισης.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_type: "Ο διακομιστής ταυτοποίησης δεν υποστηρίζει αυτό τον τύπο απόκρισης."
+        unsupported_response_mode: "The authorization server does not support this response mode."
         #Access token errors
-        invalid_client: 'Η ταυτοποίηση πελάτη απέτυχε λόγω άγνωστου πελάτη, έλλειψης ταυτοποίησης πελάτη ή μη υποστηριζόμενης μεθόδου ταυτοποίησης.'
-        invalid_grant: 'Η χορηγούμενη επιχορήγηση εξουσιοδότησης είναι άκυρη, έχει λήξει, ανακληθεί, δεν αντιστοιχεί στο URI ανακατεύθυνσης που χρησιμοποιήθηκε στην αίτηση εξουσιοδότησης ή έχει εκδοθεί σε άλλο πελάτη.'
-        unsupported_grant_type: 'Ο τύπος χορήγησης ταυτοποίησης δεν υποστηρίζεται από τον εξυπηρετητή ταυτοποίησης.'
+        invalid_client: "Η ταυτοποίηση πελάτη απέτυχε λόγω άγνωστου πελάτη, έλλειψης ταυτοποίησης πελάτη ή μη υποστηριζόμενης μεθόδου ταυτοποίησης."
+        invalid_grant: "Η χορηγούμενη επιχορήγηση εξουσιοδότησης είναι άκυρη, έχει λήξει, ανακληθεί, δεν αντιστοιχεί στο URI ανακατεύθυνσης που χρησιμοποιήθηκε στην αίτηση εξουσιοδότησης ή έχει εκδοθεί σε άλλο πελάτη."
+        unsupported_grant_type: "Ο τύπος χορήγησης ταυτοποίησης δεν υποστηρίζεται από τον εξυπηρετητή ταυτοποίησης."
         invalid_token:
           revoked: "Το token πρόσβασης ανακλήθηκε"
           expired: "Το token πρόσβασης έληξε"
@@ -3130,7 +3134,7 @@ el:
   unsupported_browser:
     title: "Ο περιηγητής είναι απαρχαιωμένος και δεν υποστηρίζεται."
     message: "Μπορεί να συναντήσετε σφάλματα και υποβαθμισμένη εμπειρία χρήστη σε αυτή τη σελίδα."
-    update_message: 'Παρακαλούμε ενημερώστε το πρόγραμμα περιήγησης σας.'
+    update_message: "Παρακαλούμε ενημερώστε το πρόγραμμα περιήγησης σας."
     close_warning: "Αγνοείστε αυτή την προειδοποίηση."
   oauth:
     application:
@@ -3167,8 +3171,8 @@ el:
       successful_application_revocation: "Η εφαρμογή %{application_name} ανακλήθηκε επιτυχώς."
       none_given: "Δεν υπάρχουν OAuth εφαρμογές που να έχουν πρόσβαση στο λογαριασμό σας."
     x_active_tokens:
-      one: 'ένα ενεργό token'
-      other: '%{count} ενεργά token'
+      one: "ένα ενεργό token"
+      other: "%{count} ενεργά token"
     flows:
       authorization_code: "Ροή κώδικα εξουσιοδότησης"
       client_credentials: "Ροή διαπιστευτηρίων πελάτη"

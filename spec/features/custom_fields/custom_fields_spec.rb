@@ -9,8 +9,8 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
     login_as user
   end
 
-  shared_examples "creating a new list custom field" do |type|
-    it "creates a new list custom field with its options in the right order" do
+  shared_examples "creating a new custom field" do |type|
+    it "has the options in the right order for a list custom field" do
       cf_page.visit_tab type
 
       click_on "Create a new custom field"
@@ -61,14 +61,113 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
       expect(page).to have_field("custom_field_custom_options_attributes_1_default_value", checked: true)
       expect(page).to have_field("custom_field_custom_options_attributes_2_default_value", checked: false)
     end
+
+    it "shows the right options for each custom field type" do
+      cf_page.visit_tab type
+
+      click_on "Create a new custom field"
+      wait_for_reload
+      cf_page.set_name "Ignored"
+
+      # Form element labels, default English translation in the trailing comment:
+      label_min_length = I18n.t('activerecord.attributes.custom_field.min_length') # Minimum length
+      label_max_length = I18n.t('activerecord.attributes.custom_field.max_length') # Maximum length
+      label_regexp = I18n.t('activerecord.attributes.custom_field.regexp') # Regular expression
+      label_multi_value = I18n.t('activerecord.attributes.custom_field.multi_value') # Allow multi-select
+      label_allow_non_open_versions = I18n.t('activerecord.attributes.custom_field.allow_non_open_versions') # Allow non-open versions
+      label_possible_values = I18n.t('activerecord.attributes.custom_field.possible_values').upcase # Possible values, capitalized on UI
+      label_default_value = I18n.t('activerecord.attributes.custom_field.default_value') # Default value
+      label_is_required = I18n.t('activerecord.attributes.custom_field.is_required') # Required
+      # Spent time SFs don't show "Searchable". Not tested here.
+      # Project CFs don't show "For all projects" and "Used as a filter". Not tested here.
+      # Content right to left is not shown for Project CFs Long text. Strange. Not tested.
+
+      def expect_page_to_have_texts(*text)
+        text.each do |t|
+          expect(page).to have_text(t)
+        end
+      end
+
+      def expect_page_not_to_have_texts(*text)
+        text.each do |t|
+          expect(page).not_to have_text(t)
+        end
+      end
+
+      select "Text", from: "custom_field_field_format"
+      expect_page_to_have_texts(
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
+      expect_page_not_to_have_texts(
+        label_multi_value, label_allow_non_open_versions, label_possible_values)
+
+      select "Long text", from: "custom_field_field_format"
+      expect_page_to_have_texts(
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
+      expect_page_not_to_have_texts(
+        label_multi_value, label_allow_non_open_versions, label_possible_values)
+
+      # Both Integer and Float have min/max_len and regex as well which seems strange.
+      select "Integer", from: "custom_field_field_format"
+      expect_page_to_have_texts(
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
+      expect_page_not_to_have_texts(
+        label_multi_value, label_allow_non_open_versions, label_possible_values)
+
+      select "Float", from: "custom_field_field_format"
+      expect_page_to_have_texts(
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
+      expect_page_not_to_have_texts(
+        label_multi_value, label_allow_non_open_versions, label_possible_values)
+
+      select "List", from: "custom_field_field_format"
+      expect_page_to_have_texts(
+        label_multi_value, label_possible_values, label_is_required)
+      expect_page_not_to_have_texts(
+        label_min_length, label_max_length, label_regexp, label_allow_non_open_versions, label_default_value)
+
+      select "Date", from: "custom_field_field_format"
+      expect_page_to_have_texts(label_is_required)
+      expect_page_not_to_have_texts(
+        label_min_length, label_max_length, label_regexp, label_multi_value,
+        label_allow_non_open_versions, label_possible_values, label_default_value)
+
+      select "Boolean", from: "custom_field_field_format"
+      expect_page_to_have_texts(
+        label_default_value, label_is_required)
+      expect_page_not_to_have_texts(
+        label_min_length, label_max_length, label_regexp, label_multi_value,
+        label_allow_non_open_versions, label_possible_values)
+
+      select "User", from: "custom_field_field_format"
+      expect_page_to_have_texts(
+        label_multi_value, label_is_required)
+      expect_page_not_to_have_texts(
+        label_min_length, label_max_length, label_regexp, label_allow_non_open_versions,
+        label_possible_values, label_default_value)
+
+      select "Version", from: "custom_field_field_format"
+      expect_page_to_have_texts(
+        label_multi_value, label_allow_non_open_versions, label_is_required)
+      expect_page_not_to_have_texts(
+        label_min_length, label_max_length, label_regexp,
+        label_possible_values, label_default_value)
+    end
   end
 
   describe 'projects' do
-    it_behaves_like "creating a new list custom field", 'Projects'
+    it_behaves_like "creating a new custom field", 'Projects'
   end
 
   describe 'work packages' do
-    it_behaves_like "creating a new list custom field", 'Work packages'
+    it_behaves_like "creating a new custom field", 'Work packages'
+  end
+
+  describe 'time entries' do
+    it_behaves_like "creating a new custom field", 'Spent time'
+  end
+
+  describe 'versions' do
+    it_behaves_like "creating a new custom field", 'Versions'
   end
 
   context "with an existing list custom field" do

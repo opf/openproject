@@ -92,6 +92,16 @@ uk:
   label_time_zone: "Часовий пояс"
   label_start_date: "Дата початку"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Classic'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
@@ -121,8 +131,6 @@ uk:
   text_meeting_closing_are_you_sure: "Справді закрити порядок денний заходу?"
   text_meeting_agenda_open_are_you_sure: "Це вмить призведе до виправлення усіх змін! Бажаєте продовжити?"
   text_meeting_minutes_for_meeting: 'протокол засідання %{meeting}'
-  text_review_meeting_agenda: "%{author} поставив %{link} на розгляд."
-  text_review_meeting_minutes: "%{author} поставив %{link} на розгляд."
   text_notificiation_invited: "У цьому листі міститься запис ics для зустрічі нижче:"
   text_meeting_empty_heading: "Your meeting is empty"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."

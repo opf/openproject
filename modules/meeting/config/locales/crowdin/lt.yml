@@ -92,6 +92,16 @@ lt:
   label_time_zone: "Laiko juosta"
   label_start_date: "Pradžios data"
   meeting:
+    email:
+      open_meeting_link: "Atverti susitikimą"
+      invited:
+        summary: "%{actor} atsiuntė jums pakvietimą į susitikimą %{title}"
+      rescheduled:
+        summary: "Susitikimą %{title} perplanavo %{actor}"
+        body: "Susitikimą %{title} perplanavo %{actor}."
+        old_date_time: "Sena data/laikas"
+        new_date_time: "Nauja data/laikas"
+    label_mail_all_participants: "Siųsti e-laišką visiems dalyviams"
     types:
       classic: 'Klasikinis'
       classic_text: 'Organizuokite jūsų susitikimą su formatuojamo teksto darbotvarke ir protokolu.'
@@ -104,10 +114,10 @@ lt:
   permission_edit_meetings: "Redaguoti pasitarimus"
   permission_delete_meetings: "Šalinti pasitarimus"
   permission_view_meetings: "Peržiūrėti pasitarimus"
-  permission_create_meeting_agendas: "Create meeting agendas"
-  permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
+  permission_create_meeting_agendas: "Kurti susitikimų darbotvarkes"
+  permission_create_meeting_agendas_explanation: "Leidžia keisti klasikinių susitikimų darbotvarkių turinį."
   permission_manage_agendas: "Valdyti darbotvarkes"
-  permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
+  permission_manage_agendas_explanation: "Leidžia tvarkyti dinaminių susitikimų darbotvarkių elementus."
   permission_close_meeting_agendas: "Uždaryti darbotvarkes"
   permission_send_meeting_agendas_notification: "Siųsti peržiūros pranešimą darbotvarkėms"
   permission_create_meeting_minutes: "Valdyti minutes"
@@ -121,8 +131,6 @@ lt:
   text_meeting_closing_are_you_sure: "Ar tikrai norite uždaryti susitikimo planą?"
   text_meeting_agenda_open_are_you_sure: "Tai perrašys visus pakeitimus minutėse! Ar norite tęsti?"
   text_meeting_minutes_for_meeting: 'pasitarimo „%{meeting}“ minutės'
-  text_review_meeting_agenda: "%{author} įdėjo %{link} peržiūroje."
-  text_review_meeting_minutes: "%{author} įdėjo %{link} peržiūrai."
   text_notificiation_invited: "Šis laiškas turi ics įrašą žemiau nurodytam susitikimui:"
   text_meeting_empty_heading: "Jūsų susitikimas yra tuščias"
   text_meeting_empty_description_1: "Pradėkite pridėdami darbotvarkės elementus žemiau. Kiekvienas elementas gali būti paprasčiausiai antraštė, bet jūs galite pridėti papildomas detalias, tokias kaip trukmę, pastabas ir atsakingą asmenį."

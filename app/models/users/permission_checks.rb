@@ -95,10 +95,35 @@ module Users::PermissionChecks
       .uniq
   end
 
-  # Old allowed_to? interface. Marked as deprecated, should be removed at some point ... Guessing 14.0?
+  # Helper method to be used in places where we just throw anything into the permission check and don't know what
+  # context it should be checked on. Things like menu item checks, controller action checks, generic services, etc.
+  def allowed_based_on_permission_context?(permission, project: nil, entity: nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
+    permissions = Authorization.permissions_for(permission, raise_on_unknown: true)
 
+    permissions.any? do |perm|
+      if perm.global?
+        allowed_globally?(perm)
+      elsif perm.work_package? && (entity.is_a?(WorkPackage) || (entity.is_a?(Array) && entity.all? { |e| e.is_a?(WorkPackage) }))
+        allowed_in_work_package?(perm, entity)
+      elsif perm.work_package? && entity.blank? && project.blank?
+        allowed_in_any_work_package?(perm)
+      elsif perm.work_package? && project && entity.blank?
+        allowed_in_any_work_package?(perm, in_project: project)
+      elsif perm.project? && project
+        allowed_in_project?(perm, project)
+      elsif perm.project? && entity && entity.respond_to?(:project)
+        allowed_in_project?(perm, entity.project)
+      elsif perm.project? && entity.blank? && project.blank?
+        allowed_in_any_project?(perm)
+      else
+        false
+      end
+    end
+  end
+
+  # Old allowed_to? interface. Marked as deprecated, should be removed at some point ... Guessing 14.0?
   def allowed_to?(action, context, global: false)
-    # OpenProject::Deprecation.deprecate_method(User, :allowed_to?)
+    OpenProject::Deprecation.deprecate_method(User, :allowed_to?)
     user_allowed_service.call(action, context, global:)
   end
 

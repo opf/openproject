@@ -553,7 +553,6 @@ tr:
       steps:
         help_menu: 'Yardım (?) menüsü <b>ek yardım kaynakları</b> sağlar. Burada bir kullanım kılavuzu, yararlı nasıl yapılır videoları ve daha fazlasını bulabilirsiniz. <br> OpenProject ile işinizin tadını çıkarın!'
         members: 'Projenize katılmak için yeni <b>üyeler</b> davet edin.'
-        project_selection: 'Lütfen hazırladığımız demo projelerden birine tıklayınız. Demo verileri şu anda yalnızca İngilizce olarak mevcuttur. <br> Genel <b>demo proje</b> klasik proje yönetimi için en uygunudur, <b>Scrum projesi</b> ise çevik proje yönetimi için daha iyidir.'
         quick_add_button: '<b>Yeni bir proje oluşturmak</b> veya <b>iş arkadaşlarınızı davet etmek</b> için başlık bölümündeki artı (+) simgesini tıklayın.'
         sidebar_arrow: "Projenin <b>ana menüsüne</b> dönmek için sol üst köşedeki dönüş okunu kullanın."
         welcome: 'En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz zaman yeniden başlatabilirsiniz.'

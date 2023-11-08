@@ -138,7 +138,7 @@ class WorkPackage < ApplicationRecord
          :relatable,
          :directly_related
 
-  acts_as_watchable
+  acts_as_watchable(permission: :view_work_packages)
 
   after_validation :set_attachments_error_details,
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
@@ -261,10 +261,16 @@ class WorkPackage < ApplicationRecord
   #   * any open, shared version of the project the wp belongs to
   #   * the version it was already assigned to
   #     (to make sure, that you can still update closed tickets)
-  def assignable_versions
-    @assignable_versions ||= begin
-      current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
-      ((project&.assignable_versions || []) + [current_version]).compact.uniq
+  #   * for custom fields only_open: false can be used, if the CF is configured so
+  def assignable_versions(only_open: true)
+    if only_open
+      @assignable_versions ||= begin
+        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
+        ((project&.assignable_versions || []) + [current_version]).compact.uniq
+      end
+    else
+      # The called method memoizes the result, no need to memoize it here.
+      project&.assignable_versions(only_open: false)
     end
   end
 

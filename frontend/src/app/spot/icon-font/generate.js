@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const webfontsGenerator = require('webfonts-generator');
+const webfontsGenerator = require('@vusion/webfonts-generator');
 const path = require('path');
 const glob = require("glob")
 

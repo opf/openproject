@@ -554,7 +554,6 @@ cs:
       steps:
         help_menu: 'Menu nápovědy (?) poskytuje <b>další zdroje nápovědy</b>. Zde můžete najít uživatelskou příručku, užitečnou jak na videa a další. <br> Užijte si vaši práci s OpenProject!'
         members: 'Pozvěte nové <b>členy</b> , aby se připojili k vašemu projektu.'
-        project_selection: 'Pro začátek klikněte na jeden z projektů s ukázkovými daty. <br> <b>Demo projekt</b> vyhovuje nejlepší pro klasické řízení projektu, zatímco projekt <b>Scrum</b> je lepší pro řízení projektu Agile'
         quick_add_button: 'Klikněte na ikonu plus (+) v záhlaví pro <b>vytvoření nového projektu</b> nebo pro <b>pozvání spolupracovníků</b>.'
         sidebar_arrow: "Pomocí šipky zpět v levém horním rohu se vrátíte do <b>hlavního menu projektu</b>."
         welcome: 'Naučte se během tří minut <b>důležité funkce</b>. <br> Doporučujeme dokončit prohlídku až do konce. Prohlídku můžete kdykoliv restartovat.'

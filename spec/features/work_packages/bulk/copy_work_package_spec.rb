@@ -70,7 +70,10 @@ RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite do
         context_menu.open_for work_package
         context_menu.choose 'Bulk copy'
 
+        expect(page).to have_css('#new_project_id') # rubocop:disable RSpec/ExpectInHook
+        
         wait_for_network_idle
+        
         expect_page_reload do
           select_autocomplete page.find_test_selector('new_project_id'),
                               query: project2.name,
@@ -124,24 +127,62 @@ RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite do
                  type:,
                  parent: work_package)
         end
+        let!(:relation) do
+          create(:relation,
+                 from: child,
+                 to: work_package,
+                 relation_type: Relation::TYPE_RELATES)
+        end
 
-        it 'moves parent and child wp to a new project with the hierarchy amended' do
+        before do
+          login_as current_user
+          wp_table.visit!
+          expect_angular_frontend_initialized
+          wp_table.expect_work_package_listed work_package, work_package2, child
+          find('body').send_keys [:control, 'a']
+          wp_table.expect_work_package_count 3
+          context_menu.open_for work_package
+          context_menu.choose 'Bulk copy'
+
+          expect(page).to have_css('#new_project_id') # rubocop:disable RSpec/ExpectInHook
+          expect_page_reload do
+            select_autocomplete page.find_test_selector('new_project_id'),
+                                query: project2.name,
+                                select_text: project2.name,
+                                results_selector: 'body'
+          end
+          sleep(1) # wait for the change of target project to finish updating the page
+        end
+
+        it 'copies WPs with parent/child hierarchy and relations maintained' do
           click_on 'Copy and follow'
 
           wp_table_target.expect_current_path
-          wp_table_target.expect_work_package_count 3
           expect(page).to have_css('#projects-menu', text: 'Target')
 
           # Should not move the sources
           expect(work_package.reload.project_id).to eq(project.id)
           expect(work_package2.reload.project_id).to eq(project.id)
+          expect(child.reload.project_id).to eq(project.id)
 
-          # Check project of last two created wps
+          # Check project of last three created wps
           copied_wps = WorkPackage.last(3)
           expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
 
-          expect(project2.work_packages.find_by(subject: child.subject).parent)
-            .to eq project2.work_packages.find_by(subject: work_package.subject)
+          new_parent = project2.work_packages.find_by(subject: work_package.subject)
+          new_child = project2.work_packages.find_by(subject: child.subject)
+
+          expect(new_child.parent)
+            .to eq new_parent
+
+          expect(new_child.relations.count)
+            .to eq 1
+
+          expect(new_child.relations.first.relation_type)
+            .to eq relation.relation_type
+
+          expect(new_child.relations.first.to_id)
+            .to eq new_parent.id
         end
       end
 

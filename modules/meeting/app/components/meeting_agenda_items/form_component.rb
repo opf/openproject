@@ -44,7 +44,7 @@ module MeetingAgendaItems
     end
 
     def render?
-      User.current.allowed_to?(:manage_agendas, @meeting.project)
+      User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
 
     private
@@ -57,15 +57,12 @@ module MeetingAgendaItems
       }
     end
 
-
     def display_notes_input_value
       @meeting_agenda_item.notes.blank? ? :none : nil
     end
 
-
     def display_notes_add_button_value
       @meeting_agenda_item.notes.blank? ? nil : :none
     end
-
   end
 end

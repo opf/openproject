@@ -32,6 +32,7 @@ module Grids
 
     set_acts_as_attachable_options view_permission: :view_dashboards,
                                    delete_permission: :manage_dashboards,
-                                   add_permission: :manage_dashboards
+                                   add_permission: :manage_dashboards,
+                                   skip_permission_checks: false
   end
 end

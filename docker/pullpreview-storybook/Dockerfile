@@ -1,4 +1,4 @@
-FROM node:16.17 as build
+FROM node:20.9 as build
 
 COPY . /build
 WORKDIR /build/frontend

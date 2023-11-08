@@ -1,5 +1,5 @@
 ARG RUBY_VERSION="3.2.2"
-ARG NODE_VERSION="16.17.0"
+ARG NODE_VERSION="20.9.0"
 ARG BUNDLER_VERSION="2.4.7"
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -58,9 +58,7 @@ COPY lookbook ./lookbook
 
 RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
   SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \
-  bin/rails openproject:plugins:register_frontend assets:precompile && \
-  # only keep most current angular cache since webpack is unable to cleanup after itself
-	find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
+  bin/rails openproject:plugins:register_frontend assets:precompile
 
 # -------------------------------------
 # base (private)
@@ -92,7 +90,7 @@ ENV OPENPROJECT_RAILS__CACHE__STORE=file_store
 
 RUN useradd -d /home/$APP_USER -m $APP_USER
 RUN mkdir -p $APP_PATH && chown $APP_USER:$APP_USER $APP_PATH
-RUN mkdir -p $APP_DATA_PATH && chown $APP_USER:$APP_USER $APP_DATA_PATH
+RUN mkdir -p $APP_DATA_PATH && chown $APP_USER:$APP_USER $APP_DATA_PATH && chmod g+rwx $APP_DATA_PATH
 
 WORKDIR $APP_PATH
 
@@ -122,6 +120,11 @@ COPY --chown=$APP_USER:$APP_USER --from=rubygems /usr/local/bundle /usr/local/bu
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/public/assets /app/public/assets
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/config/frontend_assets.manifest.json /app/config/frontend_assets.manifest.json
 COPY --chown=$APP_USER:$APP_USER . .
+
+# We need this so puma is allowed to create the tmp/pids folder and
+# temporary upload files when running with a uid other than 1000 (app)
+# but with an allowed supplemental group (1000).
+RUN tmp_path=$APP_PATH/tmp; (mkdir -p $tmp_path || true) && chown $APP_USER:$APP_USER $tmp_path && chmod g+rw $tmp_path
 
 USER $APP_USER
 RUN ln -s $APP_PATH/docker/prod/setup/.irbrc /home/$APP_USER/
@@ -186,10 +189,6 @@ COPY . .
 RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak
 
 RUN ./docker/prod/setup/postinstall.sh
-
-# We need this so puma is allowed to create the tmp/pids folder and files
-# even when the container is run as a user other than 1000 (app)
-RUN tmp_path=$APP_PATH/tmp; (mkdir -p $tmp_path || true) && chmod og+rw $tmp_path
 
 # Expose ports for apache and postgres
 EXPOSE 80 5432

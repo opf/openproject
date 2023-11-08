@@ -32,7 +32,7 @@ module API
       class AvailableProjectsOnCreateAPI < ::API::OpenProjectAPI
         resource :available_projects do
           after_validation do
-            authorize(:add_work_packages, global: true)
+            authorize_in_any_project(:add_work_packages)
 
             checked_permissions = Projects::ProjectCollectionRepresenter.checked_permissions
             current_user.preload_projects_allowed_to(checked_permissions)

@@ -78,7 +78,8 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
 
     click_link meeting.title
 
-    within '.meeting--main-toolbar' do
+    find_test_selector('meetings-more-dropdown-menu').click
+    page.within('.menu-drop-down-container') do
       click_link 'Copy'
     end
 

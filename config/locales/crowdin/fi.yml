@@ -74,9 +74,9 @@ fi:
       paste: "Paste your Enterprise edition support token"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Saadaksesi lisätietoja, klikkaa tästä."
-      start_trial: 'Aloita ilmainen kokeilu'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: "Aloita ilmainen kokeilu"
+      book_now: "Book now"
+      get_quote: "Get a quote"
       buttons:
         upgrade: "Päivitä nyt"
         contact: "Contact us for a demo"
@@ -91,14 +91,14 @@ fi:
     is_active: näkyvissä tällä hetkellä
     is_inactive: ei näkyvissä
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
-    text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
-    label_plural: 'Ominaisuuden aputeksti'
-    show_preview: 'Esikatsele teksti'
-    add_new: 'Lisää aputeksti'
+    note_public: "Any text and images you add to this field is publicly visible to all logged in users!"
+    text_overview: "In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute."
+    label_plural: "Ominaisuuden aputeksti"
+    show_preview: "Esikatsele teksti"
+    add_new: "Lisää aputeksti"
     edit: "Muokkaa aputeksiä ominaisuudelle %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
@@ -106,7 +106,7 @@ fi:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -136,21 +136,21 @@ fi:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-    connection_encryption: 'Connection encryption'
-    encryption_details: 'LDAPS / STARTTLS options'
-    system_account: 'Järjestelmätili'
+    connection_encryption: "Connection encryption"
+    encryption_details: "LDAPS / STARTTLS options"
+    system_account: "Järjestelmätili"
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+    ldap_details: "LDAP details"
+    user_settings: "Attribute mapping"
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
-      plain: 'ei mitään'
-      simple_tls: 'LDAPS'
-      start_tls: 'STARTTLS'
+      plain: "ei mitään"
+      simple_tls: "LDAPS"
+      start_tls: "STARTTLS"
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
       start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
@@ -183,23 +183,23 @@ fi:
   custom_actions:
     actions:
       name: "Toiminnot"
-      add: 'Lisää toiminto'
+      add: "Lisää toiminto"
       assigned_to:
-        executing_user_value: '(Assign to executing user)'
-    conditions: 'Ehdot'
-    plural: 'Mukautetut toiminnot'
-    new: 'Lisää mukautettu toiminto'
-    edit: 'Edit custom action %{name}'
-    execute: 'Suorita %{name}'
+        executing_user_value: "(Assign to executing user)"
+    conditions: "Ehdot"
+    plural: "Mukautetut toiminnot"
+    new: "Lisää mukautettu toiminto"
+    edit: "Edit custom action %{name}"
+    execute: "Suorita %{name}"
     upsale:
-      title: 'Mukautetut toiminnot'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      title: "Mukautetut toiminnot"
+      description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
     text_add_new_custom_field: >
       Jotta voit lisätä tälle projektille uusia muokattavia kenttiä, tulee sinun ensin luoda ne.
-    is_enabled_globally: 'On käytössä kaikkialla'
-    enabled_in_project: 'Käytössä projektissa'
-    contained_in_type: 'Sisältyy tyyppiin'
+    is_enabled_globally: "On käytössä kaikkialla"
+    enabled_in_project: "Käytössä projektissa"
+    contained_in_type: "Sisältyy tyyppiin"
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
@@ -207,7 +207,7 @@ fi:
       no_results_title_text: Tällä hetkellä ei ole mukautettuja kenttiä.
       no_results_content_text: Luo uusi mukautettu kenttä
   concatenation:
-    single: 'tai'
+    single: "tai"
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -226,13 +226,13 @@ fi:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: "Project members"
+      overviews: "Project overview"
+      queries: "Work packages: saved views"
+      wiki_page_attachments: "Wiki pages: attachments"
+      work_package_attachments: "Work packages: attachments"
+      work_package_categories: "Work packages: categories"
+      work_package_file_links: "Work packages: file links"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
@@ -242,7 +242,7 @@ fi:
       completed_text: "The request to delete project '%{name}' has been completed."
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
-      open_as_gantt: 'Avaa Gantt-näkymässä'
+      open_as_gantt: "Avaa Gantt-näkymässä"
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Tällä hetkellä ei ole projekteja
@@ -282,7 +282,7 @@ fi:
       no_results_title_text: Tällä hetkellä ei ole pääsyavaimia saatavilla.
       notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
     index:
       no_results_title_text: Tällä hetkellä ei ole uutisia.
@@ -290,16 +290,16 @@ fi:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      browser: "Browser"
+      device: "Device / OS"
+      unknown_browser: "unknown browser"
+      unknown_os: "unknown operating system"
+      current: "Current session"
+      title: "Session management"
+      instructions: "This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to."
+      may_not_delete_current: "You cannot delete your current session."
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
+      member_in_these_groups: "This user is currently a member of the following groups:"
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Tämä käyttäjä ei ole projektin jäsen.
@@ -374,8 +374,8 @@ fi:
       no_results_title_text: Tällä hetkellä ei ole olemassa työnkulkuja.
   work_packages:
     x_descendants:
-      one: 'One descendant work package'
-      other: '%{count} work package descendants'
+      one: "One descendant work package"
+      other: "%{count} work package descendants"
     bulk:
       copy_failed: "The work packages could not be copied."
       move_failed: "The work packages could not be moved."
@@ -386,7 +386,7 @@ fi:
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Kaikkien valittujen tehtävien tilaa ei ole saatavilla. Niiden tilaa ei voi muuttaa."
-      unsupported_for_multiple_projects: 'Massasiirto tai -kopiointi ei ole sallittu eri projektien tehtäville'
+      unsupported_for_multiple_projects: "Massasiirto tai -kopiointi ei ole sallittu eri projektien tehtäville"
     summary:
       reports:
         category:
@@ -410,8 +410,8 @@ fi:
     deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
-        other: "Käyttäjän luomasta tiedosta (esim. sähköposti, asetukset, työmäärän, wiki merkinnät) poistetaan niin paljon kuin mahdollista. Huomaa kuitenkin, että tietoja, kuten työmäärää ja wiki merkintöjä ei voida poistaa haittaamatta muiden käyttäjien työtä. Sellaiset tiedot siirretään siksi käyttäjälle nimeltä \"Poistettu käyttäjä\". Koska jokaisen poistetun tilin tiedot siirrettiin tälle käyttäjälle, tehtyjen merkintöjen yksiköiminen poistettuun käyttäjään ei ole enää mahdollista."
-        self: "Luomastasi tiedosta (esim. sähköposti, asetukset, työmäärän, wiki merkinnät) poistetaan niin paljon kuin mahdollista. Huomaa kuitenkin, että merkintöjäsi, kuten työmäärää ja wiki merkintöjä ei voida poistaa haittaamatta muiden käyttäjien työtä. Sellaiset tiedot siirretään siksi käyttäjälle nimeltä \"Poistettu käyttäjä\". Koska jokaisen poistetun tilin tiedot siirrettiin tälle käyttäjälle, tekemiesi merkintöjen yksiköiminen sinuun ei ole enää mahdollista."
+        other: 'Käyttäjän luomasta tiedosta (esim. sähköposti, asetukset, työmäärän, wiki merkinnät) poistetaan niin paljon kuin mahdollista. Huomaa kuitenkin, että tietoja, kuten työmäärää ja wiki merkintöjä ei voida poistaa haittaamatta muiden käyttäjien työtä. Sellaiset tiedot siirretään siksi käyttäjälle nimeltä "Poistettu käyttäjä". Koska jokaisen poistetun tilin tiedot siirrettiin tälle käyttäjälle, tehtyjen merkintöjen yksiköiminen poistettuun käyttäjään ei ole enää mahdollista.'
+        self: 'Luomastasi tiedosta (esim. sähköposti, asetukset, työmäärän, wiki merkinnät) poistetaan niin paljon kuin mahdollista. Huomaa kuitenkin, että merkintöjäsi, kuten työmäärää ja wiki merkintöjä ei voida poistaa haittaamatta muiden käyttäjien työtä. Sellaiset tiedot siirretään siksi käyttäjälle nimeltä "Poistettu käyttäjä". Koska jokaisen poistetun tilin tiedot siirrettiin tälle käyttäjälle, tekemiesi merkintöjen yksiköiminen sinuun ei ole enää mahdollista.'
       heading: "Poista tili %{name}"
       info:
         other: "Käyttäjätilin poistamista ei voi kumota."
@@ -447,8 +447,8 @@ fi:
         filename: "Tiedosto"
         filesize: "Koko"
       attribute_help_text:
-        attribute_name: 'Määre'
-        help_text: 'Help text'
+        attribute_name: "Määre"
+        help_text: "Help text"
       ldap_auth_source:
         account: "Account"
         attr_firstname: "Firstname attribute"
@@ -469,6 +469,7 @@ fi:
       custom_action:
         actions: "Toiminnot"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Oletusarvo"
         editable: "Muokattava"
         field_format: "Kentän tyyppi"
@@ -517,15 +518,15 @@ fi:
           true: "public"
           false: "private"
         queries: "Kyselyt"
-        status_code: 'Projektin tila'
-        status_explanation: 'Project status description'
+        status_code: "Projektin tila"
+        status_explanation: "Project status description"
         status_codes:
-          not_started: 'Not started'
-          on_track: 'Hyvä'
-          at_risk: 'Rajalla'
-          off_track: 'Huono'
-          finished: 'Valmis'
-          discontinued: 'Discontinued'
+          not_started: "Not started"
+          on_track: "Hyvä"
+          at_risk: "Rajalla"
+          off_track: "Huono"
+          finished: "Valmis"
+          discontinued: "Discontinued"
         templated: "Malliprojekti"
         templated_value:
           true: "marked as template"
@@ -552,7 +553,7 @@ fi:
         ongoing: "Ongoing"
       type:
         description: "Default text for description"
-        attribute_groups: ''
+        attribute_groups: ""
         is_in_roadmap: "Näytä oletuksena tiekartalla"
         is_default: "Activated for new projects by default"
         is_milestone: "On virstanpylväs"
@@ -595,9 +596,9 @@ fi:
         end_deletion: "Poistokohdan loppu"
         ignore_non_working_days: "Ignore non working days"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: "Working days"
+          false: "working days only"
+          true: "include non-working days"
         parent: "Ylätaso"
         parent_issue: "Ylätaso"
         parent_work_package: "Ylätaso"
@@ -612,7 +613,7 @@ fi:
         type: "Tyyppi"
         version: "Versio"
         watcher: "Seuraajat"
-      'doorkeeper/application':
+      "doorkeeper/application":
         uid: "Client ID"
         secret: "Client secret"
         owner: "Omistaja"
@@ -652,8 +653,8 @@ fi:
         inclusion: "ei löydy listauksesta."
         inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "ei kelpaa."
-        invalid_url: 'ei ole kelvollinen URL.'
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: "ei ole kelvollinen URL."
+        invalid_url_scheme: "is not a supported protocol (allowed: %{allowed_schemes})."
         less_than_or_equal_to: "täytyy olla pienempi tai yhtä suuri kuin %{count}."
         not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
@@ -694,7 +695,7 @@ fi:
               format: "%{message}"
         capability:
           context:
-            global: 'Yleinen'
+            global: "Yleinen"
           query:
             filters:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
@@ -712,35 +713,35 @@ fi:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
-              relative_uri: 'must be an absolute URI.'
+              fragment_present: "cannot contain a fragment."
+              invalid_uri: "must be a valid URI."
+              relative_uri: "must be an absolute URI."
               secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
-              forbidden_uri: 'is forbidden by the server.'
+              forbidden_uri: "is forbidden by the server."
             scopes:
               not_match_configured: "doesn't match available scopes."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: "overlap."
+          outside: "is outside of the grid."
+          end_before_start: "end value needs to be larger than the start value."
         ical_token_query_assignment:
           attributes:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: "cannot be set to true on notification creation."
             mail_reminder_sent:
-              set_on_creation: 'cannot be set to true on notification creation.'
+              set_on_creation: "cannot be set to true on notification creation."
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: "cannot be blank as IAN is chosen as a channel."
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: "cannot be blank as mail digest is chosen as a channel."
         non_working_day:
           attributes:
             date:
@@ -753,8 +754,8 @@ fi:
               invalid_values: "Virheellinen arvo."
               id_filter_required: "An 'id' filter is required."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: "The project has an archived ancestor."
+          foreign_wps_reference_version: "Work packages in non descendant projects reference versions of the project or its descendants."
           attributes:
             base:
               archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
@@ -814,8 +815,8 @@ fi:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              working_days_are_missing: "At least one day of the week must be defined as a working day."
+              previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
         time_entry:
           attributes:
             hours:
@@ -827,10 +828,10 @@ fi:
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: "There must only be one global notification setting."
+              email_alerts_global: "The email notification settings can only be set globally."
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: "Wrong value for Start date, Due date, or Overdue."
         watcher:
           attributes:
             user_id:
@@ -874,7 +875,7 @@ fi:
               does_not_exist: "Määritettyä luokkaa ei ole."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "on oltava > = 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
             attribute_groups:
@@ -887,6 +888,7 @@ fi:
           attributes:
             base:
               user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -932,7 +934,7 @@ fi:
       comment: "Kommentti"
       custom_action: "Custom action"
       custom_field: "Mukautettu kenttä"
-      'doorkeeper/application': "OAuth application"
+      "doorkeeper/application": "OAuth application"
       forum: "Keskustelupalsta"
       global_role: "Global role"
       group: "Ryhmä"
@@ -1095,7 +1097,7 @@ fi:
   button_check_all: "Valitse kaikki"
   button_clear: "Tyhjennä"
   button_click_to_reveal: "Click to reveal"
-  button_close: 'Sulje'
+  button_close: "Sulje"
   button_collapse_all: "Tiivistä kaikki"
   button_configure: "Asetukset"
   button_continue: "Jatka"
@@ -1163,19 +1165,19 @@ fi:
     update_consent_last_time: "Suostumuksen viimeisin päivitys: %{update_time}"
   copy_project:
     title: 'Copy project "%{source_project_name}"'
-    started: "Projektin \"%{source_project_name}\" kopiointi uudeksi projektiksi \"%{target_project_name}\" alkoi. Sinulle ilmoitetaan sähköpostitse, kun \"%{target_project_name}\" on saatavilla."
+    started: 'Projektin "%{source_project_name}" kopiointi uudeksi projektiksi "%{target_project_name}" alkoi. Sinulle ilmoitetaan sähköpostitse, kun "%{target_project_name}" on saatavilla.'
     failed: "Ei voi kopioida projektia %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
     succeeded: "Projekti %{target_project_name} luotu"
     errors: "Virhe"
-    project_custom_fields: 'Custom fields on project'
+    project_custom_fields: "Custom fields on project"
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: "No objects of this type"
+      one: "One object of this type"
+      other: "%{count} objects of this type"
     text:
-      failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
-      succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
+      failed: 'Could not copy project "%{source_project_name}" to project "%{target_project_name}".'
+      succeeded: 'Copied project "%{source_project_name}" to "%{target_project_name}".'
   create_new_page: "Wiki-sivu"
   date:
     abbr_day_names:
@@ -1200,7 +1202,7 @@ fi:
       - "Loka"
       - "Marras"
       - "Joulu"
-    abbr_week: 'Wk'
+    abbr_week: "Wk"
     day_names:
       - "Sunnuntai"
       - "Maanantai"
@@ -1217,7 +1219,7 @@ fi:
       long: "%A%e. %Bta %Y"
       short: "%e.%m.%Y"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Tammikuu"
       - "Helmikuu"
@@ -1231,7 +1233,6 @@ fi:
       - "Lokakuu"
       - "Marraskuu"
       - "Joulukuu"
-    #Used in date_select and datetime_select.
     order:
       - :vuosi
       - :kuukausi
@@ -1340,8 +1341,8 @@ fi:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Mukautettua kenttää ei voi poistaa"
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
+  error_can_not_delete_in_use_archived_work_packages: "There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
   error_can_not_delete_standard_type: "Standardin tyyppiä ei voi poistaa."
@@ -1353,28 +1354,28 @@ fi:
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Virhe %{code}"
   error_color_could_not_be_saved: "Color could not be saved"
-  error_cookie_missing: 'OpenProject evästeen puuttuu. Varmista, että evästeet ovat käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.'
+  error_cookie_missing: "OpenProject evästeen puuttuu. Varmista, että evästeet ovat käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä."
   error_custom_option_not_found: "Vaihtoehtoa ei ole olemassa."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
-  error_failed_to_delete_entry: 'Tämän merkinnän poisto ei onnistunut.'
+  error_failed_to_delete_entry: "Tämän merkinnän poisto ei onnistunut."
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Liikaa sarakkeita valittuina PDF-vientiin. Pienennä sarakkeiden määrää."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
-  error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again.'
+  error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
   error_work_package_done_ratios_not_updated: "Tehtävän valmiusastetta ei päivitetty."
   error_work_package_not_found_in_project: "Toimia paketti ei löydy tai ei kuulu tähän projektiin"
   error_must_be_project_member: "on oltava projekti jäsen"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
-  error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
+  error_no_default_work_package_status: 'No default work package status is defined. Please check your configuration (Go to "Administration -> Work package statuses").'
   error_no_type_in_project: "Ei tyyppi liittyy tähän projekti. Ole hyvä ja tarkista Projekti asetuksista."
   error_omniauth_registration_timed_out: "Rekisteröinnin kautta ulkoinen todennus perheenhuoltaja aikakatkaistiin. Ole hyvä ja yritä uudelleen."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Tietovarastoon pääsyssä tapahtui virhe: %{value}"
   error_scm_not_found: "Syötettä ja/tai versiota ei löydy tietovarastosta."
   error_type_could_not_be_saved: "Type could not be saved"
@@ -1392,17 +1393,17 @@ fi:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    changeset: 'Changeset edited'
+    changeset: "Changeset edited"
     message: Viestiä muokattu
     news: Uutiset
-    project_attributes: 'Project attributes edited'
-    projects: 'Projektia muokattu'
+    project_attributes: "Project attributes edited"
+    projects: "Projektia muokattu"
     reply: Vastattu
-    time_entry: 'Timelog edited'
-    wiki_page: 'Wiki-sivu päivitetty'
-    work_package_closed: 'Tehtävä suljettu'
-    work_package_edit: 'Tehtävää muokattu'
-    work_package_note: 'Kommentti lisätty tehtävään'
+    time_entry: "Timelog edited"
+    wiki_page: "Wiki-sivu päivitetty"
+    work_package_closed: "Tehtävä suljettu"
+    work_package_edit: "Tehtävää muokattu"
+    work_package_note: "Kommentti lisätty tehtävään"
     title:
       project: "Project: %{name}"
       subproject: "Subproject: %{name}"
@@ -1464,7 +1465,7 @@ fi:
       forums: "Keskustelupalsta"
       newsletter: "Suojausvaroitukset / uutiskirje"
   image_conversion:
-    imagemagick: 'Imagemagick'
+    imagemagick: "Imagemagick"
   journals:
     changes_retracted: "The changes were retracted."
     caused_changes:
@@ -1488,7 +1489,7 @@ fi:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
-    configuration_guide: 'Configuration guide'
+    configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Heti kun tilisi on aktivoitu voit kirjatua painamalla %{signin}."
   instructions_after_logout: "Voit kirjautua sisään uudelleen napsauttamalla %{signin}."
@@ -1497,7 +1498,7 @@ fi:
     admin:
       mail_notification: "Sähköposti-ilmoitukset"
       mails_and_notifications: "Emails and notifications"
-      aggregation: 'Aggregation'
+      aggregation: "Aggregation"
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1519,7 +1520,7 @@ fi:
         disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
         disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
         empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
       oauth:
@@ -1556,13 +1557,13 @@ fi:
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
         We hope you find in-app notifications useful and that they makes you even more productive.
         Sincerely, The OpenProject team
-      body_header: 'Version 12.0 with Notification Center'
-      body_subheader: 'Uutiset'
-      subject: 'Important changes to notifications with the release of 12.0'
+      body_header: "Version 12.0 with Notification Center"
+      body_subheader: "Uutiset"
+      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Helppokäyttötoiminnot"
   label_account: "Käyttäjätili"
   label_active: "Aktiivinen"
-  label_activate_user: 'Aktivoi käyttäjä'
+  label_activate_user: "Aktivoi käyttäjä"
   label_active_in_new_projects: "Active in new projects"
   label_activity: "Tapahtumat"
   label_add_edit_translations: "Lisää ja muokkaa käännöksiä"
@@ -1591,7 +1592,7 @@ fi:
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_description: 'iCalendar token "%{token_name}" for "%{calendar_name}" in "%{project_name}"'
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
@@ -1632,7 +1633,7 @@ fi:
   label_branch: "Haara"
   label_browse: "Selaus"
   label_bulk_edit_selected_work_packages: "Muokkaa valittuja tehtäviä"
-  label_bundled: '(Bundled)'
+  label_bundled: "(Bundled)"
   label_calendar: "Kalenteri"
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Näytä kalenteri"
@@ -1708,7 +1709,7 @@ fi:
   label_diff: "diff"
   label_diff_inline: "sisällössä"
   label_diff_side_by_side: "vierekkäin"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "poistettu käytöstä"
   label_display: "Näytä"
   label_display_per_page: "Per sivu: %{value}"
@@ -1722,9 +1723,9 @@ fi:
   label_edit: "Muokkaa"
   label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Vaihda monivalinta"
-  label_enabled_project_custom_fields: 'Käytössä olevat mukautetut kentät'
-  label_enabled_project_modules: 'Käytössä olevat moduulit'
-  label_enabled_project_activities: 'Käytössä olevat työajanseurannan tapahtumat'
+  label_enabled_project_custom_fields: "Käytössä olevat mukautetut kentät"
+  label_enabled_project_modules: "Käytössä olevat moduulit"
+  label_enabled_project_activities: "Käytössä olevat työajanseurannan tapahtumat"
   label_end_to_end: "lopusta loppuun"
   label_end_to_start: "lopusta alkuun"
   label_enumeration_new: "Uusi arvo"
@@ -1785,12 +1786,12 @@ fi:
   label_in_more_than: "suurempi kuin"
   label_inactive: "Inactive"
   label_incoming_emails: "Saapuvat sähköpostiviestit"
-  label_includes: 'sisältää'
+  label_includes: "sisältää"
   label_index_by_date: "Hakemisto päivittäin"
   label_index_by_title: "Hakemisto otsikoittain"
   label_information: "Tietoja"
   label_information_plural: "Tieto"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: "Installation guides"
   label_integer: "Kokonaisluku"
   label_internal: "Sisäinen"
   label_introduction_video: "Introduction video"
@@ -1802,7 +1803,7 @@ fi:
   label_language: "Kieli"
   label_languages: "Languages"
   label_jump_to_a_project: "Siirry projektiin..."
-  label_keyword_plural: 'Keywords'
+  label_keyword_plural: "Keywords"
   label_language_based: "Pohjautuen käyttäjän kieleen"
   label_last_activity: "Viimeinen toiminta"
   label_last_change_on: "Viimeisin muutos"
@@ -1818,7 +1819,7 @@ fi:
   label_less_than_ago: "vähemmän kuin päivää sitten"
   label_list: "Lista"
   label_loading: "Lataa..."
-  label_lock_user: 'Lukitse käyttäjä'
+  label_lock_user: "Lukitse käyttäjä"
   label_logged_as: "Kirjautuneena"
   label_login: "Kirjaudu"
   label_custom_logo: "Oma logo"
@@ -1838,12 +1839,12 @@ fi:
   label_member_new: "Uusi jäsen"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Jäsenet"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: "Member added"
+  lable_membership_updated: "Member updated"
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: "pre-alpha"
+    alpha: "alpha"
+    beta: "beta"
   label_menu_item_name: "Valinnan nimi"
   label_message: "Vesti"
   label_message_last: "Viimeisin viesti"
@@ -1887,7 +1888,7 @@ fi:
   label_no_parent_page: "Ei yläsivua"
   label_nothing_display: "Ei näytettävää"
   label_nobody: "ei kukaan"
-  label_not_found: 'ei löydetty'
+  label_not_found: "ei löydetty"
   label_none: "ei mitään"
   label_none_parentheses: "(none)"
   label_not_contains: "ei sisällä"
@@ -1981,8 +1982,8 @@ fi:
   label_repository: "Tietovarasto"
   label_repository_root: "Repository root"
   label_repository_plural: "Tietovarastot"
-  label_required: 'Required'
-  label_requires: 'edellyttää'
+  label_required: "Required"
+  label_requires: "edellyttää"
   label_result_plural: "Tulokset"
   label_reverse_chronological_order: "Newest first"
   label_revision: "Revisio"
@@ -2049,7 +2050,7 @@ fi:
   label_updated_time: "Päivitetty %{value} sitten"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Päivittänyt %{author} %{age} sitten"
-  label_upgrade_guides: 'Upgrade guides'
+  label_upgrade_guides: "Upgrade guides"
   label_used_by: "Käyttää"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Käytetty projekteissa"
@@ -2144,31 +2145,31 @@ fi:
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macros:
-    placeholder: '[Placeholder] Macro %{macro_name}'
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
-      missing_or_invalid_parameter: 'Missing or invalid macro parameter.'
+      missing_or_invalid_parameter: "Missing or invalid macro parameter."
     legacy_warning:
-      timeline: 'This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro.'
+      timeline: "This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro."
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: "The macro does no longer exist."
     wiki_child_pages:
       errors:
         page_not_found: "Cannot find the wiki page '%{name}'."
     create_work_package_link:
       errors:
-        no_project_context: 'Calling create_work_package_link macro from outside project context.'
+        no_project_context: "Calling create_work_package_link macro from outside project context."
         invalid_type: "No type found with name '%{type}' in project '%{project}'."
-      link_name: 'Uusi tehtävä'
-      link_name_type: 'New %{type_name}'
+      link_name: "Uusi tehtävä"
+      link_name_type: "New %{type_name}"
   mail:
-    actions: 'Toiminnot'
+    actions: "Toiminnot"
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+      including_mention_singular: "including a mention"
+      including_mention_plural: "including %{number_mentioned} mentions"
+      unread_notification_singular: "1 unread notification"
+      unread_notification_plural: "%{number_unread} unread notifications"
+      you_have: "You have"
+    logo_alt_text: "Logo"
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
@@ -2176,36 +2177,37 @@ fi:
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
     salutation: 'Hello %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
-      mentioned_by: '%{user} mentioned you in a comment'
+      created_at: "Created at %{timestamp} by %{user} "
+      login_to_see_all: "Log in to see all notifications."
+      mentioned: "You have been <b>mentioned in a comment</b>"
+      mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        one: 'There is 1 more work package with notifications.'
-        other: 'There are %{count} more work packages with notifications.'
-      open_in_browser: 'Open in browser'
+        one: "There is 1 more work package with notifications."
+        other: "There are %{count} more work packages with notifications."
+      open_in_browser: "Open in browser"
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
-        responsible: 'Vastuuhenkilö'
-        mentioned: 'Mentioned'
-        shared: 'Shared'
-        subscribed: 'kaikki'
-        prefix: 'Received because of the notification setting: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
-      see_all: 'See all'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+        watched: "Watched"
+        assigned: "Assigned"
+        responsible: "Vastuuhenkilö"
+        mentioned: "Mentioned"
+        shared: "Shared"
+        subscribed: "kaikki"
+        prefix: "Received because of the notification setting: %{reason}"
+        date_alert_start_date: "Date alert"
+        date_alert_due_date: "Date alert"
+      see_all: "See all"
+      updated_at: "Updated at %{timestamp} by %{user}"
     sharing:
       work_packages:
-        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
-        create_account: 'To access this work package you will need to create an %{instance} account. '
-        open_work_package: 'Open work package'
-        subject: 'You have been shared work package #%{id}'
+        allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
+        create_account: "To access this work package you will need to create an %{instance} account. "
+        open_work_package: "Open work package"
+        subject: "You have been shared work package #%{id}"
         summary:
-          user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of'
+          user: "%{user} shared a work package with you with %{role_rights} rights"
+          group: "%{user} shared a work package with the group %{group} you are a member of"
   mail_body_account_activation_request: "Uusi käyttäjä (%{value}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:"
   mail_body_account_information: "Kirjautumistiedot"
   mail_body_account_information_external: "Voit nyt käyttää %{value} tiliäsi kirjautuaksesi järjestelmään."
@@ -2234,7 +2236,7 @@ fi:
   mail_body_register_closing: "OpenProject tiimisi"
   mail_body_register_ending: "Ystävällisin terveisin,"
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
   mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} käyttäjätiedot"
@@ -2458,6 +2460,7 @@ fi:
   permission_view_project_activity: "View project activity"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
+  permission_edit_attribute_help_texts: "Edit attribute help texts"
   placeholders:
     default: "-"
   project:
@@ -2474,9 +2477,9 @@ fi:
     template:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Aseta malliksi'
-      remove_from_templates: 'Remove from templates'
+      use_template: "Use template"
+      make_template: "Aseta malliksi"
+      remove_from_templates: "Remove from templates"
     archive:
       are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
       archived: "Archived"
@@ -2500,15 +2503,15 @@ fi:
     shared_with_user: "Shared with user"
     subproject_id: "Including subproject"
   repositories:
-    at_identifier: 'klo %{identifier}'
-    atom_revision_feed: 'Atom revision feed'
+    at_identifier: "klo %{identifier}"
+    atom_revision_feed: "Atom revision feed"
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
     checkout:
       access:
-        readwrite: 'Luku + kirjoitus'
-        read: 'Vain luku'
-        none: 'No checkout access, you may only view the repository through this application.'
-      access_permission: 'Your permissions on this repository'
+        readwrite: "Luku + kirjoitus"
+        read: "Vain luku"
+        none: "No checkout access, you may only view the repository through this application."
+      access_permission: "Your permissions on this repository"
       url: "Checkout URL"
       base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
       default_instructions:
@@ -2608,8 +2611,8 @@ fi:
     warnings:
       cannot_annotate: "Tätä tiedostoa ei voi selityksineen."
   scheduling:
-    activated: 'aktivoitu'
-    deactivated: 'deaktivoitu'
+    activated: "aktivoitu"
+    deactivated: "deaktivoitu"
   search_input_placeholder: "Etsi..."
   setting_apiv3_cors_enabled: "Enable CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
@@ -2624,6 +2627,7 @@ fi:
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Sähköpostiviestien toimitustapa"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
   setting_smtp_ssl: "Use SSL connection"
@@ -2756,9 +2760,9 @@ fi:
         priority: "Entire row by Priority"
     icalendar:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
-    language_name_being_default: '%{language_name} (default)'
+    language_name_being_default: "%{language_name} (default)"
     notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Muut"
     passwords: "Salasana"
@@ -2774,8 +2778,8 @@ fi:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
-    markdown: 'Markdown'
-    plain: 'Plain text'
+    markdown: "Markdown"
+    plain: "Plain text"
   status_active: "aktiivinen"
   status_archived: "archived"
   status_invited: kutsuttu
@@ -2982,16 +2986,16 @@ fi:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: "HTTPS mode setup mismatch"
       text_html: >
         Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: "Hostname setting mismatch"
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Menu item"
   menu_item_setting: "Näkyvyys"
-  wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
+  wiki_menu_item_for: 'Menu item for wikipage "%{title}"'
   wiki_menu_item_setting: "Näkyvyys"
   wiki_menu_item_new_main_item_explanation: >
     Sinä olet poistat vain tärkeimmät wiki valikosta. Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan. Poistaa wiki wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
@@ -3043,7 +3047,7 @@ fi:
   api_v3:
     attributes:
       lock_version: "Lock Version"
-      property: 'Property'
+      property: "Property"
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Kirjaudu käyttääksesi tätä resurssia."
@@ -3091,40 +3095,40 @@ fi:
         invalid_gzip: "is invalid gzip: %{message}"
         invalid_json: "is invalid json: %{message}"
     resources:
-      schema: 'Schema'
+      schema: "Schema"
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
-      status: 'Pre-authorization'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+      status: "Pre-authorization"
+    auth_url: "Auth URL"
+    access_token_url: "Access token URL"
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+          unknown: "The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed."
+          missing_param: "Missing required parameter: %{value}."
+          request_not_authorized: "Request need to be authorized. Required parameter for authorizing request is missing or invalid."
         invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
-        access_denied: 'The resource owner or authorization server denied the request.'
-        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
-        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
-        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        unauthorized_client: "The client is not authorized to perform this request using this method."
+        access_denied: "The resource owner or authorization server denied the request."
+        invalid_scope: "The requested scope is invalid, unknown, or malformed."
+        invalid_code_challenge_method: "The code challenge method must be plain or S256."
+        server_error: "The authorization server encountered an unexpected condition which prevented it from fulfilling the request."
+        temporarily_unavailable: "The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server."
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        credential_flow_not_configured: "Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured."
+        resource_owner_authenticator_not_configured: "Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured."
+        admin_authenticator_not_configured: "Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured."
         #Access grant errors
-        unsupported_response_type: 'The authorization server does not support this response type.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_type: "The authorization server does not support this response type."
+        unsupported_response_mode: "The authorization server does not support this response mode."
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_client: "Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method."
+        invalid_grant: "The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
+        unsupported_grant_type: "The authorization grant type is not supported by the authorization server."
         invalid_token:
           revoked: "API-salasana poistettiin käytöstä"
           expired: "API-salasana on vanhentunut"
@@ -3136,7 +3140,7 @@ fi:
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
     message: "You may run into errors and degraded experience on this page."
-    update_message: 'Päivitäthän selaimesi.'
+    update_message: "Päivitäthän selaimesi."
     close_warning: "Ohita tämä varoitus."
   oauth:
     application:
@@ -3173,8 +3177,8 @@ fi:
       successful_application_revocation: "Revocation of application %{application_name} successful."
       none_given: "No OAuth applications have been granted access to your user account."
     x_active_tokens:
-      one: 'one active token'
-      other: '%{count} active token'
+      one: "one active token"
+      other: "%{count} active token"
     flows:
       authorization_code: "Authorization code flow"
       client_credentials: "Client credentials flow"
