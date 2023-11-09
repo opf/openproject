@@ -90,17 +90,25 @@ module WorkPackages
       end
 
       def type_filter_option_active?(_option)
-        # Todo
-        false
+        principal_type_filter_value = current_filter_value(params[:filters], 'principal_type')
+        project_member_filter_value = current_filter_value(params[:filters], 'also_project_member')
+
+        return false if principal_type_filter_value.nil? || project_member_filter_value.nil?
+
+        principal_type_checked =
+          _option[:value][:principal_type] == principal_type_filter_value
+        membership_selected =
+          _option[:value][:project_member] == ActiveRecord::Type::Boolean.new.cast(project_member_filter_value)
+
+        principal_type_checked && membership_selected
       end
 
-      def role_filter_option_active?(option)
-        return false if params[:filters].nil?
+      def role_filter_option_active?(_option)
+        role_filter_value = current_filter_value(params[:filters], 'role_id')
 
-        given_role_filters = JSON.parse(params[:filters]).find { |filter| filter.key?('role_id') }
-        given_role_filter_value = given_role_filters ? given_role_filters['role_id']['values'].first.to_i : nil
+        return false if role_filter_value.nil?
 
-        find_role_ids(option[:value]).first == given_role_filter_value unless given_role_filter_value.nil?
+        find_role_ids(_option[:value]).first == role_filter_value.to_i
       end
 
       def filter_url(type_option: nil, role_option: nil)
@@ -119,9 +127,6 @@ module WorkPackages
 
         unless role_option.nil? || role_filter_option_active?(role_option)
           filter.push({ role_id: { operator: "=", values: find_role_ids(role_option[:value]) } })
-
-          filter.push({ entity_type: { operator: "=", values: [WorkPackage.name] } })
-          filter.push({ entity_id: { operator: "=", values: [params[:work_package_id]] } })
         end
 
         # Todo: Keep options of the other filter defined in params
@@ -129,6 +134,13 @@ module WorkPackages
         args[:filters] = filter.to_json unless filter.empty?
 
         work_package_shares_path(args)
+      end
+
+      def current_filter_value(filters, filter_key)
+        return nil if filters.nil?
+
+        given_filters = JSON.parse(filters).find { |key| key.key?(filter_key) }
+        given_filters ? given_filters[filter_key]['values'].first : nil
       end
     end
   end
