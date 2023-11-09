@@ -55,6 +55,8 @@ Implement strong authentication mechanisms for any sensitive credentials to be u
 
 
 
+<a id="usage-at-openproject"></a>
+
 **Usage at OpenProject**
 
 OpenProject uses industry standard authentication mechanisms that follow the best practices and are the de-facto norm for many organizations:
@@ -63,6 +65,16 @@ OpenProject uses industry standard authentication mechanisms that follow the bes
 - External authentication through LDAP user binds, optional LDAP user and group membership synchronization (Enterprise-Edition add-on)
 - OAuth 2.0 application authentication and authorization with OpenProject acting as the authorization server. Access tokens are hashed using SHA256 in the database.
 - Internal user credential authentication against passwords stored in BCrypt with a high default yet configurable cost factor depending on the organizational requirements.
+
+
+
+<a id="usage-recommendations"></a>
+
+OpenProject recommends these authenticiation mechanisms:
+
+- For smaller to medium organizations with no centralized authentication mechanism, use the internal username / password authentication mechanism for secure storing of your user's credentials using BCrypt salted cryptographic hash function.
+- For organizations with a centralized and accessible LDAP server, [OpenProject provides LDAP userbind authentication](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/) to foward the authentication request to your LDAP server. Use TLS or LDAPS encrypted connections to the LDAP server to ensure transport level security. Optionally, synchronize roles and permissions using the [LDAP Group sync functionality](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/).
+- If your organization operates a central authentication services, it is very likely it supports one of the standard remote authentication mechanisms for single sign-on, such as [OpenID connect](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/),  [SAML](https://www.openproject.org/docs/system-admin-guide/authentication/saml/), or [Kerberos](https://www.openproject.org/docs/system-admin-guide/authentication/kerberos/). Use these mechanisms to ensure a standardized and secure authentication of users without requiring the storage of any credentials at OpenProject while providing a high level of usability due to centralized logins.
 
 
 
