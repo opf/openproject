@@ -89,7 +89,7 @@ module WorkPackages
         ]
       end
 
-      def type_filter_option_active?(option)
+      def type_filter_option_active?(_option)
         # Todo
         false
       end
@@ -109,11 +109,9 @@ module WorkPackages
 
         unless type_option.nil? || type_filter_option_active?(type_option)
           if type_option[:value][:project_member]
-            # Todo
-            # filter.push({ entity_and_project_member: { operator: "=", values: [params[:work_package_id]] } })
+            filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] } })
           else
-            # Todo
-            # filter.push({ entity_and_no_project_member: { operator: "=", values: [params[:work_package_id]] } })
+            filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] } })
           end
 
           filter.push({ principal_type: { operator: "=", values: [type_option[:value][:principal_type]] } })

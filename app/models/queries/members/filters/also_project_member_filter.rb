@@ -26,26 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Members
-  ::Queries::Register.register(MemberQuery) do
-    filter Filters::NameFilter
-    filter Filters::AnyNameAttributeFilter
-    filter Filters::ProjectFilter
-    filter Filters::StatusFilter
-    filter Filters::BlockedFilter
-    filter Filters::GroupFilter
-    filter Filters::RoleFilter
-    filter Filters::PrincipalFilter
-    filter Filters::PrincipalTypeFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::UpdatedAtFilter
-    filter Filters::EntityIdFilter
-    filter Filters::EntityTypeFilter
-    filter Filters::AlsoProjectMemberFilter
+class Queries::Members::Filters::AlsoProjectMemberFilter < Queries::Members::Filters::MemberFilter
+  include Queries::Filters::Shared::BooleanFilter
 
-    order Orders::DefaultOrder
-    order Orders::NameOrder
-    order Orders::EmailOrder
-    order Orders::StatusOrder
+  def where
+    if allowed_values.first.intersect?(values)
+      "EXISTS (#{project_member_subquery})"
+    else
+      "NOT EXISTS (#{project_member_subquery})"
+
+    end
+  end
+
+  def available_operators
+    [::Queries::Operators::BooleanEquals]
+  end
+
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::BooleanListStrict.new self
+  end
+
+  private
+
+  def project_member_subquery
+    <<~SQL.squish
+      SELECT 1 FROM "members" as "project_members"
+      WHERE
+        project_members.user_id = members.user_id AND
+        project_members.project_id = members.project_id AND
+        project_members.entity_type IS NULL AND
+        project_members.entity_id IS NULL
+        project_members.id != members.id
+    SQL
   end
 end
