@@ -42,21 +42,19 @@ Here you can update the information and **save** your changes. If you're changin
 
 ## Profile settings
 
-Within the **Settings** on **My Account** page you can change the language of OpenProject, adapt the time zone and change the order in which comments are displayed in the **Activity list** for work packages.
+Within the **Settings** on **My Account** page you can change the language of OpenProject, adapt the time zone, select which display mode you would like activate and change the order in which comments are displayed in the **Activity list** for work packages.
 
 Also, you can activate a **warning if you are leaving a work package with unsaved changes**.
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
-![OpenProject_my_account_page](openproject_my_account_page.png)
+![OpenProject_my_account_page](openproject_my_account_page_new.png)
 
 ### Change your language
 
 To change the language in OpenProject, navigate to the **My account** and choose the menu point **Settings**.
 
 Here you can choose between multiple languages.
-
-![my account change language of user](my-account-change-language-of-user.png)
 
 OpenProject is translated to more than 30 languages, like German, Chinese, French, Italian, Korean, Latvian, Lithuanian, Polish, Portuguese, Russian, Spanish, Turkish and many more. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/system-settings/languages/).
 
@@ -69,6 +67,10 @@ If you want to help us to add further languages or to add the translations in yo
 You can choose a time zone in which you work and how the comments and changes will be saved.
 
 Pressing the blue **Save** button will save your changes.
+
+### Select the high contrast color mode
+
+In the dropdown menu **Mode** you can pick the color mode. The default setting is the **Light mode**. You can also select the **Light high contrast mode**, which will significantly increase the contrast and override the color theme of your OpenProject instance. This mode is recommended for users with visuals impairment. 
 
 ### Change the order to display comments
 
