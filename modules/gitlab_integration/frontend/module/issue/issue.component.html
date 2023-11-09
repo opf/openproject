@@ -4,16 +4,14 @@
 ></div>
 
 <span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
-  <span class="op-issue--state-iconwidth">
-    <svg class="op-issue--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
-    {{state}}
-  </span> | 
+  <svg class="op-issue--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
+  {{state}} | 
   <a
   [ngClass]="'op-issue--link_' + state"
   [href]="gitlabIssue.htmlUrl"
   target="blank"
   [textContent]="gitlabIssue.repository + '#' + gitlabIssue.number"
-></a>
+  ></a>
 </span>
 
 <button *ngIf="gitlabIssue.labels && gitlabIssue.labels.length > 0" (click)="toggleLabels(gitlabIssue.number)" class='op-issue--label_icon'>

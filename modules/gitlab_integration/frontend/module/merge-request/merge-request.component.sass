@@ -32,7 +32,7 @@
 :host,
 .op-merge-request
   display: grid
-  grid-template-columns: auto auto 1fr
+  grid-template-columns: minmax(270px, auto) auto 1fr
   grid-template-areas: "title title title" "state label_icon info_created" "state label_icon info_updated" "label label label" "pipeline-label pipeline-label pipeline-label" "pipeline pipeline pipeline"
   margin-bottom: 5px
   margin-top: 5px
@@ -62,12 +62,14 @@
     grid-area: info
 
   &--info_created
+    @include text-shortener
     display: block
     grid-area: info_created
     font-size: 0.75rem
     color: var(--gray-dark)
 
   &--info_updated
+    @include text-shortener
     display: block
     grid-area: info_updated
     font-size: 0.75rem
