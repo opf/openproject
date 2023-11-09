@@ -42,6 +42,42 @@ RSpec.describe Storages::NextcloudStorage do
     it { expect(storage).not_to be_a_provider_type_one_drive }
   end
 
+  describe '#mark_as_unhealthy' do
+    it 'records the time at which it became unhealthy' do
+      Timecop.freeze('2023-03-14T15:17:00Z') do
+        expect { storage.mark_as_unhealthy }.to change(storage, :health_changed_at).to(Time.now.utc)
+      end
+    end
+
+    it 'sets the health_status as unhealthy' do
+      expect { storage.mark_as_unhealthy }.to change(storage, :health_status).to('unhealthy')
+    end
+
+    it 'sets a reason if provided' do
+      expect do
+        storage.mark_as_unhealthy(reason: 'thou_shall_not_pass_error')
+      end.to change(storage, :health_reason).to('thou_shall_not_pass_error')
+    end
+  end
+
+  describe '#mark_as_healthy' do
+    before { storage.mark_as_unhealthy(reason: 'just nope') }
+
+    it 'clears the unhealthy_since value' do
+      Timecop.freeze('2023-04-05T06:07:08.009Z') do
+        expect { storage.mark_as_healthy }.to change(storage, :health_changed_at).to(Time.now.utc)
+      end
+    end
+
+    it 'sets the health_status to ok' do
+      expect { storage.mark_as_healthy }.to change(storage, :health_status).to('ok')
+    end
+
+    it 'clears the health_reason' do
+      expect { storage.mark_as_healthy }.to change(storage, :health_reason).to(nil)
+    end
+  end
+
   describe '#configured?' do
     context 'with a complete configuration' do
       let(:storage) do
@@ -126,41 +162,6 @@ RSpec.describe Storages::NextcloudStorage do
 
       expect(storage.public_send(attribute)).to be(true)
       expect(storage.public_send(:"#{attribute}?")).to be(true)
-    end
-  end
-
-  describe '.sync_all_group_folders' do
-    subject { described_class.sync_all_group_folders }
-
-    context 'when lock is free' do
-      it 'responds with true' do
-        expect(subject).to be(true)
-      end
-
-      it 'calls GroupFolderPropertiesSyncService for each appropriate storage' do
-        storage1 = create(:nextcloud_storage, :as_automatically_managed)
-        storage2 = create(:nextcloud_storage, :as_not_automatically_managed)
-
-        allow(Storages::GroupFolderPropertiesSyncService).to receive(:new).and_call_original
-        allow_any_instance_of(Storages::GroupFolderPropertiesSyncService).to receive(:call).and_return(nil) # rubocop:disable RSpec/AnyInstance
-
-        expect(subject).to be(true)
-        expect(Storages::GroupFolderPropertiesSyncService).to have_received(:new).with(storage1).once
-        expect(Storages::GroupFolderPropertiesSyncService).not_to have_received(:new).with(storage2)
-      end
-    end
-
-    context 'when lock is unfree' do
-      it 'responds with false' do
-        allow(ApplicationRecord).to receive(:with_advisory_lock).and_return(false)
-
-        expect(subject).to be(false)
-        expect(ApplicationRecord).to have_received(:with_advisory_lock).with(
-          'sync_all_group_folders',
-          timeout_seconds: 0,
-          transaction: false
-        ).once
-      end
     end
   end
 

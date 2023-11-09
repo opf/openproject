@@ -61,6 +61,10 @@ module Storages
     has_one :oauth_client, as: :integration, dependent: :destroy
     has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
 
+    store_attribute :health_info, :status, :string, prefix: :health
+    store_attribute :health_info, :changed_at, :datetime, prefix: :health
+    store_attribute :health_info, :reason, :string, prefix: :health
+
     PROVIDER_TYPES = [
       PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage',
       PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'

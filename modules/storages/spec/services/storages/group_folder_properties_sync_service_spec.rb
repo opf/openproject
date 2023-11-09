@@ -657,11 +657,17 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
             described_class.new(storage).call
 
             expect(OpenProject.logger).to have_received(:warn) do |msg, _|
-              expect(msg).to eq({ command: 'nextcloud.file_ids',
-                                  folder: 'OpenProject',
-                                  message: 'Outbound request destination not found',
-                                  data: { status: "404", body: '' } }.to_json)
+              expect(parse_error_msg(msg))
+                .to eq({ command: 'Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQuery',
+                         folder: 'OpenProject',
+                         message: 'Outbound request destination not found',
+                         data: { status: "404", body: '' } })
             end
+          end
+
+          it 'returns a failure' do
+            result = described_class.new(storage).call
+            expect(result).to be_failure
           end
         end
 
@@ -675,7 +681,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
                                  }
                                ).to_return(status: 500, body: "", headers: {})
 
-          expect { described_class.new(storage).call }.to raise_error RuntimeError
+          expect(described_class.new(storage).call).to be_failure
         end
       end
 
@@ -701,24 +707,13 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
             described_class.new(storage).call
 
             expect(OpenProject.logger).to have_received(:warn) do |msg, _|
-              expect(msg).to eq({ command: 'nextcloud.set_permissions',
-                                  folder: 'OpenProject',
-                                  message: 'Outbound request not authorized',
-                                  data: { status: '401', body: 'Heute nicht' } }.to_json)
+              expect(parse_error_msg(msg))
+                .to eq({ command: 'Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand',
+                         folder: 'OpenProject',
+                         message: 'Outbound request not authorized',
+                         data: { status: '401', body: 'Heute nicht' } })
             end
           end
-        end
-
-        it 'raises an error in case of an unhandled error case' do
-          request_stubs[1] = stub_request(:proppatch, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
-                               .with(
-                                 body: root_folder_set_permissions_request_body,
-                                 headers: {
-                                   'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-                                 }
-                               ).to_return(status: 500, body: 'this is a failure', headers: {})
-
-          expect { described_class.new(storage).call }.to raise_error RuntimeError
         end
       end
 
@@ -748,9 +743,11 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
           described_class.new(storage).call
 
           expect(OpenProject.logger).to have_received(:warn) do |msg|
-            expect(msg).to eq({ command: 'nextcloud.create_folder',
-                                folder: "OpenProject/[Sample] Project Name | Ehuu (#{project1.id})/",
-                                data: { status: '404', body: '' } }.to_json)
+            expect(parse_error_msg(msg))
+              .to eq({ command: 'Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolderCommand',
+                       message: 'Outbound request destination not found',
+                       folder: "OpenProject/[Sample] Project Name | Ehuu (#{project1.id})/",
+                       data: { status: '404', body: '' } })
           end
         end
       end
@@ -778,10 +775,12 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
           described_class.new(storage).call
 
           expect(OpenProject.logger).to have_received(:warn) do |msg, _|
-            expect(msg).to eq({ command: 'nextcloud.rename_file',
-                                source: "OpenProject/Lost Jedi Project Folder #3/",
-                                target: project_storage2.project_folder_path,
-                                data: { status: '404', body: '' } }.to_json)
+            expect(parse_error_msg(msg))
+              .to eq({ command: 'Storages::Peripherals::StorageInteraction::Nextcloud::RenameFileCommand',
+                       message: 'Outbound request destination not found',
+                       source: "OpenProject/Lost Jedi Project Folder #3/",
+                       target: project_storage2.project_folder_path,
+                       data: { status: '404', body: '' } })
           end
         end
       end
@@ -809,10 +808,12 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
           described_class.new(storage).call
 
           expect(OpenProject.logger).to have_received(:warn) do |msg|
-            expect(msg).to eq({ command: 'nextcloud.set_permissions',
-                                folder: 'OpenProject/Lost Jedi Project Folder #2/',
-                                message: 'Outbound request failed',
-                                data: { status: '500', body: 'A server error occurred' } }.to_json)
+            expect(parse_error_msg(msg))
+              .to eq({ command: 'Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand',
+                       context: 'hide_folder',
+                       folder: 'OpenProject/Lost Jedi Project Folder #2/',
+                       message: 'Outbound request failed',
+                       data: { status: '500', body: 'A server error occurred' } })
           end
         end
       end
@@ -840,11 +841,12 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
           described_class.new(storage).call
 
           expect(OpenProject.logger).to have_received(:warn) do |msg|
-            expect(msg).to eq({ command: 'nextcloud.set_permissions',
-                                folder: "OpenProject/Jedi Project Folder ||| (#{project2.id})/",
-                                message: 'Outbound request failed',
-                                data: { status: '500',
-                                        body: 'Divide by cucumber error. Please reinstall universe and reboot.' } }.to_json)
+            expect(parse_error_msg(msg))
+              .to eq({ command: 'Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand',
+                       folder: "OpenProject/Jedi Project Folder ||| (#{project2.id})/",
+                       message: 'Outbound request failed',
+                       data: { status: '500',
+                               body: 'Divide by cucumber error. Please reinstall universe and reboot.' } })
           end
         end
       end
@@ -872,11 +874,12 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
           described_class.new(storage).call
 
           expect(OpenProject.logger).to have_received(:warn) do |msg|
-            expect(msg).to eq({ command: 'nextcloud.add_users_to_group',
-                                group: 'OpenProject',
-                                user: 'Obi-Wan',
-                                message: 'Outbound request failed',
-                                data: { status: '302', body: '' } }.to_json)
+            expect(parse_error_msg(msg))
+              .to eq({ command: 'Storages::Peripherals::StorageInteraction::Nextcloud::AddUserToGroupCommand',
+                       group: 'OpenProject',
+                       user: 'Obi-Wan',
+                       message: 'Outbound request failed',
+                       data: { status: '302', body: '' } })
           end
         end
       end
@@ -907,12 +910,13 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
           described_class.new(storage).call
 
           expect(OpenProject.logger).to have_received(:warn) do |msg, _|
-            expect(msg).to eq({ command: 'nextcloud.remove_user_from_group',
-                                group: 'OpenProject',
-                                user: 'Darth Maul',
-                                message: "Failed to remove user Darth Maul from group OpenProject: " \
-                                         "Not viable to remove user from the last group you are SubAdmin of",
-                                data: { status: '200', body: remove_user_from_group_response } }.to_json)
+            expect(parse_error_msg(msg))
+              .to eq({ command: 'Storages::Peripherals::StorageInteraction::Nextcloud::RemoveUserFromGroupCommand',
+                       group: 'OpenProject',
+                       user: 'Darth Maul',
+                       message: "Failed to remove user Darth Maul from group OpenProject: " \
+                                "Not viable to remove user from the last group you are SubAdmin of",
+                       data: { status: '200', body: remove_user_from_group_response } })
           end
         end
       end
@@ -1120,6 +1124,10 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
         headers: { 'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=' },
         body: propfind_request_body
       ).to_return(status: 200, body: propfind_response_body3, headers: {})
+    end
+
+    def parse_error_msg(msg)
+      MultiJson.load(msg, symbolize_keys: true)
     end
   end
 end
