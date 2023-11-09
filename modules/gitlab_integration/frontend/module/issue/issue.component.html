@@ -4,8 +4,10 @@
 ></div>
 
 <span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
-  <svg class="op-issue--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
-  {{state}} | 
+  <span class="op-issue--state-iconwidth">
+    <svg class="op-issue--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
+    {{state}}
+  </span> | 
   <a
   [ngClass]="'op-issue--link_' + state"
   [href]="gitlabIssue.htmlUrl"
