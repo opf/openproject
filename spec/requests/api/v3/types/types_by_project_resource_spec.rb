@@ -89,7 +89,7 @@ RSpec.describe '/api/v3/projects/:id/types' do
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found response based on login_required'
     end
   end
 end

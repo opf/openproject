@@ -93,15 +93,15 @@ lt:
   label_start_date: "Pradžios data"
   meeting:
     email:
-      open_meeting_link: "Open meeting"
+      open_meeting_link: "Atverti susitikimą"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+        summary: "%{actor} atsiuntė jums pakvietimą į susitikimą %{title}"
       rescheduled:
-        summary: "Meeting %{title} has been rescheduled by %{actor}"
-        body: "The meeting %{title} has been rescheduled by %{actor}."
-        old_date_time: "Old date/time"
-        new_date_time: "New date/time"
-    label_mail_all_participants: "Send email to all participants"
+        summary: "Susitikimą %{title} perplanavo %{actor}"
+        body: "Susitikimą %{title} perplanavo %{actor}."
+        old_date_time: "Sena data/laikas"
+        new_date_time: "Nauja data/laikas"
+    label_mail_all_participants: "Siųsti e-laišką visiems dalyviams"
     types:
       classic: 'Klasikinis'
       classic_text: 'Organizuokite jūsų susitikimą su formatuojamo teksto darbotvarke ir protokolu.'

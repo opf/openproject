@@ -132,12 +132,12 @@ RSpec.describe 'authorization for BCF api',
     # While not being logged in and without a token, the api cannot be accessed
     visit("/api/bcf/2.1/projects/#{project.id}")
     expect(page)
-      .to have_content(JSON.dump(message: "The requested resource could not be found."))
+      .to have_content(JSON.dump(message: "You need to be authenticated to access this resource."))
 
     ## Without the access token, access is denied
     api_session = ActionDispatch::Integration::Session.new(Rails.application)
     response = api_session.get("/api/bcf/2.1/projects/#{project.id}")
-    expect(response).to eq 404
+    expect(response).to eq 401
 
     # With the access token, access is allowed
     response = api_session.get("/api/bcf/2.1/projects/#{project.id}",

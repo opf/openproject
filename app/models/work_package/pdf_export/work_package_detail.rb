@@ -141,6 +141,8 @@ module WorkPackage::PDFExport::WorkPackageDetail
       cf = CustomField.find_by(id:)
       return [] if cf.nil? || cf.formattable?
 
+      return [] if work_package.project.work_package_custom_field_ids.exclude?(cf.id)
+
       return [{ label: cf.name || form_key, name: form_key }]
     end
 

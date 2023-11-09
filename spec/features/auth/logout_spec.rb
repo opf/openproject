@@ -50,11 +50,14 @@ RSpec.describe 'Logout', js: true do
     end
 
     expect(page)
-      .to have_current_path home_path
+      .to have_current_path /login/
 
     # Can not access the my page but is redirected
     # to login instead.
     visit my_page_path
+    
+    expect(page)
+      .to have_current_path /login/
 
     expect(page)
       .to have_field('Username')

@@ -40,6 +40,9 @@ MESSAGE
     end
   end
 
+  let!(:non_member_role) { create(:non_member) }
+  let!(:anonymous_role) { create(:anonymous_role) }
+
   let(:watcher_role) do
     permissions = is_public_permission ? [] : [watch_permission]
 
@@ -79,29 +82,14 @@ MESSAGE
   end
 
   shared_context 'non member role has the permission to watch' do
-    let(:non_member_role) do
-      unless is_public_permission
-        ProjectRole.non_member.add_permission! watch_permission
-      end
-
-      ProjectRole.non_member
-    end
-
     before do
-      unless is_public_permission
-        non_member_role.add_permission! watch_permission
-      end
+      non_member_role.add_permission! watch_permission unless is_public_permission
     end
   end
 
   shared_context 'anonymous role has the permission to watch' do
-    let(:anonymous_role) do
-      permissions = is_public_permission ? [] : [watch_permission]
-      build(:anonymous_role, permissions:)
-    end
-
     before do
-      anonymous_role.save!
+      anonymous_role.add_permission! watch_permission unless is_public_permission
     end
   end
 
@@ -113,9 +101,6 @@ MESSAGE
       # to mess with our expected users
       model_instance
       User.not_builtin.update_all(status: User.statuses[:locked])
-
-      ProjectRole.non_member
-      ProjectRole.anonymous
 
       User.system.save!
 
@@ -155,7 +140,7 @@ MESSAGE
 
       it 'contains members allowed to view' do
         expect(model_instance.possible_watcher_users)
-          .to match_array([user_with_permission])
+          .to contain_exactly(user_with_permission)
       end
     end
   end
@@ -253,7 +238,7 @@ MESSAGE
 
       it 'contains members allowed to view' do
         expect(subject)
-          .to match_array([user_with_permission])
+          .to contain_exactly(user_with_permission)
       end
 
       context 'when the user is already watching' do

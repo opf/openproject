@@ -49,19 +49,29 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
   before { allow(User).to receive(:current).and_return user }
 
   describe '#show' do
-    context 'public project' do
+    context 'with a public project' do
       let(:user) { User.anonymous }
       let(:project) { create(:public_project) }
       let!(:message) { create(:message, forum:) }
 
-      it 'renders the show template' do
-        get :show, params: { project_id: project.id, id: message.id }
 
-        expect(response).to be_successful
-        expect(response).to render_template 'messages/show'
-        expect(assigns(:topic)).to be_present
-        expect(assigns(:forum)).to be_present
-        expect(assigns(:project)).to be_present
+      context 'when login_required', with_settings: { login_required: true } do
+        it 'redirects to login' do
+          get :show, params: { project_id: project.id, id: message.id }
+          expect(response).to redirect_to signin_path(back_url: topic_url(message.id))
+        end
+      end
+
+      context 'when not login_required', with_settings: { login_required: false } do
+        it 'renders the show template' do
+          get :show, params: { project_id: project.id, id: message.id }
+
+          expect(response).to be_successful
+          expect(response).to render_template 'messages/show'
+          expect(assigns(:topic)).to be_present
+          expect(assigns(:forum)).to be_present
+          expect(assigns(:project)).to be_present
+        end
       end
     end
   end

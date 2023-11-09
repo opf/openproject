@@ -30,11 +30,11 @@ source 'https://rubygems.org'
 
 ruby '~> 3.2.1'
 
-gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.5.0'
 gem 'activerecord-session_store', '~> 2.1.0'
+gem 'ox'
 gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
@@ -152,8 +152,8 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'prawn', '~> 2.4'
 gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'cc286655dfa2ea2b30bf2a149063f42f7081aa3d'
+gem 'prawn', '~> 2.4'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -310,10 +310,10 @@ group :development, :test do
 
   # ruby linting
   gem 'rubocop', require: false
+  gem 'rubocop-inflector', require: false
+  gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-inflector', require: false
 
   # erb linting
   gem "erb_lint", require: false
@@ -365,6 +365,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-primer_view_components", '~>0.13.0'
 gem "openproject-octicons", '~>19.7.0'
 gem "openproject-octicons_helper", '~>19.7.0'
+gem "openproject-primer_view_components", '~>0.13.0'

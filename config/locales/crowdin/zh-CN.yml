@@ -74,9 +74,9 @@ zh-CN:
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
-      start_trial: '开始免费试用'
-      book_now: '立即预订'
-      get_quote: '获取报价'
+      start_trial: "开始免费试用"
+      book_now: "立即预订"
+      get_quote: "获取报价"
       buttons:
         upgrade: "立即升级"
         contact: "联系我们获取演示"
@@ -91,14 +91,14 @@ zh-CN:
     is_active: 当前已显示
     is_inactive: 当前未显示
   attribute_help_texts:
-    note_public: '您添加到此字段的任何文本和图像对所有已登录用户都是公开可见的！'
-    text_overview: '在此视图中, 您可以为属性视图创建自定义帮助文本。定义后, 可以通过单击属性旁边的帮助图标来显示帮助文本。'
-    label_plural: '属性帮助文本'
-    show_preview: '预览文本'
-    add_new: '添加帮助文本'
+    note_public: "您添加到此字段的任何文本和图像对所有已登录用户都是公开可见的！"
+    text_overview: "在此视图中, 您可以为属性视图创建自定义帮助文本。定义后, 可以通过单击属性旁边的帮助图标来显示帮助文本。"
+    label_plural: "属性帮助文本"
+    show_preview: "预览文本"
+    add_new: "添加帮助文本"
     edit: "编辑%{attribute_caption} 的帮助文本"
     enterprise:
-      description: '为工作包和项目的属性（包括自定义字段）提供附加信息。当用户点击项目和工作包中输入字段旁边的问号符号时，会显示帮助文本。'
+      description: "为工作包和项目的属性（包括自定义字段）提供附加信息。当用户点击项目和工作包中输入字段旁边的问号符号时，会显示帮助文本。"
   background_jobs:
     status:
       error_requeue: "作业发生错误，但正在重试。错误为：%{message}"
@@ -106,7 +106,7 @@ zh-CN:
   ldap_auth_sources:
     ldap_error: "LDAP 错误：%{error_message}"
     ldap_auth_failed: "无法在 LDAP 服务器上验证身份。"
-    back_to_index: '点击此处返回到连接列表。'
+    back_to_index: "点击此处返回到连接列表。"
     technical_warning_html: |
       此 LDAP 表单需要您具备 LDAP / Active Directory 设置的技术知识。
       <br/>
@@ -134,20 +134,20 @@ zh-CN:
       onthefly_register: |
         如果选中此框，OpenProject 将在新用户首次向 OpenProject 验证身份时从其 LDAP 条目创建这些用户。
         不选中此框则会仅允许 OpenProject 中的现有帐户通过 LDAP 验证身份！
-    connection_encryption: '连接加密'
-    encryption_details: 'LDAPS / STARTTLS 选项'
-    system_account: '系统帐户'
+    connection_encryption: "连接加密"
+    encryption_details: "LDAPS / STARTTLS 选项"
+    system_account: "系统帐户"
     system_account_legend: |
       OpenProject 需要通过系统帐户获取只读权限来查找您的 LDAP 树中的用户和组。
       请在下一部分中为该系统用户指定绑定凭据。
-    ldap_details: 'LDAP 详细信息'
-    user_settings: '属性映射'
+    ldap_details: "LDAP 详细信息"
+    user_settings: "属性映射"
     user_settings_legend: |
       以下字段与在 OpenProject 中从 LDAP 条目创建用户的方式有关并决定用于定义 OpenProject 用户属性的 LDAP 属性（属性映射）。
     tls_mode:
-      plain: '无'
-      simple_tls: 'LDAPS'
-      start_tls: 'STARTTLS'
+      plain: "无"
+      simple_tls: "LDAPS"
+      start_tls: "STARTTLS"
       plain_description: "打开到LDAP服务器的非加密连接。不建议在生产环境中使用。"
       simple_tls_description: "若要使用LDAPS。需要LDAP服务器上的单独端口。此模式常被弃用，我们建议最好使用STARTTLS。"
       start_tls_description: "连接到标准LDAP端口后发送STARTTLS命令。推荐用于加密连接。"
@@ -180,23 +180,23 @@ zh-CN:
   custom_actions:
     actions:
       name: "操作"
-      add: '添加操作'
+      add: "添加操作"
       assigned_to:
-        executing_user_value: '（分配给执行用户）'
-    conditions: '条件'
-    plural: '自定义操作'
-    new: '添加自定义操作'
-    edit: '编辑自定义操作 %{name}'
-    execute: '执行 %{name}'
+        executing_user_value: "（分配给执行用户）"
+    conditions: "条件"
+    plural: "自定义操作"
+    new: "添加自定义操作"
+    edit: "编辑自定义操作 %{name}"
+    execute: "执行 %{name}"
     upsale:
-      title: '自定义操作'
-      description: '自定义操作是一组预定义操作的一键式快捷方式，您可以根据状态、角色、类型或项目在某些工作包上提供这些操作。'
+      title: "自定义操作"
+      description: "自定义操作是一组预定义操作的一键式快捷方式，您可以根据状态、角色、类型或项目在某些工作包上提供这些操作。"
   custom_fields:
     text_add_new_custom_field: >
       要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
-    is_enabled_globally: '已全局启用'
-    enabled_in_project: '已在项目中启用'
-    contained_in_type: '已包含在类型中'
+    is_enabled_globally: "已全局启用"
+    enabled_in_project: "已在项目中启用"
+    contained_in_type: "已包含在类型中"
     confirm_destroy_option: "删除某个选项将会删除其所有实例 (例如, 在工作包中)。确定要删除？"
     reorder_alphabetical: "按字母顺序重新排序"
     reorder_confirmation: "警告：可用值的当前顺序将丢失。是否继续？"
@@ -204,7 +204,7 @@ zh-CN:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
   concatenation:
-    single: '或'
+    single: "或"
   global_search:
     overwritten_tabs:
       wiki_pages: "维基"
@@ -223,13 +223,13 @@ zh-CN:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: '项目成员'
-      overviews: '项目概况'
-      queries: '工作包: 保存的视图'
-      wiki_page_attachments: '维基页面：附件'
-      work_package_attachments: '工作包：附件'
-      work_package_categories: '工作包：类别'
-      work_package_file_links: '工作包：文件链接'
+      members: "项目成员"
+      overviews: "项目概况"
+      queries: "工作包: 保存的视图"
+      wiki_page_attachments: "维基页面：附件"
+      work_package_attachments: "工作包：附件"
+      work_package_categories: "工作包：类别"
+      work_package_file_links: "工作包：文件链接"
     delete:
       scheduled: "删除已安排并且将在后台执行。您将收到结果通知。"
       schedule_failed: "项目不能删除: %{errors}"
@@ -239,7 +239,7 @@ zh-CN:
       completed_text: "删除项目“%{name}”的请求已完成。"
       completed_text_children: "此外，下列子项目已被删除："
     index:
-      open_as_gantt: '以甘特视图打开'
+      open_as_gantt: "以甘特视图打开"
       open_as_gantt_title: "此按钮用于生成甘特视图，该视图可以过滤此页面上可见项目的工作包。"
       open_as_gantt_title_admin: "您可以在“项目设置”下的“管理”中修改视图设置（如选择的工作包类型）。"
       no_results_title_text: 目前没有项目。
@@ -279,7 +279,7 @@ zh-CN:
       no_results_title_text: 目前没有可用的访问令牌。
       notice_api_token_revoked: "API 令牌已被删除。要创建新令牌，请使用 API 部分中的链接。"
       notice_rss_token_revoked: "RSS 令牌已被删除。要创建新令牌，请使用 RSS 部分中的链接。"
-      notice_ical_token_revoked: "项目“%{project_name}”的日历“%{calendar_name}”的 iCalendar 令牌“%{token_name}”已被撤销。 此令牌的 iCalendar URL 现在无效。"
+      notice_ical_token_revoked: '项目“%{project_name}”的日历“%{calendar_name}”的 iCalendar 令牌“%{token_name}”已被撤销。 此令牌的 iCalendar URL 现在无效。'
   news:
     index:
       no_results_title_text: 目前没有消息报告。
@@ -287,16 +287,16 @@ zh-CN:
   users:
     sessions:
       session_name: "%{os_name} 上的 %{browser_name} %{browser_version}"
-      browser: '浏览器'
-      device: '设备 / 操作系统'
-      unknown_browser: '未知浏览器'
-      unknown_os: '未知操作系统'
-      current: '当前会话'
-      title: '登录设备管理'
-      instructions: '这是已登录到您帐户的设备列表。您可以删除任何您无法识别或者无法使用的会话。'
-      may_not_delete_current: '您不能删除当前会话。'
+      browser: "浏览器"
+      device: "设备 / 操作系统"
+      unknown_browser: "未知浏览器"
+      unknown_os: "未知操作系统"
+      current: "当前会话"
+      title: "登录设备管理"
+      instructions: "这是已登录到您帐户的设备列表。您可以删除任何您无法识别或者无法使用的会话。"
+      may_not_delete_current: "您不能删除当前会话。"
     groups:
-      member_in_these_groups: '此用户当前是以下组的成员：'
+      member_in_these_groups: "此用户当前是以下组的成员："
       no_results_title_text: 此用户当前不是任何组的成员。
     memberships:
       no_results_title_text: 该用户当前不是项目的成员。
@@ -370,7 +370,7 @@ zh-CN:
       no_results_title_text: 目前没有工作流。
   work_packages:
     x_descendants:
-      other: '%{count} 个子工作包'
+      other: "%{count} 个子工作包"
     bulk:
       copy_failed: "无法复制工作包。"
       move_failed: "无法移动工作包。"
@@ -381,7 +381,7 @@ zh-CN:
       descendant: "所选项的子工作包"
     move:
       no_common_statuses_exists: "所有选中的工作包都没有可用的状态，因此无法更改其状态。"
-      unsupported_for_multiple_projects: '不支持多个项目工作包的大批量移动/复制'
+      unsupported_for_multiple_projects: "不支持多个项目工作包的大批量移动/复制"
     summary:
       reports:
         category:
@@ -405,8 +405,8 @@ zh-CN:
     deletion_pending: "账户已被锁定并计划删除。请注意，这个过程是在后台进行的。可能需要一些时间才能完全删除用户。"
     deletion_info:
       data_consequences:
-        other: "创建的用户数据 (如电子邮件，首选项，工作包，维基条目) 将尽可能的删除。但是，请注意不会删除像工作包和维基条目类这些会影响其他用户工作的数据。这种数据因此会重新分配到称为\"删除用户\"的帐户。因为每个已删除帐户的数据被重新分配给此帐户，所以不可能区分不同用户所创建的数据。"
-        self: "你创建的数据 (如电子邮件，首选项，工作包，维基条目) 将尽可能的删除。但是，请注意不会删除像工作包和维基条目类这些会影响其他用户工作的数据。这种数据因此会重新分配到称为\"删除用户\"的帐户。因为每个已删除帐户的数据被重新分配给此帐户，所以不可能区分不同用户所创建的数据。"
+        other: '创建的用户数据 (如电子邮件，首选项，工作包，维基条目) 将尽可能的删除。但是，请注意不会删除像工作包和维基条目类这些会影响其他用户工作的数据。这种数据因此会重新分配到称为"删除用户"的帐户。因为每个已删除帐户的数据被重新分配给此帐户，所以不可能区分不同用户所创建的数据。'
+        self: '你创建的数据 (如电子邮件，首选项，工作包，维基条目) 将尽可能的删除。但是，请注意不会删除像工作包和维基条目类这些会影响其他用户工作的数据。这种数据因此会重新分配到称为"删除用户"的帐户。因为每个已删除帐户的数据被重新分配给此帐户，所以不可能区分不同用户所创建的数据。'
       heading: "删除帐户 %{name}"
       info:
         other: "删除用户帐户是不可逆的动作。"
@@ -442,8 +442,8 @@ zh-CN:
         filename: "文件"
         filesize: "大小"
       attribute_help_text:
-        attribute_name: '属性'
-        help_text: '帮助文本'
+        attribute_name: "属性"
+        help_text: "帮助文本"
       ldap_auth_source:
         account: "帐户"
         attr_firstname: "名字属性"
@@ -513,15 +513,15 @@ zh-CN:
           true: "公开"
           false: "私有"
         queries: "查询"
-        status_code: '项目状态'
-        status_explanation: '项目状态描述'
+        status_code: "项目状态"
+        status_explanation: "项目状态描述"
         status_codes:
-          not_started: '未开始'
-          on_track: '按计划进行'
-          at_risk: '有风险'
-          off_track: '偏离计划'
-          finished: '已完成'
-          discontinued: '已中断'
+          not_started: "未开始"
+          on_track: "按计划进行"
+          at_risk: "有风险"
+          off_track: "偏离计划"
+          finished: "已完成"
+          discontinued: "已中断"
         templated: "模板项目"
         templated_value:
           true: "保存为模板"
@@ -548,7 +548,7 @@ zh-CN:
         ongoing: "正在进行的"
       type:
         description: "默认描述文本"
-        attribute_groups: ''
+        attribute_groups: ""
         is_in_roadmap: "默认在路线图中显示"
         is_default: "默认激活新项目"
         is_milestone: "里程碑"
@@ -591,9 +591,9 @@ zh-CN:
         end_deletion: "结束删除"
         ignore_non_working_days: "忽略非工作日"
         include_non_working_days:
-          title: '工作日'
-          false: '仅工作日'
-          true: '包括非工作日'
+          title: "工作日"
+          false: "仅工作日"
+          true: "包括非工作日"
         parent: "父级"
         parent_issue: "父级"
         parent_work_package: "父级"
@@ -608,7 +608,7 @@ zh-CN:
         type: "类型"
         version: "版本"
         watcher: "关注者"
-      'doorkeeper/application':
+      "doorkeeper/application":
         uid: "客户端 ID"
         secret: "客户端密钥"
         owner: "所有者"
@@ -648,8 +648,8 @@ zh-CN:
         inclusion: "未设置为允许的值之一。"
         inclusion_nested: "未设置为路径“%{path}”中允许的值之一。"
         invalid: "是无效的。"
-        invalid_url: '不是有效的 URL。'
-        invalid_url_scheme: '不是受支持的协议（允许：%{allowed_schemes}）。'
+        invalid_url: "不是有效的 URL。"
+        invalid_url_scheme: "不是受支持的协议（允许：%{allowed_schemes}）。"
         less_than_or_equal_to: "必须小于或等于 %{count}。"
         not_available: "因系统配置而不可用。"
         not_deletable: "无法删除。"
@@ -690,7 +690,7 @@ zh-CN:
               format: "%{message}"
         capability:
           context:
-            global: '全局'
+            global: "全局"
           query:
             filters:
               minimum: "需要包含至少一个采用“=”运算符的主体、上下文或 ID 筛选器。"
@@ -708,35 +708,35 @@ zh-CN:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: '不能包含片段。'
-              invalid_uri: '必须是有效的 URI。'
-              relative_uri: '必须是绝对URI。'
+              fragment_present: "不能包含片段。"
+              invalid_uri: "必须是有效的 URI。"
+              relative_uri: "必须是绝对URI。"
               secured_uri: '未提供“安全上下文”。使用 HTTPS 或环回地址，例如 localhost。'
-              forbidden_uri: '被服务器禁止。'
+              forbidden_uri: "被服务器禁止。"
             scopes:
               not_match_configured: "与可用范围不匹配。"
         enterprise_token:
           unreadable: "无法读取。是否确定为支持令牌？"
         grids/grid:
-          overlaps: '重叠.'
-          outside: '不在网格内。'
-          end_before_start: '结束值需要大于起始值。'
+          overlaps: "重叠."
+          outside: "不在网格内。"
+          end_before_start: "结束值需要大于起始值。"
         ical_token_query_assignment:
           attributes:
             name:
               blank: "是强制性的。请选择一个名称。"
               not_unique: "已被使用。请另选一个名称。"
         notifications:
-          at_least_one_channel: '至少需要指定一个发送通知的通道。'
+          at_least_one_channel: "至少需要指定一个发送通知的通道。"
           attributes:
             read_ian:
-              read_on_creation: '在创建通知时不能设置为 true。'
+              read_on_creation: "在创建通知时不能设置为 true。"
             mail_reminder_sent:
-              set_on_creation: '在创建通知时不能设置为 true。'
+              set_on_creation: "在创建通知时不能设置为 true。"
             reason:
-              no_notification_reason: '不能为空，因为 IAN 被选为通道。'
+              no_notification_reason: "不能为空，因为 IAN 被选为通道。"
             reason_mail_digest:
-              no_notification_reason: '不能为空，因为邮件摘要被选为通道。'
+              no_notification_reason: "不能为空，因为邮件摘要被选为通道。"
         non_working_day:
           attributes:
             date:
@@ -749,8 +749,8 @@ zh-CN:
               invalid_values: "值无效。"
               id_filter_required: "“id”筛选器为必填字段。"
         project:
-          archived_ancestor: '该项目有一个已存档的上级。'
-          foreign_wps_reference_version: '非子级项目中的工作包会引用此项目或其子级的版本。'
+          archived_ancestor: "该项目有一个已存档的上级。"
+          foreign_wps_reference_version: "非子级项目中的工作包会引用此项目或其子级的版本。"
           attributes:
             base:
               archive_permission_missing_on_subprojects: "您没有归档所有子项目所需的权限。请联系管理员。"
@@ -810,8 +810,8 @@ zh-CN:
         setting:
           attributes:
             base:
-              working_days_are_missing: '每周必须至少有一天定义为工作日。'
-              previous_working_day_changes_unprocessed: '先前对工作日配置的更改尚未应用。'
+              working_days_are_missing: "每周必须至少有一天定义为工作日。"
+              previous_working_day_changes_unprocessed: "先前对工作日配置的更改尚未应用。"
         time_entry:
           attributes:
             hours:
@@ -823,10 +823,10 @@ zh-CN:
             daily_reminders:
               full_hour: "只能配置为满整小时交付。"
             notification_settings:
-              only_one_global_setting: '全局通知设置必须只有一个'
-              email_alerts_global: '电子邮件通知设置只能全局设置。'
+              only_one_global_setting: "全局通知设置必须只有一个"
+              email_alerts_global: "电子邮件通知设置只能全局设置。"
               format: "%{message}"
-              wrong_date: '开始日期，完成日期或过期日期的值错误'
+              wrong_date: "开始日期，完成日期或过期日期的值错误"
         watcher:
           attributes:
             user_id:
@@ -870,7 +870,7 @@ zh-CN:
               does_not_exist: "指定的类别不存在。"
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
-          readonly_status: '工作包处于只读状态，因此无法更改其属性。'
+          readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
           attributes:
             attribute_groups:
@@ -927,7 +927,7 @@ zh-CN:
       comment: "评论"
       custom_action: "自定义操作"
       custom_field: "自定义字段"
-      'doorkeeper/application': "OAuth应用程序"
+      "doorkeeper/application": "OAuth应用程序"
       forum: "论坛"
       global_role: "全局角色"
       group: "组"
@@ -1084,7 +1084,7 @@ zh-CN:
   button_check_all: "全选"
   button_clear: "清除"
   button_click_to_reveal: "单击以显示"
-  button_close: '关闭'
+  button_close: "关闭"
   button_collapse_all: "全部折叠"
   button_configure: "配置"
   button_continue: "继续"
@@ -1152,19 +1152,19 @@ zh-CN:
     update_consent_last_time: "同意的最后更新: %{update_time}"
   copy_project:
     title: '复制项目“%{source_project_name}”'
-    started: "开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。"
+    started: '开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。'
     failed: "无法复制项目 %{source_project_name}"
     failed_internal: "由于内部错误，复制失败。"
     succeeded: "创建的项目 %{target_project_name}"
     errors: "错误"
-    project_custom_fields: '项目上的自定义字段'
+    project_custom_fields: "项目上的自定义字段"
     x_objects_of_this_type:
-      zero: '没有此类型的对象'
-      one: '有一个此类型的对象'
-      other: '有 %{count} 个此类型的对象'
+      zero: "没有此类型的对象"
+      one: "有一个此类型的对象"
+      other: "有 %{count} 个此类型的对象"
     text:
-      failed: "无法将项目\"%{source_project_name}\"复制到项目\"%{target_project_name}\"。"
-      succeeded: "已复制项目\"%{source_project_name}\"到\"%{target_project_name}\"。"
+      failed: '无法将项目"%{source_project_name}"复制到项目"%{target_project_name}"。'
+      succeeded: '已复制项目"%{source_project_name}"到"%{target_project_name}"。'
   create_new_page: "维基页面"
   date:
     abbr_day_names:
@@ -1189,7 +1189,7 @@ zh-CN:
       - "10月"
       - "11月"
       - "12月"
-    abbr_week: 'Wk'
+    abbr_week: "Wk"
     day_names:
       - "星期日"
       - "星期一"
@@ -1206,7 +1206,7 @@ zh-CN:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "1月"
       - "2月"
@@ -1220,7 +1220,6 @@ zh-CN:
       - "10月"
       - "11 月"
       - "12月"
-    #Used in date_select and datetime_select.
     order:
       - '：年'
       - '：月'
@@ -1311,8 +1310,8 @@ zh-CN:
   error_can_not_archive_project: "此项目无法存档：%{errors}"
   error_can_not_delete_entry: "无法删除条目"
   error_can_not_delete_custom_field: "无法删除自定义字段"
-  error_can_not_delete_in_use_archived_undisclosed: '归档项目中也有工作包。您需要请求管理员执行删除操作，以了解受影响的项目。'
-  error_can_not_delete_in_use_archived_work_packages: '归档项目中也有工作包。您需要先重新激活以下项目，然后才能更改相应工作包的属性：%{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: "归档项目中也有工作包。您需要请求管理员执行删除操作，以了解受影响的项目。"
+  error_can_not_delete_in_use_archived_work_packages: "归档项目中也有工作包。您需要先重新激活以下项目，然后才能更改相应工作包的属性：%{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: '此类型包含工作包，无法删除。您可以在<a target="_blank" href="%{url}">此视图</a>中查看所有受影响的工作包。'
   error_can_not_delete_standard_type: "标准类型不能被删除。"
@@ -1324,28 +1323,28 @@ zh-CN:
   error_check_user_and_role: "请选择用户和角色。"
   error_code: "错误 %{code}"
   error_color_could_not_be_saved: "无法保存颜色"
-  error_cookie_missing: 'OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。'
+  error_cookie_missing: "OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。"
   error_custom_option_not_found: "选项不存在。"
   error_enterprise_activation_user_limit: "无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。"
   error_enterprise_token_invalid_domain: "企业版未激活。您的企业版令牌的域名（%{actual}）与系统的主机名（%{expected}）不匹配。"
-  error_failed_to_delete_entry: '无法删除此条目。'
+  error_failed_to_delete_entry: "无法删除此条目。"
   error_in_dependent: "尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}"
   error_in_new_dependent: "尝试创建依赖对象时出错：%{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "选中的值无效。"
   error_journal_attribute_not_present: "日志不包含 %{attribute} 属性。"
   error_pdf_export_too_many_columns: "选择 PDF 导出的列太多。请减少列数。"
   error_pdf_failed_to_export: "无法保存被导出的 PDF 文件：%{error}"
-  error_token_authenticity: '无法验证跨站请求伪造令牌。您是否曾尝试在多个浏览器或选项卡上提交数据？请关闭所有选项卡并重试。'
+  error_token_authenticity: "无法验证跨站请求伪造令牌。您是否曾尝试在多个浏览器或选项卡上提交数据？请关闭所有选项卡并重试。"
   error_work_package_done_ratios_not_updated: "工作包完成比率不更新。"
   error_work_package_not_found_in_project: "工作包找不到或不属于此项目"
   error_must_be_project_member: "必须是项目成员"
   error_migrations_are_pending: "您的 OpenProject 安装具有待定的数据库迁移。您可能在上次升级时错过了迁移。请查阅升级指南，正确升级您的安装。"
   error_migrations_visit_upgrade_guides: "请访问我们的升级指南文档"
-  error_no_default_work_package_status: "没有定义默认的工作包状态。请检查您的配置 （转到\"管理-> 工作包状态\"）。"
+  error_no_default_work_package_status: '没有定义默认的工作包状态。请检查您的配置 （转到"管理-> 工作包状态"）。'
   error_no_type_in_project: "没有类型与此项目关联。请检查的项目设置。"
   error_omniauth_registration_timed_out: "通过外部身份验证提供程序注册超时。请再试一次。"
   error_omniauth_invalid_auth: "从身份提供程序返回的身份验证信息无效。请联系您的管理员获取更多帮助。"
-  error_password_change_failed: '试图更改密码时发生错误。'
+  error_password_change_failed: "试图更改密码时发生错误。"
   error_scm_command_failed: "当试图访问该存储库时出错: %{value}"
   error_scm_not_found: "在存储库中未找到的条目或修正版本。"
   error_type_could_not_be_saved: "无法保存类型"
@@ -1363,17 +1362,17 @@ zh-CN:
   error_external_authentication_failed: "在外部身份验证期间出错。请重试。"
   error_attribute_not_highlightable: "未高亮显示的属性：%{attributes}"
   events:
-    changeset: '编辑更改集'
+    changeset: "编辑更改集"
     message: 编辑消息
     news: 新闻
-    project_attributes: '项目属性已编辑'
-    projects: '项目已编辑'
+    project_attributes: "项目属性已编辑"
+    projects: "项目已编辑"
     reply: 答复
-    time_entry: '编辑时间记录'
-    wiki_page: '编辑维基页面'
-    work_package_closed: '关闭工作包'
-    work_package_edit: '编辑工作包'
-    work_package_note: '添加工作包注释'
+    time_entry: "编辑时间记录"
+    wiki_page: "编辑维基页面"
+    work_package_closed: "关闭工作包"
+    work_package_edit: "编辑工作包"
+    work_package_note: "添加工作包注释"
     title:
       project: "项目： %{name}"
       subproject: "子项目：%{name}"
@@ -1435,7 +1434,7 @@ zh-CN:
       forums: "社区论坛"
       newsletter: "安全警报/通信"
   image_conversion:
-    imagemagick: 'Imagemagick软件'
+    imagemagick: "Imagemagick软件"
   journals:
     changes_retracted: "更改已撤回。"
     caused_changes:
@@ -1459,7 +1458,7 @@ zh-CN:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
   links:
-    configuration_guide: '配置指南'
+    configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
   instructions_after_registration: "只要您的帐户已被激活您可以点击 %{signin} 登录。"
   instructions_after_logout: "你可以点击 %{signin} 重新登录。"
@@ -1468,7 +1467,7 @@ zh-CN:
     admin:
       mail_notification: "电子邮件通知"
       mails_and_notifications: "电子邮件和通知"
-      aggregation: '聚合'
+      aggregation: "聚合"
       api_and_webhooks: "API 和 Webhook"
     quick_add:
       label: "打开快速添加菜单"
@@ -1490,7 +1489,7 @@ zh-CN:
         disabled_text: "管理员未启用 API 令牌。请联系管理员以使用此功能。"
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar 令牌允许用户<a href=\"%{path}\" target=\"_blank\">订阅 OpenProject 日历</a>并查看外部客户端中的最新工作包信息。"
+        text_hint: 'iCalendar 令牌允许用户<a href="%{path}" target="_blank">订阅 OpenProject 日历</a>并查看外部客户端中的最新工作包信息。'
         disabled_text: "管理员未启用 iCalendar 订阅。请联系管理员以使用此功能。"
         empty_text_hint: "要添加 iCalendar 令牌，请从项目的日历模块中订阅新的或现有日历。您必须拥有必要的权限。"
       oauth:
@@ -1527,13 +1526,13 @@ zh-CN:
         请确保验证您的新默认通知设置，在帐户设置中对通知和电子邮件提醒进行偏好设置。您可以通过下方的“更改电子邮件设置”按钮执行此操作。
         我们希望应用内通知能够满足您的使用需求，帮助您提高效率。
         谨上， OpenProject 团队
-      body_header: '包含通知中心的 12.0 版本'
-      body_subheader: '新闻'
-      subject: '12.0 版本中加入了针对通知的重要更改'
+      body_header: "包含通知中心的 12.0 版本"
+      body_subheader: "新闻"
+      subject: "12.0 版本中加入了针对通知的重要更改"
   label_accessibility: "辅助功能"
   label_account: "帐户"
   label_active: "激活"
-  label_activate_user: '激活用户'
+  label_activate_user: "激活用户"
   label_active_in_new_projects: "新项目动态"
   label_activity: "活动"
   label_add_edit_translations: "添加和编辑翻译"
@@ -1562,7 +1561,7 @@ zh-CN:
   label_api_access_key_created_on: "API 访问密钥创建于 %{value} 前"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar令牌\"%{token_name}\" 为\"%{calendar_name}\" 属于 \"%{project_name}\""
+  label_ical_access_key_description: 'iCalendar令牌"%{token_name}" 为"%{calendar_name}" 属于 "%{project_name}"'
   label_ical_access_key_not_present: "iCalendar 令牌不存在。"
   label_ical_access_key_generation_hint: "订阅日历时自动生成的。"
   label_ical_access_key_latest: "最近"
@@ -1603,7 +1602,7 @@ zh-CN:
   label_branch: "分支"
   label_browse: "浏览"
   label_bulk_edit_selected_work_packages: "批量编辑所选工作包"
-  label_bundled: '(捆绑包)'
+  label_bundled: "(捆绑包)"
   label_calendar: "日历"
   label_calendars_and_dates: "日历和日期"
   label_calendar_show: "显示日历"
@@ -1679,7 +1678,7 @@ zh-CN:
   label_diff: "比较"
   label_diff_inline: "内联"
   label_diff_side_by_side: "并排"
-  label_digital_accessibility: '数字可访问性 (DE)'
+  label_digital_accessibility: "数字可访问性 (DE)"
   label_disabled: "已禁用"
   label_display: "显示"
   label_display_per_page: "每页: %{value}"
@@ -1693,9 +1692,9 @@ zh-CN:
   label_edit: "编辑"
   label_edit_x: "编辑：%{x}"
   label_enable_multi_select: "切换多选"
-  label_enabled_project_custom_fields: '启用自定义字段'
-  label_enabled_project_modules: '启用的模块'
-  label_enabled_project_activities: '启用的时间跟踪活动'
+  label_enabled_project_custom_fields: "启用自定义字段"
+  label_enabled_project_modules: "启用的模块"
+  label_enabled_project_activities: "启用的时间跟踪活动"
   label_end_to_end: "结束结束"
   label_end_to_start: "结束开始"
   label_enumeration_new: "新的枚举值"
@@ -1756,12 +1755,12 @@ zh-CN:
   label_in_more_than: "在多于"
   label_inactive: "非活动"
   label_incoming_emails: "传入电子邮件"
-  label_includes: '包括'
+  label_includes: "包括"
   label_index_by_date: "按日期索引"
   label_index_by_title: "按标题索引"
   label_information: "信息"
   label_information_plural: "信息"
-  label_installation_guides: '安装指南'
+  label_installation_guides: "安装指南"
   label_integer: "整数"
   label_internal: "内部"
   label_introduction_video: "自我介绍视频"
@@ -1773,7 +1772,7 @@ zh-CN:
   label_language: "语言"
   label_languages: "语言"
   label_jump_to_a_project: "跳转到一个项目..."
-  label_keyword_plural: '关键词'
+  label_keyword_plural: "关键词"
   label_language_based: "基于用户的语言"
   label_last_activity: "最近一次活动"
   label_last_change_on: "最后一次修改时间"
@@ -1789,7 +1788,7 @@ zh-CN:
   label_less_than_ago: "小于数日前"
   label_list: "列表"
   label_loading: "正在加载..."
-  label_lock_user: '锁住用户'
+  label_lock_user: "锁住用户"
   label_logged_as: "登录用户名"
   label_login: "登录"
   label_custom_logo: "自定义徽标"
@@ -1809,12 +1808,12 @@ zh-CN:
   label_member_new: "新成员"
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_plural: "成员"
-  lable_membership_added: '已添加成员'
-  lable_membership_updated: '已更新成员'
+  lable_membership_added: "已添加成员"
+  lable_membership_updated: "已更新成员"
   label_menu_badge:
-    pre_alpha: 'pre-beta'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: "pre-beta"
+    alpha: "alpha"
+    beta: "beta"
   label_menu_item_name: "菜单项名称"
   label_message: "消息"
   label_message_last: "最后一条消息"
@@ -1858,7 +1857,7 @@ zh-CN:
   label_no_parent_page: "无父级页面"
   label_nothing_display: "不显示"
   label_nobody: "没人"
-  label_not_found: '未找到'
+  label_not_found: "未找到"
   label_none: "无"
   label_none_parentheses: "(无)"
   label_not_contains: "不包含"
@@ -1952,8 +1951,8 @@ zh-CN:
   label_repository: "存储库"
   label_repository_root: "存储库根"
   label_repository_plural: "存储库"
-  label_required: '必填'
-  label_requires: '要求'
+  label_required: "必填"
+  label_requires: "要求"
   label_result_plural: "结果"
   label_reverse_chronological_order: "最新的优先"
   label_revision: "修订"
@@ -2020,7 +2019,7 @@ zh-CN:
   label_updated_time: "%{value} 前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} 于 %{age} 前更新"
-  label_upgrade_guides: '升级指南'
+  label_upgrade_guides: "升级指南"
   label_used_by: "使用于"
   label_used_by_types: "用于类型"
   label_used_in_projects: "用于项目"
@@ -2115,31 +2114,31 @@ zh-CN:
   macro_execution_error: "执行宏 %{macro_name} 出错"
   macro_unavailable: "无法显示宏 %{macro_name} 。"
   macros:
-    placeholder: '[Placeholder] 宏 %{macro_name}'
+    placeholder: "[Placeholder] 宏 %{macro_name}"
     errors:
-      missing_or_invalid_parameter: '缺少或无效的宏参数。'
+      missing_or_invalid_parameter: "缺少或无效的宏参数。"
     legacy_warning:
-      timeline: '此旧版时间轴宏已被删除，不再可用。 您可以使用嵌入式表格宏替换该功能。'
+      timeline: "此旧版时间轴宏已被删除，不再可用。 您可以使用嵌入式表格宏替换该功能。"
     include_wiki_page:
-      removed: '该宏不再存在。'
+      removed: "该宏不再存在。"
     wiki_child_pages:
       errors:
         page_not_found: "无法找到“%{name}”维基页面。"
     create_work_package_link:
       errors:
-        no_project_context: '从外部项目上下文调用 create_work_package_link 宏。'
+        no_project_context: "从外部项目上下文调用 create_work_package_link 宏。"
         invalid_type: "在项目 \"%{project}\" 中找不到名称为 \"%{type}\" 的类型。"
-      link_name: '新工作包'
-      link_name_type: '新%{type_name}'
+      link_name: "新工作包"
+      link_name_type: "新%{type_name}"
   mail:
-    actions: '操作'
+    actions: "操作"
     digests:
-      including_mention_singular: '包括一项提及'
-      including_mention_plural: '包括 %{number_mentioned} 项提及'
-      unread_notification_singular: '1 条未读通知'
-      unread_notification_plural: '%{number_unread} 条未读通知'
-      you_have: '您有'
-    logo_alt_text: '徽标'
+      including_mention_singular: "包括一项提及"
+      including_mention_plural: "包括 %{number_mentioned} 项提及"
+      unread_notification_singular: "1 条未读通知"
+      unread_notification_plural: "%{number_unread} 条未读通知"
+      you_have: "您有"
+    logo_alt_text: "徽标"
     mention:
       subject: "%{user_name} 在 #%{id} - %{subject} 中提及了您"
     notification:
@@ -2149,34 +2148,34 @@ zh-CN:
     salutation: '%{user}，您好！'
     salutation_full_name: 'Full name'
     work_packages:
-      created_at: '由 %{user} 于 %{timestamp} 创建'
-      login_to_see_all: '登录以查看所有通知。'
-      mentioned: '您已<b>在评论中被提及</b>'
-      mentioned_by: '%{user} 在评论中提及了您'
+      created_at: "由 %{user} 于 %{timestamp} 创建"
+      login_to_see_all: "登录以查看所有通知。"
+      mentioned: "您已<b>在评论中被提及</b>"
+      mentioned_by: "%{user} 在评论中提及了您"
       more_to_see:
-        other: '还有 %{count} 个包含通知的工作包。'
-      open_in_browser: '在浏览器中打开'
+        other: "还有 %{count} 个包含通知的工作包。"
+      open_in_browser: "在浏览器中打开"
       reason:
-        watched: '已关注'
-        assigned: '已分配'
-        responsible: '负责人'
-        mentioned: '被提及'
-        shared: '共享'
-        subscribed: '所有'
-        prefix: '接收原因为以下通知设置：%{reason}'
-        date_alert_start_date: '日期提醒'
-        date_alert_due_date: '日期提醒'
-      see_all: '查看全部'
-      updated_at: '由 %{user} 于 %{timestamp} 更新'
+        watched: "已关注"
+        assigned: "已分配"
+        responsible: "负责人"
+        mentioned: "被提及"
+        shared: "共享"
+        subscribed: "所有"
+        prefix: "接收原因为以下通知设置：%{reason}"
+        date_alert_start_date: "日期提醒"
+        date_alert_due_date: "日期提醒"
+      see_all: "查看全部"
+      updated_at: "由 %{user} 于 %{timestamp} 更新"
     sharing:
       work_packages:
-        allowed_actions: '你可以 %{allowed_actions} 这个工作包。这可以基于你的项目角色和权限而变化。'
-        create_account: '要访问此工作包，您需要创建一个 %{instance} 帐户。'
-        open_work_package: '打开工作包'
-        subject: '工作包 %{id} 已被共享给你'
+        allowed_actions: "你可以 %{allowed_actions} 这个工作包。这可以基于你的项目角色和权限而变化。"
+        create_account: "要访问此工作包，您需要创建一个 %{instance} 帐户。"
+        open_work_package: "打开工作包"
+        subject: "工作包 %{id} 已被共享给你"
         summary:
-          user: '%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包'
-          group: '%{user} 向您所属的 %{group} 组共享了一个工作包。'
+          user: "%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包"
+          group: "%{user} 向您所属的 %{group} 组共享了一个工作包。"
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
@@ -2204,7 +2203,7 @@ zh-CN:
   mail_body_register_closing: "您的 OpenProject 团队"
   mail_body_register_ending: "保持联系！谨致问候，"
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
-  mail_body_group_reminder: "%{count} 个分配给组“%{group}”的工作包将在 %{days} 天后到期："
+  mail_body_group_reminder: '%{count} 个分配给组“%{group}”的工作包将在 %{days} 天后到期：'
   mail_body_wiki_page_added: "'%{id}' 维基页面已经由%{author} 添加。"
   mail_body_wiki_page_updated: "'%{id}' 维基页面已经由%{author} 更新。"
   mail_subject_account_activation_request: "%{value} 帐户激活请求"
@@ -2424,6 +2423,7 @@ zh-CN:
   permission_view_project_activity: "查看项目活动"
   permission_save_bcf_queries: "保存 BCF 查询"
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
+  permission_edit_attribute_help_texts: "Edit attribute help texts"
   placeholders:
     default: "-"
   project:
@@ -2440,9 +2440,9 @@ zh-CN:
     template:
       copying: >
         您的项目正在从选定的模板项目进行创建。一旦项目可用，您将会收到邮件通知。
-      use_template: '使用模板'
-      make_template: '设置为模板'
-      remove_from_templates: '从模板中移除'
+      use_template: "使用模板"
+      make_template: "设置为模板"
+      remove_from_templates: "从模板中移除"
     archive:
       are_you_sure: "是否确定想要归档项目 '%{name}'？"
       archived: "已存档"
@@ -2466,15 +2466,15 @@ zh-CN:
     shared_with_user: "与用户共享"
     subproject_id: "包括子项目"
   repositories:
-    at_identifier: '在 %{identifier}'
-    atom_revision_feed: 'Atom 修订 feed'
+    at_identifier: "在 %{identifier}"
+    atom_revision_feed: "Atom 修订 feed"
     autofetch_information: "如果希望在访问存储库模块页时自动更新存储库，请勾选此选项。这包括从存储库检索提交并刷新所需的磁盘空间。"
     checkout:
       access:
-        readwrite: '读取 + 写入'
-        read: '只读'
-        none: '无检出访问权限，您只能通过此应用程序查看存储库。'
-      access_permission: '您对此存储库的权限'
+        readwrite: "读取 + 写入"
+        read: "只读"
+        none: "无检出访问权限，您只能通过此应用程序查看存储库。"
+      access_permission: "您对此存储库的权限"
       url: "检出 URL"
       base_url_text: "根 URL 用于生成检出 URL (例如: https://myserver.example.org/repos/) 。\n备注: 根 URL 仅用于管理存储库中的检出 URL 重写。其他存储库不会被更改。"
       default_instructions:
@@ -2572,8 +2572,8 @@ zh-CN:
     warnings:
       cannot_annotate: "此文件不能进行注释。"
   scheduling:
-    activated: '已激活'
-    deactivated: '已取消激活'
+    activated: "已激活"
+    deactivated: "已取消激活"
   search_input_placeholder: "搜索"
   setting_apiv3_cors_enabled: "启用 CORS"
   setting_apiv3_cors_origins: "API v3 跨域资源共享 (CORS) 允许的域"
@@ -2721,9 +2721,9 @@ zh-CN:
         priority: "整行按优先级"
     icalendar:
       enable_subscriptions_text_html: 允许具有必要权限的用户通过外部日历客户端订阅 OpenProject 日历并访问工作包信息。<strong>注意</strong>：在启用此功能之前，请阅读关于 <a href="%{link}" target="_blank">iCalendar 订阅</a>的信息以了解潜在的安全风险。
-    language_name_being_default: '%{language_name}（默认）'
+    language_name_being_default: "%{language_name}（默认）"
     notifications:
-      events_explanation: '管理针对哪些事件发送电子邮件。此列表中不含工作包，因为可以为每位用户专门配置针对工作包的通知。'
+      events_explanation: "管理针对哪些事件发送电子邮件。此列表中不含工作包，因为可以为每位用户专门配置针对工作包的通知。"
       delay_minutes_explanation: "电子邮件发送可以延迟，以使应用通知中配置的用户能够在邮件发出之前确认应用程序中的通知。在应用程序中阅读过通知的用户不会接收到已阅读通知的电子邮件。"
     other: "其他"
     passwords: "密码"
@@ -2739,8 +2739,8 @@ zh-CN:
       section_work_week: "工作周"
       section_holidays_and_closures: "节假日与停业"
   text_formatting:
-    markdown: 'Markdown'
-    plain: '纯文本'
+    markdown: "Markdown"
+    plain: "纯文本"
   status_active: "激活"
   status_archived: "已存档"
   status_invited: 已邀请
@@ -2945,16 +2945,16 @@ zh-CN:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS 模式设置不匹配'
+      title: "HTTPS 模式设置不匹配"
       text_html: >
         您的应用程序正在运行，并且 HTTPS 模式设置为 <code>%{set_protocol}</code>，但该请求是 <code>%{actual_protocol}</code> 请求。这将导致错误！您将需要设置以下配置值：<code>%{setting_value}</code>。要了解如何设置此配置，请参阅<a href="%{more_info_path}">安装文档</a>。
     hostname_mismatch:
-      title: '主机名设置不匹配'
+      title: "主机名设置不匹配"
       text_html: >
         您的应用程序正在运行，并且主机名设置为 <code>%{set_hostname}</code>，但请求是 <code>%{actual_hostname}</code>。这将导致错误！转到<a href="%{setting_path}">系统设置</a>并更改“主机名”设置以纠正。
   menu_item: "菜单项"
   menu_item_setting: "可见性"
-  wiki_menu_item_for: "维基页面” %{title} “的菜单项"
+  wiki_menu_item_for: '维基页面” %{title} “的菜单项'
   wiki_menu_item_setting: "可见性"
   wiki_menu_item_new_main_item_explanation: >
     您正在删除唯一的主维基菜单项。您现在需要选择一个维基页面生成新的主项目。若要删除维基，维基模块可以由管理员停用。
@@ -3006,7 +3006,7 @@ zh-CN:
   api_v3:
     attributes:
       lock_version: "锁版"
-      property: '属性'
+      property: "属性"
     errors:
       code_400: "错误的请求：%{message}"
       code_401: "你需要被授权访问该资源。"
@@ -3054,40 +3054,40 @@ zh-CN:
         invalid_gzip: "是无效的 gzip：%{message}"
         invalid_json: "是无效的 json：%{message}"
     resources:
-      schema: '方案'
+      schema: "方案"
     undisclosed:
       parent: 未公开 - 由于缺少权限，所选父项不可见。
       ancestor: 未公开 - 由于缺少权限，上级不可见。
   doorkeeper:
     pre_authorization:
-      status: '预授权'
-    auth_url: '身份验证 URL'
-    access_token_url: '访问令牌 URL'
+      status: "预授权"
+    auth_url: "身份验证 URL"
+    access_token_url: "访问令牌 URL"
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: '请求缺少必要参数，包括不受支持的参数值，或者格式不正确。'
-          missing_param: '缺少必要的参数：%{value}。'
-          request_not_authorized: '请求需要授权。授权请求所需的参数缺失或无效。'
+          unknown: "请求缺少必要参数，包括不受支持的参数值，或者格式不正确。"
+          missing_param: "缺少必要的参数：%{value}。"
+          request_not_authorized: "请求需要授权。授权请求所需的参数缺失或无效。"
         invalid_redirect_uri: "请求的重定向 URI 格式不正确，或者与客户端重定向 URI 不匹配。"
-        unauthorized_client: '客户端无权使用此方法执行此请求。'
-        access_denied: '资源所有者或授权服务器拒绝了此请求。'
-        invalid_scope: '申请范围无效、未知或形式错误'
-        invalid_code_challenge_method: '代码质询方法必须为普通或 S256。'
-        server_error: '授权服务器遇到了意外情况，无法完成请求。'
-        temporarily_unavailable: '由于暂时性过载或维护，授权服务器当前无法处理请求。'
+        unauthorized_client: "客户端无权使用此方法执行此请求。"
+        access_denied: "资源所有者或授权服务器拒绝了此请求。"
+        invalid_scope: "申请范围无效、未知或形式错误"
+        invalid_code_challenge_method: "代码质询方法必须为普通或 S256。"
+        server_error: "授权服务器遇到了意外情况，无法完成请求。"
+        temporarily_unavailable: "由于暂时性过载或维护，授权服务器当前无法处理请求。"
         #Configuration error messages
-        credential_flow_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_from_credentials，资源所有者密码凭据流失败。'
-        resource_owner_authenticator_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_authenticator，资源所有者查找失败。'
-        admin_authenticator_not_configured: '由于未配置 Doorkeeper.configure.admin_authenticator，禁止访问管理面板。'
+        credential_flow_not_configured: "由于未配置 Doorkeeper.configure.resource_owner_from_credentials，资源所有者密码凭据流失败。"
+        resource_owner_authenticator_not_configured: "由于未配置 Doorkeeper.configure.resource_owner_authenticator，资源所有者查找失败。"
+        admin_authenticator_not_configured: "由于未配置 Doorkeeper.configure.admin_authenticator，禁止访问管理面板。"
         #Access grant errors
-        unsupported_response_type: '授权服务不支持此响应类型。'
-        unsupported_response_mode: '授权服务器不支持此响应模式。'
+        unsupported_response_type: "授权服务不支持此响应类型。"
+        unsupported_response_mode: "授权服务器不支持此响应模式。"
         #Access token errors
-        invalid_client: '由于未知客户端、未包含客户端身份验证或者不受支持的身份验证方法，客户端身份验证失败。'
-        invalid_grant: '提供的授权无效、已过期或者已被撤销，与授权请求中使用的重定向 URI 不匹配，或者颁发给其他客户端。'
-        unsupported_grant_type: '授权服务器不支持此授权类型。'
+        invalid_client: "由于未知客户端、未包含客户端身份验证或者不受支持的身份验证方法，客户端身份验证失败。"
+        invalid_grant: "提供的授权无效、已过期或者已被撤销，与授权请求中使用的重定向 URI 不匹配，或者颁发给其他客户端。"
+        unsupported_grant_type: "授权服务器不支持此授权类型。"
         invalid_token:
           revoked: "访问令牌已被撤销"
           expired: "访问令牌已过期"
@@ -3099,7 +3099,7 @@ zh-CN:
   unsupported_browser:
     title: "您的浏览器已经过时，或不被支持。"
     message: "此页面可能会发生运行错误和不良用户体验。"
-    update_message: '请升级您的浏览器。'
+    update_message: "请升级您的浏览器。"
     close_warning: "请忽略这个警告。"
   oauth:
     application:
@@ -3136,7 +3136,7 @@ zh-CN:
       successful_application_revocation: "已成功撤销应用程序 %{application_name}。"
       none_given: "没有 OAuth 应用程序已获得访问您的用户帐户的权限。"
     x_active_tokens:
-      other: '%{count} 个有效令牌'
+      other: "%{count} 个有效令牌"
     flows:
       authorization_code: "授权码流"
       client_credentials: "客户端凭据流"
