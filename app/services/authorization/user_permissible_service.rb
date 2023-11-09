@@ -53,13 +53,12 @@ module Authorization
       return true if admin_and_all_granted_to_admin?(perms)
 
       # entity_class.allowed_to will also check whether the user has the permission via a membership in the project.
-      # TODO: ^--- thats' actually not the case weirdly...
       allowed_scope = entity_class.allowed_to(user, perms)
 
       if in_project
-        allowed_in_single_project?(perms, in_project) || allowed_scope.exists?(project: in_project)
+        allowed_scope.exists?(project: in_project)
       else
-        allowed_in_any_project?(perms) || allowed_scope.exists?
+        allowed_scope.exists?
       end
     end
 
