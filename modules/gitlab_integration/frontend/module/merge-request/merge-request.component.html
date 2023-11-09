@@ -57,24 +57,3 @@
     </span>
   </span>
 </div>
-
-<!-- <span class="op-merge-request--pipeline-label"  *ngIf="mergeRequest.pipelines?.length">{{ text.label_pipelines }}</span>
-
-<ul [attr.aria-label]="text.label_pipelines" class='op-merge-request--pipeline' *ngIf="mergeRequest.pipelines?.length">
-  <li class='op-mr-pipeline' *ngFor="let pipeline of mergeRequest.pipelines">
-    <span class='op-mr-pipeline--state-icon' [ngClass]="'op-mr-pipeline--state-icon_' + pipelineState(pipeline)">
-      <op-icon icon-classes="icon-{{ pipelineStateIcon(pipeline) }}"
-               [icon-title]="pipelineStateText(pipeline)"></op-icon>
-    </span>
-
-    <span class='op-mr-pipeline--info'>Merge request pipeline <a [href]="pipeline.htmlUrl">#{{ pipeline.name }}</a> {{ pipelineStateText(pipeline) }} for <a [href]="pipeline.detailsUrl">#{{ pipeline.commitId }}</a></span>
-
-    <span class='op-mr-pipeline--avatar'><img alt='user owner avatar' [src]="pipeline.userAvatarUrl" /> {{ pipeline.username }}</span>
-
-    <span class='op-mr-pipeline--details'>
-      <a [href]="pipeline.detailsUrl">
-        {{ text.label_details }}
-      </a>
-    </span>
-  </li>
-</ul> -->
