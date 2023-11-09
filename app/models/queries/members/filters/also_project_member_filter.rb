@@ -34,7 +34,6 @@ class Queries::Members::Filters::AlsoProjectMemberFilter < Queries::Members::Fil
       "EXISTS (#{project_member_subquery})"
     else
       "NOT EXISTS (#{project_member_subquery})"
-
     end
   end
 
@@ -55,7 +54,7 @@ class Queries::Members::Filters::AlsoProjectMemberFilter < Queries::Members::Fil
         project_members.user_id = members.user_id AND
         project_members.project_id = members.project_id AND
         project_members.entity_type IS NULL AND
-        project_members.entity_id IS NULL
+        project_members.entity_id IS NULL AND
         project_members.id != members.id
     SQL
   end

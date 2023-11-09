@@ -170,8 +170,8 @@ class WorkPackages::SharesController < ApplicationController
     @query = ParamsToQueryService.new(Member, current_user).call(params)
 
     # Set default filter on the entity
-    @query.where('entity_id', '=', @work_package.id) unless params[:filters]
-    @query.where('entity_type', '=', WorkPackage.name) unless params[:filters]
+    @query.where('entity_id', '=', @work_package.id)
+    @query.where('entity_type', '=', WorkPackage.name)
     @query.where('project_id', '=', @project.id)
 
     @query.order(name: :asc) unless params[:sortBy]
