@@ -139,6 +139,31 @@
     &_style
       fill: #737278
 
+  &--pipeline-icon
+    grid-area: label_icon
+    display: inline-block
+    padding: 4px 6px
+    border-radius: 10rem
+    font-size: 0.8rem
+    font-weight: 400
+    align-self: center
+    width: fit-content
+    margin-right: 6px
+
+    &_failed
+      fill: #dd2b0e
+
+    &_success
+      fill: #108548
+
+    &_bg_success
+      border-radius: 10rem
+      background-color: #c3e6cd
+
+    &_bg_failed
+      border-radius: 10rem
+      background-color: #fdd4cd
+
   &--state
     grid-area: state
     display: inline-block
@@ -184,16 +209,3 @@
     margin-left: 0
     grid-area: pipeline
 
-  &--pipeline_icon_style_failed
-    fill: #dd2b0e
-
-  &--pipeline_icon_failed
-    border-radius: 10rem
-    background-color: #fdd4cd
-
-  &--pipeline_icon_style_success
-    fill: #108548
-
-  &--pipeline_icon_success
-    border-radius: 10rem
-    background-color: #c3e6cd

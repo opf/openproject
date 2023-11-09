@@ -18,10 +18,9 @@
   <svg class="op-merge-request--iconsize op-merge-request--label_icon_style"><use xlink:href="#labels" /></svg>
 </button>
 
-<span *ngIf="mergeRequest.pipelines && mergeRequest.pipelines.length > 0" class='op-merge-request--pipeline_icon'>
-  <span *ngIf="mergeRequest.pipelines && mergeRequest.pipelines.length > 0" class='op-merge-request--pipeline_icon'>
-    <svg [ngClass]="'op-merge-request--iconsize op-merge-request--pipeline_icon_style_' + mergeRequest.pipelines[0].status"><use [attr.xlink:href]="'#pipeline-status-' + mergeRequest.pipelines[0].status" /></svg>
-  </span>
+<span *ngIf="mergeRequest.pipelines && mergeRequest.pipelines.length > 0" class='op-merge-request--pipeline_icon'
+  [ngClass]="'op-merge-request--pipeline_icon_bg_' + mergeRequest.pipelines[0].status">
+  <svg [ngClass]="'op-merge-request--iconsize op-merge-request--pipeline_icon_' + mergeRequest.pipelines[0].status"><use [attr.xlink:href]="'#pipeline-status-' + mergeRequest.pipelines[0].status" /></svg>
 </span>
 
 <div class="op-merge-request--info_created">
