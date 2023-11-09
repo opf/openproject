@@ -49,7 +49,7 @@ fr:
         invalid_time_format: "n’est pas une heure valide. Format requis : HH:MM"
     models:
       structured_meeting: "Meeting (dynamic)"
-      meeting_agenda_item: "Agenda item"
+      meeting_agenda_item: ""
       meeting_agenda: "Ordre du jour"
       meeting_minutes: "Compte-rendu"
   activity:
