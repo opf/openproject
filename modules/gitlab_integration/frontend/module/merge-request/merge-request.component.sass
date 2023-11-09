@@ -32,8 +32,8 @@
 :host,
 .op-merge-request
   display: grid
-  grid-template-columns: minmax(270px, auto) auto 1fr
-  grid-template-areas: "title title title" "state label_icon info_created" "state label_icon info_updated" "label label label" "pipeline-label pipeline-label pipeline-label" "pipeline pipeline pipeline"
+  grid-template-columns: minmax(270px, auto) auto auto 1fr
+  grid-template-areas: "title title title title" "state label_icon pipe_icon info_created" "state label_icon pipe_icon info_updated" "label label label label"
   margin-bottom: 5px
   margin-top: 5px
   padding-bottom: 4px
@@ -140,28 +140,30 @@
       fill: #737278
 
   &--pipeline-icon
-    grid-area: label_icon
-    display: inline-block
-    padding: 4px 6px
+    grid-area: pipe_icon
+    padding: 0.25rem
     border-radius: 10rem
     font-size: 0.8rem
     font-weight: 400
     align-self: center
-    width: fit-content
     margin-right: 6px
+    width: 28px
+    height: 28px
 
     &_failed
       fill: #dd2b0e
+      width: 20px
+      height: 20px
 
     &_success
       fill: #108548
+      width: 20px
+      height: 20px
 
     &_bg_success
-      border-radius: 10rem
       background-color: #c3e6cd
 
     &_bg_failed
-      border-radius: 10rem
       background-color: #fdd4cd
 
   &--state
