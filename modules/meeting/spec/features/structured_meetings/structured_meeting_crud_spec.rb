@@ -149,6 +149,31 @@ RSpec.describe 'Structured meetings CRUD',
     wp_item = MeetingAgendaItem.find_by!(work_package_id: work_package.id)
     expect(wp_item).to be_present
 
+    # Keeping the editing state of an agenda item while modifying other items
+    show_page.edit_agenda_item(second) do
+      fill_in 'Title', with: 'Second edited'
+    end
+
+    show_page.select_action(item, I18n.t(:label_sort_lowest))
+
+    show_page.add_agenda_item do
+      fill_in 'Title', with: 'My agenda item'
+      fill_in 'Duration in minutes', with: '25'
+      click_button 'Save'
+    end
+
+    my_item = MeetingAgendaItem.find_by!(title: 'My agenda item')
+
+    show_page.edit_agenda_item(my_item) do
+      fill_in 'Title', with: 'My agenda item edited'
+      click_button 'Save'
+    end
+
+    show_page.remove_agenda_item my_item
+
+    show_page.expect_item_edit_form(second)
+    show_page.expect_item_edit_title(second, 'Second edited')
+
     # user can see actions
     expect(page).to have_css('#meeting-agenda-items-new-button-component')
     expect(page).to have_test_selector('op-meeting-agenda-actions', count: 3)

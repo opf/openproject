@@ -31,10 +31,10 @@ require_relative '../meetings/show'
 module Pages::StructuredMeeting
   class Show < ::Pages::Meetings::Show
     def expect_empty
-      expect(page).to have_no_selector('[id^="meeting-agenda-items-item-component"]')
+      expect(page).not_to have_css('[id^="meeting-agenda-items-item-component"]')
     end
 
-    def add_agenda_item(type: MeetingAgendaItem, cancel_followup_item: true, &block)
+    def add_agenda_item(type: MeetingAgendaItem, &block)
       page.within('#content') do
         click_button I18n.t(:button_add)
       end
@@ -50,8 +50,8 @@ module Pages::StructuredMeeting
       page.find('#meeting-agenda-items-new-component a', text: I18n.t(:button_cancel)).click
     end
 
-    def in_agenda_form(&block)
-      page.within('#meeting-agenda-items-form-component', &block)
+    def in_agenda_form(&)
+      page.within('#meeting-agenda-items-form-component', &)
     end
 
     def assert_agenda_order!(*titles)
@@ -75,7 +75,7 @@ module Pages::StructuredMeeting
 
     def expect_agenda_link(item)
       if item.is_a?(WorkPackage)
-        expect(page).to have_selector("[id^='meeting-agenda-items-item-component-']", text: item.subject)
+        expect(page).to have_css("[id^='meeting-agenda-items-item-component-']", text: item.subject)
       else
         expect(page).to have_selector("#meeting-agenda-items-item-component-#{item.id}", text: item.work_package.subject)
       end
@@ -104,14 +104,23 @@ module Pages::StructuredMeeting
       end
     end
 
-    def edit_agenda_item(item, &block)
+    def edit_agenda_item(item, &)
       select_action item, 'Edit'
-      page.within("#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component", &block)
+      page.within("#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component", &)
     end
 
     def expect_item_edit_form(item, visible: true)
       expect(page)
-        .to have_conditional_selector(visible, "#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component")
+        .to have_conditional_selector(
+          visible,
+          "#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component"
+        )
+    end
+
+    def expect_item_edit_title(item, value)
+      page.within("#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component") do
+        find_field('Title', with: value)
+      end
     end
   end
 end
