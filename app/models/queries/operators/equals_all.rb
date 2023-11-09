@@ -26,15 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters::Strategies
-  class ListAll < List
-    self.supported_operators = %w[= ! &=]
-
-    def operator_map
-      super_value = super.dup
-      super_value['&='] = ::Queries::Operators::EqualsAll
-
-      super_value
-    end
+module Queries::Operators
+  class EqualsAll < Base
+    label 'equals_all'
+    set_symbol '&='
   end
 end

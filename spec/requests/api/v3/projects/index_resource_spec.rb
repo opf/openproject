@@ -129,7 +129,7 @@ RSpec.describe 'API v3 Project resource index', content_type: :json do
     end
 
     context 'if using the all operator' do
-      let(:operator) { '*' }
+      let(:operator) { '&=' }
 
       it_behaves_like 'API V3 collection response', 1, 1, 'Project'
 

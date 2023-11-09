@@ -39,7 +39,7 @@ module Queries
         end
 
         def where
-          operator = if operator_class <= ::Queries::Operators::Equals || operator_class <= ::Queries::Operators::All
+          operator = if operator_class <= ::Queries::Operators::Equals || operator_class <= ::Queries::Operators::EqualsAll
                        'IN'
                      elsif operator_class <= ::Queries::Operators::NotEquals
                        'NOT IN'
@@ -55,7 +55,7 @@ module Queries
         private
 
         def capability_select_queries
-          if operator_class <= ::Queries::Operators::All
+          if operator_class <= ::Queries::Operators::EqualsAll
             values.map do |val|
               Capability
                 .where(action: val)
