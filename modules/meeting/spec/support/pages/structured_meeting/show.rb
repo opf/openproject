@@ -34,20 +34,30 @@ module Pages::StructuredMeeting
       expect(page).not_to have_css('[id^="meeting-agenda-items-item-component"]')
     end
 
-    def add_agenda_item(type: MeetingAgendaItem, &block)
-      page.within('#content') do
+    def add_agenda_item(type: MeetingAgendaItem, &)
+      page.within("#meeting-agenda-items-new-button-component") do
         click_button I18n.t(:button_add)
+        click_link type.model_name.human
       end
 
-      click_link type.model_name.human
-
-      in_agenda_form(&block)
-
-      click_button 'Save'
+      in_agenda_form do
+        yield
+        click_button 'Save'
+      end
     end
 
     def cancel_add_form
-      page.find('#meeting-agenda-items-new-component a', text: I18n.t(:button_cancel)).click
+      page.within('#meeting-agenda-items-new-component') do
+        click_link I18n.t(:button_cancel)
+        expect(page).not_to have_link I18n.t(:button_cancel)
+      end
+    end
+
+    def cancel_edit_form(item)
+      page.within("#meeting-agenda-items-item-component-#{item.id}") do
+        click_link I18n.t(:button_cancel)
+        expect(page).not_to have_link I18n.t(:button_cancel)
+      end
     end
 
     def in_agenda_form(&)
@@ -95,30 +105,34 @@ module Pages::StructuredMeeting
     end
 
     def select_action(item, action)
-      page.within("#meeting-agenda-items-item-component-#{item.id}") do
-        page.find_test_selector('op-meeting-agenda-actions').click
+      retry_block do
+        page.within("#meeting-agenda-items-item-component-#{item.id}") do
+          page.find_test_selector('op-meeting-agenda-actions').click
+        end
+        page.find('.Overlay')
       end
 
       page.within('.Overlay') do
-        click_on action
+        click_on action # rubocop:disable Capybara/ClickLinkOrButtonStyle
       end
     end
 
     def edit_agenda_item(item, &)
       select_action item, 'Edit'
-      page.within("#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component", &)
+      expect_item_edit_form(item)
+      page.within("#meeting-agenda-items-form-component-#{item.id}", &)
     end
 
     def expect_item_edit_form(item, visible: true)
       expect(page)
         .to have_conditional_selector(
           visible,
-          "#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component"
+          "#meeting-agenda-items-form-component-#{item.id}"
         )
     end
 
     def expect_item_edit_title(item, value)
-      page.within("#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component") do
+      page.within("#meeting-agenda-items-form-component-#{item.id}") do
         find_field('Title', with: value)
       end
     end

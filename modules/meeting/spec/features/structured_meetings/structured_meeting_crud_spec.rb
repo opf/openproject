@@ -132,7 +132,6 @@ RSpec.describe 'Structured meetings CRUD',
       find_field('Title').send_keys :escape
     end
     show_page.expect_item_edit_form(first, visible: false)
-
     # Can remove
     show_page.remove_agenda_item first
     show_page.assert_agenda_order! 'Updated title', 'Second'
@@ -155,13 +154,14 @@ RSpec.describe 'Structured meetings CRUD',
     end
 
     show_page.select_action(item, I18n.t(:label_sort_lowest))
+    show_page.cancel_add_form
 
     show_page.add_agenda_item do
       fill_in 'Title', with: 'My agenda item'
       fill_in 'Duration in minutes', with: '25'
-      click_button 'Save'
     end
 
+    show_page.expect_agenda_item title: 'My agenda item'
     my_item = MeetingAgendaItem.find_by!(title: 'My agenda item')
 
     show_page.edit_agenda_item(my_item) do
@@ -173,6 +173,7 @@ RSpec.describe 'Structured meetings CRUD',
 
     show_page.expect_item_edit_form(second)
     show_page.expect_item_edit_title(second, 'Second edited')
+    show_page.cancel_edit_form(second)
 
     # user can see actions
     expect(page).to have_css('#meeting-agenda-items-new-button-component')
