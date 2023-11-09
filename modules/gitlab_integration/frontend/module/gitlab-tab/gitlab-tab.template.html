@@ -23,6 +23,16 @@ document.addEventListener('DOMContentLoaded', function () {
   sectionHeaders.forEach(sectionHeader => {
     observer.observe(sectionHeader);
   });
+
+  const initialIssueLabelsElements = document.querySelectorAll('.op-issue--labels');
+  initialIssueLabelsElements.forEach(function (element) {
+    element.style.display = 'none';
+  });
+
+  const initialMRLabelsElements = document.querySelectorAll('.op-merge-request--labels');
+  initialMRLabelsElements.forEach(function (element) {
+    element.style.display = 'none';
+  });
 });
 </script>
 
@@ -48,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <symbol viewBox="0 0 16 16" id="labels" xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M6.427.512A1.75 1.75 0 0 1 7.664 0H13v3h3v5.335c0 .465-.185.91-.513 1.239L9.573 15.48a1.75 1.75 0 0 1-2.473 0l-2.293-2.293-1.293-1.293-3-3a1.75 1.75 0 0 1 0-2.475L6.428.512zM11.5 1.5V3h-.836a1.75 1.75 0 0 0-1.237.512L3.514 9.419c-.06.06-.115.123-.165.19L1.574 7.833a.25.25 0 0 1 0-.353l5.913-5.907a.25.25 0 0 1 .177-.073H11.5zM5.866 12.126l-1.292-1.293a.25.25 0 0 1 0-.353l5.913-5.907a.25.25 0 0 1 .177-.073H14.5v3.835a.25.25 0 0 1-.073.177L8.513 14.42a.25.25 0 0 1-.353 0l-2.294-2.293zM12 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
   </symbol>
-  <symbol viewBox="0 0 12 12" id="pipeline-status-success" xmlns="http://www.w3.org/2000/svg">
+  <symbol viewBox="0 0 14 14" id="pipeline-status-success" xmlns="http://www.w3.org/2000/svg">
     <g fill-rule="evenodd">
       <path d="M0 7a7 7 0 1 1 14 0A7 7 0 0 1 0 7z"/>
       <path d="M13 7A6 6 0 1 0 1 7a6 6 0 0 0 12 0z" fill="var(--svg-status-bg, #fff)"/>
