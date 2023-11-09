@@ -37,6 +37,9 @@ module WorkPackages::Scopes
       def allowed_to(user, permission) # rubocop:disable Metrics/AbcSize
         permissions = Authorization.contextual_permissions(permission, :work_package, raise_on_unknown: true)
 
+        return none if user.locked?
+        return none if permissions.empty?
+
         if user.admin? && permissions.all?(&:grant_to_admin?)
           where(id: allowed_to_admin_relation(permissions))
         elsif user.anonymous?
