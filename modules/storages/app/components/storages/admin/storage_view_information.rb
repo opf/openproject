@@ -9,7 +9,7 @@ module Storages::Admin
     end
 
     def storage_description
-      [storage.short_provider_type.capitalize,
+      [I18n.t("storages.provider_types.#{storage.short_provider_type}.name"),
        storage.name,
        storage.host].compact.join(' - ')
     end

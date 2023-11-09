@@ -3,6 +3,7 @@
     primer_form_with(
       model: oauth_client,
       url: admin_settings_storage_oauth_client_path(storage),
+      method: form_method,
       data: {
         controller: 'storages--oauth-client-form',
         application_target: 'dynamic',
@@ -66,8 +67,8 @@
               submit_button_options: {
                 disabled: submit_button_disabled?,
                 data: {
-                  'storages--oauth-client-form-target': 'submitButton'
-                },
+                  'storages--oauth-client-form-target': 'submitButton',
+                }.merge(submit_button_data_options),
                 test_selector: 'storage-oauth-client-submit-button'
               },
               cancel_button_options: {

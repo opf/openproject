@@ -30,9 +30,3 @@ See COPYRIGHT and LICENSE files for more details.
 <%= turbo_stream.update :storage_oauth_client_section do %>
   <%= render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: @oauth_client, storage: @storage)) %>
 <% end %>
-
-<% if @storage.provider_type_nextcloud? && @storage.automatic_management_new_record? %>
-  <%= turbo_stream.update :automatically_managed_project_folders_section do %>
-    <%= render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(@storage)) %>
-  <% end %>
-<% end %>

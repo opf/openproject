@@ -90,160 +90,6 @@ RSpec.describe 'Admin storages',
   end
 
   describe 'File storage edit view', with_flag: { storage_primer_design: true } do
-    let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
-    let(:oauth_application) { create(:oauth_application, integration: storage) }
-    let(:oauth_client) { create(:oauth_client, integration: storage) }
-
-    before do
-      oauth_application
-      oauth_client
-    end
-
-    it 'renders an edit view', :webmock do
-      visit edit_admin_settings_storage_path(storage)
-
-      expect(page).to have_test_selector('storage-name-title', text: storage.name.capitalize)
-
-      aggregate_failures 'Storage edit view' do
-        # General information
-        expect(page).to have_test_selector('storage-provider-label', text: 'Storage provider')
-        expect(page).to have_test_selector('label-host_name_configured-status', text: 'Completed')
-        expect(page).to have_test_selector('storage-description', text: [storage.short_provider_type.capitalize,
-                                                                         storage.name,
-                                                                         storage.host].join(' - '))
-
-        # OAuth application
-        expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
-        expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Completed')
-        expect(page).to have_test_selector('storage-openproject-oauth-application-description',
-                                           text: "OAuth Client ID: #{oauth_application.uid}")
-
-        # OAuth client
-        expect(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
-        expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
-        expect(page).to have_test_selector('storage-oauth-client-id-description',
-                                           text: "OAuth Client ID: #{oauth_client.client_id}")
-
-        # Automatically managed project folders
-        expect(page).to have_test_selector('storage-managed-project-folders-label',
-                                           text: 'Automatically managed folders')
-
-        expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Active')
-        expect(page).to have_test_selector('storage-automatically-managed-project-folders-description',
-                                           text: 'Let OpenProject create folders per project automatically.')
-      end
-
-      aggregate_failures 'General information' do
-        # Update a storage - happy path
-        find_test_selector('storage-edit-host-button').click
-        within_test_selector('storage-general-info-form') do
-          expect(page).to have_css('#storages_nextcloud_storage_provider_type[disabled]')
-
-          fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
-          click_button 'Save and continue'
-        end
-
-        expect(page).to have_test_selector('storage-name-title', text: 'My Nextcloud')
-        expect(page).to have_test_selector('storage-description', text: [storage.short_provider_type.capitalize,
-                                                                         'My Nextcloud',
-                                                                         storage.host].join(' - '))
-
-        # Update a storage - unhappy path
-        find_test_selector('storage-edit-host-button').click
-        within_test_selector('storage-general-info-form') do
-          fill_in 'storages_nextcloud_storage_name', with: nil
-          fill_in 'storages_nextcloud_storage_host', with: nil
-          click_button 'Save and continue'
-
-          expect(page).to have_text("Name can't be blank.")
-          expect(page).to have_text("Host is not a valid URL.")
-
-          click_link 'Cancel'
-        end
-      end
-
-      aggregate_failures 'OAuth application' do
-        accept_confirm do
-          find_test_selector('storage-replace-openproject-oauth-application-button').click
-        end
-
-        within_test_selector('storage-openproject-oauth-application-form') do
-          warning_section = find_test_selector('storage-openproject_oauth_application_warning')
-          expect(warning_section).to have_text('The client secret value will not be accessible again after you close ' \
-                                               'this window. Please copy these values into the Nextcloud ' \
-                                               'OpenProject Integration settings.')
-          expect(warning_section).to have_link('Nextcloud OpenProject Integration settings',
-                                               href: "#{storage.host}/settings/admin/openproject")
-
-          expect(page).to have_css('#openproject_oauth_application_uid',
-                                   value: storage.reload.oauth_application.uid)
-          expect(page).to have_css('#openproject_oauth_application_secret',
-                                   value: storage.reload.oauth_application.secret)
-
-          click_link 'Done, continue'
-        end
-      end
-
-      aggregate_failures 'OAuth Client' do
-        accept_confirm do
-          find_test_selector('storage-edit-oauth-client-button').click
-        end
-
-        within_test_selector('storage-oauth-client-form') do
-          # With null values, submit button should be disabled
-          expect(page).to have_css('#oauth_client_client_id', value: '')
-          expect(page).to have_css('#oauth_client_client_secret', value: '')
-          expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
-
-          # Happy path - Submit valid values
-          fill_in 'oauth_client_client_id', with: '1234567890'
-          fill_in 'oauth_client_client_secret', with: '0987654321'
-          expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
-          click_button 'Save and continue'
-        end
-
-        expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
-        expect(page).to have_test_selector('storage-oauth-client-id-description', text: "OAuth Client ID: 1234567890")
-      end
-
-      aggregate_failures 'Automatically managed project folders' do
-        find_test_selector('storage-edit-automatically-managed-project-folders-button').click
-
-        within_test_selector('storage-automatically-managed-project-folders-form') do
-          automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
-          application_password_input = page.find_by_id('storages_nextcloud_storage_password')
-          expect(automatically_managed_switch).to be_checked
-          expect(application_password_input.value).to be_empty
-
-          # Clicking submit with application password empty should show an error
-          click_button('Done, complete setup')
-          expect(page).to have_text("Password can't be blank.")
-
-          # Test the error path for an invalid storage password.
-          # Mock a valid response (=401) for example.com, so the password validation should fail
-          mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890",
-                                                                          response_code: 401)
-          automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
-          expect(automatically_managed_switch).to be_checked
-          fill_in 'storages_nextcloud_storage_password', with: "1234567890"
-          # Clicking submit with application password empty should show an error
-          click_button('Done, complete setup')
-          expect(page).to have_text("Password is not valid.")
-
-          # Test the happy path for a valid storage password.
-          # Mock a valid response (=200) for example.com, so the password validation should succeed
-          # Fill in application password and submit
-          mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890")
-          automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
-          expect(automatically_managed_switch).to be_checked
-          fill_in 'storages_nextcloud_storage_password', with: "1234567890"
-          click_button('Done, complete setup')
-        end
-
-        expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Active')
-      end
-    end
-
     it 'renders a delete button' do
       storage = create(:nextcloud_storage, name: "Foo Nextcloud")
       visit edit_admin_settings_storage_path(storage)
@@ -257,6 +103,234 @@ RSpec.describe 'Admin storages',
 
       expect(page).to have_current_path(admin_settings_storages_path)
       expect(page).not_to have_text("Foo Nextcloud")
+    end
+
+    context 'with Nextcloud Storage' do
+      let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
+      let(:oauth_application) { create(:oauth_application, integration: storage) }
+      let(:oauth_client) { create(:oauth_client, integration: storage) }
+
+      before do
+        oauth_application
+        oauth_client
+      end
+
+      it 'renders an edit view', :webmock do
+        visit edit_admin_settings_storage_path(storage)
+
+        expect(page).to have_test_selector('storage-name-title', text: storage.name.capitalize)
+
+        aggregate_failures 'Storage edit view' do
+          # General information
+          expect(page).to have_test_selector('storage-provider-label', text: 'Storage provider')
+          expect(page).to have_test_selector('label-host_name_configured-status', text: 'Completed')
+          expect(page).to have_test_selector('storage-description', text: "Nextcloud - #{storage.name} - #{storage.host}")
+
+          # OAuth application
+          expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
+          expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Completed')
+          expect(page).to have_test_selector('storage-openproject-oauth-application-description',
+                                             text: "OAuth Client ID: #{oauth_application.uid}")
+
+          # OAuth client
+          expect(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
+          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
+          expect(page).to have_test_selector('storage-oauth-client-id-description',
+                                             text: "OAuth Client ID: #{oauth_client.client_id}")
+
+          # Automatically managed project folders
+          expect(page).to have_test_selector('storage-managed-project-folders-label',
+                                             text: 'Automatically managed folders')
+
+          expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Active')
+          expect(page).to have_test_selector('storage-automatically-managed-project-folders-description',
+                                             text: 'Let OpenProject create folders per project automatically.')
+        end
+
+        aggregate_failures 'General information' do
+          # Update a storage - happy path
+          find_test_selector('storage-edit-host-button').click
+          within_test_selector('storage-general-info-form') do
+            expect(page).to have_css('#storages_nextcloud_storage_provider_type[disabled]')
+
+            fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
+            click_button 'Save and continue'
+          end
+
+          expect(page).to have_test_selector('storage-name-title', text: 'My Nextcloud')
+          expect(page).to have_test_selector('storage-description', text: "Nextcloud - My Nextcloud - #{storage.host}")
+
+          # Update a storage - unhappy path
+          find_test_selector('storage-edit-host-button').click
+          within_test_selector('storage-general-info-form') do
+            fill_in 'storages_nextcloud_storage_name', with: nil
+            fill_in 'storages_nextcloud_storage_host', with: nil
+            click_button 'Save and continue'
+
+            expect(page).to have_text("Name can't be blank.")
+            expect(page).to have_text("Host is not a valid URL.")
+
+            click_link 'Cancel'
+          end
+        end
+
+        aggregate_failures 'OAuth application' do
+          accept_confirm do
+            find_test_selector('storage-replace-openproject-oauth-application-button').click
+          end
+
+          within_test_selector('storage-openproject-oauth-application-form') do
+            warning_section = find_test_selector('storage-openproject_oauth_application_warning')
+            expect(warning_section).to have_text('The client secret value will not be accessible again after you close ' \
+                                                 'this window. Please copy these values into the Nextcloud ' \
+                                                 'OpenProject Integration settings.')
+            expect(warning_section).to have_link('Nextcloud OpenProject Integration settings',
+                                                 href: "#{storage.host}/settings/admin/openproject")
+
+            expect(page).to have_css('#openproject_oauth_application_uid',
+                                     value: storage.reload.oauth_application.uid)
+            expect(page).to have_css('#openproject_oauth_application_secret',
+                                     value: storage.reload.oauth_application.secret)
+
+            click_link 'Done, continue'
+          end
+        end
+
+        aggregate_failures 'OAuth Client' do
+          accept_confirm do
+            find_test_selector('storage-edit-oauth-client-button').click
+          end
+
+          within_test_selector('storage-oauth-client-form') do
+            # With null values, submit button should be disabled
+            expect(page).to have_css('#oauth_client_client_id', value: '')
+            expect(page).to have_css('#oauth_client_client_secret', value: '')
+            expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
+
+            # Happy path - Submit valid values
+            fill_in 'oauth_client_client_id', with: '1234567890'
+            fill_in 'oauth_client_client_secret', with: '0987654321'
+            expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
+            click_button 'Save and continue'
+          end
+
+          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
+          expect(page).to have_test_selector('storage-oauth-client-id-description', text: "OAuth Client ID: 1234567890")
+        end
+
+        aggregate_failures 'Automatically managed project folders' do
+          find_test_selector('storage-edit-automatically-managed-project-folders-button').click
+
+          within_test_selector('storage-automatically-managed-project-folders-form') do
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            application_password_input = page.find_by_id('storages_nextcloud_storage_password')
+            expect(automatically_managed_switch).to be_checked
+            expect(application_password_input.value).to be_empty
+
+            # Clicking submit with application password empty should show an error
+            click_button('Done, complete setup')
+            expect(page).to have_text("Password can't be blank.")
+
+            # Test the error path for an invalid storage password.
+            # Mock a valid response (=401) for example.com, so the password validation should fail
+            mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890",
+                                                                            response_code: 401)
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            expect(automatically_managed_switch).to be_checked
+            fill_in 'storages_nextcloud_storage_password', with: "1234567890"
+            # Clicking submit with application password empty should show an error
+            click_button('Done, complete setup')
+            expect(page).to have_text("Password is not valid.")
+
+            # Test the happy path for a valid storage password.
+            # Mock a valid response (=200) for example.com, so the password validation should succeed
+            # Fill in application password and submit
+            mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890")
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            expect(automatically_managed_switch).to be_checked
+            fill_in 'storages_nextcloud_storage_password', with: "1234567890"
+            click_button('Done, complete setup')
+          end
+
+          expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Active')
+        end
+      end
+    end
+
+    context 'with OneDrive Storage' do
+      let(:storage) { create(:one_drive_storage, name: 'Test Drive') }
+      let(:oauth_client) { create(:oauth_client, integration: storage) }
+
+      before { oauth_client }
+
+      it 'renders an edit view', :webmock do
+        visit edit_admin_settings_storage_path(storage)
+
+        expect(page).to have_test_selector('storage-name-title', text: 'Test Drive')
+
+        aggregate_failures 'Storage edit view' do
+          # General information
+          expect(page).to have_test_selector('storage-provider-label', text: 'Storage provider')
+          expect(page).to have_test_selector('label-host_name_configured-storage_tenant_drive_configured-status',
+                                             text: 'Completed')
+          expect(page).to have_test_selector('storage-description', text: 'OneDrive/SharePoint - Test Drive')
+
+          # OAuth client
+          expect(page).to have_test_selector('storage-oauth-client-label', text: 'Azure OAuth')
+          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
+          expect(page).to have_test_selector('storage-oauth-client-id-description',
+                                             text: "OAuth Client ID: #{oauth_client.client_id}")
+        end
+
+        aggregate_failures 'General information' do
+          # Update a storage - happy path
+          find_test_selector('storage-edit-host-button').click
+          within_test_selector('storage-general-info-form') do
+            expect(page).to have_css('#storages_one_drive_storage_provider_type[disabled]')
+
+            fill_in 'storages_one_drive_storage_name', with: 'My OneDrive'
+            click_button 'Save and continue'
+          end
+
+          expect(page).to have_test_selector('storage-name-title', text: 'My OneDrive')
+          expect(page).to have_test_selector('storage-description', text: 'OneDrive/SharePoint - My OneDrive')
+
+          # Update a storage - unhappy path
+          find_test_selector('storage-edit-host-button').click
+          within_test_selector('storage-general-info-form') do
+            fill_in 'storages_one_drive_storage_name', with: nil
+            fill_in 'storages_one_drive_storage_drive_id', with: nil
+            click_button 'Save and continue'
+
+            expect(page).to have_text("Name can't be blank.")
+            expect(page).to have_text("Drive can't be blank.")
+
+            click_link 'Cancel'
+          end
+        end
+
+        aggregate_failures 'OAuth Client' do
+          accept_confirm do
+            find_test_selector('storage-edit-oauth-client-button').click
+          end
+
+          within_test_selector('storage-oauth-client-form') do
+            # With null values, submit button should be disabled
+            expect(page).to have_css('#oauth_client_client_id', value: '')
+            expect(page).to have_css('#oauth_client_client_secret', value: '')
+            expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
+
+            # Happy path - Submit valid values
+            fill_in 'oauth_client_client_id', with: '1234567890'
+            fill_in 'oauth_client_client_secret', with: '0987654321'
+            expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
+            click_button 'Save and continue'
+          end
+
+          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
+          expect(page).to have_test_selector('storage-oauth-client-id-description', text: "OAuth Client ID: 1234567890")
+        end
+      end
     end
   end
 

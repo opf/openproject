@@ -64,12 +64,7 @@ module Storages::Admin::Forms
     end
 
     def new_record?
-      if storage.provider_fields_changed?
-        previous_configuration = storage.provider_fields_change.first
-        previous_configuration.values_at('automatically_managed', 'password').compact.empty?
-      else
-        storage.automatic_management_unspecified?
-      end
+      storage.automatic_management_new_record?
     end
 
     def default_form_url
