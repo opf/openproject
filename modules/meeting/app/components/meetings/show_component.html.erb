@@ -12,7 +12,7 @@
     end
 
     show_page.with_row do
-      render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |content|
+      render(Primer::Alpha::Layout.new(stacking_breakpoint: :sm)) do |content|
         content.with_main do
           flex_layout do |agenda|
             agenda.with_row do
@@ -25,7 +25,7 @@
           end
         end
 
-        content.with_sidebar(row_placement: :end, col_placement: :end, width: :wide) do
+        content.with_sidebar(row_placement: :start, col_placement: :end, width: :wide) do
           render(Meetings::SidebarComponent.new(meeting: @meeting))
         end
       end
