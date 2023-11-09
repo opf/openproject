@@ -79,10 +79,7 @@ class WorkPackage < ApplicationRecord
     order(updated_at: :desc)
   }
 
-  scope :visible, ->(*args) {
-    where(id: allowed_to(args.first || User.current, :view_work_packages))
-    # where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
-  }
+  scope :visible, ->(user = User.current) { allowed_to(user, :view_work_packages) }
 
   scope :in_status, ->(*args) do
                       where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))

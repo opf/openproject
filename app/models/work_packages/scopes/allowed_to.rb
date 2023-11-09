@@ -43,8 +43,10 @@ module WorkPackages::Scopes
           where(project_id: Project.allowed_to(user, permission).select(:id))
         else
           union = Arel::Nodes::UnionAll.new(
-            allowed_to_member_relation(user, permissions).select(arel_table[:id]).arel,
-            where(project_id: Project.allowed_to(user, permission).select(:id)).select(arel_table[:id]).arel
+            allowed_to_member_relation(user, permissions).select(work_package_table[:id]).arel,
+            work_package_via_project_table
+              .where(work_package_via_project_table[:project_id].in(Project.allowed_to(user, permission).select(:id).arel))
+              .project(work_package_via_project_table[:id])
           )
 
           where(arel_table[:id].in(union))
@@ -52,6 +54,22 @@ module WorkPackages::Scopes
       end
 
       private
+
+      def work_package_table
+        return @work_package_table if defined?(@work_package_table)
+
+        @work_package_table = arel_table.dup
+        @work_package_table.table_alias = 'authorized_work_packages'
+        @work_package_table
+      end
+
+      def work_package_via_project_table
+        return @work_package_via_project_table if defined?(@work_package_via_project_table)
+
+        @work_package_via_project_table = WorkPackage.arel_table.dup
+        @work_package_via_project_table.table_alias = 'authorized_work_packages_via_project'
+        @work_package_via_project_table
+      end
 
       def allowed_to_admin_relation(permissions)
         joins(:project)
@@ -61,12 +79,12 @@ module WorkPackages::Scopes
 
       def allowed_to_member_relation(user, permissions)
         Member
-          .joins(allowed_to_member_in_active_project_join(user))
           .joins(allowed_to_member_in_work_package_join)
+          .joins(allowed_to_member_in_active_project_join(user))
           .joins(allowed_to_enabled_module_join(permissions))
           .joins(:roles, :member_roles)
           .joins(allowed_to_role_permission_join(permissions))
-          .select(arel_table[:id])
+          .select(work_package_table[:id])
       end
 
       def allowed_to_enabled_module_join(permissions) # rubocop:disable Metrics/AbcSize
@@ -75,7 +93,7 @@ module WorkPackages::Scopes
         projects_table = Project.arel_table
 
         if project_module.any?
-          arel_table.join(enabled_module_table, Arel::Nodes::InnerJoin)
+          work_package_table.join(enabled_module_table, Arel::Nodes::InnerJoin)
                     .on(projects_table[:id].eq(enabled_module_table[:project_id])
                           .and(enabled_module_table[:name].in(project_module))
                           .and(projects_table[:active].eq(true)))
@@ -100,7 +118,7 @@ module WorkPackages::Scopes
           or_condition.or(permission_condition)
         end
 
-        arel_table
+        work_package_table
           .join(role_permissions_table, Arel::Nodes::InnerJoin)
           .on(roles_table[:id].eq(role_permissions_table[:role_id])
                               .and(condition))
@@ -110,7 +128,7 @@ module WorkPackages::Scopes
       def allowed_to_members_condition(user)
         members_table = Member.arel_table
 
-        members_table[:project_id].eq(arel_table[:project_id])
+        members_table[:project_id].eq(work_package_table[:project_id])
                                   .and(members_table[:user_id].eq(user.id))
                                   .and(members_table[:entity_type].eq(model_name.name))
       end
@@ -125,8 +143,8 @@ module WorkPackages::Scopes
 
       def allowed_to_member_in_work_package_join
         members_table = Member.arel_table
-        arel_table.join(arel_table)
-        .on(members_table[:entity_id].eq(arel_table[:id]).and(members_table[:entity_type].eq(model_name.name)))
+        work_package_table.join(work_package_table)
+        .on(members_table[:entity_id].eq(work_package_table[:id]).and(members_table[:entity_type].eq(model_name.name)))
         .join_sources
       end
     end
