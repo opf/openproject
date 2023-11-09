@@ -45,8 +45,14 @@ class EnterpriseToken < ApplicationRecord
       current && !current.expired?
     end
 
-    def show_banners?
-      OpenProject::Configuration.ee_manager_visible? && !active?
+    def show_banners?(feature = nil)
+      return false unless OpenProject::Configuration.ee_manager_visible?
+
+      if feature.present?
+        !allows_to?(feature)
+      else
+        !active?
+      end
     end
 
     def set_current_token
@@ -76,6 +82,8 @@ class EnterpriseToken < ApplicationRecord
            :reprieve_days,
            :reprieve_days_left,
            :restrictions,
+           :features,
+           :has_feature?,
            to: :token_object
 
   def token_object

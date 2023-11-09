@@ -239,6 +239,7 @@ en:
             label_first_name: "First name"
             label_last_name: "Last name"
             label_domain: "Domain"
+            label_features: "Add-ons"
             label_subscriber: "Subscriber"
             label_maximum_users: "Maximum active users"
             label_starts_at: "Starts at"

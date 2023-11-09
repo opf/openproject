@@ -75,6 +75,9 @@ en:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise edition"
       add_token: "Upload an Enterprise edition support token"
+      features:
+        label: 'Add-ons'
+        work_package_sharing: "Work package sharing"
       delete_token_modal:
         text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"

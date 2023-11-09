@@ -64,6 +64,14 @@
           </div>
         </div>
       </div>
+      <div class="attributes-key-value" *ngIf="features !== ''">
+        <div class="attributes-key-value--key" [textContent]="text.label_features"></div>
+        <div class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value -text">
+            <span [textContent]="features"></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

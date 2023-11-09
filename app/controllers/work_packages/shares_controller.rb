@@ -34,6 +34,7 @@ class WorkPackages::SharesController < ApplicationController
   before_action :find_share, only: %i[destroy update]
   before_action :find_project
   before_action :authorize
+  before_action :enterprise_check, only: %i[index]
 
   def index
     render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package), layout: nil
@@ -44,10 +45,10 @@ class WorkPackages::SharesController < ApplicationController
 
     find_or_create_users(send_notification: false) do |member_params|
       service_call = WorkPackageMembers::CreateOrUpdateService
-                      .new(user: current_user)
-                      .call(entity: @work_package,
-                            user_id: member_params[:user_id],
-                            role_ids: find_role_ids(params[:member][:role_id]))
+        .new(user: current_user)
+        .call(entity: @work_package,
+              user_id: member_params[:user_id],
+              role_ids: find_role_ids(params[:member][:role_id]))
 
       @share = service_call.result
 
@@ -88,6 +89,12 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   private
+
+  def enterprise_check
+    return if EnterpriseToken.allows_to?(:work_package_sharing)
+
+    render WorkPackages::Share::ModalUpsaleComponent.new
+  end
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
@@ -158,9 +165,9 @@ class WorkPackages::SharesController < ApplicationController
 
   def current_visible_member_count
     @current_visible_member_count ||= Member
-                                        .joins(:member_roles)
-                                        .of_work_package(@work_package)
-                                        .merge(MemberRole.only_non_inherited)
-                                        .size
+      .joins(:member_roles)
+      .of_work_package(@work_package)
+      .merge(MemberRole.only_non_inherited)
+      .size
   end
 end

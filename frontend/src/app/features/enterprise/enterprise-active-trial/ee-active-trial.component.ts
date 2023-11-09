@@ -26,19 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
-import {
-  HttpClient,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EEActiveTrialBase } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-trial.base';
 import { GonService } from 'core-app/core/gon/gon.service';
 import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
@@ -63,6 +55,8 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
   public startsAt:string;
 
   public expiresAt:string;
+
+  public features:string;
 
   constructor(readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,

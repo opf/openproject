@@ -55,6 +55,8 @@ export class EEActiveSavedTrialComponent extends EEActiveTrialBase {
 
   public isExpired:boolean = this.elementRef.nativeElement.dataset.isExpired === 'true';
 
+  public features = this.elementRef.nativeElement.dataset.features;
+
   public reprieveDaysLeft = this.elementRef.nativeElement.dataset.reprieveDaysLeft;
 
   constructor(readonly elementRef:ElementRef,

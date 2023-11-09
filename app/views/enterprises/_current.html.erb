@@ -7,6 +7,7 @@
   data-starts-at="<%= format_date @current_token.starts_at %>"
   data-expires-at="<%= (!@current_token.will_expire?) ? t('js.admin.enterprise.upsale.unlimited') : (format_date @current_token.expires_at) %>"
   data-is-expired="<%= @current_token.expired?(reprieve: false) %>"
+  data-features="<%= translated_enterprise_features(@current_token) %>"
   data-reprieve-days-left="<%= @current_token.reprieve_days_left %>"
 >
 </enterprise-active-saved-trial>

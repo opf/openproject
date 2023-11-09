@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe EnterpriseToken do
   let(:object) { OpenProject::Token.new domain: Setting.host_name }
 
-  subject { EnterpriseToken.new(encoded_token: 'foo') }
+  subject { described_class.new(encoded_token: 'foo') }
 
   before do
     RequestStore.delete :current_ee_token
@@ -47,16 +47,16 @@ RSpec.describe EnterpriseToken do
     context 'when inner token is active' do
       it 'has an active token' do
         expect(object).to receive(:expired?).and_return(false)
-        expect(EnterpriseToken.count).to eq(1)
-        expect(EnterpriseToken.current).to eq(subject)
-        expect(EnterpriseToken.current.encoded_token).to eq('foo')
-        expect(EnterpriseToken.show_banners?).to be(false)
+        expect(described_class.count).to eq(1)
+        expect(described_class.current).to eq(subject)
+        expect(described_class.current.encoded_token).to eq('foo')
+        expect(described_class.show_banners?).to be(false)
 
         # Deleting it updates the current token
-        EnterpriseToken.current.destroy!
+        described_class.current.destroy!
 
-        expect(EnterpriseToken.count).to eq(0)
-        expect(EnterpriseToken.current).to be_nil
+        expect(described_class.count).to eq(0)
+        expect(described_class.current).to be_nil
       end
 
       it 'delegates to the token object' do
@@ -95,9 +95,29 @@ RSpec.describe EnterpriseToken do
             .with(:allowed_action)
             .and_return double('ServiceResult', result: true)
 
-          expect(EnterpriseToken.allows_to?(:forbidden_action)).to be false
-          expect(EnterpriseToken.allows_to?(:allowed_action)).to be true
+          expect(described_class.allows_to?(:forbidden_action)).to be false
+          expect(described_class.allows_to?(:allowed_action)).to be true
         end
+      end
+    end
+
+    context 'when inner token has feature' do
+      let(:object) do
+        OpenProject::Token.new domain: Setting.host_name,
+                               features: %i[some_feature]
+      end
+
+      it 'provides that feature' do
+        expect(described_class.allows_to?(:some_feature)).to be true
+        expect(described_class.allows_to?('some_feature')).to be true
+        expect(described_class.allows_to?(:other_feature)).to be false
+      end
+
+      it 'extends show_banners' do
+        expect(described_class.show_banners?).to be false
+        expect(described_class.show_banners?(:other_feature)).to be true
+        expect(described_class.show_banners?('some_feature')).to be false
+        expect(described_class.show_banners?(:some_feature)).to be false
       end
     end
 
@@ -107,8 +127,8 @@ RSpec.describe EnterpriseToken do
       end
 
       it 'has an expired token' do
-        expect(EnterpriseToken.current).to eq(subject)
-        expect(EnterpriseToken.show_banners?).to be(true)
+        expect(described_class.current).to eq(subject)
+        expect(described_class.show_banners?).to be(true)
       end
     end
 
@@ -122,22 +142,22 @@ RSpec.describe EnterpriseToken do
 
   describe 'no token' do
     it do
-      expect(EnterpriseToken.current).to be_nil
-      expect(EnterpriseToken.show_banners?).to be(true)
+      expect(described_class.current).to be_nil
+      expect(described_class.show_banners?).to be(true)
     end
   end
 
   describe 'invalid token' do
     it 'appears as if no token is shown' do
-      expect(EnterpriseToken.current).to be_nil
-      expect(EnterpriseToken.show_banners?).to be(true)
+      expect(described_class.current).to be_nil
+      expect(described_class.show_banners?).to be(true)
     end
   end
 
   describe "Configuration file has `ee_manager_visible` set to false" do
     it 'does not show banners promoting EE' do
       expect(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
-      expect(EnterpriseToken.show_banners?).to be_falsey
+      expect(described_class.show_banners?).to be_falsey
     end
   end
 end

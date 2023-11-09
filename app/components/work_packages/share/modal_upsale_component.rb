@@ -26,52 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Authorization::EnterpriseService
-  attr_accessor :token
+module WorkPackages
+  module Share
+    class ModalUpsaleComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-  GUARDED_ACTIONS = %i(
-    attribute_help_texts
-    baseline_comparison
-    board_view
-    conditional_highlighting
-    custom_actions
-    custom_fields_in_projects_list
-    date_alerts
-    define_custom_style
-    edit_attribute_groups
-    grid_widget_wp_graph
-    ldap_groups
-    openid_providers
-    placeholder_users
-    readonly_work_packages
-    team_planner_view
-    two_factor_authentication
-    work_package_query_relation_columns
-  ).freeze
-
-  def initialize(token)
-    self.token = token
-  end
-
-  # Return a true ServiceResult if the token contains this particular action.
-  def call(action)
-    allowed =
-      if token.nil? || token.token_object.nil? || token.expired?
-        false
-      else
-        process(action)
+      def self.wrapper_key
+        "work_package_share_list"
       end
-
-    result(allowed)
-  end
-
-  private
-
-  def process(action)
-    GUARDED_ACTIONS.include?(action.to_sym) || token.has_feature?(action)
-  end
-
-  def result(bool)
-    ServiceResult.new(success: bool, result: bool)
+    end
   end
 end

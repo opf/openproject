@@ -52,6 +52,7 @@ RSpec.describe Authorization::EnterpriseService do
   describe 'expiry' do
     before do
       allow(token).to receive(:expired?).and_return(expired)
+      allow(token).to receive(:has_feature?).and_return(false)
     end
 
     context 'when expired' do
