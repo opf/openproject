@@ -119,7 +119,7 @@ RSpec.describe 'BCF XML API v1 bcf_xml resource' do
   end
 
   describe 'POST /api/bcf_xml_api/v1/projects/<project>/bcf_xml' do
-    let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages manage_bcf view_linked_issues) }
+    let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages change_work_package_status manage_bcf view_linked_issues) }
     let(:path) { "/api/bcf_xml_api/v1/projects/#{project.identifier}/bcf_xml" }
     let(:params) do
       {
