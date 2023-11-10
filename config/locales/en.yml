@@ -665,6 +665,7 @@ en:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" # used in custom actions
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
