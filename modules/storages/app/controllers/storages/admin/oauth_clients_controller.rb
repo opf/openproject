@@ -159,7 +159,6 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   end
 
   def delete_current_oauth_client
-    @previous_oauth_client_present = @storage.oauth_client.present?
     ::OAuthClients::DeleteService.new(user: User.current, model: @storage.oauth_client).call if @storage.oauth_client
   end
 end
