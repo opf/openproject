@@ -72,7 +72,7 @@ module Storages
     end
 
     def mark_as_healthy
-      return true if unhealthy?
+      return true if healthy?
 
       update(health_status: :ok, health_changed_at: Time.now.utc, health_reason: nil)
     end

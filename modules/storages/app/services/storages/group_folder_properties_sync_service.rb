@@ -55,11 +55,8 @@ module Storages
     end
 
     def call
-      # We can return the collected errors
-      prepare_remote_folders.error_and { |error| return ServiceResult.failure(errors: error) }
-
-      # We need to make this into a ServiceResult
-      apply_permissions_to_folders.error_and { |error| return ServiceResult.failure(errors: error) }
+      prepare_remote_folders.on_failure { |service_result| return service_result }
+      apply_permissions_to_folders
     end
 
     private
@@ -97,7 +94,6 @@ module Storages
     def add_remove_users_to_group
       remote_users = remote_group_users.result_or do |error|
         return format_and_log_error(error, group: @storage.group)
-        # ServiceResult.failure(errors: error)
       end
 
       local_users = client_tokens_scope.order(:id).pluck(:origin_user_id)
