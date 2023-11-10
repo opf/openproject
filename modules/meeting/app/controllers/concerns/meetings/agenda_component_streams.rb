@@ -88,10 +88,10 @@ module Meetings
         )
       end
 
-      def update_list_dropdown_menu_via_turbo_stream(meeting: @meeting)
+      def update_show_items_via_turbo_stream(meeting: @meeting)
         meeting.agenda_items.each do |meeting_agenda_item|
           update_via_turbo_stream(
-            component: MeetingAgendaItems::ItemComponent::MenuComponent.new(meeting_agenda_item:)
+            component: MeetingAgendaItems::ItemComponent::ShowComponent.new(meeting_agenda_item:)
           )
         end
       end
@@ -139,14 +139,13 @@ module Meetings
             meeting_agenda_item:
           )
         )
+        update_show_items_via_turbo_stream
       end
 
       def add_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false)
         if clear_slate
           update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
         else
-          update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
-          update_list_dropdown_menu_via_turbo_stream
           add_before_via_turbo_stream(
             component: MeetingAgendaItems::ItemComponent.new(
               state: :show,
@@ -154,6 +153,8 @@ module Meetings
             ),
             target_component: MeetingAgendaItems::ListComponent.new(meeting: @meeting)
           )
+          update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
+          update_show_items_via_turbo_stream
         end
       end
 
@@ -161,7 +162,7 @@ module Meetings
         if clear_slate
           update_list_via_turbo_stream
         else
-          update_list_dropdown_menu_via_turbo_stream
+          update_show_items_via_turbo_stream
           remove_via_turbo_stream(
             component: MeetingAgendaItems::ItemComponent.new(
               state: :show,
@@ -172,7 +173,6 @@ module Meetings
       end
 
       def move_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item)
-        update_list_dropdown_menu_via_turbo_stream
         # Note: The `remove_component` and the `component` are pointing to the same
         # component, but we still need to instantiate them separately, otherwise re-adding
         # of the item will render and empty component.
@@ -190,6 +190,7 @@ module Meetings
             MeetingAgendaItems::ListComponent.new(meeting: @meeting)
           end
         add_before_via_turbo_stream(component:, target_component:)
+        update_show_items_via_turbo_stream
       end
 
       def render_base_error_in_flash_message_via_turbo_stream(errors)

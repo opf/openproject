@@ -144,7 +144,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call(position: params[:position].to_i)
 
     if call.success?
-      update_list_dropdown_menu_via_turbo_stream
+      update_show_items_via_turbo_stream
       update_header_component_via_turbo_stream
     else
       generic_call_failure_response(call)
