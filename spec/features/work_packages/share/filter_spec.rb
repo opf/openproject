@@ -40,11 +40,11 @@ RSpec.describe 'Work package sharing',
 
   shared_let(:project_user) { create(:user, firstname: 'Anton') }
   shared_let(:project_user2) { create(:user, firstname: 'Bertha') }
-  shared_let(:non_project_user) { create(:user, firstname: 'Caesar') }
-  shared_let(:non_project_user2) { create(:user, firstname: 'Dora') }
+  shared_let(:inherited_project_user) { create(:user, firstname: 'Caesar') }
+  shared_let(:non_project_user) { create(:user, firstname: 'Dora') }
 
-  shared_let(:shared_project_group) { create(:group, members: [project_user, non_project_user]) }
-  shared_let(:shared_non_project_group) { create(:group, members: [project_user2, non_project_user2]) }
+  shared_let(:shared_project_group) { create(:group, members: [project_user, inherited_project_user]) }
+  shared_let(:shared_non_project_group) { create(:group, members: [project_user2, non_project_user]) }
 
   let(:project) do
     create(:project,
@@ -64,9 +64,9 @@ RSpec.describe 'Work package sharing',
     create(:work_package, project:) do |wp|
       create(:work_package_member, entity: wp, user: project_user, roles: [view_work_package_role])
       create(:work_package_member, entity: wp, user: project_user2, roles: [comment_work_package_role])
+      create(:work_package_member, entity: wp, user: inherited_project_user, roles: [edit_work_package_role])
       create(:work_package_member, entity: wp, user: non_project_user, roles: [edit_work_package_role])
-      create(:work_package_member, entity: wp, user: non_project_user2, roles: [edit_work_package_role])
-      create(:work_package_member, entity: wp, user: shared_project_group, roles: [view_work_package_role])
+      create(:work_package_member, entity: wp, user: shared_project_group, roles: [edit_work_package_role])
       create(:work_package_member, entity: wp, user: shared_non_project_group, roles: [view_work_package_role])
     end
   end
@@ -88,21 +88,22 @@ RSpec.describe 'Work package sharing',
 
       # Filter for: project members (users only)
       share_modal.filter('type', I18n.t('work_package.sharing.filter.project_member'))
-      share_modal.expect_shared_count_of(2)
+      share_modal.expect_shared_count_of(3)
 
       share_modal.expect_shared_with(project_user, 'View')
       share_modal.expect_shared_with(project_user2, 'Comment')
+      # The non-project user is listed because it is part of the project group and thus the membership is inherited.
+      share_modal.expect_shared_with(inherited_project_user, 'Edit')
       share_modal.expect_not_shared_with(non_project_user)
-      share_modal.expect_not_shared_with(non_project_user2)
       share_modal.expect_not_shared_with(shared_project_group)
       share_modal.expect_not_shared_with(shared_non_project_group)
 
       # Filter for: non-project members (users only)
       share_modal.filter('type', I18n.t('work_package.sharing.filter.not_project_member'))
-      share_modal.expect_shared_count_of(2)
+      share_modal.expect_shared_count_of(1)
 
       share_modal.expect_shared_with(non_project_user, 'Edit')
-      share_modal.expect_shared_with(non_project_user2, 'Edit')
+      share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(project_user)
       share_modal.expect_not_shared_with(project_user2)
       share_modal.expect_not_shared_with(shared_project_group)
@@ -112,11 +113,11 @@ RSpec.describe 'Work package sharing',
       share_modal.filter('type', I18n.t('work_package.sharing.filter.project_group'))
       share_modal.expect_shared_count_of(1)
 
-      share_modal.expect_shared_with(shared_project_group, 'View')
+      share_modal.expect_shared_with(shared_project_group, 'Edit')
       share_modal.expect_not_shared_with(project_user)
       share_modal.expect_not_shared_with(project_user2)
+      share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(non_project_user)
-      share_modal.expect_not_shared_with(non_project_user2)
       share_modal.expect_not_shared_with(shared_non_project_group)
 
       # Filter for: non-project members (groups only)
@@ -126,8 +127,8 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(shared_non_project_group, 'View')
       share_modal.expect_not_shared_with(project_user)
       share_modal.expect_not_shared_with(project_user2)
+      share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(non_project_user)
-      share_modal.expect_not_shared_with(non_project_user2)
       share_modal.expect_not_shared_with(shared_project_group)
 
       # Clicking again on the filter will reset it
@@ -136,9 +137,9 @@ RSpec.describe 'Work package sharing',
 
       share_modal.expect_shared_with(project_user, 'View')
       share_modal.expect_shared_with(project_user2, 'Comment')
+      share_modal.expect_shared_with(inherited_project_user, 'Edit')
       share_modal.expect_shared_with(non_project_user, 'Edit')
-      share_modal.expect_shared_with(non_project_user2, 'Edit')
-      share_modal.expect_shared_with(shared_project_group, 'View')
+      share_modal.expect_shared_with(shared_project_group, 'Edit')
       share_modal.expect_shared_with(shared_non_project_group, 'View')
     end
 
@@ -148,25 +149,25 @@ RSpec.describe 'Work package sharing',
 
       # Filter for: all principals with Edit permission
       share_modal.filter('role', I18n.t('work_package.sharing.permissions.edit'))
-      share_modal.expect_shared_count_of(2)
+      share_modal.expect_shared_count_of(3)
 
+      share_modal.expect_shared_with(inherited_project_user, 'Edit')
       share_modal.expect_shared_with(non_project_user, 'Edit')
-      share_modal.expect_shared_with(non_project_user2, 'Edit')
+      share_modal.expect_shared_with(shared_project_group, 'Edit')
       share_modal.expect_not_shared_with(project_user)
       share_modal.expect_not_shared_with(project_user2)
-      share_modal.expect_not_shared_with(shared_project_group)
       share_modal.expect_not_shared_with(shared_non_project_group)
 
       # Filter for: all principals with View permission
       share_modal.filter('role', I18n.t('work_package.sharing.permissions.view'))
-      share_modal.expect_shared_count_of(3)
+      share_modal.expect_shared_count_of(2)
 
       share_modal.expect_shared_with(project_user, 'View')
-      share_modal.expect_shared_with(shared_project_group, 'View')
       share_modal.expect_shared_with(shared_non_project_group, 'View')
       share_modal.expect_not_shared_with(project_user2)
+      share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(non_project_user)
-      share_modal.expect_not_shared_with(non_project_user2)
+      share_modal.expect_not_shared_with(shared_project_group)
 
       # Filter for: all principals with Comment permission
       share_modal.filter('role', I18n.t('work_package.sharing.permissions.comment'))
@@ -174,8 +175,8 @@ RSpec.describe 'Work package sharing',
 
       share_modal.expect_shared_with(project_user2, 'Comment')
       share_modal.expect_not_shared_with(project_user)
+      share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(non_project_user)
-      share_modal.expect_not_shared_with(non_project_user2)
       share_modal.expect_not_shared_with(shared_project_group)
       share_modal.expect_not_shared_with(shared_non_project_group)
 
@@ -185,9 +186,9 @@ RSpec.describe 'Work package sharing',
 
       share_modal.expect_shared_with(project_user, 'View')
       share_modal.expect_shared_with(project_user2, 'Comment')
+      share_modal.expect_shared_with(inherited_project_user, 'Edit')
       share_modal.expect_shared_with(non_project_user, 'Edit')
-      share_modal.expect_shared_with(non_project_user2, 'Edit')
-      share_modal.expect_shared_with(shared_project_group, 'View')
+      share_modal.expect_shared_with(shared_project_group, 'Edit')
       share_modal.expect_shared_with(shared_non_project_group, 'View')
     end
 
@@ -199,14 +200,16 @@ RSpec.describe 'Work package sharing',
       # role: view
       # type: none
       share_modal.filter('role', I18n.t('work_package.sharing.permissions.view'))
-      share_modal.expect_shared_count_of(3)
+      share_modal.expect_shared_count_of(2)
 
       share_modal.expect_shared_with(project_user, 'View')
-      share_modal.expect_shared_with(shared_project_group, 'View')
       share_modal.expect_shared_with(shared_non_project_group, 'View')
       share_modal.expect_not_shared_with(project_user2)
+      share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(non_project_user)
-      share_modal.expect_not_shared_with(non_project_user2)
+      share_modal.expect_not_shared_with(shared_project_group)
+
+      sleep 1
 
       # Additional filter for: project members (users only)
       # role: view
@@ -216,48 +219,54 @@ RSpec.describe 'Work package sharing',
 
       share_modal.expect_shared_with(project_user, 'View')
       share_modal.expect_not_shared_with(project_user2)
+      share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(non_project_user)
-      share_modal.expect_not_shared_with(non_project_user2)
       share_modal.expect_not_shared_with(shared_project_group)
       share_modal.expect_not_shared_with(shared_non_project_group)
 
+      sleep 1
+
       # Change type filter to: project members (groups only)
       # role: view
-      # type: project members (groups only)
-      share_modal.filter('type', I18n.t('work_package.sharing.filter.project_member'))
+      # type: non-project members (groups only)
+      share_modal.filter('type', I18n.t('work_package.sharing.filter.not_project_group'))
       share_modal.expect_shared_count_of(1)
 
-      share_modal.expect_shared_with(shared_project_group, 'View')
+      share_modal.expect_shared_with(shared_non_project_group, 'View')
       share_modal.expect_not_shared_with(project_user)
       share_modal.expect_not_shared_with(project_user2)
+      share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(non_project_user)
-      share_modal.expect_not_shared_with(non_project_user2)
-      share_modal.expect_not_shared_with(shared_non_project_group)
+      share_modal.expect_not_shared_with(shared_project_group)
+
+      sleep 1
 
       # Reset role filter
       # role: none
-      # type: project members (groups only)
+      # type: non-project members (groups only)
       share_modal.filter('role', I18n.t('work_package.sharing.permissions.view'))
       share_modal.expect_shared_count_of(1)
 
-      share_modal.expect_shared_with(shared_project_group, 'View')
+      share_modal.expect_shared_with(shared_non_project_group, 'View')
       share_modal.expect_not_shared_with(project_user)
       share_modal.expect_not_shared_with(project_user2)
+      share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(non_project_user)
-      share_modal.expect_not_shared_with(non_project_user2)
-      share_modal.expect_not_shared_with(shared_non_project_group)
+      share_modal.expect_not_shared_with(shared_project_group)
+
+      sleep 1
 
       # Reset type filter
       # role: none
       # type: none
-      share_modal.filter('type', I18n.t('work_package.sharing.filter.project_member'))
+      share_modal.filter('type', I18n.t('work_package.sharing.filter.not_project_group'))
       share_modal.expect_shared_count_of(6)
 
       share_modal.expect_shared_with(project_user, 'View')
       share_modal.expect_shared_with(project_user2, 'Comment')
+      share_modal.expect_shared_with(inherited_project_user, 'Edit')
       share_modal.expect_shared_with(non_project_user, 'Edit')
-      share_modal.expect_shared_with(non_project_user2, 'Edit')
-      share_modal.expect_shared_with(shared_project_group, 'View')
+      share_modal.expect_shared_with(shared_project_group, 'Edit')
       share_modal.expect_shared_with(shared_non_project_group, 'View')
     end
   end

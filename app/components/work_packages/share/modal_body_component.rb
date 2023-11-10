@@ -40,7 +40,7 @@ module WorkPackages
         super
 
         @work_package = work_package
-        @shared_principals = shares
+        @shares = shares
       end
 
       def self.wrapper_key
@@ -112,28 +112,65 @@ module WorkPackages
       end
 
       def filter_url(type_option: nil, role_option: nil)
+        return work_package_shares_path if type_option.nil? && role_option.nil?
+
         args = {}
         filter = []
 
-        unless type_option.nil? || type_filter_option_active?(type_option)
-          if type_option[:value][:project_member]
-            filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] } })
-          else
-            filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] } })
-          end
-
-          filter.push({ principal_type: { operator: "=", values: [type_option[:value][:principal_type]] } })
-        end
-
-        unless role_option.nil? || role_filter_option_active?(role_option)
-          filter.push({ role_id: { operator: "=", values: find_role_ids(role_option[:value]) } })
-        end
-
-        # Todo: Keep options of the other filter defined in params
+        filter += apply_role_filter(role_option)
+        filter += apply_type_filter(type_option)
 
         args[:filters] = filter.to_json unless filter.empty?
 
         work_package_shares_path(args)
+      end
+
+      def apply_role_filter(_option)
+        current_role_filter_value = current_filter_value(params[:filters], 'role_id')
+        filter = []
+
+        if _option.nil? && current_role_filter_value.present?
+          # When there is already a role filter set and no new value passed, we want to keep that filter
+          filter = role_filter_for({ value: current_role_filter_value }, builtin_role: false)
+        elsif _option.present? && !role_filter_option_active?(_option)
+          # Only when the passed filter option is not the currently selected one, we apply the filter
+          filter = role_filter_for(_option)
+        end
+
+        filter
+      end
+
+      def role_filter_for(_option, builtin_role: true)
+        [{ role_id: { operator: "=", values: builtin_role ? find_role_ids(_option[:value]) : [_option[:value]] } }]
+      end
+
+      def apply_type_filter(_option)
+        current_type_filter_value = current_filter_value(params[:filters], 'principal_type')
+        current_member_filter_value = current_filter_value(params[:filters], 'also_project_member')
+        filter = []
+
+        if _option.nil? && current_type_filter_value.present? && current_member_filter_value.present?
+          # When there is already a type filter set and no new value passed, we want to keep that filter
+          value = { value: { principal_type: current_type_filter_value, project_member: current_member_filter_value } }
+          filter = type_filter_for(value)
+        elsif _option.present? && !type_filter_option_active?(_option)
+          # Only when the passed filter option is not the currently selected one, we apply the filter
+          filter = type_filter_for(_option)
+        end
+
+        filter
+      end
+
+      def type_filter_for(_option)
+        filter = []
+        if ActiveRecord::Type::Boolean.new.cast(_option[:value][:project_member])
+          filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] } })
+        else
+          filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] } })
+        end
+
+        filter.push({ principal_type: { operator: "=", values: [_option[:value][:principal_type]] } })
+        filter
       end
 
       def current_filter_value(filters, filter_key)
