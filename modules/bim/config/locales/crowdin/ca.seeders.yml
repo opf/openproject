@@ -410,11 +410,11 @@ ca:
             item_0:
               title: Benvingut al teu projecte de demostració
               summary: |
-                Estem contents que t'hagis unit.
-                En aquest mòdul pots comunicar notícies del projecte a nous membres de l'equip.
+                Estem contents que us hàgiu unit.
+                En aquest mòdul podeu comunicar notícies del projecte als nous membres de l'equip.
               description: Les notícies actuals
           categories:
-            item_0: Categoria 1 (per ser canviat en la configuració del projecte)
+            item_0: Categoria 1 (per ser canviada en la configuració del projecte)
           queries:
             item_0:
               name: Pla de projecte
