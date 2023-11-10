@@ -28,28 +28,28 @@ ca:
   activerecord:
     attributes:
       meeting:
-        type: "Meeting type"
+        type: "Tipus de reunió"
         location: "Ubicació"
         duration: "Durada"
         notes: "Notes"
         participants: "Participants"
         participants_attended: "Assistents"
         participants_invited: "Convidats"
-        project: "Project"
-        start_date: "Date"
+        project: "Projecte"
+        start_date: "Data"
         start_time: "Hora"
         start_time_hour: "Hora d'inici"
       meeting_agenda_items:
-        title: "Title"
-        author: "Responsible"
-        duration_in_minutes: "Duration in minutes"
+        title: "Títol"
+        author: "Responsable"
+        duration_in_minutes: "Duració en minuts"
         description: "Notes"
     errors:
       messages:
         invalid_time_format: "no és una hora vàlida. El format requerit és: HH:MM"
     models:
-      structured_meeting: "Meeting (dynamic)"
-      meeting_agenda_item: "Agenda item"
+      structured_meeting: "Reunió (dinàmica)"
+      meeting_agenda_item: "Element d'agenda"
       meeting_agenda: "Agenda"
       meeting_minutes: "Acta"
   activity:
@@ -76,37 +76,37 @@ ca:
   label_meeting_agenda_close: "Tanca l'agenda per començar l'acta"
   label_meeting_date_time: "Data/Hora"
   label_meeting_diff: "Diferència"
-  label_upcoming_meetings: "Upcoming meetings"
-  label_past_meetings: "Past meetings"
-  label_upcoming_meetings_short: "Upcoming"
-  label_past_meetings_short: "Past"
-  label_involvement: "Involvement"
-  label_upcoming_invitations: "Upcoming invitations"
-  label_past_invitations: "Past invitations"
-  label_attendee: "Attendee"
-  label_author: "Creator"
+  label_upcoming_meetings: "Pròximes reunions"
+  label_past_meetings: "Reunions passades"
+  label_upcoming_meetings_short: "Pròximament"
+  label_past_meetings_short: "Passat"
+  label_involvement: "Implicació"
+  label_upcoming_invitations: "Pròximes invitacions"
+  label_past_invitations: "Invitacions passades"
+  label_attendee: "Assistent"
+  label_author: "Creador"
   label_notify: "Envia per revisar"
   label_icalendar: "Envia iCalendar"
-  label_icalendar_download: "Download iCalendar event"
+  label_icalendar_download: "Descarregueu esdeveniment d'iCalendar"
   label_version: "Versió"
   label_time_zone: "Zona horària"
   label_start_date: "Data d'inici"
   meeting:
     email:
-      open_meeting_link: "Open meeting"
+      open_meeting_link: "Reunió oberta"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+        summary: "%{actor} us ha enviat una invitació per a la reunió %{title}"
       rescheduled:
-        summary: "Meeting %{title} has been rescheduled by %{actor}"
-        body: "The meeting %{title} has been rescheduled by %{actor}."
-        old_date_time: "Old date/time"
-        new_date_time: "New date/time"
-    label_mail_all_participants: "Send email to all participants"
+        summary: "La reunió %{title} ha estat reprogramada per %{actor}"
+        body: "La reunió %{title} ha estat reprogramada per %{actor}"
+        old_date_time: "Data/hora antiga"
+        new_date_time: "Data/hora nova"
+    label_mail_all_participants: "Envia un correu a tots els participants"
     types:
       classic: 'Classic'
-      classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
-      structured: 'Dynamic'
-      structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      classic_text: 'Organitzeu la vostra reunió en una agenda i un protocol de text formatitzables.'
+      structured: 'Dinàmic'
+      structured_text: 'Organitzeu la vostra reunió com una llista d''elements de l''agenda, enllaçant-los opcionalment a un paquet de treball.'
     copied: "Copiat de la reunió #%{id}"
   notice_successful_notification: "Notificació enviada correctament"
   notice_timezone_missing: No s'ha configurat la zona horària i la %{zone} és assumida. Per seleccionar la teva zona horària, si us plau, fes clic aquí.
@@ -114,10 +114,10 @@ ca:
   permission_edit_meetings: "Edita reunions"
   permission_delete_meetings: "Elimina reunions"
   permission_view_meetings: "Veure reunions"
-  permission_create_meeting_agendas: "Create meeting agendas"
-  permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
-  permission_manage_agendas: "Manage agendas"
-  permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
+  permission_create_meeting_agendas: "Creeu agendes de reunions"
+  permission_create_meeting_agendas_explanation: "Permet editar el contingut de l'agenda de la reunió clàssica."
+  permission_manage_agendas: "Gestioneu agendes"
+  permission_manage_agendas_explanation: "Permet editar el contingut de l'agenda de la reunió clàssica."
   permission_close_meeting_agendas: "Tancar agendes"
   permission_send_meeting_agendas_notification: "Enviar una notificació de revisió per agendes"
   permission_create_meeting_minutes: "Administra actes"
@@ -128,7 +128,7 @@ ca:
   text_duration_in_hours: "Duració en hores"
   text_in_hours: "en hores"
   text_meeting_agenda_for_meeting: 'agenda per la reunió "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
+  text_meeting_closing_are_you_sure: "Esteu segur que voleu tancar l'agenda de la reunió?"
   text_meeting_agenda_open_are_you_sure: "Això sobreescriurà tots els canvis a l'acte! Vols continuar?"
   text_meeting_minutes_for_meeting: 'actes per la reunió "%{meeting}"'
   text_notificiation_invited: "Aquest correu compte una entrada ICS per a reunió següent:"
