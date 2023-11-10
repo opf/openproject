@@ -61,7 +61,7 @@ module Storages::ProjectStorages::Members
           content_tag(
             :span,
             I18n.t("storages.member_connection_status.not_connected",
-                   link: link_to(I18n.t("storages.member_connection_status.link"), ensure_access_url),
+                   link: link_to(I18n.t("link"), ensure_access_url),
                    class: 'pl-2').html_safe
           )
       else

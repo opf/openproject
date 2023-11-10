@@ -214,7 +214,6 @@ en:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
       not_connected: "Not connected. The user should login to the storage via the following %{link}."
-      link: "link"
     no_results: "No storages set up yet."
     members_no_results: "No members to display."
     provider_types:

@@ -3492,6 +3492,7 @@ en:
       unexpected: "Unexpected response received."
 
   you: you
+  link: link
 
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
