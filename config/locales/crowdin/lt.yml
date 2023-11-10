@@ -2513,7 +2513,7 @@ lt:
   permission_view_project_activity: "Žiūrėti veiksmus projekte"
   permission_save_bcf_queries: "Įrašyti BCF užklausas"
   permission_manage_public_bcf_queries: "Valdyti viešas BCF užklausas"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_edit_attribute_help_texts: "Keisti atributų pagalbos tekstus"
   placeholders:
     default: "-"
   project:

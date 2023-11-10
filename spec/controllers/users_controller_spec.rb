@@ -883,9 +883,17 @@ RSpec.describe UsersController do
       context 'when not being logged in' do
         let(:current_user) { User.anonymous }
 
-        it 'responds with 404' do
-          expect(response)
-            .to have_http_status(:not_found)
+        context 'when login_required', with_settings: { login_required: true } do
+          it 'redirects to login' do
+            expect(response).to redirect_to signin_path(back_url: user_url(user.id))
+          end
+        end
+
+        context 'when not login_required', with_settings: { login_required: false } do
+          it 'responds with 404' do
+            expect(response)
+              .to have_http_status(:not_found)
+          end
         end
 
         context 'when requesting special value "me"' do

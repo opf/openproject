@@ -316,16 +316,12 @@ class ApplicationController < ActionController::Base
     # context = @project || @projects
     # old_authorized = User.current.allowed_to?(action, context, global:)
 
-    is_authorized = begin
-      if global
-        User.current.allowed_based_on_permission_context?(action)
-      else
-        User.current.allowed_based_on_permission_context?(action, project: @project || @projects,
-                                                                  entity: @work_package || @work_packages)
-      end
-    rescue Authorization::UnknownPermissionError
-      false
-    end
+    is_authorized = if global
+                      User.current.allowed_based_on_permission_context?(action)
+                    else
+                      User.current.allowed_based_on_permission_context?(action, project: @project || @projects,
+                                                                                entity: @work_package || @work_packages)
+                    end
 
     unless is_authorized
       if @project&.archived?

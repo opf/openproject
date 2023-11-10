@@ -177,41 +177,6 @@
             ],
             "preserveSymlinks": true
           }
-        },
-        "storybook": {
-          "builder": "@storybook/angular:start-storybook",
-          "options": {
-            "configDir": ".storybook",
-            "browserTarget": "OpenProject:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              ".",
-              "-p",
-              "src/tsconfig.compodoc.json"
-            ],
-            "port": 6006,
-            "host": "0.0.0.0"
-          }
-        },
-        "build-storybook": {
-          "builder": "@storybook/angular:build-storybook",
-          "options": {
-            "configDir": ".storybook",
-            "browserTarget": "OpenProject:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              ".",
-              "-p",
-              "src/tsconfig.compodoc.json"
-            ],
-            "outputDir": "storybook-static"
-          }
         }
       }
     }

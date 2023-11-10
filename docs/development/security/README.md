@@ -6,6 +6,8 @@ Automated tests and manual code reviews ensure that these contributions are safe
 
 For more information on security and data privacy for OpenProject, please visit: [www.openproject.org/security-and-privacy](https://www.openproject.org/security-and-privacy/).
 
+
+
 ## Security announcements mailing list
 
 If you want to receive immediate security notifications via email as we publish them, please sign up to our security mailing list: https://www.openproject.org/security-and-privacy/#mailing-list.
@@ -15,6 +17,29 @@ No messages except for security advisories or security related announcements wil
 To unsubscribe, you will find a link at the end of every email.
 
 Any security related information will also be published on our [blog](https://www.openproject.org/blog/) and in the [release notes](../../release-notes/).
+
+
+
+## Security advisory list
+
+OpenProject uses GitHub to manage and publish security advisory listings: https://github.com/opf/openproject/security/advisories
+
+
+
+## Security vulnerability processing
+
+When we receive vulnerability reports from researchers or through internal identification, the following process is taking place immediately:
+
+1. A security vulnerability is reported internally or through security@openproject.com (see below on how to disclose vulnerabilities responsibly).
+2. A security engineer is receiving and validating the report. An internal tracking ticket is created with a checklist template on how to process the report.
+3. The reporter receives a timely response with an acknowledgement of the report, further questions if present, and an estimated timeline and complexity of a potential fix.
+4. The security engineer coordinates with the security and development team to prepare and test a fix for the report.
+5. A GitHub advisory draft is created and a CVE is requested, if appropriate. Security researchers are invited to collaborate on the draft, if available.
+6. A patch is returned to the reporter and awaited for confirmation unless fix is trivial
+7. A patch release is created, published and distributed for all supported installations
+8. The security vulnerability is publicly disclosed on GitHub and communicated through the mailing list
+
+
 
 ## Reporting a vulnerability
 

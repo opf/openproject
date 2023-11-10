@@ -598,7 +598,7 @@ module Settings
         writable: false
       },
       login_required: {
-        default: false
+        default: true
       },
       lookbook_enabled: {
         description: 'Enable the Lookbook component documentation tool. Discouraged for production environments.',

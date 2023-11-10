@@ -35,6 +35,7 @@ class MeetingAgendaItem::Title < ApplicationForm
       visually_hide_label: true,
       required: true,
       autofocus: true,
+      autocomplete: 'off',
       disabled: @disabled,
       data: {
         action: 'keydown.esc->meeting-agenda-item-form#cancel'
