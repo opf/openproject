@@ -40,9 +40,9 @@ module Storages
       OpenProject::Mutex.with_advisory_lock(NextcloudStorage, 'sync_all_group_folders', timeout_seconds: 0, transaction: false) do
         NextcloudStorage.automatically_managed.includes(:oauth_client).find_each do |storage|
           result = GroupFolderPropertiesSyncService.call(storage)
-          result.error_and do |error_messages|
+          result.error_and do |error|
             # Sample code
-            storage.mark_as_unhealthy(reason: error_messages.first[:log_message])
+            storage.mark_as_unhealthy(reason: error.code)
           end
         end
         true
