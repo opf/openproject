@@ -33,7 +33,7 @@
 .op-merge-request
   display: grid
   grid-template-columns: minmax(270px, auto) auto auto 1fr
-  grid-template-areas: "title title title title" "state label_icon pipe_icon info_created" "state label_icon pipe_icon info_updated" "label label label label"
+  grid-template-areas: "title title title title" "info_created info_created info_created info_created" "state label_icon pipe_icon pipe_icon" "label label label label"
   margin-bottom: 5px
   margin-top: 5px
   padding-bottom: 4px
@@ -67,6 +67,7 @@
     grid-area: info_created
     font-size: 0.75rem
     color: var(--gray-dark)
+    margin-bottom: 3px
 
   &--info_updated
     @include text-shortener

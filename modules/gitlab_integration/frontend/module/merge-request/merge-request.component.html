@@ -39,9 +39,6 @@
       *ngIf="mergeRequest.gitlabUser"
     ></a>.
   </span>
-</div>
-
-<div class="op-merge-request--info_updated">
   <span class='op-merge-request--date'>
     {{ text.label_last_updated_on }}
     <op-date-time [dateTimeValue]="mergeRequest.gitlabUpdatedAt"></op-date-time>
