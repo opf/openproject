@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO: Rename Class to NextcloudManagedFolderSync
-#
 module Storages
   class GroupFolderPropertiesSyncService
     using Peripherals::ServiceResultRefinements
@@ -66,7 +64,6 @@ module Storages
       remote_folders = remote_root_folder_properties.result_or do |error|
         format_and_log_error(error, { folder: @storage.group_folder })
 
-        # This hides the folder, but it will be in the logs
         return ServiceResult.failure(errors: error)
       end
 
