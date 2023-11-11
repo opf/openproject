@@ -13,14 +13,14 @@ tr:
         item_2:
           name: Yüksek
         item_3:
-          name: Critical
+          name: Kritik
       statuses:
         item_0:
           name: Yeni
         item_1:
           name: Devam eden
         item_2:
-          name: Resolved
+          name: Çözüldü
         item_3:
           name: Kapalı
       time_entry_activities:
@@ -101,11 +101,11 @@ tr:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Proje planı
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: Görevler
             item_3:
               name: Takım planlayıcısı
           boards:
