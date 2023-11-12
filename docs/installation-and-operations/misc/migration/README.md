@@ -25,9 +25,10 @@ To stop the servers from being accessed on the old installation, stop the servic
 
 ## Install new package
 
-Follow the first step (**Installation**) of our [packaged installation guides](https://www.openproject.org/download-and-installation/).
+Follow the first step (**Installation**) of our [packaged installation guides](../../installation/packaged/) up until _but excluding_ the [Step 0: Start the wizard](../../installation/packaged/#step-0-start-the-wizard) step.
 
-After this step, you should have an installed version of `openproject`.
+With this done, you should have an installed version of OpenProject with the `openproject` command existing. Do not yet run `openproject configure`, because you will first take over the configuration
+from your previous installation.
 
 ### Moving Configuration
 

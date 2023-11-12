@@ -92,6 +92,16 @@ ja:
   label_time_zone: "タイムゾーン"
   label_start_date: "開始日"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Classic'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
@@ -121,8 +131,6 @@ ja:
   text_meeting_closing_are_you_sure: "会議アジェンダを終了してもよろしいですか？"
   text_meeting_agenda_open_are_you_sure: "数分内のすべての変更が上書きされます！続けますか？"
   text_meeting_minutes_for_meeting: '会議の議事録 "%{meeting}"'
-  text_review_meeting_agenda: "%{author} はレビューのために %{link} をアップしました。"
-  text_review_meeting_minutes: "%{author} はレビューのために %{link} をアップしました。"
   text_notificiation_invited: "このメールには以下のミーティングのicsエントリーが含まれています:"
   text_meeting_empty_heading: "Your meeting is empty"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."

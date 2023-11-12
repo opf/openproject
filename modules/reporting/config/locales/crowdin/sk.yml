@@ -72,7 +72,7 @@ sk:
   label_inactive: "«neaktívny»"
   label_no: "Nie"
   label_none: "(žiadne údaje)"
-  label_no_reports: "There are no cost reports yet."
+  label_no_reports: "Zatiaľ nie sú k dispozícii žiadne výkazy nákladov."
   label_report: "Report"
   label_yes: "Áno"
   load_query_question: "Výsledná tlačová zostava bude obsahovať %{size} buniek a jej vytvorenie môže trvať dlhšie. Želáte si ju aj napriek tomu vygenerovať?"
@@ -86,7 +86,7 @@ sk:
   validation_failure_integer: "nie je platné celé číslo"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Váš XLS export správy o nákladoch"
   reporting:
     group_by:
       selected_columns: "Vybrané stĺpce"

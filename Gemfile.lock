@@ -34,8 +34,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/omniauth-openid-connect.git
-  revision: efddc061a72791db019259768a4656c0435709e8
-  ref: efddc061a72791db019259768a4656c0435709e8
+  revision: d63f5967514d10db9ddece798dadfa2ac532cbe0
+  ref: d63f5967514d10db9ddece798dadfa2ac532cbe0
   specs:
     omniauth-openid-connect (0.4.0)
       addressable (~> 2.5)
@@ -301,7 +301,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    appsignal (3.4.13)
+    appsignal (3.4.14)
       rack
     ast (2.4.2)
     attr_required (1.0.1)

@@ -402,6 +402,10 @@ module Settings
         default: nil,
         env_alias: 'EMAIL_DELIVERY_METHOD'
       },
+      emails_salutation: {
+        allowed: %w[firstname name],
+        default: :firstname
+      },
       emails_footer: {
         default: {
           'en' => ''
@@ -594,7 +598,7 @@ module Settings
         writable: false
       },
       login_required: {
-        default: false
+        default: true
       },
       lookbook_enabled: {
         description: 'Enable the Lookbook component documentation tool. Discouraged for production environments.',
@@ -732,6 +736,10 @@ module Settings
         description: 'Override default link when clicking on the top menu logo (Homescreen by default).',
         format: :string,
         default: nil
+      },
+      rate_limiting: {
+        default: {},
+        description: 'Configure rate limiting for various endpoint rules. See configuration documentation for details.'
       },
       registration_footer: {
         default: {

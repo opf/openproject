@@ -288,12 +288,10 @@ RSpec.describe 'API v3 User resource',
     end
 
     shared_examples 'deletion is not allowed' do
-      it 'responds with 403' do
-        expect(subject.status).to eq 403
-      end
+      it_behaves_like 'unauthorized access'
 
       it 'does not delete the user' do
-        expect(User.exists?(user.id)).to be_truthy
+        expect(User).to exist(user.id)
       end
     end
 
@@ -350,14 +348,21 @@ RSpec.describe 'API v3 User resource',
     context 'as anonymous user' do
       let(:current_user) { create(:anonymous) }
 
-      it_behaves_like 'deletion is not allowed'
+      context 'when login_required', with_settings: { login_required: true } do
+        it_behaves_like 'error response',
+                        401,
+                        'Unauthenticated',
+                        I18n.t('api_v3.errors.code_401')
+      end
+
+      context 'when not login_required', with_settings: { login_required: false } do
+        it_behaves_like 'deletion is not allowed'
+      end
 
       context 'requesting current user' do
         let(:get_path) { api_v3_paths.user 'me' }
 
-        it 'responses with 403' do
-          expect(subject.status).to eq(403)
-        end
+        it_behaves_like 'forbidden response based on login_required'
       end
     end
   end

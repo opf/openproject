@@ -70,15 +70,17 @@ RSpec.describe API::V3::Days::NonWorkingDaysAPI,
   context 'for a not logged in user' do
     let(:user) { build(:anonymous) }
 
-    it_behaves_like 'successful response'
-
-    it 'responds with the correct _type' do
-      expect(subject).to be_json_eql('NonWorkingDay'.to_json).at_path('_type')
+    context 'when login_required', with_settings: { login_required: true } do
+      it_behaves_like 'unauthenticated access'
     end
 
-    it 'responds with the correct day' do
-      expect(subject).to be_json_eql('NonWorkingDay'.to_json).at_path('_type')
-      expect(subject).to be_json_eql(non_working_day.date.to_json).at_path('date')
+    context 'when not login_required', with_settings: { login_required: false } do
+      it_behaves_like 'successful response'
+
+      it 'responds with the correct _type and day', :aggregate_failures do
+        expect(subject).to be_json_eql('NonWorkingDay'.to_json).at_path('_type')
+        expect(subject).to be_json_eql(non_working_day.date.to_json).at_path('date')
+      end
     end
   end
 end

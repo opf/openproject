@@ -61,7 +61,7 @@ module Projects
         # Clear enabled modules
         enabled_module_names: source_enabled_modules,
         types: source_types,
-        work_package_custom_fields: source_custom_fields,
+        work_package_custom_fields: source_custom_fields
       )
 
       only_allowed_parent_id(attributes)
@@ -128,7 +128,7 @@ module Projects
 
     def only_allowed_parent_id(attributes)
       if (parent_id = attributes[:parent_id]) && (parent = Project.find_by(id: parent_id)) &&
-        !user.allowed_to?(:add_subprojects, parent)
+        !user.allowed_in_project?(:add_subprojects, parent)
         attributes.except(:parent_id)
       else
         attributes

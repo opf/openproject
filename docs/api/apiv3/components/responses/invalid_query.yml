@@ -1,0 +1,11 @@
+# Response: InvalidQuery
+---
+description: Returned if the client sends invalid request parameters e.g. filters
+content:
+  application/hal+json:
+    schema:
+      $ref: '../schemas/error_response.yml'
+    example:
+      _type: Error
+      errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+      message: Filters Invalid filter does not exist.

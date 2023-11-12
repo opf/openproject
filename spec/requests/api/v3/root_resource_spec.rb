@@ -50,12 +50,18 @@ RSpec.describe 'API v3 Root resource' do
         get get_path
       end
 
-      it 'responds with 200' do
-        expect(response.status).to eq(200)
+      context 'when login_required', with_settings: { login_required: true } do
+        it_behaves_like 'error response',
+                        401,
+                        'Unauthenticated',
+                        I18n.t('api_v3.errors.code_401')
       end
 
-      it 'responds with a root representer' do
-        expect(subject).to have_json_path('instanceName')
+      context 'when not login_required', with_settings: { login_required: false } do
+        it 'responds with 200', :aggregate_failures do
+          expect(response.status).to eq(200)
+          expect(subject).to have_json_path('instanceName')
+        end
       end
     end
 

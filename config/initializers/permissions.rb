@@ -63,7 +63,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_user,
                      {
-                       users: %i[index show edit update],
+                       users: %i[index show edit update change_status change_status_info],
                        'users/memberships': %i[create update destroy],
                        admin: %i[index]
                      },
@@ -171,6 +171,15 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member,
                      contract_actions: { projects: %i[copy] }
+
+      map.permission :edit_attribute_help_texts,
+                     {
+                       admin: %i[index],
+                       attribute_help_texts: %i[index new edit upsale create update destroy]
+                     },
+                     permissible_on: :global,
+                     require: :loggedin,
+                     grant_to_admin: true
     end
 
     map.project_module :work_package_tracking, order: 90 do |wpt|

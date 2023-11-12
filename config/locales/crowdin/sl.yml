@@ -74,9 +74,9 @@ sl:
       paste: "Paste your Enterprise edition support token"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Za več informacij kliknite tukaj."
-      start_trial: 'Začnite z brezplačno preizkusno dobo'
-      book_now: 'Rezerviraj'
-      get_quote: 'Pridobite ponudbo'
+      start_trial: "Začnite z brezplačno preizkusno dobo"
+      book_now: "Rezerviraj"
+      get_quote: "Pridobite ponudbo"
       buttons:
         upgrade: "Nadgradi zdaj"
         contact: "Kontaktirajte nas za poskusno različico"
@@ -91,14 +91,14 @@ sl:
     is_active: trenutno prikazano
     is_inactive: trenutno ni prikazano
   attribute_help_texts:
-    note_public: 'Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom!'
-    text_overview: 'V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ob definiciji lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa.'
-    label_plural: 'Tekst pomoči atributa'
-    show_preview: 'Predogled besedila'
-    add_new: 'Dodajte besedilo pomoči'
+    note_public: "Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom!"
+    text_overview: "V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ob definiciji lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa."
+    label_plural: "Tekst pomoči atributa"
+    show_preview: "Predogled besedila"
+    add_new: "Dodajte besedilo pomoči"
     edit: "Uredite besedilo pomoči za %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "V opravilu je prišlo do napake, poskus opravila se izvaja ponovno. Napaka je bila: %{message}"
@@ -106,7 +106,7 @@ sl:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Ta obrazec LDAP zahteva tehnično znanje o vaši namestitvi LDAP / Active Directory.
       <br/>
@@ -135,21 +135,21 @@ sl:
       onthefly_register: |
         Če potrdite to polje, bo OpenProject samodejno ustvaril nove uporabnike iz njihovih vnosov LDAP, ko se prvič potrdijo z OpenProject.
         Pustite to polje brez potrditve, da samo obstoječim računom v programu OpenProject dovolite avtentikacijo preko LDAP.
-    connection_encryption: 'Šifriranje povezave'
-    encryption_details: 'LDAPS / STARTTLS options'
-    system_account: 'Sistemski račun'
+    connection_encryption: "Šifriranje povezave"
+    encryption_details: "LDAPS / STARTTLS options"
+    system_account: "Sistemski račun"
     system_account_legend: |
       OpenProject zahteva dostop "samo za branje" prek sistemskega računa za iskanje uporabnikov in skupin v vašem drevesu LDAP.
       V naslednjem razdelku navedite povezovalne poverilnice za tega uporabnika sistema.
-    ldap_details: 'LDAP nastavitve'
-    user_settings: 'Povezovanje lastnosti'
+    ldap_details: "LDAP nastavitve"
+    user_settings: "Povezovanje lastnosti"
     user_settings_legend: |
       Naslednja polja so povezana s tem, kako so uporabniki v OpenProject ustvarjeni iz vnosov LDAP in
       kateri atributi LDAP se uporabljajo za definiranje atributov uporabnika OpenProject (preslikava atributov).
     tls_mode:
-      plain: 'Brez'
-      simple_tls: 'LDAP-i'
-      start_tls: 'STARTTLS'
+      plain: "Brez"
+      simple_tls: "LDAP-i"
+      start_tls: "STARTTLS"
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
       start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
@@ -182,23 +182,23 @@ sl:
   custom_actions:
     actions:
       name: "Akcije"
-      add: 'Dodaj'
+      add: "Dodaj"
       assigned_to:
-        executing_user_value: '(Dodeli aktualnemu porabniku)'
-    conditions: 'Pogoji'
-    plural: 'Dejanja po meri'
-    new: 'Izberite dejanje po meri'
-    edit: 'Urejanje dejanja po meri %{name}'
-    execute: 'Izvedite %{name}'
+        executing_user_value: "(Dodeli aktualnemu porabniku)"
+    conditions: "Pogoji"
+    plural: "Dejanja po meri"
+    new: "Izberite dejanje po meri"
+    edit: "Urejanje dejanja po meri %{name}"
+    execute: "Izvedite %{name}"
     upsale:
-      title: 'Dejanja po meri'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      title: "Dejanja po meri"
+      description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
     text_add_new_custom_field: >
       Če želite projektu dodati nova polja po meri, jih morate najprej ustvariti, preden jih lahko dodate v ta projekt.
-    is_enabled_globally: 'Omogočeno po vsem svetu'
-    enabled_in_project: 'Omogočeno v projektu'
-    contained_in_type: 'Vsebovano v vrstah'
+    is_enabled_globally: "Omogočeno po vsem svetu"
+    enabled_in_project: "Omogočeno v projektu"
+    contained_in_type: "Vsebovano v vrstah"
     confirm_destroy_option: "Če izbrišete možnost, boste izbrisali vse njene primere (npr. v delovnih paketih). Ali ste prepričani, da ga želite izbrisati?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
@@ -206,7 +206,7 @@ sl:
       no_results_title_text: Trenutno ni poslovnih procesov
       no_results_content_text: Ustvarite novo uporabniško lastnost
   concatenation:
-    single: 'ali'
+    single: "ali"
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -225,13 +225,13 @@ sl:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: "Project members"
+      overviews: "Project overview"
+      queries: "Work packages: saved views"
+      wiki_page_attachments: "Wiki pages: attachments"
+      work_package_attachments: "Work packages: attachments"
+      work_package_categories: "Work packages: categories"
+      work_package_file_links: "Work packages: file links"
     delete:
       scheduled: "Izbris je predviden in se izvaja v ozadju. Obveščeni boste o rezultatih."
       schedule_failed: "Projekta ni mogoče izbrisati: %{errors}"
@@ -241,7 +241,7 @@ sl:
       completed_text: "Zahteva za izbris projekta '%{name}' je zaključena."
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
-      open_as_gantt: 'Odpri kot gantogram'
+      open_as_gantt: "Odpri kot gantogram"
       open_as_gantt_title: "Uporabi ta gumb za izdelavo gantograma, ki filtrira delovne pakete za projekte vidne na tej strani."
       open_as_gantt_title_admin: "Spreminjanje nastavitev pogleda (na primer izbrane vrste delovnih paketov) je možno v skrbništvu pod nastavitvami projekta."
       no_results_title_text: Trenutno ni projektov
@@ -281,7 +281,7 @@ sl:
       no_results_title_text: Trenutno ni na voljo simbolov za dostop.
       notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
     index:
       no_results_title_text: Trenutno ni nobenih novic za poročanje.
@@ -289,16 +289,16 @@ sl:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      browser: "Browser"
+      device: "Device / OS"
+      unknown_browser: "unknown browser"
+      unknown_os: "unknown operating system"
+      current: "Current session"
+      title: "Session management"
+      instructions: "This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to."
+      may_not_delete_current: "You cannot delete your current session."
     groups:
-      member_in_these_groups: 'Ta uporabnik je trenutno član naslednjih skupin:'
+      member_in_these_groups: "Ta uporabnik je trenutno član naslednjih skupin:"
       no_results_title_text: Ta uporabnik trenutno ni član v nobeni skupini.
     memberships:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
@@ -371,10 +371,10 @@ sl:
       no_results_title_text: Trenutno ni poslovnih procesov
   work_packages:
     x_descendants:
-      one: 'En padajoči delovni paket'
-      two: '% {count} padajočih delovnega paketa'
-      few: '% {count} padajočih delovnega paketa'
-      other: '% {count} padajočih delovnega paketa'
+      one: "En padajoči delovni paket"
+      two: "% {count} padajočih delovnega paketa"
+      few: "% {count} padajočih delovnega paketa"
+      other: "% {count} padajočih delovnega paketa"
     bulk:
       copy_failed: "The work packages could not be copied."
       move_failed: "The work packages could not be moved."
@@ -385,7 +385,7 @@ sl:
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Za vse izbrane delovne pakete ni na voljo nobenega statusa. Njihovega statusa ni mogoče spremeniti."
-      unsupported_for_multiple_projects: 'Prenašanje / kopiranje v velikem obsegu ni podprto za delovne pakete iz več projektov'
+      unsupported_for_multiple_projects: "Prenašanje / kopiranje v velikem obsegu ni podprto za delovne pakete iz več projektov"
     summary:
       reports:
         category:
@@ -409,8 +409,8 @@ sl:
     deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
-        other: "Iz podatkov, ki jih je uporabnik ustvaril (npr. E-pošta, nastavitve, delovni paketi, vnosi v wiki), bodo v največji možni meri izbrisani. Upoštevajte pa, da podatkov, kot so delovni paketi in vnosi v wiki, ni mogoče izbrisati, ne da bi ovirali delo drugih uporabnikov. Takšni podatki so torej dodeljeni računu z imenom \"Izbrisani uporabnik\". Ker so podatki vsakega izbrisanega računa dodeljeni temu računu, podatkov, ki jih je uporabnik ustvaril, ne bo mogoče ločiti od podatkov drugega izbrisanega računa."
-        self: "Od podatkov(npr. E-pošta, nastavitve, delovni paketi, vnosi v wiki), ki ste jih ustvarili bodo v večji meri izbrisani. Upoštevajte pa, da podatkov, kot so delovni paketi in vnosi v wiki, ni mogoče izbrisati, ne da bi ovirali delo drugih uporabnikov. Takšni podatki so torej dodeljeni računu z imenom \"Izbrisani uporabnik\". Ker so podatki vsakega izbrisanega računa dodeljeni temu računu, podatkov, ki jih je uporabnik ustvaril, ne bo mogoče ločiti od podatkov drugega izbrisanega računa."
+        other: 'Iz podatkov, ki jih je uporabnik ustvaril (npr. E-pošta, nastavitve, delovni paketi, vnosi v wiki), bodo v največji možni meri izbrisani. Upoštevajte pa, da podatkov, kot so delovni paketi in vnosi v wiki, ni mogoče izbrisati, ne da bi ovirali delo drugih uporabnikov. Takšni podatki so torej dodeljeni računu z imenom "Izbrisani uporabnik". Ker so podatki vsakega izbrisanega računa dodeljeni temu računu, podatkov, ki jih je uporabnik ustvaril, ne bo mogoče ločiti od podatkov drugega izbrisanega računa.'
+        self: 'Od podatkov(npr. E-pošta, nastavitve, delovni paketi, vnosi v wiki), ki ste jih ustvarili bodo v večji meri izbrisani. Upoštevajte pa, da podatkov, kot so delovni paketi in vnosi v wiki, ni mogoče izbrisati, ne da bi ovirali delo drugih uporabnikov. Takšni podatki so torej dodeljeni računu z imenom "Izbrisani uporabnik". Ker so podatki vsakega izbrisanega računa dodeljeni temu računu, podatkov, ki jih je uporabnik ustvaril, ne bo mogoče ločiti od podatkov drugega izbrisanega računa.'
       heading: "Izbriši račun %{name}"
       info:
         other: "Brisanje uporabniškega računa je nepovratno dejanje."
@@ -446,8 +446,8 @@ sl:
         filename: "Datoteka"
         filesize: "Velikost"
       attribute_help_text:
-        attribute_name: 'Atribut'
-        help_text: 'Besedilo pomoči'
+        attribute_name: "Atribut"
+        help_text: "Besedilo pomoči"
       ldap_auth_source:
         account: "Account"
         attr_firstname: "Firstname attribute"
@@ -468,6 +468,7 @@ sl:
       custom_action:
         actions: "Akcije"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "Privzeta vrednost"
         editable: "Možno urejati"
         field_format: "Format"
@@ -516,15 +517,15 @@ sl:
           true: "public"
           false: "private"
         queries: "Poizvedbe"
-        status_code: 'Status projekta'
-        status_explanation: 'Project status description'
+        status_code: "Status projekta"
+        status_explanation: "Project status description"
         status_codes:
-          not_started: 'Ni začeto'
-          on_track: 'Na dobri poti'
-          at_risk: 'Ogroženo'
-          off_track: 'Izven poti'
-          finished: 'Končano'
-          discontinued: 'Opuščeno'
+          not_started: "Ni začeto"
+          on_track: "Na dobri poti"
+          at_risk: "Ogroženo"
+          off_track: "Izven poti"
+          finished: "Končano"
+          discontinued: "Opuščeno"
         templated: "Vzorčni projekt"
         templated_value:
           true: "marked as template"
@@ -551,7 +552,7 @@ sl:
         ongoing: "Ongoing"
       type:
         description: "Privzeto besedilo za opis"
-        attribute_groups: ''
+        attribute_groups: ""
         is_in_roadmap: "Prikazano v časovnem načrtu je privzeto"
         is_default: "Aktivirano za nov projekt po privzetem"
         is_milestone: "Mejnik"
@@ -594,9 +595,9 @@ sl:
         end_deletion: "Konec izbrisa"
         ignore_non_working_days: "Ignore non working days"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: "Working days"
+          false: "working days only"
+          true: "include non-working days"
         parent: "Nadrejeni"
         parent_issue: "Nadrejeni"
         parent_work_package: "Nadrejeni"
@@ -611,7 +612,7 @@ sl:
         type: "Vrsta"
         version: "Različica"
         watcher: "Opazovalec"
-      'doorkeeper/application':
+      "doorkeeper/application":
         uid: "ID odjemalca"
         secret: "Skrivnost odjemalca"
         owner: "Lastnik"
@@ -651,8 +652,8 @@ sl:
         inclusion: "ni nastavljeno na eno od dovoljenih vrednosti."
         inclusion_nested: "ni nastavljena na eno od dovoljenih vrednosti na poti '%{path}'."
         invalid: "ni pravo."
-        invalid_url: 'ni veljaven URL. '
-        invalid_url_scheme: 'ni podprt protokol (dovoljeno:%{allowed_schemes}).'
+        invalid_url: "ni veljaven URL. "
+        invalid_url_scheme: "ni podprt protokol (dovoljeno:%{allowed_schemes})."
         less_than_or_equal_to: "mora biti manjše ali enako %{count}. "
         not_available: "is not available due to a system configuration."
         not_deletable: "se ne da izbrisati."
@@ -693,7 +694,7 @@ sl:
               format: "%{message}"
         capability:
           context:
-            global: 'Globalno'
+            global: "Globalno"
           query:
             filters:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
@@ -711,35 +712,35 @@ sl:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'ne more vsebovati delčka.'
-              invalid_uri: 'mora biti veljaven URI.'
-              relative_uri: 'mora biti absolutni URI.'
+              fragment_present: "ne more vsebovati delčka."
+              invalid_uri: "mora biti veljaven URI."
+              relative_uri: "mora biti absolutni URI."
               secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
-              forbidden_uri: 'je prepovedano s strani strežnika. '
+              forbidden_uri: "je prepovedano s strani strežnika. "
             scopes:
               not_match_configured: "ne ustreza razpoložljivim področjem uporabe."
         enterprise_token:
           unreadable: "ni mogoče prebrati. Ali ste prepričani, da gre za podporni žeton?"
         grids/grid:
-          overlaps: 'prekrivanje.'
-          outside: 'je zunaj omrežja.'
-          end_before_start: 'končna vrednost mora biti večja od začetne vrednosti.'
+          overlaps: "prekrivanje."
+          outside: "je zunaj omrežja."
+          end_before_start: "končna vrednost mora biti večja od začetne vrednosti."
         ical_token_query_assignment:
           attributes:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: "cannot be set to true on notification creation."
             mail_reminder_sent:
-              set_on_creation: 'cannot be set to true on notification creation.'
+              set_on_creation: "cannot be set to true on notification creation."
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: "cannot be blank as IAN is chosen as a channel."
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: "cannot be blank as mail digest is chosen as a channel."
         non_working_day:
           attributes:
             date:
@@ -752,8 +753,8 @@ sl:
               invalid_values: "Vrednost ni veljavna."
               id_filter_required: "Filter 'id' je potreben."
         project:
-          archived_ancestor: 'projektu je arhiviran prednik.'
-          foreign_wps_reference_version: 'Delovni paketi v nesorodnih projektih referenčnih različicah projekta ali njegovih potomcih.'
+          archived_ancestor: "projektu je arhiviran prednik."
+          foreign_wps_reference_version: "Delovni paketi v nesorodnih projektih referenčnih različicah projekta ali njegovih potomcih."
           attributes:
             base:
               archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
@@ -813,8 +814,8 @@ sl:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              working_days_are_missing: "At least one day of the week must be defined as a working day."
+              previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
         time_entry:
           attributes:
             hours:
@@ -826,10 +827,10 @@ sl:
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: "There must only be one global notification setting."
+              email_alerts_global: "The email notification settings can only be set globally."
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: "Wrong value for Start date, Due date, or Overdue."
         watcher:
           attributes:
             user_id:
@@ -873,7 +874,7 @@ sl:
               does_not_exist: "Izbrana kategorija ne obstaja."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "mora biti >= 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
             attribute_groups:
@@ -936,7 +937,7 @@ sl:
       comment: "Komentar"
       custom_action: "Dejanja po meri"
       custom_field: "Polje po meri"
-      'doorkeeper/application': "Aplikacija OAuth"
+      "doorkeeper/application": "Aplikacija OAuth"
       forum: "Forum"
       global_role: "Global role"
       group: "Skupina"
@@ -1111,7 +1112,7 @@ sl:
   button_check_all: "Označi vse"
   button_clear: "Počisti"
   button_click_to_reveal: "Klikni za razkritje"
-  button_close: 'Zapri'
+  button_close: "Zapri"
   button_collapse_all: "Strni vse"
   button_configure: "Nastavi"
   button_continue: "Nadaljuj"
@@ -1179,19 +1180,19 @@ sl:
     update_consent_last_time: "Zadnja posodobitev privolitve: %{update_time}"
   copy_project:
     title: 'Copy project "%{source_project_name}"'
-    started: "Začelo je kopirati projekt \"%{source_project_name}\" v \"%{target_project_name}\". Takoj boste obveščeni po pošti, ko bo na voljo \"%{target_project_name}\"."
+    started: 'Začelo je kopirati projekt "%{source_project_name}" v "%{target_project_name}". Takoj boste obveščeni po pošti, ko bo na voljo "%{target_project_name}".'
     failed: "Projekta %{source_project_name} ni mogoče kopirati"
     failed_internal: "Kopiranje ni uspelo zaradi notranje napake."
     succeeded: "Projekt %{target_project_name} ustvarjen"
     errors: "Napaka"
-    project_custom_fields: 'Polja po meri na projektu '
+    project_custom_fields: "Polja po meri na projektu "
     x_objects_of_this_type:
-      zero: 'Ni objektov tega tipa'
-      one: 'En objekt tega tipa'
-      other: '%{count} objekte tega tipa'
+      zero: "Ni objektov tega tipa"
+      one: "En objekt tega tipa"
+      other: "%{count} objekte tega tipa"
     text:
-      failed: "Projekta \"%{source_project_name}\" ni mogoče kopirati v projekt \"%{target_project_name}\"."
-      succeeded: "Kopiran projekt \"%{source_project_name}\" v \"%{target_project_name}\"."
+      failed: 'Projekta "%{source_project_name}" ni mogoče kopirati v projekt "%{target_project_name}".'
+      succeeded: 'Kopiran projekt "%{source_project_name}" v "%{target_project_name}".'
   create_new_page: "Wiki stran"
   date:
     abbr_day_names:
@@ -1216,7 +1217,7 @@ sl:
       - "Okt"
       - "Nov"
       - "Dec"
-    abbr_week: 'Teden'
+    abbr_week: "Teden"
     day_names:
       - "Nedelja"
       - "Ponedeljek"
@@ -1233,7 +1234,7 @@ sl:
       long: "%d. %B, %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"
@@ -1247,7 +1248,6 @@ sl:
       - "oktober"
       - "November"
       - "December"
-    #Used in date_select and datetime_select.
     order:
       - :leto
       - :mesec
@@ -1392,8 +1392,8 @@ sl:
   error_can_not_archive_project: "Ta projekt ne more biti arhiviran: %{errors}"
   error_can_not_delete_entry: "Izbris poizvedbe ni mogoč"
   error_can_not_delete_custom_field: "Polja po meri ni mogoče izbrisati"
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
+  error_can_not_delete_in_use_archived_work_packages: "There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
   error_can_not_delete_standard_type: "Standardnih vrst ni mogoče izbrisati."
@@ -1405,11 +1405,11 @@ sl:
   error_check_user_and_role: "Izberite uporabnika in vlogo."
   error_code: "Napaka %{code}"
   error_color_could_not_be_saved: "Color could not be saved"
-  error_cookie_missing: 'Piškotek OpenProject manjka. Prepričajte se, da so piškotki omogočeni, saj ta aplikacija ne bo pravilno delovala brez.'
+  error_cookie_missing: "Piškotek OpenProject manjka. Prepričajte se, da so piškotki omogočeni, saj ta aplikacija ne bo pravilno delovala brez."
   error_custom_option_not_found: "Možnost ne obstaja."
   error_enterprise_activation_user_limit: "Vašega računa ni bilo mogoče aktivirati (dosežena uporabniška omejitev). Če želite dobiti dostop, se obrnite na skrbnika."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
-  error_failed_to_delete_entry: 'Izbris tega vnosa ni bilo mogoče.'
+  error_failed_to_delete_entry: "Izbris tega vnosa ni bilo mogoče."
   error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neveljavna izbrana vrednost."
@@ -1422,11 +1422,11 @@ sl:
   error_must_be_project_member: "mora biti član projekta"
   error_migrations_are_pending: "Vaša namestitev OpenProject ima čakajoče selitve baze podatkov. Verjetno ste zamudili izvajanje migracij ob zadnji nadgradnji. Preverite vodnik za nadgradnjo, da pravilno nadgradite namestitev."
   error_migrations_visit_upgrade_guides: "Obiščite našo dokumentacijo z navodili za nadgradnjo"
-  error_no_default_work_package_status: "Ni definirano privzetega stanja delovnega paketa/ zahtevka. Preverite konfiguracijo (pojdite na \"Administracija -> Stanje zahtevka/ delovnega paketa\")."
+  error_no_default_work_package_status: 'Ni definirano privzetega stanja delovnega paketa/ zahtevka. Preverite konfiguracijo (pojdite na "Administracija -> Stanje zahtevka/ delovnega paketa").'
   error_no_type_in_project: "Noben tip ni povezan s tem projektom. Prosimo preverite nastavitve projekta."
   error_omniauth_registration_timed_out: "Registracija preko zunanjega avtentikacijskega ponudnika je potekla. Prosimo poskusite ponovno."
   error_omniauth_invalid_auth: "Avtentikacija ni uspela. Za pomoč se obrnite na skrbnika."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Med vzpostavljem povezave s shrambo je prišlo do napake: %{value}"
   error_scm_not_found: "Vnos ali revizija v shrambi ni bila najdena ."
   error_type_could_not_be_saved: "Type could not be saved"
@@ -1444,17 +1444,17 @@ sl:
   error_external_authentication_failed: "Med zunanjo overitvijo je prišlo do napake. Prosim poskusite ponovno."
   error_attribute_not_highlightable: "Atribut(i) niso označljivi: %{attributes}"
   events:
-    changeset: 'Sprememba je bila urejena'
+    changeset: "Sprememba je bila urejena"
     message: Sporočilo urejeno
     news: Novice
-    project_attributes: 'Project attributes edited'
-    projects: 'Projekt urejen'
+    project_attributes: "Project attributes edited"
+    projects: "Projekt urejen"
     reply: Odgovori
-    time_entry: 'Časovnik urejen'
-    wiki_page: 'Wiki stran posodobljena'
-    work_package_closed: 'Delovni paket zaprt'
-    work_package_edit: 'Delovni paket je bil urejen'
-    work_package_note: 'Dodana opomba o delovnem paketu'
+    time_entry: "Časovnik urejen"
+    wiki_page: "Wiki stran posodobljena"
+    work_package_closed: "Delovni paket zaprt"
+    work_package_edit: "Delovni paket je bil urejen"
+    work_package_note: "Dodana opomba o delovnem paketu"
     title:
       project: "Project: %{name}"
       subproject: "Subproject: %{name}"
@@ -1516,7 +1516,7 @@ sl:
       forums: "Forum skupnosti"
       newsletter: "Varnostna opozorila / Glasilo"
   image_conversion:
-    imagemagick: 'Imagemagick'
+    imagemagick: "Imagemagick"
   journals:
     changes_retracted: "Spremembe so bile umaknjene."
     caused_changes:
@@ -1540,7 +1540,7 @@ sl:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
-    configuration_guide: 'Vodnik za konfiguracijo'
+    configuration_guide: "Vodnik za konfiguracijo"
     get_in_touch: "Imate vprašanja? Stopite v stik z nami.\n"
   instructions_after_registration: "Prijavite se lahko takoj, ko je račun aktiviran, tako da kliknete %{signin}."
   instructions_after_logout: "Ponovno se lahko prijavite s klikom na %{signin}."
@@ -1549,7 +1549,7 @@ sl:
     admin:
       mail_notification: "E-poštna obvestila"
       mails_and_notifications: "Emails and notifications"
-      aggregation: 'Aggregation'
+      aggregation: "Aggregation"
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Odpri meni za hitro dodajanje"
@@ -1571,7 +1571,7 @@ sl:
         disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
         disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
         empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
       oauth:
@@ -1608,13 +1608,13 @@ sl:
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
         We hope you find in-app notifications useful and that they makes you even more productive.
         Sincerely, The OpenProject team
-      body_header: 'Version 12.0 with Notification Center'
-      body_subheader: 'Novice'
-      subject: 'Important changes to notifications with the release of 12.0'
+      body_header: "Version 12.0 with Notification Center"
+      body_subheader: "Novice"
+      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Dostopnost"
   label_account: "Račun"
   label_active: "Aktivno"
-  label_activate_user: 'Aktivirajte uporabnika'
+  label_activate_user: "Aktivirajte uporabnika"
   label_active_in_new_projects: "Aktivno v novih projektih"
   label_activity: "Aktivnost"
   label_add_edit_translations: "Dodajanje novih prevodov"
@@ -1643,7 +1643,7 @@ sl:
   label_api_access_key_created_on: "Atom dostopni ključ narejen %{value} nazaj"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_description: 'iCalendar token "%{token_name}" for "%{calendar_name}" in "%{project_name}"'
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
@@ -1684,7 +1684,7 @@ sl:
   label_branch: "Podružnica"
   label_browse: "Brskanje"
   label_bulk_edit_selected_work_packages: "Skupno urejanje izbranih delovnih paketov"
-  label_bundled: '(V paketu)'
+  label_bundled: "(V paketu)"
   label_calendar: "Koledar"
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Prikaži koleddar"
@@ -1760,7 +1760,7 @@ sl:
   label_diff: "Razlikovanje"
   label_diff_inline: "znotraj"
   label_diff_side_by_side: "vzporedno"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "Onemogočeno"
   label_display: "Prikaz"
   label_display_per_page: "Na stran: %{value}"
@@ -1774,9 +1774,9 @@ sl:
   label_edit: "Uredi"
   label_edit_x: "Uredi: %{x}"
   label_enable_multi_select: "Preklopite na več selekcijo"
-  label_enabled_project_custom_fields: 'Omogočena polja po meri'
-  label_enabled_project_modules: 'Omogočeni moduli'
-  label_enabled_project_activities: 'Omogočene dejavnosti sledenja času'
+  label_enabled_project_custom_fields: "Omogočena polja po meri"
+  label_enabled_project_modules: "Omogočeni moduli"
+  label_enabled_project_activities: "Omogočene dejavnosti sledenja času"
   label_end_to_end: "konec koncev"
   label_end_to_start: "konec za začetek"
   label_enumeration_new: "Nova naštevalna vrednost"
@@ -1837,12 +1837,12 @@ sl:
   label_in_more_than: "v več kot"
   label_inactive: "Neaktiven"
   label_incoming_emails: "Prihajajoča e-pošta"
-  label_includes: 'Vsebuje'
+  label_includes: "Vsebuje"
   label_index_by_date: "Razvrsti po datumu"
   label_index_by_title: "Razvrsti po naslovu"
   label_information: "Informacije"
   label_information_plural: "Informacije"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: "Installation guides"
   label_integer: "Celo število"
   label_internal: "Notranji"
   label_introduction_video: "Predstavitveni video"
@@ -1854,7 +1854,7 @@ sl:
   label_language: "Jezik"
   label_languages: "Languages"
   label_jump_to_a_project: "Skoči na projekt..."
-  label_keyword_plural: 'Ključne besede'
+  label_keyword_plural: "Ključne besede"
   label_language_based: "Glede na uporabnikov jezik"
   label_last_activity: "Zadnja aktivnost"
   label_last_change_on: "Zadnje spremembe"
@@ -1870,7 +1870,7 @@ sl:
   label_less_than_ago: "pred manj kot nekaj dnevi"
   label_list: "Seznam"
   label_loading: "Nalaganje..."
-  label_lock_user: 'Zakleni uporabnika'
+  label_lock_user: "Zakleni uporabnika"
   label_logged_as: "Prijavljen(a) kot"
   label_login: "Prijava"
   label_custom_logo: "Logotip po meri"
@@ -1890,12 +1890,12 @@ sl:
   label_member_new: "Nov član"
   label_member_all_admin: "(Vse vloge zaradi statusa skrbnika)"
   label_member_plural: "Člani"
-  lable_membership_added: 'Član dodan'
-  lable_membership_updated: 'Član posodobljen'
+  lable_membership_added: "Član dodan"
+  lable_membership_updated: "Član posodobljen"
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: "pre-alpha"
+    alpha: "alpha"
+    beta: "beta"
   label_menu_item_name: "Ime postavke menija"
   label_message: "Sporočilo"
   label_message_last: "Zadnje sporočilo"
@@ -1939,7 +1939,7 @@ sl:
   label_no_parent_page: "Brez matične strani"
   label_nothing_display: "Ni podatkov za prikaz"
   label_nobody: "nihče"
-  label_not_found: 'Ni najdeno'
+  label_not_found: "Ni najdeno"
   label_none: "Brez"
   label_none_parentheses: "(brez)"
   label_not_contains: "ne vsebuje"
@@ -2033,8 +2033,8 @@ sl:
   label_repository: "Repozitorij"
   label_repository_root: "Izvor/koren repozitorija"
   label_repository_plural: "Repozitoriji"
-  label_required: 'Zahtevano'
-  label_requires: 'Potrebuje'
+  label_required: "Zahtevano"
+  label_requires: "Potrebuje"
   label_result_plural: "Rezultati"
   label_reverse_chronological_order: "Newest first"
   label_revision: "Revizija"
@@ -2101,7 +2101,7 @@ sl:
   label_updated_time: "Posodobljeno %{value} nazaj"
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: "Posodobil %{author} %{age} nazaj"
-  label_upgrade_guides: 'Nadgradite vodnike'
+  label_upgrade_guides: "Nadgradite vodnike"
   label_used_by: "Uporabil"
   label_used_by_types: "Uporablja se po vrstah"
   label_used_in_projects: "Uporablja se pri projektih"
@@ -2196,31 +2196,31 @@ sl:
   macro_execution_error: "Napaka pri izvajanju makre %{macro_name}"
   macro_unavailable: "Makra %{macro_name} ne more biti prikazana"
   macros:
-    placeholder: '[Placeholder] Makra %{macro_name}'
+    placeholder: "[Placeholder] Makra %{macro_name}"
     errors:
-      missing_or_invalid_parameter: 'Manjkajoč ali napačen parameter makre'
+      missing_or_invalid_parameter: "Manjkajoč ali napačen parameter makre"
     legacy_warning:
-      timeline: 'Ta podedovani makro časovnice je bil odstranjen in ni več na voljo. Funkcionalnost lahko zamenjate z vdelanim makrom.'
+      timeline: "Ta podedovani makro časovnice je bil odstranjen in ni več na voljo. Funkcionalnost lahko zamenjate z vdelanim makrom."
     include_wiki_page:
-      removed: 'Makra ne obstaja več.'
+      removed: "Makra ne obstaja več."
     wiki_child_pages:
       errors:
         page_not_found: "Ne morem najti wiki stran '%{name}'."
     create_work_package_link:
       errors:
-        no_project_context: 'Kličem ustvari_delovni_paket_povezava makro izven konteksta projekta.'
+        no_project_context: "Kličem ustvari_delovni_paket_povezava makro izven konteksta projekta."
         invalid_type: "Nobenega tipa z imenom '%{type}' nismo našli v projektu '%{project}'."
-      link_name: 'Nov delovni paket'
-      link_name_type: 'Nov %{type_name}'
+      link_name: "Nov delovni paket"
+      link_name_type: "Nov %{type_name}"
   mail:
-    actions: 'Akcije'
+    actions: "Akcije"
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 neprebrano obvestilo'
-      unread_notification_plural: '%{number_unread} neprebranih obvestil'
-      you_have: 'You have'
-    logo_alt_text: 'Logotip'
+      including_mention_singular: "including a mention"
+      including_mention_plural: "including %{number_mentioned} mentions"
+      unread_notification_singular: "1 neprebrano obvestilo"
+      unread_notification_plural: "%{number_unread} neprebranih obvestil"
+      you_have: "You have"
+    logo_alt_text: "Logotip"
     mention:
       subject: "%{user_name} vas je omenil v #%{id} - %{subject}"
     notification:
@@ -2228,38 +2228,39 @@ sl:
       see_in_center: 'Preglej komentar v središču za obvestila'
       settings: 'Change email settings'
     salutation: 'Hello %{user}'
+    salutation_full_name: 'Full name'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
-      mentioned_by: '%{user} mentioned you in a comment'
+      created_at: "Created at %{timestamp} by %{user} "
+      login_to_see_all: "Log in to see all notifications."
+      mentioned: "You have been <b>mentioned in a comment</b>"
+      mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        one: 'There is 1 more work package with notifications.'
-        two: 'There are %{count} more work packages with notifications.'
-        few: 'There are %{count} more work packages with notifications.'
-        other: 'There are %{count} more work packages with notifications.'
-      open_in_browser: 'Open in browser'
+        one: "There is 1 more work package with notifications."
+        two: "There are %{count} more work packages with notifications."
+        few: "There are %{count} more work packages with notifications."
+        other: "There are %{count} more work packages with notifications."
+      open_in_browser: "Open in browser"
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
-        responsible: 'Odgovorni'
-        mentioned: 'Omenjen'
-        shared: 'Shared'
-        subscribed: 'vsi'
-        prefix: 'Received because of the notification setting: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
-      see_all: 'See all'
-      updated_at: 'Spremenjeno ob %{timestamp} od %{user}'
+        watched: "Watched"
+        assigned: "Assigned"
+        responsible: "Odgovorni"
+        mentioned: "Omenjen"
+        shared: "Shared"
+        subscribed: "vsi"
+        prefix: "Received because of the notification setting: %{reason}"
+        date_alert_start_date: "Date alert"
+        date_alert_due_date: "Date alert"
+      see_all: "See all"
+      updated_at: "Spremenjeno ob %{timestamp} od %{user}"
     sharing:
       work_packages:
-        allowed_actions: 'You may %{allowed_actions} this work package. This can change depending on your project role and permissions.'
-        create_account: 'To access this work package you will need to create an %{instance} account. '
-        open_work_package: 'Open work package'
-        subject: 'You have been shared work package #%{id}'
+        allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
+        create_account: "To access this work package you will need to create an %{instance} account. "
+        open_work_package: "Open work package"
+        subject: "You have been shared work package #%{id}"
         summary:
-          user: '%{user} shared a work package with you with %{role_rights} rights'
-          group: '%{user} shared a work package with the group %{group} you are a member of'
+          user: "%{user} shared a work package with you with %{role_rights} rights"
+          group: "%{user} shared a work package with the group %{group} you are a member of"
   mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). Račun čaka na vašo odobritev:"
   mail_body_account_information: "Informacije vašega računa"
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
@@ -2288,7 +2289,7 @@ sl:
   mail_body_register_closing: "Tvoja OpenProject ekipa"
   mail_body_register_ending: "Ostanite povezani! Lep pozdrav,"
   mail_body_reminder: "%{count} delovni paketi, ki so vam dodeljeni bodo zapadli v naslednjih dneh: %{days}"
-  mail_body_group_reminder: "%{count} delovni paketi, ki so dodeljeni skupini \"%{group}\" bodo zapadli v naslednjih %{days} dneh:"
+  mail_body_group_reminder: '%{count} delovni paketi, ki so dodeljeni skupini "%{group}" bodo zapadli v naslednjih %{days} dneh:'
   mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} zahtevek za aktivacijo računa"
@@ -2514,6 +2515,7 @@ sl:
   permission_view_project_activity: "View project activity"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
+  permission_edit_attribute_help_texts: "Edit attribute help texts"
   placeholders:
     default: "-"
   project:
@@ -2530,9 +2532,9 @@ sl:
     template:
       copying: >
         Vaš projekt se ustvarja iz izbrane projektne predloge. Preko e-pošte boste obveščeni, ko bo projekt na voljo.
-      use_template: 'Uporabi predlogo'
-      make_template: 'Nastavi za predlogo'
-      remove_from_templates: 'Odstrani iz predlog'
+      use_template: "Uporabi predlogo"
+      make_template: "Nastavi za predlogo"
+      remove_from_templates: "Odstrani iz predlog"
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Arhiviran"
@@ -2556,15 +2558,15 @@ sl:
     shared_with_user: "Shared with user"
     subproject_id: "Including subproject"
   repositories:
-    at_identifier: 'at %{identifier}'
-    atom_revision_feed: 'Atom revizijski vir'
+    at_identifier: "at %{identifier}"
+    atom_revision_feed: "Atom revizijski vir"
     autofetch_information: "Označite to, če želite, da se repozitoriji samodejno posodobijo, ko dostopate do strani modula repozitorija.\nTo vključuje iskanje datotek iz skladišča in osvežitev potrebnega diskovnega prostora."
     checkout:
       access:
-        readwrite: 'Branje + Pisanje'
-        read: 'Samo za branje'
-        none: 'Ni dostopa za odjavo. Odlagališče si lahko ogledate samo preko te aplikacije.'
-      access_permission: 'Vaša dovoljenja v tem odlagališču'
+        readwrite: "Branje + Pisanje"
+        read: "Samo za branje"
+        none: "Ni dostopa za odjavo. Odlagališče si lahko ogledate samo preko te aplikacije."
+      access_permission: "Vaša dovoljenja v tem odlagališču"
       url: "URL za prevzem"
       base_url_text: "Osnovni URL, ki se uporabi za generiranje  URL-jev za prevzem (npr. https://myserver.example.org/repos/).\nOpomba: Osnovni URL se uporablja samo za prepisovanje URL-jev za prevzem v vodenih odlagališčih. Druga odlagališča niso spremenjena."
       default_instructions:
@@ -2663,8 +2665,8 @@ sl:
     warnings:
       cannot_annotate: "Te datoteke ni mogoče opomniti."
   scheduling:
-    activated: 'aktivirano'
-    deactivated: 'deaktivirano'
+    activated: "aktivirano"
+    deactivated: "deaktivirano"
   search_input_placeholder: "Iskanje..."
   setting_apiv3_cors_enabled: "Omogoči CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) dovoljen izvir"
@@ -2679,6 +2681,7 @@ sl:
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Način dostave po e-pošti"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Lokacija izvršljive pošte"
   setting_smtp_enable_starttls_auto: "Avtomatično uporabi STARTTLS, če je možno"
   setting_smtp_ssl: "Uporabi SSL povezavo"
@@ -2811,9 +2814,9 @@ sl:
         priority: "Celotna vrstica glede na pomembnost."
     icalendar:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
-    language_name_being_default: '%{language_name} (default)'
+    language_name_being_default: "%{language_name} (default)"
     notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Drugo"
     passwords: "Gesla"
@@ -2829,8 +2832,8 @@ sl:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
-    markdown: 'Označba'
-    plain: 'Golo besedilo'
+    markdown: "Označba"
+    plain: "Golo besedilo"
   status_active: "aktiven"
   status_archived: "Arhiviran"
   status_invited: Povabljen
@@ -3039,16 +3042,16 @@ sl:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: "HTTPS mode setup mismatch"
       text_html: >
         Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
-      title: 'Neskladje nastavitve imena gostitelja'
+      title: "Neskladje nastavitve imena gostitelja"
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Elementi menija"
   menu_item_setting: "Vidljivost"
-  wiki_menu_item_for: "Element menija za wikipage \"%{title}\""
+  wiki_menu_item_for: 'Element menija za wikipage "%{title}"'
   wiki_menu_item_setting: "Vidljivost"
   wiki_menu_item_new_main_item_explanation: >
     Izbrisali boste edini glavni element menija wiki. Zdaj morate izbrati stran wiki, za katero bo ustvarjen nov glavni element. Da bi izbrisali wiki, lahko modul wiki deaktivirajo skrbniki projektov.
@@ -3100,7 +3103,7 @@ sl:
   api_v3:
     attributes:
       lock_version: "Zakleni verzijo"
-      property: 'Property'
+      property: "Property"
     errors:
       code_400: "Slaba zahteva: %{message}"
       code_401: "Za dostop do tega vira morate imeti pooblastila."
@@ -3148,40 +3151,40 @@ sl:
         invalid_gzip: "je neveljaven gzip: %{message}"
         invalid_json: "je neveljaven json: %{message}"
     resources:
-      schema: 'Shema'
+      schema: "Shema"
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
-      status: 'Pred odobritvijo'
-    auth_url: 'Auth URL'
-    access_token_url: 'Žeton za dostop'
+      status: "Pred odobritvijo"
+    auth_url: "Auth URL"
+    access_token_url: "Žeton za dostop"
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'Zahtevku manjka zahtevani parameter, vključuje nepodprto vrednost parametra ali je drugače nepravilno oblikovan.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+          unknown: "Zahtevku manjka zahtevani parameter, vključuje nepodprto vrednost parametra ali je drugače nepravilno oblikovan."
+          missing_param: "Missing required parameter: %{value}."
+          request_not_authorized: "Request need to be authorized. Required parameter for authorizing request is missing or invalid."
         invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'Stranka nima pooblastila za izvajanje te zahteve po tej metodi.'
+        unauthorized_client: "Stranka nima pooblastila za izvajanje te zahteve po tej metodi."
         access_denied: "Lastnik vira ali pooblastitveni strežnik je zahtevo zavrnil.\n"
-        invalid_scope: 'Zahtevani obseg je neveljaven, neznan ali nepravilen.'
-        invalid_code_challenge_method: 'Način izziva kode mora biti navaden ali S256.'
-        server_error: 'Strežnik pooblastil je naletel na nepričakovano stanje, ki je preprečilo, da bi izpolnil zahtevo.'
-        temporarily_unavailable: 'Strežnik pooblastil, zaradi začasne preobremenitve ali vzdrževanja, trenutno ne more obdelati zahteve.'
+        invalid_scope: "Zahtevani obseg je neveljaven, neznan ali nepravilen."
+        invalid_code_challenge_method: "Način izziva kode mora biti navaden ali S256."
+        server_error: "Strežnik pooblastil je naletel na nepričakovano stanje, ki je preprečilo, da bi izpolnil zahtevo."
+        temporarily_unavailable: "Strežnik pooblastil, zaradi začasne preobremenitve ali vzdrževanja, trenutno ne more obdelati zahteve."
         #Configuration error messages
-        credential_flow_not_configured: 'Pretok geselskih pooblastil lastnika virov ni uspel, ker Doorkeeper.configure.resource_owner_from_credentials ni nastavljen.'
-        resource_owner_authenticator_not_configured: 'Iskanje lastnika virov ni uspelo, ker Doorkeeper.configure.resource_owner_authenticator ni nastavljen.'
-        admin_authenticator_not_configured: 'Dostop do skrbniške plošče je prepovedan, ker Doorkeeper.configure.admin_authenticator ni konfiguriran.'
+        credential_flow_not_configured: "Pretok geselskih pooblastil lastnika virov ni uspel, ker Doorkeeper.configure.resource_owner_from_credentials ni nastavljen."
+        resource_owner_authenticator_not_configured: "Iskanje lastnika virov ni uspelo, ker Doorkeeper.configure.resource_owner_authenticator ni nastavljen."
+        admin_authenticator_not_configured: "Dostop do skrbniške plošče je prepovedan, ker Doorkeeper.configure.admin_authenticator ni konfiguriran."
         #Access grant errors
-        unsupported_response_type: 'Strežnik pooblastil ne podpira te vrste odziva.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_type: "Strežnik pooblastil ne podpira te vrste odziva."
+        unsupported_response_mode: "The authorization server does not support this response mode."
         #Access token errors
-        invalid_client: 'Overitev odjemalca ni uspelo zaradi neznanega odjemalca, zaradi nevključitve overitve odjemalca ali zaradi nepodprte metode overitve.'
-        invalid_grant: 'Predložena odobritev za pooblastilo je neveljavna, potekla, preklicana, se ne ujema z URI preusmeritvijo, ki je uporabljena v zahtevi za pooblastilo ali je bila izdana drugemu odjemalcu.'
-        unsupported_grant_type: 'Strežnik pooblastil ne podpira te vrste odobritve pooblastila.'
+        invalid_client: "Overitev odjemalca ni uspelo zaradi neznanega odjemalca, zaradi nevključitve overitve odjemalca ali zaradi nepodprte metode overitve."
+        invalid_grant: "Predložena odobritev za pooblastilo je neveljavna, potekla, preklicana, se ne ujema z URI preusmeritvijo, ki je uporabljena v zahtevi za pooblastilo ali je bila izdana drugemu odjemalcu."
+        unsupported_grant_type: "Strežnik pooblastil ne podpira te vrste odobritve pooblastila."
         invalid_token:
           revoked: "Žeton za dostop je bil preklican"
           expired: "Žeton za dostop je pretekel"
@@ -3231,10 +3234,10 @@ sl:
       successful_application_revocation: "Razveljavitev prijave %{application_name} je bila uspešna."
       none_given: "Noben program OAuth ni omogočil dostopa do vašega uporabniškega računa."
     x_active_tokens:
-      one: 'en aktiven žeton'
-      two: '%{count} aktivnih žetonov'
-      few: '%{count} aktivnih žetonov'
-      other: '%{count} aktivnih žetonov'
+      one: "en aktiven žeton"
+      two: "%{count} aktivnih žetonov"
+      few: "%{count} aktivnih žetonov"
+      other: "%{count} aktivnih žetonov"
     flows:
       authorization_code: "Tok avtorizacije"
       client_credentials: "Pretok poverilnic stranke"

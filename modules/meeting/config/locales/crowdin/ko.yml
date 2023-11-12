@@ -92,6 +92,16 @@ ko:
   label_time_zone: "표준 시간대"
   label_start_date: "시작일"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Classic'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
@@ -121,8 +131,6 @@ ko:
   text_meeting_closing_are_you_sure: "미팅 어젠더를 닫으시겠습니까?"
   text_meeting_agenda_open_are_you_sure: "그러면 몇 분 내에 모든 변경 사항을 덮어씁니다. 계속하시겠습니까?"
   text_meeting_minutes_for_meeting: '미팅 "%{meeting}"에 대한 의사록'
-  text_review_meeting_agenda: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."
-  text_review_meeting_minutes: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."
   text_notificiation_invited: "이 메일에는 아래 모임에 대한 ics 항목이 포함되어 있습니다."
   text_meeting_empty_heading: "Your meeting is empty"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."

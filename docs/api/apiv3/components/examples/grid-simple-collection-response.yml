@@ -1,11 +1,11 @@
 # Example: Simple grid collection response
 ---
 value:
-  _type: Collection,
-  total: 1,
-  count: 1,
-  pageSize: 30,
-  offset: 1,
+  _type: Collection
+  total: 1
+  count: 1
+  pageSize: 30
+  offset: 1
   _embedded:
     elements:
       - _type: Grid

@@ -21,7 +21,10 @@ module Users
     extend ActiveSupport::Concern
 
     included do
-      acts_as_attachable
+      acts_as_attachable view_permission: :view_users,
+                         add_on_new_permission: :manage_user,
+                         add_on_persisted_permission: :manage_user,
+                         delete_permission: :manage_user
     end
 
     class_methods do

@@ -1,0 +1,36 @@
+# Schema: SchemaModel
+---
+type: object
+required:
+  - type
+  - name
+  - required
+  - hasDefault
+  - writable
+properties:
+  type:
+    type: string
+    description: The resource type for this property.
+  name:
+    type: string
+    description: The name of the property.
+  required:
+    type: boolean
+    description: Indicates, if the property is required for submitting a request of this schema.
+  hasDefault:
+    type: boolean
+    description: Indicates, if the property has a default.
+  writable:
+    type: boolean
+    description: Indicates, if the property is writable when sending a request of this schema.
+  object:
+    type: object
+    description: Additional options for the property.
+  location:
+    type: string
+    description: Defines the json path where the property is located in the payload.
+    default: ''
+  _links:
+    type: object
+    description: Useful links for this property (e.g. an endpoint to fetch allowed values)
+    

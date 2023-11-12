@@ -47,5 +47,5 @@ tr:
           opened: 'opened'
           closed: 'kapalı'
           draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          merged: 'birleştirildi'
+          ready_for_review: 'incelemeye hazır olarak işaretlendi'

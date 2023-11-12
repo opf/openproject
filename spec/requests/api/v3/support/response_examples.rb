@@ -158,6 +158,26 @@ RSpec.shared_examples_for 'not found' do |message = I18n.t('api_v3.errors.code_4
                    message
 end
 
+RSpec.shared_examples_for 'forbidden response based on login_required' do
+  context 'when login_required', with_settings: { login_required: true } do
+    it_behaves_like 'unauthenticated access'
+  end
+
+  context 'when not login_required', with_settings: { login_required: false } do
+    it_behaves_like 'unauthorized access'
+  end
+end
+
+RSpec.shared_examples_for 'not found response based on login_required' do |message = I18n.t('api_v3.errors.code_404')|
+  context 'when login_required', with_settings: { login_required: true } do
+    it_behaves_like 'unauthenticated access'
+  end
+
+  context 'when not login_required', with_settings: { login_required: false } do
+    it_behaves_like 'not found', message
+  end
+end
+
 RSpec.shared_examples_for 'param validation error' do
   subject { JSON.parse(last_response.body) }
 
