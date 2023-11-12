@@ -77,18 +77,14 @@ module Storages::Admin::Forms
     def provider_type_select_caption
       return if storage.provider_type.blank?
 
-      if storage.provider_type_nextcloud?
-        caption_for_provider_type(:nextcloud, "https://apps.nextcloud.com/apps/integration_openproject")
-      elsif storage.provider_type_one_drive?
-        caption_for_provider_type(:one_drive, "https://docs.microsoft.com/en-us/graph/auth-register-app-v2")
-      end
+      caption_for_provider_type(storage.short_provider_type)
     end
 
-    def caption_for_provider_type(provider_type, href)
+    def caption_for_provider_type(provider_type)
       I18n.t(
         "storages.instructions.#{provider_type}.provider_configuration",
         application_link_text: application_link_text_for(
-          href,
+          ::OpenProject::Static::Links[:storage_docs][:"#{provider_type}_oauth_application"][:href],
           I18n.t("storages.instructions.#{provider_type}.application_link_text")
         )
       ).html_safe

@@ -9,7 +9,13 @@
     <% end %>
 
     <% header.with_description do %>
-      <%= t("storages.instructions.new_storage") %>
+      <%=
+        t("storages.instructions.new_storage",
+          new_storage_link_text: render(
+            Primer::Beta::Link.new(href: ::OpenProject::Static::Links[:storage_docs][:setup][:href], target: '_blank')
+          ) { t("storages.instructions.new_storage_link_text") }
+        ).html_safe
+      %>
     <% end %>
 
   <% end %>
