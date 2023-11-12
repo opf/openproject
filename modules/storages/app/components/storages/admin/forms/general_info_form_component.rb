@@ -34,8 +34,7 @@ module Storages::Admin::Forms
     alias_method :storage, :model
 
     options form_method: :post,
-            submit_button_disabled: false,
-            cancel_button_should_break_from_frame: false
+            submit_button_disabled: false
 
     def form_url
       options[:form_url] || default_form_url
@@ -46,9 +45,10 @@ module Storages::Admin::Forms
     end
 
     def cancel_button_options
-      { href: cancel_button_path }.tap do |options_hash|
-        options_hash[:target] = '_top' if cancel_button_should_break_from_frame
-      end
+      {
+        href: cancel_button_path,
+        data: { turbo_stream: true }
+      }
     end
 
     private
@@ -56,14 +56,22 @@ module Storages::Admin::Forms
     def default_form_url
       case form_method
       when :get, :post
-        Rails.application.routes.url_helpers.admin_settings_storages_path
+        admin_settings_storages_path
       when :patch, :put
-        Rails.application.routes.url_helpers.admin_settings_storage_path(storage)
+        admin_settings_storage_path(storage)
       end
     end
 
     def cancel_button_path
-      options[:cancel_button_path] || Rails.application.routes.url_helpers.admin_settings_storages_path
+      options.fetch(:cancel_button_path) do
+        if storage.new_record?
+          new_admin_settings_storage_path
+        elsif storage.persisted?
+          edit_admin_settings_storage_path(storage)
+        else
+          admin_settings_storages_path
+        end
+      end
     end
   end
 end

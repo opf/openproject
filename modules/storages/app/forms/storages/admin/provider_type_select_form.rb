@@ -30,7 +30,7 @@ module Storages::Admin
   class ProviderTypeSelectForm < ApplicationForm
     form do |storage_form|
       storage_form.select_list(**@select_list_options) do |storage_provider_list|
-        if @storage.persisted?
+        if @storage.provider_type.present?
           storage_provider_list.option(
             label: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name"),
             value: @storage.provider_type
@@ -60,7 +60,7 @@ module Storages::Admin
         label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
         caption: I18n.t('storages.instructions.provider_type',
                         type_link_text: I18n.t('storages.instructions.type_link_text')),
-        include_blank: storage.new_record?,
+        include_blank: false,
         required: true,
         disabled: storage.persisted?
       }

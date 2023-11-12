@@ -20,22 +20,23 @@
             model: storage,
             url: select_provider_admin_settings_storages_path,
             data: {
-              storages__select_provider_form_provider_type_value: storage.provider_type,
               storages__select_provider_form_target: 'providerForm',
             }
           ) do |form|
             flex_layout do |general_info_row|
               general_info_row.with_row(mb: 3) do
-                render(
-                  Storages::Admin::ProviderTypeSelectForm.new(
-                    form,
-                    storage:,
-                    select_list_options: {
-                      # FIXME: Auto submit on provider select
-                      # data: { action: 'change->storages--select-provider-form#showProviderForm' },
-                      include_blank: I18n.t('storages.label_select_provider'),
-                    }
-                  )
+                render(Storages::Admin::ProviderTypeSelectForm.new(
+                  form,
+                  storage:,
+                  select_list_options: {
+                    data: {
+                      action: 'change->storages--select-provider-form#showProviderForm',
+                      storages__select_provider_form_target: 'providerSelect'
+                    },
+                    include_blank: I18n.t('storages.label_select_provider')
+                  }
+                )
+
                 )
               end
 
@@ -45,8 +46,7 @@
                     form,
                     storage:,
                     submit_button_options: {
-                      # FIXME: change to disabled: true, should Auto submit on provider select
-                      disabled: false,
+                      disabled: true,
                       test_selector: 'storage-select-provider-submit-button'
                     },
                     cancel_button_options: {

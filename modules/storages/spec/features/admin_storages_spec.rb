@@ -100,14 +100,16 @@ RSpec.describe 'Admin storages',
         aggregate_failures 'Select provider view' do
           # General information
           expect(page).to have_select('storages_storage[provider_type]', with_options: %w[Nextcloud OneDrive/SharePoint])
+          expect(find_test_selector('storage-select-provider-submit-button')).to be_disabled
 
           # Select Nextcloud
           select('Nextcloud', from: 'storages_storage[provider_type]')
-          click_button('Save and continue')
 
           # OAuth application
-          expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
-          expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Incomplete')
+          wait_for do
+            expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
+            expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Incomplete')
+          end
 
           # OAuth client
           expect(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
@@ -125,7 +127,7 @@ RSpec.describe 'Admin storages',
 
         aggregate_failures 'General information' do
           within_test_selector('storage-general-info-form') do
-            fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
+            fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud', fill_options: { clear: :backspace }
             click_button 'Save and continue'
 
             expect(page).to have_text("Host is not a valid URL.")
@@ -226,22 +228,24 @@ RSpec.describe 'Admin storages',
         aggregate_failures 'Select provider view' do
           # General information
           expect(page).to have_select('storages_storage[provider_type]', with_options: %w[Nextcloud OneDrive/SharePoint])
+          expect(find_test_selector('storage-select-provider-submit-button')).to be_disabled
 
           # Select OneDrive
           select('OneDrive/SharePoint', from: 'storages_storage[provider_type]')
-          click_button('Save and continue')
 
           # OAuth client
-          expect(page).to have_test_selector('storage-oauth-client-label', text: 'Azure OAuth')
-          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
-          expect(page).to have_test_selector('storage-oauth-client-id-description',
-                                             text: "Allow OpenProject to access Azure data using OAuth " \
-                                                   "to connect OneDrive/Sharepoint.")
+          wait_for do
+            expect(page).to have_test_selector('storage-oauth-client-label', text: 'Azure OAuth')
+            expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
+            expect(page).to have_test_selector('storage-oauth-client-id-description',
+                                               text: "Allow OpenProject to access Azure data using OAuth " \
+                                                     "to connect OneDrive/Sharepoint.")
+          end
         end
 
         aggregate_failures 'General information' do
           within_test_selector('storage-general-info-form') do
-            fill_in 'storages_one_drive_storage_name', with: 'My OneDrive'
+            fill_in 'storages_one_drive_storage_name', with: 'My OneDrive', fill_options: { clear: :backspace }
             click_button 'Save and continue'
 
             expect(page).to have_text("Drive can't be blank.")
