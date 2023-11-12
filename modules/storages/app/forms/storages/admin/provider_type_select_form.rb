@@ -58,8 +58,7 @@ module Storages::Admin
       {
         name: :provider_type,
         label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
-        caption: I18n.t('storages.instructions.provider_type',
-                        type_link_text: I18n.t('storages.instructions.type_link_text')),
+        caption: nil,
         include_blank: false,
         required: true,
         disabled: storage.persisted?

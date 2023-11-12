@@ -73,5 +73,29 @@ module Storages::Admin::Forms
         end
       end
     end
+
+    def provider_type_select_caption
+      return if storage.provider_type.blank?
+
+      if storage.provider_type_nextcloud?
+        caption_for_provider_type(:nextcloud, "https://apps.nextcloud.com/apps/integration_openproject")
+      elsif storage.provider_type_one_drive?
+        caption_for_provider_type(:one_drive, "https://docs.microsoft.com/en-us/graph/auth-register-app-v2")
+      end
+    end
+
+    def caption_for_provider_type(provider_type, href)
+      I18n.t(
+        "storages.instructions.#{provider_type}.provider_configuration",
+        application_link_text: application_link_text_for(
+          href,
+          I18n.t("storages.instructions.#{provider_type}.application_link_text")
+        )
+      ).html_safe
+    end
+
+    def application_link_text_for(href, link_text)
+      render(Primer::Beta::Link.new(href:, target: '_blank')) { link_text }
+    end
   end
 end

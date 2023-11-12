@@ -7,7 +7,13 @@
     ) do |form|
       flex_layout do |general_info_row|
         general_info_row.with_row(mb: 3) do
-          render(Storages::Admin::ProviderTypeSelectForm.new(form, storage:))
+          render(
+            Storages::Admin::ProviderTypeSelectForm.new(
+              form,
+              storage:,
+              select_list_options: { caption: provider_type_select_caption }
+            )
+          )
         end
 
         general_info_row.with_row(mb: 3) do
