@@ -47,17 +47,13 @@ export default class OAuthClientFormController extends Controller {
   declare readonly hasSubmitButtonTarget:boolean;
   declare readonly clientIdTarget:HTMLInputElement;
   declare readonly clientSecretTarget:HTMLInputElement;
-  declare readonly redirectUriTarget:HTMLInputElement;
+  declare readonly redirectUriTargets:HTMLInputElement[];
   declare readonly submitButtonTarget:HTMLInputElement;
 
   declare readonly clientIdMissingValue:string;
 
   connect():void {
-    this.clientIdTarget.addEventListener('input', () => {
-      this.redirectUriTarget.value = this.redirectUri();
-    });
-
-    this.redirectUriTarget.value = this.redirectUri();
+    this.setRedirectUriValue();
     this.toggleSubmitButtonDisabled();
   }
 
@@ -73,6 +69,14 @@ export default class OAuthClientFormController extends Controller {
     } else {
       this.submitButtonTarget.disabled = false;
     }
+  }
+
+  public setRedirectUriValue():void {
+    const newValue = this.redirectUri();
+    this.redirectUriTargets.forEach((target) => {
+      target.value = newValue;
+      target.setAttribute('value', newValue);
+    });
   }
 
   private redirectUri():string {
