@@ -176,7 +176,7 @@ ca:
     label_no_color: "Sense color"
     label_properties: "Propietats"
     label_really_delete_color: >
-      Estàs segur que vols eliminar el següent color? Els tipus amb aquest color no s'eliminaràn.
+      Esteu segur que voleu suprimir el següent tipus de projecte? Els projectes amb aquest tipus no se suprimiran.
   custom_actions:
     actions:
       name: "Accions"

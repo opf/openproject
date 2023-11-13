@@ -54,25 +54,6 @@ module WorkPackages
         'op-share-wp-active-shares'
       end
 
-      # There is currently no available system argument for setting an id on the
-      # rendered <ul> tag that houses the row slots on Primer::Beta::BorderBox components.
-      # Setting an id is required to be able to uniquely identify a target for
-      # TurboStream +insert+ actions and being able to prepend and append to it.
-      def invited_user_list(&)
-        border_box = Primer::Beta::BorderBox.new
-
-        set_id_on_list_element(border_box)
-
-        render(border_box, &)
-      end
-
-      def set_id_on_list_element(list_container)
-        new_list_arguments = list_container.instance_variable_get(:@list_arguments)
-                                           .merge(id: insert_target_modifier_id)
-
-        list_container.instance_variable_set(:@list_arguments, new_list_arguments)
-      end
-
       def shared_principals
         @shared_principals ||= Principal
                                 .having_entity_membership(@work_package)

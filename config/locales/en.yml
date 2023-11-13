@@ -665,6 +665,7 @@ en:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" # used in custom actions
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -3492,6 +3493,7 @@ en:
       unexpected: "Unexpected response received."
 
   you: you
+  link: link
 
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"

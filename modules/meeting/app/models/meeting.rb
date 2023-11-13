@@ -62,11 +62,11 @@ class Meeting < ApplicationRecord
   acts_as_watchable permission: :view_meetings
 
   acts_as_searchable columns: [
-    "#{table_name}.title",
-    "#{MeetingContent.table_name}.text",
-    "#{MeetingAgendaItem.table_name}.title",
-    "#{MeetingAgendaItem.table_name}.notes"
-  ],
+                       "#{table_name}.title",
+                       "#{MeetingContent.table_name}.text",
+                       "#{MeetingAgendaItem.table_name}.title",
+                       "#{MeetingAgendaItem.table_name}.notes"
+                     ],
                      include: %i[contents project agenda_items],
                      references: %i[meeting_contents agenda_items],
                      date_column: "#{table_name}.created_at"

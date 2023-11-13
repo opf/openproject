@@ -28,6 +28,6 @@
 
 class CostQuery::GroupBy::LoggedById < Report::GroupBy::Base
   def self.label
-    WorkPackage.human_attribute_name(:logged_by)
+    I18n.t(:label_logged_by_reporting)
   end
 end
