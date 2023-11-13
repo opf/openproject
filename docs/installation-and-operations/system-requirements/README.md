@@ -80,6 +80,8 @@ The [package-based installation](../installation/packaged) requires one of the f
 
 The [docker-based installation](../installation/docker) requires a system with Docker installed. Please see the [official Docker page](https://docs.docker.com/install/) for the list of supported systems.
 
+**Please note**, that we only provide packages for the **AMD64** (x86) architecture. We do provide *docker containers* for both **ARM64** and **PPC64** on top of **AMD64**.
+
 ### Overview of dependencies
 
 Both the package and docker based installations will install and setup the following dependencies that are required by OpenProject to run:
@@ -95,7 +97,7 @@ PostgreSQL versions 9.6. and up will continue to work, but may result in incompa
 
 ## Client
 
-OpenProject supports the latest versions of the major browsers. 
+OpenProject supports the latest versions of the major browsers.
 
 * [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 102)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge) (only MS Edge version based on Chromium is supported)

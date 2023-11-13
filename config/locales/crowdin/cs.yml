@@ -340,7 +340,7 @@ cs:
       no_results_content_text: Přidat nový stav
   themes:
     light: "Světlý"
-    light_high_contrast: "Light high contrast"
+    light_high_contrast: "Světlý kontrast"
     dark: "Tmavý"
     dark_dimmed: "Dark dimmed"
     dark_high_contrast: "Tmavý vysoký kontrast"
@@ -459,13 +459,13 @@ cs:
         attr_mail: "Email (atribut)"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Automatické vytváření uživatele"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitář"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hex kód"
       comment:
         commented: "Komentované" #an object that this comment belongs to
       custom_action:
@@ -932,13 +932,14 @@ cs:
     models:
       attachment: "Soubor"
       attribute_help_text: "Text nápovědy pro atribut"
-      forum: "Fórum"
+      category: "Kategorie"
       comment: "Komentář"
       custom_action: "Vlastní akce"
       custom_field: "Vlastní pole"
+      'doorkeeper/application': "OAuth aplikace"
+      forum: "Fórum"
+      global_role: "Global role"
       group: "Skupina"
-      category: "Kategorie"
-      status: "Stav pracovního balíčku"
       member: "Člen"
       news: "Novinky"
       notification:
@@ -954,22 +955,22 @@ cs:
         few: "Role"
         many: "Role"
         other: "Role"
+      status: "Stav pracovního balíčku"
       type: "Typ"
       user: "Uživatel"
       version: "Verze"
-      wiki: "Wiki"
-      wiki_page: "Stránka wiki"
       workflow: "Pracovní postup"
       work_package: "Pracovní balíček"
-      'doorkeeper/application': "OAuth aplikace"
+      wiki: "Wiki"
+      wiki_page: "Stránka wiki"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
+      one: "Došlo k potížím s následujícím polem:"
       few: "There were problems with the following fields:"
       many: "There were problems with the following fields:"
       other: "There were problems with the following fields:"
     header_additional_invalid_fields:
-      one: "Additionally, there was a problem with the following field:"
+      one: "Navíc došlo k potížím s následujícím polem:"
       few: "Additionally, there were problems with the following fields:"
       many: "Additionally, there were problems with the following fields:"
       other: "Additionally, there were problems with the following fields:"
@@ -1490,7 +1491,7 @@ cs:
     changes_retracted: "Změny byly staženy."
     caused_changes:
       dates_changed: "Data změněna"
-      system_update: "OpenProject system update:"
+      system_update: "Aktualizace systému OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1553,7 +1554,7 @@ cs:
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       storages:
-        title: "File Storages"
+        title: "Úložiště souborů"
         text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
         empty_text_hint: "There is no storage access linked to your account."
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
@@ -1631,11 +1632,13 @@ cs:
   label_ldap_auth_source: "Připojení LDAP"
   label_ldap_auth_source_plural: "Připojení LDAP"
   label_authentication: "Ověření"
-  label_available_project_work_package_categories: 'Dostupné kategorie pracovních balíčků'
-  label_available_project_work_package_types: 'Dostupné kategorie pracovních balíčků'
-  label_available_project_forums: 'Dostupná fóra'
-  label_available_project_versions: 'Dostupné verze'
-  label_available_project_repositories: 'Dostupné repozitáře'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Dostupná fóra"
+  label_available_project_repositories: "Dostupné repozitáře"
+  label_available_project_versions: "Dostupné verze"
+  label_available_project_work_package_categories: "Dostupné kategorie pracovních balíčků"
+  label_available_project_work_package_types: "Dostupné kategorie pracovních balíčků"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentace"
   label_backup: "Záloha"
   label_between: "mezi"
@@ -2420,7 +2423,7 @@ cs:
   permission_log_time: "Čas záznamu pro ostatní uživatele"
   permission_manage_forums: "Správa fór"
   permission_manage_categories: "Spravovat kategorie pracovního balíčku"
-  permission_manage_dashboards: "Manage dashboards"
+  permission_manage_dashboards: "Spravovat dashboardy"
   permission_manage_work_package_relations: "Spravovat vztahy pracovních balíčků"
   permission_manage_members: "Správa členů"
   permission_manage_news: "Spravovat novinky"
@@ -2440,7 +2443,7 @@ cs:
   permission_manage_types: "Vyberte typy"
   permission_view_changesets: "Zobrazit revize repozitáře v OpenProject"
   permission_view_commit_author_statistics: "Zobrazit statistiky autora commitu"
-  permission_view_dashboards: "View dashboards"
+  permission_view_dashboards: "Zobrazit dashboardy"
   permission_view_work_package_watchers: "Zobrazit seznam sledujících"
   permission_view_work_packages: "Zobrazit pracovní balíčky"
   permission_view_messages: "Zobrazit zprávy"

@@ -169,14 +169,27 @@ COPY vendor ./vendor
 # some gemspec files of plugins require files in there, notably OpenProject::Version
 COPY lib ./lib
 
-RUN bundle config unset deployment && bundle install --quiet --path vendor/bundle --no-cache \
-  --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
-  rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
+RUN \
+  bundle config set --local path 'vendor/bundle' && \
+  bundle config set --local without 'test development' && \
+  bundle install --quiet --no-cache --jobs=8 --retry=3 && \
+  bundle config set deployment 'true' && \
+  cp Gemfile.lock Gemfile.lock.bak && \
+  rm -rf vendor/bundle/ruby/*/cache && \
+  rm -rf vendor/bundle/ruby/*/gems/*/spec && \
+  rm -rf vendor/bundle/ruby/*/gems/*/test
 
 # Finally, copy over the whole thing
 COPY . .
 
+# Copy lock file again as the updated version was overriden by COPY just now
+RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak
+
 RUN ./docker/prod/setup/postinstall.sh
+
+# We need this so puma is allowed to create the tmp/pids folder and files
+# even when the container is run as a user other than 1000 (app)
+RUN tmp_path=$APP_PATH/tmp; (mkdir -p $tmp_path || true) && chmod og+rw $tmp_path
 
 # Expose ports for apache and postgres
 EXPOSE 80 5432

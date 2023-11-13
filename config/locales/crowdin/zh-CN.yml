@@ -571,7 +571,7 @@ zh-CN:
         warn_on_leaving_unsaved: "离开未保存更改的工作包时提示我"
       version:
         effective_date: "完成日期"
-        sharing: "分享"
+        sharing: "共享"
       wiki_content:
         text: "文本"
       wiki_page:
@@ -919,13 +919,14 @@ zh-CN:
     models:
       attachment: "文件"
       attribute_help_text: "属性帮助文本"
-      forum: "论坛"
+      category: "类别"
       comment: "评论"
       custom_action: "自定义操作"
       custom_field: "自定义字段"
+      'doorkeeper/application': "OAuth应用程序"
+      forum: "论坛"
+      global_role: "全局角色"
       group: "组"
-      category: "类别"
-      status: "工作包状态"
       member: "成员"
       news: "新闻"
       notification:
@@ -935,14 +936,14 @@ zh-CN:
       query: "自定义查询"
       role:
         other: "角色"
+      status: "工作包状态"
       type: "类型"
       user: "用户"
       version: "版本"
-      wiki: "维基"
-      wiki_page: "维基页面"
       workflow: "工作流"
       work_package: "工作包"
-      'doorkeeper/application': "OAuth应用程序"
+      wiki: "维基"
+      wiki_page: "维基页面"
   errors:
     header_invalid_fields:
       other: "以下字段有问题："
@@ -998,7 +999,7 @@ zh-CN:
     default_columns: "默认的列"
     description: "描述"
     derived_due_date: "派生的完成日期"
-    derived_estimated_hours: "派生的估计时间"
+    derived_estimated_hours: "派生的估算工时"
     derived_start_date: "派生的开始日期"
     display_sums: "显示汇总"
     due_date: "完成日期"
@@ -1009,7 +1010,7 @@ zh-CN:
     groups: "组"
     id: "ID"
     is_default: "默认值"
-    is_for_all: "为所有项目"
+    is_for_all: "应用到所有项目"
     public: "公开"
     #kept for backwards compatibility
     issue: "工作包"
@@ -1399,9 +1400,9 @@ zh-CN:
   gui_validation_error_plural: "%{count} 错误"
   homescreen:
     additional:
-      projects: "此OpenProject 实例中的最新可见项目。"
+      projects: "此 OpenProject 实例中的最新可见项目。"
       no_visible_projects: "这个 OpenProject 中没有可见的项目。"
-      users: "此OpenProject 实例中的最新注册用户。"
+      users: "此 OpenProject 实例中的最新注册用户。"
     blocks:
       community: "OpenProject 社区"
       upsale:
@@ -1564,11 +1565,13 @@ zh-CN:
   label_ldap_auth_source: "LDAP 连接"
   label_ldap_auth_source_plural: "LDAP 连接"
   label_authentication: "身份验证"
-  label_available_project_work_package_categories: '可用的工作包类别'
-  label_available_project_work_package_types: '可用的工作包类型'
-  label_available_project_forums: '可用论坛'
-  label_available_project_versions: '可用版本'
-  label_available_project_repositories: '可用存储库'
+  label_available_global_roles: "可用的全局角色"
+  label_available_project_forums: "可用论坛"
+  label_available_project_repositories: "可用存储库"
+  label_available_project_versions: "可用版本"
+  label_available_project_work_package_categories: "可用的工作包类别"
+  label_available_project_work_package_types: "可用的工作包类型"
+  label_available_projects: "可用的项目"
   label_api_documentation: "API 文档"
   label_backup: "备份"
   label_between: "介于"
@@ -1906,8 +1909,8 @@ zh-CN:
   label_register_with_developer: "注册成为开发人员"
   label_registered_on: "注册于"
   label_registration_activation_by_email: "通过电子邮件激活帐户"
-  label_registration_automatic_activation: "自动帐户激活"
-  label_registration_manual_activation: "手动帐户激活"
+  label_registration_automatic_activation: "自动激活帐户"
+  label_registration_manual_activation: "手动激活帐户"
   label_related_work_packages: "相关的工作包"
   label_relates: "关于"
   label_relates_to: "关于"
@@ -1963,9 +1966,9 @@ zh-CN:
   label_status: "状态"
   label_stay_logged_in: "保持登录状态"
   label_storage_free_space: "剩余磁盘空间"
-  label_storage_used_space: "已使用磁盘空间"
+  label_storage_used_space: "已用磁盘空间"
   label_storage_group: "存储文件系统 %{identifier}"
-  label_storage_for: "包含存储用于"
+  label_storage_for: "存储内容包含"
   label_string: "文本"
   label_subproject: "子项目"
   label_subproject_new: "新的子项目"
@@ -2081,8 +2084,8 @@ zh-CN:
     zero: "没有项目"
   label_yesterday: "昨天"
   label_role_type: "类型"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "项目角色"
+  label_global_role: "全局角色"
   label_not_changeable: "（不变）"
   label_global: "全局"
   label_seeded_from_env_warning: 此记录通过设置/环境变量创建。无法通过 UI 编辑。
@@ -2304,7 +2307,7 @@ zh-CN:
   permission_add_work_package_notes: "添加注释"
   permission_add_work_packages: "添加工作包"
   permission_add_messages: "发布消息"
-  permission_add_project: "Create projects"
+  permission_add_project: "创建项目"
   permission_archive_project: "归档项目"
   permission_create_user: "创建用户"
   permission_manage_user: "编辑用户"
@@ -2317,7 +2320,7 @@ zh-CN:
   permission_comment_news: "评论新闻"
   permission_commit_access: "读/写访问存储库 (提交)"
   permission_copy_projects: "复制项目"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "创建备份"
   permission_delete_work_package_watchers: "删除关注者"
   permission_delete_work_packages: "删除工作包"
   permission_delete_messages: "删除消息"
@@ -2498,7 +2501,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "保持 N 分钟为一个存储库的最后所需的磁盘空间信息。作为计算存储库所需的磁盘空间可能开销很高，增加此值可减少对性能的影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -2556,8 +2559,8 @@ zh-CN:
   setting_autologin: "自动登录"
   setting_available_languages: "可用语言"
   setting_bcc_recipients: "密件抄送 (bcc) 收件人"
-  setting_brute_force_block_after_failed_logins: "登录失败的尝试次数多于该数字将用户阻止"
-  setting_brute_force_block_minutes: "用户被阻止的时长"
+  setting_brute_force_block_after_failed_logins: "在尝试登录的失败次数达到一定数量后锁定账户"
+  setting_brute_force_block_minutes: "账户锁定时长"
   setting_cache_formatted_text: "缓存带格式的文本"
   setting_use_wysiwyg_description: "选择为默认情况下为所有用户启用CKEditor5 所见即所得编辑器。 CKEditor对GFM Markdown的功能有限。"
   setting_column_options: "自定义工作包列表的外观"
@@ -2610,7 +2613,7 @@ zh-CN:
   setting_password_count_former_banned: "禁止重复使用最近使用密码的数量"
   setting_password_days_valid: "强制更改密码的天数"
   setting_password_min_length: "最小长度"
-  setting_password_min_adhered_rules: "所需类的最小数目"
+  setting_password_min_adhered_rules: "所需的最少类型数量"
   setting_per_page_options: "每页对象选项"
   setting_plain_text_mail: "纯文本邮件 (不含 HTML)"
   setting_protocol: "协议"
@@ -2619,9 +2622,9 @@ zh-CN:
   setting_security_badge_displayed: "显示安全徽章"
   setting_registration_footer: "注册页脚"
   setting_repositories_automatic_managed_vendor: "自动存储库提供商类型"
-  setting_repositories_encodings: "存储库的编码"
+  setting_repositories_encodings: "存储库编码"
   setting_repository_authentication_caching_enabled: "启用版本控制软件的身份验证请求缓存"
-  setting_repository_storage_cache_minutes: "存储库磁盘大小的高速缓存"
+  setting_repository_storage_cache_minutes: "存储库磁盘大小缓存"
   setting_repository_checkout_display: "显示检出说明"
   setting_repository_checkout_base_url: "检出根 URL"
   setting_repository_checkout_text: "检出说明文本"
@@ -2630,7 +2633,7 @@ zh-CN:
   setting_rest_api_enabled: "启用 REST Web 服务"
   setting_self_registration: "自助注册"
   setting_session_ttl: "在处于非活动状态后会话过期时间"
-  setting_session_ttl_hint: "值低于5的类似禁用"
+  setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
   setting_sys_api_enabled: "启用存储库管理网页服务"
@@ -2651,7 +2654,7 @@ zh-CN:
     attachments:
       whitelist_text_html: >
         为上传的文件定义有效文件扩展名和/或 MIME 类型列表。<br/>输入文件扩展名（例如 <code>%{ext_example}</code>）或 MIME 类型（例如 <code>%{mime_example}</code>）。<br/>留空以允许上传任何文件类型。允许输入多个值（每个值一行）。
-    brute_force_prevention: "自动化的用户阻止"
+    brute_force_prevention: "自动帐号锁定"
     date_format:
       first_date_of_week_and_year_set: >
         如果设置了选项“%{day_of_week_setting_name}”或“%{first_week_setting_name}”，则另一个选项也必须设置，以避免前端出现不一致。
@@ -2910,7 +2913,7 @@ zh-CN:
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _自动更新由于改变子工作包 %{child} 内的值_
+      _自动更新源于改变子工作包 %{child} 内的值_
     destroy:
       info: "删除工作包是不可逆的操作。"
       title: "删除工作包"

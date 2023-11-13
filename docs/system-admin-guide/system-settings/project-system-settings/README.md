@@ -13,7 +13,8 @@ To adapt the system project settings, navigate to *Administration -> System sett
 
 1. Check if **new projects are public by default**. This means that users without an account can access the project without login.
 2. Select **which modules should be activated for newly created projects by default**.
-3. The **role given to a user in a new project when the user creates a new project but is not an (global) admin**. This makes sense when a user receives the permission to create a new project via [global role](../../users-permissions/roles-permissions/#global-roles).![image-20211209165901453](image-20211209165901453.png)
+3. The **role given to a user in a new project when the user creates a new project but is not an (global) admin**. This makes sense when a user receives the permission to create a new project via [global role](../../users-permissions/roles-permissions/#global-role).
+   ![image-20211209165901453](image-20211209165901453.png)
 
 ## Settings for the Projects Overview List
 1. Choose **which columns should be visible** in the Projects Overview List by default.

@@ -226,7 +226,7 @@ fa:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
+      members: 'اعضای پروژه'
       overviews: 'Project overview'
       queries: 'Work packages: saved views'
       wiki_page_attachments: 'Wiki pages: attachments'
@@ -353,7 +353,7 @@ fa:
       form_configuration: "Form configuration"
       more_info_text_html: >
         Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
-      projects: "Projects"
+      projects: "پروژه‌ها"
       enabled_projects: "Enabled projects"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
@@ -926,32 +926,33 @@ fa:
     models:
       attachment: "فایل"
       attribute_help_text: "Attribute help text"
-      forum: "تالار گفتگو"
+      category: "Category"
       comment: "نظر"
       custom_action: "اقدام سفارشی"
       custom_field: "فیلدهای سفارشی"
+      'doorkeeper/application': "OAuth application"
+      forum: "تالار گفتگو"
+      global_role: "Global role"
       group: "Group"
-      category: "Category"
-      status: "Work package status"
       member: "Member"
       news: "News"
       notification:
         one: "اعلان‌"
         other: "Notifications"
       placeholder_user: "Placeholder user"
-      project: "Project"
+      project: "پروژه"
       query: "Custom query"
       role:
         one: "Role"
         other: "نقش‌ها"
+      status: "Work package status"
       type: "نوع"
       user: "User"
       version: "نسخه"
-      wiki: "دانشنامه"
-      wiki_page: "Wiki page"
       workflow: "Workflow"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "دانشنامه"
+      wiki_page: "Wiki page"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1032,7 +1033,7 @@ fa:
     name: "نام"
     password: "کلمه عبور"
     priority: "اولويت"
-    project: "Project"
+    project: "پروژه"
     responsible: "Accountable"
     role: "Role"
     roles: "نقش‌ها"
@@ -1278,7 +1279,7 @@ fa:
   description_autocomplete: >
     This field uses autocomplete. While typing the title of a work package you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the work package number directly.
   description_available_columns: "Available Columns"
-  description_choose_project: "Projects"
+  description_choose_project: "پروژه‌ها"
   description_compare_from: "Compare from"
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
@@ -1375,7 +1376,7 @@ fa:
     message: Message edited
     news: News
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'پروژه ویرایش شد'
     reply: Replied
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki page edited'
@@ -1383,7 +1384,7 @@ fa:
     work_package_edit: 'Work Package edited'
     work_package_note: 'Work Package note added'
     title:
-      project: "Project: %{name}"
+      project: "پروژه: %{name}"
       subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
@@ -1431,7 +1432,7 @@ fa:
       community: "OpenProject community"
       upsale:
         title: "Upgrade to Enterprise edition"
-        more_info: "More information"
+        more_info: "اطلاعات بیشتر"
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1559,7 +1560,7 @@ fa:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
-  label_all_projects: "All projects"
+  label_all_projects: "همه پروژه‌ها"
   label_all_time: "all time"
   label_all_words: "All words"
   label_all_open_wps: "All open"
@@ -1589,14 +1590,16 @@ fa:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "پشتیبان‌گیری"
-  label_between: "between"
+  label_between: "بین"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_blog: "Blog"
@@ -1609,9 +1612,9 @@ fa:
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_bundled: '(Bundled)'
-  label_calendar: "Calendar"
+  label_calendar: "تقویم"
   label_calendars_and_dates: "Calendars and dates"
-  label_calendar_show: "Show Calendar"
+  label_calendar_show: "نمایش تقویم"
   label_category: "Category"
   label_consent_settings: "User Consent"
   label_wiki_menu_item: Wiki menu item
@@ -1741,7 +1744,7 @@ fa:
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
   label_greater_or_equal: ">="
-  label_group_by: "Group by"
+  label_group_by: "گروه‌بندی بر اساس"
   label_group_new: "New group"
   label_group: "Group"
   label_group_named: "Group %{name}"
@@ -1763,8 +1766,8 @@ fa:
   label_includes: 'includes'
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
-  label_information: "Information"
-  label_information_plural: "Information"
+  label_information: "اطلاعات"
+  label_information_plural: "اطلاعات"
   label_installation_guides: 'Installation guides'
   label_integer: "Integer"
   label_internal: "Internal"
@@ -1789,7 +1792,7 @@ fa:
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
-  label_less_or_equal: "<="
+  label_less_or_equal: "=>"
   label_less_than_ago: "less than days ago"
   label_list: "لیست"
   label_loading: "Loading..."
@@ -1836,7 +1839,7 @@ fa:
   label_my_account: "My account"
   label_my_activity: "My activity"
   label_my_account_data: "My account data"
-  label_my_projects: "My projects"
+  label_my_projects: "پروژه‌های من"
   label_my_queries: "My custom queries"
   label_name: "نام"
   label_never: "Never"
@@ -1915,7 +1918,7 @@ fa:
   label_project_default_type: "Allow empty type"
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
-  label_project_plural: "Projects"
+  label_project_plural: "پروژه‌ها"
   label_project_settings: "Project settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
@@ -1998,7 +2001,7 @@ fa:
   label_subtask_plural: "Subtasks"
   label_summary: "Summary"
   label_system: "System"
-  label_system_storage: "Storage information"
+  label_system_storage: "اطلاعات ذخیره‌سازی"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
   label_text: "Long text"
@@ -2007,7 +2010,7 @@ fa:
   label_this_year: "this year"
   label_time_entry_plural: "زمان صرف شده"
   label_title: "Title"
-  label_projects_menu: "Projects"
+  label_projects_menu: "پروژه‌ها"
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
@@ -2023,7 +2026,7 @@ fa:
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
-  label_user: "User"
+  label_user: "کاربر"
   label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}'s activity"
@@ -2101,7 +2104,7 @@ fa:
     other: "%{count} باز"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
+    one: "1 پروژه"
     other: "%{count} پروژه"
     zero: "no projects"
   label_yesterday: "yesterday"
@@ -2377,7 +2380,7 @@ fa:
   permission_manage_categories: "Manage work package categories"
   permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Manage work package relations"
-  permission_manage_members: "Manage members"
+  permission_manage_members: "مدیریت اعضا"
   permission_manage_news: "Manage news"
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Manage public views"

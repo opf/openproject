@@ -926,13 +926,14 @@ et:
     models:
       attachment: "Manus"
       attribute_help_text: "Attribute help text"
-      forum: "Foorum"
+      category: "Kategooria"
       comment: "Kommentaar"
       custom_action: "Custom action"
       custom_field: "Lisaväli"
+      'doorkeeper/application': "OAuth application"
+      forum: "Foorum"
+      global_role: "Global role"
       group: "Grupp"
-      category: "Kategooria"
-      status: "Teema olek"
       member: "Liige"
       news: "Uudised"
       notification:
@@ -944,14 +945,14 @@ et:
       role:
         one: "Roll"
         other: "Rollid"
+      status: "Teema olek"
       type: "Tüüp"
       user: "Kasutaja"
       version: "Versioon"
-      wiki: "Viki"
-      wiki_page: "Viki leht"
       workflow: "Töövoog"
       work_package: "Teema"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Viki"
+      wiki_page: "Viki leht"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1589,11 +1590,13 @@ et:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentimine"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Backup"
   label_between: "between"

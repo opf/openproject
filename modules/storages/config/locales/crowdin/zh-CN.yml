@@ -10,7 +10,7 @@ zh-CN:
   permission_write_files: "写文件"
   permission_create_files: "创建文件"
   permission_delete_files: "删除文件"
-  permission_share_files: "分享文件（夹）"
+  permission_share_files: "共享文件（夹）"
   project_module_storages: "文件存储"
   errors:
     attributes:
@@ -32,6 +32,10 @@ zh-CN:
       messages:
         not_linked_to_project: "未链接到项目。"
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "对于此存储不可用。"
         storages/storage:
           attributes:
             host:

@@ -116,7 +116,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                 last_modified_by_name: value.modifier_name,
                 last_modified_by_id: value.modifier_id,
                 permissions: value.dav_permissions,
-                location: location(value.path)
+                location: location(value.path, value.mimetype)
               )
             else
               ::Storages::StorageFileInfo.new(
@@ -132,13 +132,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:enable Metrics/AbcSize
 
-    def location(file_path)
+    def location(file_path, mimetype)
       prefix = 'files/'
       idx = file_path.rindex(prefix)
       return '/' if idx == nil
 
       idx += prefix.length - 1
-
+      # Remove the following when /filesinfo starts responding with a trailing slash for directory paths
+      # in all supported versions of OpenProjectIntegation Nextcloud App.
+      file_path << '/' if mimetype == 'application/x-op-directory' && file_path[-1] != '/'
       Util.escape_path(file_path[idx..])
     end
   end

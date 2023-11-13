@@ -89,7 +89,7 @@ cs:
   permission_create_meeting_agendas: "Správa agend"
   permission_close_meeting_agendas: "uzavřít agendy"
   permission_send_meeting_agendas_notification: "Odeslat oznámení k revizi agendy"
-  permission_create_meeting_minutes: "Zápis ze schůzky"
+  permission_create_meeting_minutes: "Spravovat zápisy"
   permission_send_meeting_minutes_notification: "Odeslat oznámení k revizi zápisu"
   permission_meetings_send_invite: "Pozvat uživatele na schůzky"
   permission_send_meeting_agendas_icalendar: "Odeslat agendu schůzky jako záznam do kalendáře"

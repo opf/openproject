@@ -23,6 +23,9 @@ AllCops:
   Exclude:
     - '**/node_modules/**/*'
 
+FactoryBot/ConsistentParenthesesStyle:
+  Enabled: false
+
 FactoryBot/SyntaxMethods:
   Enabled: true
 
@@ -217,8 +220,8 @@ RSpec/DescribeMethod:
 
 # Don't force the second argument of describe
 # to match the exact file name
-RSpec/FilePath:
-  SpecSuffixOnly: true
+RSpec/SpecFilePathFormat:
+  IgnoreMethods: true
 
 # Prevent  "fit" or similar to be committed
 RSpec/Focus:
@@ -239,6 +242,7 @@ RSpec/ContextWording:
   Prefixes:
     - and
     - as
+    - even
     - for
     - having
     - if

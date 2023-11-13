@@ -33,7 +33,9 @@ module API
         helpers ::API::Utilities::UrlPropsParsingHelper
 
         resources :time_entries do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: TimeEntry).mount
+          get &::API::V3::Utilities::Endpoints::Index.new(model: TimeEntry,
+                                                          scope: -> { TimeEntry.includes(TimeEntryRepresenter.to_eager_load) })
+                                                     .mount
           post &::API::V3::Utilities::Endpoints::Create.new(model: TimeEntry).mount
 
           mount ::API::V3::TimeEntries::CreateFormAPI

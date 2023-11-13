@@ -995,13 +995,14 @@ en:
     models:
       attachment: "File"
       attribute_help_text: "Attribute help text"
-      forum: "Forum"
+      category: "Category"
       comment: "Comment"
       custom_action: "Custom action"
       custom_field: "Custom field"
+      'doorkeeper/application': "OAuth application"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Group"
-      category: "Category"
-      status: "Work package status"
       member: "Member"
       news: "News"
       notification:
@@ -1013,14 +1014,14 @@ en:
       role:
         one: "Role"
         other: "Roles"
+      status: "Work package status"
       type: "Type"
       user: "User"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki page"
       workflow: "Workflow"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Wiki page"
 
   errors:
     header_invalid_fields:
@@ -1674,11 +1675,13 @@ en:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Backup"
   label_between: "between"

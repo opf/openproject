@@ -916,13 +916,14 @@ id:
     models:
       attachment: "File"
       attribute_help_text: "Atribut teks bantuan"
-      forum: "Forum"
+      category: "Kategori"
       comment: "Komentar"
       custom_action: "Custom action"
       custom_field: "Isian kustom"
+      'doorkeeper/application': "aplikasi OAuth"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grup"
-      category: "Kategori"
-      status: "Status Work Package"
       member: "Member"
       news: "News"
       notification:
@@ -932,14 +933,14 @@ id:
       query: "Query kustom"
       role:
         other: "Roles"
+      status: "Status Work Package"
       type: "Tipe"
       user: "User"
       version: "Versi"
-      wiki: "Wiki"
-      wiki_page: "Halaman Wiki"
       workflow: "Workflow"
       work_package: "Paket-Penugasan"
-      'doorkeeper/application': "aplikasi OAuth"
+      wiki: "Wiki"
+      wiki_page: "Halaman Wiki"
   errors:
     header_invalid_fields:
       other: "There were problems with the following fields:"
@@ -1561,11 +1562,13 @@ id:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Otentikasi"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Jenis paket pekerjaan yang tersedia'
-  label_available_project_forums: 'Forums tersedia'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Forums tersedia"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Jenis paket pekerjaan yang tersedia"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Cadangan"
   label_between: "antara"

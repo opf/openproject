@@ -458,7 +458,7 @@ de:
       changeset:
         repository: "Projektarchiv"
       color:
-        hexcode: "Hex code"
+        hexcode: "Fabcode (Hex)"
       comment:
         commented: "Kommentiert" #an object that this comment belongs to
       custom_action:
@@ -921,13 +921,14 @@ de:
     models:
       attachment: "Datei"
       attribute_help_text: "Hilfe-Text für Attribute"
-      forum: "Forum"
+      category: "Kategorie"
       comment: "Kommentar"
       custom_action: "Benutzerdefinierte Aktion"
       custom_field: "Benutzerdefiniertes Feld"
+      'doorkeeper/application': "OAuth-Anwendung"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Gruppe"
-      category: "Kategorie"
-      status: "Arbeitspaket-Status"
       member: "Mitglied"
       news: "Neuigkeiten"
       notification:
@@ -939,14 +940,14 @@ de:
       role:
         one: "Rolle"
         other: "Rollen"
+      status: "Arbeitspaket-Status"
       type: "Typ"
       user: "Benutzer"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki-Seite"
       workflow: "Workflow"
       work_package: "Arbeitspaket"
-      'doorkeeper/application': "OAuth-Anwendung"
+      wiki: "Wiki"
+      wiki_page: "Wiki-Seite"
   errors:
     header_invalid_fields:
       one: "Bei dem folgenden Feld traten Fehler auf:"
@@ -1460,7 +1461,7 @@ de:
           non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
       system_update:
         file_links_journal: >
-          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+          Ab sofort erscheinen hier Aktivitäten, die sich auf Datei-Links beziehen (Dateien in externen Speichermedien) auf der Registerkarte Aktivität. Folgende Aktivitäten betreffen bereits existierende Links:
   links:
     configuration_guide: 'Konfigurationsanleitung'
     get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
@@ -1584,11 +1585,13 @@ de:
   label_ldap_auth_source: "LDAP-Verbindung"
   label_ldap_auth_source_plural: "LDAP-Verbindungen"
   label_authentication: "Authentifizierung"
-  label_available_project_work_package_categories: 'Verfügbare Arbeitspaket-Kategorien'
-  label_available_project_work_package_types: 'Verfügbare Arbeitspaket-Typen'
-  label_available_project_forums: 'Verfügbare Foren'
-  label_available_project_versions: 'Verfügbare Versionen'
-  label_available_project_repositories: 'Verfügbare Projektarchive'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Verfügbare Foren"
+  label_available_project_repositories: "Verfügbare Projektarchive"
+  label_available_project_versions: "Verfügbare Versionen"
+  label_available_project_work_package_categories: "Verfügbare Arbeitspaket-Kategorien"
+  label_available_project_work_package_types: "Verfügbare Arbeitspaket-Typen"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-Dokumentation"
   label_backup: "Backup"
   label_between: "zwischen"
@@ -2101,8 +2104,8 @@ de:
     zero: "Keine Projekte"
   label_yesterday: "gestern"
   label_role_type: "Typ"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Projektrolle"
+  label_global_role: "Globale Rolle"
   label_not_changeable: "(nicht veränderbar)"
   label_global: "Global"
   label_seeded_from_env_warning: Dieser Datensatz wurde durch eine Konfigurationsrichtlinie oder Umgebungsvariable erstellt. Er kann nicht über die Benutzeroberfläche bearbeitet werden.
@@ -2190,8 +2193,8 @@ de:
   mail_body_register_ending: "Wir freuen uns auf Ihre Rückmeldung! Herzlichen Dank,"
   mail_body_reminder: "%{count} Arbeitspakete, die Ihnen zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
   mail_body_group_reminder: "%{count} Arbeitspaket(e), die der Gruppe \"%{group}\" zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Die Wiki-Seite '%{id}' wurde von %{author} hinzugefügt."
+  mail_body_wiki_page_updated: "Die Wiki-Seite '%{id}' wurde von %{author} aktualisiert."
   mail_subject_account_activation_request: "Antrag auf %{value} Kontoaktivierung"
   mail_subject_backup_ready: "Ihr Backup steht bereit"
   mail_subject_backup_token_reset: "Backup-Token zurücksetzen"
@@ -2330,7 +2333,7 @@ de:
   permission_add_work_package_notes: "Kommentare hinzufügen"
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
-  permission_add_project: "Create projects"
+  permission_add_project: "Projekte erstellen"
   permission_archive_project: "Projekt archivieren"
   permission_create_user: "Benutzer erstellen"
   permission_manage_user: "Benutzer bearbeiten"
@@ -2370,7 +2373,7 @@ de:
   permission_log_time: "Zeitaufwand für andere Benutzer verbuchen"
   permission_manage_forums: "Foren verwalten"
   permission_manage_categories: "Arbeitspaket-Kategorien verwalten"
-  permission_manage_dashboards: "Manage dashboards"
+  permission_manage_dashboards: "Dashboards verwalten"
   permission_manage_work_package_relations: "Arbeitspaket-Beziehungen verwalten"
   permission_manage_members: "Mitglieder verwalten"
   permission_manage_news: "Nachricht verwalten"
@@ -2390,7 +2393,7 @@ de:
   permission_manage_types: "Typen auswählen"
   permission_view_changesets: "Revisionen des Projektarchivs in OpenProject ansehen"
   permission_view_commit_author_statistics: "Commit Autor Statistiken ansehen"
-  permission_view_dashboards: "View dashboards"
+  permission_view_dashboards: "Dashboard anzeigen"
   permission_view_work_package_watchers: "Liste der Beobachter ansehen"
   permission_view_work_packages: "Arbeitspakete anzeigen"
   permission_view_messages: "Forenbeiträge ansehen"

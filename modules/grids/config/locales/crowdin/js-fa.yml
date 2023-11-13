@@ -14,10 +14,10 @@ fa:
           title: 'اسناد'
           no_results: 'سندی وجود ندارد.'
         members:
-          title: 'Members'
+          title: 'اعضا'
           no_results: 'No visible members.'
           view_all_members: 'مشاهده همه کاربران'
-          add: 'Member'
+          add: 'عضو'
           too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'News'
@@ -60,7 +60,7 @@ fa:
         work_packages_graph:
           title: 'Work packages graph'
         work_packages_calendar:
-          title: 'Calendar'
+          title: 'تقویم'
         work_packages_overview:
           title: 'Work packages overview'
           placeholder: 'برای ویرایش کلیک کنید...'

@@ -721,9 +721,9 @@
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'overlapp.'
+          outside: 'er utenfor rutenett.'
+          end_before_start: 'sluttverdien må være større enn startverdien.'
         ical_token_query_assignment:
           attributes:
             name:
@@ -926,13 +926,14 @@
     models:
       attachment: "Fil"
       attribute_help_text: "Attribute help text"
-      forum: "Forum"
+      category: "Kategori"
       comment: "Kommentar"
       custom_action: "Custom action"
       custom_field: "Egendefinert felt"
+      'doorkeeper/application': "OAuth application"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Gruppe"
-      category: "Kategori"
-      status: "Status for arbeidspakke"
       member: "Medlem"
       news: "Nyheter"
       notification:
@@ -944,14 +945,14 @@
       role:
         one: "Rolle"
         other: "Rolle"
+      status: "Status for arbeidspakke"
       type: "Type"
       user: "Bruker"
       version: "Versjon"
-      wiki: "Wiki"
-      wiki_page: "Wiki-side"
       workflow: "Arbeidsflyt"
       work_package: "Arbeidspakke"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Wiki-side"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1589,11 +1590,13 @@
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentisering"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API dokumentasjon"
   label_backup: "Backup"
   label_between: "mellom"

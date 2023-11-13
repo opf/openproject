@@ -232,13 +232,6 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         model.on('op:attachment-added', () => document.body.dispatchEvent(new DragEvent('dragend')));
         model.on('op:attachment-removed', () => document.body.dispatchEvent(new DragEvent('dragend')));
 
-        // Emitting a global dragleave on every dragleave of the ckeditor element
-        // IMPORTANT: This emits much more dragleave events then dragenter events.
-        // In the end, this leads to a break in every drop zone that listens to those two global events
-        // to determine its state. Without it, if no dragleave is fired, the drop zones enter a failed state,
-        // not vanishing after ending the drag.
-        this.$element.on('dragleave', () => document.body.dispatchEvent(new DragEvent('dragleave')));
-
         this.initializeDone.emit(watchdog.editor);
         return watchdog.editor;
       });

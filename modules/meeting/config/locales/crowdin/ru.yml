@@ -22,9 +22,9 @@
 #English strings go here for Rails i18n
 ru:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "Встреча OpenProject"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      Этот модуль добавляет функции для поддержки встреч проектов в OpenProject. Для участия в работе совещания могут быть запланированы приглашенные из того же проекта. Повестка дня может быть создана и отправлена приглашенным лицам. После встречи участники могут быть выбраны и минуты могут быть созданы на основе повестки дня. Наконец, минуты могут быть отправлены всем участникам и приглашенным.
   activerecord:
     attributes:
       meeting:

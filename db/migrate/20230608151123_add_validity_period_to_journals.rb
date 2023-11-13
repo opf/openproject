@@ -1,6 +1,4 @@
 class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
-  set_minimum_statement_timeout('15min')
-
   def change
     add_column :journals, :validity_period, :tstzrange
 

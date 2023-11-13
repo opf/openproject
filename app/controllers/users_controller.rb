@@ -62,10 +62,14 @@ class UsersController < ApplicationController
   end
 
   def show
-    # show projects based on current user visibility
+    # show projects based on current user visibility.
+    # But don't simply concatenate the .visible scope to the memberships
+    # as .memberships has an include and an order which for whatever reason
+    # also gets applied to the Project.allowed_to parts concatenated by a UNION
+    # and an order inside a UNION is not allowed in postgres.
     @memberships = @user.memberships
                         .where.not(project_id: nil)
-                        .visible(current_user)
+                        .where(id: Member.visible(current_user))
 
     if can_show_user?
       @events = events
@@ -110,7 +114,7 @@ class UsersController < ApplicationController
 
         if @user.invited?
           # setting a password for an invited user activates them implicitly
-          @user.activate!
+            @user.activate!
 
           send_information = true
         end
@@ -144,7 +148,7 @@ class UsersController < ApplicationController
   def change_status_info
     @status_change = params[:change_action].to_sym
 
-    return render_400 unless %i(activate lock unlock).include? @status_change
+    render_400 unless %i(activate lock unlock).include? @status_change
   end
 
   def change_status
@@ -154,7 +158,7 @@ class UsersController < ApplicationController
       return
     end
 
-    if (params[:unlock] || params[:activate]) 
+    if (params[:unlock] || params[:activate])
       return redirect_back_or_default(action: 'edit', id: @user)
     end
 

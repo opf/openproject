@@ -72,9 +72,16 @@ module OpenProject::Plugins
 
     def self.filtered_strategies(strategy_key, options)
       options.select do |provider|
-        name = provider[:name]&.to_s
-        next true 
+        filtered = filtered_strategy?(strategy_key, provider)
+        warn_unavailable(name) unless filtered
+
+        filtered
       end
+    end
+
+    def self.filtered_strategy?(_strategy_key, provider)
+      name = provider[:name]&.to_s
+      !EnterpriseToken.show_banners? || name == 'developer'
     end
 
     def self.strategy_key(strategy)
@@ -98,6 +105,13 @@ module OpenProject::Plugins
     # @param provider [String] Name of the provider
     def self.limit_self_registration?(provider:)
       Hash(find_provider_by_name(provider))[:limit_self_registration]
+    end
+
+    def self.warn_unavailable(name)
+      RequestStore.fetch("warn_unavailable_auth_#{name}") do
+        Rails.logger.warn { "OmniAuth SSO strategy #{name} is only available for Enterprise Editions." }
+        true
+      end
     end
   end
 

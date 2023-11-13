@@ -11,6 +11,6 @@
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'overlapp.'
+          outside: 'er utenfor rutenett.'
+          end_before_start: 'sluttverdien må være større enn startverdien.'

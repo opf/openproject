@@ -416,7 +416,7 @@ lt:
     label_filename: "Failas"
     label_filesize: "Dydis"
     label_general: "Bendra"
-    label_global_roles: "Global roles"
+    label_global_roles: "Visuotiniai vaidmenys"
     label_greater_or_equal: ">="
     label_group: 'Grupė'
     label_group_by: "Grupuoti pagal"

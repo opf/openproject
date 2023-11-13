@@ -68,7 +68,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             OpenProject::Static::Links.help_link,
             last: true,
             caption: '',
-            icon: 'icon-help op-app-help--icon',
+            icon: 'help op-app-help--icon',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
                     target: '_blank' }
@@ -288,6 +288,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/roles' },
             if: Proc.new { User.current.admin? },
             caption: :label_role_and_permissions,
+            parent: :users_and_permissions
+
+  menu.push :permissions_report,
+            { controller: '/roles', action: 'report' },
+            if: Proc.new { User.current.admin? },
+            caption: :label_permissions_report,
             parent: :users_and_permissions
 
   menu.push :user_avatars,

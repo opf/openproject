@@ -29,8 +29,8 @@ zh-CN:
         position: "位置"
         remaining_hours: "剩余工时"
         remaining_time: "剩余工时"
-        derived_remaining_hours: "派生的剩余小时数"
-        derived_remaining_time: "派生的剩余小时数"
+        derived_remaining_hours: "派生的剩余工时"
+        derived_remaining_time: "派生的剩余工时"
         story_points: "故事点"
         backlogs_work_package_type: "待办清单类型"
     errors:

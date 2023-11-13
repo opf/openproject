@@ -925,13 +925,14 @@ sv:
     models:
       attachment: "Fil"
       attribute_help_text: "Hjälptexter för attribut"
-      forum: "Forum"
+      category: "Kategori"
       comment: "Kommentar"
       custom_action: "Anpassad åtgärd"
       custom_field: "Anpassat fält"
+      'doorkeeper/application': "OAuth-autentisering"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Grupp"
-      category: "Kategori"
-      status: "Arbetspaketstatus"
       member: "Medlem"
       news: "Nyheter"
       notification:
@@ -943,14 +944,14 @@ sv:
       role:
         one: "Roll"
         other: "Roller"
+      status: "Arbetspaketstatus"
       type: "Typ"
       user: "Användare"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki-sida"
       workflow: "Arbetsflöde"
       work_package: "Arbetspaket"
-      'doorkeeper/application': "OAuth-autentisering"
+      wiki: "Wiki"
+      wiki_page: "Wiki-sida"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1588,11 +1589,13 @@ sv:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentisering"
-  label_available_project_work_package_categories: 'Tillgängliga arbetspaketkategorier'
-  label_available_project_work_package_types: 'Tillgängliga typer för arbetspaket'
-  label_available_project_forums: 'Tillgängliga forum'
-  label_available_project_versions: 'Tillgängliga versioner'
-  label_available_project_repositories: 'Tillgängliga databaser'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Tillgängliga forum"
+  label_available_project_repositories: "Tillgängliga databaser"
+  label_available_project_versions: "Tillgängliga versioner"
+  label_available_project_work_package_categories: "Tillgängliga arbetspaketkategorier"
+  label_available_project_work_package_types: "Tillgängliga typer för arbetspaket"
+  label_available_projects: "Available projects"
   label_api_documentation: "API-dokumentation"
   label_backup: "Backup"
   label_between: "mellan"
@@ -2334,7 +2337,7 @@ sv:
   permission_add_work_package_notes: "Lägg till anteckningar"
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
-  permission_add_project: "Create projects"
+  permission_add_project: "Skapa projekt"
   permission_archive_project: "Arkivera projekt"
   permission_create_user: "Skapa användare"
   permission_manage_user: "Redigera användare"

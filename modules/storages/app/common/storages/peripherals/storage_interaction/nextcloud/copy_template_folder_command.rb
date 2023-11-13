@@ -56,14 +56,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         escaped_username = CGI.escapeURIComponent(@username)
 
         source = Util.join_uri_path(
-          @uri,
+          @uri.path,
           "remote.php/dav/files",
           escaped_username,
           Util.escape_path(input[:source_path])
         )
 
         destination = Util.join_uri_path(
-          @uri,
+          @uri.path,
           "remote.php/dav/files",
           escaped_username,
           Util.escape_path(input[:destination_path])

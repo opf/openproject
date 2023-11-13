@@ -923,13 +923,14 @@ th:
     models:
       attachment: "ไฟล์"
       attribute_help_text: "Attribute help text"
-      forum: "ฟอรั่ม"
+      category: "ประเภท"
       comment: "ความคิดเห็น"
       custom_action: "Custom action"
       custom_field: "ฟิลด์ที่กำหนดเอง"
+      'doorkeeper/application': "OAuth application"
+      forum: "ฟอรั่ม"
+      global_role: "Global role"
       group: "กลุ่ม"
-      category: "ประเภท"
-      status: "สถานะของชุดภารกิจ"
       member: "สมาชิก"
       news: "ข่าวสาร"
       notification:
@@ -939,14 +940,14 @@ th:
       query: "การสอบถามที่กำหนดเอง"
       role:
         other: "บทบาท"
+      status: "สถานะของชุดภารกิจ"
       type: "ประเภท"
       user: "ผู้ใช้"
       version: "เวอร์ชัน"
-      wiki: "วิกิ"
-      wiki_page: "หน้าวิกิ"
       workflow: "กระบวนการทำงาน"
       work_package: "ชุดภารกิจ"
-      'doorkeeper/application': "OAuth application"
+      wiki: "วิกิ"
+      wiki_page: "หน้าวิกิ"
   errors:
     header_invalid_fields:
       other: "There were problems with the following fields:"
@@ -1568,11 +1569,13 @@ th:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "การระบุตัวตนผู้ใช้"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "สำรอง"
   label_between: "between"

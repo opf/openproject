@@ -19,7 +19,7 @@ zh-CN:
       label_add_new: 添加一个新的 OpenID 提供商
       label_edit: 编辑 OpenID 提供商 %{name}
       no_results_table: 尚未定义提供商。
-      plural: OpenID 提供者
+      plural: OpenID 提供商
       singular: OpenID 提供商
     setting_instructions:
       azure_graph_api: >

@@ -102,8 +102,8 @@ However, for most end points, this does not need to be and should not be done on
 
 When a set of records is to be returned, e.g. for an index action, it is best to limit the returned result set to the records the user is allowed to see. To avoid having to apply the permission check after the records have been fetched and instantiated, which is costly, it is best to limit the records in the sql right away. As there are a couple of different scenarios for fetching records, there are a couple of matching scopes defined:
 
-| Schenario | Scope | Example |
-|---------- | ------| ------ |
+| Scenario | Scope | Example |
+|--------- | ------| ------- |
 | All projects a user is allowed a permission in | `Authorization.projects(permission, user)` | `Authorization.projects(:view_work_packages, User.current)` |
 | All users granted a permission in a project | `Authorization.users(permission, project)` | `Authorization.users(:view_work_packages, project)` |
 | All roles a user has in a project or globally | `Authorization.roles(user, project = nil)` | `Authorization.roles(User.current, project)`, `Authorization.roles(User.current)` |

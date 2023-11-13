@@ -932,13 +932,14 @@ he:
     models:
       attachment: "קובץ"
       attribute_help_text: "Attribute help text"
-      forum: "פורום"
+      category: "קטגוריה"
       comment: "תגובה"
       custom_action: "Custom action"
       custom_field: "שדה מותאם אישית"
+      'doorkeeper/application': "OAuth application"
+      forum: "פורום"
+      global_role: "Global role"
       group: "קבוצה"
-      category: "קטגוריה"
-      status: "מצב חבילת העבודה"
       member: "חבר"
       news: "חדשות"
       notification:
@@ -954,14 +955,14 @@ he:
         two: "תפקידים"
         many: "תפקידים"
         other: "תפקידים"
+      status: "מצב חבילת העבודה"
       type: "סוג"
       user: "משתמש"
       version: "גירסה"
-      wiki: "ויקי"
-      wiki_page: "דף ויקי"
       workflow: "זרימת עבודה"
       work_package: "חבילת עבודה"
-      'doorkeeper/application': "OAuth application"
+      wiki: "ויקי"
+      wiki_page: "דף ויקי"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1631,11 +1632,13 @@ he:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "אימות"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'Available work package types'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "Available work package types"
+  label_available_projects: "Available projects"
   label_api_documentation: "API documentation"
   label_backup: "Backup"
   label_between: "between"

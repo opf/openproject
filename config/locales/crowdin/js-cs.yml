@@ -300,7 +300,7 @@ cs:
       label: 'Ganttův diagram'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
+        title: 'Konfigurace štítku'
         bar: 'Bar labels'
         left: 'Vlevo'
         right: 'Vpravo'

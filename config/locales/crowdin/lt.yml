@@ -929,13 +929,14 @@ lt:
     models:
       attachment: "Failas"
       attribute_help_text: "Atributo pagalbos tekstas"
-      forum: "Forumas"
+      category: "Kategorija"
       comment: "Komentaras"
       custom_action: "Pasirinktinis veiksmas"
       custom_field: "Kliento laukelis"
+      'doorkeeper/application': "OAuth aplikacija"
+      forum: "Forumas"
+      global_role: "Visuotinis vaidmuo"
       group: "Grupė"
-      category: "Kategorija"
-      status: "Darbų paketo būsena"
       member: "Narys"
       news: "Naujienos"
       notification:
@@ -951,14 +952,14 @@ lt:
         few: "Vaidmenys"
         many: "Vaidmenų"
         other: "Vaidmuo"
+      status: "Darbų paketo būsena"
       type: "Tipas"
       user: "Naudotojas"
       version: "Versija"
-      wiki: "Wiki"
-      wiki_page: "Wiki puslapis"
       workflow: "Darbų eiga"
       work_package: "Darbų paketas"
-      'doorkeeper/application': "OAuth aplikacija"
+      wiki: "Wiki"
+      wiki_page: "Wiki puslapis"
   errors:
     header_invalid_fields:
       one: "Buvo problema su šiuo lauku:"
@@ -1628,11 +1629,13 @@ lt:
   label_ldap_auth_source: "LDAP jungtis"
   label_ldap_auth_source_plural: "LDAP jungtis"
   label_authentication: "Autentifikacija"
-  label_available_project_work_package_categories: 'Galimos darbų paketo kategorijos'
-  label_available_project_work_package_types: 'Galimi darbo paketų tipai'
-  label_available_project_forums: 'Galimi forumai'
-  label_available_project_versions: 'Galimos versijos'
-  label_available_project_repositories: 'Galimos saugyklos'
+  label_available_global_roles: "Galimi globalūs vaidmenys"
+  label_available_project_forums: "Galimi forumai"
+  label_available_project_repositories: "Galimos saugyklos"
+  label_available_project_versions: "Galimos versijos"
+  label_available_project_work_package_categories: "Galimos darbų paketo kategorijos"
+  label_available_project_work_package_types: "Galimi darbo paketų tipai"
+  label_available_projects: "Galimi projektai"
   label_api_documentation: "API dokumentacija"
   label_backup: "Atsarginė kopija"
   label_between: "tarp"
@@ -2145,8 +2148,8 @@ lt:
     zero: "nėra projektų"
   label_yesterday: "vakar"
   label_role_type: "Tipas"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Vaidmuo projekte"
+  label_global_role: "Visuotinis vaidmuo"
   label_not_changeable: "(negalima pakeisti)"
   label_global: "Globali"
   label_seeded_from_env_warning: Šis įrašas buvo nustatytas per nustatymą / aplinkos kintamąjį. Jo negalima keisti per UI.
@@ -2376,7 +2379,7 @@ lt:
   permission_add_work_package_notes: "Pridėti pastabų"
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
-  permission_add_project: "Create projects"
+  permission_add_project: "Kurti projektus"
   permission_archive_project: "Archyvuoti projektą"
   permission_create_user: "Kurti naudotojus"
   permission_manage_user: "Keisti naudotojus"
@@ -2389,7 +2392,7 @@ lt:
   permission_comment_news: "Komentuoti naujienas"
   permission_commit_access: "Skaitymo/rašymo prieiga į repozitoriją"
   permission_copy_projects: "Kopijuoti projekus"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "Kurti atsargines kopijas"
   permission_delete_work_package_watchers: "Pašalinti stebėtojus"
   permission_delete_work_packages: "Pašalinti darbų paketus"
   permission_delete_messages: "Pašalinti pranešimus"

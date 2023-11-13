@@ -226,19 +226,19 @@ fa:
           status_label: "Status:"
           status_confirmed: "تایید شده"
           status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "نسخه انترپرایز را به مدت 14 روز به صورت رایگان تست کنید."
+          quick_overview: "یک مرور سریع از مدیریت پروژه و همکاری تیمی با نسخه انترپرایز OpenProject را دریافت کنید."
         upsale:
           become_hero: "Become a hero!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "مزایای OpenProject اینترپرایز حرفه ای در نسخه قابل نصب بر روی سرور مجازی یا اختصاصی خودتان چیست؟"
             high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "ورود یکباره (Single Sign-On) (SAML، OpenID Connect، CAS)، گروه‌های LDAP"
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Enterprise add-ons"
+            premium_features: "افزونه‌های نسخه حرفه ای"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
@@ -249,11 +249,11 @@ fa:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
-          more_info: "More information"
+          more_info: "اطلاعات بیشتر"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            نسخه انترپرایز اوپن‌پروژه بر پایه نسخه جامعه سازگاری دارد. این نسخه شامل افزونه‌های انترپرایز و پشتیبانی حرفه‌ای است که به‌طور اصلی برای سازمان‌ها با بیش از 10 کاربر طراحی شده است و پروژه‌های حیاتی تجاری خود را با استفاده از اوپن‌پروژه مدیریت می‌کنند.
           unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "توسعه‌دهندگان هم نیاز به پرداخت قبوض دارند. با ارتقاء به نسخه انترپرایز، شما این تلاش جامعه متن باز را حمایت کرده و به توسعه، نگهداری و بهبود مداوم آن کمک خواهید کرد."
       working_days:
         calendar:
           empty_state_header: "Non-working days"
@@ -416,7 +416,7 @@ fa:
     label_filename: "فایل"
     label_filesize: "اندازه‌"
     label_general: "General"
-    label_global_roles: "Global roles"
+    label_global_roles: "نقش‌های جهانی"
     label_greater_or_equal: ">="
     label_group: 'Group'
     label_group_by: "Group by"
@@ -428,8 +428,8 @@ fa:
     label_in_less_than: "in less than"
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
-    label_information_plural: "Information"
-    label_invalid: "Invalid"
+    label_information_plural: "اطلاعات"
+    label_invalid: "نا معتبر"
     label_import: "Import"
     label_latest_activity: "آخرین فعالیت"
     label_last_updated_on: "آخرین به روزرسانی در"
@@ -552,7 +552,7 @@ fa:
         next: 'Next'
         got_it: 'متوجه شدم'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'منوی راهنما (؟) منابع <b>راهنمای اضافی</b> را فراهم می‌کند. در اینجا می‌توانید راهنمای کاربر، ویدیوهای آموزشی مفید و موارد دیگر را پیدا کنید. <br> از کار با اوپن‌پروژه لذت ببرید!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -593,11 +593,11 @@ fa:
         watched: 'watcher'
         assigned: 'assignee'
         responsible: 'accountable'
-        created: 'created'
-        scheduled: 'برنامه ریزی شده'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'ایجاد شده'
+        scheduled: 'زمان بندی شده'
+        commented: 'نظر داده شده'
+        processed: 'پردازش شده'
+        prioritized: 'اولویت بندی شده'
         dateAlert: 'Date alert'
       date_alerts:
         milestone_date: 'Milestone date'
@@ -674,18 +674,18 @@ fa:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: 'اطلاعیه (اعلان) برای تمام فعالیت‌ها در پکیج‌های کاری که در آن‌ها شرکت دارید (به عنوان مسئول، متولی یا تماشاگر).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects.'
+            description: 'اعلان‌های اضافی برای فعالیت‌ها در تمام پروژه‌ها'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: 'اعلان‌های خودکار هنگام نزدیک شدن تاریخ‌های مهم برای پکیج‌های کاری باز که در آن‌ها شرکت دارید (به عنوان مسئول، متولی یا تماشاگر).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           overdue: When overdue
         project_specific:
           title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above.'
+          description: 'این تنظیمات خاص پروژه تنظیمات پیش‌فرض بالا را بازنویسی می‌کنند.'
           add: 'Add setting for project'
           already_selected: 'این پروژه قبلاً انتخاب شده است'
           remove: 'Remove project settings'
@@ -756,9 +756,9 @@ fa:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
-        more_information: "More information"
+        upgrade_to_ee: "ارتقاء به نسخه انترپرایز (on-premises) بر روی سرور مجازی یا اختصاصی شخصی خود"
+        upgrade_to_ee_text: "وااای! اگر به این افزونه نیاز دارید، شما یک حرفه‌ای هستید! آیا ممکن است ما توسعه‌دهندگان متن‌باز را با تبدیل شدن به مشتری نسخه انترپرایز حمایت کنید؟"
+        more_information: "اطلاعات بیشتر"
         nevermind: "Nevermind"
       edit:
         form_configuration: "Form Configuration"
@@ -841,7 +841,7 @@ fa:
     field_value_enter_prompt: "Enter a value for '%{field}'"
     project_menu_details: "Details"
     scheduling:
-      manual: 'Manual scheduling'
+      manual: 'زمان‌بندی دستی'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -1054,7 +1054,7 @@ fa:
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'آیا نیاز به مشاهده روابط در بسته کاری را دارید؟'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'نسخه سازمانی را بررسی کنید.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1199,9 +1199,9 @@ fa:
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Placeholder کاربر (فقط برای نسخه حرفه ای)'
           description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'دسترسی به پروژه ندارد و هیچ ایمیلی ارسال نمی‌شود. <br> نسخه <a href="%{eeHref}" target="_blank">انترپرایز</a> را بررسی کنید.'
       principal:
         label:
           name_or_email: 'Name or email address'

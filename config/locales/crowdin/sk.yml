@@ -932,13 +932,14 @@ sk:
     models:
       attachment: "Súbor"
       attribute_help_text: "Text nápovedy atribútu"
-      forum: "Diskusia"
+      category: "Kategória"
       comment: "Komentár"
       custom_action: "Vlastná akcia"
       custom_field: "Vlastné pole"
+      'doorkeeper/application': "OAuth aplikácia"
+      forum: "Diskusia"
+      global_role: "Global role"
       group: "Skupina"
-      category: "Kategória"
-      status: "Stav pracovného balíčka"
       member: "Člen"
       news: "Novinky"
       notification:
@@ -954,14 +955,14 @@ sk:
         few: "Rolí"
         many: "Rolí"
         other: "Rolí"
+      status: "Stav pracovného balíčka"
       type: "Typ"
       user: "Užívateľ(ka)"
       version: "Verzia"
-      wiki: "Wiki"
-      wiki_page: "Wiki stránka"
       workflow: "Pracovný postup"
       work_package: "Pracovný balíček"
-      'doorkeeper/application': "OAuth aplikácia"
+      wiki: "Wiki"
+      wiki_page: "Wiki stránka"
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
@@ -1631,11 +1632,13 @@ sk:
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentifikácia"
-  label_available_project_work_package_categories: 'Dostupné kategórie pracovných balíčkov'
-  label_available_project_work_package_types: 'Dostupné kategórie pracovných balíčkov'
-  label_available_project_forums: 'Available forums'
-  label_available_project_versions: 'Dostupné verzie'
-  label_available_project_repositories: 'Dosupné úložíská'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "Available forums"
+  label_available_project_repositories: "Dosupné úložíská"
+  label_available_project_versions: "Dostupné verzie"
+  label_available_project_work_package_categories: "Dostupné kategórie pracovných balíčkov"
+  label_available_project_work_package_types: "Dostupné kategórie pracovných balíčkov"
+  label_available_projects: "Available projects"
   label_api_documentation: "Dokumentácia API"
   label_backup: "Backup"
   label_between: "medzi"

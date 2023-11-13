@@ -15,7 +15,7 @@ cs:
   errors:
     attributes:
       storage_error:
-        not_authorized: "Not authorized for external connection to storage."
+        not_authorized: "Nemáte oprávnění k externímu připojení k úložišti."
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
@@ -32,6 +32,10 @@ cs:
       messages:
         not_linked_to_project: "není propojen s projektem."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:
@@ -60,7 +64,7 @@ cs:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Nahradit OpenProject OAuth"
       replace_provider_type_oauth: "Nahradit %{provider_type} OAuth"
-      save: "Save"
+      save: "Uložit"
       save_and_continue_setup: "Uložit a pokračovat v nastavení"
       save_and_complete_setup: "Uložit a dokončit nastavení"
       select_folder: "Vyberte složku"
@@ -145,7 +149,7 @@ cs:
     label_files: "Soubory"
     member_connection_status:
       connected: "Připojeno"
-      connected_no_permissions: "User role has no storages permissions"
+      connected_no_permissions: "Uživatelská role nemá oprávnění k ukládání"
       not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "Zatím nejsou nastaveny žádné úložiště."
     members_no_results: "Žádní členové k zobrazení."

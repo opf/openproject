@@ -32,6 +32,10 @@ lt:
       messages:
         not_linked_to_project: "nesusietas su projektu."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "negalimas šiai saugyklai."
         storages/storage:
           attributes:
             host:

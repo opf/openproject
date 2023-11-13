@@ -1,8 +1,8 @@
 #English strings go here
 fa:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
-    description: "Allows linking work packages to files in external storages, such as Nextcloud."
+    name: "ذخیره سازهای  OpenProject "
+    description: "امکان ارتباط بخش فایل پکیج‌های کاری را با فایل‌ها در ذخیره‌سازی‌های خارجی مانند Nextcloud  فراهم می‌کند.\""
   permission_view_file_links: "View file links"
   permission_manage_file_links: "Manage file links"
   permission_manage_storages_in_project: "Manage file storages in project"
@@ -32,6 +32,10 @@ fa:
       messages:
         not_linked_to_project: "is not linked to project."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:
@@ -127,8 +131,8 @@ fa:
       application_password: "Application password"
     label_managed_project_folders_breadcrumb: "Automatically managed project folders"
     label_oauth_breadcrumb:
-      openproject: "OpenProject OAuth"
-      nextcloud: "Nextcloud OAuth"
+      openproject: "احراز هویت(OAuth) OpenProject"
+      nextcloud: "احراز هویت (OAuth) Nextcloud "
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Provider type"
@@ -148,13 +152,13 @@ fa:
       connected_no_permissions: "User role has no storages permissions"
       not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "No storages set up yet."
-    members_no_results: "No members to display."
+    members_no_results: "هیچ عضوی برای نمایش نیست."
     provider_types:
       label: "Provider type"
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
-        default_name: "My Nextcloud"
+        default_name: "Nextcloud من"
     confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."

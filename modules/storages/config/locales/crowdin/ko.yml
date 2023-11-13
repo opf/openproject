@@ -32,6 +32,10 @@ ko:
       messages:
         not_linked_to_project: "- 프로젝트에 연결되지 않았습니다."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:

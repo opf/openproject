@@ -922,13 +922,14 @@ ko:
     models:
       attachment: "파일"
       attribute_help_text: "특성 도움말 텍스트"
-      forum: "포럼"
+      category: "카테고리"
       comment: "코멘트"
       custom_action: "사용자 지정 작업"
       custom_field: "사용자 정의 필드"
+      'doorkeeper/application': "OAuth 애플리케이션"
+      forum: "포럼"
+      global_role: "Global role"
       group: "그룹"
-      category: "카테고리"
-      status: "작업 패키지 상태"
       member: "멤버"
       news: "뉴스"
       notification:
@@ -938,14 +939,14 @@ ko:
       query: "사용자 지정 쿼리"
       role:
         other: "역할"
+      status: "작업 패키지 상태"
       type: "타입"
       user: "사용자"
       version: "버전"
-      wiki: "위키"
-      wiki_page: "위키 페이지"
       workflow: "워크플로"
       work_package: "작업 패키지"
-      'doorkeeper/application': "OAuth 애플리케이션"
+      wiki: "위키"
+      wiki_page: "위키 페이지"
   errors:
     header_invalid_fields:
       other: "다음 필드에 문제가 있습니다."
@@ -1567,11 +1568,13 @@ ko:
   label_ldap_auth_source: "LDAP 연결"
   label_ldap_auth_source_plural: "LDAP 연결"
   label_authentication: "인증"
-  label_available_project_work_package_categories: '사용 가능한 작업 패키지 카테고리'
-  label_available_project_work_package_types: '사용 가능한 작업 패키지 유형'
-  label_available_project_forums: '사용 가능한 포럼'
-  label_available_project_versions: '사용 가능한 버전'
-  label_available_project_repositories: '사용 가능한 저장소'
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "사용 가능한 포럼"
+  label_available_project_repositories: "사용 가능한 저장소"
+  label_available_project_versions: "사용 가능한 버전"
+  label_available_project_work_package_categories: "사용 가능한 작업 패키지 카테고리"
+  label_available_project_work_package_types: "사용 가능한 작업 패키지 유형"
+  label_available_projects: "Available projects"
   label_api_documentation: "API 설명서"
   label_backup: "백업"
   label_between: "사이에"

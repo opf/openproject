@@ -18,10 +18,14 @@ module Exports
       # Print the value meant for export.
       #
       # - For boolean values, don't use the Yes/No formatting for the UI
+      #   treat nil as false
       # - For long text values, output the plain value
       def format_for_export(object, custom_field)
         case custom_field.field_format
-        when 'bool', 'text'
+        when 'bool'
+          value = object.typed_custom_value_for(custom_field)
+          value == nil ? false : value
+        when 'text'
           object.typed_custom_value_for(custom_field)
         else
           object.formatted_custom_value_for(custom_field)

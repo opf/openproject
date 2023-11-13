@@ -1,8 +1,8 @@
 #English strings go here
 ru:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
-    description: "Allows linking work packages to files in external storages, such as Nextcloud."
+    name: "OpenProject хранилища"
+    description: "Позволяет связывать пакеты работ с файлами внешних накопителей, например, Nextcloud."
   permission_view_file_links: "Просмотр ссылок на файл"
   permission_manage_file_links: "Управление ссылками файлов"
   permission_manage_storages_in_project: "Управление файловыми хранилищами в проекте"
@@ -32,6 +32,10 @@ ru:
       messages:
         not_linked_to_project: "не связан с проектом."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:
