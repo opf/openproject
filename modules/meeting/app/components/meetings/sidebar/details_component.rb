@@ -40,13 +40,6 @@ module Meetings
 
     private
 
-    def wrapper_data_attributes
-      {
-        controller: 'meetings-sidebar-details',
-        'application-target': 'dynamic'
-      }
-    end
-
     def render_truncated_location
       render(Primer::Beta::Truncate.new) do |component|
         component.with_item(max_width: 250) do
@@ -54,30 +47,6 @@ module Meetings
         end
       end
     end
-
-    def render_participant(participant)
-      flex_layout(align_items: :center) do |flex|
-        flex.with_column(classes: 'ellipsis') do
-          render(Users::AvatarComponent.new(user: participant.user,
-                                            size: :medium,
-                                            classes: 'op-principal_flex'))
-        end
-        render_participant_state(participant, flex)
-      end
-    end
-
-    def render_participant_state(participant, flex)
-      if participant.attended?
-        flex.with_column(ml: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("description_attended").capitalize }
-        end
-      elsif participant.invited?
-        flex.with_column(ml: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("description_invite").capitalize }
-        end
-      end
-    end
-
     def render_meeting_attribute_row(icon, &)
       flex_layout(align_items: :center, justify_content: :space_between) do |flex|
         flex.with_column do
