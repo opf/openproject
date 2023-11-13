@@ -106,13 +106,11 @@ RSpec.describe 'Admin storages',
           select('Nextcloud', from: 'storages_storage[provider_type]')
 
           # OAuth application
-          wait_for do
-            expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
-            expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Incomplete')
-          end
+          expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
+          expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Incomplete')
 
           # OAuth client
-          expect(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
+          wait_for(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
           expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
           expect(page).to have_test_selector('storage-oauth-client-id-description',
                                              text: "Allow OpenProject to access Nextcloud data using OAuth.")
@@ -234,13 +232,11 @@ RSpec.describe 'Admin storages',
           select('OneDrive/SharePoint', from: 'storages_storage[provider_type]')
 
           # OAuth client
-          wait_for do
-            expect(page).to have_test_selector('storage-oauth-client-label', text: 'Azure OAuth')
-            expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
-            expect(page).to have_test_selector('storage-oauth-client-id-description',
-                                               text: "Allow OpenProject to access Azure data using OAuth " \
-                                                     "to connect OneDrive/Sharepoint.")
-          end
+          wait_for(page).to have_test_selector('storage-oauth-client-label', text: 'Azure OAuth')
+          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
+          expect(page).to have_test_selector('storage-oauth-client-id-description',
+                                             text: "Allow OpenProject to access Azure data using OAuth " \
+                                                   "to connect OneDrive/Sharepoint.")
         end
 
         aggregate_failures 'General information' do
