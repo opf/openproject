@@ -167,7 +167,10 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def load_query
-    @query = ParamsToQueryService.new(Member, current_user).call(params)
+    @query = ParamsToQueryService.new(Member,
+                                      current_user,
+                                      query_class: Queries::Members::WorkPackageMemberQuery)
+                                 .call(params)
 
     # Set default filter on the entity
     @query.where('entity_id', '=', @work_package.id)
