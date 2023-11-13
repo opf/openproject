@@ -1,5 +1,5 @@
 <%=
-  grid_layout((meeting_open? ? 'op-meeting-agenda-item' : 'closed-meeting op-meeting-agenda-item'), tag: :div) do |grid|
+  grid_layout('op-meeting-agenda-item', classes: (meeting_closed? ? 'op-meeting-agenda-item--closed' : ''), tag: :div) do |grid|
     if drag_and_drop_enabled?
       grid.with_area(:'drag-handle', tag: :div) do
         render(Primer::OpenProject::DragHandle.new(classes: 'handle'))

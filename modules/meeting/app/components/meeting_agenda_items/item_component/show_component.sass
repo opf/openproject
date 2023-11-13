@@ -26,7 +26,7 @@ $meeting-agenda-item--author-width: 300px
   &--content
     @include text-shortener
 
-  &.closed-meeting
+  &--closed
     grid-template-columns: 20px auto 1fr minmax(auto, $meeting-agenda-item--author-width)
     grid-template-areas: "drag-handle content duration author" ". notes notes notes notes"
 

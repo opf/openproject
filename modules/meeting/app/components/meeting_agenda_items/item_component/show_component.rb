@@ -49,8 +49,8 @@ module MeetingAgendaItems
       @meeting.open? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
 
-    def meeting_open?
-      @meeting.open?
+    def meeting_closed?
+      !@meeting.open?
     end
     def edit_action_item(menu)
       menu.with_item(label: t("label_edit"),
