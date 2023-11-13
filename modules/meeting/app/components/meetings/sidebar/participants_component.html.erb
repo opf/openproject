@@ -48,7 +48,7 @@
               end
             end
 
-            list.with_row(mt: 2) do
+            list.with_row(mt: 1) do
               flex_layout do |flex|
                 flex.with_row(classes: 'd-none', data: { 'meetings-sidebar-participants-target': "hiddenParticipants" }) do
                   flex_layout do |hidden_user_list|
@@ -70,7 +70,7 @@
         end
       end
 
-      participants_container.with_row(display: [:block, :block, :none, :none, :none]) do
+      participants_container.with_row(display: [:block, :none, :none, :none, :none]) do
         flex_layout do |flex|
           if count == 0
             render(Primer::Beta::Text.new(color: :subtle)) { t("label_meeting_no_participants") }
