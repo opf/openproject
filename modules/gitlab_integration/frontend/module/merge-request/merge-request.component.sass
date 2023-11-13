@@ -140,35 +140,6 @@
     &_style
       fill: #737278
 
-  &--pipeline-icon
-    grid-area: pipe_icon
-    padding: 0.25rem
-    border-radius: 10rem
-    font-size: 0.8rem
-    font-weight: 400
-    align-self: center
-    margin-right: 6px
-    width: fit-content
-    height: 28px
-    align-items: center
-    display: inline-flex
-
-    &_failed
-      fill: #dd2b0e
-      width: 20px
-      height: 20px
-
-    &_success
-      fill: #108548
-      width: 20px
-      height: 20px
-
-    &_bg_success
-      background-color: #c3e6cd
-
-    &_bg_failed
-      background-color: #fdd4cd
-
   &--state
     grid-area: state
     display: inline-block
@@ -202,17 +173,146 @@
       color: #ae1800
       fill: #ae1800
 
+  &--pipeline-icon
+    grid-area: pipe_icon
+    padding: 0.25rem
+    border-radius: 10rem
+    font-size: 0.8rem
+    font-weight: 400
+    align-self: center
+    margin-right: 6px
+    width: fit-content
+    height: 28px
+    align-items: center
+    display: inline-flex
+
+    &_failed
+      fill: #dd2b0e
+      width: 20px
+      height: 20px
+
+    &_bg_failed
+      background-color: #fdd4cd
+
+    &_success
+      fill: #108548
+      width: 20px
+      height: 20px
+
+    &_bg_success
+      background-color: #c3e6cd
+
+    &_running
+      fill: #367ad1
+      width: 20px
+      height: 20px
+
+    &_bg_running
+      background-color: #cddffd
+
+    &_created
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_created
+      background-color: #ececef
+
+    &_waiting
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_waiting
+      background-color: #ececef
+
+    &_preparing
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_preparing
+      background-color: #ececef
+
+    &_pending
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_pending
+      background-color: #ececef
+
+    &_canceled
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_canceled
+      background-color: #ececef
+
+    &_skipped
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_skipped
+      background-color: #ececef
+
+    &_manual
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_manual
+      background-color: #ececef
+
+    &_scheduled
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_scheduled
+      background-color: #ececef
+
   &--pipeline-label
     font-size: 0.8rem
     font-weight: 400
     margin-left: 4px
     margin-right: 5px
+    text-transform: capitalize
 
     &_failed
       color: #ae1800
 
     &_success
       color: #24663b
+
+    &_running
+      color: #4782d0
+
+    &_created
+      color: #737278
+
+    &_waiting
+      color: #737278
+
+    &_preparing
+      color: #737278
+
+    &_pending
+      color: #737278
+
+    &_canceled
+      color: #737278
+
+    &_skipped
+      color: #737278
+
+    &_manual
+      color: #737278
+
+    &_scheduled
+      color: #737278
 
   &--pipeline
     margin-top: 12px

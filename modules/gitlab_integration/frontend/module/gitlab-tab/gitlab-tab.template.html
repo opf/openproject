@@ -72,4 +72,65 @@ document.addEventListener('DOMContentLoaded', function () {
       <path d="M7 5.969L5.599 4.568a.29.29 0 0 0-.413.004l-.614.614a.294.294 0 0 0-.004.413L5.968 7l-1.4 1.401a.29.29 0 0 0 .004.413l.614.614c.113.114.3.117.413.004L7 8.032l1.401 1.4a.29.29 0 0 0 .413-.004l.614-.614a.294.294 0 0 0 .004-.413L8.032 7l1.4-1.401a.29.29 0 0 0-.004-.413l-.614-.614a.294.294 0 0 0-.413-.004L7 5.968z"/>
     </g>
   </symbol>
+  <symbol viewBox="0 0 14 14" id="pipeline-status-running" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd">
+        <path d="M0 7a7 7 0 1 1 14 0A7 7 0 0 1 0 7z"/>
+        <path d="M13 7A6 6 0 1 0 1 7a6 6 0 0 0 12 0z" fill="var(--svg-status-bg, #fff)"/>
+        <path d="M7 3c2.2 0 4 1.8 4 4s-1.8 4-4 4c-1.3 0-2.5-.7-3.3-1.7L7 7V3"/>
+    </g>
+  </symbol>
+  <symbol viewBox="0 0 14 14" id="pipeline-status-created" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd">
+        <path d="M0 7a7 7 0 1 1 14 0A7 7 0 0 1 0 7z"/>
+        <path d="M13 7A6 6 0 1 0 1 7a6 6 0 0 0 12 0z" fill="var(--svg-status-bg, #fff)"/>
+        <circle cx="7" cy="7" r="3.25"/>
+    </g>
+  </symbol>
+  <symbol viewBox="0 0 14 14" id="pipeline-status-waiting" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M6 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2A6 6 0 1 0 6 0a6 6 0 0 0 0 12z"/>
+  </symbol>
+  <symbol viewBox="0 0 14 14" id="pipeline-status-preparing" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd">
+        <g fill-rule="nonzero">
+            <path d="M0 7a7 7 0 1 1 14 0A7 7 0 0 1 0 7z"/>
+            <path fill="var(--svg-status-bg, #fff)" d="M13 7A6 6 0 1 0 1 7a6 6 0 0 0 12 0z"/>
+        </g>
+        <circle cx="7" cy="7" r="1"/>
+        <circle cx="10" cy="7" r="1"/>
+        <circle cx="4" cy="7" r="1"/>
+    </g>
+  </symbol>
+  <symbol viewBox="0 0 14 14" id="pipeline-status-pending" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd">
+        <path d="M0 7a7 7 0 1 1 14 0A7 7 0 0 1 0 7z"/>
+        <path d="M13 7A6 6 0 1 0 1 7a6 6 0 0 0 12 0z" fill="var(--svg-status-bg, #fff)"/>
+        <path d="M4.7 5.3c0-.2.1-.3.3-.3h.9c.2 0 .3.1.3.3v3.4c0 .2-.1.3-.3.3H5c-.2 0-.3-.1-.3-.3V5.3m3 0c0-.2.1-.3.3-.3h.9c.2 0 .3.1.3.3v3.4c0 .2-.1.3-.3.3H8c-.2 0-.3-.1-.3-.3V5.3"/>
+    </g>
+  </symbol>
+  <symbol viewBox="0 0 14 14" id="pipeline-status-canceled" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd">
+        <path d="M0 7a7 7 0 1 1 14 0A7 7 0 0 1 0 7z"/>
+        <path d="M13 7A6 6 0 1 0 1 7a6 6 0 0 0 12 0z" fill="var(--svg-status-bg, #fff)"/>
+        <path d="M5.2 3.8l4.9 4.9c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L3.8 5.2c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0"/>
+    </g>
+  </symbol>
+  <symbol viewBox="0 0 14 14" id="pipeline-status-skipped" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 14A7 7 0 1 1 7 0a7 7 0 0 1 0 14z"/>
+    <path d="M7 13A6 6 0 1 0 7 1a6 6 0 0 0 0 12z" fill="var(--svg-status-bg, #fff)"/>
+    <path d="M6.415 7.04L4.579 5.203a.295.295 0 0 1 .004-.416l.349-.349a.29.29 0 0 1 .416-.004l2.214 2.214a.289.289 0 0 1 .019.021l.132.133c.11.11.108.291 0 .398L5.341 9.573a.282.282 0 0 1-.398 0l-.331-.331a.285.285 0 0 1 0-.399L6.415 7.04zm2.54 0L7.119 5.203a.295.295 0 0 1 .004-.416l.349-.349a.29.29 0 0 1 .416-.004l2.214 2.214a.289.289 0 0 1 .019.021l.132.133c.11.11.108.291 0 .398L7.881 9.573a.282.282 0 0 1-.398 0l-.331-.331a.285.285 0 0 1 0-.399L8.955 7.04z"/>
+  </symbol>
+  <symbol viewBox="0 0 14 14" id="pipeline-status-manual" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd">
+        <path d="M0 7a7 7 0 1 1 14 0A7 7 0 0 1 0 7z"/>
+        <path d="M13 7A6 6 0 1 0 1 7a6 6 0 0 0 12 0z" fill="var(--svg-status-bg, #fff)"/>
+        <path d="M10.5 7.63V6.37l-.787-.13c-.044-.175-.132-.349-.263-.61l.481-.652-.918-.913-.657.478a2.346 2.346 0 0 0-.612-.26L7.656 3.5H6.388l-.132.783c-.219.043-.394.13-.612.26l-.657-.478-.918.913.437.652c-.131.218-.175.392-.262.61l-.744.086v1.261l.787.13c.044.218.132.392.263.61l-.438.651.92.913.655-.434c.175.086.394.173.613.26l.131.783h1.313l.131-.783c.219-.043.394-.13.613-.26l.656.478.918-.913-.48-.652c.13-.218.218-.435.262-.61l.656-.13zM7 8.283a1.285 1.285 0 0 1-1.313-1.305c0-.739.57-1.304 1.313-1.304.744 0 1.313.565 1.313 1.304 0 .74-.57 1.305-1.313 1.305z"/>
+    </g>
+  </symbol>
+  <symbol viewBox="0 0 14 14" id="pipeline-status-scheduled" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 14A7 7 0 1 0 7 0a7 7 0 0 0 0 14z"/>
+    <path d="M7 13A6 6 0 1 0 7 1a6 6 0 0 0 0 12z" fill="#fff"/>
+    <path d="M6.995 10.64a3.645 3.645 0 1 1 0-7.29 3.645 3.645 0 0 1 0 7.29zm0-1.042a2.603 2.603 0 1 0 0-5.206 2.603 2.603 0 0 0 0 5.206z"/>
+    <path d="M7.033 4.92h-.065a.488.488 0 0 0-.488.488v1.627c0 .27.218.488.488.488h.065c.27 0 .488-.218.488-.488V5.408a.488.488 0 0 0-.488-.488z"/>
+    <path d="M8.075 6.48H6.968a.488.488 0 0 0-.488.488v.065c0 .27.218.488.488.488h1.107c.27 0 .488-.218.488-.488v-.065a.488.488 0 0 0-.488-.488z"/>
+  </symbol>
 </svg>
