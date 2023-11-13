@@ -42,7 +42,7 @@
 
 <div 
   class="op-issue--labels"
-  [ngClass]="'op-issue--labels-' + gitlabIssue.number">
+  [ngClass]="'op-issue--labels-' + gitlabIssue.number" style="display: none;">
   <span *ngFor="let label of gitlabIssue.labels">
     <span class='op-issue--label' [ngStyle]="{'background-color': label.color}" >
       {{label.title}}

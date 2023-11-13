@@ -47,7 +47,7 @@
 
 <div 
   class="op-merge-request--labels"
-  [ngClass]="'op-merge-request--labels-' + mergeRequest.number">
+  [ngClass]="'op-merge-request--labels-' + mergeRequest.number" style="display: none;">
   <span *ngFor="let label of mergeRequest.labels">
     <span class='op-merge-request--label' [ngStyle]="{'background-color': label.color}" >
       {{label.title}}
