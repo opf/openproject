@@ -57,17 +57,15 @@ class WorkPackages::SharesController < ApplicationController
                             user_id: member_params[:user_id],
                             role_ids: find_role_ids(params[:member][:role_id]))
 
-      @share = service_call.result
-
       overall_result.push(service_call)
     end
 
-    @shares = overall_result.map(&:result).reverse
+    @new_shares = overall_result.map(&:result).reverse
 
     if overall_result.present?
       # In case the number of newly added shares is equal to the whole number of shares,
       # we have to render the whole modal again to get rid of the blankslate
-      if current_visible_member_count > 1 && @shares.size < current_visible_member_count
+      if current_visible_member_count > 1 && @new_shares.size < current_visible_member_count
         respond_with_prepend_shares
       else
         respond_with_replace_modal
@@ -99,7 +97,7 @@ class WorkPackages::SharesController < ApplicationController
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares)
+      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @new_shares || find_shares)
     )
 
     respond_with_turbo_streams
@@ -114,10 +112,10 @@ class WorkPackages::SharesController < ApplicationController
       component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
-    @shares.each do |share|
+    @new_shares.each do |share|
       prepend_via_turbo_stream(
         component: WorkPackages::Share::ShareRowComponent.new(share:),
-        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares)
+        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: find_shares)
       )
     end
 
@@ -152,6 +150,13 @@ class WorkPackages::SharesController < ApplicationController
   def find_share
     @share = Member.of_work_packages.find(params[:id])
     @work_package = @share.entity
+  end
+
+  def find_shares
+    @shares = Member.includes(:roles)
+                    .references(:member_roles)
+                    .of_work_package(@work_package)
+                    .merge(MemberRole.only_non_inherited)
   end
 
   def find_project
