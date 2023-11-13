@@ -21,6 +21,7 @@
 <span *ngIf="mergeRequest.pipelines && mergeRequest.pipelines.length > 0" class='op-merge-request--pipeline-icon'
   [ngClass]="'op-merge-request--pipeline-icon_bg_' + mergeRequest.pipelines[0].status">
   <svg [ngClass]="'op-merge-request--pipeline-icon_' + mergeRequest.pipelines[0].status"><use [attr.xlink:href]="'#pipeline-status-' + mergeRequest.pipelines[0].status" /></svg>
+  <span [ngClass]="'op-merge-request--pipeline-label_' + mergeRequest.pipelines[0].status"> {{ mergeRequest.pipelines[0].status }} </span>
 </span>
 
 <div class="op-merge-request--info_created">

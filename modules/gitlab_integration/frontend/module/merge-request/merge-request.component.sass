@@ -148,8 +148,10 @@
     font-weight: 400
     align-self: center
     margin-right: 6px
-    width: 28px
+    width: fit-content
     height: 28px
+    align-items: center
+    display: inline-flex
 
     &_failed
       fill: #dd2b0e
@@ -201,10 +203,16 @@
       fill: #ae1800
 
   &--pipeline-label
-    grid-area: pipeline-label
-    margin-top: 12px
-    font-size: 0.84rem
-    font-weight: bold
+    font-size: 0.8rem
+    font-weight: 400
+    margin-left: 4px
+    margin-right: 5px
+
+    &_failed
+      color: #ae1800
+
+    &_success
+      color: #24663b
 
   &--pipeline
     margin-top: 12px
