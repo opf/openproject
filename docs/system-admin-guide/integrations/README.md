@@ -45,6 +45,10 @@ To synchronize tasks from MS Project to OpenProject, you can export your MS Proj
 
 OpenProject offers integration with Nextcloud for file storage and collaboration. You can find more information about [setting up the integration with Nextcloud](./nextcloud) and [using the integration](../../user-guide/nextcloud-integration/).
 
+## OneDrive/Sharepoint
+
+OpenProject offers integration with OneDrive/Sharepoint for file storage and collaboration. You can find more information about [setting up the integration with OneDrive/Sharepoint](./one-drive) and [using the integration](../../user-guide/one-drive-integration/).
+
 ## Slack
 
 There is a rudimentary OpenProject Slack integration from the community. It messages a configured Slack channel, every time a Work Package or Wiki site is modified. This integration is not officially supported by OpenProject.

@@ -40,7 +40,7 @@ Click on one of the categories in order to proceed with the configuration.
 | [Enterprise edition](../enterprise-guide/)                          | Upgrading and managing OpenProject Enterprise and other administrative topics.                                           |
 | [Time and costs](./time-and-costs)                                  | Configure your currency and create cost types in OpenProject.                                                            |
 | [Backlogs](./backlogs)                                              | Configure your backlogs settings in OpenProject, e.g. story types to be displayed in the backlogs, task types, and more. |
-| [File storages](./integrations/nextcloud/)                          | Manage and set up file storages.                                                                                         |
+| [File storages](./integrations/storage/)                            | Manage and set up file storages.                                                                                         |
 | [Plugins](./plugins)                                                | Manage plugins in OpenProject.                                                                                           |
 | [Information](./information/)                                       | View the latest system information status.                                                                               |
 | [Integrations](./integrations/)                                     | How to integration OpenProject into other tools (eg. GitHub, Nextcloud...)                                               |
