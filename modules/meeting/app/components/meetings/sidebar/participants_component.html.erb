@@ -1,7 +1,12 @@
 <%=
   component_wrapper(data: wrapper_data_attributes) do
+<<<<<<< HEAD
     flex_layout do |participants_container|
       participants_container.with_row(hide: :sm) do
+=======
+    flex_layout(classes: 'hidden-for-mobile') do |participants_container|
+      participants_container.with_row do
+>>>>>>> 04893289beb925b4526e545f87fb7e059ac47fb4
         flex_layout(align_items: :center, justify_content: :space_between) do |heading|
           heading.with_column(flex: 1) do
             flex_layout(align_items: :center) do |title|
