@@ -31,12 +31,15 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class MeetingsSidebarParticipantsController extends Controller {
-  static targets = ['showHideButton', 'hiddenParticipants'];
+  static targets = ['showHideButton', 'hiddenParticipants', 'showHideMobileButton', 'hiddenMobileParticipants'];
   declare readonly showHideButtonTarget:HTMLInputElement;
   declare readonly hiddenParticipantsTarget:HTMLElement;
+  declare readonly showHideMobileButtonTarget:HTMLInputElement;
+  declare readonly hiddenMobileParticipantsTarget:HTMLElement;
 
   connect():void {
     this.showHiddenParticipants();
+    this.showHiddenMobileParticipants();
   }
 
   showHiddenParticipants():void {
@@ -45,6 +48,16 @@ export default class MeetingsSidebarParticipantsController extends Controller {
         this.hiddenParticipantsTarget.classList.remove('d-none');
       } else {
         this.hiddenParticipantsTarget.classList.add('d-none');
+      }
+    });
+  }
+
+  showHiddenMobileParticipants():void {
+    this.showHideMobileButtonTarget.addEventListener('click', () => {
+      if (this.hiddenMobileParticipantsTarget.classList.contains('d-none')) {
+        this.hiddenMobileParticipantsTarget.classList.remove('d-none');
+      } else {
+        this.hiddenMobileParticipantsTarget.classList.add('d-none');
       }
     });
   }

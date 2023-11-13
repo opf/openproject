@@ -85,26 +85,8 @@
               end
             end
           end
-          details.with_row(mt: 2, classes: 'op-meeting-sidebar-details-participants') do
-            flex_layout do |flex|
-              render(Primer::Beta::Octicon.new(icon: 'people'))
-              flex.with_row(classes: 'd-none', data: { 'meetings-sidebar-details-target': "hiddenParticipants" }) do
-                flex_layout do |details|
-                  @meeting.invited_or_attended_participants.sort.each do |participant|
-                    details.with_row(mt: 1) do
-                      render_participant(participant)
-                    end
-                  end
-                end
-              end
-              flex.with_row do
-                render (Primer::Beta::Button.new(scheme: :invisible, classes: 'op-meeting-sidebar-details-participants-button',
-                  data: { 'meetings-sidebar-details-target': "showHideButton" })) do |button|
-                  button.with_leading_visual_icon(icon: :people)
-                  I18n.t('label_meeting_show_hide_participants',count: @meeting.invited_or_attended_participants.count)
-                end
-              end
-            end
+          details.with_row(mt: 2, display: [:block, :block, :none, :none, :none]) do
+            render(Meetings::Sidebar::ParticipantsComponent.new(meeting: @meeting))
           end
         end
       end

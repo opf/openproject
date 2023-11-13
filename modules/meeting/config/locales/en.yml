@@ -188,6 +188,8 @@ en:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_hide_all_participants: "Show/hide all"
+  label_meeting_count_participants: "%{count} participants"
   label_meeting_add_participants: "Add participants"
 
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
