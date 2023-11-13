@@ -11,9 +11,9 @@ keywords: meetings, agenda, minutes
 Meetings in OpenProject allow you to manage and document your project meetings at one central place, prepare a meeting agenda together with your team and document and share meeting minutes with your meeting attendees at one central place.
 
 <div class="glossary">
-**Meetings** is defined as a module that allows the organization of meetings. The module has to be activated in the project settings in order to be displayed in the side navigation.
-</div>
-**Note:** in order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/).
+**Meetings** is defined as a module that allows the organization of meetings. 
+
+**Note:** in order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). </div>
 
 
 | Topic                                                                     | Content                                     |

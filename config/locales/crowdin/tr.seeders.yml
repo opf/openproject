@@ -167,7 +167,7 @@ tr:
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: Görevler
             item_3:
               name: Takım planlayıcısı
           boards:
@@ -392,7 +392,7 @@ tr:
                     item_0:
                       subject: Create wireframes for new landing page
             item_3:
-              subject: Contact form
+              subject: İletişim formu
             item_4:
               subject: Feature carousel
               children:
