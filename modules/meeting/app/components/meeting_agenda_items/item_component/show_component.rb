@@ -30,6 +30,7 @@ module MeetingAgendaItems
   class ItemComponent::ShowComponent < ApplicationComponent
     include ApplicationHelper
     include AvatarHelper
+    include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
     def initialize(meeting_agenda_item:)
@@ -37,6 +38,10 @@ module MeetingAgendaItems
 
       @meeting_agenda_item = meeting_agenda_item
       @meeting = meeting_agenda_item.meeting
+    end
+
+    def wrapper_uniq_by
+      @meeting_agenda_item.id
     end
 
     private

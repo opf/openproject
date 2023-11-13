@@ -86,7 +86,7 @@ ca:
   validation_failure_integer: "no és un enter vàlid"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "La vostra exportació de l'informe de costos XLS"
   reporting:
     group_by:
       selected_columns: "Columnes seleccionades"

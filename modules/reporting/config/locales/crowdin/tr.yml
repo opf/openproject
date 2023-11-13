@@ -86,7 +86,7 @@ tr:
   validation_failure_integer: "geçerli bir tamsayı değil"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Maliyet Raporlarınızın XLS çıktısı"
   reporting:
     group_by:
       selected_columns: "Seçilen sütunlar"
