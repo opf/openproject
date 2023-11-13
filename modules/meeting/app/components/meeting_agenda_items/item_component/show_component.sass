@@ -4,7 +4,7 @@ $meeting-agenda-item--author-width: 300px
 
 .op-meeting-agenda-item
   display: grid
-  grid-template-columns: 20px auto 1fr minmax(auto, $meeting-agenda-item--author-width) 40px
+  grid-template-columns: 20px auto 1fr minmax(auto, $meeting-agenda-item--author-width) fit-content(40px)
   grid-template-areas: "drag-handle content duration author actions" ". notes notes notes notes"
 
   &--drag-handle,
@@ -25,10 +25,6 @@ $meeting-agenda-item--author-width: 300px
 
   &--content
     @include text-shortener
-
-  &--closed
-    grid-template-columns: 20px auto 1fr minmax(auto, $meeting-agenda-item--author-width)
-    grid-template-areas: "drag-handle content duration author" ". notes notes notes notes"
 
   @media screen and (max-width: $breakpoint-lg)
     grid-template-columns: 20px auto 1fr 50px
