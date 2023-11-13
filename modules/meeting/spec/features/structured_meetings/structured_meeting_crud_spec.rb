@@ -132,10 +132,10 @@ RSpec.describe 'Structured meetings CRUD',
       find_field('Title').send_keys :escape
     end
     show_page.expect_item_edit_form(first, visible: false)
-
     # Can remove
     show_page.remove_agenda_item first
     show_page.assert_agenda_order! 'Updated title', 'Second'
+    show_page.cancel_add_form
 
     # Can link work packages
     show_page.add_agenda_item(type: WorkPackage) do
@@ -147,6 +147,33 @@ RSpec.describe 'Structured meetings CRUD',
     show_page.expect_agenda_link work_package
     wp_item = MeetingAgendaItem.find_by!(work_package_id: work_package.id)
     expect(wp_item).to be_present
+
+    # Keeping the editing state of an agenda item while modifying other items
+    show_page.edit_agenda_item(second) do
+      fill_in 'Title', with: 'Second edited'
+    end
+
+    show_page.select_action(item, I18n.t(:label_sort_lowest))
+    show_page.cancel_add_form
+
+    show_page.add_agenda_item do
+      fill_in 'Title', with: 'My agenda item'
+      fill_in 'Duration in minutes', with: '25'
+    end
+
+    show_page.expect_agenda_item title: 'My agenda item'
+    my_item = MeetingAgendaItem.find_by!(title: 'My agenda item')
+
+    show_page.edit_agenda_item(my_item) do
+      fill_in 'Title', with: 'My agenda item edited'
+      click_button 'Save'
+    end
+
+    show_page.remove_agenda_item my_item
+
+    show_page.expect_item_edit_form(second)
+    show_page.expect_item_edit_title(second, 'Second edited')
+    show_page.cancel_edit_form(second)
 
     # user can see actions
     expect(page).to have_css('#meeting-agenda-items-new-button-component')
@@ -170,7 +197,7 @@ RSpec.describe 'Structured meetings CRUD',
     expect(page).to have_current_path project_meetings_path(project)
   end
 
-  context 'exporting as ICS' do
+  context 'when exporting as ICS' do
     before do
       @download_list = DownloadList.new
     end

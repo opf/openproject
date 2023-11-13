@@ -43,6 +43,10 @@ module MeetingAgendaItems
       @type = type
     end
 
+    def wrapper_uniq_by
+      @meeting_agenda_item.id
+    end
+
     def render?
       User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
