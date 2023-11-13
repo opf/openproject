@@ -53,13 +53,17 @@ module Storages::ProjectStorages::Members
       connection_result = storage_connection_status
 
       if connection_result == :not_connected
+        ensure_access_url = oauth_clients_ensure_access_url(
+          oauth_client_id: storage.oauth_client.client_id,
+          storage_id: storage.id
+        )
         helpers.op_icon('icon-warning -warning') +
-          content_tag(:span,
-                      I18n.t("storages.member_connection_status.not_connected",
-                             files_label: content_tag(:span,
-                                                      I18n.t('storages.label_files'),
-                                                      class: 'text-bold')).html_safe,
-                      class: 'pl-2')
+          content_tag(
+            :span,
+            I18n.t("storages.member_connection_status.not_connected",
+                   link: link_to(I18n.t("link"), ensure_access_url),
+                   class: 'pl-2').html_safe
+          )
       else
         I18n.t("storages.member_connection_status.#{connection_result}")
       end
