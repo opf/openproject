@@ -18,6 +18,8 @@ Testing OpenProject is distributed between different roles and members, dependin
 
 ## Functional testing
 
+Functional testing ensures that the application works against the set of requirements or specifications. Tests should therefore make sure all the acceptance criteria are met.
+
 The following types of functional tests are used at OpenProject.
 
 | **Type**                                                    | Description                                                  | Examples, References                                         |
@@ -54,7 +56,9 @@ Unit testing concerns testing of isolating individual components of the applicat
   - **Assert**: Check that the method or process behaved as expected.
 - Keep examples of unit specs simples and descriptive
 - Write tests during or before development, not as an afterthought
-- Test the entire range of potential inputs, including negative tests and validation of potentially malicious user input
+- Test the entire range of potential inputs, including *negative* tests and validation of potentially malicious user input.
+
+  Negative testing consists of test cases which define how software reacts to user’s invalid input or unexpected behavior. The aim is not only to prevent the application from crashing but to improve quality by specifying clear and understandable error messages so that users know what kind of input is expected and correct.
 - Avoid calling the database if not necessary
 - Use `FactoryBot` to set up test data in a structured, but randomized way to prevent brittle tests
 - Mock external components and services, and ensure you test the boundaries of the associated components
@@ -174,6 +178,17 @@ Sanity and regression tests are manually performed tests by QA for relevant comp
 
 
 
+**Usage at OpenProject**
+
+For writing and executing manual sanity and regression testing, especially focusing on functional requirements, one of the tools in use at OpenProject is TestLink (https://testlink.org/) to achieve the following goals:
+
+- Test cases have clear preconditions so that the tester prepares for executing each case with enough knowledge about requirements.
+- Test cases are as specific as possible. They should check the proper working of one single point/case and should therefore have no more than 8-10 steps.
+- Test cases are updated with every change of the specifications.
+- Test cases have precise execution steps and expected results.
+
+
+
 **References**
 
 - https://www.browserstack.com/guide/sanity-testing
@@ -209,6 +224,10 @@ Acceptance tests evaluate both functional and non-functional requirements.
 
 
 ##  Non-functional testing
+
+Non-functional testing goes beyond the functionality of the product and is aimed at end-user experience. Test cases should hence make sure to define what is expected in terms of security, performance, compatibility, accessibility etc.
+
+Examples for non-functional test cases: software should be compatible with most used desktop and mobile browsers, as well as operating systems; all the actions can be performed with keyboard navigation; page loading should take no more than X seconds; users who lost access should no longer be able to login etc.
 
 | Type                                                            | Description                                                                                                                                                                                   | Examples, References                                                                                                                                                                                                                 |
 |-----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -291,6 +310,7 @@ Upgrade tests are manually performed for major code changes and data migrations 
 - Use automated testing scripts to simulate various installation and upgrade scenarios.
 - Provide and test the rollback of data migrations to make sure they work as intended.
 - Keep up-to-date documentation for the installation and upgrade procedures, including a list of known issues and workarounds.
+- Example of test cases would be ensuring that software works in a satisfying manner on major browsers and operating systems which are defined in https://www.openproject.org/docs/installation-and-operations/system-requirements/
 
 
 
