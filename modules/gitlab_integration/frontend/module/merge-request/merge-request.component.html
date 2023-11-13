@@ -14,7 +14,7 @@
   ></a>
 </span>
 
-<button *ngIf="mergeRequest.labels && mergeRequest.labels.length > 0" (click)="toggleLabels(mergeRequest.number)" class='op-merge-request--label_icon'>
+<button *ngIf="mergeRequest.labels && mergeRequest.labels.length > 0" (click)="toggleLabels(mergeRequest.number)" class='op-merge-request--label_icon' title="Show/Hide labels">
   <svg class="op-merge-request--iconsize op-merge-request--label_icon_style"><use xlink:href="#labels" /></svg>
 </button>
 

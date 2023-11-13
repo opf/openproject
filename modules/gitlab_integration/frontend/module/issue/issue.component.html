@@ -14,7 +14,7 @@
   ></a>
 </span>
 
-<button *ngIf="gitlabIssue.labels && gitlabIssue.labels.length > 0" (click)="toggleLabels(gitlabIssue.number)" class='op-issue--label_icon'>
+<button *ngIf="gitlabIssue.labels && gitlabIssue.labels.length > 0" (click)="toggleLabels(gitlabIssue.number)" class='op-issue--label_icon' title="Show/Hide labels">
   <svg class="op-issue--iconsize op-issue--label_icon_style"><use xlink:href="#labels" /></svg>
 </button>
 
