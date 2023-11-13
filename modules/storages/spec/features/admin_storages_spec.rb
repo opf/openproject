@@ -161,6 +161,9 @@ RSpec.describe 'Admin storages',
 
         aggregate_failures 'OAuth Client' do
           within_test_selector('storage-oauth-client-form') do
+            expect(page).to have_test_selector('storage-provider-credentials-instructions',
+                                               text: 'Copy these values from Nextcloud Administration / OpenProject.')
+
             # With null values, submit button should be disabled
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
@@ -250,13 +253,17 @@ RSpec.describe 'Admin storages',
             click_button 'Save and continue'
           end
 
-          expect(page).to have_test_selector('label-host_name_configured-storage_tenant_drive_configured-status',
-                                             text: 'Completed')
+          wait_for(page).to have_test_selector('label-host_name_configured-storage_tenant_drive_configured-status',
+                                               text: 'Completed')
           expect(page).to have_test_selector('storage-description', text: 'OneDrive/SharePoint - My OneDrive')
         end
 
         aggregate_failures 'OAuth Client' do
           within_test_selector('storage-oauth-client-form') do
+            expect(page).to have_test_selector('storage-provider-credentials-instructions',
+                                               text: 'Copy these values from the Azure application. ' \
+                                                     'After that, copy the redirect URI back to the Azure application.')
+
             # With null values, submit button should be disabled
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')

@@ -137,10 +137,12 @@ en:
       copy_from: "Copy this value from"
       nextcloud:
         provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
+        oauth_configuration: "Copy these values from %{application_link_text}."
         application_link_text: "application “Integration OpenProject”"
         integration: "Nextcloud Administration / OpenProject"
       one_drive:
         provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
+        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
         application_link_text: "Azure application"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >

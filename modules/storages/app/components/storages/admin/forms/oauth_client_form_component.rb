@@ -67,21 +67,23 @@ module Storages::Admin::Forms
       end
     end
 
-    def storage_provider_credentials_copy_instructions
-      "#{I18n.t('storages.instructions.copy_from')}: #{provider_credentials_instructions_link}".html_safe
-    end
-
-    def provider_credentials_instructions_link
-      render(
-        Primer::Beta::Link.new(
-          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
-                                                                                         'settings/admin/openproject'),
-          target: '_blank'
-        )
-      ) { I18n.t("storages.instructions.#{@storage.short_provider_type}.integration") }
+    def storage_provider_credentials_instructions
+      I18n.t("storages.instructions.#{storage.short_provider_type}.oauth_configuration",
+             application_link_text: send(:"#{storage.short_provider_type}_integration_link")).html_safe
     end
 
     private
+
+    def one_drive_integration_link(target: '_blank')
+      href = ::OpenProject::Static::Links[:storage_docs][:one_drive_oauth_application][:href]
+      render(Primer::Beta::Link.new(href:, target:)) { I18n.t('storages.instructions.one_drive.application_link_text') }
+    end
+
+    def nextcloud_integration_link(target: '_blank')
+      href = Storages::Peripherals::StorageInteraction::Nextcloud::Util
+               .join_uri_path(storage.host, 'settings/admin/openproject')
+      render(Primer::Beta::Link.new(href:, target:)) { I18n.t('storages.instructions.nextcloud.integration') }
+    end
 
     def one_drive_first_time_configuration?
       storage.provider_type_one_drive? && first_time_configuration?

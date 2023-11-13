@@ -16,7 +16,7 @@
         end
 
         oauth_client_row.with_row(mb: 3) do
-          render(Primer::Beta::Text.new(font_weight: :light)) { storage_provider_credentials_copy_instructions }
+          render(Primer::Beta::Text.new(font_weight: :light, test_selector: 'storage-provider-credentials-instructions')) { storage_provider_credentials_instructions }
         end
 
         oauth_client_row.with_row(mb: 3) do
