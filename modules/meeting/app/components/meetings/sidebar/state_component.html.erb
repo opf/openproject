@@ -24,7 +24,7 @@
         end
 
         if edit_enabled?
-          open_state.with_row(mt: 3, classes: 'op-meeting-sidebar-state-edit') do
+          open_state.with_row(mt: [0, 3, 3, 3, 3]) do
             form_for(@meeting, method: "put", url: change_state_meeting_path(@meeting),
                      data: { 'turbo-stream': true }) do |f|
               flex_layout do |open_state_actions|
@@ -72,7 +72,7 @@
         end
 
         if edit_enabled?
-          closed_state.with_row(mt: 3, classes: 'op-meeting-sidebar-state-edit') do
+          closed_state.with_row(mt: [0, 3, 3, 3, 3]) do
             form_for(@meeting, method: "put", url: change_state_meeting_path(@meeting),
                      data: { 'turbo-stream': true }) do |f|
               flex_layout do |closed_state_actions|

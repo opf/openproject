@@ -48,9 +48,9 @@
               end
             end
 
-            list.with_row(mt: 1) do
+            list.with_row do
               flex_layout do |flex|
-                flex.with_row(classes: 'd-none', data: { 'meetings-sidebar-participants-target': "hiddenParticipants" }) do
+                flex.with_row(display: :none, data: { 'meetings-sidebar-participants-target': "hiddenParticipants" }) do
                   flex_layout do |hidden_user_list|
                     @meeting.invited_or_attended_participants.sort[MAX_SHOWN_PARTICIPANTS..].each do |participant|
                       hidden_user_list.with_row(mt: 1) do
@@ -59,7 +59,7 @@
                     end
                   end
                 end
-                flex.with_row do
+                flex.with_row(mt: 1) do
                   render (Primer::Beta::Button.new(scheme: :invisible, 
                   data: { 'meetings-sidebar-participants-target': "showHideButton" })) { I18n.t('label_meeting_show_hide_participants',
                   count: @meeting.invited_or_attended_participants.count - MAX_SHOWN_PARTICIPANTS) }
@@ -73,9 +73,9 @@
       participants_container.with_row(display: [:block, :none, :none, :none, :none]) do
         flex_layout do |flex|
           if count == 0
-            render(Primer::Beta::Text.new(color: :subtle)) { t("label_meeting_no_participants") }
+            render(Primer::Beta::Text.new) { t("label_meeting_no_participants") }
           else
-            flex.with_row(display: :none, data: { 'meetings-sidebar-participants-target': "hiddenMobileParticipants" }) do
+            flex.with_row(mb: 1, display: :none, data: { 'meetings-sidebar-participants-target': "hiddenMobileParticipants" }) do
               flex_layout do |details|
                 @meeting.invited_or_attended_participants.sort.each do |participant|
                   details.with_row(mt: 1) do
@@ -86,10 +86,10 @@
             end
             flex.with_row do
               flex.with_column do
-                render(Primer::Beta::Octicon.new('people', color: :subtle, mr: 1))
+                render(Primer::Beta::Octicon.new('people', mr: 1))
               end
               flex.with_column do
-                render(Primer::Beta::Text.new(color: :subtle, mr: 1)) { t('label_meeting_count_participants', count: @meeting.invited_or_attended_participants.count) }
+                render(Primer::Beta::Text.new(mr: 1)) { t('label_meeting_count_participants', count: @meeting.invited_or_attended_participants.count) }
               end
               flex.with_column(data: { 'meetings-sidebar-participants-target': "showHideMobileButton" }) do
                 render(Primer::Beta::Link.new(href: "#", target: "_blank")) do
