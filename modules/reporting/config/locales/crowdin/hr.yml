@@ -47,6 +47,7 @@ hr:
   label_is_project_with_subprojects: "je (uključujući podprojekte)"
   label_work_package_attributes: "Atributi radnih paketa"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Vrijednost gotovine"
   label_month_reporting: "Mjeseci (utrošeno)"
   label_new_report: "Izvješće novog troška"

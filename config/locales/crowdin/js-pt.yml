@@ -31,6 +31,12 @@ pt:
         Tem certeza de que deseja excluir este arquivo? Esta ação é irreversível.
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou referenciar um anexo. Campos do editor fechados serão abertos enquanto você continuar arrastando.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Adicionar \"%{name}\""

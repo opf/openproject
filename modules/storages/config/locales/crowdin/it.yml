@@ -199,7 +199,7 @@ it:
     member_connection_status:
       connected: "Connesso"
       connected_no_permissions: "Il ruolo utente non ha permessi di archiviazione"
-      not_connected: "Non collegata. L'utente deve accedere all'archivio tramite la scheda %{files_label} di una macro-attività per connettersi."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Ancora nessun'archiviazione configurata."
     members_no_results: "Nessun membro da visualizzare."
     provider_types:

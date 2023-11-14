@@ -598,6 +598,7 @@ pl:
           title: "Dni robocze"
           false: "tylko dni robocze"
           true: "włącz dni wolne od pracy"
+        notify: "Notify" #used in custom actions
         parent: "Rodzic"
         parent_issue: "Rodzic"
         parent_work_package: "Rodzic"
@@ -3294,6 +3295,7 @@ pl:
     response:
       unexpected: "Otrzymano nieoczekiwaną odpowiedź."
   you: Ty
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

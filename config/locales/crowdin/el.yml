@@ -595,6 +595,7 @@ el:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "Γονέας"
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"
@@ -3232,6 +3233,7 @@ el:
     response:
       unexpected: "Unexpected response received."
   you: εσείς
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

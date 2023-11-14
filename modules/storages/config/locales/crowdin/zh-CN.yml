@@ -199,7 +199,7 @@ zh-CN:
     member_connection_status:
       connected: "已连接"
       connected_no_permissions: "用户角色没有存储区权限"
-      not_connected: "未连接。用户应通过工作包的“%{files_label}”选项卡登录存储区以连接。"
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "尚未设置存储设备。"
     members_no_results: "没有要显示的成员。"
     provider_types:

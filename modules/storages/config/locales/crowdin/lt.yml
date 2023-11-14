@@ -199,7 +199,7 @@ lt:
     member_connection_status:
       connected: "Prisijungta"
       connected_no_permissions: "Naudotojo vaidmuo neturi saugyklos teisių"
-      not_connected: "Neprisijungta. Naudotojas turėtų prisijungti prie saugyklos per darbo paketo kortelę %{files_label}, kad prisijungtų."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Dar nenustatyta jokia saugykla."
     members_no_results: "Nėra narių rodymui."
     provider_types:

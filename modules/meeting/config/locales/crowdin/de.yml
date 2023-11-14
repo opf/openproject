@@ -99,9 +99,9 @@ de:
       rescheduled:
         summary: "Meeting %{title} has been rescheduled by %{actor}"
         body: "The meeting %{title} has been rescheduled by %{actor}."
-        old_date_time: "Old date/time"
-        new_date_time: "New date/time"
-    label_mail_all_participants: "Send email to all participants"
+        old_date_time: "Alte(s) Datum/Zeit"
+        new_date_time: "Neue(s) Datum/Zeit"
+    label_mail_all_participants: "E-Mail an alle Teilnehmer senden"
     types:
       classic: 'Klassisch'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'

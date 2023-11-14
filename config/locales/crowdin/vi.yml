@@ -600,6 +600,7 @@ vi:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "Cha"
         parent_issue: "Cha"
         parent_work_package: "Cha"
@@ -3208,6 +3209,7 @@ vi:
     response:
       unexpected: "Unexpected response received."
   you: bạn
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

@@ -594,6 +594,7 @@ ja:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "親項目"
         parent_issue: "親項目"
         parent_work_package: "親項目"
@@ -3202,6 +3203,7 @@ ja:
     response:
       unexpected: "Unexpected response received."
   you: あなた
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

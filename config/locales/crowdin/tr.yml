@@ -598,6 +598,7 @@ tr:
           title: "İş Günleri"
           false: "Sadece iş günleri"
           true: "çalışılmayan günleri dahil et"
+        notify: "Notify" #used in custom actions
         parent: "Üst"
         parent_issue: "Üst"
         parent_work_package: "Üst"
@@ -3233,6 +3234,7 @@ tr:
     response:
       unexpected: "Beklenilmeyen bir yanıt alındı."
   you: sen
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

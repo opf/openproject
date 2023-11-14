@@ -47,6 +47,7 @@ uk:
   label_is_project_with_subprojects: "є (включає підпроекти)"
   label_work_package_attributes: "Атрибути робочого пакету"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Грошова вартість"
   label_month_reporting: "Місяць (витрачений)"
   label_new_report: "Новий звіт про витрати"

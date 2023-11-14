@@ -199,7 +199,7 @@ es:
     member_connection_status:
       connected: "Conectado"
       connected_no_permissions: "El rol de usuario no tiene permisos de almacenamiento"
-      not_connected: "No conectado. El usuario debe acceder al almacén a través de la pestaña %{files_label} de un paquete de trabajo para conectarse."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Aún no se han configurado almacenes de archivos."
     members_no_results: "No hay miembros para mostrar."
     provider_types:

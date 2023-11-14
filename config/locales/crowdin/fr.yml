@@ -599,6 +599,7 @@ fr:
           title: "Jours ouvrés"
           false: "jours ouvrés seulement"
           true: "Inclure les jours non ouvrés"
+        notify: "Notify" #used in custom actions
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -3237,6 +3238,7 @@ fr:
     response:
       unexpected: "Réponse inattendue reçue."
   you: vous
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

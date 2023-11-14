@@ -601,6 +601,7 @@ cs:
           title: "Pracovní dny"
           false: "pouze pracovní dny"
           true: "zahrnuje nepracovní dny"
+        notify: "Notify" #used in custom actions
         parent: "Nadřazený"
         parent_issue: "Rodič"
         parent_work_package: "Nadřazený"
@@ -3298,6 +3299,7 @@ cs:
     response:
       unexpected: "Byla přijata neočekávaná odpověď."
   you: vy
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

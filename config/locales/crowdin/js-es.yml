@@ -31,6 +31,12 @@ es:
         ¿Estás seguro de que quieres eliminar este archivo? Esta acción es irreversible.
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Añadir \"%{name}\""

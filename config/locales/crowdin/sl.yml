@@ -598,6 +598,7 @@ sl:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "Nadrejeni"
         parent_issue: "Nadrejeni"
         parent_work_package: "Nadrejeni"
@@ -3297,6 +3298,7 @@ sl:
     response:
       unexpected: "Unexpected response received."
   you: vi
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

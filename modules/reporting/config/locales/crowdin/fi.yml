@@ -47,6 +47,7 @@ fi:
   label_is_project_with_subprojects: "on (sisältää aliprojekteja)"
   label_work_package_attributes: "Työnpaketin parametrit"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Rahallinen arvo"
   label_month_reporting: "Kuukausi (käytetty)"
   label_new_report: "Uusi kustannusraportti"

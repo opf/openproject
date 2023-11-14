@@ -596,6 +596,7 @@ it:
           title: "Giorni lavorativi"
           false: "solo giorni lavorativi"
           true: "includi giorni non lavorativi"
+        notify: "Notify" #used in custom actions
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
@@ -3235,6 +3236,7 @@ it:
     response:
       unexpected: "Ricevuta risposta inaspettata."
   you: tu
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

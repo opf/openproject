@@ -31,6 +31,12 @@ cs:
         Opravdu chcete odstranit tento soubor? Tato akce není vratná.
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Přidat \"%{name}\""

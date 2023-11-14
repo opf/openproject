@@ -199,7 +199,7 @@ de:
     member_connection_status:
       connected: "Verbunden"
       connected_no_permissions: "Benutzerrolle hat keine Speicherberechtigungen"
-      not_connected: "Nicht verbunden. Der Benutzer sollte sich in den Speicher über den Tab %{files_label} eines zu verbindenden Arbeitspakets einloggen."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Noch keine Speicher eingerichtet."
     members_no_results: "Keine Mitglieder zum Anzeigen."
     provider_types:

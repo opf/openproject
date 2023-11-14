@@ -464,7 +464,7 @@ zh-CN:
       custom_action:
         actions: "操作"
       custom_field:
-        allow_non_open_versions: "Allow non-open versions"
+        allow_non_open_versions: "允许非打开版本"
         default_value: "默认值"
         editable: "可编辑"
         field_format: "格式"
@@ -594,6 +594,7 @@ zh-CN:
           title: "工作日"
           false: "仅工作日"
           true: "包括非工作日"
+        notify: "Notify" #used in custom actions
         parent: "父级"
         parent_issue: "父级"
         parent_work_package: "父级"
@@ -2146,7 +2147,7 @@ zh-CN:
       see_in_center: '在通知中心查看评论'
       settings: '更改电子邮件设置'
     salutation: '%{user}，您好！'
-    salutation_full_name: 'Full name'
+    salutation_full_name: '全名'
     work_packages:
       created_at: "由 %{user} 于 %{timestamp} 创建"
       login_to_see_all: "登录以查看所有通知。"
@@ -2423,7 +2424,7 @@ zh-CN:
   permission_view_project_activity: "查看项目活动"
   permission_save_bcf_queries: "保存 BCF 查询"
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_edit_attribute_help_texts: "编辑属性帮助文本"
   placeholders:
     default: "-"
   project:
@@ -2588,7 +2589,7 @@ zh-CN:
     如果启用了文档页面，您可以在此 <a href="%{link}" target="_blank">%{link}</a> 获得 API v3 文档的交互式视图。
   setting_attachment_whitelist: "附件上传白名单"
   setting_email_delivery_method: "电子邮件发送方法"
-  setting_emails_salutation: "Address user in emails with"
+  setting_emails_salutation: "电子邮件中的用户地址"
   setting_sendmail_location: "Sendmail 的执行位置"
   setting_smtp_enable_starttls_auto: "如果可用，自动使用 STARTTLS"
   setting_smtp_ssl: "使用 SSL 连接"
@@ -3196,6 +3197,7 @@ zh-CN:
     response:
       unexpected: "收到意外响应。"
   you: 您
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject 认证插件"
     description: "在 OpenProject 中集成 OmniAuth 策略提供程序以进行身份验证。"

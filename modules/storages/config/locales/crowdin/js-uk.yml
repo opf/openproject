@@ -69,13 +69,16 @@ uk:
           other: "Створено посилання на %{count} файлу"
         upload_error:
           default: >
-            Неможливо передати ваш файл (%{fileName}). Переконайтеся, що у вас установлено останню версію додатка Nextcloud OpenProject Integration, і зверніться до свого адміністратора, щоб дізнатися більше.
+            Your file (%{fileName}) could not be uploaded.
           403: >
             Ваш файл (%{fileName}) не можна вивантажити через системні обмеження. Щоб дізнатися більше, зверніться до адміністратора.
           413: >
             Розмір вашого файлу (%{fileName}) перевищує максимальний розмір файлу, який OpenProject може вивантажити в сховище %{storageType}. Ви можете спочатку додати його безпосередньо в сховище, а потім зв’язати.
           507: >
             Розмір вашого файлу (%{fileName}) перевищує максимальну квоту сховища. Щоб змінити цю квоту, зверніться до адміністратора.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           Під час зв’язування нещодавно вивантаженого файлу «%{fileName}» з пакетом робіт %{workPackageId} сталася помилка.
         not_allowed_tooltip: "Щоб отримати доступ до цього файлу, увійдіть у Nextcloud"
