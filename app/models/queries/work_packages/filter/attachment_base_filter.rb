@@ -44,7 +44,7 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
       SELECT 1 FROM #{attachment_table}
       WHERE #{attachment_table}.container_id = #{WorkPackage.table_name}.id
       AND #{attachment_table}.container_type = '#{WorkPackage.name}'
-      AND #{tsv_condition}
+      #{tsv_condition}
     SQL
   end
 
@@ -53,10 +53,16 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   end
 
   def tsv_condition
-    OpenProject::FullTextSearch.tsv_where(attachment_table,
-                                          search_column,
-                                          values.first,
-                                          normalization: normalization_type)
+    condition = OpenProject::FullTextSearch.tsv_where(attachment_table,
+                                                      search_column,
+                                                      values.first,
+                                                      normalization: normalization_type)
+
+    if condition
+      "AND #{condition}"
+    else
+      ''
+    end
   end
 
   def search_column
