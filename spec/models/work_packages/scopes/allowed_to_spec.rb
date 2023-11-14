@@ -154,7 +154,10 @@ RSpec.describe WorkPackage, '.allowed_to' do
     subject { described_class.allowed_to(user, action) }
 
     it 'returns the authorized work packages' do
-      expect(subject).to contain_exactly(work_package_in_private_project, other_work_package_in_private_project)
+      expect(subject).to contain_exactly(
+        work_package_in_private_project,
+        other_work_package_in_private_project
+      )
     end
 
     context 'when the project is archived' do
