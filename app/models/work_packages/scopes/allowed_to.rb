@@ -45,14 +45,9 @@ module WorkPackages::Scopes
         elsif user.anonymous?
           where(project_id: Project.allowed_to(user, permission).select(:id))
         else
-          union = Arel::Nodes::UnionAll.new(
-            allowed_to_member_relation(user, permissions).select(work_package_table[:id]).arel,
-            work_package_via_project_table
-              .where(work_package_via_project_table[:project_id].in(Project.allowed_to(user, permission).select(:id).arel))
-              .project(work_package_via_project_table[:id])
+          where(arel_table[:id].in(allowed_to_member_relation(user, permissions).select(work_package_table[:id]).arel)).or(
+            where(arel_table[:project_id].in(Project.allowed_to(user, permissions).select(:id).arel))
           )
-
-          where(arel_table[:id].in(union))
         end
       end
 
@@ -64,14 +59,6 @@ module WorkPackages::Scopes
         @work_package_table = arel_table.dup
         @work_package_table.table_alias = 'authorized_work_packages'
         @work_package_table
-      end
-
-      def work_package_via_project_table
-        return @work_package_via_project_table if defined?(@work_package_via_project_table)
-
-        @work_package_via_project_table = WorkPackage.arel_table.dup
-        @work_package_via_project_table.table_alias = 'authorized_work_packages_via_project'
-        @work_package_via_project_table
       end
 
       def allowed_to_admin_relation(permissions)
