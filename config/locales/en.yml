@@ -1858,6 +1858,7 @@ en:
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise support"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
   label_equals: "is"
@@ -2330,6 +2331,7 @@ en:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
