@@ -3,7 +3,7 @@
     render(Primer::OpenProject::BorderGrid.new) do |border_grid|
       border_grid.with_row { render(Meetings::Sidebar::DetailsComponent.new(meeting: @meeting)) }
       border_grid.with_row { render(Meetings::Sidebar::StateComponent.new(meeting: @meeting)) }
-      border_grid.with_row(hide: :sm) { render(Meetings::Sidebar::ParticipantsComponent.new(meeting: @meeting)) }
+      border_grid.with_row { render(Meetings::Sidebar::ParticipantsComponent.new(meeting: @meeting)) }
     end
   end
 %>
