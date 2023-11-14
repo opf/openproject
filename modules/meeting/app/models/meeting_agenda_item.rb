@@ -70,7 +70,7 @@ class MeetingAgendaItem < ApplicationRecord
   end
 
   def deleted_work_package?
-    item_type == "work_package" && work_package_id.nil?
+    persisted? && item_type == "work_package" && work_package_id.nil?
   end
 
   def editable?
