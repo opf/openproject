@@ -199,7 +199,7 @@ ko:
     member_connection_status:
       connected: "연결됨"
       connected_no_permissions: "사용자 역할에 저장소 권한이 없습니다"
-      not_connected: "연결되지 않았습니다. 사용자는 작업 패키지의 %{files_label} 탭에서 저장소에 로그인해야 연결할 수 있습니다."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "아직 저장소가 설정되지 않았습니다."
     members_no_results: "표시할 멤버가 없습니다."
     provider_types:

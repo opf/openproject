@@ -596,6 +596,7 @@ hu:
           title: "Munkanapok"
           false: "Csak munkanapok"
           true: "Munkaszüneti napok beleszámítva"
+        notify: "Notify" #used in custom actions
         parent: "Szülő"
         parent_issue: "Szülő"
         parent_work_package: "Szülő"
@@ -3234,6 +3235,7 @@ hu:
     response:
       unexpected: "Unexpected response received."
   you: te
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

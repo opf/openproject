@@ -598,6 +598,7 @@ lt:
           title: "Darbo dienos"
           false: "tik darbo dienos"
           true: "įtraukti nedarbo dienas"
+        notify: "Notify" #used in custom actions
         parent: "Tėvas"
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"
@@ -3292,6 +3293,7 @@ lt:
     response:
       unexpected: "Gautas netikėtas atsakas."
   you: jūs
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Priedai"
     description: "Openproject autentifikacijos OmniAuth strategijos teikėjų integracija."

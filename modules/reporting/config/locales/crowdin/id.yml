@@ -47,6 +47,7 @@ id:
   label_is_project_with_subprojects: "adalah (termasuk dalam subproyek)"
   label_work_package_attributes: "Attribut work package"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Nilai uang"
   label_month_reporting: "#Bulan (Spent)"
   label_new_report: "Buat laporan biaya"

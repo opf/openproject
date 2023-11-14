@@ -591,6 +591,7 @@ id:
           title: "Hari kerja"
           false: "hari kerja saja"
           true: "termasuk hari tidak bekerja"
+        notify: "Notify" #used in custom actions
         parent: "Induk"
         parent_issue: "Induk"
         parent_work_package: "Induk"
@@ -3196,6 +3197,7 @@ id:
     response:
       unexpected: "Tanggapan tak terduga diterima."
   you: anda
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

@@ -31,6 +31,12 @@ it:
         Vuoi davvero eliminare questo file? Quest’azione è irreversibile.
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Aggiungi \"%{name}\""

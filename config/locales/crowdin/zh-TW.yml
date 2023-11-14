@@ -598,6 +598,7 @@ zh-TW:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "上層目錄："
         parent_issue: "上層目錄："
         parent_work_package: "上層目錄："
@@ -3206,6 +3207,7 @@ zh-TW:
     response:
       unexpected: "Unexpected response received."
   you: you
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

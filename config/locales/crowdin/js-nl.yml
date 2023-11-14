@@ -31,6 +31,12 @@ nl:
         Weet je zeker dat je dit bestand wilt verwijderen? Deze actie is niet omkeerbaar.
       draggable_hint: |
         Sleep op het invoerveld naar in line afbeelding of verwijzing bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Toevoegen \"%{name}\""

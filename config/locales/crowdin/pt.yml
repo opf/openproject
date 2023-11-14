@@ -598,6 +598,7 @@ pt:
           title: "Dias úteis"
           false: "Apenas dias úteis"
           true: "incluindo dias não-úteis"
+        notify: "Notify" #used in custom actions
         parent: "Pai"
         parent_issue: "Pai"
         parent_work_package: "Pai"
@@ -3234,6 +3235,7 @@ pt:
     response:
       unexpected: "Resposta inesperada recebida."
   you: você
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

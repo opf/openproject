@@ -47,6 +47,7 @@ de:
   label_is_project_with_subprojects: "ist (mit Unterprojekten)"
   label_work_package_attributes: "Attribute am Ticket"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Geldwert"
   label_month_reporting: "Monat der Buchung"
   label_new_report: "Neue Kostenauswertung"

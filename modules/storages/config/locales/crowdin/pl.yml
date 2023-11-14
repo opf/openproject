@@ -199,7 +199,7 @@ pl:
     member_connection_status:
       connected: "Połączono"
       connected_no_permissions: "Rola użytkownika nie ma uprawnień do magazynów"
-      not_connected: "Nie połączono. Użytkownik powinien zalogować się do magazynu za pomocą karty %{files_label} pakietu roboczego, aby się połączyć."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Brak skonfigurowanych magazynów."
     members_no_results: "Brak członków do wyświetlenia."
     provider_types:

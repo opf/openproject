@@ -31,6 +31,12 @@ tr:
         Bu dosyayı silmek istiyor musunuz? Bu işlem geri alınamaz.
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" ekleyin"

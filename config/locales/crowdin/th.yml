@@ -598,6 +598,7 @@ th:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "หัวข้อหลัก"
         parent_issue: "หัวข้อหลัก"
         parent_work_package: "หัวข้อหลัก"
@@ -3207,6 +3208,7 @@ th:
     response:
       unexpected: "Unexpected response received."
   you: คุณ
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

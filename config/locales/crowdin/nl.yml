@@ -596,6 +596,7 @@ nl:
           title: "Werkdagen"
           false: "Alleen werkdagen"
           true: "inclusief niet-werkdagen"
+        notify: "Notify" #used in custom actions
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
@@ -3233,6 +3234,7 @@ nl:
     response:
       unexpected: "Onverwacht antwoord ontvangen."
   you: jij
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

@@ -199,7 +199,7 @@ uk:
     member_connection_status:
       connected: "Підключено"
       connected_no_permissions: "Ролі користувача не надано дозволи на доступ до сховища"
-      not_connected: "Не підключено. Щоб підключитися, користувач повинен увійти в сховище на вкладці %{files_label} пакета робіт."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Сховища поки не створено."
     members_no_results: "Немає учасників."
     provider_types:

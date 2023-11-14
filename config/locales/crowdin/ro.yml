@@ -600,6 +600,7 @@ ro:
           title: "Zile lucrătoare"
           false: "doar zile lucrătoare"
           true: "include zile nelucrătoare"
+        notify: "Notify" #used in custom actions
         parent: "Părinte"
         parent_issue: "Părinte"
         parent_work_package: "Părinte"
@@ -3268,6 +3269,7 @@ ro:
     response:
       unexpected: "S-a primit un răspuns neașteptat."
   you: tu
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

@@ -599,6 +599,7 @@ fil:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "Magulang"
         parent_issue: "Magulang"
         parent_work_package: "Magulang"
@@ -3236,6 +3237,7 @@ fil:
     response:
       unexpected: "Unexpected response received."
   you: you
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

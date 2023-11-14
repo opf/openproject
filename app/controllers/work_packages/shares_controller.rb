@@ -36,7 +36,15 @@ class WorkPackages::SharesController < ApplicationController
   before_action :authorize
 
   def index
-    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package), layout: nil
+    query = load_query
+
+    unless query.valid?
+      flash.now[:error] = query.errors.full_messages
+    end
+
+    @shares = load_shares query
+
+    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares), layout: nil
   end
 
   def create
@@ -49,17 +57,15 @@ class WorkPackages::SharesController < ApplicationController
                             user_id: member_params[:user_id],
                             role_ids: find_role_ids(params[:member][:role_id]))
 
-      @share = service_call.result
-
       overall_result.push(service_call)
     end
 
-    @shares = overall_result.map(&:result).reverse
+    @new_shares = overall_result.map(&:result).reverse
 
     if overall_result.present?
       # In case the number of newly added shares is equal to the whole number of shares,
       # we have to render the whole modal again to get rid of the blankslate
-      if current_visible_member_count > 1 && @shares.size < current_visible_member_count
+      if current_visible_member_count > 1 && @new_shares.size < current_visible_member_count
         respond_with_prepend_shares
       else
         respond_with_replace_modal
@@ -91,7 +97,7 @@ class WorkPackages::SharesController < ApplicationController
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @new_shares || find_shares)
     )
 
     respond_with_turbo_streams
@@ -106,10 +112,10 @@ class WorkPackages::SharesController < ApplicationController
       component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
-    @shares.each do |share|
+    @new_shares.each do |share|
       prepend_via_turbo_stream(
         component: WorkPackages::Share::ShareRowComponent.new(share:),
-        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: find_shares)
       )
     end
 
@@ -146,14 +152,15 @@ class WorkPackages::SharesController < ApplicationController
     @work_package = @share.entity
   end
 
-  def find_project
-    @project = @work_package.project
+  def find_shares
+    @shares = Member.includes(:roles)
+                    .references(:member_roles)
+                    .of_work_package(@work_package)
+                    .merge(MemberRole.only_non_inherited)
   end
 
-  def find_role_ids(builtin_value)
-    # Role has a left join on permissions included leading to multiple ids being returned which
-    # is why we unscope.
-    WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
+  def find_project
+    @project = @work_package.project
   end
 
   def current_visible_member_count
@@ -162,5 +169,26 @@ class WorkPackages::SharesController < ApplicationController
                                         .of_work_package(@work_package)
                                         .merge(MemberRole.only_non_inherited)
                                         .size
+  end
+
+  def load_query
+    @query = ParamsToQueryService.new(Member,
+                                      current_user,
+                                      query_class: Queries::Members::WorkPackageMemberQuery)
+                                 .call(params)
+
+    # Set default filter on the entity
+    @query.where('entity_id', '=', @work_package.id)
+    @query.where('entity_type', '=', WorkPackage.name)
+    @query.where('project_id', '=', @project.id)
+
+    @query.order(name: :asc) unless params[:sortBy]
+
+    @query
+  end
+
+  def load_shares(query)
+    query
+      .results
   end
 end

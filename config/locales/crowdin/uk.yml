@@ -596,6 +596,7 @@ uk:
           title: "Робочі дні"
           false: "лише робочі дні"
           true: "включати неробочі дні"
+        notify: "Notify" #used in custom actions
         parent: "Джерело"
         parent_issue: "Джерело"
         parent_work_package: "Джерело"
@@ -3291,6 +3292,7 @@ uk:
     response:
       unexpected: "Отримано неочікувану відповідь."
   you: ви
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

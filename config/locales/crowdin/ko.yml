@@ -597,6 +597,7 @@ ko:
           title: "근무일"
           false: "근무일만"
           true: "휴무일 포함"
+        notify: "Notify" #used in custom actions
         parent: "부모"
         parent_issue: "부모"
         parent_work_package: "부모"
@@ -3203,6 +3204,7 @@ ko:
     response:
       unexpected: "예기치 않은 응답을 받았습니다."
   you: 당신
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

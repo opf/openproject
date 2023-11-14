@@ -31,6 +31,12 @@ ca:
         Estàs segur que vols esborrar aquest fitxer adjunt? Aquesta acció és irreversible.
       draggable_hint: |
         Arrossega a l'editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l'editor seguiran oberts mentre se segueixi arrossegant.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Afegir \"%{name}\""

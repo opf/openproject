@@ -595,6 +595,7 @@ ca:
           title: "Dies laborals"
           false: "només dies laborables"
           true: "inclou dies no laborables"
+        notify: "Notify" #used in custom actions
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"
@@ -3227,6 +3228,7 @@ ca:
     response:
       unexpected: "Resposta inesperada rebuda."
   you: tu
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

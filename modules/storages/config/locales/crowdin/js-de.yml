@@ -65,13 +65,16 @@ de:
           other: "%{count} Dateiverknüpfungen erfolgreich erstellt."
         upload_error:
           default: >
-            Ihre Datei (%{fileName}) konnte nicht hochgeladen werden. Bitte überprüfen Sie, ob die neueste Version der Nextcloud-App „OpenProject Integration“ installiert ist und kontaktieren Sie Ihren Administrator für weitere Informationen.
+            Your file (%{fileName}) could not be uploaded.
           403: >
             Ihre Datei (%{fileName}) konnte aufgrund von Systembeschränkungen nicht hochgeladen werden. Bitte kontaktieren Sie Ihren Administrator für weitere Informationen.
           413: >
             Ihre Datei (%{fileName}) ist größer als das, was OpenProject zu %{storageType} hochladen kann. Sie können sie zuerst direkt auf %{storageType} hochladen und dann die Datei verlinken.
           507: >
             Ihre Datei (%{fileName}) ist größer als das Speicherkontingent erlaubt. Kontaktieren Sie Ihren Administrator, um dieses Kontingent zu ändern.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           Beim Verknüpfen der kürzlich hochgeladenen Datei '%{fileName}' mit dem Arbeitspaket %{workPackageId} ist ein Fehler aufgetreten.
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"

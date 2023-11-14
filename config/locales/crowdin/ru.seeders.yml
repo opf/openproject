@@ -132,21 +132,21 @@ ru:
       welcome:
         title: Добро пожаловать в OpenProject!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject является ведущим программным обеспечением с открытым исходным кодом. Он поддерживает классические, agile и гибридные управления проектами и дает вам полный контроль над вашими данными.
 
-          Core features and use cases:
+          Основные возможности и примеры использования:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Управление портфолио проекта](https://www.openproject. rg/collaboration-software-features/project-portfolio-management/)
+          * [Планирование и планирование проектов](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Отслеживание задач и задач](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Платы Agile (Scrum and Kanban)](https://www. penproject.org/collaboration-software-features/agile-project-management/)
+          * [Управление требованиями и Планирование релизов](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Отслеживание времени и затрат, бюджеты](https://www.openproject. rg/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject. rg/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          Добро пожаловать в будущее управления проектом.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Для администраторов: Вы можете изменить этот приветственный текст [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Демо-проект

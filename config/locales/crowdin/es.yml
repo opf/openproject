@@ -596,6 +596,7 @@ es:
           title: "Días laborables"
           false: "solo días laborables"
           true: "incluir días no laborables"
+        notify: "Notify" #used in custom actions
         parent: "Padre"
         parent_issue: "Padre"
         parent_work_package: "Padre"
@@ -3233,6 +3234,7 @@ es:
     response:
       unexpected: "Se ha recibido una respuesta inesperada."
   you: su usuario
+  link: link
   plugin_openproject_auth_plugins:
     name: "Plugins Auth de OpenProject"
     description: "Integración de los proveedores de estrategia de OmniAuth para la autentificación en Openproject."

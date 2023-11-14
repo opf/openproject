@@ -199,7 +199,7 @@ fr:
     member_connection_status:
       connected: "Connecté"
       connected_no_permissions: "Le rôle d'utilisateur n'a pas d'autorisations de stockage"
-      not_connected: "Non connecté. L'utilisateur doit se connecter à l'espace de stockage via l'onglet %{files_label} d'un lot de travaux pour se connecter."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Aucun espace de stockage n'est configuré pour le moment."
     members_no_results: "Aucun membre à afficher."
     provider_types:
