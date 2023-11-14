@@ -8,6 +8,37 @@ sidebar_navigation:
 
 OpenProject provides different means of monitoring and auditing your application.
 
+
+
+## Logging information
+
+In production, OpenProject uses [Lograge formatter](https://github.com/roidrage/lograge) `key_value` logger by default. Every request will result in the following `info` log level:
+
+```
+I, [2023-11-14T09:21:15.136914 #56791]  INFO -- : [87a5dceb-0560-4e17-8577-2822106dfc00] method=GET path=/ format=html controller=HomescreenController action=index status=200 allocations=133182 duration=237.82 view=107.45 db=116.50 user=85742
+```
+
+This formatter makes it easy to parse and analyze logs. Let's take a look at the values:
+
+| Log entry                                      | Description                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------ |
+| `I`                                            | First letter of the level (Debug, Info, Warn, Error, ...)    |
+| `[2023-11-14T09:21:15.136914 #56791]`          | ISO8601 timestamp and #Puma worker PID                       |
+| `INFO`                                         | Log level                                                    |
+| `[87a5dceb-0560-4e17-8577-2822106dfc00]`       | Request ID [Unique ID in the request](https://api.rubyonrails.org/classes/ActionDispatch/RequestId.html) added by Rails used to connect other log entries to that request. |
+| `method=GET`                                   | HTTP method                                                  |
+| `path=/`                                       | Requested path                                               |
+| `format=html`                                  | Mime type                                                    |
+| `controller=HomescreenController action=index` | Rails controller and used action method responding to the request, information for debugging |
+| `status=200`                                   | HTTP response code                                           |
+| `allocations=1333182`                          | Rails allocated memory objects instrumentation               |
+| `duration=237.82`                              | Complete response duration (in ms)                           |
+| `view=107.45`                                  | Time spent in view (in ms)                                   |
+| `db=116.50`                                    | Time spent in database (in ms)                               |
+| `user=85742`                                   | User ID of the instance                                      |
+
+
+
 ## Displaying and filtering log files
 
 ### Packaged installation

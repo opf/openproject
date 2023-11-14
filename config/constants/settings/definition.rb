@@ -590,10 +590,15 @@ module Settings
       log_requesting_user: {
         default: false
       },
-      # Use lograge to format logs, off by default
-      lograge_formatter: {
+      lograge_enabled: {
         description: 'Use lograge formatter for outputting logs',
-        default: nil,
+        default: true,
+        format: :boolean,
+        writable: false
+      },
+      lograge_formatter: {
+        description: 'Lograge formatter to use for outputting logs',
+        default: 'key_value',
         format: :string,
         writable: false
       },
