@@ -35,17 +35,11 @@ export default class MeetingsSidebarParticipantsController extends Controller {
   declare readonly showHideButtonTarget:HTMLInputElement;
   declare readonly hiddenParticipantsTarget:HTMLElement;
 
-  connect():void {
-    this.showHiddenParticipants();
-  }
-
   showHiddenParticipants():void {
-    this.showHideButtonTarget.addEventListener('click', () => {
-      if (this.hiddenParticipantsTarget.classList.contains('d-none')) {
-        this.hiddenParticipantsTarget.classList.remove('d-none');
-      } else {
-        this.hiddenParticipantsTarget.classList.add('d-none');
-      }
-    });
+    if (this.hiddenParticipantsTarget.classList.contains('d-none')) {
+      this.hiddenParticipantsTarget.classList.remove('d-none');
+    } else {
+      this.hiddenParticipantsTarget.classList.add('d-none');
+    }
   }
 }
