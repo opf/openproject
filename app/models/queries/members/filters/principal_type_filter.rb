@@ -26,17 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::MemberQuery < Queries::BaseQuery
-  def self.model
-    Member
+class Queries::Members::Filters::PrincipalTypeFilter < Queries::Members::Filters::MemberFilter
+  def allowed_values
+    [[User.name, User.name], [Group.name, Group.name], [PlaceholderUser.name, PlaceholderUser.name]]
   end
 
-  def results
-    super
-      .includes(:roles, { principal: :preference }, :member_roles)
+  def joins
+    :principal
   end
 
-  def default_scope
-    Member.visible(User.current)
+  def type
+    :list
+  end
+
+  def self.key
+    :principal_type
+  end
+
+  def where
+    operator_strategy.sql_for_field(values, Principal.table_name, :type)
   end
 end

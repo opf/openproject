@@ -30,15 +30,16 @@
 
 class WorkPackages::Shares::BulkController < ApplicationController
   include OpTurbo::ComponentStream
+  include MemberHelper
 
   before_action :find_work_package
-  before_action :find_shares
-  before_action :find_role_ids, only: :update
+  before_action :find_selected_shares
+  before_action :find_role_ids_from_params, only: :update
   before_action :find_project
   before_action :authorize
 
   def update
-    @shares.each do |share|
+    @selected_shares.each do |share|
       WorkPackageMembers::CreateOrUpdateService
         .new(user: current_user)
         .call(entity: @work_package,
@@ -50,7 +51,7 @@ class WorkPackages::Shares::BulkController < ApplicationController
   end
 
   def destroy
-    @shares.each do |share|
+    @selected_shares.each do |share|
       WorkPackageMembers::DeleteService
         .new(user: current_user, model: share)
         .call
@@ -66,7 +67,7 @@ class WorkPackages::Shares::BulkController < ApplicationController
   private
 
   def respond_with_update_permission_buttons
-    @shares.each do |share|
+    @selected_shares.each do |share|
       replace_via_turbo_stream(
         component: WorkPackages::Share::PermissionButtonComponent.new(share:,
                                                                       data: { 'test-selector': 'op-share-wp-update-role' })
@@ -78,14 +79,14 @@ class WorkPackages::Shares::BulkController < ApplicationController
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: find_shares)
     )
 
     respond_with_turbo_streams
   end
 
   def respond_with_remove_shares
-    @shares.each do |share|
+    @selected_shares.each do |share|
       remove_via_turbo_stream(
         component: WorkPackages::Share::ShareRowComponent.new(share:)
       )
@@ -107,15 +108,20 @@ class WorkPackages::Shares::BulkController < ApplicationController
   end
 
   def find_shares
-    @shares = Member.includes(:principal)
+    @shares = Member.includes(:principal, :member_roles)
+                    .references(:member_roles)
                     .of_work_package(@work_package)
-                    .where(id: params[:share_ids])
+                    .merge(MemberRole.only_non_inherited)
   end
 
-  def find_role_ids
-    @role_ids = WorkPackageRole.unscoped
-                               .where(builtin: params[:role_ids])
-                               .pluck(:id)
+  def find_selected_shares
+    @selected_shares = Member.includes(:principal)
+                             .of_work_package(@work_package)
+                             .where(id: params[:share_ids])
+  end
+
+  def find_role_ids_from_params
+    @role_ids = find_role_ids(params[:role_ids])
   end
 
   def current_visible_member_count

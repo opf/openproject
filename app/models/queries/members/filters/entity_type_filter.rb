@@ -26,17 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::MemberQuery < Queries::BaseQuery
-  def self.model
-    Member
+class Queries::Members::Filters::EntityTypeFilter < Queries::Members::Filters::MemberFilter
+  def type
+    :list_optional
   end
 
-  def results
-    super
-      .includes(:roles, { principal: :preference }, :member_roles)
+  def allowed_values
+    [[WorkPackage.name, WorkPackage.name]]
   end
 
-  def default_scope
-    Member.visible(User.current)
+  def self.key
+    :entity_type
   end
 end

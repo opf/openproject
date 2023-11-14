@@ -26,17 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::MemberQuery < Queries::BaseQuery
-  def self.model
-    Member
+class Queries::Members::Filters::AlsoProjectMemberFilter < Queries::Members::Filters::MemberFilter
+  include Queries::Filters::Shared::BooleanFilter
+
+  def where
+    if allowed_values.first.intersect?(values)
+      "EXISTS (#{project_member_subquery})"
+    else
+      "NOT EXISTS (#{project_member_subquery})"
+    end
   end
 
-  def results
-    super
-      .includes(:roles, { principal: :preference }, :member_roles)
+  def available_operators
+    [::Queries::Operators::BooleanEquals]
   end
 
-  def default_scope
-    Member.visible(User.current)
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::BooleanListStrict.new self
+  end
+
+  private
+
+  def project_member_subquery
+    <<~SQL.squish
+      SELECT 1 FROM "members" as "project_members"
+      WHERE
+        project_members.user_id = members.user_id AND
+        project_members.project_id = members.project_id AND
+        project_members.entity_type IS NULL AND
+        project_members.entity_id IS NULL AND
+        project_members.id != members.id
+    SQL
   end
 end

@@ -238,6 +238,15 @@ module Components
         end
       end
 
+      def filter(filter_name, value)
+        within modal_element.find("[data-test-selector='op-share-wp-filter-#{filter_name}']") do
+          # Open the ActionMenu
+          click_button filter_name.capitalize
+
+          find('.ActionListContent', text: value).click
+        end
+      end
+
       def close
         within modal_element do
           click_button 'Close'
