@@ -71,7 +71,7 @@ module API
             after_validation do
               @work_package = WorkPackage.find(declared_params[:id])
 
-              authorize_in_work_package(:view_work_packages, work_package: @work_package.project) do
+              authorize_in_work_package(:view_work_packages, work_package: @work_package) do
                 raise API::Errors::NotFound.new model: :work_package
               end
             end
