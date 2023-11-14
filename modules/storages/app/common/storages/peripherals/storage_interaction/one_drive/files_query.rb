@@ -107,18 +107,21 @@ module Storages
           end
 
           def empty_response(folder)
-            ServiceResult.success(
-              result: StorageFiles.new(
-                [],
-                StorageFile.new(
-                  id: Digest::SHA256.hexdigest(folder),
-                  name: folder.split('/').last,
-                  location: folder,
-                  permissions: %i[readable writeable]
-                ),
-                forge_ancestors(path: folder)
-              )
-            )
+            files_result = if folder.blank?
+                             StorageFiles.new([], root(Digest::SHA256.hexdigest('i_am_root')), [])
+                           else
+                             StorageFiles.new(
+                               [],
+                               StorageFile.new(
+                                 id: Digest::SHA256.hexdigest(folder),
+                                 name: folder.split('/').last,
+                                 location: folder,
+                                 permissions: %i[readable writeable]
+                               ),
+                               forge_ancestors(path: folder)
+                             )
+                           end
+            ServiceResult.success(result: files_result)
           end
 
           def extract_location(parent_reference, file_name = '')
