@@ -24,23 +24,43 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 
-import {
-  Injector,
-  NgModule,
-  CUSTOM_ELEMENTS_SCHEMA
-} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
-import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+import {
+  WorkPackageTabsService,
+} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { MeetingsTabComponent } from './meetings-tab/meetings-tab.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+
+
+export function workPackageMeetingsCount(
+  workPackage:WorkPackageResource,
+  injector:Injector,
+):Observable<number> {
+  const pathHelperService = injector.get(PathHelperService);
+  const http = injector.get(HttpClient);
+  return http
+    .get(`${pathHelperService.workPackagePath(workPackage.id as string)}/meetings/tab/count`)
+    .pipe(
+      map((res:{ count:number }) => res.count),
+    );
+}
 
 export function initializeMeetingPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
+  const I18n = injector.get(I18nService);
   wpTabService.register({
     component: MeetingsTabComponent,
-    name: "Meetings",
+    name: I18n.t('js.label_meetings'),
     id: 'meetings',
-    displayable: (workPackage) => !!workPackage.meetings
+    displayable: (workPackage) => !!workPackage.meetings,
+    count: workPackageMeetingsCount,
   });
 }
 
