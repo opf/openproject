@@ -249,16 +249,36 @@ RSpec.describe MeetingAgendaItem do
       context 'and the agenda_item is persisted' do
         let(:meeting_agenda_item) { build_stubbed(:meeting_agenda_item, meeting:, **attributes) }
 
-        context 'and work_package_id is missing' do
+        context 'and work_package_id was originally missing' do
           let(:work_package_id) { nil }
 
-          it { is_expected.to be true }
+          context 'and now is present' do
+            before do
+              meeting_agenda_item.work_package_id = 1
+            end
+
+            it { is_expected.to be true }
+          end
+
+          context 'and now is also missing' do
+            it { is_expected.to be true }
+          end
         end
 
-        context 'and work_package_id is present' do
+        context 'and work_package_id was originally present' do
           let(:work_package_id) { 1 }
 
-          it { is_expected.to be false }
+          context 'and now is also present' do
+            it { is_expected.to be false }
+          end
+
+          context 'and now is missing' do
+            before do
+              meeting_agenda_item.work_package_id = nil
+            end
+
+            it { is_expected.to be false }
+          end
         end
       end
     end
