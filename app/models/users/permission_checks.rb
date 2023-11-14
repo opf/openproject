@@ -100,10 +100,13 @@ module Users::PermissionChecks
   def allowed_based_on_permission_context?(permission, project: nil, entity: nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
     permissions = Authorization.permissions_for(permission, raise_on_unknown: true)
 
+    entity_blank_or_not_project_scoped = (entity.blank? || !entity.respond_to?(:project))
+    entity_is_work_package_or_list = (entity.is_a?(WorkPackage) || (entity.is_a?(Array) && entity.all?(WorkPackage)))
+
     permissions.any? do |perm|
       if perm.global?
         allowed_globally?(perm)
-      elsif perm.work_package? && (entity.is_a?(WorkPackage) || (entity.is_a?(Array) && entity.all? { |e| e.is_a?(WorkPackage) }))
+      elsif perm.work_package? && entity_is_work_package_or_list
         allowed_in_work_package?(perm, entity)
       elsif perm.work_package? && entity.blank? && project.blank?
         allowed_in_any_work_package?(perm)
@@ -111,9 +114,9 @@ module Users::PermissionChecks
         allowed_in_any_work_package?(perm, in_project: project)
       elsif perm.project? && project
         allowed_in_project?(perm, project)
-      elsif perm.project? && entity && entity.respond_to?(:project)
+      elsif perm.project? && project.nil? && entity.present? && entity.respond_to?(:project)
         allowed_in_project?(perm, entity.project)
-      elsif perm.project? && entity.blank? && project.blank?
+      elsif perm.project? && entity_blank_or_not_project_scoped && project.blank?
         allowed_in_any_project?(perm)
       else
         false
