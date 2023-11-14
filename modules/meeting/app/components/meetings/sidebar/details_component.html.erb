@@ -85,9 +85,6 @@
               end
             end
           end
-          details.with_row(mt: 2, display: [:block, :none, :none, :none, :none]) do
-            render(Meetings::Sidebar::ParticipantsComponent.new(meeting: @meeting))
-          end
         end
       end
     end
