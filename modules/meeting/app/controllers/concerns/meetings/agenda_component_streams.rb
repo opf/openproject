@@ -165,9 +165,9 @@ module Meetings
           update_show_items_via_turbo_stream
           remove_via_turbo_stream(
             component: MeetingAgendaItems::ItemComponent.new(
-              state:,
+              state: :show,
               meeting_agenda_item:,
-              display_notes_input:
+              display_notes_input: nil
             )
           )
         end
