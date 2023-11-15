@@ -76,7 +76,11 @@ class MeetingAgendaItem < ApplicationRecord
     persisted? && item_type == "work_package" && work_package_id_was.nil?
   end
 
+  def editable?
+    !(meeting&.closed? || deleted_work_package?)
+  end
+
   def modifiable?
-    !meeting&.closed? && !(deleted_work_package? && work_package_id.present?)
+    !(meeting&.closed? || (deleted_work_package? && work_package_id.present?))
   end
 end

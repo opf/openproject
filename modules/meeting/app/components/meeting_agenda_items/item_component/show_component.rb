@@ -50,12 +50,8 @@ module MeetingAgendaItems
       @meeting.open? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
 
-    def dropdown_menu_enabled?
-      @meeting.open? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
-    end
-
     def edit_enabled?
-      @meeting.open? && !@meeting_agenda_item.deleted_work_package?
+      @meeting.open? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
 
     def edit_action_item(menu)

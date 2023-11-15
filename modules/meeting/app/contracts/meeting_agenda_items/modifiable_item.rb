@@ -27,18 +27,18 @@
 #++
 
 module MeetingAgendaItems
-  module EditableItem
+  module ModifiableItem
     extend ActiveSupport::Concern
 
     included do
-      validate :validate_editable
+      validate :validate_modifiable
     end
 
     protected
 
-    def validate_editable
+    def validate_modifiable
       unless model.modifiable?
-        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
+        errors.add :base, I18n.t(:text_agenda_item_not_editable_anymore)
       end
     end
   end
