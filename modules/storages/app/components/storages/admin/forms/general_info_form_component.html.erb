@@ -11,7 +11,7 @@
             Storages::Admin::ProviderTypeSelectForm.new(
               form,
               storage:,
-              select_list_options: { caption: provider_type_select_caption }
+              select_list_options: { caption: provider_type_select_caption, readonly: storage.new_record? }
             )
           )
         end
