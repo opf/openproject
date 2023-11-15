@@ -105,9 +105,6 @@ OpenProject::Application.configure do
 
   config.assets.quiet = true unless config.log_level == :debug
 
-  # Prepend all log lines with the following tags.
-  config.log_tags = [:request_id]
-
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 

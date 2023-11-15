@@ -686,7 +686,7 @@ GEM
       activesupport (>= 5.0.0)
       openproject-octicons (>= 19.7.0)
       view_component (>= 3.1, < 4.0)
-    openproject-token (3.0.1)
+    openproject-token (4.0.0)
       activemodel
     os (1.1.4)
     ox (2.14.17)
@@ -1127,7 +1127,7 @@ DEPENDENCIES
   openproject-reporting!
   openproject-storages!
   openproject-team_planner!
-  openproject-token (~> 3.0.1)
+  openproject-token (~> 4.0)
   openproject-two_factor_authentication!
   openproject-webhooks!
   openproject-xls_export!
