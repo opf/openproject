@@ -469,6 +469,9 @@ OpenProject::Application.routes.draw do
 
     # Rails managed sharing route
     resources :shares, controller: 'work_packages/shares', only: %i[index create] do
+      member do
+        post 'resend_invite' => 'work_packages/shares#resend_invite'
+      end
       collection do
         resource :bulk, controller: 'work_packages/shares/bulk', only: %i[update destroy], as: :shares_bulk
       end

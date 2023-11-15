@@ -30,8 +30,8 @@ class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
   include MemberHelper
 
-  before_action :find_work_package, only: %i[index create]
-  before_action :find_share, only: %i[destroy update]
+  before_action :find_work_package, only: %i[index create resend_invite]
+  before_action :find_share, only: %i[destroy update resend_invite]
   before_action :find_project
   before_action :authorize
   before_action :enterprise_check, only: %i[index]
@@ -92,6 +92,14 @@ class WorkPackages::SharesController < ApplicationController
     else
       respond_with_remove_share
     end
+  end
+
+  def resend_invite
+    OpenProject::Notifications.send(OpenProject::Events::WORK_PACKAGE_SHARED,
+                                    work_package_member: @share,
+                                    send_notifications: true)
+
+    head :ok
   end
 
   private

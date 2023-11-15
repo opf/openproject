@@ -67,6 +67,10 @@ module WorkPackages
         end
       end
 
+      def resend_invite_path
+        resend_invite_work_package_share_path(share.entity, share)
+      end
+
       def user_is_a_group?
         @user_is_a_group ||= user.is_a?(Group)
       end
