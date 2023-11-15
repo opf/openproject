@@ -80,7 +80,7 @@ export default class MembersFormController extends Controller {
     }
 
     this.autocompleter = this.addMemberFormTarget.querySelector('opce-members-autocompleter') as HTMLElement;
-    this.autocompleter.addEventListener('valueChange', this.autocompleterListener);
+    this.autocompleter.addEventListener('change', this.autocompleterListener);
 
     if (this.hasErrorExplanationTarget && this.errorExplanationTarget.textContent !== '') {
       this.showAddMemberForm();
@@ -92,7 +92,7 @@ export default class MembersFormController extends Controller {
   }
 
   disconnect() {
-    this.autocompleter.removeEventListener('valueChange', this.autocompleterListener);
+    this.autocompleter.removeEventListener('change', this.autocompleterListener);
   }
 
   hideFilter() {
