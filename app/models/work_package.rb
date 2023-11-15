@@ -220,7 +220,7 @@ class WorkPackage < ApplicationRecord
 
   # Returns true if usr or current user is allowed to view the work_package
   def visible?(usr = User.current)
-    usr.allowed_in_project?(:view_work_packages, project)
+    usr.allowed_in_work_package?(:view_work_packages, self)
   end
 
   # RELATIONS
