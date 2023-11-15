@@ -60,10 +60,12 @@
                   end
                 end
                 flex.with_row(mt: 1) do
-                  render (Primer::Beta::Button.new(scheme: :invisible, 
-                  data: { 'meetings-sidebar-participants-target': "showHideButton",
-                  action: 'click->meetings-sidebar-participants#showHiddenParticipants keydown.enter->meetings-sidebar-participants#showHiddenParticipants'}))
-                  { I18n.t('label_meeting_show_hide_participants', count: @meeting.invited_or_attended_participants.count - MAX_SHOWN_PARTICIPANTS) }
+                  render (Primer::Beta::Button.new(
+                    scheme: :invisible,
+                    data: { 'meetings-sidebar-participants-target': "showHideButton",
+                            action: 'click->meetings-sidebar-participants#showHiddenParticipants keydown.enter->meetings-sidebar-participants#showHiddenParticipants'
+                          }
+                  )) { I18n.t('label_meeting_show_hide_participants', count: @meeting.invited_or_attended_participants.count - MAX_SHOWN_PARTICIPANTS) }
                 end
               end
             end
