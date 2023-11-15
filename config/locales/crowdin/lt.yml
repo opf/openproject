@@ -1787,6 +1787,7 @@ lt:
   label_enterprise_active_users: "%{current}/%{limit} aktyviai naudojami naudotojai"
   label_enterprise_edition: "Enterprise versija"
   label_enterprise_support: "„Enterprise“ palaikymas"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Aplinka"
   label_estimates_and_time: "Sąmatos ir laikas"
   label_equals: "yra"
@@ -2259,6 +2260,7 @@ lt:
         create_account: "Kas prieitumėte prie šio darbo paketo, jums reikia sukurti %{instance} paskyrą. "
         open_work_package: "Atverti darbo paketą"
         subject: "Su jumis bendrinamas darbo paketas #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}"
           group: "%{user} bendrino darbo paketą su grupe %{group}, kurios narys esate ir jūs"
@@ -2957,7 +2959,8 @@ lt:
   text_setup_mail_configuration: "Sukonfigūruoti Jūsų el. pašto paslaugų teikėją"
   help_texts:
     views:
-      project: "%{plural} visada prisegti prie projekto. Sukūrus %{singular} jūs galite pridėti į darbo paketus iš kitų projektų."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus."
       favoured: "Pažymėti šį vaizdą kaip mėgstamiausią ir pridėti į įrašytų vaizdų dėklą kairėje."
   time:
@@ -3065,7 +3068,13 @@ lt:
         zero: "0 naudotojų"
         one: "1 naudotojas"
         other: "%{count} naudotojai"
-      share: "Dalintis"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Ieškoti naudotojų pakvietimui"
       label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
       label_toggle_all: "Perjungti visus bendrinimus"
@@ -3078,6 +3087,7 @@ lt:
         view: "Žiūrėti"
         view_description: "Gali žiūrėti šį darbo paketą."
       remove: "Išimti"
+      share: "Dalintis"
       text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
       text_empty_state_header: "Nėra bendrinamų naudotojų"
   working_days:
