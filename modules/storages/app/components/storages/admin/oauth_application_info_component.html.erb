@@ -10,7 +10,7 @@
     end
 
     if editable_storage?
-      grid.with_area(:"icon-button", tag: :div, color: :subtle, test_selector: 'storage-replace-openproject-oauth-application') do
+      grid.with_area(:"icon-button", tag: :div, color: :muted, test_selector: 'storage-replace-openproject-oauth-application') do
         flex_layout(justify_content: :flex_end) do |icons_container|
           icons_container.with_column do
             primer_form_with(
