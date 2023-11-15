@@ -200,10 +200,10 @@ module API
       #   those permissions, not all.
       #
       # @raise [API::Errors::Unauthorized] when permission is not met
-      def authorize_in_any_work_package(permission_or_permissions, user: current_user, &block)
+      def authorize_in_any_work_package(permission_or_permissions, user: current_user, in_project: nil, &block)
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
-          user.allowed_in_any_work_package?(permission)
+          user.allowed_in_any_work_package?(permission, in_project:)
         end
 
         authorize_by_with_raise(authorized, &block)
