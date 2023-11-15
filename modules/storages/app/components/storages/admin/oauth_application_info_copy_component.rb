@@ -35,8 +35,6 @@ module Storages::Admin
     attr_reader :storage
     alias_method :oauth_application, :model
 
-    options cancel_button_should_break_from_frame: false
-
     def initialize(oauth_application:, storage:, **options)
       super(oauth_application, **options)
       @storage = storage
@@ -60,22 +58,10 @@ module Storages::Admin
       }.merge(options.fetch(:submit_button_options, {}))
     end
 
-    def cancel_button_options
-      { scheme: :default,
-        tag: :a,
-        href: cancel_button_path }.tap do |options_hash|
-        options_hash[:target] = '_top' if cancel_button_should_break_from_frame
-      end
-    end
-
     private
 
     def submit_button_path
       options[:submit_button_path] || edit_admin_settings_storage_path(storage)
-    end
-
-    def cancel_button_path
-      options[:cancel_button_path] || edit_admin_settings_storage_path(storage)
     end
   end
 end

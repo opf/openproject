@@ -33,7 +33,6 @@
 
       credentials_row.with_row do
         concat(render(Primer::Beta::Button.new(**submit_button_options)) { I18n.t('storages.buttons.done_continue') })
-        concat(render(Primer::Beta::Button.new(**cancel_button_options)) { I18n.t('button_cancel') })
       end
     end
   end
