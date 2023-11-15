@@ -39,7 +39,11 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% header.with_back_button(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) %>
-   
+
+    <% header.with_parent_link(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) do %>
+      <%= t(:project_module_storages) %>
+    <% end %>
+
     <% header.with_actions do %>
       <%=
         primer_form_with(
