@@ -1787,6 +1787,7 @@ pl:
   label_enterprise_active_users: "%{current}/%{limit} zarejestrowanych aktywnych użytkowników"
   label_enterprise_edition: "Wersja Enterprise"
   label_enterprise_support: "Wsparcie Enterprise"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Środowisko"
   label_estimates_and_time: "Szacowany czas"
   label_equals: "jest"
@@ -2259,6 +2260,7 @@ pl:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2958,7 +2960,8 @@ pl:
   text_setup_mail_configuration: "Skonfiguruj dostawcę poczty e-mail"
   help_texts:
     views:
-      project: "%{plural} są zawsze dołączone do projektu. Gdy utworzysz %{singular}, możesz do niego dodać pakiety robocze z innych projektów."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Opublikuj ten widok, aby umożliwić dostęp do niego innym użytkownikom. Użytkownicy z uprawnieniami „Zarządzaj widokami publicznymi” mogą zmodyfikować lub usunąć zapytanie publiczne. Nie ma to wpływu na widoczność wyników pakietu roboczego w tym widoku, a użytkownicy mogą widzieć różne wyniki, w zależności od ich uprawnień."
       favoured: "Oznacz ten widok jako ulubiony i dodaj do zapisanych widoków na pasku bocznym po lewej stronie."
   time:
@@ -3067,7 +3070,13 @@ pl:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3080,6 +3089,7 @@ pl:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
   working_days:
