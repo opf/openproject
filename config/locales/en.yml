@@ -3265,6 +3265,10 @@ en:
       share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached:
+        zero: "This instance has reached its user limit, you can’t share with new users. Please contact your administrator to add more members."
+        one: "Only 1 member left to reach the user limit of the instance. Please contact your administrator."
+        other: "Only %{count} members left to reach the user limit of the instance. Please contact your administrator."
 
   working_days:
     info: >
