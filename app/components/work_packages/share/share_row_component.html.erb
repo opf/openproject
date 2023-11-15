@@ -12,8 +12,12 @@
         end
       end
 
-      user_row_grid.with_area(:user, tag: :div, classes: 'ellipsis') do
-        render(Users::AvatarComponent.new(user: principal, size: :medium))
+      user_row_grid.with_area(:avatar, tag: :div, classes: 'ellipsis') do
+        render(Users::AvatarComponent.new(user: principal, show_name: false, size: :medium))
+      end
+
+      user_row_grid.with_area(:user_details, tag: :div) do
+        render(WorkPackages::Share::UserDetailsComponent.new(user: principal, share:, manager_mode: share_editable?))
       end
 
       if share_editable?

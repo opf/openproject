@@ -3273,6 +3273,16 @@ en:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Pending invitation. "
+        resend_invite: "Resend invite"
+        project_member: "Project member: "
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        part_of_a_shared_group: "Part of a shared group. "
+        role: "Role: "
 
   working_days:
     info: >
