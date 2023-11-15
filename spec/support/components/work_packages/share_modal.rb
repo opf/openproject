@@ -234,7 +234,9 @@ module Components
         within user_row(user) do
           find('[data-test-selector="op-share-wp-update-role"]').click
 
-          find('.ActionListContent', text: role_name).click
+          within '.ActionListWrap' do
+            click_button role_name
+          end
         end
       end
 
@@ -337,6 +339,13 @@ module Components
                             query: email,
                             select_text: "Send invite to\"#{email}\"",
                             results_selector: 'body'
+      end
+
+      def expect_upsale_banner
+        within modal_element do
+          expect(page)
+            .to have_text(I18n.t(:label_enterprise_addon))
+        end
       end
     end
   end

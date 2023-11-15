@@ -1789,6 +1789,7 @@ ru:
   label_enterprise_active_users: "%{current}/%{limit} забронировано активных пользователей"
   label_enterprise_edition: "Корпоративная версия"
   label_enterprise_support: "Поддержка корпоративной версии"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Переменные среды"
   label_estimates_and_time: "Оценки и время"
   label_equals: "—"
@@ -2261,6 +2262,7 @@ ru:
         create_account: "Для доступа к этому пакету работ необходимо создать учетную запись %{instance}. "
         open_work_package: "Открыть пакет работ"
         subject: "Вам предоставили общий доступ к пакету работ #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: ""
           group: "%{user} поделился пакетом работ с группой %{group}, членом которой вы являетесь "
@@ -2960,7 +2962,8 @@ ru:
   text_setup_mail_configuration: "Настройка поставщика услуг электронной почты"
   help_texts:
     views:
-      project: "%{plural} всегда прикреплены к проекту. После создания %{singular} вы можете добавить к нему пакеты работ из других проектов."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Опубликуйте это представление, позволив другим пользователям получить доступ к вашему представлению. Пользователи с разрешением \"Управление общедоступными представлениями\" могут изменять или удалять общедоступный запрос. Это не влияет на видимость результатов рабочего пакета в этом представлении, и в зависимости от их разрешений пользователи могут видеть разные результаты."
       favoured: "Отметить это представление как избранное и добавить в панель сохранённых представлений слева."
   time:
@@ -3068,7 +3071,13 @@ ru:
         zero: "0 пользователей"
         one: "1 пользователь"
         other: "%{count} пользователей"
-      share: "Поделиться"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Искать пользователей для приглашения"
       label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
       label_toggle_all: "Переключить все общие ресурсы"
@@ -3081,6 +3090,7 @@ ru:
         view: "Просмотр"
         view_description: "Может просматривать этот пакет работ."
       remove: "Удалить"
+      share: "Поделиться"
       text_empty_state_description: "Пакет работ еще не передан никому."
       text_empty_state_header: "Нет общих пользователей"
   working_days:

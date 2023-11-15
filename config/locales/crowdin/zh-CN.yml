@@ -1705,6 +1705,7 @@ zh-CN:
   label_enterprise_active_users: "%{current}/%{limit} 已预订的活跃用户"
   label_enterprise_edition: "企业版"
   label_enterprise_support: "企业支持"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "环境"
   label_estimates_and_time: "估算与工时"
   label_equals: "是"
@@ -2174,6 +2175,7 @@ zh-CN:
         create_account: "要访问此工作包，您需要创建一个 %{instance} 帐户。"
         open_work_package: "打开工作包"
         subject: "工作包 %{id} 已被共享给你"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包"
           group: "%{user} 向您所属的 %{group} 组共享了一个工作包。"
@@ -2867,7 +2869,8 @@ zh-CN:
   text_setup_mail_configuration: "配置您的电子邮件提供商"
   help_texts:
     views:
-      project: "%{plural}始终附加到项目。创建%{singular}后，您可以将其他项目的工作包添加到其中。"
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "发布此视图，以允许其他用户访问您的视图。具有“管理公开视图”权限的用户可以修改或移除公开查询。这不会影响工作包结果在该视图中的可见性，并且根据用户拥有的权限，他们可能会看到不同的结果。"
       favoured: "将此视图标记为收藏项，并添加到左侧的已保存视图边栏中。"
   time:
@@ -2972,7 +2975,13 @@ zh-CN:
         zero: "0 个用户"
         one: "1 个用户"
         other: "%{count} 个用户"
-      share: "分享"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "搜索要邀请的用户"
       label_search_placeholder: "按用户名或电子邮件地址搜索"
       label_toggle_all: "切换所有共享"
@@ -2985,6 +2994,7 @@ zh-CN:
         view: "查看"
         view_description: "可以查看此工作包。"
       remove: "移除"
+      share: "分享"
       text_empty_state_description: "工作包尚未共享给任何人。"
       text_empty_state_header: "没有共享的用户"
   working_days:

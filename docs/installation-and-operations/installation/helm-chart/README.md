@@ -51,7 +51,20 @@ helm upgrade --create-namespace --namespace openproject --install my-openproject
 The namespace is optional, but using it does make it easier to manage the resources
 created for OpenProject.
 
+### Helm chart signing
 
+We sign our chart using the [Helm Provenance and Integrity](https://helm.sh/docs/topics/provenance/) functionality. You can find the used public key here
+
+- https://github.com/opf/helm-charts/blob/main/signing.key 
+- https://keys.openpgp.org/vks/v1/by-fingerprint/CB1CA0488A75B7471EA1B087CF56DD6A0AE260E5
+
+We recommend using the [Helm GnuPG plugin](https://github.com/technosophos/helm-gpg). With it you can manually verify the signature like this:
+
+```bash
+helm repo add openproject https://charts.openproject.org
+helm fetch --prov openproject/openproject
+helm gpg verify openproject-*.tgz
+```
 
 ## Configuration
 
