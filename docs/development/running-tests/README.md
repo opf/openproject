@@ -280,6 +280,7 @@ Automated or manual security tests for OpenProject are evaluating common weaknes
 **Best practices**
 
 - Use statical and dynamical code analysis for automated vulnerability testing. OpenProject uses CodeQL and Brakeman as part of the CI pipeline to give early feedback to common vulnerabilities.
+- OpenProject uses [Docker Scout](https://www.docker.com/products/docker-scout/) for the Docker images hosted on Docker Hub for automated vulnerability scanning and analysis of the built container, including all dependencies.
 - Follow our [secure coding guidelines](../concepts/secure-coding/) when proposing changes to the application, especially when modifying or adding features to authentication, authorization, 2FA, or sensitive data operations.
 - If possible, automate security tests for common vulnerabilities for input in your development.
 - Train on recent vulnerabilities and checklists such as [OWASP Top Ten](https://owasp.org/www-project-top-ten/) or [OWASP cheat sheets](https://cheatsheetseries.owasp.org/index.html) to stay up-to-date on security testing and extend our security test suite with new information.
