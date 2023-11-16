@@ -61,8 +61,6 @@ module API
               authorize_in_any_project(:manage_public_queries)
             end
 
-            puts "*** API::V3::Queries::QueriesAPI.get: params = #{params.inspect}"
-
             queries_scope = Query.all.includes(QueryRepresenter.to_eager_load)
 
             ::API::V3::Utilities::ParamsToQuery.collection_response(queries_scope,
