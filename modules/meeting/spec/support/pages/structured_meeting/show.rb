@@ -30,6 +30,8 @@ require_relative '../meetings/show'
 
 module Pages::StructuredMeeting
   class Show < ::Pages::Meetings::Show
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
     def expect_empty
       expect(page).not_to have_css('[id^="meeting-agenda-items-item-component"]')
     end
@@ -135,6 +137,17 @@ module Pages::StructuredMeeting
       page.within("#meeting-agenda-items-form-component-#{item.id}") do
         find_field('Title', with: value)
       end
+    end
+
+    def expect_item_edit_field_error(item, text)
+      page.within("#meeting-agenda-items-form-component-#{item.id}") do
+        expect(page).to have_css(".FormControl-inlineValidation", text:)
+      end
+    end
+
+    def clear_item_edit_work_package_title
+      ng_select_clear page.find(".op-meeting-agenda-item-form--title")
+      expect(page).to have_css(".ng-input  ", value: nil)
     end
   end
 end

@@ -35,12 +35,8 @@ module MeetingAgendaItems
       super
 
       @meeting_agenda_item = meeting_agenda_item
+      @type = @meeting_agenda_item.item_type.to_sym
       @display_notes_input = display_notes_input
-      @type = if @meeting_agenda_item.work_package.present?
-                :work_package
-              else
-                :simple
-              end
     end
 
     def call
