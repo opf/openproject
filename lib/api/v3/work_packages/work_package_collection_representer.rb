@@ -187,9 +187,9 @@ module API
 
         def current_user_allowed_to_edit_work_packages?
           if project
-            current_user.allowed_in_project?(:edit_work_packages, project)
+            current_user.allowed_in_any_work_package?(:edit_work_packages, in_project: project)
           else
-            current_user.allowed_in_any_project?(:edit_work_packages)
+            current_user.allowed_in_any_work_package?(:edit_work_packages)
           end
         end
 

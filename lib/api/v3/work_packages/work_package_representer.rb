@@ -566,20 +566,20 @@ module API
 
         def current_user_update_allowed?
           @current_user_update_allowed ||=
-            current_user.allowed_in_project?(:edit_work_packages, represented.project) ||
+            current_user.allowed_in_work_package?(:edit_work_packages, represented) ||
               current_user.allowed_in_project?(:assign_versions, represented.project)
         end
 
         def view_time_entries_allowed?
           @view_time_entries_allowed ||=
             current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-              current_user.allowed_in_project?(:view_own_time_entries, represented.project)
+              current_user.allowed_in_work_package?(:view_own_time_entries, represented)
         end
 
         def log_time_allowed?
           @log_time_allowed ||=
             current_user.allowed_in_project?(:log_time, represented.project) ||
-              current_user.allowed_in_project?(:log_own_time, represented.project)
+              current_user.allowed_in_work_package?(:log_own_time, represented)
         end
 
         def view_budgets_allowed?
@@ -588,7 +588,7 @@ module API
 
         def export_work_packages_allowed?
           @export_work_packages_allowed ||=
-            current_user.allowed_in_project?(:export_work_packages, represented.project)
+            current_user.allowed_in_work_package?(:export_work_packages, represented)
         end
 
         def add_work_packages_allowed?
