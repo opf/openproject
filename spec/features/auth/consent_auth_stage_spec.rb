@@ -47,12 +47,6 @@ RSpec.describe 'Authentication Stages' do
     )
   end
 
-  before do
-    allow(Setting)
-      .to receive(:consent_required?)
-      .and_return(consent_required)
-  end
-
   def expect_logged_in(path = my_page_path)
     expect(page).to have_current_path(path)
     visit my_account_path
@@ -64,9 +58,7 @@ RSpec.describe 'Authentication Stages' do
     expect(page).not_to have_selector('.form--field-container', text: user.login)
   end
 
-  context 'when disabled' do
-    let(:consent_required) { false }
-
+  context 'when disabled', with_settings: { consent_required: false } do
     it 'does not show consent' do
       login_with user.login, user_password
       expect(page).not_to have_selector('.account-consent')
@@ -87,14 +79,16 @@ RSpec.describe 'Authentication Stages' do
     end
   end
 
-  context 'when enabled, but no consent info', with_settings: { consent_info: {} } do
-    let(:consent_required) { true }
-
+  context 'when enabled, but no consent info',
+          with_settings: {
+            consent_info: {},
+            consent_required: true
+          } do
     it 'does not show consent' do
       expect(Rails.logger)
         .to receive(:error)
-        .at_least(:once)
-        .with('Instance is configured to require consent, but no consent_info has been set.')
+              .at_least(:once)
+              .with('Instance is configured to require consent, but no consent_info has been set.')
       login_with user.login, user_password
       expect(page).not_to have_selector('.account-consent')
       expect_logged_in
@@ -102,8 +96,10 @@ RSpec.describe 'Authentication Stages' do
   end
 
   context 'when enabled, localized consent exists',
-          with_settings: { consent_info: { de: '# Einwilligung', en: '# Consent header!' } } do
-    let(:consent_required) { true }
+          with_settings: {
+            consent_required: true,
+            consent_info: { de: '# Einwilligung', en: '# Consent header!' }
+          } do
 
     around do |example|
       Capybara.current_session.driver.header('Accept-Language', 'de')
@@ -120,10 +116,12 @@ RSpec.describe 'Authentication Stages' do
     end
   end
 
-  context 'when enabled, but consent exists',
+  context 'when enabled, and consent exists',
           :js,
-          with_settings: { consent_info: { en: '# Consent header!' } } do
-    let(:consent_required) { true }
+          with_settings: {
+            consent_info: { en: '# Consent header!' },
+            consent_required: true
+          } do
 
     after do
       # Clear session to avoid that the onboarding tour starts
@@ -216,13 +214,18 @@ RSpec.describe 'Authentication Stages' do
     end
 
     it 'keeps the autologin request (Regression #33696)',
-       with_settings: { autologin: 1 } do
+       with_settings: {
+         autologin: 1,
+         consent_info: { en: '# Consent header!' },
+         consent_required: true
+       } do
+
       expect(Setting::Autologin.enabled?).to be true
 
       login_with user.login, user_password, autologin: true
 
       expect(page).to have_selector('.account-consent')
-      expect(page).to have_selector('h2', text: 'Consent')
+      expect(page).to have_selector('h1', text: 'Consent header!')
 
       # Confirm consent
       SeleniumHubWaiter.wait
