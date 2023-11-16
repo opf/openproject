@@ -33,7 +33,7 @@ require_relative 'shared_base_storage_spec'
 require_module_spec_helper
 
 RSpec.describe Storages::NextcloudStorage do
-  let(:storage) { build(:nextcloud_storage) }
+  let(:storage) { create(:nextcloud_storage) }
 
   it_behaves_like 'base storage'
 
@@ -43,38 +43,36 @@ RSpec.describe Storages::NextcloudStorage do
   end
 
   describe '#mark_as_unhealthy' do
-    it 'records the time at which it became unhealthy' do
+    it 'fills health atrributes in' do
       Timecop.freeze('2023-03-14T15:17:00Z') do
-        expect { storage.mark_as_unhealthy }.to change(storage, :health_changed_at).to(Time.now.utc)
+        expect do
+          storage.mark_as_unhealthy(reason: 'thou_shall_not_pass_error')
+        end.to(
+          change(storage, :health_changed_at).from(nil).to(Time.now.utc)
+            .and(change(storage, :health_status).from(nil).to('unhealthy'))
+            .and(change(storage, :health_reason).from(nil).to('thou_shall_not_pass_error'))
+        )
       end
-    end
-
-    it 'sets the health_status as unhealthy' do
-      expect { storage.mark_as_unhealthy }.to change(storage, :health_status).to('unhealthy')
-    end
-
-    it 'sets a reason if provided' do
-      expect do
-        storage.mark_as_unhealthy(reason: 'thou_shall_not_pass_error')
-      end.to change(storage, :health_reason).to('thou_shall_not_pass_error')
     end
   end
 
   describe '#mark_as_healthy' do
-    before { storage.mark_as_unhealthy(reason: 'just nope') }
-
-    it 'clears the unhealthy_since value' do
-      Timecop.freeze('2023-04-05T06:07:08.009Z') do
-        expect { storage.mark_as_healthy }.to change(storage, :health_changed_at).to(Time.now.utc)
+    before do
+      Timecop.freeze('2021-03-14T15:17:00Z') do
+        storage.mark_as_unhealthy(reason: 'just nope')
       end
     end
 
-    it 'sets the health_status to ok' do
-      expect { storage.mark_as_healthy }.to change(storage, :health_status).to('ok')
-    end
-
-    it 'clears the health_reason' do
-      expect { storage.mark_as_healthy }.to change(storage, :health_reason).to(nil)
+    it 'fills health atrributes in' do
+      Timecop.freeze('2023-03-14T15:17:00Z') do
+        expect do
+          storage.mark_as_healthy
+        end.to(
+          change(storage, :health_changed_at).from(Time.parse('2021-03-14T15:17:00Z')).to(Time.now.utc)
+            .and(change(storage, :health_status).from('unhealthy').to('healthy'))
+            .and(change(storage, :health_reason).from('just nope').to(nil))
+        )
+      end
     end
   end
 
