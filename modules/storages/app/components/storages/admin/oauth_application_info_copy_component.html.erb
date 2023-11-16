@@ -24,7 +24,7 @@
           OpenProject::Common::ClipboardCopyComponent.new(
             name: :openproject_oauth_application_secret,
             visually_hide_label: false,
-            value_to_copy: oauth_application.secret,
+            value_to_copy: oauth_application.plaintext_secret,
             label: I18n.t('storages.label_openproject_oauth_application_secret'),
             required: true
           )
