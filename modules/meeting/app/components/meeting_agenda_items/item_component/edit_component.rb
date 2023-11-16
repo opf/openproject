@@ -31,11 +31,12 @@ module MeetingAgendaItems
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting_agenda_item:)
+    def initialize(meeting_agenda_item:, display_notes_input: nil)
       super
 
       @meeting_agenda_item = meeting_agenda_item
       @type = @meeting_agenda_item.item_type.to_sym
+      @display_notes_input = display_notes_input
     end
 
     def call
@@ -46,7 +47,8 @@ module MeetingAgendaItems
                  method: :put,
                  submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item, format: :turbo_stream),
                  cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
-                 type: @type
+                 type: @type,
+                 display_notes_input: @display_notes_input
                ))
       end
     end

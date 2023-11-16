@@ -54,6 +54,9 @@ module MeetingAgendaItems
       @meeting.open? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
 
+    def meeting_closed?
+      !@meeting.open?
+    end
     def edit_action_item(menu)
       menu.with_item(label: t("label_edit"),
                      href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
@@ -61,6 +64,16 @@ module MeetingAgendaItems
                        data: { 'turbo-stream': true }
                      }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def add_note_action_item(menu)
+      menu.with_item(label: t("label_agenda_item_add_notes"),
+                     href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item, display_notes_input: true),
+                     content_arguments: {
+                       data: { 'turbo-stream': true }
+                     }) do |item|
+        item.with_leading_visual_icon(icon: :note)
       end
     end
 
