@@ -3,14 +3,14 @@
     grid.with_area(:item, tag: :div, mr: 3) do
       concat(
         render(
-          Primer::Beta::Text.new(font_weight: :semibold, mr: 1, test_selector: 'storage-oauth-client-label')
+          Primer::Beta::Text.new(font_weight: :bold, mr: 1, test_selector: 'storage-oauth-client-label')
         ) { I18n.t("storages.file_storage_view.#{storage.short_provider_type}_oauth") }
       )
       concat(configuration_check_label_for(:storage_oauth_client_configured))
     end
 
     grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-oauth-client-id-description') do
-      render(Primer::Beta::Truncate.new(font_weight: :light)) { provider_oauth_client_description }
+      render(Primer::Beta::Truncate.new) { provider_oauth_client_description }
     end
 
     if editable_storage?
