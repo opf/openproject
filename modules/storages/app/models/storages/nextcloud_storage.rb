@@ -47,6 +47,15 @@ module Storages
       Peripherals::OAuthConfigurations::NextcloudConfiguration.new(self)
     end
 
+    def automatic_management_new_record?
+      if provider_fields_changed?
+        previous_configuration = provider_fields_change.first
+        previous_configuration.values_at('automatically_managed', 'password').compact.empty?
+      else
+        automatic_management_unspecified?
+      end
+    end
+
     def automatic_management_unspecified?
       automatically_managed.nil?
     end

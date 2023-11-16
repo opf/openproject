@@ -132,7 +132,7 @@ module Meetings
         update_new_button_via_turbo_stream(disabled: false) if form_hidden == true
       end
 
-      def update_item_via_turbo_stream(state: :show, meeting_agenda_item: @meeting_agenda_item)
+      def update_item_via_turbo_stream(state: :show, meeting_agenda_item: @meeting_agenda_item, display_notes_input: nil)
         replace_via_turbo_stream(
           component: MeetingAgendaItems::ItemComponent.new(
             state:,
@@ -166,7 +166,8 @@ module Meetings
           remove_via_turbo_stream(
             component: MeetingAgendaItems::ItemComponent.new(
               state: :show,
-              meeting_agenda_item:
+              meeting_agenda_item:,
+              display_notes_input: nil
             )
           )
         end

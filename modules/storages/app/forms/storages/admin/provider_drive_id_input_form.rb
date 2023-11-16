@@ -26,20 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  module EditableItem
-    extend ActiveSupport::Concern
-
-    included do
-      validate :validate_editable
-    end
-
-    protected
-
-    def validate_editable
-      unless model.editable?
-        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
-      end
+module Storages::Admin
+  class ProviderDriveIdInputForm < ApplicationForm
+    form do |storage_form|
+      storage_form.text_field(
+        name: :drive_id,
+        label: Storages::Admin::LABEL_DRIVE_ID,
+        visually_hide_label: false,
+        required: true,
+        caption: I18n.t("storages.instructions.one_drive.drive_id"),
+        placeholder: I18n.t("storages.instructions.one_drive.drive_id_placeholder")
+      )
     end
   end
 end

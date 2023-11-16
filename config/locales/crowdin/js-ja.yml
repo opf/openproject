@@ -32,6 +32,12 @@ ja:
       draggable_hint: |
         インライン画像または参照添付ファイルをエディタ領域にドラッグします。
         ドラッグしつづけると閉じられたエディタ領域が開きます。
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" を追加"

@@ -33,7 +33,9 @@ module Storages::Admin::ManagedProjectFolders
         name: :password,
         label: I18n.t(:'storages.label_managed_project_folders.application_password'),
         required: true,
-        caption: application_password_caption
+        caption: application_password_caption,
+        value: nil, # IMPORTANT: We don't want to show the password in the form
+        placeholder: @storage.password.present? ? "••••••••••••••••" : nil
       )
     end
 

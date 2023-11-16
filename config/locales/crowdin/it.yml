@@ -596,6 +596,7 @@ it:
           title: "Giorni lavorativi"
           false: "solo giorni lavorativi"
           true: "includi giorni non lavorativi"
+        notify: "Notify" #used in custom actions
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
@@ -1732,6 +1733,7 @@ it:
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Supporto per Imprese"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Ambiente"
   label_estimates_and_time: "Stime e tempi"
   label_equals: "è"
@@ -2202,6 +2204,7 @@ it:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2902,7 +2905,8 @@ it:
   text_setup_mail_configuration: "Configura il tuo provider di posta elettronica"
   help_texts:
     views:
-      project: "%{plural} sono sempre collegati a un progetto. Dopo aver creato un %{singular} puoi aggiungervi macro-attività da altri progetti."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso \"Gestisci viste pubbliche\" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi."
       favoured: "Segna questa vista come preferita e aggiungila alla barra laterale delle viste salvate a sinistra."
   time:
@@ -3009,7 +3013,13 @@ it:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3022,6 +3032,7 @@ it:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
   working_days:
@@ -3235,6 +3246,7 @@ it:
     response:
       unexpected: "Ricevuta risposta inaspettata."
   you: tu
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

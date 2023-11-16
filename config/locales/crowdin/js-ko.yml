@@ -31,6 +31,12 @@ ko:
         이 파일을 삭제하시겠습니까? 삭제하면 되돌릴 수 없습니다.
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" 추가"

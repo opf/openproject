@@ -47,6 +47,7 @@ zh-CN:
   label_is_project_with_subprojects: "是（包含子项目）"
   label_work_package_attributes: "工作包属性"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "现金价值"
   label_month_reporting: "月（已过）"
   label_new_report: "新成本报告"

@@ -31,6 +31,12 @@ ru:
         Вы уверены, что хотите удалить этот файл? Это действие необратимо.
       draggable_hint: |
         Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Добавить \"%{name}\""
@@ -597,7 +603,7 @@ ru:
         processed: 'обработано'
         prioritized: 'приоритизировано'
         dateAlert: 'Дата оповещения'
-        shared: 'shared'
+        shared: 'поделился'
       date_alerts:
         milestone_date: 'Дата контрольной точки'
         overdue: 'Просрочено'
@@ -644,7 +650,7 @@ ru:
         mentioned: 'Упомянутые'
         watched: 'Наблюдатель'
         date_alert: 'Дата оповещения'
-        shared: 'Shared'
+        shared: 'Общий доступ'
       settings:
         change_notification_settings: 'Измените <a target="_blank" href="%{url}">настройки уведомлений</a> , чтобы не пропустить важное обновление.'
         title: "Настройки уведомлений"
@@ -667,7 +673,7 @@ ru:
             description: 'Получать уведомления каждый раз, когда кто-то упоминает меня'
           assignee: 'Назначенный'
           responsible: 'Подотчетный'
-          shared: 'Shared'
+          shared: 'Общий доступ'
           watched: 'Наблюдатель'
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
@@ -1024,9 +1030,9 @@ ru:
       sharing:
         share: 'Поделиться'
         title: "Поделиться пакетом работ"
-        selected_count: "%{count} selected"
+        selected_count: "%{count} выбрано"
         selection:
-          mixed: "Mixed"
+          mixed: "Смешанное"
       table:
         configure_button: 'Настроить таблицу пакета работ'
         summary: "Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах."

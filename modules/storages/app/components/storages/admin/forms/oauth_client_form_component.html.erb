@@ -2,23 +2,81 @@
   render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-oauth-client-form')) do
     primer_form_with(
       model: oauth_client,
-      url: admin_settings_storage_oauth_client_path(storage)
+      url: admin_settings_storage_oauth_client_path(storage),
+      method: form_method,
+      data: {
+        controller: 'storages--oauth-client-form',
+        application_target: 'dynamic',
+        'storages--oauth-client-form-client-id-missing-value': t(:"storages.instructions.one_drive.missing_client_id_for_redirect_uri")
+      }
     ) do |form|
       flex_layout do |oauth_client_row|
         oauth_client_row.with_row(mb: 3) do
-          render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t("storages.file_storage_view.#{storage.short_provider_type}_oauth") }
+          render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.file_storage_view.#{storage.short_provider_type}_oauth") }
         end
 
         oauth_client_row.with_row(mb: 3) do
-          render(Primer::Beta::Text.new(font_weight: :light)) { storage_provider_credentials_copy_instructions }
+          render(Primer::Beta::Text.new(test_selector: 'storage-provider-credentials-instructions')) { storage_provider_credentials_instructions }
         end
 
         oauth_client_row.with_row(mb: 3) do
-          render(Storages::Admin::OAuthClientForm.new(form, storage:))
+          render(
+            Storages::Admin::OAuthClientForm.new(
+              form,
+              storage:,
+              client_id_input_options: {
+                data: {
+                  'storages--oauth-client-form-target': 'clientId',
+                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled '\
+                          'input->storages--oauth-client-form#setRedirectUriValue'
+                }
+              },
+              client_secret_input_options: {
+                data: {
+                  'storages--oauth-client-form-target': 'clientSecret',
+                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled'
+                }
+              }
+            )
+          )
+        end
+
+        if storage.provider_type_one_drive?
+          oauth_client_row.with_row(mb: 3) do
+            render(
+              OpenProject::Common::ClipboardCopyComponent.new(
+                name: :oauth_client_redirect_uri,
+                visually_hide_label: false,
+                value_to_copy: redirect_uri_or_instructions,
+                label: I18n.t('storages.label_redirect_uri'),
+                required: true,
+                input_group_options: {
+                  data: {
+                    'storages--oauth-client-form-target': 'redirectUri'
+                  }
+                },
+              )
+            )
+          end
         end
 
         oauth_client_row.with_row do
-          render(Storages::Admin::SaveOrCancelForm.new(form, storage:))
+          render(
+            Storages::Admin::SubmitOrCancelForm.new(
+              form,
+              storage:,
+              submit_button_options: {
+                disabled: submit_button_disabled?,
+                data: {
+                  'storages--oauth-client-form-target': 'submitButton',
+                }.merge(submit_button_data_options),
+                test_selector: 'storage-oauth-client-submit-button'
+              },
+              cancel_button_options: {
+                href: cancel_button_path
+              }
+            )
+          )
         end
       end
     end

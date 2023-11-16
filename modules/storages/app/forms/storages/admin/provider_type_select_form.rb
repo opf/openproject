@@ -27,18 +27,10 @@
 #++
 
 module Storages::Admin
-  class StorageProviderForm < ApplicationForm
-    form do |storage_provider_form|
-      storage_provider_form.select_list(
-        name: :provider_type,
-        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
-        caption: I18n.t('storages.instructions.provider_type',
-                        type_link_text: I18n.t('storages.instructions.type_link_text')),
-        include_blank: false,
-        required: true,
-        disabled: @storage.persisted?
-      ) do |storage_provider_list|
-        if @storage.persisted?
+  class ProviderTypeSelectForm < ApplicationForm
+    form do |storage_form|
+      storage_form.select_list(**@select_list_options) do |storage_provider_list|
+        if @storage.provider_type.present?
           storage_provider_list.option(
             label: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name"),
             value: @storage.provider_type
@@ -52,26 +44,25 @@ module Storages::Admin
           end
         end
       end
-
-      storage_provider_form.text_field(
-        name: :name,
-        label: I18n.t('activerecord.attributes.storages/storage.name'),
-        required: true,
-        caption: I18n.t('storages.instructions.name')
-      )
-
-      storage_provider_form.text_field(
-        name: :host,
-        label: I18n.t('activerecord.attributes.storages/storage.host'),
-        visually_hide_label: false,
-        required: true,
-        caption: I18n.t('storages.instructions.host')
-      )
     end
 
-    def initialize(storage:)
+    def initialize(storage:, select_list_options: {})
       super()
       @storage = storage
+      @select_list_options = default_select_list_options(storage).merge(select_list_options)
+    end
+
+    private
+
+    def default_select_list_options(storage)
+      {
+        name: :provider_type,
+        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
+        caption: nil,
+        include_blank: false,
+        required: true,
+        disabled: storage.persisted?
+      }
     end
   end
 end

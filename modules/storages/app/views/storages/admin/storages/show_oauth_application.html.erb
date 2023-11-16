@@ -1,6 +1,6 @@
 <% if OpenProject::FeatureDecisions.storage_primer_design_active? %>
-  <%= render(OpTurbo::FrameComponent.new(@storage, context: :openproject_oauth)) do %>
-    <%= render(Storages::Admin::OAuthApplicationCredentialsCopyComponent.new(oauth_application: @oauth_application, storage: @storage)) %>
+  <%= render(OpTurbo::FrameComponent.new(id: :storage_openproject_oauth_section)) do %>
+    <%= render(Storages::Admin::OAuthApplicationInfoCopyComponent.new(oauth_application: @oauth_application, storage: @storage)) %>
   <% end %>
 <% else %>
   <% html_title t(:label_administration), t("project_module_storages"), @storage.name, "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{t("storages.label_oauth_application_details")}" %>

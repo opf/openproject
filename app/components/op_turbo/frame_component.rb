@@ -29,7 +29,19 @@
 module OpTurbo
   class FrameComponent < ApplicationComponent
     def turbo_frame_id
+      optional_custom_id || turbo_frame_id_from_model
+    end
+
+    private
+
+    def turbo_frame_id_from_model
       ActionView::RecordIdentifier.dom_id(model, options[:context])
+    end
+
+    def optional_custom_id
+      return if options[:id].blank?
+
+      options.values_at(:context, :id).compact.join("_")
     end
   end
 end

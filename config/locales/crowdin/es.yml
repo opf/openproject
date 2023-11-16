@@ -596,6 +596,7 @@ es:
           title: "Días laborables"
           false: "solo días laborables"
           true: "incluir días no laborables"
+        notify: "Notify" #used in custom actions
         parent: "Padre"
         parent_issue: "Padre"
         parent_work_package: "Padre"
@@ -1732,6 +1733,7 @@ es:
   label_enterprise_active_users: "%{current}/%{limit} usuarios activos que han reservado"
   label_enterprise_edition: "Enterprise"
   label_enterprise_support: "Soporte empresarial"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Entorno"
   label_estimates_and_time: "Valores estimados y tiempo"
   label_equals: "es"
@@ -2202,6 +2204,7 @@ es:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2901,7 +2904,8 @@ es:
   text_setup_mail_configuration: "Configurar su proveedor de correo electrónico"
   help_texts:
     views:
-      project: "Los %{plural} siempre se adjuntan a un proyecto. Tras crear un %{singular} puede añadirle paquetes de trabajo de otros proyectos."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Publique esta vista para que otros usuarios puedan acceder a esta. Los usuarios con el permiso «Administrar vistas públicas» puede modificar o quitar vistas públicas. Esto no afecta a la visibilidad de los resultados de paquetes de trabajo en esa vista y, según sus permisos, los usuarios pueden ver resultados distintos."
       favoured: "Marque esta vista como favorita y agréguela a la barra lateral de vistas guardadas de la izquierda."
   time:
@@ -3007,7 +3011,13 @@ es:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3020,6 +3030,7 @@ es:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
   working_days:
@@ -3233,6 +3244,7 @@ es:
     response:
       unexpected: "Se ha recibido una respuesta inesperada."
   you: su usuario
+  link: link
   plugin_openproject_auth_plugins:
     name: "Plugins Auth de OpenProject"
     description: "Integración de los proveedores de estrategia de OmniAuth para la autentificación en Openproject."

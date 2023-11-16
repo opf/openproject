@@ -47,6 +47,7 @@ sl:
   label_is_project_with_subprojects: "je (s podprojekti) "
   label_work_package_attributes: "Atributi delovnega paketa"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Vrednost stroškov"
   label_month_reporting: "Mesec (porabljeno)"
   label_new_report: "Novo stroškovno poročilo"

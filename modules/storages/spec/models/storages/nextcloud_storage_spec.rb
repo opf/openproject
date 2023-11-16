@@ -179,6 +179,31 @@ RSpec.describe Storages::NextcloudStorage do
     it_behaves_like 'a stored boolean attribute', :automatically_managed
   end
 
+  describe '#automatic_management_new_record?' do
+    context 'when automatic management has just been specified but not yet persisted' do
+      let(:storage) { build_stubbed(:nextcloud_storage, provider_fields: {}) }
+
+      before { storage.automatically_managed = false }
+
+      it { expect(storage).to be_provider_fields_changed }
+      it { expect(storage).to be_automatic_management_new_record }
+    end
+
+    context 'when automatic management was already specified' do
+      let(:storage) { build_stubbed(:nextcloud_storage, :as_not_automatically_managed) }
+
+      it { expect(storage).not_to be_provider_fields_changed }
+      it { expect(storage).not_to be_automatic_management_new_record }
+    end
+
+    context 'when automatic management is unspecified' do
+      let(:storage) { build_stubbed(:nextcloud_storage, provider_fields: {}) }
+
+      it { expect(storage).not_to be_provider_fields_changed }
+      it { expect(storage).to be_automatic_management_new_record }
+    end
+  end
+
   describe '#automatic_management_unspecified?' do
     context 'when automatically_managed is nil' do
       let(:storage) { build(:nextcloud_storage, automatically_managed: nil) }

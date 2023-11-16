@@ -594,6 +594,7 @@ de:
           title: "Werktage"
           false: "Nur Werktage"
           true: "Mit Wochenenden"
+        notify: "Notify" #used in custom actions
         parent: "Übergeordnetes Arbeitspaket"
         parent_issue: "Übergeordnetes Arbeitspaket"
         parent_work_package: "Übergeordnetes Arbeitspaket"
@@ -1264,7 +1265,7 @@ de:
         other: "%{count} Minuten"
       x_minutes_abbreviated:
         one: "1 Min."
-        other: "{{count}} Min."
+        other: "%{count} Min."
       x_hours:
         one: "1 Stunde"
         other: "%{count} Stunden"
@@ -1730,6 +1731,7 @@ de:
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise Support"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Umgebung"
   label_estimates_and_time: "Schätzungen & Zeiten"
   label_equals: "ist"
@@ -2172,7 +2174,7 @@ de:
       see_in_center: 'Kommentar in Benachrichtigungszentrale öffnen'
       settings: 'E-Mail-Einstellungen ändern'
     salutation: 'Hallo %{user}'
-    salutation_full_name: 'Full name'
+    salutation_full_name: 'Vollständiger Name'
     work_packages:
       created_at: "Erstellt %{timestamp} von %{user} "
       login_to_see_all: "Melden Sie sich an, um alle Benachrichtigungen zu sehen."
@@ -2200,6 +2202,7 @@ de:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Arbeitspaket öffnen"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2900,7 +2903,8 @@ de:
   text_setup_mail_configuration: "Konfigurieren Sie Ihren E-Mail-Provider"
   help_texts:
     views:
-      project: "%{plural} sind immer einem Projekt zugeordnet. Nach dem Erstellen eines %{singular} können Sie Arbeitspakete von anderen Projekten hinzufügen."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Veröffentlichen Sie diese Ansicht und erlauben Sie anderen Benutzern, auf sie zuzugreifen. Benutzer mit der Berechtigung \"Öffentliche Ansichten verwalten\" können öffentliche Abfragen ändern oder entfernen. Dies hat keinen Einfluss auf die Sichtbarkeit von Arbeitspaketen in dieser Ansicht und je nach Berechtigung, können Benutzer unterschiedliche Ergebnisse sehen."
       favoured: "Markiert diese Ansicht als Favorit und fügt sie der linken Seitenleiste hinzu."
   time:
@@ -3006,7 +3010,13 @@ de:
         zero: "0 Benutzer"
         one: "1 Benutzer"
         other: "%{count} Benutzer"
-      share: "Teilen"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3019,6 +3029,7 @@ de:
         view: "Ansicht"
         view_description: "Can view this work package."
       remove: "Entfernen"
+      share: "Teilen"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
   working_days:
@@ -3232,6 +3243,7 @@ de:
     response:
       unexpected: "Unerwartete Antwort erhalten."
   you: Sie
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

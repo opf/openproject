@@ -34,11 +34,12 @@ module MeetingAgendaItems
 
     with_collection_parameter :meeting_agenda_item
 
-    def initialize(meeting_agenda_item:, state: :show, container: nil)
+    def initialize(meeting_agenda_item:, state: :show, container: nil, display_notes_input: nil)
       super
 
       @meeting_agenda_item = meeting_agenda_item
       @state = state
+      @display_notes_input = display_notes_input
       @container = container
     end
 
@@ -63,8 +64,9 @@ module MeetingAgendaItems
 
     def child_component_params
       {
-        meeting_agenda_item: @meeting_agenda_item
-      }
+        meeting_agenda_item: @meeting_agenda_item,
+        display_notes_input: (@display_notes_input if @state == :edit)
+    }.compact
     end
 
     def wrapper_arguments

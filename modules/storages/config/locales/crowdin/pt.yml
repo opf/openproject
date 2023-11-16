@@ -199,7 +199,7 @@ pt:
     member_connection_status:
       connected: "Conectado"
       connected_no_permissions: "A função de usuário não tem permissões de armazenamento"
-      not_connected: "Não conectado. O usuário deve fazer login no armazenamento através da aba %{files_label} de um pacote de trabalho para se conectar."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Ainda não há armazenamento configurado."
     members_no_results: "Nenhum membro para exibir."
     provider_types:

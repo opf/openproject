@@ -79,7 +79,7 @@ de:
   label_upcoming_meetings: "Zukünftige Meetings"
   label_past_meetings: "Vergangene Meetings"
   label_upcoming_meetings_short: "Anstehend"
-  label_past_meetings_short: "Past"
+  label_past_meetings_short: "Vergangen"
   label_involvement: "Beteiligt"
   label_upcoming_invitations: "Zukünftige Einladungen"
   label_past_invitations: "Vergangene Einladungen"
@@ -93,20 +93,20 @@ de:
   label_start_date: "Beginn"
   meeting:
     email:
-      open_meeting_link: "Open meeting"
+      open_meeting_link: "Besprechung öffnen"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+        summary: "%{actor} hat Ihnen eine Einladung für die folgende Besprechung gesendet: %{title}"
       rescheduled:
-        summary: "Meeting %{title} has been rescheduled by %{actor}"
-        body: "The meeting %{title} has been rescheduled by %{actor}."
-        old_date_time: "Old date/time"
-        new_date_time: "New date/time"
-    label_mail_all_participants: "Send email to all participants"
+        summary: "Die Besprechung %{title} wurde durch %{actor} verschoben."
+        body: "Die Besprechung %{title} wurde durch %{actor} verschoben."
+        old_date_time: "Alte(s) Datum/Zeit"
+        new_date_time: "Neue(s) Datum/Zeit"
+    label_mail_all_participants: "E-Mail an alle Teilnehmer senden"
     types:
       classic: 'Klassisch'
-      classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
+      classic_text: 'Organisieren Sie Ihr Meeting in einer formatierbaren textbasierter Agenda und zugehöriges Protokoll.'
       structured: 'Dynamisch'
-      structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text: 'Organisieren Sie Ihr Meeting als strukturierte Liste von Einträgen und verknüpfen Sie diese optional mit einem Arbeitspaket.'
     copied: "Kopiert von Meeting #%{id}"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
@@ -114,9 +114,9 @@ de:
   permission_edit_meetings: "Besprechungen bearbeiten"
   permission_delete_meetings: "Besprechungen löschen"
   permission_view_meetings: "Besprechungen ansehen"
-  permission_create_meeting_agendas: "Create meeting agendas"
-  permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
-  permission_manage_agendas: "Manage agendas"
+  permission_create_meeting_agendas: "Agendapunkte erstellen"
+  permission_create_meeting_agendas_explanation: "Ermöglicht das Bearbeiten des Inhalts der klassischen Meetings."
+  permission_manage_agendas: "Agenden anlegen/bearbeiten"
   permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
   permission_close_meeting_agendas: "Agenden schließen"
   permission_send_meeting_agendas_notification: "Benachrichtigungen für Agenden verschicken"

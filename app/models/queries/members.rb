@@ -36,8 +36,34 @@ module Queries::Members
     filter Filters::GroupFilter
     filter Filters::RoleFilter
     filter Filters::PrincipalFilter
+    filter Filters::PrincipalTypeFilter
     filter Filters::CreatedAtFilter
     filter Filters::UpdatedAtFilter
+    filter Filters::EntityIdFilter
+    filter Filters::EntityTypeFilter
+    filter Filters::AlsoProjectMemberFilter
+
+    order Orders::DefaultOrder
+    order Orders::NameOrder
+    order Orders::EmailOrder
+    order Orders::StatusOrder
+  end
+
+  ::Queries::Register.register(WorkPackageMemberQuery) do
+    filter Filters::NameFilter
+    filter Filters::AnyNameAttributeFilter
+    filter Filters::ProjectFilter
+    filter Filters::StatusFilter
+    filter Filters::BlockedFilter
+    filter Filters::GroupFilter
+    filter Filters::RoleFilter
+    filter Filters::PrincipalFilter
+    filter Filters::PrincipalTypeFilter
+    filter Filters::CreatedAtFilter
+    filter Filters::UpdatedAtFilter
+    filter Filters::EntityIdFilter
+    filter Filters::EntityTypeFilter
+    filter Filters::AlsoProjectMemberFilter
 
     order Orders::DefaultOrder
     order Orders::NameOrder

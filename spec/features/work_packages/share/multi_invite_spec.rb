@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package sharing',
-               :js,
-               :with_cuprite,
+               :js, :with_cuprite,
+               with_ee: %i[work_package_sharing],
                with_flag: { work_package_sharing: true } do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }

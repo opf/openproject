@@ -2,7 +2,7 @@
   component_wrapper do
     case @meeting.state
     when "open"
-      flex_layout do |open_state|
+      flex_layout(classes: 'op-meeting-sidebar-state') do |open_state|
         open_state.with_row do
           render(Primer::Beta::State.new(title: "state", scheme: :open)) do
             flex_layout do |open_state_label|
@@ -17,14 +17,14 @@
           end
         end
 
-        open_state.with_row(mt: 3) do
+        open_state.with_row(mt: 3, classes:'hidden-for-mobile') do
           render(Primer::Beta::Text.new(color: :subtle)) do
             t("text_meeting_open_description")
           end
         end
 
         if edit_enabled?
-          open_state.with_row(mt: 3) do
+          open_state.with_row(mt: [0, 3, 3, 3, 3]) do
             form_for(@meeting, method: "put", url: change_state_meeting_path(@meeting),
                      data: { 'turbo-stream': true }) do |f|
               flex_layout do |open_state_actions|
@@ -50,7 +50,7 @@
         end
       end
     when "closed"
-      flex_layout do |closed_state|
+      flex_layout(classes: 'op-meeting-sidebar-state') do |closed_state|
         closed_state.with_row do
           render(Primer::Beta::State.new(title: "state", scheme: :default)) do
             flex_layout do |closed_state_label|
@@ -66,13 +66,13 @@
         end
 
         closed_state.with_row(mt: 3) do
-          render(Primer::Beta::Text.new(color: :subtle)) do
+          render(Primer::Beta::Text.new(color: :subtle, classes:'hidden-for-mobile')) do
             t("text_meeting_closed_description")
           end
         end
 
         if edit_enabled?
-          closed_state.with_row(mt: 3) do
+          closed_state.with_row(mt: [0, 3, 3, 3, 3]) do
             form_for(@meeting, method: "put", url: change_state_meeting_path(@meeting),
                      data: { 'turbo-stream': true }) do |f|
               flex_layout do |closed_state_actions|

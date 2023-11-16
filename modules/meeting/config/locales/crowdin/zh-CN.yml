@@ -93,15 +93,15 @@ zh-CN:
   label_start_date: "开始日期"
   meeting:
     email:
-      open_meeting_link: "Open meeting"
+      open_meeting_link: "打开会议"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+        summary: "%{actor} 已经向您发送了一个 %{title} 会议邀请"
       rescheduled:
-        summary: "Meeting %{title} has been rescheduled by %{actor}"
-        body: "The meeting %{title} has been rescheduled by %{actor}."
-        old_date_time: "Old date/time"
-        new_date_time: "New date/time"
-    label_mail_all_participants: "Send email to all participants"
+        summary: "会议 %{title} 已经被 %{actor} 重新安排"
+        body: "此会议 %{title} 已经被 %{actor} 重新安排。"
+        old_date_time: "旧日期/时间"
+        new_date_time: "新日期/时间"
+    label_mail_all_participants: "发送电子邮件给所有参与者"
     types:
       classic: '经典'
       classic_text: '以格式化文本议程和协议组织您的会议。'

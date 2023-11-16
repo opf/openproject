@@ -47,6 +47,7 @@ pl:
   label_is_project_with_subprojects: "jest (zawiera podprojekty)"
   label_work_package_attributes: "Atrybuty zadań"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Wartość pieniężna"
   label_month_reporting: "Miesiąc (wydatki)"
   label_new_report: "Nowy raport kosztowy"

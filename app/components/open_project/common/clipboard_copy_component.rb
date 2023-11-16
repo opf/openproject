@@ -34,7 +34,8 @@ module OpenProject::Common
 
     options visually_hide_label: true,
             readonly: true,
-            required: false
+            required: false,
+            input_group_options: {}
 
     def text_field_options
       { name: options[:name],
@@ -44,13 +45,13 @@ module OpenProject::Common
         value: value_to_copy,
         inset: true,
         readonly:,
-        required: }
+        required: }.merge(input_group_options)
     end
 
     def clipboard_copy_options
       { value: value_to_copy,
         aria: { label: clipboard_copy_aria_label },
-        classes: clipboard_copy_classes }
+        classes: clipboard_copy_classes }.merge(input_group_options)
     end
 
     private

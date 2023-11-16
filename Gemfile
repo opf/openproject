@@ -188,7 +188,7 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 3.0.1'
+gem 'openproject-token', '~> 4.0'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -236,6 +236,9 @@ group :test do
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
+
+  # Accessibility tests
+  gem 'axe-core-rspec'
 
   # Modify ENV
   gem 'climate_control'

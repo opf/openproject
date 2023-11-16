@@ -599,6 +599,7 @@
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "Overordnet"
         parent_issue: "Overordnet"
         parent_work_package: "Overordnet"
@@ -1735,6 +1736,7 @@
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise support"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Miljø"
   label_estimates_and_time: "Estimater og tid"
   label_equals: "er"
@@ -2205,6 +2207,7 @@
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2905,7 +2908,8 @@
   text_setup_mail_configuration: "Konfigurere din e-postleverandør"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
@@ -3012,7 +3016,13 @@
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3025,6 +3035,7 @@
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
   working_days:
@@ -3238,6 +3249,7 @@
     response:
       unexpected: "Unexpected response received."
   you: you
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

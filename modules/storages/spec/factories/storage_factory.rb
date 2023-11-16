@@ -38,6 +38,7 @@ FactoryBot.define do
     trait :with_oauth_client do
       oauth_client { build(:oauth_client) }
     end
+    # rubocop:enable FactoryBot/FactoryAssociationWithStrategy
 
     trait :as_generic do
       provider_type { 'Storages::Storage' }
@@ -109,6 +110,8 @@ FactoryBot.define do
           parent: :storage,
           class: '::Storages::OneDriveStorage' do
     host { nil }
+    tenant_id { SecureRandom.uuid }
+    drive_id { SecureRandom.uuid }
   end
 
   factory :sharepoint_dev_drive_storage,

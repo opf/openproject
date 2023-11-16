@@ -47,6 +47,7 @@ ru:
   label_is_project_with_subprojects: "есть (включая подпроекты)"
   label_work_package_attributes: "Атрибуты рабочего пакета"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Денежная стоимость"
   label_month_reporting: "Месяц (Потрачено)"
   label_new_report: "Новый отчет о затратах"

@@ -85,7 +85,7 @@ RSpec.describe 'Structured meetings CRUD',
     # Can add and edit a single item
     show_page.add_agenda_item do
       fill_in 'Title', with: 'My agenda item'
-      fill_in 'Duration in minutes', with: '25'
+      fill_in 'Duration (min)', with: '25'
     end
 
     show_page.expect_agenda_item title: 'My agenda item'
@@ -147,6 +147,15 @@ RSpec.describe 'Structured meetings CRUD',
     show_page.expect_agenda_link work_package
     wp_item = MeetingAgendaItem.find_by!(work_package_id: work_package.id)
     expect(wp_item).to be_present
+
+    # Can edit and validate a work package item
+    show_page.edit_agenda_item(wp_item) do
+      show_page.clear_item_edit_work_package_title
+      click_button 'Save'
+    end
+
+    show_page.expect_item_edit_field_error(wp_item, "Work package can't be blank.")
+    show_page.cancel_edit_form(wp_item)
 
     # Keeping the editing state of an agenda item while modifying other items
     show_page.edit_agenda_item(second) do

@@ -597,6 +597,7 @@ ko:
           title: "근무일"
           false: "근무일만"
           true: "휴무일 포함"
+        notify: "Notify" #used in custom actions
         parent: "부모"
         parent_issue: "부모"
         parent_work_package: "부모"
@@ -1707,6 +1708,7 @@ ko:
   label_enterprise_active_users: "예약 활성 사용자 %{current}/%{limit}명"
   label_enterprise_edition: "Enterprise Edition"
   label_enterprise_support: "엔터프라이즈 지원"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "환경"
   label_estimates_and_time: "견적 및 시간"
   label_equals: "일치함"
@@ -2176,6 +2178,7 @@ ko:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2872,7 +2875,8 @@ ko:
   text_setup_mail_configuration: "이메일 공급자 구성"
   help_texts:
     views:
-      project: "%{plural}은(는) 항상 프로젝트에 연결되어 있습니다. %{singular}을(를) 생성한 후 다른 프로젝트의 작업 패키지를 여기에 추가할 수 있습니다."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "다른 사용자가 이 보기에 액세스할 수 있도록 하려면 이 보기를 게시하십시오. '공용 보기 관리' 권한을 가진 사용자는 공용 쿼리를 수정 또는 제거할 수 있습니다. 이는 해당 보기에서 작업 패키지 결과의 표시 여부에 영향을 주지 않기 때문에 사용자의 권한에 따라 다른 결과가 표시될 수 있습니다."
       favoured: "이 보기를 즐겨찾기로 표시하고 왼쪽의 저장된 보기 사이드바에 추가하세요."
   time:
@@ -2978,7 +2982,13 @@ ko:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -2991,6 +3001,7 @@ ko:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
   working_days:
@@ -3203,6 +3214,7 @@ ko:
     response:
       unexpected: "예기치 않은 응답을 받았습니다."
   you: 당신
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

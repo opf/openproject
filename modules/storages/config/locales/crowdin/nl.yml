@@ -199,7 +199,7 @@ nl:
     member_connection_status:
       connected: "Verbonden"
       connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Er zijn nog geen opslagplaatsen ingesteld."
     members_no_results: "Geen leden om weer te geven."
     provider_types:

@@ -50,6 +50,7 @@ const featureTeaserImage = '13_0_features.svg';
         <p [innerHtml]="currentNewFeatureHtml"></p>
         <img
           class="widget-box--teaser-image op-new-features--teaser-image"
+          role="presentation"
           [src]="new_features_image"/>
       </div>
 
