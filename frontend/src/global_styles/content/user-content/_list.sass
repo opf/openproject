@@ -9,3 +9,32 @@
   &--item
     @at-root .op-uc-container_editing #{&} input[type="checkbox"]
       margin-top: -0.1rem
+
+// The following ordered and unordered list definition is required for 2 reasons:
+//
+//  1. It makes the list styling (including mixed lists) to be consistent with what
+//     we have inside ckEditor.
+//  2. It handles an edge case when the lists are being rendered inside a list that is not
+//     `.op-uc-list`. Such example is the Meeting agenda items list, primer renders the agenda
+//     items in an unstyled `ul`. The agenda items inside have a notes field that can contain
+//     `.op-uc-list` lists. Without the following definition, the styling coming from primer
+//     makes the whole list rendered 1 level deeper as it should. To avoid this, we are defining
+//     the list styling on the `.op-uc-list` class.
+
+ol.op-uc-list
+  list-style-type: decimal
+  ol
+    list-style-type: lower-latin
+    ol
+      list-style-type: lower-roman
+      ol
+        list-style-type: upper-latin
+        ol
+          list-style-type: upper-roman
+ul.op-uc-list
+  list-style-type: disc
+  ul
+    list-style-type: circle
+    ul,
+    ul ul
+      list-style-type: square
