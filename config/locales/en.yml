@@ -323,8 +323,9 @@ en:
   users:
     autologins:
       prompt: "Stay logged in for %{num_days}"
-      title: "Remembered devices"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -555,7 +556,6 @@ en:
         value: "Value"
       enterprise_token:
         starts_at: "Valid since"
-        expires_at: "Expires at"
         subscriber: "Subscriber"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
@@ -1099,6 +1099,7 @@ en:
     due_date: "Finish date"
     estimated_hours: "Estimated time"
     estimated_time: "Estimated time"
+    expires_at: "Expires at"
     firstname: "First name"
     group: "Group"
     groups: "Groups"

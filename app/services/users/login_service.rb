@@ -59,12 +59,13 @@ module Users
       return unless Setting::Autologin.enabled?
 
       # generate a key and set cookie if autologin
-      token = Token::AutoLogin.create(user:, data: session_identification)
+      expires_on =  Setting.autologin.days.from_now.beginning_of_day
+      token = Token::AutoLogin.create(user:, data: session_identification, expires_on:)
       cookie_options = {
         value: token.plain_value,
         # The autologin expiry is checked on validating the token
         # but still expire the cookie to avoid unnecessary retries
-        expires: Setting.autologin.days.from_now.beginning_of_day,
+        expires: expires_on,
         path: OpenProject::Configuration['autologin_cookie_path'],
         secure: OpenProject::Configuration.https?,
         httponly: true

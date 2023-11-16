@@ -34,9 +34,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render ::Users::Sessions::TableComponent.new(rows: @sessions, current_session: session) %>
 
-<h2></h2>
+<% if Setting::Autologin.enabled? && @autologin_tokens.any? %>
+  <h3><%= t('users.sessions.remembered_devices') %></h3>
+  <p><%= t('users.sessions.remembered_devices_caption') %></p>
 
-<% ::Token::AutoLogin.where(user: User.current).find_each do |token| %>
-  <%= token.data.inspect %>
-  <br/>
+  <%= render ::Users::AutoLoginTokens::TableComponent.new(rows: @autologin_tokens, current_token: @current_token) %>
 <% end %>
