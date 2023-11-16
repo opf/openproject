@@ -342,9 +342,21 @@ OpenProject strives to be accessible for all users while also retaining a high u
 **Best practices**
 
 1. Make accessibility testing an integral part of the development lifecycle, starting with the requirements.
-2. Use automated accessibility testing tools and tests that can quickly identify issues against established accessibility guidelines.
-3. Follow the best practices of the [WCAG checklists](https://www.w3.org/WAI/WCAG21/quickref/) to ensure screen readers and other assistive technologies are well supported.
-4. Consult with accessibility experts to conduct audits and provide recommendations for improvements. Alternatively, consult the development colleagues with experience in accessibility testing to evaluate requirements and implementation proposals.
+2. Use specialized browser extension to help identify and resolve common accessibility issues.
+3. Follow the best practices of the [WCAG 2 checklists](https://www.w3.org/WAI/WCAG22/quickref/) and [accessibility patterns](https://www.w3.org/WAI/ARIA/apg/patterns/) from ARIA authoring practices guide to ensure screen readers and other assistive technologies are well supported.
+4. Use [axe-core-rspec](https://github.com/dequelabs/axe-core-gems/blob/develop/packages/axe-core-rspec/README.md) in automated accessibility tests to provide continuous regression testing against common accessibility issues.
+5. Use [capybara-accessible-selectors](https://github.com/citizensadvice/capybara_accessible_selectors) in [feature tests](#feature-tests) to find UI elements using screen-reader compatible selectors. This ensures the page elements used by feature tests are accessible to assistive technologies.
+6. Consult with accessibility experts to conduct audits and provide recommendations for improvements. Alternatively, consult the development colleagues with experience in accessibility testing to evaluate requirements and implementation proposals.
+
+
+
+**References**
+
+- https://www.deque.com/axe/browser-extensions/
+- https://www.w3.org/WAI/WCAG22/quickref/
+- https://www.w3.org/WAI/ARIA/apg/patterns/
+- https://github.com/dequelabs/axe-core-gems/blob/develop/packages/axe-core-rspec/README.md
+- https://github.com/citizensadvice/capybara_accessible_selectors
 
 
 
