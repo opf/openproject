@@ -37,7 +37,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   before_action :require_admin
 
   before_action :find_storage
-  before_action :delete_current_oauth_client, only: %i[create]
+  before_action :delete_current_oauth_client, only: %i[create update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -46,37 +46,68 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
   # Show the admin page to create a new OAuthClient object.
   def new
-    @oauth_client = ::OAuthClients::SetAttributesService.new(user: User.current,
-                                                             model: OAuthClient.new,
-                                                             contract_class: EmptyContract)
-                                                        .call
-                                                        .result
-    render '/storages/admin/storages/new_oauth_client'
+    @oauth_client = ::OAuthClients::SetAttributesService
+                      .new(user: User.current,
+                           model: OAuthClient.new,
+                           contract_class: EmptyContract)
+                      .call
+                      .result
+
+    respond_to do |format|
+      format.html { render '/storages/admin/storages/new_oauth_client' }
+      format.turbo_stream
+    end
   end
 
   # Actually create a OAuthClient object.
   # Use service pattern to create a new OAuthClient
   # Called by: Global app/config/routes.rb to serve Web page
-  def create # rubocop:disable Metrics/AbcSize
-    service_result = ::OAuthClients::CreateService.new(user: User.current)
-                                                  .call(oauth_client_params.merge(integration: @storage))
-    @oauth_client = service_result.result
+  def create # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    call_oauth_clients_create_service
 
     service_result.on_failure do
       render '/storages/admin/storages/new_oauth_client'
     end
 
     service_result.on_success do
-      flash[:notice] = I18n.t(:notice_successful_create)
+      if OpenProject::FeatureDecisions.storage_primer_design_active?
+        if @storage.provider_type_nextcloud?
+          prepare_storage_for_automatic_management_form
 
-      if @storage.provider_type_nextcloud? && @storage.automatic_management_unspecified?
-        if OpenProject::FeatureDecisions.storage_primer_design_active?
-          redirect_to edit_admin_settings_storage_path(@storage)
+          respond_to do |format|
+            format.turbo_stream { render :create }
+          end
+        elsif @storage.provider_type_one_drive?
+          flash[:notice] = I18n.t(:'storages.notice_successful_storage_connection')
+          redirect_to admin_settings_storages_path
         else
-          redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
+          raise "Unsupported provider type: #{@storage.short_provider_type}"
         end
       else
-        redirect_to edit_admin_settings_storage_path(@storage)
+        flash[:notice] = I18n.t(:notice_successful_create)
+
+        if @storage.provider_type_nextcloud? && @storage.automatic_management_unspecified?
+          prepare_storage_for_automatic_management_form
+          redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
+        else
+          redirect_to edit_admin_settings_storage_path(@storage)
+        end
+      end
+    end
+  end
+
+  def update
+    call_oauth_clients_create_service
+
+    service_result.on_failure do
+      respond_to do |format|
+        format.turbo_stream { render :new }
+      end
+    end
+
+    service_result.on_success do
+      respond_to do |format|
+        format.turbo_stream { render :update }
       end
     end
   end
@@ -95,6 +126,25 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   end
 
   private
+
+  attr_reader :service_result
+
+  def call_oauth_clients_create_service
+    @service_result = ::OAuthClients::CreateService
+      .new(user: User.current)
+      .call(oauth_client_params.merge(integration: @storage))
+    @oauth_client = service_result.result
+    @storage = @storage.reload
+  end
+
+  def prepare_storage_for_automatic_management_form
+    return unless @storage.automatic_management_unspecified?
+
+    @storage = ::Storages::Storages::SetNextcloudProviderFieldsAttributesService
+        .new(user: current_user, model: @storage, contract_class: EmptyContract)
+        .call
+        .result
+  end
 
   # Called by create and update above in order to check if the
   # update parameters are correctly set.

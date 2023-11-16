@@ -29,9 +29,16 @@
 #++
 #
 module Storages::Admin
-  class StorageGeneralInfoComponent < ApplicationComponent
+  class OAuthApplicationInfoComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
-    alias_method :storage, :model
     include StorageViewInformation
+
+    attr_reader :storage
+    alias_method :oauth_application, :model
+
+    def initialize(oauth_application:, storage:, **options)
+      super(oauth_application, **options)
+      @storage = storage
+    end
   end
 end

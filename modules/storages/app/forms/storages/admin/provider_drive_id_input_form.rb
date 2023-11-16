@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,27 +25,18 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
+
 module Storages::Admin
-  class OAuthApplicationCredentialsCopyComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-
-    attr_reader :storage
-    alias_method :oauth_application, :model
-
-    def initialize(oauth_application:, storage:, **options)
-      super(oauth_application, **options)
-      @storage = storage
-    end
-
-    def oauth_application_details_link
-      render(
-        Primer::Beta::Link.new(
-          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
-                                                                                         'settings/admin/openproject'),
-          target: '_blank'
-        )
-      ) { I18n.t('storages.instructions.oauth_application_details_link_text') }
+  class ProviderDriveIdInputForm < ApplicationForm
+    form do |storage_form|
+      storage_form.text_field(
+        name: :drive_id,
+        label: Storages::Admin::LABEL_DRIVE_ID,
+        visually_hide_label: false,
+        required: true,
+        caption: I18n.t("storages.instructions.one_drive.drive_id"),
+        placeholder: I18n.t("storages.instructions.one_drive.drive_id_placeholder")
+      )
     end
   end
 end

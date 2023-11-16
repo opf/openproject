@@ -29,21 +29,34 @@
 module Storages::Admin
   class OAuthClientForm < ApplicationForm
     form do |oauth_client_form|
-      oauth_client_form.text_field(name: :client_id,
-                                   label: label_client_id,
-                                   required: true)
-
-      oauth_client_form.text_field(name: :client_secret,
-                                   label: label_client_secret,
-                                   required: true)
+      oauth_client_form.text_field(**@client_id_input_options)
+      oauth_client_form.text_field(**@client_secret_input_options)
     end
 
-    def initialize(storage:)
+    def initialize(storage:, client_id_input_options: {}, client_secret_input_options: {})
       super()
       @storage = storage
+      @client_id_input_options = default_client_id_input_options.merge(client_id_input_options)
+      @client_secret_input_options = default_client_secret_input_options.merge(client_secret_input_options)
     end
 
     private
+
+    def default_client_id_input_options
+      {
+        name: :client_id,
+        label: label_client_id,
+        required: true
+      }
+    end
+
+    def default_client_secret_input_options
+      {
+        name: :client_secret,
+        label: label_client_secret,
+        required: true
+      }
+    end
 
     def label_client_id
       [label_provider_name, I18n.t('storages.label_oauth_client_id')].join(' ')

@@ -41,7 +41,8 @@ class Storages::Admin::StoragesController < ApplicationController
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
-  before_action :find_model_object, only: %i[show destroy edit edit_host update replace_oauth_application]
+  before_action :find_model_object,
+                only: %i[show show_oauth_application destroy edit edit_host update replace_oauth_application]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -64,53 +65,94 @@ class Storages::Admin::StoragesController < ApplicationController
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
     # That service inherits from ::BaseServices::SetAttributes
+    model_class = OpenProject::FeatureDecisions.storage_primer_design_active? ? Storages::Storage : Storages::NextcloudStorage
     @storage = ::Storages::Storages::SetAttributesService
                  .new(user: current_user,
-                      model: Storages::NextcloudStorage.new,
+                      model: model_class.new,
                       contract_class: EmptyContract)
                  .call
                  .result
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def create
-    service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
+  def select_provider
+    @object = Storages::Storage.new(permitted_storage_params(:storages_storage))
+    service_result = ::Storages::Storages::SetAttributesService
+                 .new(user: current_user,
+                      model: @object,
+                      contract_class: Storages::Storages::BaseContract,
+                      contract_options: { skip_provider_type_strategy: true })
+                 .call
+    @storage = service_result.result
+
+    service_result.on_failure { render :new }
+
+    service_result.on_success do
+      respond_to { |format| format.turbo_stream }
+    end
+  end
+
+  def create # rubocop:disable Metrics/AbcSize
+    service_result = Storages::Storages::CreateService
+                      .new(user: current_user)
+                      .call(permitted_storage_params)
 
     @storage = service_result.result
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      render :new
+      if OpenProject::FeatureDecisions.storage_primer_design_active?
+        respond_to do |format|
+          format.turbo_stream { render :select_provider }
+        end
+      else
+        render :new
+      end
     end
 
     service_result.on_success do
-      case @storage.provider_type
-      when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
-        flash[:notice] = I18n.t(:notice_successful_create)
-        render '/storages/admin/storages/one_drive/edit'
-      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-        if @oauth_application.present?
-          flash.now[:notice] = I18n.t(:notice_successful_create)
-          render :show_oauth_application
-        end
+      if OpenProject::FeatureDecisions.storage_primer_design_active?
+        respond_to { |format| format.turbo_stream }
       else
-        raise "Unknown provider type: #{storage_params['provider_type']}"
+        case @storage.provider_type
+        when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
+          flash.now[:notice] = I18n.t(:notice_successful_create)
+          render '/storages/admin/storages/one_drive/edit'
+        when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+          if @oauth_application.present?
+            flash.now[:notice] = I18n.t(:notice_successful_create)
+            render :show_oauth_application
+          end
+        else
+          raise "Unknown provider type: #{storage_params['provider_type']}"
+        end
       end
     end
   end
 
-  # rubocop:enable Metrics/AbcSize
+  def show_oauth_application
+    @oauth_application = @storage.oauth_application
+
+    respond_to { |format| format.turbo_stream }
+  end
 
   # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists;
   # Called by: Global app/config/routes.rb to serve Web page
   def edit; end
-  def edit_host; end
+
+  def edit_host
+    respond_to { |format| format.turbo_stream }
+  end
 
   # Update is similar to create above
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
-  def update
+  def update # rubocop:disable Metrics/AbcSize
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user, model: @storage)
                        .call(permitted_storage_params)
@@ -118,14 +160,16 @@ class Storages::Admin::StoragesController < ApplicationController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
+
       respond_to do |format|
         format.html { redirect_to edit_admin_settings_storage_path(@storage) }
         format.turbo_stream
       end
-    elsif OpenProject::FeatureDecisions.storage_primer_design_active?
-      render :edit_host
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit }
+        format.turbo_stream { render :edit_host }
+      end
     end
   end
 
@@ -150,8 +194,6 @@ class Storages::Admin::StoragesController < ApplicationController
 
     if service_result.success?
       flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
-      render :show_oauth_application
-    elsif OpenProject::FeatureDecisions.storage_primer_design_active?
       render :show_oauth_application
     else
       render :edit
@@ -183,20 +225,17 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # Called by create and update above in order to check if the
   # update parameters are correctly set.
-  def permitted_storage_params
+  def permitted_storage_params(model_parameter_name = storage_provider_parameter_name)
     params
-      .require(storage_provider_parameter_name)
+      .require(model_parameter_name)
       .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret', 'tenant_id', 'drive_id')
   end
 
-  # TODO: Work out how to retrieve the storage provider resource name as it's based on the provider type
-  # PrimerForms implements Rails `form_with` which doesn't support overriding the form name as we would with
-  # `form_for`.
-  # See: https://github.com/opf/primer_view_components/blob/79fb58474771bd06946554f8325cd0b1bdd6dd31/app/helpers/primer/form_helper.rb#L7
-  #
   def storage_provider_parameter_name
     if params.key?(:storages_nextcloud_storage)
       :storages_nextcloud_storage
+    elsif params.key?(:storages_one_drive_storage)
+      :storages_one_drive_storage
     else
       :storages_storage
     end

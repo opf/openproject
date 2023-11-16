@@ -27,21 +27,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("project_module_storages"), @storage.name, "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{t("storages.label_oauth_client_details")}" %>
+<%= turbo_stream.update :storage_general_info_section do %>
+  <%= render(Storages::Admin::GeneralInfoComponent.new(@storage)) %>
+<% end %>
 
-<% if OpenProject::FeatureDecisions.storage_primer_design_active? %>
+<%= turbo_stream.update :storage_openproject_oauth_section do %>
   <%=
-    render(OpTurbo::FrameComponent.new(id: :storage_oauth_client_section)) do
-      render(Storages::Admin::Forms::OAuthClientFormComponent.new(oauth_client: @oauth_client, storage: @storage))
-    end
+    render(
+      Storages::Admin::OAuthApplicationInfoCopyComponent.new(
+        oauth_application: @oauth_application,
+        storage: @storage,
+        submit_button_options: {
+          data: { turbo_stream: true }
+        },
+        submit_button_path: new_admin_settings_storage_oauth_client_path(@storage)
+      )
+    )
   %>
-<% else %>
-  <% local_assigns[:additional_breadcrumb] = [
-    link_to(@storage.name, edit_admin_settings_storage_path(@storage)),
-    t("storages.label_oauth_breadcrumb.#{@storage.short_provider_type}")
-  ] %>
-  <%= toolbar title: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{t("storages.label_oauth_client_details")}" %>
-  <%= labelled_tabular_form_for @oauth_client, url: admin_settings_storage_oauth_client_path do |f| -%>
-    <%= render partial: "storages/admin/storages/#{@storage.short_provider_type}/oauth_client", locals: { f: f } %>
-  <% end %>
 <% end %>

@@ -27,46 +27,41 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin
+  class OAuthApplicationInfoCopyComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-require 'spec_helper'
-require_relative 'shared_base_storage_spec'
+    attr_reader :storage
+    alias_method :oauth_application, :model
 
-RSpec.describe Storages::OneDriveStorage do
-  let(:storage) { build(:one_drive_storage) }
-
-  it_behaves_like 'base storage'
-
-  describe '#provider_type?' do
-    it { expect(storage).to be_a_provider_type_one_drive }
-    it { expect(storage).not_to be_a_provider_type_nextcloud }
-  end
-
-  describe '#configured?' do
-    context 'with a complete configuration' do
-      let(:storage) { build(:one_drive_storage, oauth_client: build(:oauth_client)) }
-
-      it 'returns true' do
-        expect(storage.configured?).to be(true)
-
-        aggregate_failures 'configuration_checks' do
-          expect(storage.configuration_checks)
-            .to eq(host_name_configured: true,
-                   storage_oauth_client_configured: true,
-                   storage_tenant_drive_configured: true)
-        end
-      end
+    def initialize(oauth_application:, storage:, **options)
+      super(oauth_application, **options)
+      @storage = storage
     end
 
-    context 'without oauth client' do
-      let(:storage) { build(:one_drive_storage) }
+    def oauth_application_details_link
+      render(
+        Primer::Beta::Link.new(
+          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
+                                                                                         'settings/admin/openproject'),
+          target: '_blank'
+        )
+      ) { I18n.t('storages.instructions.oauth_application_details_link_text') }
+    end
 
-      it 'returns false' do
-        expect(storage.configured?).to be(false)
+    def submit_button_options
+      {
+        scheme: :primary,
+        tag: :a,
+        href: submit_button_path
+      }.merge(options.fetch(:submit_button_options, {}))
+    end
 
-        aggregate_failures 'configuration_checks' do
-          expect(storage.configuration_checks[:storage_oauth_client_configured]).to be(false)
-        end
-      end
+    private
+
+    def submit_button_path
+      options[:submit_button_path] || edit_admin_settings_storage_path(storage)
     end
   end
 end

@@ -39,7 +39,8 @@ See COPYRIGHT and LICENSE files for more details.
                      size: 40,
                      container_class: '-wide',
                      data: {
-                       'storages--oauth-client-form-target': "clientId"
+                       'storages--oauth-client-form-target': "clientId",
+                       action: 'input->storages--oauth-client-form#setRedirectUriValue'
                      } %>
     <span class="form--field-instructions">
       <%= t("storages.instructions.#{@storage.short_provider_type}.oauth_client_id") %>

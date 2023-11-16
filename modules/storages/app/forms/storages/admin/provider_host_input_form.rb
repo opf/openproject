@@ -26,22 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpTurbo
-  class FrameComponent < ApplicationComponent
-    def turbo_frame_id
-      optional_custom_id || turbo_frame_id_from_model
-    end
-
-    private
-
-    def turbo_frame_id_from_model
-      ActionView::RecordIdentifier.dom_id(model, options[:context])
-    end
-
-    def optional_custom_id
-      return if options[:id].blank?
-
-      options.values_at(:context, :id).compact.join("_")
+module Storages::Admin
+  class ProviderHostInputForm < ApplicationForm
+    form do |storage_form|
+      storage_form.text_field(
+        name: :host,
+        label: I18n.t('activerecord.attributes.storages/storage.host'),
+        visually_hide_label: false,
+        required: true,
+        type: :url,
+        pattern: ".{1,255}",
+        placeholder: "https://my-file-storage.com",
+        caption: I18n.t('storages.instructions.host')
+      )
     end
   end
 end

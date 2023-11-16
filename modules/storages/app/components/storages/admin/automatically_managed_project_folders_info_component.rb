@@ -27,45 +27,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin
+  class AutomaticallyManagedProjectFoldersInfoComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include StorageViewInformation
 
-require 'spec_helper'
-require_relative 'shared_base_storage_spec'
+    alias_method :storage, :model
 
-RSpec.describe Storages::OneDriveStorage do
-  let(:storage) { build(:one_drive_storage) }
-
-  it_behaves_like 'base storage'
-
-  describe '#provider_type?' do
-    it { expect(storage).to be_a_provider_type_one_drive }
-    it { expect(storage).not_to be_a_provider_type_nextcloud }
-  end
-
-  describe '#configured?' do
-    context 'with a complete configuration' do
-      let(:storage) { build(:one_drive_storage, oauth_client: build(:oauth_client)) }
-
-      it 'returns true' do
-        expect(storage.configured?).to be(true)
-
-        aggregate_failures 'configuration_checks' do
-          expect(storage.configuration_checks)
-            .to eq(host_name_configured: true,
-                   storage_oauth_client_configured: true,
-                   storage_tenant_drive_configured: true)
-        end
-      end
-    end
-
-    context 'without oauth client' do
-      let(:storage) { build(:one_drive_storage) }
-
-      it 'returns false' do
-        expect(storage.configured?).to be(false)
-
-        aggregate_failures 'configuration_checks' do
-          expect(storage.configuration_checks[:storage_oauth_client_configured]).to be(false)
-        end
+    def edit_button_path
+      if storage.automatic_management_unspecified?
+        new_admin_settings_storage_automatically_managed_project_folders_path(storage)
+      else
+        edit_admin_settings_storage_automatically_managed_project_folders_path(storage)
       end
     end
   end
