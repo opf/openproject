@@ -56,11 +56,11 @@ class WorkPackagePolicy < BasePolicy
   end
 
   def edit_allowed?(work_package)
-    @edit_cache ||= Hash.new do |hash, project|
-      hash[project] = work_package.persisted? && user.allowed_in_project?(:edit_work_packages, project)
+    @edit_cache ||= Hash.new do |hash, wp|
+      hash[wp] = work_package.persisted? && user.allowed_in_work_package?(:edit_work_packages, wp)
     end
 
-    @edit_cache[work_package.project]
+    @edit_cache[work_package]
   end
 
   def move_allowed?(work_package)
@@ -110,11 +110,11 @@ class WorkPackagePolicy < BasePolicy
   end
 
   def comment_allowed?(work_package)
-    @comment_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_in_project?(:add_work_package_notes, project) || edit_allowed?(work_package)
+    @comment_cache ||= Hash.new do |hash, wp|
+      hash[wp] = user.allowed_in_work_package?(:add_work_package_notes, wp) || edit_allowed?(wp)
     end
 
-    @comment_cache[work_package.project]
+    @comment_cache[work_package]
   end
 
   def assign_version_allowed?(work_package)
