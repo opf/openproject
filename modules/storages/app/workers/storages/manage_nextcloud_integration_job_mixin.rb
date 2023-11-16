@@ -29,44 +29,29 @@
 #++
 
 module Storages
-  class NextcloudStorage < Storage
-    PROVIDER_FIELDS_DEFAULTS = {
-      automatically_managed: true,
-      username: 'OpenProject'
-    }.freeze
+  module ManageNextcloudIntegrationJobMixin
+    using Peripherals::ServiceResultRefinements
 
-    store_attribute :provider_fields, :automatically_managed, :boolean
-    store_attribute :provider_fields, :username, :string
-    store_attribute :provider_fields, :password, :string
-    store_attribute :provider_fields, :group, :string
-    store_attribute :provider_fields, :group_folder, :string
-
-    scope :automatically_managed, -> { where("provider_fields->>'automatically_managed' = 'true'") }
-
-    def oauth_configuration
-      Peripherals::OAuthConfigurations::NextcloudConfiguration.new(self)
-    end
-
-    def automatic_management_unspecified?
-      automatically_managed.nil?
-    end
-
-    def configuration_checks
-      {
-        storage_oauth_client_configured: oauth_client.present?,
-        openproject_oauth_application_configured: oauth_application.present?,
-        host_name_configured: host.present? && name.present?
-      }
-    end
-
-    %i[username group group_folder].each do |attribute_method|
-      define_method(attribute_method) do
-        super().presence || PROVIDER_FIELDS_DEFAULTS[:username]
+    def perform
+      OpenProject::Mutex.with_advisory_lock(
+        ::Storages::NextcloudStorage,
+        'sync_all_group_folders',
+        timeout_seconds: 0,
+        transaction: false
+      ) do
+        ::Storages::NextcloudStorage.automatically_managed.includes(:oauth_client).find_each do |storage|
+          result = GroupFolderPropertiesSyncService.call(storage)
+          result.match(
+            on_success: ->(_) do
+              storage.mark_as_healthy
+            end,
+            on_failure: ->(errors) do
+              storage.mark_as_unhealthy(reason: errors.to_s)
+            end
+          )
+        end
+        true
       end
-    end
-
-    def provider_fields_defaults
-      PROVIDER_FIELDS_DEFAULTS
     end
   end
 end

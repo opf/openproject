@@ -66,7 +66,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPUnauthorized
         Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       when Net::HTTPConflict
-        Util.error(:conflict, Util.error_text_from_error_data(error_data), error_data)
+        Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
         Util.error(:error, 'Outbound request failed', error_data)
       end

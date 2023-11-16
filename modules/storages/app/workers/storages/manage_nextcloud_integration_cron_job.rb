@@ -30,23 +30,10 @@
 
 module Storages
   class ManageNextcloudIntegrationCronJob < Cron::CronJob
-    using Peripherals::ServiceResultRefinements
+    include ManageNextcloudIntegrationJobMixin
 
     queue_with_priority :low
 
     self.cron_expression = '*/5 * * * *'
-
-    def perform
-      OpenProject::Mutex.with_advisory_lock(NextcloudStorage, 'sync_all_group_folders', timeout_seconds: 0, transaction: false) do
-        NextcloudStorage.automatically_managed.includes(:oauth_client).find_each do |storage|
-          result = GroupFolderPropertiesSyncService.call(storage)
-          result.match(
-            on_success: -> { storage.mark_as_healthy },
-            on_failure: ->(error) { storage.mark_as_unhealthy(reason: error.code) }
-          )
-        end
-        true
-      end
-    end
   end
 end
