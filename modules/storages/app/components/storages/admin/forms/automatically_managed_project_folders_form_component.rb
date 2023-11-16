@@ -49,12 +49,7 @@ module Storages::Admin::Forms
     end
 
     def cancel_button_options
-      { href: edit_admin_settings_storage_path(storage) }.tap do |options_hash|
-        if new_record?
-          options_hash[:href] = admin_settings_storages_path
-          options_hash[:target] = '_top'
-        end
-      end
+      { href: edit_admin_settings_storage_path(storage) }
     end
 
     private
