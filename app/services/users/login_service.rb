@@ -80,7 +80,7 @@ module Users
     end
 
     def reset_session!
-      Sessions::DropAllSessionsService.call(user) if drop_old_sessions?
+      ::Sessions::DropAllSessionsService.call(user) if drop_old_sessions?
       controller.reset_session
     end
 

@@ -134,7 +134,7 @@ module Accounts::CurrentUser
   def logout_user
     ::Users::LogoutService
       .new(controller: self)
-      .call(current_user)
+      .call!(current_user)
   end
 
   # Redirect the user according to the logout scheme
