@@ -34,6 +34,13 @@ module Meetings
 
     MAX_SHOWN_PARTICIPANTS = 5
 
+    def wrapper_data_attributes
+      {
+        controller: 'meetings-sidebar-participants',
+        'application-target': 'dynamic'
+      }
+    end
+
     def initialize(meeting:)
       super
 
