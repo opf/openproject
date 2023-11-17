@@ -76,7 +76,7 @@ export class WpTableConfigurationDisplaySettingsTabComponent implements TabCompo
       .onReady()
       .then(() => {
         this.availableGroups = _.sortBy(this.wpTableGroupBy.available, 'name');
-        this.currentGroup = this.wpTableGroupBy.current;
+        this.currentGroup = this.wpTableGroupBy.current || this.availableGroups[0];
       });
   }
 }
