@@ -260,7 +260,6 @@ RSpec.describe 'Work package sharing',
       before do
         allow(OpenProject::Enterprise).to receive_messages(
           user_limit: 10,
-          user_limit_reached?: false,
           open_seats_count: 1
         )
       end
@@ -275,7 +274,7 @@ RSpec.describe 'Work package sharing',
 
         # Add another non-existing user that would exceed the user limit
         share_modal.select_not_existing_user_option "hola@world.de"
-        share_modal.expect_user_limit_warning(open_seats: 1)
+        share_modal.expect_user_limit_warning
       end
     end
   end

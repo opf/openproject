@@ -37,7 +37,8 @@
                 end
 
                 user_limit_row.with_column do
-                  render(Primer::Beta::Text.new(color: :danger)) { I18n.t('work_package.sharing.text_user_limit_reached', count: OpenProject::Enterprise.open_seats_count) }
+                  render(Primer::Beta::Text.new(color: :danger)) { I18n.t("work_package.sharing.warning_user_limit_reached#{'_admin' if User.current.admin?}",
+                                                                          upgrade_url: OpenProject::Enterprise.upgrade_url).html_safe }
                 end
               end
             end

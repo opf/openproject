@@ -80,7 +80,7 @@ RSpec.describe UsersController do
         end
 
         it "shows a user limit error" do
-          expect(flash[:error]).to match /user limit reached/i
+          expect(flash[:error]).to match /Adding additional users will exceed the current limit/i
         end
 
         it "redirects back to the user index" do
@@ -96,7 +96,7 @@ RSpec.describe UsersController do
         end
 
         it "shows a user limit warning" do
-          expect(flash[:warning]).to match /user limit reached/i
+          expect(flash[:warning]).to match /Adding additional users will exceed the current limit/i
         end
 
         it "shows the new user page" do
@@ -451,7 +451,7 @@ RSpec.describe UsersController do
         let(:user_limit_reached) { true }
 
         it "shows the user limit reached error and recommends to upgrade" do
-          expect(flash[:error]).to match /user limit reached.*upgrade/i
+          expect(flash[:error]).to match /Adding additional users will exceed the current limit.*upgrade/i
         end
 
         it "does not activate the user" do

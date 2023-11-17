@@ -75,7 +75,6 @@ RSpec.describe 'invite user via email', js: true do
       before do
         allow(OpenProject::Enterprise).to receive_messages(
           user_limit: 10,
-          user_limit_reached?: false,
           open_seats_count: 1
         )
       end
@@ -87,15 +86,13 @@ RSpec.describe 'invite user via email', js: true do
         members_page.search_and_select_principal! 'finkelstein@openproject.com',
                                                   'Send invite to finkelstein@openproject.com'
 
-        expect(members_page).not_to have_text sanitize_string(I18n.t(:warning_user_limit_reached,
-                                                                     upgrade_url: OpenProject::Enterprise.upgrade_path)),
+        expect(members_page).not_to have_text sanitize_string(I18n.t(:warning_user_limit_reached)),
                                               normalize_ws: true
 
         members_page.search_and_select_principal! 'frankenstein@openproject.com',
                                                   'Send invite to frankenstein@openproject.com'
 
-        expect(members_page).to have_text sanitize_string(I18n.t(:warning_user_limit_reached,
-                                                                 upgrade_url: OpenProject::Enterprise.upgrade_path)),
+        expect(members_page).to have_text sanitize_string(I18n.t(:warning_user_limit_reached)),
                                           normalize_ws: true
       end
     end

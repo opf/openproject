@@ -104,7 +104,7 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="op-toast -warning icon-warning d-none"
              data-user-limit-target="limitWarning">
           <div class="op-toast--content">
-            <p><%= I18n.t(:warning_user_limit_reached, upgrade_url: OpenProject::Enterprise.upgrade_path).html_safe %></p>
+            <p><%= I18n.t("warning_user_limit_reached#{'_admin' if current_user.admin?}", upgrade_url: OpenProject::Enterprise.upgrade_url).html_safe %></p>
           </div>
         </div>
     <% end %>

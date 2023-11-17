@@ -354,10 +354,10 @@ module Components
         end
       end
 
-      def expect_user_limit_warning(open_seats:)
+      def expect_user_limit_warning
         within modal_element do
           expect(page)
-            .to have_text(I18n.t('work_package.sharing.text_user_limit_reached', count: open_seats))
+            .to have_text(I18n.t('work_package.sharing.warning_user_limit_reached'))
         end
       end
     end
