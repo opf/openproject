@@ -41,6 +41,7 @@ export default class UserLimitController extends Controller {
 
   static values = {
     openSeats: Number,
+    memberAutocompleter: Boolean,
   };
 
   declare readonly limitWarningTarget:HTMLElement;
@@ -49,12 +50,18 @@ export default class UserLimitController extends Controller {
 
   declare readonly openSeatsValue:number;
   declare readonly hasOpenSeatsValue:number;
+  declare readonly memberAutocompleterValue:boolean;
 
   private autocompleter:HTMLElement;
   private autocompleterListener = this.triggerLimitWarningIfReached.bind(this);
 
   connect() {
-    this.autocompleter = this.inviteUserFormTarget.querySelector('opce-user-autocompleter') as HTMLElement;
+    if (this.memberAutocompleterValue) {
+      this.autocompleter = this.inviteUserFormTarget.querySelector('opce-members-autocompleter') as HTMLElement;
+    } else {
+      this.autocompleter = this.inviteUserFormTarget.querySelector('opce-user-autocompleter') as HTMLElement;
+    }
+
     this.autocompleter.addEventListener('change', this.autocompleterListener);
   }
 

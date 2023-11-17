@@ -29,9 +29,6 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import {
-  IUserAutocompleteItem,
-} from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
 
 export default class MembersFormController extends Controller {
   static targets = [
@@ -43,7 +40,6 @@ export default class MembersFormController extends Controller {
     'addMemberButton',
     'membershipEditForm',
     'errorExplanation',
-    'limitWarning',
   ];
 
   declare readonly filterContainerTarget:HTMLElement;
@@ -62,12 +58,7 @@ export default class MembersFormController extends Controller {
 
   declare readonly hasErrorExplanationTarget:HTMLElement;
 
-  declare readonly limitWarningTarget:HTMLElement;
-
-  declare readonly hasLimitWarningTarget:HTMLElement;
-
   private autocompleter:HTMLElement;
-  private autocompleterListener = this.triggerLimitWarningIfReached.bind(this);
 
   connect() {
     // Show/Hide content when page is loaded
@@ -80,7 +71,6 @@ export default class MembersFormController extends Controller {
     }
 
     this.autocompleter = this.addMemberFormTarget.querySelector('opce-members-autocompleter') as HTMLElement;
-    this.autocompleter.addEventListener('change', this.autocompleterListener);
 
     if (this.hasErrorExplanationTarget && this.errorExplanationTarget.textContent !== '') {
       this.showAddMemberForm();
@@ -89,10 +79,6 @@ export default class MembersFormController extends Controller {
     if (this.addMemberButtonTarget.getAttribute('data-trigger-initially')) {
       this.showAddMemberForm();
     }
-  }
-
-  disconnect() {
-    this.autocompleter.removeEventListener('change', this.autocompleterListener);
   }
 
   hideFilter() {
@@ -117,18 +103,6 @@ export default class MembersFormController extends Controller {
     this.addMemberButtonTarget.setAttribute('disabled', 'true');
 
     this.focusAutocompleter();
-  }
-
-  triggerLimitWarningIfReached(evt:CustomEvent) {
-    const values = evt.detail as IUserAutocompleteItem[];
-
-    if (this.hasLimitWarningTarget) {
-      if (values.find(({ id }) => typeof (id) === 'string' && id.includes('@'))) {
-        this.limitWarningTarget.style.display = 'block';
-      } else {
-        this.limitWarningTarget.style.display = 'none';
-      }
-    }
   }
 
   toggleMemberFilter() {
