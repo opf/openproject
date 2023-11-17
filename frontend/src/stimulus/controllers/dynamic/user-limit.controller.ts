@@ -41,6 +41,7 @@ export default class UserLimitController extends Controller {
 
   static values = {
     openSeats: Number,
+    // Special case, that the autocompleter is a members-autocompleter, instead of the normal user-autocompleter
     memberAutocompleter: Boolean,
   };
 

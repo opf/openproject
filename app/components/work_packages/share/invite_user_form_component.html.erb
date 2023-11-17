@@ -26,8 +26,11 @@
 
           if OpenProject::Enterprise.user_limit.present?
             invite_form.with_area('userLimit',
-                                  data: { 'user-limit-target': 'limitWarning' },
-                                  display: OpenProject::Enterprise.user_limit_reached? ? :block : :none) do
+                                  data: {
+                                    'user-limit-target': 'limitWarning',
+                                    'test-selector': 'op-share-wp-user-limit'
+                                  },
+                                  display: :none) do
               flex_layout do |user_limit_row|
                 user_limit_row.with_column(mr: 2) do
                   render(Primer::Beta::Octicon.new(icon: :'alert-fill', color: :danger))
