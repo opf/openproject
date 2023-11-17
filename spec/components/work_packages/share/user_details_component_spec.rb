@@ -63,7 +63,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                  roles: [work_package_role])
         end
 
-        it "", :aggregate_failures do
+        it do
           subject
 
           expect(page)
@@ -81,7 +81,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
 
         context 'and the invite has not been resent' do
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -92,7 +92,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         context 'and the invite has been resent' do
           let(:invite_resent) { true }
 
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -116,7 +116,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           create(:member, project:, principal:, roles: [project_role])
         end
 
-        it "", :aggregate_failures do
+        it do
           subject
 
           expect(page)
@@ -125,7 +125,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
       end
 
       context 'when it is not a member in the project' do
-        it "", :aggregate_failures do
+        it do
           subject
 
           expect(page)
@@ -145,7 +145,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
 
       context 'when the user is not part of a shared with group' do
         context 'and the user is not a project member' do
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -158,7 +158,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             create(:member, project:, principal:, roles: [project_role])
           end
 
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -180,7 +180,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
 
         context 'and the user is not a project member' do
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -193,7 +193,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             create(:member, project:, principal:, roles: [project_role])
           end
 
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -237,7 +237,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
 
         context 'and the invite has not been resent' do
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -248,7 +248,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         context 'and the invite has been resent' do
           let(:invite_resent) { true }
 
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -272,7 +272,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           create(:member, project:, principal:, roles: [project_role])
         end
 
-        it "", :aggregate_failures do
+        it do
           subject
 
           expect(page)
@@ -281,7 +281,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
       end
 
       context 'when it is not a member in the project' do
-        it "", :aggregate_failures do
+        it do
           subject
 
           expect(page)
@@ -301,7 +301,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
 
       context 'when the user is not part of a shared with group' do
         context 'and the user is not a project member' do
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -314,7 +314,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             create(:member, project:, principal:, roles: [project_role])
           end
 
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -336,7 +336,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
 
         context 'and the user is not a project member' do
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
@@ -349,7 +349,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             create(:member, project:, principal:, roles: [project_role])
           end
 
-          it "", :aggregate_failures do
+          it do
             subject
 
             expect(page)
