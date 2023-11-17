@@ -1,5 +1,6 @@
 <%=
   component_wrapper(data: { controller: "work-packages--share--user-limit",
+                            'work-packages--share--user-limit-open-seats-value': OpenProject::Enterprise.open_seats_count,
                             'application-target': "dynamic" }) do
     if sharing_manageable?
       primer_form_with(
@@ -23,8 +24,10 @@
             render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { I18n.t('work_package.sharing.share') }
           end
 
-          unless OpenProject::Enterprise.user_limit.nil?
-            invite_form.with_area('userLimit', data: { 'work-packages--share--user-limit-target': 'limitWarning' }, display: :none) do
+          if OpenProject::Enterprise.user_limit.present?
+            invite_form.with_area('userLimit',
+                                  data: { 'work-packages--share--user-limit-target': 'limitWarning' },
+                                  display: OpenProject::Enterprise.user_limit_reached? ? :block : :none) do
               flex_layout do |user_limit_row|
                 user_limit_row.with_column(mr: 2) do
                   render(Primer::Beta::Octicon.new(icon: :'alert-fill', color: :danger))

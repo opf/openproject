@@ -39,9 +39,16 @@ export default class UserLimitController extends Controller {
     'inviteUserForm',
   ];
 
+  static values = {
+    openSeats: Number,
+  };
+
   declare readonly limitWarningTarget:HTMLElement;
   declare readonly hasLimitWarningTarget:HTMLElement;
   declare readonly inviteUserFormTarget:HTMLElement;
+
+  declare readonly openSeatsValue:number;
+  declare readonly hasOpenSeatsValue:number;
 
   private autocompleter:HTMLElement;
   private autocompleterListener = this.triggerLimitWarningIfReached.bind(this);
@@ -58,8 +65,9 @@ export default class UserLimitController extends Controller {
   triggerLimitWarningIfReached(evt:CustomEvent) {
     const values = evt.detail as IUserAutocompleteItem[];
 
-    if (this.hasLimitWarningTarget) {
-      if (values.find(({ id }) => typeof (id) === 'string' && id.includes('@'))) {
+    if (this.hasLimitWarningTarget && this.hasOpenSeatsValue) {
+      const numberOfNewUsers = values.filter(({ id }) => typeof (id) === 'string' && id.includes('@')).length;
+      if (numberOfNewUsers > 0 && numberOfNewUsers > this.openSeatsValue) {
         this.limitWarningTarget.classList.remove('d-none');
       } else {
         this.limitWarningTarget.classList.add('d-none');
