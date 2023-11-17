@@ -89,9 +89,12 @@ module Meetings
       end
 
       def update_show_items_via_turbo_stream(meeting: @meeting)
-        meeting.agenda_items.each do |meeting_agenda_item|
+        agenda_items = meeting.agenda_items.with_includes_to_render
+        first_and_last = [agenda_items.first, agenda_items.last]
+
+        agenda_items.each do |meeting_agenda_item|
           update_via_turbo_stream(
-            component: MeetingAgendaItems::ItemComponent::ShowComponent.new(meeting_agenda_item:)
+            component: MeetingAgendaItems::ItemComponent::ShowComponent.new(meeting_agenda_item:, first_and_last:)
           )
         end
       end
@@ -136,7 +139,8 @@ module Meetings
         replace_via_turbo_stream(
           component: MeetingAgendaItems::ItemComponent.new(
             state:,
-            meeting_agenda_item:
+            meeting_agenda_item:,
+            display_notes_input:
           )
         )
         update_show_items_via_turbo_stream
