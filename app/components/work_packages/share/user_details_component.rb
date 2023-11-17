@@ -33,15 +33,19 @@ module WorkPackages
     # rubocop:disable OpenProject/AddPreviewForViewComponent
     class UserDetailsComponent < ApplicationComponent
       # rubocop:enable OpenProject/AddPreviewForViewComponent
+      include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include WorkPackages::Share::Concerns::DisplayableRoles
 
-      def initialize(user:, share:, manager_mode: false)
+      def initialize(share:,
+                     manager_mode: User.current.allowed_in_project?(:share_work_packages, share.project),
+                     invite_resent: false)
         super
 
-        @user = user
         @share = share
+        @user = share.principal
         @manager_mode = manager_mode
+        @invite_resent = invite_resent
       end
 
       private
@@ -49,6 +53,12 @@ module WorkPackages
       attr_reader :user, :share
 
       def manager_mode? = @manager_mode
+
+      def invite_resent? = @invite_resent
+
+      def wrapper_uniq_by
+        share.id
+      end
 
       def authoritative_work_package_role_name
         @authoritative_work_package_role_name = options.find do |option|

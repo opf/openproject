@@ -30,7 +30,7 @@
 require 'spec_helper'
 
 RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
-  subject { render_inline(described_class.new(user: principal, share:, manager_mode:)) }
+  subject { render_inline(described_class.new(share:, manager_mode:, invite_resent:)) }
 
   shared_let(:project)      { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
@@ -40,6 +40,8 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
   shared_let(:user_firstname) { 'Richard' }
   shared_let(:user_lastname)  { 'Hendricks' }
   shared_let(:group_name)     { 'Cool group' }
+
+  let(:invite_resent) { false }
 
   def build_inherited_share(group_share:, user_share:)
     create(:member_role,
@@ -78,11 +80,24 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                  roles: [work_package_role])
         end
 
-        it "", :aggregate_failures do
-          subject
+        context 'and the invite has not been resent' do
+          it "", :aggregate_failures do
+            subject
 
-          expect(page)
-            .to have_text("Richard Hendricks Pending invitation. Role: View", normalize_ws: true)
+            expect(page)
+              .to have_text("Richard Hendricks Pending invitation. Role: View", normalize_ws: true)
+          end
+        end
+
+        context 'and the invite has been resent' do
+          let(:invite_resent) { true }
+
+          it "", :aggregate_failures do
+            subject
+
+            expect(page)
+              .to have_text("Richard Hendricks Pending invitation. Role: View", normalize_ws: true)
+          end
         end
       end
     end
@@ -221,11 +236,24 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                  roles: [work_package_role])
         end
 
-        it "", :aggregate_failures do
-          subject
+        context 'and the invite has not been resent' do
+          it "", :aggregate_failures do
+            subject
 
-          expect(page)
-            .to have_text("Richard Hendricks Pending invitation. Resend invite", normalize_ws: true)
+            expect(page)
+              .to have_text("Richard Hendricks Pending invitation. Resend invite", normalize_ws: true)
+          end
+        end
+
+        context 'and the invite has been resent' do
+          let(:invite_resent) { true }
+
+          it "", :aggregate_failures do
+            subject
+
+            expect(page)
+              .to have_text("Richard Hendricks Pending invitation. Invite has been resent", normalize_ws: true)
+          end
         end
       end
     end

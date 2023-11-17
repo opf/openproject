@@ -99,7 +99,7 @@ class WorkPackages::SharesController < ApplicationController
                                     work_package_member: @share,
                                     send_notifications: true)
 
-    head :ok
+    respond_with_update_user_details
   end
 
   private
@@ -153,6 +153,15 @@ class WorkPackages::SharesController < ApplicationController
 
     update_via_turbo_stream(
       component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def respond_with_update_user_details
+    update_via_turbo_stream(
+      component: WorkPackages::Share::UserDetailsComponent.new(share: @share,
+                                                               invite_resent: true)
     )
 
     respond_with_turbo_streams

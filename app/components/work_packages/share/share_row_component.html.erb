@@ -17,7 +17,7 @@
       end
 
       user_row_grid.with_area(:user_details, tag: :div) do
-        render(WorkPackages::Share::UserDetailsComponent.new(user: principal, share:, manager_mode: share_editable?))
+        render(WorkPackages::Share::UserDetailsComponent.new(share:, manager_mode: share_editable?))
       end
 
       if share_editable?

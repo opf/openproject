@@ -3277,6 +3277,7 @@ en:
         locked: "Locked user"
         invited: "Pending invitation. "
         resend_invite: "Resend invite"
+        invite_resent: "Invite has been resent"
         project_member: "Project member: "
         not_project_member: "Not project member"
         project_group: "Project group"
