@@ -1,9 +1,9 @@
 ---
 sidebar_navigation:
   title: Dynamic meetings
-  priority: 759
+  priority: 800
 description: Manage meetings with agenda and meeting minutes in OpenProject.
-keywords: meetings, agenda, minutes
+keywords: meetings, dynamic meetings, agenda, minutes
 ---
 
 # Meeting management
@@ -41,17 +41,17 @@ The menu on the left will allow you to filter for upcoming or past meetings. You
 
 You can either create a meeting from within a project, or from the **Meetings** global module. 
 
+> Please note that starting with the 13.1.0 release there will be a choice between creating a classic or dynamic meetings. The default value selected will be a dynamic meeting. In the future, the classic meetings option will be removed.
+
 To create a new meeting, click the green **+ Meeting** button in the upper right corner.
 
-Enter your meeting's title, location and start date and duration.
+![Create new meeting in OpenProject](openproject_userguide_create_new_meeting.png)
 
-Select the meeting participants from the project members list.
+Enter your meeting's title, type, location, start date and duration.
 
-If you are creating a meeting from a global module you will need to select a project to which the meeting is attributed.
+If you are creating a meeting from a global module you will first need to select a project to which the meeting is attributed. After you have selected a project, the list of potential participants (project members) will appear for you to select who to invite. After the meeting you can note who attended the meeting.
 
 Click the blue **Create** button to save your changes.
-
-IMAGE WHEN FINAL
 
 ## Edit a meeting
 
