@@ -24,17 +24,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-if defined?(Bullet) && Rails.env.development?
-  OpenProject::Application.configure do
-    config.after_initialize do
-      Bullet.enable = true
-      # Bullet.alert = true
-      Bullet.bullet_logger = true if File.directory?('log') # fails if run from an engine
-      Bullet.console = true
-      # Bullet.growl = true
-      Bullet.rails_logger = true
+RSpec.configure do |config|
+  if Bullet.enable?
+    config.before do
+      Bullet.start_request
+    end
+
+    config.after do
+      Bullet.perform_out_of_channel_notifications if Bullet.notification?
+      Bullet.end_request
     end
   end
 end

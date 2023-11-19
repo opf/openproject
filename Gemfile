@@ -324,6 +324,9 @@ group :development, :test do
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.0.0'
+
+  # Find N+1 database queries
+  gem 'bullet'
 end
 
 gem 'bootsnap', '~> 1.17.0', require: false
