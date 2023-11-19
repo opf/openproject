@@ -26,25 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class UpdateContract < BaseContract
-    validate :user_allowed_to_edit
+class BaseErrorsComponent < ApplicationComponent
+  include ApplicationHelper
+  include OpTurbo::Streamable
+  include OpPrimer::ComponentHelpers
 
-    attribute :lock_version do
-      if model.lock_version.nil? || model.lock_version_changed?
-        errors.add :base, :error_conflict
-      end
-    end
+  def initialize(object, keys: %w[base])
+    super
 
-    ##
-    # Meeting agenda items can currently be only edited
-    # through the project permission :manage_agendas
-    # When MeetingRole becomes available, agenda items will
-    # be edited through meeting permissions :manage_agendas
-    def user_allowed_to_edit
-      unless user.allowed_in_project?(:manage_agendas, model.project)
-        errors.add :base, :error_unauthorized
-      end
+    @errors = object.errors
+    @keys = keys
+  end
+
+  def render?
+    @keys.any? { |key| @errors[key].present? }
+  end
+
+  def call
+    render(Primer::Beta::Flash.new(scheme: :danger, icon: :stop, spacious: true)) do
+      joined_messages
     end
+  end
+
+  def joined_messages
+    messages = @keys.map { |key| @errors.full_messages_for(key) }.flatten
+    helpers.safe_join(messages, "<br />".html_safe)
   end
 end

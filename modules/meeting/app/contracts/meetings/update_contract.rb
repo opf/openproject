@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
+module Meetings
   class UpdateContract < BaseContract
     validate :user_allowed_to_edit
 
@@ -36,13 +36,8 @@ module MeetingAgendaItems
       end
     end
 
-    ##
-    # Meeting agenda items can currently be only edited
-    # through the project permission :manage_agendas
-    # When MeetingRole becomes available, agenda items will
-    # be edited through meeting permissions :manage_agendas
     def user_allowed_to_edit
-      unless user.allowed_in_project?(:manage_agendas, model.project)
+      unless user.allowed_in_project?(:edit_meetings, model.project)
         errors.add :base, :error_unauthorized
       end
     end

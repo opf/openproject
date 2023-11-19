@@ -29,6 +29,7 @@
 class MeetingAgendaItem::Submit < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.group(layout: :horizontal) do |button_group|
+      button_group.hidden(name: :lock_version)
       button_group.hidden(name: :type, value: @type, scope_name_to_model: false)
       button_group.submit(name: :submit_button, label: I18n.t("button_save"), scheme: :primary)
     end
