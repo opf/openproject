@@ -579,7 +579,7 @@ GEM
     ice_nine (0.11.2)
     interception (0.5)
     io-console (0.6.0)
-    irb (1.8.3)
+    irb (1.9.0)
       rdoc
       reline (>= 0.3.8)
     iso8601 (0.13.0)
@@ -837,7 +837,7 @@ GEM
     redis-client (0.18.0)
       connection_pool
     regexp_parser (2.8.2)
-    reline (0.3.9)
+    reline (0.4.0)
       io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
@@ -964,7 +964,7 @@ GEM
     store_attribute (1.1.1)
       activerecord (>= 6.0)
     stringex (2.8.6)
-    stringio (3.0.8)
+    stringio (3.0.9)
     structured_warnings (0.4.0)
     svg-graph (2.2.2)
     swd (2.0.2)
