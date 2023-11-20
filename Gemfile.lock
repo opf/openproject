@@ -375,7 +375,7 @@ GEM
     carrierwave_direct (2.1.0)
       carrierwave (>= 1.0.0)
       fog-aws
-    cgi (0.3.6)
+    cgi (0.4.0)
     climate_control (1.2.0)
     closure_tree (7.4.0)
       activerecord (>= 4.2.10)
