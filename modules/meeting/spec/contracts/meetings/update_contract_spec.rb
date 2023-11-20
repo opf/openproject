@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,25 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class UpdateContract < BaseContract
-    validate :user_allowed_to_edit
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-    attribute :lock_version do
-      if model.lock_version.nil? || model.lock_version_changed?
-        errors.add :base, :error_conflict
-      end
+RSpec.describe Meetings::UpdateContract do
+  include_context 'ModelContract shared context'
+
+  shared_let(:project) { create(:project) }
+  shared_let(:meeting) { create(:structured_meeting, project:) }
+  let(:contract) { described_class.new(meeting, user) }
+
+  context 'with permission' do
+    let(:user) do
+      create(:user, member_with_permissions: { project => [:edit_meetings] })
     end
 
-    ##
-    # Meeting agenda items can currently be only edited
-    # through the project permission :manage_agendas
-    # When MeetingRole becomes available, agenda items will
-    # be edited through meeting permissions :manage_agendas
-    def user_allowed_to_edit
-      unless user.allowed_in_project?(:manage_agendas, model.project)
-        errors.add :base, :error_unauthorized
+    it_behaves_like 'contract is valid'
+
+    context 'when lock_version is changed' do
+      before do
+        allow(meeting).to receive(:lock_version_changed?).and_return(true)
       end
+
+      it_behaves_like 'contract is invalid', base: :error_conflict
     end
+  end
+
+  context 'without permission' do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like 'contract is invalid', base: :error_unauthorized
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:user) { build_stubbed(:user) }
   end
 end
