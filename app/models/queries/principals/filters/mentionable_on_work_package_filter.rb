@@ -28,13 +28,59 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Principals::Filters::WorkPackageMemberFilter <
+class Queries::Principals::Filters::MentionableOnWorkPackageFilter <
   Queries::Principals::Filters::PrincipalFilter
   def type
     :list_optional
   end
 
   def key
-    :work_package_member
+    :mentionable_on_work_package
+  end
+
+  def scope
+    case operator
+    when '='
+      principals_with_a_membership
+    when '!'
+      visible_scope.where.not(id: principals_with_a_membership.select(:id))
+    end
+  end
+
+  private
+
+  def principals_with_a_membership
+    visible_scope.where(id: work_package_members.select(:user_id))
+                 .or(visible_scope.where(id: project_members.select(:user_id)))
+  end
+
+  def visible_scope
+    Principal.visible(User.current)
+             .includes(members: :roles)
+             .references(:members, :roles)
+  end
+
+  def work_package_members
+    Member.of_work_package(values)
+          .where(member_roles: { role_id: mentionable_work_package_role_ids })
+  end
+
+  def mentionable_work_package_role_ids
+    Role.where(builtin: [Role::BUILTIN_WORK_PACKAGE_EDITOR,
+                         Role::BUILTIN_WORK_PACKAGE_COMMENTER])
+        .select(:id)
+  end
+
+  def project_members
+    Member.of(projects)
+          .where(entity: nil)
+  end
+
+  def work_packages
+    WorkPackage.where(id: values)
+  end
+
+  def projects
+    Project.where(id: work_packages.select(:project_id))
   end
 end
