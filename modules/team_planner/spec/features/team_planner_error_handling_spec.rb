@@ -29,7 +29,9 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-RSpec.describe 'Team planner error handling', js: true do
+RSpec.describe 'Team planner error handling',
+               js: true,
+               with_settings: { start_of_week: 1 } do
   include_context 'with team planner full access'
 
   let!(:work_package) do
