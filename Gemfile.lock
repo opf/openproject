@@ -310,7 +310,7 @@ GEM
     awesome_nested_set (3.6.0)
       activerecord (>= 4.0.0, < 7.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.845.0)
+    aws-partitions (1.853.0)
     aws-sdk-core (3.186.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
