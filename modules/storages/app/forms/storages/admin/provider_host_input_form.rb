@@ -37,7 +37,8 @@ module Storages::Admin
         type: :url,
         pattern: ".{1,255}",
         placeholder: "https://my-file-storage.com",
-        caption: I18n.t('storages.instructions.host')
+        caption: I18n.t('storages.instructions.host'),
+        input_width: :large
       )
     end
   end

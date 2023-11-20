@@ -61,7 +61,8 @@ module Storages::Admin
         caption: nil,
         include_blank: false,
         required: true,
-        disabled: storage.persisted?
+        disabled: storage.persisted?,
+        input_width: :large
       }
     end
   end

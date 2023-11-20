@@ -370,4 +370,4 @@ end
 
 gem "openproject-octicons", '~>19.7.0'
 gem "openproject-octicons_helper", '~>19.7.0'
-gem "openproject-primer_view_components", '~>0.13.0'
+gem "openproject-primer_view_components", '~>0.16.0'
