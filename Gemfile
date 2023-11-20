@@ -329,7 +329,7 @@ end
 gem 'bootsnap', '~> 1.17.0', require: false
 
 # API gems
-gem 'grape', '~> 1.8.0'
+gem 'grape', '~> 2.0.0'
 gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 

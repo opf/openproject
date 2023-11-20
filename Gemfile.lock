@@ -545,7 +545,7 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (>= 0.16, < 2.a)
-    grape (1.8.0)
+    grape (2.0.0)
       activesupport (>= 5)
       builder
       dry-types (>= 1.1)
@@ -1101,7 +1101,7 @@ DEPENDENCIES
   gon (~> 6.4.0)
   google-apis-gmail_v1
   googleauth
-  grape (~> 1.8.0)
+  grape (~> 2.0.0)
   grape_logging (~> 1.8.4)
   grids!
   html-pipeline (~> 2.14.0)
