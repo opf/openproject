@@ -42,7 +42,7 @@ ru:
       meeting_agenda_items:
         title: "Заголовок"
         author: "Ответственный"
-        duration_in_minutes: "Продолжительность в минутах"
+        duration_in_minutes: "Duration (min)"
         description: "Заметки"
     errors:
       messages:
@@ -148,6 +148,7 @@ ru:
   label_agenda_item_move_to_bottom: "В конец"
   label_agenda_item_move_up: "Вверх"
   label_agenda_item_move_down: "Вниз"
+  label_agenda_item_add_notes: "Add notes"
   label_meeting_details: "Детали встречи"
   label_meeting_details_edit: "Изменить сведения о встрече"
   label_meeting_state_open: "Открыть"
@@ -167,6 +168,7 @@ ru:
   label_meeting_selection_caption: "Этот пакет работ можно добавить только к открытым предстоящим встречам."
   text_add_work_package_to_meeting_description: "Пакет работ может быть добавлен к одной или нескольким встречам для обсуждения. Любые заметки об этом также видны здесь."
   text_agenda_item_no_notes: "Примечания отсутствуют"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Этот пакет работ пока не включен в повестку дня предстоящей встречи."
   text_work_package_add_to_meeting_hint: "Используйте кнопку \"Добавить к встрече\", чтобы добавить этот пакет работ к предстоящей встрече."
   text_work_package_has_no_past_meeting_agenda_items: "Этот пакет работ не упоминался на прошлой встрече."

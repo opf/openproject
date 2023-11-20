@@ -42,7 +42,7 @@ lt:
       meeting_agenda_items:
         title: "Pavadinimas"
         author: "Atsakingas"
-        duration_in_minutes: "Trukmė minutėmis"
+        duration_in_minutes: "Trukmė (min)"
         description: "Pastabos"
     errors:
       messages:
@@ -148,6 +148,7 @@ lt:
   label_agenda_item_move_to_bottom: "Perkelti į apačią"
   label_agenda_item_move_up: "Aukštyn"
   label_agenda_item_move_down: "Žemyn"
+  label_agenda_item_add_notes: "Pridėti pastabų"
   label_meeting_details: "Susitikimo detalės"
   label_meeting_details_edit: "Keisti susitikimo detales"
   label_meeting_state_open: "Atidarytas"
@@ -167,6 +168,7 @@ lt:
   label_meeting_selection_caption: "Šį darbo paketą galima pridėti tik į atidarytą, artėjantį susitikimą."
   text_add_work_package_to_meeting_description: "Darbo paketą galima pridėti į vieną ar kelis susitikimus diskusijai. Bet kokios su juo susijusios pastabos taipogi bus ten matomos."
   text_agenda_item_no_notes: "Pastabos nepateiktos"
+  text_agenda_item_not_editable_anymore: "Šis plano elementas daugiau neberedaguojamas"
   text_work_package_has_no_upcoming_meeting_agenda_items: "Šis darbo paketas dar nesuplanuotas artėjančio susitikimo plane."
   text_work_package_add_to_meeting_hint: "Naudokite mygtuką „Pridėti į susitikimą“, kad pridėtumėte šį darbo paketą į ateinantį susitikimą."
   text_work_package_has_no_past_meeting_agenda_items: "Šis darbo paketas nebuvo paminėtas ankstesniame susitikime."

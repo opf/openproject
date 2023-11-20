@@ -27,6 +27,7 @@ zh-CN:
         creator: "创建者"
         provider_type: "提供商类型"
         host: "主机"
+        tenant: "Tenant"
       storages/file_link:
         origin_id: "来源 ID"
     errors:
@@ -79,6 +80,7 @@ zh-CN:
       project_folders: "项目文件夹"
       storage_provider: "存储提供商"
       openproject_oauth: "OpenProject OAuth"
+      one_drive_oauth: "Azure OAuth"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "自动托管的文件夹"
     page_titles:
@@ -99,7 +101,6 @@ zh-CN:
         title: "成员连接状态"
         subtitle: "检查所有项目成员的存储区 %{storage_name_link} 的连接状态。"
     instructions:
-      provider_type: "请确保您在 Nextcloud 实例中具有管理权限，并在进行设置之前安装了以下应用程序：%{type_link_text}"
       type: "请确保您在 Nextcloud 实例中具有管理权限，并在进行设置之前安装了以下应用程序："
       type_link_text: "“集成 OpenProject”"
       name: "为您的存储命名，以便用户可以区分多个存储。"
@@ -107,6 +108,8 @@ zh-CN:
       managed_project_folders_application_password: >
         从以下位置复制此值：
       managed_project_folders_application_password_caption: "通过从 %{provider_type_link} 复制该值来启用自动管理的文件夹。"
+      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
+      new_storage_link_text: "file storage documentation"
       no_storage_set_up: "尚未设置文件存储。"
       no_specific_folder: "默认情况下，每个用户上传文件时将从自己的主文件夹开始。"
       automatic_folder: "这将自动为此项目创建一个根文件夹，并管理每个项目成员的访问权限。"
@@ -123,24 +126,32 @@ zh-CN:
       oauth_application_details_link_text: "Nextcloud OpenProject 集成设置"
       copy_from: "复制此值自"
       nextcloud:
+        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
+        oauth_configuration: "Copy these values from %{application_link_text}."
+        application_link_text: "application “Integration OpenProject”"
         integration: "Nextcloud 管理/OpenProject"
       one_drive:
+        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
+        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
+        application_link_text: "Azure application"
         integration: "OneDrive/Sharepoint"
         oauth_client_id: >
           从 Azure 门户复制客户端 ID。这是生成重定向 URI 所必需的。
         oauth_client_secret: >
           从Azure门户复制客户端密钥。对于新创建的应用程序，首先需要手动创建密钥。对于Web应用程序的授权，密钥是必需的。
-        missing_client_id_for_redirect_uri: "缺少客户端ID以提供重定向URI。"
-        tenant_id: >
-          请插入从您 SharePoint 管理员处获得的租户 ID 。
-        drive_id: >
-          驱动器 ID 可以向您的 SharePoint 管理员获取。
+        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
+        tenant_id: "Please copy the tenant from your Azure application."
+        tenant_id_placeholder: "Name or UUID"
+        drive_id: "Please copy the drive ID from your Azure application."
+        drive_id_placeholder: "UUID or triple ID"
     help_texts:
       project_folder: >
         项目文件夹是此项目上传文件的默认文件夹。用户仍然可以上传文件到其他位置。
     configuration_checks:
       incomplete: "该存储的设置不完整。"
-      oauth_client_incomplete: "允许 OpenProject 使用 OAuth 访问 %{provider} 数据。"
+      oauth_client_incomplete:
+        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
+        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
     delete_warning:
       storage: >
         确定要删除此存储吗？此操作也将从所有使用该存储的项目中将其删除。此外，此操作还将删除从工作包到该存储中存储的文件的所有链接。
@@ -161,8 +172,9 @@ zh-CN:
     label_provider: "提供商"
     label_file_link: "文件链接"
     label_file_links: "文件链接"
+    label_file_storage: "File storage"
     label_creation_time: "创建时间"
-    label_connected: "已连接"
+    label_completed: "Completed"
     label_incomplete: "不完整"
     label_name: "名称"
     label_host: "主机 URL"
@@ -183,7 +195,9 @@ zh-CN:
     label_information: "附加信息"
     label_provider_type: "提供商类型"
     label_project_folder: "项目文件夹"
+    label_redirect_uri: "Redirect URI"
     label_new_storage: "新存储"
+    label_new_file_storage: "New file storage"
     label_edit_storage: "编辑存储"
     label_edit_storage_host: "编辑存储主机"
     label_edit_storage_oauth_client: "编辑存储 OAuth 客户端"
@@ -192,6 +206,7 @@ zh-CN:
     label_no_specific_folder: "未指定文件夹"
     label_automatic_folder: "新建具有自动管理权限的文件夹"
     label_no_selected_folder: "没有选定文件夹"
+    label_select_provider: "Select provider"
     label_storage: "存储"
     label_storages: "存储"
     label_status: "状态"
@@ -215,3 +230,4 @@ zh-CN:
     oauth_client_details_missing: "要完成设置，请从您的存储中添加 OAuth 客户端凭据。"
     automatically_managed_project_folder_missing: "要完成设置，请为您的存储区配置自动托管的项目文件夹。"
     notice_oauth_application_replaced: "已成功替换 OpenProject OAuth 应用程序。"
+    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."

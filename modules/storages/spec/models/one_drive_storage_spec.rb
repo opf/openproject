@@ -50,7 +50,9 @@ RSpec.describe Storages::OneDriveStorage do
 
         aggregate_failures 'configuration_checks' do
           expect(storage.configuration_checks)
-            .to eq(storage_oauth_client_configured: true)
+            .to eq(host_name_configured: true,
+                   storage_oauth_client_configured: true,
+                   storage_tenant_drive_configured: true)
         end
       end
     end

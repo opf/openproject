@@ -31,19 +31,19 @@ ka:
         type: "Meeting type"
         location: "მდებარეობა"
         duration: "ხანგრძლივობა"
-        notes: "Notes"
+        notes: "შენიშვნები"
         participants: "Participants"
         participants_attended: "დამსწრეები"
         participants_invited: "მოწვეულები"
         project: "პროექტი"
-        start_date: "Date"
+        start_date: "თარიღი"
         start_time: "დრო"
         start_time_hour: "Starting time"
       meeting_agenda_items:
-        title: "Title"
+        title: "სათაური"
         author: "Responsible"
-        duration_in_minutes: "Duration in minutes"
-        description: "Notes"
+        duration_in_minutes: "Duration (min)"
+        description: "შენიშვნები"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
@@ -78,8 +78,8 @@ ka:
   label_meeting_diff: "სხვაობა"
   label_upcoming_meetings: "Upcoming meetings"
   label_past_meetings: "Past meetings"
-  label_upcoming_meetings_short: "Upcoming"
-  label_past_meetings_short: "Past"
+  label_upcoming_meetings_short: "მომავალი"
+  label_past_meetings_short: "წარს"
   label_involvement: "Involvement"
   label_upcoming_invitations: "Upcoming invitations"
   label_past_invitations: "Past invitations"
@@ -103,9 +103,9 @@ ka:
         new_date_time: "New date/time"
     label_mail_all_participants: "Send email to all participants"
     types:
-      classic: 'Classic'
+      classic: 'კლასიკური'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
-      structured: 'Dynamic'
+      structured: 'დინამიკური'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
     copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notification sent successfully"
@@ -146,12 +146,13 @@ ka:
   label_agenda_item_actions: "Agenda items actions"
   label_agenda_item_move_to_top: "Move to top"
   label_agenda_item_move_to_bottom: "Move to bottom"
-  label_agenda_item_move_up: "Move up"
-  label_agenda_item_move_down: "Move down"
+  label_agenda_item_move_up: "აწევა"
+  label_agenda_item_move_down: "ჩატანა"
+  label_agenda_item_add_notes: "შენიშვნების დამატება"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
-  label_meeting_state_open: "Open"
-  label_meeting_state_closed: "Closed"
+  label_meeting_state_open: "გახსნა"
+  label_meeting_state_closed: "დახურულია"
   label_meeting_reopen_action: "Reopen meeting"
   label_meeting_close_action: "Close meeting"
   text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
@@ -167,6 +168,7 @@ ka:
   label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
   text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
   text_agenda_item_no_notes: "No notes provided"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
   text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
   text_work_package_add_to_meeting_hint: "Use the \"Add to meeting\" button to add this work package to an upcoming meeting."
   text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

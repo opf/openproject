@@ -51,7 +51,7 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
         meeting.update_column(:state, :closed)
       end
 
-      it_behaves_like 'contract is invalid', base: I18n.t(:text_meeting_not_editable_anymore)
+      it_behaves_like 'contract is invalid', base: I18n.t(:text_agenda_item_not_editable_anymore)
     end
 
     context 'when an item_type is provided' do

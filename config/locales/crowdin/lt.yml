@@ -598,7 +598,7 @@ lt:
           title: "Darbo dienos"
           false: "tik darbo dienos"
           true: "įtraukti nedarbo dienas"
-        notify: "Notify" #used in custom actions
+        notify: "Pranešti" #used in custom actions
         parent: "Tėvas"
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"
@@ -1787,7 +1787,7 @@ lt:
   label_enterprise_active_users: "%{current}/%{limit} aktyviai naudojami naudotojai"
   label_enterprise_edition: "Enterprise versija"
   label_enterprise_support: "„Enterprise“ palaikymas"
-  label_enterprise_addon: "Enterprise add-on"
+  label_enterprise_addon: "Enterprise priedas"
   label_environment: "Aplinka"
   label_estimates_and_time: "Sąmatos ir laikas"
   label_equals: "yra"
@@ -2260,7 +2260,7 @@ lt:
         create_account: "Kas prieitumėte prie šio darbo paketo, jums reikia sukurti %{instance} paskyrą. "
         open_work_package: "Atverti darbo paketą"
         subject: "Su jumis bendrinamas darbo paketas #%{id}"
-        enterprise_text: "Share work packages with users who are not members of the project."
+        enterprise_text: "Dalintis darbo paketais su naudotojais, kurie nėra projekto nariai."
         summary:
           user: "%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}"
           group: "%{user} bendrino darbo paketą su grupe %{group}, kurios narys esate ir jūs"
@@ -2960,7 +2960,7 @@ lt:
   help_texts:
     views:
       project: >
-        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
+        %{plural} visada prisegti prie šio projekto. Jūs galite pažymėti tik projektus, kur modulis %{plural} yra aktyvus. Sukūrę %{singular} jūs galite į jį pridėti darbo paketus iš kitų projektų.
       public: "Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus."
       favoured: "Pažymėti šį vaizdą kaip mėgstamiausią ir pridėti į įrašytų vaizdų dėklą kairėje."
   time:
@@ -3069,12 +3069,12 @@ lt:
         one: "1 naudotojas"
         other: "%{count} naudotojai"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        project_member: 'Projekto nariai'
+        not_project_member: 'Ne projekto nariai'
+        project_group: 'Projekto grupė'
+        not_project_group: 'Ne projekto grupė'
+        role: 'Vaidmuo'
+        type: 'Tipas'
       label_search: "Ieškoti naudotojų pakvietimui"
       label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
       label_toggle_all: "Perjungti visus bendrinimus"
@@ -3303,7 +3303,7 @@ lt:
     response:
       unexpected: "Gautas netikėtas atsakas."
   you: jūs
-  link: link
+  link: nuoroda
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Priedai"
     description: "Openproject autentifikacijos OmniAuth strategijos teikėjų integracija."
