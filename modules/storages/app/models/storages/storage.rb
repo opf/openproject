@@ -89,22 +89,20 @@ module Storages
     end
 
     def mark_as_unhealthy(reason: nil)
-      return true if unhealthy?
-
       update(health_status: 'unhealthy', health_changed_at: Time.now.utc, health_reason: reason)
     end
 
     def mark_as_healthy
-      return true if healthy?
-
       update(health_status: 'healthy', health_changed_at: Time.now.utc, health_reason: nil)
     end
 
     def healthy?
+      mark_as_healthy if health_status.nil?
       health_status == 'healthy'
     end
 
     def unhealthy?
+      mark_as_healthy if health_status.nil?
       health_status == 'unhealthy'
     end
 

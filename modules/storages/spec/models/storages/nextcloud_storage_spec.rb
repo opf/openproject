@@ -76,6 +76,40 @@ RSpec.describe Storages::NextcloudStorage do
     end
   end
 
+  describe '#healthy?' do
+    it 'marks as healthy if health_status is nil' do
+      expect do
+        storage.healthy?
+      end.to(change(storage, :health_status).from(nil).to('healthy'))
+      expect(storage).to be_healthy
+    end
+
+    it 'does not mark as healthy if health_status has been defined earlier' do
+      storage.mark_as_unhealthy
+      expect do
+        storage.healthy?
+      end.not_to(change(storage, :health_status).from('unhealthy'))
+      expect(storage).not_to be_healthy
+    end
+  end
+
+  describe '#unhealthy?' do
+    it 'marks as healthy if health_status is nil' do
+      expect do
+        storage.unhealthy?
+      end.to(change(storage, :health_status).from(nil).to('healthy'))
+      expect(storage).to be_healthy
+    end
+
+    it 'does not mark as healthy if health_status has been defined earlier' do
+      storage.mark_as_healthy
+      expect do
+        storage.unhealthy?
+      end.not_to(change(storage, :health_status).from('healthy'))
+      expect(storage).not_to be_unhealthy
+    end
+  end
+
   describe '#configured?' do
     context 'with a complete configuration' do
       let(:storage) do
