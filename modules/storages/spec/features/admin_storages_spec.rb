@@ -91,6 +91,12 @@ RSpec.describe 'Admin storages',
 
   describe 'New file storage', with_flag: { storage_primer_design: true } do
     context 'with Nextcloud Storage' do
+      let(:secret) { 'awesome_secret' }
+
+      before do
+        allow(Doorkeeper::OAuth::Helpers::UniqueToken).to receive(:generate).and_return(secret)
+      end
+
       it 'renders a Nextcloud specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
@@ -153,7 +159,7 @@ RSpec.describe 'Admin storages',
             expect(page).to have_css('#openproject_oauth_application_uid',
                                      value: storage.reload.oauth_application.uid)
             expect(page).to have_css('#openproject_oauth_application_secret',
-                                     value: storage.reload.oauth_application.secret)
+                                     value: secret)
 
             click_link 'Done, continue'
           end
@@ -304,8 +310,10 @@ RSpec.describe 'Admin storages',
       let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
       let(:oauth_application) { create(:oauth_application, integration: storage) }
       let(:oauth_client) { create(:oauth_client, integration: storage) }
+      let(:secret) { 'awesome_secret' }
 
       before do
+        allow(Doorkeeper::OAuth::Helpers::UniqueToken).to receive(:generate).and_return(secret)
         oauth_application
         oauth_client
       end
@@ -385,7 +393,7 @@ RSpec.describe 'Admin storages',
             expect(page).to have_css('#openproject_oauth_application_uid',
                                      value: storage.reload.oauth_application.uid)
             expect(page).to have_css('#openproject_oauth_application_secret',
-                                     value: storage.reload.oauth_application.secret)
+                                     value: secret)
 
             click_link 'Done, continue'
           end
