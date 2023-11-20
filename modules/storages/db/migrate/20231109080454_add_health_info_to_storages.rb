@@ -27,6 +27,14 @@
 
 class AddHealthInfoToStorages < ActiveRecord::Migration[7.0]
   def change
-    add_column :storages, :health_info, :jsonb, null: false, default: {}
+    add_column(
+      :storages,
+      :health_info,
+      :jsonb,
+      null: false,
+      default: -> do
+        "jsonb_build_object('status', 'unhealthy', 'changed_at', now(), 'reason', 'Not configured')"
+      end
+    )
   end
 end

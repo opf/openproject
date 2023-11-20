@@ -73,6 +73,13 @@ module Storages
       where.not(id: project.project_storages.pluck(:storage_id))
     end
 
+    before_save do |storage|
+      # there is a default value set on the database level
+      # but with store_attributes defined new instance have {} as a default value
+      # health_info is set to be nil before save then database will set the default.
+      storage.health_info = nil if health_info == {}
+    end
+
     store_attribute :health_info, :status, :string, prefix: :health
     store_attribute :health_info, :changed_at, :datetime, prefix: :health
     store_attribute :health_info, :reason, :string, prefix: :health
@@ -97,12 +104,10 @@ module Storages
     end
 
     def healthy?
-      mark_as_healthy if health_status.nil?
       health_status == 'healthy'
     end
 
     def unhealthy?
-      mark_as_healthy if health_status.nil?
       health_status == 'unhealthy'
     end
 

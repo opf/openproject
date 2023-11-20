@@ -42,71 +42,34 @@ RSpec.describe Storages::NextcloudStorage do
     it { expect(storage).not_to be_a_provider_type_one_drive }
   end
 
-  describe '#mark_as_unhealthy' do
-    it 'fills health atrributes in' do
-      Timecop.freeze('2023-03-14T15:17:00Z') do
-        expect do
-          storage.mark_as_unhealthy(reason: 'thou_shall_not_pass_error')
-        end.to(
-          change(storage, :health_changed_at).from(nil).to(Time.now.utc)
-            .and(change(storage, :health_status).from(nil).to('unhealthy'))
-            .and(change(storage, :health_reason).from(nil).to('thou_shall_not_pass_error'))
-        )
-      end
-    end
-  end
+  describe 'health' do
+    it 'can be marked as healthy or unhealthy' do
+      # reload is here because health_info default value is set by the database
+      # and not returned with default save/create AR method
+      storage.reload
+      healthy_time = Time.parse '2021-03-14T15:17:00Z'
+      unhealthy_time = Time.parse '2023-03-14T15:17:00Z'
 
-  describe '#mark_as_healthy' do
-    before do
-      Timecop.freeze('2021-03-14T15:17:00Z') do
-        storage.mark_as_unhealthy(reason: 'just nope')
-      end
-    end
-
-    it 'fills health atrributes in' do
-      Timecop.freeze('2023-03-14T15:17:00Z') do
+      Timecop.freeze(healthy_time) do
         expect do
           storage.mark_as_healthy
-        end.to(
-          change(storage, :health_changed_at).from(Time.parse('2021-03-14T15:17:00Z')).to(Time.now.utc)
-            .and(change(storage, :health_status).from('unhealthy').to('healthy'))
-            .and(change(storage, :health_reason).from('just nope').to(nil))
-        )
+        end.to(change(storage, :health_changed_at).to(healthy_time)
+                 .and(change(storage, :health_status).from('unhealthy').to('healthy'))
+                 .and(change(storage, :health_reason).from('Not configured').to(nil)))
+        expect(storage.healthy?).to eq(true)
+        expect(storage.unhealthy?).to eq(false)
       end
-    end
-  end
 
-  describe '#healthy?' do
-    it 'marks as healthy if health_status is nil' do
-      expect do
-        storage.healthy?
-      end.to(change(storage, :health_status).from(nil).to('healthy'))
-      expect(storage).to be_healthy
-    end
 
-    it 'does not mark as healthy if health_status has been defined earlier' do
-      storage.mark_as_unhealthy
-      expect do
-        storage.healthy?
-      end.not_to(change(storage, :health_status).from('unhealthy'))
-      expect(storage).not_to be_healthy
-    end
-  end
-
-  describe '#unhealthy?' do
-    it 'marks as healthy if health_status is nil' do
-      expect do
-        storage.unhealthy?
-      end.to(change(storage, :health_status).from(nil).to('healthy'))
-      expect(storage).to be_healthy
-    end
-
-    it 'does not mark as healthy if health_status has been defined earlier' do
-      storage.mark_as_healthy
-      expect do
-        storage.unhealthy?
-      end.not_to(change(storage, :health_status).from('healthy'))
-      expect(storage).not_to be_unhealthy
+      Timecop.freeze(unhealthy_time) do
+        expect do
+          storage.mark_as_unhealthy(reason: 'thou_shall_not_pass_error')
+        end.to(change(storage, :health_changed_at).from(healthy_time).to(unhealthy_time)
+                 .and(change(storage, :health_status).from('healthy').to('unhealthy'))
+                 .and(change(storage, :health_reason).from(nil).to('thou_shall_not_pass_error')))
+      end
+      expect(storage.healthy?).to eq(false)
+      expect(storage.unhealthy?).to eq(true)
     end
   end
 
