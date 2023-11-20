@@ -31,7 +31,7 @@ class WorkPackageMeetingsTabController < ApplicationController
   include Meetings::WorkPackageMeetingsTabComponentStreams
 
   before_action :set_work_package
-  before_action :authorize
+  before_action :authorize_global
 
   def index
     direction = params[:direction]&.to_sym || :upcoming # default to upcoming
@@ -48,6 +48,11 @@ class WorkPackageMeetingsTabController < ApplicationController
       ),
       layout: false
     )
+  end
+
+  def count
+    count = get_grouped_agenda_items(:upcoming).count
+    render json: { count: }
   end
 
   def add_work_package_to_meeting_dialog
@@ -97,8 +102,8 @@ class WorkPackageMeetingsTabController < ApplicationController
   end
 
   def set_agenda_items(direction)
-    upcoming_agenda_items_grouped_by_meeting = get_agenda_items_of_work_package(:upcoming).group_by(&:meeting)
-    past_agenda_items_grouped_by_meeting = get_agenda_items_of_work_package(:past).group_by(&:meeting)
+    upcoming_agenda_items_grouped_by_meeting = get_grouped_agenda_items(:upcoming)
+    past_agenda_items_grouped_by_meeting = get_grouped_agenda_items(:past)
 
     @upcoming_meetings_count = upcoming_agenda_items_grouped_by_meeting.count
     @past_meetings_count = past_agenda_items_grouped_by_meeting.count
@@ -109,6 +114,10 @@ class WorkPackageMeetingsTabController < ApplicationController
                                        when :past
                                          past_agenda_items_grouped_by_meeting
                                        end
+  end
+
+  def get_grouped_agenda_items(direction)
+    get_agenda_items_of_work_package(direction).group_by(&:meeting)
   end
 
   def get_agenda_items_of_work_package(direction)
