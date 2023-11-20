@@ -182,7 +182,7 @@ module Storages
     def ensure_folders_exist(remote_folders)
       id_folder_map = remote_folders.to_h { |folder, properties| [properties['fileid'], folder] }
 
-      active_project_storages_scope.map do |project_storage|
+      active_project_storages_scope.includes(:project).map do |project_storage|
         next create_folder(project_storage) unless id_folder_map.key?(project_storage.project_folder_id)
 
         current_path = id_folder_map[project_storage.project_folder_id]
