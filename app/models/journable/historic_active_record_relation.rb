@@ -115,7 +115,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     # Based on the previous modifications, build the algebra object.
     arel = relation.call_original_build_arel(aliases)
     arel = modify_order_clauses(arel)
-    modify_joins(arel)
+    arel = modify_joins(arel)
+    modify_where_clauses(arel)
   end
 
   def call_original_build_arel(aliases = nil)
@@ -362,6 +363,42 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       end
     end
     arel
+  end
+
+  def modify_where_clauses(arel)
+    arel.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
+      core.instance_variable_get(:@wheres).each do |where_clause|
+        modify_conditions(where_clause)
+      end
+    end
+
+    arel
+  end
+
+  def modify_conditions(node)
+    puts "#{node.class}: #{node.respond_to?(:to_sql) ? node.to_sql : node.inspect}"
+
+    if node.kind_of? Arel::TreeManager
+      node.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
+        modify_conditions(core)
+      end
+    elsif node.kind_of? Arel::Nodes::SelectCore
+      source = node.instance_variable_get(:@source)
+      modify_conditions(source.left)
+      source.right.each do |src|
+        modify_conditions(src)
+      end
+    elsif node.kind_of?(Arel::Nodes::On)
+      [node.expr.left, node.expr.right].each { |child| modify_conditions(child) }
+    elsif node.kind_of? Arel::Nodes::Casted
+      puts "Casted: #{node.value}"
+    elsif node.kind_of?(Arel::Attributes::Attribute)
+      puts "#{node.relation&.name}.#{node.name}"
+    elsif node.kind_of? Arel::Nodes::NodeExpression
+      [node.left, node.right].each { |child| modify_conditions(child) }
+    end
+
+    node
   end
 
   # Replace table names in sql strings, e.g.
