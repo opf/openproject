@@ -193,7 +193,8 @@ module API
           }
         end
 
-        link :revisions do
+        link :revisions,
+             cache_if: -> { current_user.allowed_in_project?(:view_changesets, represented.project) } do
           {
             href: api_v3_paths.work_package_revisions(represented.id)
           }
