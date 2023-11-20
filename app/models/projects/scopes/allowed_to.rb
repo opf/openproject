@@ -111,10 +111,10 @@ module Projects::Scopes
       end
 
       def allowed_to_member(user, permissions)
-        where(arel_table[:id].in(allowed_to_member_relation(user, permissions)
-                                   .select(arel_table[:id])
-                                   .arel
-                                   .union(:all, allowed_to_non_member_relation(user, permissions).select(:id).arel)))
+        allowed_via_membership = allowed_to_member_relation(user, permissions).select(arel_table[:id]).arel
+        allowed_via_non_member = allowed_to_non_member_relation(user, permissions).select(:id).arel
+
+        where(arel_table[:id].in(Arel::Nodes::UnionAll.new(allowed_via_membership, allowed_via_non_member)))
       end
 
       def allowed_to_admin_relation(permissions)
@@ -124,6 +124,7 @@ module Projects::Scopes
 
       def allowed_to_member_relation(user, permissions)
         Member
+          .where(entity_id: nil, entity_type: nil)
           .joins(allowed_to_member_in_active_project_join(user))
           .joins(allowed_to_enabled_module_join(permissions))
           .joins(:roles)
