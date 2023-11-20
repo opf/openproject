@@ -38,9 +38,9 @@
                     header_actions.with_column(mr: 2) do
                       render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                            select_variant: :single,
-                                                           color: :subtle,
+                                                           color: :muted,
                                                            data: { 'test-selector': 'op-share-wp-filter-type' })) do |menu|
-                        menu.with_show_button(scheme: :invisible, color: :subtle) do |button|
+                        menu.with_show_button(scheme: :invisible, color: :muted) do |button|
                           button.with_trailing_action_icon(icon: "triangle-down")
                           I18n.t('work_package.sharing.filter.type')
                         end
@@ -58,9 +58,9 @@
                     header_actions.with_column do
                       render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                            select_variant: :single,
-                                                           color: :subtle,
+                                                           color: :muted,
                                                            data: { 'test-selector': 'op-share-wp-filter-role' })) do |menu|
-                        menu.with_show_button(scheme: :invisible, color: :subtle) do |button|
+                        menu.with_show_button(scheme: :invisible, color: :muted) do |button|
                           button.with_trailing_action_icon(icon: "triangle-down")
                           I18n.t('work_package.sharing.filter.role')
                         end
