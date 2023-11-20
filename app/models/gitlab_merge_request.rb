@@ -34,7 +34,6 @@ class GitlabMergeRequest < ApplicationRecord
 
   has_and_belongs_to_many :work_packages
   has_many :gitlab_pipelines, dependent: :destroy
-  has_many :github_check_runs, dependent: :destroy
   belongs_to :gitlab_user, optional: true
   belongs_to :merged_by, optional: true, class_name: 'GitlabUser'
 

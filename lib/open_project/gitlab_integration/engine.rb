@@ -76,6 +76,10 @@ module OpenProject::GitlabIntegration
       "#{work_package(id)}/gitlab_merge_requests"
     end
 
+    add_api_path :gitlab_issues_by_work_package do |id|
+      "#{work_package(id)}/gitlab_issues"
+    end
+
     add_api_path :gitlab_user do |id|
       "gitlab_users/#{id}"
     end
@@ -86,6 +90,10 @@ module OpenProject::GitlabIntegration
 
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::GitlabMergeRequests::GitlabMergeRequestsByWorkPackageAPI
+    end
+    
+    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+      mount ::API::V3::GitlabIssues::GitlabIssuesByWorkPackageAPI
     end
 
     config.to_prepare do

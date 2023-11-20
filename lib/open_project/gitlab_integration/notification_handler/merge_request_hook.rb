@@ -33,7 +33,7 @@ module OpenProject::GitlabIntegration
     # Handles Gitlab merge request notifications.
     class MergeRequestHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
-      
+
       def process(payload_params)
         update_status_on_new_mr = false # true if you only reference one merge by work_package, else false.
         update_status_on_merged = false # true if you only reference one merge by work_package, else false.
@@ -48,10 +48,10 @@ module OpenProject::GitlabIntegration
         return unless (accepted_actions.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
 
         user = User.find_by_id(payload.open_project_user_id)
-        text = payload.object_attributes.title
+        text = payload.object_attributes.title + ' - ' + payload.object_attributes.description
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
-        
+
         if (accepted_actions_for_comments.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
           comment_on_referenced_work_packages(work_packages, user, notes)
           if payload.object_attributes.state == 'opened' && update_status_on_new_mr
@@ -76,7 +76,7 @@ module OpenProject::GitlabIntegration
           'edited' => 'referenced',
           'referenced' => 'referenced'
         }[payload.object_attributes.state]
-  
+
         key_action = {
           'reopen' => 'reopened'
         }[payload.object_attributes.action]

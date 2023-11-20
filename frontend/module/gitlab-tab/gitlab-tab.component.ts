@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2021 Ben Tey
+// Copyright (C) 2023 Ben Tey
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,10 @@ import { PathHelperService } from "core-app/core/path-helper/path-helper.service
 
 @Component({
   selector: 'gitlab-tab',
-  templateUrl: './gitlab-tab.template.html'
+  templateUrl: './gitlab-tab.template.html',
+  styleUrls: [
+    './gitlab-tab.component.sass',
+  ]
 })
 export class GitlabTabComponent implements TabComponent {
   @Input() public workPackage:WorkPackageResource;

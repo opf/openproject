@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2021 Ben Tey
+// Copyright (C) 2023 Ben Tey
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,17 +27,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+.gitlab-mr-header
+  display: flex
+  flex-wrap: wrap-reverse
+  justify-content: flex-end
 
-export class GitlabPipelineResource extends HalResource {
-  public get state() {
-    return this.states.projects.get(this.id!) as any;
-  }
+  border-bottom: 1px solid #ddd
+  background-color: var(--body-background)
 
-  /**
-   * Exclude the schema _link from the linkable Resources.
-   */
-  public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), 'schema');
-  }
-}
+  .title
+    flex: 1 1 auto
+    border-bottom: 0
+    margin: 0
+    padding: 0 0 0 4px
+    font-weight: bold
+    font-size: 1rem
+    line-height: 32px
+    text-transform: uppercase
+    align-self: baseline
+
+  .s16x32
+    width: 16px
+    height: 32px

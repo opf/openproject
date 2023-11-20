@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2021 Ben Tey
+// Copyright (C) 2023 Ben Tey
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,28 +27,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input } from '@angular/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+@import "helpers"
 
-@Component({
-  selector: 'tab-header',
-  templateUrl: './tab-header.template.html',
-  styleUrls: [
-    './styles/tab-header.sass'
-  ]
-})
-export class TabHeaderComponent {
-  @Input() public workPackage:WorkPackageResource;
-
-  public text = {
-    title: this.I18n.t('js.gitlab_integration.tab_header.title'),
-    // createPrButtonLabel: this.I18n.t('js.gitlab_integration.tab_header.create_mr.label'),
-    // createPrButtonDescription: this.I18n.t('js.gitlab_integration.tab_header.create_mr.description'),
-    gitMenuLabel: this.I18n.t('js.gitlab_integration.tab_header.copy_menu.label'),
-    gitMenuDescription: this.I18n.t('js.gitlab_integration.tab_header.copy_menu.description'),
-  };
-
-  constructor(readonly I18n:I18nService) {
-  }
-}
+:host,
+.gitlab-header
+  position: sticky
+  top: 0
+  z-index: 850 // Ensure the header is above other content

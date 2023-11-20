@@ -46,6 +46,8 @@ module API
         property :status
         property :details_url
         property :ci_details
+        property :username
+        property :commit_id, as: :commitId
 
         date_time_property :started_at
         date_time_property :completed_at

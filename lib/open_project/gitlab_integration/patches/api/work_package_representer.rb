@@ -52,6 +52,15 @@ module OpenProject::GitlabIntegration
                 title: "Gitlab merge requests"
               }
             end
+
+            link :gitlab_issues do
+              next if represented.new_record?
+
+              {
+                href: api_v3_paths.gitlab_issues_by_work_package(represented.id),
+                title: "Gitlab Issues"
+              }
+            end
           end
         end
       end

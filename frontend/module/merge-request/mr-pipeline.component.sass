@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2021 Ben Tey
+// Copyright (C) 2023 Ben Tey
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,13 @@
 .op-mr-pipeline
   display: grid
   grid-row: span 4
-  grid-template-columns: 28px 33px 1fr auto
-  grid-template-areas: "pipeline-state-icon pipeline-avatar pipeline-info pipeline-details"
+  grid-template-columns: 28px 1fr auto // auto
+  grid-template-areas: "pipeline-state-icon pipeline-info pipeline-avatar" // pipeline-details"
   list-style-type: none
-  border: 1px solid #dddddd
+  border: 1px solid #e4e4e4
   padding: 0.3rem 1rem
-  background: rgba(0, 0, 0, 0.05)
-  font-size: 0.9rem
+  // background: rgba(0, 0, 0, 0.05)
+  font-size: 0.84rem
 
   &:first-child
     border-top-right-radius: 5px
@@ -67,13 +67,13 @@
     &_queued
       color: cadetblue
 
-    &_in_progress
+    &_running
       color: orange
 
     &_success
       color: green
 
-    &_failure,
+    &_failed,
     &_timed_out,
     &_action_required,
     &_stale

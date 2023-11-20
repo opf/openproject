@@ -42,10 +42,10 @@ module OpenProject::GitlabIntegration
         return unless merge_request
 
         # disabled until gitlab issue resolution
-        # OpenProject::GitlabIntegration::Services::UpsertPipeline.new.call(
-        #   payload,
-        #   merge_request: merge_request
-        # )
+        OpenProject::GitlabIntegration::Services::UpsertPipeline.new.call(
+          payload,
+          merge_request: merge_request
+        )
       end
 
       private

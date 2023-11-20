@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2021 Ben Tey
+// Copyright (C) 2023 Ben Tey
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,20 +27,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-.gitlab-mr-header
-  display: flex
-  flex-wrap: wrap-reverse
-  justify-content: flex-end
+import { Component, Input } from '@angular/core';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
-  border-bottom: 1px solid #ddd
+@Component({
+  selector: 'tab-header-issue',
+  templateUrl: './tab-header-issue.template.html',
+  styleUrls: [
+    './styles/tab-header-issue.sass'
+  ]
+})
+export class TabHeaderIssueComponent {
+  @Input() public workPackage:WorkPackageResource;
 
+  public text = {
+    title: this.I18n.t('js.gitlab_integration.tab_header_issue.title'),
+  };
 
-  .title
-    flex: 1 1 auto
-    border-bottom: 0
-    margin: 0
-    padding: 0
-    font-weight: bold
-    font-size: 1rem
-    line-height: 32px
-    text-transform: uppercase
+  constructor(readonly I18n:I18nService) {
+  }
+}

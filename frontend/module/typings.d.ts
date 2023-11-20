@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2021 Ben Tey
+// Copyright (C) 2023 Ben Tey
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,25 @@ export interface ISnippet {
   id:string;
   name:string;
   textToCopy:()=>string
+}
+
+export interface IGitlabIssueResource extends HalResourceClass {
+  body?:{
+    format?:string;
+    raw?:string;
+    html?:string;
+  },
+  createdAt?:string;
+  gitlabUpdatedAt?:string;
+  htmlUrl?:string;
+  id?:number;
+  labels?:string[];
+  number?:number;
+  repository?:string;
+  state?:string;
+  title?:string;
+  updatedAt?:string;
+  gitlabUser?:IGitlabUserResource;
 }
 
 export interface IGitlabMergeRequestResource extends HalResourceClass {
@@ -74,4 +93,7 @@ export interface IGitlabPipelineResource {
   name:string;
   startedAt:string;
   status:string;
+  ci_details:string[];
+  username:string;
+  commitId:string;
 }

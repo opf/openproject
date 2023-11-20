@@ -1,19 +1,17 @@
 # openproject-gitlab-integration
 
-## NEW VERSION 2.0.9 GA
+## NEW VERSION 2.0.6 GA
 
-Based on the current Github integration (OpenProject 12), this plugin offers the same functionalities as the current plugin for Github. This version includes changes to the DB and a new view similar to the current Github tab. Only the management of "pipelines" is pending an open issue in Gitlab (https://gitlab.com/gitlab-org/gitlab/-/issues/345028).
+Based on the current Github integration (OpenProject 12), this plugin offers the same functionalities as the current plugin for Github (and something else). This version includes changes to the DB and a new view similar to the current Github tab. Only the management of "pipelines" is pending an open issue in Gitlab (https://gitlab.com/gitlab-org/gitlab/-/issues/345028).
 
-<img width="559" alt="preview" src="https://user-images.githubusercontent.com/14983519/225098893-a8753955-ef14-4494-b06b-673267cbda7e.png">
+![OP-Gitlab](https://user-images.githubusercontent.com/14983519/143622798-13d1c50b-1186-46e0-a2da-9f50fb14a338.png)
 
+This 2.x version includes a UI with all linked MRs, their status, their labels and the last pipeline *(pending the Gitlab issue)*.
 ## Introduction
 
 OpenProject module for integration with Gitlab:
-* Latest Gitlab release tested: **15.9**
-* Latest OpenProject release tested: **12.5.1**
-   * for OpenProject versions earlier than 12.4.5 use v2.0.8
-   * for OpenProject versions earlier than 12.2.0 use v2.0.5
-   * for OpenProject versions earlier than 12.1.0 use v2.0.4
+* Latest Gitlab release tested: **15.3.1**
+* Latest OpenProject release tested: **12.2.1** (for OpenProject versions earlier than 12.2.0 use v2.0.5, and for version earlier than 12.1.0 use v2.0.4)
 
 This plugin is based on the current [plugin to integrate Github with OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
 
@@ -159,7 +157,7 @@ Add the following in **Gemfile.lock**:
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.0.9)
+    openproject-gitlab_integration (2.0.6)
       openproject-webhooks
 ```
 
@@ -210,10 +208,10 @@ In Gitlab you have to set up a webhook in each repository to be integrated with 
 
 You need to configure just two things in the webhook:
 
-1. The URL must point to your OpenProject server’s Gitlab webhook endpoint (/webhooks/gitlab). Append it to the URL as a simple GET parameter named key with previouslly generated token as value. In the end the URL should look something like this:
+1. The URL must point to your OpenProject server’s Gitlab webhook endpoint (/webhooks/gitlab). Append it to the URL as a simple GET parameter named key. In the end the URL should look something like this:
    
    ```
-   http://openproject-url.com/webhooks/gitlab?key=generated_access_token
+   http://openproject-url.com/webhooks/gitlab?key=ae278268
    ```
 
 2. Enable the required triggers:

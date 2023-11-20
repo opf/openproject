@@ -41,6 +41,7 @@ module OpenProject::GitlabIntegration
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
         comment_on_referenced_work_packages(work_packages, user, notes)
+        upsert_issue(work_packages)
       end
 
       private
@@ -65,6 +66,19 @@ module OpenProject::GitlabIntegration
           :repository_url => payload.repository.homepage,
           :gitlab_user => payload.user.name,
           :gitlab_user_url => payload.user.avatar_url)
+      end
+
+      def gitlab_issue
+        @gitlab_issue ||= GitlabIssue
+                            .where(gitlab_id: payload.object_attributes.iid)
+                            .or(GitlabIssue.where(gitlab_html_url: payload.object_attributes.url))
+                            .take
+      end
+
+      def upsert_issue(work_packages)
+        return if work_packages.empty? && gitlab_issue.nil?
+        OpenProject::GitlabIntegration::Services::UpsertIssue.new.call(payload,
+                                                                             work_packages: work_packages)
       end
     end
   end
