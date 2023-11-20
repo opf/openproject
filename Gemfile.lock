@@ -748,7 +748,7 @@ GEM
       pry (>= 0.12.0)
     psych (5.1.1.1)
       stringio
-    public_suffix (5.0.3)
+    public_suffix (5.0.4)
     puffing-billy (4.0.0)
       addressable (~> 2.5)
       em-http-request (~> 1.1, >= 1.1.0)
@@ -996,7 +996,7 @@ GEM
     uber (0.1.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.8.2)
+    unf_ext (0.0.9.1)
     unicode-display_width (2.5.0)
     validate_email (0.1.6)
       activemodel (>= 3.0)
