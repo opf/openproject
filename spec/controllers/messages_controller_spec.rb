@@ -173,7 +173,10 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
       end
 
       it 'escapes HTML in quoted message author' do
-        user.update!(firstname: 'Hello', lastname: '<b>world</b>')
+        user.firstname = 'Hello'
+        user.lastname = '<b>world</b>'
+        user.save! validate: false
+
         message.update!(author: user)
         get :quote, params: { forum_id: forum.id, id: message.id }, format: :json
 

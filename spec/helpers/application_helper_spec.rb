@@ -176,7 +176,8 @@ RSpec.describe ApplicationHelper do
   describe '.authoring_at' do
     it 'escapes html from author name' do
       created = '2023-06-02'
-      author = create(:user, firstname: '<b>Hello</b>', lastname: 'world')
+      author = build(:user, firstname: '<b>Hello</b>', lastname: 'world')
+      author.save! validate: false
       expect(authoring_at(created, author))
         .to eq("Added by <a href=\"/users/#{author.id}\">&lt;b&gt;Hello&lt;/b&gt; world</a> at 2023-06-02")
     end
