@@ -347,6 +347,19 @@ module Components
             .to have_text(I18n.t(:label_enterprise_addon))
         end
       end
+
+      def expect_no_user_limit_warning
+        within modal_element do
+          expect(page).not_to have_css('[data-test-selector="op-share-wp-user-limit"]')
+        end
+      end
+
+      def expect_user_limit_warning
+        within modal_element do
+          expect(page)
+            .to have_text(I18n.t('work_package.sharing.warning_user_limit_reached'))
+        end
+      end
     end
   end
 end
