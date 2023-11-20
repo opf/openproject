@@ -142,7 +142,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def find_share
-    @share = Member.of_work_packages.find(params[:id])
+    @share = Member.of_any_work_package.find(params[:id])
     @work_package = @share.entity
   end
 

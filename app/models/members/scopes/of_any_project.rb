@@ -26,32 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Principals::Scopes
-  module PossibleAssignee
+module Members::Scopes
+  module OfAnyProject
     extend ActiveSupport::Concern
 
     class_methods do
-      # Returns principals eligible to be assigned to a work package as:
-      # * assignee
-      # * responsible
-      # Those principals can be of class
-      # * User
-      # * PlaceholderUser
-      # * Group
-      # User instances need to be non locked (status).
-      # Only principals with a role marked as assignable in the project are returned.
-      # If more than one project is given, the principals need to be assignable in all of the projects (intersection).
-      # @project [Project, [Project]] The project for which eligible candidates are to be searched
-      # @return [ActiveRecord::Relation] A scope of eligible candidates
-      def possible_assignee(project)
-        where(
-          id: Member
-              .assignable
-              .of_project(project)
-              .group('user_id')
-              .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).size])
-              .select('user_id')
-        )
+      # Find all members on any project.
+      # Excludes global members and entity members.
+      def of_any_project
+        where(entity: nil)
+          .where.not(project_id: nil)
       end
     end
   end

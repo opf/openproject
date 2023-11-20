@@ -55,7 +55,7 @@ module Members
       Category
         .where(assigned_to_id: users)
         .where(project_id: project_ids)
-        .where.not(assigned_to_id: Member.assignable.of(projects).select(:user_id))
+        .where.not(assigned_to_id: Member.assignable.of_project(projects).select(:user_id))
         .update_all(assigned_to_id: nil)
     end
 

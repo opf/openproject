@@ -51,9 +51,11 @@ class Member < ApplicationRecord
   scopes :assignable,
          :global,
          :not_locked,
-         :of,
+         :of_project,
+         :of_any_project,
          :of_work_package,
-         :of_work_packages,
+         :of_any_work_package,
+         :of_any_entity,
          :visible
 
   delegate :name, to: :principal

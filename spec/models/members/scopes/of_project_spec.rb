@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Members::Scopes::Of do
+RSpec.describe Members::Scopes::OfProject do
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
   let(:role) { create(:project_role) }
@@ -76,9 +76,14 @@ RSpec.describe Members::Scopes::Of do
            entity: create(:work_package, project:),
            principal: create(:user, status: Principal.statuses[:active]))
   end
+  let!(:global_member) do
+    create(:global_member,
+           roles: [create(:global_role)],
+           principal: create(:user, status: Principal.statuses[:active]))
+  end
 
-  describe '.of' do
-    subject { Member.of(project) }
+  describe '.of_project' do
+    subject { Member.of_project(project) }
 
     it 'returns all members but not those of entities in the project' do
       expect(subject)
