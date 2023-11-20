@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe ApplicationController do
-  let(:user) { create(:user, lastname: "Crazy! Name with \r\n Newline") }
+  let(:user) { create(:user, lastname: "Crazy name") }
 
   # Fake controller to test calling an action
   controller do
@@ -41,8 +41,7 @@ RSpec.describe ApplicationController do
 
   describe 'logging requesting users' do
     let(:user_message) do
-      "OpenProject User: #{user.firstname} Crazy! Name with ## " +
-        "Newline (#{user.login} ID: #{user.id} <#{user.mail}>)"
+      "OpenProject User: #{user.firstname} Crazy name (#{user.login} ID: #{user.id} <#{user.mail}>)"
     end
 
     let(:anonymous_message) { 'OpenProject User: Anonymous' }

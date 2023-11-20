@@ -54,16 +54,11 @@ RSpec.describe 'Administrating memberships via the project settings', js: true d
            preferences: { hide_mail: true })
   end
   let!(:developer_placeholder) { create(:placeholder_user, name: 'Developer 1') }
-  let!(:crash) do
-    create(:user,
-           firstname: "<script>alert('h4x');</script>",
-           lastname: "<script>alert('h4x');</script>")
-  end
   let!(:group) do
     create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
-  let!(:manager)   { create(:role, name: 'Manager', permissions: [:manage_members]) }
+  let!(:manager) { create(:role, name: 'Manager', permissions: [:manage_members]) }
   let!(:developer) { create(:role, name: 'Developer') }
   let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
   let(:member2) { create(:member, principal: hannibal, project:, roles: [developer]) }
@@ -164,15 +159,5 @@ RSpec.describe 'Administrating memberships via the project settings', js: true d
 
     members_page.search_principal! 'Smith, H'
     expect(members_page).to have_search_result 'Hannibal Smith'
-  end
-
-  it 'Escaping should work properly when entering a name' do
-    members_page.open_new_member!
-    SeleniumHubWaiter.wait
-
-    members_page.search_principal! 'script'
-
-    expect(members_page).not_to have_alert_dialog
-    expect(members_page).to have_search_result "<script>alert('h4x');</script>"
   end
 end

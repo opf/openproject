@@ -252,6 +252,44 @@ RSpec.describe User do
     end
   end
 
+  describe 'name validation' do
+    let(:user) do
+      build(:user)
+    end
+
+    it 'restricts some options', :aggregate_failures do
+      [
+        'http://foobar.com',
+        '<script>foobar</script>',
+        'https://hello.com'
+      ].each do |name|
+        user.firstname = name
+        user.lastname = name
+        expect(user).not_to be_valid
+        expect(user.errors.symbols_for(:firstname)).to eq [:invalid]
+        expect(user.errors.symbols_for(:lastname)).to eq [:invalid]
+      end
+    end
+
+    it 'allows a lot of options', :aggregate_failures do
+      [
+        "Tim O'Reilly",
+        "🔴Emojinames",
+        "山本由紀夫",
+        "Татьяна",
+        "Users with spaces",
+        "Müller, Phd.",
+        "@invited+user.com",
+        "Foo & Bar",
+        "T’Oole"
+      ].each do |name|
+        user.firstname = name
+        user.lastname = name
+        expect(user).to be_valid
+      end
+    end
+  end
+
   describe '#name' do
     let(:user) do
       create(:user,
