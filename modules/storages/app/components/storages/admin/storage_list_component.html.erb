@@ -7,15 +7,15 @@
             render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.label_name') }
           end
 
-          grid.with_area(:user, tag: :div, color: :subtle, mr: 3, hide: :sm) do
+          grid.with_area(:user, tag: :div, color: :muted, mr: 3, hide: :sm) do
             render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.label_creator') }
           end
 
-          grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm) do
+          grid.with_area(:provider, tag: :div, color: :muted, mr: 3, hide: :sm) do
             render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.label_provider') }
           end
 
-          grid.with_area(:time, tag: :div, color: :subtle, hide: :sm) do
+          grid.with_area(:time, tag: :div, color: :muted, hide: :sm) do
             render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.label_creation_time') }
           end
         end
