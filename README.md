@@ -186,7 +186,7 @@ end
 
 **Note:** It's possible that you need to use these commands before and after the "bundle install" if you get an error in this step warning about a change in the Gemfile:
 
-```
+```shell
 bundle config unset deployment 
 bundle install --deployment --without mysql2 sqlite development test therubyracer docker
 bundle config set deployment
