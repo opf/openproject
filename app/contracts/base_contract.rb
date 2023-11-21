@@ -252,12 +252,30 @@ class BaseContract < Disposable::Twin
       next unless permissions
 
       next if permissions.any? do |perm|
-        user.allowed_based_on_permission_context?(perm,
-                                                  project: model.respond_to?(:project) ? model.project : nil,
-                                                  entity: model)
+        user.allowed_based_on_permission_context?(
+          perm,
+          project: project_for_permission_check,
+          entity: entity_for_permission_check
+        )
       end
 
       true
+    end
+  end
+
+  def project_for_permission_check
+    if model.is_a?(Project)
+      model
+    else
+      model.respond_to?(:project) ? model.project : nil
+    end
+  end
+
+  def entity_for_permission_check
+    if model.is_a?(Project)
+      nil
+    else
+      model
     end
   end
 
