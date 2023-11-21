@@ -50,6 +50,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  get 'projects/:project_id/project_storages/:id/open',
+      controller: 'storages/project_storages',
+      action: 'open',
+      as: 'open_project_storage'
   scope 'projects/:project_id', as: 'project' do
     namespace 'settings' do
       resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do

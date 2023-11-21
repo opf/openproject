@@ -159,7 +159,12 @@ module OpenProject::Storages
           User.current.allowed_in_project?(:view_file_links, project)
           project.project_storages.each do |project_storage|
             storage = project_storage.storage
-            href = "/api/v3/project_storages/#{project_storage.id}/open"
+            href = Rails
+                     .application
+                     .routes
+                     .url_helpers
+                     .open_project_storage_path(project_id: project_storage.project.identifier,
+                                                id: project_storage.id)
             icon = if storage.provider_type_nextcloud?
                      'nextcloud-circle'
                    else

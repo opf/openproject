@@ -119,7 +119,14 @@ module ApplicationHelper
   def render_flash_messages
     messages = flash
       .reject { |k, _| k.start_with? '_' }
-      .map { |k, v| render_flash_message(k, v) }
+      .map do |k, v|
+      if k.to_sym == :modal
+        component = v[:type].constantize
+        component.new(**v[:parameters]).render_in(self)
+      else
+        render_flash_message(k, v)
+      end
+    end
 
     safe_join messages, "\n"
   end
