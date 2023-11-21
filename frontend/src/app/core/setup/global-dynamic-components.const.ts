@@ -1,10 +1,6 @@
 import { OptionalBootstrapDefinition } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import {
-  EmbeddedTablesMacroComponent,
-  wpEmbeddedTableMacroSelector,
-} from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
-import {
   ColorsAutocompleterComponent,
   colorsAutocompleterSelector,
 } from 'core-app/shared/components/colors/colors-autocompleter.component';
@@ -208,7 +204,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
   { selector: attributeHelpTextSelector, cls: AttributeHelpTextComponent },
   { selector: staticAttributeHelpTextSelector, cls: StaticAttributeHelpTextComponent },
-  { selector: wpEmbeddedTableMacroSelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
