@@ -73,6 +73,8 @@ ENV APP_USER=app
 ENV APP_PATH=/app
 ENV APP_DATA_PATH=/var/openproject/assets
 ENV PGVERSION="13"
+ENV CURRENT_PGVERSION="13"
+ENV NEXT_PGVERSION="15"
 ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 ENV BUNDLE_WITHOUT="development:test"
 
@@ -103,11 +105,12 @@ RUN --mount=type=cache,target=/var/cache/apt \
   curl \
   gnupg2 \
   && curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' $PGVERSION > /etc/apt/sources.list.d/pgdg.list \
+  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
   && apt-get update -qq \
   && apt-get install -yq --no-install-recommends \
   libpq5 \
-  postgresql-client-$PGVERSION \
+  postgresql-client-$CURRENT_PGVERSION \
+  postgresql-client-$NEXT_PGVERSION \
   libffi7 \
   unrtf tesseract-ocr poppler-utils catdoc imagemagick \
   && apt-get purge -y curl gnupg2 \

@@ -3,8 +3,6 @@
 set -e
 set -o pipefail
 
-export PGBIN="$(pg_config --bindir)"
-
 display_error() {
 	echo " !--> ERROR on postinstall:"
 	tail -n 200 /tmp/dockerize.log
