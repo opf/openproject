@@ -176,7 +176,8 @@ class Project < ApplicationRecord
   }
 
   def visible?(user = User.current)
-    active? and (public? or user.admin? or user.member_of?(self))
+    active? and (public? or user.admin? or user.member_of?(self) or user.allowed_in_any_work_package?(:view_work_packages,
+                                                                                                      in_project: self))
   end
 
   def archived?
@@ -202,7 +203,8 @@ class Project < ApplicationRecord
   # to everybody having at least one role in a project regardless of the
   # role's permissions.
   def self.visible_by(user = User.current)
-    allowed_to(user, :view_project)
+    # TODO: Temporary ...
+    allowed_to(user, :view_project).or(where(id: WorkPackage.visible(user).select(:project_id)))
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.
