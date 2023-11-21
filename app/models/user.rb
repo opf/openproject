@@ -29,6 +29,7 @@
 require 'digest/sha1'
 
 class User < Principal
+  VALID_NAME_REGEX = /\A[\d\p{Alpha}\p{Mark}\p{Space}\p{Emoji}'’´\-_.,@()+&*–]+\z/
   CURRENT_USER_LOGIN_ALIAS = 'me'.freeze
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
@@ -121,7 +122,10 @@ class User < Principal
   # Login must contain letters, numbers, underscores only
   validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
   validates :login, length: { maximum: 256 }
+
   validates :firstname, :lastname, length: { maximum: 256 }
+  validates :firstname, :lastname, format: { with: VALID_NAME_REGEX, allow_blank: true }
+
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates :mail, length: { maximum: 256, allow_nil: true }
 

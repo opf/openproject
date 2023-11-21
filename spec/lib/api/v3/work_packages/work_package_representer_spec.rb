@@ -608,6 +608,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             api_v3_paths.work_package_revisions(work_package.id)
           end
         end
+
+        context 'when user lacks the view_changesets permission' do
+          let(:permissions) { all_permissions - [:view_changesets] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'revisions' }
+          end
+        end
       end
 
       describe 'version' do

@@ -637,6 +637,7 @@ ko:
         error_enterprise_only: "%{action}은(는) OpenProject Enterprise Edition에서만 사용할 수 있습니다"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "- 유효한 이메일 주소가 아닙니다."
         empty: "비워둘 수 없습니다."
         even: "에 짝수를 입력해 주세요"
@@ -2949,7 +2950,9 @@ ko:
     활성화 이메일이 만료되었습니다. %{email}(으)로 새로운 이메일이 전송되었습니다.
     이메일 내 링크를 클릭하여 계정을 활성화하세요.
   warning_user_limit_reached: >
-    사용자 제한에 도달했습니다. 더 이상 사용자를 활성화할 수 없습니다. <a href="%{upgrade_url}">플랜을 업그레이드</a>하거나 멤버를 차단하여 추가 사용자를 허용하세요.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     사용자 제한(활성 사용자 %{current}/%{max}명)에 도달했습니다. sales@openproject.com으로 연락하여 Enterprise Edition 플랜을 업그레이드하고 사용자를 더 추가하세요.
   warning_protocol_mismatch_html: >
@@ -3004,6 +3007,12 @@ ko:
       share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
   working_days:
     info: >
       선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.

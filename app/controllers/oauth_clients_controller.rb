@@ -69,7 +69,7 @@ class OAuthClientsController < ApplicationController
     end
   end
 
-  def ensure_access
+  def ensure_connection
     client_id = params.fetch(:oauth_client_id)
     storage_id = params.fetch(:storage_id)
     oauth_client = OAuthClient.find_by(client_id:, integration_id: storage_id)

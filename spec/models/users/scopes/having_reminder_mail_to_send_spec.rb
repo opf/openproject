@@ -48,7 +48,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
   let(:paris_user) do
     create(
       :user,
-      firstname: 'Europe/Paris',
+      firstname: 'Europe-Paris',
       preferences: {
         time_zone: "Europe/Paris",
         workdays: paris_user_workdays,
@@ -154,7 +154,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:hawaii_user) do
       create(
         :user,
-        firstname: 'Pacific/Honolulu',
+        firstname: 'Pacific-Honolulu',
         preferences: {
           time_zone: "Pacific/Honolulu",
           workdays: hawaii_user_workdays,
@@ -230,7 +230,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:samoa_user) do
       create(
         :user,
-        firstname: 'Pacific/Apia',
+        firstname: 'Pacific-Apia',
         preferences: {
           time_zone: "Pacific/Apia",
           workdays: samoa_user_workdays,
@@ -266,7 +266,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:moscow_user) do
       create(
         :user,
-        firstname: 'Europe/Moscow',
+        firstname: 'Europe-Moscow',
         preferences: {
           time_zone: "Europe/Moscow",
           daily_reminders: {
@@ -370,7 +370,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {
           time_zone: "Europe/Paris"
         }
@@ -389,7 +389,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {
           time_zone: "Europe/Paris"
         }
@@ -408,7 +408,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:kathmandu_user) do
       create(
         :user,
-        firstname: 'Asia/Kathmandu',
+        firstname: 'Asia-Kathmandu',
         preferences: {
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
@@ -436,7 +436,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:kathmandu_user) do
       create(
         :user,
-        firstname: 'Asia/Kathmandu',
+        firstname: 'Asia-Kathmandu',
         preferences: {
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
@@ -464,7 +464,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:kathmandu_user) do
       create(
         :user,
-        firstname: 'Asia/Kathmandu',
+        firstname: 'Asia-Kathmandu',
         preferences: {
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
@@ -557,7 +557,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {
           daily_reminders: {
             enabled: true,
@@ -577,7 +577,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {
           time_zone: '',
           daily_reminders: {
@@ -598,7 +598,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {}
       )
     end
@@ -614,7 +614,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {}
       )
     end
@@ -632,7 +632,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:moscow_user) do
       create(
         :user,
-        firstname: 'Europe/Moscow',
+        firstname: 'Europe-Moscow',
         preferences: {
           daily_reminders: {
             enabled: true,

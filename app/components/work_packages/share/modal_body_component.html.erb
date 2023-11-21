@@ -25,7 +25,7 @@
                                        controller: 'work-packages--share--bulk-selection',
                                        application_target: 'dynamic' }) do
           border_box_with_id(insert_target_modifier_id) do |border_box|
-            border_box.with_header(color: :subtle, data: { 'test-selector': 'op-share-wp-header' }) do
+            border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-wp-header' }) do
               grid_layout('op-share-wp-modal-body--header', tag: :div, align_items: :center) do |header_grid|
                 header_grid.with_area(:counter, tag: :div) do
                   render(WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: @shares.size))
@@ -38,9 +38,9 @@
                     header_actions.with_column(mr: 2) do
                       render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                            select_variant: :single,
-                                                           color: :subtle,
+                                                           color: :muted,
                                                            data: { 'test-selector': 'op-share-wp-filter-type' })) do |menu|
-                        menu.with_show_button(scheme: :invisible, color: :subtle) do |button|
+                        menu.with_show_button(scheme: :invisible, color: :muted) do |button|
                           button.with_trailing_action_icon(icon: "triangle-down")
                           I18n.t('work_package.sharing.filter.type')
                         end
@@ -58,9 +58,9 @@
                     header_actions.with_column do
                       render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                            select_variant: :single,
-                                                           color: :subtle,
+                                                           color: :muted,
                                                            data: { 'test-selector': 'op-share-wp-filter-role' })) do |menu|
-                        menu.with_show_button(scheme: :invisible, color: :subtle) do |button|
+                        menu.with_show_button(scheme: :invisible, color: :muted) do |button|
                           button.with_trailing_action_icon(icon: "triangle-down")
                           I18n.t('work_package.sharing.filter.role')
                         end

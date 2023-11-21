@@ -255,5 +255,27 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 1)
       share_modal.expect_shared_with(new_user, 'View', position: 2)
     end
+
+    context 'and an instance user limit' do
+      before do
+        allow(OpenProject::Enterprise).to receive_messages(
+          user_limit: 10,
+          open_seats_count: 1
+        )
+      end
+
+      it 'shows a warning as soon as you reach the user limit' do
+        share_modal.expect_open
+        share_modal.expect_shared_count_of(1)
+
+        # Add a non-existing user to the autocompleter
+        share_modal.select_not_existing_user_option "hello@world.de"
+        share_modal.expect_no_user_limit_warning
+
+        # Add another non-existing user that would exceed the user limit
+        share_modal.select_not_existing_user_option "hola@world.de"
+        share_modal.expect_user_limit_warning
+      end
+    end
   end
 end

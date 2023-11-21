@@ -635,6 +635,7 @@ ca:
         error_enterprise_only: "%{action} només està disponible en l'edició Enterprise d'OpenProject"
         error_unauthorized: "no és possible accedir."
         error_readonly: "es va intentar d'escriure-hi però no és modificable."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "no és una adreça de correu electrònic vàlida."
         empty: "no pot estar buit."
         even: "ha de ser parell."
@@ -2972,7 +2973,9 @@ ca:
     El correu electrònic d'activació ha caducat. N'enviarem un de nou a %{email}.
     Si us plau, fes clic a l'enllaç dins del correu per activar el teu compte.
   warning_user_limit_reached: >
-    Límit d'usuaris assolit. No pots activar cap més usuari. Si us plau, <a href="%{upgrade_url}">actualitza el teu pla</a> o bloqueja a membres per permetre nous usuaris.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     Has assolit el nombre d'usuaris límit (%{current}/%{max} usuaris actius. Si us plau, posa't en contacte amb sales@openproject.com per actualitzar la teva edició Enterpirse i afegir nous usuaris.
   warning_protocol_mismatch_html: >
@@ -3027,6 +3030,12 @@ ca:
       share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
   working_days:
     info: >
       Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.
