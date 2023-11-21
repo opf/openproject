@@ -97,7 +97,9 @@
               t("button_cancel")
             end
 
-            footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+            footer.with_component(Primer::ButtonComponent.new(scheme: :primary,
+                                                              type: :submit,
+                                                              data: { 'submit-dialog-id': "edit-participants-dialog" })) do
               t("button_save")
             end
           end

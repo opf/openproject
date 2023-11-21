@@ -31,7 +31,9 @@
               )) do
                 t("button_cancel")
               end
-              collection1.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+              collection1.with_component(Primer::ButtonComponent.new(scheme: :primary,
+                                                                     type: :submit,
+                                                                     data: { 'submit-dialog-id': "add-work-package-to-meeting-dialog" })) do
                 t("button_save")
               end
             end
