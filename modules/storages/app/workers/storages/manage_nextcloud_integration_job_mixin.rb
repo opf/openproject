@@ -43,10 +43,12 @@ module Storages
           result = GroupFolderPropertiesSyncService.call(storage)
           result.match(
             on_success: ->(_) do
-              storage.mark_as_healthy
+              storage.mark_as_healthy unless storage.healthy?
             end,
             on_failure: ->(errors) do
-              storage.mark_as_unhealthy(reason: errors.to_s)
+              if !storage.unhealthy? || storage.health_reason != errors.to_s
+                storage.mark_as_unhealthy(reason: errors.to_s)
+              end
             end
           )
         end

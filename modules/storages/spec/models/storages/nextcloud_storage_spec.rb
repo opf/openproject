@@ -42,11 +42,8 @@ RSpec.describe Storages::NextcloudStorage do
     it { expect(storage).not_to be_a_provider_type_one_drive }
   end
 
-  describe 'health' do
+  describe 'health attributes' do
     it 'can be marked as healthy or unhealthy' do
-      # reload is here because health_info default value is set by the database
-      # and not returned with default save/create AR method
-      storage.reload
       healthy_time = Time.parse '2021-03-14T15:17:00Z'
       unhealthy_time = Time.parse '2023-03-14T15:17:00Z'
 
@@ -54,12 +51,10 @@ RSpec.describe Storages::NextcloudStorage do
         expect do
           storage.mark_as_healthy
         end.to(change(storage, :health_changed_at).to(healthy_time)
-                 .and(change(storage, :health_status).from('unhealthy').to('healthy'))
-                 .and(change(storage, :health_reason).from('Not configured').to(nil)))
-        expect(storage.healthy?).to eq(true)
-        expect(storage.unhealthy?).to eq(false)
+                 .and(change(storage, :health_status).from('unconfigured').to('healthy')))
+        expect(storage.healthy?).to be(true)
+        expect(storage.unhealthy?).to be(false)
       end
-
 
       Timecop.freeze(unhealthy_time) do
         expect do
@@ -68,8 +63,8 @@ RSpec.describe Storages::NextcloudStorage do
                  .and(change(storage, :health_status).from('healthy').to('unhealthy'))
                  .and(change(storage, :health_reason).from(nil).to('thou_shall_not_pass_error')))
       end
-      expect(storage.healthy?).to eq(false)
-      expect(storage.unhealthy?).to eq(true)
+      expect(storage.healthy?).to be(false)
+      expect(storage.unhealthy?).to be(true)
     end
   end
 

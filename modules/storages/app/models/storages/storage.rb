@@ -73,16 +73,11 @@ module Storages
       where.not(id: project.project_storages.pluck(:storage_id))
     end
 
-    before_save do |storage|
-      # there is a default value set on the database level
-      # but with store_attributes defined new instance have {} as a default value
-      # health_info is set to be nil before save then database will set the default.
-      storage.health_info = nil if health_info == {}
-    end
-
-    store_attribute :health_info, :status, :string, prefix: :health
-    store_attribute :health_info, :changed_at, :datetime, prefix: :health
-    store_attribute :health_info, :reason, :string, prefix: :health
+    enum health_status: {
+      unconfigured: 'unconfigured',
+      healthy: 'healthy',
+      unhealthy: 'unhealthy'
+    }.freeze
 
     def self.shorten_provider_type(provider_type)
       case /Storages::(?'provider_name'.*)Storage/.match(provider_type)
@@ -101,14 +96,6 @@ module Storages
 
     def mark_as_healthy
       update(health_status: 'healthy', health_changed_at: Time.now.utc, health_reason: nil)
-    end
-
-    def healthy?
-      health_status == 'healthy'
-    end
-
-    def unhealthy?
-      health_status == 'unhealthy'
     end
 
     def configured?
