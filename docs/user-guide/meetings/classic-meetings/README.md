@@ -8,12 +8,12 @@ keywords: meetings, classic meetings, agenda, minutes
 
 # Meeting management
 
-Meetings in OpenProject allow you to manage and document your project meetings at one central place, prepare a meeting agenda together with your team and document and share meeting minutes with your meeting attendees at one central place.
+Meetings in OpenProject allow you to manage and document your project meetings, prepare a meeting agenda together with your team and document and share minutes with attendees, all in one central place.
 
 <div class="glossary">
 **Meetings** is defined as a module that allows the organization of meetings. The module has to be activated in the project settings in order to be displayed in the side navigation.
 </div>
-> Please note that with OpenProject 13.1 [dynamic meetings](../dynamic-meetings) are introduced. At the moment you can choose to use either classic or dynamic meetings, but classic meetings module will be deactivated in the future.
+> Please note that with OpenProject 13.1 [dynamic meetings](../dynamic-meetings) are introduced. At the moment, you can choose to use either classic or dynamic meetings but classic meetings module will be deactivated and replaced by dynamic meetings in the future.
 
 
 | Topic                                                                     | Content                                     |
@@ -27,23 +27,22 @@ Meetings in OpenProject allow you to manage and document your project meetings a
 
 ## Meetings in OpenProject
 
-![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-How-to-Meetings.mp4)
+![A video about the Meetings module in OpenProject](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-How-to-Meetings.mp4)
 
 By selecting **Meetings** in the project menu on the left, you get an overview of all project meetings sorted by date. By clicking on a meeting name you can view further details of the meeting.
 
-**Note:** in order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/).
+**Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/).
 
-![meetings](1567598397931.png)
+![FLAG Image needs updating](1567598397931.png)
 
 ## Create a new meeting
 
-To create a new meeting, click the green **+ Meeting** button in the upper right corner.
-
-Enter your meeting's title, location and start date and duration.
-
-Select the meeting participants from the project members list.
-
-Click the blue **Create** button to save your changes.
+1. To create a new meeting, click the green **+ Meeting** button in the upper right corner.
+2. Enter your meeting title.
+3. Choose 'Classic meeting'.
+3. Enter meeting information, such as location, start date and duration.
+5. Select the meeting participants from the project members list.
+6. Click the **Create** button to save your changes.
 
 ![create-new-meeting](1567430908286.png)
 
