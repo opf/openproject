@@ -206,7 +206,7 @@ Once the user is created you need to generate an OpenProject API token for it to
 
 ### The webhook in GitLab
 
-In GitLab you have to set up a webhook in each project or in a group ([Premium Users](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html#group-webhooks)) to be integrated with OpenProject.
+In GitLab you have to [set up a webhook](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html#configure-a-webhook-in-gitlab) in each project or in a group ([Premium Users](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html#group-webhooks)) to be integrated with OpenProject.
 
 You need to configure just two things in the webhook:
 
