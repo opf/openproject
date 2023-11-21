@@ -246,7 +246,7 @@ RSpec.describe 'activity comments', js: true do
         comment_field.submit_by_click
 
         wp_page.expect_comment text: "Single ##{work_package2.id}"
-        expect(page).to have_selector('.user-comment .macro--wp-quickinfo', count: 2)
+        expect(page).to have_selector('.user-comment opce-macro-wp-quickinfo', count: 2)
         expect(page).to have_selector('.user-comment .work-package--quickinfo.preview-trigger', count: 2)
       end
     end

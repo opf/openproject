@@ -123,7 +123,7 @@ RSpec.describe 'API v3 Work package resource',
 
             # resolves links
             expect(subject['html'])
-              .to have_selector("macro.macro--wp-quickinfo[data-id='#{other_wp.id}']")
+              .to have_selector("opce-macro-wp-quickinfo[data-id='#{other_wp.id}']")
             # resolves macros, e.g. toc
             expect(subject['html'])
               .to have_selector('.op-uc-toc--list-item', text: "OpenProject Masterplan for 2015")
