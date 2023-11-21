@@ -532,7 +532,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
     return statement if additional_conditions.blank?
 
-    "#{statement} AND #{additional_conditions.join(' AND ')}"
+    "#{statement} AND (#{additional_conditions.join(' OR ')})"
   end
 
   class NotImplementedError < StandardError; end
