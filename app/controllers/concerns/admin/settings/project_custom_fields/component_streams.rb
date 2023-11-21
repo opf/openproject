@@ -26,17 +26,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomFieldSection < ApplicationRecord
-  has_many :project_custom_field_section_mappings, dependent: :destroy
-  has_many :project_custom_fields, through: :project_custom_field_section_mappings
+module Admin
+  module Settings
+    module ProjectCustomFields
+      module ComponentStreams
+        extend ActiveSupport::Concern
 
-  acts_as_list
+        included do
+          def update_header_via_turbo_stream
+            update_via_turbo_stream(
+              component: ::Settings::ProjectAttributes::HeaderComponent.new
+            )
+          end
 
-  validates :name, presence: true
+          def update_section_via_turbo_stream(section:)
+            update_via_turbo_stream(
+              component: ::Settings::ProjectAttributes::SectionComponent.new(
+                section:
+              )
+            )
+          end
 
-  default_scope { order(:position) }
+          def update_section_dialog_body_form_via_turbo_stream(section:)
+            update_via_turbo_stream(
+              component: ::Settings::ProjectAttributes::Section::DialogBodyFormComponent.new(
+                section:
+              )
+            )
+          end
 
-  def project_custom_fields_ordered_by_postion_in_section
-    project_custom_fields.reorder('project_custom_field_section_mappings.position ASC')
+          def update_sections_via_turbo_stream(sections:)
+            replace_via_turbo_stream(
+              component: ::Settings::ProjectAttributes::Section::IndexComponent.new(
+                sections:
+              )
+            )
+          end
+        end
+      end
+    end
   end
 end

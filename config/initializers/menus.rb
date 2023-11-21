@@ -333,6 +333,24 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: Proc.new { Workflow.model_name.human },
             parent: :admin_work_packages
 
+  menu.push :admin_projects_settings,
+            { controller: '/admin/settings/project_custom_fields', action: :index },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_plural,
+            icon: 'projects'
+
+  menu.push :project_custom_fields_settings,
+            { controller: '/admin/settings/project_custom_fields', action: :index },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_attributes_plural,
+            parent: :admin_projects_settings
+
+  menu.push :projects_settings,
+            { controller: '/admin/settings/projects_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_setting_plural,
+            parent: :admin_projects_settings
+
   menu.push :custom_fields,
             { controller: '/custom_fields' },
             if: Proc.new { User.current.admin? },

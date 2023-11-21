@@ -26,17 +26,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomFieldSection < ApplicationRecord
-  has_many :project_custom_field_section_mappings, dependent: :destroy
-  has_many :project_custom_fields, through: :project_custom_field_section_mappings
+module Settings
+  module ProjectAttributes
+    module Section
+      class IndexComponent < ApplicationComponent
+        include ApplicationHelper
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-  acts_as_list
+        def initialize(sections:)
+          super
 
-  validates :name, presence: true
+          @sections = sections
+        end
 
-  default_scope { order(:position) }
+        private
 
-  def project_custom_fields_ordered_by_postion_in_section
-    project_custom_fields.reorder('project_custom_field_section_mappings.position ASC')
+        def wrapper_data_attributes
+          {
+            controller: 'generic-drag-and-drop',
+            'application-target': 'dynamic'
+          }
+        end
+
+        def drop_target_config
+          {
+            'is-drag-and-drop-target': true,
+            'target-allowed-drag-type': 'section' # the type of dragged items which are allowed to be dropped in this target
+          }
+        end
+
+        def draggable_item_config(section)
+          {
+            'draggable-id': section.id,
+            'draggable-type': 'section',
+            'drop-url': drop_admin_settings_project_custom_field_section_path(section)
+          }
+        end
+      end
+    end
   end
 end

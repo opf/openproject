@@ -28,7 +28,7 @@
 
 module Admin::Settings
   class ProjectsSettingsController < ::Admin::SettingsController
-    menu_item :settings_projects
+    menu_item :projects_settings
 
     def default_breadcrumb
       t(:label_project_plural)

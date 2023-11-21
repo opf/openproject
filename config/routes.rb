@@ -83,7 +83,7 @@ OpenProject::Application.routes.draw do
     match '/account/register', action: 'register', via: %i[get post patch]
     get '/account/activate', action: 'activate'
 
-    match '/login', action: 'login',  as: 'signin', via: %i[get post]
+    match '/login', action: 'login', as: 'signin', via: %i[get post]
     get '/login/internal', action: 'internal_login', as: 'internal_signin'
     get '/logout', action: 'logout', as: 'signout'
 
@@ -417,6 +417,21 @@ OpenProject::Application.routes.draw do
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
       resource :api, controller: '/admin/settings/api_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
+      resource :projects, controller: '/admin/settings/projects_settings', only: %i[show update]
+      resources :project_custom_fields, controller: '/admin/settings/project_custom_fields',
+                                        only: %i[index show update] do
+        member do
+          put :move
+          put :drop
+        end
+      end
+      resources :project_custom_field_sections, controller: '/admin/settings/project_custom_field_sections',
+                                                only: %i[create update destroy] do
+        member do
+          put :move
+          put :drop
+        end
+      end
       resource :working_days, controller: '/admin/settings/working_days_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
       resource :date_format, controller: '/admin/settings/date_format_settings', only: %i[show update]

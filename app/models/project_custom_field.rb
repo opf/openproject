@@ -58,6 +58,10 @@ class ProjectCustomField < CustomField
     end
   end
 
+  def project_custom_field_section_mapping
+    project_custom_field_section_mappings.first
+  end
+
   def project_custom_field_section
     project_custom_field_sections.first
   end

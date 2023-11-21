@@ -26,17 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomFieldSection < ApplicationRecord
-  has_many :project_custom_field_section_mappings, dependent: :destroy
-  has_many :project_custom_fields, through: :project_custom_field_section_mappings
+module Settings
+  module ProjectAttributes
+    module Section
+      class DialogBodyFormComponent < ApplicationComponent
+        include ApplicationHelper
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-  acts_as_list
+        def initialize(section: ProjectCustomFieldSection.new)
+          super
 
-  validates :name, presence: true
+          @project_custom_field_section = section
+        end
 
-  default_scope { order(:position) }
+        private
 
-  def project_custom_fields_ordered_by_postion_in_section
-    project_custom_fields.reorder('project_custom_field_section_mappings.position ASC')
+        def wrapper_uniq_by
+          @project_custom_field_section.id
+        end
+
+        def form_config
+          {
+            model: @project_custom_field_section,
+            method: @project_custom_field_section.persisted? ? :put : :post,
+            url: @project_custom_field_section.persisted? ? admin_settings_project_custom_field_section_path(@project_custom_field_section) : admin_settings_project_custom_field_sections_path
+          }
+        end
+      end
+    end
   end
 end

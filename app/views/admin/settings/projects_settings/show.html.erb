@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%= toolbar title: t(:label_project_plural) %>
 
-<%= styled_form_tag(admin_settings_update_projects_path, method: :patch) do %>
+<%= styled_form_tag(admin_settings_projects_path, method: :patch) do %>
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t('settings.projects.section_new_projects') %></legend>
@@ -67,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
           %>
         </div>
       <% end %>
-      
+
       <div class="form--field">
         <%= setting_multiselect(:enabled_projects_columns, column_choices) %>
       </div>

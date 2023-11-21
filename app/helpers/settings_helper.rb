@@ -45,11 +45,6 @@ module SettingsHelper
         label: :label_languages
       },
       {
-        name: 'projects',
-        controller: '/admin/settings/projects_settings',
-        label: :label_project_plural
-      },
-      {
         name: 'attachments',
         controller: '/admin/settings/attachments_settings',
         label: :'attributes.attachments'
@@ -199,11 +194,11 @@ module SettingsHelper
 
   private
 
-  def wrap_field_outer(options, &block)
+  def wrap_field_outer(options, &)
     if options[:label] == false
-      block.call
+      yield
     else
-      content_tag(:span, class: 'form--field-container', &block)
+      content_tag(:span, class: 'form--field-container', &)
     end
   end
 
@@ -216,7 +211,7 @@ module SettingsHelper
             hidden_field_tag("settings[#{setting}][]", '') +
               I18n.t("setting_#{setting}")
           end
-        end.join.html_safe # rubocop:disable Rails/OutputSafety
+        end.join.html_safe
     end
   end
 

@@ -2032,7 +2032,9 @@ en:
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
   label_project_plural: "Projects"
+  label_project_attributes_plural: "Project attributes"
   label_project_settings: "Project settings"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
@@ -2893,6 +2895,13 @@ en:
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Other"
     passwords: "Passwords"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the project overview of each project. You can add new attributes and group them into sections. Individual attributes can be enabled or disabled at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"

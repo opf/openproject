@@ -26,17 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomFieldSection < ApplicationRecord
-  has_many :project_custom_field_section_mappings, dependent: :destroy
-  has_many :project_custom_fields, through: :project_custom_field_section_mappings
-
-  acts_as_list
-
-  validates :name, presence: true
-
-  default_scope { order(:position) }
-
-  def project_custom_fields_ordered_by_postion_in_section
-    project_custom_fields.reorder('project_custom_field_section_mappings.position ASC')
+class ProjectCustomFieldSections::NameForm < ApplicationForm
+  form do |project_custom_field_section_form|
+    project_custom_field_section_form.text_field(
+      name: :name,
+      placeholder: ProjectCustomFieldSection.human_attribute_name(:name),
+      label: ProjectCustomFieldSection.human_attribute_name(:name),
+      required: true,
+      autofocus: true
+    )
   end
 end
