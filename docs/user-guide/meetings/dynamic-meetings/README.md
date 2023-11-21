@@ -99,9 +99,19 @@ You can send an email to all the meeting participants. To do that select the dro
 
 After creating a meeting, you can set up a **meeting agenda**.
 
-You can add items to an agenda or directly link work packages by selecting the respective option under the green **Add** button.
+You can add items to an agenda or directly link work packages by selecting the respective option under the green **Add** button. You can add an agenda time or link directly to an existing work package. 
+
+
 
 ![](openproject_dynamic_meetings_add_agenda_item.png)
+
+After you have finalized the agenda, you can always edit the agenda items, add notes, move an item or delete it. You can choose the respective option from the menu next each agenda item.
+
+![Edit agenda in OpenProject dynamic meetings](openproject_dynamic_meetings_edit_agenda.png)
+
+The planned duration of each agenda item is automatically summed up. If that sum exceeds the planned duration of the meeting, a warning will appear next to the meeting duration sign. 
+
+![OpenProject meeting too long](openproject_dynamic_meetings_agenda_too_long.png)
 
 ## Close a meeting
 
@@ -109,6 +119,14 @@ Once the meeting is closed you can click the **Close meeting**, after this it wi
 
 ![](openproject_userguide_close_meeting.png)
 
+## Re-open a meeting
+
+Once a meeting has been closed, it can no longer be edited. It can be re-opened and edited after that.
+
+![Re-open a meeting in OpenProject](openproject_dynmic_meetings_reopen_meeting.png)
+
 ## Delete a meeting
 
 You can delete a meeting. To do that select the dropdown, same as you would when editing the meeting title and select the **Delete meeting**. You will need to confirm that decision.
+
+![Deleting a dynamic meeting in OpenProject](openproject_dynamic_meetings_delete_meeting.png)
