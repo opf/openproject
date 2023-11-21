@@ -62,7 +62,7 @@ module Storages::Admin
         include_blank: false,
         required: true,
         disabled: storage.persisted?,
-        input_width: :large
+        input_width: :small
       }
     end
   end
