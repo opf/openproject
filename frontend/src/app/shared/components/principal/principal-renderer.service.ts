@@ -93,7 +93,7 @@ export class PrincipalRendererService {
     type:PrincipalType,
   ) {
     const userInitials = this.getInitials(principal.name);
-    const colorCode = this.colors.toHsl(principal.name);
+    const colorCode = this.colors.hexCodeColor(principal.name);
 
     const fallback = document.createElement('div');
     fallback.classList.add('op-principal--avatar');
@@ -109,6 +109,7 @@ export class PrincipalRendererService {
       fallback.style.borderColor = colorCode;
     } else {
       fallback.style.background = colorCode;
+      fallback.style.color = this.colors.pickTextColorBasedOnBgColor(colorCode);
     }
 
     // Image avatars are only supported for users
