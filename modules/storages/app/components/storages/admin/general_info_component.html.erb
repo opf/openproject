@@ -6,7 +6,7 @@
     end
 
     grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-description') do
-      render(Primer::Beta::Truncate.new) { storage_description }
+      render(Primer::Beta::Text.new) { storage_description }
     end
 
     if editable_storage?
