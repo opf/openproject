@@ -26,10 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit, ChangeDetectionStrategy,
-  Component, ElementRef, Input, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -40,7 +37,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   templateUrl: './meetings-tab.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MeetingsTabComponent implements OnInit, AfterViewInit, TabComponent {
+export class MeetingsTabComponent implements OnInit, TabComponent {
   @Input() public workPackage:WorkPackageResource;
   turboFrameSrc:string;
 
@@ -51,24 +48,6 @@ export class MeetingsTabComponent implements OnInit, AfterViewInit, TabComponent
   ) {}
 
   ngOnInit():void {
-    // TODO: Should we try to restore the last selected tab via localStorage as done in following commented code?
-    //
-    // const storedSrc = localStorage.getItem(`turboFrameSrcMeetingsTabForWorkPackage${this.workPackage.id}`);
-    // this.turboFrameSrc = storedSrc ? storedSrc : `/work_packages/${this.workPackage.id}/meetings/tab`;
-
     this.turboFrameSrc = `${this.PathHelper.staticBase}/work_packages/${this.workPackage.id}/meetings/tab`;
-  }
-
-  ngAfterViewInit():void {
-    // TODO: Should we try to restore the last selected tab via localStorage as done in following commented code?
-    //
-    // const turboFrame = this.elementRef.nativeElement.querySelector('#work-package-meetings-tab-content');
-    // if (turboFrame) {
-    //   turboFrame.addEventListener('turbo:frame-load', (event: Event) => {
-    //     const target = event.target as HTMLElement;
-    //     const newSrc = target.getAttribute('src');
-    //     localStorage.setItem(`turboFrameSrcMeetingsTabForWorkPackage${this.workPackage.id}`, newSrc||'');
-    //   });
-    // }
   }
 }

@@ -59,17 +59,17 @@ uk:
     errors:
       too_many_elements_created_at_once: "Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}."
   storages:
-    default_name: "My storage"
+    default_name: "Моє сховище"
     unknown_storage: "Невідоме сховище"
     buttons:
-      done_continue: "Done, continue"
+      done_continue: "Виконано, продовжити "
       done_continue_setup: "Готово – продовжити налаштування"
       done_complete_setup: "Готово – завершити налаштування"
       edit_automatically_managed_project_folders: "Редагувати папки проєкту з автоматичним керуванням"
       replace_openproject_oauth: "Замінити OpenProject OAuth"
       replace_provider_type_oauth: "Замінити %{provider_type} OAuth"
-      save: "Save"
-      save_and_continue: "Save and continue"
+      save: "Зберегти"
+      save_and_continue: "Зберегти та продовжити"
       save_and_continue_setup: "Зберегти й продовжити налаштування"
       save_and_complete_setup: "Зберегти й завершити налаштування"
       select_folder: "Вибрати папку"

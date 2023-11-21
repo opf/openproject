@@ -56,16 +56,16 @@ RSpec.describe OpenProject::TextFormatting,
             <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline"></a>
           </h1>
           <p class="op-uc-p">
-            Inline reference to WP by ID: <macro class="macro--attribute-label" data-model="workPackage" data-id="1234" data-attribute="subject"></macro>
+            Inline reference to WP by ID: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-label>
           </p>
           <p class="op-uc-p">
-            Inline reference to WP by subject: <macro class="macro--attribute-label" data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces"></macro>
+            Inline reference to WP by subject: <opce-macro-attribute-label data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces"></opce-macro-attribute-label>
           </p>
           <p class="op-uc-p">
-            Inline reference to project: <macro class="macro--attribute-label" data-model="project" data-attribute="status"></macro>
+            Inline reference to project: <opce-macro-attribute-label data-model="project" data-attribute="status"></opce-macro-attribute-label>
           </p>
           <p class="op-uc-p">
-            Inline reference to project with id: <macro class="macro--attribute-label" data-model="project" data-id="some id" data-attribute="status"></macro>
+            Inline reference to project with id: <opce-macro-attribute-label data-model="project" data-id="some id" data-attribute="status"></opce-macro-attribute-label>
           </p>
         EXPECTED
       end
@@ -95,16 +95,16 @@ RSpec.describe OpenProject::TextFormatting,
             <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline"></a>
           </h1>
           <p class="op-uc-p">
-            Inline reference to WP by ID: <macro class="macro--attribute-value" data-model="workPackage" data-id="1234" data-attribute="subject"></macro>
+            Inline reference to WP by ID: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-value>
           </p>
           <p class="op-uc-p">
-            Inline reference to WP by subject: <macro class="macro--attribute-value" data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces"></macro>
+            Inline reference to WP by subject: <opce-macro-attribute-value data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces"></opce-macro-attribute-value>
           </p>
           <p class="op-uc-p">
-            Inline reference to project: <macro class="macro--attribute-value" data-model="project" data-attribute="status"></macro>
+            Inline reference to project: <opce-macro-attribute-value data-model="project" data-attribute="status"></opce-macro-attribute-value>
           </p>
           <p class="op-uc-p">
-            Inline reference to project with id: <macro class="macro--attribute-value" data-model="project" data-id="some id" data-attribute="status"></macro>
+            Inline reference to project with id: <opce-macro-attribute-value data-model="project" data-id="some id" data-attribute="status"></opce-macro-attribute-value>
           </p>
         EXPECTED
       end

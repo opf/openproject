@@ -34,7 +34,8 @@ module Storages::Admin
         label: I18n.t('activerecord.attributes.storages/storage.name'),
         required: true,
         caption: I18n.t('storages.instructions.name'),
-        placeholder: I18n.t("storages.label_file_storage")
+        placeholder: I18n.t("storages.label_file_storage"),
+        input_width: :large
       )
     end
   end
