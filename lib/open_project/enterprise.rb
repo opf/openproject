@@ -49,6 +49,10 @@ module OpenProject
         User.human.active.count
       end
 
+      def open_seats_count
+        user_limit - active_user_count if user_limit
+      end
+
       ##
       # Indicates if there are more active users than the support token allows for.
       #

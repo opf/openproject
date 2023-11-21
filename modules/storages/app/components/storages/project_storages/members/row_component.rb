@@ -53,7 +53,7 @@ module Storages::ProjectStorages::Members
       connection_result = storage_connection_status
 
       if connection_result == :not_connected
-        ensure_access_url = oauth_clients_ensure_access_url(
+        ensure_connection_url = oauth_clients_ensure_connection_url(
           oauth_client_id: storage.oauth_client.client_id,
           storage_id: storage.id
         )
@@ -61,7 +61,7 @@ module Storages::ProjectStorages::Members
           content_tag(
             :span,
             I18n.t("storages.member_connection_status.not_connected",
-                   link: link_to(I18n.t("link"), ensure_access_url),
+                   link: link_to(I18n.t("link"), ensure_connection_url),
                    class: 'pl-2').html_safe
           )
       else

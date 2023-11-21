@@ -226,6 +226,30 @@ RSpec.describe 'Structured meetings CRUD',
     end
   end
 
+  it 'shows an error toast trying to update an outdated item' do
+    show_page.expect_toast(message: 'Successful creation')
+
+    # Can add and edit a single item
+    show_page.add_agenda_item do
+      fill_in 'Title', with: 'My agenda item'
+      fill_in 'Duration (min)', with: '25'
+    end
+
+    show_page.expect_agenda_item title: 'My agenda item'
+    show_page.cancel_add_form
+
+    item = MeetingAgendaItem.find_by!(title: 'My agenda item')
+    show_page.edit_agenda_item(item) do
+      # Side effect: update the item
+      item.update!(title: 'Updated title')
+
+      fill_in 'Title', with: 'My agenda item edited'
+      click_button 'Save'
+    end
+
+    expect(page).to have_css('.flash', text: I18n.t('activerecord.errors.messages.error_conflict'))
+  end
+
   context 'with a work package reference to another' do
     let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
     let!(:other_project) { create(:project) }

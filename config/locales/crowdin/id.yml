@@ -631,6 +631,7 @@ id:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "mungkin tidak dapat diakses."
         error_readonly: "Mencoba untuk ditulis tetapi tidak dapat ditulis."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "bukan alamat email yang valid."
         empty: "harus di isi."
         even: "harus imbang."
@@ -2942,7 +2943,9 @@ id:
     Email aktivasi telah kedaluwarsa. Kami mengirimkan Anda yang baru ke %{email}.
     Silakan klik tautan di dalamnya untuk mengaktifkan akun Anda.
   warning_user_limit_reached: >
-    Batas pengguna tercapai. Anda tidak dapat mengaktifkan pengguna lagi. Harap <a href="%{upgrade_url}">tingkatkan versi paket Anda</a> atau blokir anggota untuk mengizinkan pengguna tambahan.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
@@ -2997,6 +3000,12 @@ id:
       share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
   working_days:
     info: >
       Hari yang tidak dipilih akan dilewati saat menjadwalkan paket pekerjaan (dan tidak termasuk dalam hitungan hari). Ini dapat diganti pada tingkat paket kerja.
