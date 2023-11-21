@@ -113,6 +113,12 @@ The planned duration of each agenda item is automatically summed up. If that sum
 
 ![OpenProject meeting too long](openproject_dynamic_meetings_agenda_too_long.png)
 
+## Add a work package to the agenda
+
+You can add a work package to an agenda either while [editing an agenda](#create-or-edit-the-meeting-agenda) or directly from a work package under the **Meetings** tab (ADD LINK). You can add a work package to both upcoming and past meetings, as long as they are marked **open**. 
+
+![OpenProject work packages in meetings agenda](openproject_dynamic_meetings_wp_agenda.png)
+
 ## Close a meeting
 
 Once the meeting is closed you can click the **Close meeting**, after this it will no longer be possible to edit the meeting agenda.
