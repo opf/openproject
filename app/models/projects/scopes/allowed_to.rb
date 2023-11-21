@@ -87,7 +87,7 @@ module Projects::Scopes
       def allowed_to_no_member_exists_condition(user)
         Member
           .select(1)
-          .where(principal: user, entity_id: nil, entity_type: nil)
+          .where(member_conditions(user))
           .where(Member.arel_table[:project_id].eq(arel_table[:id]))
           .arel
           .exists
@@ -116,7 +116,7 @@ module Projects::Scopes
 
       def allowed_to_member_relation(user, permissions)
         Member
-          .where(principal: user, entity_id: nil, entity_type: nil)
+          .where(member_conditions(user))
           .joins(allowed_to_member_in_active_project_join)
           .joins(allowed_to_enabled_module_join(permissions))
           .joins(:roles)
@@ -167,6 +167,12 @@ module Projects::Scopes
                .on(Project.arel_table[:active].eq(true)
                           .and(Member.arel_table[:project_id].eq(arel_table[:id])))
                .join_sources
+      end
+
+      def member_conditions(user)
+        Member.arel_table[:user_id].eq(user.id)
+        .and(Member.arel_table[:entity_id].eq(nil))
+        .and(Member.arel_table[:entity_type].eq(nil))
       end
 
       def allowed_to_permissions(permission)

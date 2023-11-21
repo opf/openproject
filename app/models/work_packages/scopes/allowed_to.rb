@@ -70,7 +70,7 @@ module WorkPackages::Scopes
           .joins(allowed_to_enabled_module_join(permissions))
           .joins(member_roles: :role)
           .joins(allowed_to_role_permission_join(permissions))
-          .where(principal: user, entity_type: model_name.name)
+          .where(member_conditions(user))
           .select(arel_table[:id])
       end
 
@@ -126,6 +126,11 @@ module WorkPackages::Scopes
         arel_table.join(arel_table)
         .on(members_table[:entity_id].eq(arel_table[:id]))
         .join_sources
+      end
+
+      def member_conditions(user)
+        Member.arel_table[:user_id].eq(user.id)
+        .and(Member.arel_table[:entity_type].eq(model_name.name))
       end
     end
   end
