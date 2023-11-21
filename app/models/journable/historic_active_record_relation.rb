@@ -114,9 +114,9 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
     # Based on the previous modifications, build the algebra object.
     arel = relation.call_original_build_arel(aliases)
+    arel = modify_where_clauses(arel)
     arel = modify_order_clauses(arel)
-    arel = modify_joins(arel)
-    modify_where_clauses(arel)
+    modify_joins(arel)
   end
 
   def call_original_build_arel(aliases = nil)
@@ -384,6 +384,20 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     elsif node.kind_of? Arel::Nodes::SelectStatement
       # A sub-select statement, we need to investigate its core, which is also a SelectCore
       modify_conditions(node.instance_variable_get(:@cores).first)
+
+      # all the orders need to be modified as well
+      node.instance_variable_get(:@orders).each do |order_clause|
+        if order_clause.kind_of? Arel::Nodes::SqlLiteral
+          gsub_table_names_in_sql_string!(order_clause)
+        elsif order_clause.expr.relation == model.arel_table
+          if order_clause.expr.name == "id"
+            order_clause.expr.name = "journable_id"
+            order_clause.expr.relation = Journal.arel_table
+          else
+            order_clause.expr.relation = model.journal_class.arel_table
+          end
+        end
+      end
     elsif node.kind_of? Arel::Nodes::SelectCore
       # We have another SelectCore, which is the main part of the select statement.
       # Sources are the select table (left) and all joins (right)
