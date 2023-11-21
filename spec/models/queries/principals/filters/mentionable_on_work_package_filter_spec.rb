@@ -39,6 +39,7 @@ RSpec.describe Queries::Principals::Filters::MentionableOnWorkPackageFilter do
       subject { instance.scope }
 
       shared_let(:project) { create(:project) }
+      shared_let(:other_project) { create(:project) }
 
       shared_let(:project_role) { create(:project_role, permissions: %i[]) }
       shared_let(:comment_role) { create(:comment_work_package_role) }
@@ -46,8 +47,8 @@ RSpec.describe Queries::Principals::Filters::MentionableOnWorkPackageFilter do
 
       shared_let(:work_package) { create(:work_package, project:) }
 
-      shared_let(:user) { create(:user, member_with_roles: { project => project_role }) }
-      shared_let(:project_member) { create(:user, member_with_roles: { project => project_role }) }
+      shared_let(:user) { create(:user, member_with_roles: { project => project_role, other_project => project_role }) }
+      shared_let(:project_member) { create(:user, member_with_roles: { project => project_role, other_project => project_role }) }
       shared_let(:mentionable_shared_with_user) { create(:user, member_with_roles: { work_package => comment_role }) }
       shared_let(:non_mentionable_shared_with_user) { create(:user, member_with_roles: { work_package => view_role }) }
 

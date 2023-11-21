@@ -30,6 +30,11 @@
 
 class Queries::Principals::Filters::MentionableOnWorkPackageFilter <
   Queries::Principals::Filters::PrincipalFilter
+  def allowed_values
+    # We don't care for the first value as we do not display the values visibly
+    @allowed_values ||= ::WorkPackage.visible.pluck(:id).map { |id| [id, id.to_s] }
+  end
+
   def type
     :list_optional
   end
@@ -47,6 +52,10 @@ class Queries::Principals::Filters::MentionableOnWorkPackageFilter <
     end
   end
 
+  def where
+    '1=1'
+  end
+
   private
 
   def principals_with_a_membership
@@ -57,11 +66,12 @@ class Queries::Principals::Filters::MentionableOnWorkPackageFilter <
   def visible_scope
     Principal.visible(User.current)
              .includes(members: :roles)
-             .references(:members, :roles)
+             .references(members: :roles)
   end
 
   def work_package_members
-    Member.of_work_package(values)
+    Member.joins(:member_roles)
+          .of_work_package(values)
           .where(member_roles: { role_id: mentionable_work_package_role_ids })
   end
 
