@@ -35,7 +35,8 @@ module Storages::Admin
         visually_hide_label: false,
         required: true,
         caption: I18n.t("storages.instructions.one_drive.tenant_id"),
-        placeholder: I18n.t("storages.instructions.one_drive.tenant_id_placeholder")
+        placeholder: I18n.t("storages.instructions.one_drive.tenant_id_placeholder"),
+        input_width: :large
       )
     end
   end

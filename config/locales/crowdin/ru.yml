@@ -640,6 +640,7 @@ ru:
         error_enterprise_only: "%{action} доступен только в корпоративной версии OpenProject"
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "неверный адрес электронной почты."
         empty: "не может быть пустым."
         even: "должно быть чётным."
@@ -3038,7 +3039,9 @@ ru:
   warning_registration_token_expired: |
     Срок ответа на письмо активации истек. Мы отправили вам новое на %{email}. Пожалуйста, нажмите на ссылку внутри него, чтобы активировать вашу учетную запись.
   warning_user_limit_reached: >
-    Достигнут предел пользователя. Вы более не можете активировать пользователей. <a href="%{upgrade_url}">, обновите ваш план</a> или блок участников для дополнительных пользователей.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     Вы достигли вашего пользовательского предела (%{current}/%{max} активных пользователей). Пожалуйста, свяжитесь с sales@openproject.com для обновления своего плана до Корпоративной версии и добавьте дополнительных пользователей.
   warning_protocol_mismatch_html: >
@@ -3093,6 +3096,12 @@ ru:
       share: "Поделиться"
       text_empty_state_description: "Пакет работ еще не передан никому."
       text_empty_state_header: "Нет общих пользователей"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.

@@ -74,7 +74,7 @@
       grid.with_area(:notes, tag: :div) do
         if @meeting_agenda_item.notes.present?
           render(Primer::Box.new(color: :subtle, mt: 1)) do
-            ::OpenProject::TextFormatting::Renderer.format_text(@meeting_agenda_item.notes)
+            format_text(@meeting_agenda_item, :notes)
           end
         end
       end

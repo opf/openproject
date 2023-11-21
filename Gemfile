@@ -103,7 +103,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
-gem 'json_schemer', '~> 2.0.0'
+gem 'json_schemer', '~> 2.1.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
@@ -329,7 +329,7 @@ end
 gem 'bootsnap', '~> 1.17.0', require: false
 
 # API gems
-gem 'grape', '~> 1.8.0'
+gem 'grape', '~> 2.0.0'
 gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
@@ -370,4 +370,4 @@ end
 
 gem "openproject-octicons", '~>19.7.0'
 gem "openproject-octicons_helper", '~>19.7.0'
-gem "openproject-primer_view_components", '~>0.13.0'
+gem "openproject-primer_view_components", '~>0.16.0'

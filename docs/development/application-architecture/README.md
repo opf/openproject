@@ -131,6 +131,17 @@ On the other hand, changes to the following are considered breaking changes and 
 
 This list is not conclusive but rather serves to highlight the difference to the previous list of non breaking changes.
 
+<div id="version-tracing"></div>
+
+## Version tracing in containers and packages
+
+OpenProject embeds some release information into the packages and containers to ensure they are traceable. For all containers, the following files exist under `/app`. For packages, these files reside under `/opt/openproject/` and `/opt/openproject/config`, depending on the used version.
+
+- **CORE_VERSION**: Reference to the commit of the https://github.com/opf/openproject core repository of OpenProject that is the foundation of the build
+- **CORE_URL** URL to the commit at GitHub for easier reference
+- **PRODUCT_VERSION** Commit of the flavour/product version. In case of the [openDesk container](https://hub.docker.com/r/openproject/open_desk), contains a reference to the openDesk repository https://github.com/opf/openproject-open_desk
+- **BUILDER_VERSION** Internal reference of the building CI repository that we use to create and publish the images.
+
 
 
 ## Support of releases

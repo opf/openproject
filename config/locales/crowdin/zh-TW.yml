@@ -638,6 +638,7 @@ zh-TW:
         error_enterprise_only: "%{action}僅在 OpenProject 企業版中可用"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "不是一個有效的電子郵件地址。 "
         empty: "不可為空"
         even: "必須是偶數"
@@ -2952,7 +2953,9 @@ zh-TW:
     帳號啟用 email 已經逾期。我們已經寄了一封新的 email 至您的 %{email}。
     請點擊 email 內的連結來啟用您的帳號。
   warning_user_limit_reached: >
-    達到用戶限制。 您無法再激活任何用戶。 請<a href="%{upgrade_url}">升級您的計劃</a>或阻止會員以允許其他用戶。
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     您已達到用戶限制（%{current}/%{max} 活躍用戶）。請聯繫 sales@openproject.com 升級您的企業版計劃以添加額外用戶。
   warning_protocol_mismatch_html: >
@@ -3007,6 +3010,12 @@ zh-TW:
       share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
