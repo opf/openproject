@@ -74,7 +74,7 @@ module API
             end
 
             get do
-              available_projects = Project.allowed_to(current_user, :view_work_packages)
+              available_projects = Project.with_visible_work_packages
               self_link = api_v3_paths.query_available_projects
 
               ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,

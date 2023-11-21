@@ -54,7 +54,7 @@ module API
 
               def authorized_work_package_option(custom_option)
                 allowed = Project
-                  .allowed_to(current_user, :view_work_packages)
+                  .with_visible_work_packages(current_user)
                   .joins(:work_package_custom_fields)
                   .exists?(custom_fields: { id: custom_option.custom_field_id })
 
