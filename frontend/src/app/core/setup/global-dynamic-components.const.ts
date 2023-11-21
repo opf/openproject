@@ -99,14 +99,6 @@ import {
   backlogsPageComponentSelector,
 } from 'core-app/features/backlogs/backlogs-page/backlogs-page.component';
 import {
-  attributeValueMacro,
-  AttributeValueMacroComponent,
-} from 'core-app/shared/components/fields/macros/attribute-value-macro.component';
-import {
-  attributeLabelMacro,
-  AttributeLabelMacroComponent,
-} from 'core-app/shared/components/fields/macros/attribute-label-macro.component';
-import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector,
 } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
@@ -242,8 +234,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opCalendarSidemenuSelector, cls: CalendarSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
-  { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },
-  { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
   { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },
