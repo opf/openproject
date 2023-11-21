@@ -65,11 +65,12 @@ module WorkPackages::Scopes
 
       def allowed_to_member_relation(user, permissions)
         Member
-          .joins(allowed_to_member_in_work_package_join(user))
+          .joins(allowed_to_member_in_work_package_join)
           .joins(active_project_join)
           .joins(allowed_to_enabled_module_join(permissions))
           .joins(member_roles: :role)
           .joins(allowed_to_role_permission_join(permissions))
+          .where(principal: user, entity_type: model_name.name)
           .select(arel_table[:id])
       end
 
@@ -120,14 +121,10 @@ module WorkPackages::Scopes
                   .join_sources
       end
 
-      def allowed_to_member_in_work_package_join(user)
+      def allowed_to_member_in_work_package_join
         members_table = Member.arel_table
         arel_table.join(arel_table)
-        .on(
-          members_table[:entity_id].eq(arel_table[:id])
-          .and(members_table[:entity_type].eq(model_name.name))
-          .and(members_table[:user_id].eq(user.id))
-        )
+        .on(members_table[:entity_id].eq(arel_table[:id]))
         .join_sources
       end
     end

@@ -56,15 +56,6 @@ module Projects::Scopes
           .joins(allowed_to_role_permission_join(permissions))
       end
 
-      def allowed_to_members_condition(user)
-        members_table = Member.arel_table
-
-        members_table[:project_id].eq(arel_table[:id])
-                                  .and(members_table[:user_id].eq(user.id))
-                                  .and(members_table[:entity_type].eq(nil))
-                                  .and(members_table[:entity_id].eq(nil))
-      end
-
       def allowed_to_builtin_roles_in_active_project_join(user)
         condition = allowed_to_built_roles_in_active_project_condition(user)
 
@@ -96,7 +87,8 @@ module Projects::Scopes
       def allowed_to_no_member_exists_condition(user)
         Member
           .select(1)
-          .where(allowed_to_members_condition(user))
+          .where(principal: user, entity_id: nil, entity_type: nil)
+          .where(Member.arel_table[:project_id].eq(arel_table[:id]))
           .arel
           .exists
           .not
@@ -124,8 +116,8 @@ module Projects::Scopes
 
       def allowed_to_member_relation(user, permissions)
         Member
-          .where(entity_id: nil, entity_type: nil)
-          .joins(allowed_to_member_in_active_project_join(user))
+          .where(principal: user, entity_id: nil, entity_type: nil)
+          .joins(allowed_to_member_in_active_project_join)
           .joins(allowed_to_enabled_module_join(permissions))
           .joins(:roles)
           .joins(allowed_to_role_permission_join(permissions))
@@ -169,11 +161,11 @@ module Projects::Scopes
           .join_sources
       end
 
-      def allowed_to_member_in_active_project_join(user)
-        Project.arel_table
+      def allowed_to_member_in_active_project_join
+        Member.arel_table
                .join(Project.arel_table)
                .on(Project.arel_table[:active].eq(true)
-                          .and(allowed_to_members_condition(user)))
+                          .and(Member.arel_table[:project_id].eq(arel_table[:id])))
                .join_sources
       end
 
