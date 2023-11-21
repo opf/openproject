@@ -376,26 +376,78 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   end
 
   def modify_conditions(node)
-    puts "#{node.class}: #{node.respond_to?(:to_sql) ? node.to_sql : node.inspect}"
-
     if node.kind_of? Arel::TreeManager
+      # We have another sub-tree, investigate its core, which is a SelectCore
       node.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
         modify_conditions(core)
       end
+    elsif node.kind_of? Arel::Nodes::SelectStatement
+      # A sub-select statement, we need to investigate its core, which is also a SelectCore
+      modify_conditions(node.instance_variable_get(:@cores).first)
     elsif node.kind_of? Arel::Nodes::SelectCore
+      # We have another SelectCore, which is the main part of the select statement.
+      # Sources are the select table (left) and all joins (right)
       source = node.instance_variable_get(:@source)
-      modify_conditions(source.left)
+
+      # when we are selecting from the model's table, we need to select from the journalized table instead
+      if source.left == model.arel_table
+        source.left = model.journal_class.arel_table
+
+        # check if we are also joining the journals table, if not we need to add it
+        if source.right.none? { |join_source| join_source.kind_of?(Arel::Nodes::Join) && join_source.left == Journal.arel_table }
+          source.right << Arel::Nodes::StringJoin.new(Arel.sql(journals_join_statement_with_timestamps))
+        end
+      end
+
+      # Check if we are joining the model's table, and if so, it will later be replaced by the journalized table, but as the
+      # journalized table does not contain the model's ID we need to add another join to the journals table as well
+      if source.right.any? { |join_source| join_source.kind_of?(Arel::Nodes::Join) && join_source.left == model.arel_table }
+        source.right.unshift Arel::Nodes::StringJoin.new(Arel.sql(journals_join_statement_with_timestamps_and_members))
+      end
+
+      # go through all other joins and modify them as well
       source.right.each do |src|
         modify_conditions(src)
       end
+
+      # all the fields in the select statement need to be modified as well
+      projections = node.instance_variable_get(:@projections)
+      projections.each do |projection|
+        modify_conditions(projection)
+      end
+
+      # the where's need to be modified as well
+      node.instance_variable_get(:@wheres).each do |wheres|
+        modify_conditions(wheres)
+      end
     elsif node.kind_of?(Arel::Nodes::On)
+      # In an ON node we must not traverse down left and right directly (like other NodeExpressions) but go through the
+      # expr, which is a NodeExpression itself
       [node.expr.left, node.expr.right].each { |child| modify_conditions(child) }
-    elsif node.kind_of? Arel::Nodes::Casted
-      puts "Casted: #{node.value}"
     elsif node.kind_of?(Arel::Attributes::Attribute)
-      puts "#{node.relation&.name}.#{node.name}"
+      # We find an attribute, figure out if it is the model's table
+      if node.relation == model.arel_table
+        if node.name == "id"
+          # ID needs to be pulled from the Journal table
+          node.relation = Journal.arel_table
+          node.name = "journable_id"
+        else
+          # all other attributes can be pulled from the journalized table
+          node.relation = model.journal_class.arel_table
+        end
+      end
+    elsif node.kind_of?(Arel::Nodes::Join)
+      # We found another join, left is the table name, right is the ON condition, if it points to the model's table
+      # replace it with the journalized table
+      if node.left == model.arel_table
+        node.left = model.journal_class.arel_table
+      end
+      # Go thorugh the ON condition and figure out if we need to rename attributes in there
+      modify_conditions(node.right)
     elsif node.kind_of? Arel::Nodes::NodeExpression
-      [node.left, node.right].each { |child| modify_conditions(child) }
+      # Generic case, go through left and right
+      modify_conditions(node.left) if node.respond_to?(:left) && node.left
+      modify_conditions(node.right) if node.respond_to?(:right) && node.right
     end
 
     node
@@ -435,6 +487,38 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       "WHEN \"journals\".\"validity_period\" @> timestamp with time zone '#{comparison_time}' THEN '#{timestamp}'"
     end
       .join(" ")
+  end
+
+  def journals_join_statement_with_timestamps_and_members
+    journals_join_statement + <<~SQL.squish
+      AND "journals"."journable_type" = "members"."entity_type"
+      AND "journals"."journable_id" = "members"."entity_id"
+    SQL
+  end
+
+  def journals_join_statement_with_timestamps
+    statement = <<~SQL.squish
+      INNER JOIN "journals" ON
+        "journals"."data_type" = '#{model.journal_class.name}' AND
+        "journals"."data_id" = "#{model.journal_class.table_name}"."id"
+    SQL
+
+    additional_conditions = timestamp
+      .map do |timestamp|
+      comparison_time = case timestamp
+                        when Timestamp
+                          timestamp.to_time
+                        when DateTime
+                          timestamp.in_time_zone
+                        else
+                          raise NotImplementedError, "Unknown timestamp type: #{timestamp.class}"
+                        end
+      "\"journals\".\"validity_period\" @> timestamp with time zone '#{comparison_time}'"
+    end
+
+    return statement if additional_conditions.blank?
+
+    "#{statement} AND #{additional_conditions.join(' AND ')}"
   end
 
   class NotImplementedError < StandardError; end
