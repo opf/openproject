@@ -102,10 +102,6 @@ import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector,
 } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
-import {
-  quickInfoMacroSelector,
-  WorkPackageQuickinfoMacroComponent,
-} from 'core-app/shared/components/fields/macros/work-package-quickinfo-macro.component';
 import { SpotSwitchComponent, spotSwitchSelector } from 'core-app/spot/components/switch/switch.component';
 import { BackupComponent, backupSelector } from 'core-app/core/setup/globals/components/admin/backup.component';
 import {
@@ -234,7 +230,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opCalendarSidemenuSelector, cls: CalendarSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
-  { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },

@@ -295,9 +295,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       describe 'double hash work_package link' do
         let(:work_package_link) do
-          content_tag :macro,
+          content_tag 'opce-macro-wp-quickinfo',
                       '',
-                      class: "macro--wp-quickinfo",
                       data: { id: '1234', detailed: 'false' }
         end
 
@@ -308,9 +307,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       describe 'triple hash work_package link' do
         let(:work_package_link) do
-          content_tag :macro,
+          content_tag 'opce-macro-wp-quickinfo',
                       '',
-                      class: "macro--wp-quickinfo",
                       data: { id: '1234', detailed: 'true' }
         end
 
