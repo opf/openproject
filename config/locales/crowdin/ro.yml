@@ -640,6 +640,7 @@ ro:
         error_enterprise_only: "%{action} este disponibil doar în ediția OpenProject Enterprise"
         error_unauthorized: "nu pot fi accesate."
         error_readonly: "a fost încercat să fie scris, dar nu este inscriptibil."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "nu este o adresă de e-mail validă."
         empty: "nu poate fi gol."
         even: "trebuie să fie par."
@@ -3012,7 +3013,9 @@ ro:
     E-mailul de activare a expirat. Ți-am trimis unul nou la %{email}.
     Vă rugăm să faceți clic pe linkul din interiorul acestuia pentru a vă activa contul.
   warning_user_limit_reached: >
-    A fost atinsă limita de utilizatori. Nu mai puteți activa alți utilizatori. Vă rugăm să <a href="%{upgrade_url}">vă actualizați planul</a> sau să blocați membrii pentru a permite accesul la utilizatori suplimentari.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     Ați atins limita de utilizatori (%{current}/%{max} utilizatori activi). Vă rugăm să contactați sales@openproject.com pentru a vă actualiza planul ediției Enterprise și a adăuga utilizatori suplimentari.
   warning_protocol_mismatch_html: >
@@ -3067,6 +3070,12 @@ ro:
       share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
