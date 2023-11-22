@@ -29,7 +29,7 @@
 module BreadcrumbHelper
   def full_breadcrumbs
     items = breadcrumb_paths.compact
-    render(Primer::Beta::Breadcrumbs.new(data: { 'test-selector': "op-breadcrumb" })) do |breadcrumbs|
+    render(Primer::Beta::Breadcrumbs.new(test_selector: "op-breadcrumb" )) do |breadcrumbs|
       items.each_with_index do |item, index|
         item = anchor_string_to_object(item) if item.is_a?(String) && item.start_with?("\u003c")
 
