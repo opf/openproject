@@ -5,7 +5,7 @@
         render(Primer::Beta::Link.new(font_weight: :semibold, href: principal_show_path)) { user.name }
       end
 
-      flex.with_row do
+      flex.with_row(classes: 'ellipsis') do
         if manager_mode?
           if user_is_a_group?
             if project_group?

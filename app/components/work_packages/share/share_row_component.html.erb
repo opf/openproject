@@ -12,11 +12,11 @@
         end
       end
 
-      user_row_grid.with_area(:avatar, tag: :div, classes: 'ellipsis') do
+      user_row_grid.with_area(:avatar, tag: :div) do
         render(Users::AvatarComponent.new(user: principal, show_name: false, size: :medium))
       end
 
-      user_row_grid.with_area(:user_details, tag: :div) do
+      user_row_grid.with_area(:user_details, tag: :div, classes: 'ellipsis') do
         render(WorkPackages::Share::UserDetailsComponent.new(share:, manager_mode: share_editable?))
       end
 
