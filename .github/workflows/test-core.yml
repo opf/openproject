@@ -71,7 +71,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: cache/runtime-logs
-        key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.ref }}
+        key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
         restore-keys: |
           runtime-logs-${{ github.head_ref || github.ref }}-
           runtime-logs-
