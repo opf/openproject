@@ -185,11 +185,7 @@ module API
         end
 
         def current_user_allowed_to_edit_work_packages?
-          if project
-            current_user.allowed_in_any_work_package?(:edit_work_packages, in_project: project)
-          else
-            current_user.allowed_in_any_work_package?(:edit_work_packages)
-          end
+          current_user.allowed_in_any_work_package?(:edit_work_packages, in_project: project)
         end
 
         def schemas

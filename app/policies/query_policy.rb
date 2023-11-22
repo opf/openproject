@@ -98,11 +98,7 @@ class QueryPolicy < BasePolicy
   end
 
   def edit_work_packages_allowed?(query)
-    if query.project
-      user.allowed_in_any_work_package?(:edit_work_packages, in_project: query.project)
-    else
-      user.allowed_in_any_work_package?(:edit_work_packages)
-    end
+    user.allowed_in_any_work_package?(:edit_work_packages, in_project: query.project)
   end
 
   def save_queries_allowed?(query)
