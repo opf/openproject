@@ -32,11 +32,11 @@ zh-CN:
       draggable_hint: |
         将图片或附件拖到编辑区内即可添加。鼠标在关闭的编辑区上停留将打开这个编辑区。
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "添加项目"
+      clear_all: "全部清除"
+      loading: "加载中..."
+      not_found: "未找到项目"
+      type_to_search: "键入内容进行搜索"
     autocomplete_select:
       placeholder:
         multi: "添加“%{name}”"
