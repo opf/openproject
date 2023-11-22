@@ -91,7 +91,7 @@ If you really did want to do it still you would have to whitelist any IP include
 
 ## Can I use inbound emails in my Enterprise cloud environment?
 
-Yes if you’re using the Enterprise cloud inbound emails are already configured.
+Yes if you’re using the Enterprise cloud, inbound emails are already configured.
 
 ## How do I use inbound emails?
 
