@@ -277,7 +277,7 @@ module API
         end
 
         link :addComment,
-             cache_if: -> { current_user.allowed_in_project?(:add_work_package_notes, represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:add_work_package_notes, represented) } do
           {
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
