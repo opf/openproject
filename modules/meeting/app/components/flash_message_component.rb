@@ -31,7 +31,8 @@ class FlashMessageComponent < ApplicationComponent
   include OpTurbo::Streamable
   include OpPrimer::ComponentHelpers
 
-  def initialize(message: nil, full: false, spacious: false, dismissible: false, icon: nil, scheme: :default)
+  def initialize(message: nil, full: false, spacious: false, dismissible: false, icon: nil, scheme: :default,
+                 test_selector: "primer-flash-message-component")
     super
 
     @message = message
@@ -40,6 +41,7 @@ class FlashMessageComponent < ApplicationComponent
     @dismissible = dismissible # TODO: not working yet -> JS dependency not provided?
     @icon = icon
     @scheme = scheme
+    @test_selector = test_selector
   end
 
   def call
@@ -56,7 +58,8 @@ class FlashMessageComponent < ApplicationComponent
 
   def flash_partial
     render(Primer::Beta::Flash.new(
-             full: @full, spacious: @spacious, dismissible: @dismissible, icon: @icon, scheme: @scheme
+             full: @full, spacious: @spacious, dismissible: @dismissible, icon: @icon, scheme: @scheme,
+             test_selector: @test_selector
            )) { @message }
   end
 end

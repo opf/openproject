@@ -62,7 +62,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   # Actually create a OAuthClient object.
   # Use service pattern to create a new OAuthClient
   # Called by: Global app/config/routes.rb to serve Web page
-  def create # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+  def create # rubocop:disable Metrics/AbcSize
     call_oauth_clients_create_service
 
     service_result.on_failure do
@@ -77,7 +77,12 @@ class Storages::Admin::OAuthClientsController < ApplicationController
           format.turbo_stream { render :create }
         end
       elsif @storage.provider_type_one_drive?
-        flash[:notice] = I18n.t(:'storages.notice_successful_storage_connection')
+        flash[:primer_flash] = {
+          message: I18n.t(:'storages.notice_successful_storage_connection'),
+          scheme: :success,
+          dismissible: true,
+          full: true
+        }
         redirect_to admin_settings_storages_path
       else
         raise "Unsupported provider type: #{@storage.short_provider_type}"
