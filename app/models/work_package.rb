@@ -359,7 +359,7 @@ class WorkPackage < ApplicationRecord
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
     user.allowed_in_project?(:edit_work_package_notes, project) ||
-      (user.allowed_in_project?(:edit_own_work_package_notes, project) && journal.user_id == user.id)
+      (user.allowed_in_work_package?(:edit_own_work_package_notes, self) && journal.user_id == user.id)
   end
 
   # Returns a scope for the projects
