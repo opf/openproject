@@ -101,7 +101,7 @@ module Users::PermissionChecks
     permissions = Authorization.permissions_for(permission, raise_on_unknown: true)
 
     entity_blank_or_not_project_scoped = (entity.blank? || !entity.respond_to?(:project) || (entity.respond_to?(:project) && entity.project.blank?))
-    entity_is_work_package_or_list = ((entity.is_a?(WorkPackage) && entity.persisted?) || (entity.is_a?(Array) && entity.all?(WorkPackage)))
+    entity_is_work_package_or_list = ((entity.is_a?(WorkPackage) && entity.persisted?) || (entity.is_a?(Enumerable) && entity.all?(WorkPackage)))
     entity_is_project_scoped_and_project_is_present = (entity.respond_to?(:project) && entity.project.present?)
 
     permissions.any? do |perm|
