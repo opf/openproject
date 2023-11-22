@@ -73,55 +73,87 @@ RSpec.describe User, "permission check methods" do
       end
     end
 
-    context 'with a project permission and a project' do
+    context 'with a project permission' do
       let(:permission) { :manage_members }
-      let(:project) { build_stubbed(:project) }
 
-      it 'uses the #allowed_in_project? method' do
-        expect(subject).to receive(:allowed_in_project?).with(permission_object, project)
-        result
+      context 'without a project or entity' do
+        let(:entity) { nil }
+        let(:project) { nil }
+
+        it 'uses the #allowed_in_any_project? method' do
+          expect(subject).to receive(:allowed_in_any_project?).with(permission_object)
+          result
+        end
+      end
+
+      context 'with a project' do
+        let(:project) { build_stubbed(:project) }
+
+        it 'uses the #allowed_in_project? method' do
+          expect(subject).to receive(:allowed_in_project?).with(permission_object, project)
+          result
+        end
+      end
+
+      context 'with an entity that responds to #project' do
+        let(:permission) { :manage_members }
+        let(:entity) { build_stubbed(:meeting) }
+
+        it 'uses the #allowed_in_project? method' do
+          expect(subject).to receive(:allowed_in_project?).with(permission_object, entity.project)
+          result
+        end
+
+        context 'with the project being nil' do
+          let(:entity) { build_stubbed(:meeting, project: nil) }
+
+          it 'uses the #allowed_in_any_project? method' do
+            expect(subject).to receive(:allowed_in_any_project?).with(permission_object)
+            result
+          end
+        end
+      end
+
+      context 'and an entity that does not respond to #project' do
+        let(:entity) { build_stubbed(:user) }
+
+        it 'uses the #allowed_in_any_project? method' do
+          expect(subject).to receive(:allowed_in_any_project?).with(permission_object)
+          result
+        end
       end
     end
 
-    context 'with a project permission and something that responds to #project' do
-      let(:permission) { :manage_members }
-      let(:entity) { build_stubbed(:meeting) }
-
-      it 'uses the #allowed_in_project? method' do
-        expect(subject).to receive(:allowed_in_project?).with(permission_object, entity.project)
-        result
-      end
-    end
-
-    context 'with a work package permission and a work package' do
+    context 'with a work package (and a project) permission' do
       let(:permission) { :log_own_time }
-      let(:entity) { build_stubbed(:work_package) }
 
-      it 'uses the #allowed_in_work_package? method' do
-        expect(subject).to receive(:allowed_in_work_package?).with(permission_object, entity)
-        result
+      context 'with a work package as the entity' do
+        let(:entity) { build_stubbed(:work_package) }
+
+        it 'uses the #allowed_in_work_package? method' do
+          expect(subject).to receive(:allowed_in_work_package?).with(permission_object, entity)
+          result
+        end
       end
-    end
 
-    context 'with a work package and project permission and a work package and a project' do
-      let(:permission) { :log_own_time }
-      let(:entity) { build_stubbed(:work_package) }
-      let(:project) { build_stubbed(:project) }
+      context 'with a project and no entity' do
+        let(:project) { build_stubbed(:project) }
 
-      it 'uses the #allowed_in_work_package? method' do
-        expect(subject).to receive(:allowed_in_work_package?).with(permission_object, entity)
-        result
+        it 'uses the #allowed_in_any_work_package? method with in_project: param' do
+          expect(subject).to receive(:allowed_in_any_work_package?).with(permission_object, in_project: project)
+          result
+        end
       end
-    end
 
-    context 'with a project permission and no project or entity' do
-      let(:permission) { :manage_members }
-      let(:entity) { nil }
-      let(:project) { nil }
+      context 'with a work package and a project' do
+        let(:permission) { :log_own_time }
+        let(:entity) { build_stubbed(:work_package) }
+        let(:project) { build_stubbed(:project) }
 
-      it 'uses the #allowed_in_any_project? method' do
-        expect(subject).to receive(:allowed_in_any_project?).with(permission_object)
-        result
+        it 'uses the #allowed_in_work_package? method' do
+          expect(subject).to receive(:allowed_in_work_package?).with(permission_object, entity)
+          result
+        end
       end
     end
   end
