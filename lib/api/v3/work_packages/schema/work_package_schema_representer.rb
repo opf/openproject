@@ -170,7 +170,7 @@ module API
                  required: false,
                  show_if: ->(*) {
                    current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-                   current_user.allowed_in_project?(:view_own_time_entries, represented.project)
+                   current_user.allowed_in_work_package?(:view_own_time_entries, represented)
                  }
 
           schema :percentage_done,

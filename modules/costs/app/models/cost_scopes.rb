@@ -38,7 +38,7 @@ module CostScopes
     table = arel_table
 
     view_allowed = Project.allowed_to(user, view_allowed_entries_permission).select(:id)
-    view_own_allowed = Project.allowed_to(user, view_allowed_own_entries_permission).select(:id)
+    view_own_allowed = WorkPackage.allowed_to(user, view_allowed_own_entries_permission).select(:project_id)
     visible_scope = scope.where view_or_view_own(table, view_allowed, view_own_allowed, user)
 
     if project

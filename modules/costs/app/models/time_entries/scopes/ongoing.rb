@@ -37,7 +37,7 @@ module TimeEntries::Scopes
 
       def visible_ongoing(user = User.current)
         TimeEntry
-          .where(project_id: Project.allowed_to(user, :log_own_time), user:, ongoing: true)
+          .where(work_package_id: WorkPackage.allowed_to(user, :log_own_time), user:, ongoing: true)
       end
 
       def not_ongoing
