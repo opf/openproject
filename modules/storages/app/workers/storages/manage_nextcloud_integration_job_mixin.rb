@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -25,16 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MigrateStoragesToUseProviderTypeAsStiColumn < ActiveRecord::Migration[7.0]
-  def up
-    execute <<~SQL
-      UPDATE "storages" SET provider_type = 'Storages::NextcloudStorage' WHERE "storages"."provider_type" = 'nextcloud'
-    SQL
-  end
+module Storages
+  module ManageNextcloudIntegrationJobMixin
+    using Peripherals::ServiceResultRefinements
 
-  def down
-    execute <<~SQL
-      UPDATE "storages" SET provider_type = 'nextcloud' WHERE "storages"."provider_type" = 'Storages::NextcloudStorage'
-    SQL
+    def perform
+      OpenProject::Mutex.with_advisory_lock(
+        ::Storages::NextcloudStorage,
+        'sync_all_group_folders',
+        timeout_seconds: 0,
+        transaction: false
+      ) do
+        ::Storages::NextcloudStorage.automatically_managed.includes(:oauth_client).find_each do |storage|
+          result = GroupFolderPropertiesSyncService.call(storage)
+          result.match(
+            on_success: ->(_) do
+              storage.mark_as_healthy unless storage.health_healthy?
+            end,
+            on_failure: ->(errors) do
+              if !storage.health_unhealthy? || storage.health_reason != errors.to_s
+                storage.mark_as_unhealthy(reason: errors.to_s)
+              end
+            end
+          )
+        end
+        true
+      end
+    end
   end
 end
