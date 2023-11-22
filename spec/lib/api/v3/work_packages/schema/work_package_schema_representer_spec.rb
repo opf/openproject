@@ -1216,27 +1216,13 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'if the users permissions change' do
         it_behaves_like 'changes' do
-          let(:role1) { build_stubbed(:project_role, permissions: permissions1) }
-          let(:permissions1) { %i[blubs some more] }
-          let(:role2) { build_stubbed(:project_role, permissions: permissions2) }
-          let(:permissions2) { %i[and other random permissions] }
-          let(:roles) { [role1, role2] }
-
+          let(:cache_perms) { %i[view_work_packages edit_work_packages] }
           let(:setup) do
-            allow(Authorization)
-              .to receive(:roles)
-              .with(current_user, project)
-              .and_return(roles)
-
-            allow(roles)
-              .to receive(:eager_load)
-              .and_return(roles)
+            allow(representer).to receive(:all_permissions_granted_to_user_under_project).and_return(cache_perms)
           end
 
           let(:change) do
-            allow(role2)
-              .to receive(:permissions)
-              .and_return(%i[but now they are different])
+            cache_perms << :manage_versions
           end
         end
       end
