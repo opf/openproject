@@ -248,7 +248,7 @@ module API
         end
 
         link :addRelation,
-             cache_if: -> { current_user.allowed_in_project?(:manage_work_package_relations, represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:manage_work_package_relations, represented) } do
           {
             href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
