@@ -67,4 +67,19 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
-<%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
+<% if @storage.provider_type_nextcloud? && @storage.automatically_managed? %>
+  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |component| %>
+    <% component.with_main() do %>
+      <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
+    <% end %>
+    <% component.with_sidebar(col_placement: :end, row_placement: :end) do %>
+      <%= render(Primer::OpenProject::BorderGrid.new(spacious: true)) do |grid| %>
+        <% grid.with_row do %>
+          <%= render(::Storages::Admin::HealthStatusComponent.new(@storage)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
+<% end %>

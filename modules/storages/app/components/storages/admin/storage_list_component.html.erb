@@ -28,7 +28,11 @@
               concat(render(Primer::Beta::Link.new(href: edit_admin_settings_storage_path(storage), scheme: :primary, mr: 1, data: { 'test-selector': 'storage-name' })) { storage.name })
 
               unless storage.configured?
-                concat(render(Primer::Beta::Label.new(scheme: :attention, data: { 'test-selector': 'label-incomplete' })) { I18n.t('storages.label_incomplete') })
+                concat(render(Primer::Beta::Label.new(scheme: :attention, test_selector: "label-incomplete", mr: 1)) { I18n.t('storages.label_incomplete') })
+              end
+
+              if storage.health_unhealthy?
+                concat(render(Primer::Beta::Label.new(scheme: :danger, test_selector: "label-error")) { I18n.t('storages.health.label_error') })
               end
             end
 
