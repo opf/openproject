@@ -9,10 +9,10 @@ export PARALLEL_TEST_FIRST_IS_1=true
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 # export NODE_OPTIONS="--max-old-space-size=8192"
 export LOG_FILE=/tmp/op-output.log
-export PGUSER=${PGUSER:=postgres}
-export PGHOST=${PGHOST:=localhost}
+export PGUSER=${PGUSER:=appuser}
+export PGHOST=${PGHOST:=127.0.0.1}
 export PGPASSWORD=${PGPASSWORD:=p4ssw0rd}
-export DATABASE_URL="postgres://$PGUSER:$PGPASSWORD@$PGHOST/postgres"
+export DATABASE_URL="postgres://$PGUSER:$PGPASSWORD@$PGHOST/appdb"
 
 run_psql() {
 	psql -v ON_ERROR_STOP=1 "$@"
@@ -45,8 +45,16 @@ execute_quiet() {
 		return 0
 	fi
 }
+create_db_cluster() {
+	if [ ! -d "/tmp/nulldb" ]; then
+		execute_quiet "initdb -E UTF8 -D /tmp/nulldb -U $PGUSER"
+		execute_quiet "cp docker/ci/postgresql.conf /tmp/nulldb/"
+		execute_quiet "pg_ctl -D /tmp/nulldb -l /dev/null -w start"
+	fi
+}
 
 reset_dbs() {
+	create_db_cluster
 	# must reset main db because for some reason the users table is not empty, after running db:migrate
 	execute_quiet "echo 'drop database if exists appdb ; create database appdb' | run_psql -d postgres"
 	execute_quiet "cat db/structure.sql | run_psql -d appdb"
@@ -71,12 +79,13 @@ setup_tests() {
 		execute_quiet "rm -rf '$folder' ; mkdir -p '$folder' ; chmod 1777 '$folder'"
 	done
 
-	execute_quiet "cp docker/ci/database.yml config/"
 	execute_quiet "mkdir -p spec/support/runtime-logs/"
 
 	execute "BUNDLE_JOBS=4 bundle install"
 	execute_quiet "bundle clean --force"
 
+	create_db_cluster
+	execute_quiet "cp docker/ci/database.yml config/"
 	# create test database "app" and dump schema because db/structure.sql is not checked in
 	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump zeitwerk:check"
 
