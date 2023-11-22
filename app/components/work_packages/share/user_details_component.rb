@@ -89,10 +89,18 @@ module WorkPackages
         user.locked? || user.invited?
       end
 
+      # Is a user member of a project no matter whether inherited or directly assigned
       def project_member?
         Member.exists?(project: share.project,
                        principal: user,
                        entity: nil)
+      end
+
+      # Explicitly check whether the project membership was inherited by a group
+      def inherited_project_member?
+        project_member? &&
+          Member.where(user_id: GroupUser.where(user_id: user.id).map(&:group_id)).any? &&
+          Member.where(user_id: user.id).any?
       end
 
       def project_group?
@@ -101,6 +109,10 @@ module WorkPackages
 
       def part_of_a_shared_group?
         share.member_roles.where.not(inherited_from: nil).any?
+      end
+
+      def part_of_a_group?
+        GroupUser.where(user_id: user.id).any?
       end
 
       def project_role_name

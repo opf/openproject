@@ -67,7 +67,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           subject
 
           expect(page)
-            .to have_text("Richard Hendricks Role: View", normalize_ws: true)
+            .to have_text("Richard Hendricks", normalize_ws: true)
         end
       end
 
@@ -85,7 +85,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Pending invitation. Role: View", normalize_ws: true)
+              .to have_text("Richard Hendricks Invite sent.", normalize_ws: true)
           end
         end
 
@@ -96,7 +96,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Pending invitation. Role: View", normalize_ws: true)
+              .to have_text("Richard Hendricks Invite sent.", normalize_ws: true)
           end
         end
       end
@@ -120,7 +120,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           subject
 
           expect(page)
-            .to have_text("Cool group Role: View", normalize_ws: true)
+            .to have_text("Cool group", normalize_ws: true)
         end
       end
 
@@ -129,7 +129,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           subject
 
           expect(page)
-            .to have_text("Cool group Role: View", normalize_ws: true)
+            .to have_text("Cool group", normalize_ws: true)
         end
       end
     end
@@ -149,7 +149,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Role: View", normalize_ws: true)
+              .to have_text("Richard Hendricks", normalize_ws: true)
           end
         end
 
@@ -162,7 +162,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Role: View", normalize_ws: true)
+              .to have_text("Richard Hendricks", normalize_ws: true)
           end
         end
       end
@@ -184,7 +184,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Role: View", normalize_ws: true)
+              .to have_text("Richard Hendricks", normalize_ws: true)
           end
         end
 
@@ -197,7 +197,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Role: View", normalize_ws: true)
+              .to have_text("Richard Hendricks", normalize_ws: true)
           end
         end
       end
@@ -241,7 +241,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Pending invitation. Resend invite", normalize_ws: true)
+              .to have_text("Richard Hendricks Invite sent. Resend.", normalize_ws: true)
           end
         end
 
@@ -252,7 +252,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Pending invitation. Invite has been resent", normalize_ws: true)
+              .to have_text("Richard Hendricks Invite has been resent", normalize_ws: true)
           end
         end
       end
@@ -276,7 +276,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           subject
 
           expect(page)
-            .to have_text("Cool group Project group", normalize_ws: true)
+            .to have_text("Cool group Group members might have additional privileges (as project members)", normalize_ws: true)
         end
       end
 
@@ -285,7 +285,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           subject
 
           expect(page)
-            .to have_text("Cool group Not project group", normalize_ws: true)
+            .to have_text("Cool group Group (shared with all members)", normalize_ws: true)
         end
       end
     end
@@ -299,61 +299,168 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                roles: [work_package_role])
       end
 
-      context 'when the user is not part of a shared with group' do
-        context 'and the user is not a project member' do
+      context 'when the user is a project member' do
+        before do
+          create(:member, project:, principal:, roles: [project_role])
+        end
+
+        context 'and the user is not part of any group' do
           it do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Not project member", normalize_ws: true)
+              .to have_text("Richard Hendricks Might have additional privileges (as project member)", normalize_ws: true)
           end
         end
 
-        context 'and the user is a project member' do
-          before do
-            create(:member, project:, principal:, roles: [project_role])
+        context 'and the user is part of a group' do
+          shared_let(:group) { create(:group, name: group_name, members: [principal]) }
+
+          context 'and the group is a project member itself' do
+            before do
+              create(:member, project:, principal: group, roles: [project_role])
+            end
+
+            context 'and the group is shared with' do
+              before do
+                group_share = create(:work_package_member,
+                                     principal: group,
+                                     entity: work_package,
+                                     roles: [work_package_role])
+
+                build_inherited_share(group_share:, user_share: share)
+              end
+
+              it do
+                subject
+
+                expect(page)
+                  .to have_text("Richard Hendricks Might have additional privileges (as project or group member)",
+                                normalize_ws: true)
+              end
+            end
+
+            context 'and the group is not shared with' do
+              it do
+                subject
+
+                expect(page)
+                  .to have_text("Richard Hendricks Might have additional privileges (as project or group member)",
+                                normalize_ws: true)
+              end
+            end
           end
 
-          it do
-            subject
+          context 'and the group is not a project member itself' do
+            context 'and the group is shared with' do
+              before do
+                group_share = create(:work_package_member,
+                                     principal: group,
+                                     entity: work_package,
+                                     roles: [work_package_role])
 
-            expect(page)
-              .to have_text("Richard Hendricks Project member: Cool role", normalize_ws: true)
+                build_inherited_share(group_share:, user_share: share)
+              end
+
+              it do
+                subject
+
+                expect(page)
+                  .to have_text("Richard Hendricks Might have additional privileges (as project or group member)",
+                                normalize_ws: true)
+              end
+            end
+
+            context 'and the group is not shared with' do
+              it do
+                subject
+
+                expect(page)
+                  .to have_text("Richard Hendricks Might have additional privileges (as project member)",
+                                normalize_ws: true)
+              end
+            end
           end
         end
       end
 
-      context 'when the user is part of a shared with group' do
-        shared_let(:group) { create(:group, name: group_name, members: [principal]) }
-
-        before do
-          group_share = create(:work_package_member,
-                               principal: group,
-                               entity: work_package,
-                               roles: [work_package_role])
-
-          build_inherited_share(group_share:, user_share: share)
-        end
-
-        context 'and the user is not a project member' do
+      context 'when the user is not a project member' do
+        context 'and the user is not part of any group' do
           it do
             subject
 
             expect(page)
-              .to have_text("Richard Hendricks Part of a shared group", normalize_ws: true)
+              .to have_text("Richard Hendricks Not a project member", normalize_ws: true)
           end
         end
 
-        context 'and the user is a project member' do
-          before do
-            create(:member, project:, principal:, roles: [project_role])
+        context 'and the user is part of a group' do
+          shared_let(:group) { create(:group, name: group_name, members: [principal]) }
+
+          context 'and the group is a project member itself' do
+            before do
+              create(:member, project:, principal: group, roles: [project_role])
+              create(:member, project:, principal:, roles: [project_role])
+            end
+
+            context 'and the group is shared with' do
+              before do
+                group_share = create(:work_package_member,
+                                     principal: group,
+                                     entity: work_package,
+                                     roles: [work_package_role])
+
+                build_inherited_share(group_share:, user_share: share)
+              end
+
+              it do
+                subject
+
+                expect(page)
+                  .to have_text("Richard Hendricks Might have additional privileges (as project or group member)",
+                                normalize_ws: true)
+              end
+            end
+
+            context 'and the group is not shared with' do
+              it do
+                subject
+
+                expect(page)
+                  .to have_text("Richard Hendricks Might have additional privileges (as project or group member)",
+                                normalize_ws: true)
+              end
+            end
           end
 
-          it do
-            subject
+          context 'and the group is not a project member itself' do
+            context 'and the group is shared with' do
+              before do
+                group_share = create(:work_package_member,
+                                     principal: group,
+                                     entity: work_package,
+                                     roles: [work_package_role])
 
-            expect(page)
-              .to have_text("Richard Hendricks Part of a shared group. Project member: Cool role", normalize_ws: true)
+                build_inherited_share(group_share:, user_share: share)
+              end
+
+              it do
+                subject
+
+                expect(page)
+                  .to have_text("Richard Hendricks Might have additional privileges (as group member)",
+                                normalize_ws: true)
+              end
+            end
+
+            context 'and the group is not shared with' do
+              it do
+                subject
+
+                expect(page)
+                  .to have_text("Richard Hendricks Not a project member", normalize_ws: true)
+              end
+            end
           end
         end
       end

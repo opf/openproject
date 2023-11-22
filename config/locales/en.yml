@@ -3275,15 +3275,15 @@ en:
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       user_details:
         locked: "Locked user"
-        invited: "Pending invitation. "
-        resend_invite: "Resend invite"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
         invite_resent: "Invite has been resent"
-        project_member: "Project member: "
-        not_project_member: "Not project member"
-        project_group: "Project group"
-        not_project_group: "Not project group"
-        part_of_a_shared_group: "Part of a shared group. "
-        role: "Role: "
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
 
   working_days:
     info: >

@@ -19,10 +19,10 @@
                 concat(render(Primer::Beta::Octicon.new(icon: :lock, color: :muted, mr: 1)))
                 concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.locked") })
               elsif user.invited?
-                concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t('work_package.sharing.user_details.invited') })
                 if invite_resent?
                   concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.invite_resent") })
                 else
+                  concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t('work_package.sharing.user_details.invited') })
                   concat(
                     form_with(url: resend_invite_path, method: :post) do
                       render(Primer::Beta::Button.new(type: :submit, px: 0, scheme: :link)) { I18n.t('work_package.sharing.user_details.resend_invite') }
@@ -31,15 +31,28 @@
                 end
               end
             else
-              if part_of_a_shared_group?
-                concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.part_of_a_shared_group") })
-              end
-
-              if project_member?
-                concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.project_member")})
-                concat(render(Primer::Beta::Text.new(color: :subtle, font_weight: :semibold)) { project_role_name })
+              if part_of_a_group?
+                if part_of_a_shared_group?
+                  if project_member?
+                    concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.additional_privileges_project_or_group") })
+                  else
+                    concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.additional_privileges_group") })
+                  end
+                else
+                  if inherited_project_member?
+                    concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.additional_privileges_project_or_group") })
+                  elsif project_member?
+                    concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.additional_privileges_project") })
+                  else
+                    concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.not_project_member") })
+                  end
+                end
               else
-                concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.not_project_member")})
+                if project_member?
+                  concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.additional_privileges_project") })
+                else
+                  concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.not_project_member") })
+                end
               end
             end
           end
@@ -47,9 +60,6 @@
           if user.invited?
             concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.invited")})
           end
-
-          concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("work_package.sharing.user_details.role") })
-          concat(render(Primer::Beta::Text.new(color: :subtle, font_weight: :semibold)) { authoritative_work_package_role_name })
         end
       end
     end
