@@ -280,7 +280,7 @@ RSpec.describe Meeting do
 
   describe '#destroy' do
     before do
-      meeting.agenda_items << build(:meeting_agenda_item)
+      meeting.agenda_items << create(:meeting_agenda_item)
       meeting.save
     end
 
