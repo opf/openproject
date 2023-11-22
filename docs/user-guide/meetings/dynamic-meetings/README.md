@@ -8,9 +8,9 @@ keywords: meetings, dynamic meetings, agenda, minutes
 
 # Dynamic meetings management
 
-Dynamic meetings are introduced with OpenProject 13.1 and allow easier meetings management, including improved agenda creation, linking work packages to the meetings and 
+Dynamic meetings are introduced with OpenProject 13.1 and allow easier meetings management, including improved agenda creation and linking work packages directly to the meetings.
 
-**Note:** in order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). </div>
+**Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). </div>
 
 
 | Topic                                                        | Content                                           |
@@ -31,7 +31,7 @@ Dynamic meetings are introduced with OpenProject 13.1 and allow easier meetings 
 
 By selecting **Meetings** in the project menu on the left, you get an overview of all the meetings within a specific project sorted by date. By clicking on a meeting name you can view further details of the meeting.
 
-To get an overview of the meetings across multiple projects you can select **Meetings** in the [global modules menu](https://www.openproject.org/docs/user-guide/home/global-modules/).
+To get an overview of the meetings across multiple projects, you can select **Meetings** in the [global modules menu](https://www.openproject.org/docs/user-guide/home/global-modules/).
 
 ![Select meetings module from openproject global modules ](openproject_userguide_meetings_module_select.png)
 
@@ -44,7 +44,7 @@ The menu on the left will allow you to filter for upcoming or past meetings. You
 
 You can either create a meeting from within a project, or from the **Meetings** global module. 
 
-> Please note that starting with the 13.1.0 release there will be a choice between creating a classic or dynamic meetings. The default value selected will be a dynamic meeting. In the future, the classic meetings option will be removed.
+> Please note that starting with the 13.1.0 release there will be a choice between creating a dynamic or classic meetings. The default value selected will be a dynamic meeting. In the future, the classic meetings option will be removed.
 
 To create a new meeting, click the green **+ Meeting** button in the upper right corner.
 
@@ -82,17 +82,19 @@ You can add items to an agenda or directly link work packages by selecting the r
 
 ![](openproject_dynamic_meetings_add_agenda_item.png)
 
-After you have finalized the agenda, you can always edit the agenda items, add notes, move an item or delete it. You can choose the respective option from the menu next each agenda item.
+After you have finalized the agenda, you can always edit the agenda items, add notes, move an item up or down or delete it. Click on the three dots on the right edge of each agenda item to do so.
 
 ![Edit agenda in OpenProject dynamic meetings](openproject_dynamic_meetings_edit_agenda.png)
 
-The planned duration of each agenda item is automatically summed up. If that sum exceeds the planned duration of the meeting, a warning will appear next to the meeting duration sign. 
+The durations of each agenda item are automatically summed up. If that sum exceeds the planned duration entered in *Meeting Details*, the durations of those agenda times that exceed the planned duration will appear in red to warn the user.
 
 ![OpenProject meeting too long](openproject_dynamic_meetings_agenda_too_long.png)
 
 ### Add a work package to the agenda
 
-You can add a work package to an agenda either while [editing an agenda](#create-or-edit-the-meeting-agenda) or directly from a work package under the **Meetings** tab (ADD LINK). You can add a work package to both upcoming and past meetings, as long as they are marked **open**. 
+You can add a work package to an agenda either while [editing an agenda](#create-or-edit-the-meeting-agenda) or [directly from the **Meetings** tab in a detailed view of a work package](../../work-packages/add-work-packages-to-meetings).
+
+You can add a work package to both upcoming and past meetings, as long as they are marked **open**. 
 
 ![OpenProject work packages in meetings agenda](openproject_dynamic_meetings_wp_agenda.png)
 
@@ -103,21 +105,21 @@ You will see the list of all the invited project members under **Participants**.
 
 ![adding meeting participants](openproject_dynamic_meetings_add_participants.png)
 
-You will see the list of all the project members and the based on the check marks next to the name you will be able to tell which project members have been invited. After the meeting you can record who actually took part in it.
+You will see the list of all the project members and, based on the check marks next to the name, you will be able to tell which project members have been invited. After the meeting, you can record who actually took part in it.
 
 ![invite meeting participants](openproject_dynamic_meetings_add_new_participants.png)
 
-By removing the check mark you can remove project members from the meetings.
+By removing the check mark, you can remove project members from the meetings.
 
-Click on the **Save** button to secure the changes made by you.
+Click on the **Save** button to confirm the changes.
 
 ### Send email to all participants
 
-You can send an email to all the meeting participants to notify or remind them of the meeting. To do that select the dropdown, same as you would when editing the meeting title and select **Send email to all participants**.
+You can send an email notification or reminder to all the meeting participants. To do that, select the dropdown, same as you would when editing the meeting title and select **Send email to all participants**. An email reminder with the meeting details (including a link to the meeting) is immediately sent to all invitees and attendees.
 
 ## Download a meeting as an iCalendar event
 
-You can download a meeting as an iCalendar event. To do that select the dropdown, same as you would when editing the meeting title and select the **Download iCalendar event**.
+You can download a meeting as an iCalendar event. To do this, select the dropdown by clicking on the three dots in the top right corner and select the **Download iCalendar event**.
 
 ## Close a meeting
 
@@ -133,6 +135,6 @@ Once a meeting has been closed, it can no longer be edited. It can be re-opened 
 
 ## Delete a meeting
 
-You can delete a meeting. To do that select the dropdown, same as you would when editing the meeting title and select the **Delete meeting**. You will need to confirm that decision.
+You can delete a meeting. To do so, click on the three dots in the top right corner, select **Delete meeting** and confirm your choice.
 
 ![Deleting a dynamic meeting in OpenProject](openproject_dynamic_meetings_delete_meeting.png)

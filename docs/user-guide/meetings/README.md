@@ -12,7 +12,7 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 
 <div class="glossary">
 **Meetings** is defined as a module that allows the organization of meetings. 
-**Note:** in order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). 
+**Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). 
 </div>
 <div class="glossary">
 
