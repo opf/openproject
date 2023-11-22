@@ -69,7 +69,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job
             storage1.reload
           end.to(
             change(storage1, :health_changed_at).to(Time.now.utc)
-              .and(change(storage1, :health_status).from('unconfigured').to('healthy'))
+              .and(change(storage1, :health_status).from('pending').to('healthy'))
           )
         end
       end
@@ -86,7 +86,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job
             storage1.reload
           end.to(
             change(storage1, :health_changed_at).to(Time.now.utc)
-              .and(change(storage1, :health_status).from('unconfigured').to('unhealthy'))
+              .and(change(storage1, :health_status).from('pending').to('unhealthy'))
               .and(change(storage1, :health_reason).from(nil).to('not_found'))
           )
         end

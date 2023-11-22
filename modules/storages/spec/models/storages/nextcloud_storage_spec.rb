@@ -51,9 +51,9 @@ RSpec.describe Storages::NextcloudStorage do
         expect do
           storage.mark_as_healthy
         end.to(change(storage, :health_changed_at).to(healthy_time)
-                 .and(change(storage, :health_status).from('unconfigured').to('healthy')))
-        expect(storage.healthy?).to be(true)
-        expect(storage.unhealthy?).to be(false)
+                 .and(change(storage, :health_status).from('pending').to('healthy')))
+        expect(storage.health_healthy?).to be(true)
+        expect(storage.health_unhealthy?).to be(false)
       end
 
       Timecop.freeze(unhealthy_time) do
@@ -63,8 +63,8 @@ RSpec.describe Storages::NextcloudStorage do
                  .and(change(storage, :health_status).from('healthy').to('unhealthy'))
                  .and(change(storage, :health_reason).from(nil).to('thou_shall_not_pass_error')))
       end
-      expect(storage.healthy?).to be(false)
-      expect(storage.unhealthy?).to be(true)
+      expect(storage.health_healthy?).to be(false)
+      expect(storage.health_unhealthy?).to be(true)
     end
   end
 

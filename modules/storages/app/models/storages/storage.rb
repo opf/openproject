@@ -74,10 +74,10 @@ module Storages
     end
 
     enum health_status: {
-      unconfigured: 'unconfigured',
+      pending: 'pending',
       healthy: 'healthy',
       unhealthy: 'unhealthy'
-    }.freeze
+    }.freeze, _prefix: :health
 
     def self.shorten_provider_type(provider_type)
       case /Storages::(?'provider_name'.*)Storage/.match(provider_type)

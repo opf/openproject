@@ -28,9 +28,9 @@
 class AddHealthInfoToStorages < ActiveRecord::Migration[7.0]
   def up
     execute <<-SQL.squish
-      CREATE TYPE storage_health_statuses AS ENUM ('unconfigured', 'healthy', 'unhealthy');
+      CREATE TYPE storage_health_statuses AS ENUM ('pending', 'healthy', 'unhealthy');
     SQL
-    add_column(:storages, :health_status, :storage_health_statuses, null: false, default: 'unconfigured')
+    add_column(:storages, :health_status, :storage_health_statuses, null: false, default: 'pending')
     add_column(:storages, :health_changed_at, :datetime, null: false, default: -> { 'current_timestamp' })
     add_column(:storages, :health_reason, :string)
   end
