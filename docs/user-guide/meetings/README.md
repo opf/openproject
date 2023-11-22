@@ -11,8 +11,10 @@ keywords: meetings
 Meetings in OpenProject allow you to manage and document your project meetings, prepare a meeting agenda together with your team and document and share minutes with attendees, all in one central place.
 
 <div class="glossary">
-**Meetings** is defined as a module that allows the organization of meetings. The module has to be activated in the [Project Settings](../projects/project-settings/modules/) in order to be displayed in the side navigation.
+**Meetings** is defined as a module that allows the organization of meetings. 
+**Note:** in order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). 
 </div>
+<div class="glossary">
 
 | Topic                                               | Content                                                  |
 | --------------------------------------------------- | -------------------------------------------------------- |
@@ -23,7 +25,7 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 
 You can view existing meetings within a project or create a new meeting by selecting **Meetings** module in the left-hand project menu. Alternatively, you can access the transversal cross-project **Meetings** module from the [global modules](../home/global-modules/) menu. 
 
->With OpenProject 13.1.0 there will be two types of meetings that you can create: [dynamic](dynamic-meetings/) and [classic](classic-meetings/. Please keep in mind that the ability to create classic meetings will eventually be removed from OpenProject.
+>With OpenProject 13.1.0 there will be two types of meetings that you can create: [dynamic](dynamic-meetings/) and [classic](classic-meetings). Please keep in mind that the ability to create classic meetings will eventually be removed from OpenProject.
 
 
 
