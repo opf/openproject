@@ -137,7 +137,7 @@ A typical workflow on GitLab side would be:
 You will have to configure both **OpenProject** and **Gitlab** for the integration to work.
 
 In case of **Docker** installation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins). If for some reason the installation with Docker described in the official documentation does not work for you, you can try building your own docker image:
-* Clone from the Openproject Repo: `git clone https://github.com/opf/openproject.git --branch=stable/12 --depth=1 .`
+* Clone from the Openproject Repo: `git clone https://github.com/opf/openproject.git --branch=stable/13 --depth=1 .`
 * Clone the plugin inside the modules folder: `git clone https://github.com/btey/openproject-gitlab-integration.git --depth=1 modules/gitlab_integration`
 * Apply the changes below in Gemfile.lock and Gemfile.modules (the same ones you would do in a manual install).
 * Build the container: `docker build -t openproject-docker --file=docker/prod/Dockerfile .`
@@ -155,7 +155,7 @@ But first you must modify **Gemfile.lock** and **Gemfile.modules** so that OpenP
 
 Add the following in **Gemfile.lock**:
 
-```
+```yml
 PATH
   remote: modules/gitlab_integration
   specs:
@@ -165,7 +165,7 @@ PATH
 
 And add this other line in DEPENDENCIES section:
 
-```
+```yml
 DEPENDENCIES
 ...
   openproject-github_integration!
@@ -176,7 +176,7 @@ DEPENDENCIES
 
 Add the following in **Gemfile.modules**:
 
-```
+```yml
 group :opf_plugins do
 ...
   gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'
@@ -186,7 +186,7 @@ end
 
 **Note:** It's possible that you need to use these commands before and after the "bundle install" if you get an error in this step warning about a change in the Gemfile:
 
-```
+```shell
 bundle config unset deployment 
 bundle install --deployment --without mysql2 sqlite development test therubyracer docker
 bundle config set deployment
@@ -206,7 +206,7 @@ Once the user is created you need to generate an OpenProject API token for it to
 
 ### The webhook in GitLab
 
-In GitLab you have to set up a webhook in each repository to be integrated with OpenProject.
+In GitLab you have to [set up a webhook](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html#configure-a-webhook-in-gitlab) in each project or in a group ([Premium Users](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html#group-webhooks)) to be integrated with OpenProject.
 
 You need to configure just two things in the webhook:
 
@@ -216,21 +216,16 @@ You need to configure just two things in the webhook:
    http://openproject-url.com/webhooks/gitlab?key=ae278268
    ```
 
-2. Enable the required triggers:
-   
-   1. Push events
-   
-   2. Comments
-   
+2. Enable the required triggers:   
+   1. Push events   
+   2. Comments   
    3. Issues events
-   
-   4. Merge request events
-  
+   4. Merge request events  
    5. Pipeline events
 
 Now the integration is set up on both sides and you can use it.
 
-> **Note:** If you are installing and configuring OpenProject on the same server as GitLab you will need to enable in Gitlab the option "Allow requests to the local network from web hooks and services" so that it can send the data locally to the OpenProject webhook since they will be on the same machine.
+> **Note:** If you are installing and configuring OpenProject on the same server as GitLab you will need to enable in Gitlab the option [`Allow requests to the local network from web hooks and services`](https://docs.gitlab.com/ee/security/webhooks.html#allow-requests-to-the-local-network-from-webhooks-and-integrations) so that it can send the data locally to the OpenProject webhook since they will be on the same machine.
 
 ## How to report bugs or issues
 
