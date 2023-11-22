@@ -39,8 +39,13 @@ module API
           include API::Caching::CachedRepresenter
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               User.current.roles_for_project(represented.project).map(&:permissions).flatten.uniq.sort +
-                                 [Setting.work_package_done_ratio]
+                               Role
+                                .joins(:members)
+                                .where(members: { project_id: represented.project, principal: User.current })
+                                .map(&:permissions)
+                                .flatten
+                                .uniq
+                                .sort + [Setting.work_package_done_ratio]
                              }
 
           custom_field_injector type: :schema_representer

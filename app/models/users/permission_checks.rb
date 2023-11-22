@@ -101,7 +101,7 @@ module Users::PermissionChecks
     permissions = Authorization.permissions_for(permission, raise_on_unknown: true)
 
     entity_blank_or_not_project_scoped = (entity.blank? || !entity.respond_to?(:project) || (entity.respond_to?(:project) && entity.project.blank?))
-    entity_is_work_package_or_list = (entity.is_a?(WorkPackage) || (entity.is_a?(Array) && entity.all?(WorkPackage)))
+    entity_is_work_package_or_list = ((entity.is_a?(WorkPackage) && entity.persisted?) || (entity.is_a?(Array) && entity.all?(WorkPackage)))
     entity_is_project_scoped_and_project_is_present = (entity.respond_to?(:project) && entity.project.present?)
 
     permissions.any? do |perm|
@@ -111,7 +111,9 @@ module Users::PermissionChecks
         allowed_in_work_package?(perm, entity)
       elsif perm.work_package? && entity.blank? && project.blank?
         allowed_in_any_work_package?(perm)
-      elsif perm.work_package? && project && entity.blank?
+      elsif perm.work_package? && entity && entity.new_record? && entity.respond_to?(:project)
+        allowed_in_any_work_package?(perm, in_project: entity.project)
+      elsif perm.work_package? && project && (entity.blank? || entity.new_record?)
         allowed_in_any_work_package?(perm, in_project: project)
       elsif perm.project? && project
         allowed_in_project?(perm, project)

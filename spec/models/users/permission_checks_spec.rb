@@ -136,6 +136,17 @@ RSpec.describe User, "permission check methods" do
         end
       end
 
+      context 'with a not-persisted work package as the entity' do
+        context 'with a project' do
+          let(:entity) { build(:work_package) }
+
+          it 'uses the #allowed_in_any_work_package? method with in_project: param' do
+            expect(subject).to receive(:allowed_in_any_work_package?).with(permission_object, in_project: entity.project)
+            result
+          end
+        end
+      end
+
       context 'with a project and no entity' do
         let(:project) { build_stubbed(:project) }
 
