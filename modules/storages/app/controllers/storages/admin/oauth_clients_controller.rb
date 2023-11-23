@@ -77,10 +77,10 @@ class Storages::Admin::OAuthClientsController < ApplicationController
           format.turbo_stream { render :create }
         end
       elsif @storage.provider_type_one_drive?
-        flash[:primer_flash] = {
+        flash[:primer_banner] = {
           message: I18n.t(:'storages.notice_successful_storage_connection'),
           scheme: :success,
-          dismissible: true,
+          dismiss_scheme: :hide,
           full: true
         }
         redirect_to admin_settings_storages_path

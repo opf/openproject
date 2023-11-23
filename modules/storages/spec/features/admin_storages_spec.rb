@@ -251,7 +251,7 @@ RSpec.describe 'Admin storages',
 
           expect(page).to have_current_path(admin_settings_storages_path)
           expect(page).to have_test_selector(
-            "primer-flash-message-component",
+            "primer-banner-message-component",
             text: "Storage connected successfully! Remember to activate the module and the specific " \
                   "storage in the project settings of each desired project to use it."
           )
@@ -324,7 +324,7 @@ RSpec.describe 'Admin storages',
 
           expect(page).to have_current_path(admin_settings_storages_path)
           wait_for(page).to have_test_selector(
-            "primer-flash-message-component",
+            "primer-banner-message-component",
             text: "Storage connected successfully! Remember to activate the module and the specific " \
                   "storage in the project settings of each desired project to use it."
           )

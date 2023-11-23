@@ -26,37 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class FlashMessageComponent < ApplicationComponent
-  include ApplicationHelper
-  include OpTurbo::Streamable
-  include OpPrimer::ComponentHelpers
-
-  def initialize(message: nil, full: false, spacious: false, dismissible: false, icon: nil, scheme: :default)
+class BannerMessageComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  def initialize(message: nil, full: false, full_when_narrow: false, dismiss_scheme: :none, icon: false, scheme: :default,
+                 test_selector: "primer-banner-message-component")
     super
 
     @message = message
     @full = full
-    @spacious = spacious
-    @dismissible = dismissible # TODO: not working yet -> JS dependency not provided?
+    @full_when_narrow = full_when_narrow
+    @dismiss_scheme = dismiss_scheme
     @icon = icon
     @scheme = scheme
+    @test_selector = test_selector
   end
 
-  def call
-    component_wrapper do
-      # even without provided message, the wrapper should be  rendered as this allows
-      # for triggering a flash message via turbo stream
-      if @message.present?
-        flash_partial
-      end
-    end
-  end
-
-  private
-
-  def flash_partial
-    render(Primer::Beta::Flash.new(
-             full: @full, spacious: @spacious, dismissible: @dismissible, icon: @icon, scheme: @scheme
-           )) { @message }
-  end
+  attr_reader :message, :full, :full_when_narrow, :dismiss_scheme, :icon, :scheme, :test_selector
 end

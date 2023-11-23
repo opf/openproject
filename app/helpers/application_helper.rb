@@ -115,19 +115,19 @@ module ApplicationHelper
     end
   end
 
-  def render_primer_flash_message?
-    flash[:primer_flash].present?
+  def render_primer_banner_message?
+    flash[:primer_banner].present?
   end
 
-  def render_primer_flash_message
-    return unless render_primer_flash_message?
+  def render_primer_banner_message
+    return unless render_primer_banner_message?
 
-    render(FlashMessageComponent.new(**flash[:primer_flash].to_hash))
+    render(BannerMessageComponent.new(**flash[:primer_banner].to_hash))
   end
 
   # Renders flash messages
-  def render_legacy_flash_messages
-    return if render_primer_flash_message?
+  def render_flash_messages
+    return if render_primer_banner_message?
 
     messages = flash
       .reject { |k, _| k.start_with? '_' }
@@ -151,24 +151,20 @@ module ApplicationHelper
     end
   end
 
-  def render_legacy_flash_message(type, message, html_options = {}) # rubocop:disable Metrics/AbcSize
+  def render_flash_message(type, message, html_options = {})
     if type.to_s == 'notice'
       type = 'success'
     end
-
     toast_css_classes = ["op-toast -#{type}", html_options.delete(:class)]
-
     # Add autohide class to notice flashes if configured
     if type.to_s == 'success' && User.current.pref.auto_hide_popups?
       toast_css_classes << 'autohide-toaster'
     end
-
     html_options = { class: toast_css_classes.join(' '), role: 'alert' }.merge(html_options)
     close_button = content_tag :a, '', class: 'op-toast--close icon-context icon-close',
                                        title: I18n.t('js.close_popup_title'),
                                        tabindex: '0'
     toast = content_tag(:div, join_flash_messages(message), class: 'op-toast--content')
-
     content_tag :div, '', class: 'op-toast--wrapper' do
       content_tag :div, '', class: 'op-toast--casing' do
         content_tag :div, html_options do
