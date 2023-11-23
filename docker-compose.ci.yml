@@ -21,7 +21,9 @@ services:
       - "/tmp"
     volumes:
       - .:/app
+      - ${LOCAL_CACHE_PATH}/node/.npm:/app/.npm
+      - ${LOCAL_CACHE_PATH}/node/node_modules:/app/node_modules
+      - ${LOCAL_CACHE_PATH}/node/frontend/node_modules:/app/frontend/node_modules
       - ${LOCAL_CACHE_PATH}/bundle:/usr/local/bundle
-      - ${LOCAL_CACHE_PATH}/npm:/app/.npm
       - ${LOCAL_CACHE_PATH}/angular:/app/frontend/.angular/cache
       - ${LOCAL_CACHE_PATH}/runtime-logs:/app/spec/support/runtime-logs
