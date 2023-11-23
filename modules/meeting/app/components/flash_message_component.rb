@@ -31,14 +31,14 @@ class FlashMessageComponent < ApplicationComponent
   include OpTurbo::Streamable
   include OpPrimer::ComponentHelpers
 
-  def initialize(message: nil, full: false, spacious: false, dismissible: false, icon: nil, scheme: :default,
+  def initialize(message: nil, full: false, full_when_narrow: false, dismissible: false, icon: false, scheme: :default,
                  test_selector: "primer-flash-message-component")
     super
 
     @message = message
     @full = full
-    @spacious = spacious
-    @dismissible = dismissible # TODO: not working yet -> JS dependency not provided?
+    @full_when_narrow = full_when_narrow
+    @dismissible = dismissible
     @icon = icon
     @scheme = scheme
     @test_selector = test_selector
@@ -48,7 +48,7 @@ class FlashMessageComponent < ApplicationComponent
     component_wrapper do
       # even without provided message, the wrapper should be  rendered as this allows
       # for triggering a flash message via turbo stream
-      if @message.present?
+      if message.present?
         flash_partial
       end
     end
@@ -56,10 +56,24 @@ class FlashMessageComponent < ApplicationComponent
 
   private
 
+  attr_reader :message, :full, :full_when_narrow, :dismissible, :icon, :scheme, :test_selector
+
   def flash_partial
-    render(Primer::Beta::Flash.new(
-             full: @full, spacious: @spacious, dismissible: @dismissible, icon: @icon, scheme: @scheme,
-             test_selector: @test_selector
-           )) { @message }
+    # The banner component is similar to the flash message component, but is more feature rich.
+    #  - It ALWAYS renders with an icon
+    #  - It can be dismissed
+    #  - It allows for custom actions while flash messages only allow for a dismiss action (which doesn't work yet :/)
+    # See https://primer.style/components/banner/rails/alpha
+    render(
+      Primer::Alpha::Banner.new(
+        full:, full_when_narrow:,
+        dismiss_scheme:, icon:, scheme:,
+        test_selector:
+      )
+    ) { message }
+  end
+
+  def dismiss_scheme
+    dismissible ? :remove : :none
   end
 end
