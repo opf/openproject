@@ -8,6 +8,12 @@
       <%= t("storages.label_new_file_storage") %>
     <% end %>
 
+    <% header.with_back_button(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) %>
+
+    <% header.with_parent_link(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) do %>
+      <%= t(:project_module_storages) %>
+    <% end %>
+
     <% header.with_description do %>
       <%=
         t("storages.instructions.new_storage",

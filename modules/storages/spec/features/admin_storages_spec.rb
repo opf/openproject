@@ -729,7 +729,7 @@ RSpec.describe 'Admin storages',
     ######### End Edit Automatically managed project folders #########
 
     # List of storages
-    page.find("ul.op-breadcrumb li", text: "File storages").click
+    page.find("#{test_selector('op-breadcrumb')} ol li", text: "File storages").click
 
     # Delete on List page
     page.find('td.buttons .icon-delete').click
@@ -771,7 +771,7 @@ RSpec.describe 'Admin storages',
 
         expect(page).not_to have_css('.flash.flash-error')
 
-        within('.op-breadcrumb') do
+        within(test_selector('op-breadcrumb')) do
           click_link 'File storages'
         end
 
