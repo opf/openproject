@@ -41,36 +41,28 @@ class StructuredMeeting < Meeting
         top
       end
 
-      # Disable the locking_column in order to avoid causing `StaleObjectError`
-      # TODO: The activerecord-import gem does not respect the ActiveRecord::Base.lock_optimistically
-      # flag, so a direct cleaning of the locking_column is necessary.
-      # Once the gem is updated we can use the ActiveRecord::Base.lock_optimistically = false, instead of
-      # removing the locking_column. See: https://github.com/zdennis/activerecord-import/pull/822
-      original_locking_column = MeetingAgendaItem.locking_column
-      MeetingAgendaItem.locking_column = nil
-
-      MeetingAgendaItem.import(
-        changed_items,
-        on_duplicate_key_update: {
-          conflict_target: [:id],
-          columns: %i[meeting_id
-                      author_id
-                      title
-                      notes
-                      position
-                      duration_in_minutes
-                      start_time
-                      end_time
-                      created_at
-                      updated_at
-                      work_package_id
-                      item_type
-                      lock_version]
-        }
-      )
-
-      # Re-enable the locking_column
-      MeetingAgendaItem.locking_column = original_locking_column
+      # Disable optimistic locking in order to avoid causing `StaleObjectError`.
+      MeetingAgendaItem.skip_optimistic_locking do
+        MeetingAgendaItem.import(
+          changed_items,
+          on_duplicate_key_update: {
+            conflict_target: [:id],
+            columns: %i[meeting_id
+                        author_id
+                        title
+                        notes
+                        position
+                        duration_in_minutes
+                        start_time
+                        end_time
+                        created_at
+                        updated_at
+                        work_package_id
+                        item_type
+                        lock_version]
+          }
+        )
+      end
     end
   end
 
