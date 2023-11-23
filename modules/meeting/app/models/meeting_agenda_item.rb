@@ -43,6 +43,8 @@ class MeetingAgendaItem < ApplicationRecord
   acts_as_list scope: :meeting
   default_scope { order(:position) }
 
+  scope :with_includes_to_render, -> { includes(:author, :meeting) }
+
   validates :meeting_id, presence: true
   validates :title, presence: true, if: Proc.new { |item| item.simple? }
   validates :work_package_id, presence: true, if: Proc.new { |item| item.work_package? }, on: :create

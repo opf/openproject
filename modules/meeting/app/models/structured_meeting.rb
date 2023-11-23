@@ -32,11 +32,37 @@ class StructuredMeeting < Meeting
   # triggered by MeetingAgendaItem#after_create/after_destroy/after_save
   def calculate_agenda_item_time_slots
     current_time = start_time
-    agenda_items.order(:position).each do |top|
-      start_time = current_time
-      current_time += top.duration_in_minutes&.minutes || 0.minutes
-      end_time = current_time
-      top.update_columns(start_time:, end_time:) # avoid callbacks, infinite loop otherwise
+    MeetingAgendaItem.transaction do
+      changed_items = agenda_items.order(:position).map do |top|
+        start_time = current_time
+        current_time += top.duration_in_minutes&.minutes || 0.minutes
+        end_time = current_time
+        top.assign_attributes(start_time:, end_time:)
+        top
+      end
+
+      # Disable optimistic locking in order to avoid causing `StaleObjectError`.
+      MeetingAgendaItem.skip_optimistic_locking do
+        MeetingAgendaItem.import(
+          changed_items,
+          on_duplicate_key_update: {
+            conflict_target: [:id],
+            columns: %i[meeting_id
+                        author_id
+                        title
+                        notes
+                        position
+                        duration_in_minutes
+                        start_time
+                        end_time
+                        created_at
+                        updated_at
+                        work_package_id
+                        item_type
+                        lock_version]
+          }
+        )
+      end
     end
   end
 
@@ -45,10 +71,10 @@ class StructuredMeeting < Meeting
   end
 
   def duration_exceeded_by_agenda_items?
-    agenda_items_sum_duration_in_minutes > (duration*60 || 0)
+    agenda_items_sum_duration_in_minutes > (duration * 60)
   end
 
   def duration_exceeded_by_agenda_items_in_minutes
-    agenda_items_sum_duration_in_minutes - (duration*60 || 0)
+    agenda_items_sum_duration_in_minutes - (duration * 60)
   end
 end
