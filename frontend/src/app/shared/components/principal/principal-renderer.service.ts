@@ -109,7 +109,6 @@ export class PrincipalRendererService {
       fallback.style.borderColor = colorCode;
     } else {
       fallback.style.background = colorCode;
-      fallback.style.color = this.colors.pickTextColorBasedOnBgColor(colorCode);
     }
 
     // Image avatars are only supported for users
