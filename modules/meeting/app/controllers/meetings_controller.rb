@@ -148,6 +148,7 @@ class MeetingsController < ApplicationController
     if @meeting.errors.any?
       update_sidebar_participants_form_component_via_turbo_stream
     else
+      update_sidebar_details_component_via_turbo_stream
       update_sidebar_participants_component_via_turbo_stream
     end
 

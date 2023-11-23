@@ -85,6 +85,36 @@
               end
             end
           end
+
+          details.with_row(mt: 2, classes: 'meeting-detail-participants') do
+            render_meeting_attribute_row(:people) do
+              flex_layout do |duration|
+                duration.with_column(mr: 2) do
+                  render(Primer::Beta::Text.new) do
+                    [
+                      @meeting.invited_or_attended_participants.count,
+                      Meeting.human_attribute_name(
+                        :participants,
+                        count: @meeting.invited_or_attended_participants.count
+                      )
+                    ].join(" ")
+                  end
+                end
+
+                if @meeting.editable?
+                  duration.with_column(mr: 2) do
+                    render(Primer::Beta::Button.new(
+                      font_weight: :normal,
+                      scheme: :link,
+                      data: { 'show-dialog-id': "edit-participants-dialog" }
+                    )) do |link|
+                      t("label_meeting_show_all_participants")
+                    end
+                  end
+                end
+              end
+            end
+          end
         end
       end
     end
