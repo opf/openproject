@@ -12,8 +12,6 @@ services:
         - APP_USER_UID
         - APP_USER_GID
         - RUBY_VERSION
-      cache_from: ["type=local,src=${LOCAL_CACHE_PATH}/buildx"]
-      cache_to: ["type=local,dest=${LOCAL_CACHE_PATH}/buildx"]
     environment:
       CI_JOBS: "${CI_JOBS}"
       RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"

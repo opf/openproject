@@ -9,7 +9,7 @@ export COMPOSE_FILE=docker-compose.ci.yml
 export RUBY_VERSION="$(cat .ruby-version)"
 export LOCAL_CACHE_PATH="./cache"
 
-mkdir -p $LOCAL_CACHE_PATH/{bundle,npm,angular,runtime-logs,buildx}
+mkdir -p $LOCAL_CACHE_PATH/{bundle,npm,angular,runtime-logs}
 
 if [ "$1" = "down" ]; then
   exec docker compose down --remove-orphans --volumes
