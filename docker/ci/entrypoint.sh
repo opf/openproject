@@ -43,6 +43,17 @@ run_background() {
   pids+=("$pid")
 }
 
+wait_for_background() {
+	for pid in "${pids[@]}"; do
+		wait "$pid"
+		# Check the exit status of each background process
+		if [ $? -ne 0 ]; then
+			echo "Command with PID $pid failed"
+			exit 1
+		fi
+	done
+}
+
 execute() {
 	BANNER=${BANNER:="[execute]"}
 	echo "$BANNER $@" >&2
@@ -76,13 +87,11 @@ reset_dbs() {
 }
 
 backend_stuff() {
-	execute "BUNDLE_JOBS=4 bundle install && bundle clean --force"
 	# create test database "app" and dump schema because db/structure.sql is not checked in
 	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump zeitwerk:check"
 }
 
 frontend_stuff() {
-	execute "JOBS=8 time npm install && npm prune"
 	execute_quiet "DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile"
 	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 }
@@ -98,21 +107,16 @@ setup_tests() {
 	execute_quiet "cp docker/ci/database.yml config/"
 	create_db_cluster
 
+	run_background execute "BUNDLE_JOBS=8 bundle install --quiet && bundle clean --force && echo BUNDLE DONE"
+	run_background execute "JOBS=8 time npm install --quiet && npm prune --quiet && echo NPM DONE"
+	wait_for_background
+
 	run_background backend_stuff
 	run_background frontend_stuff
-
 	# pre-cache browsers and their drivers binaries
 	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser chrome --debug
 	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser firefox --debug
-
-	for pid in "${pids[@]}"; do
-		wait "$pid"
-		# Check the exit status of each background process
-		if [ $? -ne 0 ]; then
-			echo "Command with PID $pid failed"
-			exit 1
-		fi
-	done
+	wait_for_background
 }
 
 run_units() {
