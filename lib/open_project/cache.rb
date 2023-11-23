@@ -30,8 +30,16 @@ require_relative 'cache/cache_key'
 
 module OpenProject
   module Cache
-    def self.fetch(*parts, **options, &)
-      Rails.cache.fetch(CacheKey.key(*parts), **options, &)
+    def self.fetch(*, **, &)
+      Rails.cache.fetch(CacheKey.key(*), **, &)
+    end
+
+    def self.read(name, **, &)
+      Rails.cache.read(CacheKey.key(name), **, &)
+    end
+
+    def self.write(name, value, **, &)
+      Rails.cache.write(CacheKey.key(name), value, **, &)
     end
 
     def self.clear
