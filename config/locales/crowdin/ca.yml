@@ -557,6 +557,7 @@ ca:
       user:
         admin: "Administrador"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Contrassenya actual"
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
         language: "Idioma"
@@ -2936,6 +2937,7 @@ ca:
     activate: "Activar"
     activate_and_reset_failed_logins: "Activar i restaurar inicis de sessió erronis"
     authentication_provider: "Proveïdor d'autenticació"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Aquest usuari s'autentica mitjançant un proveïdor d'autenticació externa i no hi ha cap contrasenya a OpenProject per canviar.
     authorization_rejected: "No pots iniciar la sessió."

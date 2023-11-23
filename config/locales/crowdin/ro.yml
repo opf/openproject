@@ -562,6 +562,7 @@ ro:
       user:
         admin: "Administrator"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Parola curentă"
         force_password_change: "Impune schimbarea parolei la următoarea autentificare"
         language: "Limbă"
@@ -2975,6 +2976,7 @@ ro:
     activate: "Activare"
     activate_and_reset_failed_logins: "Activare și resetare autentificări eșuate"
     authentication_provider: "Furnizor de autentificare"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Acest utilizator se autentifică prin intermediul unui furnizor de autentificare extern, prin urmare nu există o parolă în OpenProject care să poată fi schimbată.
     authorization_rejected: "Nu aveți drepturi de autentificare."

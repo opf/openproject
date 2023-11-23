@@ -63,12 +63,13 @@ module BasicData
     def seed_workflows
       member = seed_data.find_reference(:default_role_member)
       project_admin = seed_data.find_reference(:default_role_project_admin)
+      work_package_editor = seed_data.find_reference(:default_role_work_package_editor)
 
       # Workflow - Each type has its own workflow
       workflows.each do |type, statuses|
         statuses.each do |old_status|
           statuses.each do |new_status|
-            [member, project_admin].each do |role|
+            [member, project_admin, work_package_editor].each do |role|
               Workflow.create type:,
                               role:,
                               old_status:,

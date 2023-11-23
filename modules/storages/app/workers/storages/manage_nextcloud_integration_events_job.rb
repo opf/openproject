@@ -26,23 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::ManageNextcloudIntegrationEventsJob < ApplicationJob
-  DEBOUNCE_TIME = 5.seconds.freeze
+module Storages
+  class ManageNextcloudIntegrationEventsJob < ApplicationJob
+    include ManageNextcloudIntegrationJobMixin
 
-  queue_with_priority :above_normal
+    DEBOUNCE_TIME = 5.seconds.freeze
 
-  def self.debounce
-    count = Delayed::Job
-              .where("handler LIKE ?", "%job_class: #{self}%")
-              .where(locked_at: nil)
-              .where('run_at <= ?', DEBOUNCE_TIME.from_now)
-              .delete_all
-    Rails.logger.info("deleted: #{count} jobs")
-    set(wait: DEBOUNCE_TIME).perform_later
-  end
+    queue_with_priority :above_normal
 
-  def perform
-    result = Storages::NextcloudStorage.sync_all_group_folders
-    self.class.debounce if result == false
+    def self.debounce
+      count = Delayed::Job
+                .where("handler LIKE ?", "%job_class: #{self}%")
+                .where(locked_at: nil)
+                .where('run_at <= ?', DEBOUNCE_TIME.from_now)
+                .delete_all
+      Rails.logger.info("deleted: #{count} jobs")
+      set(wait: DEBOUNCE_TIME).perform_later
+    end
+
+    def perform
+      lock_obtained = super
+      self.class.debounce unless lock_obtained
+      lock_obtained
+    end
   end
 end

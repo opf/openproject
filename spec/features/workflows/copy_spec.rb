@@ -33,7 +33,7 @@ RSpec.describe 'Workflow copy' do
   let(:type) { create(:type) }
   let(:admin)  { create(:admin) }
   let(:statuses) { (1..2).map { |_i| create(:status) } }
-  let(:workflow) do
+  let!(:workflow) do
     create(:workflow, role_id: role.id,
                       type_id: type.id,
                       old_status_id: statuses[0].id,
@@ -42,26 +42,21 @@ RSpec.describe 'Workflow copy' do
                       assignee: false)
   end
 
+  current_user { admin }
+
   before do
-    allow(User).to receive(:current).and_return(admin)
+    visit url_for(controller: '/workflows', action: :copy)
   end
 
-  context 'lala' do
-    before do
-      workflow.save
-      visit url_for(controller: '/workflows', action: :copy)
+  it 'shows existing types and roles' do
+    select(role.name, from: :source_role_id)
+    within('#source_role_id') do
+      expect(page).to have_content(role.name)
+      expect(page).to have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
     end
-
-    it 'shows existing types and roles' do
-      select(role.name, from: :source_role_id)
-      within('#source_role_id') do
-        expect(page).to have_content(role.name)
-        expect(page).to have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
-      end
-      within('#source_type_id') do
-        expect(page).to have_content(type.name)
-        expect(page).to have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
-      end
+    within('#source_type_id') do
+      expect(page).to have_content(type.name)
+      expect(page).to have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
     end
   end
 end

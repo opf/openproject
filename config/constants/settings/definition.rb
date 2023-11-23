@@ -912,7 +912,8 @@ module Settings
       },
       show_warning_bars: {
         description: 'Render warning bars (pending migrations, deprecation, unsupported browsers)',
-        default: true,
+        # Hide warning bars by default in tests as they might overlay other elements
+        default: -> { !Rails.env.test? },
         writable: false
       },
       smtp_authentication: {

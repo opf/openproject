@@ -562,6 +562,7 @@ ru:
       user:
         admin: "Администратор"
         ldap_auth_source: "Подключение к LDAP"
+        identity_url: "Identity URL"
         current_password: "Текущий пароль"
         force_password_change: "Принудительное изменение пароля при следующем входе"
         language: "Язык"
@@ -3001,6 +3002,7 @@ ru:
     activate: "Активировать"
     activate_and_reset_failed_logins: "Активировать и сбросить счетчтик неудачных попыток входа"
     authentication_provider: "Поставщик проверки подлинности"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Пользователь аутентифицируется провайдером, поэтому пароль в OpenProject изменен быть не может.
     authorization_rejected: "У вас нет разрешения на вход."

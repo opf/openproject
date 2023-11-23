@@ -34,6 +34,18 @@ jobs:
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
     steps:
     - uses: actions/checkout@v4
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Cache DOCKER
+      id: cache_docker
+      uses: actions/cache@v3
+      with:
+        path: cache/docker
+        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+        # Note: no restore keys since whenever the above files change, we want to rebuild the full image from scratch
+    - name: Restore CI image from cache
+      if: steps.cache_docker.outputs.cache-hit == 'true'
+      run: docker load -i cache/docker/image.tar
     - name: Cache GEM
       uses: actions/cache@v3
       with:
@@ -59,7 +71,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: cache/runtime-logs
-        key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.ref }}
+        key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
         restore-keys: |
           runtime-logs-${{ github.head_ref || github.ref }}-
           runtime-logs-
@@ -71,6 +83,9 @@ jobs:
       run: bin/ci run-units
     - name: Feature tests
       run: bin/ci run-features
+    - name: Save CI image to cache
+      if: steps.cache_docker.outputs.cache-hit != 'true'
+      run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar
     - name: Cleanup
       if: ${{ always() }}
       run: |

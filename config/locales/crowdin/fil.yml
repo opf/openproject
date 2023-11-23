@@ -561,6 +561,7 @@ fil:
       user:
         admin: "Tagapangasiwa"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Kasulukuyang password"
         force_password_change: "Ipatupad ang password na ibahin sa susunod na login"
         language: "Linggwahe"
@@ -2945,6 +2946,7 @@ fil:
     activate: "Aktibo"
     activate_and_reset_failed_logins: "Gawing aktibo at i-reset ang nabigong mga paglog-in"
     authentication_provider: "Pagpapatunay na provider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Ang gumagamit ay nagpapatunay sa pamamagitan ng pagpapatunay na provider, kaya walang password sa OpenProject na magbago.
     authorization_rejected: "Ikaw ay hindi pinapayagang mag-sign in."

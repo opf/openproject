@@ -560,6 +560,7 @@ pl:
       user:
         admin: "Administrator"
         ldap_auth_source: "Połączenie LDAP"
+        identity_url: "Identity URL"
         current_password: "Aktualne hasło"
         force_password_change: "Wymusza zmianę hasła przy następnym logowaniu"
         language: "Język"
@@ -2999,6 +3000,7 @@ pl:
     activate: "Aktywuj"
     activate_and_reset_failed_logins: "Aktywuj i resetuj nieudane logowania"
     authentication_provider: "Dostawca uwierzytelnień"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Ten użytkownik uwierzytelnia się przez zewnętrznego dostawcę uwierzytelnień, zatem hasło w OpenProject nie zostanie zmienione.
     authorization_rejected: "Nie możesz się zalogować."

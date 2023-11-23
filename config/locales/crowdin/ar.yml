@@ -565,6 +565,7 @@ ar:
       user:
         admin: "مدير النظام"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "كلمة السر الحالية"
         force_password_change: "تنفيذ تغيير كلمة المرور في تسجيل الدخول التالي"
         language: "اللغة"
@@ -3061,6 +3062,7 @@ ar:
     activate: "تفعيل"
     activate_and_reset_failed_logins: "فتح وإعادة تعيين تسجيلات الدخول الفاشلة"
     authentication_provider: "أوضاع المصادقة"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       يصادق هذا المستخدم عن طريق موفر مصادقة خارجية، حتى لن يكون هناك تغييرلكلمة مرور في OpenProject.
     authorization_rejected: "لايسمح لك بتسجيل الدخول."

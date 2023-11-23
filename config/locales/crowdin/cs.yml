@@ -273,7 +273,7 @@ cs:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
       no_results_content_text: Přidání člena do projektu
     invite_by_mail: "Poslat pozvánku do %{mail}"
-    send_invite_to: "Send invite to"
+    send_invite_to: "Odeslat pozvánky"
   my:
     access_token:
       failed_to_reset_token: "Nepodařilo se obnovit přístupový token: %{error}"
@@ -455,7 +455,7 @@ cs:
         account: "Účet"
         attr_firstname: "Jméno (atribut)"
         attr_lastname: "Příjmení (atribut)"
-        attr_login: "Uživatelské jméno (atribut)"
+        attr_login: "Atribut uživatelského jména"
         attr_mail: "Email (atribut)"
         base_dn: "Base DN"
         host: "Host"
@@ -563,6 +563,7 @@ cs:
       user:
         admin: "Administrátor"
         ldap_auth_source: "Připojení LDAP"
+        identity_url: "Identity URL"
         current_password: "Aktuální přístupové heslo"
         force_password_change: "Vynutit změnu hesla při příštím přihlášení"
         language: "Jazyk"
@@ -577,7 +578,7 @@ cs:
         time_zone: "Časové pásmo"
         auto_hide_popups: "Automaticky skrýt oznámení o úspěchu"
         warn_on_leaving_unsaved: "Upozornit mě při opuštění pracovního balíčku s neuloženými změnami"
-        theme: "Mode"
+        theme: "Režim"
       version:
         effective_date: "Datum dokončení"
         sharing: "Sdílení"
@@ -601,7 +602,7 @@ cs:
           title: "Pracovní dny"
           false: "pouze pracovní dny"
           true: "zahrnuje nepracovní dny"
-        notify: "Notify" #used in custom actions
+        notify: "Oznámit" #used in custom actions
         parent: "Nadřazený"
         parent_issue: "Rodič"
         parent_work_package: "Nadřazený"
@@ -987,7 +988,7 @@ cs:
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "vytvořeno dne %{datetime}"
       created_on_time_entry: "time logged on %{datetime}"
-      updated_by_on: "Aktualizováno uživatelem {{user}} dne {{date}}"
+      updated_by_on: "Aktualizováno uživatelem %{user} dne %{datetime}"
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "aktualizováno dne %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
@@ -1309,7 +1310,7 @@ cs:
         one: "1 min"
         few: "%{count} mins"
         many: "%{count} mins"
-        other: "%{count} mins"
+        other: "min"
       x_hours:
         one: "1 hour"
         few: "%{count} hours"
@@ -1461,7 +1462,7 @@ cs:
     work_package_edit: "Pracovní balíček upraven"
     work_package_note: "Poznámka k pracovnímu balíčku přidána"
     title:
-      project: "Projekt {name}"
+      project: "Projekt %{name}"
       subproject: "Podprojekt: %{name}"
   export:
     your_work_packages_export: "Export pracovních balíčků"
@@ -1629,7 +1630,7 @@ cs:
   label_add_related_work_packages: "Přidání souvisejících pracovních balíčků"
   label_add_subtask: "Přidat podúkol"
   label_added: "přidáno"
-  label_added_by: "Added by %{author}"
+  label_added_by: "Přidáno %{author}"
   label_added_time_by: "Přidáno %{author} před %{age}"
   label_additional_workflow_transitions_for_assignee: "Povolené dodatečné přechody, pokud je uživatel přiřazený"
   label_additional_workflow_transitions_for_author: "Povolené dodatečné přechody, pokud je uživatel autor"
@@ -1674,7 +1675,7 @@ cs:
   label_available_project_versions: "Dostupné verze"
   label_available_project_work_package_categories: "Dostupné kategorie pracovních balíčků"
   label_available_project_work_package_types: "Dostupné kategorie pracovních balíčků"
-  label_available_projects: "Available projects"
+  label_available_projects: "Dostupné projekty"
   label_api_documentation: "API dokumentace"
   label_backup: "Záloha"
   label_between: "mezi"
@@ -1979,7 +1980,7 @@ cs:
   label_permissions_report: "Přehled oprávnění"
   label_personalize_page: "Přizpůsobit tuto stránku"
   label_placeholder_user: "placeholder uživatel"
-  label_placeholder_user_new: "Nový placeholder uživatel"
+  label_placeholder_user_new: ""
   label_placeholder_user_plural: "placeholder uživatelé"
   label_planning: "Plánování"
   label_please_login: "Přihlaste se prosím"
@@ -2234,7 +2235,7 @@ cs:
       see_in_center: 'Zobrazit komentář v oznamovacím centru'
       settings: 'Změnit nastavení e-mailu'
     salutation: 'Ahoj %{user}!'
-    salutation_full_name: 'Full name'
+    salutation_full_name: 'Jméno a příjmení'
     work_packages:
       created_at: "Vytvořeno v %{timestamp} uživatelem %{user} "
       login_to_see_all: "Přihlaste se pro zobrazení všech oznámení."
@@ -2251,7 +2252,7 @@ cs:
         assigned: "Přiřazen"
         responsible: "Odpovědný"
         mentioned: "Zmíněné"
-        shared: "Shared"
+        shared: "Sdílené"
         subscribed: "vše"
         prefix: "Obdrženo z důvodu nastavení oznámení: %{reason}"
         date_alert_start_date: "Upozornění na datum"
@@ -2263,10 +2264,10 @@ cs:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Byl Vám sdílen pracovní balíček #%{id}"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
-          user: "%{user} shared a work package with you with %{role_rights} rights"
+          user: "%{user} s vámi sdílel pracovní balíček s právy %{role_rights}"
           group: "%{user} shared a work package with the group %{group} you are a member of"
   mail_body_account_activation_request: "Nový uživatel (%{value}) byl zaregistrován. Účet čeká na Vaše schválení:"
   mail_body_account_information: "Informace o vašem účtu"
@@ -2439,7 +2440,7 @@ cs:
   permission_add_work_packages: "Přidat pracovní balíčky"
   permission_add_messages: "Odesílat zprávy"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Přidat přílohy"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archivovat projekt"
   permission_create_user: "Vytvořit uživatele"
@@ -2511,7 +2512,7 @@ cs:
   permission_view_news: "Zobrazit novinky"
   permission_view_members: "Zobrazit členy"
   permission_view_reportings: "Zobrazit přehledy"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "Zobrazit všechny sdílené pracovní balíčky"
   permission_view_time_entries: "Zobrazit strávený čas"
   permission_view_timelines: "Zobrazit časové osy"
   permission_view_wiki_edits: "Zobrazit historii wiki"
@@ -3004,6 +3005,7 @@ cs:
     activate: "Aktivovat"
     activate_and_reset_failed_logins: "Aktivovat a resetovat nezdařené přihlášení"
     authentication_provider: "Zprostředkovatel ověřování"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Tento uživatel se ověřuje prostřednictvím externího poskytovatele ověření, takže v OpenProject není žádné heslo, které by se mělo změnit.
     authorization_rejected: "Nejste oprávněn se přihlásit."
@@ -3085,18 +3087,18 @@ cs:
         role: 'Role'
         type: 'Type'
       label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user or email address"
+      label_search_placeholder: "Hledat podle uživatele nebo e-mailové adresy"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Komentář"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Upravit"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Zobrazit"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Odebrat"
+      share: "Sdílet"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."

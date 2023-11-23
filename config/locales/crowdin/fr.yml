@@ -518,7 +518,7 @@ fr:
           true: "public"
           false: "privé"
         queries: "Requêtes"
-        status_code: "État du projet"
+        status_code: "Statut du projet"
         status_explanation: "Description du statut du projet"
         status_codes:
           not_started: "Non démarré"
@@ -561,6 +561,7 @@ fr:
       user:
         admin: "Administrateur"
         ldap_auth_source: "Connexion LDAP"
+        identity_url: "Identity URL"
         current_password: "Mot de passe actuel"
         force_password_change: "Obliger l'utilisateur à changer de mot de passe à la prochaine connexion"
         language: "Langue"
@@ -2947,6 +2948,7 @@ fr:
     activate: "Activer"
     activate_and_reset_failed_logins: "Activer et réinitialiser les connexions echouées"
     authentication_provider: "Fournisseur d'authentification"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Cet utilisateur s'authentifie via un fournisseur d'authentification externe, il n'y a aucun mot de passe dans OpenProject à changer.
     authorization_rejected: "Vous n'êtes pas autorisé à vous authentifier."

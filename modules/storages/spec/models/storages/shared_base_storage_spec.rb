@@ -50,7 +50,7 @@ RSpec.shared_examples_for 'base storage' do
     end
 
     context 'when provider_type does not match the signature' do
-      it 'raises an error', aggregate_failures: true do
+      it 'raises an error', :aggregate_failures do
         expect do
           described_class.shorten_provider_type('Storages::Nextcloud')
         end.to raise_error('Unknown provider_type! Given: Storages::Nextcloud. ' \

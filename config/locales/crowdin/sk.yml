@@ -563,6 +563,7 @@ sk:
       user:
         admin: "Správca"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Aktuálne heslo"
         force_password_change: "Požadovať zmenu hesla pri ďalšom prihlásení"
         language: "Jazyk"
@@ -3004,6 +3005,7 @@ sk:
     activate: "Aktivovať"
     activate_and_reset_failed_logins: "Aktivovať a resetovať chybné prihlásenia"
     authentication_provider: "Poskytovateľ služby overovania identity"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Tento používateľ sa overuje za pomoci externého poskytovateľa autentifikácie, takže jeho heslo nie je možné zmeniť pomocou OpenProject .
     authorization_rejected: "Nemôžete sa prihlásiť."
