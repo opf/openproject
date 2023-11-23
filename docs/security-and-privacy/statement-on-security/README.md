@@ -1,3 +1,11 @@
+---
+sidebar_navigation:
+  title: Statement on security
+  priority: 600
+description: Statement of data security in OpenProject
+keywords: GDPR, data security, security, OpenProject security, security alerts, single sign-on, password security, mailing list
+---
+
 # Statement on security
 
 At its core, OpenProject is an open-source software that is [developed and published on GitHub](https://github.com/opf/openproject). Every change to the OpenProject code base ends up in an open repository accessible to everyone. This results in a transparent software where every commit can be traced back to the contributor.
