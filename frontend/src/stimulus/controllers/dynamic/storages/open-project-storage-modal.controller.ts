@@ -30,20 +30,24 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { renderStreamMessage } from '@hotwired/turbo';
+import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
 
-export default class OpenProjectStorageModalController extends Controller {
+export default class OpenProjectStorageModalController extends Controller<ModalDialogElement> {
   static values = {
     projectStorageOpenUrl: String,
     redirectUrl: String,
   };
 
+  interval:number;
+  projectStorageOpenUrlValue:string;
+  redirectUrlValue:string;
+
   connect() {
     this.element.open = true;
     this.interval = 0;
     this.load();
-    // the following is not enough, because the modal can be closed with Esc when close button in focus
-    const closeButton = this.element.getElementsByClassName("Overlay-closeButton")[0]
-    closeButton.addEventListener('click', () => { this.disconnect() });
+    this.element.addEventListener('close', () => { this.disconnect() });
+    this.element.addEventListener('cancel', () => { this.disconnect() });
   }
 
   disconnect() {
