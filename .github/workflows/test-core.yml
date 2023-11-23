@@ -50,15 +50,15 @@ jobs:
     - name: Cache NPM
       uses: actions/cache@v3
       with:
-        path: cache/npm
-        key: npm-${{ hashFiles('frontend/package-lock.json') }}
+        path: cache/node
+        key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
-          npm-
+          node-
     - name: Cache ANGULAR
       uses: actions/cache@v3
       with:
         path: cache/angular
-        key: angular-${{ hashFiles('frontend/package-lock.json') }}
+        key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           angular-
     - name: Cache TEST RUNTIME
