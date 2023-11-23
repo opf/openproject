@@ -70,6 +70,7 @@ execute_quiet() {
 create_db_cluster() {
 	if [ ! -d "/tmp/nulldb" ]; then
 		execute_quiet "initdb -E UTF8 -D /tmp/nulldb -U $PGUSER"
+		execute_quiet "cp docker/ci/postgresql.conf /tmp/nulldb/"
 		execute_quiet "pg_ctl -D /tmp/nulldb -l /dev/null -w start"
 	fi
 }
