@@ -159,17 +159,22 @@ module OpenProject::Storages
           User.current.allowed_in_project?(:view_file_links, project)
           project.project_storages.each do |project_storage|
             storage = project_storage.storage
-            href = Rails
-                     .application
-                     .routes
-                     .url_helpers
-                     .open_project_storage_path(project_id: project_storage.project.identifier,
-                                                id: project_storage.id)
-            icon = if storage.provider_type_nextcloud?
-                     'nextcloud-circle'
-                   else
-                     'hosting'
-                   end
+            next unless storage.configured?
+
+            # consider moving to the model
+            url_helpers = Rails.application.routes.url_helpers
+            open_project_storage_url = url_helpers.open_project_storage_url(
+              host: Setting.host_name,
+              protocol: 'https',
+              project_id: project_storage.project.identifier,
+              id: project_storage.id
+            )
+            href = url_helpers.oauth_clients_ensure_connection_path(
+              oauth_client_id: storage.oauth_client.client_id,
+              storage_id: storage.id,
+              destination_url: open_project_storage_url
+            )
+            icon = storage.provider_type_nextcloud? ? 'nextcloud-circle' : 'hosting'
 
             menu.push(
               :"storage_#{storage.id}",
