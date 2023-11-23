@@ -98,9 +98,11 @@ module WorkPackages
 
       # Explicitly check whether the project membership was inherited by a group
       def inherited_project_member?
-        project_member? &&
-          Member.where(user_id: GroupUser.where(user_id: user.id).map(&:group_id)).any? &&
-          Member.where(user_id: user.id).any?
+        Member.includes(:roles)
+              .references(:member_roles)
+              .where(project: share.project, principal: user, entity: nil) # membership in the project
+              .merge(MemberRole.only_inherited) # that was inherited
+              .any?
       end
 
       def project_group?

@@ -43,11 +43,11 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
 
   let(:invite_resent) { false }
 
-  def build_inherited_share(group_share:, user_share:)
+  def build_inherited_membership(group_membership:, user_membership:, role: work_package_role)
     create(:member_role,
-           member: user_share,
-           role: work_package_role,
-           inherited_from: group_share.member_roles.first.id)
+           member: user_membership,
+           role:,
+           inherited_from: group_membership.member_roles.first.id)
   end
 
   describe 'when not in manager mode' do
@@ -176,7 +176,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                                entity: work_package,
                                roles: [work_package_role])
 
-          build_inherited_share(group_share:, user_share: share)
+          build_inherited_membership(group_membership: group_share, user_membership: share)
         end
 
         context 'and the user is not a project member' do
@@ -300,9 +300,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
       end
 
       context 'when the user is a project member' do
-        before do
-          create(:member, project:, principal:, roles: [project_role])
-        end
+        shared_let(:user_membership) { create(:member, project:, principal:, roles: [project_role]) }
 
         context 'and the user is not part of any group' do
           it do
@@ -318,7 +316,12 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
 
           context 'and the group is a project member itself' do
             before do
-              create(:member, project:, principal: group, roles: [project_role])
+              group_membership = create(:member,
+                                        project:,
+                                        principal: group,
+                                        roles: [project_role])
+
+              build_inherited_membership(group_membership:, user_membership:, role: project_role)
             end
 
             context 'and the group is shared with' do
@@ -328,7 +331,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                                      entity: work_package,
                                      roles: [work_package_role])
 
-                build_inherited_share(group_share:, user_share: share)
+                build_inherited_membership(group_membership: group_share, user_membership: share)
               end
 
               it do
@@ -359,7 +362,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                                      entity: work_package,
                                      roles: [work_package_role])
 
-                build_inherited_share(group_share:, user_share: share)
+                build_inherited_membership(group_membership: group_share, user_membership: share)
               end
 
               it do
@@ -399,8 +402,10 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
 
           context 'and the group is a project member itself' do
             before do
-              create(:member, project:, principal: group, roles: [project_role])
-              create(:member, project:, principal:, roles: [project_role])
+              group_membership = create(:member, project:, principal: group, roles: [project_role])
+              user_membership = create(:member, project:, principal:, roles: [project_role])
+
+              build_inherited_membership(group_membership:, user_membership:, role: project_role)
             end
 
             context 'and the group is shared with' do
@@ -410,7 +415,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                                      entity: work_package,
                                      roles: [work_package_role])
 
-                build_inherited_share(group_share:, user_share: share)
+                build_inherited_membership(group_membership: group_share, user_membership: share)
               end
 
               it do
@@ -441,7 +446,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                                      entity: work_package,
                                      roles: [work_package_role])
 
-                build_inherited_share(group_share:, user_share: share)
+                build_inherited_membership(group_membership: group_share, user_membership: share)
               end
 
               it do
