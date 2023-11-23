@@ -561,6 +561,7 @@ et:
       user:
         admin: "Administraator"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Praegune parool"
         force_password_change: "Sunni parooli vahetada järgmisel sisselogimisel"
         language: "Keel"
@@ -2947,6 +2948,7 @@ et:
     activate: "Aktiveerimine"
     activate_and_reset_failed_logins: "Aktiveeri ja unusta ebaõnnestunud sisselogimised"
     authentication_provider: "Autentimisteenuse pakkuja"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       See kasutaja autendib end välise autentimisteenuse pakkuja abil, seega ei saa parooli OpenProject'is muuta.
     authorization_rejected: "You are not allowed to sign in."

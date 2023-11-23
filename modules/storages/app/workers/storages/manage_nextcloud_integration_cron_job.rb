@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,14 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::ManageNextcloudIntegrationCronJob < Cron::CronJob
-  using ::Storages::Peripherals::ServiceResultRefinements
+module Storages
+  class ManageNextcloudIntegrationCronJob < Cron::CronJob
+    include ManageNextcloudIntegrationJobMixin
 
-  queue_with_priority :low
+    queue_with_priority :low
 
-  self.cron_expression = '*/5 * * * *'
-
-  def perform
-    Storages::NextcloudStorage.sync_all_group_folders
+    self.cron_expression = '*/5 * * * *'
   end
 end

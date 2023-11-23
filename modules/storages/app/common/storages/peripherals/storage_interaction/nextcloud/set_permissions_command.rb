@@ -88,20 +88,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         Util.basic_auth_header(@username, @password)
       )
 
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
       case response
       when Net::HTTPSuccess
         doc = Nokogiri::XML(response.body)
         if doc.xpath("/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list").present?
           ServiceResult.success(result: :success)
         else
-          Util.error(:error, "nc:acl properly has not been set for #{path}")
+          Util.error(:error, "nc:acl properly has not been set for #{path}", error_data)
         end
       when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', response)
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
       when Net::HTTPUnauthorized
-        Util.error(:unauthorized, 'Outbound request not authorized', response)
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
-        Util.error(:error, 'Outbound request failed', response)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
     # rubocop:enable Metrics/AbcSize

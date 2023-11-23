@@ -27,13 +27,19 @@ jobs:
     timeout-minutes: 40
     env:
       DOCKER_BUILDKIT: 1
-      LOCAL_DEV_CHECK: 1
       CI_RETRY_COUNT: 3
-      CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
-      CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
-      CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
     steps:
     - uses: actions/checkout@v4
+    - name: Cache DOCKER
+      id: cache_docker
+      uses: actions/cache@v3
+      with:
+        path: cache/docker
+        # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
+        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+    - name: Restore CI image from cache
+      if: steps.cache_docker.outputs.cache-hit == 'true'
+      run: docker load -i cache/docker/image.tar
     - name: Cache GEM
       uses: actions/cache@v3
       with:
@@ -59,7 +65,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: cache/runtime-logs
-        key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.ref }}
+        key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
         restore-keys: |
           runtime-logs-${{ github.head_ref || github.ref }}-
           runtime-logs-
@@ -70,7 +76,14 @@ jobs:
     - name: Unit tests
       run: bin/ci run-units
     - name: Feature tests
+      env:
+        CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
+        CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
+        CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
       run: bin/ci run-features
+    - name: Save CI image to cache
+      if: steps.cache_docker.outputs.cache-hit != 'true'
+      run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar
     - name: Cleanup
       if: ${{ always() }}
       run: |

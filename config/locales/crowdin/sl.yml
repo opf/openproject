@@ -560,6 +560,7 @@ sl:
       user:
         admin: "Aministrator"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Trenutno geslo"
         force_password_change: "Uveljavi spremembo gesla ob naslednji prijavi"
         language: "Jezik"
@@ -3001,6 +3002,7 @@ sl:
     activate: "Aktiviraj"
     activate_and_reset_failed_logins: "Aktivirajte in ponastavite neuspele prijave"
     authentication_provider: "Ponudnik overovitve"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Ta uporabnik overja prek zunanjega ponudnika overjanja, tako da v OpenProjectu ni gesla, ki bi ga bilo treba spremeniti.
     authorization_rejected: "Nimate dovoljenja za prijavo."

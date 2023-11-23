@@ -560,6 +560,7 @@ tr:
       user:
         admin: "Yönetici"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Mevcut parola"
         force_password_change: "Sonraki oturum açma işleminde parola değişikliğine zorla"
         language: "Dil"
@@ -2943,6 +2944,7 @@ tr:
     activate: "Etkinleştir"
     activate_and_reset_failed_logins: "Başarısız oturum açma işlemlerinin kilidini aç ve sıfırla"
     authentication_provider: "Kimlik doğrulama sağlayıcısı"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Bu kullanıcı harici bir kimlik doğrulama sağlayıcısı aracılığıyla kimlik doğrulaması yapar, böylece OpenProject'de değiştirilecek şifre yoktur.
     authorization_rejected: "Oturum açma izniniz yok."

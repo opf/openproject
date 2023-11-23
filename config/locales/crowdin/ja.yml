@@ -556,6 +556,7 @@ ja:
       user:
         admin: "管理者"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "現在のパスワード"
         force_password_change: "次回ログイン時にパスワード変更を強制する"
         language: "言語"
@@ -2914,6 +2915,7 @@ ja:
     activate: "有効にする"
     activate_and_reset_failed_logins: "有効にして、ログリン失敗回数をリセットする"
     authentication_provider: "認証プロバイダー"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       外部認証プロバイダー経由でこのユーザを認証しますので、OpenProjectではパスワードの変更ができません。
     authorization_rejected: "ログインすることはできません。"

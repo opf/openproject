@@ -556,6 +556,7 @@ zh-CN:
       user:
         admin: "管理员"
         ldap_auth_source: "LDAP 连接"
+        identity_url: "Identity URL"
         current_password: "当前密码："
         force_password_change: "下次登录时强制更改密码"
         language: "语言"
@@ -2908,6 +2909,7 @@ zh-CN:
     activate: "激活"
     activate_and_reset_failed_logins: "激活和重置失败的帐户"
     authentication_provider: "身份认证提供程序"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       该用户通过外部身份验证提供程序进行身份验证，因此在 OpenProject 中没有密码可供更改。
     authorization_rejected: "你不允许登录。"

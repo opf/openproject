@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO: Rename Class to NextcloudManagedFolderSync
-#
 module Storages
   class GroupFolderPropertiesSyncService
     using Peripherals::ServiceResultRefinements
@@ -46,12 +44,17 @@ module Storages
     ALL_PERMISSIONS = PERMISSIONS_MAP.values.sum
     NO_PERMISSIONS = 0
 
+    def self.call(storage)
+      new(storage).call
+    end
+
     def initialize(storage)
       @storage = storage
     end
 
     def call
-      prepare_remote_folders and apply_permissions_to_folders
+      prepare_remote_folders.on_failure { |service_result| return service_result }
+      apply_permissions_to_folders
     end
 
     private
@@ -59,27 +62,18 @@ module Storages
     # rubocop:disable Metrics/AbcSize
     def prepare_remote_folders
       remote_folders = remote_root_folder_properties.result_or do |error|
-        error_msg = { command: 'nextcloud.file_ids',
-                      folder: @storage.group_folder,
-                      message: error.log_message,
-                      data: { status: error.data.code, body: error.data.body } }.to_json
+        format_and_log_error(error, { folder: @storage.group_folder })
 
-        raise error_msg if error.code == :error
-
-        return OpenProject.logger.warn error_msg
+        return ServiceResult.failure(errors: error)
       end
 
-      ensure_root_folder_permissions.error_and do |error|
-        error_msg = { command: 'nextcloud.set_permissions',
-                      folder: @storage.group_folder,
-                      message: error.log_message,
-                      data: { status: error.data.code, body: error.data.body } }.to_json
-        raise error_msg if error.code == :error
+      ensure_root_folder_permissions.on_failure do |service_result|
+        format_and_log_error(service_result.errors, { folder: @storage.group_folder })
 
-        return OpenProject.logger.warn(error_msg)
+        return service_result
       end
 
-      ensure_folders_exist(remote_folders) and hide_inactive_folders(remote_folders)
+      ensure_folders_exist(remote_folders).on_success { hide_inactive_folders(remote_folders) }
     end
 
     def apply_permissions_to_folders
@@ -90,35 +84,26 @@ module Storages
       end
 
       add_remove_users_to_group
+
+      ServiceResult.success
     end
 
     def add_remove_users_to_group
       remote_users = remote_group_users.result_or do |error|
-        return OpenProject.logger.warn({ command: 'nextcloud.group_users',
-                                         group: @storage.group,
-                                         message: error.log_message,
-                                         data: { status: error.data.code, body: error.data.body } }.to_json)
+        return format_and_log_error(error, group: @storage.group)
       end
 
       local_users = client_tokens_scope.order(:id).pluck(:origin_user_id)
 
       (remote_users - local_users - [@storage.username]).each do |user|
-        remove_user_from_remote_group(user).result_or do |error|
-          OpenProject.logger.warn({ command: 'nextcloud.remove_user_from_group',
-                                    group: @storage.group,
-                                    user:,
-                                    message: error.log_message,
-                                    data: { status: error.data.code, body: error.data.body } }.to_json)
+        remove_user_from_remote_group(user).error_and do |error|
+          format_and_log_error(error, group: @storage.group, user:)
         end
       end
 
       (local_users - remote_users - [@storage.username]).each do |user|
-        add_user_to_remote_group(user).result_or do |error|
-          OpenProject.logger.warn({ command: 'nextcloud.add_users_to_group',
-                                    group: @storage.group,
-                                    user:,
-                                    message: error.log_message,
-                                    data: { status: error.data.code, body: error.data.body } }.to_json)
+        add_user_to_remote_group(user).error_and do |error|
+          format_and_log_error(error, group: @storage.group, user:)
         end
       end
     end
@@ -158,10 +143,7 @@ module Storages
         .resolve("commands.nextcloud.set_permissions")
         .call(storage: @storage, **command_params)
         .result_or do |error|
-        OpenProject.logger.warn({ command: 'nextcloud.set_permissions',
-                                  folder: project_storage.project_folder_path,
-                                  message: error.log_message,
-                                  data: { status: error.data.code, body: error.data.body } }.to_json)
+        format_and_log_error(error, folder: project_storage.project_folder_path)
       end
     end
 
@@ -191,11 +173,8 @@ module Storages
         Peripherals::Registry
           .resolve("commands.nextcloud.set_permissions")
           .call(storage: @storage, **command_params)
-          .result_or do |error|
-          OpenProject.logger.warn({ command: 'nextcloud.set_permissions',
-                                    folder: path,
-                                    message: error.log_message,
-                                    data: { status: error.data.code, body: error.data.body } }.to_json)
+          .on_failure do |service_result|
+          format_and_log_error(service_result.errors, folder: path, context: 'hide_folder')
         end
       end
     end
@@ -203,25 +182,24 @@ module Storages
     def ensure_folders_exist(remote_folders)
       id_folder_map = remote_folders.to_h { |folder, properties| [properties['fileid'], folder] }
 
-      active_project_storages_scope.map do |project_storage|
+      active_project_storages_scope.includes(:project).map do |project_storage|
         next create_folder(project_storage) unless id_folder_map.key?(project_storage.project_folder_id)
 
         current_path = id_folder_map[project_storage.project_folder_id]
-        if current_path == project_storage.project_folder_path
-          project_storage.project_folder_id
-        else
-          rename_folder(project_storage, current_path)
-            .result_or do |error|
-            error_msg = { command: 'nextcloud.rename_file',
-                          source: current_path,
-                          target: project_storage.project_folder_path,
-                          data: { status: error.data.code, body: error.data.body } }.to_json
+        if current_path != project_storage.project_folder_path
+          rename_folder(project_storage, current_path).on_failure do |service_result|
+            format_and_log_error(service_result.errors,
+                                 source: current_path,
+                                 target: project_storage.project_folder_path)
 
             # we need to stop as this would mess with the other processes
-            return OpenProject.logger.warn error_msg
+            return service_result
           end
         end
       end
+
+      # We processed every folder successfully
+      ServiceResult.success
     end
 
     def rename_folder(project_storage, current_name)
@@ -236,21 +214,17 @@ module Storages
         .resolve("commands.nextcloud.create_folder")
         .call(storage: @storage, folder_path:)
         .result_or do |error|
-        error_msg = { command: 'nextcloud.create_folder',
-                      folder: folder_path,
-                      data: { status: error.data.code, body: error.data.body } }.to_json
+        format_and_log_error(error, folder: folder_path)
 
-        return OpenProject.logger.warn(error_msg)
+        return ServiceResult.failure(errors: error)
       end
 
       folder_id = Peripherals::Registry
                     .resolve('queries.nextcloud.file_ids')
                     .call(storage: @storage, path: folder_path)
                     .result_or do |error|
-        return OpenProject.logger.warn({ command: 'nextcloud.file_ids',
-                                         path:,
-                                         message: error.log_message,
-                                         data: { status: error.data.code, body: error.data.body } }.to_json)
+        format_and_log_error(error, path:)
+        ServiceResult.failure(errors: error)
       end
 
       project_storage.update(project_folder_id: folder_id.dig(folder_path, 'fileid'))
@@ -301,6 +275,14 @@ module Storages
 
     def admin_client_tokens_scope
       OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
+    end
+
+    def format_and_log_error(error, context = {})
+      error_message = context.merge({ command: error.data.source,
+                                      message: error.log_message,
+                                      data: { status: error.data.payload.code, body: error.data.payload.body } })
+
+      OpenProject.logger.warn error_message.to_json
     end
   end
 end

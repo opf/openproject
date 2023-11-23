@@ -560,6 +560,7 @@ sv:
       user:
         admin: "Administratör"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Nuvarande lösenord"
         force_password_change: "Tvinga lösenordsändring vid nästa inloggning"
         language: "Språk"
@@ -2944,6 +2945,7 @@ sv:
     activate: "Aktivera"
     activate_and_reset_failed_logins: "Aktivera och nollställ misslyckade inloggningsförsök"
     authentication_provider: "Autentiseringstjänst"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Användaren autentiseras via en extern autentiseringstjänst, så det finns inget lösenord i OpenProject som kan ändras.
     authorization_rejected: "Du är inte tillåten att logga in."
