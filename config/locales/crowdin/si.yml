@@ -561,6 +561,7 @@ si:
       user:
         admin: "පරිපාලක"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "වත්මන් මුරපදය"
         force_password_change: "ඊළඟ පිවිසුම මත මුරපදය වෙනස් කිරීම බලාත්මක කරන්න"
         language: " "
@@ -2947,6 +2948,7 @@ si:
     activate: "සක්රිය කරන්න"
     activate_and_reset_failed_logins: "අසමත් වූ පිවිසුම් සක්රිය කර නැවත සකස් කරන්න"
     authentication_provider: "සත්යාපන සපයන්නා"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       මෙම පරිශීලකයා බාහිර සත්යාපන සැපයුම්කරුවෙකු හරහා සත්යාපනය කරයි, එබැවින් OpenProject හි මුරපදයක් නොමැත.
     authorization_rejected: "ඔබට පුරනය වීමට අවසර නැත."

@@ -558,6 +558,7 @@ nl:
       user:
         admin: "Beheerder"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Huidig wachtwoord"
         force_password_change: "Afdwingen van wachtwoordwijziging bij volgende login"
         language: "Taal"
@@ -2943,6 +2944,7 @@ nl:
     activate: "Activeren"
     activate_and_reset_failed_logins: "Activeren en opnieuw instellen van mislukte aanmeldingen"
     authentication_provider: "Verificatieprovider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Deze gebruiker wordt geverifieerd via een externe-verificatieprovider, dus er is geen wachtwoord in OpenProject wat moet worden veranderd.
     authorization_rejected: "U bent niet toegestaan aan te melden."

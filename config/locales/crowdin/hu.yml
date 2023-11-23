@@ -558,6 +558,7 @@ hu:
       user:
         admin: "Adminisztrátor"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Jelenlegi jelszó"
         force_password_change: "Kötelező jelszóváltás a következő bejelentkezéskor"
         language: "Nyelv"
@@ -2943,6 +2944,7 @@ hu:
     activate: "Aktivál"
     activate_and_reset_failed_logins: "Aktiválja és alaphelyzetbe állitja a sikertelen bejelentkezéseket"
     authentication_provider: "Hitelesítés-ellenőrző"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Ez a felhasználó egy külső hitelesítés szolgáltató keresztül hitelesít, így nincs megváltoztatható jelszó az alkalmazásban.
     authorization_rejected: "Nem megengedett bejelentkezés."

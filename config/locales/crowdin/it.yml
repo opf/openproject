@@ -558,6 +558,7 @@ it:
       user:
         admin: "Amministratore"
         ldap_auth_source: "Connessione LDAP"
+        identity_url: "Identity URL"
         current_password: "Password corrente"
         force_password_change: "Richiedi la modifica della password al prossimo login"
         language: "Linguaggio"
@@ -2944,6 +2945,7 @@ it:
     activate: "Attiva"
     activate_and_reset_failed_logins: "Attiva e azzera gli accessi non riusciti"
     authentication_provider: "Servizio di autenticazione"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Questo utente si autentica tramite un servizio di autenticazione esterno, quindi non c'è nessuna password che può essere cambiata in OpenProject.
     authorization_rejected: "Non ti è consentito accedere."

@@ -561,6 +561,7 @@
       user:
         admin: "Administrator"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Nåværende passord"
         force_password_change: "Tving passordbytte ved neste innlogging"
         language: "Språk"
@@ -2947,6 +2948,7 @@
     activate: "Aktiver"
     activate_and_reset_failed_logins: "Aktiver og nullstill mislykkede innlogginger"
     authentication_provider: "Autentiseringstjeneste"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Denne brukeren autentiseres via en ekstern autentiseringstjeneste, og passord kan derfor ikke endres i OpenProject.
     authorization_rejected: "Du har ikke tilgang til å logge på."

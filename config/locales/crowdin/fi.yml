@@ -561,6 +561,7 @@ fi:
       user:
         admin: "Järjestelmänvalvoja"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Nykyinen salasana"
         force_password_change: "Pakota salasanan vaihto seuraavan kirjautumisen yhteydessä"
         language: "Kieli"
@@ -2947,6 +2948,7 @@ fi:
     activate: "Aktivoi"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Tämä käyttäjä autentikoi kautta ulkoisen autentikointi perheenhuoltaja, joten ei ole salasana OpenProject olla muutettu.
     authorization_rejected: "You are not allowed to sign in."

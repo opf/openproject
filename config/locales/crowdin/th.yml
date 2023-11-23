@@ -560,6 +560,7 @@ th:
       user:
         admin: "ผู้ดูแลระบบ"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "รหัสผ่านเดิม"
         force_password_change: "บังคับให้เปลี่ยนรหัสผ่านเมื่อมีการเข้าสู่ระบบครั้งถัดไป"
         language: "ภาษา"
@@ -2918,6 +2919,7 @@ th:
     activate: "เปิดใช้งาน"
     activate_and_reset_failed_logins: "เปิดใช้งานและรีเซตการล็อคอินที่ล้มเหลว"
     authentication_provider: "ผู้ให้บริการการรับรองความถูกต้องของการระบุตัวตน"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       ผู้ใช้นี้ได้รับการรับรองความถูกต้องจากภายนอก ดังนั้นจึงไม่มีรหัสผ่านใน OpenProject ที่สามารถเปลี่ยนแปลงได้
     authorization_rejected: "You are not allowed to sign in."

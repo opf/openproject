@@ -30,7 +30,7 @@ fr:
           title: 'Détails du projet'
           no_results: 'Aucun champ personnalisé n''a été défini pour les projets.'
         project_status:
-          title: 'État du projet'
+          title: 'Statut du projet'
           not_started: 'Non démarré'
           on_track: 'Sur la bonne voie'
           off_track: 'Sur la mauvaise voie'
