@@ -10,7 +10,7 @@ keywords: meetings, dynamic meetings, agenda, minutes
 
 Dynamic meetings are introduced with OpenProject 13.1 and allow easier meetings management, including improved agenda creation and linking work packages directly to the meetings.
 
-**Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). </div>
+**Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). 
 
 
 | Topic                                                        | Content                                           |
