@@ -55,6 +55,10 @@ See COPYRIGHT and LICENSE files for more details.
               </span>
                 <p class="op-tile-block--description">
                   <%= t('meeting.types.structured_text') %>
+                  <% if local_assigns[:copy] %>
+                    <br/>
+                    <strong><%= t('meeting.types.structured_text_copy') %></strong>
+                  <% end %>
                 </p>
               </div>
             </div>
