@@ -26,9 +26,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<div data-turbo="true">
-  <turbo-frame id="admin-settings-project-custom-fields" data-turbo-action="advance">
-    <%= render(Settings::ProjectAttributes::HeaderComponent.new()) %>
-    <%= render(Settings::ProjectAttributes::Section::IndexComponent.new(sections: @sections)) %>
-  </turbo-frame>
-</div>
+<%=
+  flex_layout(pb: 2, border: :bottom) do |header_container|
+    header_container.with_row(mb: 2, flex_layout: true, align_items: :center) do |title_row_container|
+      title_row_container.with_column(mr: 2) do
+        render(Primer::Beta::IconButton.new(
+          tag: :a,
+          href: admin_settings_project_custom_fields_path,
+          scheme: :invisible,
+          icon: "arrow-left",
+          size: :large,
+          "aria-label": t("back")
+        ))
+      end
+      title_row_container.with_column(mr: 2) do
+        render(Primer::Beta::Heading.new(tag: :h1)) { t('settings.project_attributes.new.heading') }
+      end
+    end
+    header_container.with_row(mb: 2) do
+      render(Primer::Beta::Text.new(color: :muted)) { t('settings.project_attributes.new.description') }
+    end
+  end
+%>

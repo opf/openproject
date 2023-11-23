@@ -33,8 +33,8 @@ module Admin::Settings
 
     menu_item :project_custom_field_settings
 
-    before_action :set_sections, only: %i[index move drop]
-    before_action :set_project_custom_field, only: %i[move drop]
+    before_action :set_sections, only: %i[index edit update move drop]
+    before_action :set_project_custom_field, only: %i[edit update move drop]
 
     def default_breadcrumb
       t(:label_project_attributes_plural)
@@ -42,6 +42,42 @@ module Admin::Settings
 
     def index
       respond_to :html
+    end
+
+    def new
+      @project_custom_field = ProjectCustomField.new
+
+      respond_to :html
+    end
+
+    def edit
+      respond_to :html
+    end
+
+    def create
+      @project_custom_field = ProjectCustomField.new(project_custom_field_params.except(:project_custom_field_section_id))
+
+      if @project_custom_field.save
+        @project_custom_field.project_custom_field_section = ProjectCustomFieldSection.find(project_custom_field_params[:project_custom_field_section_id])
+
+        redirect_to admin_settings_project_custom_fields_path
+      else
+        render action: 'new'
+      end
+    end
+
+    def update
+      if project_custom_field_params[:project_custom_field_section_id]&.to_i != @project_custom_field.project_custom_field_section_id
+        mapping = @project_custom_field.project_custom_field_section_mapping
+        mapping.remove_from_list
+        @project_custom_field.project_custom_field_section = ProjectCustomFieldSection.find(project_custom_field_params[:project_custom_field_section_id])
+      end
+
+      if @project_custom_field.update(project_custom_field_params.except(:project_custom_field_section_id))
+        redirect_to admin_settings_project_custom_fields_path
+      else
+        render action: 'edit'
+      end
     end
 
     def move
@@ -93,6 +129,10 @@ module Admin::Settings
 
     def set_project_custom_field
       @project_custom_field = ProjectCustomField.find(params[:id])
+    end
+
+    def project_custom_field_params
+      permitted_params.custom_field
     end
   end
 end

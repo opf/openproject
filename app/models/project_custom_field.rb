@@ -38,6 +38,8 @@ class ProjectCustomField < CustomField
   has_many :project_custom_field_sections,
            through: :project_custom_field_section_mappings
 
+  accepts_nested_attributes_for :project_custom_field_sections
+
   validate :exactly_one_section_mapped
 
   def type_name
@@ -53,6 +55,8 @@ class ProjectCustomField < CustomField
   end
 
   def exactly_one_section_mapped
+    return unless persisted?
+
     unless project_custom_field_sections.count == 1
       errors.add(:base, "Exactly one section must be mapped to this custom field.")
     end
@@ -64,6 +68,10 @@ class ProjectCustomField < CustomField
 
   def project_custom_field_section
     project_custom_field_sections.first
+  end
+
+  def project_custom_field_section_id
+    project_custom_field_section&.id
   end
 
   def project_custom_field_section=(section)

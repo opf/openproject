@@ -419,7 +419,7 @@ OpenProject::Application.routes.draw do
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :projects, controller: '/admin/settings/projects_settings', only: %i[show update]
       resources :project_custom_fields, controller: '/admin/settings/project_custom_fields',
-                                        only: %i[index show update] do
+                                        only: %i[index show new create edit update] do
         member do
           put :move
           put :drop

@@ -2902,6 +2902,11 @@ en:
       label_section_actions: "Section actions"
       heading_description: "These project attributes appear in the project overview of each project. You can add new attributes and group them into sections. Individual attributes can be enabled or disabled at a project level."
       label_project_custom_field_actions: "Project attribute actions"
+      edit:
+        description: "Set the details of the project attribute that will be selectable by project administrators in each individual project settings."
+      new:
+        heading: "New attribute"
+        description: "Set the details of the project attribute that will be selectable by project administrators in each individual project settings."
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"

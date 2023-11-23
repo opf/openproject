@@ -14,7 +14,7 @@
               action_buttons_container.with_column(mr: 2) do
                 render(Primer::Beta::Button.new(
                   tag: :a,
-                  href: new_custom_field_path(type: "ProjectCustomField"),
+                  href: new_admin_settings_project_custom_field_path(type: "ProjectCustomField"),
                   scheme: :primary,
                   data: { 'turbo-frame': 'true' }
                 )) do |button|

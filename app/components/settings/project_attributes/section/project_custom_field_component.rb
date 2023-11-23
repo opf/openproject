@@ -44,7 +44,7 @@ module Settings
 
         def edit_action_item(menu)
           menu.with_item(label: t("label_edit"),
-                         href: edit_custom_field_path(@project_custom_field)) do |item|
+                         href: edit_admin_settings_project_custom_field_path(@project_custom_field)) do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end
         end

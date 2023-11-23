@@ -466,6 +466,7 @@ class PermittedParams
           :possible_values,
           :multi_value,
           :content_right_to_left,
+          :project_custom_field_section_id,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],

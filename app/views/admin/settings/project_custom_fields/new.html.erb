@@ -26,9 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<div data-turbo="true">
-  <turbo-frame id="admin-settings-project-custom-fields" data-turbo-action="advance">
-    <%= render(Settings::ProjectAttributes::HeaderComponent.new()) %>
-    <%= render(Settings::ProjectAttributes::Section::IndexComponent.new(sections: @sections)) %>
-  </turbo-frame>
-</div>
+<turbo-frame id="admin-settings-project-custom-fields">
+  <%= render(Settings::ProjectCustomFields::NewFormHeaderComponent.new()) %>
+  <%= render(Settings::ProjectCustomFields::FormComponent.new(project_custom_field: @project_custom_field)) %>
+</turbo-frame>
