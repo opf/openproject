@@ -40,7 +40,8 @@ ENV RUBYOPT="-W0"
 WORKDIR $APP_PATH
 USER $APP_USER
 
-COPY ./docker/ci/entrypoint.sh /usr/sbin/entrypoint.sh
+RUN mkdir -p ./docker/ci
+COPY ./docker/ci/entrypoint.sh ./docker/ci/entrypoint.sh
 
-ENTRYPOINT [ "/usr/sbin/entrypoint.sh" ]
+ENTRYPOINT [ "/app/docker/ci/entrypoint.sh" ]
 CMD ["setup-tests", "bash"]

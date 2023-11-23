@@ -32,6 +32,17 @@ cleanup() {
 
 trap cleanup INT TERM EXIT
 
+declare -a pids=()
+
+run_background() {
+  # Run the command in the background
+  "$@" &
+
+  # Store the PID of the background process
+  local pid=$!
+  pids+=("$pid")
+}
+
 execute() {
 	BANNER=${BANNER:="[execute]"}
 	echo "$BANNER $@" >&2
@@ -64,12 +75,16 @@ reset_dbs() {
 	done
 }
 
-precompile_assets() {
-	execute "JOBS=8 time npm install"
+backend_stuff() {
+	execute "BUNDLE_JOBS=4 bundle install && bundle clean --force"
+	# create test database "app" and dump schema because db/structure.sql is not checked in
+	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump zeitwerk:check"
+}
+
+frontend_stuff() {
+	execute "JOBS=8 time npm install && npm prune"
 	execute_quiet "DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile"
 	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
-	# ls -al frontend/.angular/cache/
-	# find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
 }
 
 setup_tests() {
@@ -80,20 +95,24 @@ setup_tests() {
 	done
 
 	execute_quiet "mkdir -p spec/support/runtime-logs/"
-
-	execute "BUNDLE_JOBS=4 bundle install"
-	execute_quiet "bundle clean --force"
-
-	create_db_cluster
 	execute_quiet "cp docker/ci/database.yml config/"
-	# create test database "app" and dump schema because db/structure.sql is not checked in
-	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump zeitwerk:check"
+	create_db_cluster
+
+	run_background backend_stuff
+	run_background frontend_stuff
 
 	# pre-cache browsers and their drivers binaries
-	execute "$(bundle show selenium)/bin/linux/selenium-manager --browser chrome --debug"
-	execute "$(bundle show selenium)/bin/linux/selenium-manager --browser firefox --debug"
+	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser chrome --debug
+	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser firefox --debug
 
-	precompile_assets
+	for pid in "${pids[@]}"; do
+		wait "$pid"
+		# Check the exit status of each background process
+		if [ $? -ne 0 ]; then
+			echo "Command with PID $pid failed"
+			exit 1
+		fi
+	done
 }
 
 run_units() {
@@ -117,7 +136,7 @@ run_all() {
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests precompile_assets run_units run_features run_all
+export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests backend_stuff frontend_stuff run_units run_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift
