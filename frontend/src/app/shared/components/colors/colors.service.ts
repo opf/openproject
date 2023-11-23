@@ -2,12 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ColorsService {
-  public toHsl(value:string) {
-    return `hsl(${this.valueHash(value)}, 50%, 50%)`;
-  }
-
-  public toHslDark(value:string) {
-    return `hsl(${this.valueHash(value)}, 50%, 30%)`;
+  public toHsl(value:string, colorMode?:string):string {
+    return `hsl(${this.valueHash(value)}, 50%, ${colorMode === 'light_high_contrast' ? '30%' : '50%'})`;
   }
 
   public toHsla(value:string, opacity:number) {

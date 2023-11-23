@@ -94,7 +94,7 @@ export class PrincipalRendererService {
   ) {
     const userInitials = this.getInitials(principal.name);
     const colorMode = this.colors.colorMode();
-    const colorCode = colorMode === 'light_high_contrast' ? this.colors.toHslDark(principal.name) : this.colors.toHsl(principal.name);
+    const colorCode = this.colors.toHsl(principal.name, colorMode);
 
     const fallback = document.createElement('div');
     fallback.classList.add('op-principal--avatar');
