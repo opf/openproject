@@ -18,4 +18,4 @@ keywords: meetings, meetings faq, tickets, how to, task
 
 ## Can I add a meeting to a calendar?
 
-Yes, you can [download a meeting as an iCalendar event](../dynmic-meetings/#download-a-meeting-as-an-iCalendar-event).
+Yes, you can [download a meeting as an iCalendar event](../dynmic-meetings/#download-a-meeting-as-an-icalendar-event).
