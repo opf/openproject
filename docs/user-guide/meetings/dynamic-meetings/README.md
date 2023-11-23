@@ -18,14 +18,14 @@ Dynamic meetings are introduced with OpenProject 13.1 and allow easier meetings 
 | [Meetings in OpenProject](#meetings-in-openproject)          | How to open meetings in OpenProject.              |
 | [Create a new meeting](#create-a-new-meeting)                | How to create a new meeting in OpenProject.       |
 | [Edit a meeting](#edit-a-meeting)                            | How to edit an existing meeting.                  |
-| [Add a work package to the agenda](#Add-a-work-package-to-the-agenda) | How to add a work package to a meeting agenda.    |
+| [Add a work package to the agenda](#add-a-work-package-to-the-agenda) | How to add a work package to a meeting agenda.    |
 | [Create or edit the meeting agenda](#create-or-edit-the-meeting-agenda) | How to create or edit the agenda.                 |
 | [Add meeting participants](#add-meeting-participants)        | How to invite people to a meeting.                |
-| [Send email to all participants](#Send-email-to-all-participants) | How to send an email to all meeting participants. |
+| [Send email to all participants](#send-email-to-all-participants) | How to send an email to all meeting participants. |
 | [Download a meeting as an iCalendar event](#download-a-meeting-as-an-iCalendar-event) | How to download a meeting as an iCalendar event.  |
-| [Close a meeting](#Close-a-meeting)                          | How to close a meeting in OpenProject.            |
-| [Re-open a meeting](### Re-open-a-meeting)                   | How to re-open a meeting in OpenProject.          |
-| [Delete a meeting](#Delete-a-meeting)                        | How to delete a meeting in OpenProject.           |
+| [Close a meeting](#close-a-meeting)                          | How to close a meeting in OpenProject.            |
+| [Re-open a meeting](#re-open-a-meeting)                      | How to re-open a meeting in OpenProject.          |
+| [Delete a meeting](#delete-a-meeting)                        | How to delete a meeting in OpenProject.           |
 
 ## Meetings in OpenProject
 
@@ -120,6 +120,8 @@ You can send an email notification or reminder to all the meeting participants. 
 ## Download a meeting as an iCalendar event
 
 You can download a meeting as an iCalendar event. To do this, select the dropdown by clicking on the three dots in the top right corner and select the **Download iCalendar event**.
+
+Read more about [subscribing to a calendar](../../calendar/#subscribe-to-a-calendar).
 
 ## Close a meeting
 
