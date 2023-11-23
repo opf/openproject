@@ -455,7 +455,7 @@ cs:
         account: "Účet"
         attr_firstname: "Jméno (atribut)"
         attr_lastname: "Příjmení (atribut)"
-        attr_login: "Uživatelské jméno (atribut)"
+        attr_login: "Atribut uživatelského jména"
         attr_mail: "Email (atribut)"
         base_dn: "Base DN"
         host: "Host"
@@ -981,7 +981,7 @@ cs:
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "vytvořeno dne %{datetime}"
       created_on_time_entry: "time logged on %{datetime}"
-      updated_by_on: "Aktualizováno uživatelem {{user}} dne {{date}}"
+      updated_by_on: "Aktualizováno uživatelem %{user} dne %{datetime}"
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "aktualizováno dne %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
@@ -1426,7 +1426,7 @@ cs:
     work_package_edit: 'Pracovní balíček upraven'
     work_package_note: 'Poznámka k pracovnímu balíčku přidána'
     title:
-      project: "Projekt {name}"
+      project: "Projekt %{name}"
       subproject: "Podprojekt: %{name}"
   export:
     your_work_packages_export: "Export pracovních balíčků"
@@ -1638,7 +1638,7 @@ cs:
   label_available_project_versions: "Dostupné verze"
   label_available_project_work_package_categories: "Dostupné kategorie pracovních balíčků"
   label_available_project_work_package_types: "Dostupné kategorie pracovních balíčků"
-  label_available_projects: "Available projects"
+  label_available_projects: "Dostupné projekty"
   label_api_documentation: "API dokumentace"
   label_backup: "Záloha"
   label_between: "mezi"
@@ -1936,7 +1936,7 @@ cs:
   label_permissions_report: "Přehled oprávnění"
   label_personalize_page: "Přizpůsobit tuto stránku"
   label_placeholder_user: "Placeholder uživatel"
-  label_placeholder_user_new: "Nový placeholder uživatel"
+  label_placeholder_user_new: ""
   label_placeholder_user_plural: "Placeholder uživatelé"
   label_planning: "Plánování"
   label_please_login: "Přihlaste se prosím"

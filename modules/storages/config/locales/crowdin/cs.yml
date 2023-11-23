@@ -1,7 +1,7 @@
 #English strings go here
 cs:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
+    name: "Úložiště OpenProject"
     description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Zobrazit odkazy na soubor"
   permission_manage_file_links: "Správa odkazů souborů"
@@ -35,7 +35,7 @@ cs:
         storages/project_storage:
           attributes:
             project_folder_mode:
-              mode_unavailable: "is not available for this storage."
+              mode_unavailable: "není k dispozici pro toto úložiště."
         storages/storage:
           attributes:
             host:
@@ -138,7 +138,7 @@ cs:
     label_provider_type: "Typ poskytovatele"
     label_project_folder: "Složka projektu"
     label_new_storage: "Nové úložiště"
-    label_edit_storage: "Edit storage"
+    label_edit_storage: ""
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "Žádná specifická složka"
     label_automatic_folder: "New folder with automatically managed permissions"

@@ -517,7 +517,7 @@ fr:
           true: "public"
           false: "privé"
         queries: "Requêtes"
-        status_code: 'État du projet'
+        status_code: 'Statut du projet'
         status_explanation: 'Description du statut du projet'
         status_codes:
           not_started: 'Non démarré'
