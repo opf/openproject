@@ -35,12 +35,12 @@ export class ApiV3Paths {
    * https://github.com/opf/commonmark-ckeditor-build/
    *
    */
-  public principals(projectId:string|number, term:string|null) {
+  public principals(workPackageId:string|number, term:string|null) {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     // Only real and activated users:
     filters.add('status', '!', ['3']);
     // that are members of that project:
-    filters.add('member', '=', [projectId.toString()]);
+    filters.add('mentionable_on_work_package', '=', [workPackageId.toString()]);
     // That are users:
     filters.add('type', '=', ['User', 'Group']);
 
