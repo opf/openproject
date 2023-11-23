@@ -93,7 +93,7 @@ export class PrincipalRendererService {
     type:PrincipalType,
   ) {
     const userInitials = this.getInitials(principal.name);
-    const colorCode = this.colors.hexCodeColor(principal.name);
+    const colorCode = this.colors.toHsl(principal.name);
 
     const fallback = document.createElement('div');
     fallback.classList.add('op-principal--avatar');
