@@ -352,7 +352,9 @@ OpenProject::Application.routes.draw do
         delete 'enterprise/delete_trial_key' => 'enterprises#delete_trial_key'
       end
     end
-    resources :enumerations
+    resources :enumerations do
+      post 'move/:id', action: 'move', on: :collection
+    end
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/export_logo' => 'custom_styles#export_logo_delete', as: 'custom_style_export_logo_delete'
