@@ -14,5 +14,9 @@ mkdir -p $LOCAL_CACHE_PATH/{bundle,npm,angular,runtime-logs,buildx}
 if [ "$1" = "down" ]; then
   exec docker compose down --remove-orphans --volumes
 else
-  exec docker compose run --rm --remove-orphans app "$@"
+  additional_args=""
+  if [ "$CI_REBUILD" = "true" ]; then
+    additional_args="$additional_args --build"
+  fi
+  exec docker compose run --rm --remove-orphans $additional_args app "$@"
 fi
