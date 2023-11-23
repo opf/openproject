@@ -161,7 +161,6 @@ module OpenProject::Storages
             storage = project_storage.storage
             next unless storage.configured?
 
-            # consider moving to the model
             url_helpers = Rails.application.routes.url_helpers
             open_project_storage_url = url_helpers.open_project_storage_url(
               host: Setting.host_name,

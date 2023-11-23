@@ -46,8 +46,8 @@ export default class OpenProjectStorageModalController extends Controller<ModalD
     this.element.open = true;
     this.interval = 0;
     this.load();
-    this.element.addEventListener('close', () => { this.disconnect() });
-    this.element.addEventListener('cancel', () => { this.disconnect() });
+    this.element.addEventListener('close', () => { this.disconnect(); });
+    this.element.addEventListener('cancel', () => { this.disconnect(); });
   }
 
   disconnect() {
@@ -57,25 +57,26 @@ export default class OpenProjectStorageModalController extends Controller<ModalD
   load() {
     this.interval = setTimeout(
       async () => {
-        let response = await fetch(
+        const response = await fetch(
           this.projectStorageOpenUrlValue,
           {
             headers: {
-              'Accept': 'text/vnd.turbo-stream.html'
-            }
-          }
-        )
+              Accept: 'text/vnd.turbo-stream.html',
+            },
+          },
+        );
         if (response.status === 200) {
-          let streamActionHTML = await response.text();
+          const streamActionHTML = await response.text();
           renderStreamMessage(streamActionHTML);
           setTimeout(
             () => { window.location.href = this.redirectUrlValue; },
-            2000
+            2000,
           );
         } else {
           this.load();
         }
       },
-      3000)
+      3000,
+);
   }
 }
