@@ -23,10 +23,12 @@
           end
         end
       else
+        first_and_last = [@meeting.agenda_items.first, @meeting.agenda_items.last]
         render(
           MeetingAgendaItems::ItemComponent.with_collection(
-            @meeting.agenda_items,
-            container: border_box
+            @meeting.agenda_items.with_includes_to_render,
+            container: border_box,
+            first_and_last:
           )
         )
       end

@@ -241,7 +241,7 @@ open_color_palette:
 
 work_package_roles:
   - reference: :default_role_work_package_editor
-    t_name: Work Package Editor
+    t_name: Work package editor
     position: 7
     builtin: :work_package_editor
     permissions:
@@ -254,7 +254,7 @@ work_package_roles:
       - :copy_work_packages
       - :export_work_packages
   - reference: :default_role_work_package_commenter
-    t_name: Work Package Commenter
+    t_name: Work package commenter
     builtin: :work_package_commenter
     position: 8
     permissions:
@@ -264,7 +264,7 @@ work_package_roles:
       - :edit_own_work_package_notes
       - :export_work_packages
   - reference: :default_role_work_package_viewer
-    t_name: Work Package Viewer
+    t_name: Work package viewer
     builtin: :work_package_viewer
     position: 9
     permissions:

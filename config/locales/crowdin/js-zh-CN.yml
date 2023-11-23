@@ -32,11 +32,11 @@ zh-CN:
       draggable_hint: |
         将图片或附件拖到编辑区内即可添加。鼠标在关闭的编辑区上停留将打开这个编辑区。
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "添加项目"
+      clear_all: "全部清除"
+      loading: "加载中..."
+      not_found: "未找到项目"
+      type_to_search: "键入内容进行搜索"
     autocomplete_select:
       placeholder:
         multi: "添加“%{name}”"
@@ -347,11 +347,11 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li>基线比较，以轻松跟踪更改。</li> <li>PDF 导出，以报告工作计划。</li> <li>通过 URL (iCalendar) 订阅项目日历。</li> <li>具有文档模板的项目文件夹，以集成 Nextcloud。</li> <li>所有种子数据均已本地化。</li> <li>在新的索引页中列出全局模块。</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"

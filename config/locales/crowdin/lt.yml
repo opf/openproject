@@ -560,6 +560,7 @@ lt:
       user:
         admin: "Administratorius"
         ldap_auth_source: "LDAP jungtis"
+        identity_url: "Identity URL"
         current_password: "Dabartinis slaptažodis"
         force_password_change: "Versti pasikeisti slaptažodį kitą kartą prisijungus"
         language: "Kalba"
@@ -638,7 +639,7 @@ lt:
         error_enterprise_only: "%{action} galimas tik OpenProject Enterprise versijoje"
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Tuo metu informaciją pakeitė bent vienas kitas naudotojas."
         email: "nėra tinkamas el. pašto adresas."
         empty: "negali būti tuščia."
         even: "turi būti lyginis."
@@ -2998,6 +2999,7 @@ lt:
     activate: "Aktyvuoti"
     activate_and_reset_failed_logins: "Aktyvuoti ir iš naujo nustatyti nepavykusius prisijungimus"
     authentication_provider: "Autentifikacijos paslaugos teikėjas"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Šis vartotojas naudoja išorinį autentifikacijos paslaugų teikėją, todėl nėra galimo pakeisti slaptažodžio OpenProject aplinkoje.
     authorization_rejected: "Jums neleidžiama prisijungti."
@@ -3036,9 +3038,9 @@ lt:
   warning_registration_token_expired: |
     Aktyvavimo el. laiško galiojimas pasibaigė. Išsiuntėme jums naują %{email}. Paspauskite laiške duotą nuorodą, kad aktyvuotumėte savo paskyrą.
   warning_user_limit_reached: >
-    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+    Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio egzemplioriaus.
   warning_user_limit_reached_admin: >
-    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
+    Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieigi prie šio egzemplioriaus.
   warning_user_limit_reached_instructions: >
     Jūs pasiekėte naudotojų ribą (%{current}/%{max} aktyvūs naudotojai). Susisiekite su sales@openproject.com norėdami atnaujinti savo Enterprise versijos planą arba pridėti papildomų naudotojų.
   warning_protocol_mismatch_html: >
@@ -3093,12 +3095,12 @@ lt:
       share: "Dalintis"
       text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
       text_empty_state_header: "Nėra bendrinamų naudotojų"
-      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
-      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      text_user_limit_reached: "Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo."
+      text_user_limit_reached_admins: 'Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad galėtumėte pridėti daugiau naudotojų.'
       warning_user_limit_reached: >
-        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+        Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       warning_user_limit_reached_admin: >
-        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+        Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
   working_days:
     info: >
       Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.

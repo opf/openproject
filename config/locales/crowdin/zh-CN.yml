@@ -556,6 +556,7 @@ zh-CN:
       user:
         admin: "管理员"
         ldap_auth_source: "LDAP 连接"
+        identity_url: "Identity URL"
         current_password: "当前密码："
         force_password_change: "下次登录时强制更改密码"
         language: "语言"
@@ -594,7 +595,7 @@ zh-CN:
           title: "工作日"
           false: "仅工作日"
           true: "包括非工作日"
-        notify: "Notify" #used in custom actions
+        notify: "通知" #used in custom actions
         parent: "父级"
         parent_issue: "父级"
         parent_work_package: "父级"
@@ -634,7 +635,7 @@ zh-CN:
         error_enterprise_only: "%{action}仅在 OpenProject 企业版中可用"
         error_unauthorized: "无法访问。"
         error_readonly: "曾尝试被写入，但不可写。"
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "在此期间，至少有一位其他用户更新了信息。"
         email: "不是一个有效的电子邮件地址。"
         empty: "不能为空。"
         even: "必须是偶数。"
@@ -1706,7 +1707,7 @@ zh-CN:
   label_enterprise_active_users: "%{current}/%{limit} 已预订的活跃用户"
   label_enterprise_edition: "企业版"
   label_enterprise_support: "企业支持"
-  label_enterprise_addon: "Enterprise add-on"
+  label_enterprise_addon: "企业版附加组件"
   label_environment: "环境"
   label_estimates_and_time: "估算与工时"
   label_equals: "是"
@@ -2176,7 +2177,7 @@ zh-CN:
         create_account: "要访问此工作包，您需要创建一个 %{instance} 帐户。"
         open_work_package: "打开工作包"
         subject: "工作包 %{id} 已被共享给你"
-        enterprise_text: "Share work packages with users who are not members of the project."
+        enterprise_text: "与非此项目成员的用户共享工作包。"
         summary:
           user: "%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包"
           group: "%{user} 向您所属的 %{group} 组共享了一个工作包。"
@@ -2871,7 +2872,7 @@ zh-CN:
   help_texts:
     views:
       project: >
-        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
+        %{plural}始终与项目关联。您只能在此处选择已激活 %{plural} 模块的项目。创建了 %{singular} 后，您可以将其他项目的工作包添加到其中。
       public: "发布此视图，以允许其他用户访问您的视图。具有“管理公开视图”权限的用户可以修改或移除公开查询。这不会影响工作包结果在该视图中的可见性，并且根据用户拥有的权限，他们可能会看到不同的结果。"
       favoured: "将此视图标记为收藏项，并添加到左侧的已保存视图边栏中。"
   time:
@@ -2908,6 +2909,7 @@ zh-CN:
     activate: "激活"
     activate_and_reset_failed_logins: "激活和重置失败的帐户"
     authentication_provider: "身份认证提供程序"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       该用户通过外部身份验证提供程序进行身份验证，因此在 OpenProject 中没有密码可供更改。
     authorization_rejected: "你不允许登录。"
@@ -2943,9 +2945,9 @@ zh-CN:
   warning_registration_token_expired: |
     激活邮件已过期，我们给您发送了一封新邮件到%{email}。请单击内部的链接以激活您的帐户。
   warning_user_limit_reached: >
-    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+    添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此实例。
   warning_user_limit_reached_admin: >
-    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
+    添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此实例。
   warning_user_limit_reached_instructions: >
     您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
   warning_protocol_mismatch_html: >
@@ -2979,12 +2981,12 @@ zh-CN:
         one: "1 个用户"
         other: "%{count} 个用户"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        project_member: '项目成员'
+        not_project_member: '不是项目成员'
+        project_group: '项目组'
+        not_project_group: '不是项目组'
+        role: '角色'
+        type: '类型'
       label_search: "搜索要邀请的用户"
       label_search_placeholder: "按用户名或电子邮件地址搜索"
       label_toggle_all: "切换所有共享"
@@ -3000,12 +3002,12 @@ zh-CN:
       share: "分享"
       text_empty_state_description: "工作包尚未共享给任何人。"
       text_empty_state_header: "没有共享的用户"
-      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
-      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      text_user_limit_reached: "添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。"
+      text_user_limit_reached_admins: '添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>以添加更多用户。'
       warning_user_limit_reached: >
-        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+        添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。
       warning_user_limit_reached_admin: >
-        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+        添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此工作包。
   working_days:
     info: >
       当安排工作包时，未选择的日期将被跳过（不计入天数）。这些日期可以在工作包级别进行覆盖。
@@ -3216,7 +3218,7 @@ zh-CN:
     response:
       unexpected: "收到意外响应。"
   you: 您
-  link: link
+  link: 链接
   plugin_openproject_auth_plugins:
     name: "OpenProject 认证插件"
     description: "在 OpenProject 中集成 OmniAuth 策略提供程序以进行身份验证。"

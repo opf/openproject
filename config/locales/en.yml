@@ -446,6 +446,12 @@ en:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
 
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
+
     summary:
       reports:
         category:
@@ -627,6 +633,7 @@ en:
       user:
         admin: "Administrator"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Current password"
         force_password_change: "Enforce password change on next login"
         language: "Language"
@@ -3158,6 +3165,7 @@ en:
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       This user authenticates via an external authentication provider, so there is no password
       in OpenProject to be changed.
@@ -3273,6 +3281,17 @@ en:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
 
   working_days:
     info: >

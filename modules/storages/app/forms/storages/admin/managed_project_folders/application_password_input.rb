@@ -35,7 +35,8 @@ module Storages::Admin::ManagedProjectFolders
         required: true,
         caption: application_password_caption,
         value: nil, # IMPORTANT: We don't want to show the password in the form
-        placeholder: @storage.password.present? ? "••••••••••••••••" : nil
+        placeholder: @storage.password.present? ? "••••••••••••••••" : nil,
+        input_width: :large
       )
     end
 

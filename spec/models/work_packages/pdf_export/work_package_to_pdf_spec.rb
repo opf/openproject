@@ -32,16 +32,16 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
   let(:type) do
-    create(:type_bug, custom_fields: [long_text_custom_field, disabled_custom_field]).tap do |t|
-      t.attribute_groups.first.attributes.push(disabled_custom_field.attribute_name, long_text_custom_field.attribute_name)
+    create(:type_bug, custom_fields: [cf_long_text, cf_disabled_in_project, cf_global_bool]).tap do |t|
+      t.attribute_groups.first.attributes.push(cf_disabled_in_project.attribute_name, cf_long_text.attribute_name)
     end
   end
   let(:project) do
     create(:project,
            name: 'Foo Bla. Report No. 4/2021 with/for Case 42',
            types: [type],
-           work_package_custom_fields: [long_text_custom_field, disabled_custom_field],
-           work_package_custom_field_ids: [long_text_custom_field.id]) # disabled_custom_field.id is disabled
+           work_package_custom_fields: [cf_long_text, cf_disabled_in_project, cf_global_bool],
+           work_package_custom_field_ids: [cf_long_text.id, cf_global_bool.id]) # cf_disabled_in_project.id is disabled
   end
   let(:user) do
     create(:user,
@@ -52,10 +52,18 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
   let(:image_attachment) { Attachment.new author: user, file: File.open(image_path) }
   let(:attachments) { [image_attachment] }
-  let(:long_text_custom_field) { create(:issue_custom_field, :text, name: 'LongText') }
-  let!(:disabled_custom_field) do
+  let(:cf_long_text) { create(:issue_custom_field, :text, name: 'LongText') }
+  let!(:cf_disabled_in_project) do
     # NOT enabled by project.work_package_custom_field_ids => NOT in PDF
     create(:float_wp_custom_field, name: 'DisabledCustomField')
+  end
+  let(:cf_global_bool) do
+    create(
+      :work_package_custom_field,
+      field_format: 'bool',
+      is_for_all: true,
+      default_value: true
+    )
   end
   let(:work_package) do
     description = <<~DESCRIPTION
@@ -79,8 +87,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            story_points: 1,
            description:,
            custom_values: {
-             long_text_custom_field.id => 'foo',
-             disabled_custom_field.id => '6.25'
+             cf_long_text.id => 'foo',
+             cf_disabled_in_project.id => '6.25',
+             cf_global_bool.id => true
            }).tap do |wp|
       allow(wp)
         .to receive(:attachments)

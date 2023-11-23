@@ -562,6 +562,7 @@ hr:
       user:
         admin: "Administrator"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Trenutna lozinka"
         force_password_change: "Promjena lozinke pri sljedećoj prijavi na sustav"
         language: "Jezik"
@@ -2976,6 +2977,7 @@ hr:
     activate: "Aktiviraj"
     activate_and_reset_failed_logins: "Aktiviraj i poništi neuspjele pokušaje prijave"
     authentication_provider: "Pružatelj usluge provjere autentičnosti"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Ovaj korisnik se autentificira preko eksternog pružatelja autentifikacije, prema tome ne postoji lozinka u OpenProjectu koju je potrebno promijeniti.
     authorization_rejected: "Nije vam dopuštena prijava."

@@ -305,6 +305,19 @@ module Components
         end
       end
 
+      def resend_invite(user)
+        within user_row(user) do
+          click_button I18n.t("work_package.sharing.user_details.resend_invite")
+        end
+      end
+
+      def expect_invite_resent(user)
+        within user_row(user) do
+          expect(page)
+            .to have_text(I18n.t("work_package.sharing.user_details.invite_resent"))
+        end
+      end
+
       def user_row(user)
         shares_list
           .find("[data-test-selector=\"op-share-wp-active-user-#{user.id}\"]")

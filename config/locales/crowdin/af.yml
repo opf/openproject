@@ -561,6 +561,7 @@ af:
       user:
         admin: "Administreerder"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Current password"
         force_password_change: "Dwing wagwoord veranderering af op die volgende aantekening"
         language: "Taal"
@@ -2947,6 +2948,7 @@ af:
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       This user authenticates via an external authentication provider, so there is no password in OpenProject to be changed.
     authorization_rejected: "You are not allowed to sign in."

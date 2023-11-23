@@ -41,20 +41,7 @@ module Storages
     store_attribute :provider_fields, :group, :string
     store_attribute :provider_fields, :group_folder, :string
 
-    def self.sync_all_group_folders
-      # Returns false if lock cannot be acquired, block is not executed then.
-      OpenProject::Mutex.with_advisory_lock(self,
-                                            'sync_all_group_folders',
-                                            timeout_seconds: 0,
-                                            transaction: false) do
-        where("provider_fields->>'automatically_managed' = 'true'")
-          .includes(:oauth_client)
-          .find_each do |storage|
-          GroupFolderPropertiesSyncService.new(storage).call
-        end
-        true
-      end
-    end
+    scope :automatically_managed, -> { where("provider_fields->>'automatically_managed' = 'true'") }
 
     def oauth_configuration
       Peripherals::OAuthConfigurations::NextcloudConfiguration.new(self)

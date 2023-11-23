@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,33 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Queries::Operators
-  module WorkPackages
-    module SharedWithUser
-      class EqualsAll < ::Queries::Operators::Base
-        label 'operator_equals_all'
-        set_symbol '&='
+module Storages
+  module ManageNextcloudIntegrationJobMixin
+    using Peripherals::ServiceResultRefinements
+
+    def perform
+      OpenProject::Mutex.with_advisory_lock(
+        ::Storages::NextcloudStorage,
+        'sync_all_group_folders',
+        timeout_seconds: 0,
+        transaction: false
+      ) do
+        ::Storages::NextcloudStorage.automatically_managed.includes(:oauth_client).find_each do |storage|
+          result = GroupFolderPropertiesSyncService.call(storage)
+          result.match(
+            on_success: ->(_) do
+              storage.mark_as_healthy unless storage.health_healthy?
+            end,
+            on_failure: ->(errors) do
+              if !storage.health_unhealthy? || storage.health_reason != errors.to_s
+                storage.mark_as_unhealthy(reason: errors.to_s)
+              end
+            end
+          )
+        end
+        true
       end
     end
   end

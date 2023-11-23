@@ -89,7 +89,8 @@ RSpec.describe Authorization::EnterpriseService do
          readonly_work_packages
          team_planner_view
          two_factor_authentication
-         work_package_query_relation_columns).each do |guarded_action|
+         work_package_query_relation_columns
+         work_package_sharing).each do |guarded_action|
         context "guarded action #{guarded_action}" do
           let(:action) { guarded_action }
 

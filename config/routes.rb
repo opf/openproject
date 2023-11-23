@@ -352,7 +352,9 @@ OpenProject::Application.routes.draw do
         delete 'enterprise/delete_trial_key' => 'enterprises#delete_trial_key'
       end
     end
-    resources :enumerations
+    resources :enumerations do
+      post 'move/:id', action: 'move', on: :collection
+    end
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/export_logo' => 'custom_styles#export_logo_delete', as: 'custom_style_export_logo_delete'
@@ -469,6 +471,9 @@ OpenProject::Application.routes.draw do
 
     # Rails managed sharing route
     resources :shares, controller: 'work_packages/shares', only: %i[index create] do
+      member do
+        post 'resend_invite' => 'work_packages/shares#resend_invite'
+      end
       collection do
         resource :bulk, controller: 'work_packages/shares/bulk', only: %i[update destroy], as: :shares_bulk
       end

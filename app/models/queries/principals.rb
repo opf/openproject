@@ -30,6 +30,7 @@ module Queries::Principals
   ::Queries::Register.register(PrincipalQuery) do
     filter Filters::TypeFilter
     filter Filters::MemberFilter
+    filter Filters::MentionableOnWorkPackageFilter
     filter Filters::StatusFilter
     filter Filters::NameFilter
     filter Filters::AnyNameAttributeFilter

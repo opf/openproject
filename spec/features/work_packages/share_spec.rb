@@ -323,6 +323,13 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(new_user, 'Edit', position: 1)
       share_modal.expect_shared_count_of(7)
 
+      # The invite can be resent
+      share_modal.resend_invite(new_user)
+      share_modal.expect_invite_resent(new_user)
+      perform_enqueued_jobs
+      # Another invitation email sent out to the user
+      expect(ActionMailer::Base.deliveries.size).to eq(2)
+
       # The new user can be deleted
       share_modal.remove_user(new_user)
       share_modal.expect_not_shared_with(new_user)
