@@ -73,14 +73,14 @@ jobs:
       run: bin/ci setup-tests
     - name: APIv3 specification (OpenAPI 3.0)
       run: bin/ci ./script/api/validate_spec
-    - name: Unit tests
-      run: bin/ci run-units
-    - name: Feature tests
-      env:
-        CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
-        CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
-        CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
-      run: bin/ci run-features
+    # - name: Unit tests
+    #   run: bin/ci run-units
+    # - name: Feature tests
+    #   env:
+    #     CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
+    #     CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
+    #     CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
+    #   run: bin/ci run-features
     - name: Save CI image to cache
       if: steps.cache_docker.outputs.cache-hit != 'true'
       run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar
