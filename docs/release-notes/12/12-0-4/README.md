@@ -26,7 +26,7 @@ The vulnerability has been fixed in version 12.0.4. Versions prior to 12.0.0 are
 If you are unable to upgrade in a timely fashion, the following patch can be applied: [https://github.com/opf/openproject/pull/9983.patch](https://github.com/opf/openproject/pull/9983.patch)
 
 #### Credits
-This security issue was responsibly disclosed by [Daniel Santos](https://github.com/bananabr) (Twitter [@bananabr](https://twitter.com/bananabr)). Thank you for reaching out to us and your help in identifying this issue. If you have a security vulnerability you would like to disclose, please see our [statement on security](https://www.openproject.org/docs/development/security/).
+This security issue was responsibly disclosed by [Daniel Santos](https://github.com/bananabr) (Twitter [@bananabr](https://twitter.com/bananabr)). Thank you for reaching out to us and your help in identifying this issue. If you have a security vulnerability you would like to disclose, please see our [statement on security](https://www.openproject.org/docs/security-and-privacy/statement-on-security/).
 
 ### Bug fixes and changes
 - Fixed: Frontend including editor and time logging unusable when there are many activities \[[#40314](https://community.openproject.com/wp/40314)\]
