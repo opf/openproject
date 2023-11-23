@@ -3,8 +3,11 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class ColorsService {
   public toHsl(value:string) {
-    const mode = document.body.getAttribute('data-light-theme');
-    return `hsl(${this.valueHash(value)}, 50%, ${mode === 'light_high_contrast' ? '30%' : '50%'})`;
+    return `hsl(${this.valueHash(value)}, 50%, 50%)`;
+  }
+
+  public toHslDark(value:string) {
+    return `hsl(${this.valueHash(value)}, 50%, 30%)`;
   }
 
   public toHsla(value:string, opacity:number) {
@@ -18,5 +21,9 @@ export class ColorsService {
     }
 
     return hash % 360;
+  }
+
+  public colorMode():string {
+    return document.body.getAttribute('data-light-theme') ?? 'light';
   }
 }

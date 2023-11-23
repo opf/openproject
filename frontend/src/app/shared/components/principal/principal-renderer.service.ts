@@ -93,7 +93,8 @@ export class PrincipalRendererService {
     type:PrincipalType,
   ) {
     const userInitials = this.getInitials(principal.name);
-    const colorCode = this.colors.toHsl(principal.name);
+    const colorMode = this.colors.colorMode();
+    const colorCode = colorMode === 'light_high_contrast' ? this.colors.toHslDark(principal.name) : this.colors.toHsl(principal.name);
 
     const fallback = document.createElement('div');
     fallback.classList.add('op-principal--avatar');
@@ -104,7 +105,7 @@ export class PrincipalRendererService {
     fallback.title = principal.name;
     fallback.textContent = userInitials;
 
-    if (type === 'placeholder_user') {
+    if (type === 'placeholder_user' && colorMode !== 'light_high_contrast') {
       fallback.style.color = colorCode;
       fallback.style.borderColor = colorCode;
     } else {
