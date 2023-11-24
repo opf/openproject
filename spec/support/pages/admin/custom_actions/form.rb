@@ -111,10 +111,10 @@ module Pages
 
           Array(value).each do |val|
             within field do
-              if has_selector?('.form--selected-value--container', wait: 1)
+              if has_selector?('.form--selected-value--container', wait: 0)
                 find('.form--selected-value--container').click
                 autocomplete = true
-              elsif has_selector?('.autocomplete-select-decoration--wrapper', wait: 1)
+              elsif has_selector?('.autocomplete-select-decoration--wrapper', wait: 0)
                 autocomplete = true
               end
 
