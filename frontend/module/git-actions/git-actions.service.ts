@@ -73,7 +73,7 @@ export class GitActionsService {
 
   public commitMessage(workPackage:WorkPackageResource):string {
     const { title, id, description, url } = this.formattingInput(workPackage);
-    return `[#${id}] ${title}
+    return `OP#${id} ${title}
 
 ${description}
 
