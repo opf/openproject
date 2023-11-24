@@ -112,7 +112,7 @@ module Redmine
           allowed_scope = if project.public?
                             User.allowed(self.class.acts_as_watchable_permission, project)
                           else
-                            User.allowed_members(self.class.acts_as_watchable_permission, project)
+                            User.allowed_on_work_package(self.class.acts_as_watchable_permission, self)
                           end
 
           active_scope.where(id: allowed_scope)
