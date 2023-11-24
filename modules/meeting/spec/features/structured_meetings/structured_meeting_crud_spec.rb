@@ -271,7 +271,7 @@ RSpec.describe 'Structured meetings CRUD',
     click_button 'Create'
 
     expect(page).to have_text 'Your meeting is empty'
-    new_meeting = StructuredMeeting.order(id: :asc).last
+    new_meeting = StructuredMeeting.reorder(id: :asc).last
     expect(page).to have_current_path "/meetings/#{new_meeting.id}"
   end
 
