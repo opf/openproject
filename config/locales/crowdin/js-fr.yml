@@ -677,7 +677,7 @@ fr:
             description: 'Notifications pour toute activité sur les lots de travaux vous concernant (assigné, responsable ou observateur).'
           delayed:
             title: 'Non participants'
-            description: 'Notifications additionnelles lors d''activité sur tous les projects.'
+            description: 'Notifications additionnelles lors d''activités sur tous les projets.'
           date_alerts:
             title: 'Alarmes'
             description: 'Notifications automatiques lorsque des dates importantes approchent pour les lots de travaux ouverts vous concernant (assigné, responsable ou observateur).'
