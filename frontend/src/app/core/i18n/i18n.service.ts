@@ -10,11 +10,11 @@ export class I18nService {
   constructor(
     private config:NgSelectConfig,
   ) {
-    this.config.addTagText = this.t('autocomplete_ng_select.add_tag');
-    this.config.clearAllText = this.t('autocomplete_ng_select.clear_all');
-    this.config.loadingText = this.t('autocomplete_ng_select.loading');
-    this.config.notFoundText = this.t('autocomplete_ng_select.not_found');
-    this.config.typeToSearchText = this.t('autocomplete_ng_select.type_to_search');
+    this.config.addTagText = this.t('js.autocomplete_ng_select.add_tag');
+    this.config.clearAllText = this.t('js.autocomplete_ng_select.clear_all');
+    this.config.loadingText = this.t('js.autocomplete_ng_select.loading');
+    this.config.notFoundText = this.t('js.autocomplete_ng_select.not_found');
+    this.config.typeToSearchText = this.t('js.autocomplete_ng_select.type_to_search');
   }
 
   public get locale():string {
