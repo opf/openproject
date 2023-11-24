@@ -33,70 +33,72 @@ class Storages::ProjectStoragesController < ApplicationController
   model_object Storages::ProjectStorage
 
   before_action :require_login
-  before_action :find_model_object, only: %i[open]
+  before_action :find_model_object
   before_action :find_project_by_project_id
+  before_action :render_403, unless: -> { User.current.allowed_in_project?(:view_file_links, @project) }
 
   def open
-    url = @object.open(current_user).match(
+    storage_open_url = @object.open(current_user).match(
       on_success: ->(url) { url },
       on_failure: ->(error) { raise_error(error) }
     )
-
-    modal_params = {
-      project_storage_open_url: request.path,
-      redirect_url: url
-    }
-    storage = @object.storage
-    result = ::Storages::Peripherals::Registry
-               .resolve("queries.#{storage.short_provider_type}.file_info")
-               .call(storage:,
-                     user: current_user,
-                     file_id: @object.project_folder_id)
-
-    redirect_to url if !@object.project_folder_automatic?
-    result.match(
-      on_success: ->(_) do
-        respond_to do |format|
-          format.turbo_stream do
-            stream = OpTurbo::StreamComponent.new(
-              action: :update,
-              target: Storages::OpenProjectStorageModalComponent.dialog_body_id,
-              template: Storages::OpenProjectStorageModalComponent::Body.new(:success).render_in(view_context)
-            ).render_in(view_context)
-            render turbo_stream: stream
+    if @object.project_folder_automatic?
+      storage = @object.storage
+      # check if user "see" project_folder
+      result = ::Storages::Peripherals::Registry
+                 .resolve("queries.#{storage.short_provider_type}.file_info")
+                 .call(storage:,
+                       user: current_user,
+                       file_id: @object.project_folder_id)
+      result.match(
+        on_success: ->(_) do
+          respond_to do |format|
+            format.turbo_stream do
+              render(
+                turbo_stream: OpTurbo::StreamComponent.new(
+                  action: :update,
+                  target: Storages::OpenProjectStorageModalComponent.dialog_body_id,
+                  template: Storages::OpenProjectStorageModalComponent::Body.new(:success).render_in(view_context)
+                ).render_in(view_context)
+              )
+            end
+            format.html { redirect_to storage_open_url }
           end
-          format.html { redirect_to url }
-        end
-      end,
-      on_failure: ->(result) do
-        case result.code
-        when :unauthorized
+        end,
+        on_failure: ->(result) do
           respond_to do |format|
             format.turbo_stream { head :no_content }
             format.html do
-              ensure_connection_url = oauth_clients_ensure_connection_url(
-                oauth_client_id: storage.oauth_client.client_id,
-                storage_id: storage.id,
-                destination_url: request.url
-              )
-              redirect_to ensure_connection_url
-            end
-          end
-        when :forbidden
-          respond_to do |format|
-            format.turbo_stream do
-              head :no_content
-            end
-            format.html do
-              flash[:modal] = {
-                type: 'Storages::OpenProjectStorageModalComponent',
-                parameters: modal_params.merge(state: :waiting)
-              }
-              redirect_to project_overview_path(project_id: @project.identifier)
+              case result.code
+              when :unauthorized
+                redirect_to(
+                  oauth_clients_ensure_connection_url(
+                    oauth_client_id: storage.oauth_client.client_id,
+                    storage_id: storage.id,
+                    destination_url: request.url
+                  )
+                )
+              when :forbidden
+                redirect_to(
+                  project_overview_path(project_id: @project.identifier),
+                  flash: {
+                    modal: {
+                      type: 'Storages::OpenProjectStorageModalComponent',
+                      parameters: {
+                        project_storage_open_url: request.path,
+                        redirect_url: storage_open_url,
+                        state: :waiting
+                      }
+                    }
+                  }
+                )
+              end
             end
           end
         end
-      end
-    )
+      )
+    else
+      redirect_to storage_open_url
+    end
   end
 end

@@ -32,8 +32,6 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe 'Storage links in project menu', :js do
-  include API::V3::Utilities::PathHelper
-
   let!(:storage_configured_linked1) { create(:nextcloud_storage_configured, name: "Storage 1") }
   let!(:project_storage1) { create(:project_storage, project:, storage: storage_configured_linked1) }
   let!(:storage_configured_linked2) { create(:nextcloud_storage_configured, name: "Storage 2") }

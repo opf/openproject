@@ -69,7 +69,9 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   def open(user)
-    if project_folder_inactive? || (project_folder_automatic? && !user.allowed_in_project?(:read_files, project))
+    if project_folder_inactive? ||
+       (project_folder_automatic? && !user.allowed_in_project?(:read_files, project)) ||
+       project_folder_id.blank?
       Storages::Peripherals::Registry
         .resolve("queries.#{storage.short_provider_type}.open_storage")
         .call(storage:, user:)
