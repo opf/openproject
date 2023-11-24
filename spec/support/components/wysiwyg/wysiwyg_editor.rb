@@ -48,11 +48,11 @@ module Components
     end
 
     def expect_button(label)
-      expect(container).to have_selector('.ck-button', visible: :all, text: label)
+      expect(container).to have_css('.ck-button', visible: :all, text: label)
     end
 
     def expect_no_button(label)
-      expect(container).not_to have_selector('.ck-button', visible: :all, text: label)
+      expect(container).not_to have_css('.ck-button', visible: :all, text: label)
     end
 
     def expect_value(value)
@@ -61,7 +61,7 @@ module Components
 
     def expect_supports_no_macros
       expect(container)
-          .not_to have_selector('.ck-button', visible: :all, text: 'Macros')
+          .not_to have_css('.ck-button', visible: :all, text: 'Macros')
     end
 
     def within_enabled_preview
@@ -93,7 +93,7 @@ module Components
         attachments.drag_and_drop_file(editable, image_fixture, :bottom)
 
         expect(page)
-            .to have_selector('img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
+            .to have_css('img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
         wait_until_upload_progress_toaster_cleared
 
@@ -148,16 +148,17 @@ module Components
       container.find('.ck-button', visible: :all, text: label).click
     end
 
-    def type_slowly(*text)
-      editor_element.send_keys *text
-      sleep 0.5
+    def type_slowly(*)
+      editor_element.send_keys(*)
+      sleep 0.2
     end
 
-    def click_and_type_slowly(*text)
-      sleep 0.5
+    def click_and_type_slowly(*)
+      sleep 0.2
       editor_element.click
 
-      type_slowly *text
+      sleep 0.2
+      type_slowly(*)
     end
 
     def click_hover_toolbar_button(label)
