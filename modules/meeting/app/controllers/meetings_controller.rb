@@ -124,6 +124,19 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def history
+    @meeting.update(title: 'Test 999')
+    @meeting.save
+
+    update_via_turbo_stream(
+          component: Meetings::HeaderComponent.new(
+            meeting:
+          )
+        )
+
+    respond_with_turbo_streams
+  end
+
   def cancel_edit
     update_header_component_via_turbo_stream(state: :show)
 

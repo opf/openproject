@@ -54,6 +54,7 @@ OpenProject::Application.routes.draw do
       put :update_participants
       put :change_state
       post :notify
+      get :history
     end
     resources :agenda_items, controller: 'meeting_agenda_items' do
       collection do

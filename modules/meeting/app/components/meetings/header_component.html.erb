@@ -53,6 +53,16 @@
         end
 
         show_header.with_row do
+          render(Primer::Alpha::Dialog.new(
+            id: "meetings-history-dialog", title: 'History',
+            size: :medium_portrait
+          )) do |dialog|
+            dialog.with_show_button(icon: :clock, 'aria-label': 'History', scheme: :invisible)
+            render(Meetings::HistoryComponent.new(meeting: @meeting))
+           end
+        end
+
+        show_header.with_row do
           flex_layout(align_items: :center) do |meta_info|
             meta_info.with_column(mr: 1) do
               render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_created_by") }
