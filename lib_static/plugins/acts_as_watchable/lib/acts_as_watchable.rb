@@ -97,7 +97,9 @@ module Redmine
         end
 
         def possible_watcher?(user)
-          user.allowed_in_project?(self.class.acts_as_watchable_permission, project)
+          user.allowed_based_on_permission_context?(self.class.acts_as_watchable_permission,
+                                                    project:,
+                                                    entity: self)
         end
 
         # Returns all users that could potentially be watchers.
