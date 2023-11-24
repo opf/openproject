@@ -43,11 +43,11 @@ lt:
           name: Kita
       work_package_roles:
         item_0:
-          name: Darbo paketų redaktorius
+          name: Work package editor
         item_1:
-          name: Darbo paketų komentatorius
+          name: Work package commenter
         item_2:
-          name: Darbo paketų peržiūrėtojas
+          name: Work package viewer
       project_roles:
         item_0:
           name: Ne narys

@@ -386,6 +386,11 @@ lt:
     move:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -560,7 +565,7 @@ lt:
       user:
         admin: "Administratorius"
         ldap_auth_source: "LDAP jungtis"
-        identity_url: "Identity URL"
+        identity_url: "Identiteto URL"
         current_password: "Dabartinis slaptažodis"
         force_password_change: "Versti pasikeisti slaptažodį kitą kartą prisijungus"
         language: "Kalba"
@@ -2999,7 +3004,7 @@ lt:
     activate: "Aktyvuoti"
     activate_and_reset_failed_logins: "Aktyvuoti ir iš naujo nustatyti nepavykusius prisijungimus"
     authentication_provider: "Autentifikacijos paslaugos teikėjas"
-    identity_url_text: "The internal unique identifier provided by the authentication provider."
+    identity_url_text: "Autentifikacijos tiekėjo suteiktas vidinis unikalus identifikatorius."
     authentication_settings_disabled_due_to_external_authentication: >
       Šis vartotojas naudoja išorinį autentifikacijos paslaugų teikėją, todėl nėra galimo pakeisti slaptažodžio OpenProject aplinkoje.
     authorization_rejected: "Jums neleidžiama prisijungti."
@@ -3101,6 +3106,17 @@ lt:
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       warning_user_limit_reached_admin: >
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.
