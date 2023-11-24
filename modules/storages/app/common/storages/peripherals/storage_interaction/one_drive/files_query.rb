@@ -57,7 +57,7 @@ module Storages
             end
 
             if result.result.empty?
-              empty_response(folder)
+              empty_response(folder || '/')
             else
               result.map { |json_files| storage_files(json_files) }
             end
