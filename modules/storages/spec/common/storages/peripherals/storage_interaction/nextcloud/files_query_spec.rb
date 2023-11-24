@@ -33,6 +33,7 @@ require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery, :webmock do
   let(:storage) { create(:nextcloud_storage, :with_oauth_client) }
+  let(:folder) { Storages::Peripherals::ParentFolder.new('/') }
   let(:user) { create(:user) }
   let(:token) do
     create(:oauth_client_token, user:, oauth_client: storage.oauth_client, origin_user_id: 'darth@vader with spaces')
@@ -57,7 +58,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
   end
 
   it 'returns a list of files and folders' do
-    storage_files = files_query.call(storage:, folder: nil, user:).result
+    storage_files = files_query.call(storage:, folder:, user:).result
     expect(storage_files).to be_a(Storages::StorageFiles)
 
     expect(storage_files.files.size).to eq(4)
@@ -71,7 +72,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
   end
 
   it 'returns permissions for each' do
-    storage_files = files_query.call(storage:, folder: nil, user:).result
+    storage_files = files_query.call(storage:, folder:, user:).result
 
     writeable_folder = storage_files.files.find { |file| file.mime_type == 'application/x-op-directory' }
     expect(writeable_folder.permissions).to match_array(%i[readable writeable])
@@ -81,15 +82,15 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
   end
 
   context 'when requesting a sub-folder' do
-    let(:parent) { '/Photos/Birds' }
-    let(:webdav_subfolder_success_response) { create(:webdav_data, parent_path: parent, root_path: '', origin_user_id:) }
+    let(:folder) { Storages::Peripherals::ParentFolder.new('/Photos/Birds') }
+    let(:webdav_subfolder_success_response) { create(:webdav_data, parent_path: folder.path, root_path: '', origin_user_id:) }
 
     before do
-      uri = "#{storage.host}/remote.php/dav/files/darth@vader%20with%20spaces#{parent}"
+      uri = "#{storage.host}/remote.php/dav/files/darth@vader%20with%20spaces#{folder.path}"
       stub_request(:propfind, uri).to_return(status: 207, body: webdav_subfolder_success_response, headers: {})
     end
 
-    subject(:query_result) { files_query.call(user:, storage:, folder: parent).result }
+    subject(:query_result) { files_query.call(user:, storage:, folder:).result }
 
     it 'returns 2 ancestors' do
       ancestors = query_result.ancestors
@@ -118,7 +119,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
     let(:storage) { create(:nextcloud_storage, :with_oauth_client, host: 'https://example.com/death_star_blueprints') }
 
     it 'just works' do
-      storage_files = files_query.call(storage:, user:, folder: '')
+      storage_files = files_query.call(storage:, user:, folder:)
 
       expect(storage_files).to be_success
     end
@@ -128,12 +129,12 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
     before do
       allow(Storages::Peripherals::StorageInteraction::Nextcloud::Util)
         .to receive(:token)
-        .and_return(ServiceResult.failure(result: :unauthorized,
-                                          errors: Storages::StorageError.new(code: :unauthorized)))
+              .and_return(ServiceResult.failure(result: :unauthorized,
+                                                errors: Storages::StorageError.new(code: :unauthorized)))
     end
 
     it 'returns an ":unauthorized" ServiceResult' do
-      result = files_query.call(folder: '', user:, storage:)
+      result = files_query.call(folder:, user:, storage:)
       expect(result).to be_failure
       expect(result.errors.code).to be(:unauthorized)
     end
@@ -147,7 +148,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
       end
 
       it "must return :#{symbol} ServiceResult" do
-        result = files_query.call(folder: '', user:, storage:)
+        result = files_query.call(folder:, user:, storage:)
         expect(result).to be_failure
         expect(result.errors.code).to be(symbol)
       end
@@ -158,9 +159,3 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
   include_examples 'outbound is failing', 401, :unauthorized
   include_examples 'outbound is failing', 500, :error
 end
-
-#           describe 'with storage running on a sub path' do
-#             let(:root_path) { '/storage' }
-#   #
-#         end
-#     end
