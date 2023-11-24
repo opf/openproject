@@ -7,7 +7,7 @@
         end
         content_container.with_column do
           render(Primer::Beta::Text.new(font_weight: :bold)) do
-            "#{@project_custom_field.project_custom_field_section_mapping.position} #{@project_custom_field.name}"
+            "#{@project_custom_field.position_in_custom_field_section} #{@project_custom_field.name}"
           end
         end
       end
@@ -16,7 +16,7 @@
           menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_project_custom_field_actions"), scheme: :invisible)
           edit_action_item(menu)
           move_actions(menu)
-          # delete_action_item(menu)
+          delete_action_item(menu)
         end
       end
     end

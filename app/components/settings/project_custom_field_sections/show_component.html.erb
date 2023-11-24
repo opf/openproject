@@ -1,7 +1,7 @@
 <%=
   component_wrapper do
     render(Primer::Beta::BorderBox.new(mt: 3, data: {
-      id: @section.id, 'allowed-drop-type': 'custom-field'
+      id: @project_custom_field_section.id, 'allowed-drop-type': 'custom-field'
     }.merge(drag_and_drop_target_config))) do |component|
       component.with_header(font_weight: :bold) do
         flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
@@ -11,7 +11,7 @@
             end
             content_container.with_column do
               render(Primer::Beta::Text.new(font_weight: :bold)) do
-                "#{@section.position} #{@section.name}"
+                "#{@project_custom_field_section.position} #{@project_custom_field_section.name}"
               end
             end
           end
@@ -30,17 +30,17 @@
             end
             actions_container.with_column do
               render(Primer::Alpha::Dialog.new(
-                id: "project-custom-field-section-dialog#{@section.id}", title: t('settings.project_attributes.label_new_section'),
+                id: "project-custom-field-section-dialog#{@project_custom_field_section.id}", title: t('settings.project_attributes.label_new_section'),
                 size: :medium_portrait
               )) do |dialog|
-                render(Settings::ProjectAttributes::Section::DialogBodyFormComponent.new(section: @section))
+                render(Settings::ProjectAttributes::Section::DialogBodyFormComponent.new(project_custom_field_section: @project_custom_field_section))
               end
             end
           end
         end
       end
       if @project_custom_fields.empty?
-        component.with_row do
+        component.with_row(data: { 'empty-list-item': true }) do
           render(Primer::Beta::Text.new(color: :subtle)) { t("settings.project_attributes.label_no_project_custom_fields") }
         end
       else
@@ -48,7 +48,7 @@
           component.with_row(
             data: draggable_item_config(project_custom_field)
           ) do
-            render(Settings::ProjectAttributes::Section::ProjectCustomFieldComponent.new(project_custom_field:))
+            render(Settings::ProjectCustomFieldSections::CustomFieldRowComponent.new(project_custom_field:))
           end
         end
       end

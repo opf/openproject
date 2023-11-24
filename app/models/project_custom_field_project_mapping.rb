@@ -29,7 +29,7 @@
 class ProjectCustomFieldProjectMapping < ApplicationRecord
   belongs_to :project
   belongs_to :project_custom_field, class_name: 'ProjectCustomField', foreign_key: 'custom_field_id',
-                                    inverse_of: :project_custom_field_section_mappings
+                                    inverse_of: :project_custom_field_project_mappings
 
   # # Additionally to the database-level unique constraint, the application-level validation ensures that a
   # # custom_field is associated with only one section

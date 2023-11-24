@@ -26,10 +26,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+<!-- Enable reusing this form partial within a view_component which does not pass instance vars directly -->
+<!-- custom_field is passed via the local api when rendering the parial from a view_component -->
+<% @custom_field = custom_field if @custom_field.nil? %>
+
 <section class="form--section" id="custom_field_form">
   <div class="form--field -required" id="custom_field_name_attributes">
     <%= f.text_field :name, required: true, container_class: '-middle' %>
   </div>
+  <% if @custom_field.type == 'ProjectCustomField' %>
+    <div class="form--field">
+      <%= f.select :custom_field_section_id,
+                  ProjectCustomFieldSection.all.collect { |s| [s.name, s.id] },
+                  { container_class: '-slim' }
+      %>
+    </div>
+  <% end %>
   <div class="form--field">
     <%= f.select :field_format,
                  custom_field_formats_for_select(@custom_field),

@@ -26,16 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectAttributes
-    class HeaderComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+class CustomFieldSection < ApplicationRecord
+  has_many :custom_fields, dependent: :destroy
 
-      def initialize
-        super
-      end
-    end
-  end
+  acts_as_list scope: [:type]
+
+  validates :name, presence: true
+
+  default_scope { order(:position) }
 end

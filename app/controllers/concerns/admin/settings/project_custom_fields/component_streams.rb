@@ -35,30 +35,30 @@ module Admin
         included do
           def update_header_via_turbo_stream
             update_via_turbo_stream(
-              component: ::Settings::ProjectAttributes::HeaderComponent.new
+              component: ::Settings::ProjectCustomFields::HeaderComponent.new
             )
           end
 
-          def update_section_via_turbo_stream(section:)
+          def update_section_via_turbo_stream(project_custom_field_section:)
             update_via_turbo_stream(
-              component: ::Settings::ProjectAttributes::SectionComponent.new(
-                section:
+              component: ::Settings::ProjectCustomFieldSections::ShowComponent.new(
+                project_custom_field_section:
               )
             )
           end
 
-          def update_section_dialog_body_form_via_turbo_stream(section:)
+          def update_section_dialog_body_form_via_turbo_stream(project_custom_field_section:)
             update_via_turbo_stream(
               component: ::Settings::ProjectAttributes::Section::DialogBodyFormComponent.new(
-                section:
+                project_custom_field_section:
               )
             )
           end
 
-          def update_sections_via_turbo_stream(sections:)
+          def update_sections_via_turbo_stream(project_custom_field_sections:)
             replace_via_turbo_stream(
-              component: ::Settings::ProjectAttributes::Section::IndexComponent.new(
-                sections:
+              component: ::Settings::ProjectCustomFieldSections::IndexComponent.new(
+                project_custom_field_sections:
               )
             )
           end

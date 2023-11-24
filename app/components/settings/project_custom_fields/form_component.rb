@@ -31,23 +31,24 @@ module Settings
     class FormComponent < ApplicationComponent
       include ApplicationHelper
       include CustomFieldsHelper
+      include StimulusHelper
+      include ErrorMessageHelper
+      include OpenProject::FormTagHelper
       include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
 
-      def initialize(project_custom_field: ProjectCustomField.new)
+      def initialize(custom_field: ProjectCustomField.new)
         super
 
-        @project_custom_field = project_custom_field
+        @custom_field = custom_field
       end
 
       private
 
       def form_config
         {
-          model: @project_custom_field,
-          scope: :custom_field,
-          method: @project_custom_field.persisted? ? :put : :post,
-          url: @project_custom_field.persisted? ? admin_settings_project_custom_field_path(@project_custom_field) : admin_settings_project_custom_fields_path
+          as: :custom_field,
+          url: @custom_field.persisted? ? admin_settings_project_custom_field_path(@custom_field) : admin_settings_project_custom_fields_path,
+          html: { method: @custom_field.persisted? ? :put : :post, id: 'custom_field_form' }
         }
       end
     end

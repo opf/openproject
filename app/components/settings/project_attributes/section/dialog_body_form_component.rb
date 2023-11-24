@@ -34,10 +34,10 @@ module Settings
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(section: ProjectCustomFieldSection.new)
+        def initialize(project_custom_field_section: ProjectCustomFieldSection.new)
           super
 
-          @project_custom_field_section = section
+          @project_custom_field_section = project_custom_field_section
         end
 
         private

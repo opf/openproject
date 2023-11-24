@@ -26,22 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomFieldSectionMapping < ApplicationRecord
-  belongs_to :project_custom_field_section
-  belongs_to :project_custom_field, class_name: 'ProjectCustomField', foreign_key: 'custom_field_id',
-                                    inverse_of: :project_custom_field_section_mappings
+module Settings
+  module ProjectCustomFields
+    class HeaderComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-  # Additionally to the database-level unique constraint, the application-level validation ensures that a
-  # custom_field is associated with only one section
-  validate :project_custom_field_uniqueness
-
-  acts_as_list scope: :project_custom_field_section
-
-  private
-
-  def project_custom_field_uniqueness
-    if ProjectCustomFieldSectionMapping.where(custom_field_id:).where.not(id:).exists?
-      errors.add(:project_custom_field, "is already associated with another section")
+      def initialize
+        super
+      end
     end
   end
 end

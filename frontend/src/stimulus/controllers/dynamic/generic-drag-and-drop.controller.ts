@@ -32,7 +32,7 @@ import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 import { Drake } from 'dragula';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { dropRight } from 'lodash';
+import { dropRight, get } from 'lodash';
 
 export default class extends Controller {
   drake:Drake|undefined;
@@ -129,7 +129,13 @@ export default class extends Controller {
   async drop(el:Element, target:Element, _source:Element|null, sibling:Element|null) {
     const dropUrl = el.getAttribute('data-drop-url');
 
-    const targetPosition = Array.from(target.children).indexOf(el);
+    let targetPosition = Array.from(target.children).indexOf(el);
+    if(target.children.length > 0 && target.children[0].getAttribute('data-empty-list-item') == 'true'){
+      // if the target container is empty, a list item showing an empty message might be shown
+      // this should not be counted as a list item
+      // thus we need to subtract 1 from the target position
+      targetPosition--;
+    }
 
     const targetConfig: any = this.targetConfigs.find((config: any) => config.container == target);
     const targetId = targetConfig?.targetId as string | undefined;

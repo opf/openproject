@@ -32,10 +32,10 @@ module Settings
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
 
-      def initialize(project_custom_field: ProjectCustomField.new)
+      def initialize(custom_field:)
         super
 
-        @project_custom_field = project_custom_field
+        @custom_field = custom_field
       end
     end
   end

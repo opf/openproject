@@ -41,9 +41,9 @@ module Admin::Settings
 
       if @project_custom_field_section.save
         update_header_via_turbo_stream # required to closed the dialog
-        update_sections_via_turbo_stream(sections: ProjectCustomFieldSection.all)
+        update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
       else
-        update_section_dialog_body_form_via_turbo_stream(section: @project_custom_field_section)
+        update_section_dialog_body_form_via_turbo_stream(project_custom_field_section: @project_custom_field_section)
       end
 
       respond_with_turbo_streams
@@ -53,9 +53,9 @@ module Admin::Settings
       @project_custom_field_section = ProjectCustomFieldSection.find(params[:id])
 
       if @project_custom_field_section.update(project_custom_field_section_params)
-        update_section_via_turbo_stream(section: @project_custom_field_section)
+        update_section_via_turbo_stream(project_custom_field_section: @project_custom_field_section)
       else
-        update_section_dialog_body_form_via_turbo_stream(section: @project_custom_field_section)
+        update_section_dialog_body_form_via_turbo_stream(project_custom_field_section: @project_custom_field_section)
       end
 
       respond_with_turbo_streams
@@ -65,7 +65,7 @@ module Admin::Settings
       @project_custom_field_section = ProjectCustomFieldSection.find(params[:id])
 
       if @project_custom_field_section.destroy
-        update_sections_via_turbo_stream(sections: ProjectCustomFieldSection.all)
+        update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
       end
 
       respond_with_turbo_streams
@@ -75,20 +75,16 @@ module Admin::Settings
       @project_custom_field_section.move_to = params[:move_to]&.to_sym
 
       if @project_custom_field_section.save
-        update_sections_via_turbo_stream(sections: ProjectCustomFieldSection.all)
+        update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
       end
 
       respond_with_turbo_streams
     end
 
     def drop
-      if params[:position] == 'lowest'
-        @project_custom_field_section.move_to = :lowest
-      else
-        @project_custom_field_section.insert_at(params[:position].to_i)
-      end
+      @project_custom_field_section.insert_at(params[:position].to_i)
 
-      update_sections_via_turbo_stream(sections: ProjectCustomFieldSection.all)
+      update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
 
       respond_with_turbo_streams
     end

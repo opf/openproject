@@ -28,13 +28,16 @@
 
 module Admin::Settings
   class ProjectCustomFieldsController < ::Admin::SettingsController
+    include CustomFields::SharedActions
     include OpTurbo::ComponentStream
     include Admin::Settings::ProjectCustomFields::ComponentStreams
 
     menu_item :project_custom_field_settings
 
-    before_action :set_sections, only: %i[index edit update move drop]
-    before_action :set_project_custom_field, only: %i[edit update move drop]
+    before_action :set_sections, only: %i[show index edit update move drop]
+    before_action :find_custom_field, only: %i(show edit update destroy delete_option reorder_alphabetical move drop)
+    before_action :prepare_custom_option_position, only: %i(update create)
+    before_action :find_custom_option, only: :delete_option
 
     def default_breadcrumb
       t(:label_project_attributes_plural)
@@ -44,95 +47,82 @@ module Admin::Settings
       respond_to :html
     end
 
+    def show
+      # quick fixing redirect issue from perform_update
+      # perform_update is always redirecting to the show action altough configured otherwise
+      render :edit
+    end
+
     def new
-      @project_custom_field = ProjectCustomField.new
+      @custom_field = ProjectCustomField.new
 
       respond_to :html
     end
 
-    def edit
-      respond_to :html
-    end
-
-    def create
-      @project_custom_field = ProjectCustomField.new(project_custom_field_params.except(:project_custom_field_section_id))
-
-      if @project_custom_field.save
-        @project_custom_field.project_custom_field_section = ProjectCustomFieldSection.find(project_custom_field_params[:project_custom_field_section_id])
-
-        redirect_to admin_settings_project_custom_fields_path
-      else
-        render action: 'new'
-      end
-    end
-
-    def update
-      if project_custom_field_params[:project_custom_field_section_id]&.to_i != @project_custom_field.project_custom_field_section_id
-        mapping = @project_custom_field.project_custom_field_section_mapping
-        mapping.remove_from_list
-        @project_custom_field.project_custom_field_section = ProjectCustomFieldSection.find(project_custom_field_params[:project_custom_field_section_id])
-      end
-
-      if @project_custom_field.update(project_custom_field_params.except(:project_custom_field_section_id))
-        redirect_to admin_settings_project_custom_fields_path
-      else
-        render action: 'edit'
-      end
-    end
+    def edit; end
 
     def move
-      mapping = @project_custom_field.project_custom_field_section_mapping
-      mapping.move_to = params[:move_to]&.to_sym
+      # prototyopical implementation
+      # needs refactoring via update service
+      @custom_field.move_to = params[:move_to]&.to_sym
 
-      update_sections_via_turbo_stream(sections: @sections)
+      update_sections_via_turbo_stream(project_custom_field_sections: @custom_field_sections)
 
       respond_with_turbo_streams
     end
 
     def drop
-      mapping = @project_custom_field.project_custom_field_section_mapping
-
-      current_section = @project_custom_field.project_custom_field_section
+      # prototyopical implementation
+      # needs refactoring via update service
+      current_section = @custom_field.project_custom_field_section
       current_section_id = current_section.id
       new_section_id = params[:target_id].to_i
 
       if current_section_id != new_section_id
         section_changed = true
         old_section = current_section
-        mapping.remove_from_list
         current_section = ProjectCustomFieldSection.find(params[:target_id].to_i)
-        @project_custom_field.project_custom_field_section = current_section
+        @custom_field.remove_from_list
+        @custom_field.update(project_custom_field_section: current_section)
       end
 
-      mapping = @project_custom_field.reload.project_custom_field_section_mapping
+      @custom_field.insert_at(params[:position].to_i)
 
-      if params[:position] == 'lowest'
-        mapping.move_to = :lowest
-      else
-        mapping.insert_at(params[:position].to_i)
-      end
-
-      update_section_via_turbo_stream(section: current_section)
+      update_section_via_turbo_stream(project_custom_field_section: current_section)
 
       if section_changed
-        update_section_via_turbo_stream(section: old_section)
+        update_section_via_turbo_stream(project_custom_field_section: old_section)
       end
+
+      respond_with_turbo_streams
+    end
+
+    def destroy
+      @custom_field.destroy
+
+      update_section_via_turbo_stream(project_custom_field_section: @custom_field.project_custom_field_section)
 
       respond_with_turbo_streams
     end
 
     private
 
+    def edit_path(id:)
+      admin_settings_project_custom_field_path(id:)
+    end
+
+    def index_path(params = {})
+      admin_settings_project_custom_fields_path(**params)
+    end
+
     def set_sections
-      @sections = ProjectCustomFieldSection.all
+      @project_custom_field_sections = ProjectCustomFieldSection.all
     end
 
-    def set_project_custom_field
-      @project_custom_field = ProjectCustomField.find(params[:id])
-    end
-
-    def project_custom_field_params
-      permitted_params.custom_field
+    def find_custom_field
+      @custom_field = ProjectCustomField.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
   end
 end

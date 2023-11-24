@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
         ))
       end
       title_row_container.with_column(mr: 2) do
-        render(Primer::Beta::Heading.new(tag: :h1)) { @project_custom_field.name }
+        render(Primer::Beta::Heading.new(tag: :h1)) { @custom_field.name }
       end
     end
     header_container.with_row(mb: 2) do

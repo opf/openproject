@@ -27,20 +27,11 @@
 #++
 
 class ProjectCustomField < CustomField
-  # don't pollute the custom_fields table with a section_id column which is only used by ProjectCustomFields
-  # use a separate mapping table instead
-  has_many :project_custom_field_section_mappings,
-           dependent: :destroy,
-           inverse_of: :project_custom_field,
-           class_name: 'ProjectCustomFieldSectionMapping',
-           foreign_key: 'custom_field_id'
+  belongs_to :project_custom_field_section, class_name: 'ProjectCustomFieldSection', foreign_key: :custom_field_section_id
+  has_many :project_custom_field_project_mappings, class_name: 'ProjectCustomFieldProjectMapping', foreign_key: :custom_field_id,
+                                                   dependent: :destroy, inverse_of: :project_custom_field
 
-  has_many :project_custom_field_sections,
-           through: :project_custom_field_section_mappings
-
-  accepts_nested_attributes_for :project_custom_field_sections
-
-  validate :exactly_one_section_mapped
+  acts_as_list column: :position_in_custom_field_section, scope: [:custom_field_section_id]
 
   def type_name
     :label_project_plural
@@ -51,36 +42,6 @@ class ProjectCustomField < CustomField
       all
     else
       where(visible: true)
-    end
-  end
-
-  def exactly_one_section_mapped
-    return unless persisted?
-
-    unless project_custom_field_sections.count == 1
-      errors.add(:base, "Exactly one section must be mapped to this custom field.")
-    end
-  end
-
-  def project_custom_field_section_mapping
-    project_custom_field_section_mappings.first
-  end
-
-  def project_custom_field_section
-    project_custom_field_sections.first
-  end
-
-  def project_custom_field_section_id
-    project_custom_field_section&.id
-  end
-
-  def project_custom_field_section=(section)
-    # without this reload, a nil assignment is not recovered properly
-    project_custom_field_sections.reload
-
-    ActiveRecord::Base.transaction do
-      project_custom_field_sections.clear
-      project_custom_field_sections << section
     end
   end
 end

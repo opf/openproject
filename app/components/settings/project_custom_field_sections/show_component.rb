@@ -27,30 +27,30 @@
 #++
 
 module Settings
-  module ProjectAttributes
-    class SectionComponent < ApplicationComponent
+  module ProjectCustomFieldSections
+    class ShowComponent < ApplicationComponent
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(section:)
+      def initialize(project_custom_field_section:)
         super
 
-        @section = section
-        @project_custom_fields = section.project_custom_fields_ordered_by_postion_in_section
+        @project_custom_field_section = project_custom_field_section
+        @project_custom_fields = project_custom_field_section.custom_fields.reorder(position_in_custom_field_section: :asc)
       end
 
       private
 
       def wrapper_uniq_by
-        @section.id
+        @project_custom_field_section.id
       end
 
       def drag_and_drop_target_config
         {
           'is-drag-and-drop-target': true,
           'target-container-accessor': '.Box > ul', # the accessor of the container that contains the drag and drop items
-          'target-id': @section.id, # the id of the target
+          'target-id': @project_custom_field_section.id, # the id of the target
           'target-allowed-drag-type': 'custom-field' # the type of dragged items which are allowed to be dropped in this target
         }
       end
@@ -64,10 +64,16 @@ module Settings
       end
 
       def move_actions(menu)
-        move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top") unless @section.first?
-        move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless @section.first?
-        move_action_item(menu, :lower, t("label_agenda_item_move_down"), "chevron-down") unless @section.last?
-        unless @section.last?
+        unless @project_custom_field_section.first?
+          move_action_item(menu, :highest, t("label_agenda_item_move_to_top"),
+                           "move-to-top")
+        end
+        move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless @project_custom_field_section.first?
+        unless @project_custom_field_section.last?
+          move_action_item(menu, :lower, t("label_agenda_item_move_down"),
+                           "chevron-down")
+        end
+        unless @project_custom_field_section.last?
           move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"),
                            "move-to-bottom")
         end
@@ -75,7 +81,7 @@ module Settings
 
       def move_action_item(menu, move_to, label_text, icon)
         menu.with_item(label: label_text,
-                       href: move_admin_settings_project_custom_field_section_path(@section, move_to:),
+                       href: move_admin_settings_project_custom_field_section_path(@project_custom_field_section, move_to:),
                        form_arguments: {
                          method: :put, data: { 'turbo-stream': true }
                        }) do |item|
@@ -93,7 +99,7 @@ module Settings
       def edit_action_item(menu)
         menu.with_item(label: t("text_edit"),
                        tag: :button,
-                       content_arguments: { 'data-show-dialog-id': "project-custom-field-section-dialog#{@section.id}" },
+                       content_arguments: { 'data-show-dialog-id': "project-custom-field-section-dialog#{@project_custom_field_section.id}" },
                        value: "") do |item|
           item.with_leading_visual_icon(icon: :pencil)
         end
@@ -102,7 +108,7 @@ module Settings
       def delete_action_item(menu)
         menu.with_item(label: t("text_destroy"),
                        scheme: :danger,
-                       href: admin_settings_project_custom_field_section_path(@section),
+                       href: admin_settings_project_custom_field_section_path(@project_custom_field_section),
                        form_arguments: {
                          method: :delete, data: { confirm: t("text_are_you_sure"), 'turbo-stream': true }
                        }) do |item|

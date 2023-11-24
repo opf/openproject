@@ -418,9 +418,10 @@ OpenProject::Application.routes.draw do
       resource :api, controller: '/admin/settings/api_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :projects, controller: '/admin/settings/projects_settings', only: %i[show update]
-      resources :project_custom_fields, controller: '/admin/settings/project_custom_fields',
-                                        only: %i[index show new create edit update] do
+      resources :project_custom_fields, controller: '/admin/settings/project_custom_fields' do
         member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
           put :move
           put :drop
         end

@@ -1,11 +1,11 @@
 <%=
   component_wrapper(data: wrapper_data_attributes) do
     flex_layout(classes: 'dragula-container', data: { 'allowed-drop-type': 'section' }.merge(drop_target_config) ) do |flex|
-      @sections.each do |section|
+      @project_custom_field_sections.each do |section|
         flex.with_row(
           data: draggable_item_config(section)
         ) do
-          render(Settings::ProjectAttributes::SectionComponent.new(section:))
+          render(Settings::ProjectCustomFieldSections::ShowComponent.new(project_custom_field_section: section))
         end
       end
     end
