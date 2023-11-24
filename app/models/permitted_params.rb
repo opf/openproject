@@ -240,6 +240,10 @@ class PermittedParams
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end
 
+  def enumerations_move
+    params.require(:enumeration).permit(*self.class.permitted_attributes[:move_to])
+  end
+
   def search
     params.permit(*self.class.permitted_attributes[:search])
   end

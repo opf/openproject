@@ -43,11 +43,11 @@ zh-CN:
           name: 其他
       work_package_roles:
         item_0:
-          name: 工作包编辑者
+          name: Work package editor
         item_1:
-          name: 工作包评价者
+          name: Work package commenter
         item_2:
-          name: 工作包查看者
+          name: Work package viewer
       project_roles:
         item_0:
           name: 非成员

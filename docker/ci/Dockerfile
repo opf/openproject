@@ -14,11 +14,11 @@ RUN wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-ke
 ENV CHROME_SOURCE_URL="https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb"
 RUN --mount=type=cache,target=/var/cache/apt export f="/tmp/chrome.deb" && wget --no-verbose -O $f $CHROME_SOURCE_URL && \
   apt-get update -qq && apt-get install -y "$f" postgresql-$PGVERSION postgresql-client-$PGVERSION time imagemagick default-jre-headless firefox-esr && \
-  rm -f "$f" && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  rm -f "$f" && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/postgresql && find /usr/share/locale/* -maxdepth 0 -type d ! -name 'en' -exec rm -rf {} \;
 
 RUN curl -L https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz -o - | tar xJf - -C /usr/local --strip=1 && node --version
 
-RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
+RUN rm -rf /usr/local/bundle && gem install bundler --version "$BUNDLER_VERSION" --no-document
 
 ENV APP_USER=dev
 ENV APP_PATH=/app
@@ -40,7 +40,8 @@ ENV RUBYOPT="-W0"
 WORKDIR $APP_PATH
 USER $APP_USER
 
-COPY ./docker/ci/entrypoint.sh /usr/sbin/entrypoint.sh
+RUN mkdir -p ./docker/ci
+COPY ./docker/ci/entrypoint.sh ./docker/ci/entrypoint.sh
 
-ENTRYPOINT [ "/usr/sbin/entrypoint.sh" ]
+ENTRYPOINT [ "/app/docker/ci/entrypoint.sh" ]
 CMD ["setup-tests", "bash"]

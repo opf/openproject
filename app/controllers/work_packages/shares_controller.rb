@@ -30,8 +30,8 @@ class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
   include MemberHelper
 
-  before_action :find_work_package, only: %i[index create]
-  before_action :find_share, only: %i[destroy update]
+  before_action :find_work_package, only: %i[index create resend_invite]
+  before_action :find_share, only: %i[destroy update resend_invite]
   before_action :find_project
   before_action :authorize
   before_action :enterprise_check, only: %i[index]
@@ -94,6 +94,14 @@ class WorkPackages::SharesController < ApplicationController
     end
   end
 
+  def resend_invite
+    OpenProject::Notifications.send(OpenProject::Events::WORK_PACKAGE_SHARED,
+                                    work_package_member: @share,
+                                    send_notifications: true)
+
+    respond_with_update_user_details
+  end
+
   private
 
   def enterprise_check
@@ -145,6 +153,15 @@ class WorkPackages::SharesController < ApplicationController
 
     update_via_turbo_stream(
       component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def respond_with_update_user_details
+    update_via_turbo_stream(
+      component: WorkPackages::Share::UserDetailsComponent.new(share: @share,
+                                                               invite_resent: true)
     )
 
     respond_with_turbo_streams

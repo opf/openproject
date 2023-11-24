@@ -10,7 +10,7 @@ keywords: meetings, dynamic meetings, agenda, minutes
 
 Dynamic meetings are introduced with OpenProject 13.1 and allow easier meetings management, including improved agenda creation and linking work packages directly to the meetings.
 
-**Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). </div>
+**Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/). 
 
 
 | Topic                                                        | Content                                           |
@@ -22,7 +22,7 @@ Dynamic meetings are introduced with OpenProject 13.1 and allow easier meetings 
 | [Create or edit the meeting agenda](#create-or-edit-the-meeting-agenda) | How to create or edit the agenda.                 |
 | [Add meeting participants](#add-meeting-participants)        | How to invite people to a meeting.                |
 | [Send email to all participants](#send-email-to-all-participants) | How to send an email to all meeting participants. |
-| [Download a meeting as an iCalendar event](#download-a-meeting-as-an-iCalendar-event) | How to download a meeting as an iCalendar event.  |
+| [Download a meeting as an iCalendar event](#download-a-meeting-as-an-icalendar-event) | How to download a meeting as an iCalendar event.  |
 | [Close a meeting](#close-a-meeting)                          | How to close a meeting in OpenProject.            |
 | [Re-open a meeting](#re-open-a-meeting)                      | How to re-open a meeting in OpenProject.          |
 | [Delete a meeting](#delete-a-meeting)                        | How to delete a meeting in OpenProject.           |
