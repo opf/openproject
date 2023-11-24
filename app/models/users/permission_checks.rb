@@ -56,6 +56,15 @@ module Users::PermissionChecks
     def allowed_members(action, project)
       Authorization.users(action, project).where.not(members: { id: nil })
     end
+
+    def allowed_on_work_package(action, work_package)
+      project_members = allowed_members(action, work_package.project)
+                          .where(members: { entity: nil })
+      work_package_members = allowed_members(action, work_package.project)
+                               .where(members: { entity: work_package })
+
+      project_members.or(work_package_members)
+    end
   end
 
   def reload(*args)
