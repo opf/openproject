@@ -397,4 +397,43 @@ RSpec.describe User, 'allowed scope' do
       expect(described_class.allowed_members(action, project).where(id: user.id)).to be_empty
     end
   end
+
+  describe '.allowed_on_work_package' do
+    shared_let(:richard)  { create(:user) }
+    shared_let(:dinesh)   { create(:user) }
+    shared_let(:gilfoyle) { create(:user) }
+    shared_let(:gavin)    { create(:user) }
+    shared_let(:erlich)   { create(:user) }
+    shared_let(:jared)    { create(:user) }
+
+    shared_let(:project)       { create(:project) }
+    shared_let(:other_project) { create(:project) }
+
+    shared_let(:work_package)       { create(:work_package, project:) }
+    shared_let(:other_work_package) { create(:work_package, project: other_project) }
+
+    shared_let(:allowed_work_package_role)     { create(:work_package_role, permissions: %i[view_work_packages]) }
+    shared_let(:non_allowed_work_package_role) { create(:work_package_role, permissions: []) }
+
+    shared_let(:allowed_project_role)     { create(:project_role, permissions: %i[view_work_packages]) }
+    shared_let(:non_allowed_project_role) { create(:project_role, permissions: []) }
+
+    before_all do
+      create(:work_package_member,
+             principal: richard, entity: work_package, roles: [allowed_work_package_role])
+      create(:work_package_member,
+             principal: dinesh, entity: work_package, roles: [non_allowed_work_package_role])
+      create(:work_package_member,
+             principal: gilfoyle, entity: other_work_package, roles: [allowed_work_package_role])
+
+      create(:member, principal: gavin, project:, roles: [allowed_project_role])
+      create(:member, principal: erlich, project:, roles: [non_allowed_project_role])
+      create(:member, principal: jared, project: other_project, roles: [allowed_project_role])
+    end
+
+    it "returns members of the work package and the work package's project with the given permission" do
+      expect(described_class.allowed_on_work_package(action, work_package))
+        .to contain_exactly(richard, gavin)
+    end
+  end
 end
