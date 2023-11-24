@@ -107,21 +107,20 @@ module Storages
           end
 
           def empty_response(folder)
-            files_result = if folder.root?
-                             StorageFiles.new([], root(Digest::SHA256.hexdigest('i_am_root')), [])
-                           else
-                             StorageFiles.new(
-                               [],
-                               StorageFile.new(
-                                 id: Digest::SHA256.hexdigest(folder),
-                                 name: folder.split('/').last,
-                                 location: folder,
-                                 permissions: %i[readable writeable]
-                               ),
-                               forge_ancestors(path: folder)
-                             )
-                           end
-            ServiceResult.success(result: files_result)
+            path = folder.path
+
+            ServiceResult.success(
+              result: StorageFiles.new(
+                [],
+                StorageFile.new(
+                  id: Digest::SHA256.hexdigest(path),
+                  name: path.split('/').last,
+                  location: path,
+                  permissions: %i[readable writeable]
+                ),
+                forge_ancestors(path:)
+              )
+            )
           end
 
           def extract_location(parent_reference, file_name = '')
@@ -170,7 +169,7 @@ module Storages
           def uri_path_for(folder)
             return "/v1.0/drives/#{@storage.drive_id}/root/children" if folder.root?
 
-            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder)}:/children"
+            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}:/children"
           end
 
           def encode_path(path)
