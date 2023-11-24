@@ -6,7 +6,7 @@
     end
 
     grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-automatically-managed-project-folders-description') do
-      render(Primer::Beta::Truncate.new) { I18n.t('storages.page_titles.managed_project_folders.subtitle_short') }
+      render(Primer::Beta::Text.new) { I18n.t('storages.page_titles.managed_project_folders.subtitle_short') }
     end
 
     if editable_storage?
