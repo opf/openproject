@@ -91,13 +91,10 @@
               flex_layout do |duration|
                 duration.with_column(mr: 2) do
                   render(Primer::Beta::Text.new) do
-                    [
-                      @meeting.invited_or_attended_participants.count,
-                      Meeting.human_attribute_name(
-                        :participants,
-                        count: @meeting.invited_or_attended_participants.count
-                      )
-                    ].join(" ")
+                    Meeting.human_attribute_name(
+                      :participant,
+                      count: @meeting.invited_or_attended_participants.count
+                    )
                   end
                 end
 

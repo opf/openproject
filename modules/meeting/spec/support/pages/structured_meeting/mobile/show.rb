@@ -26,21 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class Sidebar::ParticipantsFormComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpenProject::FormTagHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+require_relative '../show'
 
-    def initialize(meeting:)
-      super
-
-      @meeting = meeting
+module Pages::StructuredMeeting::Mobile
+  class Show < ::Pages::StructuredMeeting::Show
+    def expect_participants(count: 1)
+      within(meeting_details_container) do
+        expect(page).to have_text(Meeting.human_attribute_name(:participant, count:))
+        expect(page).to have_button("Show all")
+      end
     end
 
-    def render?
-      User.current.allowed_in_project?(:view_meetings, @meeting.project)
+    def open_participant_form
+      within(meeting_details_container) do
+        click_button "Show all"
+      end
+      expect(page).to have_css('#meetings-sidebar-participants-form-component')
     end
   end
 end

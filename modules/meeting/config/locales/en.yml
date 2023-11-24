@@ -44,6 +44,9 @@ en:
         duration: "Duration"
         notes: "Notes"
         participants: "Participants"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
         participants_attended: "Attendees"
         participants_invited: "Invitees"
         project: "Project"
