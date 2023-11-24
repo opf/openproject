@@ -42,8 +42,11 @@
                               ))
                             end
                             existing_participant.with_column(style: "width: 90px;", text_align: :center) do
-                              styled_check_box_tag "meeting[participants_attributes][][invited]", 1, participant.invited?,
-                                                   id: "checkbox_invited_#{participant.user.id}"
+                              styled_check_box_tag "meeting[participants_attributes][][invited]",
+                                                   value = 1,
+                                                   checked = participant.invited?,
+                                                   id: "checkbox_invited_#{participant.user.id}",
+                                                   disabled: !@meeting.editable?
                               # Primer checkboxes currently not working in this context as they render an additional hidden input tag
                               # messing up the nested attributes mapping when posting the data to the server
                               #
@@ -58,8 +61,11 @@
                               #        ))
                             end
                             existing_participant.with_column(style: "width: 90px;", text_align: :center) do
-                              styled_check_box_tag "meeting[participants_attributes][][attended]", 1, participant.attended?,
-                                                   id: "checkbox_attended_#{participant.user.id}"
+                              styled_check_box_tag "meeting[participants_attributes][][attended]",
+                                                   value = 1,
+                                                   checked = participant.attended?,
+                                                   id: "checkbox_attended_#{participant.user.id}",
+                                                   disabled: !@meeting.editable?
                             end
                           end
                         end
@@ -74,13 +80,19 @@
                         end
 
                         new_participant.with_column(style: "width: 90px;", text_align: :center) do
-                          styled_check_box_tag "meeting[participants_attributes][][invited]", value = "1", checked = false,
-                                               id: "checkbox_invited_#{user.id}"
+                          styled_check_box_tag "meeting[participants_attributes][][invited]",
+                                               value = "1",
+                                               checked = false,
+                                               id: "checkbox_invited_#{user.id}",
+                                               disabled: !@meeting.editable?
                         end
 
                         new_participant.with_column(style: "width: 90px;", text_align: :center) do
-                          styled_check_box_tag "meeting[participants_attributes][][attended]", value = "1", checked = false,
-                                               id: "checkbox_attended_#{user.id}"
+                          styled_check_box_tag "meeting[participants_attributes][][attended]",
+                                               value = "1",
+                                               checked = false,
+                                               id: "checkbox_attended_#{user.id}",
+                                               disabled: !@meeting.editable?
                         end
                       end
                     end
@@ -91,14 +103,15 @@
           end
         end
 
-        collection.with_component(Primer::Alpha::Dialog::Footer.new(show_divider: true)) do
-          component_collection do |footer|
-            footer.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "edit-participants-dialog" })) do
-              t("button_cancel")
-            end
-
-            footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
-              t("button_save")
+        if @meeting.editable?
+          collection.with_component(Primer::Alpha::Dialog::Footer.new(show_divider: true)) do
+            component_collection do |footer|
+              footer.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "edit-participants-dialog" })) do
+                t("button_cancel")
+              end
+              footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+                t("button_save")
+              end
             end
           end
         end

@@ -101,15 +101,19 @@
                   end
                 end
 
-                if @meeting.editable?
-                  duration.with_column(mr: 2) do
-                    render(Primer::Beta::Button.new(
-                      font_weight: :normal,
-                      scheme: :link,
-                      data: { 'show-dialog-id': "edit-participants-dialog" }
-                    )) do |link|
-                      t("label_meeting_show_all_participants")
-                    end
+                duration.with_column(mr: 2) do
+                  render(Primer::Alpha::Dialog.new(
+                    id: "edit-participants-dialog", title: Meeting.human_attribute_name(:participants),
+                    size: :medium_portrait
+                  )) do |dialog|
+                    render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting))
+                  end+
+                  render(Primer::Beta::Button.new(
+                    font_weight: :normal,
+                    scheme: :link,
+                    data: { 'show-dialog-id': "edit-participants-dialog" }
+                  )) do |link|
+                    t("label_meeting_show_all_participants")
                   end
                 end
               end

@@ -1,14 +1,6 @@
 @import 'helpers'
 
-.meeting-detail-participants
-  visibility: collapse
-
 @media screen and (max-width: $breakpoint-sm)
   #meetings-sidebar-component
     .BorderGrid-row:nth-child(3)
       visibility: collapse
-      #participants-component
-        .Overlay-backdrop--center
-          visibility: visible
-  .meeting-detail-participants
-    visibility: visible
