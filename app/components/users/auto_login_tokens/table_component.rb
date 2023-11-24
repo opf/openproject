@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,32 +27,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Sessions
-  class InitializeSessionService
-    class << self
-      ##
-      # Initializes a new session for the given user.
-      # This services provides very little for what it is called,
-      # mainly caused due to the many ways a user can login.
-      def call(user, session)
-        session[:user_id] = user.id
-        session[:updated_at] = Time.now
 
-        if drop_old_sessions?
-          Rails.logger.info { "Deleting all other sessions for #{user}." }
-          ::Sessions::UserSession.for_user(user).delete_all
-        end
+module Users
+  module AutoLoginTokens
+    class TableComponent < ::TableComponent
+      columns :is_current, :browser, :device, :expires_on
+      sortable_columns :updated_at
+      options :current_token
 
-        ServiceResult.success(result: session)
+      def sortable?
+        false
       end
 
-      private
-
-      ##
-      # We can only drop old sessions if they're stored in the database
-      # and enabled by configuration.
-      def drop_old_sessions?
-        OpenProject::Configuration.drop_old_sessions_on_login?
+      def headers
+        [
+          [:is_current, { caption: I18n.t('users.sessions.current') }],
+          [:browser, { caption: I18n.t('users.sessions.browser') }],
+          [:device, { caption: I18n.t('users.sessions.device') }],
+          [:expires_on, { caption: I18n.t('attributes.expires_at') }]
+        ]
       end
     end
   end

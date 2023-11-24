@@ -121,7 +121,9 @@ module Settings
       # autologin duration in days
       # 0 means autologin is disabled
       autologin: {
-        default: 0
+        format: :integer,
+        default: 0,
+        allowed: [1, 7, 14, 30, 60, 90, 365]
       },
       autologin_cookie_name: {
         description: 'Cookie name for autologin cookie',
@@ -131,11 +133,6 @@ module Settings
       autologin_cookie_path: {
         description: 'Cookie path for autologin cookie',
         default: '/',
-        writable: false
-      },
-      autologin_cookie_secure: {
-        description: 'Cookie secure mode for autologin cookie',
-        default: false,
         writable: false
       },
       available_languages: {

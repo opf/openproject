@@ -321,7 +321,11 @@ en:
       no_results_content_text: Add a news item
 
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -558,7 +562,6 @@ en:
         value: "Value"
       enterprise_token:
         starts_at: "Valid since"
-        expires_at: "Expires at"
         subscriber: "Subscriber"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
@@ -1102,6 +1105,7 @@ en:
     due_date: "Finish date"
     estimated_hours: "Estimated time"
     estimated_time: "Estimated time"
+    expires_at: "Expires at"
     firstname: "First name"
     group: "Group"
     groups: "Groups"
@@ -2149,7 +2153,6 @@ en:
   label_start_to_start: "start to start"
   label_statistics: "Statistics"
   label_status: "Status"
-  label_stay_logged_in: "Stay logged in"
   label_storage_free_space: "Remaining disk space"
   label_storage_used_space: "Used disk space"
   label_storage_group: "Storage filesystem %{identifier}"
