@@ -42,7 +42,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object,
-                only: %i[show show_oauth_application destroy edit edit_host update replace_oauth_application]
+                only: %i[show show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -151,6 +151,10 @@ class Storages::Admin::StoragesController < ApplicationController
         format.turbo_stream { render :edit_host }
       end
     end
+  end
+
+  def confirm_destroy
+    @storage_to_destroy = @storage
   end
 
   def destroy

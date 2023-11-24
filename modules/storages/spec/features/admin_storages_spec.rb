@@ -291,19 +291,26 @@ RSpec.describe 'Admin storages',
   end
 
   describe 'File storage edit view' do
-    it 'renders a delete button' do
+    it 'renders a danger zone for deletion' do
       storage = create(:nextcloud_storage, name: "Foo Nextcloud")
       visit edit_admin_settings_storage_path(storage)
 
       storage_delete_button = find_test_selector('storage-delete-button')
       expect(storage_delete_button).to have_text('Delete')
 
-      accept_confirm do
-        storage_delete_button.click
-      end
+      storage_delete_button.click
 
-      expect(page).to have_current_path(admin_settings_storages_path)
+      expect(page).to have_text("DELETE FILE STORAGE")
+      expect(page).to have_current_path("#{confirm_destroy_admin_settings_storage_path(storage)}?utf8=%E2%9C%93")
+      storage_delete_button = page.find_button('Delete', disabled: true)
+
+      fill_in('delete_confirmation', with: 'Foo Nextcloud')
+      expect(storage_delete_button).not_to be_disabled
+
+      storage_delete_button.click
+
       expect(page).not_to have_text("Foo Nextcloud")
+      expect(page).to have_current_path(admin_settings_storages_path)
     end
 
     context 'with Nextcloud Storage' do
