@@ -287,7 +287,11 @@ sl:
       no_results_title_text: Trenutno ni nobenih novic za poročanje.
       no_results_content_text: Dodajte novico
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -490,7 +494,6 @@ sl:
         value: "vrednost"
       enterprise_token:
         starts_at: "Velja od"
-        expires_at: "Izteče ob"
         subscriber: "Naročnik"
         encoded_token: "Token podpore za podjetja"
         active_user_count_restriction: "Največje število aktivnih uporabnikov"
@@ -1045,6 +1048,7 @@ sl:
     due_date: "Končni datum"
     estimated_hours: "Predvideni čas"
     estimated_time: "Predvideni čas"
+    expires_at: "Expires at"
     firstname: "Ime"
     group: "Skupina"
     groups: "Skupine"
@@ -2077,7 +2081,6 @@ sl:
   label_start_to_start: "od začetka do začetka"
   label_statistics: "Statistika"
   label_status: "Stanje"
-  label_stay_logged_in: "Ostani prijavljen"
   label_storage_free_space: "Preostali prostor na disku"
   label_storage_used_space: "Zaseden prostor na disku"
   label_storage_group: "Shranjevanje datotečnega sistema %{identifier}"

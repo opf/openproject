@@ -287,7 +287,11 @@ hu:
       no_results_title_text: Nincs megjeleníthető hír.
       no_results_content_text: Hír hozzáadása
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -488,7 +492,6 @@ hu:
         value: "Érték"
       enterprise_token:
         starts_at: "Érvényes"
-        expires_at: "Lejárat ekkor"
         subscriber: "Előfizető"
         encoded_token: "Vállalati támogatás kulcs"
         active_user_count_restriction: "Maximális aktív felhasználók"
@@ -1027,6 +1030,7 @@ hu:
     due_date: "Befejezési dátum"
     estimated_hours: "Becsült idő (óra)"
     estimated_time: "Becsült idő (óra)"
+    expires_at: "Expires at"
     firstname: "Keresztnév"
     group: "Csoport"
     groups: "Csoportok"
@@ -2023,7 +2027,6 @@ hu:
   label_start_to_start: "elejétől az elejéig"
   label_statistics: "Statisztika"
   label_status: "Állapot"
-  label_stay_logged_in: "Bejelentkezve maradok"
   label_storage_free_space: "Fennmaradó lemezterület"
   label_storage_used_space: "Felhasznált lemezterület"
   label_storage_group: "Tároló fájlrendszer %{identifier}"

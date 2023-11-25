@@ -288,7 +288,11 @@ zh-TW:
       no_results_title_text: 目前沒有新消息報告
       no_results_content_text: 新增一個消息
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -490,7 +494,6 @@ zh-TW:
         value: "值"
       enterprise_token:
         starts_at: "生效自"
-        expires_at: "過期於"
         subscriber: "訂閱者"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "最大活動使用者數"
@@ -1021,6 +1024,7 @@ zh-TW:
     due_date: "完成日期"
     estimated_hours: "預估時間"
     estimated_time: "預估時間"
+    expires_at: "Expires at"
     firstname: "名字"
     group: "群組"
     groups: "群組"
@@ -1999,7 +2003,6 @@ zh-TW:
   label_start_to_start: "開始到開始"
   label_statistics: "統計"
   label_status: "狀態"
-  label_stay_logged_in: "保持登入"
   label_storage_free_space: "剩餘磁碟空間"
   label_storage_used_space: "已用磁碟空間"
   label_storage_group: "儲存檔案系統 %{identifier}"

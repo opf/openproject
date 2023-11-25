@@ -288,7 +288,11 @@ ko:
       no_results_title_text: 보고할 소식이 없습니다.
       no_results_content_text: 소식 항목 추가
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{os_name}의 %{browser_name} %{browser_version}"
       browser: "브라우저"
       device: "장치/OS"
@@ -489,7 +493,6 @@ ko:
         value: "값"
       enterprise_token:
         starts_at: "이후로 유효함"
-        expires_at: "에서 만료됨"
         subscriber: "구독자"
         encoded_token: "엔터프라이즈 지원 토큰"
         active_user_count_restriction: "최대 활성 사용자"
@@ -1020,6 +1023,7 @@ ko:
     due_date: "완료 날짜"
     estimated_hours: "예상된 시간"
     estimated_time: "예상된 시간"
+    expires_at: "Expires at"
     firstname: "이름"
     group: "그룹"
     groups: "그룹"
@@ -1998,7 +2002,6 @@ ko:
   label_start_to_start: "시작 - 시작"
   label_statistics: "통계"
   label_status: "상태"
-  label_stay_logged_in: "로그인 상태 유지"
   label_storage_free_space: "남은 디스크 공간"
   label_storage_used_space: "사용 중 디스크 공간"
   label_storage_group: "저장 파일 시스템 %{identifier}"

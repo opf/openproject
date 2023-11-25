@@ -288,7 +288,11 @@ fil:
       no_results_title_text: Sa kasalukuyan ay walang mga balita para ma-ireport.
       no_results_content_text: Magdagdag ng bagong news item
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -491,7 +495,6 @@ fil:
         value: "Halaga"
       enterprise_token:
         starts_at: "Balido mula noon"
-        expires_at: "Matapos sa"
         subscriber: "Taga -subaybay"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
@@ -1030,6 +1033,7 @@ fil:
     due_date: "Finish date"
     estimated_hours: "Tinantyang oras"
     estimated_time: "Tinantyang oras"
+    expires_at: "Expires at"
     firstname: "Unang pangalan"
     group: "Grupo"
     groups: "Mga grupo"
@@ -2026,7 +2030,6 @@ fil:
   label_start_to_start: "simula hanggang simula"
   label_statistics: "Istatistika"
   label_status: "Estado"
-  label_stay_logged_in: "Manatiling naka-log in"
   label_storage_free_space: "Natitirang espasyo ng disk"
   label_storage_used_space: "Nagamit na espasyo ng disk"
   label_storage_group: "Lalagyan ng filesystem %{identifier}"

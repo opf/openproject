@@ -288,7 +288,11 @@ tr:
       no_results_title_text: Şu anda rapor edilecek bir haber yok.
       no_results_content_text: Haber öğesi ekle
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Tarayıcı"
       device: "Cihaz / İşletim Sistemi"
@@ -490,7 +494,6 @@ tr:
         value: "Değer"
       enterprise_token:
         starts_at: "Beri geçerli"
-        expires_at: "Süre sonu: "
         subscriber: "Abone"
         encoded_token: "Kurumsal Destek anahtarı"
         active_user_count_restriction: "En çok aktif kullanıcı"
@@ -1029,6 +1032,7 @@ tr:
     due_date: "Bitiş tarihi"
     estimated_hours: "Tahmini süre"
     estimated_time: "Tahmini süre"
+    expires_at: "Expires at"
     firstname: "İsim"
     group: "Grup"
     groups: "Gruplar"
@@ -2025,7 +2029,6 @@ tr:
   label_start_to_start: "baştan başa"
   label_statistics: "İstatistikler"
   label_status: "Durum"
-  label_stay_logged_in: "Oturum açık kalsın"
   label_storage_free_space: "Kalan disk alanı"
   label_storage_used_space: "Kullanışmış disk alanı"
   label_storage_group: "Depolama dosya sistemi% {tanımlayıcı} %{identifier}"

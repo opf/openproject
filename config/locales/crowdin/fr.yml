@@ -288,7 +288,11 @@ fr:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
       no_results_content_text: Ajouter une actualité
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} sur %{os_name}"
       browser: "Navigateur"
       device: "Dispositif/système d'exploitation"
@@ -491,7 +495,6 @@ fr:
         value: "Valeur"
       enterprise_token:
         starts_at: "Valable depuis"
-        expires_at: "Expire le"
         subscriber: "Abonné"
         encoded_token: "Licence Entreprise"
         active_user_count_restriction: "Nombre maximal d’utilisateurs actif"
@@ -1030,6 +1033,7 @@ fr:
     due_date: "Date de fin"
     estimated_hours: "Durée estimée"
     estimated_time: "Durée estimée"
+    expires_at: "Expires at"
     firstname: "Prénom"
     group: "Groupe"
     groups: "Groupes"
@@ -2026,7 +2030,6 @@ fr:
   label_start_to_start: "de début à début"
   label_statistics: "Statistiques"
   label_status: "Statut"
-  label_stay_logged_in: "Rester connecté"
   label_storage_free_space: "Espace disque restant"
   label_storage_used_space: "Espace disque utilisé"
   label_storage_group: "Système de fichiers de stockage %{identifier}"

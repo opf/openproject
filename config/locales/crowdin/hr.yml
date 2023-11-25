@@ -288,7 +288,11 @@ hr:
       no_results_title_text: Nema novih vijesti.
       no_results_content_text: Nova vijest
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -492,7 +496,6 @@ hr:
         value: "Vrijednost"
       enterprise_token:
         starts_at: "Valid since"
-        expires_at: "Ističe u"
         subscriber: "Pretplatnik"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Najviše aktivnih korisnika"
@@ -1039,6 +1042,7 @@ hr:
     due_date: "Finish date"
     estimated_hours: "Predviđeno vrijeme"
     estimated_time: "Predviđeno vrijeme"
+    expires_at: "Expires at"
     firstname: "Ime"
     group: "Grupa"
     groups: "Grupe"
@@ -2053,7 +2057,6 @@ hr:
   label_start_to_start: "s početka na početak"
   label_statistics: "Statistika"
   label_status: "Status"
-  label_stay_logged_in: "Ostani prijavljen"
   label_storage_free_space: "Dostupna veličina prostora na disku"
   label_storage_used_space: "Iskorišteni prostor na disku"
   label_storage_group: "Datotečni sustav sustava za pohranu %{identifier}"

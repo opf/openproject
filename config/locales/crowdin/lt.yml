@@ -285,7 +285,11 @@ lt:
       no_results_title_text: Nėra jokių naujienų.
       no_results_content_text: Pridėti kaip naujieną
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} %{os_name}"
       browser: "Naršyklė"
       device: "Įrenginys / OS"
@@ -388,9 +392,9 @@ lt:
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
     sharing:
       missing_workflow_waring:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        title: "Darbo paketo dalinimuisi trūksta darbo proceso"
+        message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas darbo procesas. Be darbo proceso negalima keisti bendrinamo darbo paketo būsenos."
+        link_message: "Konfigūruokite darbo procesą administravime."
     summary:
       reports:
         category:
@@ -490,7 +494,6 @@ lt:
         value: "Reikšmė"
       enterprise_token:
         starts_at: "Galioja nuo"
-        expires_at: "Nustoja galioti"
         subscriber: "Prenumeruotojas"
         encoded_token: "„Enterprise“ paramos raktas"
         active_user_count_restriction: "Maksimalus aktyvių naudotojų skaičius"
@@ -1045,6 +1048,7 @@ lt:
     due_date: "Pabaigos data"
     estimated_hours: "Numatyta trukmė"
     estimated_time: "Numatyta trukmė"
+    expires_at: "Expires at"
     firstname: "Vardas"
     group: "Grupė"
     groups: "Grupės"
@@ -2077,7 +2081,6 @@ lt:
   label_start_to_start: "nuo pradžios iki pradžios"
   label_statistics: "Statistika"
   label_status: "Būsena"
-  label_stay_logged_in: "Likti prisijungus"
   label_storage_free_space: "Likusi vieta diske"
   label_storage_used_space: "Naudojamos vieta diske"
   label_storage_group: "Saugojimo failų sistema %{identifier}"
@@ -3107,16 +3110,16 @@ lt:
       warning_user_limit_reached_admin: >
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       user_details:
-        locked: "Locked user"
-        invited: "Invite sent. "
-        resend_invite: "Resend."
-        invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
-        project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
-        additional_privileges_project: "Might have additional privileges (as project member)"
-        additional_privileges_group: "Might have additional privileges (as group member)"
-        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+        locked: "Užrakintas naudotojas"
+        invited: "Pakvietimas išsiųstas."
+        resend_invite: "Siųsti iš naujo."
+        invite_resent: "Pakvietimas išsiųstas iš naujo"
+        not_project_member: "Ne projekto narys"
+        project_group: "Grupės nariai gali turėti papildomų privilegijų (kaip projekto nariai)"
+        not_project_group: "Grupė (bendra visiems nariams)"
+        additional_privileges_project: "Gali turėti papildomų privilegijų (kaip projekto narys)"
+        additional_privileges_group: "Gali turėti papildomų privilegijų (kaip grupės narys)"
+        additional_privileges_project_or_group: "Gali turėti papildomų privilegijų (kaip projekto ar grupės narys)"
   working_days:
     info: >
       Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.

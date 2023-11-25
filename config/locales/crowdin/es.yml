@@ -285,7 +285,11 @@ es:
       no_results_title_text: No hay noticias sobre las que informar por el momento.
       no_results_content_text: Añadir un elemento de noticias
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} en %{os_name}"
       browser: "Navegador"
       device: "Dispositivo / SO"
@@ -488,7 +492,6 @@ es:
         value: "Valor"
       enterprise_token:
         starts_at: "Válido desde"
-        expires_at: "Caduca el"
         subscriber: "Suscriptor"
         encoded_token: "Token de soporte de Enterprise"
         active_user_count_restriction: "Máximo de usuarios activos"
@@ -1027,6 +1030,7 @@ es:
     due_date: "Fecha de finalización"
     estimated_hours: "Tiempo estimado"
     estimated_time: "Tiempo estimado"
+    expires_at: "Expires at"
     firstname: "Nombre"
     group: "Grupo"
     groups: "Grupos"
@@ -2023,7 +2027,6 @@ es:
   label_start_to_start: "iniciar para iniciar"
   label_statistics: "Estadísticas"
   label_status: "Estado"
-  label_stay_logged_in: "Mantener sesión activa"
   label_storage_free_space: "Espacio de disco restante"
   label_storage_used_space: "Espacio de disco utilizado"
   label_storage_group: "Sistema de archivos de almacenamiento %{identifier}"

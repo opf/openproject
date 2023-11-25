@@ -286,7 +286,11 @@ ja:
       no_results_title_text: 現在、報告するニュースはありません。
       no_results_content_text: ニュース項目を追加
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "デバイス / OS"
@@ -486,7 +490,6 @@ ja:
         value: "値"
       enterprise_token:
         starts_at: "有効期間開始"
-        expires_at: "有効期限"
         subscriber: "購入者"
         encoded_token: "エンタープライズ サポート トークン"
         active_user_count_restriction: "アクティブなユーザーの最大数"
@@ -1017,6 +1020,7 @@ ja:
     due_date: "終了日"
     estimated_hours: "予定工数"
     estimated_time: "予定工数"
+    expires_at: "Expires at"
     firstname: "名前"
     group: "グループ"
     groups: "グループ"
@@ -1995,7 +1999,6 @@ ja:
   label_start_to_start: "最初～最初"
   label_statistics: "統計情報"
   label_status: "ステータス"
-  label_stay_logged_in: "ログインを維持"
   label_storage_free_space: "残りのディスク容量"
   label_storage_used_space: "使用ディスク容量"
   label_storage_group: "ストレージのファイルシステム %{identifier}"

@@ -282,7 +282,11 @@ id:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} di %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -483,7 +487,6 @@ id:
         value: "Nilai"
       enterprise_token:
         starts_at: "Valid sejak"
-        expires_at: "Berakhir masa berlaku pada"
         subscriber: "Pelanggan"
         encoded_token: "Token pendukung perusahaan"
         active_user_count_restriction: "Pengguna aktif maksimum"
@@ -1014,6 +1017,7 @@ id:
     due_date: "Tanggal selesai"
     estimated_hours: "Estimasi Waktu"
     estimated_time: "Estimasi Waktu"
+    expires_at: "Expires at"
     firstname: "Nama depan"
     group: "Grup"
     groups: "Grup"
@@ -1992,7 +1996,6 @@ id:
   label_start_to_start: "start untuk memulai"
   label_statistics: "Statistik"
   label_status: "Status"
-  label_stay_logged_in: "Tetap login"
   label_storage_free_space: "Sisa space di disk"
   label_storage_used_space: "Space disk terpakai"
   label_storage_group: "Storage filesystem %{identifier}"

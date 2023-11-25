@@ -288,7 +288,11 @@ cs:
       no_results_title_text: V současné době neexistují žádné zprávy k zobrazení.
       no_results_content_text: Přidat příspěvek
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Prohlížeč"
       device: "Zařízení / OS"
@@ -493,7 +497,6 @@ cs:
         value: "Hodnota"
       enterprise_token:
         starts_at: "Platné od"
-        expires_at: "Vyprší za"
         subscriber: "Odběratel"
         encoded_token: "Token podpory Enterprise."
         active_user_count_restriction: "Maximální počet aktivních uživatelů"
@@ -1048,6 +1051,7 @@ cs:
     due_date: "Datum dokončení"
     estimated_hours: "Odhadovaný čas"
     estimated_time: "Odhadovaný čas"
+    expires_at: "Expires at"
     firstname: "Křestní jméno"
     group: "Skupina"
     groups: "Skupiny"
@@ -2080,7 +2084,6 @@ cs:
   label_start_to_start: "od začátku do začátku"
   label_statistics: "Statistika"
   label_status: "Stav"
-  label_stay_logged_in: "Zůstat přihlášený"
   label_storage_free_space: "Zbývající místo na disku"
   label_storage_used_space: "Použité místo na disku"
   label_storage_group: "Souborový systém %{identifier}"

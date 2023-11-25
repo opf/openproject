@@ -285,7 +285,11 @@ ca:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
       no_results_content_text: Afegir una notícia
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name}%{browser_version} en %{os_name}"
       browser: "Navegador"
       device: "Dispositiu / Sistema Operatiu"
@@ -487,7 +491,6 @@ ca:
         value: "Valor"
       enterprise_token:
         starts_at: "Vàlid des de"
-        expires_at: "Caduca el"
         subscriber: "Subscriptor"
         encoded_token: "Token de suport Enterprise"
         active_user_count_restriction: "Màxim nombre d'usuaris actius"
@@ -1026,6 +1029,7 @@ ca:
     due_date: "Data final"
     estimated_hours: "Temps estimat"
     estimated_time: "Temps estimat"
+    expires_at: "Expires at"
     firstname: "Nom"
     group: "Grup"
     groups: "Grups"
@@ -2022,7 +2026,6 @@ ca:
   label_start_to_start: "de principi a principi"
   label_statistics: "Estadí­stiques"
   label_status: "Estat"
-  label_stay_logged_in: "Manté l'entrada"
   label_storage_free_space: "Espai de disc restant"
   label_storage_used_space: "Espai de disc utilitzat"
   label_storage_group: "Sistema de fitxers %{identifier}"

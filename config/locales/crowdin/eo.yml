@@ -288,7 +288,11 @@ eo:
       no_results_title_text: Nun estas neniu novaĵo por informi.
       no_results_content_text: Aldoni novan eron
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -491,7 +495,6 @@ eo:
         value: "Valoro"
       enterprise_token:
         starts_at: "Valida ekde"
-        expires_at: "Senvalidiĝas la"
         subscriber: "Abonanto"
         encoded_token: "Entreprena subtenĵetono"
         active_user_count_restriction: "Maksimuma kvanto da aktivaj uzantoj"
@@ -1030,6 +1033,7 @@ eo:
     due_date: "Findato"
     estimated_hours: "Taksita tempo"
     estimated_time: "Taksita tempo"
+    expires_at: "Expires at"
     firstname: "Nomo"
     group: "Grupo"
     groups: "Grupoj"
@@ -2026,7 +2030,6 @@ eo:
   label_start_to_start: "start to start"
   label_statistics: "Statistikoj"
   label_status: "Stato"
-  label_stay_logged_in: "Stay logged in"
   label_storage_free_space: "Remaining disk space"
   label_storage_used_space: "Uzata diskospaco"
   label_storage_group: "Konserveja dosiersistemo %{identifier}"

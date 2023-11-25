@@ -288,7 +288,11 @@ ro:
       no_results_title_text: În acest moment nu există știri de raportat.
       no_results_content_text: Adăugare știre nouă
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -492,7 +496,6 @@ ro:
         value: "Valoare"
       enterprise_token:
         starts_at: "Valabil din"
-        expires_at: "Expiră la"
         subscriber: "Abonat"
         encoded_token: "Token de sprijin pentru întreprinderi"
         active_user_count_restriction: "Număr maxim de utilizatori activi"
@@ -1039,6 +1042,7 @@ ro:
     due_date: "Data de finalizare"
     estimated_hours: "Durata estimată"
     estimated_time: "Durata estimată"
+    expires_at: "Expires at"
     firstname: "Prenume"
     group: "Grup"
     groups: "Grupuri"
@@ -2053,7 +2057,6 @@ ro:
   label_start_to_start: "început la început"
   label_statistics: "Statistici"
   label_status: "Stare"
-  label_stay_logged_in: "Rămâneți conectat"
   label_storage_free_space: "Spațiu pe disc rămas"
   label_storage_used_space: "Spațiu pe disc folosit"
   label_storage_group: "Sistem de fișiere pentru stocare %{identifier}"
