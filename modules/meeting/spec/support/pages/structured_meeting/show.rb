@@ -111,7 +111,7 @@ module Pages::StructuredMeeting
         page.within("#meeting-agenda-items-item-component-#{item.id}") do
           page.find_test_selector('op-meeting-agenda-actions').click
         end
-        page.find('.Overlay')
+        page.find('.Overlay', wait: 1)
       end
 
       page.within('.Overlay') do

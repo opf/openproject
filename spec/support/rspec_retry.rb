@@ -29,7 +29,7 @@ end
 ##
 # Allow specific code blocks to retry on specific errors
 Retriable.configure do |c|
-  c.intervals = [1, 1, 2]
+  c.intervals = [0.1, 0.5, 1, 2]
 end
 
 ##
