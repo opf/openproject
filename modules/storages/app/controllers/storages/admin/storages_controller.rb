@@ -94,7 +94,6 @@ class Storages::Admin::StoragesController < ApplicationController
     service_result.on_success do
       respond_to do |format|
         format.html { render :new }
-        format.turbo_stream
       end
     end
   end
