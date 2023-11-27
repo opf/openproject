@@ -49,6 +49,10 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import {
+  ApiV3Filter,
+  ApiV3FilterBuilder,
+} from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
   id:string,
@@ -118,7 +122,7 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
     return from(
       this.workPackage.availableRelationCandidates.$link.$fetch({
         query,
-        filters: JSON.stringify(this.filters),
+        filters: JSON.stringify(this.createFilters()),
         type: this.filterCandidatesFor || this.selectedRelationType,
         sortBy: JSON.stringify([['typeahead', 'asc']]),
       }) as Promise<WorkPackageCollectionResource>,
@@ -130,5 +134,17 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
           return of([]);
         }),
       );
+  }
+
+  private createFilters():ApiV3Filter[] {
+    const finalFilters = new ApiV3FilterBuilder();
+
+    if (this.filters) {
+      this.filters.forEach((filter) => {
+        finalFilters.add(filter.name, filter.operator, filter.values);
+      });
+    }
+
+    return finalFilters.filters;
   }
 }

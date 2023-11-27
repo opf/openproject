@@ -140,7 +140,7 @@ export class WpRelationInlineAddExistingComponent {
     filters.forEach((filter) => {
       iApiFilters.push({
         name: filter.name,
-        operator: filter.operator,
+        operator: filter.operator.id,
         values: filter.values,
       });
     });
