@@ -10,9 +10,9 @@
         component_collection do |collection|
           collection.with_component(Primer::Alpha::Dialog::Body.new(style: "max-height: 500px;")) do
             flex_layout(my: 3) do |flex|
-              project_custom_field_values_of_section.group_by { |cfv| cfv.custom_field_id }.sort.each do |custom_field_id, custom_field_values|
+              @active_project_custom_fields_of_section.each do |project_custom_field|
                 flex.with_row(mb: 2) do
-                  render_custom_field_value_input(f, custom_field_id, custom_field_values)
+                  render_custom_field_value_input(f, project_custom_field, project_custom_field_values_for(project_custom_field.id))
                 end
               end
             end

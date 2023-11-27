@@ -12,7 +12,7 @@
               id: "edit-project-attributes-dialog-#{@project_custom_field_section.id}",
               src: project_attribute_section_dialog_path(project_id: @project.id, section_id: @project_custom_field_section.id),
               size: :medium_portrait,
-              title: "Edit #{ @project_custom_field_section.name }",
+              title: "#{t('label_edit')} #{ @project_custom_field_section.name }",
               button_icon: :pencil,
               button_attributes: { scheme: :invisible }
             ))
@@ -20,9 +20,12 @@
         end
       end
 
-      project_custom_field_values_of_section.each do |custom_field_value|
-        details_container.with_row(mb: 1) do
-          render(ProjectAttributes::Section::CustomFieldValue::ShowComponent.new(custom_field_value: custom_field_value))
+      sorted_project_custom_fields.each do |project_custom_field|
+        details_container.with_row(mb: 3) do
+          render(ProjectCustomFields::Sections::ProjectCustomFields::ShowComponent.new(
+            project_custom_field: project_custom_field,
+            project_custom_field_value: get_eager_loaded_project_custom_field_value_for(project_custom_field.id)
+          ))
         end
       end
     end

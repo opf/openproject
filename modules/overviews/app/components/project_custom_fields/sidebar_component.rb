@@ -26,16 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ProjectAttributes
+module ProjectCustomFields
   class SidebarComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(project:)
+    def initialize(project:, project_custom_field_sections:, active_project_custom_fields_grouped_by_section:)
       super
 
       @project = project
+      @project_custom_field_sections = project_custom_field_sections
+      @active_project_custom_fields_grouped_by_section = active_project_custom_fields_grouped_by_section
+    end
+
+    private
+
+    def get_eager_loaded_project_custom_field_section(project_custom_field_section_id)
+      @project_custom_field_sections.find { |pcfs| pcfs.id == project_custom_field_section_id }
     end
   end
 end

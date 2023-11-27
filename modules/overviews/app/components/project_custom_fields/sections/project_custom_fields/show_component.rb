@@ -26,29 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ProjectAttributes
-  module Section
-    module CustomFieldValue
+module ProjectCustomFields
+  module Sections
+    module ProjectCustomFields
       class ShowComponent < ApplicationComponent
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
 
-        def initialize(custom_field_value:)
+        def initialize(project_custom_field:, project_custom_field_value:)
           super
 
-          @custom_field_value = custom_field_value
+          @project_custom_field = project_custom_field
+          @project_custom_field_value = project_custom_field_value
         end
 
         private
 
         def formated_value
-          case @custom_field_value.custom_field.field_format
+          return if @project_custom_field_value.blank?
+
+          case @project_custom_field.field_format
           when "text"
-            ::OpenProject::TextFormatting::Renderer.format_text(@custom_field_value.typed_value)
+            ::OpenProject::TextFormatting::Renderer.format_text(@project_custom_field_value.typed_value)
           when "date"
-            format_date(@custom_field_value.typed_value)
+            format_date(@project_custom_field_value.typed_value)
           else
-            @custom_field_value.typed_value&.to_s
+            @project_custom_field_value.typed_value&.to_s
           end
         end
       end

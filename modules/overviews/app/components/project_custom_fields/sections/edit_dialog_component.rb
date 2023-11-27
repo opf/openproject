@@ -26,32 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ProjectAttributes
-  module Section
+module ProjectCustomFields
+  module Sections
     class EditDialogComponent < ApplicationComponent
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(project:, project_custom_field_section:, custom_field_values:)
+      def initialize(project:,
+                     project_custom_field_section:,
+                     active_project_custom_fields_of_section:,
+                     project_custom_field_values:)
         super
 
         @project = project
         @project_custom_field_section = project_custom_field_section
-        @custom_field_values = custom_field_values
+        @active_project_custom_fields_of_section = active_project_custom_fields_of_section
+        @project_custom_field_values = project_custom_field_values
       end
 
       private
 
-      def project_custom_field_values_of_section
-        @custom_field_values.to_a.select do |cfv|
-          @project_custom_field_section.project_custom_fields.pluck(:id).include?(cfv.custom_field_id)
+      def project_custom_field_values_for(project_custom_field_id)
+        values = @project_custom_field_values.select { |pcfv| pcfv.custom_field_id == project_custom_field_id }
+
+        if values.empty?
+          [CustomValue.new(
+            custom_field_id: project_custom_field_id,
+            customized_id: @project.id,
+            customized_type: "Project"
+          )]
+        else
+          values
         end
       end
 
-      def render_custom_field_value_input(form, custom_field_id, custom_field_values)
-        custom_field = CustomField.find(custom_field_id)
-
+      def render_custom_field_value_input(form, custom_field, custom_field_values)
         if custom_field.multi_value?
           render_multi_value_custom_field_input(form, custom_field, custom_field_values)
         else

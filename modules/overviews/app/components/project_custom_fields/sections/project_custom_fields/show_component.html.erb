@@ -1,0 +1,16 @@
+<%=
+  flex_layout(align_items: :flex_start, justify_content: :space_between) do |custom_field_value_container|
+    # temporarily using inline styles in order to align the content as desired
+    custom_field_value_container.with_row(mb: 1) do
+      render(Primer::Beta::Text.new(font_weight: :bold)) { @project_custom_field.name }
+    end
+
+    custom_field_value_container.with_row do
+      if @project_custom_field_value.blank?
+        render(Primer::Beta::Text.new(color: :subtle)) { t('label_not_set_yet') }
+      else
+        render(Primer::Beta::Text.new()) { formated_value }
+      end
+    end
+  end
+%>

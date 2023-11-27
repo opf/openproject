@@ -26,34 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ProjectAttributes
-  module Section
+module ProjectCustomFields
+  module Sections
     class ShowComponent < ApplicationComponent
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(project:, project_custom_field_section:)
+      def initialize(project:, project_custom_field_section:, project_custom_fields:)
         super
 
         @project = project
         @project_custom_field_section = project_custom_field_section
+        @project_custom_fields = project_custom_fields
+
+        eager_load_project_custom_field_values
       end
 
       private
 
-      def project_custom_field_values
-        active_custom_field_ids_of_project = ProjectCustomFieldProjectMapping
-          .where(project_id: @project.id)
-          .pluck(:custom_field_id)
-
-        CustomValue.where(custom_field_id: active_custom_field_ids_of_project, customized_id: @project.id)
+      def eager_load_project_custom_field_values
+        # TODO: move to service
+        @eager_loaded_project_custom_field_values = CustomValue
+          .includes(custom_field: :custom_options)
+          .where(
+            custom_field_id: @project_custom_fields.pluck(:id),
+            customized_id: @project.id
+          )
+        .to_a
       end
 
-      def project_custom_field_values_of_section
-        project_custom_field_values.select do |cfv|
-          @project_custom_field_section.project_custom_fields.pluck(:id).include?(cfv.custom_field_id)
-        end
+      def sorted_project_custom_fields
+        @project_custom_fields.sort_by { |pcf| pcf.position_in_custom_field_section }
+      end
+
+      def get_eager_loaded_project_custom_field_value_for(custom_field_id)
+        @eager_loaded_project_custom_field_values.find { |pcfv| pcfv.custom_field_id == custom_field_id }
       end
     end
   end
