@@ -8,7 +8,7 @@
 <% local_assigns[:additional_breadcrumb] = label_new_file_storage %>
 
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title(test_selector: 'storage-name-title') do %>
+  <% header.with_title(test_selector: 'storage-new-page-header--title') do %>
     <%= label_new_file_storage %>
   <% end %>
 
@@ -18,7 +18,7 @@
     <%= t(:project_module_storages) %>
   <% end %>
 
-  <% header.with_description do %>
+  <% header.with_description(test_selector: 'storage-new-page-header--description') do %>
     <%=
       t("storages.instructions.new_storage",
         file_storage_docs_link: render(

@@ -1,5 +1,5 @@
 <%=
-  render(Primer::Alpha::ActionMenu.new) do |menu|
+  render(Primer::Alpha::ActionMenu.new(test_selector: 'storages-select-provider-action-menu')) do |menu|
     menu.with_show_button(**show_button_options) do |button|
       button.with_leading_visual_icon(icon: :plus)
       label

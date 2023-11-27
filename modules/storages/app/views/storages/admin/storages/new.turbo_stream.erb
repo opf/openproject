@@ -27,8 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream.replace :select_storage_provider do %>
+<%= turbo_stream.replace :storage_general_info_section do %>
   <%=
-    render(::Storages::Admin::SelectStorageProviderComponent.new(@storage))
+    render(::Storages::Admin::StorageViewComponent.new(@storage))
   %>
 <% end %>
