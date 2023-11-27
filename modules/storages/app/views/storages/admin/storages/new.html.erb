@@ -21,9 +21,9 @@
   <% header.with_description do %>
     <%=
       t("storages.instructions.new_storage",
-        new_storage_link_text: render(
-          Primer::Beta::Link.new(href: ::OpenProject::Static::Links[:storage_docs][:setup][:href], target: '_blank')
-        ) { t("storages.instructions.new_storage_link_text") }
+        file_storage_docs_link: render(
+          Primer::Beta::Link.new(href: ::OpenProject::Static::Links[:storage_docs][:"#{@storage.short_provider_type}_setup"][:href], target: '_blank')
+        ) { t("storages.instructions.file_storage_docs_link", provider_name: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")) }
       ).html_safe
     %>
 <% end %>
