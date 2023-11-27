@@ -27,64 +27,89 @@
 //++
 
 import {
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
-  EventEmitter, HostListener,
-  Input, NgZone,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
+  HostListener,
+  Input,
+  NgZone,
 } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import {
+  from,
+  Observable,
+  of,
+} from 'rxjs';
+import {
+  catchError,
+  map,
+} from 'rxjs/operators';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+
+export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
+  id:string,
+}
 
 @Component({
   selector: 'wp-relations-autocomplete',
-  templateUrl: './wp-relations-autocomplete.html',
-
-  // Allow styling the embedded ng-select
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./wp-relations-autocomplete.sass'],
+  templateUrl: '../../../../../../shared/components/autocompleter/op-autocompleter/op-autocompleter.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageRelationsAutocompleteComponent {
-  readonly text = {
-    placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
-  };
-
-  @Input() inputPlaceholder:string = this.text.placeholder;
-
+export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterComponent<IWorkPackageAutocompleteItem> {
   @Input() workPackage:WorkPackageResource;
 
   @Input() selectedRelationType:string;
 
   @Input() filterCandidatesFor:string;
 
-  /** Do we take the current query filters into account? */
-  @Input() additionalFilters:ApiV3Filter[] = [];
-
   @Input() hiddenOverflowContainer = 'body';
 
-  @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
+  @InjectField(WorkPackageNotificationService) notificationService:WorkPackageNotificationService;
 
-  @Output() onCancel = new EventEmitter<undefined>();
+  @InjectField(SchemaCacheService) schemaCacheService:SchemaCacheService;
 
-  @Output() onSelected = new EventEmitter<WorkPackageResource>();
+  @InjectField(NgZone) ngZone:NgZone;
 
-  @Output() onEmptySelected = new EventEmitter<undefined>();
+  resource:TOpAutocompleterResource = 'work_packages';
 
-  getAutocompleterData = (query:string|null):Observable<HalResource[]> => {
+  appendTo = 'body';
+
+  getOptionsFn = this.getAutocompleterData.bind(this);
+
+  @HostListener('keydown.escape')
+  public reset() {
+    this.cancel.emit();
+  }
+
+  changed(workPackage:IWorkPackageAutocompleteItem|null) {
+    if (workPackage) {
+      void this.schemaCacheService
+        .ensureLoaded(workPackage)
+        .then(() => {
+          this.change.emit(workPackage);
+          this.ngSelectInstance.close();
+        });
+    }
+  }
+
+  opened() {
+    // Force reposition as a workaround for BUG
+    // https://github.com/ng-select/ng-select/issues/1259
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.ngSelectInstance.dropdownPanel.adjustPosition();
+        jQuery(this.hiddenOverflowContainer).one('scroll', () => {
+          this.ngSelectInstance.close();
+        });
+      }, 25);
+    });
+  }
+
+  getAutocompleterData(query:string|null):Observable<HalResource[]> {
     // Return when the search string is empty
     if (query === null || query.length === 0) {
       return of([]);
@@ -93,7 +118,7 @@ export class WorkPackageRelationsAutocompleteComponent {
     return from(
       this.workPackage.availableRelationCandidates.$link.$fetch({
         query,
-        filters: JSON.stringify(this.additionalFilters),
+        filters: JSON.stringify(this.filters),
         type: this.filterCandidatesFor || this.selectedRelationType,
         sortBy: JSON.stringify([['typeahead', 'asc']]),
       }) as Promise<WorkPackageCollectionResource>,
@@ -105,56 +130,5 @@ export class WorkPackageRelationsAutocompleteComponent {
           return of([]);
         }),
       );
-  };
-
-  public autocompleterOptions = {
-    resource: 'work_packages',
-    getOptionsFn: this.getAutocompleterData,
-  };
-
-  public appendToContainer = 'body';
-
-  constructor(private readonly querySpace:IsolatedQuerySpace,
-    private readonly pathHelper:PathHelperService,
-    private readonly notificationService:WorkPackageNotificationService,
-    private readonly CurrentProject:CurrentProjectService,
-    private readonly halResourceService:HalResourceService,
-    private readonly schemaCacheService:SchemaCacheService,
-    private readonly cdRef:ChangeDetectorRef,
-    private readonly ngZone:NgZone,
-    private readonly I18n:I18nService) {
-  }
-
-  @HostListener('keydown.escape')
-  public reset() {
-    this.cancel();
-  }
-
-  cancel() {
-    this.onCancel.emit();
-  }
-
-  public onWorkPackageSelected(workPackage?:WorkPackageResource) {
-    if (workPackage) {
-      this.schemaCacheService
-        .ensureLoaded(workPackage)
-        .then(() => {
-          this.onSelected.emit(workPackage);
-          this.ngSelectComponent.ngSelectInstance.close();
-        });
-    }
-  }
-
-  onOpen() {
-    // Force reposition as a workaround for BUG
-    // https://github.com/ng-select/ng-select/issues/1259
-    this.ngZone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.ngSelectComponent.repositionDropdown();
-        jQuery(this.hiddenOverflowContainer).one('scroll', () => {
-          this.ngSelectComponent.closeSelect();
-        });
-      }, 25);
-    });
   }
 }

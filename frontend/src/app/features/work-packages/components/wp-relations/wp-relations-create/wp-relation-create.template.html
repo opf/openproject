@@ -37,8 +37,8 @@
       <div class="grid-content medium-8">
         <wp-relations-autocomplete
           [workPackage]="workPackage"
-          (onSelected)="onSelected($event)"
-          (onCancel)="toggleRelationsCreateForm()"
+          (change)="onSelected($event)"
+          (cancel)="toggleRelationsCreateForm()"
           [hiddenOverflowContainer]="'.work-packages-tab-view--overflow'"
           [selectedRelationType]="selectedRelationType">
         </wp-relations-autocomplete>

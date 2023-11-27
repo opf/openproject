@@ -4,8 +4,8 @@
     <div class="wp-relations-input-section">
       <wp-relations-autocomplete
           [workPackage]="workPackage"
-          (onSelected)="onSelected($event)"
-          [additionalFilters]="queryFilters"
+          (change)="onSelected($event)"
+          [filters]="queryFilters"
           [filterCandidatesFor]="relationType"
           hiddenOverflowContainer=".work-packages-full-view--split-left">
       </wp-relations-autocomplete>
