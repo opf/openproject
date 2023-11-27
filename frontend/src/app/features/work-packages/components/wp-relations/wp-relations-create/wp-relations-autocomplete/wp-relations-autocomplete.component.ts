@@ -31,7 +31,6 @@ import {
   Component,
   HostListener,
   Input,
-  NgZone,
 } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
@@ -44,15 +43,15 @@ import {
   map,
 } from 'rxjs/operators';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import {
   ApiV3Filter,
   ApiV3FilterBuilder,
 } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
   id:string,
@@ -76,11 +75,11 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
 
   @InjectField(SchemaCacheService) schemaCacheService:SchemaCacheService;
 
-  @InjectField(NgZone) ngZone:NgZone;
-
   resource:TOpAutocompleterResource = 'work_packages';
 
   appendTo = 'body';
+
+  placeholder = this.I18n.t('js.relations_autocomplete.placeholder');
 
   getOptionsFn = this.getAutocompleterData.bind(this);
 
