@@ -40,7 +40,7 @@ module OpenProject::Meeting
              bundled: true do
       project_module :meetings do
         permission :view_meetings,
-                   { meetings: %i[index show download_ics],
+                   { meetings: %i[index show download_ics participants_dialog],
                      meeting_agendas: %i[history show diff],
                      meeting_minutes: %i[history show diff],
                      work_package_meetings_tab: %i[index count] },
@@ -52,7 +52,7 @@ module OpenProject::Meeting
                    contract_actions: { meetings: %i[create] }
         permission :edit_meetings,
                    {
-                     meetings: %i[edit cancel_edit update update_title update_details update_participants participants_dialog],
+                     meetings: %i[edit cancel_edit update update_title update_details update_participants],
                      work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting]
                    },
                    permissible_on: :project,
