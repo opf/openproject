@@ -206,7 +206,6 @@ class Project < ApplicationRecord
   # to everybody having at least one role in a project regardless of the
   # role's permissions.
   def self.visible_by(user = User.current)
-    # TODO: Temporary ...
     allowed_to(user, :view_project).or(where(id: WorkPackage.visible(user).select(:project_id)))
   end
 
