@@ -51,7 +51,7 @@ class Storages::NextcloudStorage < Storages::Storage
         Storages::GroupFolderPropertiesSyncService.new(storage).call
       rescue StandardError => e
         OpenProject.logger.error(
-          "Unexpected error during NextcloudStorage ##{storage.id} #{storage.host}: #{e.message}"
+          "Unexpected error during NextcloudStorage group folders sync for ##{storage.id} #{storage.host}: #{e.message}"
         )
       end
       true
