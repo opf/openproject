@@ -44,7 +44,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
            member_with_permissions: { project => permissions })
   end
 
-  shared_let(:start_time) { Time.current.tomorrow.at_noon }
+  shared_let(:start_time) { Time.current.beginning_of_week.at_noon }
   shared_let(:duration) { 1.5 }
   shared_let(:agenda_text) { "We will talk" }
   shared_let(:meeting) do
