@@ -52,7 +52,7 @@ module OpenProject::Meeting
                    contract_actions: { meetings: %i[create] }
         permission :edit_meetings,
                    {
-                     meetings: %i[edit cancel_edit update update_title update_details update_participants],
+                     meetings: %i[edit cancel_edit update update_title update_details update_participants participants_dialog],
                      work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting]
                    },
                    permissible_on: :project,

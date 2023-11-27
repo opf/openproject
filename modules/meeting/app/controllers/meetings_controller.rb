@@ -141,6 +141,10 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def participants_dialog
+    render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting), layout: false)
+  end
+
   def update_participants
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
     @meeting.save

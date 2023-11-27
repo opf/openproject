@@ -99,15 +99,16 @@
                 end
 
                 duration.with_column(mr: 2) do
-                  render(Primer::Alpha::Dialog.new(
-                    id: "edit-participants-dialog", title: Meeting.human_attribute_name(:participants),
-                    size: :medium_portrait
-                  )) do |dialog|
-                    dialog.with_show_button(scheme: :link, font_weight: :normal) do
-                      t("label_meeting_show_all_participants")
-                    end
-                    render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting))
-                  end
+                  render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
+                    id: "edit-participants-dialog",
+                    src: participants_dialog_meeting_path(@meeting),
+                    size: :medium_portrait,
+                    title: Meeting.human_attribute_name(:participants),
+                    button_text: t("label_meeting_show_all_participants"),
+                    button_attributes: {
+                      scheme: :link,
+                      font_weight: :normal
+                    }))
                 end
               end
             end
