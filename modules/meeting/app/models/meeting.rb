@@ -165,13 +165,15 @@ class Meeting < ApplicationRecord
   def copy(attrs)
     copy = dup
 
-    # Called simply to initialize the value
-    copy.start_date
-    copy.start_time_hour
+    # Set a default to next week
+    copy.start_time = start_time + 1.week
 
     copy.author = attrs.delete(:author)
     copy.attributes = attrs
     copy.set_initial_values
+    # Initialize virtual attributes
+    copy.start_date
+    copy.start_time_hour
 
     copy.participants.clear
     copy.participants_attributes = allowed_participants.collect(&:copy_attributes)

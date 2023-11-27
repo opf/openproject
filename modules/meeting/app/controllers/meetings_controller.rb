@@ -102,7 +102,7 @@ class MeetingsController < ApplicationController
     params[:copied_from_meeting_id] = @meeting.id
     params[:copied_meeting_agenda_text] = @meeting.agenda.text if @meeting.agenda.present?
     @meeting = @meeting.copy(author: User.current)
-    render action: 'new', project_id: @project
+    render action: 'new', project_id: @project, locals: { copy: true }
   end
 
   def destroy
