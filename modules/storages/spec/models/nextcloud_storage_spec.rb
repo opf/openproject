@@ -105,7 +105,7 @@ RSpec.describe Storages::NextcloudStorage do
         expect(subject).to be(true)
 
         expect(OpenProject.logger).to have_received(:error) do |msg, _|
-          expect(msg).to eq "Unexpected error during NextcloudStorage ##{storage1.id} #{storage1.host}: Unexpected Error"
+          expect(msg).to eq "Unexpected error during NextcloudStorage group folders sync for ##{storage1.id} #{storage1.host}: Unexpected Error"
         end
         expect(Storages::GroupFolderPropertiesSyncService).to have_received(:new).with(storage1).once
         expect(Storages::GroupFolderPropertiesSyncService).to have_received(:new).with(storage3).once
