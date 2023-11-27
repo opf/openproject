@@ -32,7 +32,7 @@ module Admin::Settings
     include OpTurbo::ComponentStream
     include Admin::Settings::ProjectCustomFields::ComponentStreams
 
-    menu_item :project_custom_field_settings
+    menu_item :project_custom_fields_settings
 
     before_action :set_sections, only: %i[show index edit update move drop]
     before_action :find_custom_field, only: %i(show edit update destroy delete_option reorder_alphabetical move drop)
