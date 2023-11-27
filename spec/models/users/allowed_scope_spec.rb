@@ -63,7 +63,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to match_array [user]
+      expect(described_class.allowed(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to match_array [user]
+      expect(described_class.allowed(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -173,7 +173,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to match_array [user]
+      expect(described_class.allowed(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -191,7 +191,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the anonymous user' do
-      expect(described_class.allowed(action, project).where(id: [user.id, anonymous.id])).to match_array([anonymous])
+      expect(described_class.allowed(action, project).where(id: [user.id, anonymous.id])).to contain_exactly(anonymous)
     end
   end
 
@@ -260,7 +260,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed(public_action, project).where(id: user.id)).to match_array [user]
+      expect(described_class.allowed(public_action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -275,7 +275,8 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user and anonymous' do
-      expect(described_class.allowed(public_action, project).where(id: [user.id, anonymous.id])).to match_array [user, anonymous]
+      expect(described_class.allowed(public_action,
+                                     project).where(id: [user.id, anonymous.id])).to contain_exactly(user, anonymous)
     end
   end
 
@@ -349,7 +350,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed_members(action, project).where(id: user.id)).to match_array [user]
+      expect(described_class.allowed_members(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -379,7 +380,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed_members(action, project).where(id: user.id)).to match_array [user]
+      expect(described_class.allowed_members(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -398,7 +399,7 @@ RSpec.describe User, 'allowed scope' do
     end
   end
 
-  describe '.allowed_on_work_package' do
+  describe '.allowed_members_on_work_package' do
     shared_let(:richard)  { create(:user) }
     shared_let(:dinesh)   { create(:user) }
     shared_let(:gilfoyle) { create(:user) }
@@ -432,7 +433,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it "returns members of the work package and the work package's project with the given permission" do
-      expect(described_class.allowed_on_work_package(action, work_package))
+      expect(described_class.allowed_members_on_work_package(action, work_package))
         .to contain_exactly(richard, gavin)
     end
   end
