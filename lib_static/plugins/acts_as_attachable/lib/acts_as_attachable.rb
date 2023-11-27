@@ -210,7 +210,7 @@ module Redmine
             permission_project_context = (project if respond_to?(:project))
 
             Array(permissions).any? do |permission|
-              user.allowed_based_on_permission_context?(permission, project: permission_project_context)
+              user.allowed_based_on_permission_context?(permission, project: permission_project_context, entity: self)
             end
           end
 

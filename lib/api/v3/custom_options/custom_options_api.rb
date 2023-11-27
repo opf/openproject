@@ -44,7 +44,11 @@ module API
                 when ProjectCustomField
                   authorize_in_any_project(%i[view_project]) { raise API::Errors::NotFound }
                 when TimeEntryCustomField
-                  authorize_in_any_project(%i[log_time log_own_time]) { raise API::Errors::NotFound }
+                  authorize_in_any_work_package(:log_own_time) do
+                    authorize_in_any_project(:log_time) do
+                      raise API::Errors::NotFound
+                    end
+                  end
                 when UserCustomField, GroupCustomField
                   true
                 else
@@ -54,7 +58,7 @@ module API
 
               def authorized_work_package_option(custom_option)
                 allowed = Project
-                  .allowed_to(current_user, :view_work_packages)
+                  .with_visible_work_packages(current_user)
                   .joins(:work_package_custom_fields)
                   .exists?(custom_fields: { id: custom_option.custom_field_id })
 

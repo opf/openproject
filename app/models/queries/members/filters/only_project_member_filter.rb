@@ -26,36 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module TimeEntries
-      class AvailableWorkPackagesOnEditAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize_in_work_package(%i[log_own_time edit_own_time_entries], work_package: @time_entry.work_package) do
-            authorize_in_project(%i[log_time edit_time_entries], project: @time_entry.project)
-          end
-        end
+class Queries::Members::Filters::OnlyProjectMemberFilter < Queries::Members::Filters::MemberFilter
+  include Queries::Filters::Shared::BooleanFilter
 
-        helpers AvailableWorkPackagesHelper
-
-        helpers do
-          def allowed_scope
-            edit_scope = WorkPackage.where(project_id: Project.allowed_to(User.current, :edit_time_entries))
-            edit_own_scope = WorkPackage.where(id: WorkPackage.allowed_to(User.current, :edit_own_time_entries))
-            ongoing_scope = WorkPackage.where(id: TimeEntry.visible_ongoing.select(:work_package_id))
-
-            edit_scope
-              .or(edit_own_scope)
-              .or(ongoing_scope)
-          end
-        end
-
-        resources :available_work_packages do
-          get do
-            available_work_packages_collection(allowed_scope)
-          end
-        end
-      end
+  def where
+    if allowed_values.first.intersect?(values)
+      "members.entity_type IS NULL AND members.entity_id IS NULL"
+    else
+      "1=1"
     end
+  end
+
+  def available_operators
+    [::Queries::Operators::BooleanEquals]
+  end
+
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::BooleanListStrict.new self
   end
 end
