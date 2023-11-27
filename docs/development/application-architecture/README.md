@@ -15,9 +15,9 @@ keywords: architecture overview, hybrid application, Ruby on Rails, Angular
 %%{init: {'theme':'neutral'}}%%
 
 flowchart TD
-  browser[Web browser] -->|"HTTP(s) requests"| loadbalancer(Load balancer / proxy)
-  A1[Native client] -->|"HTTP(s) requests"| loadbalancer
-  A2[SVN or Git client] -->|"HTTP(s) requests"| loadbalancer
+  browser[Web browser] -->|"HTTPS requests"| loadbalancer(Load balancer / proxy)
+  A1[Native client] -->|"HTTPS requests"| loadbalancer
+  A2[SVN or Git client] -->|"HTTPS requests"| loadbalancer
   loadbalancer -->|Proxy| openproject
   
   subgraph openproject[OpenProject Core Application]
@@ -34,7 +34,7 @@ flowchart TD
     gih["GitHub (gih)"]
     cal["Calendar (cal)"]
   	O["API integrations (api)"]
- 
+    W["Outgoing webhooks"]
 end
 
   subgraph services[Internal Services]
@@ -46,9 +46,9 @@ end
   end
 
 
-  openproject <--> services
-  openproject --> integrations
-  loadbalancer <--> integrations
+  openproject <-->|"TCP requests"| services
+  openproject -->|"HTTPS requests"| integrations
+  loadbalancer <-->|"HTTPS requsts"| integrations
   
   subgraph localclients[Local Client / User device]
   direction TB
@@ -61,6 +61,27 @@ end
 
 
 ```
+
+## Involved services
+
+| Service                       | Relationship to OpenProject                                  | Communication interfaces and mechanisms                      | References                                                   |
+| ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Web browser                   | Performs requests to the application                         | HTTPS                                                        | n/a                                                          |
+| Native client                 | Performs requests to the application                         | HTTPS                                                        | n/a                                                          |
+| SVN client                    | Performs SVN requests to the application web server          | HTTPS                                                        | [Repository integrations](https://www.openproject.org/docs/user-guide/repository/) |
+| Git client                    | Performs Git Smart HTTP requests to the application server   | HTTPS                                                        | [Repository integrations](https://www.openproject.org/docs/user-guide/repository/) |
+| Load balancer / Proxy         | Depending on installation mechanism, terminates TLS/SSL, accepts and proxies or load balances web requests to the different OpenProject web application servers | HTTPS / PROXY                                                | [Configuration for packaged installations](https://www.openproject.org/docs/installation-and-operations/installation/packaged/#step-3-apache2-web-server-and-ssl-termination)<br />[Configuration for Docker/Kubernetes](https://www.openproject.org/docs/installation-and-operations/installation/docker/#disabling-https-mode) |
+| Puma application server       | Accepts web requests, runs the OpenProject web facing application | Web requests (HTTP/HTTPS)<br />Database (TCP)<br />Memcached (TCP)<br />Email gateways (SMTP)<br />External integration requests (HTTPS) | [Database TLS setup](https://www.openproject.org/docs/installation-and-operations/configuration/#database-configuration-and-ssl)<br />[Cache configuration](https://www.openproject.org/docs/installation-and-operations/configuration/#cache-configuration-options)<br />[SMTP configuration](https://www.openproject.org/docs/installation-and-operations/configuration/outbound-emails/)<br />[Integrations guide](https://www.openproject.org/docs/system-admin-guide/integrations/) |
+| Memached / Redis / File cache | Application-level cache (if enabled)                         | TCP connections                                              | [Cache configuration](https://www.openproject.org/docs/installation-and-operations/configuration/#cache-configuration-options) |
+| PostgreSQL                    | Database management system                                   | (Encrypted) TCP connections between web and background workers | [Database TLS setup](https://www.openproject.org/docs/installation-and-operations/configuration/#database-configuration-and-ssl)<br /> |
+| Background worker             | Handles asynchronous jobs, such as backup requests, email delivery, | Database (TCP)<br />Memcached (TCP)<br />Email gateways (SMTP)<br />External integration requests (HTTPS) | [Database TLS setup](https://www.openproject.org/docs/installation-and-operations/configuration/#database-configuration-and-ssl)<br />[Cache configuration](https://www.openproject.org/docs/installation-and-operations/configuration/#cache-configuration-options)<br />[SMTP configuration](https://www.openproject.org/docs/installation-and-operations/configuration/outbound-emails/)<br />[Integrations guide](https://www.openproject.org/docs/system-admin-guide/integrations/) |
+| Email gateways                | Receive emails (e.g., notifications) from OpenProject application | SMTP                                                         | [SMTP configuration](https://www.openproject.org/docs/installation-and-operations/configuration/outbound-emails/) |
+| Identity providers            | External authentication providers (e.g., Keycloak, ADFS, etc.) | HTTPS through standard protocols (OpenID connect, SAML, OAuth 2.0) | [OpenID connect provider configuration](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/)<br />[SAML provider configuration](https://www.openproject.org/docs/system-admin-guide/authentication/saml/)<br />[OAuth 2.0 application configuration](https://www.openproject.org/docs/system-admin-guide/authentication/oauth-applications/) |
+| Nextcloud                     | External biliteral integration                               | HTTPS                                                        | [Nextcloud integration guide](https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/) |
+| GitHub                        | Pull Request / Issue referencing Integration into Openproject | HTTPS (Webhooks)                                             | [GitHub integration guide](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/) |
+| Calendars                     | External calendars requesting dynamic ICS calendar files from OpenProject | HTTPS (iCalendar/webdav)                                     | [Calendar subscriptions configuration](https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#calendar-subscriptions) |
+| API integrations              | Structural access to OpenProject through API endpoints       | HTTPS                                                        | [API configuration](https://www.openproject.org/docs/system-admin-guide/api-and-webhooks/) |
+| Outgoing Webhooks             | Outgoing requests for changes within the application         | HTTPS                                                        | [Webhook configuration an adminstration](https://www.openproject.org/docs/system-admin-guide/api-and-webhooks/#webhooks) |
 
 
 
