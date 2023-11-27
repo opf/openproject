@@ -41,12 +41,13 @@ module CustomFieldsHelper
         path: custom_fields_path(tab: :TimeEntryCustomField),
         label: :label_spent_time
       },
-      {
-        name: 'ProjectCustomField',
-        partial: 'custom_fields/tab',
-        path: custom_fields_path(tab: :ProjectCustomField),
-        label: :label_project_plural
-      },
+      # ProjecCustomFields now managed in a different UI
+      # {
+      #   name: 'ProjectCustomField',
+      #   partial: 'custom_fields/tab',
+      #   path: custom_fields_path(tab: :ProjectCustomField),
+      #   label: :label_project_plural
+      # },
       {
         name: 'VersionCustomField',
         partial: 'custom_fields/tab',

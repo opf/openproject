@@ -27,7 +27,7 @@
 #++
 
 class CustomFieldsController < ApplicationController
-  include CustomFields::SharedActions
+  include CustomFields::SharedActions # share logic with ProjectCustomFieldsControlller
   layout 'admin'
 
   before_action :require_admin
@@ -37,7 +37,10 @@ class CustomFieldsController < ApplicationController
 
   def index
     # loading wp cfs exclicity to allow for eager loading
-    @custom_fields_by_type = CustomField.all.where.not(type: 'WorkPackageCustomField').group_by { |f| f.class.name }
+    @custom_fields_by_type = CustomField.all
+      .where.not(type: 'WorkPackageCustomField')
+      .where.not(type: 'ProjectCustomField') # ProjecCustomFields now managed in a different UI
+      .group_by { |f| f.class.name }
     @custom_fields_by_type['WorkPackageCustomField'] = WorkPackageCustomField.includes(:types).all
 
     @tab = params[:tab] || 'WorkPackageCustomField'
@@ -46,13 +49,12 @@ class CustomFieldsController < ApplicationController
   def new
     @custom_field = new_custom_field
 
-    if @custom_field.nil?
-      flash[:error] = 'Invalid CF type'
-      redirect_to action: :index
-    end
+    check_custom_field
   end
 
-  def edit; end
+  def edit
+    check_custom_field
+  end
 
   protected
 
@@ -72,5 +74,13 @@ class CustomFieldsController < ApplicationController
     @custom_field = CustomField.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def check_custom_field
+    if @custom_field.nil? || @custom_field.type == 'ProjectCustomField'
+      # ProjecCustomFields now managed in a different UI
+      flash[:error] = 'Invalid CF type'
+      redirect_to action: :index
+    end
   end
 end
