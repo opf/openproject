@@ -42,6 +42,7 @@ module Queries::Members
     filter Filters::EntityIdFilter
     filter Filters::EntityTypeFilter
     filter Filters::AlsoProjectMemberFilter
+    filter Filters::OnlyProjectMemberFilter
 
     order Orders::DefaultOrder
     order Orders::NameOrder

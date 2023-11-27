@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,55 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Members
-  class UserFilterComponent < ::UserFilterComponent
-    def initially_visible?
-      false
+class Queries::Members::Filters::OnlyProjectMemberFilter < Queries::Members::Filters::MemberFilter
+  include Queries::Filters::Shared::BooleanFilter
+
+  def where
+    pp({ allowed_values:, values: })
+    if allowed_values.first.intersect?(values)
+      "members.entity_type IS NULL AND members.entity_id IS NULL"
+    else
+      "1=1"
     end
+  end
 
-    def has_close_icon?
-      true
-    end
+  def available_operators
+    [::Queries::Operators::BooleanEquals]
+  end
 
-    ##
-    # Adapts the user filter counts to count members as opposed to users.
-    def extra_user_status_options
-      {
-        all: status_members_query('all').count,
-        blocked: status_members_query('blocked').count,
-        active: status_members_query('active').count,
-        invited: status_members_query('invited').count,
-        registered: status_members_query('registered').count,
-        locked: status_members_query('locked').count
-      }
-    end
-
-    def status_members_query(status)
-      params = {
-        project_id: project.id,
-        status:
-      }
-
-      self.class.filter(params)
-    end
-
-    def filter_path
-      project_members_path(project)
-    end
-
-    class << self
-      def base_query
-        Queries::Members::MemberQuery
-      end
-
-      protected
-
-      def apply_filters(params, query)
-        super(params, query)
-        query.where(:only_project_member, '=', 't')
-
-        query
-      end
-    end
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::BooleanListStrict.new self
   end
 end
