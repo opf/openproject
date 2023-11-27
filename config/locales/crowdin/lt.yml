@@ -3111,7 +3111,7 @@ lt:
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       user_details:
         locked: "Užrakintas naudotojas"
-        invited: "Pakvietimas išsiųstas."
+        invited: "Pakvietimas išsiųstas. "
         resend_invite: "Siųsti iš naujo."
         invite_resent: "Pakvietimas išsiųstas iš naujo"
         not_project_member: "Ne projekto narys"
