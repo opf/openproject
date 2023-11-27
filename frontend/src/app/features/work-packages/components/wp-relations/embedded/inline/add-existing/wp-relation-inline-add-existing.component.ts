@@ -139,9 +139,9 @@ export class WpRelationInlineAddExistingComponent {
 
     filters.forEach((filter) => {
       iApiFilters.push({
-        name: filter.name,
+        name: filter.id,
         operator: filter.operator.id,
-        values: filter.values,
+        values: filter.values.map((f) => (typeof f === 'string' ? f : f.id)),
       });
     });
 
