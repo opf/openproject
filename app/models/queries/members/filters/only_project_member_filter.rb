@@ -30,7 +30,6 @@ class Queries::Members::Filters::OnlyProjectMemberFilter < Queries::Members::Fil
   include Queries::Filters::Shared::BooleanFilter
 
   def where
-    pp({ allowed_values:, values: })
     if allowed_values.first.intersect?(values)
       "members.entity_type IS NULL AND members.entity_id IS NULL"
     else
