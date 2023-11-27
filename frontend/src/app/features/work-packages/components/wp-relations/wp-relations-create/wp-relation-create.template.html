@@ -40,7 +40,8 @@
           (change)="onSelected($event)"
           (cancel)="toggleRelationsCreateForm()"
           [hiddenOverflowContainer]="'.work-packages-tab-view--overflow'"
-          [selectedRelationType]="selectedRelationType">
+          [selectedRelationType]="selectedRelationType"
+          data-test-selector="wp-relations-autocomplete">
         </wp-relations-autocomplete>
       </div>
       <div class="grid-content medium-1 collapse wp-relations-controls-section relation-row">
