@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { ColorsService } from 'core-app/shared/components/colors/colors.service';
+import { ColorsService, colorModes } from 'core-app/shared/components/colors/colors.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { IPrincipal } from 'core-app/core/state/principals/principal.model';
@@ -105,7 +105,7 @@ export class PrincipalRendererService {
     fallback.title = principal.name;
     fallback.textContent = userInitials;
 
-    if (type === 'placeholder_user' && colorMode !== 'light_high_contrast') {
+    if (type === 'placeholder_user' && colorMode !== colorModes.lightHighContrast) {
       fallback.style.color = colorCode;
       fallback.style.borderColor = colorCode;
     } else {
