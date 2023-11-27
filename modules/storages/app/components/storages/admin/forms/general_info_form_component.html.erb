@@ -7,13 +7,12 @@
     ) do |form|
       flex_layout do |general_info_row|
         general_info_row.with_row(mb: 3) do
-          render(
-            Storages::Admin::ProviderTypeSelectForm.new(
-              form,
-              storage:,
-              select_list_options: { caption: provider_type_select_caption, readonly: storage.new_record? }
-            )
-          )
+          concat(render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.label_file_storage") })
+          concat(render(Storages::Admin::ProviderTypeHiddenInputForm.new(form, storage:)))
+        end
+
+        general_info_row.with_row(mb: 3) do
+          render(Primer::Beta::Text.new(test_selector: 'storage-provider-configuration-instructions')) { provider_configuration_instructions }
         end
 
         general_info_row.with_row(mb: 3) do

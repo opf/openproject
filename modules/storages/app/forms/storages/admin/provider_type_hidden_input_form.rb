@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,20 +25,22 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin
-  class NewStorageButtonComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    options scheme: :primary,
-            size: :medium
 
-    def show_button_options
-      { scheme:,
-        size:,
-        aria: { label: I18n.t("storages.label_add_new_storage") } }
+module Storages::Admin
+  class ProviderTypeHiddenInputForm < ApplicationForm
+    form do |storage_form|
+      storage_form.text_field(
+        name: :provider_type,
+        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
+        hidden: true,
+        required: true,
+        value: @storage.provider_type
+      )
     end
 
-    def label
-      I18n.t("storages.label_storage")
+    def initialize(storage:)
+      super()
+      @storage = storage
     end
   end
 end

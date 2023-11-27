@@ -43,6 +43,7 @@ class Storages::Admin::StoragesController < ApplicationController
   before_action :require_admin
   before_action :find_model_object,
                 only: %i[show show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
+  before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -79,7 +80,7 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   def select_provider
-    @object = Storages::Storage.new(permitted_storage_params(:storages_storage))
+    @object = Storages::Storage.new(provider_type: @provider_type)
     service_result = ::Storages::Storages::SetAttributesService
                  .new(user: current_user,
                       model: @object,
@@ -91,11 +92,14 @@ class Storages::Admin::StoragesController < ApplicationController
     service_result.on_failure { render :new }
 
     service_result.on_success do
-      respond_to { |format| format.turbo_stream }
+      respond_to do |format|
+        format.html { render :new }
+        format.turbo_stream
+      end
     end
   end
 
-  def create # rubocop:disable Metrics/AbcSize
+  def create
     service_result = Storages::Storages::CreateService
                       .new(user: current_user)
                       .call(permitted_storage_params)
@@ -202,6 +206,14 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   private
+
+  def ensure_valid_provider_type_selected
+    short_provider_type = params[:provider]
+    if short_provider_type.blank? || (@provider_type = ::Storages::Storage::PROVIDER_TYPE_SHORT_NAMES[short_provider_type]).blank?
+      flash[:error] = I18n.t('storages.error_invalid_provider_type')
+      render :index
+    end
+  end
 
   def oauth_application(service_result)
     service_result.dependent_results&.first&.result
