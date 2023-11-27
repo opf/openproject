@@ -18,6 +18,8 @@ To share a work package with a project non-member select the detailed view of a 
 
 A dialogue window will open, showing the list of all users, who this work package has already been shared with. If the work package has not yet been shared, the list will empty. 
 
+> **Note**: For sharing with non members to be available, a respective role needs to be assigned to the **Non member role**. 
+
 ![List of users with access to a work package in OpenProject](openproject_user_guide_shared_with_list.png)
 
 If the list contains multiple users you can filter it by Type or Role. 
@@ -39,13 +41,12 @@ You can search for a user via a user name or an email address. You can either se
 
 ![search for a new user to share a work package](openproject_user_guide_shared_search.png)
 
-A user with whom you shared the work package will be added to the members of the project with the role **Work Package Viewer** and will be visible in the list of the project members. IS THIS TRUE? THEN WHY ARE THERE NON-PROJECT MEMBER ROLES AVAILABLE AS FILTERS?
+A user with whom you shared the work package will be added to the members of the project with the role **Work Package Viewer** and will be visible in the list of the project members. IS THIS TRUE? THEN WHY ARE THERE NON-PROJECT MEMBER ROLES AVAILABLE AS FILTERS? 
 
-A user with whom you shared the work package will be added to the members of the project with the role **Work Package Viewer** and will be visible in the list of the project members.
+Users with whom you shared the work package will also receive an email notification alerting them that the work package has been shared.
 
 You can always adjust the viewing rights of a user by selecting an option from the dropdown menu next to the user name. 
 
 ![](openproject_user_guide_shared_with_list_change_role.png)
 
-You can also remove the user from the list by clicking on **Remove** next to the user name.
-
+You can also remove the user from the list by clicking on **Remove** next to the user name. Please not that this will not remove a user entirely, but only revoke the viewing and/or editing rights for the work package. User account will remain intact. If you need to [delete a user](../../../system-admin-guide/users-permissions/users/#delete-users), please do that in system administration or contact your administrator.
