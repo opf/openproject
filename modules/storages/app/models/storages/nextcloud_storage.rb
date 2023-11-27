@@ -45,9 +45,14 @@ class Storages::NextcloudStorage < Storages::Storage
                                           timeout_seconds: 0,
                                           transaction: false) do
       where("provider_fields->>'automatically_managed' = 'true'")
+        .order(:created_at)
         .includes(:oauth_client)
         .each do |storage|
         Storages::GroupFolderPropertiesSyncService.new(storage).call
+      rescue StandardError => e
+        OpenProject.logger.error(
+          "Unexpected error during NextcloudStorage ##{storage.id} #{storage.host}: #{e.message}"
+        )
       end
       true
     end
