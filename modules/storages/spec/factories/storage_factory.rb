@@ -54,6 +54,7 @@ FactoryBot.define do
           class: '::Storages::NextcloudStorage' do
     provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
     sequence(:host) { |n| "https://host#{n}.example.com" }
+    sequence(:name) { |n| "Storage #{n}" }
 
     trait :as_automatically_managed do
       automatically_managed { true }
@@ -63,6 +64,30 @@ FactoryBot.define do
 
     trait :as_not_automatically_managed do
       automatically_managed { false }
+    end
+
+    trait :as_healthy do
+      health_status { 'healthy' }
+      health_reason { nil }
+      health_changed_at { Time.now.utc }
+    end
+
+    trait :as_unhealthy do
+      health_status { 'unhealthy' }
+      health_reason { 'error reason' }
+      health_changed_at { Time.now.utc }
+    end
+
+    trait :as_unhealthy_long_reason do
+      health_status { 'unhealthy' }
+      health_reason { 'unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>' }
+      health_changed_at { Time.now.utc }
+    end
+
+    trait :as_pending do
+      health_status { 'pending' }
+      health_reason { nil }
+      health_changed_at { Time.now.utc }
     end
   end
 
@@ -103,6 +128,18 @@ FactoryBot.define do
                                       'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN'),
              token_type: 'bearer',
              origin_user_id: 'admin')
+    end
+  end
+
+  factory :nextcloud_storage_with_complete_configuration,
+          parent: :nextcloud_storage,
+          traits: [:as_automatically_managed] do
+    sequence(:host) { |n| "https://host-complete#{n}.example.com" }
+    sequence(:name) { |n| "Storage complete #{n}" }
+
+    after(:create) do |storage|
+      create(:oauth_client, integration: storage)
+      create(:oauth_application, integration: storage)
     end
   end
 
