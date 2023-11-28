@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2021 Ben Tey
+# Copyright (C) 2023 Ben Tey
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,9 @@ sl:
     gitlab_integration:
       work_packages:
         tab_name: "GitLab"
-      tab_header:
+      tab_header_issue:
+        title: "Issues"
+      tab_header_mr:
         title: "Merge requests"
         create_mr:
           label: Create MR
@@ -46,6 +48,9 @@ sl:
           title: Quick snippets for Git
           copy_success: ✅ Copied!
           copy_error: ❌ Copy failed!
+      tab_issue:
+        empty: There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.
       tab_mrs:
-        empty: There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> in the MR title/description or create a new MR.
-      gitlab_actions: Actions
+        empty: There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.
+      gitlab_pipelines: Pipelines
+      updated_on: Updated on

@@ -2,7 +2,7 @@
 #
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2021 Ben Tey
+# Copyright (C) 2023 Ben Tey
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "openproject-gitlab_integration"
-  s.version     = '2.0.6'
+  s.version     = '2.1'
   s.authors     = "Ben Tey"
   s.email       = "ben.tey@outlook.com"
   s.homepage    = "https://github.com/btey/openproject-gitlab-integration"

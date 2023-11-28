@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2021 Ben Tey
+// Copyright (C) 2023 Ben Tey
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -73,7 +73,7 @@ export class GitActionsService {
 
   public commitMessage(workPackage:WorkPackageResource):string {
     const { title, id, description, url } = this.formattingInput(workPackage);
-    return `[#${id}] ${title}
+    return `OP#${id} ${title}
 
 ${description}
 

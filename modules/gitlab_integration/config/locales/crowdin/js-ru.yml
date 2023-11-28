@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2021 Ben Tey
+# Copyright (C) 2023 Ben Tey
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,22 +30,27 @@ ru:
   js:
     gitlab_integration:
       work_packages:
-        tab_name: "GitLab"
-      tab_header:
-        title: "Merge requests"
+        tab_name: GitLab
+      tab_header_issue:
+        title: Обсуждения
+      tab_header_mr:
+        title: Запросы на слияние
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Создать запрос на слияние
+          description: Создать запрос на слияние
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git-сниппеты
+          description: Скопипастить Git-сниппеты
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: ✅ Copied!
-          copy_error: ❌ Copy failed!
+          branch_name: Имя ветки
+          commit_message: Описание коммита
+          cmd: Создать ветку с пустым коммитом
+          title: Быстрые сниппеты для Git
+          copy_success: ✅ Скопировано
+          copy_error: ❌ Не получилось скопировать
+      tab_issue:
+        empty: Нет связанных обсуждений. Привязать обсуждение можно путём вставки кода <code>OP#%{wp_id}</code> (или <code>PP#%{wp_id}</code> для приватных ссылок) в заголовке/описании при создании/редактировании обсуждения.
       tab_mrs:
-        empty: There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> in the MR title/description or create a new MR.
-      gitlab_actions: Actions
+        empty: Нет связанных запросов на слияние. Привязать запрос на слияние можно путём вставки кода <code>OP#%{wp_id}</code> (или <code>PP#%{wp_id}</code> для приватных ссылок) в заголовке/описании при создании/редактировании запроса на слияние. ОБЯЗАТЕЛЬНО заполните описание!
+      gitlab_pipelines: Сборочные линии (pipelines)
+      updated_on: Обновлено
