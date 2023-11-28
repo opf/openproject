@@ -285,7 +285,11 @@ zh-CN:
       no_results_title_text: 目前没有消息报告。
       no_results_content_text: 添加新闻项
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{os_name} 上的 %{browser_name} %{browser_version}"
       browser: "浏览器"
       device: "设备 / 操作系统"
@@ -382,6 +386,11 @@ zh-CN:
     move:
       no_common_statuses_exists: "所有选中的工作包都没有可用的状态，因此无法更改其状态。"
       unsupported_for_multiple_projects: "不支持多个项目工作包的大批量移动/复制"
+    sharing:
+      missing_workflow_waring:
+        title: "工作包共享缺少工作流"
+        message: "没有为“工作包编辑器”角色配置的工作流。没有工作流，共享工作包的状态无法改变。"
+        link_message: "在管理中配置一个工作流。"
     summary:
       reports:
         category:
@@ -464,7 +473,7 @@ zh-CN:
       custom_action:
         actions: "操作"
       custom_field:
-        allow_non_open_versions: "Allow non-open versions"
+        allow_non_open_versions: "允许非打开版本"
         default_value: "默认值"
         editable: "可编辑"
         field_format: "格式"
@@ -481,7 +490,6 @@ zh-CN:
         value: "值"
       enterprise_token:
         starts_at: "生效时间"
-        expires_at: "到期时间"
         subscriber: "订阅者"
         encoded_token: "企业版支持令牌"
         active_user_count_restriction: "最大活动用户数"
@@ -556,6 +564,7 @@ zh-CN:
       user:
         admin: "管理员"
         ldap_auth_source: "LDAP 连接"
+        identity_url: "身份网址"
         current_password: "当前密码："
         force_password_change: "下次登录时强制更改密码"
         language: "语言"
@@ -594,6 +603,7 @@ zh-CN:
           title: "工作日"
           false: "仅工作日"
           true: "包括非工作日"
+        notify: "通知" #used in custom actions
         parent: "父级"
         parent_issue: "父级"
         parent_work_package: "父级"
@@ -633,6 +643,7 @@ zh-CN:
         error_enterprise_only: "%{action}仅在 OpenProject 企业版中可用"
         error_unauthorized: "无法访问。"
         error_readonly: "曾尝试被写入，但不可写。"
+        error_conflict: "在此期间，至少有一位其他用户更新了信息。"
         email: "不是一个有效的电子邮件地址。"
         empty: "不能为空。"
         even: "必须是偶数。"
@@ -1009,6 +1020,7 @@ zh-CN:
     due_date: "完成日期"
     estimated_hours: "估算工时"
     estimated_time: "估算工时"
+    expires_at: "Expires at"
     firstname: "名字"
     group: "组"
     groups: "组"
@@ -1704,6 +1716,7 @@ zh-CN:
   label_enterprise_active_users: "%{current}/%{limit} 已预订的活跃用户"
   label_enterprise_edition: "企业版"
   label_enterprise_support: "企业支持"
+  label_enterprise_addon: "企业版附加组件"
   label_environment: "环境"
   label_estimates_and_time: "估算与工时"
   label_equals: "是"
@@ -1986,7 +1999,6 @@ zh-CN:
   label_start_to_start: "开始开始"
   label_statistics: "统计数据"
   label_status: "状态"
-  label_stay_logged_in: "保持登录状态"
   label_storage_free_space: "剩余磁盘空间"
   label_storage_used_space: "已用磁盘空间"
   label_storage_group: "存储文件系统 %{identifier}"
@@ -2146,7 +2158,7 @@ zh-CN:
       see_in_center: '在通知中心查看评论'
       settings: '更改电子邮件设置'
     salutation: '%{user}，您好！'
-    salutation_full_name: 'Full name'
+    salutation_full_name: '全名'
     work_packages:
       created_at: "由 %{user} 于 %{timestamp} 创建"
       login_to_see_all: "登录以查看所有通知。"
@@ -2173,6 +2185,7 @@ zh-CN:
         create_account: "要访问此工作包，您需要创建一个 %{instance} 帐户。"
         open_work_package: "打开工作包"
         subject: "工作包 %{id} 已被共享给你"
+        enterprise_text: "与非此项目成员的用户共享工作包。"
         summary:
           user: "%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包"
           group: "%{user} 向您所属的 %{group} 组共享了一个工作包。"
@@ -2423,7 +2436,7 @@ zh-CN:
   permission_view_project_activity: "查看项目活动"
   permission_save_bcf_queries: "保存 BCF 查询"
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_edit_attribute_help_texts: "编辑属性帮助文本"
   placeholders:
     default: "-"
   project:
@@ -2588,7 +2601,7 @@ zh-CN:
     如果启用了文档页面，您可以在此 <a href="%{link}" target="_blank">%{link}</a> 获得 API v3 文档的交互式视图。
   setting_attachment_whitelist: "附件上传白名单"
   setting_email_delivery_method: "电子邮件发送方法"
-  setting_emails_salutation: "Address user in emails with"
+  setting_emails_salutation: "电子邮件中的用户地址"
   setting_sendmail_location: "Sendmail 的执行位置"
   setting_smtp_enable_starttls_auto: "如果可用，自动使用 STARTTLS"
   setting_smtp_ssl: "使用 SSL 连接"
@@ -2866,7 +2879,8 @@ zh-CN:
   text_setup_mail_configuration: "配置您的电子邮件提供商"
   help_texts:
     views:
-      project: "%{plural}始终附加到项目。创建%{singular}后，您可以将其他项目的工作包添加到其中。"
+      project: >
+        %{plural}始终与项目关联。您只能在此处选择已激活 %{plural} 模块的项目。创建了 %{singular} 后，您可以将其他项目的工作包添加到其中。
       public: "发布此视图，以允许其他用户访问您的视图。具有“管理公开视图”权限的用户可以修改或移除公开查询。这不会影响工作包结果在该视图中的可见性，并且根据用户拥有的权限，他们可能会看到不同的结果。"
       favoured: "将此视图标记为收藏项，并添加到左侧的已保存视图边栏中。"
   time:
@@ -2903,6 +2917,7 @@ zh-CN:
     activate: "激活"
     activate_and_reset_failed_logins: "激活和重置失败的帐户"
     authentication_provider: "身份认证提供程序"
+    identity_url_text: "身份验证提供商提供的内部唯一标识符。"
     authentication_settings_disabled_due_to_external_authentication: >
       该用户通过外部身份验证提供程序进行身份验证，因此在 OpenProject 中没有密码可供更改。
     authorization_rejected: "你不允许登录。"
@@ -2938,7 +2953,9 @@ zh-CN:
   warning_registration_token_expired: |
     激活邮件已过期，我们给您发送了一封新邮件到%{email}。请单击内部的链接以激活您的帐户。
   warning_user_limit_reached: >
-    达到用户限制。 您无法再激活任何用户。 请<a href="%{upgrade_url}">升级您的计划</a>或阻止会员以允许其他用户。
+    添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此实例。
+  warning_user_limit_reached_admin: >
+    添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此实例。
   warning_user_limit_reached_instructions: >
     您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
   warning_protocol_mismatch_html: >
@@ -2971,7 +2988,13 @@ zh-CN:
         zero: "0 个用户"
         one: "1 个用户"
         other: "%{count} 个用户"
-      share: "分享"
+      filter:
+        project_member: '项目成员'
+        not_project_member: '不是项目成员'
+        project_group: '项目组'
+        not_project_group: '不是项目组'
+        role: '角色'
+        type: '类型'
       label_search: "搜索要邀请的用户"
       label_search_placeholder: "按用户名或电子邮件地址搜索"
       label_toggle_all: "切换所有共享"
@@ -2984,8 +3007,26 @@ zh-CN:
         view: "查看"
         view_description: "可以查看此工作包。"
       remove: "移除"
+      share: "分享"
       text_empty_state_description: "工作包尚未共享给任何人。"
       text_empty_state_header: "没有共享的用户"
+      text_user_limit_reached: "添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。"
+      text_user_limit_reached_admins: '添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>以添加更多用户。'
+      warning_user_limit_reached: >
+        添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。
+      warning_user_limit_reached_admin: >
+        添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此工作包。
+      user_details:
+        locked: "锁定的用户"
+        invited: "邀请已发送。 "
+        resend_invite: "重新发送。"
+        invite_resent: "邀请已重新发送"
+        not_project_member: "不是项目成员"
+        project_group: "组成员可能具有额外的权限（作为项目成员）"
+        not_project_group: "组 (与所有成员共享)"
+        additional_privileges_project: "可能有额外的权限(作为项目成员)"
+        additional_privileges_group: "可能有额外的权限(作为群组成员)"
+        additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
   working_days:
     info: >
       当安排工作包时，未选择的日期将被跳过（不计入天数）。这些日期可以在工作包级别进行覆盖。
@@ -3196,6 +3237,7 @@ zh-CN:
     response:
       unexpected: "收到意外响应。"
   you: 您
+  link: 链接
   plugin_openproject_auth_plugins:
     name: "OpenProject 认证插件"
     description: "在 OpenProject 中集成 OmniAuth 策略提供程序以进行身份验证。"

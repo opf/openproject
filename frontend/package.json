@@ -12,8 +12,6 @@
     "@angular-eslint/schematics": "16.1.0",
     "@angular-eslint/template-parser": "^16.1.0",
     "@angular/language-service": "16.2.0",
-    "@babel/core": "^7.18.5",
-    "@compodoc/compodoc": "^1.1.21",
     "@html-eslint/eslint-plugin": "^0.15.0",
     "@html-eslint/parser": "^0.15.0",
     "@jsdevtools/coverage-istanbul-loader": "3.0.5",
@@ -33,9 +31,7 @@
     "@types/webpack-env": "^1.16.0",
     "@typescript-eslint/eslint-plugin": "5.48.0",
     "@typescript-eslint/parser": "5.48.0",
-    "babel-loader": "^8.2.5",
     "browserslist": "^4.8.7",
-    "css-loader": "^6.7.1",
     "eslint": "^8.34.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
@@ -55,13 +51,9 @@
     "karma-jasmine": "~3.3.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "karma-spec-reporter": "^0.0.32",
-    "raw-loader": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.52.3",
-    "sass-loader": "^13.0.0",
     "source-map-explorer": "^2.5.2",
-    "style-loader": "^3.3.1",
     "theo": "^8.1.5",
     "ts-node": "~8.3.0",
     "typescript": "4.9",
@@ -104,8 +96,8 @@
     "@ng-select/ng-select": "^11.0.0",
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
-    "@openproject/octicons-angular": "^19.7.0",
-    "@openproject/primer-view-components": "^0.13.1",
+    "@openproject/octicons-angular": "^19.8.0",
+    "@openproject/primer-view-components": "^0.17.1",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.0.2",
     "@uirouter/angular": "^12.0.0",
@@ -183,6 +175,6 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.13.1"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.17.1"
   }
 }

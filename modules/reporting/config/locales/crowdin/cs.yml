@@ -47,6 +47,7 @@ cs:
   label_is_project_with_subprojects: "je (včetně podprojektů)"
   label_work_package_attributes: "Atributy pracovního balíčku"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Hotovostní hodnota"
   label_month_reporting: "Měsíc (stráveno)"
   label_new_report: "Nový výkaz nákladů"

@@ -40,7 +40,7 @@ module Projects::Scopes
 
       def allowed_scope
         where(id: allowed_to(User.current, :view_time_entries).select(:id))
-          .or(where(id: Project.allowed_to(User.current, :view_own_time_entries).select(:id)))
+          .or(where(id: WorkPackage.allowed_to(User.current, :view_own_time_entries).select(:project_id)))
       end
     end
   end

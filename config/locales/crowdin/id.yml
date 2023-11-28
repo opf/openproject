@@ -282,7 +282,11 @@ id:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} di %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -379,6 +383,11 @@ id:
     move:
       no_common_statuses_exists: "Tidak ada status yang tersedia untuk semua paket pekerjaan yang dipilih. Status mereka tidak dapat diubah."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -478,7 +487,6 @@ id:
         value: "Nilai"
       enterprise_token:
         starts_at: "Valid sejak"
-        expires_at: "Berakhir masa berlaku pada"
         subscriber: "Pelanggan"
         encoded_token: "Token pendukung perusahaan"
         active_user_count_restriction: "Pengguna aktif maksimum"
@@ -553,6 +561,7 @@ id:
       user:
         admin: "Administrator"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Current password"
         force_password_change: "Ubah password saat pertama Login"
         language: "Bahasa"
@@ -591,6 +600,7 @@ id:
           title: "Hari kerja"
           false: "hari kerja saja"
           true: "termasuk hari tidak bekerja"
+        notify: "Notify" #used in custom actions
         parent: "Induk"
         parent_issue: "Induk"
         parent_work_package: "Induk"
@@ -630,6 +640,7 @@ id:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "mungkin tidak dapat diakses."
         error_readonly: "Mencoba untuk ditulis tetapi tidak dapat ditulis."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "bukan alamat email yang valid."
         empty: "harus di isi."
         even: "harus imbang."
@@ -1006,6 +1017,7 @@ id:
     due_date: "Tanggal selesai"
     estimated_hours: "Estimasi Waktu"
     estimated_time: "Estimasi Waktu"
+    expires_at: "Expires at"
     firstname: "Nama depan"
     group: "Grup"
     groups: "Grup"
@@ -1701,6 +1713,7 @@ id:
   label_enterprise_active_users: "%{current}/%{limit} pengguna aktif yang dipesan"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Dukungan perusahaan"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Environment"
   label_estimates_and_time: "Perkiraan dan waktu"
   label_equals: "adalah"
@@ -1983,7 +1996,6 @@ id:
   label_start_to_start: "start untuk memulai"
   label_statistics: "Statistik"
   label_status: "Status"
-  label_stay_logged_in: "Tetap login"
   label_storage_free_space: "Sisa space di disk"
   label_storage_used_space: "Space disk terpakai"
   label_storage_group: "Storage filesystem %{identifier}"
@@ -2170,6 +2182,7 @@ id:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2865,7 +2878,8 @@ id:
   text_setup_mail_configuration: "Configure your email provider"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
@@ -2902,6 +2916,7 @@ id:
     activate: "Aktifkan"
     activate_and_reset_failed_logins: "Aktifkan dan reset gagal login"
     authentication_provider: "Otentikasi provider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       User ini mengotentikasi secara eksternal, sehingga tidak ada penggantian password dalam sistem ini.
     authorization_rejected: "Anda tidak diijinkan untuk login."
@@ -2938,7 +2953,9 @@ id:
     Email aktivasi telah kedaluwarsa. Kami mengirimkan Anda yang baru ke %{email}.
     Silakan klik tautan di dalamnya untuk mengaktifkan akun Anda.
   warning_user_limit_reached: >
-    Batas pengguna tercapai. Anda tidak dapat mengaktifkan pengguna lagi. Harap <a href="%{upgrade_url}">tingkatkan versi paket Anda</a> atau blokir anggota untuk mengizinkan pengguna tambahan.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
@@ -2971,7 +2988,13 @@ id:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -2984,8 +3007,26 @@ id:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Hari yang tidak dipilih akan dilewati saat menjadwalkan paket pekerjaan (dan tidak termasuk dalam hitungan hari). Ini dapat diganti pada tingkat paket kerja.
@@ -3196,6 +3237,7 @@ id:
     response:
       unexpected: "Tanggapan tak terduga diterima."
   you: anda
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

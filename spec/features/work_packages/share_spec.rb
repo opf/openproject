@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package sharing',
-               :js,
-               :with_cuprite,
+               :js, :with_cuprite,
+               with_ee: %i[work_package_sharing],
                with_flag: { work_package_sharing: true } do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
@@ -322,6 +322,13 @@ RSpec.describe 'Work package sharing',
       share_modal.invite_user(new_user, 'Edit')
       share_modal.expect_shared_with(new_user, 'Edit', position: 1)
       share_modal.expect_shared_count_of(7)
+
+      # The invite can be resent
+      share_modal.resend_invite(new_user)
+      share_modal.expect_invite_resent(new_user)
+      perform_enqueued_jobs
+      # Another invitation email sent out to the user
+      expect(ActionMailer::Base.deliveries.size).to eq(2)
 
       # The new user can be deleted
       share_modal.remove_user(new_user)

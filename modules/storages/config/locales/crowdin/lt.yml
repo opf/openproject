@@ -27,6 +27,7 @@ lt:
         creator: "Kūrėjas"
         provider_type: "Tiekėjo tipas"
         host: "Serveris"
+        tenant: "Gyventojas"
       storages/file_link:
         origin_id: "Kilmės Id"
     errors:
@@ -79,6 +80,7 @@ lt:
       project_folders: "Projekto aplankai"
       storage_provider: "Saugyklos tiekėjas"
       openproject_oauth: "OpenProject OAuth"
+      one_drive_oauth: "Azure OAuth"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatiškai valdomi aplankai"
     page_titles:
@@ -99,7 +101,6 @@ lt:
         title: "Narių jungties būsena"
         subtitle: "Patikrinkite saugyklos %{storage_name_link} jungties būseną visiems projekto nariams."
     instructions:
-      provider_type: "Prašome prieš vykdant nustatymus įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje ir aplikacija %{type_link_text} yra įdiegta."
       type: "Prašome įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje bei kad įdiegtos šios aplikacijos, prieš tęsiant nustatymą:"
       type_link_text: "„Integration OpenProject“"
       name: "Suteikite jūsų saugyklai pavadinimą, kad naudotojai galėtų atskirti tarp skirtingų saugyklų."
@@ -107,6 +108,8 @@ lt:
       managed_project_folders_application_password: >
         Kopijuoti šią reikšmę iš
       managed_project_folders_application_password_caption: "Įjunkite automatiškai valdomus aplankus nukopijuodami šią reikšmę iš: %{provider_type_link}"
+      new_storage: "Daugiau informacijos apie šį nustatymą rasite perskaitę mūsų %{new_storage_link_text}."
+      new_storage_link_text: "failų saugyklos dokumentacija"
       no_storage_set_up: "Dar nėra nustatyta nei viena failų saugykla."
       no_specific_folder: "Pagal nutylėjimą visi naudotojai įkeldami naujus failus pradės savo namų aplanke."
       automatic_folder: "Tai automatiškai sukurs šakninį aplanką šiam projektui ir tvarkys prieigos teises kiekvienam projekto nariui."
@@ -123,24 +126,32 @@ lt:
       oauth_application_details_link_text: "Nextcloud OpenProject integracijos nustatymai"
       copy_from: "Kopijuoti reikšmę iš"
       nextcloud:
+        provider_configuration: "Prašome prieš vykdant nustatymus įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje ir %{application_link_text} yra įdiegta."
+        oauth_configuration: "Kopijuoti šias reikšmes iš %{application_link_text}."
+        application_link_text: "aplikacija „Integration OpenProject“"
         integration: "Nextclout Administravimas / OpenProject"
       one_drive:
+        provider_configuration: "Prašome prieš vykdant nustatymus įsitikinti, kad jūs turite %{application_link_text} administratoriaus teises."
+        oauth_configuration: "Nukopijuokite šias reikšmes iš %{application_link_text}. Tada nukopijuokite peradresavimo URI atgal į %{application_link_text}."
+        application_link_text: "Azure aplikacija"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Kopijuoti kliento id iš Azure portalo. Tai reikalinga nukreipimo URI generavimui.
         oauth_client_secret: >
           Kopijuokite kliento paslaptį iš Azure portalo. Naujai sukurtai aplikacijai paslaptį visų pirma reikia sukurti rankomis. Žiniatinklio aplikacijos autorizacijai paslaptis yra privaloma.
-        missing_client_id_for_redirect_uri: "Trūksta kliento ID, kad būtų teikiamas nukreipimo URI."
-        tenant_id: >
-          Prašome įterpti tiekėjo ID, kurį jūs gavote iš jūsų SharePoint administratoriaus.
-        drive_id: >
-          Disko ID galima gauti iš jūsų SharePoint administratoriaus.
+        missing_client_id_for_redirect_uri: "Prašome užpildyti OAuth reikšmes, kad sugeneruotumėte URI"
+        tenant_id: "Prašome nukopijuoti klientą iš jūsų Azure aplikacijos."
+        tenant_id_placeholder: "Vardas ar UUID"
+        drive_id: "Prašome nukopijuoti disko ID iš jūsų Azure aplikacijos."
+        drive_id_placeholder: "UUID ar trigubas ID"
     help_texts:
       project_folder: >
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
     configuration_checks:
       incomplete: "Šios saugyklos nustatymai nepilni"
-      oauth_client_incomplete: "Suteikti OpenProject prieigą prie %{provider} duomenų naudojant OAuth."
+      oauth_client_incomplete:
+        nextcloud: "Leisti OpenProject prieigą prie Nextcloud duomenų naudojant OAuth."
+        one_drive: "Leisti OpenProject prieigą prie Azure duomenų naudojant OAuth prisijungimui prie OneDrive/Sharepoint."
     delete_warning:
       storage: >
         Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.
@@ -161,8 +172,9 @@ lt:
     label_provider: "Tiekėjas"
     label_file_link: "Failo nuoroda"
     label_file_links: "Failo nuorodos"
+    label_file_storage: "Failų saugykla"
     label_creation_time: "Sukūrimo laikas"
-    label_connected: "Prisijungta"
+    label_completed: "Baigta"
     label_incomplete: "Nebaigtas"
     label_name: "Pavadinimas"
     label_host: "Stoties URL"
@@ -183,7 +195,9 @@ lt:
     label_information: "Papildoma informacija"
     label_provider_type: "Tiekėjo tipas"
     label_project_folder: "Projekto aplankas"
+    label_redirect_uri: "Peradresavimo URI"
     label_new_storage: "Nauja saugykla"
+    label_new_file_storage: "Nauja failų saugykla"
     label_edit_storage: "Keisti saugyklą"
     label_edit_storage_host: "Keisti saugyklos adresą"
     label_edit_storage_oauth_client: "Keisti saugyklos OAuth klientą"
@@ -192,6 +206,7 @@ lt:
     label_no_specific_folder: "Jokio konkretaus aplanko"
     label_automatic_folder: "Naujas aplankas su automatiškai valdomomis teisėmis"
     label_no_selected_folder: "Nėra prinkto aplanko"
+    label_select_provider: "Parinkite tiekėją"
     label_storage: "Saugykla"
     label_storages: "Saugyklos"
     label_status: "Būsena"
@@ -199,7 +214,7 @@ lt:
     member_connection_status:
       connected: "Prisijungta"
       connected_no_permissions: "Naudotojo vaidmuo neturi saugyklos teisių"
-      not_connected: "Neprisijungta. Naudotojas turėtų prisijungti prie saugyklos per darbo paketo kortelę %{files_label}, kad prisijungtų."
+      not_connected: "Neprisijungta. Naudotojas turi prisijungti prie saugyklos per šį %{link}."
     no_results: "Dar nenustatyta jokia saugykla."
     members_no_results: "Nėra narių rodymui."
     provider_types:
@@ -215,3 +230,4 @@ lt:
     oauth_client_details_missing: "Norėdami baigti nustatymą, prašome pridėti OAuth kliento prisijungimo duomenis iš jūsų saugyklos."
     automatically_managed_project_folder_missing: "Kad užbaigtumėte nustatymą, prašome jūsų saugykloje sukonfigūruoti automatiškai valdumus projekto aplankus."
     notice_oauth_application_replaced: "OpenProject OAuth aplikacija buvo sėkmingai pakeista."
+    notice_successful_storage_connection: "Saugykla sėkmingai prijungta! Nepamirškite aktyvuoti modulį ir konkrečią saugyklą visų projektų, kuriuose norite ją naudoti, nustatymuose."

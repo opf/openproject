@@ -286,7 +286,11 @@ ja:
       no_results_title_text: 現在、報告するニュースはありません。
       no_results_content_text: ニュース項目を追加
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "デバイス / OS"
@@ -382,6 +386,11 @@ ja:
     move:
       no_common_statuses_exists: "選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。"
       unsupported_for_multiple_projects: "複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -481,7 +490,6 @@ ja:
         value: "値"
       enterprise_token:
         starts_at: "有効期間開始"
-        expires_at: "有効期限"
         subscriber: "購入者"
         encoded_token: "エンタープライズ サポート トークン"
         active_user_count_restriction: "アクティブなユーザーの最大数"
@@ -556,6 +564,7 @@ ja:
       user:
         admin: "管理者"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "現在のパスワード"
         force_password_change: "次回ログイン時にパスワード変更を強制する"
         language: "言語"
@@ -594,6 +603,7 @@ ja:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "親項目"
         parent_issue: "親項目"
         parent_work_package: "親項目"
@@ -633,6 +643,7 @@ ja:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "is not a valid email address."
         empty: "は空にすることができません。"
         even: "は偶数にしてください。"
@@ -1009,6 +1020,7 @@ ja:
     due_date: "終了日"
     estimated_hours: "予定工数"
     estimated_time: "予定工数"
+    expires_at: "Expires at"
     firstname: "名前"
     group: "グループ"
     groups: "グループ"
@@ -1704,6 +1716,7 @@ ja:
   label_enterprise_active_users: "%{current}/%{limit} 予約済みのアクティブユーザー"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise support"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "環境"
   label_estimates_and_time: "見積もりと 時間"
   label_equals: "等しい"
@@ -1986,7 +1999,6 @@ ja:
   label_start_to_start: "最初～最初"
   label_statistics: "統計情報"
   label_status: "ステータス"
-  label_stay_logged_in: "ログインを維持"
   label_storage_free_space: "残りのディスク容量"
   label_storage_used_space: "使用ディスク容量"
   label_storage_group: "ストレージのファイルシステム %{identifier}"
@@ -2173,6 +2185,7 @@ ja:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2872,7 +2885,8 @@ ja:
   text_setup_mail_configuration: "メール プロバイダーを構成"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
@@ -2909,6 +2923,7 @@ ja:
     activate: "有効にする"
     activate_and_reset_failed_logins: "有効にして、ログリン失敗回数をリセットする"
     authentication_provider: "認証プロバイダー"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       外部認証プロバイダー経由でこのユーザを認証しますので、OpenProjectではパスワードの変更ができません。
     authorization_rejected: "ログインすることはできません。"
@@ -2944,7 +2959,9 @@ ja:
   warning_registration_token_expired: |
     アクティベーションメールの有効期限が切れています。%{email} に新しいメールを送りました。メール内のリンクをクリックして、アカウントを有効にしてください。
   warning_user_limit_reached: >
-    ユーザー制限に達しました。 これ以上ユーザーをアクティブにすることはできません。 追加のユーザーが参加できるように<a href="%{upgrade_url}">プランをアップグレード</a>するか、メンバーをブロックしてください。
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
@@ -2977,7 +2994,13 @@ ja:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -2990,8 +3013,26 @@ ja:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
@@ -3202,6 +3243,7 @@ ja:
     response:
       unexpected: "Unexpected response received."
   you: あなた
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

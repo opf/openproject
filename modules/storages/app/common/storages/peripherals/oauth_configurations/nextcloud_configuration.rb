@@ -41,7 +41,7 @@ module Storages
         end
 
         def authorization_state_check(token)
-          util = StorageInteraction::Nextcloud::Util
+          util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
           authorization_check_wrapper do
             Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|

@@ -42,7 +42,7 @@ zh-CN:
       meeting_agenda_items:
         title: "标题"
         author: "责任人"
-        duration_in_minutes: "持续时间（分钟）"
+        duration_in_minutes: "时长(分钟)"
         description: "备注"
     errors:
       messages:
@@ -93,20 +93,21 @@ zh-CN:
   label_start_date: "开始日期"
   meeting:
     email:
-      open_meeting_link: "Open meeting"
+      open_meeting_link: "打开会议"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+        summary: "%{actor} 已经向您发送了一个 %{title} 会议邀请"
       rescheduled:
-        summary: "Meeting %{title} has been rescheduled by %{actor}"
-        body: "The meeting %{title} has been rescheduled by %{actor}."
-        old_date_time: "Old date/time"
-        new_date_time: "New date/time"
-    label_mail_all_participants: "Send email to all participants"
+        summary: "会议 %{title} 已经被 %{actor} 重新安排"
+        body: "此会议 %{title} 已经被 %{actor} 重新安排。"
+        old_date_time: "旧日期/时间"
+        new_date_time: "新日期/时间"
+    label_mail_all_participants: "发送电子邮件给所有参与者"
     types:
       classic: '经典'
       classic_text: '以格式化文本议程和协议组织您的会议。'
       structured: '动态'
       structured_text: '将您的会议组织成一个议程项目列表，并可选择地将它们与一个工作包连接起来。'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "从会议 #%{id} 复制"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。
@@ -148,6 +149,7 @@ zh-CN:
   label_agenda_item_move_to_bottom: "移至底部"
   label_agenda_item_move_up: "向上移动"
   label_agenda_item_move_down: "向下移动"
+  label_agenda_item_add_notes: "添加备注"
   label_meeting_details: "会议详情"
   label_meeting_details_edit: "编辑会议详情"
   label_meeting_state_open: "开放"
@@ -167,6 +169,7 @@ zh-CN:
   label_meeting_selection_caption: "只能将此工作包添加到即将举行的公开会议。"
   text_add_work_package_to_meeting_description: "一个工作包可以添加到一个或多个会议供讨论。与此相关的任何说明也可在这里看到。"
   text_agenda_item_no_notes: "未提供备注"
+  text_agenda_item_not_editable_anymore: "此议程项目已不可编辑。"
   text_work_package_has_no_upcoming_meeting_agenda_items: "该工作包尚未被安排到即将举行的会议议程中。"
   text_work_package_add_to_meeting_hint: "使用\"添加到会议\"按钮将此工作包添加到即将举行的会议。"
   text_work_package_has_no_past_meeting_agenda_items: "在过往会议中没有提及过该工作包。"

@@ -42,7 +42,7 @@ el:
       meeting_agenda_items:
         title: "Title"
         author: "Responsible"
-        duration_in_minutes: "Duration in minutes"
+        duration_in_minutes: "Duration (min)"
         description: "Notes"
     errors:
       messages:
@@ -107,6 +107,7 @@ el:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Αντιγράφηκε από τη Συνάντηση #%{id}"
   notice_successful_notification: "Η ειδοποίηση απεστάλη επιτυχώς"
   notice_timezone_missing: Δεν έχει οριστεί ζώνη ώρας και θεωρήθηκε η %{zone}. Για να επιλέξετε την ζώνη ώρας σας, παρακαλούμε κάντε κλικ εδώ.
@@ -148,6 +149,7 @@ el:
   label_agenda_item_move_to_bottom: "Move to bottom"
   label_agenda_item_move_up: "Move up"
   label_agenda_item_move_down: "Move down"
+  label_agenda_item_add_notes: "Add notes"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state_open: "Open"
@@ -167,6 +169,7 @@ el:
   label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
   text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
   text_agenda_item_no_notes: "No notes provided"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
   text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
   text_work_package_add_to_meeting_hint: "Use the \"Add to meeting\" button to add this work package to an upcoming meeting."
   text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

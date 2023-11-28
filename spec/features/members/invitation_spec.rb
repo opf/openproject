@@ -70,6 +70,32 @@ RSpec.describe 'invite user via email', js: true do
       members_page.visit!
       expect(members_page).to have_user 'finkelstein @openproject.com'
     end
+
+    context 'with an instance with a user limit (regression)' do
+      before do
+        allow(OpenProject::Enterprise).to receive_messages(
+          user_limit: 10,
+          open_seats_count: 1
+        )
+      end
+
+      it 'shows a warning when the limit is reached' do
+        members_page.visit!
+        click_button 'Add member'
+
+        members_page.search_and_select_principal! 'finkelstein@openproject.com',
+                                                  'Send invite to finkelstein@openproject.com'
+
+        expect(members_page).not_to have_text sanitize_string(I18n.t(:warning_user_limit_reached)),
+                                              normalize_ws: true
+
+        members_page.search_and_select_principal! 'frankenstein@openproject.com',
+                                                  'Send invite to frankenstein@openproject.com'
+
+        expect(members_page).to have_text sanitize_string(I18n.t(:warning_user_limit_reached)),
+                                          normalize_ws: true
+      end
+    end
   end
 
   context 'with a registered user' do

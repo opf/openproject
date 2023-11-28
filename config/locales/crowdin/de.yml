@@ -285,7 +285,11 @@ de:
       no_results_title_text: Es gibt aktuell keine Neuigkeiten.
       no_results_content_text: Neuigkeit hinzufügen
   users:
+    autologins:
+      prompt: "%{num_days} lang angemeldet bleiben"
     sessions:
+      remembered_devices: "Gespeicherte Geräte"
+      remembered_devices_caption: "Eine Liste aller Geräte, bei denen Sie sich mit der Option 'angemeldet bleiben' angemeldet haben."
       session_name: "%{browser_name} %{browser_version} unter %{os_name}"
       browser: "Browser"
       device: "Gerät / Betriebssystem"
@@ -382,6 +386,11 @@ de:
     move:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
       unsupported_for_multiple_projects: "Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten"
+    sharing:
+      missing_workflow_waring:
+        title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
+        message: "Kein Workflow für die Rolle 'Arbeitspaket-Bearbeiter' konfiguriert. Ohne diesen Workflow kann der Status eines geteilten Arbeitspakets nicht geändert werden."
+        link_message: "Konfigurieren Sie einen Workflow in der Administration."
     summary:
       reports:
         category:
@@ -424,7 +433,7 @@ de:
     error_self_registration_disabled: >
       Auf diesem System ist die Nutzerregistierung deaktiviert. Bitte fragen Sie einen Administrator nach einem Nutzerkonto.
     error_self_registration_limited_provider: >
-      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
+      Die Benutzerregistrierung ist für den Single Sign-On Provider '%{name}' eingeschränkt. Bitten Sie einen Administrator, das Konto für Sie zu aktivieren oder die Konfiguration der Selbstregistrierung für diesen Anbieter zu ändern.
     login_with_auth_provider: "oder melden Sie sich mit einem bestehenden Konto an"
     signup_with_auth_provider: "oder authentifizieren Sie sich mit"
     auth_source_login: Bitte melden Sie sich als <em>%{login}</em> an um Ihr Konto zu aktivieren.
@@ -464,7 +473,7 @@ de:
       custom_action:
         actions: "Aktionen"
       custom_field:
-        allow_non_open_versions: "Allow non-open versions"
+        allow_non_open_versions: "Erlaube nicht-offene Versionen"
         default_value: "Standardwert"
         editable: "Bearbeitbar"
         field_format: "Format"
@@ -481,7 +490,6 @@ de:
         value: "Wert"
       enterprise_token:
         starts_at: "Aktiv seit"
-        expires_at: "Endet am"
         subscriber: "Abonnent"
         encoded_token: "Enterprise edition Support Token"
         active_user_count_restriction: "Maximale aktive Nutzer"
@@ -556,6 +564,7 @@ de:
       user:
         admin: "Administrator"
         ldap_auth_source: "LDAP-Verbindung"
+        identity_url: "Identity URL"
         current_password: "Aktuelles Passwort"
         force_password_change: "Erzwinge Passwortwechsel beim nächsten Login"
         language: "Sprache"
@@ -594,6 +603,7 @@ de:
           title: "Werktage"
           false: "Nur Werktage"
           true: "Mit Wochenenden"
+        notify: "Benachrichtigung" #used in custom actions
         parent: "Übergeordnetes Arbeitspaket"
         parent_issue: "Übergeordnetes Arbeitspaket"
         parent_work_package: "Übergeordnetes Arbeitspaket"
@@ -633,6 +643,7 @@ de:
         error_enterprise_only: "ist nur in OpenProject Enterprise on-premises verfügbar"
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
+        error_conflict: "Die Informationen wurde zwischenzeitlich durch andere Benutzer geändert."
         email: "ist keine gültige E-Mail-Adresse."
         empty: "muss ausgefüllt werden."
         even: "muss gerade sein."
@@ -883,7 +894,7 @@ de:
           attributes:
             base:
               user_limit_reached: "Benutzerlimit erreicht. Für den aktuellen Plan können keine weiteren Benutzerkonten erstellt werden."
-              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
+              one_must_be_active: "Dieser Admin-Benutzer kann nicht gesperrt oder entfernt werden. Mindestens ein Admin muss aktiv sein."
             password_confirmation:
               confirmation: "Passwort und Bestätigung stimmt nicht überein."
               format: "%{message}"
@@ -1017,6 +1028,7 @@ de:
     due_date: "Endtermin"
     estimated_hours: "Geschätzter Aufwand"
     estimated_time: "Geschätzter Aufwand"
+    expires_at: "Läuft ab am"
     firstname: "Vorname"
     group: "Gruppe"
     groups: "Gruppen"
@@ -1264,7 +1276,7 @@ de:
         other: "%{count} Minuten"
       x_minutes_abbreviated:
         one: "1 Min."
-        other: "{{count}} Min."
+        other: "%{count} Min."
       x_hours:
         one: "1 Stunde"
         other: "%{count} Stunden"
@@ -1674,7 +1686,7 @@ de:
   label_copy_workflow_from: "Workflow kopieren von"
   label_copy_project: "Projekt kopieren"
   label_core_version: "Core Version"
-  label_core_build: "Core build"
+  label_core_build: "Core-Buildinformation"
   label_current_status: "Gegenwärtiger Status"
   label_current_version: "Gegenwärtige Version"
   label_custom_field_add_no_type: "Dieses Feld zu einem Arbeitspaket-Typ hinzufügen"
@@ -1730,6 +1742,7 @@ de:
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise Support"
+  label_enterprise_addon: "Enterprise Add-on"
   label_environment: "Umgebung"
   label_estimates_and_time: "Schätzungen & Zeiten"
   label_equals: "ist"
@@ -1819,8 +1832,8 @@ de:
   label_login: "Anmelden"
   label_custom_logo: "Benutzerdefiniertes Logo"
   label_custom_export_logo: "Selbstdefiniertes Logo für PDF-Export"
-  label_custom_export_cover: "Custom export cover background"
-  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover: "Hintergrund für Export Cover"
+  label_custom_export_cover_overlay: "Eigenes Deckblatt für Export"
   label_custom_export_cover_text_color: "Textfarbe"
   label_custom_pdf_export_settings: "Benutzerdefinierte PDF-Export-Einstellungen"
   label_custom_favicon: "Benutzerdefiniertes Favicon"
@@ -1893,7 +1906,7 @@ de:
   label_operator_none: "ist leer"
   label_operator_equals_or: "ist (ODER)"
   label_operator_equals_all: "ist (UND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "beliebig"
   label_open_menu: "Menü öffnen"
   label_open_work_packages: "Offen"
   label_open_work_packages_plural: "offen"
@@ -2012,7 +2025,6 @@ de:
   label_start_to_start: "Anfang bis Anfang"
   label_statistics: "Statistiken"
   label_status: "Status"
-  label_stay_logged_in: "Angemeldet bleiben"
   label_storage_free_space: "Verbleibender Speicherplatz"
   label_storage_used_space: "Verwendeter Speicherplatz"
   label_storage_group: "Speicher-Dateisystem %{identifier}"
@@ -2172,7 +2184,7 @@ de:
       see_in_center: 'Kommentar in Benachrichtigungszentrale öffnen'
       settings: 'E-Mail-Einstellungen ändern'
     salutation: 'Hallo %{user}'
-    salutation_full_name: 'Full name'
+    salutation_full_name: 'Vollständiger Name'
     work_packages:
       created_at: "Erstellt %{timestamp} von %{user} "
       login_to_see_all: "Melden Sie sich an, um alle Benachrichtigungen zu sehen."
@@ -2196,10 +2208,11 @@ de:
       updated_at: "Aktualisiert %{timestamp} von %{user} "
     sharing:
       work_packages:
-        allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
+        allowed_actions: "Sie haben auf diesem Arbeitspakte folgende Berechtigungen: %{allowed_actions}. Dies kann sich je nach Ihrer Projektrolle und Berechtigungen ändern."
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Arbeitspaket öffnen"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2900,7 +2913,8 @@ de:
   text_setup_mail_configuration: "Konfigurieren Sie Ihren E-Mail-Provider"
   help_texts:
     views:
-      project: "%{plural} sind immer einem Projekt zugeordnet. Nach dem Erstellen eines %{singular} können Sie Arbeitspakete von anderen Projekten hinzufügen."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Veröffentlichen Sie diese Ansicht und erlauben Sie anderen Benutzern, auf sie zuzugreifen. Benutzer mit der Berechtigung \"Öffentliche Ansichten verwalten\" können öffentliche Abfragen ändern oder entfernen. Dies hat keinen Einfluss auf die Sichtbarkeit von Arbeitspaketen in dieser Ansicht und je nach Berechtigung, können Benutzer unterschiedliche Ergebnisse sehen."
       favoured: "Markiert diese Ansicht als Favorit und fügt sie der linken Seitenleiste hinzu."
   time:
@@ -2937,6 +2951,7 @@ de:
     activate: "Aktiviere"
     activate_and_reset_failed_logins: "Aktivieren und fehlgeschlagene Logins zurücksetzen"
     authentication_provider: "Authentifizierungsprovider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Dieser Nutzer authentifiziert sich über einen externen Authentifizierungsprovider, so dass das Passwort über OpenProject nicht geändert werden kann.
     authorization_rejected: "Sie dürfen sich nicht einloggen."
@@ -2973,7 +2988,9 @@ de:
   warning_registration_token_expired: |
     E-Mail mit dem Aktivierungslink ist abgelaufen. Wir haben Ihnen ein neues zu %{email} geschickt. Bitte aktivieren Sie Ihr Konto über den Link in dieser E-Mail.
   warning_user_limit_reached: >
-    Nutzerlimit erreicht. Sie können keine weiteren Nutzer aktivieren. Bitte <a href="%{upgrade_url}">upgraden Sie Ihren Tarif</a> oder blockieren Sie Mitglieder, um Platz für weitere Nutzer zu schaffen.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
   warning_protocol_mismatch_html: >
@@ -3006,7 +3023,13 @@ de:
         zero: "0 Benutzer"
         one: "1 Benutzer"
         other: "%{count} Benutzer"
-      share: "Teilen"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3019,8 +3042,26 @@ de:
         view: "Ansicht"
         view_description: "Can view this work package."
       remove: "Entfernen"
+      share: "Teilen"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
@@ -3232,6 +3273,7 @@ de:
     response:
       unexpected: "Unerwartete Antwort erhalten."
   you: Sie
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

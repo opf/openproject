@@ -72,7 +72,7 @@ module API
             user_id = representer.represented.user_id.to_i
 
             if current_user.id == user_id
-              authorize_in_project(:view_work_packages, project: @work_package.project)
+              authorize_in_work_package(:view_work_packages, work_package: @work_package)
             else
               authorize_in_project(:add_work_package_watchers, project: @work_package.project)
             end
@@ -96,7 +96,7 @@ module API
 
             delete do
               if current_user.id == params[:user_id]
-                authorize_in_project(:view_work_packages, project: @work_package.project)
+                authorize_in_work_package(:view_work_packages, work_package: @work_package)
               else
                 authorize_in_project(:delete_work_package_watchers, project: @work_package.project)
               end

@@ -43,11 +43,11 @@ es:
           name: Otros
       work_package_roles:
         item_0:
-          name: Editor de paquetes de trabajo
+          name: Work package editor
         item_1:
-          name: Comentador de Paquete de Trabajo
+          name: Work package commenter
         item_2:
-          name: Visor de Paquete de Trabajo
+          name: Work package viewer
       project_roles:
         item_0:
           name: No miembro

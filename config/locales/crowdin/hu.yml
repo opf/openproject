@@ -287,7 +287,11 @@ hu:
       no_results_title_text: Nincs megjeleníthető hír.
       no_results_content_text: Hír hozzáadása
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -384,6 +388,11 @@ hu:
     move:
       no_common_statuses_exists: "Az összes kiválasztott feladatcsoporthoz nincs elérhető állapot. Státuszuk nem változtatható meg."
       unsupported_for_multiple_projects: "Tömeges mozgatás/másolás nem támogatott a különböző projektekből származó feladatcsoportokhoz"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -483,7 +492,6 @@ hu:
         value: "Érték"
       enterprise_token:
         starts_at: "Érvényes"
-        expires_at: "Lejárat ekkor"
         subscriber: "Előfizető"
         encoded_token: "Vállalati támogatás kulcs"
         active_user_count_restriction: "Maximális aktív felhasználók"
@@ -558,6 +566,7 @@ hu:
       user:
         admin: "Adminisztrátor"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Jelenlegi jelszó"
         force_password_change: "Kötelező jelszóváltás a következő bejelentkezéskor"
         language: "Nyelv"
@@ -596,6 +605,7 @@ hu:
           title: "Munkanapok"
           false: "Csak munkanapok"
           true: "Munkaszüneti napok beleszámítva"
+        notify: "Notify" #used in custom actions
         parent: "Szülő"
         parent_issue: "Szülő"
         parent_work_package: "Szülő"
@@ -635,6 +645,7 @@ hu:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "lehet, hogy nem érhető el."
         error_readonly: "írása megkísérelve, de nem írható."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "nem valós e-mail cím"
         empty: "nem lehet üres."
         even: "kell még."
@@ -1019,6 +1030,7 @@ hu:
     due_date: "Befejezési dátum"
     estimated_hours: "Becsült idő (óra)"
     estimated_time: "Becsült idő (óra)"
+    expires_at: "Expires at"
     firstname: "Keresztnév"
     group: "Csoport"
     groups: "Csoportok"
@@ -1732,6 +1744,7 @@ hu:
   label_enterprise_active_users: "%{current}/%{limit} foglalt aktív felhasználók"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise support"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Környezet"
   label_estimates_and_time: "Becslések & időpontok"
   label_equals: "van"
@@ -2014,7 +2027,6 @@ hu:
   label_start_to_start: "elejétől az elejéig"
   label_statistics: "Statisztika"
   label_status: "Állapot"
-  label_stay_logged_in: "Bejelentkezve maradok"
   label_storage_free_space: "Fennmaradó lemezterület"
   label_storage_used_space: "Felhasznált lemezterület"
   label_storage_group: "Tároló fájlrendszer %{identifier}"
@@ -2202,6 +2214,7 @@ hu:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2901,7 +2914,8 @@ hu:
   text_setup_mail_configuration: "Állítsd be az e-mail szolgáltatódat"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
@@ -2938,6 +2952,7 @@ hu:
     activate: "Aktivál"
     activate_and_reset_failed_logins: "Aktiválja és alaphelyzetbe állitja a sikertelen bejelentkezéseket"
     authentication_provider: "Hitelesítés-ellenőrző"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Ez a felhasználó egy külső hitelesítés szolgáltató keresztül hitelesít, így nincs megváltoztatható jelszó az alkalmazásban.
     authorization_rejected: "Nem megengedett bejelentkezés."
@@ -2975,7 +2990,9 @@ hu:
     Az aktiváló e-mail lejárt. Új levelet küldtünk Önnek %{email} részére.
     Kérjük, kattintson a belsejében lévő linkre a fiók aktiválásához.
   warning_user_limit_reached: >
-    Elérte a felhasználói korlátot. Nem aktiválhat további felhasználókat. Kérjük, <a href="%{upgrade_url}"> frissítse a licencét </a>, vagy blokkolja a további tagokat a felhasználók engedélyezéséhez.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
@@ -3008,7 +3025,13 @@ hu:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3021,8 +3044,26 @@ hu:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
@@ -3234,6 +3275,7 @@ hu:
     response:
       unexpected: "Unexpected response received."
   you: te
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

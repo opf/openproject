@@ -285,7 +285,11 @@ ca:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
       no_results_content_text: Afegir una notícia
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name}%{browser_version} en %{os_name}"
       browser: "Navegador"
       device: "Dispositiu / Sistema Operatiu"
@@ -383,6 +387,11 @@ ca:
     move:
       no_common_statuses_exists: "No hi ha estats disponibles per a tots els paquets de treball seleccionats. El seus estats no es poden canviar."
       unsupported_for_multiple_projects: "Moure o copiar en massa no està soportat per paquets de treball de múltiples projectes"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -482,7 +491,6 @@ ca:
         value: "Valor"
       enterprise_token:
         starts_at: "Vàlid des de"
-        expires_at: "Caduca el"
         subscriber: "Subscriptor"
         encoded_token: "Token de suport Enterprise"
         active_user_count_restriction: "Màxim nombre d'usuaris actius"
@@ -557,6 +565,7 @@ ca:
       user:
         admin: "Administrador"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Contrassenya actual"
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
         language: "Idioma"
@@ -595,6 +604,7 @@ ca:
           title: "Dies laborals"
           false: "només dies laborables"
           true: "inclou dies no laborables"
+        notify: "Notify" #used in custom actions
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"
@@ -634,6 +644,7 @@ ca:
         error_enterprise_only: "%{action} només està disponible en l'edició Enterprise d'OpenProject"
         error_unauthorized: "no és possible accedir."
         error_readonly: "es va intentar d'escriure-hi però no és modificable."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "no és una adreça de correu electrònic vàlida."
         empty: "no pot estar buit."
         even: "ha de ser parell."
@@ -1018,6 +1029,7 @@ ca:
     due_date: "Data final"
     estimated_hours: "Temps estimat"
     estimated_time: "Temps estimat"
+    expires_at: "Expires at"
     firstname: "Nom"
     group: "Grup"
     groups: "Grups"
@@ -1731,6 +1743,7 @@ ca:
   label_enterprise_active_users: "%{current}/%{limit} usuaris actius registrats"
   label_enterprise_edition: "Edició Enterprise."
   label_enterprise_support: "Suport Enterprise"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Entorn"
   label_estimates_and_time: "Estimacions i temps"
   label_equals: "és"
@@ -2013,7 +2026,6 @@ ca:
   label_start_to_start: "de principi a principi"
   label_statistics: "Estadí­stiques"
   label_status: "Estat"
-  label_stay_logged_in: "Manté l'entrada"
   label_storage_free_space: "Espai de disc restant"
   label_storage_used_space: "Espai de disc utilitzat"
   label_storage_group: "Sistema de fitxers %{identifier}"
@@ -2201,6 +2213,7 @@ ca:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2894,7 +2907,8 @@ ca:
   text_setup_mail_configuration: "Configura el teu proveïdor de correu electrònic"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
@@ -2931,6 +2945,7 @@ ca:
     activate: "Activar"
     activate_and_reset_failed_logins: "Activar i restaurar inicis de sessió erronis"
     authentication_provider: "Proveïdor d'autenticació"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Aquest usuari s'autentica mitjançant un proveïdor d'autenticació externa i no hi ha cap contrasenya a OpenProject per canviar.
     authorization_rejected: "No pots iniciar la sessió."
@@ -2968,7 +2983,9 @@ ca:
     El correu electrònic d'activació ha caducat. N'enviarem un de nou a %{email}.
     Si us plau, fes clic a l'enllaç dins del correu per activar el teu compte.
   warning_user_limit_reached: >
-    Límit d'usuaris assolit. No pots activar cap més usuari. Si us plau, <a href="%{upgrade_url}">actualitza el teu pla</a> o bloqueja a membres per permetre nous usuaris.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     Has assolit el nombre d'usuaris límit (%{current}/%{max} usuaris actius. Si us plau, posa't en contacte amb sales@openproject.com per actualitzar la teva edició Enterpirse i afegir nous usuaris.
   warning_protocol_mismatch_html: >
@@ -3001,7 +3018,13 @@ ca:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3014,8 +3037,26 @@ ca:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.
@@ -3227,6 +3268,7 @@ ca:
     response:
       unexpected: "Resposta inesperada rebuda."
   you: tu
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

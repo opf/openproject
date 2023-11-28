@@ -59,6 +59,7 @@ import { IProjectStorage } from 'core-app/core/state/project-storages/project-st
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
   fileLinkViewError,
+  nextcloud,
   storageConnected,
 } from 'core-app/shared/components/storages/storages-constants.const';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -143,6 +144,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     toast: {
       successFileLinksCreated: (count:number):string => this.i18n.t('js.storages.file_links.success_create', { count }),
       uploadFailed: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.default', { fileName }),
+      uploadFailedNextcloudDetail: this.i18n.t('js.storages.file_links.upload_error.detail.nextcloud'),
       uploadFailedForbidden: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.403', { fileName }),
       uploadFailedSizeLimit:
         (fileName:string, storageType:string):string => this.i18n.t(
@@ -433,7 +435,12 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         this.toastService.addError(this.text.toast.uploadFailedQuota(fileName));
         break;
       default:
-        this.toastService.addError(this.text.toast.uploadFailed(fileName));
+        this.storage
+          .pipe(first())
+          .subscribe((storage) => {
+            const additionalInfo = storage._links.type.href === nextcloud ? this.text.toast.uploadFailedNextcloudDetail : [];
+            this.toastService.addError(this.text.toast.uploadFailed(fileName), additionalInfo);
+          });
     }
   }
 

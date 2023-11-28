@@ -42,7 +42,7 @@ fa:
       meeting_agenda_items:
         title: "Title"
         author: "Responsible"
-        duration_in_minutes: "Duration in minutes"
+        duration_in_minutes: "Duration (min)"
         description: "Notes"
     errors:
       messages:
@@ -107,6 +107,7 @@ fa:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notification sent successfully"
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
@@ -148,6 +149,7 @@ fa:
   label_agenda_item_move_to_bottom: "Move to bottom"
   label_agenda_item_move_up: "Move up"
   label_agenda_item_move_down: "Move down"
+  label_agenda_item_add_notes: "Add notes"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state_open: "Open"
@@ -167,6 +169,7 @@ fa:
   label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
   text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
   text_agenda_item_no_notes: "No notes provided"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
   text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
   text_work_package_add_to_meeting_hint: "Use the \"Add to meeting\" button to add this work package to an upcoming meeting."
   text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

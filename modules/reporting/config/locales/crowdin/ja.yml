@@ -47,6 +47,7 @@ ja:
   label_is_project_with_subprojects: "は(サブプロジェクトを含む)"
   label_work_package_attributes: "作業項目の属性"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "金額"
   label_month_reporting: "月 (経過)"
   label_new_report: "新しいコストレポート"

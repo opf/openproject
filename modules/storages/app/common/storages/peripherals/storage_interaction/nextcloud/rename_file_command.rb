@@ -51,15 +51,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         )
       )
 
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
       case response
       when Net::HTTPSuccess
         ServiceResult.success
       when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', response)
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
       when Net::HTTPUnauthorized
-        Util.error(:unauthorized, 'Outbound request not authorized', response)
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
-        Util.error(:error, 'Outbound request failed', response)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
   end

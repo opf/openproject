@@ -2,7 +2,10 @@ require 'spec_helper'
 require_relative 'shared_context'
 require 'features/work_packages/table/context_menu/context_menu_shared_examples'
 
-RSpec.describe 'Work package table context menu', :js, with_ee: %i[team_planner_view] do
+RSpec.describe 'Work package table context menu',
+               :js,
+               with_ee: %i[team_planner_view],
+               with_settings: { start_of_week: 1 } do
   include_context 'with team planner full access'
 
   let!(:work_package) do

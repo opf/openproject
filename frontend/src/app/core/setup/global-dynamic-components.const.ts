@@ -1,10 +1,6 @@
 import { OptionalBootstrapDefinition } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import {
-  EmbeddedTablesMacroComponent,
-  wpEmbeddedTableMacroSelector,
-} from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
-import {
   ColorsAutocompleterComponent,
   colorsAutocompleterSelector,
 } from 'core-app/shared/components/colors/colors-autocompleter.component';
@@ -103,21 +99,9 @@ import {
   backlogsPageComponentSelector,
 } from 'core-app/features/backlogs/backlogs-page/backlogs-page.component';
 import {
-  attributeValueMacro,
-  AttributeValueMacroComponent,
-} from 'core-app/shared/components/fields/macros/attribute-value-macro.component';
-import {
-  attributeLabelMacro,
-  AttributeLabelMacroComponent,
-} from 'core-app/shared/components/fields/macros/attribute-label-macro.component';
-import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector,
 } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
-import {
-  quickInfoMacroSelector,
-  WorkPackageQuickinfoMacroComponent,
-} from 'core-app/shared/components/fields/macros/work-package-quickinfo-macro.component';
 import { SpotSwitchComponent, spotSwitchSelector } from 'core-app/spot/components/switch/switch.component';
 import { BackupComponent, backupSelector } from 'core-app/core/setup/globals/components/admin/backup.component';
 import {
@@ -208,7 +192,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
   { selector: attributeHelpTextSelector, cls: AttributeHelpTextComponent },
   { selector: staticAttributeHelpTextSelector, cls: StaticAttributeHelpTextComponent },
-  { selector: wpEmbeddedTableMacroSelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
@@ -247,9 +230,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opCalendarSidemenuSelector, cls: CalendarSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
-  { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },
-  { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
-  { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },

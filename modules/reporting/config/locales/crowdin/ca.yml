@@ -47,6 +47,7 @@ ca:
   label_is_project_with_subprojects: "és (inclou subprojectes)"
   label_work_package_attributes: "Atributs del paquet de treball"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Registra valor"
   label_month_reporting: "Mes (Gastat)"
   label_new_report: "Nou informe de costs"

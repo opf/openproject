@@ -72,9 +72,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def requested_folder(folder)
-      return '' if folder.nil?
+      return '' if folder.root?
 
-      Util.escape_path(folder)
+      Util.escape_path(folder.path)
     end
 
     # rubocop:disable Metrics/AbcSize

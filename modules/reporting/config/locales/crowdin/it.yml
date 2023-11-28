@@ -47,6 +47,7 @@ it:
   label_is_project_with_subprojects: "è (include sottoprogetti)"
   label_work_package_attributes: "Attributi del pacchetto lavoro"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Valore in contanti"
   label_month_reporting: "Mese (passato)"
   label_new_report: "Nuovo rapporto di costo"

@@ -30,14 +30,17 @@ module WorkPackages
   module Share
     class ModalBodyComponent < ApplicationComponent
       include ApplicationHelper
+      include MemberHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include WorkPackages::Share::Concerns::Authorization
+      include WorkPackages::Share::Concerns::DisplayableRoles
 
-      def initialize(work_package:)
+      def initialize(work_package:, shares:)
         super
 
         @work_package = work_package
+        @shares = shares
       end
 
       def self.wrapper_key
@@ -54,32 +57,108 @@ module WorkPackages
         'op-share-wp-active-shares'
       end
 
-      # There is currently no available system argument for setting an id on the
-      # rendered <ul> tag that houses the row slots on Primer::Beta::BorderBox components.
-      # Setting an id is required to be able to uniquely identify a target for
-      # TurboStream +insert+ actions and being able to prepend and append to it.
-      def invited_user_list(&)
-        border_box = Primer::Beta::BorderBox.new
-
-        set_id_on_list_element(border_box)
-
-        render(border_box, &)
+      def type_filter_options
+        [
+          { label: I18n.t('work_package.sharing.filter.project_member'),
+            value: { principal_type: 'User', project_member: true } },
+          { label: I18n.t('work_package.sharing.filter.not_project_member'),
+            value: { principal_type: 'User', project_member: false } },
+          { label: I18n.t('work_package.sharing.filter.project_group'),
+            value: { principal_type: 'Group', project_member: true } },
+          { label: I18n.t('work_package.sharing.filter.not_project_group'),
+            value: { principal_type: 'Group', project_member: false } }
+        ]
       end
 
-      def set_id_on_list_element(list_container)
-        new_list_arguments = list_container.instance_variable_get(:@list_arguments)
-                                           .merge(id: insert_target_modifier_id)
+      def type_filter_option_active?(_option)
+        principal_type_filter_value = current_filter_value(params[:filters], 'principal_type')
+        project_member_filter_value = current_filter_value(params[:filters], 'also_project_member')
 
-        list_container.instance_variable_set(:@list_arguments, new_list_arguments)
+        return false if principal_type_filter_value.nil? || project_member_filter_value.nil?
+
+        principal_type_checked =
+          _option[:value][:principal_type] == principal_type_filter_value
+        membership_selected =
+          _option[:value][:project_member] == ActiveRecord::Type::Boolean.new.cast(project_member_filter_value)
+
+        principal_type_checked && membership_selected
       end
 
-      def shared_principals
-        @shared_principals ||= Principal
-                                .having_entity_membership(@work_package)
-                                .includes(work_package_shares: :roles)
-                                .where(work_package_shares: { entity: @work_package })
-                                .merge(MemberRole.only_non_inherited)
-                                .ordered_by_name
+      def role_filter_option_active?(_option)
+        role_filter_value = current_filter_value(params[:filters], 'role_id')
+
+        return false if role_filter_value.nil?
+
+        find_role_ids(_option[:value]).first == role_filter_value.to_i
+      end
+
+      def filter_url(type_option: nil, role_option: nil)
+        return work_package_shares_path if type_option.nil? && role_option.nil?
+
+        args = {}
+        filter = []
+
+        filter += apply_role_filter(role_option)
+        filter += apply_type_filter(type_option)
+
+        args[:filters] = filter.to_json unless filter.empty?
+
+        work_package_shares_path(args)
+      end
+
+      def apply_role_filter(_option)
+        current_role_filter_value = current_filter_value(params[:filters], 'role_id')
+        filter = []
+
+        if _option.nil? && current_role_filter_value.present?
+          # When there is already a role filter set and no new value passed, we want to keep that filter
+          filter = role_filter_for({ value: current_role_filter_value }, builtin_role: false)
+        elsif _option.present? && !role_filter_option_active?(_option)
+          # Only when the passed filter option is not the currently selected one, we apply the filter
+          filter = role_filter_for(_option)
+        end
+
+        filter
+      end
+
+      def role_filter_for(_option, builtin_role: true)
+        [{ role_id: { operator: "=", values: builtin_role ? find_role_ids(_option[:value]) : [_option[:value]] } }]
+      end
+
+      def apply_type_filter(_option)
+        current_type_filter_value = current_filter_value(params[:filters], 'principal_type')
+        current_member_filter_value = current_filter_value(params[:filters], 'also_project_member')
+        filter = []
+
+        if _option.nil? && current_type_filter_value.present? && current_member_filter_value.present?
+          # When there is already a type filter set and no new value passed, we want to keep that filter
+          value = { value: { principal_type: current_type_filter_value, project_member: current_member_filter_value } }
+          filter = type_filter_for(value)
+        elsif _option.present? && !type_filter_option_active?(_option)
+          # Only when the passed filter option is not the currently selected one, we apply the filter
+          filter = type_filter_for(_option)
+        end
+
+        filter
+      end
+
+      def type_filter_for(_option)
+        filter = []
+        if ActiveRecord::Type::Boolean.new.cast(_option[:value][:project_member])
+          filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] } })
+        else
+          filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] } })
+        end
+
+        filter.push({ principal_type: { operator: "=", values: [_option[:value][:principal_type]] } })
+        filter
+      end
+
+      def current_filter_value(filters, filter_key)
+        return nil if filters.nil?
+
+        given_filters = JSON.parse(filters).find { |key| key.key?(filter_key) }
+        given_filters ? given_filters[filter_key]['values'].first : nil
       end
     end
   end

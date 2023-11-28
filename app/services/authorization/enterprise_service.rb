@@ -47,6 +47,7 @@ class Authorization::EnterpriseService
     team_planner_view
     two_factor_authentication
     work_package_query_relation_columns
+    work_package_sharing
   ).freeze
 
   def initialize(token)

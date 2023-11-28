@@ -46,7 +46,7 @@ module AuthSourceSSO
     return user if user.login.casecmp?(login)
 
     Rails.logger.warn { "Header-based auth source SSO user changed from #{user.login} to #{login}. Re-authenticating" }
-    ::Users::LogoutService.new(controller: self).call(user)
+    ::Users::LogoutService.new(controller: self).call!(user)
 
     nil
   end

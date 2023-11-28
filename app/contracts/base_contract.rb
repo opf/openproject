@@ -239,7 +239,7 @@ class BaseContract < Disposable::Twin
     attributes
   end
 
-  def reduce_by_writable_permissions(attributes) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
+  def reduce_by_writable_permissions(attributes)
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     # For new models we don't go to per-field checks if the user has any of the default permissions.
@@ -258,12 +258,31 @@ class BaseContract < Disposable::Twin
 
       next unless permissions
 
-      # This will break once a model that does not respond to project is used.
-      # This is intended to be worked on then with the additional knowledge.
-      next if model.project.present? && permissions.any? { |perm| user.allowed_in_project?(perm, model.project) }
-      next if model.project.blank? && permissions.any? { |perm| user.allowed_in_any_project?(perm) }
+      next if permissions.any? do |perm|
+        user.allowed_based_on_permission_context?(
+          perm,
+          project: project_for_permission_check,
+          entity: entity_for_permission_check
+        )
+      end
 
       true
+    end
+  end
+
+  def project_for_permission_check
+    if model.is_a?(Project)
+      model
+    else
+      model.respond_to?(:project) ? model.project : nil
+    end
+  end
+
+  def entity_for_permission_check
+    if model.is_a?(Project)
+      nil
+    else
+      model
     end
   end
 

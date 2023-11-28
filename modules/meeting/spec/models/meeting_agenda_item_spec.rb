@@ -29,10 +29,12 @@
 require_relative "../spec_helper"
 
 RSpec.describe MeetingAgendaItem do
-  let(:meeting) { build_stubbed(:structured_meeting) }
+  let(:meeting_attributes) { {} }
+  let(:meeting) { build_stubbed(:structured_meeting, **meeting_attributes) }
   let(:attributes) { {} }
+  let(:meeting_agenda_item) { described_class.new(meeting:, **attributes) }
 
-  subject { described_class.new(meeting:, **attributes) }
+  subject { meeting_agenda_item }
 
   describe '#author' do
     let(:attributes) { { title: 'foo', author: } }
@@ -204,6 +206,119 @@ RSpec.describe MeetingAgendaItem do
 
           it { is_expected.to be_valid }
         end
+      end
+    end
+  end
+
+  describe '#deleted_work_package?' do
+    subject { meeting_agenda_item.deleted_work_package? }
+
+    let(:attributes) { { work_package_id:, item_type: } }
+
+    context 'when item_type is not "work_package"' do
+      let(:item_type) { :simple }
+      let(:work_package_id) { nil }
+
+      context 'and the agenda_item is not persisted' do
+        it { is_expected.to be false }
+      end
+
+      context 'and the agenda_item is persisted' do
+        let(:meeting_agenda_item) { build_stubbed(:meeting_agenda_item, meeting:, **attributes) }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'when item_type is "work_package"' do
+      let(:item_type) { :work_package }
+
+      context 'and the agenda_item is not persisted' do
+        context 'and work_package_id is missing' do
+          let(:work_package_id) { nil }
+
+          it { is_expected.to be false }
+        end
+
+        context 'and work_package_id is present' do
+          let(:work_package_id) { 1 }
+
+          it { is_expected.to be false }
+        end
+      end
+
+      context 'and the agenda_item is persisted' do
+        let(:meeting_agenda_item) { build_stubbed(:meeting_agenda_item, meeting:, **attributes) }
+
+        context 'and work_package_id was originally missing' do
+          let(:work_package_id) { nil }
+
+          context 'and now is present' do
+            before do
+              meeting_agenda_item.work_package_id = 1
+            end
+
+            it { is_expected.to be true }
+          end
+
+          context 'and now is also missing' do
+            it { is_expected.to be true }
+          end
+        end
+
+        context 'and work_package_id was originally present' do
+          let(:work_package_id) { 1 }
+
+          context 'and now is also present' do
+            it { is_expected.to be false }
+          end
+
+          context 'and now is missing' do
+            before do
+              meeting_agenda_item.work_package_id = nil
+            end
+
+            it { is_expected.to be false }
+          end
+        end
+      end
+    end
+  end
+
+  describe '#modifiable?' do
+    subject { meeting_agenda_item.modifiable? }
+
+    let(:attributes) { { work_package_id: nil, item_type: :work_package } }
+
+    context 'when meeting is closed' do
+      let(:meeting_attributes) { { state: :closed } }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the work package is not deleted' do
+      before do
+        allow(meeting_agenda_item).to receive(:deleted_work_package?).and_return(false)
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'when work package is deleted' do
+      before do
+        allow(meeting_agenda_item).to receive(:deleted_work_package?).and_return(true)
+      end
+
+      context 'and the current value is not modified' do
+        it { is_expected.to be true }
+      end
+
+      context 'and the current value is modified' do
+        before do
+          meeting_agenda_item.work_package_id = 1
+        end
+
+        it { is_expected.to be false }
       end
     end
   end

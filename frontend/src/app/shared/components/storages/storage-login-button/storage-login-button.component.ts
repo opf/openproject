@@ -76,7 +76,10 @@ export class StorageLoginButtonComponent implements OnInit {
     this.cookieService.set(
       `oauth_state_${nonce}`,
       JSON.stringify({ href: window.location.href, storageId: this.input.storageId }),
-      { path: '/' },
+      {
+        path: '/',
+        expires: 1/24, // roughly 1 hour
+      },
     );
   }
 
