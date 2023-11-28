@@ -107,6 +107,7 @@ hu:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "#%{id} megbeszélésből másolva"
   notice_successful_notification: "Értesítés sikeresen kiküldve"
   notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.

@@ -107,6 +107,7 @@ ro:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copiat de la Întâlnire #%{id}"
   notice_successful_notification: "Notificare trimisă cu succes"
   notice_timezone_missing: Nu este setat niciun fus orar și se presupune %{zone}. Pentru a vă alege fusul orar, vă rugăm să faceți clic aici.

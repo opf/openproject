@@ -107,6 +107,7 @@ zh-CN:
       classic_text: '以格式化文本议程和协议组织您的会议。'
       structured: '动态'
       structured_text: '将您的会议组织成一个议程项目列表，并可选择地将它们与一个工作包连接起来。'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "从会议 #%{id} 复制"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。

@@ -458,14 +458,14 @@ nl:
       ldap_auth_source:
         account: "Account"
         attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        attr_lastname: "Achternaam attribuut"
+        attr_login: "Gebruikersnaam attribuut"
+        attr_mail: "E-mail attribuut"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        onthefly: "Automatische gebruiker aanmaken"
+        port: "Poort"
+        tls_certificate_string: "LDAP server SSL-certificaat"
       changeset:
         repository: "Repository"
       color:
@@ -475,7 +475,7 @@ nl:
       custom_action:
         actions: "Acties"
       custom_field:
-        allow_non_open_versions: "Allow non-open versions"
+        allow_non_open_versions: "Niet-geopende versies toestaan"
         default_value: "Standaardwaarde"
         editable: "Bewerkbaar"
         field_format: "Formaat"
@@ -565,8 +565,8 @@ nl:
         color: "Kleur"
       user:
         admin: "Beheerder"
-        ldap_auth_source: "LDAP connection"
-        identity_url: "Identity URL"
+        ldap_auth_source: "LDAP verbinding"
+        identity_url: "Identiteit URL"
         current_password: "Huidig wachtwoord"
         force_password_change: "Afdwingen van wachtwoordwijziging bij volgende login"
         language: "Taal"
@@ -581,7 +581,7 @@ nl:
         time_zone: "Tijdzone"
         auto_hide_popups: "Automatisch verbergen geslaagd-meldingen"
         warn_on_leaving_unsaved: "Mij waarschuwen bij het verlaten van een werkpakket met niet-opgeslagen wijzigingen"
-        theme: "Mode"
+        theme: "Modus"
       version:
         effective_date: "Einddatum"
         sharing: "Delen"
@@ -605,7 +605,7 @@ nl:
           title: "Werkdagen"
           false: "Alleen werkdagen"
           true: "inclusief niet-werkdagen"
-        notify: "Notify" #used in custom actions
+        notify: "Melding" #used in custom actions
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
@@ -645,7 +645,7 @@ nl:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "geen toegang."
         error_readonly: "werd geprobeerd te schrijven maar is niet schrijfbaar."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Informatie is in de tussentijd door ten minste één andere gebruiker bijgewerkt."
         email: "is geen geldig e-mailadres."
         empty: "mag niet leeg zijn."
         even: "moet gelijk zijn."

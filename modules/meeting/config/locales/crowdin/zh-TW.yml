@@ -107,6 +107,7 @@ zh-TW:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "從會議紀錄 #%{id} 中複製"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。

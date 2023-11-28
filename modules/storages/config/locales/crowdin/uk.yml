@@ -26,7 +26,7 @@ uk:
         name: "Назва"
         creator: "Автор"
         provider_type: "Тип постачальника"
-        host: "Host"
+        host: "Хост"
         tenant: "Tenant"
       storages/file_link:
         origin_id: "Код джерела"
@@ -75,7 +75,7 @@ uk:
       select_folder: "Вибрати папку"
       configure: "Налаштувати"
     file_storage_view:
-      general_information: "General information"
+      general_information: "Загальна інформація"
       oauth_applications: "OAuth applications"
       project_folders: "Project folders"
       storage_provider: "Storage provider"

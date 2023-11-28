@@ -78,7 +78,7 @@ uk:
   label_meeting_diff: "Відмінність"
   label_upcoming_meetings: "Майбутні заходи"
   label_past_meetings: "Минулі заходи"
-  label_upcoming_meetings_short: "Upcoming"
+  label_upcoming_meetings_short: "Майбутні"
   label_past_meetings_short: "Past"
   label_involvement: "Участь"
   label_upcoming_invitations: "Майбутні запрошення"
@@ -107,6 +107,7 @@ uk:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Скопійовано з наради #%{id} "
   notice_successful_notification: "Повідомлення успішно надіслано"
   notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.

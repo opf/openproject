@@ -107,6 +107,7 @@ pt:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copiado para a Reunião #%{id}"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Nenhum fuso horário está definido, portanto assumiu-se %{zone}. Para escolher o seu fuso horário, clique aqui.

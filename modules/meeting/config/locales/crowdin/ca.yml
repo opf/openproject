@@ -107,6 +107,7 @@ ca:
       classic_text: 'Organitzeu la vostra reunió en una agenda i un protocol de text formatitzables.'
       structured: 'Dinàmic'
       structured_text: 'Organitzeu la vostra reunió com una llista d''elements de l''agenda, enllaçant-los opcionalment a un paquet de treball.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copiat de la reunió #%{id}"
   notice_successful_notification: "Notificació enviada correctament"
   notice_timezone_missing: No s'ha configurat la zona horària i la %{zone} és assumida. Per seleccionar la teva zona horària, si us plau, fes clic aquí.

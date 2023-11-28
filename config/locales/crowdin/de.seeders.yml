@@ -43,7 +43,7 @@ de:
           name: Andere
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Arbeitspaket-Bearbeiter
         item_1:
           name: Work package commenter
         item_2:

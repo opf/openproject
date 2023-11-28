@@ -107,6 +107,7 @@ es:
       classic_text: 'Organice su reunión en un formato de agenda de texto y protocolos.'
       structured: 'Dinámico'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copiado de la reunión %{id}"
   notice_successful_notification: "Notificación enviada correctamente"
   notice_timezone_missing: No se ha establecido zona horaria y se asume %{zone}. Para elegir su zona horaria, por favor, haga clic aquí.

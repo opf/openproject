@@ -107,6 +107,7 @@ eu:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "#%{id} Hitzordutik kopiatua"
   notice_successful_notification: "Jakinarazpena ondo bidali da"
   notice_timezone_missing: Ez da ordu-eremurik zehaztu eta %{zone} hartu da ontzat. Ordu-eremua aukeratzeko klikatu hemen, mesedez.

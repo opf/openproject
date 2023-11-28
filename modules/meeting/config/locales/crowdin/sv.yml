@@ -107,6 +107,7 @@ sv:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Kopierat från möte #%{id}"
   notice_successful_notification: "Underrättelse skickades"
   notice_timezone_missing: Ingen tidszon angiven och %{zone} antas. För att välja din tidszon, vänligen klicka här.

@@ -107,6 +107,7 @@ ru:
       classic_text: 'Организуйте свою встречу с помощью форматируемой текстовой повестки дня и протокола.'
       structured: 'Динамический'
       structured_text: 'Организуйте свою встречу в виде списка пунктов повестки дня, при необходимости связав их с пакетом работ.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Скопировано со встречи #%{id}"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.

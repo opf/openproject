@@ -107,6 +107,7 @@ lt:
       classic_text: 'Organizuokite jūsų susitikimą su formatuojamo teksto darbotvarke ir protokolu.'
       structured: 'Dinaminis'
       structured_text: 'Organizuokite jūsų susitikimą su darbotvarkės elementų sąrašu, pasirinktinai susiejant juos su darbo paketu.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Nukopijuota iš susitikimo #%{id}"
   notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
   notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.
