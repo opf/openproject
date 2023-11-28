@@ -49,7 +49,7 @@ module Admin
 
           def update_section_dialog_body_form_via_turbo_stream(project_custom_field_section:)
             update_via_turbo_stream(
-              component: ::Settings::ProjectAttributes::Section::DialogBodyFormComponent.new(
+              component: ::Settings::ProjectCustomFieldSections::DialogBodyFormComponent.new(
                 project_custom_field_section:
               )
             )

@@ -27,32 +27,30 @@
 #++
 
 module Settings
-  module ProjectAttributes
-    module Section
-      class DialogBodyFormComponent < ApplicationComponent
-        include ApplicationHelper
-        include OpPrimer::ComponentHelpers
-        include OpTurbo::Streamable
+  module ProjectCustomFieldSections
+    class DialogBodyFormComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-        def initialize(project_custom_field_section: ProjectCustomFieldSection.new)
-          super
+      def initialize(project_custom_field_section: ProjectCustomFieldSection.new)
+        super
 
-          @project_custom_field_section = project_custom_field_section
-        end
+        @project_custom_field_section = project_custom_field_section
+      end
 
-        private
+      private
 
-        def wrapper_uniq_by
-          @project_custom_field_section.id
-        end
+      def wrapper_uniq_by
+        @project_custom_field_section.id
+      end
 
-        def form_config
-          {
-            model: @project_custom_field_section,
-            method: @project_custom_field_section.persisted? ? :put : :post,
-            url: @project_custom_field_section.persisted? ? admin_settings_project_custom_field_section_path(@project_custom_field_section) : admin_settings_project_custom_field_sections_path
-          }
-        end
+      def form_config
+        {
+          model: @project_custom_field_section,
+          method: @project_custom_field_section.persisted? ? :put : :post,
+          url: @project_custom_field_section.persisted? ? admin_settings_project_custom_field_section_path(@project_custom_field_section) : admin_settings_project_custom_field_sections_path
+        }
       end
     end
   end
