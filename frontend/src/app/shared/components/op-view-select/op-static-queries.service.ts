@@ -127,15 +127,6 @@ export class StaticQueriesService {
         view: 'WorkPackagesTable',
       },
       {
-        title: this.text.gantt,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: '',
-          query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
-        },
-        view: 'WorkPackagesTable',
-      },
-      {
         title: this.text.overdue,
         uiSref: 'work-packages',
         uiParams: {
@@ -170,6 +161,16 @@ export class StaticQueriesService {
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","createdAt"],"t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
         view: 'Bim',
+      },
+      {
+        title: this.text.gantt,
+        // TODO: GANTT
+        uiSref: 'work-packages',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
+        view: 'Gantt',
       },
     ];
 

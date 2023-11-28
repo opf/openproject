@@ -546,7 +546,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
             caption: :label_work_package_plural,
-            icon: 'view-timeline',
+            icon: 'view-list',
             html: {
               id: 'main-menu-work-packages',
               'wp-query-menu': 'wp-query-menu'
