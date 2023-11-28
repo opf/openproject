@@ -17,6 +17,11 @@ class AddWorkPackageRoles < ActiveRecord::Migration[7.0]
         manage_work_package_relations
         copy_work_packages
         export_work_packages
+        view_own_time_entries
+        log_own_time
+        edit_own_time_entries
+        show_github_content
+        view_file_links
       ]
     )
 
@@ -33,6 +38,11 @@ class AddWorkPackageRoles < ActiveRecord::Migration[7.0]
         add_work_package_notes
         edit_own_work_package_notes
         export_work_packages
+        view_own_time_entries
+        log_own_time
+        edit_own_time_entries
+        show_github_content
+        view_file_links
       ]
     )
 
@@ -47,6 +57,7 @@ class AddWorkPackageRoles < ActiveRecord::Migration[7.0]
       permissions: %i[
         view_work_packages
         export_work_packages
+        show_github_content
       ]
     )
   end
