@@ -50,10 +50,10 @@ module OpenProject::GitlabIntegration::Services
     def extract_params(payload)
       {
         gitlab_id: payload.id,
-        gitlab_name: payload.name, 
-        gitlab_username: payload.username, 
-        gitlab_email: payload.email, 
-        gitlab_avatar_url: payload.avatar_url
+        gitlab_name: payload.name,
+        gitlab_username: payload.username,
+        gitlab_email: payload.email,
+        gitlab_avatar_url: payload.avatar_url.present? ? payload.avatar_url : "https://www.gravatar.com/avatar/?d=mp"
       }
     end
   end

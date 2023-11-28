@@ -61,7 +61,7 @@ module OpenProject::GitlabIntegration::Services
         gitlab_updated_at: payload.object_attributes.updated_at,
         state: payload.object_attributes.state,
         title: payload.object_attributes.title,
-        body: payload.object_attributes.description,
+        body: payload.object_attributes.description.present? ? payload.object_attributes.description : "No description provided",
         repository: payload.repository.name,
         draft: payload.object_attributes.work_in_progress,
         merged: payload.object_attributes.state == 'merged' ? true : false,
