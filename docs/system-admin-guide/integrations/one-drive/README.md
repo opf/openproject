@@ -9,4 +9,34 @@ keywords: One Drive, Sharepoint, file storage, integration
 
 # OneDrive/Sharepoint integration setup
 
-_TBD_
+
+
+| Topic                      | Description                                                  |
+| ----------------------------------- | :----------------------------------------------------------- |
+| [Minimum requirements](#minimum-requirements)            | Minimum version requirements to enable the integration       |
+| [Set up the integration](#set-up-the-integration)      | Connect OpenPRoject and OneDrive/Sharepoint instances as an administrator |
+| [Using the integration](#using-the-integration) | Create and manage workflows for work packages in OpenProject. |
+
+OpenProject offers an integration with OneDrive/Sharepoint to allow users to:
+
+- Link files and folders stored in OneDrive/Sharepoint with OpenProject work packages
+- View, open and download files and folder linked to a work package via the Files tab
+- View all work packages linked to a file
+
+> Note: This guide only covers the integration setup. Please go to our [OneDrive/Sharepoint integration user guide](../../../user-guide/nextcloud-integration/) to learn more about how to work with the OneDrive/Sharepoint integration.
+
+## Minimum requirements
+
+Please note these minimum version requirements for the integration to work with a minimal feature set:
+
+- OpenProject version 13.1 (or above)
+- Sharepoint?
+- 
+
+We recommend using the latest versions of both OneDrive/Sharepoint and OpenProject to be able to use the latest features. 
+
+## Set up the integration
+
+## Using the integration
+
+SCREENSHOT to show: XYZ 
