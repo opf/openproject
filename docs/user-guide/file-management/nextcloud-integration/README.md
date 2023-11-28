@@ -1,14 +1,14 @@
 ---
 sidebar_navigation:
   title: Nextcloud integration
-  priority: 600
+  priority: 900
 description: Using the Nextcloud integration to link/unlink files and folders to work packages, viewing and downloading files and troubleshooting common errors
 keywords: integration, apps, Nextcloud, user
 ---
 
 # Nextcloud integration
 
-Starting with OpenProject 12.2, you can use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
+You can use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
 
 This integration makes it possible for you to:
 
@@ -17,7 +17,7 @@ This integration makes it possible for you to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
-Since OpenProject 13.0 it is also possible to automatically create dedicated [project folders](../projects/project-settings/file-storages/#project-folders), which makes documentation structure clearer and makes navigation more intuitive. 
+It is also possible to automatically create dedicated [project folders](../projects/project-settings/file-storages/#project-folders), which makes documentation structure clearer and makes navigation more intuitive. 
 
 > **Important note**: To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud). Then a project administrator can activate Nextcloud in the  [**File storages**](../projects/project-settings/file-storages/) for a project.
 
