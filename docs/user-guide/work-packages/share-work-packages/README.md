@@ -26,14 +26,21 @@ If the list contains multiple users you can filter it by Type or Role.
 
 Following user types are available as filters:
 
-![Filter list of users by user type](openproject_user_guide_sharing_member_type_filter.png)
-
 - Project member - returns all users that are project members
+
 - Not project member - returns all users that are not project members
+
 - Project group - returns all users that are members of a group which is part of the project
+
 - Not project group - returns all users that are members of a group which is not part of the project
 
+  ![Filter list of users by user type](openproject_user_guide_sharing_member_type_filter.png)
+
 Following user roles are available as filters:
+
+- Edit - returns all users that are permitted to edit a work package
+- Comment - returns all users that are allowed to add comments and attachments to a work package
+- View - returns all users that can view, but not edit a work package
 
 ![Filter list of users by user role](openproject_user_guide_sharing_member_role_filter.png)
 
