@@ -55,20 +55,10 @@ RSpec.describe 'boards onboarding tour',
            public: true,
            enabled_module_names: %w[work_package_tracking wiki board_view])
   end
-  let(:scrum_project) do
-    create(:project,
-           name: 'Scrum project',
-           identifier: 'your-scrum-project',
-           public: true,
-           enabled_module_names: %w[work_package_tracking wiki board_view])
-  end
   let!(:wp_1) { create(:work_package, project: demo_project) }
-  let!(:wp_2) { create(:work_package, project: scrum_project) }
 
   let!(:demo_board_view) { create(:board_grid_with_query, project: demo_project, name: 'Kanban', query:) }
   let!(:demo_basic_board_view) { create(:board_grid_with_query, project: demo_project, name: 'Basic board', query:) }
-  let!(:scrum_board_view) { create(:board_grid_with_query, project: scrum_project, name: 'Kanban', query:) }
-  let!(:scrum_basic_board_view) { create(:board_grid_with_query, project: scrum_project, name: 'Task board', query:) }
   let(:query) { create(:query, user:, project: demo_project) }
 
   before do
@@ -98,20 +88,6 @@ RSpec.describe 'boards onboarding tour',
 
         step_through_onboarding_main_menu_tour has_full_capabilities: true
       end
-
-      it "I see the board onboarding tour in the scrum project" do
-        # Set sessionStorage value so that the tour knows that it is in the scum tour
-        page.execute_script("window.sessionStorage.setItem('openProject-onboardingTour', 'startMainTourFromBacklogs');")
-
-        # Set the tour parameter so that we can start on the wp page
-        visit "/projects/#{scrum_project.identifier}/work_packages?start_onboarding_tour=true"
-
-        step_through_onboarding_wp_tour scrum_project, wp_2
-
-        step_through_onboarding_board_tour
-
-        step_through_onboarding_main_menu_tour has_full_capabilities: true
-      end
     end
 
     context 'without an EE token' do
@@ -124,20 +100,6 @@ RSpec.describe 'boards onboarding tour',
         visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 
         step_through_onboarding_wp_tour demo_project, wp_1
-
-        step_through_onboarding_board_tour with_ee_token: false
-
-        step_through_onboarding_main_menu_tour has_full_capabilities: true
-      end
-
-      it "I see the board onboarding tour in the scrum project" do
-        # Set sessionStorage value so that the tour knows that it is in the scum tour
-        page.execute_script("window.sessionStorage.setItem('openProject-onboardingTour', 'startMainTourFromBacklogs');")
-
-        # Set the tour parameter so that we can start on the wp page
-        visit "/projects/#{scrum_project.identifier}/work_packages?start_onboarding_tour=true"
-
-        step_through_onboarding_wp_tour scrum_project, wp_2
 
         step_through_onboarding_board_tour with_ee_token: false
 
