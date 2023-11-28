@@ -28,6 +28,7 @@
 module BasicData
   class BaseRoleSeeder < ModelSeeder
     self.needs = []
+    self.attribute_names_for_lookups = %i[builtin name]
 
     def model_attributes(role_data)
       {
