@@ -161,7 +161,6 @@ en:
         The project folder is the default folder for file uploads for this project.
         Users can nevertheless still upload files to other locations.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
