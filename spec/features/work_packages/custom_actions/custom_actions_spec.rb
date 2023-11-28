@@ -324,7 +324,7 @@ RSpec.describe 'Custom actions', :js, :with_cuprite,
                               "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join("\n")
 
     expect(page)
-      .to have_css('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name)
+      .to have_css('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name, wait: 10)
 
     wp_page.click_custom_action('Close')
     wp_page.expect_attributes status: closed_status.name,
