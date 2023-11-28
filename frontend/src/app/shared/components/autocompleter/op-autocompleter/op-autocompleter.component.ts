@@ -22,30 +22,47 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
-import { BehaviorSubject, merge, NEVER, Observable, of, Subject, timer } from 'rxjs';
-import { debounce, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
-import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
+import {
+  DropdownPosition,
+  NgSelectComponent,
+} from '@ng-select/ng-select';
+import {
+  BehaviorSubject,
+  merge,
+  NEVER,
+  Observable,
+  of,
+  Subject,
+  timer,
+} from 'rxjs';
+import {
+  debounce,
+  distinctUntilChanged,
+  filter,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+import {
+  AddTagFn,
+  GroupValueFn,
+} from '@ng-select/ng-select/lib/ng-select.component';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import {
-  Highlighting,
-} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  OpAutocompleterFooterTemplateDirective,
-} from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
+import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 
 import { OpAutocompleterService } from './services/op-autocompleter.service';
 import { OpAutocompleterHeaderTemplateDirective } from './directives/op-autocompleter-header-template.directive';
 import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompleter-label-template.directive';
 import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocompleter-option-template.directive';
-import {
-  repositionDropdownBugfix,
-} from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { ID } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -118,7 +135,16 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public clearable?:boolean = true;
 
-  @Input() public addTag?:boolean = false;
+  @Input() set addTag(val:boolean|AddTagFn) {
+    this._addTag = val === true ? this.addNewObjectFn.bind(this) : val;
+    this.cdRef.detectChanges();
+  }
+
+  get addTag():boolean|AddTagFn {
+    return this._addTag;
+  }
+
+  private _addTag:boolean|AddTagFn = false;
 
   @Input() public id = '';
 
@@ -529,5 +555,9 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
       const event = new Event('change');
       input.dispatchEvent(event);
     }
+  }
+
+  public addNewObjectFn(searchTerm:string):unknown {
+    return this.bindLabel ? { [this.bindLabel]: searchTerm } : searchTerm;
   }
 }

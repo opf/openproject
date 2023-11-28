@@ -101,6 +101,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
         UTIL.basic_auth_header(@username, @password).merge('Depth' => depth)
       )
 
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
       case response
       when Net::HTTPSuccess
         doc = Nokogiri::XML response.body
@@ -120,13 +122,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
 
         ServiceResult.success(result:)
       when Net::HTTPMethodNotAllowed
-        UTIL.error(:not_allowed)
-      when Net::HTTPUnauthorized
-        UTIL.error(:unauthorized)
+        UTIL.error(:not_allowed, 'Outbound request method not allowed', error_data)
       when Net::HTTPNotFound
-        UTIL.error(:not_found)
+        UTIL.error(:not_found, 'Outbound request destination not found', error_data)
+      when Net::HTTPUnauthorized
+        UTIL.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
-        UTIL.error(:error)
+        UTIL.error(:error, 'Outbound request failed', error_data)
       end
     end
 

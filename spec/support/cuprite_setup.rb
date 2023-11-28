@@ -65,7 +65,7 @@ Capybara::Cuprite::Driver.prepend(SetCupriteDownloadPath)
 def register_better_cuprite(language, name: :"better_cuprite_#{language}")
   Capybara.register_driver(name) do |app|
     options = {
-      process_timeout: 10,
+      process_timeout: 20,
       inspector: true,
       headless: headless_mode?,
       window_size: [1920, 1080]
@@ -74,6 +74,10 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
     if headful_mode? && ENV['CAPYBARA_WINDOW_RESOLUTION']
       window_size = WindowResolutionManagement.extract_dimensions(ENV['CAPYBARA_WINDOW_RESOLUTION'])
       options = options.merge(window_size:)
+    end
+
+    if headful_mode? && ENV['OPENPROJECT_TESTING_SLOWDOWN_FACTOR']
+      options = options.merge(slowmo: ENV['OPENPROJECT_TESTING_SLOWDOWN_FACTOR'])
     end
 
     if ENV['CHROME_URL'].present?
@@ -85,7 +89,8 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       'disable-gpu': nil,
       'disable-popup-blocking': nil,
       lang: language,
-      'no-sandbox': nil
+      'no-sandbox': nil,
+      'disable-smooth-scrolling': true
     }
 
     if ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'].present?

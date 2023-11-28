@@ -26,12 +26,18 @@ fr:
         name: "Nom"
         creator: "Créateur"
         provider_type: "Type de fournisseur"
+        host: "Host"
+        tenant: "Tenant"
       storages/file_link:
         origin_id: "Id d'origine"
     errors:
       messages:
         not_linked_to_project: "n'est pas lié au projet."
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:
@@ -56,21 +62,33 @@ fr:
     default_name: "My storage"
     unknown_storage: "Espace de stockage inconnu"
     buttons:
+      done_continue: "Done, continue"
       done_continue_setup: "Terminé. Poursuivre la configuration"
       done_complete_setup: "Configuration terminée."
       edit_automatically_managed_project_folders: "Modifier les dossiers de projet gérés automatiquement"
       replace_openproject_oauth: "Remplacer OAuth OpenProject"
       replace_provider_type_oauth: "Remplacer OAuth %{provider_type}"
       save: "Save"
+      save_and_continue: "Save and continue"
       save_and_continue_setup: "Enregistrer et continuer la configuration"
       save_and_complete_setup: "Enregistrer et terminer la configuration"
       select_folder: "Sélectionner un dossier"
       configure: "Configurer"
+    file_storage_view:
+      general_information: "General information"
+      oauth_applications: "OAuth applications"
+      project_folders: "Project folders"
+      storage_provider: "Storage provider"
+      openproject_oauth: "OpenProject OAuth"
+      one_drive_oauth: "Azure OAuth"
+      nextcloud_oauth: "Nextcloud OAuth"
+      automatically_managed_folders: "Automatically managed folders"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Répertoires de projet gérés automatiquement"
+        subtitle_short: "Let OpenProject create folders per project automatically."
         subtitle: >
           Laisser OpenProject créer automatiquement des dossiers par projet. Cette option est recommandée, car elle garantit que chaque membre de l'équipe dispose toujours des autorisations d'accès correctes.
       project_settings:
@@ -89,6 +107,9 @@ fr:
       host: "Veuillez ajouter l'adresse d'hôte de votre stockage, y compris le https://. Il ne doit pas dépasser 255 caractères."
       managed_project_folders_application_password: >
         Copier cette valeur depuis :
+      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
+      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
+      new_storage_link_text: "file storage documentation"
       no_storage_set_up: "Aucun espace de stockage de fichiers n'a été configuré pour le moment."
       no_specific_folder: "Par défaut, chaque utilisateur démarrera dans son propre dossier d'accueil lorsqu'il téléversera un fichier."
       automatic_folder: "Cela créera automatiquement un dossier racine pour ce projet et gérera les autorisations d'accès pour chaque membre du projet."
@@ -101,21 +122,36 @@ fr:
       setting_up_storages: "Pour configurer des stockages de fichiers, veuillez visiter"
       setting_up_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers dans Administration / Stockages de fichiers."
       all_available_storages_already_added: "Tous les stockages disponibles sont déjà ajoutés au projet."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
       copy_from: "Copier cette valeur depuis"
       nextcloud:
+        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
+        oauth_configuration: "Copy these values from %{application_link_text}."
+        application_link_text: "application “Integration OpenProject”"
         integration: "Administration Nextcloud / OpenProject"
       one_drive:
+        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
+        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
+        application_link_text: "Azure application"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
           Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
-        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
+        tenant_id: "Please copy the tenant from your Azure application."
+        tenant_id_placeholder: "Name or UUID"
+        drive_id: "Please copy the drive ID from your Azure application."
+        drive_id_placeholder: "UUID or triple ID"
     help_texts:
       project_folder: >
         Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
     configuration_checks:
       incomplete: "The setup of this storage is incomplete."
+      oauth_client_incomplete:
+        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
+        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
     delete_warning:
       storage: >
         Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
@@ -130,12 +166,15 @@ fr:
       description: "Add a storage to see them here."
     label_active: "Actif"
     label_add_new_storage: "Add new storage"
+    label_delete_storage: "Delete storage"
     label_inactive: "Inactif"
     label_creator: "Créateur"
     label_provider: "Provider"
     label_file_link: "Lien du fichier"
     label_file_links: "Liens de fichier"
+    label_file_storage: "File storage"
     label_creation_time: "Creation time"
+    label_completed: "Completed"
     label_incomplete: "Incomplete"
     label_name: "Nom"
     label_host: "URL de l'hôte"
@@ -149,14 +188,25 @@ fr:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Détails de l'application OAuth"
     label_oauth_client_details: "Détails du client OAuth"
+    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
+    label_information: "Additional information"
     label_provider_type: "Type de fournisseur"
     label_project_folder: "Dossier du projet"
+    label_redirect_uri: "Redirect URI"
     label_new_storage: "Nouveau stockage"
+    label_new_file_storage: "New file storage"
     label_edit_storage: "Edit storage"
+    label_edit_storage_host: "Edit storage host"
+    label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Répertoire existant avec permissions gérées manuellement"
     label_no_specific_folder: "Aucun dossier spécifique"
     label_automatic_folder: "Nouveau dossier avec permissions gérées automatiquement"
     label_no_selected_folder: "Aucun dossier sélectionné"
+    label_select_provider: "Select provider"
     label_storage: "Stockage"
     label_storages: "Stockages"
     label_status: "Statut"
@@ -164,7 +214,7 @@ fr:
     member_connection_status:
       connected: "Connecté"
       connected_no_permissions: "Le rôle d'utilisateur n'a pas d'autorisations de stockage"
-      not_connected: "Non connecté. L'utilisateur doit se connecter à l'espace de stockage via l'onglet %{files_label} d'un lot de travaux pour se connecter."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Aucun espace de stockage n'est configuré pour le moment."
     members_no_results: "Aucun membre à afficher."
     provider_types:
@@ -180,3 +230,4 @@ fr:
     oauth_client_details_missing: "Pour terminer la configuration, veuillez ajouter les identifiants du client OAuth depuis votre espace de stockage."
     automatically_managed_project_folder_missing: "Pour terminer la configuration, veuillez configurer les dossiers de projet gérés automatiquement pour votre espace de stockage."
     notice_oauth_application_replaced: "L'application OAuth OpenProject a bien été remplacée."
+    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."

@@ -302,6 +302,23 @@ RSpec.describe Project, 'allowed to' do
         end
       end
 
+      context 'with the permission being disabled' do
+        let(:permission) { OpenProject::AccessControl.permission(action) }
+
+        around do |example|
+          permission.disable!
+          OpenProject::AccessControl.clear_caches
+          example.run
+        ensure
+          permission.enable!
+          OpenProject::AccessControl.clear_caches
+        end
+
+        it 'is empty' do
+          expect(described_class.allowed_to(anonymous, action)).to be_empty
+        end
+      end
+
       context 'with the anonymous role having the permission
                without the project being active' do
         let(:project_status) { false }

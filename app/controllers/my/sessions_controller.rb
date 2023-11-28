@@ -13,6 +13,15 @@ module My
       @sessions = ::Sessions::UserSession
         .for_user(current_user)
         .order(updated_at: :desc)
+
+      @autologin_tokens = ::Token::AutoLogin
+        .for_user(current_user)
+        .order(expires_on: :asc)
+
+      token = cookies[OpenProject::Configuration['autologin_cookie_name']]
+      if token
+        @current_token = @autologin_tokens.find_by_plaintext_value(token) # rubocop:disable Rails/DynamicFindBy
+      end
     end
 
     def show; end

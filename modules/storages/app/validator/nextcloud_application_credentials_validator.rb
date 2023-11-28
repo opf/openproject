@@ -50,7 +50,7 @@ class NextcloudApplicationCredentialsValidator
 
   def build_http_head_request
     request = Net::HTTP::Head.new Storages::Peripherals::StorageInteraction::Nextcloud::Util
-      .join_uri_path(uri, "remote.php/dav")
+      .join_uri_path(uri.path, "remote.php/dav")
     request.initialize_http_header Storages::Peripherals::StorageInteraction::Nextcloud::Util
       .basic_auth_header(contract.username, contract.password)
     request

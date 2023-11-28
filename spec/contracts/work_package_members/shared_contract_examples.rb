@@ -30,14 +30,15 @@ require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'work package member contract' do
-  let(:current_user) do
-    build_stubbed(:user, admin: current_user_admin) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && member_project == permission_project
-      end
+  include_context 'ModelContract shared context'
+  let(:current_user) { build_stubbed(:user, admin: current_user_admin) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*permissions, project: member_project) if member_project
     end
   end
+
   let(:member_entity) do
     build_stubbed(:work_package)
   end
@@ -79,8 +80,7 @@ RSpec.shared_examples_for 'work package member contract' do
       it_behaves_like 'contract is invalid', base: :error_unauthorized
     end
 
-    # Needs to be changed once groups are introduced
-    context 'if more than one role is assigned' do
+    context 'if more than one non-inherited role is assigned' do
       let(:member_roles) do
         [build_stubbed(:view_work_package_role), build_stubbed(:comment_work_package_role)]
       end
@@ -95,4 +95,6 @@ RSpec.shared_examples_for 'work package member contract' do
       it_behaves_like 'contract is invalid', base: :error_unauthorized
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

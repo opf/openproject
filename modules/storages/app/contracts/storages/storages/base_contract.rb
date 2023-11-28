@@ -47,7 +47,8 @@ module Storages::Storages
 
     attribute :provider_fields
 
-    validate :provider_type_strategy, unless: -> { errors.include?(:provider_type) }
+    validate :provider_type_strategy,
+             unless: -> { errors.include?(:provider_type) || @options.delete(:skip_provider_type_strategy) }
 
     private
 
@@ -59,8 +60,12 @@ module Storages::Storages
       # to the list of writable attributes.
       # Otherwise, we get :readonly validation errors.
       contract.writable_attributes.append(*writable_attributes)
-      contract.validate
-      errors.merge!(contract.errors)
+
+      # Validating the contract will clear the errors
+      # of this contract so we save them for later.
+      with_merged_former_errors do
+        contract.validate
+      end
     end
   end
 end

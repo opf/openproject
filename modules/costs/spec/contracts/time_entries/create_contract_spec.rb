@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require_relative 'shared_contract_examples'
 
 RSpec.describe TimeEntries::CreateContract do
   it_behaves_like 'time entry contract' do
@@ -94,16 +94,15 @@ RSpec.describe TimeEntries::CreateContract do
     end
 
     context 'if time_entry user is not contract user' do
-      let(:other_user) do
-        build_stubbed(:user) do |user|
-          allow(user)
-            .to receive(:allowed_to?) do |permission, permission_project|
-            permissions.include?(permission) && time_entry_project == permission_project
-          end
-        end
-      end
+      let(:other_user) { build_stubbed(:user) }
       let(:permissions) { [] }
       let(:time_entry_user) { other_user }
+
+      before do
+        mock_permissions_for(other_user) do |mock|
+          mock.allow_in_project *permissions, project: time_entry_project
+        end
+      end
 
       it 'is invalid' do
         expect_valid(false, base: %i(error_unauthorized))
@@ -111,17 +110,16 @@ RSpec.describe TimeEntries::CreateContract do
     end
 
     context 'if time_entry user was not set by system' do
-      let(:other_user) do
-        build_stubbed(:user) do |user|
-          allow(user)
-            .to receive(:allowed_to?) do |permission, permission_project|
-            permissions.include?(permission) && time_entry_project == permission_project
-          end
-        end
-      end
+      let(:other_user) { build_stubbed(:user) }
       let(:time_entry_user) { other_user }
       let(:permissions) { [] }
       let(:changed_by_system) { {} }
+
+      before do
+        mock_permissions_for(other_user) do |mock|
+          mock.allow_in_project *permissions, project: time_entry_project
+        end
+      end
 
       it 'is invalid' do
         expect_valid(false, base: %i(error_unauthorized))

@@ -37,7 +37,7 @@ module Projects
     private
 
     def validate_user_allowed_to_manage
-      errors.add :base, :error_unauthorized unless user.allowed_to?(:copy_projects, options[:copy_source])
+      errors.add :base, :error_unauthorized unless user.allowed_in_project?(:copy_projects, options[:copy_source])
     end
   end
 end

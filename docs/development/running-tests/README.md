@@ -18,6 +18,8 @@ Testing OpenProject is distributed between different roles and members, dependin
 
 ## Functional testing
 
+Functional testing ensures that the application works against the set of requirements or specifications. Tests should therefore make sure all the acceptance criteria are met.
+
 The following types of functional tests are used at OpenProject.
 
 | **Type**                                                    | Description                                                  | Examples, References                                         |
@@ -54,7 +56,9 @@ Unit testing concerns testing of isolating individual components of the applicat
   - **Assert**: Check that the method or process behaved as expected.
 - Keep examples of unit specs simples and descriptive
 - Write tests during or before development, not as an afterthought
-- Test the entire range of potential inputs, including negative tests and validation of potentially malicious user input
+- Test the entire range of potential inputs, including *negative* tests and validation of potentially malicious user input.
+
+  Negative testing consists of test cases which define how software reacts to user’s invalid input or unexpected behavior. The aim is not only to prevent the application from crashing but to improve quality by specifying clear and understandable error messages so that users know what kind of input is expected and correct.
 - Avoid calling the database if not necessary
 - Use `FactoryBot` to set up test data in a structured, but randomized way to prevent brittle tests
 - Mock external components and services, and ensure you test the boundaries of the associated components
@@ -174,6 +178,17 @@ Sanity and regression tests are manually performed tests by QA for relevant comp
 
 
 
+**Usage at OpenProject**
+
+For writing and executing manual sanity and regression testing, especially focusing on functional requirements, one of the tools in use at OpenProject is TestLink (https://testlink.org/) to achieve the following goals:
+
+- Test cases have clear preconditions so that the tester prepares for executing each case with enough knowledge about requirements.
+- Test cases are as specific as possible. They should check the proper working of one single point/case and should therefore have no more than 8-10 steps.
+- Test cases are updated with every change of the specifications.
+- Test cases have precise execution steps and expected results.
+
+
+
 **References**
 
 - https://www.browserstack.com/guide/sanity-testing
@@ -209,6 +224,10 @@ Acceptance tests evaluate both functional and non-functional requirements.
 
 
 ##  Non-functional testing
+
+Non-functional testing goes beyond the functionality of the product and is aimed at end-user experience. Test cases should hence make sure to define what is expected in terms of security, performance, compatibility, accessibility etc.
+
+Examples for non-functional test cases: software should be compatible with most used desktop and mobile browsers, as well as operating systems; all the actions can be performed with keyboard navigation; page loading should take no more than X seconds; users who lost access should no longer be able to login etc.
 
 | Type                                                            | Description                                                                                                                                                                                   | Examples, References                                                                                                                                                                                                                 |
 |-----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -261,6 +280,7 @@ Automated or manual security tests for OpenProject are evaluating common weaknes
 **Best practices**
 
 - Use statical and dynamical code analysis for automated vulnerability testing. OpenProject uses CodeQL and Brakeman as part of the CI pipeline to give early feedback to common vulnerabilities.
+- OpenProject uses [Docker Scout](https://www.docker.com/products/docker-scout/) for the Docker images hosted on Docker Hub for automated vulnerability scanning and analysis of the built container, including all dependencies.
 - Follow our [secure coding guidelines](../concepts/secure-coding/) when proposing changes to the application, especially when modifying or adding features to authentication, authorization, 2FA, or sensitive data operations.
 - If possible, automate security tests for common vulnerabilities for input in your development.
 - Train on recent vulnerabilities and checklists such as [OWASP Top Ten](https://owasp.org/www-project-top-ten/) or [OWASP cheat sheets](https://cheatsheetseries.owasp.org/index.html) to stay up-to-date on security testing and extend our security test suite with new information.
@@ -278,10 +298,11 @@ Upgrade tests are manually performed for major code changes and data migrations 
 **Key objectives and effects**
 
 1. **Verify seamless installation**: Ensure that OpenProject can be installed as documented.
-2. **Check version compatibility**: Test the compatibility of the upgraded application with existing configurations, databases, and other dependent software.
-3. **Validate migrations**: Confirm that during an upgrade, data migration occurs without data loss or corruption.
-4. **Technical support**: Reduce the number of support tickets related to installation and upgrade issues.
-5. **Operational efficiency**: Minimize downtime and service interruptions during the upgrade process.
+2. **Correct and minimal configuration:** Ensure that the default configuration is minimal but sufficient to operate OpenProject securely, and check that the required necessary configuration is minimal. New configuration primitives should receive a secure default.
+3. **Check version compatibility**: Test the compatibility of the upgraded application with existing configurations, databases, and other dependent software.
+4. **Validate migrations**: Confirm that during an upgrade, data migration occurs without data loss or corruption.
+5. **Technical support**: Reduce the number of support tickets related to installation and upgrade issues.
+6. **Operational efficiency**: Minimize downtime and service interruptions during the upgrade process.
 
 
 
@@ -290,6 +311,7 @@ Upgrade tests are manually performed for major code changes and data migrations 
 - Use automated testing scripts to simulate various installation and upgrade scenarios.
 - Provide and test the rollback of data migrations to make sure they work as intended.
 - Keep up-to-date documentation for the installation and upgrade procedures, including a list of known issues and workarounds.
+- Example of test cases would be ensuring that software works in a satisfying manner on major browsers and operating systems which are defined in https://www.openproject.org/docs/installation-and-operations/system-requirements/
 
 
 
@@ -341,9 +363,21 @@ OpenProject strives to be accessible for all users while also retaining a high u
 **Best practices**
 
 1. Make accessibility testing an integral part of the development lifecycle, starting with the requirements.
-2. Use automated accessibility testing tools and tests that can quickly identify issues against established accessibility guidelines.
-3. Follow the best practices of the [WCAG checklists](https://www.w3.org/WAI/WCAG21/quickref/) to ensure screen readers and other assistive technologies are well supported.
-4. Consult with accessibility experts to conduct audits and provide recommendations for improvements. Alternatively, consult the development colleagues with experience in accessibility testing to evaluate requirements and implementation proposals.
+2. Use specialized browser extension to help identify and resolve common accessibility issues.
+3. Follow the best practices of the [WCAG 2 checklists](https://www.w3.org/WAI/WCAG22/quickref/) and [accessibility patterns](https://www.w3.org/WAI/ARIA/apg/patterns/) from ARIA authoring practices guide to ensure screen readers and other assistive technologies are well supported.
+4. Use [axe-core-rspec](https://github.com/dequelabs/axe-core-gems/blob/develop/packages/axe-core-rspec/README.md) in automated accessibility tests to provide continuous regression testing against common accessibility issues.
+5. Use [capybara-accessible-selectors](https://github.com/citizensadvice/capybara_accessible_selectors) in [feature tests](#feature-tests) to find UI elements using screen-reader compatible selectors. This ensures the page elements used by feature tests are accessible to assistive technologies.
+6. Consult with accessibility experts to conduct audits and provide recommendations for improvements. Alternatively, consult the development colleagues with experience in accessibility testing to evaluate requirements and implementation proposals.
+
+
+
+**References**
+
+- https://www.deque.com/axe/browser-extensions/
+- https://www.w3.org/WAI/WCAG22/quickref/
+- https://www.w3.org/WAI/ARIA/apg/patterns/
+- https://github.com/dequelabs/axe-core-gems/blob/develop/packages/axe-core-rspec/README.md
+- https://github.com/citizensadvice/capybara_accessible_selectors
 
 
 
@@ -455,6 +489,7 @@ Possible reasons are:
   * To help diagnose why a system test is failing:
     * Browser screenshots are created for failing system tests involving a browser. You can find them in the job log output.
     * Try running with `OPENPROJECT_TESTING_NO_HEADLESS=1` to view what the browser is doing. Use `OPENPROJECT_TESTING_AUTO_DEVTOOLS=1` to have DevTools opened so that you can use `debugger` statements in the js code.
+    * If the interactions are still too fast to understand why the test is failing, use `OPENPROJECT_TESTING_SLOWDOWN_FACTOR`, providing the number of seconds to slow down every browser command with. For example, if you'd like to slow down every interaction by 200 milliseconds, run with `OPENPROJECT_TESTING_SLOWDOWN_FACTOR=0.2`.
 * Migration executed locally
   * While developing on another branch, you may run migrations and forget to roll them back when switching branches. This can lead to different test results: a migration modifying a database column default value can impact system behavior and change test results.
   * To find if this is your case, run `rails db:migrate:status` to list migration status. Look for `up    <migration-id>  ********** NO FILE **********` patterns. If you have some, try looking up the commit associated with this migration and check if it explains behavior difference.

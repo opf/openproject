@@ -84,4 +84,6 @@ RSpec.describe OAuthClients::CreateContract do
       include_examples 'contract is invalid', { integration_id: :blank, integration_type: :blank }
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

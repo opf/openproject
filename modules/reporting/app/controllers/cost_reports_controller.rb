@@ -52,7 +52,7 @@ class CostReportsController < ApplicationController
   attr_accessor :report_engine, :cost_types, :unit_id, :cost_type
 
   helper_method :current_user
-  helper_method :allowed_to?
+  helper_method :allowed_in_report?
 
   include ReportingHelper
   helper ReportingHelper
@@ -148,7 +148,7 @@ class CostReportsController < ApplicationController
   # RecordNotFound if the query at :id does not exist
   def destroy
     if @query
-      @query.destroy if allowed_to? :destroy, @query
+      @query.destroy if allowed_in_report(:destroy, @query)
     else
       raise ActiveRecord::RecordNotFound
     end
@@ -358,18 +358,13 @@ class CostReportsController < ApplicationController
   # save_private_cost_reports permission as well
   #
   # @Override
-  def allowed_to?(action, report, user = User.current)
+  def allowed_in_report?(action, report, user = User.current) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     # admins may do everything
     return true if user.admin?
 
     # If this report does belong to a project but not to the current project, we
     # should not do anything with it. It fact, this should never happen.
     return false if report.project.present? && report.project != @project
-
-    # If report does not belong to a project, it is ok to look for the
-    # permission in any project. Otherwise, the user should have the permission
-    # in this project.
-    global = report.project.nil?
 
     permissions =
       case action
@@ -384,7 +379,16 @@ class CostReportsController < ApplicationController
       when :save_as_public
         %i[save_cost_reports]
       end
-    Array(permissions).any? { |permission| user.allowed_to?(permission, @project, global:) }
+
+    # If report does not belong to a project, it is ok to look for the
+    # permission in any project. Otherwise, the user should have the permission
+    # in this project.
+
+    if report.project
+      Array(permissions).any? { |permission| user.allowed_in_project?(permission, @project) }
+    else
+      Array(permissions).any? { |permission| user.allowed_in_any_project?(permission) }
+    end
   end
 
   private

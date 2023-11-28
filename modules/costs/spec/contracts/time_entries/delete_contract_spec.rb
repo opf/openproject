@@ -29,19 +29,9 @@
 require 'spec_helper'
 
 RSpec.describe TimeEntries::DeleteContract do
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && time_entry_project == permission_project
-      end
-    end
-  end
+  let(:current_user) { build_stubbed(:user) }
   let(:other_user) { build_stubbed(:user) }
-  let(:time_entry_work_package) do
-    build_stubbed(:work_package,
-                  project: time_entry_project)
-  end
+  let(:time_entry_work_package) { build_stubbed(:work_package, project: time_entry_project) }
   let(:time_entry_project) { build_stubbed(:project) }
   let(:time_entry_user) { current_user }
   let(:time_entry_activity) { build_stubbed(:time_entry_activity) }
@@ -51,7 +41,6 @@ RSpec.describe TimeEntries::DeleteContract do
   let(:time_entry_comments) { "A comment" }
   let(:work_package_visible) { true }
   let(:permissions) { %i[edit_time_entries] }
-
   let(:time_entry) do
     build_stubbed(:time_entry,
                   project: time_entry_project,
@@ -65,10 +54,14 @@ RSpec.describe TimeEntries::DeleteContract do
   end
 
   before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: time_entry_project
+    end
+
     allow(time_entry_work_package)
-      .to receive(:visible?)
-      .with(current_user)
-      .and_return(work_package_visible)
+          .to receive(:visible?)
+          .with(current_user)
+          .and_return(work_package_visible)
   end
 
   subject(:contract) { described_class.new(time_entry, current_user) }

@@ -38,19 +38,15 @@ RSpec.describe Calendar::CalendarsController do
     end
   end
   let(:permissions) { [:view_calendar] }
-  let(:user) do
-    build_stubbed(:user).tap do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, p|
-        permission[:controller] == 'calendar/calendars' &&
-          permission[:action] == 'index' &&
-          (p.nil? || p == project)
-      end
-      allow(user).to receive(:allowed_to_globally?).and_return(false)
-    end
-  end
+  let(:user) { build_stubbed(:user) }
 
-  before { login_as user }
+  before do
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
+
+    login_as user
+  end
 
   describe '#index' do
     shared_examples_for 'calendar#index' do

@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'model_contract'
-
 module Relations
   class BaseContract < ::ModelContract
     attribute :relation_type
@@ -46,13 +44,6 @@ module Relations
       Relation
     end
 
-    def validate!(*args)
-      # same as before_validation callback
-      model.send(:reverse_if_needed)
-
-      super
-    end
-
     private
 
     def validate_from_exists
@@ -65,7 +56,7 @@ module Relations
 
     def validate_nodes_relatable
       if (model.from_id_changed? || model.to_id_changed?) &&
-         WorkPackage.relatable(model.from, model.relation_type).where(id: model.to).empty?
+         WorkPackage.relatable(model.from, model.relation_type, ignored_relation: model).where(id: model.to_id).empty?
         errors.add :base, I18n.t(:'activerecord.errors.messages.circular_dependency')
       end
     end
@@ -87,7 +78,7 @@ module Relations
     end
 
     def manage_relations?
-      user.allowed_to? :manage_work_package_relations, model.from.project
+      user.allowed_in_work_package?(:manage_work_package_relations, model.from)
     end
   end
 end

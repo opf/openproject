@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Backlogs', :js do
+RSpec.describe 'Backlogs', :js, :with_cuprite do
   let(:story_type) do
     create(:type_feature)
   end

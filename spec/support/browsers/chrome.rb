@@ -23,6 +23,7 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
     # This is REQUIRED for running in a docker container
     # https://github.com/grosser/parallel_tests/issues/658
     options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-smooth-scrolling')
 
     options.add_preference(:download,
                            directory_upgrade: true,

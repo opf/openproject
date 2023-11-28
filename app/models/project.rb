@@ -159,6 +159,9 @@ class Project < ApplicationRecord
   }
   scope :public_projects, -> { where(public: true) }
   scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
+  scope :with_visible_work_packages, ->(user = User.current) do
+    where(id: WorkPackage.visible(user).select(:project_id)).or(allowed_to(user, :view_work_packages))
+  end
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
   scope :archived, -> { where(active: false) }
@@ -178,7 +181,8 @@ class Project < ApplicationRecord
   }
 
   def visible?(user = User.current)
-    active? and (public? or user.admin? or user.member_of?(self))
+    active? and (public? or user.admin? or user.member_of?(self) or user.allowed_in_any_work_package?(:view_work_packages,
+                                                                                                      in_project: self))
   end
 
   def archived?
@@ -190,7 +194,7 @@ class Project < ApplicationRecord
   end
 
   def copy_allowed?
-    User.current.allowed_to?(:copy_projects, self)
+    User.current.allowed_in_project?(:copy_projects, self)
   end
 
   def self.selectable_projects
@@ -204,7 +208,7 @@ class Project < ApplicationRecord
   # to everybody having at least one role in a project regardless of the
   # role's permissions.
   def self.visible_by(user = User.current)
-    allowed_to(user, :view_project)
+    allowed_to(user, :view_project).or(where(id: WorkPackage.visible(user).select(:project_id)))
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.
@@ -272,8 +276,15 @@ class Project < ApplicationRecord
   # (same object_id) for every work package having the same project this will
   # reduce the number of db queries when performing operations including the
   # project's versions.
-  def assignable_versions
-    @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
+  #
+  # For custom fields configured with "Allow non-open versions" this can be called
+  # with only_open: false, in which case locked and closed versions are returned as well.
+  def assignable_versions(only_open: true)
+    if only_open
+      @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
+    else
+      @assignable_versions_including_non_open ||= shared_versions.references(:project).order_by_semver_name.to_a
+    end
   end
 
   # Returns an AR scope of all custom fields enabled for project's work packages

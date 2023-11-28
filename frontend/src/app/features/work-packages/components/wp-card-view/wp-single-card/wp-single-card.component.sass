@@ -7,7 +7,7 @@
   user-select: none
   // Leave space for the shadow to be displayed
   width: calc(100% - 2px)
-  border: 1px solid var(--content-default-border-color)
+  border: 1px solid var(--color-border-muted)
   border-radius: 2px
   padding: 10px
   position: relative
@@ -86,7 +86,7 @@
     &-project-name
       grid-area: project
       font-style: italic
-      color: $spot-color-basic-gray-3
+      color: var(--color-fg-muted)
       font-size: 12px
       @include text-shortener
     &-type
@@ -99,11 +99,11 @@
       margin-right: auto
       grid-area: avatar
       max-width: 140px
-      color: $spot-color-basic-gray-3
+      color: var(--color-fg-muted)
       font-size: 12px
     &-id
       grid-area: id
-      color: $spot-color-basic-gray-3
+      color: var(--color-fg-muted)
       font-size: 12px
     &-status-baseline
       grid-area: status
@@ -121,6 +121,7 @@
     &-cover-image
       grid-area: image
       max-height: 350px
+      justify-self: center
 
       @media screen and (max-width: $breakpoint-sm)
         max-height: 250px
@@ -129,12 +130,12 @@
       grid-area: dates
       place-self: center end
       white-space: nowrap
-      color: $spot-color-basic-gray-3
+      color: var(--color-fg-muted)
       font-size: 12px
 
     &-inline-date
       font-size: 12px
-      color: $spot-color-basic-gray-3
+      color: var(--color-fg-muted)
       margin: 0 8px
       white-space: nowrap
 

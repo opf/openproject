@@ -65,13 +65,16 @@ ca:
           other: "%{count} enllaços de fitxer creat correctament."
         upload_error:
           default: >
-            El teu fitxer (%{fileName}) no s'ha pogut carregar. Si us plau, verifica que l'última versió de l'aplicació de Nextcloud "OpenProject Integration" està instal·lada i/o contacta el teu administrador per més informació.
+            Your file (%{fileName}) could not be uploaded.
           403: >
             El fitxer (%{fileName}) no s'ha pogut carregar a causa de les restriccions del sistema. Si us plau, contacta el teu administrador per a més informació.
           413: >
             El fitxer (%{fileName}) és més gran del que OpenProject pot carregar a %{storageType}. Pots carregar-lo directament a %{storageType} i després vincular-lo.
           507: >
             El fitxer (%{fileName}) és més gran que la quota d'emmagatzematge permesa. Si us plau, contacta el teu administrador per a modificar aquesta quota.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           S'ha produït un error en enllaçar els fitxers carregats recentment "%{fileName}" al paquet de treball %{workPackageId}.
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"

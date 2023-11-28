@@ -29,6 +29,7 @@
 require 'digest/sha1'
 
 class User < Principal
+  VALID_NAME_REGEX = /\A[\d\p{Alpha}\p{Mark}\p{Space}\p{Emoji}'’´\-_.,@()+&*–]+\z/
   CURRENT_USER_LOGIN_ALIAS = 'me'.freeze
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
@@ -78,12 +79,6 @@ class User < Principal
            inverse_of: :user,
            dependent: :destroy
 
-  has_many :work_package_shares,
-           -> { where(entity_type: WorkPackage.name) },
-           class_name: 'Member',
-           dependent: :delete_all,
-           inverse_of: :principal
-
   has_many :notification_settings, dependent: :destroy
 
   # Users blocked via brute force prevention
@@ -96,8 +91,7 @@ class User < Principal
          :notified_globally,
          :watcher_recipients,
          :with_time_zone,
-         :having_reminder_mail_to_send,
-         :having_entity_membership
+         :having_reminder_mail_to_send
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))
@@ -128,7 +122,10 @@ class User < Principal
   # Login must contain letters, numbers, underscores only
   validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
   validates :login, length: { maximum: 256 }
+
   validates :firstname, :lastname, length: { maximum: 256 }
+  validates :firstname, :lastname, format: { with: VALID_NAME_REGEX, allow_blank: true }
+
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates :mail, length: { maximum: 256, allow_nil: true }
 
@@ -262,7 +259,6 @@ class User < Principal
     token = Token::AutoLogin.find_by_plaintext_value(key)
     # Make sure there's only 1 token that matches the key
     if token && ((token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?)
-      token.user.log_successful_login
       token.user
     end
   end

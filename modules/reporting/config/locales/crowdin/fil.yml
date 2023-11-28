@@ -47,6 +47,7 @@ fil:
   label_is_project_with_subprojects: "is (includes subprojects)"
   label_work_package_attributes: "Work package attributes"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Cash value"
   label_month_reporting: "Month (Spent)"
   label_new_report: "New cost report"

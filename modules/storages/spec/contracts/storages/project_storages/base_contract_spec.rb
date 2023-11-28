@@ -37,8 +37,8 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
   include_context 'ModelContract shared context'
 
   let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
-  # Creator is not writable in BaseContract; just test base contract writable attributes
-  let(:project_storage) { build(:project_storage) }
+  let(:storage) { build_stubbed(:nextcloud_storage) }
+  let(:project_storage) { build(:project_storage, storage:) }
 
   context 'if the project folder mode is `inactive`' do
     before do
@@ -51,9 +51,19 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
   context 'if the project folder mode is `automatic`' do
     before do
       project_storage.project_folder_mode = 'automatic'
+      project_storage.storage.automatically_managed = true
     end
 
     it_behaves_like 'contract is valid'
+  end
+
+  context 'when the project folder mode is `automatic` but the storage is not automatically managed' do
+    before do
+      project_storage.project_folder_mode = 'automatic'
+      project_storage.storage.automatically_managed = false
+    end
+
+    it_behaves_like 'contract is invalid', project_folder_mode: :mode_unavailable
   end
 
   context 'if the project folder mode is `manual`' do
@@ -73,4 +83,6 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
       it_behaves_like 'contract is valid'
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

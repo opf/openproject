@@ -56,7 +56,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DownloadLink
   it 'return an error if any other response is received' do
     stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_link.origin_id}/content")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-      .and_return(status: 200, body: "")
+      .and_return(status: 200, body: '')
 
     download_link = download_link_query.call(user:, file_link:)
 

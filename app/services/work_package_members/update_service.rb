@@ -27,4 +27,27 @@
 # ++
 
 class WorkPackageMembers::UpdateService < BaseServices::Update
+  include Members::Concerns::CleanedUp
+
+  protected
+
+  def after_perform(service_call)
+    return service_call unless service_call.success?
+
+    work_package_member = service_call.result
+
+    update_group_roles(work_package_member) if work_package_member.principal.is_a?(Group)
+
+    service_call
+  end
+
+  def update_group_roles(work_package_member)
+    Groups::UpdateRolesService
+      .new(work_package_member.principal,
+           current_user: user,
+           contract_class: EmptyContract)
+      .call(member: work_package_member,
+            send_notifications: false,
+            message: nil)
+  end
 end

@@ -64,25 +64,45 @@ RSpec.describe ForumsController do
       end
     end
 
-    it 'renders 404 for not found' do
-      get :index, params: { project_id: 'not found' }
-      expect(response.status).to eq 404
+
+    context 'when login_required', with_settings: { login_required: true } do
+      it 'redirects to login' do
+        get :index, params: { project_id: 'not found' }
+        expect(response).to redirect_to signin_path(back_url: project_forums_url('not found'))
+      end
+    end
+
+    context 'when not login_required', with_settings: { login_required: false } do
+      it 'renders 404 for not found' do
+        get :index, params: { project_id: 'not found' }
+        expect(response.status).to eq 404
+      end
     end
   end
 
   describe '#show' do
     before do
-      expect(project).to receive_message_chain(:forums, :find).and_return(forum)
-      expect(@controller).to receive(:authorize)
-      expect(@controller).to receive(:find_project_by_project_id) do
+      allow(project).to receive_message_chain(:forums, :find).and_return(forum)
+      allow(@controller).to receive(:authorize)
+      allow(@controller).to receive(:find_project_by_project_id) do
         @controller.instance_variable_set(:@project, project)
       end
     end
 
-    it 'renders the show template' do
-      get :show, params: { project_id: project.id, id: 1 }
-      expect(response).to be_successful
-      expect(response).to render_template 'forums/show'
+
+    context 'when login_required', with_settings: { login_required: true } do
+      it 'redirects to login' do
+        get :show, params: { project_id: project.id, id: 1 }
+        expect(response).to redirect_to signin_path(back_url: project_forum_url(project.id, 1))
+      end
+    end
+
+    context 'when not login_required', with_settings: { login_required: false } do
+      it 'renders the show template' do
+        get :show, params: { project_id: project.id, id: 1 }
+        expect(response).to be_successful
+        expect(response).to render_template 'forums/show'
+      end
     end
   end
 
@@ -139,7 +159,7 @@ RSpec.describe ForumsController do
     end
   end
 
-  describe '#destroy' do
+  describe '#destroy',  with_settings: { login_required: false } do
     let(:forum_params) { { name: 'my forum', description: 'awesome forum' } }
 
     before do
@@ -174,7 +194,7 @@ RSpec.describe ForumsController do
       allow(@controller).to receive(:authorize).and_return(true)
     end
 
-    describe '#higher' do
+    describe '#higher',  with_settings: { login_required: false } do
       let(:move_to) { 'higher' }
 
       before do
@@ -253,7 +273,7 @@ RSpec.describe ForumsController do
     end
   end
 
-  describe '#sticky' do
+  describe '#sticky', with_settings: { login_required: false } do
     let!(:message1) { create(:message, forum:) }
     let!(:message2) { create(:message, forum:) }
     let!(:sticked_message1) do

@@ -26,12 +26,18 @@ zh-TW:
         name: "名稱"
         creator: "建立者"
         provider_type: "提供者類型"
+        host: "Host"
+        tenant: "Tenant"
       storages/file_link:
         origin_id: "來源 ID"
     errors:
       messages:
         not_linked_to_project: "未鏈結至專案。"
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "is not available for this storage."
         storages/storage:
           attributes:
             host:
@@ -56,21 +62,33 @@ zh-TW:
     default_name: "My storage"
     unknown_storage: "不明的儲存區"
     buttons:
+      done_continue: "Done, continue"
       done_continue_setup: "已完成。繼續設置"
       done_complete_setup: "完成。完成設置"
       edit_automatically_managed_project_folders: "編輯自動管理的項目文件夾"
       replace_openproject_oauth: "替換 OpenProject OAuth"
       replace_provider_type_oauth: "替換 %{provider_type} OAuth"
       save: "Save"
+      save_and_continue: "Save and continue"
       save_and_continue_setup: "保存並繼續設置"
       save_and_complete_setup: "保存並完成設置"
       select_folder: "選擇資料夾"
       configure: "配置"
+    file_storage_view:
+      general_information: "General information"
+      oauth_applications: "OAuth applications"
+      project_folders: "Project folders"
+      storage_provider: "Storage provider"
+      openproject_oauth: "OpenProject OAuth"
+      one_drive_oauth: "Azure OAuth"
+      nextcloud_oauth: "Nextcloud OAuth"
+      automatically_managed_folders: "Automatically managed folders"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "自動管理的專案文件夾"
+        subtitle_short: "Let OpenProject create folders per project automatically."
         subtitle: >
           讓 OpenProject 自動為每個專案建立文件夾。建議這樣做，因為這樣可以確保每個團隊成員始終擁有正確的訪問權限。
       project_settings:
@@ -89,6 +107,9 @@ zh-TW:
       host: "請添加存儲區的主機地址，包括 https://。不應超過 255 個字符。"
       managed_project_folders_application_password: >
         從以下位置複製此值：
+      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
+      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
+      new_storage_link_text: "file storage documentation"
       no_storage_set_up: "There are no file storages set up yet."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
@@ -101,21 +122,36 @@ zh-TW:
       setting_up_storages: "For setting up file storages, please visit"
       setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
       all_available_storages_already_added: "All available storages are already added to the project."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
       copy_from: "Copy this value from"
       nextcloud:
+        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
+        oauth_configuration: "Copy these values from %{application_link_text}."
+        application_link_text: "application “Integration OpenProject”"
         integration: "Nextcloud Administration / OpenProject"
       one_drive:
+        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
+        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
+        application_link_text: "Azure application"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
           Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
-        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
+        tenant_id: "Please copy the tenant from your Azure application."
+        tenant_id_placeholder: "Name or UUID"
+        drive_id: "Please copy the drive ID from your Azure application."
+        drive_id_placeholder: "UUID or triple ID"
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     configuration_checks:
       incomplete: "The setup of this storage is incomplete."
+      oauth_client_incomplete:
+        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
+        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
     delete_warning:
       storage: >
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
@@ -130,12 +166,15 @@ zh-TW:
       description: "Add a storage to see them here."
     label_active: "Active"
     label_add_new_storage: "Add new storage"
+    label_delete_storage: "Delete storage"
     label_inactive: "Inactive"
     label_creator: "Creator"
     label_provider: "Provider"
     label_file_link: "File link"
     label_file_links: "File links"
+    label_file_storage: "File storage"
     label_creation_time: "Creation time"
+    label_completed: "Completed"
     label_incomplete: "Incomplete"
     label_name: "名稱"
     label_host: "Host URL"
@@ -149,14 +188,25 @@ zh-TW:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
+    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
+    label_information: "Additional information"
     label_provider_type: "Provider type"
     label_project_folder: "Project folder"
+    label_redirect_uri: "Redirect URI"
     label_new_storage: "New storage"
+    label_new_file_storage: "New file storage"
     label_edit_storage: "Edit storage"
+    label_edit_storage_host: "Edit storage host"
+    label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"
     label_no_selected_folder: "No selected folder"
+    label_select_provider: "Select provider"
     label_storage: "Storage"
     label_storages: "Storages"
     label_status: "Status"
@@ -164,7 +214,7 @@ zh-TW:
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "No storages set up yet."
     members_no_results: "No members to display."
     provider_types:
@@ -180,3 +230,4 @@ zh-TW:
     oauth_client_details_missing: "要完成設置，請從您的存儲區中添加 OAuth 客戶端憑據。"
     automatically_managed_project_folder_missing: "要完成設置，請為您的存儲區配置自動管理的專案文件夾。"
     notice_oauth_application_replaced: "已成功替換 OpenProject OAuth 應用程序。"
+    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."

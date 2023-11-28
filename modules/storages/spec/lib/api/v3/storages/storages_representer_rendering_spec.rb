@@ -276,7 +276,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
         end
 
         before do
-          Storages::Peripherals::Registry.stub('queries.one_drive.open_drive_link', ->(_) do
+          Storages::Peripherals::Registry.stub('queries.one_drive.open_storage', ->(_) do
             ServiceResult.success(result: 'https://my.sharepoint.com/sites/DeathStar/Documents')
           end)
         end

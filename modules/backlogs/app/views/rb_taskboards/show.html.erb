@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
     <table id="impediments" class="board" cellspacing="0">
       <tr>
         <td><div class="label_sprint_impediments"><%= t(:label_sprint_impediments) %></div></td>
-        <% if User.current.allowed_to?(:add_work_packages, @project) %>
+        <% if User.current.allowed_in_project?(:add_work_packages, @project) %>
           <td class ="add_new clickable">+</td>
         <% else %>
           <td class ="add_new"></td>
@@ -102,7 +102,7 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
           </td>
-          <% if User.current.allowed_to?(:add_work_packages, @project) %>
+          <% if User.current.allowed_in_project?(:add_work_packages, @project) %>
             <td class ="add_new clickable">+</td>
           <% else %>
             <td class ="add_new"></td>

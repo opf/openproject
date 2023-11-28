@@ -21,9 +21,26 @@
                   item.with_leading_visual_icon(icon: :pencil)
                 end if @meeting.editable?
 
+                menu.with_item(label: t(:button_copy),
+                               href: copy_meeting_path(@meeting),
+                               content_arguments: {
+                                 data: { turbo: false }
+                               }) do |item|
+                  item.with_leading_visual_icon(icon: :copy)
+                end
+
                 menu.with_item(label: t(:label_icalendar_download),
                                href: download_ics_meeting_path(@meeting)) do |item|
                   item.with_leading_visual_icon(icon: :download)
+                end
+
+                if User.current.allowed_in_project?(:send_meeting_agendas_notification, @meeting.project
+                )
+                  menu.with_item(label: t('meeting.label_mail_all_participants'),
+                                 href: notify_meeting_path(@meeting),
+                                 form_arguments: { method: :post, data: { turbo: 'false' } }) do |item|
+                    item.with_leading_visual_icon(icon: :mail)
+                  end
                 end
 
                 menu.with_item(label: t("label_meeting_delete"),

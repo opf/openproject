@@ -55,7 +55,7 @@ RSpec.describe Attachments::CreateContract, 'integration' do
   let(:content_type) { 'image/png' }
   let(:filename) { 'image.png' }
 
-  context 'with anonymous user that can export' do
+  context 'with anonymous user that can view the project' do
     current_user do
       create(:anonymous_role, permissions: %i[view_project])
       User.anonymous
@@ -72,6 +72,9 @@ RSpec.describe Attachments::CreateContract, 'integration' do
     end
 
     describe 'valid container' do
+      # create a project so that the anonymous permission has something to attach to
+      let!(:project) { create(:project, public: true) }
+
       let(:container) { build_stubbed(:project_export) }
 
       it_behaves_like 'contract is valid'

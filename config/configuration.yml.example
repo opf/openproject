@@ -221,10 +221,8 @@ default:
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
   # autologin_cookie_path: the cookie path (default: /)
-  # autologin_cookie_secure: true sets the cookie secure flag (default: false)
   # autologin_cookie_name:
   # autologin_cookie_path:
-  # autologin_cookie_secure:
 
   # Configuration of the session cookie
   # session_cookie_name: the name of the OpenProject cookie (default: _open_project_session)

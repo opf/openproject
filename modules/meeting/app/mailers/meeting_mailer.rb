@@ -26,45 +26,70 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-
-
 class MeetingMailer < UserMailer
-  def content_for_review(content, content_type, user)
-    @author = User.current
-    @meeting = content.meeting
-    @content_type = content_type
+  def invited(meeting, user, actor)
+    @actor = actor
+    @meeting = meeting
+    @user = user
 
     open_project_headers 'Project' => @meeting.project.identifier,
                          'Meeting-Id' => @meeting.id
 
-    User.execute_as(user) do
-      subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
-      mail to: user.mail, subject:
+    with_attached_ics(meeting, user) do
+      subject = "[#{@meeting.project.name}] #{@meeting.title}"
+      mail(to: user.mail, subject:)
     end
   end
 
-  def icalendar_notification(content, content_type, user)
-    @meeting = content.meeting
-    @content_type = content_type
+  def rescheduled(meeting, user, actor, changes:)
+    @actor = actor
+    @user = user
+    @meeting = meeting
+    @changes = changes
+
+    open_project_headers 'Project' => @meeting.project.identifier,
+                         'Meeting-Id' => @meeting.id
+
+    with_attached_ics(meeting, user) do
+      subject = "[#{@meeting.project.name}] "
+      subject << I18n.t('meeting.email.rescheduled.header', title: @meeting.title, actor: @actor)
+      mail(to: user.mail, subject:)
+    end
+  end
+
+  def icalendar_notification(meeting, user, _actor, **)
+    @meeting = meeting
 
     set_headers @meeting
 
-    User.execute_as(user) do
+    with_attached_ics(meeting, user) do
       timezone = Time.zone || Time.zone_default
-
       @formatted_timezone = format_timezone_offset timezone, @meeting.start_time
-
-      ::Meetings::ICalService
-        .new(user:, meeting: @meeting)
-        .call
-        .on_success do |call|
-        attachments['meeting.ics'] = call.result
-        mail(to: user.mail, subject: "[#{@meeting.project.name}] #{I18n.t(:label_meeting)}: #{@meeting.title}")
-      end
+      subject = "[#{@meeting.project.name}] #{@meeting.title}"
+      mail(to: user.mail, subject:)
     end
   end
 
   private
+
+  def with_attached_ics(meeting, user)
+    User.execute_as(user) do
+
+      call = ::Meetings::ICalService
+        .new(user:, meeting: @meeting)
+        .call
+
+      call.on_success do
+        attachments['meeting.ics'] = call.result
+
+        yield
+      end
+
+      call.on_failure do
+        Rails.logger.error { "Failed to create ICS attachment for meeting #{meeting.id}: #{call.message}" }
+      end
+    end
+  end
 
   def set_headers(meeting)
     open_project_headers 'Project' => meeting.project.identifier, 'Meeting-Id' => meeting.id

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -49,15 +51,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         )
       )
 
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
       case response
       when Net::HTTPSuccess
         ServiceResult.success
       when Net::HTTPNotFound
-        Util.error(:not_found)
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
       when Net::HTTPUnauthorized
-        Util.error(:unauthorized)
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
-        Util.error(:error)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
   end

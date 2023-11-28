@@ -27,12 +27,14 @@
 #++
 
 class API::V3::FileLinks::FileLinksOpenAPI < API::OpenProjectAPI
+  helpers Storages::Peripherals::StorageErrorHelper
+
   using Storages::Peripherals::ServiceResultRefinements
 
   resources :open do
     get do
       Storages::Peripherals::Registry
-        .resolve("queries.#{@file_link.storage.short_provider_type}.open_link")
+        .resolve("queries.#{@file_link.storage.short_provider_type}.open_file_link")
         .call(
           storage: @file_link.storage,
           user: current_user,

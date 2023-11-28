@@ -31,6 +31,8 @@ See COPYRIGHT and LICENSE files for more details.
 <% local_assigns[:additional_breadcrumb] = t('storages.label_edit_storage') %>
 <%= toolbar title: t("storages.page_titles.project_settings.edit") %>
 
+<%= error_messages_for @project_storage %>
+
 <%= labelled_tabular_form_for @project_storage, url: project_settings_project_storage_path(project_id: @project_storage.project, id: @project_storage) do |f| -%>
   <section class="form--section">
     <%= render partial: '/storages/project_settings/project_folder_form',

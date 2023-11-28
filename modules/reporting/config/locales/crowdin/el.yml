@@ -47,6 +47,7 @@ el:
   label_is_project_with_subprojects: "είναι (περιλαμβάνει υποέργα)"
   label_work_package_attributes: "Χαρακτηριστικά πακέτου εργασίας"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Αξία μετρητών"
   label_month_reporting: "Μήνας (Δαπανήθηκε)"
   label_new_report: "Νέα αναφορά κόστους"

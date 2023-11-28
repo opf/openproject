@@ -159,8 +159,6 @@ class VersionsController < ApplicationController
       flash[:notice] = t(success_message)
       redirect_back_or_version_settings
     else
-      @errors = call.errors
-
       render action: failure_action
     end
   end

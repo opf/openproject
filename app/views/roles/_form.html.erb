@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% roles ||= nil %>
 
-<%= error_messages_for_contract(role, @call.errors) if @call %>
+<%= error_messages_for(role) if @call %>
 
 <div data-controller="admin--roles"
      data-application-target="dynamic"

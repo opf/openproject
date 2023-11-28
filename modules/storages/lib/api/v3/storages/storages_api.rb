@@ -49,6 +49,7 @@ class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
 
       mount API::V3::StorageFiles::StorageFilesAPI
       mount API::V3::OAuthClient::OAuthClientCredentialsAPI
+      mount API::V3::Storages::StorageOpenAPI
     end
   end
 end

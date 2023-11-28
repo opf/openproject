@@ -31,6 +31,12 @@ de:
         Sind Sie sicher, dass Sie diese Datei löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld, um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" hinzufügen"
@@ -341,11 +347,11 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                Das Release enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Basislinien Vergleich zur einfachen Verfolgung von Änderungen.</li> <li>PDF-Export für Berichte über Arbeitspläne.</li> <li>Abonnieren Sie Projektkalender über die URL (iCalendar).</li> <li>Projektordner mit Dokumentvorlagen für die Nextcloud-Integration.</li> <li>Lokalisiertes Befüllen der Datenbank mit Basis-Daten.</li> <li>Globale Module werden auf neuen Indexseiten gelistet.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -553,7 +559,6 @@ de:
       steps:
         help_menu: 'Das Menü Hilfe (?) bietet <b>zusätzliche Hilfe-Ressourcen</b>. Hier finden Sie eine Benutzeranleitung, hilfreiche Videos und vieles mehr. <br> Viel Spaß bei Ihrer Arbeit mit OpenProject!'
         members: 'Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.'
-        project_selection: 'Bitte wählen Sie eines der Projekte mit Demodaten aus. Die Demodaten sind derzeit lediglich in englischer Sprache verfügbar. <br> Das <b>„Demo project“</b> eignet sich für klassisches Projektmanagement, das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
         quick_add_button: 'Klicken Sie auf das Plus (+) Symbol in der Navigationsleiste um <b>neue Projekte zu erzeugen</b> oder <b>MitarbeiterInnen einzuladen</b>.'
         sidebar_arrow: "Benutzen Sie den Pfeil in der oberen linken Ecke um zum <b>Hauptmenü</b> des Projekts zurückzukehren."
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen, die Tour vollständig abzuschließen. Sie können diese jederzeit wieder neu starten.'
@@ -598,6 +603,7 @@ de:
         processed: 'verarbeitet'
         prioritized: 'priorisiert'
         dateAlert: 'Datums-Erinnerung'
+        shared: 'geteilt'
       date_alerts:
         milestone_date: 'Datum des Meilensteins'
         overdue: 'Überfällig'
@@ -642,6 +648,7 @@ de:
         mentioned: 'Erwähnt'
         watched: 'Beobachter'
         date_alert: 'Datums-Erinnerung'
+        shared: 'Geteilt'
       settings:
         change_notification_settings: 'Sie können Ihre <a target="_blank" href="%{url}">Benachrichtigungseinstellungen</a> ändern, um sicherzustellen, dass Sie keine wichtige Aktualisierung verpassen.'
         title: "Benachrichtigungseinstellungen"
@@ -664,6 +671,7 @@ de:
             description: 'Jedes Mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
           assignee: 'Zugewiesen an'
           responsible: 'Verantwortlich'
+          shared: 'Geteilt'
           watched: 'Beobachter'
           work_package_commented: 'Alle neuen Kommentare'
           work_package_created: 'Neue Arbeitspakete'
@@ -980,7 +988,7 @@ de:
         recently_created: "Kürzlich erstellt"
         all_open: "Alle offenen"
         summary: "Zusammenfassung"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Geteilt mit Benutzern"
       jump_marks:
         pagination: "Zur Seitennavigation springen"
         label_pagination: "Hier klicken, um über die Tabelle der Arbeitspakete hinweg zur Seitennavigation zu springen"
@@ -1018,8 +1026,11 @@ de:
         is_parent: "Die Termine dieses Arbeitspakets werden automatisch von seinen Kindern aggregiert. Aktivieren Sie \"Manuelle Planung\", um die Termine frei zu setzen."
         is_switched_from_manual_to_automatic: "Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden."
       sharing:
-        share: 'Share'
-        title: "Share work package"
+        share: 'Teilen'
+        title: "Arbeitspaket teilen"
+        selected_count: "%{count} ausgewählt"
+        selection:
+          mixed: "Gemischt"
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."

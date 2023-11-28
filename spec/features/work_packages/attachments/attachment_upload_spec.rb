@@ -71,7 +71,7 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
 
         field.submit_by_click
 
-        expect(field.display_element).to have_selector('img')
+        expect(field.display_element).to have_css('img')
         expect(field.display_element).to have_content('Some image caption')
       end
 
@@ -147,8 +147,8 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
         editor.wait_until_upload_progress_toaster_cleared
 
         editor.in_editor do |_container, editable|
-          expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
-          expect(editable).not_to have_selector('.ck-upload-placeholder-loader')
+          expect(editable).to have_css('img[src*="/api/v3/attachments/"]', wait: 20)
+          expect(editable).not_to have_css('.ck-upload-placeholder-loader')
         end
 
         sleep 2 unless example.metadata[:with_cuprite]
@@ -162,7 +162,7 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
         split_view = Pages::SplitWorkPackage.new(WorkPackage.last)
 
         field = split_view.edit_field :description
-        expect(field.display_element).to have_selector('img')
+        expect(field.display_element).to have_css('img')
 
         wp = WorkPackage.last
         expect(wp.subject).to eq('My subject')
@@ -215,8 +215,8 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
           editor.wait_until_upload_progress_toaster_cleared
 
           editor.in_editor do |_container, editable|
-            expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
-            expect(editable).not_to have_selector('.ck-upload-placeholder-loader')
+            expect(editable).to have_css('img[src*="/api/v3/attachments/"]', wait: 20)
+            expect(editable).not_to have_css('.ck-upload-placeholder-loader')
           end
 
           sleep 2 unless example.metadata[:with_cuprite]
@@ -228,7 +228,7 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
           )
 
           field = wp_page.edit_field :description
-          expect(field.display_element).to have_selector('img')
+          expect(field.display_element).to have_css('img')
 
           wp = WorkPackage.last
           expect(wp.subject).to eq('My subject')
@@ -316,7 +316,13 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
       expect(page).not_to have_test_selector('op-files-tab--file-list-item-title')
       attachments.attach_file_on_input(image_fixture.path)
       editor.wait_until_upload_progress_toaster_cleared
-      expect(page).to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', wait: 5)
+      expect(page)
+        .to have_test_selector('op-files-tab--file-list-item-title',
+                               text: 'image.png',
+                               wait: 5)
+
+      # Drop zone should become hidden again
+      expect(container).not_to be_visible
 
       # Drop zone should become hidden again
       expect(container).not_to be_visible
@@ -326,7 +332,10 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
       attachments.drag_and_drop_file(container, image_fixture.path)
       editor.wait_until_upload_progress_toaster_cleared
       expect(page)
-        .to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', count: 2, wait: 5)
+        .to have_test_selector('op-files-tab--file-list-item-title',
+                               text: 'image.png',
+                               count: 2,
+                               wait: 5)
 
       # Drop zone should become hidden again
       expect(container).not_to be_visible
@@ -340,7 +349,10 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
 
       editor.wait_until_upload_progress_toaster_cleared
       expect(page)
-        .to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', count: 3, wait: 5)
+        .to have_test_selector('op-files-tab--file-list-item-title',
+                               text: 'image.png',
+                               count: 3,
+                               wait: 5)
 
       # Drop zone should become hidden again
       expect(container).not_to be_visible
@@ -356,7 +368,10 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
 
       editor.wait_until_upload_progress_toaster_cleared
       expect(page)
-        .to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', count: 3, wait: 5)
+        .to have_test_selector('op-files-tab--file-list-item-title',
+                               text: 'image.png',
+                               count: 3,
+                               wait: 5)
 
       # Drop zone should become hidden again
       expect(container).not_to be_visible

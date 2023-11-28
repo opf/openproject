@@ -37,9 +37,9 @@ module API
             after_validation do
               @cost_entry = CostEntry.find(params[:id])
 
-              authorize(:view_cost_entries, context: @cost_entry.project) do
+              authorize_in_project(:view_cost_entries, project: @cost_entry.project) do
                 if current_user == @cost_entry.user
-                  authorize(:view_own_cost_entries, context: @cost_entry.project)
+                  authorize_in_project(:view_own_cost_entries, project: @cost_entry.project)
                 else
                   raise API::Errors::Unauthorized
                 end

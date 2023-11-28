@@ -34,7 +34,9 @@ OpenProject::Application.routes.draw do
   resources :work_packages, only: %i[] do
     resources :meetings, only: %i[] do
       collection do
-        resources :tab, only: %i[index], controller: 'work_package_meetings_tab', as: 'meetings_tab'
+        resources :tab, only: %i[index], controller: 'work_package_meetings_tab', as: 'meetings_tab' do
+          get :count, on: :collection
+        end
       end
     end
     resources :meeting_agenda_items, only: %i[] do
@@ -53,6 +55,7 @@ OpenProject::Application.routes.draw do
       put :update_details
       put :update_participants
       put :change_state
+      post :notify
     end
     resources :agenda_items, controller: 'meeting_agenda_items' do
       collection do
@@ -73,8 +76,6 @@ OpenProject::Application.routes.draw do
         get :diff
         put :close
         put :open
-        put :notify
-        put :icalendar
         post :preview
       end
 
@@ -86,8 +87,6 @@ OpenProject::Application.routes.draw do
       member do
         get :history
         get :diff
-        put :notify
-        get :icalendar
       end
     end
 
@@ -95,7 +94,6 @@ OpenProject::Application.routes.draw do
       member do
         get :history
         get :diff
-        put :notify
         post :preview
       end
 

@@ -79,21 +79,18 @@ RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
 
     it_behaves_like 'valid activity patch request'
 
-    it_behaves_like 'invalid activity request', 'Version is invalid' do
-      let(:errors) do
-        ActiveModel::Errors.new(work_package.journals.first).tap do |e|
-          e.add(:version)
-        end
-      end
+    it_behaves_like 'invalid activity request',
+                    'Cause type is not set to one of the allowed values.' do
       let(:activity) do
-        allow_any_instance_of(Journal).to receive(:save).and_return(false)
-        allow_any_instance_of(Journal).to receive(:errors).and_return(errors)
-
-        work_package.journals.first
+        # Invalidating the journal
+        work_package.journals.first.tap do |journal|
+          journal.cause_type = :invalid
+          journal.save(validate: false)
+        end
       end
 
       it_behaves_like 'constraint violation' do
-        let(:message) { 'Version is invalid' }
+        let(:message) { 'Cause type is not set to one of the allowed values.' }
       end
     end
 

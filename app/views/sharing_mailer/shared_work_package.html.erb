@@ -8,12 +8,20 @@
   <tr>
     <%= placeholder_cell('12px', vertical: true) %>
     <td>
-      <%= render partial: 'mailer/notification_mailer_header',
+      <%
+        summary = if @group
+                    I18n.t("mail.sharing.work_packages.summary.group", user: @sharer, group: @group, role_rights: @role_rights)
+                  else
+                    I18n.t("mail.sharing.work_packages.summary.user", user: @sharer, role_rights: @role_rights)
+                  end
+      %>
+
+      <%= render partial: 'mailer/mailer_header',
                  locals: {
-                   summary: I18n.t('mail.sharing.work_packages.summary', user: @sharer),
+                   user: @shared_with_user,
+                   summary:,
                    button_href: shared_work_package_path(@work_package.id),
-                   button_text: I18n.t(:'mail.sharing.work_packages.see_in_open_project'),
-                   salutation: I18n.t(:'mail.salutation', user: @shared_with_user.firstname)
+                   button_text: I18n.t(:'mail.sharing.work_packages.open_work_package'),
                  } %>
 
       <%= render layout: 'mailer/notification_row',
@@ -39,6 +47,19 @@
       <% end %>
 
       <%= render partial: 'mailer/notification_settings_table' %>
+
+      <% if @shared_with_user.invited? %>
+        <table  <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
+          <tr>
+            <%= placeholder_cell('20px', vertical: false) %>
+          </tr>
+          <tr>
+            <td style="color: #333333;font-size: 16px;">
+              <%= t('mail.sharing.work_packages.create_account', instance: Setting.app_title) %>
+            </td>
+          </tr>
+        </table>
+      <% end %>
 
       <table>
         <tr>

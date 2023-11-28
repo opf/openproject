@@ -89,6 +89,7 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       VERSION:2.0
       PRODID:-//OpenProject GmbH//OpenProject Core Project//EN
       CALSCALE:GREGORIAN
+      REFRESH-INTERVAL;VALUE=DURATION:PT1H
       X-WR-CALNAME:#{query_name}
       BEGIN:VEVENT
       DTSTAMP:#{work_package_with_due_date.updated_at.utc.strftime('%Y%m%dT%H%M%SZ')}

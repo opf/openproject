@@ -70,15 +70,16 @@ class WorkPackage < ApplicationRecord
   has_many :members, as: :entity, dependent: :destroy
   has_many :member_principals, through: :members, class_name: 'Principal', source: :principal
 
-  has_many :meeting_agenda_items, dependent: :destroy # Question: What about finalized minutes within an agenda item?
+  has_many :meeting_agenda_items, dependent: :nullify
+  # The MeetingAgendaItem has a default order, but the ordered field is not part of the select
+  # that retrieves the meetings, hence we need to remove the order.
+  has_many :meetings, -> { unscope(:order).distinct }, through: :meeting_agenda_items, source: :meeting
 
   scope :recently_updated, -> {
     order(updated_at: :desc)
   }
 
-  scope :visible, ->(*args) {
-    where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
-  }
+  scope :visible, ->(user = User.current) { allowed_to(user, :view_work_packages) }
 
   scope :in_status, ->(*args) do
                       where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
@@ -135,12 +136,15 @@ class WorkPackage < ApplicationRecord
          :relatable,
          :directly_related
 
-  acts_as_watchable
+  acts_as_watchable(permission: :view_work_packages)
 
   after_validation :set_attachments_error_details,
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
   before_save :close_duplicates, :update_done_ratio_from_status
   before_create :default_assign
+  # By using prepend: true, the callback will be performed before the meeting_agenda_items are nullified,
+  # thus the associated agenda items will be available at the time the callback method is performed.
+  around_destroy :save_agenda_item_journals, prepend: true, if: -> { meeting_agenda_items.any? }
 
   acts_as_customizable
 
@@ -215,8 +219,8 @@ class WorkPackage < ApplicationRecord
   end
 
   # Returns true if usr or current user is allowed to view the work_package
-  def visible?(usr = nil)
-    (usr || User.current).allowed_to?(:view_work_packages, project)
+  def visible?(usr = User.current)
+    usr.allowed_in_work_package?(:view_work_packages, self)
   end
 
   # RELATIONS
@@ -255,10 +259,16 @@ class WorkPackage < ApplicationRecord
   #   * any open, shared version of the project the wp belongs to
   #   * the version it was already assigned to
   #     (to make sure, that you can still update closed tickets)
-  def assignable_versions
-    @assignable_versions ||= begin
-      current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
-      ((project&.assignable_versions || []) + [current_version]).compact.uniq
+  #   * for custom fields only_open: false can be used, if the CF is configured so
+  def assignable_versions(only_open: true)
+    if only_open
+      @assignable_versions ||= begin
+        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
+        ((project&.assignable_versions || []) + [current_version]).compact.uniq
+      end
+    else
+      # The called method memoizes the result, no need to memoize it here.
+      project&.assignable_versions(only_open: false)
     end
   end
 
@@ -348,8 +358,8 @@ class WorkPackage < ApplicationRecord
   # check if user is allowed to edit WorkPackage Journals.
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
-    user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
-      (user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id)
+    user.allowed_in_project?(:edit_work_package_notes, project) ||
+      (user.allowed_in_work_package?(:edit_own_work_package_notes, self) && journal.user_id == user.id)
   end
 
   # Returns a scope for the projects
@@ -635,5 +645,15 @@ class WorkPackage < ApplicationRecord
     if invalid_attachment = attachments.detect(&:invalid?)
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
+  end
+
+  def save_agenda_item_journals
+    ##
+    # Meetings are stored before they become dissociated from the work package,
+    # but the meeting journals are saved only after the agenda items are dissociated (nullified).
+    # By saving the meeting journals, the agenda item journals are also saved.
+    stored_meetings = meetings.to_a
+    yield
+    stored_meetings.each(&:touch_and_save_journals)
   end
 end

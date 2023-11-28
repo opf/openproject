@@ -29,13 +29,14 @@
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file, date-picker)
 $base-line-height: 1.5
 $form-label-color: var(--body-font-color)
+$content-form-input-border: 1px solid var(--color-border-default)
 
 %input-style
-  border: var(--content-form-input-border)
+  border: $content-form-input-border
   border-radius: 2px
   font-size: var(--body-font-size)
 
-  &:hover, &:focus
+  &:focus
     border: var(--content-form-input-hover-border)
 
   vertical-align: middle
@@ -78,7 +79,7 @@ form
   &.-bordered
     padding: 30px 20px
     background-color: var(--content-form-bg-color)
-    border: 1px solid var(--content-default-border-color)
+    border: 1px solid var(--color-border-muted)
 
     &.-compressed
       padding: 10px 20px 0 20px
@@ -181,7 +182,7 @@ hr
   border: 0
 
   &.form--separator
-    border-bottom: 1px solid var(--content-form-separator-color)
+    border-bottom: 1px solid var(--color-border-muted)
     margin: 0 0 30px
     background: none
 
@@ -231,7 +232,7 @@ hr
   font-weight: var(--base-text-weight-bold)
   line-height: 1.8
   text-transform: uppercase
-  border-bottom: 1px solid var(--gray)
+  border-bottom: 1px solid var(--color-border-muted)
 
 // HACK. TODO: Remove fieldset element rules in various places.
 .form--fieldset,
@@ -322,6 +323,9 @@ fieldset.form--fieldset
 
   &.-align-start
     align-items: start
+
+  &.-top-margin
+    margin-top: 1rem
 
   &.-vertical,
   .form.-vertical &
@@ -436,6 +440,9 @@ fieldset.form--fieldset
   &.-wrap-around
     display: flex
     flex-wrap: wrap
+
+  &.-empty
+    margin-bottom: 1rem
 
   &.-with-children-spacing
     > *:not(:last-child)
@@ -570,7 +577,7 @@ fieldset.form--fieldset
       max-width: 50px
 
     &.-xslim
-      max-width: 110px
+      max-width: 120px
 
     &.-slim
       max-width: 200px
@@ -605,8 +612,8 @@ select
   margin-bottom: 0
   font-size: var(--body-font-size)
 
-  &:hover, &:focus, &:active
-    border-color: #999
+  &:focus, &:active
+    border-color: var(--color-accent-fg)
 
 .-hide-placeholder-on-focus
   &:focus::placeholder
@@ -622,10 +629,6 @@ select
     &:focus,
     &:active
       border-color: transparent
-
-    // But as an indicator, do show one on hover
-    &:hover
-      border-color: #999
 
 select
   &[disabled=disabled],
@@ -756,7 +759,7 @@ input[readonly].-clickable
   margin-bottom: 0.8rem
 
 .form--matrix
-  border: var(--content-form-input-border)
+  border: $content-form-input-border
   border-radius: 2px
   background: none
   margin: 0 0 2rem 0
@@ -765,7 +768,7 @@ input[readonly].-clickable
 
 .form--matrix-header-row
   font-weight: var(--base-text-weight-bold)
-  border-bottom: var(--content-form-input-border)
+  border-bottom: $content-form-input-border
   background-color: var(--gray-light)
 
 .form--matrix-header-cell
@@ -878,7 +881,7 @@ input[readonly].-clickable
   font-size: 0.9rem
   background: #EEEEEE
   color: var(--body-font-color)
-  border: var(--content-form-input-border)
+  border: $content-form-input-border
   border-radius: 2px
   padding: 0 0.5rem
   margin-bottom: 0rem
@@ -964,6 +967,11 @@ input[type=range]::-moz-range-thumb:hover
 
 input[type=range]::-webkit-slider-thumb:hover
   background: var(--primary-color-dark)
+
+// Date and time inputs should be left-aligned on iOS
+input[type=date], input[type=time]
+  &::-webkit-date-and-time-value
+    text-align: left !important
 
 input[type=range]::-ms-thumb:hover
   background: var(--primary-color-dark)

@@ -1,7 +1,6 @@
 module.exports = {
   extends: [
     "eslint:recommended",
-    "plugin:storybook/recommended",
   ],
   env: {
     browser: true,

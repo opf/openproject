@@ -127,4 +127,6 @@ RSpec.describe CustomActions::CuContract do
       expect_contract_invalid conditions: :does_not_exist
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

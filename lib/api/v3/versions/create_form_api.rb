@@ -32,7 +32,7 @@ module API
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
           after_validation do
-            authorize :manage_versions, global: true
+            authorize_in_any_project(:manage_versions)
           end
 
           post &::API::V3::Utilities::Endpoints::CreateForm.new(model: Version).mount

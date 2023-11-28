@@ -36,7 +36,7 @@ class Meeting::StartDate < ApplicationForm
       label: Meeting.human_attribute_name(:start_date),
       leading_visual: { icon: :calendar },
       required: true,
-      autofocus: true
+      autofocus: false
     )
   end
 

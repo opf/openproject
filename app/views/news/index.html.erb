@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%
-  managable = User.current.allowed_to?(:manage_news, @project)
+  managable = User.current.allowed_in_project?(:manage_news, @project)
  %>
 
 <% html_title(t(:label_news_plural)) -%>

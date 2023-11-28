@@ -118,7 +118,9 @@ See COPYRIGHT and LICENSE files for more details.
       <% if show_decoration %>
         <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>">
           <%= you_are_here_info %>
-          <%= full_breadcrumb %>
+          <div id="full_breadcrumbs">
+            <%= full_breadcrumbs %>
+          </div>
           <%= call_hook :view_layouts_base_breadcrumb %>
         </div>
       <% end %>
@@ -155,8 +157,8 @@ See COPYRIGHT and LICENSE files for more details.
     var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
     var mainMenuCollapsed =  window.OpenProject.guardedLocalStorage("openProject-mainMenuCollapsed");
 
-    if (window.innerWidth < 680) {
-      // force hide on load for mobile
+    if (window.innerWidth < 768) {
+      // force hide on load for tablet
       $('.can-hide-navigation').addClass('hidden-navigation');
     }
 

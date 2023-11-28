@@ -52,7 +52,7 @@ module Activities
             permissions = constantized_providers(o).filter_map do |activity_provider|
               activity_provider.activity_provider_options[:permission]
             end
-            permissions.all? { |p| @user.allowed_to?(p, @project) }
+            permissions.all? { |p| @user.allowed_in_project?(p, @project) }
           end
         else
           OpenProject::Activity.available_event_types.to_a

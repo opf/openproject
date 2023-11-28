@@ -80,9 +80,9 @@ RSpec.shared_examples_for 'roles contract' do
           .to receive_messages(project_permissions: all_permissions, public_permissions:)
       end
 
-      it 'is all project permissions excluding public ones' do
+      it 'is all project permissions' do
         expect(contract.assignable_permissions)
-          .to eql(all_permissions - public_permissions)
+          .to eql(all_permissions)
       end
     end
 

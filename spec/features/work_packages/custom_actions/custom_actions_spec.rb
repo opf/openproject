@@ -32,33 +32,24 @@ RSpec.describe 'Custom actions', :js, :with_cuprite,
                with_ee: %i[custom_actions] do
   shared_let(:admin) { create(:admin) }
 
-  let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
-  let(:role) { create(:project_role, permissions:) }
-  let!(:other_role) { create(:project_role, permissions:) }
-  let(:user) do
-    user = create(:user,
-                  firstname: 'A',
-                  lastname: 'User')
-
-    create(:member,
-           project:,
-           roles: [role],
-           user:)
-
-    create(:member,
-           project: other_project,
-           roles: [role],
-           user:)
-    user
+  shared_let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
+  shared_let(:role) { create(:project_role, permissions:) }
+  shared_let(:other_role) { create(:project_role, permissions:) }
+  shared_let(:project) { create(:project, name: 'This project') }
+  shared_let(:other_project) { create(:project, name: 'Other project') }
+  shared_let(:user) do
+    create(:user,
+           firstname: 'A',
+           lastname: 'User',
+           member_with_roles: { project => [role], other_project => [role] })
   end
-  let!(:other_member_user) do
+  shared_let(:other_member_user) do
     create(:user,
            firstname: 'Other member',
            lastname: 'User',
            member_with_roles: { project => role })
   end
-  let(:project) { create(:project, name: 'This project') }
-  let(:other_project) { create(:project, name: 'Other project') }
+
   let!(:work_package) do
     create(:work_package,
            project:,
@@ -333,7 +324,7 @@ RSpec.describe 'Custom actions', :js, :with_cuprite,
                               "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join("\n")
 
     expect(page)
-      .to have_selector('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name)
+      .to have_css('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name, wait: 10)
 
     wp_page.click_custom_action('Close')
     wp_page.expect_attributes status: closed_status.name,
@@ -494,7 +485,7 @@ RSpec.describe 'Custom actions', :js, :with_cuprite,
     wp_page.click_custom_action('Unassign', expect_success: false)
     wp_page.expect_custom_action_disabled('Unassign')
     find('[data-field-name="estimatedTime"]').click
-    expect(page).to have_selector("#wp-#{work_package.id}-inline-edit--field-estimatedTime[disabled]")
+    expect(page).to have_css("#wp-#{work_package.id}-inline-edit--field-estimatedTime[disabled]")
   end
 
   context 'with baseline enabled' do

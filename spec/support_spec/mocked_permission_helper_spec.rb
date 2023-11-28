@@ -56,6 +56,26 @@ RSpec.describe MockedPermissionHelper do
     end
   end
 
+  context 'when trying to mock a permission on nil as the project' do
+    it 'raises an ArgumentError exception' do
+      expect do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :view_work_packages, project: nil
+        end
+      end.to raise_error(ArgumentError, /tried to mock a permission on nil/)
+    end
+  end
+
+  context 'when trying to mock a permission on nil as the work package' do
+    it 'raises an ArgumentError exception' do
+      expect do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_work_package :view_work_packages, work_package: nil
+        end
+      end.to raise_error(ArgumentError, /tried to mock a permission on nil/)
+    end
+  end
+
   context 'when not providing a block' do
     it 'does not allow anything' do
       expect do

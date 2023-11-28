@@ -34,6 +34,7 @@ RSpec.describe BasicData::ProjectRoleSeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
   let(:seed_data) { Source::SeedData.new(data_hash) }
+  let(:public_permissions) { OpenProject::AccessControl.public_permissions.map(&:name) }
 
   before do
     seeder.seed!
@@ -61,11 +62,11 @@ RSpec.describe BasicData::ProjectRoleSeeder do
       expect(Role.count).to eq(2)
       expect(Role.find_by(name: 'Non member')).to have_attributes(
         builtin: Role::BUILTIN_NON_MEMBER,
-        permissions: %i[view_status view_presentations]
+        permissions: %i[view_status view_presentations] + public_permissions
       )
       expect(Role.find_by(name: 'Anonymous')).to have_attributes(
         builtin: Role::BUILTIN_ANONYMOUS,
-        permissions: %i[read_information]
+        permissions: %i[read_information] + public_permissions
       )
     end
 
@@ -93,7 +94,7 @@ RSpec.describe BasicData::ProjectRoleSeeder do
       expect(Role.find_by(name: 'Member')).to have_attributes(
         position: 5,
         builtin: Role::NON_BUILTIN,
-        permissions: %i[view_movies eat_popcorn]
+        permissions: %i[view_movies eat_popcorn] + public_permissions
       )
     end
 
@@ -157,7 +158,7 @@ RSpec.describe BasicData::ProjectRoleSeeder do
             rate_ebooks
             play_music
             add_song
-          ]
+          ] + public_permissions
         )
     end
   end

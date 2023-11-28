@@ -73,7 +73,7 @@ module Overviews
     }
 
     validations :create, ->(*_args) {
-      next if user.allowed_to?(:manage_overview, model.project)
+      next if user.allowed_in_project?(:manage_overview, model.project)
 
       defaults = Overviews::GridRegistration.defaults
 
@@ -99,7 +99,7 @@ module Overviews
         # of the application prevent a user from saving arbitrary pages.
         # Only the default config is allowed and only one page per project is allowed.
         # That way, a new page can be created on the fly without the user noticing.
-        super || (grid.new_record? && user.allowed_to?(:view_project, grid.project))
+        super || (grid.new_record? && user.allowed_in_project?(:view_project, grid.project))
       end
     end
   end

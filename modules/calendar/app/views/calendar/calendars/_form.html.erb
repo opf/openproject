@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= error_messages_for_contract @view, @errors %>
+<%= error_messages_for @view %>
 
 <section class="form--section">
 
@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field-container">
       <%= angular_component_tag 'opce-project-autocompleter',
                                 inputs: {
-                                  apiFilters: [['user_action', '=', ['calendars/create']]],
+                                  filters: [{ name: :user_action, operator: '=', values: ['calendars/create'] }],
                                   inputName: 'project_id',
                                   inputValue: @project&.id,
                                   appendTo: 'body',

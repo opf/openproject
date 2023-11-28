@@ -57,12 +57,19 @@ class Principal < ApplicationRecord
            dependent: :nullify,
            class_name: 'Member',
            foreign_key: 'user_id'
+  has_many :work_package_shares,
+           -> { where(entity_type: WorkPackage.name) },
+           inverse_of: :principal,
+           dependent: :delete_all,
+           class_name: 'Member',
+           foreign_key: 'user_id'
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify, inverse_of: :assigned_to
 
   has_paper_trail
 
   scopes :like,
+         :having_entity_membership,
          :human,
          :not_builtin,
          :possible_assignee,

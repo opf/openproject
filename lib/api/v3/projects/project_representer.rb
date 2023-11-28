@@ -44,7 +44,7 @@ module API
         self_link
 
         link :createWorkPackage,
-             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
+             cache_if: -> { current_user.allowed_in_project?(:add_work_packages, represented) } do
           {
             href: api_v3_paths.create_project_work_package_form(represented.id),
             method: :post
@@ -52,7 +52,7 @@ module API
         end
 
         link :createWorkPackageImmediately,
-             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
+             cache_if: -> { current_user.allowed_in_project?(:add_work_packages, represented) } do
           {
             href: api_v3_paths.work_packages_by_project(represented.id),
             method: :post
@@ -61,14 +61,14 @@ module API
 
         link :workPackages,
              cache_if: -> {
-               current_user_allowed_to(:view_work_packages, context: represented)
+               current_user.allowed_in_project?(:view_work_packages, represented)
              } do
           { href: api_v3_paths.work_packages_by_project(represented.id) }
         end
 
         links :storages,
               cache_if: -> {
-                current_user_allowed_to(:view_file_links, context: represented)
+                current_user.allowed_in_project?(:view_file_links, represented)
               } do
           represented.storages.map do |storage|
             {
@@ -84,15 +84,15 @@ module API
 
         link :versions,
              cache_if: -> {
-               current_user_allowed_to(:view_work_packages, context: represented) ||
-                 current_user_allowed_to(:manage_versions, context: represented)
+               current_user.allowed_in_project?(:view_work_packages, represented) ||
+               current_user.allowed_in_project?(:manage_versions, represented)
              } do
           { href: api_v3_paths.versions_by_project(represented.id) }
         end
 
         link :memberships,
              cache_if: -> {
-               current_user_allowed_to(:view_members, context: represented)
+               current_user.allowed_in_project?(:view_members, represented)
              } do
           {
             href: api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [represented.id.to_s] } }])
@@ -101,15 +101,15 @@ module API
 
         link :types,
              cache_if: -> {
-               current_user_allowed_to(:view_work_packages, context: represented) ||
-                 current_user_allowed_to(:manage_types, context: represented)
+               current_user.allowed_in_project?(:view_work_packages, represented) ||
+               current_user.allowed_in_project?(:manage_types, represented)
              } do
           { href: api_v3_paths.types_by_project(represented.id) }
         end
 
         link :update,
              cache_if: -> {
-               current_user_allowed_to(:edit_project, context: represented)
+               current_user.allowed_in_project?(:edit_project, represented)
              } do
           {
             href: api_v3_paths.project_form(represented.id),
@@ -119,7 +119,7 @@ module API
 
         link :updateImmediately,
              cache_if: -> {
-               current_user_allowed_to(:edit_project, context: represented)
+               current_user.allowed_in_project?(:edit_project, represented)
              } do
           {
             href: api_v3_paths.project(represented.id),

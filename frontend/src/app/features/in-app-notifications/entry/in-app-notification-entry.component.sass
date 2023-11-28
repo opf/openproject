@@ -17,7 +17,7 @@ $subject-font-size: 14px
   margin: 0
   padding: 15px 10px
   font-size: 0.9rem
-  border-top: 1px solid var(--content-default-border-color)
+  border-top: 1px solid var(--color-border-muted)
   border-radius: 2px
   height: $ian-height
 
@@ -25,7 +25,7 @@ $subject-font-size: 14px
     background: $ian-bg-hover-color
 
   &:last-of-type
-    border-bottom: 1px solid var(--content-default-border-color)
+    border-bottom: 1px solid var(--color-border-muted)
 
   &_selected
     background: $ian-bg-selected-color
@@ -78,12 +78,12 @@ $subject-font-size: 14px
 
   &--project
     grid-area: project
-    color: var(--gray-dark)
+    color: var(--color-fg-muted)
     @include text-shortener
 
   &--project-link,
   &--work-package-id-link
-    color: var(--gray-dark)
+    color: ar(--color-fg-muted)
     font-weight: var(--base-text-weight-bold)
 
   &--reason-count
@@ -95,7 +95,7 @@ $subject-font-size: 14px
   &--reason-wrapper
     grid-area: reason
     @include text-shortener
-    color: var(--gray-dark)
+    color: var(--color-fg-muted)
 
   &--status
     grid-area: status
@@ -107,7 +107,7 @@ $subject-font-size: 14px
 
   &--button
     &:hover
-      color: var(--content-link-hover-active-color)
+      color: var(--content-link-color)
 
     &_shown-on-focus
       @include show-on-focus

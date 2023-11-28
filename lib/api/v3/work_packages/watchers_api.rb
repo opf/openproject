@@ -36,7 +36,7 @@ module API
 
         resources :available_watchers do
           after_validation do
-            authorize(:add_work_package_watchers, context: @work_package.project)
+            authorize_in_project(:add_work_package_watchers, project: @work_package.project)
           end
 
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
@@ -57,7 +57,7 @@ module API
           end
 
           get do
-            authorize(:view_work_package_watchers, context: @work_package.project)
+            authorize_in_project(:view_work_package_watchers, project: @work_package.project)
 
             watchers_collection
           end
@@ -72,9 +72,9 @@ module API
             user_id = representer.represented.user_id.to_i
 
             if current_user.id == user_id
-              authorize(:view_work_packages, context: @work_package.project)
+              authorize_in_work_package(:view_work_packages, work_package: @work_package)
             else
-              authorize(:add_work_package_watchers, context: @work_package.project)
+              authorize_in_project(:add_work_package_watchers, project: @work_package.project)
             end
 
             user = User.find user_id
@@ -96,9 +96,9 @@ module API
 
             delete do
               if current_user.id == params[:user_id]
-                authorize(:view_work_packages, context: @work_package.project)
+                authorize_in_work_package(:view_work_packages, work_package: @work_package)
               else
-                authorize(:delete_work_package_watchers, context: @work_package.project)
+                authorize_in_project(:delete_work_package_watchers, project: @work_package.project)
               end
 
               user = User.find_by(id: params[:user_id])

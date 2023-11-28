@@ -295,9 +295,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       describe 'double hash work_package link' do
         let(:work_package_link) do
-          content_tag :macro,
+          content_tag 'opce-macro-wp-quickinfo',
                       '',
-                      class: "macro--wp-quickinfo",
                       data: { id: '1234', detailed: 'false' }
         end
 
@@ -308,9 +307,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       describe 'triple hash work_package link' do
         let(:work_package_link) do
-          content_tag :macro,
+          content_tag 'opce-macro-wp-quickinfo',
                       '',
-                      class: "macro--wp-quickinfo",
                       data: { id: '1234', detailed: 'true' }
         end
 
@@ -573,35 +571,39 @@ RSpec.describe OpenProject::TextFormatting,
         build_stubbed(:repository_subversion, project:)
       end
 
-      def source_url(**args)
-        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file', **args)
+      def source_url(**)
+        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file', **)
       end
 
-      def source_url_with_ext(**args)
-        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file.ext', **args)
+      def source_url_with_ext(**)
+        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file.ext', **)
       end
 
       before do
         allow(project).to receive(:repository).and_return(repository)
         allow(User).to receive(:current).and_return(project_member)
-        allow(project_member)
-          .to receive(:allowed_to?)
-                .with(:browse_repository, project)
-                .and_return(true)
+
+        mock_permissions_for(project_member) do |mock|
+          mock.allow_in_project :browse_repository, project:
+        end
 
         @to_test = {
           # source
           'source:/some/file' => link_to('source:/some/file', source_url, class: 'source op-uc-link', target: '_top'),
           'source:/some/file.' => link_to('source:/some/file', source_url, class: 'source op-uc-link', target: '_top') + '.',
-          'source:"/some/file.ext".' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link', target: '_top') + '.',
+          'source:"/some/file.ext".' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link',
+                                                                                              target: '_top') + '.',
           'source:/some/file. ' => link_to('source:/some/file', source_url, class: 'source op-uc-link', target: '_top') + '.',
-          'source:"/some/file.ext". ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link', target: '_top') + '.',
+          'source:"/some/file.ext". ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link',
+                                                                                               target: '_top') + '.',
           'source:/some/file, ' => link_to('source:/some/file', source_url, class: 'source op-uc-link', target: '_top') + ',',
-          'source:/some/file@52' => link_to('source:/some/file@52', source_url(rev: 52), class: 'source op-uc-link', target: '_top'),
+          'source:/some/file@52' => link_to('source:/some/file@52', source_url(rev: 52), class: 'source op-uc-link',
+                                                                                         target: '_top'),
           'source:"/some/file.ext@52"' => link_to('source:/some/file.ext@52', source_url_with_ext(rev: 52),
                                                   class: 'source op-uc-link',
                                                   target: '_top'),
-          'source:"/some/file#L110"' => link_to('source:/some/file#L110', source_url(anchor: 'L110'), class: 'source op-uc-link', target: '_top'),
+          'source:"/some/file#L110"' => link_to('source:/some/file#L110', source_url(anchor: 'L110'), class: 'source op-uc-link',
+                                                                                                      target: '_top'),
           'source:"/some/file.ext#L110"' => link_to('source:/some/file.ext#L110', source_url_with_ext(anchor: 'L110'),
                                                     class: 'source op-uc-link',
                                                     target: '_top'),

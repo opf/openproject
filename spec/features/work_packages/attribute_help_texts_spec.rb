@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package attribute help texts', js: true do
+RSpec.describe 'Work package attribute help texts', :js do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
 
@@ -52,12 +52,12 @@ RSpec.describe 'Work package attribute help texts', js: true do
 
   shared_examples 'allows to view help texts' do
     it 'shows an indicator for whatever help text exists' do
-      expect(page).to have_selector('.work-package--single-view [data-qa-help-text-for="status"]')
+      expect(page).to have_css('.work-package--single-view [data-qa-help-text-for="status"]')
 
       # Open help text modal
       modal.open!
-      expect(modal.modal_container).to have_selector('strong', text: 'help text')
-      modal.expect_edit(admin: user.admin?)
+      expect(modal.modal_container).to have_css('strong', text: 'help text')
+      modal.expect_edit(editable: user.allowed_globally?(:edit_attribute_help_texts))
 
       modal.close!
     end
@@ -70,12 +70,8 @@ RSpec.describe 'Work package attribute help texts', js: true do
   end
 
   describe 'as regular user' do
-    let(:view_wps_role) do
-      create(:project_role, permissions: [:view_work_packages])
-    end
     let(:user) do
-      create(:user,
-             member_with_roles: { project => view_wps_role })
+      create(:user, member_with_permissions: { project => [:view_work_packages] })
     end
 
     it_behaves_like 'allows to view help texts'

@@ -43,7 +43,7 @@ module API::V3::ProjectStorages
           raise ::API::Errors::InvalidQuery.new(message)
         end
 
-        results = query.results.filter { |result| current_user.allowed_to?(:view_file_links, result.project) }
+        results = query.results.filter { |result| current_user.allowed_in_project?(:view_file_links, result.project) }
 
         ::API::V3::ProjectStorages::ProjectStorageCollectionRepresenter.new(
           results,
@@ -57,12 +57,14 @@ module API::V3::ProjectStorages
         after_validation do
           @project_storage = Storages::ProjectStorage.find(params[:id])
 
-          unless current_user.allowed_to?(:view_file_links, @project_storage.project)
+          unless current_user.allowed_in_project?(:view_file_links, @project_storage.project)
             raise ::API::Errors::NotFound.new
           end
         end
 
         get &API::V3::Utilities::Endpoints::Show.new(model: Storages::ProjectStorage).mount
+
+        mount API::V3::ProjectStorages::ProjectStorageOpenAPI
       end
     end
   end

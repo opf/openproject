@@ -240,6 +240,10 @@ class PermittedParams
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end
 
+  def enumerations_move
+    params.require(:enumeration).permit(*self.class.permitted_attributes[:move_to])
+  end
+
   def search
     params.permit(*self.class.permitted_attributes[:search])
   end
@@ -318,7 +322,7 @@ class PermittedParams
   # all the time.
   def message(project = nil)
     # TODO: Move this distinction into the contract where it belongs
-    if project && current_user.allowed_to?(:edit_messages, project)
+    if project && current_user.allowed_in_project?(:edit_messages, project)
       params.fetch(:message, {}).permit(:subject, :content, :forum_id, :locked, :sticky)
     else
       params.fetch(:message, {}).permit(:subject, :content, :forum_id)
@@ -467,6 +471,7 @@ class PermittedParams
           :multi_value,
           :content_right_to_left,
           :custom_field_section_id,
+          :allow_non_open_versions,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
@@ -512,9 +517,9 @@ class PermittedParams
           :type_id,
           :subject,
           Proc.new do |args|
-            # avoid costly allowed_to? if the param is not there at all
+            # avoid costly allowed_in_project? if the param is not there at all
             if args[:params]['work_package']&.has_key?('watcher_user_ids') &&
-               args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
+               args[:current_user].allowed_in_project?(:add_work_package_watchers, args[:project])
 
               { watcher_user_ids: [] }
             end

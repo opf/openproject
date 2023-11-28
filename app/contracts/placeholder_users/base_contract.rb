@@ -51,7 +51,7 @@ module PlaceholderUsers
     end
 
     def user_allowed_to_add?
-      user.allowed_to_globally?(:manage_placeholder_user)
+      user.allowed_globally?(:manage_placeholder_user)
     end
   end
 end

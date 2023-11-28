@@ -46,6 +46,10 @@ module API::V3::ProjectStorages
       { href: api_v3_paths.storage_file(represented.storage.id, represented.project_folder_id) }
     end
 
+    link :open do
+      { href: api_v3_paths.project_storage_open(represented.id) }
+    end
+
     associated_resource :storage, skip_render: ->(*) { true }, skip_link: ->(*) { false }
     associated_resource :project, skip_render: ->(*) { true }, skip_link: ->(*) { false }
     associated_resource :creator,

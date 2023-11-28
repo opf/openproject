@@ -75,7 +75,7 @@ module Backups
     end
 
     def user_allowed_to_create_backup?
-      user.allowed_to_globally? Backup.permission
+      user.allowed_globally?(Backup.permission)
     end
 
     def pending_statuses

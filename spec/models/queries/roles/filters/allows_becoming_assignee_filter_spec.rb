@@ -47,12 +47,14 @@ RSpec.describe Queries::Roles::Filters::AllowsBecomingAssigneeFilter do
     shared_let(:assignable_role) do
       create(:project_role,
              name: 'assignable_role',
-             permissions: %i[work_package_assigned])
+             permissions: %i[work_package_assigned],
+             add_public_permissions: false)
     end
     shared_let(:unassignable_role) do
       create(:project_role,
              name: 'unassignable_role',
-             permissions: %i[wrong])
+             permissions: %i[wrong],
+             add_public_permissions: false)
     end
 
     let(:instance) do

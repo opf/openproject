@@ -36,7 +36,7 @@ module API
     module Versions
       class VersionCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         link :createVersionImmediately do
-          next unless current_user.allowed_to_globally?(:manage_versions)
+          next unless current_user.allowed_in_any_project?(:manage_versions)
 
           {
             href: api_v3_paths.versions,
@@ -45,7 +45,7 @@ module API
         end
 
         link :createVersion do
-          next unless current_user.allowed_to_globally?(:manage_versions)
+          next unless current_user.allowed_in_any_project?(:manage_versions)
 
           {
             href: api_v3_paths.create_version_form,

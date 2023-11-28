@@ -45,7 +45,7 @@ zh-CN:
         item_0:
           name: 工作包编辑者
         item_1:
-          name: 工作包评价者
+          name: 工作包评论者
         item_2:
           name: 工作包查看者
       project_roles:
@@ -132,16 +132,21 @@ zh-CN:
       welcome:
         title: 欢迎使用 OpenProject！
         text: |
-          选择一个演示项目以开始使用我们为您准备的演示数据。
+          OpenProject是领先的开源项目管理软件。它支持经典、敏捷和混合型项目管理，并由您完全掌握自己的数据。
 
-          * [演示项目]({{opSetting:base_url}}/projects/demo-project): 获取关于典型项目管理的概览。
-          * [Scrum 项目]({{opSetting:base_url}}/projects/your-scrum-project): 了解 Agile 和 Scrum 项目的管理。
+          核心功能和用例：
 
-          您也可以创建一个空白的[新项目]({{opSetting:base_url}}/projects/new)。
+          * [项目组合管理](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [项目规划和调度](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [任务管理和问题跟踪](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [敏捷看板（Scrum和Kanban）](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [需求管理和发布计划](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [时间和成本跟踪/预算](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [团队协作和文档](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          永不停止协作，秉承开源和开放的心态。
+          欢迎来到项目管理的未来。
 
-          您可以在[这里]({{opSetting:base_url}}/admin/settings/general)更改此欢迎文本。
+          对于管理员：您可以[在此]({{opSetting:base_url}}/admin/settings/general)更改此欢迎文本。
       projects:
         demo-project:
           name: 演示项目

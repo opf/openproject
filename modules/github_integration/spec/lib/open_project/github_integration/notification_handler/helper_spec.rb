@@ -71,7 +71,7 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
   end
 
   describe '#find_visible_work_packages' do
-    let(:user) { instance_double(User) }
+    let(:user) { build_stubbed(:user) }
     let(:visible_wp) { instance_double(WorkPackage, project: :project_with_permissions) }
     let(:invisible_wp) { instance_double(WorkPackage, project: :project_without_permissions) }
 
@@ -81,14 +81,14 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
       before do
         allow(WorkPackage).to receive(:includes).and_return(WorkPackage)
         allow(WorkPackage).to receive(:where).with(id: ids).and_return(work_packages)
-        allow(user).to receive(:allowed_to?) { |permission, project|
-          (permission == :add_work_package_notes) && (project == :project_with_permissions)
-        }
+
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :add_work_package_notes, project: :project_with_permissions
+        end
       end
 
       it 'finds work packages visible to the user' do
         expect(find_visible_work_packages).to eql(expected)
-        expect(user).to have_received(:allowed_to?).exactly(ids.length).times
       end
     end
 

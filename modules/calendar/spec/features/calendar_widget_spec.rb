@@ -28,8 +28,9 @@
 
 require 'spec_helper'
 require_relative '../../../overviews/spec/support/pages/overview'
+require_relative '../support/pages/calendar'
 
-RSpec.describe 'Calendar Widget', :js, :with_cuprite do
+RSpec.describe 'Calendar Widget', :js, :with_cuprite, with_settings: { start_of_week: 1 } do
   let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end
@@ -44,9 +45,13 @@ RSpec.describe 'Calendar Widget', :js, :with_cuprite do
     Pages::Overview.new(project)
   end
   let(:wp_full_view) { Pages::FullWorkPackage.new(work_package, project) }
+  let(:calendar) { Pages::Calendar.new project }
 
   current_user do
-    create(:user, member_with_permissions: { project => %w[view_work_packages view_calendar manage_overview] })
+    create(:user,
+           member_with_permissions: {
+             project => %w[view_work_packages edit_work_packages view_calendar manage_overview]
+           })
   end
 
   before do
@@ -65,5 +70,26 @@ RSpec.describe 'Calendar Widget', :js, :with_cuprite do
 
     wp_full_view.go_back
     expect(page).to have_text('Overview')
+  end
+
+  it 'can resize the same work package twice (Regression #48333)', with_cuprite: false do
+    # within top-left area, add an additional widget
+    overview_page.add_widget(1, 1, :row, 'Calendar')
+
+    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+
+    expect(page).to have_selector('.fc-event-title', text: work_package.subject)
+
+    calendar.resize_date(work_package, work_package.due_date - 1.day)
+    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+
+    work_package.reload
+    expect(work_package.due_date).to eq Time.zone.today.beginning_of_week.next_occurring(:wednesday)
+
+    calendar.resize_date(work_package, work_package.due_date - 1.day)
+    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+
+    work_package.reload
+    expect(work_package.due_date).to eq Time.zone.today.beginning_of_week.next_occurring(:tuesday)
   end
 end

@@ -43,11 +43,11 @@ pt:
           name: Outro
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
           name: Non member
@@ -132,16 +132,21 @@ pt:
       welcome:
         title: Bem-vindo ao OpenProject!
         text: |
-          Selecione um dos projetos de demonstração para começar com alguns dados de demonstração que preparamos para você.
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
-          * [Projeto Demo]({{opSetting:base_url}}/projects/demo-project): para obter uma visão geral sobre a gestão clássica de projetos.
-          * [Projeto Scrum]({{opSetting:base_url}}/projects/your-scrum-project): para aprender sobre a gestão de projetos Ágil e Scrum.
+          Core features and use cases:
 
-          Além disso, você pode criar um novo projeto [new project({{opSetting:base_url}}/projects/new).
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Nunca pare de colaborar. Com código aberto e mente aberta.
+          Welcome to the future of project management.
 
-          Você pode alterar este texto de boas-vindas [here]({{opSetting:base_url}}/admin/settings/general).
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Projeto de demonstração

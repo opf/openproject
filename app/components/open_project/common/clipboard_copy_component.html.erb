@@ -1,0 +1,6 @@
+<%=
+  render(Primer::Beta::Text.new(tag: :div, flex_items: :center, display: :flex)) do
+    concat(render(Primer::Alpha::TextField.new(**text_field_options)))
+    concat(render(Primer::Beta::ClipboardCopy.new(**clipboard_copy_options)))
+  end
+%>

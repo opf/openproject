@@ -39,8 +39,7 @@ module API
           include API::Caching::CachedRepresenter
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               User.current.roles_for_project(represented.project).map(&:permissions).flatten.uniq.sort +
-                                 [Setting.work_package_done_ratio]
+                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio]
                              }
 
           custom_field_injector type: :schema_representer
@@ -169,8 +168,8 @@ module API
                  type: 'Duration',
                  required: false,
                  show_if: ->(*) {
-                   current_user_allowed_to(:view_time_entries, context: represented.project) ||
-                     current_user_allowed_to(:view_own_time_entries, context: represented.project)
+                   current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+                   current_user.allowed_in_work_package?(:view_own_time_entries, represented)
                  }
 
           schema :percentage_done,
@@ -299,7 +298,7 @@ module API
                                            }
                                          },
                                          show_if: ->(*) {
-                                           current_user_allowed_to(:view_budgets, context: represented.project)
+                                           current_user.allowed_in_project?(:view_budgets, represented.project)
                                          }
 
           def attribute_groups
@@ -367,6 +366,16 @@ module API
              represented.available_custom_fields.sort_by(&:id)]
               .flatten
               .compact
+          end
+
+          def all_permissions_granted_to_user_under_project
+            Role
+              .joins(:members)
+              .where(members: { project_id: represented.project, principal: User.current })
+              .map(&:permissions)
+              .flatten
+              .uniq
+              .sort
           end
         end
       end

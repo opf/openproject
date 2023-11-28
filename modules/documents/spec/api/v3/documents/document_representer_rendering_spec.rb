@@ -49,13 +49,6 @@ RSpec.describe API::V3::Documents::DocumentRepresenter, 'rendering' do
 
   subject { representer.to_json }
 
-  before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission, _|
-      permissions.include?(permission)
-    end
-  end
-
   describe '_links' do
     it_behaves_like 'has a titled link' do
       let(:link) { 'self' }

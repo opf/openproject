@@ -38,6 +38,10 @@ module Enumerations
       end
     end
 
+    def sortable?
+      false
+    end
+
     def headers
       [
         ['name', { caption: Enumeration.human_attribute_name(:name) }],

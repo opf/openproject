@@ -259,7 +259,7 @@ The client can just as well filter for most of the other properties and can comb
 In the example displayed above, the clients filters for all work packages having their type set to the types with the id 2, 3 or 4 **and** whose priority is not the priority with the id 4.
 Once again, this displays a difference between scalar and resource values. While the client is expected to provide scalar value directly, in needs to provide the id of resources in case a resource property is filtered for.
 
-Apart from filtering, the work packages can also be sorted (e.g. `sortyBy=[["assignee", "asc"], ["createdAt", "desc"]`),
+Apart from filtering, the work packages can also be sorted (e.g. `sortBy=[["assignee", "asc"], ["createdAt", "desc"]`),
 the number of work packages included in the response can be adapted (e.g. `pageSize=50`) and the page offset the result set
 starts from can be specified (e.g. `offset=5`).
 

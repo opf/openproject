@@ -3,15 +3,15 @@
 class SharingMailer < ApplicationMailer
   helper :mail_notification
 
-  def shared_work_package(sharer, membership)
+  def shared_work_package(sharer, membership, group = nil)
     @sharer = sharer
     @shared_with_user = membership.principal
+    @group = group
     @work_package = membership.entity
 
     role = membership.roles.first
     @role_rights = derive_role_rights(role)
     @allowed_work_package_actions = derive_allowed_work_package_actions(role)
-    @shared_with_user = membership.principal
 
     set_open_project_headers(@work_package)
     message_id(membership, sharer)

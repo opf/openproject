@@ -38,10 +38,9 @@ RSpec.describe API::V3::RootRepresenter do
   let(:permissions) { [:view_members] }
 
   before do
-    allow(user)
-      .to receive(:allowed_to_globally?) do |action|
-        permissions.include?(action)
-      end
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project(*permissions, project: build_stubbed(:project)) # any project
+    end
   end
 
   context 'generation' do

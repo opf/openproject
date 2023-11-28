@@ -174,10 +174,11 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
     end
 
     context 'not logged in' do
-      it 'acts as if the schema does not exist' do
+      before do
         get schema_path
-        expect(last_response.status).to be(404)
       end
+
+      it_behaves_like 'not found response based on login_required'
     end
   end
 
@@ -210,11 +211,12 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
       end
     end
 
-    context 'not logged in' do
-      it 'acts as if the schema does not exist' do
+    context 'when not logged in' do
+      before do
         get schema_path
-        expect(last_response.status).to be(404)
       end
+
+      it_behaves_like 'not found response based on login_required'
     end
   end
 end

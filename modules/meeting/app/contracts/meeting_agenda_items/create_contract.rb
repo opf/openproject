@@ -28,6 +28,8 @@
 
 module MeetingAgendaItems
   class CreateContract < BaseContract
+    attribute :item_type
+
     validate :user_allowed_to_add, :validate_meeting_existence
 
     def self.assignable_meetings(user)
@@ -38,7 +40,9 @@ module MeetingAgendaItems
 
     ##
     # Meeting agenda items can currently be only created
-    # through the project permission :edit_meetings
+    # through the project permission :manage_agendas
+    # When MeetingRole becomes available, agenda items will
+    # be created through meeting permissions :manage_agendas
     def user_allowed_to_add
       # when creating a meeting agenda item from the work package tab and not selecting a meeting
       # the meeting and therefore the project is not set
@@ -46,7 +50,7 @@ module MeetingAgendaItems
       # the error is added by the models presence validation
       return unless visible?
 
-      unless user.allowed_to?(:edit_meetings, model.project)
+      unless user.allowed_in_project?(:manage_agendas, model.project)
         errors.add :base, :error_unauthorized
       end
     end

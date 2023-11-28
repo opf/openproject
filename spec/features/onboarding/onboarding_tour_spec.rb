@@ -78,11 +78,6 @@ RSpec.describe 'onboarding tour for new users', js: true do
         select 'English', from: 'user_language'
         click_button 'Save'
       end
-
-      it 'when the welcome block does not include the demo projects' do
-        expect(page).not_to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).not_to have_selector '.enjoyhint_next_btn'
-      end
     end
 
     context 'when I skip the language selection' do
@@ -151,10 +146,7 @@ RSpec.describe 'onboarding tour for new users', js: true do
 
       it 'and I continue the tutorial' do
         next_button.click
-        expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.project_selection')), normalize_ws: true
-
-        # SeleniumHubWaiter.wait
-        find('.welcome').click_link 'Demo project'
+        # Continue on WP page
         expect(page).to have_current_path "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
 
         step_through_onboarding_wp_tour project, wp1

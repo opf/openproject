@@ -44,5 +44,13 @@ module Admin::Settings
     def show_local_breadcrumb
       true
     end
+
+    def settings_params
+      super.tap do |settings|
+        if settings["consent_required"] == '1' && params['toggle_consent_time'] == '1'
+          settings["consent_time"] = Time.zone.now.iso8601
+        end
+      end
+    end
   end
 end

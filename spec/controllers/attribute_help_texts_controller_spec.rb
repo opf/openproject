@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe AttributeHelpTextsController, with_ee: %i[attribute_help_texts] do
-  let(:user) { build_stubbed(:admin) }
+  let(:user) { build_stubbed(:user) }
   let(:model) { build(:work_package_help_text) }
 
   let(:find_expectation) do
@@ -13,6 +13,10 @@ RSpec.describe AttributeHelpTextsController, with_ee: %i[attribute_help_texts] d
 
   before do
     login_as user
+
+    mock_permissions_for(user) do |mock|
+      mock.allow_globally :edit_attribute_help_texts
+    end
   end
 
   describe '#index' do

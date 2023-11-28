@@ -1,0 +1,43 @@
+<%=
+  render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-automatically-managed-project-folders-form')) do
+    primer_form_with(
+      model:,
+      url: form_url,
+      method: form_method,
+      data: {
+        controller: "storages--automatically-managed-project-folders-form",
+        'application-target': "dynamic",
+        'storages--automatically-managed-project-folders-form-is-automatically-managed-value': storage.automatically_managed?,
+      }
+    ) do |form|
+      flex_layout do |project_folders_form|
+        project_folders_form.with_row(mb: 3) do
+          render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t(:'storages.label_managed_project_folders.automatically_managed_folders') }
+        end
+
+        project_folders_form.with_row(mb: 3) do
+          render(Primer::Beta::Text.new) { I18n.t("storages.page_titles.managed_project_folders.subtitle") }
+        end
+
+        project_folders_form.with_row(mb: 3) do
+          render(Storages::Admin::ManagedProjectFolders::AutomaticallyManagedCheckbox.new(form, storage:))
+        end
+
+        project_folders_form.with_row(mb: 3, data: { 'storages--automatically-managed-project-folders-form-target': "applicationPasswordInput" }) do
+          render(Storages::Admin::ManagedProjectFolders::ApplicationPasswordInput.new(form, storage:))
+        end
+
+        project_folders_form.with_row do
+          render(
+            Storages::Admin::SubmitOrCancelForm.new(
+              form,
+              storage:,
+              submit_button_options:,
+              cancel_button_options:
+            )
+          )
+        end
+      end
+    end
+  end
+%>

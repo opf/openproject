@@ -136,7 +136,6 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def render_menu_node_with_children(node, project = nil)
     content_tag :li, menu_node_options(node) do
       items = [
@@ -148,8 +147,6 @@ module Redmine::MenuManager::MenuHelper
       safe_join(items, "\n")
     end
   end
-
-  # rubocop:enable Metrics/AbcSize
 
   def render_wrapped_menu_parent_node(node, project)
     html_id = node.html_options[:id] || node.name
@@ -232,7 +229,7 @@ module Redmine::MenuManager::MenuHelper
                              lang: menu_item_locale(item)) do
       title_text = ''.html_safe + content_tag(:span, caption, class: 'ellipsis') + badge_for(item)
       if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
-        title_text << (''.html_safe + spot_icon('enterprise-addons', size: '1_25', classnames: 'upsale-icon_highlighted'))
+        title_text << (''.html_safe + spot_icon('enterprise-addons', size: '1_25', classnames: 'upsale-colored'))
       end
       title_text
     end
@@ -301,7 +298,7 @@ module Redmine::MenuManager::MenuHelper
             ':child_menus must be an array of MenuItems'
     end
 
-    if User.current.allowed_to?(menu_item.url(project), project)
+    if User.current.allowed_in_project?(menu_item.url(project), project)
       link_to(menu_item.caption,
               menu_item.url(project),
               menu_item.html_options)
@@ -417,11 +414,28 @@ module Redmine::MenuManager::MenuHelper
 
   def node_action_allowed?(node, project, user)
     return true if node.skip_permissions_check?
+    return false if user.nil?
 
     url = node.url(project)
     return true unless url
 
-    user&.allowed_to?(url, project)
+    begin
+      user.allowed_in_project?(url, project)
+    rescue Authorization::UnknownPermissionError, Authorization::IllegalPermissionContextError
+      # As we throw every possible URL in here, there might be URLs that are not backed by a permission or that are
+      # global permissions. Let's ignore those errors and just treat them as the user does not have access, as this
+      # mirrors what the system did before as well.
+      # We might catch the IllegalPermissionContextError here and check if the permission is a global one and then
+      # check if the user is globaly allowed.
+      #
+      # rescue Authorization::IllegalPermissionContextError => e
+      #   if e.allowed_contexts.include?(:global)
+      #     user.allowed_globally?(url)
+      #   else
+      #     false
+      #   end
+      false
+    end
   end
 
   def visible_node?(menu, node)

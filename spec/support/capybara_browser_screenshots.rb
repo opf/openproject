@@ -7,7 +7,7 @@ require 'capybara-screenshot/rspec'
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
 # Set up S3 uploads if desired
-if ENV['CAPYBARA_AWS_ACCESS_KEY_ID']
+if ENV['CAPYBARA_AWS_ACCESS_KEY_ID'].present?
   Capybara::Screenshot.s3_configuration = {
     s3_client_credentials: {
       access_key_id: ENV.fetch('CAPYBARA_AWS_ACCESS_KEY_ID'),

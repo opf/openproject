@@ -29,7 +29,7 @@
 # Purpose: Let OpenProject create folders per project automatically.
 # This is recommended as it ensures that every team member always has the correct access permissions.
 #
-class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationController
+class Storages::ProjectSettings::ProjectStorageMembersController < Projects::SettingsController
   include PaginationHelper
 
   menu_item :settings_project_storages
@@ -61,6 +61,5 @@ class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationCo
     super(object_id)
     @project_storage = @object
     @storage = @project_storage.storage
-    @project = @project_storage.project
   end
 end

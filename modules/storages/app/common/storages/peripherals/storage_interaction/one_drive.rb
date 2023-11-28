@@ -38,8 +38,8 @@ module Storages
             register(:files, FilesQuery)
             register(:file_info, FileInfoQuery)
             register(:files_info, FilesInfoQuery)
-            register(:open_link, OpenLinkQuery)
-            register(:open_drive_link, OpenDriveLinkQuery)
+            register(:open_file_link, OpenFileLinkQuery)
+            register(:open_storage, OpenStorageQuery)
             register(:upload_link, UploadLinkQuery)
           end
         end

@@ -49,7 +49,7 @@ module Storages::Storages
     validates :password, absence: true, unless: :nextcloud_storage_automatically_managed?
 
     validate do
-      if nextcloud_storage_automatically_managed? && errors.exclude?(:password)
+      if nextcloud_storage_automatically_managed? && errors.exclude?(:host) && errors.exclude?(:password)
         NextcloudApplicationCredentialsValidator.new(self).call
       end
     end

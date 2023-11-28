@@ -52,6 +52,10 @@ class Storages::ProjectStorage < ApplicationRecord
 
   scope :automatic, -> { where(project_folder_mode: 'automatic') }
 
+  def automatic_management_possible?
+    storage.present? && storage.provider_type_nextcloud? && storage.automatically_managed?
+  end
+
   def project_folder_path
     "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/"
   end
@@ -62,19 +66,6 @@ class Storages::ProjectStorage < ApplicationRecord
 
   def file_inside_project_folder?(escaped_file_path)
     escaped_file_path.match?(%r|^/#{project_folder_path_escaped}|)
-  end
-
-  def open_link
-    if project_folder_inactive?
-      storage.open_link
-    else
-      call = ::Storages::Peripherals::Registry.resolve("queries.#{storage.short_provider_type}.open_link")
-                                              .call(storage:, user: User.current, file_id: project_folder_id)
-      call.match(
-        on_success: ->(url) { url },
-        on_failure: ->(*) { storage.open_link }
-      )
-    end
   end
 
   private

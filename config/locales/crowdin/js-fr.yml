@@ -31,6 +31,12 @@ fr:
         Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible.
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Ajouter «%{name} »"
@@ -342,11 +348,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Comparaison des données de référence pour faciliter le suivi des modifications.</li> <li>Exportation PDF des rapports sur les plans de travail.</li> <li>L'abonnement aux calendriers des projets via une adresse URL (iCalendar).</li> <li>Dossiers de projet avec des modèles de documents pour l'intégration de Nextcloud.</li> <li>Seeding localisé de toutes les données de démarrage.</li> <li>Les modules globaux sont répertoriés sur de nouvelles pages d'index.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -554,7 +560,6 @@ fr:
       steps:
         help_menu: 'Le menu Aide (?) fournit des <b>ressources d''aide supplémentaires</b>. Vous y trouverez un guide utilisateur, des vidéos pratiques et plus encore. <br> Profitez de votre travail avec OpenProject !'
         members: 'Invitez de nouveaux <b>membres</b> à rejoindre votre projet.'
-        project_selection: 'Veuillez cliquer sur l''un des projets de démonstration que nous avons préparés. Les données de démonstration ne sont actuellement disponibles qu''en anglais. <br> Le <b>projet démo général</b> convient le mieux pour la gestion de projet classique, tandis que le <b>projet Scrum</b> est meilleur pour la gestion de projet agile.'
         quick_add_button: 'Cliquez sur l''icône plus (+) dans l''en-tête de navigation pour <b>créer un nouveau projet</b> ou <b>inviter des collègues</b>.'
         sidebar_arrow: "Utilisez la flèche de retour dans le coin supérieur gauche pour retourner au <b>menu principal</b> du projet."
         welcome: 'Faites une visite d’introduction de trois minutes d’apprendre le plus de caractéristiques importantes de <b></b>. <br> il est recommandé d’avoir effectué les étapes jusqu''à la fin. Vous pouvez redémarrer la tournée à tout moment.'
@@ -599,6 +604,7 @@ fr:
         processed: 'traité'
         prioritized: 'priorisé'
         dateAlert: 'Alarmes'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Date jalon'
         overdue: 'En retard'
@@ -643,6 +649,7 @@ fr:
         mentioned: 'Mentionné'
         watched: 'Observateur'
         date_alert: 'Alarmes'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Vous pouvez modifier vos <a target="_blank" href="%{url}">paramètres de notification</a> pour vous assurer de ne jamais manquer une mise à jour importante.'
         title: "Paramètres de notifications"
@@ -665,6 +672,7 @@ fr:
             description: 'Recevoir une notification chaque fois que quelqu''un me mentionne n''importe où'
           assignee: 'Assigné'
           responsible: 'Responsable'
+          shared: 'Shared'
           watched: 'Observateur'
           work_package_commented: 'Tous les nouveaux commentaires'
           work_package_created: 'Nouveaux lots de travaux'
@@ -677,7 +685,7 @@ fr:
             description: 'Notifications pour toute activité sur les lots de travaux vous concernant (assigné, responsable ou observateur).'
           delayed:
             title: 'Non participants'
-            description: 'Notifications additionnelles lors d''activité sur tous les projects.'
+            description: 'Notifications additionnelles lors d''activités sur tous les projets.'
           date_alerts:
             title: 'Alarmes'
             description: 'Notifications automatiques lorsque des dates importantes approchent pour les lots de travaux ouverts vous concernant (assigné, responsable ou observateur).'
@@ -1021,6 +1029,9 @@ fr:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."

@@ -71,7 +71,7 @@ module Members
         ((model.project && role.instance_of?(ProjectRole)) || (!model.project && role.instance_of?(GlobalRole)))
     end
 
-    def user_allowed_to_manage?
+    def user_allowed_to_manage? # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
       # rubocop:disable Performance/RedundantEqualityComparisonBlock
       if model.project.present? && model.roles.empty?
         user.allowed_in_any_project?(:manage_members)
@@ -88,7 +88,7 @@ module Members
     end
 
     def project_manageable_or_blank?
-      !model.project || user.allowed_to?(:manage_members, model.project)
+      !model.project || user.allowed_in_project?(:manage_members, model.project)
     end
 
     def project_set_or_admin?

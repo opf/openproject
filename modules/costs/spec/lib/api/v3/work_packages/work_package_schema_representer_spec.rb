@@ -30,18 +30,6 @@ require 'spec_helper'
 
 RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { build(:custom_field) }
-  let(:work_package) { build_stubbed(:work_package) }
-  let(:current_user) do
-    build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(false)
-      allow(u)
-        .to receive(:allowed_to?)
-        .with(:edit_work_packages, work_package.project, global: false)
-        .and_return(true)
-    end
-  end
   let(:schema) do
     API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
   end
@@ -53,12 +41,18 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
                            current_user:)
   end
   let(:project) { work_package.project }
-
-  subject { representer.to_json }
+  let(:work_package) { build_stubbed(:work_package) }
+  let(:current_user) { build_stubbed(:user) }
 
   before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project :edit_work_packages, project: work_package.project
+    end
+
     login_as(current_user)
   end
+
+  subject { representer.to_json }
 
   describe 'overallCosts' do
     context 'has the permissions' do

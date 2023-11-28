@@ -26,12 +26,18 @@ zh-CN:
         name: "名称"
         creator: "创建者"
         provider_type: "提供商类型"
+        host: "主机"
+        tenant: "租户"
       storages/file_link:
         origin_id: "来源 ID"
     errors:
       messages:
         not_linked_to_project: "未链接到项目。"
       models:
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: "对于此存储不可用。"
         storages/storage:
           attributes:
             host:
@@ -56,21 +62,33 @@ zh-CN:
     default_name: "我的存储"
     unknown_storage: "未知存储区"
     buttons:
+      done_continue: "完成, 继续"
       done_continue_setup: "已完成。继续设置"
       done_complete_setup: "完成，完成设置"
       edit_automatically_managed_project_folders: "编辑自动托管的项目文件夹"
       replace_openproject_oauth: "替换 OpenProject OAuth"
       replace_provider_type_oauth: "替换 %{provider_type} OAuth"
       save: "保存"
+      save_and_continue: "保存并继续"
       save_and_continue_setup: "保存并继续设置"
       save_and_complete_setup: "保存并完成设置"
       select_folder: "选择文件夹"
       configure: "配置"
+    file_storage_view:
+      general_information: "一般信息"
+      oauth_applications: "OAuth应用程序"
+      project_folders: "项目文件夹"
+      storage_provider: "存储提供商"
+      openproject_oauth: "OpenProject OAuth"
+      one_drive_oauth: "Azure OAuth"
+      nextcloud_oauth: "Nextcloud OAuth"
+      automatically_managed_folders: "自动托管的文件夹"
     page_titles:
       file_storages:
         subtitle: "添加外部文件存储以便在工作包中上传、链接和管理文件。"
       managed_project_folders:
         title: "自动托管的项目文件夹"
+        subtitle_short: "允许 OpenProject 自动创建每个项目的文件夹。"
         subtitle: >
           让 OpenProject 自动为每个项目创建文件夹。建议这样做，因为这样可以确保每个团队成员始终拥有正确的访问权限。
       project_settings:
@@ -89,6 +107,9 @@ zh-CN:
       host: "请添加存储的主机地址，包括 https://。不应超过 255 个字符。"
       managed_project_folders_application_password: >
         从以下位置复制此值：
+      managed_project_folders_application_password_caption: "通过从 %{provider_type_link} 复制该值来启用自动管理的文件夹。"
+      new_storage: "请阅读我们的 %{new_storage_link_text} 获取有关此设置的更多信息。"
+      new_storage_link_text: "文件存储文档"
       no_storage_set_up: "尚未设置文件存储。"
       no_specific_folder: "默认情况下，每个用户上传文件时将从自己的主文件夹开始。"
       automatic_folder: "这将自动为此项目创建一个根文件夹，并管理每个项目成员的访问权限。"
@@ -101,21 +122,36 @@ zh-CN:
       setting_up_storages: "如需设置文件存储，请访问"
       setting_up_storages_non_admin: "管理员可以在“管理/文件存储”中设置文件存储。"
       all_available_storages_already_added: "所有可用存储均已添加到项目。"
+      oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 %{oauth_application_details_link} 。"
+      oauth_application_details_link_text: "Nextcloud OpenProject 集成设置"
       copy_from: "复制此值自"
       nextcloud:
+        provider_configuration: "在进行设置之前，请确保您在 Nextcloud 实例中具有管理员权限，并且已安装了 %{application_link_text}。"
+        oauth_configuration: "从 %{application_link_text} 复制这些值。"
+        application_link_text: "应用“集成OpenProject”"
         integration: "Nextcloud 管理/OpenProject"
       one_drive:
+        provider_configuration: "在进行设置之前，请确保您在 %{application_link_text} 中具有管理员权限。"
+        oauth_configuration: "从 %{application_link_text} 中复制这些值。然后，将重定向 URI 复制回 %{application_link_text}。"
+        application_link_text: "Azure应用程序"
         integration: "OneDrive/Sharepoint"
         oauth_client_id: >
           从 Azure 门户复制客户端 ID。这是生成重定向 URI 所必需的。
         oauth_client_secret: >
           从Azure门户复制客户端密钥。对于新创建的应用程序，首先需要手动创建密钥。对于Web应用程序的授权，密钥是必需的。
-        missing_client_id_for_redirect_uri: "缺少客户端ID以提供重定向URI。"
+        missing_client_id_for_redirect_uri: "请填写OAuth 值以生成 URI"
+        tenant_id: "请从您的 Azure 应用程序复制租户。"
+        tenant_id_placeholder: "名称或 UUID"
+        drive_id: "请从您的 Azure 应用程序复制驱动器 ID。"
+        drive_id_placeholder: "UUID 或 triple ID"
     help_texts:
       project_folder: >
         项目文件夹是此项目上传文件的默认文件夹。用户仍然可以上传文件到其他位置。
     configuration_checks:
       incomplete: "该存储的设置不完整。"
+      oauth_client_incomplete:
+        nextcloud: "允许 OpenProject 使用 OAuth 访问 Nextcloud 数据。"
+        one_drive: "允许 OpenProject 使用 OAuth 访问Azure 数据来连接 OneDrive/Sharepoint。"
     delete_warning:
       storage: >
         确定要删除此存储吗？此操作也将从所有使用该存储的项目中将其删除。此外，此操作还将删除从工作包到该存储中存储的文件的所有链接。
@@ -130,12 +166,15 @@ zh-CN:
       description: "在这里添加一个存储以查看它们。"
     label_active: "有效"
     label_add_new_storage: "添加新存储"
+    label_delete_storage: "删除存储"
     label_inactive: "停用"
     label_creator: "创建者"
     label_provider: "提供商"
     label_file_link: "文件链接"
     label_file_links: "文件链接"
+    label_file_storage: "文件存储"
     label_creation_time: "创建时间"
+    label_completed: "已完成"
     label_incomplete: "不完整"
     label_name: "名称"
     label_host: "主机 URL"
@@ -149,14 +188,25 @@ zh-CN:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth 应用程序详情"
     label_oauth_client_details: "OAuth 客户端详情"
+    label_openproject_oauth_application_id: "OpenProject OAuth 客户端 ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth 客户端密钥"
+    label_oauth_client_id: "OAuth 客户端 ID"
+    label_oauth_client_secret: "OAuth 客户端密钥"
+    label_information: "附加信息"
     label_provider_type: "提供商类型"
     label_project_folder: "项目文件夹"
+    label_redirect_uri: "重定向 URI"
     label_new_storage: "新存储"
+    label_new_file_storage: "新建文件存储"
     label_edit_storage: "编辑存储"
+    label_edit_storage_host: "编辑存储主机"
+    label_edit_storage_oauth_client: "编辑存储 OAuth 客户端"
+    label_edit_storage_automatically_managed_folders: "编辑存储自动管理的文件夹"
     label_existing_manual_folder: "具有手动管理权限的现有文件夹"
     label_no_specific_folder: "未指定文件夹"
     label_automatic_folder: "新建具有自动管理权限的文件夹"
     label_no_selected_folder: "没有选定文件夹"
+    label_select_provider: "选择提供商"
     label_storage: "存储"
     label_storages: "存储"
     label_status: "状态"
@@ -164,7 +214,7 @@ zh-CN:
     member_connection_status:
       connected: "已连接"
       connected_no_permissions: "用户角色没有存储区权限"
-      not_connected: "未连接。用户应通过工作包的“%{files_label}”选项卡登录存储区以连接。"
+      not_connected: "未连接。用户应通过以下 %{link} 登录到存储。"
     no_results: "尚未设置存储设备。"
     members_no_results: "没有要显示的成员。"
     provider_types:
@@ -180,3 +230,4 @@ zh-CN:
     oauth_client_details_missing: "要完成设置，请从您的存储中添加 OAuth 客户端凭据。"
     automatically_managed_project_folder_missing: "要完成设置，请为您的存储区配置自动托管的项目文件夹。"
     notice_oauth_application_replaced: "已成功替换 OpenProject OAuth 应用程序。"
+    notice_successful_storage_connection: "存储连接成功！请记住，在每个所需项目的项目设置中激活模块和特定存储以便使用它。"

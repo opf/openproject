@@ -36,7 +36,12 @@ class Meeting < ApplicationRecord
   has_one :agenda, dependent: :destroy, class_name: 'MeetingAgenda'
   has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
-  has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
+
+  has_many :participants,
+           dependent: :destroy,
+           class_name: 'MeetingParticipant',
+           after_add: :send_participant_added_mail
+
   has_many :agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
 
   default_scope do
@@ -54,27 +59,19 @@ class Meeting < ApplicationRecord
       .merge(Project.allowed_to(args.first || User.current, :view_meetings))
   }
 
-  acts_as_watchable
+  acts_as_watchable permission: :view_meetings
 
-  acts_as_searchable columns: ["#{table_name}.title", "#{MeetingContent.table_name}.text"],
-                     include: %i[contents project],
-                     references: :meeting_contents,
+  acts_as_searchable columns: [
+                       "#{table_name}.title",
+                       "#{MeetingContent.table_name}.text",
+                       "#{MeetingAgendaItem.table_name}.title",
+                       "#{MeetingAgendaItem.table_name}.notes"
+                     ],
+                     include: %i[contents project agenda_items],
+                     references: %i[meeting_contents agenda_items],
                      date_column: "#{table_name}.created_at"
 
-  acts_as_journalized
-  acts_as_event title: Proc.new { |o|
-                         "#{I18n.t(:label_meeting)}: #{o.title} \
-        #{format_date o.start_time} \
-        #{format_time o.start_time, false}-#{format_time o.end_time, false})"
-                       },
-                url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
-                author: Proc.new(&:user),
-                description: ''
-
-  register_journal_formatted_fields(:plaintext, 'title')
-  register_journal_formatted_fields(:fraction, 'duration')
-  register_journal_formatted_fields(:datetime, 'start_time')
-  register_journal_formatted_fields(:plaintext, 'location')
+  include Meeting::Journalized
 
   accepts_nested_attributes_for :participants, allow_destroy: true
 
@@ -90,11 +87,11 @@ class Meeting < ApplicationRecord
   end
 
   validate :validate_date_and_time
+
   before_save :update_start_time!
-
   before_save :add_new_participants_as_watcher
-
   after_initialize :set_initial_values
+  after_update :send_rescheduling_mail, if: -> { saved_change_to_start_time? || saved_change_to_duration? }
 
   enum state: {
     open: 0, # 0 -> default, leave values for future states between open and closed
@@ -143,11 +140,11 @@ class Meeting < ApplicationRecord
 
   # Returns true if user or current user is allowed to view the meeting
   def visible?(user = User.current)
-    user.allowed_to?(:view_meetings, project)
+    user.allowed_in_project?(:view_meetings, project)
   end
 
   def editable?(user = User.current)
-    open? && user.allowed_to?(:edit_meetings, project)
+    open? && user.allowed_in_project?(:edit_meetings, project)
   end
 
   def invited_or_attended_participants
@@ -158,7 +155,7 @@ class Meeting < ApplicationRecord
     changeable_participants = participants.select(&:invited).collect(&:user)
     changeable_participants = changeable_participants + participants.select(&:attended).collect(&:user)
     changeable_participants = changeable_participants + \
-                              User.allowed_members(:view_meetings, project)
+      User.allowed_members(:view_meetings, project)
 
     changeable_participants
       .compact
@@ -168,13 +165,15 @@ class Meeting < ApplicationRecord
   def copy(attrs)
     copy = dup
 
-    # Called simply to initialize the value
-    copy.start_date
-    copy.start_time_hour
+    # Set a default to next week
+    copy.start_time = start_time + 1.week
 
     copy.author = attrs.delete(:author)
     copy.attributes = attrs
     copy.set_initial_values
+    # Initialize virtual attributes
+    copy.start_date
+    copy.start_time_hour
 
     copy.participants.clear
     copy.participants_attributes = allowed_participants.collect(&:copy_attributes)
@@ -223,6 +222,7 @@ class Meeting < ApplicationRecord
   end
 
   alias :original_participants_attributes= :participants_attributes=
+
   def participants_attributes=(attrs)
     attrs.each do |participant|
       participant['_destroy'] = true if !(participant['attended'] || participant['invited'])
@@ -317,5 +317,23 @@ class Meeting < ApplicationRecord
     participants.select(&:new_record?).each do |p|
       add_watcher(p.user)
     end
+  end
+
+  def send_participant_added_mail(participant)
+    if persisted?
+      MeetingMailer.invited(self, participant.user, User.current).deliver_later
+    end
+  end
+
+  def send_rescheduling_mail
+    MeetingNotificationService
+      .new(self)
+      .call :rescheduled,
+            changes: {
+              old_start: saved_change_to_start_time? ? saved_change_to_start_time.first : start_time,
+              new_start: start_time,
+              old_duration: saved_change_to_duration? ? saved_change_to_duration.first : duration,
+              new_duration: duration
+            }
   end
 end

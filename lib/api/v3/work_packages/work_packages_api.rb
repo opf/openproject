@@ -42,7 +42,7 @@ module API
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
 
           get do
-            authorize(:view_work_packages, global: true)
+            authorize_in_any_work_package(:view_work_packages)
 
             call = raise_invalid_query_on_service_failure do
               WorkPackageCollectionFromQueryParamsService
@@ -71,7 +71,7 @@ module API
             after_validation do
               @work_package = WorkPackage.find(declared_params[:id])
 
-              authorize(:view_work_packages, context: @work_package.project) do
+              authorize_in_work_package(:view_work_packages, work_package: @work_package) do
                 raise API::Errors::NotFound.new model: :work_package
               end
             end

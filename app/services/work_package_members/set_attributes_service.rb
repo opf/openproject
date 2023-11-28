@@ -28,7 +28,7 @@
 
 module WorkPackageMembers
   class SetAttributesService < ::BaseServices::SetAttributes
-    prepend Members::Concerns::RoleAssignment
+    prepend WorkPackageMembers::Concerns::RoleAssignment
 
     private
 

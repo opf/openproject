@@ -43,11 +43,11 @@ ru:
           name: Другие
       work_package_roles:
         item_0:
-          name: Редактор пакета работ
+          name: Work package editor
         item_1:
-          name: Комментатор пакета работ
+          name: Work package commenter
         item_2:
-          name: Просмотрщик пакета работ
+          name: Work package viewer
       project_roles:
         item_0:
           name: Неучастник
@@ -132,16 +132,21 @@ ru:
       welcome:
         title: Добро пожаловать в OpenProject!
         text: |
-          Выберите один из демо-проектов, чтобы начать с демо-данных, которые мы подготовили для вас.
+          OpenProject является ведущим программным обеспечением с открытым исходным кодом. Он поддерживает классические, agile и гибридные управления проектами и дает вам полный контроль над вашими данными.
 
-          * [Демо проект]({{opSetting:base_url}}/projects/demo-project): чтобы получить представление об управлении классическим проектом.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): чтобы узнать об управлении проектом Agile и Scrum.
+          Основные возможности и примеры использования:
 
-          Также вы можете создать пустой [новый проект]({{opSetting:base_url}}/projects/new).
+          * [Управление портфолио проекта](https://www.openproject. rg/collaboration-software-features/project-portfolio-management/)
+          * [Планирование и планирование проектов](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Отслеживание задач и задач](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Платы Agile (Scrum and Kanban)](https://www. penproject.org/collaboration-software-features/agile-project-management/)
+          * [Управление требованиями и Планирование релизов](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Отслеживание времени и затрат, бюджеты](https://www.openproject. rg/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject. rg/collaboration-software-features/team-collaboration/)
 
-          Никогда не прекращайте сотрудничество. С открытым исходным кодом и открытым.
+          Добро пожаловать в будущее управления проектом.
 
-          Вы можете изменить этот приветственный текст [here]({{opSetting:base_url}}/admin/settings/general).
+          Для администраторов: Вы можете изменить этот приветственный текст [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Демо-проект

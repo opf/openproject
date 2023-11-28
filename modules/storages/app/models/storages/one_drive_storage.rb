@@ -36,7 +36,11 @@ module Storages
     using ::Storages::Peripherals::ServiceResultRefinements
 
     def configuration_checks
-      { storage_oauth_client_configured: oauth_client.present? }
+      {
+        storage_oauth_client_configured: oauth_client.present?,
+        storage_tenant_drive_configured: tenant_id.present? && drive_id.present?,
+        host_name_configured: name.present?
+      }
     end
 
     def oauth_configuration
@@ -49,15 +53,6 @@ module Storages
 
     def connect_src
       %w[https://*.sharepoint.com https://*.up.1drv.com]
-    end
-
-    def open_link
-      ::Storages::Peripherals::Registry.resolve("queries.one_drive.open_drive_link")
-                                       .call(storage: self, user: User.current)
-                                       .match(
-                                         on_success: ->(web_url) { web_url },
-                                         on_failure: ->(*) { '' }
-                                       )
     end
   end
 end

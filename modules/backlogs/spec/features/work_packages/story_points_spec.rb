@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work packages having story points', js: true do
+RSpec.describe 'Work packages having story points', :js, :with_cuprite do
   before do
-    allow(User).to receive(:current).and_return current_user
+    login_as current_user
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
                                                                        'wiki_template' => '',
                                                                        'story_types' => [story_type.id.to_s],

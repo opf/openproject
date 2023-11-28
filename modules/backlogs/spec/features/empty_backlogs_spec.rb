@@ -29,16 +29,13 @@
 require 'spec_helper'
 
 RSpec.describe 'Empty backlogs project',
-               js: true do
-  let(:project) { create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
-  let(:story) { create(:type_feature) }
-  let(:task) { create(:type_task) }
-  let(:status) { create(:status, is_default: true) }
+               :js, :with_cuprite do
+  shared_let(:story) { create(:type_feature) }
+  shared_let(:task) { create(:type_task) }
+  shared_let(:project) { create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
+  shared_let(:status) { create(:status, is_default: true) }
 
   before do
-    project
-    status
-
     login_as current_user
     allow(Setting)
         .to receive(:plugin_openproject_backlogs)
@@ -52,8 +49,8 @@ RSpec.describe 'Empty backlogs project',
     let(:current_user) { create(:admin) }
 
     it 'shows a no results box with action' do
-      expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)
-      expect(page).to have_selector '.generic-table--no-results-description', text: I18n.t(:backlogs_empty_action_text)
+      expect(page).to have_css('.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title))
+      expect(page).to have_css('.generic-table--no-results-description', text: I18n.t(:backlogs_empty_action_text))
 
       link = page.find '.generic-table--no-results-description a'
       expect(link[:href]).to include(new_project_version_path(project))
@@ -65,8 +62,8 @@ RSpec.describe 'Empty backlogs project',
     let(:current_user) { create(:user, member_with_roles: { project => role }) }
 
     it 'only shows a no results box' do
-      expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)
-      expect(page).not_to have_selector '.generic-table--no-results-description'
+      expect(page).to have_css('.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title))
+      expect(page).not_to have_css('.generic-table--no-results-description')
     end
   end
 end

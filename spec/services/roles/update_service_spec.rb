@@ -37,7 +37,8 @@ RSpec.describe Roles::UpdateService, type: :model do
   it 'sends an update notification' do
     allow(OpenProject::Notifications).to receive(:send)
 
-    existing_permissions = %i[view_files view_work_packages view_calender]
+    existing_permissions = %i[view_files view_work_packages
+                              view_calender] + OpenProject::AccessControl.public_permissions.map(&:name)
     added_permissions = %i[write_files view_wiki_pages]
     role = create(:project_role, permissions: existing_permissions)
 

@@ -71,7 +71,7 @@ class BudgetsController < ApplicationController
   end
 
   def show
-    @edit_allowed = User.current.allowed_to?(:edit_budgets, @project)
+    @edit_allowed = User.current.allowed_in_project?(:edit_budgets, @project)
     respond_to do |format|
       format.html { render action: 'show', layout: !request.xhr? }
     end
@@ -109,7 +109,6 @@ class BudgetsController < ApplicationController
       flash[:notice] = t(:notice_successful_create)
       redirect_to(params[:continue] ? { action: 'new' } : { action: 'show', id: @budget })
     else
-      @errors = call.errors
       render action: 'new', layout: !request.xhr?
     end
   end
@@ -128,7 +127,6 @@ class BudgetsController < ApplicationController
       redirect_to(@budget)
     else
       @budget = call.result
-      @errors = call.errors
       render action: 'edit'
     end
   rescue ActiveRecord::StaleObjectError
@@ -238,7 +236,7 @@ class BudgetsController < ApplicationController
       "#{element_id}_currency" => Setting.plugin_costs['costs_currency']
     }
 
-    if current_user.allowed_to?(permission, project)
+    if current_user.allowed_in_project?(permission, project)
       response["#{element_id}_costs"] = number_to_currency(costs)
       response["#{element_id}_cost_value"] = response["#{element_id}_amount"] = unitless_currency_number(costs)
     end

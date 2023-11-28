@@ -71,7 +71,7 @@ Clients can define a query once, save it and use it later on to load the same se
 
 ### Query collections responses
 
-Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 Queries filtering section](../../../api/endpoints/queries/#filtering).
+Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 Queries filtering section](../../../api/endpoints/queries/#query-filter-instance).
 
 This response will end up representing the available queries on the `work packages` module sidebar as shown below.
 

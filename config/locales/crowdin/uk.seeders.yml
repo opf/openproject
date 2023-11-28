@@ -43,25 +43,25 @@ uk:
           name: Інше
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
           name: Non member
         item_1:
-          name: Anonymous
+          name: Невідомий
         item_2:
-          name: Member
+          name: Учасник
         item_3:
-          name: Reader
+          name: Читач
         item_4:
-          name: Project admin
+          name: Адміністратор проєкту
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Персонал і менеджер проєктів
     standard:
       priorities:
         item_0:
@@ -132,16 +132,21 @@ uk:
       welcome:
         title: Вітаємо в OpenProject!
         text: |
-          Виберіть один із демопроєктів, щоб почати роботу з даними, які ми підготували для вас.
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
-          * [Демопроєкт]({{opSetting:base_url}}/projects/demo-project): тут можна дізнатися про класичне керування проєктами.
-          * [Проєкт Scrum]({{opSetting:base_url}}/projects/your-scrum-project): тут можна дізнатися про підходи Agile і Scrum до керування проєктами.
+          Core features and use cases:
 
-          Ви також можете створити [новий проєкт]({{opSetting:base_url}}/projects/new).
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Співпрацюйте без перерв. З відкритим кодом і розумом.
+          Welcome to the future of project management.
 
-          Цей текст привітання можна змінити [тут]({{opSetting:base_url}}/admin/settings/general).
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Демопроєкт

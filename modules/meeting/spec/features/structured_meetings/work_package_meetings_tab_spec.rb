@@ -41,7 +41,8 @@ RSpec.describe 'Open the Meetings tab', :js do
     create(:project_role,
            permissions: %i(view_work_packages
                            view_meetings
-                           edit_meetings))
+                           edit_meetings
+                           manage_agendas))
   end
   let(:meetings_tab) { Pages::MeetingsTab.new(work_package.id) }
 
@@ -71,6 +72,24 @@ RSpec.describe 'Open the Meetings tab', :js do
 
         meetings_tab.expect_tab_not_present
       end
+
+      context 'when the user has permission in another project' do
+        let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+
+        let(:user) do
+          create(:user,
+                 member_with_roles: { project => role },
+                 member_with_permissions: {
+                   other_project => %i(view_work_packages view_meetings)
+                 })
+        end
+
+        it 'does show the tab' do
+          work_package_page.visit!
+
+          meetings_tab.expect_tab_present
+        end
+      end
     end
 
     context 'when the user has the permission to see the tab, but the work package is linked in two projects' do
@@ -95,6 +114,7 @@ RSpec.describe 'Open the Meetings tab', :js do
         work_package_page.visit!
         switch_to_meetings_tab
 
+        meetings_tab.expect_tab_count(1)
         meetings_tab.expect_upcoming_counter_to_be(1)
         meetings_tab.expect_past_counter_to_be(0)
 
@@ -109,12 +129,33 @@ RSpec.describe 'Open the Meetings tab', :js do
     end
 
     context 'when the meetings module is not enabled for the project' do
-      let(:project) { create(:project, disable_modules: 'meetings') }
+      before do
+        project.enabled_module_names = ['work_package_tracking']
+        project.save!
+      end
 
       it 'does not show the meetings tab' do
         work_package_page.visit!
 
         meetings_tab.expect_tab_not_present
+      end
+
+      context 'when the user has permission in another project' do
+        let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+
+        let(:user) do
+          create(:user,
+                 member_with_permissions: {
+                   project => %i(view_work_packages),
+                   other_project => %i(view_work_packages view_meetings)
+                 })
+        end
+
+        it 'does show the tab' do
+          work_package_page.visit!
+
+          meetings_tab.expect_tab_present
+        end
       end
     end
 
@@ -278,7 +319,7 @@ RSpec.describe 'Open the Meetings tab', :js do
           meetings_tab.open_add_to_meeting_dialog
 
           fill_in('meeting_agenda_item_meeting_id', with: past_meeting.title)
-          expect(page).not_to have_selector('.ng-option-marked', text: past_meeting.title)
+          expect(page).not_to have_css('.ng-option-marked', text: past_meeting.title)
         end
 
         it 'does not enable the user to select a closed, upcoming meeting' do
@@ -288,7 +329,7 @@ RSpec.describe 'Open the Meetings tab', :js do
           meetings_tab.open_add_to_meeting_dialog
 
           fill_in('meeting_agenda_item_meeting_id', with: closed_upcoming_meeting.title)
-          expect(page).not_to have_selector('.ng-option-marked', text: closed_upcoming_meeting.title)
+          expect(page).not_to have_css('.ng-option-marked', text: closed_upcoming_meeting.title)
         end
 
         it 'requires a meeting to be selected' do

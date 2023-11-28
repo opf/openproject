@@ -353,7 +353,9 @@ OpenProject::Application.routes.draw do
         delete 'enterprise/delete_trial_key' => 'enterprises#delete_trial_key'
       end
     end
-    resources :enumerations
+    resources :enumerations do
+      post 'move/:id', action: 'move', on: :collection
+    end
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/export_logo' => 'custom_styles#export_logo_delete', as: 'custom_style_export_logo_delete'
@@ -485,7 +487,14 @@ OpenProject::Application.routes.draw do
     get 'details/*state' => 'work_packages#index', on: :collection, as: :details
 
     # Rails managed sharing route
-    resources :shares, controller: 'work_packages/shares', only: %i[index create]
+    resources :shares, controller: 'work_packages/shares', only: %i[index create] do
+      member do
+        post 'resend_invite' => 'work_packages/shares#resend_invite'
+      end
+      collection do
+        resource :bulk, controller: 'work_packages/shares/bulk', only: %i[update destroy], as: :shares_bulk
+      end
+    end
 
     # states managed by client-side (angular) routing on work_package#show
     get '/' => 'work_packages#index', on: :collection, as: 'index'
@@ -585,6 +594,7 @@ OpenProject::Application.routes.draw do
     delete '/storage_token/:id' => 'my#delete_storage_token', as: 'storage_token_delete'
 
     resources :sessions, controller: 'my/sessions', as: 'my_sessions', only: %i[index show destroy]
+    resources :auto_login_tokens, controller: 'my/auto_login_tokens', as: 'my_auto_login_tokens', only: %i[destroy]
   end
 
   scope controller: 'my' do
@@ -630,6 +640,7 @@ OpenProject::Application.routes.draw do
   # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)
   scope 'oauth_clients/:oauth_client_id' do
     get 'callback', controller: 'oauth_clients', action: :callback
+    get 'ensure_connection', controller: 'oauth_clients', action: :ensure_connection, as: 'oauth_clients_ensure_connection'
   end
 
   if OpenProject::Configuration.lookbook_enabled?

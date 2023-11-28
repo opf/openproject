@@ -1,4 +1,4 @@
-<%= error_messages_for_contract @page, @errors %>
+<%= error_messages_for :page %>
 
 <% resource = ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user, embed_links: true) %>
 
@@ -42,4 +42,3 @@
             { controller: '/wiki', action: 'show', project_id: @project, id: (@page.new_record? ? nil : @page) },
             data: { confirm: t(:text_are_you_sure) },
             class: 'button -with-icon icon-cancel' %>
-

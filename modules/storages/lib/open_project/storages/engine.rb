@@ -46,8 +46,6 @@ module OpenProject::Storages
 
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
-      OpenProject::FeatureDecisions.add :storage_one_drive_integration
-      OpenProject::FeatureDecisions.add :storage_primer_design
     end
 
     initializer 'openproject_storages.event_subscriptions' do
@@ -156,10 +154,10 @@ module OpenProject::Storages
         if project.present? &&
           User.current.logged? &&
           User.current.member_of?(project) &&
-          User.current.allowed_to?(:view_file_links, project)
+          User.current.allowed_in_project?(:view_file_links, project)
           project.project_storages.each do |project_storage|
             storage = project_storage.storage
-            href = project_storage.open_link
+            href = "/api/v3/project_storages/#{project_storage.id}/open"
             icon = if storage.provider_type_nextcloud?
                      'nextcloud-circle'
                    else
@@ -228,11 +226,19 @@ module OpenProject::Storages
     end
 
     add_api_path :project_storage do |id|
-      "#{root}/project_storages/#{id}"
+      "#{project_storages}/#{id}"
+    end
+
+    add_api_path :project_storage_open do |id|
+      "#{project_storage(id)}/open"
     end
 
     add_api_path :storage do |storage_id|
       "#{storages}/#{storage_id}"
+    end
+
+    add_api_path :storage_open do |storage_id|
+      "#{storage(storage_id)}/open"
     end
 
     add_api_path :storage_files do |storage_id|

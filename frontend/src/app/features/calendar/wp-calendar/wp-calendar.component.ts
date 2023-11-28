@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
   CalendarOptions,
   DateSelectArg,
@@ -64,11 +57,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import interactionPlugin, {
-  EventDragStartArg,
-  EventDragStopArg,
-  EventResizeDoneArg,
-} from '@fullcalendar/interaction';
+import interactionPlugin, { EventDragStartArg, EventDragStopArg, EventResizeDoneArg } from '@fullcalendar/interaction';
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -81,11 +70,7 @@ import {
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
-import {
-  EffectCallback,
-  EffectHandler,
-  registerEffectCallbacks,
-} from 'core-app/core/state/effects/effect-handler.decorator';
+import { EffectCallback, registerEffectCallbacks } from 'core-app/core/state/effects/effect-handler.decorator';
 import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import {
@@ -350,6 +335,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     try {
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
+      this.reloadOnRefreshRequest();
     } catch (e) {
       this.halNotification.handleRawError(e, changeset.projectedResource);
       info.revert();

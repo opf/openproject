@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger SaaS workflow
+        if: ${{ github.ref_name != 'dev' }}
         env:
           TOKEN: ${{ secrets.OPENPROJECT_CI_TOKEN }}
           REPOSITORY: opf/saas-openproject

@@ -54,7 +54,7 @@ module API
 
         associated_resources :users,
                              as: :members,
-                             skip_render: -> { !current_user.allowed_to_globally?(:manage_members) },
+                             skip_render: -> { !current_user.allowed_in_any_project?(:manage_members) },
                              uncacheable_link: true
       end
     end

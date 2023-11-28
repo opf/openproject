@@ -237,4 +237,61 @@ RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json
       it_behaves_like 'not found'
     end
   end
+
+  describe 'GET /api/v3/project_storages/:id/open' do
+    let(:path) { api_v3_paths.project_storage_open(project_storage11.id) }
+    let(:location) { 'https://deathstar.storage.org/files' }
+    let(:location_project_folder) { 'https://deathstar.storage.org/files/data/project_destroy_alderan' }
+    let(:current_user) do
+      create(:user, member_with_permissions: { project1 => view_permissions })
+    end
+
+    before do
+      Storages::Peripherals::Registry.stub(
+        'queries.nextcloud.open_storage',
+        ->(_) { ServiceResult.success(result: location) }
+      )
+      Storages::Peripherals::Registry.stub(
+        'queries.nextcloud.open_file_link',
+        ->(_) { ServiceResult.success(result: location_project_folder) }
+      )
+    end
+
+    context 'as admin' do
+      let(:current_user) { create(:admin) }
+
+      it_behaves_like 'redirect response'
+    end
+
+    context 'if user belongs to a project related to project storage' do
+      it_behaves_like 'redirect response'
+
+      context 'if project storage has a configured project folder' do
+        let!(:project_storage12) do
+          create(:project_storage,
+                 project: project1,
+                 storage: storage2,
+                 project_folder_id: '1337',
+                 project_folder_mode: 'manual')
+        end
+        let(:path) { api_v3_paths.project_storage_open(project_storage12.id) }
+
+        it_behaves_like 'redirect response' do
+          let(:location) { location_project_folder }
+        end
+      end
+
+      context 'if user is missing permission view_file_links' do
+        let(:view_permissions) { [] }
+
+        it_behaves_like 'not found'
+      end
+    end
+
+    context 'if user is not member of the project' do
+      let(:path) { api_v3_paths.project_storage_open(project_storage21.id) }
+
+      it_behaves_like 'not found'
+    end
+  end
 end

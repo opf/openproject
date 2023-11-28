@@ -23,53 +23,73 @@ jobs:
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
-    # switch back to [self-hosted-autoscale] in case of issues with scaleway
-    runs-on: [self-hosted, scaleway, ubuntu22, x64, 2XL]
+    runs-on: [self-hosted, aws, ubuntu22, x64, 2XL]
     timeout-minutes: 40
     env:
       DOCKER_BUILDKIT: 1
-      LOCAL_DEV_CHECK: 1
-      CI_CACHE_PATH: "/tmp/cache"
       CI_RETRY_COUNT: 3
-      CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
-      CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
     steps:
-    - uses: actions/checkout@v3
-    - name: cache
+    - uses: actions/checkout@v4
+    - name: Cache DOCKER
+      id: cache_docker
       uses: actions/cache@v3
       with:
-        path: /tmp/cache
-        key: ${{ runner.os }}-ci-cache-tests-all-${{ github.ref }}-${{ github.sha }}
+        path: cache/docker
+        # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
+        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+    - name: Restore CI image from cache
+      if: steps.cache_docker.outputs.cache-hit == 'true'
+      run: docker load -i cache/docker/image.tar
+    - name: Cache GEM
+      uses: actions/cache@v3
+      with:
+        path: cache/bundle
+        key: gem-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-ci-cache-tests-all-${{ github.ref }}-
-          ${{ runner.os }}-ci-cache-tests-all-
-    - name: build
-      run: docker-compose -f docker-compose.ci.yml build --pull ci
-    - name: tests
-      run: |
-        sudo mkdir -p /tmp/cache && sudo chown -R 1000:1000 $CI_CACHE_PATH
-        ls -lrt $CI_CACHE_PATH/op-cache/ || true
-        docker-compose -f docker-compose.ci.yml run ci setup-tests run-units run-features
-    - name: cleanup
+          gem-
+    - name: Cache NPM
+      uses: actions/cache@v3
+      with:
+        path: cache/node
+        key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
+        restore-keys: |
+          node-
+    - name: Cache ANGULAR
+      uses: actions/cache@v3
+      with:
+        path: cache/angular
+        key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
+        restore-keys: |
+          angular-
+    - name: Cache TEST RUNTIME
+      uses: actions/cache@v3
+      with:
+        path: cache/runtime-logs
+        key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
+        restore-keys: |
+          runtime-logs-${{ github.head_ref || github.ref }}-
+          runtime-logs-
+    - name: Build
+      run: bin/ci setup-tests
+    - name: APIv3 specification (OpenAPI 3.0)
+      run: bin/ci ./script/api/validate_spec
+    - name: Unit tests
+      run: bin/ci run-units
+    - name: Feature tests
+      env:
+        CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
+        CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
+        CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
+      run: bin/ci run-features
+    - name: Save CI image to cache
+      if: steps.cache_docker.outputs.cache-hit != 'true'
+      run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar
+    - name: Cleanup
       if: ${{ always() }}
       run: |
-        docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
-        sudo chown -R $(id -u):$(id -g) $CI_CACHE_PATH
-        ls -lrt spec/support/turbo*
-        ls -lrt $CI_CACHE_PATH/op-cache/ || true
-  api-spec:
-    name: APIv3 specification (OpenAPI 3.0)
-    if: github.repository == 'opf/openproject'
-    runs-on: [ubuntu-latest]
-    steps:
-    - uses: actions/checkout@v3
-    - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '14'
-    - run: ./script/api/validate_spec
+        ls -al cache/runtime-logs || true
+        ls -al cache/ || true
+        du -sh cache/* || true
 
 # github.head_ref is only availabe in PR context and if it is absent then github.run_id
 # is used . And github.run_id is unique for each workflow run. So, this option makes

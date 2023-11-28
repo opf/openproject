@@ -9,7 +9,6 @@ module OpenProject::TwoFactorAuthentication::Patches
         @password = @user.password
         @user.ldap_auth_source_id = ldap_auth_source_id
         @user.save!
-        allow_any_instance_of(User).to receive_messages(allowed_to?: true, active?: true)
       end
 
       def create_user_with_auth_source

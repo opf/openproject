@@ -78,9 +78,15 @@ RSpec.describe 'API v3 Query resource',
     end
 
     context 'user not allowed to see queries' do
-      include_context 'with non-member permissions from non_member_permissions'
       let(:current_user) { create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
+
+      let(:prepare) do
+        # Create a public project so that the non-member permission has something to attach to
+        create(:project, public: true, active: true)
+      end
+
+      include_context 'with non-member permissions from non_member_permissions'
 
       it 'succeeds' do
         expect(last_response.status).to eq(200)

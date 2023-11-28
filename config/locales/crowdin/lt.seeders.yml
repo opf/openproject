@@ -45,7 +45,7 @@ lt:
         item_0:
           name: Darbo paketų redaktorius
         item_1:
-          name: Darbo paketų komentatorius
+          name: Darbų paketas pakomentuotas
         item_2:
           name: Darbo paketų peržiūrėtojas
       project_roles:
@@ -132,16 +132,21 @@ lt:
       welcome:
         title: Jus sveikina OpenProject!
         text: |
-          Parinkite vieną iš demonstracinių projektų, kad susipažintumėte su pavyzdiniais duomenimis, kuriuos mes jums paruošėme.
+          OpenProject yra pirmaujanti atviro kodo projektų valdymo programinė įranga. Palaiko klasikinį, Agile bei hibridinius projekto valdymo metodus bei suteikia jums pilną jūsų duomenų kontrolę.
 
-          * [Demonstracinis projektas]({{opSetting:base_url}}/projects/demo-project): bendram supratimui apie klasikinį projektų valdymą.
-          * [Scrum projetas]({{opSetting:base_url}}/projects/your-scrum-project): sužinoti apie Agile ir Scrum projektų valdymą.
+          Pagrindinės savybės ir panaudos atvejai:
 
-          Taipogi galite sukurti tuščią [naują projektą]({{opSetting:base_url}}/projects/new).
+          * [Projekto portfelio valdymas](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Projekto planavimas ir tvarkaraštis](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Užduočių valdymas ir problemų sekimas](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile lentos (Scrum ir Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Reikalavimų valdymas ir laidų planavimas](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Laiko ir kaštų sekimas, biudžetai](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Komandos bendradarbiavimas ir dokumentavimas](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Niekada nesustokite bendradarbiauti. Su atviru kodu galvoje.
+          Jus sveikina projektų valdymo ateitis.
 
-          Jūs galite pakeisti šį sveikinimo tekstą [čia]({{opSetting:base_url}}/admin/settings/general).
+          Administratoriams: Pasveikinimo tekstą galite pakeisti [čia]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demonstracinis projektas

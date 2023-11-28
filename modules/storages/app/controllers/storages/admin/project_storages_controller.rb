@@ -94,7 +94,6 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to project_settings_project_storages_path
     else
-      @errors = service_result.errors
       @project_storage = service_result.result
       @available_storages = available_storages
       render '/storages/project_settings/new'
@@ -131,7 +130,6 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to project_settings_project_storages_path
     else
-      @errors = service_result.errors
       @project_storage = @object
       render '/storages/project_settings/edit'
     end

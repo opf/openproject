@@ -72,7 +72,7 @@ module RbMasterBacklogsHelper
                                     project_id: @project,
                                     sprint_id: backlog.sprint)
 
-    if current_user.allowed_to?(:manage_versions, @project)
+    if current_user.allowed_in_project?(:manage_versions, @project)
       items[:properties] = properties_link(backlog)
     end
 

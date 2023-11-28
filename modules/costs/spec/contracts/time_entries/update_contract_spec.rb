@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require_relative 'shared_contract_examples'
 
 RSpec.describe TimeEntries::UpdateContract do
   it_behaves_like 'time entry contract' do
@@ -55,28 +55,27 @@ RSpec.describe TimeEntries::UpdateContract do
 
     context 'if project changed' do
       let(:new_project) do
-        build_stubbed(:project).tap do |p|
+        build_stubbed(:project) do |new_project|
           allow(TimeEntryActivity)
             .to receive(:active_in_project)
-            .with(p)
+            .with(new_project)
             .and_return(activities_scope)
 
           allow(time_entry)
             .to receive(:project) do
             case time_entry.project_id
-            when p.id
-              p
+            when new_project.id
+              new_project
             when time_entry_project.id
               time_entry_project
             end
           end
 
-          time_entry_work_package.project = p
+          time_entry_work_package.project = new_project
 
-          allow(current_user)
-            .to receive(:allowed_to?) do |permission, permission_project|
-            (new_project_permissions.include?(permission) && p == permission_project) ||
-              (permissions.include?(permission) && time_entry_project == permission_project)
+          mock_permissions_for(current_user) do |mock|
+            mock.allow_in_project *new_project_permissions, project: new_project
+            mock.allow_in_project *permissions, project: time_entry_project
           end
         end
       end

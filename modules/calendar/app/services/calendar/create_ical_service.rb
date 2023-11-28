@@ -45,6 +45,7 @@ module Calendar
       calendar = Icalendar::Calendar.new
 
       calendar.prodid = "-//OpenProject GmbH//OpenProject Core Project//EN"
+      calendar.refresh_interval = 'PT1H'
       calendar.x_wr_calname = calendar_name
 
       work_packages.each do |work_package|

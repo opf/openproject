@@ -80,7 +80,7 @@ RSpec.describe UsersController do
         end
 
         it "shows a user limit error" do
-          expect(flash[:error]).to match /user limit reached/i
+          expect(flash[:error]).to match /Adding additional users will exceed the current limit/i
         end
 
         it "redirects back to the user index" do
@@ -96,7 +96,7 @@ RSpec.describe UsersController do
         end
 
         it "shows a user limit warning" do
-          expect(flash[:warning]).to match /user limit reached/i
+          expect(flash[:warning]).to match /Adding additional users will exceed the current limit/i
         end
 
         it "shows the new user page" do
@@ -451,7 +451,7 @@ RSpec.describe UsersController do
         let(:user_limit_reached) { true }
 
         it "shows the user limit reached error and recommends to upgrade" do
-          expect(flash[:error]).to match /user limit reached.*upgrade/i
+          expect(flash[:error]).to match /Adding additional users will exceed the current limit.*upgrade/i
         end
 
         it "does not activate the user" do
@@ -697,7 +697,7 @@ RSpec.describe UsersController do
         it 'renders the edit template with errors' do
           expect(response)
             .to have_rendered('edit')
-          expect(assigns(:errors).first)
+          expect(assigns(:user).errors.first)
             .to have_attributes(attribute: :firstname, type: :blank)
         end
       end
@@ -883,9 +883,17 @@ RSpec.describe UsersController do
       context 'when not being logged in' do
         let(:current_user) { User.anonymous }
 
-        it 'responds with 404' do
-          expect(response)
-            .to have_http_status(:not_found)
+        context 'when login_required', with_settings: { login_required: true } do
+          it 'redirects to login' do
+            expect(response).to redirect_to signin_path(back_url: user_url(user.id))
+          end
+        end
+
+        context 'when not login_required', with_settings: { login_required: false } do
+          it 'responds with 404' do
+            expect(response)
+              .to have_http_status(:not_found)
+          end
         end
 
         context 'when requesting special value "me"' do

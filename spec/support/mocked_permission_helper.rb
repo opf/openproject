@@ -33,6 +33,8 @@
 class PermissionMock
   attr_reader :user, :permitted_entities, :allow_all_permissions
 
+  NIL_ERROR = "You tried to mock a permission on nil, this will not work! If you want to satisfy the `allow_in_any_project?` call, build an unused project and mock the permission on that.".freeze
+
   def initialize(user)
     @user = user
     reset_permitted_entities
@@ -49,7 +51,7 @@ class PermissionMock
   end
 
   def allow_in_project(*permissions, project:)
-    return if project.nil?
+    raise ArgumentError, NIL_ERROR if project.nil?
 
     permissions.each do |permission|
       Authorization.contextual_permissions(permission, :project, raise_on_unknown: true)
@@ -58,7 +60,7 @@ class PermissionMock
   end
 
   def allow_in_work_package(*permissions, work_package:)
-    return if work_package.nil?
+    raise ArgumentError, NIL_ERROR if work_package.nil?
 
     permissions.each do |permission|
       Authorization.contextual_permissions(permission, :work_package, raise_on_unknown: true)
@@ -86,7 +88,7 @@ module MockedPermissionHelper
   def mock_permissions_for(user) # rubocop:disable Metrics/PerceivedComplexity
     permission_mock = PermissionMock.new(user)
 
-    raise ArgumentError, "please provide a block to mock_permissions_for" unless block_given?
+    raise ArgumentError, "You must provide a block." unless block_given?
 
     yield permission_mock
 

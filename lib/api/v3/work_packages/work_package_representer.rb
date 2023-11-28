@@ -83,7 +83,7 @@ module API
         end
 
         link :delete,
-             cache_if: -> { current_user_allowed_to(:delete_work_packages, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:delete_work_packages, represented.project) } do
           {
             href: api_v3_paths.work_package(represented.id),
             method: :delete
@@ -101,7 +101,7 @@ module API
         end
 
         link :move,
-             cache_if: -> { current_user_allowed_to(:move_work_packages, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:move_work_packages, represented.project) } do
           next if represented.new_record?
 
           {
@@ -153,7 +153,7 @@ module API
         end
 
         link :customFields,
-             cache_if: -> { current_user_allowed_to(:select_custom_fields, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:select_custom_fields, represented.project) } do
           next if represented.project.nil?
 
           {
@@ -181,7 +181,7 @@ module API
         end
 
         link :availableWatchers,
-             cache_if: -> { current_user_allowed_to(:add_work_package_watchers, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:add_work_package_watchers, represented.project) } do
           {
             href: api_v3_paths.available_watchers(represented.id)
           }
@@ -193,7 +193,8 @@ module API
           }
         end
 
-        link :revisions do
+        link :revisions,
+             cache_if: -> { current_user.allowed_in_project?(:view_changesets, represented.project) } do
           {
             href: api_v3_paths.work_package_revisions(represented.id)
           }
@@ -221,14 +222,14 @@ module API
         end
 
         link :watchers,
-             cache_if: -> { current_user_allowed_to(:view_work_package_watchers, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:view_work_package_watchers, represented.project) } do
           {
             href: api_v3_paths.work_package_watchers(represented.id)
           }
         end
 
         link :addWatcher,
-             cache_if: -> { current_user_allowed_to(:add_work_package_watchers, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:add_work_package_watchers, represented.project) } do
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
@@ -238,7 +239,7 @@ module API
         end
 
         link :removeWatcher,
-             cache_if: -> { current_user_allowed_to(:delete_work_package_watchers, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:delete_work_package_watchers, represented.project) } do
           {
             href: api_v3_paths.watcher('{user_id}', represented.id),
             method: :delete,
@@ -247,7 +248,7 @@ module API
         end
 
         link :addRelation,
-             cache_if: -> { current_user_allowed_to(:manage_work_package_relations, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:manage_work_package_relations, represented) } do
           {
             href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
@@ -267,7 +268,7 @@ module API
         end
 
         link :changeParent,
-             cache_if: -> { current_user_allowed_to(:manage_subtasks, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:manage_subtasks, represented.project) } do
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch,
@@ -276,7 +277,7 @@ module API
         end
 
         link :addComment,
-             cache_if: -> { current_user_allowed_to(:add_work_package_notes, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:add_work_package_notes, represented) } do
           {
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
@@ -565,34 +566,34 @@ module API
 
         def current_user_update_allowed?
           @current_user_update_allowed ||=
-            current_user_allowed_to(:edit_work_packages, context: represented.project) ||
-              current_user_allowed_to(:assign_versions, context: represented.project)
+            current_user.allowed_in_work_package?(:edit_work_packages, represented) ||
+              current_user.allowed_in_project?(:assign_versions, represented.project)
         end
 
         def view_time_entries_allowed?
           @view_time_entries_allowed ||=
-            current_user_allowed_to(:view_time_entries, context: represented.project) ||
-              current_user_allowed_to(:view_own_time_entries, context: represented.project)
+            current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+              current_user.allowed_in_work_package?(:view_own_time_entries, represented)
         end
 
         def log_time_allowed?
           @log_time_allowed ||=
-            current_user_allowed_to(:log_time, context: represented.project) ||
-              current_user_allowed_to(:log_own_time, context: represented.project)
+            current_user.allowed_in_project?(:log_time, represented.project) ||
+              current_user.allowed_in_work_package?(:log_own_time, represented)
         end
 
         def view_budgets_allowed?
-          @view_budgets_allowed ||= current_user_allowed_to(:view_budgets, context: represented.project)
+          @view_budgets_allowed ||= current_user.allowed_in_project?(:view_budgets, represented.project)
         end
 
         def export_work_packages_allowed?
           @export_work_packages_allowed ||=
-            current_user_allowed_to(:export_work_packages, context: represented.project)
+            current_user.allowed_in_work_package?(:export_work_packages, represented)
         end
 
         def add_work_packages_allowed?
           @add_work_packages_allowed ||=
-            current_user_allowed_to(:add_work_packages, context: represented.project)
+            current_user.allowed_in_project?(:add_work_packages, represented.project)
         end
 
         def relations

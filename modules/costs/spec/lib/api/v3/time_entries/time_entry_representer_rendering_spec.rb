@@ -40,10 +40,11 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
                   hours:,
                   activity:,
                   project:,
+                  work_package:,
                   user:)
   end
   let(:project) { build_stubbed(:project) }
-  let(:work_package) { time_entry.work_package }
+  let(:work_package) { build_stubbed(:work_package, project:) }
   let(:activity) { build_stubbed(:time_entry_activity) }
   let(:user) { build_stubbed(:user) }
   let(:current_user) { user }
@@ -58,10 +59,10 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
   subject { representer.to_json }
 
   before do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, context_project|
-      project == context_project && permissions.include?(permission)
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project:
     end
+
     allow(time_entry)
       .to receive(:available_custom_fields)
       .and_return([])

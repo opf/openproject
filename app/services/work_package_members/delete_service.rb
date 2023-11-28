@@ -27,4 +27,23 @@
 # ++
 
 class WorkPackageMembers::DeleteService < BaseServices::Delete
+  include Members::Concerns::CleanedUp
+
+  protected
+
+  def after_perform(service_call)
+    super(service_call).tap do |call|
+      work_package_member = call.result
+
+      cleanup_for_group(work_package_member)
+    end
+  end
+
+  def cleanup_for_group(work_package_member)
+    return unless work_package_member.principal.is_a?(Group)
+
+    Groups::CleanupInheritedRolesService
+      .new(work_package_member.principal, current_user: user, contract_class: EmptyContract)
+      .call
+  end
 end

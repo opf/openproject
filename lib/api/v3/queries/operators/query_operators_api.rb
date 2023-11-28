@@ -33,7 +33,7 @@ module API
         class QueryOperatorsAPI < ::API::OpenProjectAPI
           resource :operators do
             after_validation do
-              authorize(:view_work_packages, global: true, user: current_user)
+              authorize_in_any_work_package(:view_work_packages)
             end
 
             route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Operator ID' do

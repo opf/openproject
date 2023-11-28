@@ -43,11 +43,11 @@ de:
           name: Andere
       work_package_roles:
         item_0:
-          name: Arbeitspaket-Editor
+          name: Arbeitspaket-Bearbeiter
         item_1:
-          name: Arbeitspaket-Kommentator
+          name: Work package commenter
         item_2:
-          name: Arbeitspaket-Betrachter
+          name: Work package viewer
       project_roles:
         item_0:
           name: Nichtmitglied
@@ -132,16 +132,21 @@ de:
       welcome:
         title: Willkommen bei OpenProject!
         text: |
-          Wählen Sie eines der Demo-Projekte, um mit einigen Demo-Daten zu beginnen, die wir vorbereitet haben.
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
-          * [Demoprojekt]({{opSetting:base_url}}/projects/demo-project): um einen Überblick über das klassische Projektmanagement zu erhalten.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): um mehr über Agile und Scrum Projektmanagement zu erfahren.
+          Core features and use cases:
 
-          Außerdem können Sie ein leeres [neues Projekt]({{opSetting:base_url}}/projects/news) erstellen.
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Seien Sie Teil einer globalen Gemeinschaft - mit Open Source und offenem Verstand.
+          Welcome to the future of project management.
 
-          Sie können diesen Willkommenstext ändern [here]({{opSetting:base_url}}/admin/settings/general).
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo-Projekt

@@ -91,8 +91,9 @@ RSpec.describe Meeting do
     end
 
     describe 'agenda_items' do
+      let(:work_package) { nil }
       before do
-        meeting.agenda_items << create(:meeting_agenda_item, meeting:, **agenda_item_attributes)
+        meeting.agenda_items << create(:meeting_agenda_item, meeting:, work_package:, **agenda_item_attributes)
         meeting.save
       end
 
@@ -106,8 +107,8 @@ RSpec.describe Meeting do
 
         it {
           expect(agenda_item_journals.last).to have_attributes agenda_item.attributes.slice(
-            "author_id", "title", "notes", "position", "duration_in_minutes",
-            "start_time", "end_time", "work_package_id"
+            'author_id', 'title', 'notes', 'position', 'duration_in_minutes',
+            'start_time', 'end_time', 'work_package_id', 'item_type'
           )
         }
       end
@@ -119,8 +120,8 @@ RSpec.describe Meeting do
 
         it {
           expect(agenda_item_journals.last).to have_attributes agenda_item.attributes.slice(
-            "author_id", "title", "notes", "position", "duration_in_minutes",
-            "start_time", "end_time", "work_package_id"
+            'author_id', 'title', 'notes', 'position', 'duration_in_minutes',
+            'start_time', 'end_time', 'work_package_id', 'item_type'
           )
         }
       end
@@ -135,13 +136,18 @@ RSpec.describe Meeting do
       end
 
       Journal::MeetingAgendaItemJournal.columns_hash.slice(
-        "notes", "position", "duration_in_minutes", "work_package_id"
+        'notes', 'position', 'duration_in_minutes', 'work_package_id', 'item_type'
       ).each do |column_name, column_info|
         column_value =
-          case column_info.type
-          when :integer then 11
+          if column_name == 'item_type' then 'work_package'
+          elsif column_info.type == :integer then 11
           else 'A string'
           end
+
+        if column_name == 'item_type'
+          # When testing the work_package item_type, a work_package is required.
+          let(:work_package) { create(:work_package) }
+        end
 
         context 'when updating an agenda_item within the aggregation time' do
           shared_examples 'it updates the existing journals' do
@@ -259,8 +265,8 @@ RSpec.describe Meeting do
         it {
           remove_agenda_item
           expect(agenda_item_journals.last).to have_attributes agenda_item.attributes.slice(
-            "author_id", "title", "notes", "position", "duration_in_minutes",
-            "start_time", "end_time", "work_package_id"
+            'author_id', 'title', 'notes', 'position', 'duration_in_minutes',
+            'start_time', 'end_time', 'work_package_id'
           )
         }
 

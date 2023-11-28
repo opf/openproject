@@ -44,7 +44,7 @@ module Documents
     private
 
     def validate_manage_allowed
-      unless user.allowed_to?(:manage_documents, model.project)
+      unless user.allowed_in_project?(:manage_documents, model.project)
         errors.add :base, :error_unauthorized
       end
     end

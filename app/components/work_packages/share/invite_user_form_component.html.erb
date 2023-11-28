@@ -1,23 +1,47 @@
 <%=
-  component_wrapper do
+  component_wrapper(data: { controller: "user-limit",
+                            'user-limit-open-seats-value': OpenProject::Enterprise.open_seats_count,
+                            'application-target': "dynamic" }) do
     if sharing_manageable?
       primer_form_with(
         model: new_share,
         url: work_package_shares_path(@work_package)
       ) do |form|
-        flex_layout do |new_user_row|
-          new_user_row.with_column(flex: :auto, mr: 2) do
+        grid_layout('invite-user-form',
+                    tag: :div,
+                    data: { 'user-limit-target': 'inviteUserForm' }) do |invite_form|
+          invite_form.with_area('invitee') do
             render(WorkPackages::Share::Invitee.new(form))
           end
 
-          new_user_row.with_column(mr: 2) do
+          invite_form.with_area('permission') do
             render(WorkPackages::Share::PermissionButtonComponent.new(share: new_share,
                                                                       form_arguments: { builder: form, name: "role_id" },
                                                                       data: { 'test-selector': 'op-share-wp-invite-role' }))
           end
 
-          new_user_row.with_column do
-            render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { I18n.t('work_package.sharing.invite') }
+          invite_form.with_area('submit') do
+            render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { I18n.t('work_package.sharing.share') }
+          end
+
+          if OpenProject::Enterprise.user_limit.present?
+            invite_form.with_area('userLimit',
+                                  data: {
+                                    'user-limit-target': 'limitWarning',
+                                    'test-selector': 'op-share-wp-user-limit'
+                                  },
+                                  display: :none) do
+              flex_layout do |user_limit_row|
+                user_limit_row.with_column(mr: 2) do
+                  render(Primer::Beta::Octicon.new(icon: :'alert-fill', color: :danger))
+                end
+
+                user_limit_row.with_column do
+                  render(Primer::Beta::Text.new(color: :danger)) { I18n.t("work_package.sharing.warning_user_limit_reached#{'_admin' if User.current.admin?}",
+                                                                          upgrade_url: OpenProject::Enterprise.upgrade_url).html_safe }
+                end
+              end
+            end
           end
         end
       end

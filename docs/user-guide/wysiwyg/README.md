@@ -151,6 +151,8 @@ As with the textile formatting syntax, you can link to other resources within Op
 
 To avoid processing these items, preceding them with a bang `!` character such as `!#12` will prevent linking to a work package with ID 12.
 
+> **Please note**: All these macros need to be written as a new word (i.e., with at least one space before it or at the beginning of a paragraph/sentence. Macros contained within a word such as `somethingmeeting#4` will not be parsed.
+
 
 
 ### Autocompletion for work packages and users
@@ -185,7 +187,7 @@ You can also embed attribute values and [their help texts](../../system-admin-gu
 
 The following lists show the supported attributes for work packages and projects.
 
-> **Please note**: If you are using a different language than, English a translation of the commands can only be used in the text editor if all user languages (of all useres) of an instance are set to the same language (for example: German). In this case, only the attribute to which the command refers is translated, e.g. (`workPackageValue:1234:"translated attribute"`).
+> **Please note**: If you are using a language different than English, a translation of the commands can only be used in the text editor if the language of all the users of an instance is set to the same language (for example German). In this case, only the attribute to which the command refers is translated, e.g. (`workPackageValue:1234:"translated attribute"`). We recommend against using translated attributes, as they might break in future versions due to fixes or changes to texts.
 
 ### Available attributes for work packages
 

@@ -102,7 +102,6 @@ class UsersController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to(params[:continue] ? new_user_path : helpers.allowed_management_user_profile_path(@user))
     else
-      @errors = call.errors
       render action: 'new'
     end
   end
@@ -142,7 +141,6 @@ class UsersController < ApplicationController
       @membership ||= Member.new
       # Clear password input
       @user = call.result
-      @errors = call.errors
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
@@ -244,8 +242,7 @@ class UsersController < ApplicationController
   end
 
   def can_manage_or_create_users?
-    current_user.allowed_to_globally?(:manage_user) ||
-    current_user.allowed_to_globally?(:create_user)
+    current_user.allowed_globally?(:manage_user) || current_user.allowed_globally?(:create_user)
   end
 
   def events

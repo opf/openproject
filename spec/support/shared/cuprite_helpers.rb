@@ -35,8 +35,8 @@
 # This is especially helpful as it doesn't depend on DOM elements
 # being present or gone. Instead the execution is halted until
 # requested data is done being fetched.
-def wait_for_network_idle
-  page.driver.wait_for_network_idle
+def wait_for_network_idle(...)
+  page.driver.wait_for_network_idle(...)
 end
 
 # Takes the above `wait_for_network_idle` a step further by waiting

@@ -28,12 +28,9 @@
 
 require 'spec_helper'
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
 RSpec.describe Storages::FileLinks::CreateContract do
-  include_context 'ModelContract shared context'
-
   it_behaves_like 'file_link contract' do
     let(:contract) { described_class.new(file_link, current_user) }
 

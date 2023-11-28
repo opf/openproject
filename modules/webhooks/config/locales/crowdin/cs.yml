@@ -42,7 +42,7 @@ cs:
       deliveries:
         no_results_table: Pro tento webhook nebyly provedeny žádné dodávky.
         title: 'Nedávné dodávky'
-        time: 'Dodací doba'
+        time: 'Delivery time'
       form:
         introduction: >
           Pošlete POST požadavek na URL adresu payload pro jakoukoliv událost v projektu, ke kterému jste přihlášeni. Užitečné zatížení bude odpovídat reprezentaci modifikovaného objektu APIv3.

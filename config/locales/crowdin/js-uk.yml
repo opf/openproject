@@ -31,6 +31,12 @@ uk:
         Справді видалити цей файл? Цю дію не можна скасувати.
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Додати %{name}"
@@ -342,11 +348,11 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Порівняння базових значень для зручного відстеження змін.</li> <li>Експорт звітів про плани робіт у форматі PDF.</li> <li>Підписки на календарі проєкту за URL-адресою (iCalendar).</li> <li>Папки проєкту із шаблонами для інтеграції Nextcloud.</li> <li>Локалізовані дані для заповнення бази даних.</li> <li>Список глобальних модулів на нових сторінках індексу.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -554,7 +560,6 @@ uk:
       steps:
         help_menu: 'Меню довідки (?) містить <b>додаткові допоміжні ресурси</b>. Тут Ви можете знайти посібник користувача, корисні відеовказівки тощо. <br> Гарної Вам роботи з OpenProject!'
         members: 'Запросіть нових <b>учасників</b> до свого проєкту.'
-        project_selection: 'Виберіть одну з демоверсій проєктів, які ми підготували. Дані демоверсії зараз доступні лише англійською. <br> Звичайна <b>демоверсія проєкту</b> найкраще підходить для класичного керування проєктами, тоді як <b>проєкт Scrum</b> корисніший для гнучкого керування проєктами.'
         quick_add_button: 'Натисніть на значок плюса (+) на панелі заголовків, щоб <b>створити новий проєкт</b> або <b>запросити колег</b>.'
         sidebar_arrow: "Використовуйте стрілку повернення у верхньому лівому куті, щоб повернутися в <b>головне меню</b> проєкту."
         welcome: 'Здійсніть трихвилинний ознайомчий огляд для вивчення <b>найважливішого функціоналу</b>. <br> Ми рекомендуємо пройти всі кроки до завершення огляду. Ви можете повернутися до цього огляду повторно в будь-який час.'
@@ -599,6 +604,7 @@ uk:
         processed: 'оброблено'
         prioritized: 'надано пріоритет'
         dateAlert: 'Оповіщення про дату'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Дата віхи'
         overdue: 'Прострочено'
@@ -645,6 +651,7 @@ uk:
         mentioned: 'Згадано'
         watched: 'Спостерігач'
         date_alert: 'Оповіщення про дату'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Ви можете змінити <a target="_blank" href="%{url}">налаштування сповіщень</a>, щоб ніколи не пропускати важливі оновлення.'
         title: "Налаштування сповіщень"
@@ -667,6 +674,7 @@ uk:
             description: 'Отримувати сповіщення щоразу, коли хтось згадує мене де завгодно'
           assignee: 'Виконавець'
           responsible: 'Відповідальний'
+          shared: 'Shared'
           watched: 'Спостерігач'
           work_package_commented: 'Усі нові коментарі'
           work_package_created: 'Нові пакети робіт'
@@ -1023,6 +1031,9 @@ uk:
       sharing:
         share: 'Share'
         title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Налаштуйте таблицю робочих пакетів'
         summary: "Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт."

@@ -35,7 +35,7 @@ module API
       class TypesAPI < ::API::OpenProjectAPI
         resources :types do
           after_validation do
-            authorize_any(%i[view_work_packages manage_types], global: true)
+            authorize_in_any_project(%i[view_work_packages manage_types])
           end
 
           get do

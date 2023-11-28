@@ -43,7 +43,10 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)
-    User.current.allowed_to?({ controller:, action: }, project)
+    User.current.allowed_in_project?({ controller:, action: }, project)
+  rescue Authorization::UnknownPermissionError
+    # TODO: Temporary fix until we find something better
+    false
   end
 
   # Display a link if user is authorized
@@ -318,10 +321,7 @@ module ApplicationHelper
   def theme_options_for_select
     [
       [t('themes.light'), 'light'],
-      [t('themes.light_high_contrast'), 'light_high_contrast'],
-      [t('themes.dark'), 'dark'],
-      [t('themes.dark_dimmed'), 'dark_dimmed'],
-      [t('themes.dark_high_contrast'), 'dark_high_contrast']
+      [t('themes.light_high_contrast'), 'light_high_contrast']
     ]
   end
 
@@ -329,6 +329,7 @@ module ApplicationHelper
     mode, _theme_suffix = User.current.pref.theme.split("_", 2)
     "data-color-mode=#{mode} data-#{mode}-theme=#{User.current.pref.theme}"
   end
+
   def highlight_default_language(lang_options)
     lang_options.map do |(language_name, code)|
       if code == Setting.default_language
@@ -386,7 +387,7 @@ module ApplicationHelper
   def progress_bar(pcts, options = {})
     pcts = Array(pcts).map(&:round)
     closed = pcts[0]
-    done   = (pcts[1] || closed) - closed
+    done   = pcts[1] || 0
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
     total_progress = options[:hide_total_progress] ? '' : t(:total_progress)

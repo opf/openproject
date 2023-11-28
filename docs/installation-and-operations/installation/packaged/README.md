@@ -123,7 +123,7 @@ As root update the `apt` package index and install packages to allow `apt` to us
 ```shell
 su -
 apt update
-apt install apt-transport-https ca-certificates wget
+apt install apt-transport-https ca-certificates wget gpg
 ```
 
 Import the PGP key used to sign our packages:
@@ -155,7 +155,7 @@ As root update the `apt` package index and install packages to allow `apt` to us
 ```shell
 su -
 apt update
-apt install apt-transport-https ca-certificates wget
+apt install apt-transport-https ca-certificates wget gpg
 ```
 
 Import the PGP key used to sign our packages:

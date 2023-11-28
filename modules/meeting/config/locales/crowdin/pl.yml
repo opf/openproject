@@ -42,7 +42,7 @@ pl:
       meeting_agenda_items:
         title: "Tytuł"
         author: "Responsible"
-        duration_in_minutes: "Duration in minutes"
+        duration_in_minutes: "Duration (min)"
         description: "Notatki"
     errors:
       messages:
@@ -92,11 +92,22 @@ pl:
   label_time_zone: "Strefa czasowa"
   label_start_date: "Data rozpoczęcia"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Classic'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Skopiowano ze spotkania #%{id}"
   notice_successful_notification: "Powiadomienia wysłane pomyślnie"
   notice_timezone_missing: 'Została ustawiona domyślna strefa czasowa: %{zone}. Aby zmienić strefę czasową, kliknij tutaj.'
@@ -104,7 +115,10 @@ pl:
   permission_edit_meetings: "Modyfikuj spotkania"
   permission_delete_meetings: "Usuń spotkania"
   permission_view_meetings: "Zobacz spotkania"
-  permission_create_meeting_agendas: "Zarządzaj planami"
+  permission_create_meeting_agendas: "Create meeting agendas"
+  permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
+  permission_manage_agendas: "Manage agendas"
+  permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
   permission_close_meeting_agendas: "Zamknij plany"
   permission_send_meeting_agendas_notification: "Wyślij powiadomienie o przeglądzie planów"
   permission_create_meeting_minutes: "Zarządzaj protokołami ze spotkań"
@@ -118,8 +132,6 @@ pl:
   text_meeting_closing_are_you_sure: "Czy na pewno chcesz zamknąć plan spotkania?"
   text_meeting_agenda_open_are_you_sure: "To zastąpił wszystkie zmiany w protokołach! Czy chcesz kontynuować?"
   text_meeting_minutes_for_meeting: 'protokół ze spotkania "%{meeting}"'
-  text_review_meeting_agenda: "%{author} umieścił %{link} do przeglądu."
-  text_review_meeting_minutes: "%{author} umieścił %{link} do przeglądu."
   text_notificiation_invited: "Ten mail zawiera element ics dla poniższego spotkania:"
   text_meeting_empty_heading: "Your meeting is empty"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."
@@ -131,11 +143,13 @@ pl:
   label_meeting_created_by: "Created by"
   label_meeting_last_updated: "Last updated"
   label_agenda_item_undisclosed_wp: "Undisclosed work package reference #%{id}"
+  label_agenda_item_deleted_wp: "Deleted work package reference"
   label_agenda_item_actions: "Agenda items actions"
   label_agenda_item_move_to_top: "Move to top"
   label_agenda_item_move_to_bottom: "Move to bottom"
   label_agenda_item_move_up: "Move up"
   label_agenda_item_move_down: "Move down"
+  label_agenda_item_add_notes: "Add notes"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state_open: "Open"
@@ -155,6 +169,7 @@ pl:
   label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
   text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
   text_agenda_item_no_notes: "No notes provided"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
   text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
   text_work_package_add_to_meeting_hint: "Use the \"Add to meeting\" button to add this work package to an upcoming meeting."
   text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

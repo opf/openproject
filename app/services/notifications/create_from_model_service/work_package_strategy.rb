@@ -28,7 +28,7 @@
 
 module Notifications::CreateFromModelService::WorkPackageStrategy
   def self.reasons
-    %i(mentioned assigned responsible watched commented created processed prioritized scheduled)
+    %i(mentioned assigned responsible watched commented created processed prioritized scheduled shared)
   end
 
   def self.permission
@@ -49,6 +49,10 @@ module Notifications::CreateFromModelService::WorkPackageStrategy
 
   def self.watcher_users(journal)
     User.watcher_recipients(journal.journable)
+  end
+
+  def self.shared_users(journal)
+    journal.journable.member_principals
   end
 
   def self.project(journal)

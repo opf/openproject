@@ -61,7 +61,7 @@
       height: 100%
       left: 0
       width: 100%
-      border: 2px dashed $spot-color-basic-gray-4
+      border: 2px dashed var(--color-border-default)
 
     &_float
       display: none
@@ -94,7 +94,7 @@
         height: calc(100% - #{$spot-spacing-1})
         left: $spot-spacing-0_5
         width: calc(100% - #{$spot-spacing-1})
-        border: 2px dashed $spot-color-basic-gray-4
+        border: 2px dashed var(--color-border-default)
 
     &_dragging
       display: flex
@@ -123,7 +123,7 @@
 
     &-text
       cursor: pointer
-      color: $spot-color-basic-gray-3
+      color: var(--color-fg-muted)
       font-size: 0.9rem
       font-weight: var(--base-text-weight-bold)
       line-height: 1.4
@@ -140,4 +140,4 @@
     @include spot-body-small($style: italic)
 
     margin-top: $spot-spacing-0_75
-    color: $spot-color-basic-gray-3
+    color: var(--color-fg-muted)

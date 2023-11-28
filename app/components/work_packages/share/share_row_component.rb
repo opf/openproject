@@ -42,7 +42,7 @@ module WorkPackages
 
         @share = share
         @work_package = share.entity
-        @user = share.principal
+        @principal = share.principal
         @container = container
       end
 
@@ -50,24 +50,30 @@ module WorkPackages
         share.id
       end
 
-      def border_box_row(wrapper_arguments, &)
-        if container
-          container.with_row(**wrapper_arguments, &)
-        else
-          container = Primer::Beta::BorderBox.new
-          row = container.registered_slots[:rows][:renderable_function]
-                         .bind_call(container, **wrapper_arguments)
-
-          render(row, &)
-        end
-      end
-
       private
 
-      attr_reader :share, :work_package, :user, :container
+      attr_reader :share, :work_package, :principal, :container
 
       def share_editable?
         @share_editable ||= User.current != share.principal && sharing_manageable?
+      end
+
+      def grid_css_classes
+        if sharing_manageable?
+          'op-share-wp-modal-body--user-row_manageable'
+        else
+          'op-share-wp-modal-body--user-row'
+        end
+      end
+
+      def select_share_checkbox_options
+        {
+          name: "share_ids",
+          value: share.id,
+          scheme: :array,
+          label: principal.name,
+          visually_hide_label: true
+        }
       end
     end
   end

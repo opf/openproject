@@ -33,9 +33,9 @@ module Calendar
   class AddButtonComponent < ::AddButtonComponent
     def render?
       if current_project
-        User.current.allowed_to?(:manage_calendars, current_project)
+        User.current.allowed_in_project?(:manage_calendars, current_project)
       else
-        User.current.allowed_to_globally?(:manage_calendars)
+        User.current.allowed_in_any_project?(:manage_calendars)
       end
     end
 
