@@ -54,7 +54,6 @@ FactoryBot.define do
           class: '::Storages::NextcloudStorage' do
     provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
     sequence(:host) { |n| "https://host#{n}.example.com" }
-    sequence(:name) { |n| "Storage #{n}" }
 
     trait :as_automatically_managed do
       automatically_managed { true }
@@ -135,7 +134,6 @@ FactoryBot.define do
           parent: :nextcloud_storage,
           traits: [:as_automatically_managed] do
     sequence(:host) { |n| "https://host-complete#{n}.example.com" }
-    sequence(:name) { |n| "Storage complete #{n}" }
 
     after(:create) do |storage|
       create(:oauth_client, integration: storage)
