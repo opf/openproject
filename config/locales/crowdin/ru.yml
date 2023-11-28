@@ -33,7 +33,7 @@ ru:
     merge_request_opened_comment: >
       **MR Открыт:** Запрос на слияние %{mr_number} [%{mr_title}](%{mr_url}) в [%{repository}](%{repository_url})
       был открыт [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_закрыт_comment: >
+    merge_request_closed_comment: >
       **MR Закрыт:** Запрос на слияние %{mr_number} [%{mr_title}](%{mr_url}) в [%{repository}](%{repository_url})
       был закрыт by [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_merged_comment: >
