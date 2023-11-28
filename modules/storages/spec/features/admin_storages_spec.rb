@@ -34,7 +34,6 @@ require_module_spec_helper
 RSpec.describe 'Admin storages',
                :js,
                :storage_server_helpers do
-  include Redmine::I18n
 
   let(:admin) { create(:admin) }
 
@@ -60,24 +59,24 @@ RSpec.describe 'Admin storages',
       it 'renders a list of storages' do
         visit admin_settings_storages_path
 
-        expect(page).to have_css('[data-test-selector="storage-name"]', text: complete_storage.name)
-        expect(page).to have_css('[data-test-selector="storage-name"]', text: incomplete_storage.name)
+        expect(page).to have_test_selector('storage-name', text: complete_storage.name)
+        expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
         expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
                                  text: 'Storage')
 
         within "li#storages_nextcloud_storage_#{complete_storage.id}" do
-          expect(page).not_to have_css('[data-test-selector="label-incomplete"]')
+          expect(page).not_to have_test_selector('label-incomplete')
           expect(page).to have_link(complete_storage.name, href: edit_admin_settings_storage_path(complete_storage))
-          expect(page).to have_css('[data-test-selector="storage-creator"]', text: complete_storage.creator.name)
-          expect(page).to have_css('[data-test-selector="storage-provider"]', text: 'Nextcloud')
-          expect(page).to have_css('[data-test-selector="storage-host"]', text: complete_storage.host)
+          expect(page).to have_test_selector('storage-creator', text: complete_storage.creator.name)
+          expect(page).to have_test_selector('storage-provider', text: 'Nextcloud')
+          expect(page).to have_test_selector('storage-host', text: complete_storage.host)
         end
 
         within "li#storages_nextcloud_storage_#{incomplete_storage.id}" do
-          expect(page).to have_css('[data-test-selector="label-incomplete"]')
-          expect(page).to have_css('[data-test-selector="storage-name"]', text: incomplete_storage.name)
-          expect(page).to have_css('[data-test-selector="storage-provider"]', text: 'Nextcloud')
-          expect(page).to have_css('[data-test-selector="storage-host"]', text: incomplete_storage.host)
+          expect(page).to have_test_selector('label-incomplete')
+          expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
+          expect(page).to have_test_selector('storage-provider', text: 'Nextcloud')
+          expect(page).to have_test_selector('storage-host', text: incomplete_storage.host)
           expect(page).to have_css('.op-principal--name', text: incomplete_storage.creator.name)
         end
 
@@ -571,48 +570,49 @@ RSpec.describe 'Admin storages',
     end
   end
 
-  describe 'health status information in edit page' do
-    frozen_date_time = Time.current
+  describe 'Health status information in edit page' do
+    frozen_date_time = Time.zone.local(2023, 11, 28, 1, 2, 3)
 
-    Timecop.freeze(frozen_date_time) do
-      let(:complete_nextcloud_storage_health_pending) { create(:nextcloud_storage_with_complete_configuration) }
-      let(:complete_nextcloud_storage_health_healthy) { create(:nextcloud_storage_with_complete_configuration, :as_healthy) }
-      let(:complete_nextcloud_storage_health_unhealthy) { create(:nextcloud_storage_with_complete_configuration, :as_unhealthy) }
-      let(:complete_nextcloud_storage_health_unhealthy_long_reason) do
-        create(:nextcloud_storage_with_complete_configuration, :as_unhealthy_long_reason)
-      end
+    let(:complete_nextcloud_storage_health_pending) { create(:nextcloud_storage_with_complete_configuration) }
+    let(:complete_nextcloud_storage_health_healthy) { create(:nextcloud_storage_with_complete_configuration, :as_healthy) }
+    let(:complete_nextcloud_storage_health_unhealthy) { create(:nextcloud_storage_with_complete_configuration, :as_unhealthy) }
+    let(:complete_nextcloud_storage_health_unhealthy_long_reason) do
+      create(:nextcloud_storage_with_complete_configuration, :as_unhealthy_long_reason)
+    end
 
-      before do
-        complete_nextcloud_storage_health_pending
-        complete_nextcloud_storage_health_healthy
-        complete_nextcloud_storage_health_unhealthy
-        complete_nextcloud_storage_health_unhealthy_long_reason
-      end
+    before do
+      Timecop.freeze(frozen_date_time)
+      complete_nextcloud_storage_health_pending
+      complete_nextcloud_storage_health_healthy
+      complete_nextcloud_storage_health_unhealthy
+      complete_nextcloud_storage_health_unhealthy_long_reason
+    end
 
-      it 'shows healthy status for storages that are healthy' do
-        visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_healthy)
-        expect(page).to have_css('[data-test-selector="storage-health-label-healthy"]', text: 'Healthy')
-        expect(page).to have_css('[data-test-selector="storage-health-changed-at"]',
-                                 text: "Checked #{format_time(frozen_date_time)}")
-      end
+    after do
+      Timecop.return
+    end
 
-      it 'shows pending label for a storage that is pending' do
-        visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_pending)
-        expect(page).to have_css('[data-test-selector="storage-health-label-pending"]', text: 'Pending')
-      end
+    it 'shows healthy status for storages that are healthy' do
+      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_healthy)
+      expect(page).to have_test_selector('storage-health-label-healthy', text: 'Healthy')
+      expect(page).to have_test_selector('storage-health-changed-at', text: "Checked 11/28/2023 01:02 AM")
+    end
 
-      it 'shows error status for storages that are unhealthy' do
-        visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy)
-        expect(page).to have_css('[data-test-selector="storage-health-label-error"]', text: 'Error')
-        expect(page).to have_css('[data-test-selector="storage-health-reason"]', text: 'error reason')
-      end
+    it 'shows pending label for a storage that is pending' do
+      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_pending)
+      expect(page).to have_test_selector('storage-health-label-pending', text: 'Pending')
+    end
 
-      it 'shows formatted error reason for storages that are unhealthy' do
-        visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy_long_reason)
-        expect(page).to have_css('[data-test-selector="storage-health-label-error"]', text: 'Error')
-        expect(page).to have_css('[data-test-selector="storage-health-reason"]',
-                                 text: 'Unauthorized: Outbound request not authorized')
-      end
+    it 'shows error status for storages that are unhealthy' do
+      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy)
+      expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
+      expect(page).to have_test_selector('storage-health-reason', text: 'error reason')
+    end
+
+    it 'shows formatted error reason for storages that are unhealthy' do
+      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy_long_reason)
+      expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
+      expect(page).to have_test_selector('storage-health-reason', text: 'Unauthorized: Outbound request not authorized')
     end
   end
 end
