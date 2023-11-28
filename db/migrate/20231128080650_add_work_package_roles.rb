@@ -7,7 +7,7 @@ class AddWorkPackageRoles < ActiveRecord::Migration[7.0]
 
     editor_role.update!(
       builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR,
-      name: 'Work package editor',
+      name: I18n.t('seeds.common.work_package_roles.item_0', default: 'Work package editor'),
       permissions: %i[
         view_work_packages
         edit_work_packages
@@ -26,7 +26,7 @@ class AddWorkPackageRoles < ActiveRecord::Migration[7.0]
     commenter_role ||= WorkPackageRole.find_or_initialize_by(builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER)
     commenter_role.update!(
       builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
-      name: 'Work package commenter',
+      name: I18n.t('seeds.common.work_package_roles.item_1', default: 'Work package commenter'),
       permissions: %i[
         view_work_packages
         work_package_assigned
@@ -43,7 +43,7 @@ class AddWorkPackageRoles < ActiveRecord::Migration[7.0]
     # Set up attributes
     viewer_role.update!(
       builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER,
-      name: 'Work package viewer',
+      name: I18n.t('seeds.common.work_package_roles.item_2', default: 'Work package viewer'),
       permissions: %i[
         view_work_packages
         export_work_packages
