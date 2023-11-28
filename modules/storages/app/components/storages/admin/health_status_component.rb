@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,15 +27,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-FactoryBot.define do
-  factory :oauth_application, class: '::Doorkeeper::Application' do
-    name { 'My API application' }
-    confidential { true }
-    owner factory: :admin
-    owner_type { 'User' }
-    sequence(:uid) { |n| "2345678901-#{n}" }
-    redirect_uri { 'urn:ietf:wg:oauth:2.0:oob' }
-    scopes { 'api_v3' }
+#
+module Storages::Admin
+  class HealthStatusComponent < ApplicationComponent
+    alias_method :storage, :model
   end
 end
