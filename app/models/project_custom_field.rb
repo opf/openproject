@@ -33,7 +33,7 @@ class ProjectCustomField < CustomField
 
   acts_as_list column: :position_in_custom_field_section, scope: [:custom_field_section_id]
 
-  after_create :activate_in_all_projects
+  # after_create :activate_in_all_projects
 
   def type_name
     :label_project_plural
@@ -47,9 +47,9 @@ class ProjectCustomField < CustomField
     end
   end
 
-  def activate_in_all_projects
-    # until we have the project mapping UI, activate the custom field in all projects
-    mappings = Project.active.map { |project| { project_id: project.id, custom_field_id: id } }
-    ProjectCustomFieldProjectMapping.create!(mappings)
-  end
+  # TODO: check if custom field is set to be activated in all projects in creation form
+  # def activate_in_all_projects
+  #   mappings = Project.active.map { |project| { project_id: project.id, custom_field_id: id } }
+  #   ProjectCustomFieldProjectMapping.create!(mappings)
+  # end
 end
