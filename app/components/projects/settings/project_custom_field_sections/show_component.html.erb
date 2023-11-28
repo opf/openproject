@@ -1,0 +1,46 @@
+<%=
+  component_wrapper do
+    render(Primer::Beta::BorderBox.new(mt: 3)) do |component|
+      component.with_header(font_weight: :bold) do
+        flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
+          section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
+            content_container.with_column do
+              render(Primer::Beta::Text.new(font_weight: :bold)) do
+                @project_custom_field_section.name
+              end
+            end
+          end
+          section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
+            actions_container.with_column do
+              # render(Primer::Alpha::ActionMenu.new) do |menu|
+              #   menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_section_actions"), scheme: :invisible)
+              #   edit_action_item(menu)
+              #   move_actions(menu)
+              #   if @project_custom_fields.empty?
+              #     delete_action_item(menu)
+              #   else
+              #     disabled_delete_action_item(menu)
+              #   end
+              # end
+            end
+          end
+        end
+      end
+      if @project_custom_fields.empty?
+        component.with_row do
+          render(Primer::Beta::Text.new(color: :subtle)) { t("settings.project_attributes.label_no_project_custom_fields") }
+        end
+      else
+        sorted_project_custom_fields.each do |project_custom_field|
+          component.with_row do
+            render(Projects::Settings::ProjectCustomFieldSections::CustomFieldRowComponent.new(
+              project: @project,
+              project_custom_field:,
+              project_custom_field_project_mappings: @project_custom_field_project_mappings,
+            ))
+          end
+        end
+      end
+    end
+  end
+%>

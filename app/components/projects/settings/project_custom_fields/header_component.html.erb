@@ -1,0 +1,15 @@
+<%=
+  flex_layout do |header_container|
+    header_container.with_row do
+      render(Primer::Beta::Heading.new(tag: :h1)) { t('projects.settings.project_custom_fields.header.title') }
+    end
+    header_container.with_row(mt: 1, pb: 3, mb: 2,  border: :bottom) do
+      render(Primer::Beta::Text.new(color: :muted)) do
+        t('projects.settings.project_custom_fields.header.description',
+          overview_url: project_path(@project),
+          admin_settings_url: admin_settings_project_custom_fields_path
+        ).html_safe
+      end
+    end
+  end
+%>

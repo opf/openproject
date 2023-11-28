@@ -1,0 +1,32 @@
+<%=
+  component_wrapper do
+    flex_layout(align_items: :center) do |custom_field_container|
+      custom_field_container.with_column(mr: 2) do
+        if active_in_project?
+          render(Primer::Beta::IconButton.new(
+            tag: :a,
+            href: project_settings_project_custom_fields_path(project_id: @project.id, project_custom_field_id: @project_custom_field.id),
+            scheme: :invisible,
+            icon: 'check-circle',
+            'aria-label': 'Active in this project, click to disable',
+            data: { 'turbo-method': :put, 'turbo-stream': true }
+          ))
+        else
+          render(Primer::Beta::IconButton.new(
+            tag: :a,
+            href: project_settings_project_custom_fields_path(project_id: @project.id, project_custom_field_id: @project_custom_field.id),
+            scheme: :invisible,
+            icon: 'circle',
+            'aria-label': 'Inactive in this project, click to enable',
+            data: { 'turbo-method': :put, 'turbo-stream': true }
+          ))
+        end
+      end
+      custom_field_container.with_column do
+        render(Primer::Beta::Text.new(font_weight: :bold)) do
+          @project_custom_field.name
+        end
+      end
+    end
+  end
+%>

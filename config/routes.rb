@@ -185,6 +185,7 @@ OpenProject::Application.routes.draw do
         resource :general, only: %i[show], controller: 'general'
         resource :modules, only: %i[show update]
         resource :types, only: %i[show update]
+        resource :project_custom_fields, only: %i[show update]
         resource :custom_fields, only: %i[show update]
         resource :repository, only: %i[show], controller: 'repository'
         resource :versions, only: %i[show]

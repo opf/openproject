@@ -613,6 +613,7 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   {
     general: :label_information_plural,
+    project_custom_fields: :label_project_attributes_plural,
     modules: :label_module_plural,
     types: :label_work_package_types,
     custom_fields: :label_custom_field_plural,
