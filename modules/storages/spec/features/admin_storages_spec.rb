@@ -34,7 +34,6 @@ require_module_spec_helper
 RSpec.describe 'Admin storages',
                :js,
                :storage_server_helpers do
-
   let(:admin) { create(:admin) }
 
   before { login_as admin }
@@ -61,8 +60,7 @@ RSpec.describe 'Admin storages',
 
         expect(page).to have_test_selector('storage-name', text: complete_storage.name)
         expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
-        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
-                                 text: 'Storage')
+        expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
 
         within "li#storages_nextcloud_storage_#{complete_storage.id}" do
           expect(page).not_to have_test_selector('label-incomplete')
@@ -104,13 +102,13 @@ RSpec.describe 'Admin storages',
       it 'renders a blank slate' do
         visit admin_settings_storages_path
 
+        # Show Add storage button
+        expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
+
         # Show empty storages list
         expect(page).to have_title('File storages')
         expect(page.find('.PageHeader-title')).to have_text('File storages')
         expect(page).to have_text("You don't have any storages yet.")
-        # Show Add storage buttons
-        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
-                                 text: 'Storage').twice
       end
     end
   end
@@ -324,6 +322,26 @@ RSpec.describe 'Admin storages',
           expect(page).to have_current_path(admin_settings_storages_path)
           wait_for(page).to have_text("Storage connected successfully! Remember to activate the module and the specific " \
                                       "storage in the project settings of each desired project to use it.")
+        end
+      end
+    end
+
+    describe 'Select provider page' do
+      context 'when navigating directly to the page' do
+        it 'redirects you back to the index page' do
+          visit select_provider_admin_settings_storages_path
+
+          expect(page).to have_current_path(admin_settings_storages_path)
+          wait_for(page).to have_text("Please select a valid storage provider.")
+        end
+      end
+
+      context 'when navigating to the page with an invalid provider' do
+        it 'redirects you back to the index page' do
+          visit select_provider_admin_settings_storages_path(provider: 'foobar')
+
+          expect(page).to have_current_path(admin_settings_storages_path)
+          wait_for(page).to have_text("Please select a valid storage provider.")
         end
       end
     end
