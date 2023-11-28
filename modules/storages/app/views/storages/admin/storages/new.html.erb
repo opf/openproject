@@ -26,6 +26,7 @@
         ) { t("storages.instructions.file_storage_docs_link", provider_name: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")) }
       ).html_safe
     %>
+  <% end %>
 <% end %>
 
 <%= render(Storages::Admin::StorageViewComponent.new(@storage)) %>

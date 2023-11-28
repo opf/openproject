@@ -329,7 +329,7 @@ RSpec.describe 'Admin storages',
     end
   end
 
-  describe 'File storage edit view' do
+  describe 'Edit file storage' do
     it 'renders a danger zone for deletion' do
       storage = create(:nextcloud_storage, name: "Foo Nextcloud")
       visit edit_admin_settings_storage_path(storage)
@@ -353,7 +353,7 @@ RSpec.describe 'Admin storages',
     end
 
     context 'with Nextcloud Storage' do
-      let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
+      let(:storage) { create(:nextcloud_storage, :as_automatically_managed, name: 'Cloud Storage') }
       let(:oauth_application) { create(:oauth_application, integration: storage) }
       let(:oauth_client) { create(:oauth_client, integration: storage) }
       let(:secret) { 'awesome_secret' }
@@ -367,7 +367,7 @@ RSpec.describe 'Admin storages',
       it 'renders an edit view', :webmock do
         visit edit_admin_settings_storage_path(storage)
 
-        expect(page).to have_test_selector('storage-new-page-header--title', text: storage.name.capitalize)
+        expect(page).to have_test_selector('storage-new-page-header--title', text: "Cloud Storage (Nextcloud)")
 
         aggregate_failures 'Storage edit view' do
           # General information
@@ -400,13 +400,11 @@ RSpec.describe 'Admin storages',
           # Update a storage - happy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            expect(page).to have_css('#storages_nextcloud_storage_provider_type[disabled]')
-
             fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
             click_button 'Save and continue'
           end
 
-          expect(page).to have_test_selector('storage-new-page-header--title', text: 'My Nextcloud')
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'My Nextcloud (Nextcloud)')
           expect(page).to have_test_selector('storage-description', text: "Nextcloud - My Nextcloud - #{storage.host}")
 
           # Update a storage - unhappy path
@@ -515,7 +513,7 @@ RSpec.describe 'Admin storages',
       it 'renders an edit view', :webmock do
         visit edit_admin_settings_storage_path(storage)
 
-        expect(page).to have_test_selector('storage-new-page-header--title', text: 'Test Drive')
+        expect(page).to have_test_selector('storage-new-page-header--title', text: 'Test Drive (OneDrive/SharePoint)')
 
         aggregate_failures 'Storage edit view' do
           # General information
@@ -535,13 +533,11 @@ RSpec.describe 'Admin storages',
           # Update a storage - happy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            expect(page).to have_css('#storages_one_drive_storage_provider_type[disabled]')
-
             fill_in 'storages_one_drive_storage_name', with: 'My OneDrive'
             click_button 'Save and continue'
           end
 
-          expect(page).to have_test_selector('storage-new-page-header--title', text: 'My OneDrive')
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'My OneDrive (OneDrive/SharePoint)')
           expect(page).to have_test_selector('storage-description', text: 'OneDrive/SharePoint - My OneDrive')
 
           # Update a storage - unhappy path
