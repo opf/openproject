@@ -1,0 +1,108 @@
+---
+http_interactions:
+- request:
+    method: propfind
+    uri: https://nextcloud-sub.local/html/remote.php/dav/files/admin/Documents/New%20Requests
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+          <d:prop>
+            <oc:fileid/>
+            <oc:size/>
+            <d:getcontenttype/>
+            <d:getlastmodified/>
+            <oc:permissions/>
+            <oc:owner-display-name/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Depth:
+      - '1'
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Length:
+      - '1556'
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Tue, 28 Nov 2023 14:42:47 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.56 (Debian)
+      Set-Cookie:
+      - nc_sameSiteCookielax=true; path=/html; httponly;secure; expires=Fri, 31-Dec-2100
+        23:59:59 GMT; SameSite=lax
+      - nc_sameSiteCookiestrict=true; path=/html; httponly;secure; expires=Fri, 31-Dec-2100
+        23:59:59 GMT; SameSite=strict
+      - oc832qmuhv8d=08548d6fc7a3ddf915a5734d8bbaca36; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc832qmuhv8d=08548d6fc7a3ddf915a5734d8bbaca36; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc832qmuhv8d=08548d6fc7a3ddf915a5734d8bbaca36; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc832qmuhv8d=08548d6fc7a3ddf915a5734d8bbaca36; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc832qmuhv8d=08548d6fc7a3ddf915a5734d8bbaca36; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc832qmuhv8d=08548d6fc7a3ddf915a5734d8bbaca36; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc832qmuhv8d=08548d6fc7a3ddf915a5734d8bbaca36; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc832qmuhv8d=08548d6fc7a3ddf915a5734d8bbaca36; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc832qmuhv8d=08548d6fc7a3ddf915a5734d8bbaca36; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc832qmuhv8d=2ea07ff7a2dce07f1f5cceb53d519bf7; path=/html; secure; HttpOnly;
+        SameSite=Lax
+      - oc_sessionPassphrase=%2BTiwB1hoNR1qBaSd3FwP3e%2B0N464jtcL5rxrmOMJTzaBr8drLsmiOQqc71VAjy8MzFtYPaP7HvvITNQnimloRoMLnSCTMo%2FSPllXUQ6oIy9%2BT0zu%2BtXQ1rv5mWg%2F6Oyl;
+        path=/html; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - ABf8Ml48dBqqobMTI5Jy
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.8
+      X-Request-Id:
+      - ABf8Ml48dBqqobMTI5Jy
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/html/remote.php/dav/files/admin/Documents/New%20Requests/</d:href><d:propstat><d:prop><oc:fileid>737</oc:fileid><oc:size>35</oc:size><d:getlastmodified>Tue, 28 Nov 2023 14:39:58 GMT</d:getlastmodified><oc:permissions>RGDNVCK</oc:permissions><oc:owner-display-name>admin</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/html/remote.php/dav/files/admin/Documents/New%20Requests/request_001.md</d:href><d:propstat><d:prop><oc:fileid>738</oc:fileid><oc:size>16</oc:size><d:getcontenttype>text/markdown</d:getcontenttype><d:getlastmodified>Tue, 28 Nov 2023 14:39:34 GMT</d:getlastmodified><oc:permissions>RGDNVW</oc:permissions><oc:owner-display-name>admin</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/html/remote.php/dav/files/admin/Documents/New%20Requests/request_002.md</d:href><d:propstat><d:prop><oc:fileid>740</oc:fileid><oc:size>19</oc:size><d:getcontenttype>text/markdown</d:getcontenttype><d:getlastmodified>Tue, 28 Nov 2023 14:39:58 GMT</d:getlastmodified><oc:permissions>RGDNVW</oc:permissions><oc:owner-display-name>admin</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Tue, 28 Nov 2023 14:42:47 GMT
+recorded_with: VCR 6.2.0

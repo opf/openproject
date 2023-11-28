@@ -74,7 +74,7 @@ FactoryBot.define do
     end
 
     name { 'Nextcloud Local' }
-    host { 'https://nextcloud.local' }
+    host { ENV.fetch('NEXTCLOUD_LOCAL_HOST', 'https://nextcloud.local') }
 
     initialize_with do
       Storages::NextcloudStorage.create_or_find_by(attributes.except(:oauth_client, :oauth_application))
