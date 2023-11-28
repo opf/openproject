@@ -19,7 +19,7 @@ The release contains two security related bug fixes and we recommend updating to
 
 When a user registers and confirms their first two-factor authentication (2FA) device for an account, existing logged in sessions for that user account are not terminated. Likewise, if an administrators creates a mobile phone 2FA device on behalf of a user, their existing sessions are not terminated. The issue has been resolved in OpenProject version 12.5.4 by actively terminating sessions of user accounts having registered and confirmed a 2FA device.
 
-This security related issue was responsibly disclosed by [Vaishnavi Pardeshi](mailto:researchervaishnavi0@gmail.com). Thank you for reaching out to us and your help in identifying this issue. If you have a security vulnerability you would like to disclose, please see our [statement on security](https://www.openproject.org/docs/development/security/).
+This security related issue was responsibly disclosed by [Vaishnavi Pardeshi](mailto:researchervaishnavi0@gmail.com). Thank you for reaching out to us and your help in identifying this issue. If you have a security vulnerability you would like to disclose, please see our [statement on security](https://www.openproject.org/docs/security-and-privacy/statement-on-security/).
 
 For more information, [please see our security advisory](https://github.com/opf/openproject/security/advisories/GHSA-xfp9-qqfj-x28q).
 
@@ -33,7 +33,7 @@ When a user requests a password reset, an email is sent with a link to confirm a
 
 The issue has been resolved in OpenProject version 12.5.4 by actively revoking any active password reset tokens for user accounts having changed their passwords successfully within the application.
 
-This security related issue was responsibly disclosed by [Vaishnavi Pardeshi](mailto:researchervaishnavi0@gmail.com). Thank you for reaching out to us and your help in identifying this issue. If you have a security vulnerability you would like to disclose, please see our [statement on security](https://www.openproject.org/docs/development/security/).
+This security related issue was responsibly disclosed by [Vaishnavi Pardeshi](mailto:researchervaishnavi0@gmail.com). Thank you for reaching out to us and your help in identifying this issue. If you have a security vulnerability you would like to disclose, please see our [statement on security](https://www.openproject.org/docs/security-and-privacy/statement-on-security/).
 
 <!--more-->
 
