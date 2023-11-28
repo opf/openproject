@@ -1,14 +1,16 @@
 <%=
   content_tag("turbo-frame", id: "project-attributes-sidebar") do
     component_wrapper do
-      flex_layout do |sections_container|
-        @active_project_custom_fields_grouped_by_section.each do |project_custom_field_section_id, project_custom_fields|
-          sections_container.with_row(mb: 3) do
-            render(ProjectCustomFields::Sections::ShowComponent.new(
-              project: @project,
-              project_custom_field_section: get_eager_loaded_project_custom_field_section(project_custom_field_section_id),
-              project_custom_fields: project_custom_fields
-            ))
+      if @active_project_custom_fields_grouped_by_section.any?
+        flex_layout do |sections_container|
+          @active_project_custom_fields_grouped_by_section.each do |project_custom_field_section_id, project_custom_fields|
+            sections_container.with_row(mb: 3) do
+              render(ProjectCustomFields::Sections::ShowComponent.new(
+                project: @project,
+                project_custom_field_section: get_eager_loaded_project_custom_field_section(project_custom_field_section_id),
+                project_custom_fields: project_custom_fields
+              ))
+            end
           end
         end
       end
