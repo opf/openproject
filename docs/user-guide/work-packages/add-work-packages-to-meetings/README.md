@@ -8,7 +8,7 @@ keywords: meetings, dynamic meetings, meeting agenda
 
 # Add work packages to meetings
 
-Since the 13.1 release work packages can be added directly to the meetings. This can be done either from the detailed view of a work package or from the [detailed view of a meeting](../../meetings/dynamic-meetings#add-a-work-package-to-the-agenda).
+Work packages can be added directly to the meetings. This can be done either from the detailed view of a work package or from the [detailed view of a meeting](../../meetings/dynamic-meetings#add-a-work-package-to-the-agenda).
 
 To add a work package open the detailed view of a work package, select the **Meetings** tab and click the **+Add to meeting** button.
 
