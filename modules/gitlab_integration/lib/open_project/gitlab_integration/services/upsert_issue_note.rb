@@ -61,7 +61,7 @@ module OpenProject::GitlabIntegration::Services
         gitlab_updated_at: payload.issue.updated_at,
         state: payload.issue.state,
         title: payload.issue.title,
-        body: payload.issue.description,
+        body: payload.issue.description.present? ? payload.issue.description : "No description provided",
         repository: payload.repository.name,
         labels: payload.issue.labels.map { |values| extract_label_values(values) }
       }
