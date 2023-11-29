@@ -22,9 +22,14 @@
           ))
         end
       end
-      custom_field_container.with_column do
+      custom_field_container.with_column(mr: 2) do
         render(Primer::Beta::Text.new(font_weight: :bold)) do
           @project_custom_field.name
+        end
+      end
+      custom_field_container.with_column do
+        render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+          @project_custom_field.field_format.capitalize
         end
       end
     end
