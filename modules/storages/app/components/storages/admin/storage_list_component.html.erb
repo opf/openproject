@@ -60,11 +60,6 @@
       component.with_visual_icon(icon: :cloud)
       component.with_heading(tag: :h2).with_content(I18n.t('storages.storage_list_blank_slate.heading'))
       component.with_description { I18n.t('storages.storage_list_blank_slate.description') }
-
-      component.with_primary_action(**Storages::Admin::NewStorageButtonComponent.new.button_options)  do |button|
-        button.with_leading_visual_icon(icon: :plus)
-        I18n.t("storages.label_storage")
-      end
     end
   end
 %>

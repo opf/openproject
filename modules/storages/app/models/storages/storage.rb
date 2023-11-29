@@ -45,6 +45,11 @@ module Storages
       PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'
     ].freeze
 
+    PROVIDER_TYPE_SHORT_NAMES = {
+      nextcloud: PROVIDER_TYPE_NEXTCLOUD,
+      one_drive: PROVIDER_TYPE_ONE_DRIVE
+    }.with_indifferent_access.freeze
+
     self.inheritance_column = :provider_type
 
     has_many :file_links, class_name: 'Storages::FileLink'

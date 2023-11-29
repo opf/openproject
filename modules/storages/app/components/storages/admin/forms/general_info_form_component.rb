@@ -75,9 +75,7 @@ module Storages::Admin::Forms
       end
     end
 
-    def provider_type_select_caption
-      return if storage.provider_type.blank?
-
+    def provider_configuration_instructions
       caption_for_provider_type(storage.short_provider_type)
     end
 

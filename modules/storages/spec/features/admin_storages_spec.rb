@@ -34,7 +34,6 @@ require_module_spec_helper
 RSpec.describe 'Admin storages',
                :js,
                :storage_server_helpers do
-
   let(:admin) { create(:admin) }
 
   before { login_as admin }
@@ -61,8 +60,7 @@ RSpec.describe 'Admin storages',
 
         expect(page).to have_test_selector('storage-name', text: complete_storage.name)
         expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
-        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
-                                 text: 'Storage')
+        expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
 
         within "li#storages_nextcloud_storage_#{complete_storage.id}" do
           expect(page).not_to have_test_selector('label-incomplete')
@@ -104,13 +102,13 @@ RSpec.describe 'Admin storages',
       it 'renders a blank slate' do
         visit admin_settings_storages_path
 
+        # Show Add storage button
+        expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
+
         # Show empty storages list
         expect(page).to have_title('File storages')
         expect(page.find('.PageHeader-title')).to have_text('File storages')
         expect(page).to have_text("You don't have any storages yet.")
-        # Show Add storage buttons
-        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
-                                 text: 'Storage').twice
       end
     end
   end
@@ -126,16 +124,23 @@ RSpec.describe 'Admin storages',
       it 'renders a Nextcloud specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
-        within('.blankslate') { click_link("Storage") }
-        expect(page).to have_current_path(new_admin_settings_storage_path)
+        within('.PageHeader') { click_button("Storage") }
+        within_test_selector('storages-select-provider-action-menu') { click_link('Nextcloud') }
+
+        expect(page).to have_current_path(select_provider_admin_settings_storages_path(provider: 'nextcloud'))
 
         aggregate_failures 'Select provider view' do
-          # General information
-          expect(page).to have_select('storages_storage[provider_type]', with_options: %w[Nextcloud OneDrive/SharePoint])
-          expect(find_test_selector('storage-select-provider-submit-button')).to be_disabled
+          # Page Header
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'New Nextcloud storage')
+          expect(page).to have_test_selector('storage-new-page-header--description',
+                                             text: "Read our documentation on setting up a Nextcloud file storage " \
+                                                   "integration for more information.")
 
-          # Select Nextcloud
-          select('Nextcloud', from: 'storages_storage[provider_type]')
+          # General information
+          expect(page).to have_test_selector('storage-provider-configuration-instructions',
+                                             text: "Please make sure you have administration privileges in your " \
+                                                   "Nextcloud instance and the application “Integration OpenProject” " \
+                                                   "is installed before doing the setup.")
 
           # OAuth application
           expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
@@ -255,16 +260,22 @@ RSpec.describe 'Admin storages',
       it 'renders a One Drive specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
-        within('.PageHeader') { click_link("Storage") }
-        expect(page).to have_current_path(new_admin_settings_storage_path)
+        within('.PageHeader') { click_button("Storage") }
+        within_test_selector('storages-select-provider-action-menu') { click_link('OneDrive/SharePoint') }
+
+        expect(page).to have_current_path(select_provider_admin_settings_storages_path(provider: 'one_drive'))
 
         aggregate_failures 'Select provider view' do
-          # General information
-          expect(page).to have_select('storages_storage[provider_type]', with_options: %w[Nextcloud OneDrive/SharePoint])
-          expect(find_test_selector('storage-select-provider-submit-button')).to be_disabled
+          # Page Header
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'New OneDrive/SharePoint storage')
+          expect(page).to have_test_selector('storage-new-page-header--description',
+                                             text: "Read our documentation on setting up a OneDrive/SharePoint " \
+                                                   "file storage integration for more information.")
 
-          # Select OneDrive
-          select('OneDrive/SharePoint', from: 'storages_storage[provider_type]')
+          # General information
+          expect(page).to have_test_selector('storage-provider-configuration-instructions',
+                                             text: "Please make sure you have administration privileges in the " \
+                                                   "Azure application before doing the setup.")
 
           # OAuth client
           wait_for(page).to have_test_selector('storage-oauth-client-label', text: 'Azure OAuth')
@@ -314,9 +325,29 @@ RSpec.describe 'Admin storages',
         end
       end
     end
+
+    describe 'Select provider page' do
+      context 'when navigating directly to the page' do
+        it 'redirects you back to the index page' do
+          visit select_provider_admin_settings_storages_path
+
+          expect(page).to have_current_path(admin_settings_storages_path)
+          wait_for(page).to have_text("Please select a valid storage provider.")
+        end
+      end
+
+      context 'when navigating to the page with an invalid provider' do
+        it 'redirects you back to the index page' do
+          visit select_provider_admin_settings_storages_path(provider: 'foobar')
+
+          expect(page).to have_current_path(admin_settings_storages_path)
+          wait_for(page).to have_text("Please select a valid storage provider.")
+        end
+      end
+    end
   end
 
-  describe 'File storage edit view' do
+  describe 'Edit file storage' do
     it 'renders a danger zone for deletion' do
       storage = create(:nextcloud_storage, name: "Foo Nextcloud")
       visit edit_admin_settings_storage_path(storage)
@@ -340,7 +371,7 @@ RSpec.describe 'Admin storages',
     end
 
     context 'with Nextcloud Storage' do
-      let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
+      let(:storage) { create(:nextcloud_storage, :as_automatically_managed, name: 'Cloud Storage') }
       let(:oauth_application) { create(:oauth_application, integration: storage) }
       let(:oauth_client) { create(:oauth_client, integration: storage) }
       let(:secret) { 'awesome_secret' }
@@ -354,7 +385,7 @@ RSpec.describe 'Admin storages',
       it 'renders an edit view', :webmock do
         visit edit_admin_settings_storage_path(storage)
 
-        expect(page).to have_test_selector('storage-name-title', text: storage.name.capitalize)
+        expect(page).to have_test_selector('storage-new-page-header--title', text: "Cloud Storage (Nextcloud)")
 
         aggregate_failures 'Storage edit view' do
           # General information
@@ -387,13 +418,11 @@ RSpec.describe 'Admin storages',
           # Update a storage - happy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            expect(page).to have_css('#storages_nextcloud_storage_provider_type[disabled]')
-
             fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
             click_button 'Save and continue'
           end
 
-          expect(page).to have_test_selector('storage-name-title', text: 'My Nextcloud')
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'My Nextcloud (Nextcloud)')
           expect(page).to have_test_selector('storage-description', text: "Nextcloud - My Nextcloud - #{storage.host}")
 
           # Update a storage - unhappy path
@@ -502,7 +531,7 @@ RSpec.describe 'Admin storages',
       it 'renders an edit view', :webmock do
         visit edit_admin_settings_storage_path(storage)
 
-        expect(page).to have_test_selector('storage-name-title', text: 'Test Drive')
+        expect(page).to have_test_selector('storage-new-page-header--title', text: 'Test Drive (OneDrive/SharePoint)')
 
         aggregate_failures 'Storage edit view' do
           # General information
@@ -522,13 +551,11 @@ RSpec.describe 'Admin storages',
           # Update a storage - happy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            expect(page).to have_css('#storages_one_drive_storage_provider_type[disabled]')
-
             fill_in 'storages_one_drive_storage_name', with: 'My OneDrive'
             click_button 'Save and continue'
           end
 
-          expect(page).to have_test_selector('storage-name-title', text: 'My OneDrive')
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'My OneDrive (OneDrive/SharePoint)')
           expect(page).to have_test_selector('storage-description', text: 'OneDrive/SharePoint - My OneDrive')
 
           # Update a storage - unhappy path
