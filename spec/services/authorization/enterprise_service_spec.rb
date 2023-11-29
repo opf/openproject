@@ -73,8 +73,7 @@ RSpec.describe Authorization::EnterpriseService do
         end
       end
 
-      %i(attribute_help_texts
-         baseline_comparison
+      %i(baseline_comparison
          board_view
          conditional_highlighting
          custom_actions
