@@ -45,9 +45,9 @@ de:
         item_0:
           name: Arbeitspaket-Bearbeiter
         item_1:
-          name: Work package commenter
+          name: Arbeitspaket-Kommentator
         item_2:
-          name: Work package viewer
+          name: Arbeitspaket-Betrachter
       project_roles:
         item_0:
           name: Nichtmitglied

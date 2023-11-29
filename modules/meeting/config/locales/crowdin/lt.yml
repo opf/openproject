@@ -33,6 +33,11 @@ lt:
         duration: "Trukmė"
         notes: "Pastabos"
         participants: "Dalyviai"
+        participant:
+          one: "1 Participant"
+          few: "%{count} Participants"
+          many: "%{count} Participants"
+          other: "%{count} Participants"
         participants_attended: "Būtinas dalyvis"
         participants_invited: "Pakviestas dalyvauti"
         project: "Projektas"
@@ -107,7 +112,7 @@ lt:
       classic_text: 'Organizuokite jūsų susitikimą su formatuojamo teksto darbotvarke ir protokolu.'
       structured: 'Dinaminis'
       structured_text: 'Organizuokite jūsų susitikimą su darbotvarkės elementų sąrašu, pasirinktinai susiejant juos su darbo paketu.'
-      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
+      structured_text_copy: 'Šiuo metu nukopijavus susitikimą, susiję susitikimo elmentai nebus kopijuojami, tik detalės.'
     copied: "Nukopijuota iš susitikimo #%{id}"
   notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
   notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.
@@ -161,6 +166,7 @@ lt:
   label_meeting_manage_participants: "Valdyti dalyvius"
   label_meeting_no_participants: "Nėra dalyvių"
   label_meeting_show_hide_participants: "Rodyti/slėpti dar %{count}"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Pridėti dalyvius"
   text_meeting_not_editable_anymore: "Šis susitikimas daugiau neberedaguojamas"
   text_meeting_not_present_anymore: "Šis susitikimas buvo ištrintas. Prašome parinkti kitą susitikimą."

@@ -33,6 +33,8 @@ zh-CN:
         duration: "时长"
         notes: "备注"
         participants: "参加者"
+        participant:
+          other: "%{count} Participants"
         participants_attended: "与会者"
         participants_invited: "受邀者"
         project: "项目"
@@ -161,6 +163,7 @@ zh-CN:
   label_meeting_manage_participants: "管理与会者"
   label_meeting_no_participants: "沒有与会者"
   label_meeting_show_hide_participants: "显示/隐藏 %{count} 更多"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "添加与会者"
   text_meeting_not_editable_anymore: "本次会议已不可编辑。"
   text_meeting_not_present_anymore: "此次会议已被删除。请选择另一次会议。"

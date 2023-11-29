@@ -33,6 +33,10 @@ ro:
         duration: "Durată"
         notes: "Notes"
         participants: "Participanţi"
+        participant:
+          one: "1 Participant"
+          few: "%{count} Participants"
+          other: "%{count} Participants"
         participants_attended: "Participanți"
         participants_invited: "Invitaţi"
         project: "Proiect"
@@ -161,6 +165,7 @@ ro:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

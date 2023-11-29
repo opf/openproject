@@ -33,6 +33,9 @@ fr:
         duration: "Durée"
         notes: "Notes"
         participants: "Participant(s)"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
         participants_attended: "Présent(s)"
         participants_invited: "Invités"
         project: "Projet"
@@ -161,6 +164,7 @@ fr:
   label_meeting_manage_participants: "Gérer les participants"
   label_meeting_no_participants: "Aucun participant"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Ajouter des participants"
   text_meeting_not_editable_anymore: "Cette réunion n'est plus modifiable."
   text_meeting_not_present_anymore: "Cette réunion a été supprimée. Veuillez sélectionner une autre réunion."
