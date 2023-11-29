@@ -50,6 +50,13 @@ module Projects
 
         private
 
+        def wrapper_data_attributes
+          {
+            controller: 'projects--settings--project-custom-fields-mapping-filter',
+            'application-target': 'dynamic'
+          }
+        end
+
         def get_eager_loaded_project_custom_field_section(section_id)
           @project_custom_field_sections.find { |section| section.id == section_id }
         end

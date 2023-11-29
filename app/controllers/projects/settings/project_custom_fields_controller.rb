@@ -39,11 +39,14 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
   def show; end
 
   def update
+    @project_custom_field = ProjectCustomField.find(params[:project_custom_field_id])
+
     mapping = ProjectCustomFieldProjectMapping.find_or_initialize_by(
       project_id: @project.id,
-      custom_field_id: params[:project_custom_field_id]
+      custom_field_id: @project_custom_field.id
     )
 
+    # toggle mapping
     if mapping.persisted?
       mapping.destroy!
     else
@@ -52,7 +55,7 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
 
     eager_load_project_custom_field_project_mappings # reload mappings
 
-    update_sections_via_turbo_stream
+    update_custom_field_row_via_turbo_stream
 
     respond_with_turbo_streams
   end

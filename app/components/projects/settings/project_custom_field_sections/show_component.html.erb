@@ -32,7 +32,7 @@
         end
       else
         sorted_project_custom_fields.each do |project_custom_field|
-          component.with_row do
+          component.with_row(data: { 'projects--settings--project-custom-fields-mapping-filter-target': 'searchItem' }) do
             render(Projects::Settings::ProjectCustomFieldSections::CustomFieldRowComponent.new(
               project: @project,
               project_custom_field:,

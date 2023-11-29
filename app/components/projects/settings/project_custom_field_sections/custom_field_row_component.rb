@@ -44,6 +44,10 @@ module Projects
 
         private
 
+        def wrapper_uniq_by
+          @project_custom_field.id
+        end
+
         def active_in_project?
           @project_custom_field_project_mappings.any? do |mapping|
             mapping.custom_field_id == @project_custom_field.id
