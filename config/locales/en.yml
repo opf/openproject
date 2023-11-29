@@ -108,8 +108,6 @@ en:
     show_preview: "Preview text"
     add_new: "Add help text"
     edit: "Edit help text for %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
 
   background_jobs:
     status:
