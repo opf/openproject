@@ -286,7 +286,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     readonly cdRef:ChangeDetectorRef,
     readonly ngZone:NgZone,
     readonly vcRef:ViewContainerRef,
-    private readonly I18n:I18nService,
+    readonly I18n:I18nService,
   ) {
     super();
   }
