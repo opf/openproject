@@ -26,7 +26,7 @@ For the manual upload please refer to documentation on [attaching files to work 
 
 You can use Nextcloud as an integrated file storage in OpenProject, allowing you to link files and folders stored in Nextcloud directly with work packages in OpenProject. 
 
-Please refer to [Nextcloud integration guide](/nextcloud-integration) for further instructions on using the integration.
+Please refer to [Nextcloud integration user guide](/nextcloud-integration) for further instructions on using the integration.
 
 For the initial setup please refer to the [Nextcloud integration setup guide](../..//system-admin-guide/integrations/nextcloud/).
 
@@ -34,6 +34,6 @@ For the initial setup please refer to the [Nextcloud integration setup guide](..
 
 You can also use OneDrive/SharePoint integration to link OpenProject work packages directly to the files stored in your OneDrive/SharePoint repository. 
 
-Please refer to [OneDrive/SharePoint integration guide](/one-drive-integration) for further instructions on using the integration.
+Please refer to [OneDrive/SharePoint integration user guide](/onedrive-integration) for further instructions on using the integration.
 
 For the initial setup please refer to the [OneDrive/SharePoint integration setup guide](../..//system-admin-guide/integrations/onedrive/).

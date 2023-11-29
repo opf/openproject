@@ -9,11 +9,10 @@ keywords: integration, apps, OneDrive, Sharepoint, user
 # OneDrive integration
 
 
-Starting with OpenProject 13.1, you can use **Sharepoint** as an integrated file storage in OpenProject.
+Starting with OpenProject 13.1, you can use **OneDrive/SharePoint** as an integrated file storage in OpenProject.
 
 This integration makes it possible for you to:
-
-- Link files and folders stored in Sharepoint with work packages in OpenProject
+- Link files and folders stored in OneDrive/SharePoint with work packages in OpenProject
 - View, open and download files and folders linked to a work package via the **Files** tab
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
