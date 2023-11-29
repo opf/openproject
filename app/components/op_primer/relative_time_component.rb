@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,24 +27,20 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module OpPrimer
+  class RelativeTimeComponent < Primer::Component
+    def initialize(datetime:, **system_arguments)
+      super()
+      @system_arguments = deny_tag_argument(**system_arguments)
 
-module Meetings
-  class HeaderComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-
-    def initialize(meeting:, state: :show)
-      super
-
-      @meeting = meeting
-      @state = state
+      @system_arguments[:datetime] = datetime
+      @system_arguments[:lang] ||= I18n.locale
+      @system_arguments[:prefix] ||= I18n.t(:label_on)
     end
 
-    private
-
-    def delete_enabled?
-      User.current.allowed_in_project?(:delete_meetings, @meeting.project)
+    def call
+      render(Primer::Beta::RelativeTime.new(**@system_arguments))
     end
   end
 end

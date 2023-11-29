@@ -27,22 +27,17 @@
 #++
 
 module Meetings
-  class HeaderComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-
-    def initialize(meeting:, state: :show)
+  class HeaderInfolineComponent < ApplicationComponent
+    def initialize(meeting)
       super
-
       @meeting = meeting
-      @state = state
     end
 
-    private
+    def last_updated_at
+      latest_agenda_update = @meeting.agenda_items.maximum(:updated_at) || @meeting.updated_at
+      latest_meeting_update = @meeting.updated_at
 
-    def delete_enabled?
-      User.current.allowed_in_project?(:delete_meetings, @meeting.project)
+      [latest_agenda_update, latest_meeting_update].max
     end
   end
 end
