@@ -39,7 +39,7 @@ module API
             end
 
             after_validation do
-              authorize_in_any_project(:view_work_packages)
+              authorize_in_any_work_package(:view_work_packages)
             end
 
             route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Column ID' do

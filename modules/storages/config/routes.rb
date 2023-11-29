@@ -44,6 +44,7 @@ OpenProject::Application.routes.draw do
         member do
           get :show_oauth_application
           get :edit_host
+          get :confirm_destroy
           delete :replace_oauth_application
         end
       end

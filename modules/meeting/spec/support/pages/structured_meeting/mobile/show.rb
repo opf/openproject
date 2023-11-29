@@ -25,30 +25,23 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-require_relative '../../spec_helper'
 
-RSpec.describe Storages::Admin::ConfigurationChecksComponent,
-               type: :component do
-  describe '#render?' do
-    context 'with all configuration checks complete' do
-      it 'returns false, does not render view component' do
-        storage = build_stubbed(:nextcloud_storage,
-                                oauth_application: build_stubbed(:oauth_application),
-                                oauth_client: build_stubbed(:oauth_client))
-        component = described_class.new(storage:)
+require_relative '../show'
 
-        expect(render_inline(component).content).to be_blank
+module Pages::StructuredMeeting::Mobile
+  class Show < ::Pages::StructuredMeeting::Show
+    def expect_participants(count: 1)
+      within(meeting_details_container) do
+        expect(page).to have_text(Meeting.human_attribute_name(:participant, count:))
+        expect(page).to have_button("Show all")
       end
     end
 
-    context 'with incomplete configuration checks' do
-      it 'returns true, renders view component' do
-        storage = build_stubbed(:nextcloud_storage, host: nil, name: nil)
-        component = described_class.new(storage:)
-
-        expect(render_inline(component)).to have_content('The setup of this storage is incomplete.')
+    def open_participant_form
+      within(meeting_details_container) do
+        click_button "Show all"
       end
+      expect(page).to have_css('#meetings-sidebar-participants-form-component')
     end
   end
 end

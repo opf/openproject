@@ -33,6 +33,8 @@ zh-TW:
         duration: "會議長度"
         notes: "Notes"
         participants: "參加人員"
+        participant:
+          other: "%{count} Participants"
         participants_attended: "出席人員"
         participants_invited: "受邀人員"
         project: "Project"
@@ -107,6 +109,7 @@ zh-TW:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "從會議紀錄 #%{id} 中複製"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。
@@ -160,6 +163,7 @@ zh-TW:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

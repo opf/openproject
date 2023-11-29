@@ -33,6 +33,8 @@ vi:
         duration: "Duration"
         notes: "Notes"
         participants: "Người tham gia"
+        participant:
+          other: "%{count} Participants"
         participants_attended: "Người dự khán"
         participants_invited: "Khách mời"
         project: "Project"
@@ -107,6 +109,7 @@ vi:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Đã gửi thông báo thành công"
   notice_timezone_missing: Chưa đặt múi giờ và %{zone} đã được chọn. Để chọn múi giowf của bạn, nhấn vào đây.
@@ -160,6 +163,7 @@ vi:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

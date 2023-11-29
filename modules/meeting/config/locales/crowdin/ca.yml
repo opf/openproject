@@ -33,6 +33,9 @@ ca:
         duration: "Durada"
         notes: "Notes"
         participants: "Participants"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
         participants_attended: "Assistents"
         participants_invited: "Convidats"
         project: "Projecte"
@@ -107,6 +110,7 @@ ca:
       classic_text: 'Organitzeu la vostra reunió en una agenda i un protocol de text formatitzables.'
       structured: 'Dinàmic'
       structured_text: 'Organitzeu la vostra reunió com una llista d''elements de l''agenda, enllaçant-los opcionalment a un paquet de treball.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copiat de la reunió #%{id}"
   notice_successful_notification: "Notificació enviada correctament"
   notice_timezone_missing: No s'ha configurat la zona horària i la %{zone} és assumida. Per seleccionar la teva zona horària, si us plau, fes clic aquí.
@@ -160,6 +164,7 @@ ca:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

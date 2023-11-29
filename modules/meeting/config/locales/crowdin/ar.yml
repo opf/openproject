@@ -33,6 +33,13 @@ ar:
         duration: "المدّة"
         notes: "Notes"
         participants: "المشاركون"
+        participant:
+          zero: "%{count} Participants"
+          one: "1 Participant"
+          two: "%{count} Participants"
+          few: "%{count} Participants"
+          many: "%{count} Participants"
+          other: "%{count} Participants"
         participants_attended: "الحضور"
         participants_invited: "المدعوّون"
         project: "Project"
@@ -107,6 +114,7 @@ ar:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "نسخ من الاجتماع #%{id}"
   notice_successful_notification: "تم إرسال الإشعار بنجاح"
   notice_timezone_missing: لم يتم تعيين المنطقة الزمنية و%{zone} مُفترض. لاختيار منطقتك الزمنية، من فضلك اضغط هنا.
@@ -160,6 +168,7 @@ ar:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

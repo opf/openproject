@@ -85,21 +85,11 @@ module Pages
         end
 
         def set_condition(name, value)
-          page.within('#custom-actions-form--conditions') do
-            page.find_field(name)
-          end
-
           Array(value).each do |val|
+            set_condition_value(name, val)
+
             within '#custom-actions-form--conditions' do
-              fill_in name, with: val
-            end
-
-            retry_block do
-              find('.ng-option', wait: 5, text: val).click
-
-              within '#custom-actions-form--conditions' do
-                expect_selected_option val
-              end
+              expect_selected_option val
             end
           end
         end
@@ -109,6 +99,16 @@ module Pages
         def set_action_value(name, value)
           field = find('#custom-actions-form--active-actions .form--field', text: name, wait: 5)
 
+          set_field_value(field, name, value)
+        end
+
+        def set_condition_value(name, value)
+          field = find('#custom-actions-form--conditions .form--field', text: name, wait: 5)
+
+          set_field_value(field, name, value)
+        end
+
+        def set_field_value(field, name, value)
           autocomplete = false
 
           Array(value).each do |val|

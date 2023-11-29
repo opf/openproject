@@ -62,7 +62,8 @@ RSpec.describe 'Structured meetings CRUD',
 
   let(:current_user) { user }
   let(:new_page) { Pages::Meetings::New.new(project) }
-  let(:show_page) { Pages::StructuredMeeting::Show.new(StructuredMeeting.order(id: :asc).last) }
+  let(:meeting) { StructuredMeeting.order(id: :asc).last }
+  let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
   before do
     login_as current_user
@@ -248,6 +249,30 @@ RSpec.describe 'Structured meetings CRUD',
     end
 
     expect(page).to have_css('.flash', text: I18n.t('activerecord.errors.messages.error_conflict'))
+  end
+
+  it 'can copy the meeting (empty)' do
+    show_page.expect_toast(message: 'Successful creation')
+
+    # Can add and edit a single item
+    show_page.add_agenda_item do
+      fill_in 'Title', with: 'My agenda item'
+      fill_in 'Duration (min)', with: '25'
+    end
+
+    show_page.expect_agenda_item title: 'My agenda item'
+    show_page.cancel_add_form
+
+    click_button('op-meetings-header-action-trigger')
+    click_link 'Copy'
+
+    expect(page).to have_current_path "/meetings/#{meeting.id}/copy"
+
+    click_button 'Create'
+
+    expect(page).to have_text 'Your meeting is empty'
+    new_meeting = StructuredMeeting.reorder(id: :asc).last
+    expect(page).to have_current_path "/meetings/#{new_meeting.id}"
   end
 
   context 'with a work package reference to another' do

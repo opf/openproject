@@ -29,18 +29,7 @@
 #++
 #
 module Storages::Admin
-  class ConfigurationChecksComponent < Primer::Beta::Flash
-    def initialize(storage:, spacious: true, dismissible: false, icon: :alert, scheme: :danger, **kwargs)
-      @storage = storage
-      super(spacious:, dismissible:, icon:, scheme:, **kwargs)
-    end
-
-    def render?
-      !@storage.configured?
-    end
-
-    def content
-      I18n.t('storages.configuration_checks.incomplete')
-    end
+  class HealthStatusComponent < ApplicationComponent
+    alias_method :storage, :model
   end
 end

@@ -31,7 +31,7 @@ module API
     module GithubPullRequests
       class GithubPullRequestsByWorkPackageAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_in_project(:show_github_content, project: @work_package.project)
+          authorize_in_work_package(:show_github_content, work_package: @work_package)
           @github_pull_requests = @work_package.github_pull_requests
         end
 

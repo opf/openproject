@@ -17,13 +17,12 @@
 
           if @meeting.editable?
             heading.with_column do
-              render(Primer::Alpha::Dialog.new(
-                id: "edit-participants-dialog", title: Meeting.human_attribute_name(:participants),
-                size: :medium_portrait
-              )) do |dialog|
-                dialog.with_show_button(icon: :gear, 'aria-label': t("label_meeting_manage_participants"), scheme: :invisible)
-                render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting))
-              end
+              render(Primer::Beta::IconButton.new(
+                icon: :gear,
+                scheme: :invisible,
+                'aria-label': t("label_meeting_manage_participants"),
+                data: { 'show-dialog-id': "edit-participants-dialog" }
+              ))
             end
           end
         end

@@ -33,6 +33,9 @@ tr:
         duration: "Süre"
         notes: "Notlar"
         participants: "Katılımcılar"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
         participants_attended: "Katılımcılar"
         participants_invited: "Davetliler"
         project: "Proje"
@@ -107,6 +110,7 @@ tr:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "#%{id} numaralı toplantıdan kopyalandı"
   notice_successful_notification: "Bildirim başarıyla gönderildi"
   notice_timezone_missing: Saat dilimi ayarlanmadı ve %{zone} kabul edildi. Saat dilimini seçmek için lütfen buraya tıklayın.
@@ -160,6 +164,7 @@ tr:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

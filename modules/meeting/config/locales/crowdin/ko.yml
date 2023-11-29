@@ -33,6 +33,8 @@ ko:
         duration: "기간"
         notes: "Notes"
         participants: "참가자"
+        participant:
+          other: "%{count} Participants"
         participants_attended: "참석자"
         participants_invited: "초대된 사람"
         project: "프로젝트"
@@ -107,6 +109,7 @@ ko:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "미팅 #%{id}에서 복사됨"
   notice_successful_notification: "알림이 전송됨"
   notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.
@@ -160,6 +163,7 @@ ko:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

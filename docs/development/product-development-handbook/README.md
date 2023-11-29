@@ -160,16 +160,29 @@ For internal or customer requirements requirements may directly be created, eval
 Based on the Product Managers judgement (taking among other things the RICE score and customer backing into account) validated and prioritized features (status: “In specification”) are specified in more detail: 
 
 1. PM specifies the solution and creates mockups (e.g. PowerPoint, Google Docs, …).
+
 2. PM updates the Opportunity Canvas (especially “Solution” section).
+
 3. PM and Developer validate solution (technical feasibility / solution).
+
+   *If this solution touches security relevant components of the application, a Security Engineer is involved to identity and model the associated risks and impacts (thread modelling) according to the documented risks in the [Secure Coding Guidelines](https://www.openproject.org/docs/development/concepts/secure-coding/#secure-coding-guidelines).*
+
 4. PM / UX Researcher validates the solution through user interviews. (optional)
+
 5. PM / UX Researcher iterates through possible solutions based on user interviews and updates the Opportunity canvas. (optional)
+
 6. PM / Developer adds more detailed effort and cost estimates.
+
 7. Designer is assigned to the "Designer" field of the feature.
+
 8. Designer creates visuals based on mockups (if necessary).
+
 9. PM validates design with users (user interviews) (optional)
+
 10. PM in coordination with Developer assigns feature to upcoming product version.
+
 11. PM hands over features to the Developer.
+
 12. PM highlights features that require change in documentation if necessary (custom field “Requires doc change”).
 
 The features in a product version need to be specified at least one iteration prior to development start. If a feature is added to the current version it needs to be specified with high priority. If it is added to the next version it can be specified with a lower priority but still higher then other features in the product backlog.

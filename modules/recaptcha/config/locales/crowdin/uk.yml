@@ -10,6 +10,8 @@ uk:
     error_captcha: "Не вдалося підтвердити ваш обліковий запис. Зверніться до адміністратора."
     settings:
       website_key: 'Ключ вебсайту'
+      response_limit: 'Response limit for HCaptcha'
+      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Введіть ключ вебсайту, створений у консолі адміністратора reCAPTCHA для цього домену.'
       secret_key: 'Секретний ключ'
       secret_key_text: 'Введіть секретний ключ вебсайту, створений у консолі адміністратора reCAPTCHA.'
@@ -17,5 +19,6 @@ uk:
       type_disabled: 'Вимкнути reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA – це безкоштовний сервіс Google, який можна ввімкнути для екземпляра OpenProject. Якщо його ввімкнено, форма перевірки з’являтиметься під час входу для всіх користувачів, які ще не пройшли перевірку. <br/>Докладні відомості про reCAPTCHA та версії цього сервісу, а також про створення вебсайту й секретних ключів: %{recaptcha_link}
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}

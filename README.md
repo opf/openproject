@@ -49,7 +49,7 @@ will keep our community secure. If you happen to come across a security issue we
 you to disclose it to us privately to allow our users and community enough time to
 upgrade. Security issues will always take precedence over anything else in the pipeline.
 
-For more information on how to disclose a security vulnerability, [please see this page](docs/development/security/README.md).
+For more information on how to disclose a security vulnerability, [please see this page](docs/security-and-privacy/statement-on-security/README.md).
 
 ## License
 
