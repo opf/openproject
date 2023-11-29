@@ -5,6 +5,11 @@
       --body-background: var(--color-canvas-default);
       --body-font-color: var(--color-fg-default);
   }
+  /* Override Primer variable to ensure compatibility with currently
+     configured design outside of high contrast mode  */
+  [data-color-mode]:not([data-light-theme=light_high_contrast]) {
+    --color-accent-fg: var(--content-link-color) !important;
+  }
   [data-light-theme=light_high_contrast]{
     --avatar-border-color: var(--color-avatar-border);
     --list-item-hover--border-color: var(--color-action-list-item-default-active-border);
