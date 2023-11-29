@@ -39,10 +39,12 @@ Following user types are available as filters:
 Following user roles are available as filters:
 
 - Edit - returns all users that are permitted to edit a work package
-- Comment - returns all users that are allowed to add comments and attachments to a work package
-- View - returns all users that can view, but not edit a work package
+- Comment - returns all users that are allowed to add comments to a work package
+- View - returns all users that can view, but not edit or comment on a work package
 
 ![Filter list of users by user role](openproject_user_guide_sharing_member_role_filter.png)
+
+**Note:** Please keep in mind that users listed after you have applied a filter may have additional permissions. For example if you select the **View** filter, it is possible that a user is listed, which has inherited additional role as part of user group with persmissions exceeding the viewing ones.
 
 You can search for a user or a group via a user name, group name or an email address. You can either select an existing user from the dropdown menu or enter an email address for an entirely new user, who will receive an invitation to create an account on your instance. 
 
