@@ -60,7 +60,7 @@
                 end
                 flex.with_row(mt: 1) do
                   render (Primer::Beta::Button.new(
-                    scheme: :invisible,
+                    scheme: :link,
                     data: { 'meetings-sidebar-participants-target': "showHideButton",
                             action: 'click->meetings-sidebar-participants#showHiddenParticipants keydown.enter->meetings-sidebar-participants#showHiddenParticipants'
                           }
