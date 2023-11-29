@@ -51,8 +51,8 @@ class Storages::ProjectStoragesController < ApplicationController
               user: current_user,
               file_id: @object.project_folder_id)
         .match(
-          on_success: ->(_) { user_can_read_project_folder },
-          on_failure: ->(result) { user_can_not_read_project_folder(result.code) }
+          on_success: ->(_) { user_can_read_project_folder(storage_open_url:) },
+          on_failure: ->(result) { user_can_not_read_project_folder(storage:, result_code: result.code, storage_open_url:) }
         )
     else
       redirect_to storage_open_url
@@ -61,7 +61,7 @@ class Storages::ProjectStoragesController < ApplicationController
 
   private
 
-  def user_can_read_project_folder
+  def user_can_read_project_folder(storage_open_url:)
     respond_to do |format|
       format.turbo_stream do
         render(
@@ -76,11 +76,11 @@ class Storages::ProjectStoragesController < ApplicationController
     end
   end
 
-  def user_can_not_read_project_folder(reason_code)
+  def user_can_not_read_project_folder(storage_open_url:, storage:, result_code:)
     respond_to do |format|
       format.turbo_stream { head :no_content }
       format.html do
-        case reason_code
+        case result_code
         when :unauthorized
           redirect_to(
             oauth_clients_ensure_connection_url(
