@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package sharing',
-               :js,
-               :with_cuprite,
+               :js, :with_cuprite,
+               with_ee: %i[work_package_sharing],
                with_flag: { work_package_sharing: true } do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
@@ -254,6 +254,30 @@ RSpec.describe 'Work package sharing',
 
       share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 1)
       share_modal.expect_shared_with(new_user, 'View', position: 2)
+    end
+
+    context 'and an instance user limit' do
+      before do
+        allow(OpenProject::Enterprise).to receive_messages(
+          user_limit: 10,
+          open_seats_count: 1
+        )
+      end
+
+      it 'shows a warning as soon as you reach the user limit' do
+	pending 'Spec fails/flickers regularly. Ticket: https://community.openproject.org/work_packages/51185'
+
+        share_modal.expect_open
+        share_modal.expect_shared_count_of(1)
+
+        # Add a non-existing user to the autocompleter
+        share_modal.select_not_existing_user_option "hello@world.de"
+        share_modal.expect_no_user_limit_warning
+
+        # Add another non-existing user that would exceed the user limit
+        share_modal.select_not_existing_user_option "hola@world.de"
+        share_modal.expect_user_limit_warning
+      end
     end
   end
 end

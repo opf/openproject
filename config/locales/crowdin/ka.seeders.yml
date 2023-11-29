@@ -43,20 +43,20 @@ ka:
           name: სხვა
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
           name: Non member
         item_1:
           name: Anonymous
         item_2:
-          name: Member
+          name: წევრი
         item_3:
-          name: Reader
+          name: მკითხველი
         item_4:
           name: Project admin
       global_roles:

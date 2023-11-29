@@ -62,11 +62,11 @@ class Meeting < ApplicationRecord
   acts_as_watchable permission: :view_meetings
 
   acts_as_searchable columns: [
-    "#{table_name}.title",
-    "#{MeetingContent.table_name}.text",
-    "#{MeetingAgendaItem.table_name}.title",
-    "#{MeetingAgendaItem.table_name}.notes"
-  ],
+                       "#{table_name}.title",
+                       "#{MeetingContent.table_name}.text",
+                       "#{MeetingAgendaItem.table_name}.title",
+                       "#{MeetingAgendaItem.table_name}.notes"
+                     ],
                      include: %i[contents project agenda_items],
                      references: %i[meeting_contents agenda_items],
                      date_column: "#{table_name}.created_at"
@@ -165,13 +165,15 @@ class Meeting < ApplicationRecord
   def copy(attrs)
     copy = dup
 
-    # Called simply to initialize the value
-    copy.start_date
-    copy.start_time_hour
+    # Set a default to next week
+    copy.start_time = start_time + 1.week
 
     copy.author = attrs.delete(:author)
     copy.attributes = attrs
     copy.set_initial_values
+    # Initialize virtual attributes
+    copy.start_date
+    copy.start_time_hour
 
     copy.participants.clear
     copy.participants_attributes = allowed_participants.collect(&:copy_attributes)

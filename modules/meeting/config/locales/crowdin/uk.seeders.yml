@@ -9,21 +9,21 @@ uk:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: Щотижня
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Гарні новини
             item_1:
-              title: Updates from development team
+              title: Оновлення від розробників
             item_2:
-              title: Updates from product team
+              title: Оновлення від команди розробників
             item_3:
-              title: Updates from marketing team
+              title: Оновлення від маркетологів
             item_4:
-              title: Updates from sales team
+              title: Новини від відділу продажів
             item_5:
-              title: Review of quarterly goals
+              title: Огляд квартальних цілей
             item_6:
-              title: Core values feedback
+              title: Зворотний зв'язок щодо головних цінностей
             item_7:
-              title: General topics
+              title: Загальні теми

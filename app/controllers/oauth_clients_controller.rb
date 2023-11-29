@@ -31,13 +31,14 @@
 # This controller handles OAuth2 Authorization Code Grant redirects from a Authorization Server to
 # "callback" endpoint.
 class OAuthClientsController < ApplicationController
-  before_action :set_oauth_state
-  before_action :find_oauth_client
-  before_action :set_redirect_uri
-  before_action :set_code
-  before_action :set_connection_manager
+  before_action :require_login
+  before_action :set_oauth_state, only: [:callback]
+  before_action :find_oauth_client, only: [:callback]
+  before_action :set_redirect_uri, only: [:callback]
+  before_action :set_code, only: [:callback]
+  before_action :set_connection_manager, only: [:callback]
 
-  after_action :clear_oauth_state_cookie
+  after_action :clear_oauth_state_cookie, only: [:callback]
 
   # Provide the OAuth2 "callback" endpoint.
   # The Authorization Server redirects
@@ -68,7 +69,45 @@ class OAuthClientsController < ApplicationController
     end
   end
 
+  def ensure_connection
+    client_id = params.fetch(:oauth_client_id)
+    storage_id = params.fetch(:storage_id)
+    oauth_client = OAuthClient.find_by(client_id:, integration_id: storage_id)
+
+    handle_absent_oauth_client unless oauth_client
+
+    connection_manager = OAuthClients::ConnectionManager.new(
+      user: User.current,
+      configuration: oauth_client.integration.oauth_configuration
+    )
+
+    # check if the origin is the same
+    destination_url = if params.fetch(:destination_url, '').start_with?(root_url)
+                        params[:destination_url]
+                      else
+                        root_url
+                      end
+    if connection_manager.authorization_state == :connected
+      redirect_to(destination_url)
+    else
+      nonce = SecureRandom.uuid
+      cookies["oauth_state_#{nonce}"] = { value: { href: destination_url, storageId: storage_id }.to_json, expires: 1.hour }
+      redirect_to(connection_manager.get_authorization_uri(state: nonce))
+    end
+  end
+
   private
+
+  def handle_absent_oauth_client
+    flash[:error] = [I18n.t('oauth_client.errors.oauth_client_not_found'),
+                     I18n.t('oauth_client.errors.oauth_client_not_found_explanation')]
+
+    if User.current.admin?
+      redirect_to admin_settings_storages_path
+    else
+      redirect_to root_url
+    end
+  end
 
   def set_oauth_state
     @oauth_state = params[:state]
@@ -171,7 +210,7 @@ class OAuthClientsController < ApplicationController
       flash[:error] = [t(:'oauth_client.errors.oauth_issue_contact_admin')]
       redirect_to redirect_uri
     else
-      redirect_to ::API::V3::Utilities::PathHelper::ApiV3Path::root_url
+      redirect_to root_url
     end
   end
 

@@ -9,10 +9,10 @@ export PARALLEL_TEST_FIRST_IS_1=true
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 # export NODE_OPTIONS="--max-old-space-size=8192"
 export LOG_FILE=/tmp/op-output.log
-export PGUSER=${PGUSER:=postgres}
-export PGHOST=${PGHOST:=localhost}
+export PGUSER=${PGUSER:=appuser}
+export PGHOST=${PGHOST:=127.0.0.1}
 export PGPASSWORD=${PGPASSWORD:=p4ssw0rd}
-export DATABASE_URL="postgres://$PGUSER:$PGPASSWORD@$PGHOST/postgres"
+export DATABASE_URL="postgres://$PGUSER:$PGPASSWORD@$PGHOST/appdb"
 
 run_psql() {
 	psql -v ON_ERROR_STOP=1 "$@"
@@ -32,6 +32,28 @@ cleanup() {
 
 trap cleanup INT TERM EXIT
 
+declare -a pids=()
+
+run_background() {
+  # Run the command in the background
+  "$@" &
+
+  # Store the PID of the background process
+  local pid=$!
+  pids+=("$pid")
+}
+
+wait_for_background() {
+	for pid in "${pids[@]}"; do
+		wait "$pid"
+		# Check the exit status of each background process
+		if [ $? -ne 0 ]; then
+			echo "Command with PID $pid failed"
+			exit 1
+		fi
+	done
+}
+
 execute() {
 	BANNER=${BANNER:="[execute]"}
 	echo "$BANNER $@" >&2
@@ -45,8 +67,16 @@ execute_quiet() {
 		return 0
 	fi
 }
+create_db_cluster() {
+	if [ ! -d "/tmp/nulldb" ]; then
+		execute_quiet "initdb -E UTF8 -D /tmp/nulldb -U $PGUSER"
+		execute_quiet "cp docker/ci/postgresql.conf /tmp/nulldb/"
+		execute_quiet "pg_ctl -D /tmp/nulldb -l /dev/null -w start"
+	fi
+}
 
 reset_dbs() {
+	create_db_cluster
 	# must reset main db because for some reason the users table is not empty, after running db:migrate
 	execute_quiet "echo 'drop database if exists appdb ; create database appdb' | run_psql -d postgres"
 	execute_quiet "cat db/structure.sql | run_psql -d appdb"
@@ -56,12 +86,14 @@ reset_dbs() {
 	done
 }
 
-precompile_assets() {
-	execute "JOBS=8 time npm install"
+backend_stuff() {
+	# create test database "app" and dump schema because db/structure.sql is not checked in
+	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump zeitwerk:check"
+}
+
+frontend_stuff() {
 	execute_quiet "DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile"
 	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
-	# ls -al frontend/.angular/cache/
-	# find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
 }
 
 setup_tests() {
@@ -71,20 +103,20 @@ setup_tests() {
 		execute_quiet "rm -rf '$folder' ; mkdir -p '$folder' ; chmod 1777 '$folder'"
 	done
 
-	execute_quiet "cp docker/ci/database.yml config/"
 	execute_quiet "mkdir -p spec/support/runtime-logs/"
+	execute_quiet "cp docker/ci/database.yml config/"
+	create_db_cluster
 
-	execute "BUNDLE_JOBS=4 bundle install"
-	execute_quiet "bundle clean --force"
+	run_background execute "BUNDLE_JOBS=8 bundle install --quiet && bundle clean --force && echo BUNDLE DONE"
+	run_background execute "JOBS=8 time npm install --quiet && npm prune --quiet && echo NPM DONE"
+	wait_for_background
 
-	# create test database "app" and dump schema because db/structure.sql is not checked in
-	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump zeitwerk:check"
-
+	run_background backend_stuff
+	run_background frontend_stuff
 	# pre-cache browsers and their drivers binaries
-	execute "$(bundle show selenium)/bin/linux/selenium-manager --browser chrome --debug"
-	execute "$(bundle show selenium)/bin/linux/selenium-manager --browser firefox --debug"
-
-	precompile_assets
+	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser chrome --debug
+	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser firefox --debug
+	wait_for_background
 }
 
 run_units() {
@@ -108,7 +140,7 @@ run_all() {
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql reset_dbs setup_tests precompile_assets run_units run_features run_all
+export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests backend_stuff frontend_stuff run_units run_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift

@@ -45,7 +45,7 @@ zh-CN:
         item_0:
           name: 工作包编辑者
         item_1:
-          name: 工作包评价者
+          name: 工作包评论者
         item_2:
           name: 工作包查看者
       project_roles:

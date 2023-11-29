@@ -285,7 +285,11 @@ nl:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
       no_results_content_text: Voeg een nieuwsitem toe
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Apparaat / OS"
@@ -384,6 +388,11 @@ nl:
     move:
       no_common_statuses_exists: "Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd."
       unsupported_for_multiple_projects: "Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -449,14 +458,14 @@ nl:
       ldap_auth_source:
         account: "Account"
         attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        attr_lastname: "Achternaam attribuut"
+        attr_login: "Gebruikersnaam attribuut"
+        attr_mail: "E-mail attribuut"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        onthefly: "Automatische gebruiker aanmaken"
+        port: "Poort"
+        tls_certificate_string: "LDAP server SSL-certificaat"
       changeset:
         repository: "Repository"
       color:
@@ -466,7 +475,7 @@ nl:
       custom_action:
         actions: "Acties"
       custom_field:
-        allow_non_open_versions: "Allow non-open versions"
+        allow_non_open_versions: "Niet-geopende versies toestaan"
         default_value: "Standaardwaarde"
         editable: "Bewerkbaar"
         field_format: "Formaat"
@@ -483,7 +492,6 @@ nl:
         value: "Waarde"
       enterprise_token:
         starts_at: "Geldig sinds"
-        expires_at: "Verloopt op"
         subscriber: "Abonnee"
         encoded_token: "Enterprise ondersteuningstoken"
         active_user_count_restriction: "Maximum aantal actieve gebruikers"
@@ -557,7 +565,8 @@ nl:
         color: "Kleur"
       user:
         admin: "Beheerder"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "LDAP verbinding"
+        identity_url: "Identiteit URL"
         current_password: "Huidig wachtwoord"
         force_password_change: "Afdwingen van wachtwoordwijziging bij volgende login"
         language: "Taal"
@@ -572,7 +581,7 @@ nl:
         time_zone: "Tijdzone"
         auto_hide_popups: "Automatisch verbergen geslaagd-meldingen"
         warn_on_leaving_unsaved: "Mij waarschuwen bij het verlaten van een werkpakket met niet-opgeslagen wijzigingen"
-        theme: "Mode"
+        theme: "Modus"
       version:
         effective_date: "Einddatum"
         sharing: "Delen"
@@ -596,6 +605,7 @@ nl:
           title: "Werkdagen"
           false: "Alleen werkdagen"
           true: "inclusief niet-werkdagen"
+        notify: "Melding" #used in custom actions
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
@@ -635,6 +645,7 @@ nl:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "geen toegang."
         error_readonly: "werd geprobeerd te schrijven maar is niet schrijfbaar."
+        error_conflict: "Informatie is in de tussentijd door ten minste één andere gebruiker bijgewerkt."
         email: "is geen geldig e-mailadres."
         empty: "mag niet leeg zijn."
         even: "moet gelijk zijn."
@@ -1019,6 +1030,7 @@ nl:
     due_date: "Einddatum"
     estimated_hours: "Geschatte tijd"
     estimated_time: "Geschatte tijd"
+    expires_at: "Expires at"
     firstname: "Voornaam"
     group: "Groep"
     groups: "Groepen"
@@ -1732,6 +1744,7 @@ nl:
   label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Ondernemingsondersteuning"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Omgeving"
   label_estimates_and_time: "Schattingen en tijden"
   label_equals: "is"
@@ -2014,7 +2027,6 @@ nl:
   label_start_to_start: "begin tot begin"
   label_statistics: "Statistieken"
   label_status: "Status"
-  label_stay_logged_in: "Blijf ingelogd"
   label_storage_free_space: "Resterende schijfruimte"
   label_storage_used_space: "Gebruikte schijfruimte"
   label_storage_group: "Opslag filesystem %{identifier}"
@@ -2202,6 +2214,7 @@ nl:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2901,7 +2914,8 @@ nl:
   text_setup_mail_configuration: "Configureren van uw e-mailprovider"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
@@ -2938,6 +2952,7 @@ nl:
     activate: "Activeren"
     activate_and_reset_failed_logins: "Activeren en opnieuw instellen van mislukte aanmeldingen"
     authentication_provider: "Verificatieprovider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Deze gebruiker wordt geverifieerd via een externe-verificatieprovider, dus er is geen wachtwoord in OpenProject wat moet worden veranderd.
     authorization_rejected: "U bent niet toegestaan aan te melden."
@@ -2974,7 +2989,9 @@ nl:
   warning_registration_token_expired: |
     De activatie e-mail is verlopen. Wij sturen u een nieuwe activatie e-mail naar %{email} gestuurd. Klik op de link in de activatie e-mail om uw account te activeren.
   warning_user_limit_reached: >
-    Gebruikerslimiet bereikt. U kunt geen gebruikers meer activeren. <a href="%{upgrade_url}">upgrade uw abbonement</a> of blokkeer gebruikers om extra gebruikers toegang te geven.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
@@ -3007,7 +3024,13 @@ nl:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3020,8 +3043,26 @@ nl:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
@@ -3233,6 +3274,7 @@ nl:
     response:
       unexpected: "Onverwacht antwoord ontvangen."
   you: jij
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

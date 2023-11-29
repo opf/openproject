@@ -31,22 +31,79 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::ManageNextcloudIntegrationCronJob, type: :job do
+RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job do
   it 'has a schedule set' do
     expect(described_class.cron_expression).to eq('*/5 * * * *')
   end
 
-  describe '#perform' do
+  describe '.perform' do
     subject { described_class.new.perform }
 
-    it 'works out silently' do
-      allow(Storages::NextcloudStorage).to receive(:sync_all_group_folders).and_return(true)
-      subject
+    context 'when lock is free' do
+      it 'responds with true' do
+        expect(subject).to be(true)
+      end
+
+      it 'calls GroupFolderPropertiesSyncService for each automatically managed storage' do
+        storage1 = create(:nextcloud_storage, :as_automatically_managed)
+        storage2 = create(:nextcloud_storage, :as_not_automatically_managed)
+
+        allow(Storages::GroupFolderPropertiesSyncService)
+          .to receive(:call).with(storage1).and_return(ServiceResult.success)
+
+        expect(subject).to be(true)
+
+        expect(Storages::GroupFolderPropertiesSyncService).to have_received(:call).with(storage1).once
+        expect(Storages::GroupFolderPropertiesSyncService).not_to have_received(:call).with(storage2)
+      end
+
+      it 'marks storage as healthy if sync was successful' do
+        storage1 = create(:nextcloud_storage, :as_automatically_managed)
+
+        allow(Storages::GroupFolderPropertiesSyncService)
+          .to receive(:call).with(storage1).and_return(ServiceResult.success)
+
+        Timecop.freeze('2023-03-14T15:17:00Z') do
+          expect do
+            subject
+            storage1.reload
+          end.to(
+            change(storage1, :health_changed_at).to(Time.now.utc)
+              .and(change(storage1, :health_status).from('pending').to('healthy'))
+          )
+        end
+      end
+
+      it 'marks storage as unhealthy if sync was unsuccessful' do
+        storage1 = create(:nextcloud_storage, :as_automatically_managed)
+
+        allow(Storages::GroupFolderPropertiesSyncService)
+          .to receive(:call).with(storage1).and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :not_found)))
+
+        Timecop.freeze('2023-03-14T15:17:00Z') do
+          expect do
+            subject
+            storage1.reload
+          end.to(
+            change(storage1, :health_changed_at).to(Time.now.utc)
+              .and(change(storage1, :health_status).from('pending').to('unhealthy'))
+              .and(change(storage1, :health_reason).from(nil).to('not_found'))
+          )
+        end
+      end
     end
 
-    it 'works out silently without doing anything when sync has been started by another process' do
-      allow(Storages::NextcloudStorage).to receive(:sync_all_group_folders).and_return(false)
-      subject
+    context 'when lock is unfree' do
+      it 'responds with false' do
+        allow(ApplicationRecord).to receive(:with_advisory_lock).and_return(false)
+
+        expect(subject).to be(false)
+        expect(ApplicationRecord).to have_received(:with_advisory_lock).with(
+          'sync_all_group_folders',
+          timeout_seconds: 0,
+          transaction: false
+        ).once
+      end
     end
   end
 end

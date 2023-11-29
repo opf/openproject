@@ -31,7 +31,6 @@ class AttributeHelpTextsController < ApplicationController
   menu_item :attribute_help_texts
 
   before_action :authorize_global
-  before_action :require_ee_token, except: %i[upsale]
   before_action :find_entry, only: %i(edit update destroy)
   before_action :find_type_scope
 
@@ -87,12 +86,6 @@ class AttributeHelpTextsController < ApplicationController
   end
 
   protected
-
-  def require_ee_token
-    unless EnterpriseToken.allows_to?(:attribute_help_texts)
-      redirect_to upsale_attribute_help_texts_path
-    end
-  end
 
   def default_breadcrumb
     if action_name == 'index'

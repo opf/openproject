@@ -43,10 +43,15 @@ class MeetingAgendaItem < ApplicationRecord
   acts_as_list scope: :meeting
   default_scope { order(:position) }
 
+  scope :with_includes_to_render, -> { includes(:author, :meeting) }
+
   validates :meeting_id, presence: true
   validates :title, presence: true, if: Proc.new { |item| item.simple? }
   validates :work_package_id, presence: true, if: Proc.new { |item| item.work_package? }, on: :create
-
+  validates :work_package_id,
+            presence: true,
+            if: Proc.new { |item| item.work_package? && item.work_package_id_changed? },
+            on: :update
   validates :duration_in_minutes,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1440 },
             allow_nil: true
@@ -70,10 +75,14 @@ class MeetingAgendaItem < ApplicationRecord
   end
 
   def deleted_work_package?
-    item_type == "work_package" && work_package_id.nil?
+    persisted? && item_type == "work_package" && work_package_id_was.nil?
   end
 
   def editable?
-    !meeting&.closed? && !deleted_work_package?
+    !(meeting&.closed? || deleted_work_package?)
+  end
+
+  def modifiable?
+    !(meeting&.closed? || (deleted_work_package? && work_package_id.present?))
   end
 end

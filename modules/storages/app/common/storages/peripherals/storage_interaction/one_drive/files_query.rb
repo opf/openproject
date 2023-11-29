@@ -46,7 +46,7 @@ module Storages
             @uri = storage.uri
           end
 
-          def call(user:, folder: nil)
+          def call(user:, folder:)
             result = Util.using_user_token(@storage, user) do |token|
               # Make the Get Request to the necessary endpoints
               response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
@@ -107,16 +107,18 @@ module Storages
           end
 
           def empty_response(folder)
+            path = folder.path
+
             ServiceResult.success(
               result: StorageFiles.new(
                 [],
                 StorageFile.new(
-                  id: Digest::SHA256.hexdigest(folder),
-                  name: folder.split('/').last,
-                  location: folder,
+                  id: Digest::SHA256.hexdigest(path),
+                  name: path.split('/').last,
+                  location: path,
                   permissions: %i[readable writeable]
                 ),
-                forge_ancestors(path: folder)
+                forge_ancestors(path:)
               )
             )
           end
@@ -165,9 +167,9 @@ module Storages
           end
 
           def uri_path_for(folder)
-            return "/v1.0/drives/#{@storage.drive_id}/root/children" unless folder
+            return "/v1.0/drives/#{@storage.drive_id}/root/children" if folder.root?
 
-            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder)}:/children"
+            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}:/children"
           end
 
           def encode_path(path)

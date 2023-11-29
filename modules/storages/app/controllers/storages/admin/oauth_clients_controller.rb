@@ -70,28 +70,17 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     end
 
     service_result.on_success do
-      if OpenProject::FeatureDecisions.storage_primer_design_active?
-        if @storage.provider_type_nextcloud?
-          prepare_storage_for_automatic_management_form
+      if @storage.provider_type_nextcloud?
+        prepare_storage_for_automatic_management_form
 
-          respond_to do |format|
-            format.turbo_stream { render :create }
-          end
-        elsif @storage.provider_type_one_drive?
-          flash[:notice] = I18n.t(:'storages.notice_successful_storage_connection')
-          redirect_to admin_settings_storages_path
-        else
-          raise "Unsupported provider type: #{@storage.short_provider_type}"
+        respond_to do |format|
+          format.turbo_stream { render :create }
         end
+      elsif @storage.provider_type_one_drive?
+        flash[:notice] = I18n.t(:'storages.notice_successful_storage_connection')
+        redirect_to admin_settings_storages_path
       else
-        flash[:notice] = I18n.t(:notice_successful_create)
-
-        if @storage.provider_type_nextcloud? && @storage.automatic_management_unspecified?
-          prepare_storage_for_automatic_management_form
-          redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
-        else
-          redirect_to edit_admin_settings_storage_path(@storage)
-        end
+        raise "Unsupported provider type: #{@storage.short_provider_type}"
       end
     end
   end

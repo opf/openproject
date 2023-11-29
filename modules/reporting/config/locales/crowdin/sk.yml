@@ -47,6 +47,7 @@ sk:
   label_is_project_with_subprojects: "je (obsahuje podprojekty)"
   label_work_package_attributes: "Atribúty pracovného balíčka"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Peňažná hodnota"
   label_month_reporting: "Mesiac (strávený)"
   label_new_report: "Nová zostava nákladov"

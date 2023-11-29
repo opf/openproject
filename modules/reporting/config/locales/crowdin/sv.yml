@@ -47,6 +47,7 @@ sv:
   label_is_project_with_subprojects: "är (inkluderar delprojekt)"
   label_work_package_attributes: "Arbetspaketsattribut"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Kontantvärde"
   label_month_reporting: "Månad (spenderade)"
   label_new_report: "Nya kostnadsrapport"

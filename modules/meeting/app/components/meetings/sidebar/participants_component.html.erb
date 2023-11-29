@@ -1,5 +1,5 @@
 <%=
-  component_wrapper do
+  component_wrapper(data: wrapper_data_attributes) do
     flex_layout do |participants_container|
       participants_container.with_row do
         flex_layout(align_items: :center, justify_content: :space_between) do |heading|
@@ -17,13 +17,12 @@
 
           if @meeting.editable?
             heading.with_column do
-              render(Primer::Alpha::Dialog.new(
-                id: "edit-participants-dialog", title: Meeting.human_attribute_name(:participants),
-                size: :medium_portrait
-              )) do |dialog|
-                dialog.with_show_button(icon: :gear, 'aria-label': t("label_meeting_manage_participants"), scheme: :invisible)
-                render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting))
-              end
+              render(Primer::Beta::IconButton.new(
+                icon: :gear,
+                scheme: :invisible,
+                'aria-label': t("label_meeting_manage_participants"),
+                data: { 'show-dialog-id': "edit-participants-dialog" }
+              ))
             end
           end
         end
@@ -48,27 +47,24 @@
               end
             end
 
-            list.with_row(mt: 2) do
-              render Primer::Beta::Details.new do |hidden_details|
-                flex_layout do |flex|
-                  flex.with_row do
-                    hidden_details.with_summary(size: :small, scheme: :link) do
-                      t('label_meeting_show_hide_participants',
-                        count: @meeting.invited_or_attended_participants.count - MAX_SHOWN_PARTICIPANTS).to_s
-                    end
-                  end
-
-                  flex.with_row do
-                    hidden_details.with_body do
-                      flex_layout do |hidden_user_list|
-                        @meeting.invited_or_attended_participants.sort[MAX_SHOWN_PARTICIPANTS..].each do |participant|
-                          hidden_user_list.with_row(mt: 1) do
-                            render_participant(participant)
-                          end
-                        end
+            list.with_row do
+              flex_layout do |flex|
+                flex.with_row(display: :none, data: { 'meetings-sidebar-participants-target': "hiddenParticipants" }) do
+                  flex_layout do |hidden_user_list|
+                    @meeting.invited_or_attended_participants.sort[MAX_SHOWN_PARTICIPANTS..].each do |participant|
+                      hidden_user_list.with_row(mt: 1) do
+                        render_participant(participant)
                       end
                     end
                   end
+                end
+                flex.with_row(mt: 1) do
+                  render (Primer::Beta::Button.new(
+                    scheme: :link,
+                    data: { 'meetings-sidebar-participants-target': "showHideButton",
+                            action: 'click->meetings-sidebar-participants#showHiddenParticipants keydown.enter->meetings-sidebar-participants#showHiddenParticipants'
+                          }
+                  )) { I18n.t('label_meeting_show_hide_participants', count: @meeting.invited_or_attended_participants.count - MAX_SHOWN_PARTICIPANTS) }
                 end
               end
             end

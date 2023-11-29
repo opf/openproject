@@ -8,32 +8,37 @@
       end
 
       credentials_row.with_row(mb: 3) do
-        render(
-          OpenProject::Common::ClipboardCopyComponent.new(
-            name: :openproject_oauth_application_uid,
-            visually_hide_label: false,
-            value_to_copy: oauth_application.uid,
-            label: I18n.t('storages.label_openproject_oauth_application_id'),
-            required: true
-          )
-        )
+        render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+          input_group.with_text_input(name: :openproject_oauth_application_uid,
+                                      label: I18n.t('storages.label_openproject_oauth_application_id'),
+                                      visually_hide_label: false,
+                                      value: oauth_application.uid,
+                                      required: true)
+          input_group.with_trailing_action_clipboard_copy_button(
+            value: oauth_application.uid,
+            aria: {
+              label: I18n.t('button_copy_to_clipboard')
+            })
+        end
       end
 
       credentials_row.with_row(mb: 3) do
-        render(
-          OpenProject::Common::ClipboardCopyComponent.new(
-            name: :openproject_oauth_application_secret,
-            visually_hide_label: false,
-            value_to_copy: oauth_application.secret,
-            label: I18n.t('storages.label_openproject_oauth_application_secret'),
-            required: true
-          )
-        )
+        render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+          input_group.with_text_input(name: :openproject_oauth_application_secret,
+                                      label: I18n.t('storages.label_openproject_oauth_application_secret'),
+                                      visually_hide_label: false,
+                                      value: oauth_application.plaintext_secret,
+                                      required: true)
+          input_group.with_trailing_action_clipboard_copy_button(
+            value: oauth_application.plaintext_secret,
+            aria: {
+              label: I18n.t('button_copy_to_clipboard')
+            })
+        end
       end
 
       credentials_row.with_row do
         concat(render(Primer::Beta::Button.new(**submit_button_options)) { I18n.t('storages.buttons.done_continue') })
-        concat(render(Primer::Beta::Button.new(**cancel_button_options)) { I18n.t('button_cancel') })
       end
     end
   end

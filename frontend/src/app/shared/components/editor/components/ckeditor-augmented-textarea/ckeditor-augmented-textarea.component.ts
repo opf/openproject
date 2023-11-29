@@ -26,10 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component, ElementRef, Input, OnInit, ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -38,6 +35,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
+  ICKEditorMacroType,
   ICKEditorType,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
@@ -64,7 +62,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   @Input() public previewContext:string;
 
-  @Input() public macros:boolean;
+  @Input() public macros:ICKEditorMacroType;
 
   @Input() public resource?:object;
 
@@ -131,8 +129,10 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
       resource: this.halResource,
       previewContext: this.previewContext,
     };
-    if (!this.macros || this.readOnly) {
+    if (this.readOnly) {
       this.context.macros = 'none';
+    } else if (this.macros) {
+      this.context.macros = this.macros;
     }
 
     this.registerFormSubmitListener();

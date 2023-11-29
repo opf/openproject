@@ -288,7 +288,11 @@ si:
       no_results_title_text: වාර්තා කිරීමට දැනට කිසිදු ප්රවෘත්තියක් නොමැත.
       no_results_content_text: ප්රවෘත්ති අයිතමයක් එක් කරන්න
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -387,6 +391,11 @@ si:
     move:
       no_common_statuses_exists: "තෝරාගත් සියලුම වැඩ පැකේජ සඳහා කිසිදු තත්වයක් නොමැත. ඔවුන්ගේ තත්වය වෙනස් කළ නොහැක."
       unsupported_for_multiple_projects: "බහු ව්යාපෘති වලින් වැඩ පැකේජ සඳහා තොග චලනය/පිටපතක් සහාය නොදක්වයි"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -486,7 +495,6 @@ si:
         value: "අගය"
       enterprise_token:
         starts_at: "එතැන් සිට වලංගු වේ"
-        expires_at: "කල් ඉකුත්"
         subscriber: "ග්රාහකයා"
         encoded_token: "ව්යවසාය සහාය ටෝකනය"
         active_user_count_restriction: "උපරිම ක්රියාකාරී පරිශීලකයින්"
@@ -561,6 +569,7 @@ si:
       user:
         admin: "පරිපාලක"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "වත්මන් මුරපදය"
         force_password_change: "ඊළඟ පිවිසුම මත මුරපදය වෙනස් කිරීම බලාත්මක කරන්න"
         language: " "
@@ -599,6 +608,7 @@ si:
           title: "Working days"
           false: "working days only"
           true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "මාපිය"
         parent_issue: "මාපිය"
         parent_work_package: "මාපිය"
@@ -638,6 +648,7 @@ si:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "ප්රවේශ විය නොහැක."
         error_readonly: "ලිවීමට උත්සාහ කළ නමුත් එය ලිවිය නොහැක."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "is not a valid email address."
         empty: "හිස් විය නොහැක."
         even: "පවා විය යුතුය."
@@ -1022,6 +1033,7 @@ si:
     due_date: "අවසන් දිනය"
     estimated_hours: "ඇස්තමේන්තුගත කාලය"
     estimated_time: "ඇස්තමේන්තුගත කාලය"
+    expires_at: "Expires at"
     firstname: "මුල් නම"
     group: "කණ්ඩායම"
     groups: "කණ්ඩායම්"
@@ -1735,6 +1747,7 @@ si:
   label_enterprise_active_users: "%{current}/%{limit} වෙන් කර ඇති සක්රීය පරිශීලකයින්"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise support"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "පරිසරය"
   label_estimates_and_time: "ඇස්තමේන්තු සහ වේලාව"
   label_equals: "වේ"
@@ -2017,7 +2030,6 @@ si:
   label_start_to_start: "ආරම්භ කිරීමට පටන් ගන්න"
   label_statistics: "සංඛ්යා ලේඛන"
   label_status: "තත්වය"
-  label_stay_logged_in: "ලොගින් වී සිටින්න"
   label_storage_free_space: "ඉතිරි තැටි අවකාශය"
   label_storage_used_space: "භාවිතා තැටි අවකාශය"
   label_storage_group: "ගබඩා ගොනු පද්ධතිය %{identifier}"
@@ -2205,6 +2217,7 @@ si:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2905,7 +2918,8 @@ si:
   text_setup_mail_configuration: "ඔබගේ විද්යුත් තැපැල් සපයන්නා සකසන්න"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
@@ -2942,6 +2956,7 @@ si:
     activate: "සක්රිය කරන්න"
     activate_and_reset_failed_logins: "අසමත් වූ පිවිසුම් සක්රිය කර නැවත සකස් කරන්න"
     authentication_provider: "සත්යාපන සපයන්නා"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       මෙම පරිශීලකයා බාහිර සත්යාපන සැපයුම්කරුවෙකු හරහා සත්යාපනය කරයි, එබැවින් OpenProject හි මුරපදයක් නොමැත.
     authorization_rejected: "ඔබට පුරනය වීමට අවසර නැත."
@@ -2979,7 +2994,9 @@ si:
     සක්රිය කිරීමේ විද්යුත් තැපෑල කල් ඉකුත් වී ඇත. අපි ඔබට අලුත් එකක් %{email}වෙත යැව්වා.
     කරුණාකර ඔබගේ ගිණුම සක්රිය කිරීම සඳහා එහි ඇතුළත සබැඳිය ක්ලික් කරන්න.
   warning_user_limit_reached: >
-    පරිශීලක සීමාව ළඟා විය. ඔබට තවත් පරිශීලකයින් සක්රිය කළ නොහැක. කරුණාකර <a href="%{upgrade_url}">ඔබගේ සැලැස්ම උත්ශ්රේණි කිරීම</a> හෝ අතිරේක පරිශීලකයින් සඳහා ඉඩ ලබා දීම සඳහා සාමාජිකයින් අවහිර කරන්න.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
@@ -3012,7 +3029,13 @@ si:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3025,8 +3048,26 @@ si:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
@@ -3238,6 +3279,7 @@ si:
     response:
       unexpected: "Unexpected response received."
   you: you
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

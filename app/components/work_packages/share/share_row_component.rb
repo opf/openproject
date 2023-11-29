@@ -50,18 +50,6 @@ module WorkPackages
         share.id
       end
 
-      def border_box_row(wrapper_arguments, &)
-        if container
-          container.with_row(**wrapper_arguments, &)
-        else
-          container = Primer::Beta::BorderBox.new
-          row = container.registered_slots[:rows][:renderable_function]
-                         .bind_call(container, **wrapper_arguments)
-
-          render(row, &)
-        end
-      end
-
       private
 
       attr_reader :share, :work_package, :principal, :container

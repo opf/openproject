@@ -32,6 +32,7 @@ module WorkPackages::Share
         name: :user_id,
         label: I18n.t('work_package.sharing.label_search'),
         visually_hide_label: true,
+        data: { 'work-packages--share--user-limit-target': 'autocompleter' },
         autocomplete_options: {
           id: "op-share-wp-invite-autocomplete",
           placeholder: I18n.t('work_package.sharing.label_search_placeholder'),

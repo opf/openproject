@@ -27,6 +27,7 @@ ko:
         creator: "생성자"
         provider_type: "공급자 유형"
         host: "Host"
+        tenant: "Tenant"
       storages/file_link:
         origin_id: "원본 ID"
     errors:
@@ -79,11 +80,13 @@ ko:
       project_folders: "Project folders"
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
+      one_drive_oauth: "Azure OAuth"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
+        delete: "Delete file storage"
       managed_project_folders:
         title: "자동으로 관리되는 프로젝트 폴더"
         subtitle_short: "Let OpenProject create folders per project automatically."
@@ -99,7 +102,6 @@ ko:
         title: "멤버 연결 상태"
         subtitle: "모든 프로젝트 멤버의 저장소 %{storage_name_link}에 대한 연결 상태를 확인하세요."
     instructions:
-      provider_type: "Please make sure you have administration privileges in your Nextcloud instance and the application %{type_link_text} is installed before doing the setup."
       type: "설정을 수행하기 전에 Nextcloud 인스턴스에서 관리 권한이 있고 다음 애플리케이션이 설치되어 있는지 확인하세요."
       type_link_text: "“Integration OpenProject”"
       name: "사용자가 여러 저장소 간에 구별할 수 있도록 저장소에 이름을 지정하세요."
@@ -107,6 +109,8 @@ ko:
       managed_project_folders_application_password: >
         다음에서 이 값 복사:
       managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
+      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
+      new_storage_link_text: "file storage documentation"
       no_storage_set_up: "아직 파일 저장소가 설정되지 않았습니다."
       no_specific_folder: "기본적으로 각 사용자는 파일을 업로드할 때 고유한 홈 폴더에서 시작합니다."
       automatic_folder: "이렇게 하면 이 프로젝트의 루트 폴더가 자동으로 생성되고 각 프로젝트 멤버의 액세스 권한이 관리됩니다."
@@ -123,27 +127,37 @@ ko:
       oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
       copy_from: "다음에서 이 값 복사:"
       nextcloud:
+        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
+        oauth_configuration: "Copy these values from %{application_link_text}."
+        application_link_text: "application “Integration OpenProject”"
         integration: "Nextcloud 관리/OpenProject"
       one_drive:
+        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
+        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
+        application_link_text: "Azure application"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
           Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
-        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
-        tenant_id: >
-          Please insert the tenant ID you got from your SharePoint administrator.
-        drive_id: >
-          The drive ID can be obtained by you SharePoint administrator.
+        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
+        tenant_id: "Please copy the tenant from your Azure application."
+        tenant_id_placeholder: "Name or UUID"
+        drive_id: "Please copy the drive ID from your Azure application."
+        drive_id_placeholder: "UUID or triple ID"
     help_texts:
       project_folder: >
         프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
-      oauth_client_incomplete: "Allow OpenProject to access %{provider} data using an OAuth."
+      oauth_client_incomplete:
+        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
+        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
     delete_warning:
       storage: >
-        이 저장소를 삭제하시겠습니까? 이렇게 하면 이 저장소가 사용되는 모든 프로젝트에서도 삭제됩니다. 또한 해당 저장소에 저장된 파일에 대한 모든 링크도 작업 패키지에서 삭제합니다.
+        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
+      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
+      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
+      storage_delete_result_3: "In case this storage has an automatically managed project folder, the permissions to access the folder and its files will be removed."
       project_storage: >
         이 프로젝트에서 %{file_storage}을(를) 삭제하시겠습니까? 이 작업을 확인하려면 아래 필드에 저장소 이름을 입력하세요. 이렇게 하면 다음이 허용됩니다.
       project_storage_delete_result_1: "이 프로젝트의 작업 패키지에서 해당 저장소의 파일 및 폴더에 대한 모든 링크를 제거합니다."
@@ -161,8 +175,9 @@ ko:
     label_provider: "Provider"
     label_file_link: "파일 링크"
     label_file_links: "파일 링크"
+    label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_connected: "Connected"
+    label_completed: "Completed"
     label_incomplete: "Incomplete"
     label_name: "이름"
     label_host: "호스트 URL"
@@ -183,7 +198,9 @@ ko:
     label_information: "Additional information"
     label_provider_type: "공급자 유형"
     label_project_folder: "프로젝트 폴더"
+    label_redirect_uri: "Redirect URI"
     label_new_storage: "새로운 저장소"
+    label_new_file_storage: "New file storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
@@ -192,6 +209,7 @@ ko:
     label_no_specific_folder: "특정 폴더 없음"
     label_automatic_folder: "자동으로 관리되는 권한이 있는 새 폴더"
     label_no_selected_folder: "선택된 폴더 없음"
+    label_select_provider: "Select provider"
     label_storage: "저장소"
     label_storages: "저장소"
     label_status: "상태"
@@ -199,7 +217,7 @@ ko:
     member_connection_status:
       connected: "연결됨"
       connected_no_permissions: "사용자 역할에 저장소 권한이 없습니다"
-      not_connected: "연결되지 않았습니다. 사용자는 작업 패키지의 %{files_label} 탭에서 저장소에 로그인해야 연결할 수 있습니다."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "아직 저장소가 설정되지 않았습니다."
     members_no_results: "표시할 멤버가 없습니다."
     provider_types:
@@ -215,3 +233,10 @@ ko:
     oauth_client_details_missing: "설정을 완료하려면 저장소에서 OAuth 클라이언트 자격 증명을 추가하세요."
     automatically_managed_project_folder_missing: "설정을 완료하려면 저장소에 대해 자동으로 관리되는 프로젝트 폴더를 구성하세요."
     notice_oauth_application_replaced: "OpenProject OAuth 애플리케이션이 성공적으로 교체되었습니다."
+    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    health:
+      title: "Managed folders status"
+      label_pending: "Pending"
+      label_error: "Error"
+      label_healthy: "Healthy"
+      checked: "Checked  %{datetime}"

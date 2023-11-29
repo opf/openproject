@@ -70,7 +70,11 @@ Pressing the blue **Save** button will save your changes.
 
 ### Select the high contrast color mode
 
-In the dropdown menu **Mode** you can pick the color mode. The default setting is the **Light mode**. You can also select the **Light high contrast mode**, which will significantly increase the contrast and override the color theme of your OpenProject instance. This mode is recommended for users with visuals impairment. 
+In the dropdown menu **Mode** you can pick the color mode. The default setting is the **Light mode**. You can also select the **Light high contrast mode**, which will significantly increase the contrast and override the color theme of the OpenProject instance for you. 
+
+This mode is recommended for users with visuals impairment. 
+
+![High contrast mode in OpenProject](openproject_my_account_high_contrast_mode.png)
 
 ### Change the order to display comments
 

@@ -1,6 +1,6 @@
 cs:
   plugin_openproject_xls_export:
-    name: "OpenProject XLS Export"
+    name: "Export OpenProject XLS"
     description: "Export issue lists as Excel spreadsheets (.xls)."
   export_to_excel: "Exportovat XLS"
   print_with_description: "Tisk náhledu s popisem"

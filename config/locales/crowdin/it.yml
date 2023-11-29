@@ -285,7 +285,11 @@ it:
       no_results_title_text: Al momento non c'è nessuna notizia da segnalare.
       no_results_content_text: Aggiungi una notizia
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} su %{os_name}"
       browser: "Browser"
       device: "Dispositivo / SO"
@@ -384,6 +388,11 @@ it:
     move:
       no_common_statuses_exists: "Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato."
       unsupported_for_multiple_projects: "Il comando sposta/copia multiplo non è supportato per macroattività da più progetti"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -483,7 +492,6 @@ it:
         value: "Valore"
       enterprise_token:
         starts_at: "Valido dal"
-        expires_at: "Scade il"
         subscriber: "Iscritto"
         encoded_token: "Token di assistenza Enterprise"
         active_user_count_restriction: "Numero massimo di utenti attivi"
@@ -558,6 +566,7 @@ it:
       user:
         admin: "Amministratore"
         ldap_auth_source: "Connessione LDAP"
+        identity_url: "Identity URL"
         current_password: "Password corrente"
         force_password_change: "Richiedi la modifica della password al prossimo login"
         language: "Linguaggio"
@@ -596,6 +605,7 @@ it:
           title: "Giorni lavorativi"
           false: "solo giorni lavorativi"
           true: "includi giorni non lavorativi"
+        notify: "Notify" #used in custom actions
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
@@ -635,6 +645,7 @@ it:
         error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "non è un indirizzo email valido"
         empty: "non può essere vuoto."
         even: "deve essere pari."
@@ -1019,6 +1030,7 @@ it:
     due_date: "Data di fine"
     estimated_hours: "Tempo stimato"
     estimated_time: "Tempo stimato"
+    expires_at: "Expires at"
     firstname: "Nome"
     group: "Gruppo"
     groups: "Gruppi"
@@ -1732,6 +1744,7 @@ it:
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Supporto per Imprese"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Ambiente"
   label_estimates_and_time: "Stime e tempi"
   label_equals: "è"
@@ -2014,7 +2027,6 @@ it:
   label_start_to_start: "dall'inizio all'inizio"
   label_statistics: "Statistiche"
   label_status: "Stato"
-  label_stay_logged_in: "Resta connesso"
   label_storage_free_space: "Spazio di archiviazione su disco rimanente"
   label_storage_used_space: "Spazio di archiviazione su disco utilizzato"
   label_storage_group: "File System di archiviazione %{identifier}"
@@ -2202,6 +2214,7 @@ it:
         create_account: "To access this work package you will need to create an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -2902,7 +2915,8 @@ it:
   text_setup_mail_configuration: "Configura il tuo provider di posta elettronica"
   help_texts:
     views:
-      project: "%{plural} sono sempre collegati a un progetto. Dopo aver creato un %{singular} puoi aggiungervi macro-attività da altri progetti."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso \"Gestisci viste pubbliche\" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi."
       favoured: "Segna questa vista come preferita e aggiungila alla barra laterale delle viste salvate a sinistra."
   time:
@@ -2939,6 +2953,7 @@ it:
     activate: "Attiva"
     activate_and_reset_failed_logins: "Attiva e azzera gli accessi non riusciti"
     authentication_provider: "Servizio di autenticazione"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Questo utente si autentica tramite un servizio di autenticazione esterno, quindi non c'è nessuna password che può essere cambiata in OpenProject.
     authorization_rejected: "Non ti è consentito accedere."
@@ -2976,7 +2991,9 @@ it:
     L'attivazione della e-mail è scaduta. Te ne abbiamo mandata una nuova a %{email}.
     Clicca il link al suo interno per attivare il tuo account.
   warning_user_limit_reached: >
-    Raggiunto il limite di utente. Non puoi attivare altri utenti. Per favore<a href="%{upgrade_url}">aggiorna il tuo piano</a> o blocca i membri per consentire altri utenti.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     Raggiunto il limite di utenti (%{current}/%{max} utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il tuo piano dell'edizione Enterprise e aggiungere ulteriori utenti.
   warning_protocol_mismatch_html: >
@@ -3009,7 +3026,13 @@ it:
         zero: "0 users"
         one: "1 user"
         other: "%{count} users"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3022,8 +3045,26 @@ it:
         view: "View"
         view_description: "Can view this work package."
       remove: "Remove"
+      share: "Share"
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared users"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       I giorni non selezionati vengono saltati durante la pianificazione delle macro-attività (e non inclusi nel conteggio dei giorni). Questi possono essere sovrascritti a livello di macro-attività.
@@ -3235,6 +3276,7 @@ it:
     response:
       unexpected: "Ricevuta risposta inaspettata."
   you: tu
+  link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."

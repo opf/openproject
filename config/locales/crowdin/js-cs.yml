@@ -31,6 +31,12 @@ cs:
         Opravdu chcete odstranit tento soubor? Tato akce není vratná.
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
+    autocomplete_ng_select:
+      add_tag: "Přidat položku"
+      clear_all: "Clear all"
+      loading: "Načítání..."
+      not_found: "Nenalezeny žádné položky"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Přidat \"%{name}\""
@@ -342,13 +348,13 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
+      title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
@@ -416,7 +422,7 @@ cs:
     label_filename: "Soubor"
     label_filesize: "Velikost"
     label_general: "Obecné"
-    label_global_roles: "Global roles"
+    label_global_roles: "Globální role"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Seskupit podle"
@@ -530,7 +536,7 @@ cs:
     label_add_attachments: "Připojit soubory"
     label_formattable_attachment_hint: "Připojit a propojit soubory smazáním tohoto pole nebo vložením ze schránky."
     label_remove_file: "Odstranit %{fileName}"
-    label_remove_watcher: "Odstranit pozorovatele %{name}"
+    label_remove_watcher: "Odstranit sledujícího %{name}"
     label_remove_all_files: Odstranit všechny soubory
     label_add_description: "Přidat popis pro %{file}"
     label_upload_notification: "Nahrávám soubory..."
@@ -589,7 +595,7 @@ cs:
       no_unread: "Žádná nepřečtená oznámení"
       reasons:
         mentioned: 'zmíněn'
-        watched: 'pozorovatel'
+        watched: 'sledovatel'
         assigned: 'Řešitel'
         responsible: 'Odpovědný'
         created: 'Vytvořeno'
@@ -606,7 +612,7 @@ cs:
         property_today: 'je dnes'
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'byl smazán'
+        property_is_deleted: 'is deleted'
         upsale:
           title: 'Upozornění na datum'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
@@ -668,7 +674,7 @@ cs:
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           assignee: 'Řešitel'
           responsible: 'Odpovědný'
-          shared: 'Shared'
+          shared: 'Sdílené'
           watched: 'Sledující'
           work_package_commented: 'Všechny nové komentáře'
           work_package_created: 'Nový pracovní balíček'
@@ -677,7 +683,7 @@ cs:
           work_package_scheduled: 'Všechny změny data'
         global:
           immediately:
-            title: 'Účast'
+            title: 'Participace'
             description: 'Upozornění pro všechny aktivity v pracovních balíčcích, do kterých jste zapojeni (Řešitel, odpovědný nebo sledující).'
           delayed:
             title: 'Neúčast'
@@ -784,7 +790,7 @@ cs:
     watchers:
       label_loading: načítám sledující...
       label_error_loading: Při načítání pozorovatelů došlo k chybě
-      label_search_watchers: Hledat pozorovatele
+      label_search_watchers: Hledat sledující
       label_add: Přidat sledující
       label_discard: Zrušit výběr
       typeahead_placeholder: Hledání možných přihlížejících
@@ -1023,7 +1029,7 @@ cs:
         is_parent: "Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat."
         is_switched_from_manual_to_automatic: "Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky."
       sharing:
-        share: 'Share'
+        share: 'Sdílet'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

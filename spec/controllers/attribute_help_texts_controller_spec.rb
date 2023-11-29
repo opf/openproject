@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe AttributeHelpTextsController, with_ee: %i[attribute_help_texts] do
+RSpec.describe AttributeHelpTextsController do
   let(:user) { build_stubbed(:user) }
   let(:model) { build(:work_package_help_text) }
 
@@ -30,12 +30,6 @@ RSpec.describe AttributeHelpTextsController, with_ee: %i[attribute_help_texts] d
       expect(response).to be_successful
       expect(assigns(:texts_by_type)).to eql('WorkPackage' => [model])
     end
-
-    context 'with help texts disallowed by the enterprise token', with_ee: false do
-      it 'redirects to upsale' do
-        expect(response).to redirect_to upsale_attribute_help_texts_path
-      end
-    end
   end
 
   describe '#edit' do
@@ -49,12 +43,6 @@ RSpec.describe AttributeHelpTextsController, with_ee: %i[attribute_help_texts] d
       it 'is successful' do
         expect(response).to be_successful
         expect(assigns(:attribute_help_text)).to eql model
-      end
-    end
-
-    context 'with help texts disallowed by the enterprise token', with_ee: false do
-      it 'redirects to upsale' do
-        expect(response).to redirect_to upsale_attribute_help_texts_path
       end
     end
 
@@ -129,16 +117,6 @@ RSpec.describe AttributeHelpTextsController, with_ee: %i[attribute_help_texts] d
 
       it 'returns 404' do
         expect(response).to have_http_status :not_found
-      end
-    end
-
-    context 'with help texts disallowed by the enterprise token', with_ee: false do
-      before do
-        call
-      end
-
-      it 'redirects to upsale' do
-        expect(response).to redirect_to upsale_attribute_help_texts_path
       end
     end
   end

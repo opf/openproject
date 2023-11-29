@@ -47,6 +47,7 @@ ar:
   label_is_project_with_subprojects: "هو (يشمل المشاريع الفرعية)"
   label_work_package_attributes: "سمات مجموعة العمل"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "القيمة النقدية"
   label_month_reporting: "شهر (قضى)"
   label_new_report: "تقرير التكلفة الجديدة"

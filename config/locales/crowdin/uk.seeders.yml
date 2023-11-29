@@ -43,25 +43,25 @@ uk:
           name: Інше
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
           name: Non member
         item_1:
-          name: Anonymous
+          name: Невідомий
         item_2:
-          name: Member
+          name: Учасник
         item_3:
-          name: Reader
+          name: Читач
         item_4:
-          name: Project admin
+          name: Адміністратор проєкту
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Персонал і менеджер проєктів
     standard:
       priorities:
         item_0:

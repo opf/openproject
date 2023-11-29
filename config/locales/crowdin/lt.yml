@@ -285,7 +285,11 @@ lt:
       no_results_title_text: Nėra jokių naujienų.
       no_results_content_text: Pridėti kaip naujieną
   users:
+    autologins:
+      prompt: "Likti prisijungus %{num_days}"
     sessions:
+      remembered_devices: "Atsiminti įrenginiai"
+      remembered_devices_caption: "Sąrašas visų įrenginių, iš kurių buvo prisijungta prie šios paskyros su parinktimi „Likti prisijungus“."
       session_name: "%{browser_name} %{browser_version} %{os_name}"
       browser: "Naršyklė"
       device: "Įrenginys / OS"
@@ -386,6 +390,11 @@ lt:
     move:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
+    sharing:
+      missing_workflow_waring:
+        title: "Darbo paketo dalinimuisi trūksta darbo proceso"
+        message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas darbo procesas. Be darbo proceso negalima keisti bendrinamo darbo paketo būsenos."
+        link_message: "Konfigūruokite darbo procesą administravime."
     summary:
       reports:
         category:
@@ -485,7 +494,6 @@ lt:
         value: "Reikšmė"
       enterprise_token:
         starts_at: "Galioja nuo"
-        expires_at: "Nustoja galioti"
         subscriber: "Prenumeruotojas"
         encoded_token: "„Enterprise“ paramos raktas"
         active_user_count_restriction: "Maksimalus aktyvių naudotojų skaičius"
@@ -560,6 +568,7 @@ lt:
       user:
         admin: "Administratorius"
         ldap_auth_source: "LDAP jungtis"
+        identity_url: "Identiteto URL"
         current_password: "Dabartinis slaptažodis"
         force_password_change: "Versti pasikeisti slaptažodį kitą kartą prisijungus"
         language: "Kalba"
@@ -598,6 +607,7 @@ lt:
           title: "Darbo dienos"
           false: "tik darbo dienos"
           true: "įtraukti nedarbo dienas"
+        notify: "Pranešti" #used in custom actions
         parent: "Tėvas"
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"
@@ -637,6 +647,7 @@ lt:
         error_enterprise_only: "%{action} galimas tik OpenProject Enterprise versijoje"
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
+        error_conflict: "Tuo metu informaciją pakeitė bent vienas kitas naudotojas."
         email: "nėra tinkamas el. pašto adresas."
         empty: "negali būti tuščia."
         even: "turi būti lyginis."
@@ -1037,6 +1048,7 @@ lt:
     due_date: "Pabaigos data"
     estimated_hours: "Numatyta trukmė"
     estimated_time: "Numatyta trukmė"
+    expires_at: "Baigia galioti"
     firstname: "Vardas"
     group: "Grupė"
     groups: "Grupės"
@@ -1786,6 +1798,7 @@ lt:
   label_enterprise_active_users: "%{current}/%{limit} aktyviai naudojami naudotojai"
   label_enterprise_edition: "Enterprise versija"
   label_enterprise_support: "„Enterprise“ palaikymas"
+  label_enterprise_addon: "Enterprise priedas"
   label_environment: "Aplinka"
   label_estimates_and_time: "Sąmatos ir laikas"
   label_equals: "yra"
@@ -2068,7 +2081,6 @@ lt:
   label_start_to_start: "nuo pradžios iki pradžios"
   label_statistics: "Statistika"
   label_status: "Būsena"
-  label_stay_logged_in: "Likti prisijungus"
   label_storage_free_space: "Likusi vieta diske"
   label_storage_used_space: "Naudojamos vieta diske"
   label_storage_group: "Saugojimo failų sistema %{identifier}"
@@ -2258,6 +2270,7 @@ lt:
         create_account: "Kas prieitumėte prie šio darbo paketo, jums reikia sukurti %{instance} paskyrą. "
         open_work_package: "Atverti darbo paketą"
         subject: "Su jumis bendrinamas darbo paketas #%{id}"
+        enterprise_text: "Dalintis darbo paketais su naudotojais, kurie nėra projekto nariai."
         summary:
           user: "%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}"
           group: "%{user} bendrino darbo paketą su grupe %{group}, kurios narys esate ir jūs"
@@ -2956,7 +2969,8 @@ lt:
   text_setup_mail_configuration: "Sukonfigūruoti Jūsų el. pašto paslaugų teikėją"
   help_texts:
     views:
-      project: "%{plural} visada prisegti prie projekto. Sukūrus %{singular} jūs galite pridėti į darbo paketus iš kitų projektų."
+      project: >
+        %{plural} visada prisegti prie šio projekto. Jūs galite pažymėti tik projektus, kur modulis %{plural} yra aktyvus. Sukūrę %{singular} jūs galite į jį pridėti darbo paketus iš kitų projektų.
       public: "Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus."
       favoured: "Pažymėti šį vaizdą kaip mėgstamiausią ir pridėti į įrašytų vaizdų dėklą kairėje."
   time:
@@ -2993,6 +3007,7 @@ lt:
     activate: "Aktyvuoti"
     activate_and_reset_failed_logins: "Aktyvuoti ir iš naujo nustatyti nepavykusius prisijungimus"
     authentication_provider: "Autentifikacijos paslaugos teikėjas"
+    identity_url_text: "Autentifikacijos tiekėjo suteiktas vidinis unikalus identifikatorius."
     authentication_settings_disabled_due_to_external_authentication: >
       Šis vartotojas naudoja išorinį autentifikacijos paslaugų teikėją, todėl nėra galimo pakeisti slaptažodžio OpenProject aplinkoje.
     authorization_rejected: "Jums neleidžiama prisijungti."
@@ -3031,7 +3046,9 @@ lt:
   warning_registration_token_expired: |
     Aktyvavimo el. laiško galiojimas pasibaigė. Išsiuntėme jums naują %{email}. Paspauskite laiške duotą nuorodą, kad aktyvuotumėte savo paskyrą.
   warning_user_limit_reached: >
-    Pasiektas vartotojų limitas. Jūs negalite aktyvuoti daugiau vartotojų. Prašome <a href="%{upgrade_url}">atnaujinti planą</a> arba blokuokite esamus vartotojus norėdami aktyvuoti naujus vartotojus.
+    Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio egzemplioriaus.
+  warning_user_limit_reached_admin: >
+    Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieigi prie šio egzemplioriaus.
   warning_user_limit_reached_instructions: >
     Jūs pasiekėte naudotojų ribą (%{current}/%{max} aktyvūs naudotojai). Susisiekite su sales@openproject.com norėdami atnaujinti savo Enterprise versijos planą arba pridėti papildomų naudotojų.
   warning_protocol_mismatch_html: >
@@ -3064,7 +3081,13 @@ lt:
         zero: "0 naudotojų"
         one: "1 naudotojas"
         other: "%{count} naudotojai"
-      share: "Dalintis"
+      filter:
+        project_member: 'Projekto nariai'
+        not_project_member: 'Ne projekto nariai'
+        project_group: 'Projekto grupė'
+        not_project_group: 'Ne projekto grupė'
+        role: 'Vaidmuo'
+        type: 'Tipas'
       label_search: "Ieškoti naudotojų pakvietimui"
       label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
       label_toggle_all: "Perjungti visus bendrinimus"
@@ -3077,8 +3100,26 @@ lt:
         view: "Žiūrėti"
         view_description: "Gali žiūrėti šį darbo paketą."
       remove: "Išimti"
+      share: "Dalintis"
       text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
       text_empty_state_header: "Nėra bendrinamų naudotojų"
+      text_user_limit_reached: "Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo."
+      text_user_limit_reached_admins: 'Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad galėtumėte pridėti daugiau naudotojų.'
+      warning_user_limit_reached: >
+        Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
+      warning_user_limit_reached_admin: >
+        Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
+      user_details:
+        locked: "Užrakintas naudotojas"
+        invited: "Pakvietimas išsiųstas. "
+        resend_invite: "Siųsti iš naujo."
+        invite_resent: "Pakvietimas išsiųstas iš naujo"
+        not_project_member: "Ne projekto narys"
+        project_group: "Grupės nariai gali turėti papildomų privilegijų (kaip projekto nariai)"
+        not_project_group: "Grupė (bendra visiems nariams)"
+        additional_privileges_project: "Gali turėti papildomų privilegijų (kaip projekto narys)"
+        additional_privileges_group: "Gali turėti papildomų privilegijų (kaip grupės narys)"
+        additional_privileges_project_or_group: "Gali turėti papildomų privilegijų (kaip projekto ar grupės narys)"
   working_days:
     info: >
       Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.
@@ -3292,6 +3333,7 @@ lt:
     response:
       unexpected: "Gautas netikėtas atsakas."
   you: jūs
+  link: nuoroda
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Priedai"
     description: "Openproject autentifikacijos OmniAuth strategijos teikėjų integracija."

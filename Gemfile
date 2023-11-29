@@ -103,7 +103,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
-gem 'json_schemer', '~> 2.0.0'
+gem 'json_schemer', '~> 2.1.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
@@ -188,7 +188,7 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 3.0.1'
+gem 'openproject-token', '~> 4.0'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -236,6 +236,9 @@ group :test do
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
+
+  # Accessibility tests
+  gem 'axe-core-rspec'
 
   # Modify ENV
   gem 'climate_control'
@@ -326,7 +329,7 @@ end
 gem 'bootsnap', '~> 1.17.0', require: false
 
 # API gems
-gem 'grape', '~> 1.8.0'
+gem 'grape', '~> 2.0.0'
 gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
@@ -365,6 +368,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", '~>19.7.0'
-gem "openproject-octicons_helper", '~>19.7.0'
-gem "openproject-primer_view_components", '~>0.13.0'
+gem "openproject-octicons", '~>19.8.0'
+gem "openproject-octicons_helper", '~>19.8.0'
+gem "openproject-primer_view_components", '~>0.18.1'

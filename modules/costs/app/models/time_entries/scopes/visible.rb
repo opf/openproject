@@ -36,7 +36,7 @@ module TimeEntries::Scopes
                     .where(project_id: Project.allowed_to(user, :view_time_entries))
 
         own_scope = TimeEntry
-                    .where(project_id: Project.allowed_to(user, :view_own_time_entries))
+                    .where(work_package_id: WorkPackage.allowed_to(user, :view_own_time_entries))
                     .where(user:)
 
         all_scope.or(own_scope)

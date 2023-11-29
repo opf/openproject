@@ -46,7 +46,8 @@ module Storages::Admin
       {
         name: :client_id,
         label: label_client_id,
-        required: true
+        required: true,
+        input_width: :large
       }
     end
 
@@ -54,7 +55,8 @@ module Storages::Admin
       {
         name: :client_secret,
         label: label_client_secret,
-        required: true
+        required: true,
+        input_width: :large
       }
     end
 

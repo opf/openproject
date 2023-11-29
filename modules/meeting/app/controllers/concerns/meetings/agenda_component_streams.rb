@@ -88,6 +88,17 @@ module Meetings
         )
       end
 
+      def update_show_items_via_turbo_stream(meeting: @meeting)
+        agenda_items = meeting.agenda_items.with_includes_to_render
+        first_and_last = [agenda_items.first, agenda_items.last]
+
+        agenda_items.each do |meeting_agenda_item|
+          update_via_turbo_stream(
+            component: MeetingAgendaItems::ItemComponent::ShowComponent.new(meeting_agenda_item:, first_and_last:)
+          )
+        end
+      end
+
       def update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: nil, meeting: @meeting, type: :simple)
         update_via_turbo_stream(
           component: MeetingAgendaItems::NewComponent.new(
@@ -124,18 +135,72 @@ module Meetings
         update_new_button_via_turbo_stream(disabled: false) if form_hidden == true
       end
 
-      def update_item_via_turbo_stream(state: :show, meeting_agenda_item: @meeting_agenda_item)
-        if @meeting_agenda_item.duration_in_minutes_previously_changed?
-          # if duration was changed, all following items are affectected with their time-slot
-          # thus update the whole list to reflect the changes on the UI immediately
+      def update_item_via_turbo_stream(state: :show, meeting_agenda_item: @meeting_agenda_item, display_notes_input: nil)
+        replace_via_turbo_stream(
+          component: MeetingAgendaItems::ItemComponent.new(
+            state:,
+            meeting_agenda_item:,
+            display_notes_input:
+          )
+        )
+        update_show_items_via_turbo_stream
+      end
+
+      def add_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false)
+        if clear_slate
+          update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
+        else
+          add_before_via_turbo_stream(
+            component: MeetingAgendaItems::ItemComponent.new(
+              state: :show,
+              meeting_agenda_item:
+            ),
+            target_component: MeetingAgendaItems::ListComponent.new(meeting: @meeting)
+          )
+          update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
+          update_show_items_via_turbo_stream
+        end
+      end
+
+      def remove_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false)
+        if clear_slate
           update_list_via_turbo_stream
         else
-          update_via_turbo_stream(
+          update_show_items_via_turbo_stream
+          remove_via_turbo_stream(
             component: MeetingAgendaItems::ItemComponent.new(
-              state:,
-              meeting_agenda_item:
+              state: :show,
+              meeting_agenda_item:,
+              display_notes_input: nil
             )
           )
+        end
+      end
+
+      def move_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item)
+        # Note: The `remove_component` and the `component` are pointing to the same
+        # component, but we still need to instantiate them separately, otherwise re-adding
+        # of the item will render and empty component.
+        remove_component = MeetingAgendaItems::ItemComponent.new(state: :show, meeting_agenda_item:)
+        remove_via_turbo_stream(component: remove_component)
+
+        component = MeetingAgendaItems::ItemComponent.new(state: :show, meeting_agenda_item:)
+        target_component =
+          if @meeting_agenda_item.lower_item
+            MeetingAgendaItems::ItemComponent.new(
+              state: :show,
+              meeting_agenda_item: @meeting_agenda_item.lower_item
+            )
+          else
+            MeetingAgendaItems::ListComponent.new(meeting: @meeting)
+          end
+        add_before_via_turbo_stream(component:, target_component:)
+        update_show_items_via_turbo_stream
+      end
+
+      def render_base_error_in_flash_message_via_turbo_stream(errors)
+        if errors[:base].present?
+          render_error_flash_message_via_turbo_stream(message: errors[:base].to_sentence)
         end
       end
 

@@ -138,6 +138,22 @@ RSpec.describe SearchController do
       end
     end
 
+    context 'when searching in all projects with an untransliterable character' do
+      before do
+        work_package_1.update_column(:subject, 'Something 会议 something')
+        get :index, params: { q: '会议', scope: 'all' }
+      end
+
+      it_behaves_like 'successful search'
+
+      it 'returns the result', :aggregate_failures do
+        expect(assigns(:results).count).to be(1)
+        expect(assigns(:results)).to include(work_package_1)
+        expect(assigns(:results_count)).to be_a(Hash)
+        expect(assigns(:results_count)['work_packages']).to be(1)
+      end
+    end
+
     context 'when searching in project and its subprojects' do
       before { get :index, params: { q: 'issue', project_id: project.id, scope: 'subprojects' } }
 

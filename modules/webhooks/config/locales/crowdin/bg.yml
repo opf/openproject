@@ -1,7 +1,7 @@
 bg:
   plugin_openproject_webhooks:
-    name: "OpenProject Webhooks"
-    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+    name: "OpenProject уеб-куки"
+    description: "Осигурява приставка API, за поддръжка на OpenProject веб-куки, за по-добра интеграция на трети страни."
   activerecord:
     attributes:
       webhooks/webhook:

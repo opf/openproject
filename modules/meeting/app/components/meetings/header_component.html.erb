@@ -21,12 +21,21 @@
                   item.with_leading_visual_icon(icon: :pencil)
                 end if @meeting.editable?
 
+                menu.with_item(label: t(:button_copy),
+                               href: copy_meeting_path(@meeting),
+                               content_arguments: {
+                                 data: { turbo: false }
+                               }) do |item|
+                  item.with_leading_visual_icon(icon: :copy)
+                end
+
                 menu.with_item(label: t(:label_icalendar_download),
                                href: download_ics_meeting_path(@meeting)) do |item|
                   item.with_leading_visual_icon(icon: :download)
                 end
 
-                if User.current.allowed_to?(:send_meeting_agendas_notification, @meeting.project)
+                if User.current.allowed_in_project?(:send_meeting_agendas_notification, @meeting.project
+                )
                   menu.with_item(label: t('meeting.label_mail_all_participants'),
                                  href: notify_meeting_path(@meeting),
                                  form_arguments: { method: :post, data: { turbo: 'false' } }) do |item|
@@ -48,23 +57,7 @@
         end
 
         show_header.with_row do
-          flex_layout(align_items: :center) do |meta_info|
-            meta_info.with_column(mr: 1) do
-              render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_created_by") }
-            end
-
-            meta_info.with_column(mr: 1) do
-              render_author_link
-            end
-
-            meta_info.with_column(mr: 1) do
-              render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_last_updated") }
-            end
-
-            meta_info.with_column do
-              render(Primer::Beta::RelativeTime.new(font_size: :small, color: :subtle, datetime: last_updated_at))
-            end
-          end
+          render(Meetings::HeaderInfolineComponent.new(@meeting))
         end
       end
 
@@ -101,23 +94,7 @@
           end
 
           edit_header.with_row do
-            flex_layout(align_items: :center) do |meta_info|
-              meta_info.with_column(mr: 1) do
-                render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_created_by") }
-              end
-
-              meta_info.with_column(mr: 1) do
-                render_author_link
-              end
-
-              meta_info.with_column(mr: 1) do
-                render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_last_updated") }
-              end
-
-              meta_info.with_column do
-                render(Primer::Beta::RelativeTime.new(font_size: :small, color: :subtle, datetime: last_updated_at))
-              end
-            end
+            render(Meetings::HeaderInfolineComponent.new(@meeting))
           end
         end
       end

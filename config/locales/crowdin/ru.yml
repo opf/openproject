@@ -272,7 +272,7 @@ ru:
       no_results_title_text: На данный момент у этого проекта нет участников.
       no_results_content_text: Добавить участника в проект
     invite_by_mail: "Отправить приглашение на %{mail}"
-    send_invite_to: "Send invite to"
+    send_invite_to: "Отправить приглашение"
   my:
     access_token:
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
@@ -287,7 +287,11 @@ ru:
       no_results_title_text: На данный момент новостей для отчета нет.
       no_results_content_text: Добавить новость
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
       browser: "Браузер"
       device: "Устройство / ОС"
@@ -388,6 +392,11 @@ ru:
     move:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -470,7 +479,7 @@ ru:
       custom_action:
         actions: "Действия"
       custom_field:
-        allow_non_open_versions: "Allow non-open versions"
+        allow_non_open_versions: "Разрешить неоткрытые версии"
         default_value: "Значение по умолчанию"
         editable: "Доступно для правки"
         field_format: "Формат"
@@ -487,7 +496,6 @@ ru:
         value: "Значение"
       enterprise_token:
         starts_at: "Действует с"
-        expires_at: "Срок действия до"
         subscriber: "Подписчик"
         encoded_token: "Маркер поддержки корпоративной версии"
         active_user_count_restriction: "Максимальное число активных пользователей"
@@ -562,6 +570,7 @@ ru:
       user:
         admin: "Администратор"
         ldap_auth_source: "Подключение к LDAP"
+        identity_url: "Identity URL"
         current_password: "Текущий пароль"
         force_password_change: "Принудительное изменение пароля при следующем входе"
         language: "Язык"
@@ -576,7 +585,7 @@ ru:
         time_zone: "Часовой пояс"
         auto_hide_popups: "Автоматически скрывать успешные уведомления"
         warn_on_leaving_unsaved: "При покидании рабочего пакета предупреждать о не сохраненных изменениях"
-        theme: "Mode"
+        theme: "Режим"
       version:
         effective_date: "Дата окончания"
         sharing: "Совместное использование"
@@ -600,6 +609,7 @@ ru:
           title: "Рабочие дни"
           false: "только рабочие дни"
           true: "включить нерабочие дни"
+        notify: "Notify" #used in custom actions
         parent: "Родитель"
         parent_issue: "Родитель"
         parent_work_package: "Родитель"
@@ -639,6 +649,7 @@ ru:
         error_enterprise_only: "%{action} доступен только в корпоративной версии OpenProject"
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "неверный адрес электронной почты."
         empty: "не может быть пустым."
         even: "должно быть чётным."
@@ -889,7 +900,7 @@ ru:
           attributes:
             base:
               user_limit_reached: "Достигнут лимит пользователей. В текущем тарифном плане аккаунтов больше нет."
-              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
+              one_must_be_active: "Администратор не может быть заблокирован/удален. Должен быть хотя бы один администратор."
             password_confirmation:
               confirmation: "Подтверждение пароля не совпадает с паролем."
               format: "%{message}"
@@ -1039,6 +1050,7 @@ ru:
     due_date: "Дата окончания"
     estimated_hours: "Предполагаемое время"
     estimated_time: "Предполагаемое время"
+    expires_at: "Expires at"
     firstname: "Имя"
     group: "Группа"
     groups: "Группы"
@@ -1316,12 +1328,12 @@ ru:
         one: "1 ч"
         few: "%{count} hrs"
         many: "%{count} hrs"
-        other: "%{count} hrs"
+        other: "%{count} ч"
       x_weeks:
         one: "1 неделя"
         few: "%{count} weeks"
         many: "%{count} weeks"
-        other: "%{count} weeks"
+        other: "%{count} недель"
       x_months:
         one: "1 месяц"
         few: "%{count} месяца"
@@ -1329,9 +1341,9 @@ ru:
         other: "%{count} месяца"
       x_years:
         one: "1 год"
-        few: "%{count} years"
+        few: "%{count} года"
         many: "%{count} years"
-        other: "%{count} years"
+        other: "%{count} лет"
       x_seconds:
         one: "1 секунда"
         few: "%{count} секунды"
@@ -1341,7 +1353,7 @@ ru:
         one: "1 с"
         few: "%{count} s"
         many: "%{count} s"
-        other: "%{count} s"
+        other: "%{count} с"
     units:
       hour:
         one: "час"
@@ -1732,7 +1744,7 @@ ru:
   label_copy_workflow_from: "Копировать рабочий поток из"
   label_copy_project: "Копировать проект"
   label_core_version: "Текущая версия"
-  label_core_build: "Core build"
+  label_core_build: "Сборка ядра"
   label_current_status: "Текущий статус"
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
@@ -1788,6 +1800,7 @@ ru:
   label_enterprise_active_users: "%{current}/%{limit} забронировано активных пользователей"
   label_enterprise_edition: "Корпоративная версия"
   label_enterprise_support: "Поддержка корпоративной версии"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Переменные среды"
   label_estimates_and_time: "Оценки и время"
   label_equals: "—"
@@ -2070,7 +2083,6 @@ ru:
   label_start_to_start: "Пуск, чтобы начать"
   label_statistics: "Статистика"
   label_status: "Статус"
-  label_stay_logged_in: "Запомнить"
   label_storage_free_space: "Свободное дисковое пространство"
   label_storage_used_space: "Используемое дисковое пространство"
   label_storage_group: "Файловая система %{identifier}"
@@ -2230,7 +2242,7 @@ ru:
       see_in_center: 'Смотрите комментарий в центре уведомлений'
       settings: 'Изменить настройки электронной почты'
     salutation: 'Здравствуйте, %{user}'
-    salutation_full_name: 'Full name'
+    salutation_full_name: 'Полное имя'
     work_packages:
       created_at: "Создано %{timestamp} пользователем %{user} "
       login_to_see_all: "Войдите, чтобы увидеть все уведомления."
@@ -2257,12 +2269,13 @@ ru:
     sharing:
       work_packages:
         allowed_actions: "Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "Для доступа к этому пакету работ необходимо создать учетную запись %{instance}. "
         open_work_package: "Открыть пакет работ"
         subject: "Вам предоставили общий доступ к пакету работ #%{id}"
+        enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: ""
-          group: "%{user} shared a work package with the group %{group} you are a member of"
+          group: "%{user} поделился пакетом работ с группой %{group}, членом которой вы являетесь "
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
@@ -2516,7 +2529,7 @@ ru:
   permission_view_project_activity: "Просмотр деятельности по проекту"
   permission_save_bcf_queries: "Сохранить запросы BCF"
   permission_manage_public_bcf_queries: "Управление публичными BCF запросами"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_edit_attribute_help_texts: "Редактировать атрибут справки"
   placeholders:
     default: "-"
   project:
@@ -2681,7 +2694,7 @@ ru:
     Если включена страница документации к документации, вы можете получить интерактивный вид документации APIv3 под <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Белый список загрузки вложений"
   setting_email_delivery_method: "Метод доставки электронной почты"
-  setting_emails_salutation: "Address user in emails with"
+  setting_emails_salutation: "Адрес пользователя в письмах с"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
   setting_smtp_enable_starttls_auto: "Автоматически использовать STARTTLS, если таковые имеются"
   setting_smtp_ssl: "Использовать SSL-подключение"
@@ -2959,7 +2972,8 @@ ru:
   text_setup_mail_configuration: "Настройка поставщика услуг электронной почты"
   help_texts:
     views:
-      project: "%{plural} всегда прикреплены к проекту. После создания %{singular} вы можете добавить к нему пакеты работ из других проектов."
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
       public: "Опубликуйте это представление, позволив другим пользователям получить доступ к вашему представлению. Пользователи с разрешением \"Управление общедоступными представлениями\" могут изменять или удалять общедоступный запрос. Это не влияет на видимость результатов рабочего пакета в этом представлении, и в зависимости от их разрешений пользователи могут видеть разные результаты."
       favoured: "Отметить это представление как избранное и добавить в панель сохранённых представлений слева."
   time:
@@ -2996,6 +3010,7 @@ ru:
     activate: "Активировать"
     activate_and_reset_failed_logins: "Активировать и сбросить счетчтик неудачных попыток входа"
     authentication_provider: "Поставщик проверки подлинности"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Пользователь аутентифицируется провайдером, поэтому пароль в OpenProject изменен быть не может.
     authorization_rejected: "У вас нет разрешения на вход."
@@ -3034,7 +3049,9 @@ ru:
   warning_registration_token_expired: |
     Срок ответа на письмо активации истек. Мы отправили вам новое на %{email}. Пожалуйста, нажмите на ссылку внутри него, чтобы активировать вашу учетную запись.
   warning_user_limit_reached: >
-    Достигнут предел пользователя. Вы более не можете активировать пользователей. <a href="%{upgrade_url}">, обновите ваш план</a> или блок участников для дополнительных пользователей.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     Вы достигли вашего пользовательского предела (%{current}/%{max} активных пользователей). Пожалуйста, свяжитесь с sales@openproject.com для обновления своего плана до Корпоративной версии и добавьте дополнительных пользователей.
   warning_protocol_mismatch_html: >
@@ -3067,10 +3084,16 @@ ru:
         zero: "0 пользователей"
         one: "1 пользователь"
         other: "%{count} пользователей"
-      share: "Share"
+      filter:
+        project_member: 'Project member'
+        not_project_member: 'Not project member'
+        project_group: 'Project group'
+        not_project_group: 'Not project group'
+        role: 'Role'
+        type: 'Type'
       label_search: "Искать пользователей для приглашения"
       label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
-      label_toggle_all: "Toggle all shares"
+      label_toggle_all: "Переключить все общие ресурсы"
       permissions:
         comment: "Комментарий"
         comment_description: "Может просматривать и комментировать этот пакет работ."
@@ -3080,8 +3103,26 @@ ru:
         view: "Просмотр"
         view_description: "Может просматривать этот пакет работ."
       remove: "Удалить"
+      share: "Поделиться"
       text_empty_state_description: "Пакет работ еще не передан никому."
       text_empty_state_header: "Нет общих пользователей"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
@@ -3295,6 +3336,7 @@ ru:
     response:
       unexpected: "Получен неожиданный ответ."
   you: вы
+  link: link
   plugin_openproject_auth_plugins:
     name: "Плагины аутентификации OpenProject"
     description: "Интеграция поставщиков стратегий OmniAuth для аутентификации в Openproject."

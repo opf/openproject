@@ -86,6 +86,7 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
     context 'with a user with arbitrary characters' do
       let!(:html_user) do
         create(:user,
+               :skip_validations,
                firstname: '<em>foo</em>',
                member_with_roles: { project => role })
       end

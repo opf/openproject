@@ -60,9 +60,14 @@ RSpec.describe Queries::Members::MemberQuery, 'Integration' do
     let!(:project_membership) { create(:member, principal: user, project:, roles: [role]) }
     let!(:wp_membership) { create(:member, principal: user, project:, entity: work_package, roles: [wp_role]) }
 
-    it 'only returns the project membership' do
-      expect(subject.count).to eq(1)
+    it 'returns both, the project membership and the workPackage membership' do
+      expect(subject.count).to eq(2)
       expect(subject.first).to have_attributes(
+        project:,
+        entity: work_package,
+        user:
+      )
+      expect(subject.second).to have_attributes(
         project:,
         entity: nil,
         user:

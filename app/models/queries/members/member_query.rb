@@ -37,8 +37,6 @@ class Queries::Members::MemberQuery < Queries::BaseQuery
   end
 
   def default_scope
-    # TODO: For now we exclude entity specific memberships in the API until we have updated the
-    # frontend and representers to show those properly
-    Member.visible(User.current).where(entity: nil)
+    Member.visible(User.current)
   end
 end

@@ -34,6 +34,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 @Component({
   selector: 'wp-custom-actions',
@@ -50,6 +51,7 @@ export class WpCustomActionsComponent extends UntilDestroyedMixin implements OnI
   constructor(
     readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,
+    readonly bannersService:BannersService,
   ) {
     super();
   }

@@ -51,7 +51,7 @@ module Enumerations
     end
 
     def sort
-      helpers.reorder_links('enumeration', { action: 'update', id: enumeration }, method: :put)
+      helpers.reorder_links('enumeration', { action: 'move', id: enumeration }, method: :post)
     end
 
     def button_links

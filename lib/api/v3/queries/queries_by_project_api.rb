@@ -34,18 +34,22 @@ module API
           helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
 
           after_validation do
-            authorize_in_project(:view_work_packages, project: @project)
+            authorize_in_any_work_package(:view_work_packages, in_project: @project)
           end
 
           mount API::V3::Queries::Schemas::QueryProjectFilterInstanceSchemaAPI
           mount API::V3::Queries::Schemas::QueryProjectSchemaAPI
 
           namespace :default do
+            params do
+              optional :valid_subset, type: Boolean
+            end
+
             get do
               query = Query.new_default(user: current_user,
                                         project: @project)
 
-              query_representer_response(query, params)
+              query_representer_response(query, params, params.delete(:valid_subset))
             end
           end
         end
