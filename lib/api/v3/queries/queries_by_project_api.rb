@@ -41,11 +41,15 @@ module API
           mount API::V3::Queries::Schemas::QueryProjectSchemaAPI
 
           namespace :default do
+            params do
+              optional :valid_subset, type: Boolean
+            end
+
             get do
               query = Query.new_default(user: current_user,
                                         project: @project)
 
-              query_representer_response(query, params)
+              query_representer_response(query, params, params.delete(:valid_subset))
             end
           end
         end

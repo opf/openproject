@@ -1,31 +1,31 @@
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { WorkPackageViewPaginationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+  WorkPackageViewTimelineService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import {
+  WorkPackageViewPaginationService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { OpTableActionFactory } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
-import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WorkPackageEmbeddedBaseComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-base.component';
-import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
-  distinctUntilChanged,
-  map,
-  take,
-  withLatestFrom,
-} from 'rxjs/operators';
+  OpTableActionsService,
+} from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import {
+  WpTableConfigurationModalComponent,
+} from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import {
+  WorkPackageEmbeddedBaseComponent,
+} from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-base.component';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { distinctUntilChanged, map, take, withLatestFrom } from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import {
+  KeepTabService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { firstValueFrom } from 'rxjs';
+import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -34,7 +34,7 @@ import { firstValueFrom } from 'rxjs';
 export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('queryId') public queryId?:string;
 
-  @Input('queryProps') public queryProps:any = {};
+  @Input('queryProps') public queryProps:Partial<QueryRequestParams> = {};
 
   @Input() public tableActions:OpTableActionFactory[] = [];
 
@@ -162,6 +162,8 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     // We should allow the backend to disable results embedding instead.
     if (!this.configuration.tableVisible) {
       this.queryProps.pageSize = 1;
+      // Also use a valid subset to ensure we get a valid response.
+      this.queryProps.valid_subset = true;
     }
 
     // Set first page
