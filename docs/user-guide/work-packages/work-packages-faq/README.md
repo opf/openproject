@@ -16,6 +16,7 @@ keywords: work packages FAQ, tickets, how to, task
 | [Move and copy](#move-and-copy)                           | Moving and copying work packages                             |
 | [Custom fields](#custom-fields)                           | Additional fields, self-defined attributes and values        |
 | [Export](#export)                                         | Exporting, printing, external saving                         |
+| [Sharing](#sharing-work-packages)               | Sharing work packages                                        |
 | [Versions and backlog](#versions-and-backlog)             | Using versions in work packages, relations to the backlogs module |
 
 ## Working with work packages
@@ -214,7 +215,9 @@ Yes, you can display the sum of custom fields in the work package tables by chec
 
 Calculating a sum across different attributes (e.g. Estimated time + added hours) is however not possible.
 
-
+## Sharing work packages
+### Is it possible to share a work packages with a user outside my project?
+Yes, starting with OpenProject 13.1 you can [share a work package](../share-work-packages) with users outside your project or even with user who do not yet have an account on your instance. 
 
 ## Export
 

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Add work packages to meetings
-  priority: 961
+  priority: 965
 description: How to add work packages to meetings agenda.
 keywords: meetings, dynamic meetings, meeting agenda
 ---
