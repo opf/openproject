@@ -29,9 +29,9 @@ Please navigate to *Administration ->Work packages ->Types*, choose the respecti
 
 If you want to manage your project alone (without informing other team members) we recommend to use the [placeholder users](../../../system-admin-guide/users-permissions/placeholder-users) feature.
 
-### How can I add attachment to a work package if I am not a member of the project?
+### How can I add an attachment to a work package if I am not a member of the project?
 
-It is possible for a project non-member to add attachments to work packages. For this the the system administrator needs to add the **Add attachments** permission to the **Non member** role.
+It is possible for a project non-member to add attachments to work packages. For this the system administrator needs to add the **Add attachments** permission to the **Non member** role.
 
 ### How can I set workload, deadline and duration in a work package?
 
