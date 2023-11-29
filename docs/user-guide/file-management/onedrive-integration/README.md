@@ -13,19 +13,20 @@ Starting with OpenProject 13.1, you can use **OneDrive/SharePoint** as an integr
 
 This integration makes it possible for you to:
 - Link files and folders stored in OneDrive/SharePoint with work packages in OpenProject
+
 - View, open and download files and folders linked to a work package via the **Files** tab
-- View all work packages linked to a file
-- View OpenProject notifications via the Nextcloud dashboard
+
+- View all work packages linked to a file IS THIS TRUE FOR ONEDRIVE?
+
+  
+
+> **Important note**: To be able to use Sharepoint as a file storage in your project, the administrator of your instance should first have completed the [OneDrive/SharePoint integration setup](../../system-admin-guide/integrations/onedrive). Then a project administrator can activate Nextcloud in the  [**File storages**](../projects/project-settings/file-storages/) for a project.
 
 
-
-> **Important note**: To be able to use Sharepoint as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud). Then a project administrator can activate Nextcloud in the  [**File storages**](../projects/project-settings/file-storages/) for a project.
-
-
-| Topic                                                        | Description                                                  |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Connect your OpenProject and Nextcloud accounts](#connect-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
-| [Link files and folders to work packages](#link-files-and-folders-to-work-packages) | How to link files and folders to work packages and view and download linked files |
-| [Unlink files and folders](#remove-links)                    | How to remove the link between a work package and a Nextcloud file or folder |
-| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them     
+| Topic | Description |
+| ----- | :---------- |
+|       |             |
+|       |             |
+|       |             |
+|       |             |
+|       |             |
