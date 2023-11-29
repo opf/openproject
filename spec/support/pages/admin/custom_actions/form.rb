@@ -86,10 +86,12 @@ module Pages
 
         def set_condition(name, value)
           Array(value).each do |val|
-            set_condition_value(name, val)
+            retry_block do
+              set_condition_value(name, val)
 
-            within '#custom-actions-form--conditions' do
-              expect_selected_option val
+              within '#custom-actions-form--conditions' do
+                expect_selected_option val
+              end
             end
           end
         end
