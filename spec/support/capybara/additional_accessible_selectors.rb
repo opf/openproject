@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,43 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Components
-  module Common
-    class Modal
-      include Capybara::DSL
-      include Capybara::RSpecMatchers
-      include RSpec::Matchers
+Capybara.add_selector(:list) do
+  xpath { ".//ul | .//ol" }
+end
 
-      def expect_title(text)
-        expect(page).to have_modal(text)
+Capybara.add_selector(:list_item) do
+  label 'list item'
+
+  xpath { ".//li" }
+
+  expression_filter(:position) do |xpath, position|
+    position ? "#{xpath}[#{position}]" : xpath
+  end
+
+  describe_expression_filters do |position: nil, **|
+    position ? " at position #{position}" : ""
+  end
+end
+
+module Capybara
+  module RSpecMatchers
+    %i[list list_item].each do |selector|
+      define_method "have_#{selector}" do |locator = nil, **options, &optional_filter_block|
+        Matchers::HaveSelector.new(selector, locator, **options, &optional_filter_block)
       end
 
-      def expect_open
-        expect(page).to have_modal(wait: 40)
-      end
-
-      def expect_closed
-        expect(page).not_to have_modal
-      end
-
-      def expect_text(text)
-        within_modal do
-          expect(page).to have_text(text)
-        end
-      end
-
-      def click_modal_button(text)
-        within_modal do
-          click_button text
-        end
-      end
-
-      def within_modal(name = nil, **options, &)
-        super(name, **options, &)
-      end
-
-      def modal_element
-        find(:modal)
+      define_method "have_no_#{selector}" do |*args, **options, &optional_filter_block|
+        Matchers::NegatedMatcher.new(send("have_#{selector}", *args, **options, &optional_filter_block))
       end
     end
   end
