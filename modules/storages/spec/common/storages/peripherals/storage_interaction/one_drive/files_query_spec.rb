@@ -156,7 +156,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
           expect(storage_files.files).to be_empty
 
           # in an empty folder the parent id cannot be retrieved, hence the parent id will get forged
-          expect(storage_files.parent.id).to eq('678cb16697b9f7ef05a99a2dc83aaf1b377e5e2a9d7a09e1db4343b41d44f874')
+          expect(storage_files.parent.id).to eq('01AZJL5PMGEIRPHZPHRRH2NM3D734VIR7H')
         end
       end
 

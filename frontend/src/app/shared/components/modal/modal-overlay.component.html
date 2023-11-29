@@ -8,6 +8,9 @@
   cdkTrapFocus
   [cdkTrapFocusAutoCapture]="true"
   (mousedown)="close($event, false)"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="spotModalTitle"
 >
   <button
     type="button"

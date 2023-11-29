@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/citizensadvice/capybara_accessible_selectors
+  revision: da34e96c4787bd7705c477fe2e70f993bfad8f5c
+  branch: main
+  specs:
+    capybara_accessible_selectors (0.10.0)
+      capybara (>= 3.36.0)
+
+GIT
   remote: https://github.com/crohr/turbo_tests.git
   revision: b700cdb344e1ed8e100fd1f56525ec12fa792b45
   ref: fix/runtime-info
@@ -1065,6 +1073,7 @@ DEPENDENCIES
   budgets!
   capybara (~> 3.39.0)
   capybara-screenshot (~> 1.0.17)
+  capybara_accessible_selectors!
   carrierwave (~> 1.3.1)
   carrierwave_direct (~> 2.1.0)
   climate_control
