@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: propfind
-    uri: https://nextcloud-sub.local/html/remote.php/dav/files/admin/
+    uri: https://nextcloud.local/remote.php/dav/files/admin/
     body:
       encoding: UTF-8
       string: |
@@ -42,7 +42,7 @@ http_interactions:
       Content-Type:
       - application/xml; charset=utf-8
       Date:
-      - Tue, 28 Nov 2023 14:02:54 GMT
+      - Wed, 29 Nov 2023 15:45:31 GMT
       Expires:
       - Thu, 19 Nov 1981 08:52:00 GMT
       Pragma:
@@ -50,22 +50,18 @@ http_interactions:
       Referrer-Policy:
       - no-referrer
       Server:
-      - Apache/2.4.56 (Debian)
+      - Apache/2.4.57 (Debian)
       Set-Cookie:
-      - nc_sameSiteCookielax=true; path=/html; httponly;secure; expires=Fri, 31-Dec-2100
+      - __Host-nc_sameSiteCookielax=true; path=/; httponly;secure; expires=Fri, 31-Dec-2100
         23:59:59 GMT; SameSite=lax
-      - nc_sameSiteCookiestrict=true; path=/html; httponly;secure; expires=Fri, 31-Dec-2100
-        23:59:59 GMT; SameSite=strict
-      - oc832qmuhv8d=0ea46bd4c95a5ee5d9de30ec26c609bb; path=/html; secure; HttpOnly;
-        SameSite=Lax
-      - oc832qmuhv8d=0ea46bd4c95a5ee5d9de30ec26c609bb; path=/html; secure; HttpOnly;
-        SameSite=Lax
-      - oc832qmuhv8d=0ea46bd4c95a5ee5d9de30ec26c609bb; path=/html; secure; HttpOnly;
-        SameSite=Lax
-      - oc832qmuhv8d=bf6c4795c04a55fb3a9ce522ff241dd9; path=/html; secure; HttpOnly;
-        SameSite=Lax
-      - oc_sessionPassphrase=kLV%2BQwn3MxcGgIjFhjqZ%2Ba2L0xMFmbP1WwGl59f0lUIryai3aRYjtkV1Y%2FUL3vBq8XBHzPfwSWcI3c%2FvvXMa%2B7ZiyalMEviDdsNNEW9u308irZAUgLgzB7oOybZ%2B%2FY0W;
-        path=/html; secure; HttpOnly; SameSite=Lax
+      - __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict
+      - oc_sessionPassphrase=UXh8eFuRtTRf9T7iZTT0kzicJGCTmNYEv3KVKHQGG%2BZr8KS8oJPhgRClJm2zErUam7AK8qAWgc%2FVXHitCHegMiwPALDz14awrmo1H7qHMrZaDdGjwvfN7d%2Bcul%2BFa9YB;
+        path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=633a1046540dd6fb7ce9e41e77b73076; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=633a1046540dd6fb7ce9e41e77b73076; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=633a1046540dd6fb7ce9e41e77b73076; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=f939fd60240f843f64f1a146dac38aef; path=/; secure; HttpOnly; SameSite=Lax
       Www-Authenticate:
       - Basic realm="Nextcloud", charset="UTF-8"
       X-Content-Type-Options:
@@ -75,7 +71,7 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Powered-By:
-      - PHP/8.2.8
+      - PHP/8.2.13
       X-Robots-Tag:
       - noindex, nofollow
       X-Xss-Protection:
@@ -88,5 +84,5 @@ http_interactions:
           <s:exception>Sabre\DAV\Exception\NotAuthenticated</s:exception>
           <s:message>No public access to this resource., No 'Authorization: Basic' header found. Either the client didn't send one, or the server is misconfigured, Bearer token was incorrect, No 'Authorization: Basic' header found. Either the client didn't send one, or the server is misconfigured</s:message>
         </d:error>
-  recorded_at: Tue, 28 Nov 2023 14:02:54 GMT
+  recorded_at: Wed, 29 Nov 2023 15:45:31 GMT
 recorded_with: VCR 6.2.0

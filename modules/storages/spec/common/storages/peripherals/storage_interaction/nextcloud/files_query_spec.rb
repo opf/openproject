@@ -58,52 +58,61 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
           expect(storage_files.ancestors).to be_empty
           expect(storage_files.parent.name).to eq("Root")
 
-          expect(storage_files.files.size).to eq(10)
-          expect(storage_files.files[0].to_h)
-            .to eq({
-                     id: '45',
-                     name: 'Documents',
-                     size: 1107988,
-                     created_at: nil,
-                     created_by_name: 'admin',
-                     last_modified_at: '2023-10-16T13:26:30Z',
-                     last_modified_by_name: nil,
-                     location: '/Documents',
-                     mime_type: 'application/x-op-directory',
-                     permissions: %i[readable writeable]
-                   })
-          expect(storage_files.files[6].to_h)
-            .to eq({
-                     id: '52',
-                     name: 'Reasons to use Nextcloud.pdf',
-                     size: 976625,
-                     created_at: nil,
-                     created_by_name: 'admin',
-                     last_modified_at: '2023-07-27T13:30:24Z',
-                     last_modified_by_name: nil,
-                     location: '/Reasons%20to%20use%20Nextcloud.pdf',
-                     mime_type: 'application/pdf',
-                     permissions: %i[readable writeable]
-                   })
-          expect(storage_files.files[5].to_h)
-            .to eq({
-                     id: '713',
-                     name: 'Readme.md',
-                     size: 554,
-                     created_at: nil,
-                     created_by_name: 'admin',
-                     last_modified_at: '2023-11-28T14:29:59Z',
-                     last_modified_by_name: nil,
-                     location: '/Readme.md',
-                     mime_type: 'text/markdown',
-                     permissions: %i[readable writeable]
-                   })
+          expect(storage_files.files.size).to eq(4)
+          expect(storage_files.files.map(&:to_h))
+            .to eq([
+                     {
+                       id: '172',
+                       name: 'Folder',
+                       size: 982713473,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2023-11-29T15:31:30Z',
+                       last_modified_by_name: nil,
+                       location: '/Folder',
+                       mime_type: 'application/x-op-directory',
+                       permissions: %i[readable writeable]
+                     }, {
+                       id: '173',
+                       name: 'Folder with spaces',
+                       size: 74,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2023-11-29T15:42:21Z',
+                       last_modified_by_name: nil,
+                       location: '/Folder%20with%20spaces',
+                       mime_type: 'application/x-op-directory',
+                       permissions: %i[readable writeable]
+                     }, {
+                       id: '211',
+                       name: 'Practical_guide_to_BAGGM_Digital.pdf',
+                       size: 154592937,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2022-08-09T06:53:12Z',
+                       last_modified_by_name: nil,
+                       location: '/Practical_guide_to_BAGGM_Digital.pdf',
+                       mime_type: 'application/pdf',
+                       permissions: %i[readable writeable]
+                     }, {
+                       id: '178',
+                       name: 'Readme.md',
+                       size: 31,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2023-11-29T15:29:16Z',
+                       last_modified_by_name: nil,
+                       location: '/Readme.md',
+                       mime_type: 'text/markdown',
+                       permissions: %i[readable writeable]
+                     }
+                   ])
         end
         # rubocop:enable RSpec/ExampleLength
       end
 
       context 'with a given parent folder', vcr: 'nextcloud/files_query_parent_folder' do
-        let(:folder) { Storages::Peripherals::ParentFolder.new('/Documents/New Requests') }
+        let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder with spaces/New Requests') }
 
         subject do
           described_class.call(storage:, user:, folder:).result
@@ -115,25 +124,25 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
           expect(subject.files.map(&:to_h))
             .to eq([
                      {
-                       id: '738',
+                       id: '181',
                        name: 'request_001.md',
-                       size: 16,
+                       size: 48,
                        created_at: nil,
                        created_by_name: 'admin',
-                       last_modified_at: '2023-11-28T14:39:34Z',
+                       last_modified_at: '2023-11-29T15:35:25Z',
                        last_modified_by_name: nil,
-                       location: '/Documents/New%20Requests/request_001.md',
+                       location: '/Folder%20with%20spaces/New%20Requests/request_001.md',
                        mime_type: 'text/markdown',
                        permissions: %i[readable writeable]
                      }, {
-                       id: '740',
+                       id: '182',
                        name: 'request_002.md',
-                       size: 19,
+                       size: 26,
                        created_at: nil,
                        created_by_name: 'admin',
-                       last_modified_at: '2023-11-28T14:39:58Z',
+                       last_modified_at: '2023-11-29T15:35:34Z',
                        last_modified_by_name: nil,
-                       location: '/Documents/New%20Requests/request_002.md',
+                       location: '/Folder%20with%20spaces/New%20Requests/request_002.md',
                        mime_type: 'text/markdown',
                        permissions: %i[readable writeable]
                      }
@@ -149,30 +158,30 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery,
                        name: 'Root',
                        location: '/'
                      }, {
-                       id: '4eb3246b9f5e1daf394b0ab4cfb9a640978465a028a6bf0d2ad561b7a815c8a1',
-                       name: 'Documents',
-                       location: '/Documents'
+                       id: 'c8776f1f6dd36c023c6615d39f01a71d68dd1707b232115b7a4f58bc6da94e2e',
+                       name: 'Folder with spaces',
+                       location: '/Folder%20with%20spaces'
                      }
                    ])
         end
 
         it 'returns the parent itself' do
-          expect(subject.parent.id).to eq('737')
+          expect(subject.parent.id).to eq('180')
           expect(subject.parent.name).to eq('New Requests')
-          expect(subject.parent.location).to eq('/Documents/New%20Requests')
+          expect(subject.parent.location).to eq('/Folder%20with%20spaces/New%20Requests')
         end
       end
 
       context 'with parent folder being empty', vcr: 'nextcloud/files_query_empty_folder' do
-        let(:folder) { Storages::Peripherals::ParentFolder.new('/Photos/todo') }
+        let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder/empty') }
 
         it 'returns an empty StorageFiles object with parent and ancestors' do
           storage_files = described_class.call(storage:, user:, folder:).result
 
           expect(storage_files).to be_a(Storages::StorageFiles)
           expect(storage_files.files).to be_empty
-          expect(storage_files.parent.id).to eq('760')
-          expect(storage_files.ancestors.map(&:name)).to eq(%w[Root Photos])
+          expect(storage_files.parent.id).to eq('174')
+          expect(storage_files.ancestors.map(&:name)).to eq(%w[Root Folder])
         end
       end
     end
