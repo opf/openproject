@@ -1862,7 +1862,7 @@ bg:
   label_nothing_display: "Нищо за показване"
   label_nobody: "nobody"
   label_not_found: 'not found'
-  label_none: "none"
+  label_none: "никой"
   label_none_parentheses: "(none)"
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
