@@ -118,8 +118,7 @@ en:
       managed_project_folders_application_password: >
         Copy this value from:
       managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
-      new_storage: "Read our documentation on %{file_storage_docs_link} integration for more information."
-      file_storage_docs_link: "setting up a %{provider_name} file storage"
+      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
       no_storage_set_up: "There are no file storages set up yet."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
