@@ -61,6 +61,22 @@ export default class extends Controller {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     .on('drag', this.drag.bind(this))
     .on('drop', this.drop.bind(this));
+
+    // Setup autoscroll
+    void window.OpenProject.getPluginContext().then((pluginContext) => {
+      // eslint-disable-next-line no-new
+      new pluginContext.classes.DomAutoscrollService(
+        [
+          document.getElementById('content-wrapper') as HTMLElement,
+        ],
+        {
+          margin: 25,
+          maxSpeed: 10,
+          scrollWhenOutside: true,
+          autoScroll: () => this.drake?.dragging,
+        },
+      );
+    });
   }
 
   reInitDrakeContainers() {
