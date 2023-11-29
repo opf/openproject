@@ -3,6 +3,7 @@ module OpenProject
     TYPE_DISABLED ||= 'disabled'
     TYPE_V2 ||= 'v2'
     TYPE_V3 ||= 'v3'
+    TYPE_HCAPTCHA ||= 'hcaptcha'
 
     require "open_project/recaptcha/engine"
     require "open_project/recaptcha/configuration"

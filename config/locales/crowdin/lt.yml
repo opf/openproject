@@ -285,7 +285,11 @@ lt:
       no_results_title_text: Nėra jokių naujienų.
       no_results_content_text: Pridėti kaip naujieną
   users:
+    autologins:
+      prompt: "Likti prisijungus %{num_days}"
     sessions:
+      remembered_devices: "Atsiminti įrenginiai"
+      remembered_devices_caption: "Sąrašas visų įrenginių, iš kurių buvo prisijungta prie šios paskyros su parinktimi „Likti prisijungus“."
       session_name: "%{browser_name} %{browser_version} %{os_name}"
       browser: "Naršyklė"
       device: "Įrenginys / OS"
@@ -386,6 +390,11 @@ lt:
     move:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
+    sharing:
+      missing_workflow_waring:
+        title: "Darbo paketo dalinimuisi trūksta darbo proceso"
+        message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas darbo procesas. Be darbo proceso negalima keisti bendrinamo darbo paketo būsenos."
+        link_message: "Konfigūruokite darbo procesą administravime."
     summary:
       reports:
         category:
@@ -485,7 +494,6 @@ lt:
         value: "Reikšmė"
       enterprise_token:
         starts_at: "Galioja nuo"
-        expires_at: "Nustoja galioti"
         subscriber: "Prenumeruotojas"
         encoded_token: "„Enterprise“ paramos raktas"
         active_user_count_restriction: "Maksimalus aktyvių naudotojų skaičius"
@@ -560,7 +568,7 @@ lt:
       user:
         admin: "Administratorius"
         ldap_auth_source: "LDAP jungtis"
-        identity_url: "Identity URL"
+        identity_url: "Identiteto URL"
         current_password: "Dabartinis slaptažodis"
         force_password_change: "Versti pasikeisti slaptažodį kitą kartą prisijungus"
         language: "Kalba"
@@ -1040,6 +1048,7 @@ lt:
     due_date: "Pabaigos data"
     estimated_hours: "Numatyta trukmė"
     estimated_time: "Numatyta trukmė"
+    expires_at: "Baigia galioti"
     firstname: "Vardas"
     group: "Grupė"
     groups: "Grupės"
@@ -2072,7 +2081,6 @@ lt:
   label_start_to_start: "nuo pradžios iki pradžios"
   label_statistics: "Statistika"
   label_status: "Būsena"
-  label_stay_logged_in: "Likti prisijungus"
   label_storage_free_space: "Likusi vieta diske"
   label_storage_used_space: "Naudojamos vieta diske"
   label_storage_group: "Saugojimo failų sistema %{identifier}"
@@ -2999,7 +3007,7 @@ lt:
     activate: "Aktyvuoti"
     activate_and_reset_failed_logins: "Aktyvuoti ir iš naujo nustatyti nepavykusius prisijungimus"
     authentication_provider: "Autentifikacijos paslaugos teikėjas"
-    identity_url_text: "The internal unique identifier provided by the authentication provider."
+    identity_url_text: "Autentifikacijos tiekėjo suteiktas vidinis unikalus identifikatorius."
     authentication_settings_disabled_due_to_external_authentication: >
       Šis vartotojas naudoja išorinį autentifikacijos paslaugų teikėją, todėl nėra galimo pakeisti slaptažodžio OpenProject aplinkoje.
     authorization_rejected: "Jums neleidžiama prisijungti."
@@ -3101,6 +3109,17 @@ lt:
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       warning_user_limit_reached_admin: >
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
+      user_details:
+        locked: "Užrakintas naudotojas"
+        invited: "Pakvietimas išsiųstas. "
+        resend_invite: "Siųsti iš naujo."
+        invite_resent: "Pakvietimas išsiųstas iš naujo"
+        not_project_member: "Ne projekto narys"
+        project_group: "Grupės nariai gali turėti papildomų privilegijų (kaip projekto nariai)"
+        not_project_group: "Grupė (bendra visiems nariams)"
+        additional_privileges_project: "Gali turėti papildomų privilegijų (kaip projekto narys)"
+        additional_privileges_group: "Gali turėti papildomų privilegijų (kaip grupės narys)"
+        additional_privileges_project_or_group: "Gali turėti papildomų privilegijų (kaip projekto ar grupės narys)"
   working_days:
     info: >
       Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.

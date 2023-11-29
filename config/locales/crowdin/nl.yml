@@ -285,7 +285,11 @@ nl:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
       no_results_content_text: Voeg een nieuwsitem toe
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Apparaat / OS"
@@ -384,6 +388,11 @@ nl:
     move:
       no_common_statuses_exists: "Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd."
       unsupported_for_multiple_projects: "Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -449,14 +458,14 @@ nl:
       ldap_auth_source:
         account: "Account"
         attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        attr_lastname: "Achternaam attribuut"
+        attr_login: "Gebruikersnaam attribuut"
+        attr_mail: "E-mail attribuut"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        onthefly: "Automatische gebruiker aanmaken"
+        port: "Poort"
+        tls_certificate_string: "LDAP server SSL-certificaat"
       changeset:
         repository: "Repository"
       color:
@@ -466,7 +475,7 @@ nl:
       custom_action:
         actions: "Acties"
       custom_field:
-        allow_non_open_versions: "Allow non-open versions"
+        allow_non_open_versions: "Niet-geopende versies toestaan"
         default_value: "Standaardwaarde"
         editable: "Bewerkbaar"
         field_format: "Formaat"
@@ -483,7 +492,6 @@ nl:
         value: "Waarde"
       enterprise_token:
         starts_at: "Geldig sinds"
-        expires_at: "Verloopt op"
         subscriber: "Abonnee"
         encoded_token: "Enterprise ondersteuningstoken"
         active_user_count_restriction: "Maximum aantal actieve gebruikers"
@@ -557,8 +565,8 @@ nl:
         color: "Kleur"
       user:
         admin: "Beheerder"
-        ldap_auth_source: "LDAP connection"
-        identity_url: "Identity URL"
+        ldap_auth_source: "LDAP verbinding"
+        identity_url: "Identiteit URL"
         current_password: "Huidig wachtwoord"
         force_password_change: "Afdwingen van wachtwoordwijziging bij volgende login"
         language: "Taal"
@@ -573,7 +581,7 @@ nl:
         time_zone: "Tijdzone"
         auto_hide_popups: "Automatisch verbergen geslaagd-meldingen"
         warn_on_leaving_unsaved: "Mij waarschuwen bij het verlaten van een werkpakket met niet-opgeslagen wijzigingen"
-        theme: "Mode"
+        theme: "Modus"
       version:
         effective_date: "Einddatum"
         sharing: "Delen"
@@ -597,7 +605,7 @@ nl:
           title: "Werkdagen"
           false: "Alleen werkdagen"
           true: "inclusief niet-werkdagen"
-        notify: "Notify" #used in custom actions
+        notify: "Melding" #used in custom actions
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
@@ -637,7 +645,7 @@ nl:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "geen toegang."
         error_readonly: "werd geprobeerd te schrijven maar is niet schrijfbaar."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Informatie is in de tussentijd door ten minste één andere gebruiker bijgewerkt."
         email: "is geen geldig e-mailadres."
         empty: "mag niet leeg zijn."
         even: "moet gelijk zijn."
@@ -1022,6 +1030,7 @@ nl:
     due_date: "Einddatum"
     estimated_hours: "Geschatte tijd"
     estimated_time: "Geschatte tijd"
+    expires_at: "Expires at"
     firstname: "Voornaam"
     group: "Groep"
     groups: "Groepen"
@@ -2018,7 +2027,6 @@ nl:
   label_start_to_start: "begin tot begin"
   label_statistics: "Statistieken"
   label_status: "Status"
-  label_stay_logged_in: "Blijf ingelogd"
   label_storage_free_space: "Resterende schijfruimte"
   label_storage_used_space: "Gebruikte schijfruimte"
   label_storage_group: "Opslag filesystem %{identifier}"
@@ -3044,6 +3052,17 @@ nl:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

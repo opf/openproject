@@ -26,44 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Admin
-  class ProviderTypeSelectForm < ApplicationForm
-    form do |storage_form|
-      storage_form.select_list(**@select_list_options) do |storage_provider_list|
-        if @storage.provider_type.present?
-          storage_provider_list.option(
-            label: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name"),
-            value: @storage.provider_type
-          )
-        else
-          ::Storages::Storage::PROVIDER_TYPES.each do |provider_type|
-            storage_provider_list.option(
-              label: I18n.t("storages.provider_types.#{::Storages::Storage.shorten_provider_type(provider_type)}.name"),
-              value: provider_type
-            )
-          end
-        end
-      end
+module Storages::Peripherals
+  class ParentFolder
+    attr_reader :path
+
+    def initialize(path)
+      @path = path
     end
 
-    def initialize(storage:, select_list_options: {})
-      super()
-      @storage = storage
-      @select_list_options = default_select_list_options(storage).merge(select_list_options)
+    def root?
+      @path == '/'
     end
 
-    private
+    def to_s
+      @path
+    end
+  end
 
-    def default_select_list_options(storage)
-      {
-        name: :provider_type,
-        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
-        caption: nil,
-        include_blank: false,
-        required: true,
-        disabled: storage.persisted?,
-        input_width: :small
-      }
+  module StorageParentFolderExtractor
+    def extract_parent_folder(params)
+      ParentFolder.new(params[:parent].presence || '/')
     end
   end
 end

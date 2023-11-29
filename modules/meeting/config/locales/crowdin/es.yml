@@ -33,6 +33,9 @@ es:
         duration: "Duración"
         notes: "Notas"
         participants: "Participantes"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
         participants_attended: "Asistentes"
         participants_invited: "Invitados"
         project: "Proyecto"
@@ -107,6 +110,7 @@ es:
       classic_text: 'Organice su reunión en un formato de agenda de texto y protocolos.'
       structured: 'Dinámico'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copiado de la reunión %{id}"
   notice_successful_notification: "Notificación enviada correctamente"
   notice_timezone_missing: No se ha establecido zona horaria y se asume %{zone}. Para elegir su zona horaria, por favor, haga clic aquí.
@@ -160,6 +164,7 @@ es:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

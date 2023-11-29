@@ -31,7 +31,9 @@
 module API::V3::StorageFiles
   class StorageFilesAPI < ::API::OpenProjectAPI
     using Storages::Peripherals::ServiceResultRefinements
-    helpers Storages::Peripherals::StorageErrorHelper, Storages::Peripherals::StorageFileInfoConverter
+    helpers Storages::Peripherals::StorageErrorHelper,
+            Storages::Peripherals::StorageFileInfoConverter,
+            Storages::Peripherals::StorageParentFolderExtractor
 
     resources :files do
       get do
@@ -39,7 +41,7 @@ module API::V3::StorageFiles
           .resolve("queries.#{@storage.short_provider_type}.files")
           .call(
             storage: @storage,
-            user: current_user, folder: params[:parent]
+            user: current_user, folder: extract_parent_folder(params)
           )
           .match(
             on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, @storage, current_user:) },

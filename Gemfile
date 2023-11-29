@@ -256,6 +256,7 @@ group :test do
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.15.0'
   gem 'selenium-webdriver', '~> 4.15.0'
+  gem 'capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', branch: 'main'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -370,4 +371,4 @@ end
 
 gem "openproject-octicons", '~>19.8.0'
 gem "openproject-octicons_helper", '~>19.8.0'
-gem "openproject-primer_view_components", '~>0.17.1'
+gem "openproject-primer_view_components", '~>0.18.1'

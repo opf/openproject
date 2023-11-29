@@ -27,47 +27,26 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module OpenProject::Common
-  class ClipboardCopyComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
 
-    options visually_hide_label: true,
-            readonly: true,
-            required: false,
-            input_group_options: {}
+module Users
+  module AutoLoginTokens
+    class TableComponent < ::TableComponent
+      columns :is_current, :browser, :device, :expires_on
+      sortable_columns :updated_at
+      options :current_token
 
-    def text_field_options
-      { name: options[:name],
-        label: options[:label],
-        classes: "rounded-right-0",
-        visually_hide_label:,
-        value: value_to_copy,
-        inset: true,
-        readonly:,
-        required: }.merge(input_group_options)
-    end
-
-    def clipboard_copy_options
-      { value: value_to_copy,
-        aria: { label: clipboard_copy_aria_label },
-        classes: clipboard_copy_classes }.merge(input_group_options)
-    end
-
-    private
-
-    def clipboard_copy_classes
-      %w[Button Button--iconOnly Button--secondary Button--medium rounded-left-0 border-left-0].tap do |classes|
-        classes << "mt-4" unless visually_hide_label
+      def sortable?
+        false
       end
-    end
 
-    def clipboard_copy_aria_label
-      options[:clipboard_copy_aria_label] || I18n.t('button_copy_to_clipboard')
-    end
-
-    def value_to_copy
-      options[:value_to_copy]
+      def headers
+        [
+          [:is_current, { caption: I18n.t('users.sessions.current') }],
+          [:browser, { caption: I18n.t('users.sessions.browser') }],
+          [:device, { caption: I18n.t('users.sessions.device') }],
+          [:expires_on, { caption: I18n.t('attributes.expires_at') }]
+        ]
+      end
     end
   end
 end

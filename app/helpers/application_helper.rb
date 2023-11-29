@@ -394,7 +394,7 @@ module ApplicationHelper
   def progress_bar(pcts, options = {})
     pcts = Array(pcts).map(&:round)
     closed = pcts[0]
-    done   = (pcts[1] || closed) - closed
+    done   = pcts[1] || 0
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
     total_progress = options[:hide_total_progress] ? '' : t(:total_progress)

@@ -288,7 +288,11 @@ si:
       no_results_title_text: වාර්තා කිරීමට දැනට කිසිදු ප්රවෘත්තියක් නොමැත.
       no_results_content_text: ප්රවෘත්ති අයිතමයක් එක් කරන්න
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -387,6 +391,11 @@ si:
     move:
       no_common_statuses_exists: "තෝරාගත් සියලුම වැඩ පැකේජ සඳහා කිසිදු තත්වයක් නොමැත. ඔවුන්ගේ තත්වය වෙනස් කළ නොහැක."
       unsupported_for_multiple_projects: "බහු ව්යාපෘති වලින් වැඩ පැකේජ සඳහා තොග චලනය/පිටපතක් සහාය නොදක්වයි"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -486,7 +495,6 @@ si:
         value: "අගය"
       enterprise_token:
         starts_at: "එතැන් සිට වලංගු වේ"
-        expires_at: "කල් ඉකුත්"
         subscriber: "ග්රාහකයා"
         encoded_token: "ව්යවසාය සහාය ටෝකනය"
         active_user_count_restriction: "උපරිම ක්රියාකාරී පරිශීලකයින්"
@@ -1025,6 +1033,7 @@ si:
     due_date: "අවසන් දිනය"
     estimated_hours: "ඇස්තමේන්තුගත කාලය"
     estimated_time: "ඇස්තමේන්තුගත කාලය"
+    expires_at: "Expires at"
     firstname: "මුල් නම"
     group: "කණ්ඩායම"
     groups: "කණ්ඩායම්"
@@ -2021,7 +2030,6 @@ si:
   label_start_to_start: "ආරම්භ කිරීමට පටන් ගන්න"
   label_statistics: "සංඛ්යා ලේඛන"
   label_status: "තත්වය"
-  label_stay_logged_in: "ලොගින් වී සිටින්න"
   label_storage_free_space: "ඉතිරි තැටි අවකාශය"
   label_storage_used_space: "භාවිතා තැටි අවකාශය"
   label_storage_group: "ගබඩා ගොනු පද්ධතිය %{identifier}"
@@ -3049,6 +3057,17 @@ si:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

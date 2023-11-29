@@ -10,7 +10,7 @@
     end
 
     grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-oauth-client-id-description') do
-      render(Primer::Beta::Truncate.new) { provider_oauth_client_description }
+      render(Primer::Beta::Text.new) { provider_oauth_client_description }
     end
 
     if editable_storage?

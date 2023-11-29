@@ -62,17 +62,6 @@ export function listenToSettingChanges() {
     });
   /* end Javascript for Settings::TextSettingComponent */
 
-  jQuery('.admin-settings--form').submit(() => {
-    /* Update consent time if consent required */
-    if (jQuery('#settings_consent_required').is(':checked') && jQuery('#toggle_consent_time').is(':checked')) {
-      jQuery('#settings_consent_time')
-        .val(new Date().toISOString())
-        .prop('disabled', false);
-    }
-
-    return true;
-  });
-
   /** Toggle notification settings fields */
   jQuery('#email_delivery_method_switch').on('change', function () {
     const delivery_method = jQuery(this).val();

@@ -288,7 +288,11 @@ fil:
       no_results_title_text: Sa kasalukuyan ay walang mga balita para ma-ireport.
       no_results_content_text: Magdagdag ng bagong news item
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -387,6 +391,11 @@ fil:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Ang bulk na paglipat/kopya ay hindi suportado sa mga work packages mula sa iba't ibang mga proyekto"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -486,7 +495,6 @@ fil:
         value: "Halaga"
       enterprise_token:
         starts_at: "Balido mula noon"
-        expires_at: "Matapos sa"
         subscriber: "Taga -subaybay"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
@@ -1025,6 +1033,7 @@ fil:
     due_date: "Finish date"
     estimated_hours: "Tinantyang oras"
     estimated_time: "Tinantyang oras"
+    expires_at: "Expires at"
     firstname: "Unang pangalan"
     group: "Grupo"
     groups: "Mga grupo"
@@ -2021,7 +2030,6 @@ fil:
   label_start_to_start: "simula hanggang simula"
   label_statistics: "Istatistika"
   label_status: "Estado"
-  label_stay_logged_in: "Manatiling naka-log in"
   label_storage_free_space: "Natitirang espasyo ng disk"
   label_storage_used_space: "Nagamit na espasyo ng disk"
   label_storage_group: "Lalagyan ng filesystem %{identifier}"
@@ -3047,6 +3055,17 @@ fil:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

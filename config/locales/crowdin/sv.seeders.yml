@@ -43,11 +43,11 @@ sv:
           name: Andra
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
           name: Non member

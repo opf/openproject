@@ -32,9 +32,6 @@ require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 module Components
   module WorkPackages
     class ShareModal < Components::Common::Modal
-      include Capybara::DSL
-      include Capybara::RSpecMatchers
-      include RSpec::Matchers
       include Components::Autocompleter::NgSelectAutocompleteHelpers
 
       attr_reader :work_package
@@ -201,7 +198,7 @@ module Components
 
         select_invite_role(role_name)
 
-        within modal_element do
+        within_modal do
           click_button 'Share'
         end
       end
@@ -250,36 +247,23 @@ module Components
       end
 
       def close
-        within modal_element do
+        within_modal do
           click_button 'Close'
         end
       end
 
       def expect_shared_with(user, role_name = nil, position: nil, editable: true)
-        within shares_list do
-          expect(page)
-            .to have_text(user.name)
-        end
-
-        if position
-          within shares_list do
-            expect(page)
-              .to have_selector("li:nth-child(#{position})", text: user.name),
-                  "Expected #{user.name} to be ##{position} on the shares list."
-          end
-        end
-
-        if role_name
-          within user_row(user) do
-            expect(page)
-              .to have_button(role_name)
-          end
-        end
-
-        unless editable
-          within user_row(user) do
-            expect(page)
-              .not_to have_button
+        within_modal do
+          expect(page).to have_list_item(text: user.name, position:)
+          within(:list_item, text: user.name, position:) do
+            if role_name
+              expect(page).to have_button(role_name),
+                              "Expected share with #{user.name.inspect} to have button #{role_name}."
+            end
+            unless editable
+              expect(page).not_to have_button,
+                                  "Expected share with #{user.name.inspect} not to be editable (expected no buttons)."
+            end
           end
         end
       end
@@ -299,7 +283,7 @@ module Components
       end
 
       def expect_no_invite_option
-        within modal_element do
+        within_modal do
           expect(page)
             .to have_text(I18n.t('work_package.sharing.permissions.denied'))
         end
@@ -319,8 +303,9 @@ module Components
       end
 
       def user_row(user)
-        shares_list
-          .find("[data-test-selector=\"op-share-wp-active-user-#{user.id}\"]")
+        within_modal do
+          find(:list_item, text: user.name)
+        end
       end
 
       def active_list
@@ -355,7 +340,7 @@ module Components
       end
 
       def expect_upsale_banner
-        within modal_element do
+        within_modal do
           expect(page)
             .to have_text(I18n.t(:label_enterprise_addon))
         end

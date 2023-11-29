@@ -25,33 +25,23 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Sessions
-  class InitializeSessionService
-    class << self
-      ##
-      # Initializes a new session for the given user.
-      # This services provides very little for what it is called,
-      # mainly caused due to the many ways a user can login.
-      def call(user, session)
-        session[:user_id] = user.id
-        session[:updated_at] = Time.now
 
-        if drop_old_sessions?
-          Rails.logger.info { "Deleting all other sessions for #{user}." }
-          ::Sessions::UserSession.for_user(user).delete_all
-        end
+require_relative '../show'
 
-        ServiceResult.success(result: session)
+module Pages::StructuredMeeting::Mobile
+  class Show < ::Pages::StructuredMeeting::Show
+    def expect_participants(count: 1)
+      within(meeting_details_container) do
+        expect(page).to have_text(Meeting.human_attribute_name(:participant, count:))
+        expect(page).to have_button("Show all")
       end
+    end
 
-      private
-
-      ##
-      # We can only drop old sessions if they're stored in the database
-      # and enabled by configuration.
-      def drop_old_sessions?
-        OpenProject::Configuration.drop_old_sessions_on_login?
+    def open_participant_form
+      within(meeting_details_container) do
+        click_button "Show all"
       end
+      expect(page).to have_css('#meetings-sidebar-participants-form-component')
     end
   end
 end

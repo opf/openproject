@@ -25,30 +25,22 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-require_relative '../../spec_helper'
 
-RSpec.describe Storages::Admin::ConfigurationChecksComponent,
-               type: :component do
-  describe '#render?' do
-    context 'with all configuration checks complete' do
-      it 'returns false, does not render view component' do
-        storage = build_stubbed(:nextcloud_storage,
-                                oauth_application: build_stubbed(:oauth_application),
-                                oauth_client: build_stubbed(:oauth_client))
-        component = described_class.new(storage:)
-
-        expect(render_inline(component).content).to be_blank
-      end
+module Storages::Admin
+  class ProviderTypeHiddenInputForm < ApplicationForm
+    form do |storage_form|
+      storage_form.text_field(
+        name: :provider_type,
+        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
+        hidden: true,
+        required: true,
+        value: @storage.provider_type
+      )
     end
 
-    context 'with incomplete configuration checks' do
-      it 'returns true, renders view component' do
-        storage = build_stubbed(:nextcloud_storage, host: nil, name: nil)
-        component = described_class.new(storage:)
-
-        expect(render_inline(component)).to have_content('The setup of this storage is incomplete.')
-      end
+    def initialize(storage:)
+      super()
+      @storage = storage
     end
   end
 end

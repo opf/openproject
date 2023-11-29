@@ -74,7 +74,11 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
    * @param queryId
    * @param projectIdentifier
    */
-  public find(queryData:Object, queryId?:string|null, projectIdentifier?:string|null|undefined):Observable<QueryResource> {
+  public find(
+    queryData:object,
+    queryId?:string|null,
+    projectIdentifier?:string|null|undefined,
+  ):Observable<QueryResource> {
     let path:string;
 
     if (queryId) {
@@ -96,9 +100,9 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
   public parameterised(params:Object):Observable<QueryResource> {
     return this.halResourceService
       .get<QueryResource>(
-      this.default.path,
-      params,
-    );
+        this.default.path,
+        params,
+      );
   }
 
   /**
@@ -116,9 +120,7 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
 
     return this
       .halResourceService
-      .post<QueryResource>(
-      this.apiRoot.queries.path, payload,
-    );
+      .post<QueryResource>(this.apiRoot.queries.path, payload);
   }
 
   /**

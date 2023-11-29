@@ -348,8 +348,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
             icon: 'help2',
-            if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) },
-            enterprise_feature: 'attribute_help_texts'
+            if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) }
 
   menu.push :enumerations,
             { controller: '/enumerations' },

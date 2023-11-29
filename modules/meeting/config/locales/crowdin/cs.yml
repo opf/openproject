@@ -33,6 +33,11 @@ cs:
         duration: "Doba trvání"
         notes: "Poznámky"
         participants: "Účastníci"
+        participant:
+          one: "1 Participant"
+          few: "%{count} Participants"
+          many: "%{count} Participants"
+          other: "%{count} Participants"
         participants_attended: "Účastníci"
         participants_invited: "Pozvaní"
         project: "Projekt"
@@ -107,6 +112,7 @@ cs:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Zkopírováno ze schůzky #%{id}"
   notice_successful_notification: "Oznámení bylo úspěšně odesláno"
   notice_timezone_missing: Není nastaveno žádné časové pásmo a předpokládá se %{zone} . Chcete-li vybrat časové pásmo, klikněte prosím zde.
@@ -160,6 +166,7 @@ cs:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "Nikdo tu není"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Přidat účastníky"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

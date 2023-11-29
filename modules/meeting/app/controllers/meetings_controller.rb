@@ -102,7 +102,7 @@ class MeetingsController < ApplicationController
     params[:copied_from_meeting_id] = @meeting.id
     params[:copied_meeting_agenda_text] = @meeting.agenda.text if @meeting.agenda.present?
     @meeting = @meeting.copy(author: User.current)
-    render action: 'new', project_id: @project
+    render action: 'new', project_id: @project, locals: { copy: true }
   end
 
   def destroy
@@ -141,6 +141,10 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def participants_dialog
+    render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting), layout: false)
+  end
+
   def update_participants
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
     @meeting.save
@@ -148,6 +152,7 @@ class MeetingsController < ApplicationController
     if @meeting.errors.any?
       update_sidebar_participants_form_component_via_turbo_stream
     else
+      update_sidebar_details_component_via_turbo_stream
       update_sidebar_participants_component_via_turbo_stream
     end
 

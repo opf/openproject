@@ -42,7 +42,8 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object,
-                only: %i[show show_oauth_application destroy edit edit_host update replace_oauth_application]
+                only: %i[show show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
+  before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -65,10 +66,9 @@ class Storages::Admin::StoragesController < ApplicationController
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
     # That service inherits from ::BaseServices::SetAttributes
-    model_class = OpenProject::FeatureDecisions.storage_primer_design_active? ? Storages::Storage : Storages::NextcloudStorage
     @storage = ::Storages::Storages::SetAttributesService
                  .new(user: current_user,
-                      model: model_class.new,
+                      model: Storages::Storage.new,
                       contract_class: EmptyContract)
                  .call
                  .result
@@ -80,7 +80,7 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   def select_provider
-    @object = Storages::Storage.new(permitted_storage_params(:storages_storage))
+    @object = Storages::Storage.new(provider_type: @provider_type)
     service_result = ::Storages::Storages::SetAttributesService
                  .new(user: current_user,
                       model: @object,
@@ -92,11 +92,13 @@ class Storages::Admin::StoragesController < ApplicationController
     service_result.on_failure { render :new }
 
     service_result.on_success do
-      respond_to { |format| format.turbo_stream }
+      respond_to do |format|
+        format.html { render :new }
+      end
     end
   end
 
-  def create # rubocop:disable Metrics/AbcSize
+  def create
     service_result = Storages::Storages::CreateService
                       .new(user: current_user)
                       .call(permitted_storage_params)
@@ -105,32 +107,11 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      if OpenProject::FeatureDecisions.storage_primer_design_active?
-        respond_to do |format|
-          format.turbo_stream { render :select_provider }
-        end
-      else
-        render :new
-      end
+      render :new
     end
 
     service_result.on_success do
-      if OpenProject::FeatureDecisions.storage_primer_design_active?
-        respond_to { |format| format.turbo_stream }
-      else
-        case @storage.provider_type
-        when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
-          flash.now[:notice] = I18n.t(:notice_successful_create)
-          render '/storages/admin/storages/one_drive/edit'
-        when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-          if @oauth_application.present?
-            flash.now[:notice] = I18n.t(:notice_successful_create)
-            render :show_oauth_application
-          end
-        else
-          raise "Unknown provider type: #{storage_params['provider_type']}"
-        end
-      end
+      respond_to { |format| format.turbo_stream }
     end
   end
 
@@ -171,6 +152,10 @@ class Storages::Admin::StoragesController < ApplicationController
         format.turbo_stream { render :edit_host }
       end
     end
+  end
+
+  def confirm_destroy
+    @storage_to_destroy = @storage
   end
 
   def destroy
@@ -218,6 +203,14 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   private
+
+  def ensure_valid_provider_type_selected
+    short_provider_type = params[:provider]
+    if short_provider_type.blank? || (@provider_type = ::Storages::Storage::PROVIDER_TYPE_SHORT_NAMES[short_provider_type]).blank?
+      flash[:error] = I18n.t('storages.error_invalid_provider_type')
+      redirect_to admin_settings_storages_path
+    end
+  end
 
   def oauth_application(service_result)
     service_result.dependent_results&.first&.result

@@ -168,11 +168,11 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
     end
 
     describe "id in subquery (Arel::Nodes::In)" do
-      let(:relation) { WorkPackage.where(id: WorkPackage.where(id: [work_package.id, 999, 9999])) }
+      let(:relation) { WorkPackage.where(id: [work_package.id, 99, 999, 9999]) }
 
       describe "#to_sql" do
         it "transforms the expression to query the correct table" do
-          expect(subject.to_sql).to include "\"journals\".\"journable_id\" IN (SELECT \"work_packages\".\"id\""
+          expect(subject.to_sql).to include "\"journals\".\"journable_id\" IN (#{work_package.id}, 99, 999, 9999)"
         end
       end
 

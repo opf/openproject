@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,10 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin
-  class SelectStorageProviderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    alias_method :storage, :model
+
+module Meetings
+  class HeaderInfolineComponent < ApplicationComponent
+    def initialize(meeting)
+      super
+      @meeting = meeting
+    end
+
+    def last_updated_at
+      latest_agenda_update = @meeting.agenda_items.maximum(:updated_at) || @meeting.updated_at
+      latest_meeting_update = @meeting.updated_at
+
+      [latest_agenda_update, latest_meeting_update].max
+    end
   end
 end

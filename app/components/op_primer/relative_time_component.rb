@@ -28,19 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Storages::Admin
-  class ConfigurationChecksComponent < Primer::Beta::Flash
-    def initialize(storage:, spacious: true, dismissible: false, icon: :alert, scheme: :danger, **kwargs)
-      @storage = storage
-      super(spacious:, dismissible:, icon:, scheme:, **kwargs)
+module OpPrimer
+  class RelativeTimeComponent < Primer::Component
+    def initialize(datetime:, **system_arguments)
+      super()
+      @system_arguments = deny_tag_argument(**system_arguments)
+
+      @system_arguments[:datetime] = datetime
+      @system_arguments[:lang] ||= I18n.locale
+      @system_arguments[:prefix] ||= I18n.t(:label_on)
     end
 
-    def render?
-      !@storage.configured?
-    end
-
-    def content
-      I18n.t('storages.configuration_checks.incomplete')
+    def call
+      render(Primer::Beta::RelativeTime.new(**@system_arguments))
     end
   end
 end

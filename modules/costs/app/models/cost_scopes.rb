@@ -38,6 +38,8 @@ module CostScopes
     table = arel_table
 
     view_allowed = Project.allowed_to(user, view_allowed_entries_permission).select(:id)
+    # TODO: We either should move all _own_ permissions to be work package scoped and then change this
+    # query, or make this method less generic
     view_own_allowed = Project.allowed_to(user, view_allowed_own_entries_permission).select(:id)
     visible_scope = scope.where view_or_view_own(table, view_allowed, view_own_allowed, user)
 

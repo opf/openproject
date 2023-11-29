@@ -43,11 +43,11 @@ cs:
           name: Ostatní
       work_package_roles:
         item_0:
-          name: Editor pracovních balíčků
+          name: Work package editor
         item_1:
-          name: Komentář pracovního balíčku
+          name: Work package commenter
         item_2:
-          name: Prohlížeč pracovních balíčků
+          name: Work package viewer
       project_roles:
         item_0:
           name: Není člen

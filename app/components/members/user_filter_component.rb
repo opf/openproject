@@ -52,8 +52,10 @@ module Members
     end
 
     def status_members_query(status)
-      params = { project_id: project.id,
-                 status: }
+      params = {
+        project_id: project.id,
+        status:
+      }
 
       self.class.filter(params)
     end
@@ -62,8 +64,19 @@ module Members
       project_members_path(project)
     end
 
-    def self.base_query
-      Queries::Members::MemberQuery
+    class << self
+      def base_query
+        Queries::Members::MemberQuery
+      end
+
+      protected
+
+      def apply_filters(params, query)
+        super(params, query)
+        query.where(:only_project_member, '=', 't')
+
+        query
+      end
     end
   end
 end

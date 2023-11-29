@@ -43,11 +43,11 @@ ru:
           name: Другие
       work_package_roles:
         item_0:
-          name: Редактор пакета работ
+          name: Work package editor
         item_1:
-          name: Комментатор пакета работ
+          name: Work package commenter
         item_2:
-          name: Просмотрщик пакета работ
+          name: Work package viewer
       project_roles:
         item_0:
           name: Неучастник

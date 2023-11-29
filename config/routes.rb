@@ -577,6 +577,7 @@ OpenProject::Application.routes.draw do
     delete '/storage_token/:id' => 'my#delete_storage_token', as: 'storage_token_delete'
 
     resources :sessions, controller: 'my/sessions', as: 'my_sessions', only: %i[index show destroy]
+    resources :auto_login_tokens, controller: 'my/auto_login_tokens', as: 'my_auto_login_tokens', only: %i[destroy]
   end
 
   scope controller: 'my' do

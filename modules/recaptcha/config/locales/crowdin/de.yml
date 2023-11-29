@@ -10,6 +10,8 @@ de:
     error_captcha: "Ihr Account konnte nicht verifiziert werden. Bitte kontaktieren Sie einen Administrator."
     settings:
       website_key: 'Website-Schlüssel'
+      response_limit: 'Response limit for HCaptcha'
+      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Geben Sie den Webseitenschlüssel ein, den Sie auf der reCAPTCHA Admin-Konsole für diese Domain erstellt haben.'
       secret_key: 'Geheimer Schlüssel'
       secret_key_text: 'Geben Sie den geheimen Schlüssel ein, den Sie auf der reCAPTCHA-Administrationskonsole erstellt haben.'
@@ -17,5 +19,6 @@ de:
       type_disabled: 'reCAPTCHA deaktivieren'
       type_v2: 'reCAPTCHA V2'
       type_v3: 'reCAPTCHA V3'
+      type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA ist ein kostenloser Dienst von Google, der für Ihre OpenProject-Instanz aktiviert werden kann. Wenn aktiviert, wird ein Captcha-Formular bei der Anmeldung für alle Benutzer angezeigt, die noch keine Captcha verifiziert haben.<br/>Bitte sehen Sie den folgenden Link für weitere Details zu reCAPTCHA und ihren Versionen und wie Sie die Website und geheime Schlüssel erstellen können: %{recaptcha_link}
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}

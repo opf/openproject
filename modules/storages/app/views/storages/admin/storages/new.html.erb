@@ -1,44 +1,31 @@
 <!-- Standard Ruby view, please see the controller for comments -->
-<% if OpenProject::FeatureDecisions.storage_primer_design_active? %>
-  <% html_title t(:label_administration), t("project_module_storages"), t('storages.label_new_file_storage') %>
-  <% local_assigns[:additional_breadcrumb] = t('storages.label_new_file_storage') %>
+<%
+  label_new_file_storage = t("storages.label_new_file_storage",
+                              provider: t("storages.provider_types.#{@storage.short_provider_type}.name"))
+%>
 
-  <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-    <% header.with_title(test_selector: 'storage-name-title') do %>
-      <%= t("storages.label_new_file_storage") %>
-    <% end %>
+<% html_title t(:label_administration), t("project_module_storages"), label_new_file_storage %>
+<% local_assigns[:additional_breadcrumb] = label_new_file_storage %>
 
-    <% header.with_back_button(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) %>
-
-    <% header.with_parent_link(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) do %>
-      <%= t(:project_module_storages) %>
-    <% end %>
-
-    <% header.with_description do %>
-      <%=
-        t("storages.instructions.new_storage",
-          new_storage_link_text: render(
-            Primer::Beta::Link.new(href: ::OpenProject::Static::Links[:storage_docs][:setup][:href], target: '_blank')
-          ) { t("storages.instructions.new_storage_link_text") }
-        ).html_safe
-      %>
-    <% end %>
-
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title(test_selector: 'storage-new-page-header--title') do %>
+    <%= label_new_file_storage %>
   <% end %>
 
-  <%= render(::Storages::Admin::SelectStorageProviderComponent.new(@storage)) %>
-<% else %>
-  <% html_title t(:label_administration), t("project_module_storages"), t('storages.label_new_storage') %>
-  <% local_assigns[:additional_breadcrumb] = t('storages.label_new_storage') %>
-  <%= toolbar title: t("storages.label_new_storage") %>
+  <% header.with_back_button(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) %>
 
-  <%= labelled_tabular_form_for @storage, url: admin_settings_storages_path(@storage), as: :storages_storage do |f| -%>
-    <%= render partial: 'new', locals: { f: f } %>
-    <% if @storage.oauth_client %>
-      <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
-    <% else %>
-      <%= styled_button_tag t("storages.buttons.save_and_continue_setup"), class: "-highlight -with-icon icon-checkmark" %>
-    <% end %>
-    <%= link_to t(:button_cancel), admin_settings_storages_path, class: 'button -with-icon icon-close' %>
+  <% header.with_parent_link(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) do %>
+    <%= t(:project_module_storages) %>
+  <% end %>
+
+  <% header.with_description(test_selector: 'storage-new-page-header--description') do %>
+    <%=
+      t("storages.instructions.new_storage",
+        provider_link: ::OpenProject::Static::Links[:storage_docs][:"#{@storage.short_provider_type}_setup"][:href].html_safe,
+        provider_name: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")
+      ).html_safe
+    %>
   <% end %>
 <% end %>
+
+<%= render(Storages::Admin::StorageViewComponent.new(@storage)) %>

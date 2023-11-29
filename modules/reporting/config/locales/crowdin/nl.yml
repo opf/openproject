@@ -47,7 +47,7 @@ nl:
   label_is_project_with_subprojects: "is (inclusief subprojecten)"
   label_work_package_attributes: "Attributen van het werkpakket"
   label_less: "<"
-  label_logged_by_reporting: "Logged by"
+  label_logged_by_reporting: "Gelogd door"
   label_money: "Cash waarde"
   label_month_reporting: "Maand (kosten)"
   label_new_report: "Nieuwe kostenrapport"
@@ -87,7 +87,7 @@ nl:
   validation_failure_integer: "is geen geldig geheel getal"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Jouw kostenrapporten XLS export"
   reporting:
     group_by:
       selected_columns: "Geselecteerde kolommen"

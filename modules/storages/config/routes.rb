@@ -39,11 +39,12 @@ OpenProject::Application.routes.draw do
         resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
                                                          only: %i[new create edit update]
 
-        post :select_provider, on: :collection
+        get :select_provider, on: :collection
 
         member do
           get :show_oauth_application
           get :edit_host
+          get :confirm_destroy
           delete :replace_oauth_application
         end
       end
