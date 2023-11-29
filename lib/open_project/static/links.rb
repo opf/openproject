@@ -263,7 +263,7 @@ module OpenProject
                 href: 'https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/'
               },
               one_drive_setup: {
-                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/'
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/onedrive/'
               },
               nextcloud_oauth_application: {
                 href: 'https://apps.nextcloud.com/apps/integration_openproject'
