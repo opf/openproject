@@ -41,7 +41,7 @@ module Storages::ProjectStorages
     end
 
     def provider_type
-      project_storage.storage.short_provider_type
+      I18n.t(:"storages.provider_types.#{project_storage.storage.short_provider_type}.name")
     end
 
     def creator
