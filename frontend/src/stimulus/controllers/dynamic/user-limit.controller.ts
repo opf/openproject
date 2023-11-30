@@ -36,7 +36,6 @@ import {
 export default class UserLimitController extends Controller {
   static targets = [
     'limitWarning',
-    'inviteUserForm',
   ];
 
   static values = {
@@ -46,40 +45,45 @@ export default class UserLimitController extends Controller {
   };
 
   declare readonly limitWarningTarget:HTMLElement;
-  declare readonly hasLimitWarningTarget:HTMLElement;
-  declare readonly inviteUserFormTarget:HTMLElement;
+  declare readonly hasLimitWarningTarget:boolean;
 
   declare readonly openSeatsValue:number;
-  declare readonly hasOpenSeatsValue:number;
+  declare readonly hasOpenSeatsValue:boolean;
   declare readonly memberAutocompleterValue:boolean;
 
-  private autocompleter:HTMLElement;
   private autocompleterListener = this.triggerLimitWarningIfReached.bind(this);
+  private selectedValues:IUserAutocompleteItem[] = [];
 
   connect() {
-    if (this.memberAutocompleterValue) {
-      this.autocompleter = this.inviteUserFormTarget.querySelector('opce-members-autocompleter') as HTMLElement;
-    } else {
-      this.autocompleter = this.inviteUserFormTarget.querySelector('opce-user-autocompleter') as HTMLElement;
-    }
-
-    this.autocompleter.addEventListener('change', this.autocompleterListener);
+    this.autocompleterElement.addEventListener('change', this.autocompleterListener);
   }
 
   disconnect() {
-    this.autocompleter.removeEventListener('change', this.autocompleterListener);
+    this.autocompleterElement.removeEventListener('change', this.autocompleterListener);
   }
 
   triggerLimitWarningIfReached(evt:CustomEvent) {
-    const values = evt.detail as IUserAutocompleteItem[];
+    this.selectedValues = evt.detail as IUserAutocompleteItem[];
 
     if (this.hasLimitWarningTarget && this.hasOpenSeatsValue) {
-      const numberOfNewUsers = values.filter(({ id }) => typeof (id) === 'string' && id.includes('@')).length;
-      if (numberOfNewUsers > 0 && numberOfNewUsers > this.openSeatsValue) {
+      if (this.numberOfNewUsers > 0 && this.numberOfNewUsers > this.openSeatsValue) {
         this.limitWarningTarget.classList.remove('d-none');
       } else {
         this.limitWarningTarget.classList.add('d-none');
       }
     }
+  }
+
+  // Accessors
+  private get autocompleterElement():HTMLElement {
+    if (this.memberAutocompleterValue) {
+      return this.element.querySelector('opce-members-autocompleter') as HTMLElement;
+    }
+
+    return this.element.querySelector('opce-user-autocompleter') as HTMLElement;
+  }
+
+  private get numberOfNewUsers() {
+    return this.selectedValues.filter(({ id }) => typeof (id) === 'string' && id.includes('@')).length;
   }
 }
