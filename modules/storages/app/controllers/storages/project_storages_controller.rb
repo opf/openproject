@@ -51,8 +51,8 @@ class Storages::ProjectStoragesController < ApplicationController
               user: current_user,
               file_id: @object.project_folder_id)
         .match(
-          on_success: ->(_) { user_can_read_project_folder(storage_open_url:) },
-          on_failure: ->(result) { user_can_not_read_project_folder(storage:, result_code: result.code, storage_open_url:) }
+          on_success: user_can_read_project_folder(storage_open_url:),
+          on_failure: user_can_not_read_project_folder(storage:, storage_open_url:)
         )
     else
       redirect_to storage_open_url
@@ -62,47 +62,51 @@ class Storages::ProjectStoragesController < ApplicationController
   private
 
   def user_can_read_project_folder(storage_open_url:)
-    respond_to do |format|
-      format.turbo_stream do
-        render(
-          turbo_stream: OpTurbo::StreamComponent.new(
-            action: :update,
-            target: Storages::OpenProjectStorageModalComponent.dialog_body_id,
-            template: Storages::OpenProjectStorageModalComponent::Body.new(:success).render_in(view_context)
-          ).render_in(view_context)
-        )
+    ->(_) do
+      respond_to do |format|
+        format.turbo_stream do
+          render(
+            turbo_stream: OpTurbo::StreamComponent.new(
+              action: :update,
+              target: Storages::OpenProjectStorageModalComponent.dialog_body_id,
+              template: Storages::OpenProjectStorageModalComponent::Body.new(:success).render_in(view_context)
+            ).render_in(view_context)
+          )
+        end
+        format.html { redirect_to storage_open_url }
       end
-      format.html { redirect_to storage_open_url }
     end
   end
 
-  def user_can_not_read_project_folder(storage_open_url:, storage:, result_code:)
-    respond_to do |format|
-      format.turbo_stream { head :no_content }
-      format.html do
-        case result_code
-        when :unauthorized
-          redirect_to(
-            oauth_clients_ensure_connection_url(
-              oauth_client_id: storage.oauth_client.client_id,
-              storage_id: storage.id,
-              destination_url: request.url
+  def user_can_not_read_project_folder(storage_open_url:, storage:)
+    ->(result) do
+      respond_to do |format|
+        format.turbo_stream { head :no_content }
+        format.html do
+          case result.code
+          when :unauthorized
+            redirect_to(
+              oauth_clients_ensure_connection_url(
+                oauth_client_id: storage.oauth_client.client_id,
+                storage_id: storage.id,
+                destination_url: request.url
+              )
             )
-          )
-        when :forbidden
-          redirect_to(
-            project_overview_path(project_id: @project.identifier),
-            flash: {
-              modal: {
-                type: 'Storages::OpenProjectStorageModalComponent',
-                parameters: {
-                  project_storage_open_url: request.path,
-                  redirect_url: storage_open_url,
-                  state: :waiting
+          when :forbidden
+            redirect_to(
+              project_overview_path(project_id: @project.identifier),
+              flash: {
+                modal: {
+                  type: 'Storages::OpenProjectStorageModalComponent',
+                  parameters: {
+                    project_storage_open_url: request.path,
+                    redirect_url: storage_open_url,
+                    state: :waiting
+                  }
                 }
               }
-            }
-          )
+            )
+          end
         end
       end
     end
