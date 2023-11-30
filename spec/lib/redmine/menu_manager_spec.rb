@@ -60,6 +60,7 @@ RSpec.describe Redmine::MenuManager do
                       :work_packages,
                       :ifc_models,
                       :calendar_view,
+                      :gantt,
                       :team_planner_view,
                       :boards,
                       :dashboards,
