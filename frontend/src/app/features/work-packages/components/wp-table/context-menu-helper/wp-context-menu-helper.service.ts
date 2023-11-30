@@ -73,6 +73,8 @@ export class WorkPackageContextMenuHelperService {
     },
   ];
 
+  private notAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'export-atom'];
+
   constructor(private HookService:HookService,
     private UrlParamsHelper:UrlParamsHelperService,
     private wpViewRepresentation:WorkPackageViewDisplayRepresentationService,
@@ -88,6 +90,10 @@ export class WorkPackageContextMenuHelperService {
 
     allowedActions = allowedActions.concat(this.getAllowedParentActions(workPackage));
 
+    // remove some actions on Gantt
+    if (!!workPackage.addRelation && this.wpViewTimeline.isVisible) {
+      allowedActions.splice(_.findIndex(allowedActions, (f) => this.notAllowedActions.includes(f.key)));
+    }
     allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
 
     _.each(allowedActions, (allowedAction) => {
@@ -211,6 +217,11 @@ export class WorkPackageContextMenuHelperService {
         key: 'relation-follows',
         text: I18n.t('js.relation_buttons.add_follower'),
         link: 'addRelation',
+      });
+      allowedActions.push({
+        key: 'relations',
+        text: I18n.t('js.relation_buttons.show_relations'),
+        link: 'relations',
       });
     }
 
