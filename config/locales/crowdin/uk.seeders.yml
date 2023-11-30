@@ -352,22 +352,20 @@ uk:
                 options:
                   name: Починаємо
                   text: |
-                    Ми раді, що ви приєдналися! Пропонуємо вам дещо підготувати перед початком роботи в OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    Дізнайтеся про найважливіші функції в нашому [Покроковому посібнику]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    _Try the following steps:_
 
-                    _Виконайте такі дії:_
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
+                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    1. *Запросіть учасників у свій проєкт*: &rightarrow; виберіть [Учасники]({{opSetting:base_url}}/projects/your-scrum-project/members) на панелі навігації проєктом.
-                    2. *Перегляньте невиконані завдання для свого продукту й спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) на панелі навігації проєктом.
-                    3. *Перегляньте свою дошку завдань*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; натисніть стрілку вправо для спринту &rightarrow; виберіть [Дошка завдань](##sprint:scrum_project__version__sprint_1).
-                    4. *Створіть новий пакет робіт*: &rightarrow; виберіть [Пакети робіт &rightarrow; Створити]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Створіть і оновіть план проєкту*: &rightarrow; виберіть [План проєкту](##query:scrum_project__query__project_plan) на панелі навігації проєктом.
-                    6. *Створіть вікі-сторінку спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) і відкрийте вікі-сторінку спринту з розкривного меню праворуч у вікні спринту. Ви можете відредагувати [шаблон вікі-сторінки]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) залежно від своїх потреб.
-                    7. *Активуйте додаткові модулі*: &rightarrow; виберіть [Налаштування проєкту &rightarrow; Модулі]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
-
-                    Тут ви знайдете наші [Посібники користувача](https://www.openproject.org/docs/user-guide/).
-                    кщо маєте запитання або потребуєте допомоги, зв’яжіться з нами: [support[at]openproject.com](mailto:support@openproject.com).
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Пакети робіт

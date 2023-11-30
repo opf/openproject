@@ -97,8 +97,6 @@ be:
     show_preview: "Preview text"
     add_new: "Add help text"
     edit: "Edit help text for %{attribute_caption}"
-    enterprise:
-      description: "Дайце дадатковую інфармацыю для атрыбутаў(укл. карыстальніцкія)"
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"

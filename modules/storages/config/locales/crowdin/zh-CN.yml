@@ -109,8 +109,7 @@ zh-CN:
       managed_project_folders_application_password: >
         从以下位置复制此值：
       managed_project_folders_application_password_caption: "通过从 %{provider_type_link} 复制该值来启用自动管理的文件夹。"
-      new_storage: "请阅读我们的 %{new_storage_link_text} 获取有关此设置的更多信息。"
-      new_storage_link_text: "文件存储文档"
+      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
       no_storage_set_up: "尚未设置文件存储。"
       no_specific_folder: "默认情况下，每个用户上传文件时将从自己的主文件夹开始。"
       automatic_folder: "这将自动为此项目创建一个根文件夹，并管理每个项目成员的访问权限。"
@@ -157,7 +156,7 @@ zh-CN:
         Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
       storage_delete_result_1: "Remove all storage setups for all projects using this storage."
       storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
-      storage_delete_result_3: "In case this storage has an automatically managed project folder, the permissions to access the folder and its files will be removed."
+      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
       project_storage: >
         确定要从此项目中删除 %{file_storage} 吗？要确认此操作，请在下面的字段中输入存储区名称，这将：
       project_storage_delete_result_1: "从此项目的工作包中移除该存储区的文件和文件夹的所有链接。"
@@ -167,6 +166,7 @@ zh-CN:
     storage_list_blank_slate:
       heading: "您还没有任何存储。"
       description: "在这里添加一个存储以查看它们。"
+    error_invalid_provider_type: "Please select a valid storage provider."
     label_active: "有效"
     label_add_new_storage: "添加新存储"
     label_delete_storage: "删除存储"
@@ -200,7 +200,7 @@ zh-CN:
     label_project_folder: "项目文件夹"
     label_redirect_uri: "重定向 URI"
     label_new_storage: "新存储"
-    label_new_file_storage: "新建文件存储"
+    label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "编辑存储"
     label_edit_storage_host: "编辑存储主机"
     label_edit_storage_oauth_client: "编辑存储 OAuth 客户端"

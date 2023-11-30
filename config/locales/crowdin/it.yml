@@ -97,8 +97,6 @@ it:
     show_preview: "Anteprima testo"
     add_new: "Aggiungi testo guida"
     edit: "Modifica il testo guida per %{attribute_caption}"
-    enterprise:
-      description: "Fornisci informazioni aggiuntive per gli attributi (inclusi i campi personalizzati) di macro-attività e progetti. I testi della guida vengono visualizzati quando gli utenti cliccano sul simbolo del punto interrogativo accanto ai campi di immissione nei progetti e nelle macro-attività."
   background_jobs:
     status:
       error_requeue: "Si è verificato un errore col lavoro ma si sta riprovando. Errore: %{message}"

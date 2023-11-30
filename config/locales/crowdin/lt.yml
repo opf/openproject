@@ -97,8 +97,6 @@ lt:
     show_preview: "Peržiūrėti tekstą"
     add_new: "Pridėti pagalbos tekstą"
     edit: "Redaguoti pagalbos tekstą atributui: %{attribute_caption}"
-    enterprise:
-      description: "Teikia papildomą informaciją apie darbo paketų ir projektų atributus (įskaitant savus laukus)."
   background_jobs:
     status:
       error_requeue: "Vykdant užduotį buvo rasta klaida, tačiau bandoma dar kartą. Klaida buvo: %{message}"

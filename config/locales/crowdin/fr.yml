@@ -97,8 +97,6 @@ fr:
     show_preview: "Texte d’aperçu"
     add_new: "Ajouter le texte d’aide"
     edit: "Modifier le texte d’aide pour %{attribute_caption}"
-    enterprise:
-      description: "Fournissez des informations supplémentaires pour les attributs (y compris les champs personnalisés) des lots de travaux et des projets. Les textes d'aide sont affichés lorsque les utilisateurs cliquent sur le symbole point d'interrogation à côté des champs de saisie dans les projets et les lots de travaux."
   background_jobs:
     status:
       error_requeue: "La tâche a rencontré une erreur mais réessaie. L'erreur était : %{message}"

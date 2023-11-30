@@ -97,8 +97,6 @@ id:
     show_preview: "Teks pratinjau"
     add_new: "Menambahkan teks bantuan"
     edit: "Mengedit teks bantuan untuk %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Pekerjaan mengalami kesalahan tetapi mencoba lagi.  Kesalahannya adalah: %{message}"

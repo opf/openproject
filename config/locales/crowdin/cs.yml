@@ -97,8 +97,6 @@ cs:
     show_preview: "Náhled textu"
     add_new: "Přidat text nápovědy"
     edit: "Upravit text nápovědy pro %{attribute_caption}"
-    enterprise:
-      description: "Poskytněte další informace pro atributy (včetně vlastních polí) pracovních balíčků a projektů. Texty nápovědy se zobrazí, když uživatelé kliknou na symbol otazníku vedle vstupních polí v projektech a pracovních balíčcích."
   background_jobs:
     status:
       error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"

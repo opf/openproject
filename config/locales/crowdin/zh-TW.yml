@@ -97,8 +97,6 @@ zh-TW:
     show_preview: "預覽文字"
     add_new: "新增說明文字"
     edit: "編輯 %{attribute_caption} 的說明文字"
-    enterprise:
-      description: "為工作包和項目的屬性（包括自定義字段）提供附加信息。當用戶點擊項目和工作包中輸入字段旁邊的問號符號時，會顯示幫助文本。"
   background_jobs:
     status:
       error_requeue: "作業出現錯誤但重試中.錯誤訊息%{message}"
