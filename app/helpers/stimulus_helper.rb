@@ -41,12 +41,4 @@ module StimulusHelper
   end
 
   # rubocop:enable Rails/HelperInstanceVariable
-
-  def close_dialog_on_success_data
-    {
-      controller: 'form-dialog',
-      'application-target': 'dynamic',
-      action: 'turbo:submit-end->form-dialog#closeOnSuccess'
-    }
-  end
 end

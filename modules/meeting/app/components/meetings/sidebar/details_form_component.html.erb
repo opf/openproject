@@ -3,8 +3,7 @@
     primer_form_with(
       model: @meeting,
       method: :put,
-      url: update_details_meeting_path(@meeting),
-      data: helpers.close_dialog_on_success_data
+      url: update_details_meeting_path(@meeting)
     ) do |f|
       component_collection do |collection|
         collection.with_component(Primer::Alpha::Dialog::Body.new) do
