@@ -105,8 +105,7 @@ module Meetings
             meeting:,
             meeting_agenda_item:,
             type:
-          ),
-          status: @meeting.errors.empty? ? :ok : :bad_request
+          )
         )
       end
 
