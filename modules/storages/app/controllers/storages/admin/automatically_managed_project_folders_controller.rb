@@ -76,9 +76,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     if service_result.success?
       flash[:primer_banner] = {
         message: I18n.t(:'storages.notice_successful_storage_connection'),
-        scheme: :success,
-        dismiss_scheme: :hide,
-        full: true
+        scheme: :success
       }
       redirect_to admin_settings_storages_path
     else
