@@ -97,8 +97,6 @@ ca:
     show_preview: "Previsualitzar text"
     add_new: "Afegeix text d'ajuda"
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
-    enterprise:
-      description: "Proveeix informació addicional pels atributs (inclosos camps personalitzats) dels paquets de treball o projectes. Els texts d'ajuda es mostren quan l'usuari fa clic al signe d'interrogació al costat dels valors de camp en projectes i paquets de treball."
   background_jobs:
     status:
       error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"

@@ -97,8 +97,6 @@ nl:
     show_preview: "Voorbeeld Tekst"
     add_new: "Alt-tekst invullen"
     edit: "Bewerken van help-tekst voor %{attribute_caption}"
-    enterprise:
-      description: "Geef aanvullende informatie voor attributen (incl. aangepaste velden) van werkpakketten en projecten. Helpteksten worden weergegeven wanneer gebruikers klikken op het vraagtekensymbool naast invoervelden in projecten en werkpakketten."
   background_jobs:
     status:
       error_requeue: "Taak ondervond een foutmelding maar probeert opnieuw. De fout was: %{message}"

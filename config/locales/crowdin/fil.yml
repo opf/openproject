@@ -97,8 +97,6 @@ fil:
     show_preview: "Preview na teksto"
     add_new: "Magdagdag ng tulong na teksto"
     edit: "I-edit na tulong na teksto para sa %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"

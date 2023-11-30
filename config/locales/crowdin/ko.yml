@@ -97,8 +97,6 @@ ko:
     show_preview: "미리 보기 텍스트"
     add_new: "도움말 텍스트 추가"
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
-    enterprise:
-      description: "작업 패키지 및 프로젝트의 특성(사용자 지정 필드 포함)에 대한 추가 정보를 제공합니다. 사용자가 프로젝트 및 작업 패키지의 입력 필드 옆에 있는 물음표 기호를 클릭하면 도움말 텍스트가 표시됩니다."
   background_jobs:
     status:
       error_requeue: "작업 중에 오류가 발생했지만 다시 시도 중입니다. 오류 메시지: %{message}"

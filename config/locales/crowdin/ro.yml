@@ -97,8 +97,6 @@ ro:
     show_preview: "Previzualizare text"
     add_new: "Adăugați text de ajutor"
     edit: "Editați textul de ajutor pentru %{attribute_caption}"
-    enterprise:
-      description: "Oferă informații suplimentare pentru atribute (inclusiv câmpuri personalizate) ale pachetelor de lucru și ale proiectelor. Textele de ajutor sunt afișate atunci când utilizatorii fac clic pe simbolul semnului de întrebare de lângă câmpurile de introducere din proiecte și pachete de lucru."
   background_jobs:
     status:
       error_requeue: "Lucrarea a avut o eroare, dar încearcă din nou. Eroarea a fost: %{message}"

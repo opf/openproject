@@ -97,8 +97,6 @@ sl:
     show_preview: "Predogled besedila"
     add_new: "Dodajte besedilo pomoči"
     edit: "Uredite besedilo pomoči za %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "V opravilu je prišlo do napake, poskus opravila se izvaja ponovno. Napaka je bila: %{message}"

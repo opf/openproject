@@ -97,8 +97,6 @@ tr:
     show_preview: "Önizleme metni"
     add_new: "Yardım metni ekle"
     edit: "%{attribute_caption} için Yardım metni Düzenle"
-    enterprise:
-      description: "İş paketlerinin ve projelerin öznitelikleri (özel alanlar dahil) için ek bilgiler sağlayın. Projelerde ve iş paketlerinde giriş alanlarının yanındaki soru işareti sembolüne tıklandığında yardım metinleri görüntülenir."
   background_jobs:
     status:
       error_requeue: "İş bir hatayla karşılaştı ancak yeniden deniyor. Hata: %{message}"
