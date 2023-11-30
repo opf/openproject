@@ -47,7 +47,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     end
 
     context 'with outbound requests successful' do
-      context 'with parent folder being nil', vcr: 'one_drive/files_query_root' do
+      context 'with parent folder being root', vcr: 'one_drive/files_query_root' do
         # rubocop:disable RSpec/ExampleLength
         it 'returns a StorageFiles object for root' do
           storage_files = described_class.call(storage:, user:, folder:).result
@@ -192,7 +192,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     context 'with not existent parent folder', vcr: 'one_drive/files_query_invalid_parent' do
       let(:folder) { Storages::Peripherals::ParentFolder.new('/I/just/made/that/up') }
 
-      it 'must return unauthorized' do
+      it 'must return not found' do
         result = described_class.call(storage:, user:, folder:)
         expect(result).to be_failure
         expect(result.error_source).to be_a(described_class)
