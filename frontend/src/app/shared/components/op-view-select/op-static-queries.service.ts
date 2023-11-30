@@ -164,8 +164,7 @@ export class StaticQueriesService {
       },
       {
         title: this.text.gantt,
-        // TODO: GANTT
-        uiSref: 'work-packages',
+        uiSref: 'gantt',
         uiParams: {
           query_id: '',
           query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',

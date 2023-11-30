@@ -53,7 +53,7 @@ module OpenProject::Gantt
 
       # menu :global_menu,
       #      :gantt,
-      #      { controller: '/work_packages', action: 'index' },
+      #      { controller: '/gantt/gantt', action: 'index' },
       #      caption: :label_gantt,
       #      icon: 'view-timeline',
       #      html: {
@@ -62,7 +62,7 @@ module OpenProject::Gantt
 
       menu :project_menu,
            :gantt,
-           { controller: '/work_packages', action: 'index' },
+           { controller: '/gantt/gantt', action: 'index' },
            caption: :label_gantt,
            after: :work_packages,
            if: ->(project) { project.module_enabled?(:gantt) },
@@ -73,7 +73,7 @@ module OpenProject::Gantt
 
       menu :project_menu,
            :gantt_query_select,
-           { controller: '/work_packages', action: 'index' },
+           { controller: '/gantt/gantt', action: 'index' },
            parent: :gantt,
            partial: 'gantt/gantt/menu',
            last: true,
@@ -82,7 +82,7 @@ module OpenProject::Gantt
 
       # menu :top_menu,
       #      :gantt,
-      #      { controller: '/work_packages', action: 'index' },
+      #      { controller: '/gantt/gantt', action: 'index' },
       #      caption: :label_gantt,
       #      icon: 'view-timeline',
       #      html: {
