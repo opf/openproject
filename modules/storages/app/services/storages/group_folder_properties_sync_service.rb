@@ -260,13 +260,18 @@ module Storages
         .call(storage: @storage, group: @storage.group)
     end
 
-    ### Model Scopes
-    def project_storage_scope
-      @storage.project_storages.automatic.joins(:project)
+    def format_and_log_error(error, context = {})
+      error_message = context.merge({ command: error.data.source,
+                                      message: error.log_message,
+                                      data: { status: error.data.payload.code, body: error.data.payload.body } })
+
+      OpenProject.logger.warn error_message.to_json
     end
 
+    ### Model Scopes
+
     def active_project_storages_scope
-      project_storage_scope.where(project: { active: true })
+      ::Storages::ProjectStorage.active_nextcloud_automatically_managed
     end
 
     def client_tokens_scope
@@ -275,14 +280,6 @@ module Storages
 
     def admin_client_tokens_scope
       OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
-    end
-
-    def format_and_log_error(error, context = {})
-      error_message = context.merge({ command: error.data.source,
-                                      message: error.log_message,
-                                      data: { status: error.data.payload.code, body: error.data.payload.body } })
-
-      OpenProject.logger.warn error_message.to_json
     end
   end
 end

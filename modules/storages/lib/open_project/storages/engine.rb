@@ -94,6 +94,7 @@ module OpenProject::Storages
           OpenProject::Notifications.subscribe(event) do |payload|
             if payload[:project_folder_mode] == :automatic
               ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+              ::Storages::ManageNextcloudIntegrationCronJob.ensure_scheduled!
             end
           end
         end
