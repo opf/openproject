@@ -109,8 +109,7 @@ it:
       managed_project_folders_application_password: >
         Copia questo valore da:
       managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
-      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
-      new_storage_link_text: "file storage documentation"
+      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
       no_storage_set_up: "Ancora nessuna archiviazione di file configurata."
       no_specific_folder: "Di default, ogni utente inizierà alla propria cartella home, al caricamento di un file."
       automatic_folder: "Questa operazione creerà automaticamente una cartella principale per questo progetto e gestirà le autorizzazioni di accesso per ciascun membro del progetto."
@@ -157,7 +156,7 @@ it:
         Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
       storage_delete_result_1: "Remove all storage setups for all projects using this storage."
       storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
-      storage_delete_result_3: "In case this storage has an automatically managed project folder, the permissions to access the folder and its files will be removed."
+      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
       project_storage: >
         Vuoi davvero eliminare %{file_storage} da questo progetto? Per confermare questa azione, inserisci il nome dell'archivio nel campo sottostante. Ciò facendo:
       project_storage_delete_result_1: "Rimuovi tutti i collegamenti dalle macro-attività di questo progetto ai file e alle cartelle di tale archivio."
@@ -167,6 +166,7 @@ it:
     storage_list_blank_slate:
       heading: "You don't have any storages yet."
       description: "Add a storage to see them here."
+    error_invalid_provider_type: "Please select a valid storage provider."
     label_active: "Attivo"
     label_add_new_storage: "Add new storage"
     label_delete_storage: "Delete storage"
@@ -200,7 +200,7 @@ it:
     label_project_folder: "Cartella del progetto"
     label_redirect_uri: "Redirect URI"
     label_new_storage: "Nuovo archivio"
-    label_new_file_storage: "New file storage"
+    label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"

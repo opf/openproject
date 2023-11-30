@@ -97,8 +97,6 @@ hu:
     show_preview: "Előnézet mutatása"
     add_new: "Súgószöveg hozzáadása"
     edit: "Súgószöveg \"%{attribute_caption}\" szerkesztése"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"

@@ -354,8 +354,6 @@ lv:
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
-
                     _Try the following steps:_
 
                     1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.

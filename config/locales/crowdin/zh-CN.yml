@@ -97,8 +97,6 @@ zh-CN:
     show_preview: "预览文本"
     add_new: "添加帮助文本"
     edit: "编辑%{attribute_caption} 的帮助文本"
-    enterprise:
-      description: "为工作包和项目的属性（包括自定义字段）提供附加信息。当用户点击项目和工作包中输入字段旁边的问号符号时，会显示帮助文本。"
   background_jobs:
     status:
       error_requeue: "作业发生错误，但正在重试。错误为：%{message}"

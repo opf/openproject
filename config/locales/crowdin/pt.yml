@@ -97,8 +97,6 @@ pt:
     show_preview: "Pré-visualização de texto"
     add_new: "Adicionar texto de ajuda"
     edit: "Editar texto de ajuda para %{attribute_caption}"
-    enterprise:
-      description: "Forneça informações adicionais para os atributos (incl. campos personalizados) dos pacotes de trabalho e projetos. Os textos de ajuda são exibidos quando os usuários clicam no símbolo de interrogação ao lado dos campos de entrada nos projetos e pacotes de trabalho.  "
   background_jobs:
     status:
       error_requeue: "A tarefa apresentou um erro, mas está tentando novamente. O erro foi: %{message}"
