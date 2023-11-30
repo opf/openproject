@@ -32,6 +32,7 @@ module Storages::Storages
   class CreateContract < ::Storages::Storages::BaseContract
     attribute :creator
     validate :creator_must_be_user
+    validate :require_ee_token_for_onedrive
 
     private
 

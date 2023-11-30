@@ -26,54 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Authorization::EnterpriseService
-  attr_accessor :token
+module API
+  module Errors
+    class EnterpriseTokenMissing < ErrorBase
+      identifier 'MissingEnterpriseToken'.freeze
+      code 500
 
-  GUARDED_ACTIONS = %i(
-    baseline_comparison
-    board_view
-    conditional_highlighting
-    custom_actions
-    custom_fields_in_projects_list
-    date_alerts
-    define_custom_style
-    edit_attribute_groups
-    grid_widget_wp_graph
-    ldap_groups
-    openid_providers
-    placeholder_users
-    readonly_work_packages
-    team_planner_view
-    two_factor_authentication
-    work_package_query_relation_columns
-    work_package_sharing
-    sharepoint_onedrive_file_storage
-  ).freeze
-
-  def initialize(token)
-    self.token = token
-  end
-
-  # Return a true ServiceResult if the token contains this particular action.
-  def call(action)
-    allowed =
-      if token.nil? || token.token_object.nil? || token.expired?
-        false
-      else
-        process(action)
+      def initialize
+        super I18n.t('api_v3.errors.code_500_missing_enterprise_token')
       end
-
-    result(allowed)
-  end
-
-  private
-
-  def process(action)
-    # Every non-expired token
-    GUARDED_ACTIONS.include?(action.to_sym)
-  end
-
-  def result(bool)
-    ServiceResult.new(success: bool, result: bool)
+    end
   end
 end

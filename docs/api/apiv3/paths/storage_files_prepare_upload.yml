@@ -72,9 +72,18 @@ post:
         application/hal+json:
           schema:
             $ref: '../components/schemas/error_response.yml'
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:OutboundRequest:NotFound
-            message: An outbound request to another resource has failed with status code 404.
+          examples:
+            'outbound request failed':
+              description: TBD
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:OutboundRequest:NotFound
+                message: An outbound request to another resource has failed with status code 404.
+            'enterprise token missing':
+              description: TBD
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingEnterpriseToken
+                message: The request cannot be handled due to invalid or missing Enterprise token.
       description: |-
         Returned if the outbound request to the storage has failed with any reason.

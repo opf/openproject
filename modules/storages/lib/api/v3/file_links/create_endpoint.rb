@@ -47,6 +47,8 @@ class API::V3::FileLinks::CreateEndpoint < API::Utilities::Endpoints::Create
   # call is done by calling the `super` method. Results are aggregated in
   # global_result using the `add_dependent!` method.
   def process(request, params_elements)
+    validate_enterprise_token(params_elements)
+
     global_result = ServiceResult.success
 
     Storages::FileLink.transaction do
@@ -77,5 +79,12 @@ class API::V3::FileLinks::CreateEndpoint < API::Utilities::Endpoints::Create
 
   def self_link(_request)
     "#{::API::V3::URN_PREFIX}file_links:no_link_provided"
+  end
+
+  def validate_enterprise_token(params_elements)
+    storage_ids = params_elements.map { |params| params[:storage_id].to_i }.uniq
+    Storages::Storage.where(id: storage_ids).find_each do |storage|
+      raise API::Errors::EnterpriseTokenMissing.new if Storages::Storage.one_drive_without_ee_token?(storage.provider_type)
+    end
   end
 end

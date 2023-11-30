@@ -66,6 +66,11 @@ module API::V3::StorageFiles
 
       post :prepare_upload do
         validate = ->(_body) do
+          if Storages::Storage::one_drive_without_ee_token?(@storage.provider_type)
+            raise API::Errors::EnterpriseTokenMissing.new
+            # return ServiceResult.failure(errors: API::Errors::EnterpriseTokenMissing.new)
+          end
+
           case request_body.transform_keys(&:to_sym)
           in { projectId: project_id, fileName: file_name, parent: parent }
             authorize_in_project(:manage_file_links, project: Project.find(project_id))
