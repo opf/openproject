@@ -6,7 +6,7 @@ description: How to share work packages in OpenProject.
 keywords: work package, share, share work packages
 ---
 
-# Share work packages
+# Share work packages (Enterprise add-on)
 
 It is possible to share work packages with users that are not members of a project or are not yet registered on your instance. In the latter case a user will need to register in order to view the work package.
 
