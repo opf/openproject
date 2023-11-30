@@ -36,6 +36,16 @@ module OpenProject::Gantt
              author_url: 'https://www.openproject.org',
              bundled: true,
              settings: {} do
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.map do |ac_map|
+          ac_map.project_module(:gantt, dependencies: :work_package_tracking, order: 95)
+        end
+
+        OpenProject::AccessControl.permission(:view_work_packages).tap do |add|
+          add.controller_actions << 'gantt/gantt/index'
+        end
+      end
+
       # should_render_global_menu_item = Proc.new do
       #   (User.current.logged? || !Setting.login_required?) &&
       #   User.current.allowed_in_any_project?(:view_work_packages)
@@ -55,6 +65,7 @@ module OpenProject::Gantt
            { controller: '/work_packages', action: 'index' },
            caption: :label_gantt,
            after: :work_packages,
+           if: ->(project) { project.module_enabled?(:gantt) },
            icon: 'view-timeline',
            html: {
              id: 'main-menu-gantt'
@@ -66,7 +77,8 @@ module OpenProject::Gantt
            parent: :gantt,
            partial: 'gantt/gantt/menu',
            last: true,
-           caption: :label_gantt_chart
+           caption: :label_gantt_chart,
+           if: ->(project) { project.module_enabled?(:gantt) }
 
       # menu :top_menu,
       #      :gantt,
