@@ -12,6 +12,7 @@ keywords: attribute help texts, help texts for projects and work packages
 <div class="glossary">
 **Attribute help texts** provide additional information for attributes in work packages and projects. After setting them up they are displayed when users click on the question mark symbol next to custom fields in projects and work packages. 
 This way you will reduce wrong entries for attributes. This is especially relevant for company specific custom fields.
+</div>
 
 ## Overview
 
