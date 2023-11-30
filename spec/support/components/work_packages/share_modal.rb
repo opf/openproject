@@ -34,12 +34,20 @@ module Components
     class ShareModal < Components::Common::Modal
       include Components::Autocompleter::NgSelectAutocompleteHelpers
 
-      attr_reader :work_package
+      attr_reader :work_package, :title
 
       def initialize(work_package)
         super()
 
         @work_package = work_package
+        @title = I18n.t('js.work_packages.sharing.title')
+      end
+
+      def expect_open
+        super
+
+        expect_title(title)
+        wait_for_network_idle(timeout: 10)
       end
 
       def select_shares(*principals)
@@ -352,7 +360,8 @@ module Components
 
       def expect_no_user_limit_warning
         within modal_element do
-          expect(page).not_to have_css('[data-test-selector="op-share-wp-user-limit"]')
+          expect(page)
+            .not_to have_text(I18n.t('work_package.sharing.warning_user_limit_reached'), wait: 0)
         end
       end
 
