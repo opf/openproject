@@ -97,8 +97,6 @@ ro:
     show_preview: "Previzualizare text"
     add_new: "Adăugați text de ajutor"
     edit: "Editați textul de ajutor pentru %{attribute_caption}"
-    enterprise:
-      description: "Oferă informații suplimentare pentru atribute (inclusiv câmpuri personalizate) ale pachetelor de lucru și ale proiectelor. Textele de ajutor sunt afișate atunci când utilizatorii fac clic pe simbolul semnului de întrebare de lângă câmpurile de introducere din proiecte și pachete de lucru."
   background_jobs:
     status:
       error_requeue: "Lucrarea a avut o eroare, dar încearcă din nou. Eroarea a fost: %{message}"
@@ -288,7 +286,11 @@ ro:
       no_results_title_text: În acest moment nu există știri de raportat.
       no_results_content_text: Adăugare știre nouă
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -388,6 +390,11 @@ ro:
     move:
       no_common_statuses_exists: "Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată."
       unsupported_for_multiple_projects: "Mutarea/copierea în masă nu este suportată pentru pachete de lucru din proiecte multiple"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -487,7 +494,6 @@ ro:
         value: "Valoare"
       enterprise_token:
         starts_at: "Valabil din"
-        expires_at: "Expiră la"
         subscriber: "Abonat"
         encoded_token: "Token de sprijin pentru întreprinderi"
         active_user_count_restriction: "Număr maxim de utilizatori activi"
@@ -562,6 +568,7 @@ ro:
       user:
         admin: "Administrator"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Parola curentă"
         force_password_change: "Impune schimbarea parolei la următoarea autentificare"
         language: "Limbă"
@@ -1033,6 +1040,7 @@ ro:
     due_date: "Data de finalizare"
     estimated_hours: "Durata estimată"
     estimated_time: "Durata estimată"
+    expires_at: "Expires at"
     firstname: "Prenume"
     group: "Grup"
     groups: "Grupuri"
@@ -2047,7 +2055,6 @@ ro:
   label_start_to_start: "început la început"
   label_statistics: "Statistici"
   label_status: "Stare"
-  label_stay_logged_in: "Rămâneți conectat"
   label_storage_free_space: "Spațiu pe disc rămas"
   label_storage_used_space: "Spațiu pe disc folosit"
   label_storage_group: "Sistem de fișiere pentru stocare %{identifier}"
@@ -2975,6 +2982,7 @@ ro:
     activate: "Activare"
     activate_and_reset_failed_logins: "Activare și resetare autentificări eșuate"
     authentication_provider: "Furnizor de autentificare"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Acest utilizator se autentifică prin intermediul unui furnizor de autentificare extern, prin urmare nu există o parolă în OpenProject care să poată fi schimbată.
     authorization_rejected: "Nu aveți drepturi de autentificare."
@@ -3076,6 +3084,17 @@ ro:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

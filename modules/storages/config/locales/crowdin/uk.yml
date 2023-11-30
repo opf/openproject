@@ -1,8 +1,8 @@
 #English strings go here
 uk:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
-    description: "Allows linking work packages to files in external storages, such as Nextcloud."
+    name: "Сховища OpenProject"
+    description: ""
   permission_view_file_links: "Перегляд посилань на файл"
   permission_manage_file_links: "Керування посиланнями на файл"
   permission_manage_storages_in_project: "Керування файловими сховищами в проєкті"
@@ -26,7 +26,7 @@ uk:
         name: "Назва"
         creator: "Автор"
         provider_type: "Тип постачальника"
-        host: "Host"
+        host: "Хост"
         tenant: "Tenant"
       storages/file_link:
         origin_id: "Код джерела"
@@ -75,7 +75,7 @@ uk:
       select_folder: "Вибрати папку"
       configure: "Налаштувати"
     file_storage_view:
-      general_information: "General information"
+      general_information: "Загальна інформація"
       oauth_applications: "OAuth applications"
       project_folders: "Project folders"
       storage_provider: "Storage provider"
@@ -86,6 +86,7 @@ uk:
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
+        delete: "Delete file storage"
       managed_project_folders:
         title: "Папки проєкту з автоматичним керуванням"
         subtitle_short: "Let OpenProject create folders per project automatically."
@@ -108,8 +109,7 @@ uk:
       managed_project_folders_application_password: >
         Копіювати це значення з:
       managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
-      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
-      new_storage_link_text: "file storage documentation"
+      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
       no_storage_set_up: "Файлові сховища поки не створено."
       no_specific_folder: "За замовчуванням кожен користувач, який передасть файл, починатиме роботу у власній головній папці."
       automatic_folder: "Буде автоматично створено кореневу папку для цього проєкту й налаштовано дозволи на доступ для кожного учасника проєкту."
@@ -148,13 +148,15 @@ uk:
       project_folder: >
         Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
     delete_warning:
       storage: >
-        Справді видалити це сховище? Це сховище буде також видалено з усіх проєктів, де воно використовувалося. Крім того, буде видалено всі посилання в пакетах робіт на файли, які зберігалися в цьому сховищі.
+        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
+      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
+      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
+      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
       project_storage: >
         Справді видалити %{file_storage} з цього проєкту? Щоб підтвердити цю дію, введіть ім’я сховище в поле нижче, щоб:
       project_storage_delete_result_1: "Вилучіть усі посилання на файли й папки в цьому сховизі з пакетів робіт поточного проєкту."
@@ -164,6 +166,7 @@ uk:
     storage_list_blank_slate:
       heading: "You don't have any storages yet."
       description: "Add a storage to see them here."
+    error_invalid_provider_type: "Please select a valid storage provider."
     label_active: "Активні"
     label_add_new_storage: "Add new storage"
     label_delete_storage: "Delete storage"
@@ -197,7 +200,7 @@ uk:
     label_project_folder: "Папка проєкту"
     label_redirect_uri: "Redirect URI"
     label_new_storage: "Нове сховище"
-    label_new_file_storage: "New file storage"
+    label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
@@ -231,3 +234,9 @@ uk:
     automatically_managed_project_folder_missing: "Щоб завершити підготовку, налаштуйте папки проєкту з автоматичним керуванням для свого сховища."
     notice_oauth_application_replaced: "Додаток OpenProject OAuth замінено."
     notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    health:
+      title: "Managed folders status"
+      label_pending: "Pending"
+      label_error: "Error"
+      label_healthy: "Healthy"
+      checked: "Checked  %{datetime}"

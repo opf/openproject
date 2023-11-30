@@ -97,8 +97,6 @@ sk:
     show_preview: "Ukázať náhľad"
     add_new: "Pridať text pomocníka"
     edit: "Upraviť text pomocníka pre %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
@@ -288,7 +286,11 @@ sk:
       no_results_title_text: V súčasnosti nie sú žiadne novinky pre nahlásenie.
       no_results_content_text: Pridať novinku
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -389,6 +391,11 @@ sk:
     move:
       no_common_statuses_exists: "Pre všetky vybraté pracovné balíčky nie je k dispozícii žiadny stav. Ich stav nemožno zmeniť."
       unsupported_for_multiple_projects: "Hromadné premiestnenie alebo kopírovanie nie je podporované pre pracovné balíky z viacerých projektov"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -488,7 +495,6 @@ sk:
         value: "Hodnota"
       enterprise_token:
         starts_at: "Platné od"
-        expires_at: "Platnosť končí"
         subscriber: "Odberateľ"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximálny počet aktívnych užívateľov"
@@ -563,6 +569,7 @@ sk:
       user:
         admin: "Správca"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Aktuálne heslo"
         force_password_change: "Požadovať zmenu hesla pri ďalšom prihlásení"
         language: "Jazyk"
@@ -1042,6 +1049,7 @@ sk:
     due_date: "Dátum dokončenia"
     estimated_hours: "Predpokladaný čas"
     estimated_time: "Predpokladaný čas"
+    expires_at: "Expires at"
     firstname: "Krstné meno"
     group: "Skupina"
     groups: "Skupiny"
@@ -2074,7 +2082,6 @@ sk:
   label_start_to_start: "od začiatku do začiatku"
   label_statistics: "Štatistiky"
   label_status: "Stav"
-  label_stay_logged_in: "Zostať prihlásený"
   label_storage_free_space: "Zostávajúce miesto na disku"
   label_storage_used_space: "Použité miesto na disku"
   label_storage_group: "Súborový systém úložiska %{identifier}"
@@ -3004,6 +3011,7 @@ sk:
     activate: "Aktivovať"
     activate_and_reset_failed_logins: "Aktivovať a resetovať chybné prihlásenia"
     authentication_provider: "Poskytovateľ služby overovania identity"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Tento používateľ sa overuje za pomoci externého poskytovateľa autentifikácie, takže jeho heslo nie je možné zmeniť pomocou OpenProject .
     authorization_rejected: "Nemôžete sa prihlásiť."
@@ -3106,6 +3114,17 @@ sk:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

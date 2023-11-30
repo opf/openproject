@@ -97,8 +97,6 @@ el:
     show_preview: "Προεπισκόπηση κειμένου"
     add_new: "Προσθήκη βοηθητικού κειμένου"
     edit: "Επεξεργασία βοηθητικού κειμένου για %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
@@ -284,7 +282,11 @@ el:
       no_results_title_text: Δεν υπάρχουν προς το παρόν νέα για αναφορά.
       no_results_content_text: Προσθέστε ένα στοιχείο νέων
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -383,6 +385,11 @@ el:
     move:
       no_common_statuses_exists: "Δεν υπάρχει διαθέσιμη κατάσταση για όλα τα επιλεγμένα πακέτα εργασίας. Η κατάσταση τους δεν μπορεί να αλλάξει."
       unsupported_for_multiple_projects: "Η μαζική μετακίνηση/αντιγραφή δεν υποστηρίζεται για πακέτα εργασίας από πολλά έργα"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -482,7 +489,6 @@ el:
         value: "Τιμή"
       enterprise_token:
         starts_at: "Ισχύει από"
-        expires_at: "Λήγει στις"
         subscriber: "Συνδρομητής"
         encoded_token: "Token υποστήριξης Έκδοσης για Επιχειρήσεις"
         active_user_count_restriction: "Μέγιστοι ενεργοί χρήστες"
@@ -557,6 +563,7 @@ el:
       user:
         admin: "Διαχειριστής"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Τρέχων κωδικός πρόσβασης"
         force_password_change: "Επιβολή αλλαγής κωδικού πρόσβασης στην επόμενη σύνδεση"
         language: "Γλώσσα"
@@ -1020,6 +1027,7 @@ el:
     due_date: "Ημερομηνία λήξης"
     estimated_hours: "Εκτιμώμενος χρόνος"
     estimated_time: "Εκτιμώμενος χρόνος"
+    expires_at: "Expires at"
     firstname: "Όνομα"
     group: "Ομάδα"
     groups: "Ομάδες"
@@ -2016,7 +2024,6 @@ el:
   label_start_to_start: "από την αρχή μέχρι την αρχή"
   label_statistics: "Στατιστικά"
   label_status: "Κατάσταση"
-  label_stay_logged_in: "Παραμείνετε συνδεδεμένοι"
   label_storage_free_space: "Υπολειπόμενος χώρος στο δίσκο"
   label_storage_used_space: "Χώρος στο δίσκο που χρησιμοποιείται"
   label_storage_group: "Σύστημα αρχείων αποθήκευσης %{identifier}"
@@ -2942,6 +2949,7 @@ el:
     activate: "Ενεργοποίηση"
     activate_and_reset_failed_logins: "Ενεργοποιήστε και επαναφέρετε τις αποτυχημένες συνδέσεις"
     authentication_provider: "Πάροχος ταυτοποίησης"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Αυτός ο χρήστης ταυτοποιείται μέσω ενός εξωτερικού παρόχου ταυτοποίησης, οπότε δεν υπάρχει κωδικός στο OpenProject για να αλλαχθεί.
     authorization_rejected: "Δεν σας επιτρέπεται η σύνδεση."
@@ -3041,6 +3049,17 @@ el:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

@@ -1,15 +1,15 @@
 #English strings go here
 sr:
   js:
-    label_preview: 'Pregled'
-    button_update: 'Ažuriranje'
+    label_preview: 'Prikaži'
+    button_update: 'Ažuriraj'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
-      uploading_avatar: "Uploading your avatar."
+      label_choose_avatar: "Izaberi avatar kao datoteku"
+      uploading_avatar: "Postavite avatar."
       text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
-      error_image_too_large: "Image is too large."
-      wrong_file_format: "Allowed formats are jpg, png, gif"
-      empty_file_error: "Please upload a valid image (jpg, png, gif)"
+        Postavite svoj lični avatar, dimenzije: 128x128 piksela. Veće datoteke će biti isečene na traženu dimenziju.
+        Avatar će vam biti prikazan, pre postavljanja, onda kada budete izabrali željenu sliku.
+      error_image_too_large: "Slika je prevelika."
+      wrong_file_format: "Dozvoljeni formati su: jpg, png, gif"
+      empty_file_error: "Postavite ispravnu sliku (jpg, png, gif)"
 

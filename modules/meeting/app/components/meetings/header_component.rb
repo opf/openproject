@@ -41,22 +41,8 @@ module Meetings
 
     private
 
-    def render_author_link
-      render(Primer::Beta::Link.new(font_size: :small, href: user_path(@meeting.author), underline: false,
-                                    target: "_blank")) do
-        "#{@meeting.author.name}"
-      end
-    end
-
     def delete_enabled?
       User.current.allowed_in_project?(:delete_meetings, @meeting.project)
-    end
-
-    def last_updated_at
-      latest_agenda_update = @meeting.agenda_items.maximum(:updated_at) || @meeting.updated_at
-      latest_meeting_update = @meeting.updated_at
-
-      [latest_agenda_update, latest_meeting_update].max
     end
   end
 end

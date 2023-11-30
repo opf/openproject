@@ -90,7 +90,7 @@ module Redmine
             token_clauses = searchable_column_conditions
 
             if OpenProject::Database.allows_tsv?
-              tsv_clauses = searchable_tsv_column_conditions(tokens)
+              tsv_clauses = searchable_tsv_column_conditions(tokens).compact
             end
 
             if searchable_options[:search_custom_fields]

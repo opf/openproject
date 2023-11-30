@@ -97,8 +97,6 @@ uk:
     show_preview: "Попередній перегляд тексту"
     add_new: "Додати текст довідки"
     edit: "Редагувати текст довідки для %{attribute_caption}"
-    enterprise:
-      description: "Надайте додаткову інформацію для атрибутів (включно з користувацькими полями) пакетів робіт і проєктів. Підказки з’являються, коли користувачі натискають на знак питання біля полів введення в проєктах і пакетах робіт."
   background_jobs:
     status:
       error_requeue: "Виконується повторний запуск завдання, оскільки попередня спроба завершилася такою помилкою: %{message}"
@@ -283,7 +281,11 @@ uk:
       no_results_title_text: Наразі немає жодної новини.
       no_results_content_text: Додати новину
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} у %{os_name}"
       browser: "Браузер"
       device: "Пристрій / ОС"
@@ -384,6 +386,11 @@ uk:
     move:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: "Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -483,7 +490,6 @@ uk:
         value: "Значення"
       enterprise_token:
         starts_at: "Дійсний з"
-        expires_at: "Закінчується о"
         subscriber: "Абонент"
         encoded_token: "Маркер підтримки підприємства"
         active_user_count_restriction: "Максимальна кількість активних користувачів"
@@ -558,6 +564,7 @@ uk:
       user:
         admin: "Адміністратор"
         ldap_auth_source: "LDAP-підключення"
+        identity_url: "Identity URL"
         current_password: "Поточний пароль"
         force_password_change: "Примусово змінити пароль на наступному вході в систему"
         language: "Мова"
@@ -1037,6 +1044,7 @@ uk:
     due_date: "Дата закінчення"
     estimated_hours: "Час (приблизно)"
     estimated_time: "Час (приблизно)"
+    expires_at: "Expires at"
     firstname: "Ім'я"
     group: "Група"
     groups: "Групи"
@@ -2069,7 +2077,6 @@ uk:
   label_start_to_start: "початок"
   label_statistics: "Статистика"
   label_status: "Статус"
-  label_stay_logged_in: "Запам'ятати мене"
   label_storage_free_space: "Залишок на диску"
   label_storage_used_space: "Використовується дисковий простір"
   label_storage_group: "Зберігання файлової системи %{identifier}"
@@ -2997,6 +3004,7 @@ uk:
     activate: "Активувати"
     activate_and_reset_failed_logins: "Активація та скидання невдалих входів"
     authentication_provider: "Провайдер аутентифікації"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Цей користувач авторизирується через зовнішнього постачальника автентифікації, що немає паролів в OpenProject бути змінений.
     authorization_rejected: "Вам не дозволено входити."
@@ -3098,6 +3106,17 @@ uk:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Під час планування пакетів робіт невибрані дні пропускаються й не включаються в кількість днів. Це налаштування можна змінити на рівні пакета робіт.

@@ -35,7 +35,7 @@ module Queries::Filters::Strategies
         def operator_map
           super.dup.tap do |super_value|
             super_value['='] = ::Queries::Operators::EqualsOr
-            super_value['&='] = ::Queries::Operators::WorkPackages::SharedWithUser::EqualsAll
+            super_value['&='] = ::Queries::Operators::EqualsAll
             super_value['*'] = ::Queries::Operators::WorkPackages::SharedWithUser::Any
           end
         end

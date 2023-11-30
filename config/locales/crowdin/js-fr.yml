@@ -348,11 +348,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Comparaison des données de référence pour faciliter le suivi des modifications.</li> <li>Exportation PDF des rapports sur les plans de travail.</li> <li>L'abonnement aux calendriers des projets via une adresse URL (iCalendar).</li> <li>Dossiers de projet avec des modèles de documents pour l'intégration de Nextcloud.</li> <li>Seeding localisé de toutes les données de démarrage.</li> <li>Les modules globaux sont répertoriés sur de nouvelles pages d'index.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -685,7 +685,7 @@ fr:
             description: 'Notifications pour toute activité sur les lots de travaux vous concernant (assigné, responsable ou observateur).'
           delayed:
             title: 'Non participants'
-            description: 'Notifications additionnelles lors d''activité sur tous les projects.'
+            description: 'Notifications additionnelles lors d''activités sur tous les projets.'
           date_alerts:
             title: 'Alarmes'
             description: 'Notifications automatiques lorsque des dates importantes approchent pour les lots de travaux ouverts vous concernant (assigné, responsable ou observateur).'

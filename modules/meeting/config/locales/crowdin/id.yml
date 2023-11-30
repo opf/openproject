@@ -33,6 +33,8 @@ id:
         duration: "Durasi"
         notes: "Notes"
         participants: "Partisipan"
+        participant:
+          other: "%{count} Participants"
         participants_attended: "Peserta"
         participants_invited: "Undangan"
         project: "Project"
@@ -107,6 +109,7 @@ id:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Disalin dari Meeting #%{id}"
   notice_successful_notification: "Berhasil mengirim notifikasi"
   notice_timezone_missing: Tidak ada zona waktu yang ditetapkan sehingga diasumsikan %{zone}. Untuk memilih zona waktu, silakan mengeklik di sini.
@@ -160,6 +163,7 @@ id:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

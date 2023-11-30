@@ -33,6 +33,11 @@ sl:
         duration: "Trajanje"
         notes: "Notes"
         participants: "Udeleženci"
+        participant:
+          one: "1 Participant"
+          two: "%{count} Participants"
+          few: "%{count} Participants"
+          other: "%{count} Participants"
         participants_attended: "Udeleženi"
         participants_invited: "Povabljeni"
         project: "Project"
@@ -107,6 +112,7 @@ sl:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Kopirano iz sestanka #%{id}"
   notice_successful_notification: "Obvestila uspešno poslana"
   notice_timezone_missing: Časovni pas ni določen, %{zone} je izbran avtomatsko. Za določitev časovnega pasu kliknite tukaj.
@@ -160,6 +166,7 @@ sl:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

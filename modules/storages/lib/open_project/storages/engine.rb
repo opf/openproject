@@ -46,8 +46,6 @@ module OpenProject::Storages
 
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
-      OpenProject::FeatureDecisions.add :storage_one_drive_integration
-      OpenProject::FeatureDecisions.add :storage_primer_design
     end
 
     initializer 'openproject_storages.event_subscriptions' do

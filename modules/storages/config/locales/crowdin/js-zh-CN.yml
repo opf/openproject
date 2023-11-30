@@ -63,7 +63,7 @@ zh-CN:
           other: "您成功地创建了 %{count} 个文件链接。"
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded.
+            您的文件 (%{fileName}) 无法被上传。
           403: >
             由于系统限制，无法上传您的文件 (%{fileName})。请联系您的管理员了解更多信息。
           413: >
@@ -72,7 +72,7 @@ zh-CN:
             您的文件 (%{fileName}) 已超出存储配额允许的范围。请联系您的管理员修改此配额。
           detail:
             nextcloud: >
-              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+              请检查是否安装了最新版本的 Nextcloud 应用程序 "OpenProject Integration"，如需更多信息，请联系您的管理员。
         link_uploaded_file_error: >
           在链接最近上传的文件 '%{fileName}' 到工作包 %{workPackageId} 时出现错误。
         not_allowed_tooltip: "请登录 Nextcloud 访问此文件"

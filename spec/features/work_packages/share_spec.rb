@@ -97,7 +97,7 @@ RSpec.describe 'Work package sharing',
       click_button 'Share'
 
       aggregate_failures "Initial shares list" do
-        share_modal.expect_open
+        share_modal.expect_title(I18n.t('js.work_packages.sharing.title'))
         share_modal.expect_shared_with(comment_user, 'Comment', position: 1)
         share_modal.expect_shared_with(dinesh, 'Edit', position: 2)
         share_modal.expect_shared_with(edit_user, 'Edit', position: 3)
@@ -322,6 +322,13 @@ RSpec.describe 'Work package sharing',
       share_modal.invite_user(new_user, 'Edit')
       share_modal.expect_shared_with(new_user, 'Edit', position: 1)
       share_modal.expect_shared_count_of(7)
+
+      # The invite can be resent
+      share_modal.resend_invite(new_user)
+      share_modal.expect_invite_resent(new_user)
+      perform_enqueued_jobs
+      # Another invitation email sent out to the user
+      expect(ActionMailer::Base.deliveries.size).to eq(2)
 
       # The new user can be deleted
       share_modal.remove_user(new_user)

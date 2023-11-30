@@ -97,8 +97,6 @@ vi:
     show_preview: "Văn bản xem trước"
     add_new: "Thêm văn bản trợ giúp"
     edit: "Chỉnh sửa văn bản trợ giúp cho %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
@@ -290,7 +288,11 @@ vi:
       no_results_title_text: Hiện không có tin tức báo cáo.
       no_results_content_text: Thêm một mục tin tức
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -388,6 +390,11 @@ vi:
     move:
       no_common_statuses_exists: "Có là tình trạng không có sẵn cho tất cả các gói đã chọn công việc. Tình trạng của họ không thể thay đổi."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -487,7 +494,6 @@ vi:
         value: "Giá trị"
       enterprise_token:
         starts_at: "Có hiệu lực kể từ"
-        expires_at: "Hết hạn lúc"
         subscriber: "Người đăng ký"
         encoded_token: "Mã thông báo hỗ trợ doanh nghiệp"
         active_user_count_restriction: "Số người dùng hoạt động tối đa"
@@ -562,6 +568,7 @@ vi:
       user:
         admin: "Người Quản lý"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Mật khẩu hiện tại"
         force_password_change: "Buộc thay đổi mật khẩu trong lần đăng nhập tiếp theo"
         language: "Ngôn ngữ"
@@ -1017,6 +1024,7 @@ vi:
     due_date: "Ngày hoàn thành"
     estimated_hours: "Thời gian dự kiến"
     estimated_time: "Thời gian dự kiến"
+    expires_at: "Expires at"
     firstname: "Tên"
     group: "Nhóm"
     groups: "Các Nhóm"
@@ -1995,7 +2003,6 @@ vi:
   label_start_to_start: "bắt đầu đến bắt đầu"
   label_statistics: "Số liệu thống kê"
   label_status: "Trạng thái"
-  label_stay_logged_in: "Duy trì đăng nhập"
   label_storage_free_space: "Dung lượng đĩa còn lại"
   label_storage_used_space: "Dung lượng đĩa đã sử dụng"
   label_storage_group: "Storage filesystem %{identifier}"
@@ -2920,6 +2927,7 @@ vi:
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       This user authenticates via an external authentication provider, so there is no password in OpenProject to be changed.
     authorization_rejected: "You are not allowed to sign in."
@@ -3018,6 +3026,17 @@ vi:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

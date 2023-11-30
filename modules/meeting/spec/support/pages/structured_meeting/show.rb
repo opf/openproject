@@ -149,5 +149,41 @@ module Pages::StructuredMeeting
       ng_select_clear page.find(".op-meeting-agenda-item-form--title")
       expect(page).to have_css(".ng-input  ", value: nil)
     end
+
+    def in_participant_form(&)
+      page.within('#meetings-sidebar-participants-form-component form', &)
+    end
+
+    def expect_participant(participant, invited: false, attended: false, editable: true)
+      expect(page).to have_text(participant.name)
+      expect(page).to have_field(id: "checkbox_invited_#{participant.id}", checked: invited, disabled: !editable)
+      expect(page).to have_field(id: "checkbox_attended_#{participant.id}", checked: attended, disabled: !editable)
+    end
+
+    def invite_participant(participant)
+      check(id: "checkbox_invited_#{participant.id}")
+    end
+
+    def expect_available_participants(count:)
+      expect(page).to have_link(class: 'op-principal--name', count:)
+    end
+
+    def close_meeting
+      click_button('Close meeting')
+      expect(page).to have_button('Reopen meeting')
+    end
+
+    def reopen_meeting
+      click_button('Reopen meeting')
+      expect(page).to have_button('Close meeting')
+    end
+
+    def close_dialog
+      click_button(class: 'Overlay-closeButton')
+    end
+
+    def meeting_details_container
+      find_by_id('meetings-sidebar-details-component')
+    end
   end
 end

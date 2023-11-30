@@ -97,8 +97,6 @@ ru:
     show_preview: "Предпросмотр текста"
     add_new: "Добавить текст справки"
     edit: "Редактировать текст справки для %{attribute_caption}"
-    enterprise:
-      description: "Предоставьте дополнительную информацию для атрибутов (включая пользовательские поля) пакетов работ и проектов. Текст справки отображается, когда пользователи нажимают на знак вопроса рядом с полями ввода в проектах и пакетах работ."
   background_jobs:
     status:
       error_requeue: "Осуществляется повторный запуск задания, т.к. предыдущий завершился с ошибкой: %{message}"
@@ -287,7 +285,11 @@ ru:
       no_results_title_text: На данный момент новостей для отчета нет.
       no_results_content_text: Добавить новость
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
       browser: "Браузер"
       device: "Устройство / ОС"
@@ -388,6 +390,11 @@ ru:
     move:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -487,7 +494,6 @@ ru:
         value: "Значение"
       enterprise_token:
         starts_at: "Действует с"
-        expires_at: "Срок действия до"
         subscriber: "Подписчик"
         encoded_token: "Маркер поддержки корпоративной версии"
         active_user_count_restriction: "Максимальное число активных пользователей"
@@ -562,6 +568,7 @@ ru:
       user:
         admin: "Администратор"
         ldap_auth_source: "Подключение к LDAP"
+        identity_url: "Identity URL"
         current_password: "Текущий пароль"
         force_password_change: "Принудительное изменение пароля при следующем входе"
         language: "Язык"
@@ -1041,6 +1048,7 @@ ru:
     due_date: "Дата окончания"
     estimated_hours: "Предполагаемое время"
     estimated_time: "Предполагаемое время"
+    expires_at: "Expires at"
     firstname: "Имя"
     group: "Группа"
     groups: "Группы"
@@ -2073,7 +2081,6 @@ ru:
   label_start_to_start: "Пуск, чтобы начать"
   label_statistics: "Статистика"
   label_status: "Статус"
-  label_stay_logged_in: "Запомнить"
   label_storage_free_space: "Свободное дисковое пространство"
   label_storage_used_space: "Используемое дисковое пространство"
   label_storage_group: "Файловая система %{identifier}"
@@ -3001,6 +3008,7 @@ ru:
     activate: "Активировать"
     activate_and_reset_failed_logins: "Активировать и сбросить счетчтик неудачных попыток входа"
     authentication_provider: "Поставщик проверки подлинности"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Пользователь аутентифицируется провайдером, поэтому пароль в OpenProject изменен быть не может.
     authorization_rejected: "У вас нет разрешения на вход."
@@ -3102,6 +3110,17 @@ ru:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.

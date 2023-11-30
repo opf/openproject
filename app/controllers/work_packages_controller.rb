@@ -135,11 +135,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def user_allowed_to_export?
-    if @project
-      User.current.allowed_in_project?(:export_work_packages, @project)
-    else
-      User.current.allowed_in_any_project?(:export_work_packages)
-    end
+    User.current.allowed_in_any_work_package?(:export_work_packages, in_project: @project)
   end
 
   def supported_list_formats

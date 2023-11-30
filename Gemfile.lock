@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/citizensadvice/capybara_accessible_selectors
+  revision: da34e96c4787bd7705c477fe2e70f993bfad8f5c
+  branch: main
+  specs:
+    capybara_accessible_selectors (0.10.0)
+      capybara (>= 3.36.0)
+
+GIT
   remote: https://github.com/crohr/turbo_tests.git
   revision: b700cdb344e1ed8e100fd1f56525ec12fa792b45
   ref: fix/runtime-info
@@ -301,7 +309,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    appsignal (3.4.14)
+    appsignal (3.4.15)
       rack
     ast (2.4.2)
     attr_required (1.0.1)
@@ -309,8 +317,8 @@ GEM
       activerecord (>= 4.0)
     awesome_nested_set (3.6.0)
       activerecord (>= 4.0.0, < 7.2)
-    aws-eventstream (1.2.0)
-    aws-partitions (1.853.0)
+    aws-eventstream (1.3.0)
+    aws-partitions (1.860.0)
     aws-sdk-core (3.187.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -319,14 +327,14 @@ GEM
     aws-sdk-kms (1.72.0)
       aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.137.0)
+    aws-sdk-s3 (1.138.0)
       aws-sdk-core (~> 3, >= 3.181.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.6)
     aws-sdk-sns (1.68.0)
       aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.6.1)
+    aws-sigv4 (1.8.0)
       aws-eventstream (~> 1, >= 1.0.2)
     axe-core-api (4.8.0)
       dumb_delegator
@@ -693,15 +701,15 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.7.0)
-    openproject-octicons_helper (19.7.0)
+    openproject-octicons (19.8.0)
+    openproject-octicons_helper (19.8.0)
       actionview
-      openproject-octicons (= 19.7.0)
+      openproject-octicons (= 19.8.0)
       railties
-    openproject-primer_view_components (0.16.0)
+    openproject-primer_view_components (0.18.1)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-      openproject-octicons (>= 19.7.0)
+      openproject-octicons (>= 19.8.0)
       view_component (>= 3.1, < 4.0)
     openproject-token (4.0.0)
       activemodel
@@ -867,7 +875,7 @@ GEM
     rspec-mocks (3.12.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-rails (6.0.3)
+    rspec-rails (6.0.4)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       railties (>= 6.1)
@@ -948,7 +956,7 @@ GEM
     smart_properties (1.17.0)
     spreadsheet (1.3.0)
       ruby-ole
-    spring (4.1.2)
+    spring (4.1.3)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     spring-commands-rubocop (0.4.0)
@@ -1065,6 +1073,7 @@ DEPENDENCIES
   budgets!
   capybara (~> 3.39.0)
   capybara-screenshot (~> 1.0.17)
+  capybara_accessible_selectors!
   carrierwave (~> 1.3.1)
   carrierwave_direct (~> 2.1.0)
   climate_control
@@ -1143,10 +1152,10 @@ DEPENDENCIES
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.7.0)
-  openproject-octicons_helper (~> 19.7.0)
+  openproject-octicons (~> 19.8.0)
+  openproject-octicons_helper (~> 19.8.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.16.0)
+  openproject-primer_view_components (~> 0.18.1)
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!

@@ -40,37 +40,28 @@
 # db/migrate/20220113144323_create_storage.rb "migration".
 module Storages
   class Storage < ApplicationRecord
-    self.inheritance_column = :provider_type
-
-    # One Storage can have multiple FileLinks, representing external files.
-    #
-    # FileLink deletion is done:
-    #   - through a on_delete: :cascade at the database level when deleting a
-    #     Storage
-    #   - through a before_destroy hook at the application level when deleting a
-    #     ProjectStorage
-    has_many :file_links, class_name: 'Storages::FileLink'
-    # Basically every OpenProject object has a creator
-    belongs_to :creator, class_name: 'User'
-    # A project manager can enable/disable Storages per project.
-    has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-    # We can get the list of projects with this Storage enabled.
-    has_many :projects, through: :project_storages
-    # The OAuth client credentials that OpenProject will use to obtain user specific
-    # access tokens from the storage server, i.e a Nextcloud serer.
-    has_one :oauth_client, as: :integration, dependent: :destroy
-    has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
-
     PROVIDER_TYPES = [
       PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage',
       PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'
     ].freeze
 
+    PROVIDER_TYPE_SHORT_NAMES = {
+      nextcloud: PROVIDER_TYPE_NEXTCLOUD,
+      one_drive: PROVIDER_TYPE_ONE_DRIVE
+    }.with_indifferent_access.freeze
+
+    self.inheritance_column = :provider_type
+
+    has_many :file_links, class_name: 'Storages::FileLink'
+    belongs_to :creator, class_name: 'User'
+    has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+    has_many :projects, through: :project_storages
+    has_one :oauth_client, as: :integration, dependent: :destroy
+    has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
+
     validates_uniqueness_of :host, allow_nil: true
     validates_uniqueness_of :name
 
-    # Creates a scope of all storages, which belong to a project the user is a member
-    # and has the permission ':view_file_links'
     scope :visible, ->(user = User.current) do
       if user.allowed_in_any_project?(:manage_storages_in_project)
         all
@@ -87,6 +78,12 @@ module Storages
       where.not(id: project.project_storages.pluck(:storage_id))
     end
 
+    enum health_status: {
+      pending: 'pending',
+      healthy: 'healthy',
+      unhealthy: 'unhealthy'
+    }.freeze, _prefix: :health
+
     def self.shorten_provider_type(provider_type)
       case /Storages::(?'provider_name'.*)Storage/.match(provider_type)
       in provider_name:
@@ -96,6 +93,14 @@ module Storages
               "Unknown provider_type! Given: #{provider_type}. " \
               "Expected the following signature: Storages::{Name of the provider}Storage"
       end
+    end
+
+    def mark_as_unhealthy(reason: nil)
+      update(health_status: 'unhealthy', health_changed_at: Time.now.utc, health_reason: reason)
+    end
+
+    def mark_as_healthy
+      update(health_status: 'healthy', health_changed_at: Time.now.utc, health_reason: nil)
     end
 
     def configured?
@@ -130,6 +135,18 @@ module Storages
 
     def provider_type_one_drive?
       provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
+    end
+
+    # Currently the error messages saved look like:
+    # "unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>"
+    # This method returns the first two parts of the error message.
+    def formatted_health_reason
+      split_reason = health_reason.split('|')
+      if split_reason.length === 3
+        "#{split_reason[0].strip.capitalize}: #{split_reason[1]}"
+      else
+        health_reason
+      end
     end
   end
 end

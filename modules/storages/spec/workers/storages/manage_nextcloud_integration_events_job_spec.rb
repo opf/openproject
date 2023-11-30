@@ -73,18 +73,20 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
   end
 
   describe '#perform' do
-    subject { described_class.new.perform }
-
-    it 'works out silently' do
-      allow(Storages::NextcloudStorage).to receive(:sync_all_group_folders).and_return(true)
-      subject
-    end
-
-    it 'debounces itself when sync has been started by another process' do
-      allow(Storages::NextcloudStorage).to receive(:sync_all_group_folders).and_return(false)
+    it 'responds with true when parent perform responds with true' do
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_return(true)
       allow(described_class).to receive(:debounce)
 
-      subject
+      expect(described_class.new.perform).to be(true)
+
+      expect(described_class).not_to have_received(:debounce)
+    end
+
+    it 'debounces itself when parent perform responds with false' do
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_return(false)
+      allow(described_class).to receive(:debounce)
+
+      expect(described_class.new.perform).to be(false)
 
       expect(described_class).to have_received(:debounce).once
     end

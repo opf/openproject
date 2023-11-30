@@ -32,7 +32,7 @@ module ::Recaptcha
     end
 
     def permitted_params
-      params.permit(:recaptcha_type, :website_key, :secret_key)
+      params.permit(:recaptcha_type, :website_key, :secret_key, :response_limit)
     end
 
     def default_breadcrumb

@@ -97,8 +97,6 @@ pl:
     show_preview: "Podgląd tekstu"
     add_new: "Dodaj tekst pomocy"
     edit: "Edytuj tekst pomocy dla %{attribute_caption}"
-    enterprise:
-      description: "Zapewnić dodatkowe informacje dla atrybutów (w tym pól własnych) pakietów roboczych i projektów. Teksty pomocy są wyświetlane, gdy użytkownicy klikną na symbol znaku zapytania obok pól wejściowych w projektach i pakietach roboczych."
   background_jobs:
     status:
       error_requeue: "Zadanie napotkało błąd, ale próbuje ponownie. Błąd: %{message}"
@@ -285,7 +283,11 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości do wyświetlenia.
       no_results_content_text: Dodaj nowy element
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} w systemie %{os_name}"
       browser: "Przeglądarka"
       device: "Urządzenie / system operacyjny"
@@ -386,6 +388,11 @@ pl:
     move:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: "Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -485,7 +492,6 @@ pl:
         value: "Wartość"
       enterprise_token:
         starts_at: "Ważne od"
-        expires_at: "Wygasa"
         subscriber: "Subskrybent"
         encoded_token: "Token wsparcia Enterprise"
         active_user_count_restriction: "Maksymalna liczba aktywnych użytkowników"
@@ -560,6 +566,7 @@ pl:
       user:
         admin: "Administrator"
         ldap_auth_source: "Połączenie LDAP"
+        identity_url: "Identity URL"
         current_password: "Aktualne hasło"
         force_password_change: "Wymusza zmianę hasła przy następnym logowaniu"
         language: "Język"
@@ -1039,6 +1046,7 @@ pl:
     due_date: "Data zakończenia"
     estimated_hours: "Szacowany czas"
     estimated_time: "Szacowany czas"
+    expires_at: "Expires at"
     firstname: "Imię"
     group: "Grupa"
     groups: "Grupy"
@@ -2071,7 +2079,6 @@ pl:
   label_start_to_start: "rozpoczęcie-rozpoczęcie"
   label_statistics: "Statystyki"
   label_status: "Status"
-  label_stay_logged_in: "Pozostań zalogowany"
   label_storage_free_space: "Pozostałe miejsca na dysku"
   label_storage_used_space: "Używana przestrzeń dyskowa"
   label_storage_group: "System plików %{identifier}"
@@ -2999,6 +3006,7 @@ pl:
     activate: "Aktywuj"
     activate_and_reset_failed_logins: "Aktywuj i resetuj nieudane logowania"
     authentication_provider: "Dostawca uwierzytelnień"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Ten użytkownik uwierzytelnia się przez zewnętrznego dostawcę uwierzytelnień, zatem hasło w OpenProject nie zostanie zmienione.
     authorization_rejected: "Nie możesz się zalogować."
@@ -3101,6 +3109,17 @@ pl:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Dni, które nie zostały wybrane, są pomijane podczas planowania pakietów roboczych (i nie są uwzględnione w liczbie dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.

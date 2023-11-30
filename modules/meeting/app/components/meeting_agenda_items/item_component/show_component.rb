@@ -33,11 +33,12 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting_agenda_item:)
+    def initialize(meeting_agenda_item:, first_and_last: [])
       super
 
       @meeting_agenda_item = meeting_agenda_item
       @meeting = meeting_agenda_item.meeting
+      @first_and_last = first_and_last
     end
 
     def wrapper_uniq_by
@@ -54,9 +55,28 @@ module MeetingAgendaItems
       @meeting.open? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
 
+    def first?
+      @first ||=
+        if @first_and_last.first
+          @first_and_last.first == @meeting_agenda_item
+        else
+          @meeting_agenda_item.first?
+        end
+    end
+
+    def last?
+      @last ||=
+        if @first_and_last.last
+          @first_and_last.last == @meeting_agenda_item
+        else
+          @meeting_agenda_item.last?
+        end
+    end
+
     def meeting_closed?
       !@meeting.open?
     end
+
     def edit_action_item(menu)
       menu.with_item(label: t("label_edit"),
                      href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
@@ -78,10 +98,10 @@ module MeetingAgendaItems
     end
 
     def move_actions(menu)
-      move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top") unless @meeting_agenda_item.first?
-      move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless @meeting_agenda_item.first?
-      move_action_item(menu, :lower, t("label_agenda_item_move_down"), "chevron-down") unless @meeting_agenda_item.last?
-      move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"), "move-to-bottom") unless @meeting_agenda_item.last?
+      move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top") unless first?
+      move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless first?
+      move_action_item(menu, :lower, t("label_agenda_item_move_down"), "chevron-down") unless last?
+      move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"), "move-to-bottom") unless last?
     end
 
     def delete_action_item(menu)

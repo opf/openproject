@@ -97,8 +97,6 @@ fr:
     show_preview: "Texte d’aperçu"
     add_new: "Ajouter le texte d’aide"
     edit: "Modifier le texte d’aide pour %{attribute_caption}"
-    enterprise:
-      description: "Fournissez des informations supplémentaires pour les attributs (y compris les champs personnalisés) des lots de travaux et des projets. Les textes d'aide sont affichés lorsque les utilisateurs cliquent sur le symbole point d'interrogation à côté des champs de saisie dans les projets et les lots de travaux."
   background_jobs:
     status:
       error_requeue: "La tâche a rencontré une erreur mais réessaie. L'erreur était : %{message}"
@@ -288,7 +286,11 @@ fr:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
       no_results_content_text: Ajouter une actualité
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} sur %{os_name}"
       browser: "Navigateur"
       device: "Dispositif/système d'exploitation"
@@ -387,6 +389,11 @@ fr:
     move:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -486,7 +493,6 @@ fr:
         value: "Valeur"
       enterprise_token:
         starts_at: "Valable depuis"
-        expires_at: "Expire le"
         subscriber: "Abonné"
         encoded_token: "Licence Entreprise"
         active_user_count_restriction: "Nombre maximal d’utilisateurs actif"
@@ -518,7 +524,7 @@ fr:
           true: "public"
           false: "privé"
         queries: "Requêtes"
-        status_code: "État du projet"
+        status_code: "Statut du projet"
         status_explanation: "Description du statut du projet"
         status_codes:
           not_started: "Non démarré"
@@ -561,6 +567,7 @@ fr:
       user:
         admin: "Administrateur"
         ldap_auth_source: "Connexion LDAP"
+        identity_url: "Identity URL"
         current_password: "Mot de passe actuel"
         force_password_change: "Obliger l'utilisateur à changer de mot de passe à la prochaine connexion"
         language: "Langue"
@@ -1024,6 +1031,7 @@ fr:
     due_date: "Date de fin"
     estimated_hours: "Durée estimée"
     estimated_time: "Durée estimée"
+    expires_at: "Expires at"
     firstname: "Prénom"
     group: "Groupe"
     groups: "Groupes"
@@ -2020,7 +2028,6 @@ fr:
   label_start_to_start: "de début à début"
   label_statistics: "Statistiques"
   label_status: "Statut"
-  label_stay_logged_in: "Rester connecté"
   label_storage_free_space: "Espace disque restant"
   label_storage_used_space: "Espace disque utilisé"
   label_storage_group: "Système de fichiers de stockage %{identifier}"
@@ -2947,6 +2954,7 @@ fr:
     activate: "Activer"
     activate_and_reset_failed_logins: "Activer et réinitialiser les connexions echouées"
     authentication_provider: "Fournisseur d'authentification"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Cet utilisateur s'authentifie via un fournisseur d'authentification externe, il n'y a aucun mot de passe dans OpenProject à changer.
     authorization_rejected: "Vous n'êtes pas autorisé à vous authentifier."
@@ -3046,6 +3054,17 @@ fr:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.

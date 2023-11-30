@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="modal-delivery-element">
   <%= labelled_tabular_form_for current_user, url: { action: 'user_settings', controller: 'onboarding' }, html: { id: 'user-form' } do |f| %>
-    <div class="spot-modal--header">
+    <div id="spotModalTitle" class="spot-modal--header">
       <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>, <%= current_user.name %>
     </div>
 

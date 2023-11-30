@@ -72,8 +72,7 @@ RSpec.describe Attachments::CreateContract, 'integration' do
     end
 
     describe 'valid container' do
-      # create a project so that the public non-member permission has something to attach to
-      let!(:non_member) { create(:non_member, permissions: [:view_project]) }
+      # create a project so that the anonymous permission has something to attach to
       let!(:project) { create(:project, public: true) }
 
       let(:container) { build_stubbed(:project_export) }

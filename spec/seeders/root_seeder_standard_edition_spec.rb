@@ -119,7 +119,7 @@ RSpec.describe RootSeeder,
     include_examples 'it creates records', model: IssuePriority, expected_count: 4
     include_examples 'it creates records', model: Status, expected_count: 14
     include_examples 'it creates records', model: TimeEntryActivity, expected_count: 6
-    include_examples 'it creates records', model: Workflow, expected_count: 1172
+    include_examples 'it creates records', model: Workflow, expected_count: 1758
     include_examples 'it creates records', model: Meeting, expected_count: 1
   end
 
@@ -158,6 +158,24 @@ RSpec.describe RootSeeder,
         expect(Boards::Grid.count).to eq 5
       end
     end
+  end
+
+  describe 'demo data with work package role migration having been run' do
+    shared_let(:root_seeder) { described_class.new }
+
+    before_all do
+      # call the migration which will add data for work package roles. This
+      # needs to be done manually as running tests automatically calls the
+      # `db:test:purge` rake task.
+      require(Rails.root.join('db/migrate/20231128080650_add_work_package_roles'))
+      AddWorkPackageRoles.new.up
+
+      with_edition('standard') do
+        root_seeder.seed_data!
+      end
+    end
+
+    include_examples 'creates standard demo data'
   end
 
   describe 'demo data mock-translated in another language' do

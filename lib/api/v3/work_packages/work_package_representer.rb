@@ -248,7 +248,7 @@ module API
         end
 
         link :addRelation,
-             cache_if: -> { current_user.allowed_in_project?(:manage_work_package_relations, represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:manage_work_package_relations, represented) } do
           {
             href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
@@ -277,7 +277,7 @@ module API
         end
 
         link :addComment,
-             cache_if: -> { current_user.allowed_in_project?(:add_work_package_notes, represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:add_work_package_notes, represented) } do
           {
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
@@ -566,20 +566,20 @@ module API
 
         def current_user_update_allowed?
           @current_user_update_allowed ||=
-            current_user.allowed_in_project?(:edit_work_packages, represented.project) ||
+            current_user.allowed_in_work_package?(:edit_work_packages, represented) ||
               current_user.allowed_in_project?(:assign_versions, represented.project)
         end
 
         def view_time_entries_allowed?
           @view_time_entries_allowed ||=
             current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-              current_user.allowed_in_project?(:view_own_time_entries, represented.project)
+              current_user.allowed_in_work_package?(:view_own_time_entries, represented)
         end
 
         def log_time_allowed?
           @log_time_allowed ||=
             current_user.allowed_in_project?(:log_time, represented.project) ||
-              current_user.allowed_in_project?(:log_own_time, represented.project)
+              current_user.allowed_in_work_package?(:log_own_time, represented)
         end
 
         def view_budgets_allowed?
@@ -588,7 +588,7 @@ module API
 
         def export_work_packages_allowed?
           @export_work_packages_allowed ||=
-            current_user.allowed_in_project?(:export_work_packages, represented.project)
+            current_user.allowed_in_work_package?(:export_work_packages, represented)
         end
 
         def add_work_packages_allowed?

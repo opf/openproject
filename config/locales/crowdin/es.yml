@@ -97,8 +97,6 @@ es:
     show_preview: "Vista previa del texto"
     add_new: "Agregar texto de ayuda"
     edit: "Editar texto de ayuda para %{attribute_caption}"
-    enterprise:
-      description: "Proporcione información adicional para atributos (incl. campos personalizados) de los paquetes de trabajo y proyectos. Los textos de ayuda se muestran cuando los usuarios hacen clic en el símbolo de signo de interrogación junto a los campos correspondientes en proyectos y paquetes de trabajo."
   background_jobs:
     status:
       error_requeue: "El trabajo experimentó un error pero se está reintentando. El error fue: %{message}"
@@ -285,7 +283,11 @@ es:
       no_results_title_text: No hay noticias sobre las que informar por el momento.
       no_results_content_text: Añadir un elemento de noticias
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} en %{os_name}"
       browser: "Navegador"
       device: "Dispositivo / SO"
@@ -384,6 +386,11 @@ es:
     move:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
       unsupported_for_multiple_projects: "Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -483,7 +490,6 @@ es:
         value: "Valor"
       enterprise_token:
         starts_at: "Válido desde"
-        expires_at: "Caduca el"
         subscriber: "Suscriptor"
         encoded_token: "Token de soporte de Enterprise"
         active_user_count_restriction: "Máximo de usuarios activos"
@@ -558,6 +564,7 @@ es:
       user:
         admin: "Administrador"
         ldap_auth_source: "Conexión LDAP"
+        identity_url: "Identity URL"
         current_password: "Contraseña actual"
         force_password_change: "Aplicar el cambio de contraseña en el proximo inicio de sesión"
         language: "Idioma"
@@ -1021,6 +1028,7 @@ es:
     due_date: "Fecha de finalización"
     estimated_hours: "Tiempo estimado"
     estimated_time: "Tiempo estimado"
+    expires_at: "Expires at"
     firstname: "Nombre"
     group: "Grupo"
     groups: "Grupos"
@@ -2017,7 +2025,6 @@ es:
   label_start_to_start: "iniciar para iniciar"
   label_statistics: "Estadísticas"
   label_status: "Estado"
-  label_stay_logged_in: "Mantener sesión activa"
   label_storage_free_space: "Espacio de disco restante"
   label_storage_used_space: "Espacio de disco utilizado"
   label_storage_group: "Sistema de archivos de almacenamiento %{identifier}"
@@ -2943,6 +2950,7 @@ es:
     activate: "Activar"
     activate_and_reset_failed_logins: "Activar y restablecer los inicios de sesión fallidos"
     authentication_provider: "Proveedor de autenticación"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Este usuario se autentica mediante un proveedor de autenticación externa, así que no hay ninguna contraseña en OpenProject para ser cambiada.
     authorization_rejected: "No tienes permitido iniciar sesion."
@@ -3042,6 +3050,17 @@ es:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Los días no seleccionados se omiten al programar los paquetes de trabajo (y no se incluyen en el recuento de días). Esto puede anularse a nivel de paquete de trabajo.

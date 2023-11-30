@@ -43,11 +43,11 @@ ru:
           name: Другие
       work_package_roles:
         item_0:
-          name: Редактор пакета работ
+          name: Work package editor
         item_1:
-          name: Комментатор пакета работ
+          name: Work package commenter
         item_2:
-          name: Просмотрщик пакета работ
+          name: Work package viewer
       project_roles:
         item_0:
           name: Неучастник
@@ -352,22 +352,20 @@ ru:
                 options:
                   name: Приступая к работе
                   text: |
-                    Мы рады, что вы присоединились! Мы предлагаем попробовать несколько вещей, чтобы начать работу в OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    Узнайте о наиболее важных функциях нашего [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    _Try the following steps:_
 
-                    _Попробуйте следующие шаги:_
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
+                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    1. *Пригласите новых участников к вашему проекту*: &rightarrow; Перейти к [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) в навигации по проекту.
-                    2. *Просмотр бэклога продукта и бэклога спринта*: &rightarrow; Перейдите к [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) в навигации по проекту.
-                    3. *Просмотр вашей панели задач*: &rightarrow; Перейдите к [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Нажмите на правую стрелку спринта &rightarrow; Выбирайте [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Создайте новый пакет работ*: &rightarrow; Перейдите к [Пакеты работ &rightarrow; Создать]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Создайте и обновите план проекта*: &rightarrow; Перейдите к [плану проекта](##query:scrum_project__query__project_plan) в навигации по проекту.
-                    6. *Создайте вики спринта*: &rightarrow; Перейдите в [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) и откройте вики спринта из правого выпадающего меню в спринте. Вы можете редактировать [шаблон вики]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) на основе ваших потребностей.
-                    7. *Активируйте дополнительные модули*: &rightarrow; Перейдите к [настройкам проекта &rightarrow; Модулей]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
-
-                    Здесь вы найдете наши [руководства пользователя](https://www. penproject.org/docs/user-guide/).
-                    Пожалуйста, дайте нам знать, если у вас есть какие-либо вопросы или нужна поддержка. Свяжитесь с нами: [поддержка[at]openproject.com](mailto:support@openproject.com).
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Пакеты работ

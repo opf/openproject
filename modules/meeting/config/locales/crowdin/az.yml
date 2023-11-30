@@ -33,6 +33,9 @@ az:
         duration: "Duration"
         notes: "Notes"
         participants: "Participants"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
         participants_attended: "Attendees"
         participants_invited: "Invitees"
         project: "Project"
@@ -107,6 +110,7 @@ az:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notification sent successfully"
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
@@ -160,6 +164,7 @@ az:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

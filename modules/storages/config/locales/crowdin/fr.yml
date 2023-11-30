@@ -86,6 +86,7 @@ fr:
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
+        delete: "Delete file storage"
       managed_project_folders:
         title: "Répertoires de projet gérés automatiquement"
         subtitle_short: "Let OpenProject create folders per project automatically."
@@ -108,8 +109,7 @@ fr:
       managed_project_folders_application_password: >
         Copier cette valeur depuis :
       managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
-      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
-      new_storage_link_text: "file storage documentation"
+      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
       no_storage_set_up: "Aucun espace de stockage de fichiers n'a été configuré pour le moment."
       no_specific_folder: "Par défaut, chaque utilisateur démarrera dans son propre dossier d'accueil lorsqu'il téléversera un fichier."
       automatic_folder: "Cela créera automatiquement un dossier racine pour ce projet et gérera les autorisations d'accès pour chaque membre du projet."
@@ -148,13 +148,15 @@ fr:
       project_folder: >
         Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
     delete_warning:
       storage: >
-        Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
+        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
+      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
+      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
+      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
       project_storage: >
         Voulez-vous vraiment supprimer %{file_storage} de ce projet ? Pour confirmer cette action, veuillez introduire le nom de l'espace de stockage dans le champ ci-dessous, cela permettra de :
       project_storage_delete_result_1: "Supprimer tous les liens des lots de travaux de ce projet vers les fichiers et dossiers de cet espace de stockage."
@@ -164,6 +166,7 @@ fr:
     storage_list_blank_slate:
       heading: "You don't have any storages yet."
       description: "Add a storage to see them here."
+    error_invalid_provider_type: "Please select a valid storage provider."
     label_active: "Actif"
     label_add_new_storage: "Add new storage"
     label_delete_storage: "Delete storage"
@@ -197,7 +200,7 @@ fr:
     label_project_folder: "Dossier du projet"
     label_redirect_uri: "Redirect URI"
     label_new_storage: "Nouveau stockage"
-    label_new_file_storage: "New file storage"
+    label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
@@ -231,3 +234,9 @@ fr:
     automatically_managed_project_folder_missing: "Pour terminer la configuration, veuillez configurer les dossiers de projet gérés automatiquement pour votre espace de stockage."
     notice_oauth_application_replaced: "L'application OAuth OpenProject a bien été remplacée."
     notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    health:
+      title: "Managed folders status"
+      label_pending: "Pending"
+      label_error: "Error"
+      label_healthy: "Healthy"
+      checked: "Checked  %{datetime}"

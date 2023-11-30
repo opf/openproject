@@ -27,7 +27,7 @@ ru:
         creator: "Создатель"
         provider_type: "Тип поставщика"
         host: "Хост"
-        tenant: "Tenant"
+        tenant: "Арендатор"
       storages/file_link:
         origin_id: "ID оригинала"
     errors:
@@ -86,6 +86,7 @@ ru:
     page_titles:
       file_storages:
         subtitle: "Добавьте внешнее хранилище файлов для загрузки, чтобы связывать и управлять файлами в пакетах работ."
+        delete: "Delete file storage"
       managed_project_folders:
         title: "Автоматически управляемые папки проектов"
         subtitle_short: "Позволить OpenProject создавать папки для каждого проекта автоматически."
@@ -108,8 +109,7 @@ ru:
       managed_project_folders_application_password: >
         Скопировать это значение из:
       managed_project_folders_application_password_caption: "Включите автоматические управляемые папки, копируя это значение из: %{provider_type_link}."
-      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
-      new_storage_link_text: "file storage documentation"
+      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
       no_storage_set_up: "Нет настроенных хранилищ файлов."
       no_specific_folder: "По умолчанию каждый пользователь при загрузке файла начинает работу со своей собственной домашней папки."
       automatic_folder: "Это автоматически создаст корневую папку для этого проекта и будет управлять правами доступа для каждого участника проекта."
@@ -126,35 +126,37 @@ ru:
       oauth_application_details_link_text: "Настройки интеграции Nextcloud OpenProject"
       copy_from: "Скопировать это значение из"
       nextcloud:
-        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
-        oauth_configuration: "Copy these values from %{application_link_text}."
-        application_link_text: "application “Integration OpenProject”"
+        provider_configuration: "Пожалуйста, убедитесь, что у вас есть права администрирования в копии Nextcloud, и перед установкой настроен %{application_link_text}."
+        oauth_configuration: "Скопируйте эти значения из %{application_link_text}."
+        application_link_text: "Приложение «Интеграция OpenProject»"
         integration: "Администрирование NextCloud / OpenProject"
       one_drive:
-        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
-        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
-        application_link_text: "Azure application"
+        provider_configuration: "Перед установкой убедитесь, что у вас есть права администрирования в %{application_link_text}."
+        oauth_configuration: "Скопируйте эти значения из %{application_link_text}. После этого скопируйте URI обратно в %{application_link_text}."
+        application_link_text: "Приложение Azure"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Скопируйте идентификатор клиента из портала Azure. Это необходимо для генерации редиректного URI.
         oauth_client_secret: >
           Скопируйте секретный ключ клиента с портала Azure. Для новосозданного приложения секретный ключ должен быть создан вручную. Для авторизации веб-приложений требуется секретный ключ.
-        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
-        tenant_id: "Please copy the tenant from your Azure application."
-        tenant_id_placeholder: "Name or UUID"
-        drive_id: "Please copy the drive ID from your Azure application."
-        drive_id_placeholder: "UUID or triple ID"
+        missing_client_id_for_redirect_uri: "Пожалуйста, заполните значения OAuth для генерации URI"
+        tenant_id: "Пожалуйста, скопируйте арендатора из вашего приложения Azure."
+        tenant_id_placeholder: "Имя или UUID"
+        drive_id: "Пожалуйста, скопируйте ID диска из вашего приложения Azure."
+        drive_id_placeholder: "UUID или тройной ID"
     help_texts:
       project_folder: >
         Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
     configuration_checks:
-      incomplete: "Установка этого хранилища не завершена."
       oauth_client_incomplete:
-        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
-        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+        nextcloud: "Разрешить OpenProject доступ к данным Nextcloud с помощью OAuth."
+        one_drive: "Разрешить OpenProject доступ к данным Azure, используя OAuth для подключения OneDrive/Sharepoint."
     delete_warning:
       storage: >
-        Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
+        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
+      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
+      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
+      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
       project_storage: >
         Вы уверены, что хотите удалить %{file_storage} из этого проекта? Для подтверждения этого действия, пожалуйста, введите имя хранилища в поле ниже, это позволит:
       project_storage_delete_result_1: "Удалить все ссылки из пакетов работ этого проекта в файлы и папки этого хранилища."
@@ -164,6 +166,7 @@ ru:
     storage_list_blank_slate:
       heading: "У вас пока нет хранилищ."
       description: "Добавьте хранилище, чтобы увидеть его здесь."
+    error_invalid_provider_type: "Please select a valid storage provider."
     label_active: "Активный"
     label_add_new_storage: "Добавить новое хранилище"
     label_delete_storage: "Удалить хранилище"
@@ -172,9 +175,9 @@ ru:
     label_provider: "Поставщик"
     label_file_link: "Ссылка на файл"
     label_file_links: "Ссылки на файл"
-    label_file_storage: "File storage"
+    label_file_storage: "Файловое хранилище"
     label_creation_time: "Время создания"
-    label_completed: "Completed"
+    label_completed: "Выполнено"
     label_incomplete: "Не завершено"
     label_name: "Имя"
     label_host: "URL хоста"
@@ -195,9 +198,9 @@ ru:
     label_information: "Дополнительная информация"
     label_provider_type: "Тип поставщика"
     label_project_folder: "Папка проекта"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "URI перенаправления"
     label_new_storage: "Новое хранилище"
-    label_new_file_storage: "New file storage"
+    label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Редактировать хранилище"
     label_edit_storage_host: "Изменить узел хранения"
     label_edit_storage_oauth_client: "Редактировать хранилище OAuth клиента"
@@ -206,7 +209,7 @@ ru:
     label_no_specific_folder: "Нет конкретной папки"
     label_automatic_folder: "Новая папка с автоматически управляемыми правами"
     label_no_selected_folder: "Папка не выбрана"
-    label_select_provider: "Select provider"
+    label_select_provider: "Выберите поставщика"
     label_storage: "Хранилище"
     label_storages: "Хранилища"
     label_status: "Статус"
@@ -214,7 +217,7 @@ ru:
     member_connection_status:
       connected: "Подключено"
       connected_no_permissions: "Роль пользователя не имеет разрешения на хранение"
-      not_connected: "Not connected. The user should login to the storage via the following %{link}."
+      not_connected: "Не подключено. Пользователь должен войти в хранилище с помощью следующего %{link}."
     no_results: "Хранилища еще не настроены."
     members_no_results: "Нет участников для отображения."
     provider_types:
@@ -230,4 +233,10 @@ ru:
     oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."
     automatically_managed_project_folder_missing: "Для завершения установки, пожалуйста, настройте автоматически управляемые папки проекта для вашего хранилища."
     notice_oauth_application_replaced: "Приложение OpenProject OAuth успешно заменено."
-    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    notice_successful_storage_connection: "Хранилище успешно подключено! Не забудьте активировать модуль и определенное хранилище в настройках проекта для его использования."
+    health:
+      title: "Managed folders status"
+      label_pending: "Pending"
+      label_error: "Error"
+      label_healthy: "Healthy"
+      checked: "Checked  %{datetime}"

@@ -10,6 +10,8 @@ cs:
     error_captcha: "Váš účet nemohl být ověřen. Kontaktujte prosím administrátora."
     settings:
       website_key: 'Klíč webové stránky'
+      response_limit: 'Response limit for HCaptcha'
+      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Zadejte webový klíč vytvořený v reCAPTCHA admin konzoli pro tuto doménu.'
       secret_key: 'Secret Key'
       secret_key_text: 'Zadejte webový klíč vytvořený v reCAPTCHA admin konzoli pro tuto doménu.'
@@ -17,5 +19,6 @@ cs:
       type_disabled: 'Zakázat reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA je bezplatná služba Google, která může být povolena pro vaši instanci OpenProject. Je-li povolena, objeví se při přihlášení captcha formulář všem uživatelům, kteří ještě neověřili captchu. <br/> Více informací o reCAPTCHA, jejich verzích a jak vytvořit webovou stránku a tajné klíče naleznete v následujícím odkazu:  %{recaptcha_link}
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}

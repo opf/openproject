@@ -22,9 +22,9 @@
 #English strings go here for Rails i18n
 uk:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "Зустріч OpenProject"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      Цей модуль додає до OpenProject функції для підтримки зустрічей проєкту. Зустрічі можна планувати, вибираючи запрошених з одного проекту для участі у зустрічі. Можна створити порядок денний і надіслати його запрошеним. Після зустрічі можна вибрати учасників і створити протокол на основі порядку денного.  Наостанок, протокол можна надіслати всім учасникам і запрошеним.
   activerecord:
     attributes:
       meeting:
@@ -33,6 +33,11 @@ uk:
         duration: "Тривалість"
         notes: "Нотатки "
         participants: "Учасники"
+        participant:
+          one: "1 Participant"
+          few: "%{count} Participants"
+          many: "%{count} Participants"
+          other: "%{count} Participants"
         participants_attended: "Учасники"
         participants_invited: "Запрошені"
         project: "Проєкт"
@@ -78,7 +83,7 @@ uk:
   label_meeting_diff: "Відмінність"
   label_upcoming_meetings: "Майбутні заходи"
   label_past_meetings: "Минулі заходи"
-  label_upcoming_meetings_short: "Upcoming"
+  label_upcoming_meetings_short: "Майбутні"
   label_past_meetings_short: "Past"
   label_involvement: "Участь"
   label_upcoming_invitations: "Майбутні запрошення"
@@ -107,6 +112,7 @@ uk:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Скопійовано з наради #%{id} "
   notice_successful_notification: "Повідомлення успішно надіслано"
   notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
@@ -160,6 +166,7 @@ uk:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

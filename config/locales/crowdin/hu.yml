@@ -97,8 +97,6 @@ hu:
     show_preview: "Előnézet mutatása"
     add_new: "Súgószöveg hozzáadása"
     edit: "Súgószöveg \"%{attribute_caption}\" szerkesztése"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"
@@ -287,7 +285,11 @@ hu:
       no_results_title_text: Nincs megjeleníthető hír.
       no_results_content_text: Hír hozzáadása
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Browser"
       device: "Device / OS"
@@ -384,6 +386,11 @@ hu:
     move:
       no_common_statuses_exists: "Az összes kiválasztott feladatcsoporthoz nincs elérhető állapot. Státuszuk nem változtatható meg."
       unsupported_for_multiple_projects: "Tömeges mozgatás/másolás nem támogatott a különböző projektekből származó feladatcsoportokhoz"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -483,7 +490,6 @@ hu:
         value: "Érték"
       enterprise_token:
         starts_at: "Érvényes"
-        expires_at: "Lejárat ekkor"
         subscriber: "Előfizető"
         encoded_token: "Vállalati támogatás kulcs"
         active_user_count_restriction: "Maximális aktív felhasználók"
@@ -558,6 +564,7 @@ hu:
       user:
         admin: "Adminisztrátor"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Jelenlegi jelszó"
         force_password_change: "Kötelező jelszóváltás a következő bejelentkezéskor"
         language: "Nyelv"
@@ -1021,6 +1028,7 @@ hu:
     due_date: "Befejezési dátum"
     estimated_hours: "Becsült idő (óra)"
     estimated_time: "Becsült idő (óra)"
+    expires_at: "Expires at"
     firstname: "Keresztnév"
     group: "Csoport"
     groups: "Csoportok"
@@ -2017,7 +2025,6 @@ hu:
   label_start_to_start: "elejétől az elejéig"
   label_statistics: "Statisztika"
   label_status: "Állapot"
-  label_stay_logged_in: "Bejelentkezve maradok"
   label_storage_free_space: "Fennmaradó lemezterület"
   label_storage_used_space: "Felhasznált lemezterület"
   label_storage_group: "Tároló fájlrendszer %{identifier}"
@@ -2943,6 +2950,7 @@ hu:
     activate: "Aktivál"
     activate_and_reset_failed_logins: "Aktiválja és alaphelyzetbe állitja a sikertelen bejelentkezéseket"
     authentication_provider: "Hitelesítés-ellenőrző"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Ez a felhasználó egy külső hitelesítés szolgáltató keresztül hitelesít, így nincs megváltoztatható jelszó az alkalmazásban.
     authorization_rejected: "Nem megengedett bejelentkezés."
@@ -3043,6 +3051,17 @@ hu:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.

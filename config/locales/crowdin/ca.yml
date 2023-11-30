@@ -97,8 +97,6 @@ ca:
     show_preview: "Previsualitzar text"
     add_new: "Afegeix text d'ajuda"
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
-    enterprise:
-      description: "Proveeix informació addicional pels atributs (inclosos camps personalitzats) dels paquets de treball o projectes. Els texts d'ajuda es mostren quan l'usuari fa clic al signe d'interrogació al costat dels valors de camp en projectes i paquets de treball."
   background_jobs:
     status:
       error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
@@ -285,7 +283,11 @@ ca:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
       no_results_content_text: Afegir una notícia
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
     sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name}%{browser_version} en %{os_name}"
       browser: "Navegador"
       device: "Dispositiu / Sistema Operatiu"
@@ -383,6 +385,11 @@ ca:
     move:
       no_common_statuses_exists: "No hi ha estats disponibles per a tots els paquets de treball seleccionats. El seus estats no es poden canviar."
       unsupported_for_multiple_projects: "Moure o copiar en massa no està soportat per paquets de treball de múltiples projectes"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
+        link_message: "Configure a workflow in the administration."
     summary:
       reports:
         category:
@@ -482,7 +489,6 @@ ca:
         value: "Valor"
       enterprise_token:
         starts_at: "Vàlid des de"
-        expires_at: "Caduca el"
         subscriber: "Subscriptor"
         encoded_token: "Token de suport Enterprise"
         active_user_count_restriction: "Màxim nombre d'usuaris actius"
@@ -557,6 +563,7 @@ ca:
       user:
         admin: "Administrador"
         ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Contrassenya actual"
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
         language: "Idioma"
@@ -1020,6 +1027,7 @@ ca:
     due_date: "Data final"
     estimated_hours: "Temps estimat"
     estimated_time: "Temps estimat"
+    expires_at: "Expires at"
     firstname: "Nom"
     group: "Grup"
     groups: "Grups"
@@ -2016,7 +2024,6 @@ ca:
   label_start_to_start: "de principi a principi"
   label_statistics: "Estadí­stiques"
   label_status: "Estat"
-  label_stay_logged_in: "Manté l'entrada"
   label_storage_free_space: "Espai de disc restant"
   label_storage_used_space: "Espai de disc utilitzat"
   label_storage_group: "Sistema de fitxers %{identifier}"
@@ -2936,6 +2943,7 @@ ca:
     activate: "Activar"
     activate_and_reset_failed_logins: "Activar i restaurar inicis de sessió erronis"
     authentication_provider: "Proveïdor d'autenticació"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       Aquest usuari s'autentica mitjançant un proveïdor d'autenticació externa i no hi ha cap contrasenya a OpenProject per canviar.
     authorization_rejected: "No pots iniciar la sessió."
@@ -3036,6 +3044,17 @@ ca:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.

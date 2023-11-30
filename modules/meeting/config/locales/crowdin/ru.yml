@@ -33,6 +33,11 @@ ru:
         duration: "Длительность"
         notes: "Заметки"
         participants: "Участники"
+        participant:
+          one: "1 Participant"
+          few: "%{count} Participants"
+          many: "%{count} Participants"
+          other: "%{count} Participants"
         participants_attended: "Участники"
         participants_invited: "Приглашенные"
         project: "Проект"
@@ -42,7 +47,7 @@ ru:
       meeting_agenda_items:
         title: "Заголовок"
         author: "Ответственный"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "Длительность (мин)"
         description: "Заметки"
     errors:
       messages:
@@ -107,6 +112,7 @@ ru:
       classic_text: 'Организуйте свою встречу с помощью форматируемой текстовой повестки дня и протокола.'
       structured: 'Динамический'
       structured_text: 'Организуйте свою встречу в виде списка пунктов повестки дня, при необходимости связав их с пакетом работ.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Скопировано со встречи #%{id}"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
@@ -148,7 +154,7 @@ ru:
   label_agenda_item_move_to_bottom: "В конец"
   label_agenda_item_move_up: "Вверх"
   label_agenda_item_move_down: "Вниз"
-  label_agenda_item_add_notes: "Add notes"
+  label_agenda_item_add_notes: "Добавить заметки"
   label_meeting_details: "Детали встречи"
   label_meeting_details_edit: "Изменить сведения о встрече"
   label_meeting_state_open: "Открыть"
@@ -160,6 +166,7 @@ ru:
   label_meeting_manage_participants: "Управление участниками"
   label_meeting_no_participants: "Нет участников"
   label_meeting_show_hide_participants: "Показать/скрыть %{count} больше"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Добавить участников"
   text_meeting_not_editable_anymore: "Эту встречу больше нельзя редактировать."
   text_meeting_not_present_anymore: "Эта встреча была удалена. Пожалуйста, выберите другую встречу."
@@ -168,7 +175,7 @@ ru:
   label_meeting_selection_caption: "Этот пакет работ можно добавить только к открытым предстоящим встречам."
   text_add_work_package_to_meeting_description: "Пакет работ может быть добавлен к одной или нескольким встречам для обсуждения. Любые заметки об этом также видны здесь."
   text_agenda_item_no_notes: "Примечания отсутствуют"
-  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
+  text_agenda_item_not_editable_anymore: "Этот пункт повестки дня больше не редактируется."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Этот пакет работ пока не включен в повестку дня предстоящей встречи."
   text_work_package_add_to_meeting_hint: "Используйте кнопку \"Добавить к встрече\", чтобы добавить этот пакет работ к предстоящей встрече."
   text_work_package_has_no_past_meeting_agenda_items: "Этот пакет работ не упоминался на прошлой встрече."

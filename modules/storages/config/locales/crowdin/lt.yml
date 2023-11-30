@@ -86,6 +86,7 @@ lt:
     page_titles:
       file_storages:
         subtitle: "Pridėkite išorinę failų saugyklą, jei norite įkelti, susieti ir valdyti failus darbo paketuose."
+        delete: "Delete file storage"
       managed_project_folders:
         title: "Automatiškai valdomi projekto aplankai"
         subtitle_short: "Leisti OpenProjet kurti aplankus projektams automatiškai"
@@ -108,8 +109,7 @@ lt:
       managed_project_folders_application_password: >
         Kopijuoti šią reikšmę iš
       managed_project_folders_application_password_caption: "Įjunkite automatiškai valdomus aplankus nukopijuodami šią reikšmę iš: %{provider_type_link}"
-      new_storage: "Daugiau informacijos apie šį nustatymą rasite perskaitę mūsų %{new_storage_link_text}."
-      new_storage_link_text: "failų saugyklos dokumentacija"
+      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
       no_storage_set_up: "Dar nėra nustatyta nei viena failų saugykla."
       no_specific_folder: "Pagal nutylėjimą visi naudotojai įkeldami naujus failus pradės savo namų aplanke."
       automatic_folder: "Tai automatiškai sukurs šakninį aplanką šiam projektui ir tvarkys prieigos teises kiekvienam projekto nariui."
@@ -148,13 +148,15 @@ lt:
       project_folder: >
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
     configuration_checks:
-      incomplete: "Šios saugyklos nustatymai nepilni"
       oauth_client_incomplete:
         nextcloud: "Leisti OpenProject prieigą prie Nextcloud duomenų naudojant OAuth."
         one_drive: "Leisti OpenProject prieigą prie Azure duomenų naudojant OAuth prisijungimui prie OneDrive/Sharepoint."
     delete_warning:
       storage: >
-        Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.
+        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
+      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
+      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
+      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
       project_storage: >
         Ar tikrai norite ištrinti %{file_storage} iš šio projekto? Šio veiksmo patvirtinimui prašome įvesti saugyklos pavadinimą lauke žemiau, tai:
       project_storage_delete_result_1: "Išims iš šio projekto darbo paketų visas nuorodas į tos saugyklos failus ir aplankus."
@@ -164,6 +166,7 @@ lt:
     storage_list_blank_slate:
       heading: "Jūs dar neturite jokių saugyklų."
       description: "Pridėkite saugyklą, kad matytumėte ją čia."
+    error_invalid_provider_type: "Please select a valid storage provider."
     label_active: "Aktyvus"
     label_add_new_storage: "Pridėti naują saugyklą"
     label_delete_storage: "Trinti saugyklą"
@@ -197,7 +200,7 @@ lt:
     label_project_folder: "Projekto aplankas"
     label_redirect_uri: "Peradresavimo URI"
     label_new_storage: "Nauja saugykla"
-    label_new_file_storage: "Nauja failų saugykla"
+    label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Keisti saugyklą"
     label_edit_storage_host: "Keisti saugyklos adresą"
     label_edit_storage_oauth_client: "Keisti saugyklos OAuth klientą"
@@ -231,3 +234,9 @@ lt:
     automatically_managed_project_folder_missing: "Kad užbaigtumėte nustatymą, prašome jūsų saugykloje sukonfigūruoti automatiškai valdumus projekto aplankus."
     notice_oauth_application_replaced: "OpenProject OAuth aplikacija buvo sėkmingai pakeista."
     notice_successful_storage_connection: "Saugykla sėkmingai prijungta! Nepamirškite aktyvuoti modulį ir konkrečią saugyklą visų projektų, kuriuose norite ją naudoti, nustatymuose."
+    health:
+      title: "Managed folders status"
+      label_pending: "Pending"
+      label_error: "Error"
+      label_healthy: "Healthy"
+      checked: "Checked  %{datetime}"

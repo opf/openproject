@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= back_url_hidden_field_tag %>
     <%= error_messages_for :user %>
 
-    <div class="spot-modal--header">
+    <div id="spotModalTitle" class="spot-modal--header">
       <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>
     </div>
     <div class="spot-divider"></div>
