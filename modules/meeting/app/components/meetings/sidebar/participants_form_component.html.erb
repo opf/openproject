@@ -3,7 +3,8 @@
     primer_form_with(
       model: @meeting,
       method: :put,
-      url: update_participants_meeting_path(@meeting)
+      url: update_participants_meeting_path(@meeting),
+      data: helpers.close_dialog_on_success_data
     ) do |f|
       component_collection do |collection|
         collection.with_component(Primer::Alpha::Dialog::Body.new(style: "max-height: 460px;", my: 3)) do
@@ -97,9 +98,7 @@
               t("button_cancel")
             end
 
-            footer.with_component(Primer::ButtonComponent.new(scheme: :primary,
-                                                              type: :submit,
-                                                              data: { 'submit-dialog-id': "edit-participants-dialog" })) do
+            footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
               t("button_save")
             end
           end

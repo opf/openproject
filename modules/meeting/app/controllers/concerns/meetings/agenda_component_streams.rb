@@ -64,11 +64,12 @@ module Meetings
         )
       end
 
-      def update_sidebar_details_form_component_via_turbo_stream(meeting: @meeting)
+      def update_sidebar_details_form_component_via_turbo_stream(meeting: @meeting, status: :bad_request)
         update_via_turbo_stream(
           component: Meetings::Sidebar::DetailsFormComponent.new(
             meeting:
-          )
+          ),
+          status:
         )
       end
 
@@ -84,7 +85,8 @@ module Meetings
         update_via_turbo_stream(
           component: Meetings::Sidebar::ParticipantsFormComponent.new(
             meeting:
-          )
+          ),
+          status: :bad_request
         )
       end
 
@@ -103,7 +105,8 @@ module Meetings
             meeting:,
             meeting_agenda_item:,
             type:
-          )
+          ),
+          status: @meeting.errors.empty? ? :ok : :bad_request
         )
       end
 
