@@ -264,6 +264,12 @@ module Components
         end
       end
 
+      def click_share
+        within_modal do
+          click_button 'Share'
+        end
+      end
+
       def expect_shared_with(user, role_name = nil, position: nil, editable: true)
         within_modal do
           expect(page).to have_list_item(text: user.name, position:)
@@ -369,6 +375,20 @@ module Components
         within modal_element do
           expect(page)
             .to have_text(I18n.t('work_package.sharing.warning_user_limit_reached'))
+        end
+      end
+
+      def expect_select_a_user_hint
+        within modal_element do
+          expect(page)
+            .to have_text(I18n.t("work_package.sharing.warning_no_selected_user"))
+        end
+      end
+
+      def expect_no_select_a_user_hint
+        within modal_element do
+          expect(page)
+            .not_to have_text(I18n.t("work_package.sharing.warning_no_selected_user"), wait: 0)
         end
       end
     end
