@@ -77,12 +77,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
           format.turbo_stream { render :create }
         end
       elsif @storage.provider_type_one_drive?
-        flash[:primer_banner] = {
-          message: I18n.t(:'storages.notice_successful_storage_connection'),
-          scheme: :success,
-          dismiss_scheme: :hide,
-          full: true
-        }
+        flash[:primer_banner] = { message: I18n.t(:'storages.notice_successful_storage_connection'), scheme: :success }
         redirect_to admin_settings_storages_path
       else
         raise "Unsupported provider type: #{@storage.short_provider_type}"

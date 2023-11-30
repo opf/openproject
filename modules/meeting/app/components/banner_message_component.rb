@@ -27,7 +27,7 @@
 #++
 
 class BannerMessageComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-  def initialize(message: nil, full: false, full_when_narrow: false, dismiss_scheme: :none, icon: false, scheme: :default,
+  def initialize(message: nil, full: true, full_when_narrow: false, dismiss_scheme: :hide, icon: false, scheme: :default,
                  test_selector: "primer-banner-message-component")
     super
 
