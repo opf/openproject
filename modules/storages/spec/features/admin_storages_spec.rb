@@ -373,6 +373,7 @@ RSpec.describe 'Admin storages',
       storage_delete_button.click
 
       expect(page).not_to have_text("Foo Nextcloud")
+      expect(page).to have_text('Successful deletion.')
       expect(page).to have_current_path(admin_settings_storages_path)
     end
 
