@@ -240,10 +240,14 @@ module Components
       def filter(filter_name, value)
         within modal_element.find("[data-test-selector='op-share-wp-filter-#{filter_name}']") do
           # Open the ActionMenu
-          click_button filter_name.capitalize
+          retry_block do # Sometimes this is just too fast.
+            click_button filter_name.capitalize
 
-          find('.ActionListContent', text: value).click
+            find('.ActionListContent', text: value).click
+          end
         end
+
+        wait_for_network_idle # Ensures filtering is done
       end
 
       def close
