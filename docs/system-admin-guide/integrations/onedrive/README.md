@@ -7,7 +7,7 @@ keywords: One Drive, Sharepoint, file storage, integration
 ---
 
 
-# OneDrive/Sharepoint integration setup
+# OneDrive/Sharepoint (Enterprise add-on) integration setup
 
 
 
@@ -16,6 +16,10 @@ keywords: One Drive, Sharepoint, file storage, integration
 | [Minimum requirements](#minimum-requirements)            | Minimum version requirements to enable the integration       |
 | [Set up the integration](#set-up-the-integration)      | Connect OpenPRoject and OneDrive/Sharepoint instances as an administrator |
 | [Using the integration](#using-the-integration) |  |
+
+### Add a OneDrive/SharePoint storage to a project (Enterprise add-on)
+
+> **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
 OpenProject offers an integration with OneDrive/Sharepoint to allow users to:
 
@@ -37,7 +41,7 @@ We recommend using the latest versions of both OneDrive/Sharepoint and OpenProje
 
 ## Set up the integration
 
-
+TBD
 
 ## Using the integration
 
