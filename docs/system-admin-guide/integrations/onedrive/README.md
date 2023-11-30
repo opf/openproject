@@ -15,7 +15,7 @@ keywords: One Drive, Sharepoint, file storage, integration
 | ----------------------------------- | :----------------------------------------------------------- |
 | [Minimum requirements](#minimum-requirements)            | Minimum version requirements to enable the integration       |
 | [Set up the integration](#set-up-the-integration)      | Connect OpenPRoject and OneDrive/Sharepoint instances as an administrator |
-| [Using the integration](#using-the-integration) | Create and manage workflows for work packages in OpenProject. |
+| [Using the integration](#using-the-integration) |  |
 
 OpenProject offers an integration with OneDrive/Sharepoint to allow users to:
 
@@ -37,6 +37,8 @@ We recommend using the latest versions of both OneDrive/Sharepoint and OpenProje
 
 ## Set up the integration
 
+
+
 ## Using the integration
 
-SCREENSHOT to show: XYZ 
+TBD
