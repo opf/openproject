@@ -1,0 +1,11 @@
+<%= render(
+    Primer::Alpha::Dialog.new(
+        id: self.class.dialog_id,
+        title: 'Modal',
+        visually_hide_title: true,
+        data: @data)
+) do |dialog| %>
+    <% dialog.with_body(id: self.class.dialog_body_id) do %>
+        <%= render(self.class::Body.new(@state)) %>
+    <% end %>
+<% end %>

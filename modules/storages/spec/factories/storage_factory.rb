@@ -90,6 +90,13 @@ FactoryBot.define do
     end
   end
 
+  factory :nextcloud_storage_configured, parent: :nextcloud_storage do
+    after(:create) do |storage, _evaluator|
+      create(:oauth_client, integration: storage)
+      create(:oauth_application, integration: storage)
+    end
+  end
+
   factory :nextcloud_storage_with_local_connection,
           parent: :nextcloud_storage,
           traits: [:as_not_automatically_managed] do

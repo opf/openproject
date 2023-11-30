@@ -1,5 +1,3 @@
-#-- copyright
-# OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
@@ -26,20 +24,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::ProjectStorages::ProjectStorageOpenAPI < API::OpenProjectAPI
-  helpers Storages::Peripherals::StorageErrorHelper
-
-  using Storages::Peripherals::ServiceResultRefinements
-
-  resources :open do
-    get do
-      @project_storage.open(current_user).match(
-        on_success: ->(url) do
-          redirect url, body: "The requested resource can be viewed at #{url}"
-          status 303
-        end,
-        on_failure: ->(error) { raise_error(error) }
-      )
-    end
+class Storages::OpenProjectStorageModalComponent::Body < ViewComponent::Base
+  def initialize(state)
+    @state = state
   end
 end

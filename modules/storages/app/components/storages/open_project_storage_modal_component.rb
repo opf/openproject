@@ -1,5 +1,3 @@
-#-- copyright
-# OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
@@ -26,20 +24,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::ProjectStorages::ProjectStorageOpenAPI < API::OpenProjectAPI
-  helpers Storages::Peripherals::StorageErrorHelper
+class Storages::OpenProjectStorageModalComponent < ViewComponent::Base
+  def initialize(project_storage_open_url:, redirect_url:, state:, **options)
+    super
+    controller = 'storages--open-project-storage-modal'
+    @data = {
+      controller:,
+      'application-target': 'dynamic',
+      "#{controller}-project-storage-open-url-value": project_storage_open_url,
+      "#{controller}-redirect-url-value": redirect_url
+    }
+    @state = state
+  end
 
-  using Storages::Peripherals::ServiceResultRefinements
+  def self.dialog_id
+    'open-project-storage-modal-component'
+  end
 
-  resources :open do
-    get do
-      @project_storage.open(current_user).match(
-        on_success: ->(url) do
-          redirect url, body: "The requested resource can be viewed at #{url}"
-          status 303
-        end,
-        on_failure: ->(error) { raise_error(error) }
-      )
-    end
+  def self.dialog_body_id
+    'open-project-storage-modal-body-component'
   end
 end

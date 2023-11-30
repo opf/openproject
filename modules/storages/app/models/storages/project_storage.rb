@@ -68,6 +68,20 @@ class Storages::ProjectStorage < ApplicationRecord
     escaped_file_path.match?(%r|^/#{project_folder_path_escaped}|)
   end
 
+  def open(user)
+    if project_folder_inactive? ||
+       (project_folder_automatic? && !user.allowed_in_project?(:read_files, project)) ||
+       project_folder_id.blank?
+      Storages::Peripherals::Registry
+        .resolve("queries.#{storage.short_provider_type}.open_storage")
+        .call(storage:, user:)
+    else
+      Storages::Peripherals::Registry
+        .resolve("queries.#{storage.short_provider_type}.open_file_link")
+        .call(storage:, user:, file_id: project_folder_id)
+    end
+  end
+
   private
 
   def escape_path(path)
