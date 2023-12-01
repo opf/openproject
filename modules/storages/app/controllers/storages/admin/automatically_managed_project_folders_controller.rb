@@ -104,7 +104,6 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     service_result = call_update_service
 
     if service_result.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to edit_admin_settings_storage_path(@storage)
     else
       render '/storages/admin/storages/automatically_managed_project_folders/edit'
