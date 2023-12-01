@@ -57,19 +57,23 @@ module Storages::Admin
         label: label_client_secret,
         required: true,
         input_width: :large
-      }
+      }.merge(provider_default_client_secret_input_options)
+    end
+
+    def provider_default_client_secret_input_options
+      {}.tap do |options_h|
+        if @storage.provider_type_one_drive?
+          options_h[:caption] = I18n.t('storages.instructions.one_drive.oauth_client_secret')
+        end
+      end
     end
 
     def label_client_id
-      [label_provider_name, I18n.t('storages.label_oauth_client_id')].join(' ')
+      I18n.t("storages.provider_types.#{@storage.short_provider_type}.label_oauth_client_id")
     end
 
     def label_client_secret
-      [label_provider_name, I18n.t('storages.label_oauth_client_secret')].join(' ')
-    end
-
-    def label_provider_name
-      I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")
+      I18n.t("storages.provider_types.#{@storage.short_provider_type}.label_oauth_client_secret")
     end
   end
 end
