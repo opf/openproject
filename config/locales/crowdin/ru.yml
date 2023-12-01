@@ -75,7 +75,7 @@ ru:
     issue_opened_referenced_comment: >
       **Обсуждение открыто:** Обсуждение %{issue_number} [%{issue_title}](%{issue_url}) в [%{repository}](%{repository_url})
       был открыт [%{gitlab_user}](%{gitlab_user_url}).
-    issue_закрыт_referenced_comment: >
+    issue_closed_referenced_comment: >
       **Обсуждение закрыто:** Обсуждение %{issue_number} [%{issue_title}](%{issue_url}) в [%{repository}](%{repository_url})
       был закрыт [%{gitlab_user}](%{gitlab_user_url}).
     issue_reopened_referenced_comment: >
