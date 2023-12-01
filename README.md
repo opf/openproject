@@ -1,4 +1,4 @@
-## Introducing OpenProject GitLab Integration v2.1 GA
+## Introducing OpenProject GitLab Integration v2.1.1 GA
 
 Based on the OpenProject Github Integration, this plugin offers the same functionalities plus other new features. This is the first version that includes the visualization of the status of the *Pipelines* (by now, it is considered in Beta status). You can test it by activating the Pipelines event in the GitLab webhook. Just keep in mind that not all pipelines will be reflected in OpenProject, only Merge Request type pipelines (for more information see the GitLab issue https://gitlab.com/gitlab-org/gitlab/-/issues/345028). Any feedback about the pipelines feature would be very appreciated, whether it works or if issues arise (you can use this ticket https://github.com/btey/openproject-gitlab-integration/issues/43).
 
@@ -15,7 +15,7 @@ If there are labels related to the Issue or MR, a button with the label icon wil
 
 OpenProject module for integration with GitLab:
 * Latest Gitlab release tested: **16.5.1**
-* Latest OpenProject release tested: **13.0.7**
+* Latest OpenProject release tested: **13.0.8**
 
 The reference system is based on the same system as for GitHub integration. You can use a link to the work package or just use “OP#87” or "PP#87" in the title/description of the Issue/MR in GitLab.
 
@@ -47,89 +47,89 @@ OpenProject will **update WP status** in this events:
 A typical workflow on GitLab side would be:
 
 1. **Create Issue.**
-   
+
    <img src="doc/op-issue-opened.png" width="500">
-   
+
    > **Issue Opened:** Issue 6 New contact form - OP#18 for Scrum project has been opened by Administrator.
 
 2. **Comment on issue.**
-   
+
    If the reference is included in the title, the comments will not need a reference. By default, all comments will use the title as a reference.
-   
+
    <img src="doc/op-commented-in-issue.png" width="500">
-   
+
    > **Commented in Issue:** Administrator commented this WP in Issue 6 New contact form - OP#18 on Scrum project:
-   > 
+   >
    > New comment on the issue with attachment.
 
 3. **Create Merge Request.**
-   
+
    <img src="doc/op-mr-opened.png" width="500">
-   
+
    > **MR Opened:** Merge request 25 Draft: Resolve "New contact form - OP#18" for Scrum project has been opened by Administrator.
-   > 
+   >
    > **Status** changed from _Specified_
    > **to** _In progress_
 
 4. **Comment in Merge Request.**
-   
+
    <img src="doc/op-commented-in-mr.png" width="500">
-   
+
    > **Commented in MR:** Administrator commented this WP in Merge request 25 Draft: Resolve "New contact form - OP#18" on Scrum project:
-   > 
+   >
    > New comment on MR.
 
 5. **Reference in other Issues or Merge Request (comments).**
-   
+
    If the reference is NOT included in the title of the Issue/MR, the comments will need a reference. In OpenProject the comment will be saved as "referenced" in Issue/MR.
-   
+
    <img src="doc/op-referenced-in-issue.png" width="500">
-   
+
    > **Referenced in Issue:** Administrator referenced this WP in Issue 2 New backend pipeline on Scrum project:
-   > 
+   >
    > OP#18 New comment about...
-   > 
-   > **Note:** If you use the reference `PP#` in the title of the Issue/MR, you can use `OP#` in the comment to generate the same type of comment in OpenProject. 
+   >
+   > **Note:** If you use the reference `PP#` in the title of the Issue/MR, you can use `OP#` in the comment to generate the same type of comment in OpenProject.
 
 6. **New commit in Merge Request.**
-   
+
    <img src="doc/op-pushed-in-mr.png" width="500">
-   
+
    > **Pushed in MR:** Administrator pushed fca3d6fb to Scrum project at 2021-03-08T08:01:57+00:00:
-   > 
+   >
    > Update readme.md OP#18
 
 7. **Comment in a new commit of the Merge Request.**
-   
+
    <img src="doc/op-referenced-in-commit.png" width="500">
-   
+
    > **Referenced in Commit:** Administrator referenced this WP in a Commit Note 0bf0e3e9 on Scrum project:
-   > 
+   >
    > This change is for OP#18.
 
 8. **Merge Request merged (generates up to 3 events).**
-   
+
    <img src="doc/op-mr-merged-event-2.png" width="500">
-   
+
    > **Pushed in MR:** Administrator pushed 1da09cb4 to Scrum project at 2021-03-05T14:57:37+00:00:
-   > 
+   >
    > Merge branch '5-new-contact-form-op-18' into 'master'
-   > 
+   >
    > Resolve "New contact form - OP#18"
-   > 
+   >
    > Closes #6
-   > 
+   >
    > See merge request root/scrum!9
-   
+
    <img src="doc/op-mr-merged-event-3.png" width="500">
-   
+
    > **MR Merged:** Merge request 24 Resolve "New contact form - OP#18" for Scrum project has been merged by Administrator.
-   > 
+   >
    > **Status** changed from _In progress_
    > **to** _Developed_
-   
+
    <img src="doc/op-mr-merged-event-4.png" width="500">
-   
+
    > **Issue Closed:** Issue 6 New contact form - OP#18 for Scrum project has been closed by Administrator.
 
 ## Configuration
@@ -159,7 +159,7 @@ Add the following in **Gemfile.lock**:
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.1)
+    openproject-gitlab_integration (2.1.1)
       openproject-webhooks
 ```
 
@@ -184,10 +184,10 @@ group :opf_plugins do
 end
 ```
 
-**Note:** It's possible that you need to use these commands before and after the "bundle install" if you get an error in this step warning about a change in the Gemfile:
+**Note:** It's possible that you need to use these commands before and after the `bundle install` if you get an error in this step warning about a change in the Gemfile:
 
 ```shell
-bundle config unset deployment 
+bundle config unset deployment
 bundle install --deployment --without mysql2 sqlite development test therubyracer docker
 bundle config set deployment
 ```
@@ -211,16 +211,16 @@ In GitLab you have to [set up a webhook](https://docs.gitlab.com/ee/user/project
 You need to configure just two things in the webhook:
 
 1. The URL must point to your OpenProject server’s GitLab webhook endpoint (/webhooks/gitlab). Append it to the URL as a simple GET parameter named key. In the end the URL should look something like this:
-   
+
    ```
    http://openproject-url.com/webhooks/gitlab?key=ae278268
    ```
 
-2. Enable the required triggers:   
-   1. Push events   
-   2. Comments   
+2. Enable the required triggers:
+   1. Push events
+   2. Comments
    3. Issues events
-   4. Merge request events  
+   4. Merge request events
    5. Pipeline events
 
 Now the integration is set up on both sides and you can use it.
