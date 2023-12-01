@@ -44,21 +44,6 @@ module OpPrimer
       render(OpPrimer::ComponentCollectionComponent.new(**), &)
     end
 
-    # There is currently no available system argument for setting an id on the
-    # rendered <ul> tag that houses the row slots on Primer::Beta::BorderBox components.
-    # Setting an id is required to be able to uniquely identify a target for
-    # TurboStream +insert+ actions and being able to prepend and append to it.
-    def border_box_with_id(id, **, &)
-      border_box = Primer::Beta::BorderBox.new(**)
-
-      new_list_arguments = border_box.instance_variable_get(:@list_arguments)
-                                     .merge(id:)
-
-      border_box.instance_variable_set(:@list_arguments, new_list_arguments)
-
-      render(border_box, &)
-    end
-
     def border_box_row(wrapper_arguments, &)
       if container
         container.with_row(**wrapper_arguments, &)
