@@ -1,4 +1,4 @@
-#-- encoding: UTF-8
+# frozen_string_literal: true
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -27,58 +27,66 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module OpenProject::GitlabIntegration::Services
-  ##
-  # Takes merge request data coming from Gitlab webhook data and stores
-  # them as a `GitlabMergeRequest`.
-  # If the `GitlabMergeRequest` already exists, it is updated.
-  #
-  # Returns the upserted `GitlabMergeRequest`.
-  class UpsertIssue
-    def call(payload, work_packages: [])
-      find_or_initialize(payload).tap do |issue|
-        issue.update!(work_packages: issue.work_packages | work_packages, **extract_params(payload))
+module OpenProject
+  module GitlabIntegration
+    module Services
+      ##
+      # Takes merge request data coming from Gitlab webhook data and stores
+      # them as a `GitlabMergeRequest`.
+      # If the `GitlabMergeRequest` already exists, it is updated.
+      #
+      # Returns the upserted `GitlabMergeRequest`.
+      class UpsertIssue
+        def call(payload, work_packages: [])
+          find_or_initialize(payload).tap do |issue|
+            issue.update!(work_packages: issue.work_packages | work_packages, **extract_params(payload))
+          end
+        end
+
+        private
+
+        def find_or_initialize(payload)
+          GitlabIssue.find_by_gitlab_identifiers(id: payload.object_attributes.iid,
+                                                 url: payload.object_attributes.url,
+                                                 initialize: true)
+        end
+
+        # Receives the input from the gitlab webhook and translates them
+        # to our internal representation.
+        # rubocop:disable Metrics/AbcSize
+        def extract_params(payload)
+          {
+            gitlab_id: payload.object_attributes.iid,
+            gitlab_user: gitlab_user_id(payload.user),
+            number: payload.object_attributes.iid,
+            gitlab_html_url: payload.object_attributes.url,
+            gitlab_updated_at: payload.object_attributes.updated_at,
+            state: payload.object_attributes.state,
+            title: payload.object_attributes.title,
+            body: description(payload),
+            repository: payload.repository.name,
+            labels: payload.labels.map { |values| extract_label_values(values) }
+          }
+        end
+        # rubocop:enable Metrics/AbcSize
+
+        def extract_label_values(payload)
+          {
+            title: payload['title'],
+            color: payload['color']
+          }
+        end
+
+        def gitlab_user_id(payload)
+          return if payload.blank?
+
+          ::OpenProject::GitlabIntegration::Services::UpsertGitlabUser.new.call(payload)
+        end
+
+        def description(payload)
+          payload.object_attributes.description.presence || 'No description provided'
+        end
       end
-    end
-
-    private
-
-    def find_or_initialize(payload)
-      GitlabIssue.find_by_gitlab_identifiers(id: payload.object_attributes.iid,
-                                                   url: payload.object_attributes.url,
-                                                   initialize: true)
-    end
-
-    # Receives the input from the gitlab webhook and translates them
-    # to our internal representation.
-    # rubocop:disable Metrics/AbcSize
-    def extract_params(payload)
-      {
-        gitlab_id: payload.object_attributes.iid,
-        gitlab_user: gitlab_user_id(payload.user),
-        number: payload.object_attributes.iid,
-        gitlab_html_url: payload.object_attributes.url,
-        gitlab_updated_at: payload.object_attributes.updated_at,
-        state: payload.object_attributes.state,
-        title: payload.object_attributes.title,
-        body: payload.object_attributes.description,
-        repository: payload.repository.name,
-        labels: payload.labels.map { |values| extract_label_values(values) }
-      }
-    end
-    # rubocop:enable Metrics/AbcSize
-
-    def extract_label_values(payload)
-      {
-        title: payload['title'],
-        color: payload['color']
-      }
-    end
-
-    def gitlab_user_id(payload)
-      return if payload.blank?
-
-      ::OpenProject::GitlabIntegration::Services::UpsertGitlabUser.new.call(payload)
     end
   end
 end
