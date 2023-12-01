@@ -86,7 +86,7 @@ lt:
     page_titles:
       file_storages:
         subtitle: "Pridėkite išorinę failų saugyklą, jei norite įkelti, susieti ir valdyti failus darbo paketuose."
-        delete: "Delete file storage"
+        delete: "Trinti failų saugyklą"
       managed_project_folders:
         title: "Automatiškai valdomi projekto aplankai"
         subtitle_short: "Leisti OpenProjet kurti aplankus projektams automatiškai"
@@ -109,7 +109,7 @@ lt:
       managed_project_folders_application_password: >
         Kopijuoti šią reikšmę iš
       managed_project_folders_application_password_caption: "Įjunkite automatiškai valdomus aplankus nukopijuodami šią reikšmę iš: %{provider_type_link}"
-      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
+      new_storage: "Daugiau informacijos rasite mūsų dokumentacijoje apie  <a target='_blank' href='%{provider_link}'>%{provider_name} failų saugyklos nustatymą</a> ir integraciją."
       no_storage_set_up: "Dar nėra nustatyta nei viena failų saugykla."
       no_specific_folder: "Pagal nutylėjimą visi naudotojai įkeldami naujus failus pradės savo namų aplanke."
       automatic_folder: "Tai automatiškai sukurs šakninį aplanką šiam projektui ir tvarkys prieigos teises kiekvienam projekto nariui."
@@ -234,6 +234,13 @@ lt:
     automatically_managed_project_folder_missing: "Kad užbaigtumėte nustatymą, prašome jūsų saugykloje sukonfigūruoti automatiškai valdumus projekto aplankus."
     notice_oauth_application_replaced: "OpenProject OAuth aplikacija buvo sėkmingai pakeista."
     notice_successful_storage_connection: "Saugykla sėkmingai prijungta! Nepamirškite aktyvuoti modulį ir konkrečią saugyklą visų projektų, kuriuose norite ją naudoti, nustatymuose."
+    open_project_storage_modal:
+      waiting:
+        a: "We are setting up your permissions on the project folder."
+        b: "One moment please, this might take some time..."
+      success:
+        a: "Integration setup completed"
+        b: "You are being redirected"
     health:
       title: "Managed folders status"
       label_pending: "Pending"

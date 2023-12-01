@@ -234,6 +234,13 @@ zh-CN:
     automatically_managed_project_folder_missing: "要完成设置，请为您的存储区配置自动托管的项目文件夹。"
     notice_oauth_application_replaced: "已成功替换 OpenProject OAuth 应用程序。"
     notice_successful_storage_connection: "存储连接成功！请记住，在每个所需项目的项目设置中激活模块和特定存储以便使用它。"
+    open_project_storage_modal:
+      waiting:
+        a: "We are setting up your permissions on the project folder."
+        b: "One moment please, this might take some time..."
+      success:
+        a: "Integration setup completed"
+        b: "You are being redirected"
     health:
       title: "Managed folders status"
       label_pending: "Pending"

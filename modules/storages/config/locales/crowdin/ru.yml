@@ -234,6 +234,13 @@ ru:
     automatically_managed_project_folder_missing: "Для завершения установки, пожалуйста, настройте автоматически управляемые папки проекта для вашего хранилища."
     notice_oauth_application_replaced: "Приложение OpenProject OAuth успешно заменено."
     notice_successful_storage_connection: "Хранилище успешно подключено! Не забудьте активировать модуль и определенное хранилище в настройках проекта для его использования."
+    open_project_storage_modal:
+      waiting:
+        a: "We are setting up your permissions on the project folder."
+        b: "One moment please, this might take some time..."
+      success:
+        a: "Integration setup completed"
+        b: "You are being redirected"
     health:
       title: "Managed folders status"
       label_pending: "Pending"

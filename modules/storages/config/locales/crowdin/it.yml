@@ -234,6 +234,13 @@ it:
     automatically_managed_project_folder_missing: "Per completare la configurazione, configura le cartelle di progetto gestite automaticamente per il tuo spazio di archiviazione."
     notice_oauth_application_replaced: "L'applicazione OpenProject OAuth è stata sostituita correttamente."
     notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    open_project_storage_modal:
+      waiting:
+        a: "We are setting up your permissions on the project folder."
+        b: "One moment please, this might take some time..."
+      success:
+        a: "Integration setup completed"
+        b: "You are being redirected"
     health:
       title: "Managed folders status"
       label_pending: "Pending"
