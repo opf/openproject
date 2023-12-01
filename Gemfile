@@ -214,7 +214,7 @@ gem 'lookbook', '~> 2.1.0'
 # Require factory_bot for usage with openproject plugins testing
 gem 'factory_bot', '~> 6.4.0', require: false
 # require factory_bot_rails for convenience in core development
-gem 'factory_bot_rails', '~> 6.2.0', require: false
+gem 'factory_bot_rails', '~> 6.4.0', require: false
 
 gem 'turbo-rails', "~> 1.1"
 
