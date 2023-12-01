@@ -74,6 +74,7 @@ en:
       done_continue: "Done, continue"
       done_continue_setup: "Done. Continue setup"
       done_complete_setup: "Done, complete setup"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
