@@ -37,4 +37,8 @@ FactoryBot.define do
   factory :view_work_packages_calendar, parent: :view do
     type { 'work_packages_calendar' }
   end
+
+  factory :view_gantt, parent: :view do
+    type { 'gantt' }
+  end
 end
