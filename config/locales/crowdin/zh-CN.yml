@@ -284,10 +284,10 @@ zh-CN:
       no_results_content_text: 添加新闻项
   users:
     autologins:
-      prompt: "Stay logged in for %{num_days}"
+      prompt: "保持登录状态 %{num_days} 天"
     sessions:
-      remembered_devices: "Remembered devices"
-      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
+      remembered_devices: "已记住设备"
+      remembered_devices_caption: "使用“保持登录状态”选项登录到此账户的所有设备列表。"
       session_name: "%{os_name} 上的 %{browser_name} %{browser_version}"
       browser: "浏览器"
       device: "设备 / 操作系统"
@@ -1018,7 +1018,7 @@ zh-CN:
     due_date: "完成日期"
     estimated_hours: "估算工时"
     estimated_time: "估算工时"
-    expires_at: "Expires at"
+    expires_at: "过期于"
     firstname: "名字"
     group: "组"
     groups: "组"

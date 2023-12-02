@@ -86,7 +86,7 @@ ru:
     page_titles:
       file_storages:
         subtitle: "Добавьте внешнее хранилище файлов для загрузки, чтобы связывать и управлять файлами в пакетах работ."
-        delete: "Delete file storage"
+        delete: "Удалить хранилище файлов"
       managed_project_folders:
         title: "Автоматически управляемые папки проектов"
         subtitle_short: "Позволить OpenProject создавать папки для каждого проекта автоматически."
@@ -109,7 +109,7 @@ ru:
       managed_project_folders_application_password: >
         Скопировать это значение из:
       managed_project_folders_application_password_caption: "Включите автоматические управляемые папки, копируя это значение из: %{provider_type_link}."
-      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
+      new_storage: "Прочтите нашу документацию по <a target='_blank' href='%{provider_link}'>настройке интеграции файлового хранилища %{provider_name}</a> для получения дополнительной информации."
       no_storage_set_up: "Нет настроенных хранилищ файлов."
       no_specific_folder: "По умолчанию каждый пользователь при загрузке файла начинает работу со своей собственной домашней папки."
       automatic_folder: "Это автоматически создаст корневую папку для этого проекта и будет управлять правами доступа для каждого участника проекта."
@@ -153,10 +153,10 @@ ru:
         one_drive: "Разрешить OpenProject доступ к данным Azure, используя OAuth для подключения OneDrive/Sharepoint."
     delete_warning:
       storage: >
-        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
-      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
-      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
-      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
+        Вы уверены, что хотите удалить %{file_storage}?  Чтобы подтвердить это действие, введите имя хранилища в поле ниже. Это:
+      storage_delete_result_1: "Удалить все настройки хранилища для всех проектов, использующих это хранилище."
+      storage_delete_result_2: "Удалить все ссылки из пакетов работ всех проектов в файлы и папки этого хранилища."
+      storage_delete_result_3: "В случае, если хранилище имеет автоматически управляемые папки проектов, они и содержащиеся в них файлы будут удалены навсегда."
       project_storage: >
         Вы уверены, что хотите удалить %{file_storage} из этого проекта? Для подтверждения этого действия, пожалуйста, введите имя хранилища в поле ниже, это позволит:
       project_storage_delete_result_1: "Удалить все ссылки из пакетов работ этого проекта в файлы и папки этого хранилища."
@@ -166,7 +166,7 @@ ru:
     storage_list_blank_slate:
       heading: "У вас пока нет хранилищ."
       description: "Добавьте хранилище, чтобы увидеть его здесь."
-    error_invalid_provider_type: "Please select a valid storage provider."
+    error_invalid_provider_type: "Пожалуйста, выберите допустимого поставщика хранилища."
     label_active: "Активный"
     label_add_new_storage: "Добавить новое хранилище"
     label_delete_storage: "Удалить хранилище"
@@ -200,7 +200,7 @@ ru:
     label_project_folder: "Папка проекта"
     label_redirect_uri: "URI перенаправления"
     label_new_storage: "Новое хранилище"
-    label_new_file_storage: "New %{provider} storage"
+    label_new_file_storage: "Новая %{provider} хранилище"
     label_edit_storage: "Редактировать хранилище"
     label_edit_storage_host: "Изменить узел хранения"
     label_edit_storage_oauth_client: "Редактировать хранилище OAuth клиента"
@@ -236,14 +236,14 @@ ru:
     notice_successful_storage_connection: "Хранилище успешно подключено! Не забудьте активировать модуль и определенное хранилище в настройках проекта для его использования."
     open_project_storage_modal:
       waiting:
-        a: "We are setting up your permissions on the project folder."
-        b: "One moment please, this might take some time..."
+        a: "Мы настраиваем ваши права доступа к папке проекта."
+        b: "Одну минутку, пожалуйста, это может занять некоторое время..."
       success:
-        a: "Integration setup completed"
-        b: "You are being redirected"
+        a: "Установка интеграции завершена"
+        b: "Вы будете перенаправлены"
     health:
-      title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
-      label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      title: "Статус управляемых папок"
+      label_pending: "В ожидании"
+      label_error: "Ошибка"
+      label_healthy: "Здоровые"
+      checked: "Проверено  %{datetime}"
