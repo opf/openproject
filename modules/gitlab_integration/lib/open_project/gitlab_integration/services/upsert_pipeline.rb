@@ -1,8 +1,8 @@
-#-- encoding: UTF-8
+# frozen_string_literal: true
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2023 Ben Tey
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -10,6 +10,7 @@
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,42 +26,41 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
-module OpenProject::GitlabIntegration::Services
-  ##
-  # Takes pipelines CI data coming from Gitlab webhook data and stores
-  # them as a `GitlabPipeline`.
-  # If the `GitlabPipeline` already exists, it is updated.
-  #
-  # Returns the upserted `GitlabPipeline`.
-  class UpsertPipeline
-    def call(payload, merge_request:)
-      GitlabPipeline.find_or_initialize_by(gitlab_id: payload.object_attributes.iid)
-                    .tap do |pipeline|
-                      pipeline.update!(gitlab_merge_request: merge_request, **extract_params(payload))
-                    end
-    end
+module OpenProject
+  module GitlabIntegration
+    module Services
 
-    private
+      class UpsertPipeline
+        def call(payload, merge_request:)
+          GitlabPipeline.find_or_initialize_by(gitlab_id: payload.object_attributes.iid)
+                        .tap do |pipeline|
+                          pipeline.update!(gitlab_merge_request: merge_request, **extract_params(payload))
+                        end
+        end
 
-    # Receives the input from the gitlab webhook and translates them
-    # to our internal representation.
-    def extract_params(payload)
-      {
-        gitlab_id: payload.object_attributes.iid,
-        gitlab_html_url: "#{payload.project.web_url}/-/pipelines/#{payload.object_attributes.iid}",
-        project_id: payload.project.id,
-        gitlab_user_avatar_url: payload.user.avatar_url,
-        name: payload.object_attributes.iid,
-        status: payload.object_attributes.status,
-        details_url: "#{payload.project.web_url}/-/commit/#{payload.object_attributes.sha[0..7]}",
-        commit_id: payload.object_attributes.sha[0..7],
-        username: payload.user.name,
-        ci_details: payload.builds,
-        started_at: payload.object_attributes.created_at,
-        completed_at: payload.object_attributes.finished_at
-      }
+        private
+
+        # Receives the input from the gitlab webhook and translates them
+        # to our internal representation.
+        def extract_params(payload)
+          {
+            gitlab_id: payload.object_attributes.iid,
+            gitlab_html_url: "#{payload.project.web_url}/-/pipelines/#{payload.object_attributes.iid}",
+            project_id: payload.project.id,
+            gitlab_user_avatar_url: payload.user.avatar_url,
+            name: payload.object_attributes.iid,
+            status: payload.object_attributes.status,
+            details_url: "#{payload.project.web_url}/-/commit/#{payload.object_attributes.sha[0..7]}",
+            commit_id: payload.object_attributes.sha[0..7],
+            username: payload.user.name,
+            ci_details: payload.builds,
+            started_at: payload.object_attributes.created_at,
+            completed_at: payload.object_attributes.finished_at
+          }
+        end
+      end
     end
   end
 end
