@@ -31,37 +31,56 @@
 module OpenProject
   module GitlabIntegration
     module Services
-      ##
-      # Takes user data coming from Gitlab webhook data and stores
-      # them as a `GitlabUser`.
-      # If the `GitlabUser` already exists, it is updated.
-      #
-      # Returns the upserted `GitlabUser`.
-      class UpsertGitlabUser
-        def call(payload)
-          GitlabUser.find_or_initialize_by(gitlab_id: payload.id)
-                    .tap do |gitlab_user|
-                      gitlab_user.update!(extract_params(payload))
-                    end
+
+      class UpsertIssueNote
+        def call(payload, work_packages: [])
+          find_or_initialize(payload).tap do |issue|
+            issue.update!(work_packages: issue.work_packages | work_packages, **extract_params(payload))
+          end
         end
 
         private
 
-        ##
+        def find_or_initialize(payload)
+          GitlabIssue.find_by_gitlab_identifiers(id: payload.issue.iid,
+                                                      url: payload.issue.url,
+                                                      initialize: true)
+        end
+
         # Receives the input from the gitlab webhook and translates them
         # to our internal representation.
+        # rubocop:disable Metrics/AbcSize
         def extract_params(payload)
           {
-            gitlab_id: payload.id,
-            gitlab_name: payload.name,
-            gitlab_username: payload.username,
-            gitlab_email: payload.email,
-            gitlab_avatar_url: avatar_url(payload)
+            gitlab_id: payload.issue.iid,
+            gitlab_user: gitlab_user_id(payload.user),
+            number: payload.issue.iid,
+            gitlab_html_url: payload.issue.url,
+            gitlab_updated_at: payload.issue.updated_at,
+            state: payload.issue.state,
+            title: payload.issue.title,
+            body: description(payload),
+            repository: payload.repository.name,
+            labels: payload.issue.labels.map { |values| extract_label_values(values) }
+          }
+        end
+        # rubocop:enable Metrics/AbcSize
+
+        def extract_label_values(payload)
+          {
+            title: payload['title'],
+            color: payload['color']
           }
         end
 
-        def avatar_url(payload)
-          payload.avatar_url.presence || 'https://www.gravatar.com/avatar/?d=mp'
+        def gitlab_user_id(payload)
+          return if payload.blank?
+
+          ::OpenProject::GitlabIntegration::Services::UpsertGitlabUser.new.call(payload)
+        end
+
+        def description(payload)
+          payload.object_attributes.description.presence || 'No description provided'
         end
       end
     end

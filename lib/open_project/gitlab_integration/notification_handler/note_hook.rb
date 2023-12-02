@@ -65,6 +65,9 @@ module OpenProject::GitlabIntegration
           notes = generate_notes(payload, 'reference')
         end
         comment_on_referenced_work_packages(work_packages, user, notes)
+        if payload.object_attributes.noteable_type == 'Issue'
+          upsert_issue(work_packages)
+        end
       end
 
       private
@@ -140,6 +143,19 @@ module OpenProject::GitlabIntegration
         else
           return nil
         end
+      end
+
+      def gitlab_issue
+        @gitlab_issue ||= GitlabIssue
+                            .where(gitlab_id: payload.issue.iid)
+                            .or(GitlabIssue.where(gitlab_html_url: payload.issue.url))
+                            .take
+      end
+
+      def upsert_issue(work_packages)
+        return if work_packages.empty? && gitlab_issue.nil?
+        OpenProject::GitlabIntegration::Services::UpsertIssueNote.new.call(payload,
+                                                                             work_packages: work_packages)
       end
     end
   end
