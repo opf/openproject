@@ -31,7 +31,6 @@
 module OpenProject
   module GitlabIntegration
     module Services
-
       class UpsertIssue
         def call(payload, work_packages: [])
           find_or_initialize(payload).tap do |issue|
@@ -59,7 +58,7 @@ module OpenProject
             gitlab_updated_at: payload.object_attributes.updated_at,
             state: payload.object_attributes.state,
             title: payload.object_attributes.title,
-            body: description(payload),
+            body: description(payload.object_attributes.description),
             repository: payload.repository.name,
             labels: payload.labels.map { |values| extract_label_values(values) }
           }
@@ -77,10 +76,6 @@ module OpenProject
           return if payload.blank?
 
           ::OpenProject::GitlabIntegration::Services::UpsertGitlabUser.new.call(payload)
-        end
-
-        def description(payload)
-          payload.object_attributes.description.presence || 'No description provided'
         end
       end
     end
