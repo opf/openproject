@@ -127,7 +127,7 @@ module API
             represented.class,
             widget.identifier,
             current_user,
-            represented.project
+            represented.respond_to?(:project) ? represented.project : nil
           )
         end
 
