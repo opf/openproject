@@ -74,8 +74,10 @@ RSpec.describe 'Work packages remaining time', :js, :with_cuprite do
     work_package
     wp_table_page = Pages::WorkPackagesTable.new(project)
 
-    query_props = JSON.dump(c: %w(id subject remainingTime),
-                            s: true)
+    query_props = JSON.dump({
+                              c: %w(id subject remainingTime),
+                              s: true
+                            })
 
     wp_table_page.visit_with_params("query_props=#{query_props}")
 
