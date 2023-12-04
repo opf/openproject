@@ -47,7 +47,7 @@ class Authorization::EnterpriseService
     two_factor_authentication
     work_package_query_relation_columns
     work_package_sharing
-    sharepoint_one_drive_file_storage
+    one_drive_sharepoint_file_storage
   ).freeze
 
   def initialize(token)
