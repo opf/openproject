@@ -35,15 +35,24 @@ OpenProject offers an integration with OneDrive/Sharepoint to allow users to:
 Please note these minimum version requirements for the integration to work with a minimal feature set:
 
 - OpenProject version 13.1 (or above)
-- Sharepoint?
-- 
+- Access to OneDrive/SharePoint
 
 We recommend using the latest versions of both OneDrive/Sharepoint and OpenProject to be able to use the latest features. 
 
 ## Set up the integration
 
-TBD
+> **Important**: You need to have administrator privileges in both your OneDrive/SharePoint and OpenProject instances to set up this integration.
+
+Navigate to **System administration -> File storages**.
+
+
+
+## Delete a OneDrive/SharePoint file storage
 
 ## Using the integration
 
 TBD
+
+## Getting support
+
+If you run into any new issues or you cannot solve your integration please use our [Support Installation & Updates forum](https://community.openproject.org/projects/openproject/forums/9) or if you have an Enterprise subscription, please contact us at Enterprise Support.

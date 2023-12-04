@@ -13,6 +13,8 @@ You need to have administrator rights to be able to setup the integration.
 
 UPDATE SCREENSHOT FROM Admin-> Settings-> File storages. to show the setup once the **+Storage** button is deprecated.
 
+![Files storages in OpenProject administration](openproject_admin_guide_file_storages.png)
+
 ## Nextcloud integration setup guide
 
 For detailed guide on the initial setup, please consult [Nextcloud integration setup guide](../integrations/nextcloud/). 
