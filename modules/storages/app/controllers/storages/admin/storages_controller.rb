@@ -207,7 +207,7 @@ class Storages::Admin::StoragesController < ApplicationController
   def ensure_valid_provider_type_selected
     short_provider_type = params[:provider]
     if short_provider_type.blank? || (@provider_type = ::Storages::Storage::PROVIDER_TYPE_SHORT_NAMES[short_provider_type]).blank?
-      flash[:error] = I18n.t('storages.error_invalid_provider_type')
+      flash[:primer_banner] = { message: I18n.t('storages.error_invalid_provider_type'), scheme: :danger }
       redirect_to admin_settings_storages_path
     end
   end
