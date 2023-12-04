@@ -231,7 +231,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 6.0.0', group: :development
+  gem 'rspec-rails', '~> 6.1.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
