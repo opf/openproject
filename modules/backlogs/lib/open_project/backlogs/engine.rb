@@ -120,9 +120,6 @@ module OpenProject::Backlogs
            before: :settings_storage
     end
 
-    # We still override version and project settings views from the core! URH
-    override_core_views!
-
     patches %i[PermittedParams
                WorkPackage
                Status
