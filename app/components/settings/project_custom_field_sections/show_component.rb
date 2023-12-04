@@ -97,7 +97,7 @@ module Settings
       end
 
       def edit_action_item(menu)
-        menu.with_item(label: t("text_edit"),
+        menu.with_item(label: t("settings.project_attributes.label_edit_section"),
                        tag: :button,
                        content_arguments: { 'data-show-dialog-id': "project-custom-field-section-dialog#{@project_custom_field_section.id}" },
                        value: "") do |item|

@@ -2960,6 +2960,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       heading: "Project attributes"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
+      label_edit_section: "Edit title"
       label_section_actions: "Section actions"
       heading_description: "These project attributes appear in the project overview of each project. You can add new attributes and group them into sections. Individual attributes can be enabled or disabled at a project level."
       label_project_custom_field_actions: "Project attribute actions"
