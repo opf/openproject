@@ -32,6 +32,8 @@ module OpenProject
   module GitlabIntegration
     module Services
       class UpsertIssue
+        include ParamsHelper
+
         def call(payload, work_packages: [])
           find_or_initialize(payload).tap do |issue|
             issue.update!(work_packages: issue.work_packages | work_packages, **extract_params(payload))
