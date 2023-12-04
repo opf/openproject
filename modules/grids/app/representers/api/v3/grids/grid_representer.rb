@@ -94,15 +94,9 @@ module API
                  getter: ->(*) do
                    represented
                    .widgets
-                   .select do |widget|
-                     ::Grids::Configuration.allowed_widget?(
-                       represented.class,
-                       widget.identifier,
-                       current_user,
-                       represented.project
-                     )
-                   end
-                   .sort_by { |w| w.id.to_i }.map do |widget|
+                   .select { |widget| widget_visible?(widget) }
+                   .sort_by { |w| w.id.to_i }
+                   .map do |widget|
                      Widgets::WidgetRepresenter.new(widget, current_user:)
                    end
                  end,
@@ -127,6 +121,15 @@ module API
         end
 
         private
+
+        def widget_visible?(widget)
+          ::Grids::Configuration.allowed_widget?(
+            represented.class,
+            widget.identifier,
+            current_user,
+            represented.project
+          )
+        end
 
         def delete_allowed?
           represented.user_deletable? && write_allowed?
