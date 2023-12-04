@@ -252,6 +252,20 @@ RSpec.describe 'Work package sharing',
         share_modal.expect_shared_count_of(7)
       end
     end
+
+    it "lets the sharer know a user needs to be selected to share the work package with them" do
+      work_package_page.visit!
+
+      click_button 'Share'
+
+      share_modal.expect_open
+      share_modal.click_share
+      share_modal.expect_select_a_user_hint
+
+      share_modal.invite_user(not_shared_yet_with_user, 'View')
+      share_modal.expect_shared_with(not_shared_yet_with_user, position: 1)
+      share_modal.expect_no_select_a_user_hint
+    end
   end
 
   context 'when lacking share permission' do
