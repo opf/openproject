@@ -21,13 +21,13 @@ get:
                     href: "/api/v3/types/1"
                 _type: Type
                 color: "#ff0000"
-                createdAt: '2014-05-21T08:51:20Z'
+                createdAt: '2014-05-21T08:51:20.396Z'
                 id: 1
                 isDefault: true
                 isMilestone: false
                 name: Bug
                 position: 1
-                updatedAt: '2014-05-21T08:51:20Z'
+                updatedAt: '2014-05-21T08:51:20.396Z'
           schema:
             "$ref": "../components/schemas/type_model.yml"
       description: OK
