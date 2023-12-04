@@ -275,15 +275,17 @@ module Components
 
       def expect_shared_with(user, role_name = nil, position: nil, editable: true)
         within_modal do
-          expect(page).to have_list_item(text: user.name, position:)
-          within(:list_item, text: user.name, position:) do
-            if role_name
-              expect(page).to have_button(role_name),
-                              "Expected share with #{user.name.inspect} to have button #{role_name}."
-            end
-            unless editable
-              expect(page).not_to have_button,
-                                  "Expected share with #{user.name.inspect} not to be editable (expected no buttons)."
+          within shares_list do
+            expect(page).to have_list_item(text: user.name, position:)
+            within(:list_item, text: user.name, position:) do
+              if role_name
+                expect(page).to have_button(role_name),
+                                "Expected share with #{user.name.inspect} to have button #{role_name}."
+              end
+              unless editable
+                expect(page).not_to have_button,
+                                    "Expected share with #{user.name.inspect} not to be editable (expected no buttons)."
+              end
             end
           end
         end
@@ -343,7 +345,7 @@ module Components
       end
 
       def shares_list
-        active_list.find_by_id('op-share-wp-active-shares')
+        find_by_id('op-share-wp-active-shares')
       end
 
       def select_existing_user(user)
