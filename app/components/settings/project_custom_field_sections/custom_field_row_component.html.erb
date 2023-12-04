@@ -6,7 +6,13 @@
           render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
         end
         content_container.with_column(mr: 2) do
-          render(Primer::Beta::Text.new(font_weight: :bold)) do
+          render(Primer::Beta::Link.new(
+            href: edit_admin_settings_project_custom_field_path(@project_custom_field),
+            scheme: :primary,
+            underline: false,
+            font_weight: :bold,
+            data: { turbo: "false" }
+          )) do
             @project_custom_field.name
           end
         end
