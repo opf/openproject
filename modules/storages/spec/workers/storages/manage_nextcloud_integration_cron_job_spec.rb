@@ -36,6 +36,51 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job
     expect(described_class.cron_expression).to eq('*/5 * * * *')
   end
 
+  describe '.ensure_scheduled!' do
+    before { ActiveJob::Base.disable_test_adapter }
+
+    subject { described_class.ensure_scheduled! }
+
+    context 'when there is active nextcloud project storage' do
+      shared_let(:storage1) { create(:nextcloud_storage, :as_automatically_managed) }
+      shared_let(:project_storage) { create(:project_storage, :as_automatically_managed, storage: storage1) }
+
+      it 'schedules cron_job if not scheduled' do
+        expect(described_class.scheduled?).to be(false)
+        expect(described_class.delayed_job_query.count).to eq(0)
+
+        subject
+
+        expect(described_class.scheduled?).to be(true)
+        expect(described_class.delayed_job_query.count).to eq(1)
+      end
+
+      it 'does not schedules cron_job if already scheduled' do
+        described_class.ensure_scheduled!
+        expect(described_class.scheduled?).to be(true)
+        expect(described_class.delayed_job_query.count).to eq(1)
+
+        subject
+
+        expect(described_class.scheduled?).to be(true)
+        expect(described_class.delayed_job_query.count).to eq(1)
+      end
+    end
+
+    context 'when there is no active nextcloud project storage' do
+      it 'does nothing but removes cron_job' do
+        described_class.set(cron: described_class.cron_expression).perform_later
+        expect(described_class.scheduled?).to be(true)
+        expect(described_class.delayed_job_query.count).to eq(1)
+
+        subject
+
+        expect(described_class.scheduled?).to be(false)
+        expect(described_class.delayed_job_query.count).to eq(0)
+      end
+    end
+  end
+
   describe '.perform' do
     subject { described_class.new.perform }
 

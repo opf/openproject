@@ -63,6 +63,15 @@ RSpec.describe OpenProject::Events do
           subject
           expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationEventsJob)
         end
+
+        it do
+          # Check for message being called instead of checking the job arrival to the queue
+          # because it is not simple adding to the queue in ::Storages::ManageNextcloudIntegrationCronJob.ensure_scheduled!
+          # With this method cron_job can be actually removed if not needed.
+          allow(Storages::ManageNextcloudIntegrationCronJob).to receive(:ensure_scheduled!)
+          subject
+          expect(Storages::ManageNextcloudIntegrationCronJob).to have_received(:ensure_scheduled!)
+        end
       end
     end
   end

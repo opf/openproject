@@ -26,10 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A ProjectStorage is a kind of relation between a Storage and
-# a Project in order to enable or disable a Storage for a specific
-# WorkPackages in the project.
-# See also: file_link.rb and storage.rb
 class Storages::ProjectStorage < ApplicationRecord
   using Storages::Peripherals::ServiceResultRefinements
 
@@ -51,6 +47,12 @@ class Storages::ProjectStorage < ApplicationRecord
   }.freeze, _prefix: 'project_folder'
 
   scope :automatic, -> { where(project_folder_mode: 'automatic') }
+  scope :active, -> { joins(:project).where(project: { active: true }) }
+  scope :active_nextcloud_automatically_managed, -> do
+    automatic
+      .active
+      .where(storages: Storages::NextcloudStorage.automatically_managed)
+  end
 
   def automatic_management_possible?
     storage.present? && storage.provider_type_nextcloud? && storage.automatically_managed?
