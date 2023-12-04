@@ -39,7 +39,24 @@
       end
       if @project_custom_fields.empty?
         component.with_row(data: { 'empty-list-item': true }) do
-          render(Primer::Beta::Text.new(color: :subtle)) { t("settings.project_attributes.label_no_project_custom_fields") }
+          flex_layout(align_items: :center, justify_content: :space_between) do |empty_list_container|
+            empty_list_container.with_column(ml: 4, mr: 2) do
+              render(Primer::Beta::Text.new(color: :subtle)) { t("settings.project_attributes.label_no_project_custom_fields") }
+            end
+            empty_list_container.with_column do
+              render(Primer::Beta::Button.new(
+                  tag: :a,
+                  href: new_admin_settings_project_custom_field_path(
+                    type: "ProjectCustomField", custom_field_section_id: @project_custom_field_section.id
+                  ),
+                  scheme: :secondary,
+                  data: { turbo: "false"}
+                )) do |button|
+                  button.with_leading_visual_icon(icon: :plus)
+                  t('settings.project_attributes.label_new_attribute')
+                end
+            end
+          end
         end
       else
         @project_custom_fields.each do |project_custom_field|
