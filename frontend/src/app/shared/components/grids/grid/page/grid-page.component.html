@@ -21,11 +21,11 @@
       </ul>
   </div>
 
-  <div class="op-grid-page--grid-container">
+  <div class="op-grid-page--grid-container" *ngIf="isTurboFrameSidebarEnabled()">
     <div class="op-grid-page--main-content">
       <grid *ngIf="grid" [grid]="grid"></grid>
     </div>
-    <div *ngIf="isTurboFrameSidebarEnabled()" class="op-grid-page--sidebar hidden-for-mobile hidden-for-tablet">
+    <div class="op-grid-page--sidebar">
       <turbo-frame [src]="turboFrameSidebarSrc()" [id]="turboFrameSidebarId()">
         <op-content-loader viewBox="0 0 100 100">
           <svg:rect x="0" y="0" width="70" height="5" rx="1" />
@@ -38,6 +38,10 @@
         </op-content-loader>
       </turbo-frame>
     </div>
+  </div>
+
+  <div *ngIf="!isTurboFrameSidebarEnabled()">
+    <grid *ngIf="grid" [grid]="grid"></grid>
   </div>
 
 </div>

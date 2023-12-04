@@ -14,6 +14,8 @@ export class OverviewComponent extends GridPageComponent {
   }
 
   protected isTurboFrameSidebarEnabled():boolean {
+    // TODO: check if any project attributes are enabled for this project
+    // if not, don't show the sidebar
     return true;
   }
 
