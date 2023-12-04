@@ -16,6 +16,7 @@ keywords: One Drive, Sharepoint, file storage, integration
 | [Minimum requirements](#minimum-requirements)            | Minimum version requirements to enable the integration       |
 | [Set up the integration](#set-up-the-integration)      | Connect OpenPRoject and OneDrive/Sharepoint instances as an administrator |
 | [Using the integration](#using-the-integration) |  |
+| [Drive ID guide](/drive-id-guide) | How to obtain a drive ID |
 
 ### Add a OneDrive/SharePoint storage to a project (Enterprise add-on)
 
