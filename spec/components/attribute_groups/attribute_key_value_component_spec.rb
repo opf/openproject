@@ -38,6 +38,13 @@ RSpec.describe AttributeGroups::AttributeKeyValueComponent, type: :component do
       have_css('.attributes-key-value--value.-text', text: 'Attribute Value')
   end
 
+  it "preserve html in the value if it's a safe string" do
+    render_inline(described_class.new(key: 'Attribute Key', value: '<div>Some value</div>'.html_safe))
+
+    expect(page).not_to have_css('.attributes-key-value--value.-text', text: "<div>Some value</div>")
+    expect(page).to have_css('.attributes-key-value--value.-text', text: "Some value")
+  end
+
   context 'with value and content' do
     it 'renders the content' do
       render_inline(described_class.new(key: 'Attribute Key', value: 'Attribute Value')) do
