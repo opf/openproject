@@ -36,6 +36,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
+  let(:folder) { Storages::Peripherals::ParentFolder.new('/') }
 
   describe '#call' do
     it 'responds with correct parameters' do
@@ -46,10 +47,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     end
 
     context 'with outbound requests successful' do
-      context 'with parent folder being nil', vcr: 'one_drive/files_query_root' do
+      context 'with parent folder being root', vcr: 'one_drive/files_query_root' do
         # rubocop:disable RSpec/ExampleLength
         it 'returns a StorageFiles object for root' do
-          storage_files = described_class.call(storage:, user:, folder: nil).result
+          storage_files = described_class.call(storage:, user:, folder:).result
 
           expect(storage_files).to be_a(Storages::StorageFiles)
           expect(storage_files.ancestors).to be_empty
@@ -86,8 +87,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       end
 
       context 'with a given parent folder', vcr: 'one_drive/files_query_parent_folder' do
+        let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder/Subfolder') }
+
         subject do
-          described_class.call(storage:, user:, folder: '/Folder/Subfolder').result
+          described_class.call(storage:, user:, folder:).result
         end
 
         # rubocop:disable RSpec/ExampleLength
@@ -144,20 +147,24 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       end
 
       context 'with parent folder being empty', vcr: 'one_drive/files_query_empty_folder' do
+        let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder with spaces/very empty folder') }
+
         it 'returns an empty StorageFiles object with parent and ancestors' do
-          storage_files = described_class.call(storage:, user:, folder: '/Folder with spaces/very empty folder').result
+          storage_files = described_class.call(storage:, user:, folder:).result
 
           expect(storage_files).to be_a(Storages::StorageFiles)
           expect(storage_files.files).to be_empty
 
           # in an empty folder the parent id cannot be retrieved, hence the parent id will get forged
-          expect(storage_files.parent.id).to eq('678cb16697b9f7ef05a99a2dc83aaf1b377e5e2a9d7a09e1db4343b41d44f874')
+          expect(storage_files.parent.id).to eq('01AZJL5PMGEIRPHZPHRRH2NM3D734VIR7H')
         end
       end
 
       context 'with a path full of umlauts', vcr: 'one_drive/files_query_umlauts' do
+        let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder/Ümlæûts') }
+
         it 'returns the correct StorageFiles object' do
-          storage_files = described_class.call(storage:, user:, folder: '/Folder/Ümlæûts').result
+          storage_files = described_class.call(storage:, user:, folder:).result
 
           expect(storage_files).to be_a(Storages::StorageFiles)
           expect(storage_files.parent.id).to eq('01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB')
@@ -183,8 +190,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     end
 
     context 'with not existent parent folder', vcr: 'one_drive/files_query_invalid_parent' do
-      it 'must return unauthorized' do
-        result = described_class.call(storage:, user:, folder: '/I/just/made/that/up')
+      let(:folder) { Storages::Peripherals::ParentFolder.new('/I/just/made/that/up') }
+
+      it 'must return not found' do
+        result = described_class.call(storage:, user:, folder:)
         expect(result).to be_failure
         expect(result.error_source).to be_a(described_class)
 
@@ -204,7 +213,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       end
 
       it 'must return unauthorized' do
-        result = described_class.call(storage:, user:, folder: nil)
+        result = described_class.call(storage:, user:, folder:)
         expect(result).to be_failure
         expect(result.error_source).to be_a(described_class)
 
@@ -219,7 +228,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       let(:user_without_token) { create(:user) }
 
       it 'must return unauthorized' do
-        result = described_class.call(storage:, user: user_without_token, folder: nil)
+        result = described_class.call(storage:, user: user_without_token, folder:)
         expect(result).to be_failure
         expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
 

@@ -145,6 +145,10 @@ class TableComponent < ApplicationComponent
       .per_page(helpers.per_page_param)
   end
 
+  def test_selector
+    self.class.name.dasherize
+  end
+
   def rows
     model
   end

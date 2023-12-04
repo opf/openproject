@@ -209,11 +209,11 @@ RSpec.describe MyController,
 
     it 'logs out the user and logs it in again' do
       allow(Users::LogoutService).to receive(:new).and_return(service)
-      allow(service).to receive(:call).with(other_user).and_call_original
+      allow(service).to receive(:call!).with(other_user).and_call_original
 
       get :account
 
-      expect(service).to have_received(:call).with(other_user)
+      expect(service).to have_received(:call!).with(other_user)
       expect(response).to redirect_to my_account_path
       expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
       expect(session[:user_id]).to eq user.id

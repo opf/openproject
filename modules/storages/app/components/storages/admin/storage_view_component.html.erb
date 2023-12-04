@@ -1,133 +1,81 @@
 <%=
   render(Primer::Beta::BorderBox.new) do |component|
-    component.with_header(color: :default) do
+    component.with_header(color: :muted) do
       render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.file_storage_view.general_information') }
     end
 
     component.with_row(scheme: :default) do
-      render(OpTurbo::FrameComponent.new(storage, context: :storage_view_general_info)) do
-        render(Storages::Admin::StorageGeneralInfoComponent.new(storage))
-      end
-    end
-
-    component.with_row(scheme: :neutral) do
-      grid_layout('op-storage-view--row', tag: :div, align_items: :center) do |grid|
-        grid.with_area(:item, tag: :div, mr: 3) do
-          render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1)) { I18n.t('storages.file_storage_view.oauth_applications') }
+      render(OpTurbo::FrameComponent.new(id: :storage_general_info_section)) do
+        if storage.new_record?
+          render(Storages::Admin::Forms::GeneralInfoFormComponent.new(storage))
+        else
+          render(Storages::Admin::GeneralInfoComponent.new(storage))
         end
       end
     end
 
-    component.with_row(scheme: :default) do
-      render(OpTurbo::FrameComponent.new(storage, context: :openproject_oauth)) do
+    if storage.provider_type_nextcloud?
+      component.with_row(scheme: :neutral, color: :muted) do
         grid_layout('op-storage-view--row', tag: :div, align_items: :center) do |grid|
           grid.with_area(:item, tag: :div, mr: 3) do
-            concat(render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1, test_selector: 'storage-openproject-oauth-label')) { I18n.t('storages.file_storage_view.openproject_oauth') })
-            concat(configuration_check_label_for(:openproject_oauth_application_configured))
+            render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1)) { I18n.t('storages.file_storage_view.oauth_applications') }
           end
+        end
+      end
 
-          grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-openproject-oauth-application-description') do
-            render(Primer::Beta::Truncate.new(font_weight: :light)) { openproject_oauth_client_description }
+      component.with_row(scheme: :default) do
+        render(OpTurbo::FrameComponent.new(id: :storage_openproject_oauth_section)) do
+          if storage.new_record? || openproject_oauth_application_section_closed?
+            render(Storages::Admin::OAuthApplicationInfoComponent.new(oauth_application:, storage:))
+          else
+            render(
+              Storages::Admin::OAuthApplicationInfoCopyComponent.new(
+                oauth_application:,
+                storage:,
+                submit_button_path: show_oauth_application_admin_settings_storage_path(storage)
+              )
+            )
           end
+        end
+      end
 
-          grid.with_area(:"icon-button", tag: :div, color: :subtle, test_selector: 'storage-replace-openproject-oauth-application') do
-            flex_layout(justify_content: :flex_end) do |icons_container|
-              icons_container.with_column do
-                primer_form_with(
-                  model: storage,
-                  url: replace_oauth_application_admin_settings_storage_path(storage),
-                  method: :delete
-                ) do |_form|
-                  render(
-                    Primer::Beta::IconButton.new(
-                      icon: :sync,
-                      scheme: :invisible,
-                      type: :submit,
-                      aria: {
-                        label: I18n.t("storages.buttons.replace_provider_type_oauth",
-                                      provider_type: I18n.t("storages.provider_types.#{storage.short_provider_type}.name"))
-                      },
-                      data: { confirm: I18n.t("storages.confirm_replace_oauth_application") },
-                      test_selector: 'storage-replace-openproject-oauth-application-button'
-                    )
-                  )
-                end
-              end
-            end
+      component.with_row(scheme: :default) do
+        render(OpTurbo::FrameComponent.new(id: :storage_oauth_client_section)) do
+          render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: storage.oauth_client, storage:))
+        end
+      end
+
+      component.with_row(scheme: :neutral,  color: :muted) do
+        grid_layout('op-storage-view--row', tag: :div, align_items: :center) do |grid|
+          grid.with_area(:item, tag: :div) do
+            render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1)) { I18n.t('storages.file_storage_view.project_folders') }
+          end
+        end
+      end
+
+      component.with_row(scheme: :default) do
+        render(OpTurbo::FrameComponent.new(id: :automatically_managed_project_folders_section)) do
+          if automatically_managed_project_folders_section_closed?
+            render(Storages::Admin::AutomaticallyManagedProjectFoldersInfoComponent.new(storage))
+          else
+            render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(storage))
           end
         end
       end
     end
 
-    component.with_row(scheme: :default) do
-      render(OpTurbo::FrameComponent.new(storage, context: :oauth_client)) do
+    if storage.provider_type_one_drive?
+      component.with_row(scheme: :neutral,  color: :muted) do
         grid_layout('op-storage-view--row', tag: :div, align_items: :center) do |grid|
           grid.with_area(:item, tag: :div, mr: 3) do
-            concat(render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1, test_selector: 'storage-oauth-client-label')) { I18n.t('storages.file_storage_view.nextcloud_oauth') })
-            concat(configuration_check_label_for(:storage_oauth_client_configured))
-          end
-
-          grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-oauth-client-id-description') do
-            render(Primer::Beta::Truncate.new(font_weight: :light)) { provider_oauth_client_description }
-          end
-
-          grid.with_area(:"icon-button", tag: :div, color: :subtle) do
-            flex_layout(justify_content: :flex_end) do |icons_container|
-              icons_container.with_column do
-                render(
-                  Primer::Beta::IconButton.new(
-                    icon: :sync,
-                    tag: :a,
-                    href: new_admin_settings_storage_oauth_client_path(storage),
-                    scheme: :invisible,
-                    aria: { label: I18n.t("storages.label_edit_storage_oauth_client") },
-                    data: { confirm: I18n.t("storages.confirm_replace_oauth_client") },
-                    test_selector: 'storage-edit-oauth-client-button'
-                  )
-                )
-              end
-            end
+            render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1)) { I18n.t('storages.file_storage_view.oauth_applications') }
           end
         end
       end
-    end
 
-    component.with_row(scheme: :neutral) do
-      grid_layout('op-storage-view--row', tag: :div, align_items: :center) do |grid|
-        grid.with_area(:item, tag: :div) do
-          render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1)) { I18n.t('storages.file_storage_view.project_folders') }
-        end
-      end
-    end
-
-    component.with_row(scheme: :default) do
-      render(OpTurbo::FrameComponent.new(storage, context: :automatically_managed_project_folders)) do
-        grid_layout('op-storage-view--row', tag: :div, align_items: :center) do |grid|
-          grid.with_area(:item, tag: :div, mr: 3) do
-            concat(render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1, test_selector: 'storage-managed-project-folders-label')) { I18n.t('storages.file_storage_view.automatically_managed_folders') })
-            concat(automatically_managed_project_folders_status_label)
-          end
-
-          grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-automatically-managed-project-folders-description') do
-            render(Primer::Beta::Truncate.new(font_weight: :light)) { I18n.t('storages.page_titles.managed_project_folders.subtitle_short') }
-          end
-
-          grid.with_area(:"icon-button", tag: :div, color: :subtle) do
-            flex_layout(justify_content: :flex_end) do |icons_container|
-              icons_container.with_column do
-                render(
-                  Primer::Beta::IconButton.new(
-                    icon: :pencil,
-                    tag: :a,
-                    href: new_admin_settings_storage_automatically_managed_project_folders_path(storage),
-                    scheme: :invisible,
-                    aria: { label: I18n.t('storages.label_edit_storage_automatically_managed_folders') },
-                    test_selector: 'storage-edit-automatically-managed-project-folders-button'
-                  )
-                )
-              end
-            end
-          end
+      component.with_row(scheme: :default) do
+        render(OpTurbo::FrameComponent.new(id: :storage_oauth_client_section)) do
+          render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: storage.oauth_client, storage:))
         end
       end
     end

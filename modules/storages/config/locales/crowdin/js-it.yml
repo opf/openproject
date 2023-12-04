@@ -65,13 +65,16 @@ it:
           other: "%{count} link di file creati correttamente."
         upload_error:
           default: >
-            Impossibile caricare il tuo file (%{fileName}). Sei pregato di verificare che la versione più recente de "Integrazione OpenProject" di Nextcloud App, sia installata e di contattare il tuo amministratore per ulteriori informazioni.
+            Your file (%{fileName}) could not be uploaded.
           403: >
             Il tuo file (%{fileName}) non può essere caricato a causa di restrizioni di sistema. Per ulteriori informazioni, contatta il tuo amministratore.
           413: >
             Il tuo file (%{fileName}) è più grande di quello che OpenProject può caricare su %{storageType}. Puoi prima caricarlo direttamente su %{storageType} e poi collegare il file.
           507: >
             Il tuo file (%{fileName}) è più grande di quanto consentito dalla quota di archiviazione. Contatta il tuo amministratore per modificare questa quota.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           Si è verificato un errore caricando il file caricato '%{fileName}' al pacchetto di lavoro %{workPackageId}.
         not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"

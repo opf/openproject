@@ -59,9 +59,8 @@ module OpenProject::TextFormatting
         }
         type = m[2].downcase
 
-        ApplicationController.helpers.content_tag :macro,
+        ApplicationController.helpers.content_tag "opce-macro-attribute-#{type}",
                                                   '',
-                                                  class: "macro--attribute-#{type}",
                                                   data: macro_attributes
       end
     end

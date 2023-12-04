@@ -31,19 +31,20 @@ require 'spec_helper'
 RSpec.describe 'Wysiwyg embedded work package tables',
                js: true do
   shared_let(:admin) { create(:admin) }
-  let(:user) { admin }
-  let(:type_task) { create(:type_task) }
-  let(:type_bug) { create(:type_bug) }
-  let(:project) do
+  shared_let(:type_task) { create(:type_task) }
+  shared_let(:type_bug) { create(:type_bug) }
+  shared_let(:project) do
     create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
   end
-  let(:editor) { Components::WysiwygEditor.new }
-  let!(:wp_task) { create(:work_package, project:, type: type_task) }
-  let!(:wp_bug) { create(:work_package, project:, type: type_bug) }
+  shared_let(:wp_task) { create(:work_package, project:, type: type_task) }
+  shared_let(:wp_bug) { create(:work_package, project:, type: type_bug) }
 
+  let(:editor) { Components::WysiwygEditor.new }
   let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
   let(:columns) { Components::WorkPackages::Columns.new }
+
+  let(:user) { admin }
 
   before do
     login_as(user)
@@ -114,6 +115,60 @@ RSpec.describe 'Wysiwyg embedded work package tables',
         # Clicking on work package ID redirects
         full_view = embedded_table.open_full_screen_by_doubleclick wp_task
         full_view.ensure_page_loaded
+      end
+
+      context 'with a subproject that gets deleted' do
+        let!(:subproject) do
+          create(:project, parent: project, enabled_module_names: %w[wiki])
+        end
+
+        it 'can still edit the embedded table widget' do
+          editor.in_editor do |_container, editable|
+            editor.insert_macro 'Embed work package table'
+
+            modal.expect_open
+            modal.switch_to 'Filters'
+            filters.expect_filter_count 2
+            filters.add_filter_by('Including subproject', 'is (OR)', subproject.name, 'subprojectId')
+
+            # Save widget
+            modal.save
+
+            # Find widget, click to show toolbar
+            macro = editable.find('.ck-widget.op-uc-placeholder')
+            macro.click
+          end
+
+          # Save wiki page
+          click_on 'Save'
+
+          expect(page).to have_selector('.op-toast.-success')
+
+          # Embedded queries
+          wikipage = project.wiki.pages.last
+          expect(wikipage.text).to include('subprojectId')
+
+          # Delete the project
+          subproject.destroy!
+
+          click_on 'Edit'
+
+          # Find widget, click to show toolbar
+          editor.in_editor do |_container, editable|
+            macro = editable.find('.ck-widget.op-uc-placeholder')
+            macro.click
+          end
+
+          # Edit widget again
+          page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
+
+          modal.expect_open
+          modal.switch_to 'Filters'
+
+          # Subproject filter is gone
+          filters.expect_filter_count 2
+          expect(page).not_to have_text 'Subproject'
+        end
       end
     end
   end

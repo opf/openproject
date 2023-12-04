@@ -40,10 +40,10 @@ module OpenProject::Meeting
              bundled: true do
       project_module :meetings do
         permission :view_meetings,
-                   { meetings: %i[index show download_ics],
+                   { meetings: %i[index show download_ics participants_dialog],
                      meeting_agendas: %i[history show diff],
                      meeting_minutes: %i[history show diff],
-                     work_package_meetings_tab: %i[index] },
+                     work_package_meetings_tab: %i[index count] },
                    permissible_on: :project
         permission :create_meetings,
                    { meetings: %i[new create copy] },

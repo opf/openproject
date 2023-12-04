@@ -90,50 +90,38 @@ class QueryPolicy < BasePolicy
   end
 
   def view_work_packages_allowed?(query)
-    @view_work_packages_cache ||= Hash.new do |hash, project|
-      hash[project] = allowed_in_project_or_any_project?(:view_work_packages, project)
+    if query.project
+      user.allowed_in_any_work_package?(:view_work_packages, in_project: query.project)
+    else
+      user.allowed_in_any_work_package?(:view_work_packages)
     end
-
-    @view_work_packages_cache[query.project]
   end
 
   def edit_work_packages_allowed?(query)
-    @edit_work_packages_cache ||= Hash.new do |hash, project|
-      hash[project] = allowed_in_project_or_any_project?(:edit_work_packages, project)
-    end
-
-    @edit_work_packages_cache[query.project]
+    user.allowed_in_any_work_package?(:edit_work_packages, in_project: query.project)
   end
 
   def save_queries_allowed?(query)
-    @save_queries_cache ||= Hash.new do |hash, project|
-      hash[project] = allowed_in_project_or_any_project?(:save_queries, project)
+    if query.project
+      user.allowed_in_project?(:save_queries, query.project)
+    else
+      user.allowed_in_any_project?(:save_queries)
     end
-
-    @save_queries_cache[query.project]
   end
 
   def manage_public_queries_allowed?(query)
-    @manage_public_queries_cache ||= Hash.new do |hash, project|
-      hash[project] = allowed_in_project_or_any_project?(:manage_public_queries, project)
+    if query.project
+      user.allowed_in_project?(:manage_public_queries, query.project)
+    else
+      user.allowed_in_any_project?(:manage_public_queries)
     end
-
-    @manage_public_queries_cache[query.project]
   end
 
   def share_via_ical_allowed?(query)
-    @share_via_ical_cache ||= Hash.new do |hash, project|
-      hash[project] = allowed_in_project_or_any_project?(:share_calendars, project)
-    end
-
-    @share_via_ical_cache[query.project]
-  end
-
-  def allowed_in_project_or_any_project?(permission, project)
-    if project
-      user.allowed_in_project?(permission, project)
+    if query.project
+      user.allowed_in_project?(:share_calendars, query.project)
     else
-      user.allowed_in_any_project?(permission)
+      user.allowed_in_any_project?(:share_calendars)
     end
   end
 end

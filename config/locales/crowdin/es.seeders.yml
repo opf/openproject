@@ -43,11 +43,11 @@ es:
           name: Otros
       work_package_roles:
         item_0:
-          name: Editor de paquetes de trabajo
+          name: Work package editor
         item_1:
-          name: Comentador de Paquete de Trabajo
+          name: Work package commenter
         item_2:
-          name: Visor de Paquete de Trabajo
+          name: Work package viewer
       project_roles:
         item_0:
           name: No miembro
@@ -352,22 +352,20 @@ es:
                 options:
                   name: Primeros pasos
                   text: |
-                    ¡Nos alegramos de tenerle! Le sugerimos que pruebe algunas cosas para iniciarse en OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    Descubra las características más importantes con nuestra [Visita guiada]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    _Try the following steps:_
 
-                    _Pruebelos siguientes pasos:_
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
+                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    1. *Invitar a nuevos miembros a su proyecto*: &rightarrow; Vaya a [Miembros]({{opSetting:base_url}}/projects/your-scrum-project/members) en la navegación del proyecto.
-                    2. *Ver sus backlogs de Producto y Sprint*: &rightarrow; Vaya a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) en la navegación del proyecto.
-                    3. *Ver su Tablero de Tareas*: &rightarrow; Vaya a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Haga clic en la flecha derecha sobre Sprint &rightarrow; Seleccione [Tablero de Tareas](##sprint:scrum_project__version__sprint_1).
-                    4. *Crearun nuevo paquete de trabajo*: &rightarrow; Vaya a [Paquetes de trabajo rightarrow; Crear]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Crear y actualizar un plan de proyecto*: &rightarrow; Vaya a [Plan de proyecto](##query:scrum_project__query__project_plan) en la navegación del proyecto.
-                    6. *Crear un wiki de sprint*: &rightarrow; Vaya a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) y abra el wiki de sprint desde el menú desplegable de la derecha en un sprint. Puede editar la [plantilla wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) en función de sus necesidades.
-                    7. *Active otros módulos*: &rightarrow; Vaya a [Configuración del proyecto &rightarrow; Módulos]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
-
-                    Aquí encontrará nuestras [Guías del usuario](https://www.openproject.org/docs/user-guide/).
-                    Háganos saber si tiene alguna pregunta o necesita asistencia. Póngase en contacto con nosotros: [support[at]openproject.com](mailto:support@openproject.com).
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Paquetes de trabajo

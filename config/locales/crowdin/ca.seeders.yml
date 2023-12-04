@@ -43,11 +43,11 @@ ca:
           name: Altres
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
           name: Non member
@@ -350,22 +350,20 @@ ca:
                 options:
                   name: Primers passos
                   text: |
-                    Estem contents que t'hagis decidit per OpenProject! Et suggerim que provis algunes coses per començar amb OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    Descobreix les funcions més importants amb el nostre [Tour guiat]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    _Try the following steps:_
 
-                    _Prova els següents passos:_
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
+                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    1. *Convida nous membres en el teu projecte*: &rightarrow; Ves a [Membres]({{opSetting:base_url}}/projects/your-scrum-project/members) dins la navegació del projecte.
-                    2. *Veu els teus backlogs de producte i sprints*: &rightarrow; Ves a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dins la navegació del projecte.
-                    3. *Veu el teu tauler de tasques*: &rightarrow; Ves a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Fes clic a la fletxa dreat de l'sprint &rightarrow; Selecciona [Tauler de tasques](##sprint:scrum_project__version__sprint_1).
-                    4. *Crea un nou paquet de treball*: &rightarrow; Ves a [Paquets de treball &rightarrow; Crear]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Crea i actualitza el pla de projecte*: &rightarrow; Ves a [Pla de projecte](##query:scrum_project__query__project_plan) dins la navegació del projecte.
-                    6. *Crea una wiki de l'sprint*: &rightarrow; Ves a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i obre l'sprint wiki des del menú de dalt a la dreta en l'sprint. Pots editar la [plantilla de la wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) segons el que necessitis.
-                    7. *Activa altres mòduls*:  &rightarrow; Ves a [Configuració del projecte &rightarrow; Mòduls]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
-
-                    Aquí pots trobar les nostres [Guies d'usuari](https://www.openproject.org/docs/user-guide/).
-                    En cas de qualsevol dubte o requerir suport posa't en contacte amb nosaltres. Contacta amb nosaltres via: [support[at]openproject.com](mailto:support@openproject.com).
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Paquets de treball

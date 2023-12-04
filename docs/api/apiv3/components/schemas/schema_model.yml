@@ -19,9 +19,8 @@ properties:
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This schema
-
-            **Resource**: Schema
-          readOnly: true
+          - $ref: './link.yml'
+          - description: |-
+              This schema
+              
+              **Resource**: Schema

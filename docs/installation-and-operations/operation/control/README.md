@@ -145,6 +145,8 @@ Launch an interactive console to directly interact with the underlying Ruby on R
 docker exec -it $CID bash -c "RAILS_ENV=production bundle exec rails console"
 ```
 
+
+
 ## docker-compose based installation
 
 #### Spawn a rails console
@@ -157,3 +159,32 @@ The following command will spawn a Rails console in the container:
 ```shell
 docker-compose run web bash -c "RAILS_ENV=production bundle exec rails console"
 ```
+
+
+
+## Kubernetes and Helm-Charts
+
+For Kubernetes installations, you can use `kubectl` to access pods and get information about them. For example, to get a shell in one of the worker pods, you would have to do the following.
+
+First, get the pod name of the worker. Assuming your kubectl cluster has OpenProject installed at the `openproject` namespace:
+
+```
+kubectl get pods -n openproject	
+```
+
+
+
+Then spawn a shell in the relevant one
+
+```
+kubectl exec -n openproject -it pods/openproject-worker-656c77d594-xjdck -- bash
+```
+
+
+
+This spawns a bash console. In there, you could for example run a rails console like follows:
+
+```
+bundle exec rails console
+```
+

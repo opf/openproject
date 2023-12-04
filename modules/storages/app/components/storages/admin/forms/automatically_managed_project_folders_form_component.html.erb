@@ -1,22 +1,24 @@
 <%=
   render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-automatically-managed-project-folders-form')) do
     primer_form_with(
-      model: storage,
-      url: admin_settings_storage_automatically_managed_project_folders_path(storage),
-      method: :patch,
+      model:,
+      url: form_url,
+      method: form_method,
       data: {
         controller: "storages--automatically-managed-project-folders-form",
         'application-target': "dynamic",
         'storages--automatically-managed-project-folders-form-is-automatically-managed-value': storage.automatically_managed?,
+        'storages--automatically-managed-project-folders-form-done-complete-label-value': I18n.t("storages.buttons.done_complete_setup"),
+        'storages--automatically-managed-project-folders-form-done-complete-without-label-value': I18n.t("storages.buttons.complete_without_setup"),
       }
     ) do |form|
       flex_layout do |project_folders_form|
         project_folders_form.with_row(mb: 3) do
-          render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t(:'storages.label_managed_project_folders.automatically_managed_folders') }
+          render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t(:'storages.label_managed_project_folders.automatically_managed_folders') }
         end
 
         project_folders_form.with_row(mb: 3) do
-          render(Primer::Beta::Text.new(font_weight: :light)) { I18n.t("storages.page_titles.managed_project_folders.subtitle") }
+          render(Primer::Beta::Text.new) { I18n.t("storages.page_titles.managed_project_folders.subtitle") }
         end
 
         project_folders_form.with_row(mb: 3) do
@@ -28,7 +30,14 @@
         end
 
         project_folders_form.with_row do
-          render(Storages::Admin::SaveOrCancelForm.new(form, storage:, submit_label: I18n.t("storages.buttons.done_complete_setup")))
+          render(
+            Storages::Admin::SubmitOrCancelForm.new(
+              form,
+              storage:,
+              submit_button_options:,
+              cancel_button_options:
+            )
+          )
         end
       end
     end

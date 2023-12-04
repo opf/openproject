@@ -72,10 +72,7 @@ RSpec.describe 'API v3 Budget resource' do
         get get_path
       end
 
-      it_behaves_like 'error response',
-                      403,
-                      'MissingPermission',
-                      I18n.t('api_v3.errors.code_403')
+      it_behaves_like 'forbidden response based on login_required'
     end
   end
 
@@ -99,7 +96,7 @@ RSpec.describe 'API v3 Budget resource' do
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found response based on login_required'
     end
   end
 end

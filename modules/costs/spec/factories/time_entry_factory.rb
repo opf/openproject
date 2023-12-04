@@ -28,12 +28,15 @@
 
 FactoryBot.define do
   factory :time_entry do
-    project
     user
     work_package
     spent_on { Date.today }
     activity factory: :time_entry_activity
     hours { 1.0 }
     logged_by { user }
+
+    after(:build) do |time_entry|
+      time_entry.project ||= time_entry.work_package.project
+    end
   end
 end

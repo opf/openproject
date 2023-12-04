@@ -1,10 +1,21 @@
 import { Injectable } from '@angular/core';
+import { NgSelectConfig } from '@ng-select/ng-select';
 import { I18n } from 'i18n-js';
 import { FormatNumberOptions, TranslateOptions } from 'i18n-js/src/typing';
 
 @Injectable({ providedIn: 'root' })
 export class I18nService {
   private i18n:I18n = window.I18n;
+
+  constructor(
+    private config:NgSelectConfig,
+  ) {
+    this.config.addTagText = this.t('js.autocomplete_ng_select.add_tag');
+    this.config.clearAllText = this.t('js.autocomplete_ng_select.clear_all');
+    this.config.loadingText = this.t('js.autocomplete_ng_select.loading');
+    this.config.notFoundText = this.t('js.autocomplete_ng_select.not_found');
+    this.config.typeToSearchText = this.t('js.autocomplete_ng_select.type_to_search');
+  }
 
   public get locale():string {
     return this.i18n.locale;

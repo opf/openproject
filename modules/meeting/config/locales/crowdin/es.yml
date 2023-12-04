@@ -33,6 +33,9 @@ es:
         duration: "Duración"
         notes: "Notas"
         participants: "Participantes"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
         participants_attended: "Asistentes"
         participants_invited: "Invitados"
         project: "Proyecto"
@@ -42,7 +45,7 @@ es:
       meeting_agenda_items:
         title: "Título"
         author: "Responsable"
-        duration_in_minutes: "Duración en minutos"
+        duration_in_minutes: "Duration (min)"
         description: "Notas"
     errors:
       messages:
@@ -92,11 +95,22 @@ es:
   label_time_zone: "Zona horaria"
   label_start_date: "Fecha de inicio"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
     types:
       classic: 'Clásico'
       classic_text: 'Organice su reunión en un formato de agenda de texto y protocolos.'
       structured: 'Dinámico'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copiado de la reunión %{id}"
   notice_successful_notification: "Notificación enviada correctamente"
   notice_timezone_missing: No se ha establecido zona horaria y se asume %{zone}. Para elegir su zona horaria, por favor, haga clic aquí.
@@ -121,8 +135,6 @@ es:
   text_meeting_closing_are_you_sure: "¿Seguro que quiere cerrar el orden del día de la reunión?"
   text_meeting_agenda_open_are_you_sure: "Se sobrescribirán todos los cambios en las minutas. ¿Quiere continuar?"
   text_meeting_minutes_for_meeting: 'minutas para la reunión "%{meeting}"'
-  text_review_meeting_agenda: "%{author} ha puesto el %{link} para revisión."
-  text_review_meeting_minutes: "%{author} ha definido el %{link} para revisión."
   text_notificiation_invited: "El correo electrónico contiene una entrada ics para la reunión siguiente:"
   text_meeting_empty_heading: "Your meeting is empty"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."
@@ -140,6 +152,7 @@ es:
   label_agenda_item_move_to_bottom: "Move to bottom"
   label_agenda_item_move_up: "Move up"
   label_agenda_item_move_down: "Move down"
+  label_agenda_item_add_notes: "Add notes"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state_open: "Open"
@@ -151,6 +164,7 @@ es:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."
@@ -159,6 +173,7 @@ es:
   label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
   text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
   text_agenda_item_no_notes: "No notes provided"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
   text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
   text_work_package_add_to_meeting_hint: "Use the \"Add to meeting\" button to add this work package to an upcoming meeting."
   text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

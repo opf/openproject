@@ -135,8 +135,7 @@ module API
         end
 
         links :representations do
-          if (project && current_user.allowed_in_project?(:export_work_packages, project)) ||
-              (!project && current_user.allowed_in_any_project?(:export_work_packages))
+          if current_user.allowed_in_any_work_package?(:export_work_packages, in_project: project)
             representation_formats
           end
         end
@@ -186,11 +185,7 @@ module API
         end
 
         def current_user_allowed_to_edit_work_packages?
-          if project
-            current_user.allowed_in_project?(:edit_work_packages, project)
-          else
-            current_user.allowed_in_any_project?(:edit_work_packages)
-          end
+          current_user.allowed_in_any_work_package?(:edit_work_packages, in_project: project)
         end
 
         def schemas

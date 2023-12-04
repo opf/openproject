@@ -127,7 +127,7 @@ class Principal < ApplicationRecord
   end
 
   def self.in_visible_project(user = User.current)
-    in_project(Project.visible(user))
+    where(id: Member.of_anything_in_project(Project.visible(user)).select(:user_id))
   end
 
   def self.in_visible_project_or_me(user = User.current)

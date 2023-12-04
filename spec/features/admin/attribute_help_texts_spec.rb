@@ -28,10 +28,8 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Attribute help texts',
-               js: true,
-               with_cuprite: true do
-  shared_let(:admin) { create(:admin) }
+RSpec.describe 'Attribute help texts', :js, :with_cuprite do
+  shared_let(:user_with_permission) { create(:user, global_permissions: [:edit_attribute_help_texts]) }
 
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
@@ -39,14 +37,14 @@ RSpec.describe 'Attribute help texts',
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:enterprise_token) { true }
 
-  describe 'Work package help texts', with_ee: %i[attribute_help_texts] do
+  describe 'Work package help texts' do
     before do
-      login_as(admin)
+      login_as(user_with_permission)
       visit attribute_help_texts_path
     end
 
     # TODO: Migrate to cuprite when the `better_cuprite_billy` driver is added
-    context 'with direct uploads (Regression #34285)', with_cuprite: false, with_direct_uploads: true do
+    context 'with direct uploads (Regression #34285)', :with_direct_uploads, with_cuprite: false do
       before do
         allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture
       end
@@ -70,7 +68,7 @@ RSpec.describe 'Attribute help texts',
 
     context 'with help texts allowed by the enterprise token' do
       it 'allows CRUD to attribute help texts' do
-        expect(page).to have_selector('.generic-table--no-results-container')
+        expect(page).to have_css('.generic-table--no-results-container')
 
         # Create help text
         # -> new
@@ -88,7 +86,7 @@ RSpec.describe 'Attribute help texts',
         click_button 'Save'
 
         # Should now show on index for editing
-        expect(page).to have_selector('.attribute-help-text--entry td', text: 'Status')
+        expect(page).to have_css('.attribute-help-text--entry td', text: 'Status')
         expect(instance.attribute_scope).to eq 'WorkPackage'
         expect(instance.attribute_name).to eq 'status'
         expect(instance.help_text).to include 'My attribute help text'
@@ -97,11 +95,11 @@ RSpec.describe 'Attribute help texts',
         # Open help text modal
         modal.open!
         expect(modal.modal_container).to have_text 'My attribute help text'
-        expect(modal.modal_container).to have_selector('img')
-        modal.expect_edit(admin: true)
+        expect(modal.modal_container).to have_css('img')
+        modal.expect_edit(editable: true)
 
         # Expect files section to be present
-        expect(modal.modal_container).to have_selector('.form--fieldset-legend', text: 'ATTACHMENTS')
+        expect(modal.modal_container).to have_css('.form--fieldset-legend', text: 'ATTACHMENTS')
         expect(modal.modal_container).to have_test_selector('op-files-tab--file-list-item-title')
 
         modal.close!
@@ -110,39 +108,39 @@ RSpec.describe 'Attribute help texts',
         SeleniumHubWaiter.wait
         find('.attribute-help-text--entry td a', text: 'Status').click
         SeleniumHubWaiter.wait
-        expect(page).to have_selector('#attribute_help_text_attribute_name[disabled]')
+        expect(page).to have_css('#attribute_help_text_attribute_name[disabled]')
         editor.set_markdown(' ')
         click_button 'Save'
 
         # Handle errors
-        expect(page).to have_selector('#errorExplanation', text: "Help text can't be blank.")
+        expect(page).to have_css('#errorExplanation', text: "Help text can't be blank.")
         SeleniumHubWaiter.wait
         editor.set_markdown('New**help**text')
         click_button 'Save'
 
         # On index again
-        expect(page).to have_selector('.attribute-help-text--entry td', text: 'Status')
+        expect(page).to have_css('.attribute-help-text--entry td', text: 'Status')
         instance.reload
         expect(instance.help_text).to eq 'New**help**text'
 
         # Open help text modal
         modal.open!
-        expect(modal.modal_container).to have_selector('strong', text: 'help')
-        modal.expect_edit(admin: true)
+        expect(modal.modal_container).to have_css('strong', text: 'help')
+        modal.expect_edit(editable: true)
 
         modal.close!
-        expect(page).to have_selector('.attribute-help-text--entry td', text: 'Status')
+        expect(page).to have_css('.attribute-help-text--entry td', text: 'Status')
 
         # Open again and edit this time
         modal.open!
         modal.edit_button.click
-        expect(page).to have_selector('#attribute_help_text_attribute_name[disabled]')
+        expect(page).to have_css('#attribute_help_text_attribute_name[disabled]')
         visit attribute_help_texts_path
 
         # Create new, status is now blocked
         find('.attribute-help-texts--create-button').click
-        expect(page).to have_selector('#attribute_help_text_attribute_name option', text: 'Assignee')
-        expect(page).not_to have_selector('#attribute_help_text_attribute_name option', text: 'Status')
+        expect(page).to have_css('#attribute_help_text_attribute_name option', text: 'Assignee')
+        expect(page).not_to have_css('#attribute_help_text_attribute_name option', text: 'Status')
         visit attribute_help_texts_path
 
         # Destroy
@@ -150,15 +148,8 @@ RSpec.describe 'Attribute help texts',
           find('.attribute-help-text--entry .icon-delete').click
         end
 
-        expect(page).to have_selector('.generic-table--no-results-container')
+        expect(page).to have_css('.generic-table--no-results-container')
         expect(AttributeHelpText.count).to be_zero
-      end
-    end
-
-    context 'with help texts disallowed by the enterprise token', with_ee: false do
-      it 'hides CRUD to attribute help texts' do
-        expect(page).to have_current_path /upsale/
-        expect(page).to have_text I18n.t('attribute_help_texts.enterprise.description')
       end
     end
   end

@@ -87,7 +87,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             },
             if: ->(project) {
               User.current.allowed_globally?(:add_project) ||
-                User.current.allowed_to?(:add_subprojects, project)
+                User.current.allowed_in_project?(:add_subprojects, project)
             }
 
   menu.push :invite_user,
@@ -118,10 +118,7 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :administration,
             { controller: '/admin', action: 'index' },
             if: Proc.new {
-              User.current.allowed_globally?(:create_backup) ||
-                User.current.allowed_globally?(:manage_placeholder_user) ||
-                User.current.allowed_globally?(:manage_user) ||
-                User.current.allowed_globally?(:create_user)
+              User.current.allowed_globally?({ controller: '/admin', action: 'index' })
             }
   menu.push :logout,
             :signout_path,
@@ -351,8 +348,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
             icon: 'help2',
-            if: Proc.new { User.current.admin? },
-            enterprise_feature: 'attribute_help_texts'
+            if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) }
 
   menu.push :enumerations,
             { controller: '/enumerations' },

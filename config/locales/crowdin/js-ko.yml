@@ -31,6 +31,12 @@ ko:
         이 파일을 삭제하시겠습니까? 삭제하면 되돌릴 수 없습니다.
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" 추가"
@@ -342,11 +348,11 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>변경 사항을 쉽게 추적할 수 있는 기준선 비교.</li> <li>작업 계획의 보고서에 대한 PDF 내보내기.</li> <li>URL(iCalendar)로 프로젝트 캘린더 구독.</li> <li>Nextcloud 통합에 대한 문서 템플릿이 있는 프로젝트 폴더.</li> <li>모든 시드 데이터의 지역화된 시딩.</li> <li>새 색인 페이지에 나열되는 글로벌 모듈.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."

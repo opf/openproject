@@ -45,6 +45,10 @@ FactoryBot.define do
     user
   end
 
+  factory :autologin_token, class: '::Token::AutoLogin' do
+    user
+  end
+
   factory :backup_token, class: '::Token::Backup' do
     user
 

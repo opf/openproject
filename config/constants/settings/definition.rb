@@ -121,7 +121,9 @@ module Settings
       # autologin duration in days
       # 0 means autologin is disabled
       autologin: {
-        default: 0
+        format: :integer,
+        default: 0,
+        allowed: [1, 7, 14, 30, 60, 90, 365]
       },
       autologin_cookie_name: {
         description: 'Cookie name for autologin cookie',
@@ -131,11 +133,6 @@ module Settings
       autologin_cookie_path: {
         description: 'Cookie path for autologin cookie',
         default: '/',
-        writable: false
-      },
-      autologin_cookie_secure: {
-        description: 'Cookie secure mode for autologin cookie',
-        default: false,
         writable: false
       },
       available_languages: {
@@ -590,15 +587,20 @@ module Settings
       log_requesting_user: {
         default: false
       },
-      # Use lograge to format logs, off by default
-      lograge_formatter: {
+      lograge_enabled: {
         description: 'Use lograge formatter for outputting logs',
-        default: nil,
+        default: true,
+        format: :boolean,
+        writable: false
+      },
+      lograge_formatter: {
+        description: 'Lograge formatter to use for outputting logs',
+        default: 'key_value',
         format: :string,
         writable: false
       },
       login_required: {
-        default: false
+        default: true
       },
       lookbook_enabled: {
         description: 'Enable the Lookbook component documentation tool. Discouraged for production environments.',
@@ -736,6 +738,10 @@ module Settings
         description: 'Override default link when clicking on the top menu logo (Homescreen by default).',
         format: :string,
         default: nil
+      },
+      rate_limiting: {
+        default: {},
+        description: 'Configure rate limiting for various endpoint rules. See configuration documentation for details.'
       },
       registration_footer: {
         default: {
@@ -903,7 +909,8 @@ module Settings
       },
       show_warning_bars: {
         description: 'Render warning bars (pending migrations, deprecation, unsupported browsers)',
-        default: true,
+        # Hide warning bars by default in tests as they might overlay other elements
+        default: -> { !Rails.env.test? },
         writable: false
       },
       smtp_authentication: {

@@ -31,12 +31,9 @@ require 'spec_helper'
 require_relative '../../support/pages/meetings/new'
 require_relative '../../support/pages/structured_meeting/show'
 
-# Cuprite has a bug where it sends keydown events without #key property
-# This breaks stimulus handling of the escape action
-# https://github.com/rubycdp/cuprite/issues/240
 RSpec.describe 'Structured meetings CRUD',
                :js,
-               with_cuprite: false do
+               :with_cuprite do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }
@@ -65,7 +62,8 @@ RSpec.describe 'Structured meetings CRUD',
 
   let(:current_user) { user }
   let(:new_page) { Pages::Meetings::New.new(project) }
-  let(:show_page) { Pages::StructuredMeeting::Show.new(StructuredMeeting.order(id: :asc).last) }
+  let(:meeting) { StructuredMeeting.order(id: :asc).last }
+  let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
   before do
     login_as current_user
@@ -88,7 +86,7 @@ RSpec.describe 'Structured meetings CRUD',
     # Can add and edit a single item
     show_page.add_agenda_item do
       fill_in 'Title', with: 'My agenda item'
-      fill_in 'Duration in minutes', with: '25'
+      fill_in 'Duration (min)', with: '25'
     end
 
     show_page.expect_agenda_item title: 'My agenda item'
@@ -135,10 +133,10 @@ RSpec.describe 'Structured meetings CRUD',
       find_field('Title').send_keys :escape
     end
     show_page.expect_item_edit_form(first, visible: false)
-
     # Can remove
     show_page.remove_agenda_item first
     show_page.assert_agenda_order! 'Updated title', 'Second'
+    show_page.cancel_add_form
 
     # Can link work packages
     show_page.add_agenda_item(type: WorkPackage) do
@@ -150,6 +148,42 @@ RSpec.describe 'Structured meetings CRUD',
     show_page.expect_agenda_link work_package
     wp_item = MeetingAgendaItem.find_by!(work_package_id: work_package.id)
     expect(wp_item).to be_present
+
+    # Can edit and validate a work package item
+    show_page.edit_agenda_item(wp_item) do
+      show_page.clear_item_edit_work_package_title
+      click_button 'Save'
+    end
+
+    show_page.expect_item_edit_field_error(wp_item, "Work package can't be blank.")
+    show_page.cancel_edit_form(wp_item)
+
+    # Keeping the editing state of an agenda item while modifying other items
+    show_page.edit_agenda_item(second) do
+      fill_in 'Title', with: 'Second edited'
+    end
+
+    show_page.select_action(item, I18n.t(:label_sort_lowest))
+    show_page.cancel_add_form
+
+    show_page.add_agenda_item do
+      fill_in 'Title', with: 'My agenda item'
+      fill_in 'Duration in minutes', with: '25'
+    end
+
+    show_page.expect_agenda_item title: 'My agenda item'
+    my_item = MeetingAgendaItem.find_by!(title: 'My agenda item')
+
+    show_page.edit_agenda_item(my_item) do
+      fill_in 'Title', with: 'My agenda item edited'
+      click_button 'Save'
+    end
+
+    show_page.remove_agenda_item my_item
+
+    show_page.expect_item_edit_form(second)
+    show_page.expect_item_edit_title(second, 'Second edited')
+    show_page.cancel_edit_form(second)
 
     # user can see actions
     expect(page).to have_css('#meeting-agenda-items-new-button-component')
@@ -173,7 +207,7 @@ RSpec.describe 'Structured meetings CRUD',
     expect(page).to have_current_path project_meetings_path(project)
   end
 
-  context 'exporting as ICS' do
+  context 'when exporting as ICS' do
     before do
       @download_list = DownloadList.new
     end
@@ -191,6 +225,54 @@ RSpec.describe 'Structured meetings CRUD',
 
       expect(subject).to end_with ".ics"
     end
+  end
+
+  it 'shows an error toast trying to update an outdated item' do
+    show_page.expect_toast(message: 'Successful creation')
+
+    # Can add and edit a single item
+    show_page.add_agenda_item do
+      fill_in 'Title', with: 'My agenda item'
+      fill_in 'Duration (min)', with: '25'
+    end
+
+    show_page.expect_agenda_item title: 'My agenda item'
+    show_page.cancel_add_form
+
+    item = MeetingAgendaItem.find_by!(title: 'My agenda item')
+    show_page.edit_agenda_item(item) do
+      # Side effect: update the item
+      item.update!(title: 'Updated title')
+
+      fill_in 'Title', with: 'My agenda item edited'
+      click_button 'Save'
+    end
+
+    expect(page).to have_css('.flash', text: I18n.t('activerecord.errors.messages.error_conflict'))
+  end
+
+  it 'can copy the meeting (empty)' do
+    show_page.expect_toast(message: 'Successful creation')
+
+    # Can add and edit a single item
+    show_page.add_agenda_item do
+      fill_in 'Title', with: 'My agenda item'
+      fill_in 'Duration (min)', with: '25'
+    end
+
+    show_page.expect_agenda_item title: 'My agenda item'
+    show_page.cancel_add_form
+
+    click_button('op-meetings-header-action-trigger')
+    click_link 'Copy'
+
+    expect(page).to have_current_path "/meetings/#{meeting.id}/copy"
+
+    click_button 'Create'
+
+    expect(page).to have_text 'Your meeting is empty'
+    new_meeting = StructuredMeeting.reorder(id: :asc).last
+    expect(page).to have_current_path "/meetings/#{new_meeting.id}"
   end
 
   context 'with a work package reference to another' do

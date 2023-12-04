@@ -49,11 +49,6 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
            preferences: { hide_mail: true })
   end
   shared_let(:developer_placeholder) { create(:placeholder_user, name: 'Developer 1') }
-  shared_let(:crash) do
-    create(:user,
-           firstname: "<script>alert('h4x');</script>",
-           lastname: "<script>alert('h4x');</script>")
-  end
   shared_let(:group) do
     create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
@@ -160,16 +155,6 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
 
     members_page.search_principal! 'Smith, H'
     expect(members_page).to have_search_result 'Hannibal Smith'
-  end
-
-  it 'Escaping should work properly when entering a name' do
-    members_page.open_new_member!
-    SeleniumHubWaiter.wait
-
-    members_page.search_principal! 'script'
-
-    expect(members_page).not_to have_alert_dialog
-    expect(members_page).to have_search_result "<script>alert('h4x');</script>"
   end
 
   context 'with work packages shared' do

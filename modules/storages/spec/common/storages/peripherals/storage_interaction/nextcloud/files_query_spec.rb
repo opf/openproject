@@ -31,136 +31,208 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery, :webmock do
-  let(:storage) { create(:nextcloud_storage, :with_oauth_client) }
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery, :vcr, :webmock do
+  using Storages::Peripherals::ServiceResultRefinements
+
   let(:user) { create(:user) }
-  let(:token) do
-    create(:oauth_client_token, user:, oauth_client: storage.oauth_client, origin_user_id: 'darth@vader with spaces')
+  let(:storage) do
+    create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
   end
+  let(:folder) { Storages::Peripherals::ParentFolder.new('/') }
 
-  let(:origin_user_id) { 'darth@vader with spaces' }
-  let(:webdav_success_response) { create(:webdav_data, parent_path: '', root_path: '', origin_user_id:) }
+  describe '#call' do
+    it 'responds with correct parameters' do
+      expect(described_class).to respond_to(:call)
 
-  subject(:files_query) { described_class }
-
-  before do
-    uri = "#{storage.host}/remote.php/dav/files/darth@vader%20with%20spaces/"
-    allow(Storages::Peripherals::StorageInteraction::Nextcloud::Util).to receive(:token).and_yield(token)
-    stub_request(:propfind, uri).to_return(status: 207, body: webdav_success_response, headers: {})
-  end
-
-  it '.call requires 3 arguments: storage, user, and folder' do
-    expect(described_class).to respond_to(:call)
-
-    method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq folder])
-  end
-
-  it 'returns a list of files and folders' do
-    storage_files = files_query.call(storage:, folder: nil, user:).result
-    expect(storage_files).to be_a(Storages::StorageFiles)
-
-    expect(storage_files.files.size).to eq(4)
-    expect(storage_files.ancestors.size).to eq(0)
-    expect(storage_files.parent.location).to eq('/')
-
-    mime_types = storage_files.files.map(&:mime_type).uniq!
-
-    expect(mime_types).to include('application/pdf') # file
-    expect(mime_types).to include('application/x-op-directory') # folder
-  end
-
-  it 'returns permissions for each' do
-    storage_files = files_query.call(storage:, folder: nil, user:).result
-
-    writeable_folder = storage_files.files.find { |file| file.mime_type == 'application/x-op-directory' }
-    expect(writeable_folder.permissions).to match_array(%i[readable writeable])
-
-    readonly_file = storage_files.files.find { |file| file.mime_type == 'application/pdf' }
-    expect(readonly_file.permissions).to match_array(%i[readable])
-  end
-
-  context 'when requesting a sub-folder' do
-    let(:parent) { '/Photos/Birds' }
-    let(:webdav_subfolder_success_response) { create(:webdav_data, parent_path: parent, root_path: '', origin_user_id:) }
-
-    before do
-      uri = "#{storage.host}/remote.php/dav/files/darth@vader%20with%20spaces#{parent}"
-      stub_request(:propfind, uri).to_return(status: 207, body: webdav_subfolder_success_response, headers: {})
+      method = described_class.method(:call)
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq folder])
     end
 
-    subject(:query_result) { files_query.call(user:, storage:, folder: parent).result }
+    context 'with outbound requests successful' do
+      context 'with parent folder being root', vcr: 'nextcloud/files_query_root' do
+        # rubocop:disable RSpec/ExampleLength
+        it 'returns a StorageFiles object for root' do
+          storage_files = described_class.call(storage:, user:, folder:).result
 
-    it 'returns 2 ancestors' do
-      ancestors = query_result.ancestors
+          expect(storage_files).to be_a(Storages::StorageFiles)
+          expect(storage_files.ancestors).to be_empty
+          expect(storage_files.parent.name).to eq("Root")
 
-      expect(ancestors.size).to eq(2)
-      expect(ancestors.map(&:location)).to match_array(%w[/ /Photos])
-      expect(ancestors.map(&:name)).to match_array(%w[/ Photos])
-    end
-
-    it 'returns the parent folder' do
-      expect(query_result.parent.name).to eq('Birds')
-      expect(query_result.parent.location).to eq('/Photos/Birds')
-    end
-
-    it 'lists the contents of the folder' do
-      expect(query_result.files).to all(be_a(Storages::StorageFile))
-      expect(query_result.files.size).to eq(4)
-    end
-
-    it 'the files "location" include the entire path and the file name' do
-      expect(query_result.files.last.location).to eq("/Photos/Birds/Manual.pdf")
-    end
-  end
-
-  context 'when the storage runs on a subfolder' do
-    let(:storage) { create(:nextcloud_storage, :with_oauth_client, host: 'https://example.com/death_star_blueprints') }
-
-    it 'just works' do
-      storage_files = files_query.call(storage:, user:, folder: '')
-
-      expect(storage_files).to be_success
-    end
-  end
-
-  describe 'with missing OAuth token' do
-    before do
-      allow(Storages::Peripherals::StorageInteraction::Nextcloud::Util)
-        .to receive(:token)
-        .and_return(ServiceResult.failure(result: :unauthorized,
-                                          errors: Storages::StorageError.new(code: :unauthorized)))
-    end
-
-    it 'returns an ":unauthorized" ServiceResult' do
-      result = files_query.call(folder: '', user:, storage:)
-      expect(result).to be_failure
-      expect(result.errors.code).to be(:unauthorized)
-    end
-  end
-
-  shared_examples_for 'outbound is failing' do |code = 500, symbol = :error|
-    describe "with outbound request returning #{code}" do
-      before do
-        uri = "#{storage.host}/remote.php/dav/files/darth@vader%20with%20spaces/"
-        stub_request(:propfind, uri).to_return(status: code)
+          expect(storage_files.files.size).to eq(4)
+          expect(storage_files.files.map(&:to_h))
+            .to eq([
+                     {
+                       id: '172',
+                       name: 'Folder',
+                       size: 982713473,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2023-11-29T15:31:30Z',
+                       last_modified_by_name: nil,
+                       location: '/Folder',
+                       mime_type: 'application/x-op-directory',
+                       permissions: %i[readable writeable]
+                     }, {
+                       id: '173',
+                       name: 'Folder with spaces',
+                       size: 74,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2023-11-29T15:42:21Z',
+                       last_modified_by_name: nil,
+                       location: '/Folder%20with%20spaces',
+                       mime_type: 'application/x-op-directory',
+                       permissions: %i[readable writeable]
+                     }, {
+                       id: '211',
+                       name: 'Practical_guide_to_BAGGM_Digital.pdf',
+                       size: 154592937,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2022-08-09T06:53:12Z',
+                       last_modified_by_name: nil,
+                       location: '/Practical_guide_to_BAGGM_Digital.pdf',
+                       mime_type: 'application/pdf',
+                       permissions: %i[readable writeable]
+                     }, {
+                       id: '178',
+                       name: 'Readme.md',
+                       size: 31,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2023-11-29T15:29:16Z',
+                       last_modified_by_name: nil,
+                       location: '/Readme.md',
+                       mime_type: 'text/markdown',
+                       permissions: %i[readable writeable]
+                     }
+                   ])
+        end
+        # rubocop:enable RSpec/ExampleLength
       end
 
-      it "must return :#{symbol} ServiceResult" do
-        result = files_query.call(folder: '', user:, storage:)
+      context 'with a given parent folder', vcr: 'nextcloud/files_query_parent_folder' do
+        let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder with spaces/New Requests') }
+
+        subject do
+          described_class.call(storage:, user:, folder:).result
+        end
+
+        # rubocop:disable RSpec/ExampleLength
+        it 'returns the files content' do
+          expect(subject.files.size).to eq(2)
+          expect(subject.files.map(&:to_h))
+            .to eq([
+                     {
+                       id: '181',
+                       name: 'request_001.md',
+                       size: 48,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2023-11-29T15:35:25Z',
+                       last_modified_by_name: nil,
+                       location: '/Folder%20with%20spaces/New%20Requests/request_001.md',
+                       mime_type: 'text/markdown',
+                       permissions: %i[readable writeable]
+                     }, {
+                       id: '182',
+                       name: 'request_002.md',
+                       size: 26,
+                       created_at: nil,
+                       created_by_name: 'admin',
+                       last_modified_at: '2023-11-29T15:35:34Z',
+                       last_modified_by_name: nil,
+                       location: '/Folder%20with%20spaces/New%20Requests/request_002.md',
+                       mime_type: 'text/markdown',
+                       permissions: %i[readable writeable]
+                     }
+                   ])
+        end
+        # rubocop:enable RSpec/ExampleLength
+
+        it 'returns ancestors with a forged id' do
+          expect(subject.ancestors.map { |a| { id: a.id, name: a.name, location: a.location } })
+            .to eq([
+                     {
+                       id: '8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1',
+                       name: 'Root',
+                       location: '/'
+                     }, {
+                       id: 'c8776f1f6dd36c023c6615d39f01a71d68dd1707b232115b7a4f58bc6da94e2e',
+                       name: 'Folder with spaces',
+                       location: '/Folder%20with%20spaces'
+                     }
+                   ])
+        end
+
+        it 'returns the parent itself' do
+          expect(subject.parent.id).to eq('180')
+          expect(subject.parent.name).to eq('New Requests')
+          expect(subject.parent.location).to eq('/Folder%20with%20spaces/New%20Requests')
+        end
+      end
+
+      context 'with parent folder being empty', vcr: 'nextcloud/files_query_empty_folder' do
+        let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder/empty') }
+
+        it 'returns an empty StorageFiles object with parent and ancestors' do
+          storage_files = described_class.call(storage:, user:, folder:).result
+
+          expect(storage_files).to be_a(Storages::StorageFiles)
+          expect(storage_files.files).to be_empty
+          expect(storage_files.parent.id).to eq('174')
+          expect(storage_files.ancestors.map(&:name)).to eq(%w[Root Folder])
+        end
+      end
+    end
+
+    context 'with not existent parent folder', vcr: 'nextcloud/files_query_invalid_parent' do
+      let(:folder) { Storages::Peripherals::ParentFolder.new('/I/just/made/that/up') }
+
+      it 'must return not found' do
+        result = described_class.call(storage:, user:, folder:)
         expect(result).to be_failure
-        expect(result.errors.code).to be(symbol)
+        expect(result.error_source).to be_a(described_class)
+
+        result.match(
+          on_failure: ->(error) { expect(error.code).to eq(:not_found) },
+          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
+      end
+    end
+
+    context 'with invalid oauth token', vcr: 'nextcloud/files_query_invalid_token' do
+      before do
+        token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
+        allow(Storages::Peripherals::StorageInteraction::Nextcloud::Util)
+          .to receive(:token).and_yield(token)
+      end
+
+      it 'must return unauthorized' do
+        result = described_class.call(storage:, user:, folder:)
+        expect(result).to be_failure
+        expect(result.error_source).to be_a(described_class)
+
+        result.match(
+          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
+          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
+      end
+    end
+
+    context 'with not existent oauth token' do
+      let(:user_without_token) { create(:user) }
+
+      it 'must return unauthorized' do
+        result = described_class.call(storage:, user: user_without_token, folder:)
+        expect(result).to be_failure
+        expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
+
+        result.match(
+          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
+          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
       end
     end
   end
-
-  include_examples 'outbound is failing', 404, :not_found
-  include_examples 'outbound is failing', 401, :unauthorized
-  include_examples 'outbound is failing', 500, :error
 end
-
-#           describe 'with storage running on a sub path' do
-#             let(:root_path) { '/storage' }
-#   #
-#         end
-#     end

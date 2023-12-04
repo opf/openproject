@@ -30,13 +30,22 @@ class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
   include MemberHelper
 
-  before_action :find_work_package, only: %i[index create]
-  before_action :find_share, only: %i[destroy update]
+  before_action :find_work_package, only: %i[index create resend_invite]
+  before_action :find_share, only: %i[destroy update resend_invite]
   before_action :find_project
   before_action :authorize
+  before_action :enterprise_check, only: %i[index]
 
   def index
-    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package), layout: nil
+    query = load_query
+
+    unless query.valid?
+      flash.now[:error] = query.errors.full_messages
+    end
+
+    @shares = load_shares query
+
+    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares), layout: nil
   end
 
   def create
@@ -44,22 +53,20 @@ class WorkPackages::SharesController < ApplicationController
 
     find_or_create_users(send_notification: false) do |member_params|
       service_call = WorkPackageMembers::CreateOrUpdateService
-                      .new(user: current_user)
-                      .call(entity: @work_package,
-                            user_id: member_params[:user_id],
-                            role_ids: find_role_ids(params[:member][:role_id]))
-
-      @share = service_call.result
+        .new(user: current_user)
+        .call(entity: @work_package,
+              user_id: member_params[:user_id],
+              role_ids: find_role_ids(params[:member][:role_id]))
 
       overall_result.push(service_call)
     end
 
-    @shares = overall_result.map(&:result).reverse
+    @new_shares = overall_result.map(&:result).reverse
 
     if overall_result.present?
       # In case the number of newly added shares is equal to the whole number of shares,
       # we have to render the whole modal again to get rid of the blankslate
-      if current_visible_member_count > 1 && @shares.size < current_visible_member_count
+      if current_visible_member_count > 1 && @new_shares.size < current_visible_member_count
         respond_with_prepend_shares
       else
         respond_with_replace_modal
@@ -87,11 +94,25 @@ class WorkPackages::SharesController < ApplicationController
     end
   end
 
+  def resend_invite
+    OpenProject::Notifications.send(OpenProject::Events::WORK_PACKAGE_SHARED,
+                                    work_package_member: @share,
+                                    send_notifications: true)
+
+    respond_with_update_user_details
+  end
+
   private
+
+  def enterprise_check
+    return if EnterpriseToken.allows_to?(:work_package_sharing)
+
+    render WorkPackages::Share::ModalUpsaleComponent.new
+  end
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @new_shares || find_shares)
     )
 
     respond_with_turbo_streams
@@ -106,10 +127,10 @@ class WorkPackages::SharesController < ApplicationController
       component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
-    @shares.each do |share|
+    @new_shares.each do |share|
       prepend_via_turbo_stream(
         component: WorkPackages::Share::ShareRowComponent.new(share:),
-        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package)
+        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: find_shares)
       )
     end
 
@@ -137,6 +158,15 @@ class WorkPackages::SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def respond_with_update_user_details
+    update_via_turbo_stream(
+      component: WorkPackages::Share::UserDetailsComponent.new(share: @share,
+                                                               invite_resent: true)
+    )
+
+    respond_with_turbo_streams
+  end
+
   def find_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
   end
@@ -146,21 +176,43 @@ class WorkPackages::SharesController < ApplicationController
     @work_package = @share.entity
   end
 
+  def find_shares
+    @shares = Member.includes(:roles)
+                    .references(:member_roles)
+                    .of_work_package(@work_package)
+                    .merge(MemberRole.only_non_inherited)
+  end
+
   def find_project
     @project = @work_package.project
   end
 
-  def find_role_ids(builtin_value)
-    # Role has a left join on permissions included leading to multiple ids being returned which
-    # is why we unscope.
-    WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
-  end
-
   def current_visible_member_count
     @current_visible_member_count ||= Member
-                                        .joins(:member_roles)
-                                        .of_work_package(@work_package)
-                                        .merge(MemberRole.only_non_inherited)
-                                        .size
+      .joins(:member_roles)
+      .of_work_package(@work_package)
+      .merge(MemberRole.only_non_inherited)
+      .size
+  end
+
+  def load_query
+    @query = ParamsToQueryService.new(Member,
+                                      current_user,
+                                      query_class: Queries::Members::WorkPackageMemberQuery)
+                                 .call(params)
+
+    # Set default filter on the entity
+    @query.where('entity_id', '=', @work_package.id)
+    @query.where('entity_type', '=', WorkPackage.name)
+    @query.where('project_id', '=', @project.id)
+
+    @query.order(name: :asc) unless params[:sortBy]
+
+    @query
+  end
+
+  def load_shares(query)
+    query
+      .results
   end
 end

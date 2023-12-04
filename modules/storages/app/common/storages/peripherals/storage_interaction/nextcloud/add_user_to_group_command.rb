@@ -53,33 +53,36 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           )
       )
 
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
       case response
       when Net::HTTPSuccess
         statuscode = Nokogiri::XML(response.body).xpath('/ocs/meta/statuscode').text
+
         case statuscode
         when "100"
           ServiceResult.success(message: "User has been added successfully")
         when "101"
-          Util.error(:error, "No group specified", response)
+          Util.error(:error, "No group specified", error_data)
         when "102"
-          Util.error(:error, "Group does not exist", response)
+          Util.error(:error, "Group does not exist", error_data)
         when "103"
-          Util.error(:error, "User does not exist", response)
+          Util.error(:error, "User does not exist", error_data)
         when "104"
-          Util.error(:error, "Insufficient privileges", response)
+          Util.error(:error, "Insufficient privileges", error_data)
         when "105"
-          Util.error(:error, "Failed to add user to group", response)
+          Util.error(:error, "Failed to add user to group", error_data)
         end
       when Net::HTTPMethodNotAllowed
-        Util.error(:not_allowed, 'Outbound request method not allowed', response)
+        Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
       when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', response)
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
       when Net::HTTPUnauthorized
-        Util.error(:unauthorized, 'Outbound request not authorized', response)
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       when Net::HTTPConflict
-        Util.error(:conflict, Util.error_text_from_response(response), response)
+        Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
-        Util.error(:error, 'Outbound request failed', response)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
     # rubocop:enable Metrics/AbcSize

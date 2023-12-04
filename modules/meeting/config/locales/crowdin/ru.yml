@@ -33,6 +33,11 @@ ru:
         duration: "Длительность"
         notes: "Заметки"
         participants: "Участники"
+        participant:
+          one: "1 Участник"
+          few: "%{count} Участников"
+          many: "%{count} Участников"
+          other: "%{count} Участников"
         participants_attended: "Участники"
         participants_invited: "Приглашенные"
         project: "Проект"
@@ -42,7 +47,7 @@ ru:
       meeting_agenda_items:
         title: "Заголовок"
         author: "Ответственный"
-        duration_in_minutes: "Продолжительность в минутах"
+        duration_in_minutes: "Длительность (мин)"
         description: "Заметки"
     errors:
       messages:
@@ -92,11 +97,22 @@ ru:
   label_time_zone: "Часовой пояс"
   label_start_date: "Дата начала"
   meeting:
+    email:
+      open_meeting_link: "Открыть встречу"
+      invited:
+        summary: "%{actor} отправил вам приглашение на встречу %{title}"
+      rescheduled:
+        summary: "Встреча %{title} перенесена %{actor}"
+        body: "Встреча %{title} была перенесена пользователем %{actor}."
+        old_date_time: "Старая дата/время"
+        new_date_time: "Новая дата/время"
+    label_mail_all_participants: "Отправить письмо всем участникам"
     types:
       classic: 'Классический'
       classic_text: 'Организуйте свою встречу с помощью форматируемой текстовой повестки дня и протокола.'
       structured: 'Динамический'
       structured_text: 'Организуйте свою встречу в виде списка пунктов повестки дня, при необходимости связав их с пакетом работ.'
+      structured_text_copy: 'При копировании собрания в настоящее время копируются не связанные с ним пункты повестки дня собрания, а только детали'
     copied: "Скопировано со встречи #%{id}"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
@@ -104,10 +120,10 @@ ru:
   permission_edit_meetings: "Править встречи"
   permission_delete_meetings: "Удалить встречу"
   permission_view_meetings: "Просмотреть встречи"
-  permission_create_meeting_agendas: "Create meeting agendas"
-  permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
-  permission_manage_agendas: "Manage agendas"
-  permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
+  permission_create_meeting_agendas: "Создать повестки дня заседаний"
+  permission_create_meeting_agendas_explanation: "Позволяет редактировать содержимое повестки дня Классического Совещания."
+  permission_manage_agendas: "Управление повестками дня"
+  permission_manage_agendas_explanation: "Позволяет управлять пунктами повестки дня динамического собрания."
   permission_close_meeting_agendas: "Закрыть повестки дня"
   permission_send_meeting_agendas_notification: "Отправить уведомление о реценизии  повесток дня"
   permission_create_meeting_minutes: "Управление протоколами"
@@ -121,8 +137,6 @@ ru:
   text_meeting_closing_are_you_sure: "Вы уверены, что хотите закрыть повестку дня собрания?"
   text_meeting_agenda_open_are_you_sure: "Все изменения в протоколах будут перезаписаны! Продолжить?"
   text_meeting_minutes_for_meeting: 'Протокол совещания «%{meeting}»'
-  text_review_meeting_agenda: "%{author} поставил %{link} для рецензии."
-  text_review_meeting_minutes: "%{author} поставил %{link} для рецензии."
   text_notificiation_invited: "Это сообщение содержит запись ics для совещания ниже:"
   text_meeting_empty_heading: "Встреча пуста"
   text_meeting_empty_description_1: "Начните с добавления пунктов повестки дня ниже. Каждый элемент может быть простым, например названием, но вы также можете добавить дополнительную информацию, такую как продолжительность, примечания и ответственное лицо."
@@ -134,12 +148,13 @@ ru:
   label_meeting_created_by: "Автор"
   label_meeting_last_updated: "Обновлено"
   label_agenda_item_undisclosed_wp: "Ссылка на нераскрытый пакет работ #%{id}"
-  label_agenda_item_deleted_wp: "Deleted work package reference"
+  label_agenda_item_deleted_wp: "Ссылка на удалённый пакет работ"
   label_agenda_item_actions: "Действия по пунктам повестки дня"
   label_agenda_item_move_to_top: "В начало"
   label_agenda_item_move_to_bottom: "В конец"
   label_agenda_item_move_up: "Вверх"
   label_agenda_item_move_down: "Вниз"
+  label_agenda_item_add_notes: "Добавить заметки"
   label_meeting_details: "Детали встречи"
   label_meeting_details_edit: "Изменить сведения о встрече"
   label_meeting_state_open: "Открыть"
@@ -151,6 +166,7 @@ ru:
   label_meeting_manage_participants: "Управление участниками"
   label_meeting_no_participants: "Нет участников"
   label_meeting_show_hide_participants: "Показать/скрыть %{count} больше"
+  label_meeting_show_all_participants: "Показать все"
   label_meeting_add_participants: "Добавить участников"
   text_meeting_not_editable_anymore: "Эту встречу больше нельзя редактировать."
   text_meeting_not_present_anymore: "Эта встреча была удалена. Пожалуйста, выберите другую встречу."
@@ -159,6 +175,7 @@ ru:
   label_meeting_selection_caption: "Этот пакет работ можно добавить только к открытым предстоящим встречам."
   text_add_work_package_to_meeting_description: "Пакет работ может быть добавлен к одной или нескольким встречам для обсуждения. Любые заметки об этом также видны здесь."
   text_agenda_item_no_notes: "Примечания отсутствуют"
+  text_agenda_item_not_editable_anymore: "Этот пункт повестки дня больше не редактируется."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Этот пакет работ пока не включен в повестку дня предстоящей встречи."
   text_work_package_add_to_meeting_hint: "Используйте кнопку \"Добавить к встрече\", чтобы добавить этот пакет работ к предстоящей встрече."
   text_work_package_has_no_past_meeting_agenda_items: "Этот пакет работ не упоминался на прошлой встрече."

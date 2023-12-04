@@ -32,18 +32,29 @@ OpenProject::Application.routes.draw do
   namespace :admin do
     namespace :settings do
       resources :storages, controller: '/storages/admin/storages', except: [:show] do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
+        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create] do
+          patch :update, on: :member
+        end
+
         resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
-                                                         only: %i[new edit update]
+                                                         only: %i[new create edit update]
+
+        get :select_provider, on: :collection
 
         member do
-          get '/edit_host' => '/storages/admin/storages#edit_host'
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
+          get :show_oauth_application
+          get :edit_host
+          get :confirm_destroy
+          delete :replace_oauth_application
         end
       end
     end
   end
 
+  get 'projects/:project_id/project_storages/:id/open',
+      controller: 'storages/project_storages',
+      action: 'open',
+      as: 'open_project_storage'
   scope 'projects/:project_id', as: 'project' do
     namespace 'settings' do
       resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do

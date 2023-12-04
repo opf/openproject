@@ -72,6 +72,24 @@ RSpec.describe 'Open the Meetings tab', :js do
 
         meetings_tab.expect_tab_not_present
       end
+
+      context 'when the user has permission in another project' do
+        let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+
+        let(:user) do
+          create(:user,
+                 member_with_roles: { project => role },
+                 member_with_permissions: {
+                   other_project => %i(view_work_packages view_meetings)
+                 })
+        end
+
+        it 'does show the tab' do
+          work_package_page.visit!
+
+          meetings_tab.expect_tab_present
+        end
+      end
     end
 
     context 'when the user has the permission to see the tab, but the work package is linked in two projects' do
@@ -96,6 +114,7 @@ RSpec.describe 'Open the Meetings tab', :js do
         work_package_page.visit!
         switch_to_meetings_tab
 
+        meetings_tab.expect_tab_count(1)
         meetings_tab.expect_upcoming_counter_to_be(1)
         meetings_tab.expect_past_counter_to_be(0)
 
@@ -110,12 +129,33 @@ RSpec.describe 'Open the Meetings tab', :js do
     end
 
     context 'when the meetings module is not enabled for the project' do
-      let(:project) { create(:project, disable_modules: 'meetings') }
+      before do
+        project.enabled_module_names = ['work_package_tracking']
+        project.save!
+      end
 
       it 'does not show the meetings tab' do
         work_package_page.visit!
 
         meetings_tab.expect_tab_not_present
+      end
+
+      context 'when the user has permission in another project' do
+        let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+
+        let(:user) do
+          create(:user,
+                 member_with_permissions: {
+                   project => %i(view_work_packages),
+                   other_project => %i(view_work_packages view_meetings)
+                 })
+        end
+
+        it 'does show the tab' do
+          work_package_page.visit!
+
+          meetings_tab.expect_tab_present
+        end
       end
     end
 

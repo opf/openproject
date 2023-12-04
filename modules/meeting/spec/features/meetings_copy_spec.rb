@@ -44,7 +44,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
            member_with_permissions: { project => permissions })
   end
 
-  shared_let(:start_time) { Time.current.tomorrow.at_noon }
+  shared_let(:start_time) { Time.current.next_day.at_noon }
   shared_let(:duration) { 1.5 }
   shared_let(:agenda_text) { "We will talk" }
   shared_let(:meeting) do
@@ -62,7 +62,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
 
   shared_let(:twelve_hour_format) { "%I:%M %p" }
   shared_let(:copied_meeting_time_heading) do
-    date = start_time.strftime("%m/%d/%Y")
+    date = (start_time + 1.week).strftime("%m/%d/%Y")
     start_of_meeting = start_time.strftime(twelve_hour_format)
     end_of_meeting = (start_time + meeting.duration.hours).strftime(twelve_hour_format)
 
@@ -73,7 +73,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
     login_as user
   end
 
-  it 'copying a meeting' do
+ it 'copying a meeting' do
     visit project_meetings_path(project)
 
     click_link meeting.title
@@ -90,9 +90,11 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
     expect(page)
       .to have_field 'Duration',   with: meeting.duration
     expect(page)
-      .to have_field 'Start date', with: start_time.strftime("%Y-%m-%d")
+      .to have_field 'Start date', with: (start_time + 1.week).strftime("%Y-%m-%d")
     expect(page)
       .to have_field 'Time',       with: start_time.strftime("%H:%M")
+
+    choose 'Classic'
 
     click_button "Create"
 

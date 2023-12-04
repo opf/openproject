@@ -45,18 +45,10 @@ get:
           schema:
             $ref: '../components/schemas/grid_collection_model.yml'
           examples:
-            'Simple grid':
+            'Simple grid collection':
               $ref: '../components/examples/grid-simple-collection-response.yml'
     '400':
-      description: Returned if the client sends invalid request parameters e.g. filters
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
-            message: Filters Invalid filter does not exist.
+      $ref: '../components/responses/invalid_query.yml'
     '403':
       description: Returned if the client is not logged in and login is required.
       content:

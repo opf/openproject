@@ -30,27 +30,53 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class StorageFormController extends Controller {
+export default class OAuthClientFormController extends Controller {
   static targets = [
     'clientId',
+    'clientSecret',
     'redirectUri',
+    'submitButton',
   ];
 
   static values = {
     clientIdMissing: String,
   };
 
+  declare readonly hasClientIdTarget:boolean;
+  declare readonly hasClientSecretTarget:boolean;
+  declare readonly hasSubmitButtonTarget:boolean;
   declare readonly clientIdTarget:HTMLInputElement;
-  declare readonly redirectUriTarget:HTMLInputElement;
+  declare readonly clientSecretTarget:HTMLInputElement;
+  declare readonly redirectUriTargets:HTMLInputElement[];
+  declare readonly submitButtonTarget:HTMLInputElement;
 
   declare readonly clientIdMissingValue:string;
 
   connect():void {
-    this.clientIdTarget.addEventListener('input', () => {
-      this.redirectUriTarget.value = this.redirectUri();
-    });
+    this.setRedirectUriValue();
+    this.toggleSubmitButtonDisabled();
+  }
 
-    this.redirectUriTarget.value = this.redirectUri();
+  public toggleSubmitButtonDisabled():void {
+    const targetsConfigured = this.hasClientIdTarget && this.hasClientSecretTarget && this.hasSubmitButtonTarget;
+
+    if (!targetsConfigured) {
+      return;
+    }
+
+    if (this.clientIdTarget.value === '' || this.clientSecretTarget.value === '') {
+      this.submitButtonTarget.disabled = true;
+    } else {
+      this.submitButtonTarget.disabled = false;
+    }
+  }
+
+  public setRedirectUriValue():void {
+    const newValue = this.redirectUri();
+    this.redirectUriTargets.forEach((target) => {
+      target.value = newValue;
+      target.setAttribute('value', newValue);
+    });
   }
 
   private redirectUri():string {

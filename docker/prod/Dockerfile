@@ -49,6 +49,7 @@ COPY Rakefile .
 COPY bin ./bin
 COPY app ./app
 COPY config ./config
+COPY config/database.production.yml ./config/database.yml
 COPY lib ./lib
 COPY lib_static ./lib_static
 COPY frontend ./frontend
@@ -58,9 +59,7 @@ COPY lookbook ./lookbook
 
 RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
   SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \
-  bin/rails openproject:plugins:register_frontend assets:precompile && \
-  # only keep most current angular cache since webpack is unable to cleanup after itself
-	find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
+  bin/rails openproject:plugins:register_frontend assets:precompile
 
 # -------------------------------------
 # base (private)
@@ -73,6 +72,8 @@ ENV APP_USER=app
 ENV APP_PATH=/app
 ENV APP_DATA_PATH=/var/openproject/assets
 ENV PGVERSION="13"
+ENV CURRENT_PGVERSION="13"
+ENV NEXT_PGVERSION="15"
 ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 ENV BUNDLE_WITHOUT="development:test"
 
@@ -103,11 +104,12 @@ RUN --mount=type=cache,target=/var/cache/apt \
   curl \
   gnupg2 \
   && curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' $PGVERSION > /etc/apt/sources.list.d/pgdg.list \
+  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
   && apt-get update -qq \
   && apt-get install -yq --no-install-recommends \
   libpq5 \
-  postgresql-client-$PGVERSION \
+  postgresql-client-$CURRENT_PGVERSION \
+  postgresql-client-$NEXT_PGVERSION \
   libffi7 \
   unrtf tesseract-ocr poppler-utils catdoc imagemagick \
   && apt-get purge -y curl gnupg2 \

@@ -42,8 +42,16 @@ module Pages
       "/work_packages/#{work_package_id}/tabs/meetings"
     end
 
+    def expect_tab_present
+      expect(page).to have_css('.op-tab-row--link', text: 'MEETINGS')
+    end
+
+    def expect_tab_count(count)
+      expect(page).to have_css('.op-tab-row--link', text: "MEETINGS (#{count})", wait: 10)
+    end
+
     def expect_tab_not_present
-      expect(page).not_to have_selector('.op-tab-row--link', text: 'MEETINGS')
+      expect(page).not_to have_css('.op-tab-row--link', text: 'MEETINGS')
     end
 
     def expect_tab_content_rendered

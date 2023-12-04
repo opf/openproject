@@ -36,7 +36,11 @@ module Storages
     using ::Storages::Peripherals::ServiceResultRefinements
 
     def configuration_checks
-      { storage_oauth_client_configured: oauth_client.present? }
+      {
+        storage_oauth_client_configured: oauth_client.present?,
+        storage_tenant_drive_configured: tenant_id.present? && drive_id.present?,
+        host_name_configured: name.present?
+      }
     end
 
     def oauth_configuration

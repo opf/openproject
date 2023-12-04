@@ -263,7 +263,6 @@ When a filter is defined, synchronization happens directly during seeding for en
 * `attachments_storage_path`
 * `autologin_cookie_name` (default: 'autologin'),
 * `autologin_cookie_path` (default: '/')
-* `autologin_cookie_secure` (default: false)
 * `database_cipher_key`     (default: nil)
 * `scm_git_command` (default: 'git')
 * `scm_subversion_command` (default: 'svn')
@@ -291,7 +290,21 @@ When a filter is defined, synchronization happens directly during seeding for en
 
 
 
-### Setting session options
+## Allowing public access
+
+By default, any request to the OpenProject application needs to be authenticated. If you want to enable public unauthenticated access like we do for https://community.openproject.com, you can set the `login_required` to `false`. If not provided through environment variables, this setting is also accessible in the administrative UI. Please see the [authentication settings guide](../../system-admin-guide/authentication/authentication-settings/#general-authentication-settings) for more details.
+
+*default: true*
+
+To disable, set the configuration option:
+
+```yaml
+OPENPROJECT_LOGIN__REQUIRED="false"
+```
+
+
+
+## Setting session options
 
 **Delete old sessions for the same user when logging in**
 
@@ -313,13 +326,13 @@ To disable, set the configuration option:
 OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT="false"
 ```
 
-### Attachments storage
+## Attachments storage
 
 You can modify the folder where attachments are stored locally. Use the `attachments_storage_path` configuration variable for that. But ensure that you move the existing paths. To find out the current path on a packaged installation, use `openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH`.
 
 To update the path, use `openproject config:set OPENPROJECT_ATTACHMENTS__STORAGE__PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user. Afterwards issue a restart by `sudo openproject configure`
 
-#### attachment storage type
+### attachment storage type
 
 Attachments can be stored using e.g. Amazon S3, In order to set these values through ENV variables, add to the file :
 
@@ -336,7 +349,7 @@ OPENPROJECT_FOG_DIRECTORY="uploads"
 
 
 
-### Auth source sso
+## Auth source sso
 
 Can be used to automatically login a user defined through a custom header sent by a load balancer or reverse proxy in front of OpenProject, for instance in a Kerberos Single Sign-On (SSO) setup via apache.
 The header with the given name has to be passed to OpenProject containing the logged in user and the defined global secret as in `$login:$secret`.
@@ -362,9 +375,9 @@ auth_source_sso:
 
 
 
-### Backups
+## Backups
 
-#### backup enabled
+### Enable backups
 
 If enabled, admins (or users with the necessary permission) can download backups of the OpenProject installation
 via OpenProject's web interface or via the API.
@@ -375,7 +388,7 @@ via OpenProject's web interface or via the API.
 OPENPROJECT_BACKUP__ENABLED="false"
 ```
 
-#### backup attachment size max sum mb
+### Backup attachment size max sum mb
 
 Per default the maximum overall size of all attachments must not exceed 1GB for them to be included in the backup. If they are larger only the database dump will be included.
 
@@ -385,7 +398,7 @@ Per default the maximum overall size of all attachments must not exceed 1GB for 
 OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB="8192"
 ```
 
-#### additional configurations for backup
+### Additional configurations for backup
 
 ```yaml
 OPENPROJECT_BACKUP__DAILY__LIMIT="3"
@@ -395,7 +408,7 @@ OPENPROJECT_BACKUP__INITIAL__WAITING__PERIOD="86400"
 
 
 
-### BCrypt configuration
+## BCrypt configuration
 
 OpenProject uses BCrypt to derive and store user passwords securely. BCrypt uses a so-called Cost Factor to derive the computational effort required to derive a password from input.
 
@@ -409,11 +422,11 @@ OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR="16"
 
 
 
-### Database configuration and SSL
+## Database configuration and SSL
 
 Please see [this separate guide](./database/) on how to set a custom database connection string and optionally, require SSL/TTLS verification. 
 
-### disable password login
+## disable password login
 
 If you enable this option you have to configure at least one omniauth authentication
 provider to take care of authentication instead of the password login.
@@ -429,7 +442,7 @@ OPENPROJECT_DISABLE__PASSWORD__LOGIN="true"
 
 
 
-### omniauth direct login provider
+## omniauth direct login provider
 
 Per default the user may choose the usual password login as well as <u>several</u> omniauth providers on the login page and in the login drop down menu. With this configuration option you can set a specific omniauth provider to be used for direct login. Meaning that the login provider selection is skipped and the configured provider is used directly (non-interactive) instead.
 
@@ -446,7 +459,7 @@ This route is only available when the direct login provider is set.
 OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER="google"
 ```
 
-### prevent omniauth remapping of existing users
+## prevent omniauth remapping of existing users
 
 Per default external authentication providers through OmniAuth (such as SAML or OpenID connect providers) are allowed to take over existing
 accounts if the mapped login is already taken. This is usually desirable, if you have e.g., accounts created through LDAP and want these
@@ -461,8 +474,7 @@ to create a new account.
 OPENPROJECT_OAUTH__ALLOW__REMAPPING__OF__EXISTING__USERS="false"
 ```
 
-
-### Gravatar images
+## Gravatar images
 
 OpenProject uses gravatar images with a `404` fallback by default to render an internal, initials-based avatar.
 You can override this behavior by setting `gravatar_fallback_image` to a different value to always render Gravatars
@@ -491,7 +503,7 @@ rake attachments:copy_to[file]
 
 > **NOTE:** that you have to configure the respective storage (i.e. fog) beforehand as described in the previous section. In the case of fog you only have to configure everything under `fog`, however. Don't change `attachments_storage` to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source for the migration.
 
-### direct uploads
+## direct uploads
 
 > **NOTE**: This only works for AWS S3 or S3-compatible storages<sup>\*</sup>. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured, or when the `use_iam_profile` option is used in the fog credentials when using S3.
 
@@ -526,7 +538,7 @@ The default is 21600 seconds, that is 6 hours, which is the maximum expiry time 
 OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN="60"
 ```
 
-### force help link
+## Force help link
 
 You can override the default help menu of OpenProject by specifying a `force_help_link` option to
 the configuration. This value is used for the href of the help link, and the default dropdown is removed.
@@ -537,7 +549,7 @@ the configuration. This value is used for the href of the help link, and the def
 OPENPROJECT_FORCE__HELP__LINK="https://it-support.example.com"
 ```
 
-### impressum link
+## Impressum link
 
 You can set a impressum link (legal notice) for your OpenProject instance by setting `impressum_link` to an absolute URL.
 
@@ -547,7 +559,7 @@ You can set a impressum link (legal notice) for your OpenProject instance by set
 OPENPROJECT_IMPRESSUM__LINK="https://impressum.example.com"
 ```
 
-### hidden menu items admin menu
+## Hidden menu items admin menu
 
 You can disable specific menu items in the menu sidebar for each main menu (such as Administration and Projects). The configuration can be done through environment variables. You have to define one variable for each menu that shall be hidden.
 
@@ -565,7 +577,21 @@ The following example disables all menu items except 'Users', 'Groups' and 'Cust
 OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enumerations settings ldap_authentication colors project_types plugins info"
 ```
 
-### blacklisted routes
+
+
+## Rate limiting and blocklisting
+
+### Rate limiting
+
+OpenProject provides some rate limiting protections. The default configuration protects against repeated access to authentication credential resets (e.g., lost password functionality).
+
+You can optionally enable additional rules on API rate limiting as follows:
+
+`OPENPROJECT_RATE_LIMITING_API__V3=true`
+
+Additional application-level rate limiting rules will be added in the future. Additionally to these application level rules, use your load balancer / proxying web server to apply individual rate limiting rules using modules such as `ngx_http_limit_req_module` or `mod_security`. 
+
+### Blocklisted routes
 
 You can blacklist specific routes
 
@@ -577,7 +603,7 @@ The following example forbid all routes for the second example at the 'hidden me
 OPENPROJECT_BLACKLISTED__ROUTES="admin/info admin/plugins project_types colors settings admin/enumerations workflows/* statuses types admin/roles"
 ```
 
-### disabled modules
+## disabled modules
 
 Modules may be disabled through the configuration.
 Just give a list of the module names either as an array or as a string with values separated by spaces.
@@ -588,7 +614,7 @@ Just give a list of the module names either as an array or as a string with valu
 OPENPROJECT_DISABLED__MODULES="backlogs meetings"
 ```
 
-### local checkout path
+## local checkout path
 
 *default: "repositories"*
 
@@ -598,7 +624,7 @@ Remote git repositories will be checked out here.
 note: to be verified, maybe option was removed, not in environement variables list
 ```
 
-### apiv3 enable basic auth
+## apiv3 enable basic auth
 
 You can control basic auth access to the APIv3 with the following configuration option:
 
@@ -608,7 +634,7 @@ You can control basic auth access to the APIv3 with the following configuration 
 OPENPROJECT_APIV3__ENABLE__BASIC__AUTH="false"
 ```
 
-### global basic auth
+## global basic auth
 
 *default: none*
 
@@ -628,7 +654,7 @@ default:
       password: adminpw
 ```
 
-### security badge displayed
+## Security Upgrade Badge
 
 OpenProject provides a release indicator (security badge) that will inform administrators of an OpenProject installation on whether new releases or security updates are available for your platform. If enabled, this option will display a badge with your installation status at Administration &gt; Information right next to the release version, and on the home screen. It is only displayed to administrators.
 
@@ -642,7 +668,7 @@ To disable rendering the badge, uncheck the setting at Administration &gt; Syste
 OPENPROJECT_SECURITY__BADGE__DISPLAYED="false"
 ```
 
-### Cache configuration options
+## Cache configuration options
 
 * `rails_cache_store`: `memcache` for [memcached](https://www.memcached.org/), `redis` for [Redis cache](https://redis.io/), or `memory_store` (default: `file_store`)
 * When using `memcached`, the following configuration option is relevant:
@@ -654,17 +680,17 @@ OPENPROJECT_SECURITY__BADGE__DISPLAYED="false"
 * `cache_expires_in`: Expiration time for memcache entries (default: `nil`, no expiry)
 * `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: `nil`)
 
-### rails asset host
+## rails asset host
 
 `rails_asset_host`: A custom host to use to serve static assets such as javascript, CSS, images, etc. (default: `nil`)
 
-### onboarding video url
+## onboarding video url
 
 `onboarding_video_url`: An URL for the video displayed on the onboarding modal. This is only shown when the user logs in for the first time.
 
 *default="[https://player.vimeo.com/video/163426858?autoplay=1](https://player.vimeo.com/video/163426858?autoplay=1)"*
 
-### enterprise fail fast
+## enterprise fail fast
 
 If using an Enterprise token there are certain limits that apply. You can configure how these limits are enforced.
 
@@ -691,7 +717,7 @@ enterprise:
   fail_fast: true
 ```
 
-### show community links
+## Show or hide community links
 
 If you would like to hide the homescreen links to the OpenProject community, you can do this with the following configuration:
 
@@ -701,7 +727,7 @@ If you would like to hide the homescreen links to the OpenProject community, you
 OPENPROJECT_SHOW__COMMUNITY__LINKS=false
 ```
 
-### web
+## Web worker configuration
 
 Configuration of the main ruby web server (currently puma). Sensible *defaults* are provided.
 
@@ -715,9 +741,9 @@ OPENPROJECT_WEB_MAX__THREADS="16"
 
 > **NOTE:** Timeouts only are supported when using at least 2 workers.
 
-### Two-factor authentication
+## Two-factor authentication
 
-#### 2fa enforced
+### 2fa enforced
 
 You can set the available 2FA strategies and/or enforce or disable 2FA system-wide.
 

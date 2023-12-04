@@ -89,10 +89,16 @@ module Accounts::UserLimits
   end
 
   def user_limit_warning
-    warning = I18n.t(
-      :warning_user_limit_reached,
-      upgrade_url: OpenProject::Enterprise.upgrade_url
-    )
+    warning = if current_user.admin?
+                I18n.t(
+                  :warning_user_limit_reached_admin,
+                  upgrade_url: OpenProject::Enterprise.upgrade_url
+                )
+              else
+                I18n.t(
+                  :warning_user_limit_reached
+                )
+              end
 
     warning.html_safe
   end
