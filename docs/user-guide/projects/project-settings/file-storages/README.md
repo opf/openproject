@@ -7,7 +7,7 @@ keywords: file storages, project folder, storages
 ---
 # File storages
 
->**Info**: Before a storage service can be added to a project, an administrator must first set up [Nextcloud integration](../../../../system-admin-guide/integrations/nextcloud/) with OpenProject.
+>**Info**: Before a storage service can be added to a project, an administrator must first set up [Nextcloud integration](../../../../system-admin-guide/integrations/nextcloud/)  or [OneDrive/SharePoint integration](../../../../system-admin-guide/integrations/onedrive/) with OpenProject.
 
 | Topic                                                             | Description                         |
 |-------------------------------------------------------------------|:------------------------------------|
@@ -32,13 +32,21 @@ Click on **+ Storage** or the **+** icon below the table.
 
 ![List of file storages available to a project, empty](file-storages-available-in-project.png)
 
-### Add a Nextcloud storage to a project
-
-## Storage and project folders
-
-In the page that follows, you will be able to select one of the file storages set up by your administrator. If you only have one Nextcloud file storage set up (which is the most likely scenario), it should already be selected by default. Once the storage is selected click on the **Continue** button to proceed.
+In the page that follows, you will be able to select one of the file storages set up by your administrator. You can select Nextcloud or OneDrive storage from the drop-down menu. If you only have one file storage set up (which is the most likely scenario), it should already be selected by default. Once the storage is selected click on the **Continue** button to proceed.
 
 ![Select the desired storage](storage-add-new.png)
+
+## Add a OneDrive/SharePoint storage to a project (Enterprise add-on)
+
+> **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
+
+If you have selected the OneDrive/SharePoint option in the previous step, your OneDrive/SharePoint storage will be added to the project and you can start using it right away. 
+
+Please refer to the [OneDrive/SharePoint user guide](../../../file-management/onedrive-integration) for further instructions.
+
+## Add a Nextcloud storage to a project
+
+If you have selected the Nextcloud option in the previous step of storage selection, you will now see the **Project folder** options.
 
 ### Project folders
 
@@ -59,16 +67,19 @@ The Nextcloud file storage is now available to all work packages in this project
 > **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../nextcloud-integration/).
 
 
+### Project folder member connection status
 
-### Add a OneDrive/SharePoint storage to a project (Enterprise add-on)
+As a project administrator you can see which of the project members have access to the automatically managed folders for Nextcloud integration. To see the list of users click on the users icon on the right side of the list. 
 
-> **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
+![Open a list of project members](storage-list-members.png)
 
+You will see which project members have have successfully connected and who may need assistance.
 
+![Project folder member connection status](storage-list-member-status.png)
 
-## Edit an existing storage
+### Edit an existing Nextcloud storage
 
-To edit or remove an existing storage from a project, you can click on the icons on the right side of the list.
+To edit  an existing Nextcloud storage, you can click on the edit icon on the right side of the list of project storages.
 
 ![List of project storages, edit or delete](storage-list-edit-delete.png)
 
@@ -76,22 +87,14 @@ For the moment, you will only be able to edit which project folder type is used 
 
 ![Edit the project folder type](storage-edit.png)
 
-> **Note:** If the previous selected project folder type was **New folder with automatically managed permissions**, changing the project folder type will not delete the already created project folder.
+> **Note:** If the previously selected project folder type was **New folder with automatically managed permissions**, changing the project folder type will not delete the already created project folder.
 
-## Delete an existing file storage
+### Delete an existing  file storage
+
+To edit  an existing storage, you can click on the delete icon on the right side of the list of project storages.
+
+![Delete an existing file storage in an OpenProject project](storage_delete_icon.png)
 
 To be able to delete a storage from a project you will be asked to confirm the action by introducing the name of the storage. This action is irreversible and will remove all links from work packages of this project to files and folders of that storage. Also, in case this storage has an automatically managed project folder, it and its files will be deleted forever.
 
 ![Delete a storage from a project](storage-delete.png)
-
-### Project folder member connection status
-
-IS THIS ALSO TRUE FOR ONEDRIVE OR ONLY FOR NEXTCLOUD? SPECIFY IF ONLY APPLIES TO NEXTCLOUD
-
-As a project administrator you can see which of the project members have access to the automatically managed folders. To see the list of users click on the users icon on the right side of the list. 
-
-![Open a list of project members](storage-list-members.png)
-
-You will see which project members have have successfully connected and who may need assistance.
-
-![Project folder member connection status](storage-list-member-status.png)
