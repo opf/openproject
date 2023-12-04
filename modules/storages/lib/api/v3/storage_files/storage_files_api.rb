@@ -65,30 +65,11 @@ module API::V3::StorageFiles
       end
 
       post :prepare_upload do
-        validate = ->(_body) do
-          if Storages::Storage::one_drive_without_ee_token?(@storage.provider_type)
-            raise API::Errors::EnterpriseTokenMissing.new
-            # return ServiceResult.failure(errors: API::Errors::EnterpriseTokenMissing.new)
-          end
-
-          case request_body.transform_keys(&:to_sym)
-          in { projectId: project_id, fileName: file_name, parent: parent }
-            authorize_in_project(:manage_file_links, project: Project.find(project_id))
-            ServiceResult.success(result: { file_name:, parent: }.transform_keys(&:to_s))
-          else
-            ServiceResult.failure(errors: Storages::StorageError.new(code: :bad_request, log_message: 'Request body malformed!'))
-          end
-        end
-
-        validate.call(request_body) >> ->(data) do
-          Storages::Peripherals::Registry
-            .resolve("queries.#{@storage.short_provider_type}.upload_link")
-            .call(storage: @storage, user: current_user, data:)
-            .match(
-              on_success: ->(link) { API::V3::StorageFiles::StorageUploadLinkRepresenter.new(link, current_user:) },
-              on_failure: ->(error) { raise_error(error) }
-            )
-        end
+        result = validate_upload_request(request_body) >> fetch_upload_link
+        result.match(
+          on_success: ->(link) { API::V3::StorageFiles::StorageUploadLinkRepresenter.new(link, current_user:) },
+          on_failure: ->(error) { raise_error(error) }
+        )
       end
     end
   end
