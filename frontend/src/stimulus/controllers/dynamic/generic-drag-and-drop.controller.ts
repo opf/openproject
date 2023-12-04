@@ -56,6 +56,7 @@ export default class extends Controller {
       {
         moves: (_el, _source, handle, _sibling) => !!handle?.classList.contains('octicon-grabber'),
         accepts: (el?: Element | null, target?: Element | null, source?: Element | null, sibling?: Element | null) => this.accepts(el!, target!, source!, sibling!),
+        revertOnSpill: true // enable reverting of elements if they are dropped outside of a valid target
       },
     )
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
