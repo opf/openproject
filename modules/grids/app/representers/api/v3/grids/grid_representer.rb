@@ -36,7 +36,7 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
         cached_representer key_parts: %i(widgets),
-                           disabled: true
+                           dependencies: -> { User.current }
 
         resource_link :scope,
                       getter: ->(*) {
