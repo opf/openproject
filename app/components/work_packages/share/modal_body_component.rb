@@ -93,7 +93,7 @@ module WorkPackages
       end
 
       def filter_url(type_option: nil, role_option: nil)
-        return work_package_shares_path if type_option.nil? && role_option.nil?
+        return work_package_shares_path(@work_package) if type_option.nil? && role_option.nil?
 
         args = {}
         filter = []
@@ -103,7 +103,7 @@ module WorkPackages
 
         args[:filters] = filter.to_json unless filter.empty?
 
-        work_package_shares_path(args)
+        work_package_shares_path(@work_package, **args)
       end
 
       def apply_role_filter(_option)
