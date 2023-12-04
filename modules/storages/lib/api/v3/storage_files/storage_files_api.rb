@@ -35,6 +35,32 @@ module API::V3::StorageFiles
             Storages::Peripherals::StorageFileInfoConverter,
             Storages::Peripherals::StorageParentFolderExtractor
 
+    helpers do
+      def validate_upload_request(body)
+        if Storages::Storage::one_drive_without_ee_token?(@storage.provider_type)
+          log_message = 'The request can not be handled due to invalid or missing Enterprise token.'
+          return ServiceResult.failure(errors: Storages::StorageError.new(code: :missing_ee_token_for_one_drive, log_message:))
+        end
+
+        case body.transform_keys(&:to_sym)
+        in { projectId: project_id, fileName: file_name, parent: parent }
+          authorize_in_project(:manage_file_links, project: Project.find(project_id))
+          ServiceResult.success(result: { file_name:, parent: }.transform_keys(&:to_s))
+        else
+          ServiceResult.failure(errors: Storages::StorageError.new(code: :bad_request,
+                                                                   log_message: 'Request body malformed!'))
+        end
+      end
+
+      def fetch_upload_link
+        ->(data) do
+          Storages::Peripherals::Registry
+            .resolve("queries.#{@storage.short_provider_type}.upload_link")
+            .call(storage: @storage, user: current_user, data:)
+        end
+      end
+    end
+
     resources :files do
       get do
         Storages::Peripherals::Registry
