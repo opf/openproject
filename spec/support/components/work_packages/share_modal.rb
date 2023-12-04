@@ -246,11 +246,14 @@ module Components
       end
 
       def filter(filter_name, value)
-        within modal_element.find("[data-test-selector='op-share-wp-filter-#{filter_name}']") do
-          # Open the ActionMenu
-          retry_block do # Sometimes this is just too fast.
-            click_button filter_name.capitalize
+        within(shares_header) do
+          retry_block do
+            # The button's text changes dynamically based on the currently selected option
+            # Hence the spec's readability is hindered by using something like
+            # `click_button filter_name.capitalize`
+            find("[data-test-selector='op-share-wp-filter-#{filter_name}-button']").click
 
+            # Open the ActionMenu
             find('.ActionListContent', text: value).click
           end
         end
