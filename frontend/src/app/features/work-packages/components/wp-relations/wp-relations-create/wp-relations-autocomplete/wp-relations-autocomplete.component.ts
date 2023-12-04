@@ -60,6 +60,7 @@ export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
 @Component({
   selector: 'wp-relations-autocomplete',
   templateUrl: '../../../../../../shared/components/autocompleter/op-autocompleter/op-autocompleter.component.html',
+  styleUrls: ['../../../../../../shared/components/autocompleter/op-autocompleter/op-autocompleter.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterComponent<IWorkPackageAutocompleteItem> {
