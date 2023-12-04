@@ -8,6 +8,8 @@
         controller: "storages--automatically-managed-project-folders-form",
         'application-target': "dynamic",
         'storages--automatically-managed-project-folders-form-is-automatically-managed-value': storage.automatically_managed?,
+        'storages--automatically-managed-project-folders-form-done-complete-label-value': I18n.t("storages.buttons.done_complete_setup"),
+        'storages--automatically-managed-project-folders-form-done-complete-without-label-value': I18n.t("storages.buttons.complete_without_setup"),
       }
     ) do |form|
       flex_layout do |project_folders_form|

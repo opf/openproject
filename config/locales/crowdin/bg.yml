@@ -97,8 +97,6 @@ bg:
     show_preview: "Preview text"
     add_new: "Add help text"
     edit: "Edit help text for %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Заданието има грешка, но се опитва отново Грешката беше: %{message}"
@@ -1902,7 +1900,7 @@ bg:
   label_nothing_display: "Нищо за показване"
   label_nobody: "nobody"
   label_not_found: "not found"
-  label_none: "none"
+  label_none: "никой"
   label_none_parentheses: "(none)"
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"

@@ -97,8 +97,6 @@ ja:
     show_preview: "テキストをプレビュー"
     add_new: "ヘルプ テキストを追加"
     edit: "%{attribute_caption} のヘルプ テキストを編集"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "ジョブにエラーが発生しましたが、再試行中です。エラー: %{message}"

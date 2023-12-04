@@ -39,7 +39,7 @@ OpenProject::Application.routes.draw do
         resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
                                                          only: %i[new create edit update]
 
-        post :select_provider, on: :collection
+        get :select_provider, on: :collection
 
         member do
           get :show_oauth_application
@@ -51,6 +51,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  get 'projects/:project_id/project_storages/:id/open',
+      controller: 'storages/project_storages',
+      action: 'open',
+      as: 'open_project_storage'
   scope 'projects/:project_id', as: 'project' do
     namespace 'settings' do
       resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do

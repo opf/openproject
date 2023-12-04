@@ -85,6 +85,34 @@
               end
             end
           end
+
+          details.with_row(mt: 2, classes: 'meeting-detail-participants') do
+            render_meeting_attribute_row(:people) do
+              flex_layout do |duration|
+                duration.with_column(mr: 2) do
+                  render(Primer::Beta::Text.new) do
+                    Meeting.human_attribute_name(
+                      :participant,
+                      count: @meeting.invited_or_attended_participants.count
+                    )
+                  end
+                end
+
+                duration.with_column(mr: 2) do
+                  render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
+                    id: "edit-participants-dialog",
+                    src: participants_dialog_meeting_path(@meeting),
+                    size: :medium_portrait,
+                    title: Meeting.human_attribute_name(:participants),
+                    button_text: t("label_meeting_show_all_participants"),
+                    button_attributes: {
+                      scheme: :link,
+                      font_weight: :normal
+                    }))
+                end
+              end
+            end
+          end
         end
       end
     end

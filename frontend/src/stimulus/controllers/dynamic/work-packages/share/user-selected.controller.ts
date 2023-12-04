@@ -29,30 +29,56 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import {
+  IUserAutocompleteItem,
+} from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
 
-export default class SelectProviderFormController extends Controller {
+export default class UserSelectedController extends Controller {
   static targets = [
-    'providerForm',
-    'providerSelect',
+    'shareButton',
+    'error',
   ];
 
-  declare readonly providerFormTarget:HTMLFormElement;
-  declare readonly providerSelectTarget:HTMLSelectElement;
+  declare readonly errorTarget:HTMLElement;
 
-  connect():void {
-    // On first load if providerTypeValue is already selected, show the provider form
-    this.fetchProviderTypeForm(this.providerSelectTarget.value);
+  private selectedValues:IUserAutocompleteItem[] = [];
+
+  connect() {
+    this.autocompleterElement.addEventListener('change', this.handleValueSelected.bind(this));
   }
 
-  public showProviderForm(evt:Event):void {
-    this.fetchProviderTypeForm((evt.target as HTMLSelectElement).value);
+  disconnect() {
+    this.autocompleterElement.removeEventListener('change', this.handleValueSelected.bind(this));
   }
 
-  fetchProviderTypeForm(providerTypeValue:string):void {
-    if (providerTypeValue === '') {
-      return;
+  ensureUsersSelected(evt:CustomEvent):void {
+    if (this.selectedValues.length === 0) {
+      evt.preventDefault(); // Don't submit
+      this.showError();
+    } else {
+      this.hideError();
     }
+  }
 
-    this.providerFormTarget.requestSubmit();
+  // Private methods
+  handleValueSelected(evt:CustomEvent) {
+    this.selectedValues = evt.detail as IUserAutocompleteItem[];
+
+    if (this.selectedValues.length !== 0) {
+      this.hideError();
+    }
+  }
+
+  private showError() {
+    this.errorTarget.classList.remove('d-none');
+  }
+
+  private hideError() {
+    this.errorTarget.classList.add('d-none');
+  }
+
+  // Accessors
+  private get autocompleterElement():HTMLElement {
+    return this.element.querySelector('opce-user-autocompleter') as HTMLElement;
   }
 }

@@ -97,8 +97,6 @@ de:
     show_preview: "Vorschau des Hilfe-Textes"
     add_new: "Hilfe-Text hinzufügen"
     edit: "Hilfe-Text für %{attribute_caption} bearbeiten"
-    enterprise:
-      description: "Geben Sie zusätzliche Informationen für Attribute (inkl. benutzerdefinierter Felder) von Arbeitspaketen und Projekten an. Hilfetexte werden angezeigt, wenn Benutzer in Projekten und Arbeitspaketen auf das Fragezeichensymbol neben Eingabefeldern klicken."
   background_jobs:
     status:
       error_requeue: "Der Job ist mit einem Fehler fehlgeschlagen, wird aber erneut eingestellt. Der Fehler war: %{message}"

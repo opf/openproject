@@ -50,14 +50,14 @@ module Storages
             result = Util.using_user_token(@storage, user) do |token|
               # Make the Get Request to the necessary endpoints
               response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.get(uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
+                http.get(children_uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
               end
 
-              handle_response(response)
+              handle_response(response, :value)
             end
 
             if result.result.empty?
-              empty_response(folder)
+              empty_response(user, folder)
             else
               result.map { |json_files| storage_files(json_files) }
             end
@@ -65,13 +65,13 @@ module Storages
 
           private
 
-          def handle_response(response)
+          def handle_response(response, map_value)
             json = MultiJson.load(response.body, symbolize_keys: true)
             error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
 
             case response
             when Net::HTTPSuccess
-              ServiceResult.success(result: MultiJson.load(response.body, symbolize_keys: true)[:value])
+              ServiceResult.success(result: MultiJson.load(response.body, symbolize_keys: true)[map_value])
             when Net::HTTPNotFound
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
@@ -106,20 +106,28 @@ module Storages
             )
           end
 
-          def empty_response(folder)
-            path = folder.path
+          def empty_response(user, folder)
+            result = Util.using_user_token(@storage, user) do |token|
+              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
+                http.get(location_uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
+              end
 
-            ServiceResult.success(
-              result: StorageFiles.new(
-                [],
-                StorageFile.new(
-                  id: Digest::SHA256.hexdigest(path),
-                  name: path.split('/').last,
-                  location: path,
-                  permissions: %i[readable writeable]
-                ),
-                forge_ancestors(path:)
-              )
+              handle_response(response, :id)
+            end
+
+            result.map { |parent_location_id| empty_storage_files(folder.path, parent_location_id) }
+          end
+
+          def empty_storage_files(path, parent_id)
+            StorageFiles.new(
+              [],
+              StorageFile.new(
+                id: parent_id,
+                name: path.split('/').last,
+                location: path,
+                permissions: %i[readable writeable]
+              ),
+              forge_ancestors(path:)
             )
           end
 
@@ -166,10 +174,16 @@ module Storages
                             permissions: %i[readable writeable])
           end
 
-          def uri_path_for(folder)
+          def children_uri_path_for(folder)
             return "/v1.0/drives/#{@storage.drive_id}/root/children" if folder.root?
 
             "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}:/children"
+          end
+
+          def location_uri_path_for(folder)
+            return "/v1.0/drives/#{@storage.drive_id}/root" if folder.root?
+
+            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}"
           end
 
           def encode_path(path)

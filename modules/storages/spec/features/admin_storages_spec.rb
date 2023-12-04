@@ -43,33 +43,57 @@ RSpec.describe 'Admin storages',
       let(:complete_storage) { create(:nextcloud_storage_with_local_connection) }
       let(:incomplete_storage) { create(:nextcloud_storage) }
 
+      let(:complete_nextcloud_storage_health_pending) { create(:nextcloud_storage_with_complete_configuration) }
+      let(:complete_nextcloud_storage_health_healthy) { create(:nextcloud_storage_with_complete_configuration, :as_healthy) }
+      let(:complete_nextcloud_storage_health_unhealthy) { create(:nextcloud_storage_with_complete_configuration, :as_unhealthy) }
+
       before do
         complete_storage
         incomplete_storage
+        complete_nextcloud_storage_health_pending
+        complete_nextcloud_storage_health_healthy
+        complete_nextcloud_storage_health_unhealthy
       end
 
       it 'renders a list of storages' do
         visit admin_settings_storages_path
 
-        expect(page).to have_css('[data-test-selector="storage-name"]', text: complete_storage.name)
-        expect(page).to have_css('[data-test-selector="storage-name"]', text: incomplete_storage.name)
-        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
-                                 text: 'Storage')
+        expect(page).to have_test_selector('storage-name', text: complete_storage.name)
+        expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
+        expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
 
         within "li#storages_nextcloud_storage_#{complete_storage.id}" do
-          expect(page).not_to have_css('[data-test-selector="label-incomplete"]')
+          expect(page).not_to have_test_selector('label-incomplete')
           expect(page).to have_link(complete_storage.name, href: edit_admin_settings_storage_path(complete_storage))
-          expect(page).to have_css('[data-test-selector="storage-creator"]', text: complete_storage.creator.name)
-          expect(page).to have_css('[data-test-selector="storage-provider"]', text: 'Nextcloud')
-          expect(page).to have_css('[data-test-selector="storage-host"]', text: complete_storage.host)
+          expect(page).to have_test_selector('storage-creator', text: complete_storage.creator.name)
+          expect(page).to have_test_selector('storage-provider', text: 'Nextcloud')
+          expect(page).to have_test_selector('storage-host', text: complete_storage.host)
         end
 
         within "li#storages_nextcloud_storage_#{incomplete_storage.id}" do
-          expect(page).to have_css('[data-test-selector="label-incomplete"]')
-          expect(page).to have_css('[data-test-selector="storage-name"]', text: incomplete_storage.name)
-          expect(page).to have_css('[data-test-selector="storage-provider"]', text: 'Nextcloud')
-          expect(page).to have_css('[data-test-selector="storage-host"]', text: incomplete_storage.host)
+          expect(page).to have_test_selector('label-incomplete')
+          expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
+          expect(page).to have_test_selector('storage-provider', text: 'Nextcloud')
+          expect(page).to have_test_selector('storage-host', text: incomplete_storage.host)
           expect(page).to have_css('.op-principal--name', text: incomplete_storage.creator.name)
+        end
+
+        within "li#storages_nextcloud_storage_#{complete_nextcloud_storage_health_pending.id}" do
+          expect(page).not_to have_test_selector('storage-health-label-error')
+          expect(page).not_to have_test_selector('storage-health-label-healthy')
+          expect(page).not_to have_test_selector('storage-health-label-pending')
+        end
+
+        within "li#storages_nextcloud_storage_#{complete_nextcloud_storage_health_healthy.id}" do
+          expect(page).not_to have_test_selector('storage-health-label-healthy')
+          expect(page).not_to have_test_selector('storage-health-label-error')
+          expect(page).not_to have_test_selector('storage-health-label-pending')
+        end
+
+        within "li#storages_nextcloud_storage_#{complete_nextcloud_storage_health_unhealthy.id}" do
+          expect(page).to have_test_selector('storage-health-label-error')
+          expect(page).not_to have_test_selector('storage-health-label-healthy')
+          expect(page).not_to have_test_selector('storage-health-label-pending')
         end
       end
     end
@@ -78,13 +102,13 @@ RSpec.describe 'Admin storages',
       it 'renders a blank slate' do
         visit admin_settings_storages_path
 
+        # Show Add storage button
+        expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
+
         # Show empty storages list
         expect(page).to have_title('File storages')
         expect(page.find('.PageHeader-title')).to have_text('File storages')
         expect(page).to have_text("You don't have any storages yet.")
-        # Show Add storage buttons
-        expect(page).to have_css("a[role='button'][aria-label='Add new storage'][href='#{new_admin_settings_storage_path}']",
-                                 text: 'Storage').twice
       end
     end
   end
@@ -100,16 +124,23 @@ RSpec.describe 'Admin storages',
       it 'renders a Nextcloud specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
-        within('.blankslate') { click_link("Storage") }
-        expect(page).to have_current_path(new_admin_settings_storage_path)
+        within('.PageHeader') { click_button("Storage") }
+        within_test_selector('storages-select-provider-action-menu') { click_link('Nextcloud') }
+
+        expect(page).to have_current_path(select_provider_admin_settings_storages_path(provider: 'nextcloud'))
 
         aggregate_failures 'Select provider view' do
-          # General information
-          expect(page).to have_select('storages_storage[provider_type]', with_options: %w[Nextcloud OneDrive/SharePoint])
-          expect(find_test_selector('storage-select-provider-submit-button')).to be_disabled
+          # Page Header
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'New Nextcloud storage')
+          expect(page).to have_test_selector('storage-new-page-header--description',
+                                             text: "Read our documentation on setting up a Nextcloud file storage " \
+                                                   "integration for more information.")
 
-          # Select Nextcloud
-          select('Nextcloud', from: 'storages_storage[provider_type]')
+          # General information
+          expect(page).to have_test_selector('storage-provider-configuration-instructions',
+                                             text: "Please make sure you have administration privileges in your " \
+                                                   "Nextcloud instance and the application “Integration OpenProject” " \
+                                                   "is installed before doing the setup.")
 
           # OAuth application
           expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
@@ -219,8 +250,11 @@ RSpec.describe 'Admin storages',
           end
 
           expect(page).to have_current_path(admin_settings_storages_path)
-          expect(page).to have_text("Storage connected successfully! Remember to activate the module and the specific " \
-                                    "storage in the project settings of each desired project to use it.")
+          expect(page).to have_test_selector(
+            "primer-banner-message-component",
+            text: "Storage connected successfully! Remember to activate the module and the specific " \
+                  "storage in the project settings of each desired project to use it."
+          )
         end
       end
     end
@@ -229,16 +263,22 @@ RSpec.describe 'Admin storages',
       it 'renders a One Drive specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
-        within('.PageHeader') { click_link("Storage") }
-        expect(page).to have_current_path(new_admin_settings_storage_path)
+        within('.PageHeader') { click_button("Storage") }
+        within_test_selector('storages-select-provider-action-menu') { click_link('OneDrive/SharePoint') }
+
+        expect(page).to have_current_path(select_provider_admin_settings_storages_path(provider: 'one_drive'))
 
         aggregate_failures 'Select provider view' do
-          # General information
-          expect(page).to have_select('storages_storage[provider_type]', with_options: %w[Nextcloud OneDrive/SharePoint])
-          expect(find_test_selector('storage-select-provider-submit-button')).to be_disabled
+          # Page Header
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'New OneDrive/SharePoint storage')
+          expect(page).to have_test_selector('storage-new-page-header--description',
+                                             text: "Read our documentation on setting up a OneDrive/SharePoint " \
+                                                   "file storage integration for more information.")
 
-          # Select OneDrive
-          select('OneDrive/SharePoint', from: 'storages_storage[provider_type]')
+          # General information
+          expect(page).to have_test_selector('storage-provider-configuration-instructions',
+                                             text: "Please make sure you have administration privileges in the " \
+                                                   "Azure application before doing the setup.")
 
           # OAuth client
           wait_for(page).to have_test_selector('storage-oauth-client-label', text: 'Azure OAuth')
@@ -283,14 +323,37 @@ RSpec.describe 'Admin storages',
           end
 
           expect(page).to have_current_path(admin_settings_storages_path)
-          wait_for(page).to have_text("Storage connected successfully! Remember to activate the module and the specific " \
-                                      "storage in the project settings of each desired project to use it.")
+          wait_for(page).to have_test_selector(
+            "primer-banner-message-component",
+            text: "Storage connected successfully! Remember to activate the module and the specific " \
+                  "storage in the project settings of each desired project to use it."
+          )
+        end
+      end
+    end
+
+    describe 'Select provider page' do
+      context 'when navigating directly to the page' do
+        it 'redirects you back to the index page' do
+          visit select_provider_admin_settings_storages_path
+
+          expect(page).to have_current_path(admin_settings_storages_path)
+          wait_for(page).to have_text("Please select a valid storage provider.")
+        end
+      end
+
+      context 'when navigating to the page with an invalid provider' do
+        it 'redirects you back to the index page' do
+          visit select_provider_admin_settings_storages_path(provider: 'foobar')
+
+          expect(page).to have_current_path(admin_settings_storages_path)
+          wait_for(page).to have_text("Please select a valid storage provider.")
         end
       end
     end
   end
 
-  describe 'File storage edit view' do
+  describe 'Edit file storage' do
     it 'renders a danger zone for deletion' do
       storage = create(:nextcloud_storage, name: "Foo Nextcloud")
       visit edit_admin_settings_storage_path(storage)
@@ -310,11 +373,12 @@ RSpec.describe 'Admin storages',
       storage_delete_button.click
 
       expect(page).not_to have_text("Foo Nextcloud")
+      expect(page).to have_text('Successful deletion.')
       expect(page).to have_current_path(admin_settings_storages_path)
     end
 
     context 'with Nextcloud Storage' do
-      let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
+      let(:storage) { create(:nextcloud_storage, :as_automatically_managed, name: 'Cloud Storage') }
       let(:oauth_application) { create(:oauth_application, integration: storage) }
       let(:oauth_client) { create(:oauth_client, integration: storage) }
       let(:secret) { 'awesome_secret' }
@@ -328,7 +392,7 @@ RSpec.describe 'Admin storages',
       it 'renders an edit view', :webmock do
         visit edit_admin_settings_storage_path(storage)
 
-        expect(page).to have_test_selector('storage-name-title', text: storage.name.capitalize)
+        expect(page).to have_test_selector('storage-new-page-header--title', text: "Cloud Storage (Nextcloud)")
 
         aggregate_failures 'Storage edit view' do
           # General information
@@ -361,13 +425,11 @@ RSpec.describe 'Admin storages',
           # Update a storage - happy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            expect(page).to have_css('#storages_nextcloud_storage_provider_type[disabled]')
-
             fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
             click_button 'Save and continue'
           end
 
-          expect(page).to have_test_selector('storage-name-title', text: 'My Nextcloud')
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'My Nextcloud (Nextcloud)')
           expect(page).to have_test_selector('storage-description', text: "Nextcloud - My Nextcloud - #{storage.host}")
 
           # Update a storage - unhappy path
@@ -476,7 +538,7 @@ RSpec.describe 'Admin storages',
       it 'renders an edit view', :webmock do
         visit edit_admin_settings_storage_path(storage)
 
-        expect(page).to have_test_selector('storage-name-title', text: 'Test Drive')
+        expect(page).to have_test_selector('storage-new-page-header--title', text: 'Test Drive (OneDrive/SharePoint)')
 
         aggregate_failures 'Storage edit view' do
           # General information
@@ -496,13 +558,11 @@ RSpec.describe 'Admin storages',
           # Update a storage - happy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            expect(page).to have_css('#storages_one_drive_storage_provider_type[disabled]')
-
             fill_in 'storages_one_drive_storage_name', with: 'My OneDrive'
             click_button 'Save and continue'
           end
 
-          expect(page).to have_test_selector('storage-name-title', text: 'My OneDrive')
+          expect(page).to have_test_selector('storage-new-page-header--title', text: 'My OneDrive (OneDrive/SharePoint)')
           expect(page).to have_test_selector('storage-description', text: 'OneDrive/SharePoint - My OneDrive')
 
           # Update a storage - unhappy path
@@ -541,6 +601,52 @@ RSpec.describe 'Admin storages',
           expect(page).to have_test_selector('storage-oauth-client-id-description', text: "OAuth Client ID: 1234567890")
         end
       end
+    end
+  end
+
+  describe 'Health status information in edit page' do
+    frozen_date_time = Time.zone.local(2023, 11, 28, 1, 2, 3)
+
+    let(:complete_nextcloud_storage_health_pending) { create(:nextcloud_storage_with_complete_configuration) }
+    let(:complete_nextcloud_storage_health_healthy) { create(:nextcloud_storage_with_complete_configuration, :as_healthy) }
+    let(:complete_nextcloud_storage_health_unhealthy) { create(:nextcloud_storage_with_complete_configuration, :as_unhealthy) }
+    let(:complete_nextcloud_storage_health_unhealthy_long_reason) do
+      create(:nextcloud_storage_with_complete_configuration, :as_unhealthy_long_reason)
+    end
+
+    before do
+      Timecop.freeze(frozen_date_time)
+      complete_nextcloud_storage_health_pending
+      complete_nextcloud_storage_health_healthy
+      complete_nextcloud_storage_health_unhealthy
+      complete_nextcloud_storage_health_unhealthy_long_reason
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it 'shows healthy status for storages that are healthy' do
+      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_healthy)
+      expect(page).to have_test_selector('storage-health-label-healthy', text: 'Healthy')
+      expect(page).to have_test_selector('storage-health-changed-at', text: "Checked 11/28/2023 01:02 AM")
+    end
+
+    it 'shows pending label for a storage that is pending' do
+      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_pending)
+      expect(page).to have_test_selector('storage-health-label-pending', text: 'Pending')
+    end
+
+    it 'shows error status for storages that are unhealthy' do
+      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy)
+      expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
+      expect(page).to have_test_selector('storage-health-reason', text: 'error reason')
+    end
+
+    it 'shows formatted error reason for storages that are unhealthy' do
+      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy_long_reason)
+      expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
+      expect(page).to have_test_selector('storage-health-reason', text: 'Unauthorized: Outbound request not authorized')
     end
   end
 end

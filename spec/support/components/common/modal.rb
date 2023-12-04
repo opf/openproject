@@ -34,17 +34,15 @@ module Components
       include RSpec::Matchers
 
       def expect_title(text)
-        within_modal do
-          expect(page).to have_selector('.spot-modal--header', text:)
-        end
+        expect(page).to have_modal(text)
       end
 
       def expect_open
-        expect(page).to have_selector(selector, wait: 40)
+        expect(page).to have_modal(wait: 40)
       end
 
       def expect_closed
-        expect(page).not_to have_selector(selector)
+        expect(page).not_to have_modal
       end
 
       def expect_text(text)
@@ -59,16 +57,12 @@ module Components
         end
       end
 
-      def within_modal(&)
-        page.within(selector, &)
+      def within_modal(name = nil, **options, &)
+        super(name, **options, &)
       end
 
       def modal_element
-        page.find(selector)
-      end
-
-      def selector
-        '.spot-modal'
+        find(:modal)
       end
     end
   end

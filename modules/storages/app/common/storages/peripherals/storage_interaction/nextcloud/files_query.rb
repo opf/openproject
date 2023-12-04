@@ -37,7 +37,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       new(storage).call(user:, folder:)
     end
 
-    # rubocop:disable Metrics/AbcSize
     def call(user:, folder:)
       result = Util.token(user:, configuration: @configuration) do |token|
         base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files")
@@ -52,24 +51,28 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           }
         )
 
-        case response
-        when Net::HTTPSuccess
-          ServiceResult.success(result: response.body)
-        when Net::HTTPNotFound
-          Util.error(:not_found)
-        when Net::HTTPUnauthorized
-          Util.error(:unauthorized)
-        else
-          Util.error(:error)
-        end
+        handle_response(response)
       end
 
       storage_files(result)
     end
 
-    # rubocop:enable Metrics/AbcSize
-
     private
+
+    def handle_response(response)
+      error_data = Storages::StorageErrorData.new(source: self, payload: response)
+
+      case response
+      when Net::HTTPSuccess
+        ServiceResult.success(result: response.body)
+      when Net::HTTPNotFound
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
+      when Net::HTTPUnauthorized
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
+      else
+        Util.error(:error, 'Outbound request failed', error_data)
+      end
+    end
 
     def requested_folder(folder)
       return '' if folder.root?
@@ -132,7 +135,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def name(location)
-      location == '/' ? location : CGI.unescape(location.split('/').last)
+      location == '/' ? 'Root' : CGI.unescape(location.split('/').last)
     end
 
     def storage_file(file_element)

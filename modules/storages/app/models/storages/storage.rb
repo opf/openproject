@@ -45,6 +45,11 @@ module Storages
       PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'
     ].freeze
 
+    PROVIDER_TYPE_SHORT_NAMES = {
+      nextcloud: PROVIDER_TYPE_NEXTCLOUD,
+      one_drive: PROVIDER_TYPE_ONE_DRIVE
+    }.with_indifferent_access.freeze
+
     self.inheritance_column = :provider_type
 
     has_many :file_links, class_name: 'Storages::FileLink'
@@ -130,6 +135,18 @@ module Storages
 
     def provider_type_one_drive?
       provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
+    end
+
+    # Currently the error messages saved look like:
+    # "unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>"
+    # This method returns the first two parts of the error message.
+    def formatted_health_reason
+      split_reason = health_reason.split('|')
+      if split_reason.length === 3
+        "#{split_reason[0].strip.capitalize}: #{split_reason[1]}"
+      else
+        health_reason
+      end
     end
   end
 end

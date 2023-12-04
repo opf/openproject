@@ -265,7 +265,7 @@ RSpec.describe 'Work package sharing',
       end
 
       it 'shows a warning as soon as you reach the user limit' do
-	pending 'Spec fails/flickers regularly. Ticket: https://community.openproject.org/work_packages/51185'
+        pending 'Spec is still flickering, see https://community.openproject.org/work_packages/51185'
 
         share_modal.expect_open
         share_modal.expect_shared_count_of(1)

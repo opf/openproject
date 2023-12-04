@@ -29,17 +29,13 @@
 #++
 #
 module Storages::Admin
-  class NewStorageButtonComponent < ApplicationComponent
+  class NewStorageButtonComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     options scheme: :primary,
-            size: :medium,
-            tag: :a
+            size: :medium
 
-    def button_options
+    def show_button_options
       { scheme:,
         size:,
-        tag:,
-        role: :button,
-        href: Rails.application.routes.url_helpers.new_admin_settings_storage_path,
         aria: { label: I18n.t("storages.label_add_new_storage") } }
     end
 

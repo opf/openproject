@@ -53,6 +53,7 @@ OpenProject::Application.routes.draw do
       get :download_ics
       put :update_title
       put :update_details
+      get :participants_dialog
       put :update_participants
       put :change_state
       post :notify

@@ -97,8 +97,6 @@ pl:
     show_preview: "Podgląd tekstu"
     add_new: "Dodaj tekst pomocy"
     edit: "Edytuj tekst pomocy dla %{attribute_caption}"
-    enterprise:
-      description: "Zapewnić dodatkowe informacje dla atrybutów (w tym pól własnych) pakietów roboczych i projektów. Teksty pomocy są wyświetlane, gdy użytkownicy klikną na symbol znaku zapytania obok pól wejściowych w projektach i pakietach roboczych."
   background_jobs:
     status:
       error_requeue: "Zadanie napotkało błąd, ale próbuje ponownie. Błąd: %{message}"

@@ -4,7 +4,11 @@
   [data-color-mode] {
       --body-background: var(--color-canvas-default);
       --body-font-color: var(--color-fg-default);
-      --color-accent-fg: var(--content-link-color) !important;
+  }
+  /* Override Primer variable to ensure compatibility with currently
+     configured design outside of high contrast mode  */
+  [data-color-mode]:not([data-light-theme=light_high_contrast]) {
+    --color-accent-fg: var(--content-link-color) !important;
   }
   [data-light-theme=light_high_contrast]{
     --avatar-border-color: var(--color-avatar-border);
@@ -32,6 +36,7 @@
     --main-menu-resizer-color: var(--color-border-muted);
     --main-menu-bg-selected-border: var(--color-border-muted);
     --main-menu-hover-border-color: var(--color-fg-default) !important;
+    --main-menu-fieldset-header-color: var(--color-fg-subtle) !important;
     --main-menu-border-width: 1px;
     --button--border-color: var(--color-border-default);
     --button--alt-highlight-background-hover-color: var(--color-btn-primary-hover-bg);

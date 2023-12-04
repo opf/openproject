@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,10 +25,20 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin
-  class SelectStorageProviderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    alias_method :storage, :model
+
+class BannerMessageComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  def initialize(message: nil, full: true, full_when_narrow: false, dismiss_scheme: :hide, icon: false, scheme: :default,
+                 test_selector: "primer-banner-message-component")
+    super
+
+    @message = message
+    @full = full
+    @full_when_narrow = full_when_narrow
+    @dismiss_scheme = dismiss_scheme
+    @icon = icon
+    @scheme = scheme
+    @test_selector = test_selector
   end
+
+  attr_reader :message, :full, :full_when_narrow, :dismiss_scheme, :icon, :scheme, :test_selector
 end

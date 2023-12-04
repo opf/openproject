@@ -91,7 +91,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% component.with_attribute(
     key: @application.class.human_attribute_name(:redirect_uri),
-    value: safe_join(@application.redirect_uri.split("\n"), '<br/>'.html_safe)
+    value: safe_join(@application.redirect_uri.split("\n"), tag(:br))
   ) %>
 
   <% if !@application.client_credentials_user_id %>

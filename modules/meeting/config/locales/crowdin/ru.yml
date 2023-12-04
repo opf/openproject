@@ -33,6 +33,11 @@ ru:
         duration: "Длительность"
         notes: "Заметки"
         participants: "Участники"
+        participant:
+          one: "1 Участник"
+          few: "%{count} Участников"
+          many: "%{count} Участников"
+          other: "%{count} Участников"
         participants_attended: "Участники"
         participants_invited: "Приглашенные"
         project: "Проект"
@@ -107,7 +112,7 @@ ru:
       classic_text: 'Организуйте свою встречу с помощью форматируемой текстовой повестки дня и протокола.'
       structured: 'Динамический'
       structured_text: 'Организуйте свою встречу в виде списка пунктов повестки дня, при необходимости связав их с пакетом работ.'
-      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
+      structured_text_copy: 'При копировании собрания в настоящее время копируются не связанные с ним пункты повестки дня собрания, а только детали'
     copied: "Скопировано со встречи #%{id}"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
@@ -161,6 +166,7 @@ ru:
   label_meeting_manage_participants: "Управление участниками"
   label_meeting_no_participants: "Нет участников"
   label_meeting_show_hide_participants: "Показать/скрыть %{count} больше"
+  label_meeting_show_all_participants: "Показать все"
   label_meeting_add_participants: "Добавить участников"
   text_meeting_not_editable_anymore: "Эту встречу больше нельзя редактировать."
   text_meeting_not_present_anymore: "Эта встреча была удалена. Пожалуйста, выберите другую встречу."

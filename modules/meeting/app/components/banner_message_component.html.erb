@@ -27,8 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream.update :select_storage_provider do %>
-  <%=
-    render(Storages::Admin::StorageViewComponent.new(@storage))
-  %>
-<% end %>
+<%=
+  render(Primer::Alpha::Banner.new(full:, full_when_narrow:, dismiss_scheme:, icon:, scheme:,test_selector:)) { message }
+%>

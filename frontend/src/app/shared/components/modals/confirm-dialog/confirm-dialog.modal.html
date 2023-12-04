@@ -6,7 +6,7 @@
   cdkTrapFocus
   [cdkTrapFocusAutoCapture]="true"
 >
-  <div class="spot-modal--header">{{text.title}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
 
   <div *ngIf="divideContent" class="spot-divider"></div>
 
@@ -14,7 +14,7 @@
     <span class="op-confirm-dialog--text spot-body-small"
           [textContent]="text.text"
     ></span>
-    
+
     <ng-container *ngIf="showListData; else showData">
       <span class="op-confirm-dialog--text spot-body-small"
       [textContent]="listTitle"
@@ -25,7 +25,7 @@
         </li>
       </ul>
     </ng-container>
-    
+
     <ng-template #showData>
       <span
         *ngFor="let data of passedData"
@@ -39,7 +39,7 @@
     <span class="op-confirm-dialog--text spot-body-small"
           [innerHtml]="warningText"
     ></span>
-    
+
   </div>
 
   <div class="spot-action-bar">

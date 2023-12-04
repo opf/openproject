@@ -10,6 +10,8 @@ hu:
     error_captcha: "Fiókját nem lehetett ellenőrizni. Vegye fel a kapcsolatot egy rendszergazdával."
     settings:
       website_key: 'Website kulcs'
+      response_limit: 'Response limit for HCaptcha'
+      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Írja be az e domain reCAPTCHA adminisztrációs konzolján létrehozott webhelykulcsot.'
       secret_key: 'Titkos kulcs'
       secret_key_text: 'Írja be a reCAPTCHA adminisztrációs konzolon létrehozott titkos kulcsot.'
@@ -17,5 +19,6 @@ hu:
       type_disabled: 'Tiltsd reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        A reCAPTCHA egy ingyenes Google által nyújtott szolgáltatás, amely engedélyezhető az OpenProject példányához. Ha engedélyezve van, a captcha-űrlapot bejelentkezéskor jelenítik meg azoknak a felhasználóknak, akik még nem hitelesítették a captcha-t. <br/> Kérjük, olvassa el a következő linket, ahol további részleteket talál az reCAPTCHA-ról és azok verzióiról, valamint a webhely és a titkos kulcsok létrehozásáról: %{recaptcha_link}
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}

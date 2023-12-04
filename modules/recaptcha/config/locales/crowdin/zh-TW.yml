@@ -10,6 +10,8 @@ zh-TW:
     error_captcha: "Your account could not be verified. Please contact an administrator."
     settings:
       website_key: 'Website key'
+      response_limit: 'Response limit for HCaptcha'
+      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
       secret_key: 'Secret key'
       secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
@@ -17,5 +19,6 @@ zh-TW:
       type_disabled: '停用 reCAPTCHA'
       type_v2: 'reCAPTCHA 第2版'
       type_v3: 'reCAPTCHA 第3版'
+      type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA 是 Google 提供的一項免費服務，可以為您的 OpenProject 實例啟用。 如果啟用，將在登錄時為尚未驗證驗證碼的所有用戶呈現驗證碼表單。 <br/> 有關 reCAPTCHA 及其版本以及如何創建網站和密鑰的詳細信息，請參閱以下鏈接：%{recaptcha_link}
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}

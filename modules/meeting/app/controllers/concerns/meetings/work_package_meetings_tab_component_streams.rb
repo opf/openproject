@@ -46,7 +46,8 @@ module Meetings
             meeting_agenda_item:,
             work_package:,
             base_errors:
-          )
+          ),
+          status: base_errors.blank? && meeting_agenda_item.errors.blank? ? :ok : :bad_request
         )
       end
 

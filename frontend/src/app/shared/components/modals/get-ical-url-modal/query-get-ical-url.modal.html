@@ -1,9 +1,9 @@
-<form 
+<form
   class="spot-modal loading-indicator--location op-query-get-ical-url"
   [formGroup]="tokenNameForm"
   (submit)="generateAndCopyUrl()"
 >
-  <div class="spot-modal--header">{{text.label_ical_sharing}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.label_ical_sharing}}</div>
 
   <div class="spot-divider"></div>
 
@@ -19,12 +19,12 @@
     <p>
       {{text.description_ical_sharing}}
     </p>
-    
+
     <spot-form-field [label]="text.token_name" [required]="true" showValidationErrorOn="change">
 
-      <spot-text-field 
-        formControlName="name" 
-        slot="input" 
+      <spot-text-field
+        formControlName="name"
+        slot="input"
         [placeholder]="text.token_name_placeholder"
         opAutofocus
       ></spot-text-field>
@@ -37,11 +37,11 @@
         {{nameControl?.errors?.rails}}
       </div>
 
-      <span 
-        slot="description" 
+      <span
+        slot="description"
         [innerHtml]="text.token_name_description_text"
       ></span>
-     
+
     </spot-form-field>
   </div>
 

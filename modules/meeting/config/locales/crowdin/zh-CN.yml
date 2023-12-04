@@ -33,6 +33,8 @@ zh-CN:
         duration: "时长"
         notes: "备注"
         participants: "参加者"
+        participant:
+          other: "1位参与者"
         participants_attended: "与会者"
         participants_invited: "受邀者"
         project: "项目"
@@ -107,7 +109,7 @@ zh-CN:
       classic_text: '以格式化文本议程和协议组织您的会议。'
       structured: '动态'
       structured_text: '将您的会议组织成一个议程项目列表，并可选择地将它们与一个工作包连接起来。'
-      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
+      structured_text_copy: '目前复制会议不会复制相关会议的议程项目，只会复制会议的详细信息。'
     copied: "从会议 #%{id} 复制"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。
@@ -161,6 +163,7 @@ zh-CN:
   label_meeting_manage_participants: "管理与会者"
   label_meeting_no_participants: "沒有与会者"
   label_meeting_show_hide_participants: "显示/隐藏 %{count} 更多"
+  label_meeting_show_all_participants: "显示全部"
   label_meeting_add_participants: "添加与会者"
   text_meeting_not_editable_anymore: "本次会议已不可编辑。"
   text_meeting_not_present_anymore: "此次会议已被删除。请选择另一次会议。"

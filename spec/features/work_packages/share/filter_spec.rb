@@ -209,8 +209,6 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_not_shared_with(non_project_user)
       share_modal.expect_not_shared_with(shared_project_group)
 
-      sleep 1
-
       # Additional filter for: project members (users only)
       # role: view
       # type: project members (users only)
@@ -223,8 +221,6 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_not_shared_with(non_project_user)
       share_modal.expect_not_shared_with(shared_project_group)
       share_modal.expect_not_shared_with(shared_non_project_group)
-
-      sleep 1
 
       # Change type filter to: project members (groups only)
       # role: view
@@ -239,8 +235,6 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_not_shared_with(non_project_user)
       share_modal.expect_not_shared_with(shared_project_group)
 
-      sleep 1
-
       # Reset role filter
       # role: none
       # type: non-project members (groups only)
@@ -253,8 +247,6 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_not_shared_with(inherited_project_user)
       share_modal.expect_not_shared_with(non_project_user)
       share_modal.expect_not_shared_with(shared_project_group)
-
-      sleep 1
 
       # Reset type filter
       # role: none
