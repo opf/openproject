@@ -970,7 +970,7 @@ GEM
       sprockets (>= 3.0.0)
     ssrf_filter (1.1.2)
     stackprof (0.2.25)
-    store_attribute (1.1.1)
+    store_attribute (1.2.0)
       activerecord (>= 6.0)
     stringex (2.8.6)
     stringio (3.1.0)
