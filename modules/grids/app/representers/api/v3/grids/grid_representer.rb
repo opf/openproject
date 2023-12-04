@@ -35,7 +35,8 @@ module API
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
-        cached_representer key_parts: %i(widgets)
+        cached_representer key_parts: %i(widgets),
+                           disabled: true
 
         resource_link :scope,
                       getter: ->(*) {
@@ -91,7 +92,17 @@ module API
         property :widgets,
                  exec_context: :decorator,
                  getter: ->(*) do
-                   represented.widgets.sort_by { |w| w.id.to_i }.map do |widget|
+                   represented
+                   .widgets
+                   .select do |widget|
+                     ::Grids::Configuration.allowed_widget?(
+                       represented.class,
+                       widget.identifier,
+                       current_user,
+                       represented.project
+                     )
+                   end
+                   .sort_by { |w| w.id.to_i }.map do |widget|
                      Widgets::WidgetRepresenter.new(widget, current_user:)
                    end
                  end,
