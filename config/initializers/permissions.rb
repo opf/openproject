@@ -185,7 +185,6 @@ Rails.application.reloader.to_prepare do
     map.project_module :work_package_tracking, order: 90 do |wpt|
       wpt.permission :view_work_packages,
                      {
-                       projects: [:show],
                        versions: %i[index show status_by],
                        journals: %i[index],
                        work_packages: %i[show index],
