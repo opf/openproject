@@ -136,8 +136,8 @@ module Components
 
       def expect_bulk_actions_not_available
         within shares_header do
-          expect(page).not_to have_button 'Remove'
-          expect(page).not_to have_test_selector('op-share-wp-bulk-update-role')
+          expect(page).not_to have_button('Remove', wait: 0)
+          expect(page).not_to have_test_selector('op-share-wp-bulk-update-role', wait: 0)
         end
       end
 

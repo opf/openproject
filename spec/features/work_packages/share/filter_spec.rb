@@ -143,7 +143,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(shared_non_project_group, 'View')
     end
 
-    it 'allow to filter for the role' do
+    it 'allows to filter for the role' do
       share_modal.expect_open
       share_modal.expect_shared_count_of(6)
 
@@ -192,7 +192,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(shared_non_project_group, 'View')
     end
 
-    it 'allow to filter for role and type at the same time' do
+    it 'allows to filter for role and type at the same time' do
       share_modal.expect_open
       share_modal.expect_shared_count_of(6)
 
@@ -260,6 +260,18 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_with(non_project_user, 'Edit')
       share_modal.expect_shared_with(shared_project_group, 'Edit')
       share_modal.expect_shared_with(shared_non_project_group, 'View')
+    end
+
+    context 'and there are no matching results for my filter' do
+      it 'does not check the "toggle all" checkbox' do
+        share_modal.expect_open
+        share_modal.filter('type', I18n.t('work_package.sharing.filter.not_project_member'))
+        share_modal.filter('role', I18n.t('work_package.sharing.permissions.view'))
+
+        share_modal.expect_blankslate
+        share_modal.expect_shared_count_of(0)
+        share_modal.expect_select_all_untoggled
+      end
     end
   end
 end
