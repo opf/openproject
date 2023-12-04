@@ -123,11 +123,13 @@ module API
         private
 
         def widget_visible?(widget)
+          return true unless represented.respond_to?(:project)
+
           ::Grids::Configuration.allowed_widget?(
             represented.class,
             widget.identifier,
             current_user,
-            represented.respond_to?(:project) ? represented.project : nil
+            represented.project
           )
         end
 
