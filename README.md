@@ -1,4 +1,4 @@
-## Introducing OpenProject GitLab Integration v2.1.2 GA
+## Introducing OpenProject GitLab Integration v2.1.3 GA
 
 Based on the OpenProject Github Integration, this plugin offers the same functionalities plus other new features. This is the first version that includes the visualization of the status of the *Pipelines* (by now, it is considered in Beta status). You can test it by activating the Pipelines event in the GitLab webhook. Just keep in mind that not all pipelines will be reflected in OpenProject, only Merge Request type pipelines (for more information see the GitLab issue https://gitlab.com/gitlab-org/gitlab/-/issues/345028). Any feedback about the pipelines feature would be very appreciated, whether it works or if issues arise (you can use this ticket https://github.com/btey/openproject-gitlab-integration/issues/43).
 
@@ -159,7 +159,7 @@ Add the following in **Gemfile.lock**:
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.1.2)
+    openproject-gitlab_integration (2.1.3)
       openproject-webhooks
 ```
 
