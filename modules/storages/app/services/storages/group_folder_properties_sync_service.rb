@@ -271,7 +271,7 @@ module Storages
     ### Model Scopes
 
     def active_project_storages_scope
-      ::Storages::ProjectStorage.active_nextcloud_automatically_managed
+      @storage.project_storages.active.automatic
     end
 
     def client_tokens_scope
