@@ -581,7 +581,7 @@ GEM
     i18n-js (4.2.3)
       glob (>= 0.4.0)
       i18n
-    icalendar (2.10.0)
+    icalendar (2.10.1)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
     ice_nine (0.11.2)
