@@ -34,7 +34,7 @@ nl:
         notes: "Notities"
         participants: "Deelnemers"
         participant:
-          one: "1 Participant"
+          one: "1 Deelnemer"
           other: "%{count} Participants"
         participants_attended: "Aanwezigen"
         participants_invited: "Genodigden"
@@ -110,7 +110,7 @@ nl:
       classic_text: 'Organiseer uw vergadering met een opmaakbare tekstagenda en protocol.'
       structured: 'Dynamisch'
       structured_text: 'Organiseren van uw vergadering als een lijst met agendapunten, eventueel koppelen aan een werkpakket.'
-      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
+      structured_text_copy: 'Een vergadering kopiëren zal momenteel niet de bijbehorende agendapunten kopiëren, alleen de details'
     copied: "Gekopieerd van vergadering #%{id}"
   notice_successful_notification: "Notificatie succesvol verzonden"
   notice_timezone_missing: Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.
@@ -157,9 +157,9 @@ nl:
   label_meeting_details_edit: "Bewerk vergader details"
   label_meeting_state_open: "Openen"
   label_meeting_state_closed: "Gesloten"
-  label_meeting_reopen_action: "Reopen meeting"
-  label_meeting_close_action: "Close meeting"
-  text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
+  label_meeting_reopen_action: "Heropen vergadering"
+  label_meeting_close_action: "Vergadering sluiten"
+  text_meeting_open_description: "Deze vergadering is open. Je kunt agenda-items toevoegen/verwijderen en bewerken naar eigen goeddunken. Na afloop van de vergadering kun je deze sluiten, om te vergrendelen."
   text_meeting_closed_description: "This meeting is closed. You cannot add/remove agenda items anymore."
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"

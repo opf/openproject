@@ -153,7 +153,7 @@ lt:
         one_drive: "Leisti OpenProject prieigą prie Azure duomenų naudojant OAuth prisijungimui prie OneDrive/Sharepoint."
     delete_warning:
       storage: >
-        Ar tikrai norite ištrinti %{file_storage}? Šio veiksmo patviritnimui prašome įvesti saugyklos pavadinimą lake žemiau:
+        Ar tikrai norite ištrinti %{file_storage}? Šio veiksmo patvirtinimui prašome įvesti saugyklos pavadinimą lake žemiau:
       storage_delete_result_1: "Išimti visus nustatymus visuose projektuose, naudojančiuose šią saugyklą."
       storage_delete_result_2: "Išimti iš visų projektų darbo paketų visas nuorodas į failus ir aplankus šioje saugykloje."
       storage_delete_result_3: "Jei saugykla turi automatiškai valdomus projekto aplankus, jie ir juose esantys failai bus ištrinti visam laikui."

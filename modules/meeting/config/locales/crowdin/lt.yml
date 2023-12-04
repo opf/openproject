@@ -34,9 +34,9 @@ lt:
         notes: "Pastabos"
         participants: "Dalyviai"
         participant:
-          one: "1 Participant"
-          few: "%{count} Participants"
-          many: "%{count} Participants"
+          one: "1 dalyvis"
+          few: "%{count} dalyviai"
+          many: "%{count} dalyvių"
           other: "%{count} dalyviai"
         participants_attended: "Būtinas dalyvis"
         participants_invited: "Pakviestas dalyvauti"
