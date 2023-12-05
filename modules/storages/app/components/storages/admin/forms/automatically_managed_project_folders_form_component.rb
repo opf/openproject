@@ -55,6 +55,12 @@ module Storages::Admin::Forms
 
     private
 
+    def application_password_display_options
+      {}.tap do |options_hash|
+        options_hash[:display] = :none unless storage.automatically_managed?
+      end
+    end
+
     def default_form_method
       new_record? ? :post : :patch
     end
