@@ -74,13 +74,17 @@ post:
             $ref: '../components/schemas/error_response.yml'
           examples:
             'outbound request failed':
-              description: TBD
+              description: |-
+                This error is returned, if the outbound request to the file storage failed with a 404, e.g. if the
+                upload location is not available.
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:OutboundRequest:NotFound
                 message: An outbound request to another resource has failed with status code 404.
             'enterprise token missing':
-              description: TBD
+              description: |-
+                This error is returned, if there is no Enterprise token available. The file upload to that storage is
+                only available in an Enterprise edition.
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:MissingEnterpriseToken
