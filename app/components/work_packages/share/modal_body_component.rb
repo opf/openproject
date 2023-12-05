@@ -57,6 +57,20 @@ module WorkPackages
         'op-share-wp-active-shares'
       end
 
+      def blankslate_config
+        @blankslate_config ||= {}.tap do |config|
+          if params[:filters].blank?
+            config[:icon] = :people
+            config[:heading_text] = I18n.t('work_package.sharing.text_empty_state_header')
+            config[:description_text] = I18n.t('work_package.sharing.text_empty_state_description')
+          else
+            config[:icon] = :search
+            config[:heading_text] = I18n.t('work_package.sharing.text_empty_search_header')
+            config[:description_text] = I18n.t('work_package.sharing.text_empty_search_description')
+          end
+        end
+      end
+
       def type_filter_options
         [
           { label: I18n.t('work_package.sharing.filter.project_member'),

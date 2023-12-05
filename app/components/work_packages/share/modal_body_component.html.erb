@@ -88,24 +88,12 @@
           if @shares.blank?
             border_box.with_row do
               render(Primer::Beta::Blankslate.new) do |component|
-                if params[:filters].blank?
-                  component.with_visual_icon(icon: :people, size: :medium)
-                  component.with_heading(tag: :h2).with_content(I18n.t('work_package.sharing.text_empty_state_header') )
-                  component.with_description do
-                    flex_layout do |flex|
-                      flex.with_row(mb: 2) do
-                        render(Primer::Beta::Text.new(color: :subtle)) { I18n.t('work_package.sharing.text_empty_state_description') }
-                      end
-                    end
-                  end
-                else
-                  component.with_visual_icon(icon: :search, size: :medium)
-                  component.with_heading(tag: :h2).with_content(I18n.t('work_package.sharing.text_empty_search_header') )
-                  component.with_description do
-                    flex_layout do |flex|
-                      flex.with_row(mb: 2) do
-                        render(Primer::Beta::Text.new(color: :subtle)) { I18n.t('work_package.sharing.text_empty_search_description') }
-                      end
+                component.with_visual_icon(icon: blankslate_config[:icon], size: :medium)
+                component.with_heading(tag: :h2).with_content(blankslate_config[:heading_text])
+                component.with_description do
+                  flex_layout do |flex|
+                    flex.with_row(mb: 2) do
+                      render(Primer::Beta::Text.new(color: :subtle)) { blankslate_config[:description_text] }
                     end
                   end
                 end
