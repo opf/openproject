@@ -95,6 +95,11 @@ module Storages
       end
     end
 
+    def self.one_drive_without_ee_token?(provider_type)
+      provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE &&
+        !EnterpriseToken.allows_to?(:one_drive_sharepoint_file_storage)
+    end
+
     def mark_as_unhealthy(reason: nil)
       update(health_status: 'unhealthy', health_changed_at: Time.now.utc, health_reason: reason)
     end

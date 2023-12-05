@@ -39,5 +39,17 @@ RSpec.describe Storages::FileLinks::CreateContract do
 
       include_examples 'contract is invalid', creator: :invalid
     end
+
+    context 'with one drive storage and missing ee token', with_ee: false do
+      let(:storage) { create(:one_drive_storage) }
+
+      include_examples 'contract is invalid', base: I18n.t('api_v3.errors.code_500_missing_enterprise_token')
+    end
+
+    context 'with one drive storage and valid ee token', with_ee: %i[one_drive_sharepoint_file_storage] do
+      let(:storage) { create(:one_drive_storage) }
+
+      include_examples 'contract is valid'
+    end
   end
 end

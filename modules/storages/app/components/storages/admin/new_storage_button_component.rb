@@ -42,5 +42,9 @@ module Storages::Admin
     def label
       I18n.t("storages.label_storage")
     end
+
+    def show_ee_icon?(provider_type:)
+      ::Storages::Storage::one_drive_without_ee_token?(provider_type)
+    end
   end
 end

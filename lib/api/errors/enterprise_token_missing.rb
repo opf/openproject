@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -28,17 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Storages
-  class CreateContract < ::Storages::Storages::BaseContract
-    attribute :creator
-    validate :creator_must_be_user
-    validate :require_ee_token_for_one_drive
+module API
+  module Errors
+    class EnterpriseTokenMissing < ErrorBase
+      identifier 'MissingEnterpriseToken'.freeze
+      code 500
 
-    private
-
-    def creator_must_be_user
-      unless creator == user
-        errors.add(:creator, :invalid)
+      def initialize
+        super I18n.t('api_v3.errors.code_500_missing_enterprise_token')
       end
     end
   end

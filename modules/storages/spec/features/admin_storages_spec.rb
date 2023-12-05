@@ -259,7 +259,22 @@ RSpec.describe 'Admin storages',
       end
     end
 
-    context 'with OneDrive Storage' do
+    context 'with OneDrive Storage and enterprise token missing', with_ee: false do
+      it 'renders enterprise icon and redirects to upsale', :webmock do
+        visit admin_settings_storages_path
+        within('.PageHeader') { click_button("Storage") }
+
+        within_test_selector('storages-select-provider-action-menu') do
+          expect(page).to have_css('.octicon-op-enterprise-addons')
+          click_link('OneDrive/SharePoint')
+        end
+
+        expect(page).to have_current_path(upsale_admin_settings_storages_path)
+        wait_for(page).to have_text("OneDrive/SharePoint integration")
+      end
+    end
+
+    context 'with OneDrive Storage', with_ee: %i[one_drive_sharepoint_file_storage] do
       it 'renders a One Drive specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
