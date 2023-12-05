@@ -24,6 +24,7 @@
                     render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                          select_variant: :single,
                                                          dynamic_label: true,
+                                                         dynamic_label_prefix: I18n.t('work_package.sharing.filter.type'),
                                                          color: :muted,
                                                          data: { 'test-selector': 'op-share-wp-filter-type' })) do |menu|
                       menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-wp-filter-type-button' }) do |button|
@@ -45,6 +46,7 @@
                     render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                          select_variant: :single,
                                                          dynamic_label: true,
+                                                         dynamic_label_prefix: I18n.t('work_package.sharing.filter.role'),
                                                          color: :muted,
                                                          data: { 'test-selector': 'op-share-wp-filter-role' })) do |menu|
                       menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-wp-filter-role-button' }) do |button|
