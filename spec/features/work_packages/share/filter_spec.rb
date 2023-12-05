@@ -268,7 +268,7 @@ RSpec.describe 'Work package sharing',
         share_modal.filter('type', I18n.t('work_package.sharing.filter.not_project_member'))
         share_modal.filter('role', I18n.t('work_package.sharing.permissions.view'))
 
-        share_modal.expect_blankslate
+        share_modal.expect_empty_search_blankslate
         share_modal.expect_shared_count_of(0)
         share_modal.expect_select_all_untoggled
       end

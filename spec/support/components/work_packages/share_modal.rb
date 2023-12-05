@@ -194,6 +194,12 @@ module Components
         end
       end
 
+      def expect_empty_search_blankslate
+        within_modal do
+          expect(page).to have_text(I18n.t('work_package.sharing.text_empty_search_description'))
+        end
+      end
+
       def invite_user(users, role_name)
         Array(users).each do |user|
           case user
