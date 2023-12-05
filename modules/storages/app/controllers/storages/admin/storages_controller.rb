@@ -108,7 +108,9 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      render :new
+      respond_to do |format|
+        format.turbo_stream { render :new }
+      end
     end
 
     service_result.on_success do
