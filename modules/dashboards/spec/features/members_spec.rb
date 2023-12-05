@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Members widget on dashboard', js: true do
+RSpec.describe 'Members widget on dashboard', :js do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
 
@@ -128,25 +128,10 @@ RSpec.describe 'Members widget on dashboard', js: true do
         .not_to have_link('Member')
     end
 
-    # A user without view permission will not see any members
+    # A user without view permission will not see the widget
     login_as no_view_member_user
-
     visit root_path
-
     dashboard.visit!
-
-    within members_area.area do
-      expect(page)
-        .to have_no_content manager_user.name
-
-      expect(page)
-        .to have_content('No visible members')
-
-      expect(page)
-        .not_to have_link('Member')
-
-      expect(page)
-        .not_to have_link('View all members')
-    end
+    expect(page).not_to have_css('.grid--area.-widgeted:nth-of-type(1)')
   end
 end
