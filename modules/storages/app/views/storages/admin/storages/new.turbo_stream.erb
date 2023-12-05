@@ -27,8 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream.replace :storage_general_info_section do %>
-  <%=
-    render(::Storages::Admin::StorageViewComponent.new(@storage))
-  %>
+<%= turbo_stream.update :storage_general_info_section do %>
+  <%= render(Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage)) %>
 <% end %>

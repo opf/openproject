@@ -90,12 +90,8 @@ class Storages::Admin::StoragesController < ApplicationController
                  .call
     @storage = service_result.result
 
-    service_result.on_failure { render :new }
-
-    service_result.on_success do
-      respond_to do |format|
-        format.html { render :new }
-      end
+    respond_to do |format|
+      format.html { render :new }
     end
   end
 
@@ -108,7 +104,9 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      render :new
+      respond_to do |format|
+        format.turbo_stream { render :new }
+      end
     end
 
     service_result.on_success do
