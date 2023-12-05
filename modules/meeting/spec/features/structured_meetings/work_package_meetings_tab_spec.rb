@@ -140,7 +140,7 @@ RSpec.describe 'Open the Meetings tab', :js do
         meetings_tab.expect_tab_not_present
       end
 
-      context 'when the user has permission in another project' do
+      context 'when the user has permission to view in another project' do
         let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
 
         let(:user) do
@@ -151,10 +151,32 @@ RSpec.describe 'Open the Meetings tab', :js do
                  })
         end
 
-        it 'does show the tab' do
+        it 'does show the tab, but does not show the button' do
           work_package_page.visit!
 
           meetings_tab.expect_tab_present
+          switch_to_meetings_tab
+          meetings_tab.expect_add_to_meeting_button_not_present
+        end
+      end
+
+      context 'when the user has permission to manage in another project' do
+        let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+
+        let(:user) do
+          create(:user,
+                 member_with_permissions: {
+                   project => %i(view_work_packages),
+                   other_project => %i(view_work_packages view_meetings manage_agendas)
+                 })
+        end
+
+        it 'does show the tab and shows the add button' do
+          work_package_page.visit!
+
+          meetings_tab.expect_tab_present
+          switch_to_meetings_tab
+          meetings_tab.expect_add_to_meeting_button_present
         end
       end
     end

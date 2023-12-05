@@ -41,7 +41,7 @@ module WorkPackageMeetingsTab
     private
 
     def allowed_to_add_to_meeting?
-      User.current.allowed_in_project?(:manage_agendas, @work_package.project)
+      User.current.allowed_in_any_project?(:manage_agendas)
     end
   end
 end

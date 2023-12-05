@@ -60,7 +60,7 @@ properties:
           - $ref: './link.yml'
           - description: |-
               The user that created the OAuth application.
-              
+
               **Resource**: User
       integration:
         allOf:
@@ -68,14 +68,14 @@ properties:
           - description: |-
               The resource that integrates this OAuth application into itself. Currently, only `Storage` resources are
               able to create and maintain own OAuth application.
-              
+
               **Resource**: Storage
       redirectUri:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The redirect URI of the OAuth application
-              
+
               **Resource**: N/A
 
 example:
@@ -84,8 +84,8 @@ example:
   name: Vader's secure OAuth app
   clientId: O5h6WObhMg1Z8IcLHRE3_LMh4jJYmmca2V6OTFSv8DA
   confidential: true
-  createdAt: '2022-12-07T12:56:42Z'
-  updatedAt: '2022-12-07T12:56:42Z'
+  createdAt: '2022-12-07T12:56:42.626Z'
+  updatedAt: '2022-12-07T12:56:42.626Z'
   scopes:
     - api_v3
   _links:
