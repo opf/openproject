@@ -2473,7 +2473,9 @@ it:
     default: "-"
   project:
     destroy:
-      confirmation: "Se si continua, il progetto %{identifier} e tutti i relativi dati verranno definitivamente distrutti."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "L'eliminazione del progetto è un'operazione irreversibile."
       project_verification: "Immettere il nome del progetto %{name} per verificare l'eliminazione."
       subprojects_confirmation: "Anche il suo sottoprogetto(i): %{value} sarà eliminato(i)."
@@ -3052,6 +3054,7 @@ it:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

@@ -65,6 +65,7 @@ ru:
       done_continue: "Готово, продолжить"
       done_continue_setup: "Готово. Продолжить установку"
       done_complete_setup: "Готово, завершить установку"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "Редактировать автоматически управляемые папки проекта"
       replace_openproject_oauth: "Заменить OAuth OpenProject"
       replace_provider_type_oauth: "Заменить %{provider_type} OAuth"
@@ -138,7 +139,9 @@ ru:
         oauth_client_id: >
           Скопируйте идентификатор клиента из портала Azure. Это необходимо для генерации редиректного URI.
         oauth_client_secret: >
-          Скопируйте секретный ключ клиента с портала Azure. Для новосозданного приложения секретный ключ должен быть создан вручную. Для авторизации веб-приложений требуется секретный ключ.
+          The client secret has been automatically copied from an already fully connected file storage with the same Application (client) ID.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Пожалуйста, заполните значения OAuth для генерации URI"
         tenant_id: "Пожалуйста, скопируйте арендатора из вашего приложения Azure."
         tenant_id_placeholder: "Имя или UUID"
@@ -225,9 +228,13 @@ ru:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "например,  Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "напр. OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject."
     confirm_replace_oauth_client: "Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище."
     oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."

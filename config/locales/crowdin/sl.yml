@@ -2531,7 +2531,9 @@ sl:
     default: "-"
   project:
     destroy:
-      confirmation: "Če nadaljujete, bodo projekt %{identifier} in vsi povezani podatki trajno uničeni."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Izbris projekta je nepopravljiv ukrep."
       project_verification: "Vnesite ime projekta %{name}, da preverite izbris."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
@@ -3111,6 +3113,7 @@ sl:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

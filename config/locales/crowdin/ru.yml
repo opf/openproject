@@ -2532,7 +2532,9 @@ ru:
     default: "-"
   project:
     destroy:
-      confirmation: "Если вы продолжите, проект %{identifier} и все связанные с ним данные будут перманентно уничтожены."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Удаление проекта – действие необратимое."
       project_verification: "Введите название проекта %{name} для проверки удаления."
       subprojects_confirmation: "Его подпроекты: %{value} также будут удалены."
@@ -3110,6 +3112,7 @@ ru:
         Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ.
       warning_user_limit_reached_admin: >
         Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой план </a>, чтобы обеспечить доступ внешних пользователей к этому рабочему пакету.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Заблокированный пользователь"
         invited: "Приглашение отправлено. "

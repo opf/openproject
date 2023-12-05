@@ -2472,7 +2472,9 @@ nl:
     default: "-"
   project:
     destroy:
-      confirmation: "Als u doorgaat, worden de project %{identifier} en alle gerelateerde gegevens permanent vernietigd."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Het verwijderen van het project is een onomkeerbare actie."
       project_verification: "Voer de projectnaam %{name} in om de verwijdering te verifiëren."
       subprojects_confirmation: "De subproject(en): %{value} worden ook verwijderd."
@@ -3050,6 +3052,7 @@ nl:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

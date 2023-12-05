@@ -65,6 +65,7 @@ lt:
       done_continue: "Baigta, tęsti"
       done_continue_setup: "Atlikta. Tęsti nustatymą"
       done_complete_setup: "Atlikta, baigti nustatymą"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "Keisti automatiškai sukonfigūruotus projekto aplankus"
       replace_openproject_oauth: "Keisti OpenProject OAuth"
       replace_provider_type_oauth: "Keisti %{provider_type} OAuth"
@@ -138,7 +139,9 @@ lt:
         oauth_client_id: >
           Kopijuoti kliento id iš Azure portalo. Tai reikalinga nukreipimo URI generavimui.
         oauth_client_secret: >
-          Kopijuokite kliento paslaptį iš Azure portalo. Naujai sukurtai aplikacijai paslaptį visų pirma reikia sukurti rankomis. Žiniatinklio aplikacijos autorizacijai paslaptis yra privaloma.
+          The client secret has been automatically copied from an already fully connected file storage with the same Application (client) ID.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Prašome užpildyti OAuth reikšmes, kad sugeneruotumėte URI"
         tenant_id: "Prašome nukopijuoti klientą iš jūsų Azure aplikacijos."
         tenant_id_placeholder: "Vardas ar UUID"
@@ -225,9 +228,13 @@ lt:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "pvz. Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "pvz. OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su OpenProject."
     confirm_replace_oauth_client: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su saugykla."
     oauth_client_details_missing: "Norėdami baigti nustatymą, prašome pridėti OAuth kliento prisijungimo duomenis iš jūsų saugyklos."
