@@ -47,7 +47,6 @@ class API::V3::FileLinks::CreateEndpoint < API::Utilities::Endpoints::Create
   # call is done by calling the `super` method. Results are aggregated in
   # global_result using the `add_dependent!` method.
   def process(request, params_elements)
-
     global_result = ServiceResult.success
 
     Storages::FileLink.transaction do
