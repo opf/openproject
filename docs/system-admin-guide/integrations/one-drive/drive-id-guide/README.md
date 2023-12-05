@@ -6,44 +6,53 @@ description: Drive ID guide for OneDrive/SharePoint integration setup in OpenPro
 keywords: OneDrive/SharePoint file storage integration, OneDrive, SharePoint, DriveID, Azure, Drive ID
 ---
 
-
-
 # Drive ID Guide
 
 ## How to obtain a drive ID
 
-To configure a OneDrive/SharePoint storage you will need the drive ID of the drive you want to connect to OpenProject. Usually this will be a drive within a SharePoint site or a group.
+To configure a OneDrive/SharePoint storage you will need the drive ID of the drive you want to connect to OpenProject.
+Usually this will be a drive within a SharePoint site or a group.
 
 The easiest way to get this ID is by using the Microsoft GRAPH API.
 
 ### Authentication and permission
 
-To communicate with the GRAPH API you need to authenticate against it. This is done through an Azure application defined in the [Azure portal](https://portal.azure.com/) for your Microsoft Entra ID. In addition, the Azure application needs some API permissions. In general those permissions are given either of the `Delegated` type (in a user context) or of the `Application` type (for the whole application). To achieve the task of getting the desired drive ID, you will need an access token with the permission `Sites.Read.All`.
+To communicate with the GRAPH API you need to authenticate against it. This is done through an Azure application defined
+in the [Azure portal](https://portal.azure.com/) for your Microsoft Entra ID. In addition, the Azure application needs
+some API permissions. In general those permissions are given either of the `Delegated` type (in a user context) or of
+the `Application` type (for the whole application). To achieve the task of getting the desired drive ID, you will need
+an access token with the permission `Sites.Read.All`.
 
 ### API endpoints
 
-Once you have an access token with the correct permission, you need to fetch the site ID or the group ID, where your drive is listed in. For a SharePoint site, this can be done with the following endpoint:
+Once you have an access token with the correct permission, you need to fetch the site ID or the group ID, where your
+drive is listed in. For a SharePoint site, this can be done with the following endpoint:
 
 ```shell
 GET https://graph.microsoft.com/v1.0/sites/<HOSTNAME>:/<RELATIVE_PATH_TO_SITE>
 ```
 
-This will result in a JSON response. The `ID` usually is a triple, of which the 2nd value is the site ID you need to continue. With this site ID you can fetch the following endpoint:
+This will result in a JSON response. The `ID` usually is a triple, of which the 2nd value is the site ID you need to
+continue. With this site ID you can fetch the following endpoint:
 
 ```shell
 GET https://graph.microsoft.com/v1.0/sites/<SITE_ID>/drives
 ```
 
-This will result in a list of drives. You can select the correct drive by its `name` and take the value of the `ID`. With this value you can fully configure the OneDrive/SharePoint integration in OpenProject.
+This will result in a list of drives. You can select the correct drive by its `name` and take the value of the `ID`.
+With this value you can fully configure the OneDrive/SharePoint integration in OpenProject.
 
 ## Step-by-step guide with examples
 
-In this section we provide a few examples, in which we demonstrate how to go through the steps mentioned above with a specific toolset. 
->Note: following examples are explicitly written for this toolset and other mentioned preconditions, hence deviating from the preconditions will cause the example to deviate.
+In this section we provide a few examples, in which we demonstrate how to go through the steps mentioned above with a
+specific toolset.
+> Note: following examples are explicitly written for this toolset and other mentioned preconditions, hence deviating
+> from the preconditions will cause the example to deviate.
 
 ### Example 1: Microsoft GRAPH explorer
 
-Microsoft provides a web application, which can browse the GRAPH API. This tool can be found [here](https://developer.microsoft.com/en-us/graph/graph-explorer).
+Microsoft provides a web application, which can browse the GRAPH API. This tool can be
+found [here](https://developer.microsoft.com/en-us/graph/graph-explorer).
 
 #### Preconditions
 
@@ -54,11 +63,12 @@ Microsoft provides a web application, which can browse the GRAPH API. This tool 
 
 - Click on the `Sign in` button in the top right corner.
 - Log in with your Microsoft account.
-    - Make sure to select the correct organisation to log in, as the graph explorer will try to specifically log into the associated tenant.
-    - After a successful login, the resolved tenant will be displayed for a sanity check.
+  - Make sure to select the correct organisation to log in, as the graph explorer will try to specifically log into the
+    associated tenant.
+  - After a successful login, the resolved tenant will be displayed for a sanity check.
 - Fetch the hostname of the tenant (e.g. `example.sharepoint.com`)
 - Go to the SharePoint website, where the drive you want to connect can be found.
-    - Fetch the relative path from the browser's URL field (e.g. `/sites/mysharepointsite`)
+  - Fetch the relative path from the browser's URL field (e.g. `/sites/mysharepointsite`)
 - Copy the following endpoint to the GRAPH explorers query input field:
 
 ```shell
@@ -85,7 +95,8 @@ https://graph.microsoft.com/v1.0/sites/<HOSTNAME>:/<RELATIVE_PATH_TO_SITE>
 }
 ```
 
-- Fetch the value from the `ID` property and copy the second value. In this example, it would be `1b4b6576-906d-4d94-8f19-6d00a2507f50`.
+- Fetch the value from the `ID` property and copy the second value. In this example, it would
+  be `1b4b6576-906d-4d94-8f19-6d00a2507f50`.
 - Copy the following endpoint to the GRAPH explorers query input field:
 
 ```shell
@@ -148,19 +159,22 @@ There is a way to get all necessary information by executing the web requests fr
 
 - Azure application has the API permission `Sites.Read.All` of type `Application`
 - `curl`
-- `jq` (You do not have to use this tool, but if you don't, you will have to take the information from the JSON HTTP responses by hand.)
+- `jq` (You do not have to use this tool, but if you don't, you will have to take the information from the JSON HTTP
+  responses by hand.)
 
->**IMPORTANT, please read**: Setting the API permission `Sites.Read.All` to the `Application` level imposes an undeniable security risk.
+> **IMPORTANT, please read**: Setting the API permission `Sites.Read.All` to the `Application` level imposes an
+> undeniable security risk.
 
-If the client credentials would get leaked, any client can read sites and their content by just using those credentials. It is highly recommended to remove that API permission after using this method to get the drive ID.
+If the client credentials would get leaked, any client can read sites and their content by just using those credentials.
+It is highly recommended to remove that API permission after using this method to get the drive ID.
 
 #### How to
 
 - Navigate to `Overview` of the Azure application at [https://portal.azure.com/](https://portal.azure.com/).
 - Copy the values of the `Directory (tenant) ID`, the `Application (client) ID`, and one valid client secret.
-    - Those are the same values needed for configuring the OneDrive/SharePoint integration in OpenProject.
-    - If the value of an already existing, valid secret is unknown, Azure allows to create multiple secrets for an
-      application. Every secret value within Azure portal is only visible right after creation.
+  - Those are the same values needed for configuring the OneDrive/SharePoint integration in OpenProject.
+  - If the value of an already existing, valid secret is unknown, Azure allows to create multiple secrets for an
+    application. Every secret value within Azure portal is only visible right after creation.
 - Use the values to replace the placeholders in the following command:
 
 ```shell
@@ -172,7 +186,7 @@ curl -H "Content-Type: application/x-www-form-urlencoded" \
 - The result is a valid access that is needed in the following requests.
 - Fetch the hostname of the tenant (e.g. `example.sharepoint.com`).
 - Go to the SharePoint website, where the drive you want to connect can be found.
-    - Fetch the relative path from the browser's URL field (e.g. `/sites/mysharepointsite`).
+  - Fetch the relative path from the browser's URL field (e.g. `/sites/mysharepointsite`).
 - Use the values to replace the placeholders in the following command:
 
 ```shell
@@ -180,7 +194,9 @@ curl -H "Authorization: Bearer <ACCESS_TOKEN>" \
   'https://graph.microsoft.com/v1.0/sites/<HOSTNAME>:/<RELATIVE_PATH_TO_SITE>' | jq .id
 ```
 
-- The result will be something like `example.sharepoint.com,1b4b6576-906d-4d94-8f19-6d00a2507f50,72fb59f8-8eed-4745-920a-8b36abb0d8e0`. The site ID needed is the second value of the triple, in the example case it would be `1b4b6576-906d-4d94-8f19-6d00a2507f50`.
+- The result will be something
+  like `example.sharepoint.com,1b4b6576-906d-4d94-8f19-6d00a2507f50,72fb59f8-8eed-4745-920a-8b36abb0d8e0`. The site ID
+  needed is the second value of the triple, in the example case it would be `1b4b6576-906d-4d94-8f19-6d00a2507f50`.
 - Use the values to replace the placeholders in the following command
 
 ```shell

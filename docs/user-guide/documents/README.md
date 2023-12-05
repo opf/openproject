@@ -10,7 +10,8 @@ keywords: documents
 
 This module allows uploading documents directly to the project under project menu item *Documents* and categorizing documents.
 
-> Please note that this module only allows to manually upload documents directly into projects. For more advanced functionalities, please take a look at the [file storages integrations](../file-management).
+> Please note that this module only allows to manually upload documents directly into projects. For more advanced
+> functionalities, please take a look at the [file storages integrations](../file-management).
 
 ## Add a new document to the project
 
