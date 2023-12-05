@@ -11,13 +11,13 @@ keywords: file storages, project folder, storages
 > up [Nextcloud integration](../../../../system-admin-guide/integrations/nextcloud/)
 > or [OneDrive/SharePoint integration](../../../../system-admin-guide/integrations/one-drive/) with OpenProject.
 
-| Topic                                                                                                               | Description                                       |
-|---------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------|
-| [Activate File Storages module](#activate-file-storages-module)                                                     | Activate File Storages module in a project        |
-| [Add Nextcloud storage](#add-a-nextcloud-storage-to-a-project)                                                      | Add your Nextcloud storage to a project           |
-| [Nextcloud and project folders](#project-folders)                                                                   | Edit and delete an existing storage               |
-| [Edit and delete Nextcloud storage](#edit-an-existing-Nextcloud-storage)                                            | Edit and delete an existing storage               |
-| [Add OneDrive/SharePoint storage to a project](#add-a-onedrive/sharepoint-storage-to-a-project-(enterprise-add-on)) | Add your OneDrive/SharePoint storage to a project |
+| Topic                                                                                                            | Description                                       |
+|------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------|
+| [Activate File Storages module](#activate-file-storages-module)                                                  | Activate File Storages module in a project        |
+| [Add Nextcloud storage](#add-a-nextcloud-storage-to-a-project)                                                   | Add your Nextcloud storage to a project           |
+| [Nextcloud and project folders](#project-folders)                                                                | Edit and delete an existing storage               |
+| [Edit and delete Nextcloud storage](#edit-an-existing-nextcloud-storage)                                         | Edit and delete an existing storage               |
+| [Add OneDrive/SharePoint storage to a project](#add-a-onedrivesharepoint-storage-to-a-project-enterprise-add-on) | Add your OneDrive/SharePoint storage to a project |
 
 ## Activate File Storages module
 
@@ -55,7 +55,7 @@ which is the most likely scenario), it should already be selected by default. On
 If you have selected the OneDrive/SharePoint option in the previous step, your OneDrive/SharePoint storage will be added
 to the project and you can start using it right away.
 
-Please refer to the [OneDrive/SharePoint user guide](../../../file-management/onedrive-integration) for further instructions.
+Please refer to the [OneDrive/SharePoint user guide](../../../file-management/one-drive-integration) for further instructions.
 
 ## Add a Nextcloud storage to a project
 

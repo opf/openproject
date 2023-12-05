@@ -8,11 +8,11 @@ keywords: files, attachment, Nextcloud, OneDrive, Sharepoint
 
 # File Management
 
-| Topic                                                                                 | Content                                                                   |
-|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [Manual upload](#manual-upload)                                                       | How to manually upload files to work packages in OpenProject.             |
-| [Nextcloud integration](#nextcloud-integration)                                       | How to manage files using Nextcloud integration in OpenProject.           |
-| [OneDrive/SharePoint integration](#onedrive/sharepoint-integration-enterprise-add-on) | How to manage files using OneDrive/Sharepoint integration in OpenProject. |
+| Topic                                                                                | Content                                                                   |
+|--------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [Manual upload](#manual-upload)                                                      | How to manually upload files to work packages in OpenProject.             |
+| [Nextcloud integration](#nextcloud-integration)                                      | How to manage files using Nextcloud integration in OpenProject.           |
+| [OneDrive/SharePoint integration](#onedrivesharepoint-integration-enterprise-add-on) | How to manage files using OneDrive/Sharepoint integration in OpenProject. |
 
 There are several ways of adding or linking files to work packages in OpenProject. You can manually attach files
 directly to work packages or use one of the integrations with file management systems.
