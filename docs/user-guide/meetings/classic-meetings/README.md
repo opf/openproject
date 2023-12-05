@@ -31,7 +31,7 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 
 By selecting **Meetings** in the project menu on the left, you get an overview of all project meetings sorted by date. By clicking on a meeting name you can view further details of the meeting.
 
-**Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/).
+**Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../../projects/project-settings/modules/).
 
 ![FLAG Image needs updating](1567598397931.png)
 
@@ -75,7 +75,7 @@ Click on the **Save** button to secure the changes made by you.
 After creating a meeting, you can set up a **meeting agenda**.
 
 1. Prior to starting the meeting all participants can add their input to the agenda by simply clicking the **Edit** button.
-2. With the tool-bar, you can make changes to the text format or edit macros, e.g. table of contents or work package tables (see the [documentation for the WYSIWYG editor](../wysiwyg) for details).
+2. With the tool-bar, you can make changes to the text format or edit macros, e.g. table of contents or work package tables (see the [documentation for the WYSIWYG editor](../../wysiwyg) for details).
 3. Do not forget to **save** your changes.
 4. All changes made to the agenda are tracked. You can click the **History** button to get an overview of all the changes including the persons who made the changes.
 5. Click the **Send for review** button to quickly notify participants about the meeting and send them a link to the meeting.
@@ -91,7 +91,7 @@ After creating a meeting, you can set up a **meeting agenda**.
 
 The **meeting minutes** are automatically created when closing the agenda in the details view of the meeting and selecting the [**Close**](#create-or-edit-the-meeting-agenda) option.
 
-The agenda is closed and copied to the meeting minutes page as a basis. You can start editing the minutes now. The same way as in the [wiki](../wiki) pages, you can format the text, link minutes to work packages, documents and include [work package lists or other macros](../wysiwyg/#embedding-of-work-package-attributes-and-project-attributes).
+The agenda is closed and copied to the meeting minutes page as a basis. You can start editing the minutes now. The same way as in the [wiki](../../wiki) pages, you can format the text, link minutes to work packages, documents and include [work package lists or other macros](../../wysiwyg/#embedding-of-work-package-attributes-and-project-attributes).
 
 You will be directed to the meeting view, where you can
 

@@ -9,7 +9,7 @@ keywords: system backup
 
 ## Preparation for Backup
 
-Unless disabled via the [configuration](../../installation-and-operations/configuration/#backup-enabled) users can make backups of the OpenProject installation from within the administration area. They either need to be an administrator or have the global permission to do so.
+Unless disabled via the [configuration](../../installation-and-operations/configuration/#enable-backups) users can make backups of the OpenProject installation from within the administration area. They either need to be an administrator or have the global permission to do so.
 
 You can yourself create backups of your OpenProject installation. Go to *Administration* and *Backup* to get started.
 
