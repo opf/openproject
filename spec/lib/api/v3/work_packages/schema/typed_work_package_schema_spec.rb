@@ -62,7 +62,7 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       expect(subject).to be_writable(:done_ratio)
     end
 
-    it 'estimated time is writable' do
+    it 'work is writable' do
       expect(subject).to be_writable(:estimated_hours)
     end
 

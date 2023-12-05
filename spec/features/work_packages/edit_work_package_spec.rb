@@ -117,11 +117,11 @@ RSpec.describe 'edit work package',
       visit!
     end
 
-    it 'does not hide empty progress while it is being edited' do
+    it 'does not hide empty % Complete while it is being edited' do
       field = wp_page.work_package_field(:percentageDone)
       field.update('0', save: false, expect_failure: true)
 
-      expect(page).to have_text("Progress (%)")
+      expect(page).to have_text("% Complete")
     end
   end
 
