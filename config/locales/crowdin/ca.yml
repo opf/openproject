@@ -130,7 +130,7 @@ ca:
         Afegeix un filtre RFC4515 opcional per aplicar els resultats retornats per usuaris filtrats en el LDAP.
         Això, pot ser utilitzat per a restringir el set d'usuaris que OpenProject troba per autentificar i agrupar la sincronització.
       filter_string_concat: |
-        OpanProject sempre filtre segons l'atribut d'inici de sessió subministrat per l'usuari per tal d'identificar el registre. Si has subministrat un filtre aquí, serà encadenat amb un "I". Per defecte, un filtre catch-all (objectClass=*) serà utilitzat.
+        OpenProject sempre filtre segons l'atribut d'inici de sessió subministrat per l'usuari per tal d'identificar el registre. Si heu proporcionat un filtre aquí, serà encadenat amb un "I". Per defecte, un filtre catch-all (objectClass=*) serà utilitzat.
       onthefly_register: |
         Si actives aquesta casella, OpenProject automàticament crearà nous usuaris a partir de les seves entrades LDAP durant la seva primera autentificació a OpenProject.
         Deixa-la desactivada si sols voleu permetre a comptes existents a OpenProject que s'autentifiquin via LDAP!
@@ -1806,7 +1806,7 @@ ca:
   label_max_size: "Mida màxima"
   label_me: "jo mateix"
   label_member_new: "Nou membre"
-  label_member_all_admin: "(Tots els roles a causa de l'estat d'administrador)"
+  label_member_all_admin: "(Tots els rols a causa de l'estat d'administrador)"
   label_member_plural: "Membres"
   lable_membership_added: 'Membre afegit'
   lable_membership_updated: 'Membre actualitzat'
