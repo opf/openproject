@@ -35,7 +35,7 @@ ru:
         storages/project_storage:
           attributes:
             project_folder_mode:
-              mode_unavailable: "is not available for this storage."
+              mode_unavailable: "не доступен для этого хранилища."
         storages/storage:
           attributes:
             host:

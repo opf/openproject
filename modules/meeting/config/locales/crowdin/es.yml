@@ -101,5 +101,5 @@ es:
   text_meeting_agenda_open_are_you_sure: "Se sobrescribirán todos los cambios en las minutas. ¿Quiere continuar?"
   text_meeting_minutes_for_meeting: 'minutas para la reunión "%{meeting}"'
   text_review_meeting_agenda: "%{author} ha puesto el %{link} para revisión."
-  text_review_meeting_minutes: "%{author} ha definido el %{link} para revisión."
+  text_review_meeting_minutes: "%{author} ha puesto el %{link} para revisión."
   text_notificiation_invited: "El correo electrónico contiene una entrada ics para la reunión siguiente:"

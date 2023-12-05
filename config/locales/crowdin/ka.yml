@@ -463,7 +463,7 @@ ka:
       changeset:
         repository: "Repository"
       color:
-        hexcode: "Hex code"
+        hexcode: "თექვსმეტობითი კოდი"
       comment:
         commented: "კომენტარით" #an object that this comment belongs to
       custom_action:
@@ -834,7 +834,7 @@ ka:
           attributes:
             user_id:
               not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              locked: "დაბლოკილია."
         wiki_page:
           error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
@@ -971,7 +971,7 @@ ka:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "ქვეპროექტი"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -2341,7 +2341,7 @@ ka:
   permission_add_project: "Create projects"
   permission_archive_project: "Archive project"
   permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_manage_user: "მომხმარებლების ჩასწორება"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
@@ -2360,7 +2360,7 @@ ka:
   permission_delete_timelines: "Delete timelines"
   permission_delete_wiki_pages: "Delete wiki pages"
   permission_delete_wiki_pages_attachments: "Delete attachments"
-  permission_edit_work_package_notes: "Edit notes"
+  permission_edit_work_package_notes: "შენიშვნების ჩასწორება"
   permission_edit_work_packages: "Edit work packages"
   permission_edit_messages: "Edit messages"
   permission_edit_own_work_package_notes: "Edit own notes"
@@ -2392,7 +2392,7 @@ ka:
   permission_move_work_packages: "Move work packages"
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
-  permission_save_queries: "Save views"
+  permission_save_queries: "ხედების შენახვა"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
@@ -2436,7 +2436,7 @@ ka:
   project_module_forums: "ფორუმები"
   project_module_work_package_tracking: "Work packages"
   project_module_news: "სიახლეები"
-  project_module_repository: "Repository"
+  project_module_repository: "რეპოზიტორია"
   project_module_wiki: "ვიკი"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

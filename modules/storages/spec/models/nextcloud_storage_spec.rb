@@ -90,6 +90,26 @@ RSpec.describe Storages::NextcloudStorage do
         expect(Storages::GroupFolderPropertiesSyncService).to have_received(:new).with(storage1).once
         expect(Storages::GroupFolderPropertiesSyncService).not_to have_received(:new).with(storage2)
       end
+
+      it 'continues synchronization for other storages if previous one raises an exception' do
+        storage1 = create(:nextcloud_storage, :as_automatically_managed)
+        storage3 = create(:nextcloud_storage, :as_automatically_managed)
+
+        allow(OpenProject.logger).to receive(:error)
+        allow(Storages::GroupFolderPropertiesSyncService).to receive(:new).and_call_original
+        allow(Storages::GroupFolderPropertiesSyncService)
+          .to receive(:new)
+                .with(storage1)
+                .and_raise(RuntimeError.new("Unexpected Error"))
+        allow_any_instance_of(Storages::GroupFolderPropertiesSyncService).to receive(:call).and_return(nil) # rubocop:disable RSpec/AnyInstance
+        expect(subject).to be(true)
+
+        expect(OpenProject.logger).to have_received(:error) do |msg, _|
+          expect(msg).to eq "Unexpected error during NextcloudStorage group folders sync for ##{storage1.id} #{storage1.host}: Unexpected Error"
+        end
+        expect(Storages::GroupFolderPropertiesSyncService).to have_received(:new).with(storage1).once
+        expect(Storages::GroupFolderPropertiesSyncService).to have_received(:new).with(storage3).once
+      end
     end
 
     context 'when lock is unfree' do

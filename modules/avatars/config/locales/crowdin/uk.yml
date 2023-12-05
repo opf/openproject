@@ -3,7 +3,7 @@ uk:
   plugin_openproject_avatars:
     name: "Аватари"
     description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+      Цей плагін дозволяє користувачам OpenProject завантажувати зображення для використання як аватара або використовувати наявні зображення з Gravatar.
   label_avatar: "Аватар"
   label_avatar_plural: "Аватари"
   label_current_avatar: "Поточний аватар"

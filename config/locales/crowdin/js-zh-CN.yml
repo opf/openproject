@@ -107,7 +107,7 @@ zh-CN:
       remove_from_list: '从列表中移除卡'
     caption_rate_history: "费率历史记录"
     clipboard:
-      browser_error: "您的浏览器不支持复制到剪贴板。请手动复制：%{content}。"
+      browser_error: "您的浏览器不支持复制到剪贴板，请手动复制：%{content}"
       copied_successful: "成功复制到剪贴板！"
     chart:
       type: '图表类型'

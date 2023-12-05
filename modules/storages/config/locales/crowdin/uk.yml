@@ -1,8 +1,8 @@
 #English strings go here
 uk:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
-    description: "Allows linking work packages to files in external storages, such as Nextcloud."
+    name: "Сховища OpenProject"
+    description: ""
   permission_view_file_links: "Перегляд посилань на файл"
   permission_manage_file_links: "Керування посиланнями на файл"
   permission_manage_storages_in_project: "Керування файловими сховищами в проєкті"
@@ -64,7 +64,7 @@ uk:
       edit_automatically_managed_project_folders: "Редагувати папки проєкту з автоматичним керуванням"
       replace_openproject_oauth: "Замінити OpenProject OAuth"
       replace_provider_type_oauth: "Замінити %{provider_type} OAuth"
-      save: "Save"
+      save: "Зберегти"
       save_and_continue_setup: "Зберегти й продовжити налаштування"
       save_and_complete_setup: "Зберегти й завершити налаштування"
       select_folder: "Вибрати папку"

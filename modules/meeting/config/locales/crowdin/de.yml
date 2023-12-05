@@ -100,6 +100,6 @@ de:
   text_meeting_closing_are_you_sure: "Sind Sie sicher, dass Sie die Agenda schließen wollen?"
   text_meeting_agenda_open_are_you_sure: "Es werden alle Änderungen im Protokoll überschrieben! Wollen Sie fortfahren?"
   text_meeting_minutes_for_meeting: 'das Protokoll für die Besprechung "%{meeting}"'
-  text_review_meeting_agenda: "%{author} hat %{link} zur Einsicht freigegeben."
-  text_review_meeting_minutes: "%{author} hat %{link} zur Einsicht freigegeben."
+  text_review_meeting_agenda: "%{author} hat die %{link} zur Einsicht freigegeben."
+  text_review_meeting_minutes: "%{author} hat die %{link} zur Einsicht freigegeben."
   text_notificiation_invited: "Diese Email enthält einen ics Eintrag für die untenstehende Besprechung:"

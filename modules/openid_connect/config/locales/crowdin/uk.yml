@@ -22,6 +22,8 @@ uk:
       plural: Постачальники OpenID
       singular: OpenID постачальник
     setting_instructions:
+      azure_deprecation_warning: >
+        Налаштована програма Azure вказує на застарілий API від Azure. Будь ласка, створіть новий додаток Azure, щоб забезпечити функціональність у майбутньому.
       azure_graph_api: >
         Надсилайте запити на дані користувачів за допомогою кінцевої точки graph.microsoft.com userinfo. Це налаштування має бути ввімкнено за замовчуванням в усіх версія Azure, крім старіших.
       azure_tenant_html: >
