@@ -14,6 +14,13 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 13.0.8
+
+Release date: 2023-12-05
+
+[Release Notes](13-0-8/)
+
+
 ## 13.0.7
 
 Release date: 2023-10-23
