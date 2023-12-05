@@ -20,11 +20,12 @@
                                  value: if configuration['active_strategies'].empty?
                                           t(:label_none)
                                         else
-                                          configuration['active_strategies'].join(content_tag(:br)) do |key|
+                                          strategies = configuration['active_strategies'].map do |key|
                                             content_tag(:span) do
                                               t("two_factor_authentication.strategies.#{key}")
                                             end
                                           end
+                                          safe_join(strategies, tag(:br))
                                         end)
 
         component.with_attribute(key: t('two_factor_authentication.settings.label_enforced'),

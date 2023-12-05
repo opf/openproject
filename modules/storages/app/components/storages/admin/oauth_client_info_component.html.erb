@@ -17,17 +17,7 @@
       grid.with_area(:"icon-button", tag: :div, color: :muted) do
         flex_layout(justify_content: :flex_end) do |icons_container|
           icons_container.with_column do
-            render(
-              Primer::Beta::IconButton.new(
-                icon: :sync,
-                tag: :a,
-                href: new_admin_settings_storage_oauth_client_path(storage),
-                scheme: :invisible,
-                aria: { label: I18n.t("storages.label_edit_storage_oauth_client") },
-                data: { confirm: I18n.t("storages.confirm_replace_oauth_client") },
-                test_selector: 'storage-edit-oauth-client-button'
-              )
-            )
+            render(Primer::Beta::IconButton.new(**edit_icon_button_options))
           end
         end
       end

@@ -65,6 +65,7 @@ zh-CN:
       done_continue: "完成, 继续"
       done_continue_setup: "已完成。继续设置"
       done_complete_setup: "完成，完成设置"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "编辑自动托管的项目文件夹"
       replace_openproject_oauth: "替换 OpenProject OAuth"
       replace_provider_type_oauth: "替换 %{provider_type} OAuth"
@@ -86,7 +87,7 @@ zh-CN:
     page_titles:
       file_storages:
         subtitle: "添加外部文件存储以便在工作包中上传、链接和管理文件。"
-        delete: "Delete file storage"
+        delete: "删除文件存储"
       managed_project_folders:
         title: "自动托管的项目文件夹"
         subtitle_short: "允许 OpenProject 自动创建每个项目的文件夹。"
@@ -109,7 +110,7 @@ zh-CN:
       managed_project_folders_application_password: >
         从以下位置复制此值：
       managed_project_folders_application_password_caption: "通过从 %{provider_type_link} 复制该值来启用自动管理的文件夹。"
-      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
+      new_storage: "请阅读我们关于 <a target='_blank' href='%{provider_link}'> 设置 %{provider_name} 文件存储集成</a>的文档以获取更多信息。"
       no_storage_set_up: "尚未设置文件存储。"
       no_specific_folder: "默认情况下，每个用户上传文件时将从自己的主文件夹开始。"
       automatic_folder: "这将自动为此项目创建一个根文件夹，并管理每个项目成员的访问权限。"
@@ -138,7 +139,9 @@ zh-CN:
         oauth_client_id: >
           从 Azure 门户复制客户端 ID。这是生成重定向 URI 所必需的。
         oauth_client_secret: >
-          从Azure门户复制客户端密钥。对于新创建的应用程序，首先需要手动创建密钥。对于Web应用程序的授权，密钥是必需的。
+          The client secret has been automatically copied from an already fully connected file storage with the same Application (client) ID.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "请填写OAuth 值以生成 URI"
         tenant_id: "请从您的 Azure 应用程序复制租户。"
         tenant_id_placeholder: "名称或 UUID"
@@ -153,10 +156,10 @@ zh-CN:
         one_drive: "允许 OpenProject 使用 OAuth 访问Azure 数据来连接 OneDrive/Sharepoint。"
     delete_warning:
       storage: >
-        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
-      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
-      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
-      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
+        您确定要删除 %{file_storage} 吗？请在下面的字段中输入存储名称以确认此操作。进行此操作将会：
+      storage_delete_result_1: "删除所有使用此存储的项目的所有存储设置。"
+      storage_delete_result_2: "从所有项目的工作包中删除所有链接到该存储的文件和文件夹。"
+      storage_delete_result_3: "如果此存储具有自动托管的项目文件夹，这些文件夹及其包含的文件将被永久删除。"
       project_storage: >
         确定要从此项目中删除 %{file_storage} 吗？要确认此操作，请在下面的字段中输入存储区名称，这将：
       project_storage_delete_result_1: "从此项目的工作包中移除该存储区的文件和文件夹的所有链接。"
@@ -166,7 +169,7 @@ zh-CN:
     storage_list_blank_slate:
       heading: "您还没有任何存储。"
       description: "在这里添加一个存储以查看它们。"
-    error_invalid_provider_type: "Please select a valid storage provider."
+    error_invalid_provider_type: "请选择一个有效的存储源。"
     label_active: "有效"
     label_add_new_storage: "添加新存储"
     label_delete_storage: "删除存储"
@@ -200,7 +203,7 @@ zh-CN:
     label_project_folder: "项目文件夹"
     label_redirect_uri: "重定向 URI"
     label_new_storage: "新存储"
-    label_new_file_storage: "New %{provider} storage"
+    label_new_file_storage: "新%{provider}存储"
     label_edit_storage: "编辑存储"
     label_edit_storage_host: "编辑存储主机"
     label_edit_storage_oauth_client: "编辑存储 OAuth 客户端"
@@ -225,18 +228,29 @@ zh-CN:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "例如 Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/Sharepoint"
         name_placeholder: "例如OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "确定吗？所有用户都必须再次针对 OpenProject 授权。"
     confirm_replace_oauth_client: "确定吗？所有用户都必须再次针对存储授权。"
     oauth_client_details_missing: "要完成设置，请从您的存储中添加 OAuth 客户端凭据。"
     automatically_managed_project_folder_missing: "要完成设置，请为您的存储区配置自动托管的项目文件夹。"
     notice_oauth_application_replaced: "已成功替换 OpenProject OAuth 应用程序。"
     notice_successful_storage_connection: "存储连接成功！请记住，在每个所需项目的项目设置中激活模块和特定存储以便使用它。"
+    open_project_storage_modal:
+      waiting:
+        a: "我们正在设置您在项目文件夹的权限。"
+        b: "请稍等，这可能需要一些时间..."
+      success:
+        a: "集成设置完成"
+        b: "正在将您重定向"
     health:
-      title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
-      label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      title: "托管的文件夹状态"
+      label_pending: "待处理"
+      label_error: "错误"
+      label_healthy: "健康"
+      checked: "检查于 %{datetime} "

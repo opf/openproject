@@ -117,3 +117,8 @@ OpenProject can export the table into a XML-based atom format. This file will be
 It is also possible to export single work packages in PDF and Atom format. To do that click on the settings icon in the top right corner and select the preferred format from the dropdown menu.
 
 ![OpenProject_single_work_package_export_options](openProject_single_work_package_export_options.png)
+
+An exported PDF file will include all the work package fields that are [configured in the work package form](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on), regardless whether they are filled out or not.
+
+Atom Export includes a work package Title, Author, a link to the work package and work package activities.
+

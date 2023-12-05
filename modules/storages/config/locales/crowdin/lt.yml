@@ -65,6 +65,7 @@ lt:
       done_continue: "Baigta, tęsti"
       done_continue_setup: "Atlikta. Tęsti nustatymą"
       done_complete_setup: "Atlikta, baigti nustatymą"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "Keisti automatiškai sukonfigūruotus projekto aplankus"
       replace_openproject_oauth: "Keisti OpenProject OAuth"
       replace_provider_type_oauth: "Keisti %{provider_type} OAuth"
@@ -86,7 +87,7 @@ lt:
     page_titles:
       file_storages:
         subtitle: "Pridėkite išorinę failų saugyklą, jei norite įkelti, susieti ir valdyti failus darbo paketuose."
-        delete: "Delete file storage"
+        delete: "Trinti failų saugyklą"
       managed_project_folders:
         title: "Automatiškai valdomi projekto aplankai"
         subtitle_short: "Leisti OpenProjet kurti aplankus projektams automatiškai"
@@ -109,7 +110,7 @@ lt:
       managed_project_folders_application_password: >
         Kopijuoti šią reikšmę iš
       managed_project_folders_application_password_caption: "Įjunkite automatiškai valdomus aplankus nukopijuodami šią reikšmę iš: %{provider_type_link}"
-      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
+      new_storage: "Daugiau informacijos rasite mūsų dokumentacijoje apie  <a target='_blank' href='%{provider_link}'>%{provider_name} failų saugyklos nustatymą</a> ir integraciją."
       no_storage_set_up: "Dar nėra nustatyta nei viena failų saugykla."
       no_specific_folder: "Pagal nutylėjimą visi naudotojai įkeldami naujus failus pradės savo namų aplanke."
       automatic_folder: "Tai automatiškai sukurs šakninį aplanką šiam projektui ir tvarkys prieigos teises kiekvienam projekto nariui."
@@ -138,7 +139,9 @@ lt:
         oauth_client_id: >
           Kopijuoti kliento id iš Azure portalo. Tai reikalinga nukreipimo URI generavimui.
         oauth_client_secret: >
-          Kopijuokite kliento paslaptį iš Azure portalo. Naujai sukurtai aplikacijai paslaptį visų pirma reikia sukurti rankomis. Žiniatinklio aplikacijos autorizacijai paslaptis yra privaloma.
+          The client secret has been automatically copied from an already fully connected file storage with the same Application (client) ID.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Prašome užpildyti OAuth reikšmes, kad sugeneruotumėte URI"
         tenant_id: "Prašome nukopijuoti klientą iš jūsų Azure aplikacijos."
         tenant_id_placeholder: "Vardas ar UUID"
@@ -153,10 +156,10 @@ lt:
         one_drive: "Leisti OpenProject prieigą prie Azure duomenų naudojant OAuth prisijungimui prie OneDrive/Sharepoint."
     delete_warning:
       storage: >
-        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
-      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
-      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
-      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
+        Ar tikrai norite ištrinti %{file_storage}? Šio veiksmo patvirtinimui prašome įvesti saugyklos pavadinimą lake žemiau:
+      storage_delete_result_1: "Išimti visus nustatymus visuose projektuose, naudojančiuose šią saugyklą."
+      storage_delete_result_2: "Išimti iš visų projektų darbo paketų visas nuorodas į failus ir aplankus šioje saugykloje."
+      storage_delete_result_3: "Jei saugykla turi automatiškai valdomus projekto aplankus, jie ir juose esantys failai bus ištrinti visam laikui."
       project_storage: >
         Ar tikrai norite ištrinti %{file_storage} iš šio projekto? Šio veiksmo patvirtinimui prašome įvesti saugyklos pavadinimą lauke žemiau, tai:
       project_storage_delete_result_1: "Išims iš šio projekto darbo paketų visas nuorodas į tos saugyklos failus ir aplankus."
@@ -166,7 +169,7 @@ lt:
     storage_list_blank_slate:
       heading: "Jūs dar neturite jokių saugyklų."
       description: "Pridėkite saugyklą, kad matytumėte ją čia."
-    error_invalid_provider_type: "Please select a valid storage provider."
+    error_invalid_provider_type: "Prašome pažymėti tinkamą saugyklos tiekėją."
     label_active: "Aktyvus"
     label_add_new_storage: "Pridėti naują saugyklą"
     label_delete_storage: "Trinti saugyklą"
@@ -200,7 +203,7 @@ lt:
     label_project_folder: "Projekto aplankas"
     label_redirect_uri: "Peradresavimo URI"
     label_new_storage: "Nauja saugykla"
-    label_new_file_storage: "New %{provider} storage"
+    label_new_file_storage: "Nauja %{provider} saugykla"
     label_edit_storage: "Keisti saugyklą"
     label_edit_storage_host: "Keisti saugyklos adresą"
     label_edit_storage_oauth_client: "Keisti saugyklos OAuth klientą"
@@ -225,18 +228,29 @@ lt:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "pvz. Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "pvz. OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su OpenProject."
     confirm_replace_oauth_client: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su saugykla."
     oauth_client_details_missing: "Norėdami baigti nustatymą, prašome pridėti OAuth kliento prisijungimo duomenis iš jūsų saugyklos."
     automatically_managed_project_folder_missing: "Kad užbaigtumėte nustatymą, prašome jūsų saugykloje sukonfigūruoti automatiškai valdumus projekto aplankus."
     notice_oauth_application_replaced: "OpenProject OAuth aplikacija buvo sėkmingai pakeista."
     notice_successful_storage_connection: "Saugykla sėkmingai prijungta! Nepamirškite aktyvuoti modulį ir konkrečią saugyklą visų projektų, kuriuose norite ją naudoti, nustatymuose."
+    open_project_storage_modal:
+      waiting:
+        a: "Mes nustatome jūsų teises projekto aplankui."
+        b: "Minutėlę, tai gali užtrukti šiek tiek laiko..."
+      success:
+        a: "Integracijos nustatymas baigtas"
+        b: "Jūs dabar peradresuoti"
     health:
-      title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
-      label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      title: "Valdomų aplankų būsena"
+      label_pending: "Laukiama"
+      label_error: "Klaida"
+      label_healthy: "Sveikas"
+      checked: "Patikrinta  %{datetime}"

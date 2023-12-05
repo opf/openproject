@@ -31,6 +31,7 @@
 # Purpose: CRUD the global admin page of Storages (=Nextcloud servers)
 class Storages::Admin::StoragesController < ApplicationController
   using Storages::Peripherals::ServiceResultRefinements
+  include FlashMessagesHelper
 
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout 'admin'
@@ -89,12 +90,8 @@ class Storages::Admin::StoragesController < ApplicationController
                  .call
     @storage = service_result.result
 
-    service_result.on_failure { render :new }
-
-    service_result.on_success do
-      respond_to do |format|
-        format.html { render :new }
-      end
+    respond_to do |format|
+      format.html { render :new }
     end
   end
 
@@ -107,7 +104,9 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      render :new
+      respond_to do |format|
+        format.turbo_stream { render :new }
+      end
     end
 
     service_result.on_success do
@@ -133,19 +132,14 @@ class Storages::Admin::StoragesController < ApplicationController
   # Update is similar to create above
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
-  def update # rubocop:disable Metrics/AbcSize
+  def update
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user, model: @storage)
                        .call(permitted_storage_params)
     @storage = service_result.result
 
     if service_result.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-
-      respond_to do |format|
-        format.html { redirect_to edit_admin_settings_storage_path(@storage) }
-        format.turbo_stream
-      end
+      respond_to { |format| format.turbo_stream }
     else
       respond_to do |format|
         format.html { render :edit }
@@ -159,15 +153,19 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   def destroy
-    Storages::Storages::DeleteService
+    service_result = Storages::Storages::DeleteService
       .new(user: User.current, model: @storage)
       .call
-      .match(
-        # rubocop:disable Rails/ActionControllerFlashBeforeRender
-        on_success: ->(*) { flash[:notice] = I18n.t(:notice_successful_delete) },
-        on_failure: ->(error) { flash[:error] = error.full_messages }
-        # rubocop:enable Rails/ActionControllerFlashBeforeRender
-      )
+
+    # rubocop:disable Rails/ActionControllerFlashBeforeRender
+    service_result.on_failure do
+      flash[:primer_banner] = { message: join_flash_messages(service_result.errors.full_messages), scheme: :danger }
+    end
+
+    service_result.on_success do
+      flash[:primer_banner] = { message: I18n.t(:notice_successful_delete), scheme: :success }
+    end
+    # rubocop:enable Rails/ActionControllerFlashBeforeRender
 
     redirect_to admin_settings_storages_path
   end
@@ -207,7 +205,7 @@ class Storages::Admin::StoragesController < ApplicationController
   def ensure_valid_provider_type_selected
     short_provider_type = params[:provider]
     if short_provider_type.blank? || (@provider_type = ::Storages::Storage::PROVIDER_TYPE_SHORT_NAMES[short_provider_type]).blank?
-      flash[:error] = I18n.t('storages.error_invalid_provider_type')
+      flash[:primer_banner] = { message: I18n.t('storages.error_invalid_provider_type'), scheme: :danger }
       redirect_to admin_settings_storages_path
     end
   end

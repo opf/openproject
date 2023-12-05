@@ -191,12 +191,10 @@ RSpec.describe 'Work package sharing',
     let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manager_user }
 
-    before do
+    it 'allows creating multiple users at once' do
       work_package_page.visit!
       click_button 'Share'
-    end
 
-    it 'allows creating multiple users at once' do
       share_modal.expect_open
       share_modal.expect_shared_count_of(1)
 
@@ -234,6 +232,9 @@ RSpec.describe 'Work package sharing',
     end
 
     it 'allows sharing with an existing user and creating a new one at the same time' do
+      work_package_page.visit!
+      click_button 'Share'
+
       share_modal.expect_open
       share_modal.expect_shared_count_of(1)
 
@@ -265,7 +266,8 @@ RSpec.describe 'Work package sharing',
       end
 
       it 'shows a warning as soon as you reach the user limit' do
-	pending 'Spec fails/flickers regularly. Ticket: https://community.openproject.org/work_packages/51185'
+        work_package_page.visit!
+        click_button 'Share'
 
         share_modal.expect_open
         share_modal.expect_shared_count_of(1)

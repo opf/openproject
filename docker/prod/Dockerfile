@@ -49,6 +49,7 @@ COPY Rakefile .
 COPY bin ./bin
 COPY app ./app
 COPY config ./config
+COPY config/database.production.yml ./config/database.yml
 COPY lib ./lib
 COPY lib_static ./lib_static
 COPY frontend ./frontend

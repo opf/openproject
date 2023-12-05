@@ -33,24 +33,7 @@ class API::V3::ProjectStorages::ProjectStorageOpenAPI < API::OpenProjectAPI
 
   resources :open do
     get do
-      query_result = if @project_storage.project_folder_inactive?
-                       Storages::Peripherals::Registry
-                         .resolve("queries.#{@project_storage.storage.short_provider_type}.open_storage")
-                         .call(
-                           storage: @project_storage.storage,
-                           user: current_user
-                         )
-                     else
-                       Storages::Peripherals::Registry
-                         .resolve("queries.#{@project_storage.storage.short_provider_type}.open_file_link")
-                         .call(
-                           storage: @project_storage.storage,
-                           user: current_user,
-                           file_id: @project_storage.project_folder_id
-                         )
-                     end
-
-      query_result.match(
+      @project_storage.open(current_user).match(
         on_success: ->(url) do
           redirect url, body: "The requested resource can be viewed at #{url}"
           status 303

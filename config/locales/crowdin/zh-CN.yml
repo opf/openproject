@@ -284,10 +284,10 @@ zh-CN:
       no_results_content_text: 添加新闻项
   users:
     autologins:
-      prompt: "Stay logged in for %{num_days}"
+      prompt: "保持登录状态 %{num_days} 天"
     sessions:
-      remembered_devices: "Remembered devices"
-      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
+      remembered_devices: "已记住设备"
+      remembered_devices_caption: "使用“保持登录状态”选项登录到此账户的所有设备列表。"
       session_name: "%{os_name} 上的 %{browser_name} %{browser_version}"
       browser: "浏览器"
       device: "设备 / 操作系统"
@@ -1018,7 +1018,7 @@ zh-CN:
     due_date: "完成日期"
     estimated_hours: "估算工时"
     estimated_time: "估算工时"
-    expires_at: "Expires at"
+    expires_at: "过期于"
     firstname: "名字"
     group: "组"
     groups: "组"
@@ -2439,7 +2439,9 @@ zh-CN:
     default: "-"
   project:
     destroy:
-      confirmation: "如果您继续，项目 %{identifier} 和所有相关的数据将被永久销毁。"
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "删除项目是一个不可逆转的操作。"
       project_verification: "输入项目的名称 %{name}，以确认删除。"
       subprojects_confirmation: "其 子项目(s): %{value} 也将被删除。"
@@ -3014,6 +3016,7 @@ zh-CN:
         添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。
       warning_user_limit_reached_admin: >
         添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此工作包。
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "锁定的用户"
         invited: "邀请已发送。 "

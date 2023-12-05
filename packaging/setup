@@ -4,7 +4,7 @@
 date -u +"%Y-%m-%dT%H:%M:%SZ" > RELEASE_DATE
 
 # Copy default database.yml
-cp -f packaging/conf/database.yml config/database.yml
+cp -f config/database.production.yml config/database.yml
 
 cp -f packaging/conf/configuration.yml config/configuration.yml
 sed -i "s|config.public_file_server.enabled = false|config.public_file_server.enabled = true|" config/environments/production.rb

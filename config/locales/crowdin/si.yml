@@ -2476,7 +2476,9 @@ si:
     default: "-"
   project:
     destroy:
-      confirmation: "ඔබ දිගටම කරගෙන ගියහොත්, ව්යාපෘතිය %{identifier} සහ ඊට අදාළ සියලු දත්ත ස්ථිරවම විනාශ වනු ඇත."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "ව්යාපෘතිය මකා දැමීම ආපසු හැරවිය නොහැකි ක්රියාවකි."
       project_verification: "මකාදැමීම සත්යාපනය කිරීම සඳහා ව්යාපෘතියේ නම %{name} ඇතුළත් කරන්න."
       subprojects_confirmation: "එහි උප ව්යාපෘතිය (ය): %{value} ද මකා දැමෙනු ඇත."
@@ -3055,6 +3057,7 @@ si:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

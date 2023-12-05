@@ -2529,7 +2529,9 @@ lt:
     default: "-"
   project:
     destroy:
-      confirmation: "Jei Jūs tęsite, projektas %{identifier} ir visi susiję duomenys bus ištrinti visam laikui."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Projekto ištrynimas yra negrįžtamas veiksmas."
       project_verification: "Įveskite projekto pavadinimą %{name}, kad patvirtintumėte ištrynimą."
       subprojects_confirmation: "Jo sub-projektas(-ai): %{value} taip pat bus ištrintas(-i)."
@@ -3107,6 +3109,7 @@ lt:
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       warning_user_limit_reached_admin: >
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Užrakintas naudotojas"
         invited: "Pakvietimas išsiųstas. "

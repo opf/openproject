@@ -2476,7 +2476,9 @@ fil:
     default: "-"
   project:
     destroy:
-      confirmation: "Kung gusto mong magpatuloy, ang proyektong %{identifier} at lahat na nakaugnay na data ay mananatiling masira."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Pagbubura ng proyekto ay isang hindi mababawi ang aksyon."
       project_verification: "Isulat ang pangalan ng proyekto %{name} para ma-verify and pagtanggal."
       subprojects_confirmation: "Ito ay ang subproject(mga): %{value} ay maaring matanggal."
@@ -3053,6 +3055,7 @@ fil:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

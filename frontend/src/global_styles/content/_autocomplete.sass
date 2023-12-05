@@ -87,6 +87,7 @@ div.autocomplete
 
       .ng-placeholder
         top: 1px !important
+        color: var(--color-fg-muted)
         @include text-shortener
 
       input
@@ -98,6 +99,15 @@ div.autocomplete
   .ng-value
     @include text-shortener
     line-height: 22px
+
+.ng-select .ng-arrow-wrapper .ng-arrow
+  border-color: var(--color-fg-muted) transparent transparent
+
+.ng-select.ng-select-opened>.ng-select-container .ng-arrow
+  border-color: transparent transparent var(--color-fg-muted)
+
+.ng-select .ng-clear-wrapper
+  color: var(--color-fg-muted)
 
 .ng-select.ng-select-multiple .ng-select-container
   height: initial !important

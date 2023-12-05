@@ -14,7 +14,7 @@ module OpenProject
       end
 
       def type
-        @type ||= ::Setting.plugin_openproject_recaptcha['recaptcha_type']
+        ::Setting.plugin_openproject_recaptcha['recaptcha_type']
       end
 
       def hcaptcha_response_limit

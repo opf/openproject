@@ -212,9 +212,9 @@ gem 'view_component'
 gem 'lookbook', '~> 2.1.0'
 
 # Require factory_bot for usage with openproject plugins testing
-gem 'factory_bot', '~> 6.2.0', require: false
+gem 'factory_bot', '~> 6.4.0', require: false
 # require factory_bot_rails for convenience in core development
-gem 'factory_bot_rails', '~> 6.2.0', require: false
+gem 'factory_bot_rails', '~> 6.4.0', require: false
 
 gem 'turbo-rails', "~> 1.1"
 
@@ -225,13 +225,13 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 1.2.0'
+  gem 'test-prof', '~> 1.3.0'
   gem 'turbo_tests', github: "crohr/turbo_tests", ref: "fix/runtime-info"
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 6.0.0', group: :development
+  gem 'rspec-rails', '~> 6.1.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'

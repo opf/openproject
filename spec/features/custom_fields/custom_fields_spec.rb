@@ -152,6 +152,18 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
         label_min_length, label_max_length, label_regexp,
         label_possible_values, label_default_value)
     end
+
+    it "shows the correct breadcrumbs" do
+      cf_page.visit_tab type
+
+      click_on "Create a new custom field"
+      wait_for_reload
+
+      page.within_test_selector('op-breadcrumb') do
+        expect(page).to have_selector('.breadcrumb-item', text: type)
+        expect(page).to have_selector('.breadcrumb-item.breadcrumb-item-selected', text:  "New custom field")
+      end
+    end
   end
 
   describe 'projects' do
@@ -245,6 +257,13 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
       expect(page).to have_field("custom_field_custom_options_attributes_1_default_value", checked: true)
       expect(page).to have_field("custom_field_custom_options_attributes_2_default_value", checked: false)
       expect(page).to have_field("custom_field_custom_options_attributes_3_default_value", checked: true)
+    end
+
+    it "shows the correct breadcrumbs" do
+      page.within_test_selector('op-breadcrumb') do
+        expect(page).to have_selector('.breadcrumb-item', text: "Work packages")
+        expect(page).to have_selector('.breadcrumb-item.breadcrumb-item-selected', text:  "Platform")
+      end
     end
 
     context "with work packages using the options" do
