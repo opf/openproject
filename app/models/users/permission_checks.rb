@@ -89,6 +89,15 @@ module Users::PermissionChecks
   end
   alias :roles :roles_for_project
 
+  # Return user's role for the work package.
+  # Which consists of both the roles granted to the user directly on the work package
+  # as well as those granted to the user on the project the work package belongs to.
+  def roles_for_work_package(work_package)
+    roles_for_project(work_package.project) +
+      Role.includes(:member_roles)
+          .where(member_roles: { member_id: Member.of_work_package(work_package).select(:id) })
+  end
+
   # Return true if the user is a member of project
   def member_of?(project)
     roles_for_project(project).any?(&:member?)
