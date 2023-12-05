@@ -1043,8 +1043,8 @@ RSpec.describe WorkPackages::BaseContract do
 
     before do
       allow(current_user)
-        .to receive(:roles_for_project)
-         .with(work_package.project)
+        .to receive(:roles_for_work_package)
+         .with(work_package)
          .and_return(roles)
     end
 
