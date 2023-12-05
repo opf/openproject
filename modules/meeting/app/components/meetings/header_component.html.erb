@@ -35,7 +35,10 @@
                 end
 
                 menu.with_item(label: t("label_meeting_history"),
-                               href: '') do |item|
+                               tag: :button,
+                               content_arguments: { "data-show-dialog-id": "meetings-history-dialog" },
+                               value: ""
+                               ) do |item|
                   item.with_leading_visual_icon(icon: :clock) # or :check TBD
                 end
 
@@ -52,7 +55,7 @@
           end
         end
 
-        show_header.with_row do
+        show_header.with_row do # this should not show up separately
           render(Primer::Alpha::Dialog.new(
             id: "meetings-history-dialog", title: 'History',
             size: :medium_portrait
