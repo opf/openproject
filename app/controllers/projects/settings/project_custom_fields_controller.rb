@@ -32,13 +32,15 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
 
   menu_item :settings_project_custom_fields
 
-  before_action :eager_load_project_custom_field_sections, only: %i[show update]
-  before_action :eager_load_project_custom_fields, only: %i[show update]
-  before_action :eager_load_project_custom_field_project_mappings, only: %i[show update]
+  before_action :eager_load_project_custom_field_sections, only: %i[show toggle enable_all_of_section disable_all_of_section]
+  before_action :eager_load_project_custom_fields, only: %i[show toggle enable_all_of_section disable_all_of_section]
+  before_action :eager_load_project_custom_field_project_mappings,
+                only: %i[show toggle enable_all_of_section disable_all_of_section]
 
   def show; end
 
-  def update
+  def toggle
+    # TODO: use service instead
     @project_custom_field = ProjectCustomField.find(params[:project_custom_field_id])
 
     mapping = ProjectCustomFieldProjectMapping.find_or_initialize_by(
@@ -60,6 +62,26 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
     respond_with_turbo_streams
   end
 
+  def enable_all_of_section
+    bulk_edit_mappings_per_section(params[:project_custom_field_section_id], :enable)
+
+    eager_load_project_custom_field_project_mappings # reload mappings
+
+    update_sections_via_turbo_stream # update all sections in order not to mess with stimulus target references
+
+    respond_with_turbo_streams
+  end
+
+  def disable_all_of_section
+    bulk_edit_mappings_per_section(params[:project_custom_field_section_id], :disable)
+
+    eager_load_project_custom_field_project_mappings # reload mappings
+
+    update_sections_via_turbo_stream # update all sections in order not to mess with stimulus target references
+
+    respond_with_turbo_streams
+  end
+
   private
 
   def eager_load_project_custom_field_sections
@@ -77,5 +99,28 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
     @project_custom_field_project_mappings = ProjectCustomFieldProjectMapping
       .where(project_id: @project.id)
       .to_a
+  end
+
+  def bulk_edit_mappings_per_section(section_id, action = :enable)
+    # TODO: use service instead
+    section = ProjectCustomFieldSection.find(section_id)
+
+    # TODO: refactor this to use a single database query
+    section.custom_fields.each do |pcf|
+      mapping = ProjectCustomFieldProjectMapping.find_or_initialize_by(
+        project_id: @project.id,
+        custom_field_id: pcf.id
+      )
+
+      if action == :enable
+        unless mapping.persisted?
+          mapping.save!
+        end
+      elsif action == :disable
+        if mapping.persisted?
+          mapping.destroy!
+        end
+      end
+    end
   end
 end

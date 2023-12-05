@@ -111,7 +111,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :select_project_custom_fields,
                      {
-                       'projects/settings/project_custom_fields': %i[show update]
+                       'projects/settings/project_custom_fields': %i[show toggle enable_all_of_section disable_all_of_section]
                      },
                      permissible_on: :project,
                      require: :member

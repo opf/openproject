@@ -1,27 +1,49 @@
 <%=
   component_wrapper do
     render(Primer::Beta::BorderBox.new(mt: 3)) do |component|
-      component.with_header(font_weight: :bold) do
+      component.with_header(font_weight: :bold, py: 2) do
         flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
-          section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
-            content_container.with_column do
-              render(Primer::Beta::Text.new(font_weight: :bold)) do
-                @project_custom_field_section.name
-              end
+          section_header_container.with_column(py: 2) do |content_container|
+            # adding py: 2 here to match the padding of the actions_container
+            # otherwise the header height changes when the actions gets hidden when filtering
+            render(Primer::Beta::Text.new(font_weight: :bold)) do
+              @project_custom_field_section.name
             end
           end
           section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
-            actions_container.with_column do
-              # render(Primer::Alpha::ActionMenu.new) do |menu|
-              #   menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_section_actions"), scheme: :invisible)
-              #   edit_action_item(menu)
-              #   move_actions(menu)
-              #   if @project_custom_fields.empty?
-              #     delete_action_item(menu)
-              #   else
-              #     disabled_delete_action_item(menu)
-              #   end
-              # end
+            actions_container.with_column(data: { 'projects--settings--project-custom-fields-mapping-filter-target': 'bulkActionContainer' }) do
+              render(Primer::Beta::Button.new(
+                tag: :a,
+                href: enable_all_of_section_project_settings_project_custom_fields_path(
+                  project_id: @project.id,
+                  project_custom_field_section_id: @project_custom_field_section.id
+                ),
+                scheme: :invisible,
+                font_weight: :bold,
+                color: :subtle,
+                'aria-label': t('projects.settings.project_custom_fields.actions.label_enable_all'),
+                data: { 'turbo-method': :put, 'turbo-stream': true }
+              )) do |button|
+                button.with_leading_visual_icon(icon: 'check-circle', color: :subtle)
+                t('projects.settings.project_custom_fields.actions.label_enable_all')
+              end
+            end
+            actions_container.with_column(data: { 'projects--settings--project-custom-fields-mapping-filter-target': 'bulkActionContainer' }) do
+              render(Primer::Beta::Button.new(
+                tag: :a,
+                href: disable_all_of_section_project_settings_project_custom_fields_path(
+                  project_id: @project.id,
+                  project_custom_field_section_id: @project_custom_field_section.id
+                ),
+                scheme: :invisible,
+                font_weight: :bold,
+                color: :subtle,
+                'aria-label': t('projects.settings.project_custom_fields.actions.label_disable_all'),
+                data: { 'turbo-method': :put, 'turbo-stream': true }
+              )) do |button|
+                button.with_leading_visual_icon(icon: 'x-circle', color: :subtle)
+                t('projects.settings.project_custom_fields.actions.label_disable_all')
+              end
             end
           end
         end

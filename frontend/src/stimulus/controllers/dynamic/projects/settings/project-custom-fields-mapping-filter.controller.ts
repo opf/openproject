@@ -34,25 +34,33 @@ export default class ProjectCustomFieldsMappingFilterController extends Controll
   static targets = [
     'filter',
     'searchItem',
+    'bulkActionContainer'
   ];
 
   declare readonly filterTarget:HTMLInputElement;
   declare readonly searchItemTargets:HTMLInputElement[];
+  declare readonly bulkActionContainerTargets:HTMLInputElement[];
 
   connect(): void {
     this.element.querySelector('#project-custom-fields-mapping-filter-clear-button')?.addEventListener('click', () => {
-      this.resetFilter();
+      this.resetFilterViaClearButton();
     });
   }
 
   disconnect(): void {
     this.element.querySelector('#project-custom-fields-mapping-filter-clear-button')?.removeEventListener('click', () => {
-      this.resetFilter();
+      this.resetFilterViaClearButton();
     });
   }
 
   filterLists(event: Event) {
     const query = this.filterTarget.value.toLowerCase();
+
+    if (query.length > 0) {
+      this.hideBulkActionContainers();
+    } else {
+      this.showBulkActionContainers();
+    }
 
     this.searchItemTargets.forEach((item) => {
       const text = item.textContent!.toLowerCase();
@@ -65,8 +73,22 @@ export default class ProjectCustomFieldsMappingFilterController extends Controll
     });
   }
 
-  resetFilter() {
+  resetFilterViaClearButton() {
+    this.showBulkActionContainers();
+
     this.searchItemTargets.forEach((item) => {
+      (item as HTMLElement).style.display = "block";
+    });
+  }
+
+  hideBulkActionContainers() {
+    this.bulkActionContainerTargets.forEach((item) => {
+      (item as HTMLElement).style.display = "none";
+    });
+  }
+
+  showBulkActionContainers() {
+    this.bulkActionContainerTargets.forEach((item) => {
       (item as HTMLElement).style.display = "block";
     });
   }
