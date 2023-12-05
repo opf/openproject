@@ -65,10 +65,10 @@ export default class AutomaticallyManagedProjectFoldersFormController extends Co
     }
 
     if (displayApplicationPasswordInput) {
-      this.applicationPasswordInputTarget.style.display = 'flex';
+      this.applicationPasswordInputTarget.classList.remove('d-none');
       this.submitButtonTarget.textContent = this.doneCompleteLabelValue;
     } else {
-      this.applicationPasswordInputTarget.style.display = 'none';
+      this.applicationPasswordInputTarget.classList.add('d-none');
       this.submitButtonTarget.textContent = this.doneCompleteWithoutLabelValue;
     }
   }
