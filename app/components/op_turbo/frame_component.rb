@@ -31,5 +31,9 @@ module OpTurbo
     def turbo_frame_id
       ActionView::RecordIdentifier.dom_id(model, options[:context])
     end
+
+    def lazy_loaded_source
+      history_meeting_path(options[:id])
+    end
   end
 end
