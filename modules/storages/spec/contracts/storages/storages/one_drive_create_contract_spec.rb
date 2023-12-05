@@ -30,7 +30,7 @@ require 'spec_helper'
 require_module_spec_helper
 require_relative 'shared_contract_examples'
 
-RSpec.describe Storages::Storages::CreateContract do
+RSpec.describe Storages::Storages::CreateContract, with_ee: %i[one_drive_sharepoint_file_storage] do
   let(:storage) do
     build_stubbed(:one_drive_storage,
                   creator: storage_creator,
@@ -40,10 +40,14 @@ RSpec.describe Storages::Storages::CreateContract do
   let(:contract) { described_class.new(storage, current_user) }
 
   it_behaves_like 'onedrive storage contract' do
-    context 'when creator is not the current user', with_ee: %i[one_drive_sharepoint_file_storage] do
+    context 'when creator is not the current user' do
       let(:storage_creator) { build_stubbed(:user) }
 
       include_examples 'contract is invalid', creator: :invalid
+    end
+
+    context 'without ee token', with_ee: false do
+      include_examples 'contract is invalid', base: I18n.t('api_v3.errors.code_500_missing_enterprise_token')
     end
   end
 end
