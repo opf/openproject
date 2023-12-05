@@ -5,8 +5,8 @@ value:
   id: 1
   readIAN: false
   reason: mentioned
-  createdAt: '2022-04-05T14:38:28Z'
-  updatedAt: '2022-04-06T09:03:24Z'
+  createdAt: '2022-04-05T14:38:28.881Z'
+  updatedAt: '2022-04-06T09:03:24.591Z'
   _embedded:
     author:
       _hint: User resource shortened for brevity

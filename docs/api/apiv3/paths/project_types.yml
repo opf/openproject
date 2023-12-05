@@ -23,25 +23,25 @@ get:
                         href: "/api/v3/types/1"
                     _type: Type
                     color: "#ff0000"
-                    createdAt: '2014-05-21T08:51:20Z'
+                    createdAt: '2014-05-21T08:51:20.396Z'
                     id: 1
                     isDefault: true
                     isMilestone: false
                     name: Bug
                     position: 1
-                    updatedAt: '2014-05-21T08:51:20Z'
+                    updatedAt: '2014-05-21T08:51:20.396Z'
                   - _links:
                       self:
                         href: "/api/v3/types/2"
                     _type: Type
                     color: "#888"
-                    createdAt: '2014-05-21T08:51:20Z'
+                    createdAt: '2014-05-21T08:51:20.396Z'
                     id: 2
                     isDefault: false
                     isMilestone: false
                     name: Feature
                     position: 2
-                    updatedAt: '2014-05-21T08:51:20Z'
+                    updatedAt: '2014-05-21T08:51:20.396Z'
                 _links:
                   self:
                     href: "/api/v3/projects/11/types"

@@ -14,7 +14,7 @@ properties:
     type: string
     description: |-
       Group's full name, formatting depends on instance settings
-      
+
       # Conditions
       - admin
   createdAt:
@@ -22,7 +22,7 @@ properties:
     format: date-time
     description: |-
       Time of creation
-      
+
       # Conditions
       - admin
   updatedAt:
@@ -39,14 +39,14 @@ properties:
           - $ref: './link.yml'
           - description: |-
               This group resource
-              
+
               **Resource**: Group
       delete:
         allOf:
           - $ref: './link.yml'
           - description: |-
               Deletes the group.
-              
+
               # Conditions
               **Permission**: Administrator
       updateImmediately:
@@ -54,7 +54,7 @@ properties:
           - $ref: './link.yml'
           - description: |-
               Updates the group's attributes.
-              
+
               # Conditions
               **Permission**: Administrator
       memberships:
@@ -63,9 +63,9 @@ properties:
           - description: |-
               Link to collection of all the group's memberships. The list will only include the memberships in projects
               in which the requesting user has the necessary permissions.
-              
+
               **Resource**: MemberCollection
-              
+
               # Conditions
               **Permission**: `view members` or `manage members` in any project
       members:
@@ -75,9 +75,9 @@ properties:
             - $ref: './link.yml'
             - description: |-
                 One of the members of the group.
-                
+
                 **Resource**: User
-                
+
                 # Conditions
                 **Permission**: `manage members` in any project to read & admin to write
 
@@ -85,8 +85,8 @@ example:
   _type: Group
   id: 9
   name: Stormtroopers
-  createdAt: '2022-09-23T11:06:36Z'
-  updatedAt: '2022-09-23T11:06:36Z'
+  createdAt: '2022-09-23T11:06:36.024Z'
+  updatedAt: '2022-09-23T11:06:36.024Z'
   _links:
     self:
       href: '/api/v3/groups/9'
