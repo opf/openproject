@@ -14,18 +14,6 @@ jobs:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger SaaS workflow
-        if: ${{ github.ref_name != 'dev' }}
-        env:
-          TOKEN: ${{ secrets.OPENPROJECT_CI_TOKEN }}
-          REPOSITORY: opf/saas-openproject
-          WORKFLOW_ID: continuous-delivery-saas.yml
-        run: |
-          curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
-            -XPOST -H"Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
-            -d '{"ref": "${{ github.ref }}"}'
-
       - name: Trigger Flavours workflow
         env:
           TOKEN: ${{ secrets.OPENPROJECT_CI_TOKEN }}
