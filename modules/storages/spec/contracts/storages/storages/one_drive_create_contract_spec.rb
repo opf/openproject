@@ -40,7 +40,7 @@ RSpec.describe Storages::Storages::CreateContract do
   let(:contract) { described_class.new(storage, current_user) }
 
   it_behaves_like 'onedrive storage contract' do
-    context 'when creator is not the current user' do
+    context 'when creator is not the current user', with_ee: %i[one_drive_sharepoint_file_storage] do
       let(:storage_creator) { build_stubbed(:user) }
 
       include_examples 'contract is invalid', creator: :invalid
