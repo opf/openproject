@@ -50,7 +50,16 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_top_menu_search
-    render partial: 'search/mini_form'
+    content_tag :div, class: 'op-app-search' do
+      render_global_search_input
+    end
+  end
+
+  def render_global_search_input
+    angular_component_tag 'opce-global-search',
+                          inputs: {
+                            placeholder: I18n.t('global_search.placeholder', app_title: Setting.app_title)
+                          }
   end
 
   def render_top_menu_right

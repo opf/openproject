@@ -59,6 +59,8 @@ class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters:
   end
 
   def member_included_scope
-    visible_scope.includes(:members)
+    visible_scope
+      .includes(:members)
+      .merge(Member.of_any_project)
   end
 end

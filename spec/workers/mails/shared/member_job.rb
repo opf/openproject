@@ -68,7 +68,7 @@ RSpec.shared_examples 'member job' do
       scope = group_user_members
 
       allow(Member)
-        .to receive(:of)
+        .to receive(:of_project)
               .with(project)
               .and_return(scope)
 

@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,35 +24,40 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Principals::Scopes
-  module PossibleAssignee
-    extend ActiveSupport::Concern
+require 'spec_helper'
 
-    class_methods do
-      # Returns principals eligible to be assigned to a work package as:
-      # * assignee
-      # * responsible
-      # Those principals can be of class
-      # * User
-      # * PlaceholderUser
-      # * Group
-      # User instances need to be non locked (status).
-      # Only principals with a role marked as assignable in the project are returned.
-      # If more than one project is given, the principals need to be assignable in all of the projects (intersection).
-      # @project [Project, [Project]] The project for which eligible candidates are to be searched
-      # @return [ActiveRecord::Relation] A scope of eligible candidates
-      def possible_assignee(project)
-        where(
-          id: Member
-              .assignable
-              .of_project(project)
-              .group('user_id')
-              .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).size])
-              .select('user_id')
-        )
-      end
+RSpec.describe Members::Scopes::OfAnyEntity do
+  let(:project) { create(:project) }
+  let(:role) { create(:project_role) }
+  let(:user) { create(:user) }
+
+  let!(:project_member) do
+    create(:member,
+           project:,
+           roles: [role],
+           principal: user)
+  end
+  let!(:work_package_member) do
+    create(:member,
+           project:,
+           roles: [create(:view_work_package_role)],
+           entity: create(:work_package, project:),
+           principal: user)
+  end
+  let!(:global_member) do
+    create(:global_member,
+           roles: [create(:global_role)],
+           principal: user)
+  end
+
+  describe '.of_any_entity' do
+    subject { Member.of_any_entity }
+
+    it 'returns all memberships on entities' do
+      expect(subject)
+        .to contain_exactly(work_package_member)
     end
   end
 end
