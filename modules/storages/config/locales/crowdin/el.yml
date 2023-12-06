@@ -254,3 +254,6 @@ el:
       label_error: "Error"
       label_healthy: "Healthy"
       checked: "Checked  %{datetime}"
+    upsale:
+      title: "OneDrive/SharePoint integration"
+      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

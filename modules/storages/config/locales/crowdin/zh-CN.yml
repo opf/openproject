@@ -254,3 +254,6 @@ zh-CN:
       label_error: "错误"
       label_healthy: "健康"
       checked: "检查于 %{datetime} "
+    upsale:
+      title: "OneDrive/SharePoint integration"
+      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'
