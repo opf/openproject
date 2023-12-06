@@ -269,34 +269,51 @@ RSpec.describe 'Work package sharing',
   end
 
   context 'when lacking share permission' do
-    let(:sharer_role) do
-      create(:project_role,
-             permissions: %i(view_work_packages
-                             view_shared_work_packages))
+    context 'with :view_shared_work_packages permission' do
+      let(:sharer_role) do
+        create(:project_role,
+               permissions: %i(view_work_packages
+                               view_shared_work_packages))
+      end
+
+      it 'allows seeing shares but not editing' do
+        work_package_page.visit!
+
+        # Clicking on the share button opens a modal which lists all of the users a work package
+        # is explicitly shared with.
+        # Project members are not listed unless the work package is also shared with them explicitly.
+        click_button 'Share'
+
+        share_modal.expect_open
+        share_modal.expect_shared_with(view_user, editable: false)
+        share_modal.expect_shared_with(comment_user, editable: false)
+        share_modal.expect_shared_with(dinesh, editable: false)
+        share_modal.expect_shared_with(edit_user, editable: false)
+        share_modal.expect_shared_with(shared_project_user, editable: false)
+        share_modal.expect_shared_with(current_user, editable: false)
+
+        share_modal.expect_not_shared_with(non_shared_project_user)
+        share_modal.expect_not_shared_with(not_shared_yet_with_user)
+
+        share_modal.expect_shared_count_of(6)
+
+        share_modal.expect_no_invite_option
+      end
     end
 
-    it 'allows seeing shares but not editing' do
-      work_package_page.visit!
+    context 'without the :view_shared_work_packages permission' do
+      let(:sharer_role) do
+        create(:project_role,
+               permissions: %i(view_work_packages))
+      end
 
-      # Clicking on the share button opens a modal which lists all of the users a work package
-      # is explicitly shared with.
-      # Project members are not listed unless the work package is also shared with them explicitly.
-      click_button 'Share'
+      it 'does not render the "Share" button to open the modal' do
+        work_package_page.visit!
 
-      share_modal.expect_open
-      share_modal.expect_shared_with(view_user, editable: false)
-      share_modal.expect_shared_with(comment_user, editable: false)
-      share_modal.expect_shared_with(dinesh, editable: false)
-      share_modal.expect_shared_with(edit_user, editable: false)
-      share_modal.expect_shared_with(shared_project_user, editable: false)
-      share_modal.expect_shared_with(current_user, editable: false)
-
-      share_modal.expect_not_shared_with(non_shared_project_user)
-      share_modal.expect_not_shared_with(not_shared_yet_with_user)
-
-      share_modal.expect_shared_count_of(6)
-
-      share_modal.expect_no_invite_option
+        within work_package_page.toolbar do
+          expect(page).not_to have_button('Share', wait: 0)
+        end
+      end
     end
   end
 

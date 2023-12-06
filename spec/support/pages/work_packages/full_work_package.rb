@@ -34,6 +34,10 @@ module Pages
       find('.work-packages--details--subject', match: :first)
     end
 
+    def toolbar
+      find_by_id('toolbar-items')
+    end
+
     private
 
     def container
