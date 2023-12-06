@@ -1,5 +1,17 @@
 <%= I18n.t('mail.salutation', user: @shared_with_user.firstname) %>
-<%= I18n.t('mail.sharing.work_packages.summary', user: @sharer) %>
+
+<%=
+  if @group
+    I18n.t("mail.sharing.work_packages.summary.group",
+           user: @sharer,
+           group: @group,
+           role_rights: @role_rights)
+  else
+    I18n.t("mail.sharing.work_packages.summary.user",
+           user: @sharer,
+           role_rights: @role_rights)
+  end
+%>
 <%= "-" * 100 %>
 
 <%= "=" * (('# ' + @work_package.id.to_s + @work_package.subject).length + 4) %>

@@ -1256,8 +1256,8 @@ sl:
       - "avgust"
       - "september"
       - "oktober"
-      - "November"
-      - "December"
+      - "november"
+      - "december"
     order:
       - :leto
       - :mesec
@@ -3156,6 +3156,7 @@ sl:
       code_429: "Preveč zahtev. Prosimo, poskusite kasneje."
       code_500: "Prišlo je do notranje napake."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

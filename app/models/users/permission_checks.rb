@@ -89,6 +89,15 @@ module Users::PermissionChecks
   end
   alias :roles :roles_for_project
 
+  # Return user's role for the work package.
+  # Which consists of both the roles granted to the user directly on the work package
+  # as well as those granted to the user on the project the work package belongs to.
+  def roles_for_work_package(work_package)
+    roles_for_project(work_package.project) +
+      Role.includes(:member_roles)
+          .where(member_roles: { member_id: Member.of_work_package(work_package).select(:id) })
+  end
+
   # Return true if the user is a member of project
   def member_of?(project)
     roles_for_project(project).any?(&:member?)
@@ -109,9 +118,9 @@ module Users::PermissionChecks
   def allowed_based_on_permission_context?(permission, project: nil, entity: nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
     permissions = Authorization.permissions_for(permission, raise_on_unknown: true)
 
-    entity_blank_or_not_project_scoped = (entity.blank? || !entity.respond_to?(:project) || (entity.respond_to?(:project) && entity.project.blank?))
-    entity_is_work_package_or_list = ((entity.is_a?(WorkPackage) && entity.persisted?) || (entity.is_a?(Enumerable) && entity.all?(WorkPackage)))
-    entity_is_project_scoped_and_project_is_present = (entity.respond_to?(:project) && entity.project.present?)
+    entity_blank_or_not_project_scoped = entity.blank? || !entity.respond_to?(:project) || (entity.respond_to?(:project) && entity.project.blank?)
+    entity_is_work_package_or_list = (entity.is_a?(WorkPackage) && entity.persisted?) || (entity.is_a?(Enumerable) && entity.all?(WorkPackage))
+    entity_is_project_scoped_and_project_is_present = entity.respond_to?(:project) && entity.project.present?
 
     permissions.any? do |perm|
       if perm.global?

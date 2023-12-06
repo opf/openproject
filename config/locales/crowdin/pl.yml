@@ -642,7 +642,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         error_conflict: "Information has been updated by at least one other user in the meantime."
@@ -2914,7 +2914,7 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_attachment_added: "%{label} %{value} dodano jako załącznik"
-  text_journal_attachment_deleted: "%{label} %{value} usunięto jako załącznik"
+  text_journal_attachment_deleted: "%{label} %{old} usunięto jako załącznik"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
@@ -3138,7 +3138,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{day} jest teraz roboczym"
-        non_working: "%{day} jest teraz wolnym od pracy"
+        non_working: "%{date} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:
@@ -3154,6 +3154,7 @@ pl:
       code_429: "Zbyt wiele prób. Spróbuj ponownie później."
       code_500: "Wystąpił błąd wewnętrzny."
       code_500_outbound_request_failure: "Żądanie wychodzące do innego zasobu nie powiodło się z kodem statusu %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty."
       expected:

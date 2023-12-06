@@ -232,6 +232,7 @@ en:
     single: "or"
 
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -3276,8 +3277,10 @@ en:
         view_description: "Can view this work package."
       remove: "Remove"
       share: "Share"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3330,6 +3333,7 @@ en:
       code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

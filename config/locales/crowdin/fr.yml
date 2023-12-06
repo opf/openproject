@@ -3099,6 +3099,7 @@ fr:
       code_429: "Trop de demandes, Veuillez réessayer ultérieurement."
       code_500: "Une erreur interne s'est produite."
       code_500_outbound_request_failure: "Une requête sortante vers une autre ressource a échoué avec le code de statut %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "Le lot de travaux que vous cherchez est introuvable ou a été supprimé."
       expected:

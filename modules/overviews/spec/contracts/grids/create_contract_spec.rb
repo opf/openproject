@@ -69,15 +69,9 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
 
   context 'if an overview grid already exists for the project' do
     before do
-      scope = double('grid exists scope')
-
       allow(Grids::Overview)
-        .to receive(:where)
-        .with(project_id: project.id)
-        .and_return scope
-
-      allow(scope)
         .to receive(:exists?)
+        .with(project_id: project.id)
         .and_return(true)
     end
 

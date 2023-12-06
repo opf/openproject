@@ -3096,6 +3096,7 @@ pt:
       code_429: "Muitas requisições. Tente novamente mais tarde."
       code_500: "Ocorreu um erro interno."
       code_500_outbound_request_failure: "Uma solicitação de saída para outro recurso falhou com o código de status %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído."
       expected:

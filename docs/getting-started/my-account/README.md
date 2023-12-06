@@ -180,7 +180,8 @@ To view and manage your OpenProject sessions navigate to **My account** and choo
 
 ![openproject_my_account_sessions_management](openproject_my_account_sessions_management.png)
 
-Here you can see all of your sessions. If for example you are logged into OpenProject from different browsers or devices, all will be shown in the list. Current session is the one you are currently using. You can terminate the sessions that are no longer in use. Inactive sessions will be removed from the list after 7 days (depending on the authentication settings they may become invalid earlier). 
+- **Current sessions**: here you can see all of your sessions. If for example you are logged into OpenProject from different browsers or devices, all will be shown in the list. Current session is the one you are currently using. You can terminate the sessions that are no longer in use. Inactive sessions will be removed from the list after 7 days (depending on the authentication settings they may become invalid earlier). 
+- **Remembered devices**: here you can see a list of all devices that you are logged into using the "Stay logged in" option. You will have selected that option when [logging in](./sign-in-registration/). Whether or not that option is available or the duration of time for which you can stay logged in depends on the authentication settings of your instance.
 
 > **Note**: Closing a browser does not necessarily terminate the session. It might still be displayed in the list and will be reactivated if you open the browser. This depends on both your browser's and the OpenProject instance's settings. 
 

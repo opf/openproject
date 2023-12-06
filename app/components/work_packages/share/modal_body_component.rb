@@ -57,6 +57,20 @@ module WorkPackages
         'op-share-wp-active-shares'
       end
 
+      def blankslate_config
+        @blankslate_config ||= {}.tap do |config|
+          if params[:filters].blank?
+            config[:icon] = :people
+            config[:heading_text] = I18n.t('work_package.sharing.text_empty_state_header')
+            config[:description_text] = I18n.t('work_package.sharing.text_empty_state_description')
+          else
+            config[:icon] = :search
+            config[:heading_text] = I18n.t('work_package.sharing.text_empty_search_header')
+            config[:description_text] = I18n.t('work_package.sharing.text_empty_search_description')
+          end
+        end
+      end
+
       def type_filter_options
         [
           { label: I18n.t('work_package.sharing.filter.project_member'),
@@ -93,7 +107,7 @@ module WorkPackages
       end
 
       def filter_url(type_option: nil, role_option: nil)
-        return work_package_shares_path if type_option.nil? && role_option.nil?
+        return work_package_shares_path(@work_package) if type_option.nil? && role_option.nil?
 
         args = {}
         filter = []
@@ -103,7 +117,7 @@ module WorkPackages
 
         args[:filters] = filter.to_json unless filter.empty?
 
-        work_package_shares_path(args)
+        work_package_shares_path(@work_package, **args)
       end
 
       def apply_role_filter(_option)

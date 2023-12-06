@@ -3089,6 +3089,7 @@ ca:
       code_429: "Masses demandes. Si us plau, prova-ho de nou més tard."
       code_500: "S'ha produït un error intern."
       code_500_outbound_request_failure: "Hi ha un error en una petició sortint a un altre recurs amb el codi d'estat %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "No s'ha pogut trobar o s'ha eliminat el paquet de treball que estàs buscant."
       expected:

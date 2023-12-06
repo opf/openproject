@@ -59,10 +59,6 @@ import {
   copyToClipboardSelector,
 } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.component';
 import {
-  GlobalSearchInputComponent,
-  globalSearchSelector,
-} from 'core-app/core/global_search/input/global-search-input.component';
-import {
   collapsibleSectionAugmentSelector,
   CollapsibleSectionComponent,
 } from 'core-app/shared/components/collapsible-section/collapsible-section.component';
@@ -214,7 +210,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: copyToClipboardSelector, cls: CopyToClipboardComponent },
   { selector: mainMenuResizerSelector, cls: MainMenuResizerComponent },
   { selector: mainMenuToggleSelector, cls: MainMenuToggleComponent },
-  { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerComponent },
   { selector: nonWorkingDaysListSelector, cls: OpNonWorkingDaysListComponent },
