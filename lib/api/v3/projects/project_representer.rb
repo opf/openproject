@@ -182,41 +182,47 @@ module API
         property :active
         property :public
 
-        formattable_property :description
+        formattable_property :description,
+                             cache_if: -> { current_user.allowed_in_project?(:view_project, represented) }
 
         date_time_property :created_at
 
         date_time_property :updated_at
 
         resource :status,
+                 show_if: ->(*) { !current_user.allowed_in_project?(:view_project, represented) },
+                 uncacheable_link: true,
                  getter: ->(*) {
-                   next unless represented.status_code
+                           next unless represented.status_code
 
-                   ::API::V3::Projects::Statuses::StatusRepresenter
-                     .create(represented.status_code, current_user:, embed_links:)
-                 },
+                           ::API::V3::Projects::Statuses::StatusRepresenter
+                             .create(represented.status_code, current_user:, embed_links:)
+                         },
                  link: ->(*) {
-                   if represented.status_code
-                     {
-                       href: api_v3_paths.project_status(represented.status_code),
-                       title: I18n.t(:"activerecord.attributes.project.status_codes.#{represented.status_code}",
-                                     default: nil)
-                     }.compact
-                   else
-                     {
-                       href: nil
-                     }
-                   end
-                 },
+                         if !current_user.allowed_in_project?(:view_project, represented)
+                           { href: nil }
+                         elsif represented.status_code
+                           {
+                             href: api_v3_paths.project_status(represented.status_code),
+                             title: I18n.t(:"activerecord.attributes.project.status_codes.#{represented.status_code}",
+                                           default: nil)
+                           }.compact
+                         else
+                           {
+                             href: nil
+                           }
+                         end
+                       },
                  setter: ->(fragment:, represented:, **) {
-                   link = ::API::Decorators::LinkObject.new(represented,
-                                                            path: :project_status,
-                                                            property_name: :status_code,
-                                                            setter: :'status_code=')
-                   link.from_hash(fragment)
-                 }
+                           link = ::API::Decorators::LinkObject.new(represented,
+                                                                    path: :project_status,
+                                                                    property_name: :status_code,
+                                                                    setter: :'status_code=')
+                           link.from_hash(fragment)
+                         }
 
-        formattable_property :status_explanation
+        formattable_property :status_explanation,
+                             cache_if: -> { current_user.allowed_in_project?(:view_project, represented) }
 
         def _type
           'Project'
@@ -224,7 +230,7 @@ module API
 
         self.to_eager_load = [:enabled_modules]
 
-        self.checked_permissions = [:add_work_packages]
+        self.checked_permissions = %i[add_work_packages view_project]
       end
     end
   end

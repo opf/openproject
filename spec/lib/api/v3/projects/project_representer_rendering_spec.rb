@@ -69,7 +69,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
               .and_return(version)
     end
   end
-  let(:permissions) { %i[add_work_packages view_members] }
+  let(:permissions) { %i[view_project add_work_packages view_members] }
   let(:parent_project) do
     build_stubbed(:project).tap do |parent|
       allow(parent)
@@ -132,6 +132,13 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
     it_behaves_like 'has UTC ISO 8601 date and time' do
       let(:date) { project.updated_at }
       let(:json_path) { 'updatedAt' }
+    end
+
+    context 'when the user does not have the view_project permission' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'no property', 'statusExplanation'
+      it_behaves_like 'no property', :description
     end
 
     describe 'int custom field' do
@@ -347,6 +354,17 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
           let(:link) { 'status' }
           let(:href) { nil }
         end
+      end
+
+      context 'if the user does not have the view_project permission' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'status' }
+          let(:href) { nil }
+        end
+
+        it_behaves_like 'no property', 'status'
       end
     end
 
@@ -635,8 +653,8 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
   end
 
   describe '.checked_permissions' do
-    it 'lists add_work_packages' do
-      expect(described_class.checked_permissions).to contain_exactly(:add_work_packages)
+    it 'lists add_work_packages and view_project' do
+      expect(described_class.checked_permissions).to contain_exactly(:add_work_packages, :view_project)
     end
   end
 end
