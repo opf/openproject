@@ -72,18 +72,6 @@ module Grids::Configuration
       allowed ->(user, project) { user.allowed_in_project?(:view_documents, project) }
     end
 
-    widget_strategy 'project_description' do
-      allowed ->(user, project) { user.allowed_in_project?(:view_project, project) }
-    end
-
-    widget_strategy 'project_status' do
-      allowed ->(user, project) { user.allowed_in_project?(:view_project, project) }
-    end
-
-    widget_strategy 'project_details' do
-      allowed ->(user, project) { user.allowed_in_project?(:view_project, project) }
-    end
-
     macroed_getter_setter :view_permission
     macroed_getter_setter :edit_permission
     macroed_getter_setter :in_project_scope_path

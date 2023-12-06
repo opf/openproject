@@ -35,8 +35,7 @@ module API
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
-        cached_representer key_parts: %i(widgets),
-                           dependencies: -> { [User.current] + all_permissions_granted_to_user_under_project }
+        cached_representer key_parts: %i(widgets)
 
         resource_link :scope,
                       getter: ->(*) {
@@ -92,11 +91,7 @@ module API
         property :widgets,
                  exec_context: :decorator,
                  getter: ->(*) do
-                   represented
-                   .widgets
-                   .select { |widget| widget_visible?(widget) }
-                   .sort_by { |w| w.id.to_i }
-                   .map do |widget|
+                   represented.widgets.sort_by { |w| w.id.to_i }.map do |widget|
                      Widgets::WidgetRepresenter.new(widget, current_user:)
                    end
                  end,
@@ -121,17 +116,6 @@ module API
         end
 
         private
-
-        def widget_visible?(widget)
-          return true unless represented.respond_to?(:project)
-
-          ::Grids::Configuration.allowed_widget?(
-            represented.class,
-            widget.identifier,
-            current_user,
-            represented.project
-          )
-        end
 
         def delete_allowed?
           represented.user_deletable? && write_allowed?
@@ -164,20 +148,6 @@ module API
           end
 
           path_attributes.compact
-        end
-
-        def all_permissions_granted_to_user_under_project
-          scope = if represented.respond_to?(:project)
-                    Role
-                    .joins(:members)
-                    .where(members: { project_id: represented.project, principal: User.current })
-                  else
-                    Role
-                    .joins(:members)
-                    .where(members: { principal: User.current, project: nil, entity: nil })
-                  end
-
-          scope.map(&:permissions).flatten.uniq.sort
         end
       end
     end
