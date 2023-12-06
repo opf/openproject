@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects index page', :js, :with_cuprite,
+RSpec.describe 'Projects index page',
+               :js,
+               :with_cuprite,
                with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
@@ -1114,6 +1116,18 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         expect(page).to have_checked_field(id: 'event_types_project_attributes')
         expect(page).to have_unchecked_field(id: 'event_types_work_packages')
       end
+    end
+  end
+
+  describe 'persisting queries' do
+    current_user { admin }
+
+    it 'allows saving and loading persisted filter sets with them being displayed in the sidebar' do
+      projects_page.visit!
+
+      projects_page.save_query('My saved query')
+
+      projects_page.set_sidebar_filter('My saved query')
     end
   end
 end

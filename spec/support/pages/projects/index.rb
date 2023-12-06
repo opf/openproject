@@ -216,6 +216,16 @@ module Pages
         end
       end
 
+      def save_query(name)
+        click_button 'Save'
+
+        within '#op-project-list-save-modal' do
+          fill_in 'Name', with: name
+
+          click_button 'Save'
+        end
+      end
+
       private
 
       def boolean_filter?(filter)

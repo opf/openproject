@@ -335,6 +335,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  namespace :projects do
+    resources :queries, only: %i[create]
+  end
+
   resources :admin, controller: :admin, only: :index do
     collection do
       get :plugins

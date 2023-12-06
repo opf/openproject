@@ -65,6 +65,19 @@ See COPYRIGHT and LICENSE files for more details.
         <%= op_icon("button--icon icon-external-link") %>
       <% end %>
     </li>
+    <li class="toolbar-item">
+      <%= render(Primer::Alpha::Dialog.new(title: 'Save', id: 'op-project-list-save-modal')) do |d| %>
+        <% d.with_show_button { 'Save' } %>
+        <%= primer_form_with(url: projects_queries_path) do %>
+          <%= render(Primer::Alpha::Dialog::Body.new) do %>
+            <%= render(Primer::Alpha::TextField.new(name: 'name', label: 'Name', required: true)) %>
+          <% end %>
+          <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+            <%= render(Primer::ButtonComponent.new(type: :submit, scheme: :primary, data: { "close-dialog-id": 'op-project-list-save-modal' })) { "Save" } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </li>
     <li class="toolbar-item drop-down">
       <a
         href="#"
