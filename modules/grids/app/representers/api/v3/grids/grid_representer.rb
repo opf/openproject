@@ -36,7 +36,7 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
         cached_representer key_parts: %i(widgets),
-                           dependencies: -> { all_permissions_granted_to_user_under_project }
+                           dependencies: -> { [User.current] + all_permissions_granted_to_user_under_project }
 
         resource_link :scope,
                       getter: ->(*) {
@@ -167,13 +167,17 @@ module API
         end
 
         def all_permissions_granted_to_user_under_project
-          Role
-            .joins(:members)
-            .where(members: { project_id: represented.project, principal: User.current })
-            .map(&:permissions)
-            .flatten
-            .uniq
-            .sort
+          scope = if represented.respond_to?(:project)
+                    Role
+                    .joins(:members)
+                    .where(members: { project_id: represented.project, principal: User.current })
+                  else
+                    Role
+                    .joins(:members)
+                    .where(members: { principal: User.current, project: nil, entity: nil })
+                  end
+
+          scope.map(&:permissions).flatten.uniq.sort
         end
       end
     end
