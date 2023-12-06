@@ -64,16 +64,19 @@ module Settings
       end
 
       def move_actions(menu)
-        unless @project_custom_field_section.first?
+        # TODO: these methods trigger database queries for each section displayed
+        # it would be nice if can eager load this information
+        first_in_list = @project_custom_field_section.first?
+        last_in_list = @project_custom_field_section.last?
+
+        unless first_in_list
           move_action_item(menu, :highest, t("label_agenda_item_move_to_top"),
                            "move-to-top")
+          move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up")
         end
-        move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless @project_custom_field_section.first?
-        unless @project_custom_field_section.last?
+        unless last_in_list
           move_action_item(menu, :lower, t("label_agenda_item_move_down"),
                            "chevron-down")
-        end
-        unless @project_custom_field_section.last?
           move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"),
                            "move-to-bottom")
         end

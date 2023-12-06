@@ -50,10 +50,19 @@ module Settings
       end
 
       def move_actions(menu)
-        move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top") unless @project_custom_field.first?
-        move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless @project_custom_field.first?
-        move_action_item(menu, :lower, t("label_agenda_item_move_down"), "chevron-down") unless @project_custom_field.last?
-        unless @project_custom_field.last?
+        # TODO: these methods trigger database queries for each custom field displayed
+        # it would be nice if can eager load this information
+        first_in_list = @project_custom_field.first?
+        last_in_list = @project_custom_field.last?
+
+        unless first_in_list
+          move_action_item(menu, :highest, t("label_agenda_item_move_to_top"),
+                           "move-to-top")
+          move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up")
+        end
+        unless last_in_list
+          move_action_item(menu, :lower, t("label_agenda_item_move_down"),
+                           "chevron-down")
           move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"),
                            "move-to-bottom")
         end
