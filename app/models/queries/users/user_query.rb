@@ -28,6 +28,7 @@
 
 class Queries::Users::UserQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     User

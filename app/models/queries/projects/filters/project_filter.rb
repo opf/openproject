@@ -27,6 +27,8 @@
 #++
 
 class Queries::Projects::Filters::ProjectFilter < Queries::Filters::Base
+  include ::Queries::Filters::Serializable
+
   self.model = Project
 
   def human_name

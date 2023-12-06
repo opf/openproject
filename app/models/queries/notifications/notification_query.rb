@@ -28,6 +28,7 @@
 
 class Queries::Notifications::NotificationQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     Notification

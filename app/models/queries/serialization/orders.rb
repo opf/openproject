@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,33 +24,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Queries::WorkPackages::FilterSerializer
-  extend Queries::Filters::AvailableFilters
-  extend Queries::Filters::AvailableFilters::ClassMethods
+class Queries::Serialization::Orders
+  include Queries::Orders::AvailableOrders
 
-  def self.load(serialized_filter_hash)
-    return [] if serialized_filter_hash.nil?
+  def load(serialized_orders)
+    return [] if serialized_orders.nil?
 
-    # yeah, dunno, but apparently '=' may have been serialized as a Syck::DefaultKey instance...
-    yaml = serialized_filter_hash
-           .gsub('!ruby/object:Syck::DefaultKey {}', '"="')
-
-    (YAML.load(yaml, permitted_classes: [Symbol, Date]) || {}).each_with_object([]) do |(field, options), array|
-      options = options.with_indifferent_access
-      filter = filter_for(field, no_memoization: true)
-      filter.operator = options['operator']
-      filter.values = options['values']
-      array << filter
+    serialized_orders.map do |o|
+      order_for(o["attribute"].to_sym).tap do |order|
+        order.direction = o["direction"]
+      end
     end
   end
 
-  def self.dump(filters)
-    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
+  def dump(orders)
+    orders.map { |o| { attribute: o.attribute, direction: o.direction } }
   end
 
-  def self.registered_filters
-    Queries::Register.filters[Query]
+  def orders_register
+    ::Queries::Register.orders[klass]
   end
+
+  def initialize(klass)
+    @klass = klass
+  end
+
+  attr_reader :klass
 end

@@ -28,6 +28,7 @@
 
 class Queries::Documents::DocumentQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     Document

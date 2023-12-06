@@ -28,4 +28,5 @@
 
 class Queries::Roles::RoleQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 end

@@ -69,6 +69,9 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(Primer::Alpha::Dialog.new(title: 'Save', id: 'op-project-list-save-modal')) do |d| %>
         <% d.with_show_button { 'Save' } %>
         <%= primer_form_with(url: projects_queries_path) do %>
+
+          <%= hidden_field_tag :filters, params[:filters] %>
+
           <%= render(Primer::Alpha::Dialog::Body.new) do %>
             <%= render(Primer::Alpha::TextField.new(name: 'name', label: 'Name', required: true)) %>
           <% end %>

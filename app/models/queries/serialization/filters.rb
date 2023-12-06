@@ -6,7 +6,7 @@
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,11 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::PlaceholderUsers::PlaceholderUserQuery
-  include Queries::BaseQuery
-  include Queries::UnpersistedQuery
+class Queries::Serialization::Filters
+  include Queries::Filters::AvailableFilters
+  include Queries::Filters::AvailableFilters::ClassMethods
 
-  def self.model
-    PlaceholderUser
+  def load(serialized_filter_hash)
+    return [] if serialized_filter_hash.nil?
+
+    # yeah, dunno, but apparently '=' may have been serialized as a Syck::DefaultKey instance...
+    yaml = serialized_filter_hash
+           .gsub('!ruby/object:Syck::DefaultKey {}', '"="')
+
+    (YAML.load(yaml, permitted_classes: [Symbol, Date]) || {}).each_with_object([]) do |(field, options), array|
+      options = options.with_indifferent_access
+      filter = filter_for(field, no_memoization: true)
+      filter.operator = options['operator']
+      filter.values = options['values']
+      array << filter
+    end
   end
+
+  def dump(filters)
+    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
+  end
+
+  def registered_filters
+    Queries::Register.filters[klass]
+  end
+
+  def initialize(klass)
+    @klass = klass
+  end
+
+  attr_reader :klass
 end

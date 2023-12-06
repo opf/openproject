@@ -28,6 +28,7 @@
 
 class Queries::Groups::GroupQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     Group

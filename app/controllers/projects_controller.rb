@@ -37,7 +37,6 @@ class ProjectsController < ApplicationController
 
   include SortHelper
   include PaginationHelper
-  include QueriesHelper
   include ProjectsHelper
 
   helper_method :has_managed_project_folders?

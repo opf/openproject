@@ -26,10 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::ProjectQuery
+class Queries::Projects::ProjectQuery < ApplicationRecord
   include Queries::BaseQuery
-
   include Queries::Serialization::Hash
+
+  # TODO: have corresponding association on user
+  belongs_to :user
+
+  self.table_name = :project_queries
+
+  serialize :filters, Queries::Serialization::Filters.new(self)
+  serialize :orders, Queries::Serialization::Orders.new(self)
+
+  def initialize(*args)
+    super
+
+    self.orders = []
+    #set_default_order
+  end
+
+  #def set_default_order
+  #  return if orders&.any?
+
+  #  self.orders = [%w[id asc]]
+  #end
 
   def self.model
     Project

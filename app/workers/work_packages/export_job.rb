@@ -16,7 +16,7 @@ module WorkPackages
 
     def set_query_props(query, query_attributes)
       filters = query_attributes.delete('filters')
-      filters = Queries::WorkPackages::FilterSerializer.load(filters)
+      filters = Queries::WorkPackages::Filters.load(filters)
 
       query.tap do |q|
         q.attributes = query_attributes

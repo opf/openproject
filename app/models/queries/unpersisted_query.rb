@@ -1,12 +1,12 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -24,13 +24,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Queries::PlaceholderUsers::PlaceholderUserQuery
-  include Queries::BaseQuery
-  include Queries::UnpersistedQuery
+module Queries::UnpersistedQuery
+  extend ActiveSupport::Concern
 
-  def self.model
-    PlaceholderUser
+  included do
+    attr_accessor :filters,
+                  :orders
+    attr_reader :group_by
+
+    def initialize(*args)
+      @filters = []
+      @orders = []
+      @group_by = nil
+      @user = args.first[:user] if args&.first
+    end
+
+    protected
+
+    attr_accessor :user
+    attr_writer :group_by
   end
 end

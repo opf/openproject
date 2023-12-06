@@ -28,6 +28,7 @@
 
 class Queries::Queries::QueryQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     Query

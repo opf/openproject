@@ -28,6 +28,7 @@
 
 class Queries::NonWorkingDays::NonWorkingDayQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     NonWorkingDay

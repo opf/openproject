@@ -27,7 +27,20 @@
 #++
 
 module Queries::BaseQuery
-  class << self
+  extend ActiveSupport::Concern
+
+  included do
+    include Queries::Filters::AvailableFilters
+    include Queries::Orders::AvailableOrders
+    include Queries::GroupBys::AvailableGroupBys
+    include ActiveModel::Validations
+
+    validate :filters_valid,
+             :sortation_valid,
+             :group_by_valid
+  end
+
+  class_methods do
     def model
       @model ||= name.demodulize.gsub('Query', '').constantize
     end
@@ -35,25 +48,6 @@ module Queries::BaseQuery
     def i18n_scope
       :activerecord
     end
-  end
-
-  attr_accessor :filters, :orders
-  attr_reader :group_by
-
-  include Queries::Filters::AvailableFilters
-  include Queries::Orders::AvailableOrders
-  include Queries::GroupBys::AvailableGroupBys
-  include ActiveModel::Validations
-
-  validate :filters_valid,
-           :sortation_valid,
-           :group_by_valid
-
-  def initialize(user: nil)
-    @filters = []
-    @orders = []
-    @group_by = nil
-    @user = user
   end
 
   def results
@@ -121,9 +115,6 @@ module Queries::BaseQuery
   end
 
   protected
-
-  attr_accessor :user
-  attr_writer :group_by
 
   def filters_valid
     filters.each do |filter|

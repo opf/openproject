@@ -28,6 +28,7 @@
 
 class Queries::Members::MemberQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     Member

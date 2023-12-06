@@ -28,6 +28,7 @@
 
 class Queries::TimeEntries::TimeEntryQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     TimeEntry

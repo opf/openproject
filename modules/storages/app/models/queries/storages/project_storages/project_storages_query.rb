@@ -28,6 +28,7 @@
 
 class Queries::Storages::ProjectStorages::ProjectStoragesQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     @model ||= ::Storages::ProjectStorage

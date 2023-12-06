@@ -28,6 +28,26 @@
 
 class Projects::QueriesController < ApplicationController
   def create
+    query = load_query
+    query.name = params[:name]
+
+    binding.pry
+    query.save
+
     redirect_to projects_path
+  end
+
+  private
+
+  def load_query
+    @query = ParamsToQueryService.new(Project, current_user).call(params)
+
+    # Set default filter on status no filter is provided.
+    @query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE) unless params[:filters]
+
+    # Order lft if no order is provided.
+    @query.order(lft: :asc) unless params[:sortBy]
+
+    @query
   end
 end

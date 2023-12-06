@@ -28,4 +28,5 @@
 
 class Queries::WeekDays::WeekDayQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 end

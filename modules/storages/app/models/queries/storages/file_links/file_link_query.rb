@@ -32,6 +32,7 @@
 # The namespace is programmatically derived from the model name. See app/services/params_to_query_service.rb:130
 class Queries::Storages::FileLinks::FileLinkQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   class << self
     # We need to overwrite the model method, as the standard implementation cannot derive the name from nested

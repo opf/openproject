@@ -28,6 +28,7 @@
 
 class Queries::Versions::VersionQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     Version

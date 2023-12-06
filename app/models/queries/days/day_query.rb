@@ -28,6 +28,7 @@
 
 class Queries::Days::DayQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     Day

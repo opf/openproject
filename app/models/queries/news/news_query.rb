@@ -28,6 +28,7 @@
 
 class Queries::News::NewsQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     News

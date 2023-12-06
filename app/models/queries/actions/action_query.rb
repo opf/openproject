@@ -28,6 +28,7 @@
 
 class Queries::Actions::ActionQuery
   include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
   def self.model
     Action
