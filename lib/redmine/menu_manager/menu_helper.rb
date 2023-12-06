@@ -419,11 +419,7 @@ module Redmine::MenuManager::MenuHelper
     url = node.url(project)
     return true unless url
 
-    begin
-      user.allowed_based_on_permission_context?(url, project:)
-    rescue Authorization::UnknownPermissionError, Authorization::IllegalPermissionContextError
-      false
-    end
+    user.allowed_based_on_permission_context?(url, project:)
   end
 
   def visible_node?(menu, node)
