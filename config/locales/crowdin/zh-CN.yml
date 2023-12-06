@@ -2439,9 +2439,9 @@ zh-CN:
     default: "-"
   project:
     destroy:
-      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
-      project_delete_result_1: "Delete all related data."
-      project_delete_result_2: "Delete all managed project folders in the attached storages."
+      confirmation: "如果继续操作，项目 %{identifier} 将被永久销毁。为确认此操作，请在下方的字段中输入项目名称，此操作将会："
+      project_delete_result_1: "删除所有相关数据。"
+      project_delete_result_2: "删除附加存储中所有托管的项目文件夹。"
       info: "删除项目是一个不可逆转的操作。"
       project_verification: "输入项目的名称 %{name}，以确认删除。"
       subprojects_confirmation: "其 子项目(s): %{value} 也将被删除。"
@@ -3016,7 +3016,7 @@ zh-CN:
         添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。
       warning_user_limit_reached_admin: >
         添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此工作包。
-      warning_no_selected_user: "Please select users to share this work package with"
+      warning_no_selected_user: "请选择要共享此工作包的用户"
       user_details:
         locked: "锁定的用户"
         invited: "邀请已发送。 "

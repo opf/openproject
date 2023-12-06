@@ -90,7 +90,7 @@ lt:
         delete: "Trinti failų saugyklą"
       managed_project_folders:
         title: "Automatiškai valdomi projekto aplankai"
-        subtitle_short: "Leisti OpenProjet kurti aplankus projektams automatiškai"
+        subtitle_short: "Leisti OpenProject kurti aplankus projektams automatiškai"
         subtitle: >
           Leisti OpenProject automatiškai kurti projektų aplankus. Tai rekomenduojama, nes užtikrina, kad kiekvienas komandos narys visada turi reikiamas prieigos teises.
       project_settings:

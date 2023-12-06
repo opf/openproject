@@ -32,11 +32,11 @@ ru:
       draggable_hint: |
         Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "Добавить элемент"
+      clear_all: "Очистить все"
+      loading: "Загрузка..."
+      not_found: "Элементов не найдено"
+      type_to_search: "Введите для поиска"
     autocomplete_select:
       placeholder:
         multi: "Добавить \"%{name}\""
@@ -351,7 +351,7 @@ ru:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li> Предоставлять общий доступ к рабочим пакетам внешним пользователям и группам, которые не являются участниками проекта (корпоративное дополнение).</li> <li> Новые динамичные собрания с повестками дня и протоколами, связанными с рабочими пакетами.</li> <li> Свяжите рабочие пакеты с файлами и папками в OneDrive/ SharePoint.</li> <li> Тест доступности и первые улучшения в соответствии с WCAG 2.1 AA, вкл. режим высокой контрастности.</li> <li> Продолжена интеграция системы проектирования грунтовки. </li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
