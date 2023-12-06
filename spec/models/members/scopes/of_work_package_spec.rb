@@ -26,16 +26,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Members::Scopes
-  module OfWorkPackage
-    extend ActiveSupport::Concern
+require 'spec_helper'
 
-    class_methods do
-      # Find all members of a specific Work Package
-      def of_work_package(work_package)
-        of_any_entity
-          .where(entity: work_package)
-      end
+RSpec.describe Members::Scopes::OfWorkPackage do
+  let(:project) { create(:project) }
+  let(:work_package_role) { create(:view_work_package_role) }
+  let(:role) { create(:project_role) }
+  let(:user) { create(:user) }
+  let(:work_package) { create(:work_package, project:) }
+  let(:other_work_package) { create(:work_package, project:) }
+
+  let!(:project_member) do
+    create(:member,
+           project:,
+           roles: [role],
+           principal: user)
+  end
+  let!(:work_package_member) do
+    create(:member,
+           project:,
+           roles: [work_package_role],
+           entity: work_package,
+           principal: user)
+  end
+  let!(:other_work_package_member) do
+    create(:member,
+           project:,
+           roles: [work_package_role],
+           entity: other_work_package,
+           principal: user)
+  end
+  let!(:global_member) do
+    create(:global_member,
+           roles: [create(:global_role)],
+           principal: user)
+  end
+
+  describe '.of_work_package' do
+    subject { Member.of_work_package(work_package) }
+
+    it 'returns memberships on the specific work package' do
+      expect(subject)
+        .to contain_exactly(work_package_member)
     end
   end
 end
