@@ -778,7 +778,7 @@ GEM
       rack (>= 1.0, < 4)
     rack-cors (2.0.1)
       rack (>= 2.0.0)
-    rack-mini-profiler (3.1.1)
+    rack-mini-profiler (3.2.0)
       rack (>= 1.2.0)
     rack-oauth2 (2.2.0)
       activesupport
