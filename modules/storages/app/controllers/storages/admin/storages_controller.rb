@@ -88,7 +88,7 @@ class Storages::Admin::StoragesController < ApplicationController
     service_result = ::Storages::Storages::SetAttributesService
                  .new(user: current_user,
                       model: @object,
-                      contract_class: Storages::Storages::BaseContract,
+                      contract_class: EmptyContract,
                       contract_options: { skip_provider_type_strategy: true })
                  .call
     @storage = service_result.result

@@ -34,10 +34,19 @@ module Storages::Admin
         label: Storages::Admin::LABEL_DRIVE_ID,
         visually_hide_label: false,
         required: true,
-        caption: I18n.t("storages.instructions.one_drive.drive_id"),
-        placeholder: I18n.t("storages.instructions.one_drive.drive_id_placeholder"),
+        caption: caption.html_safe, # rubocop:disable Rails/OutputSafety
         input_width: :large
       )
+    end
+
+    private
+
+    def caption
+      href = ::OpenProject::Static::Links[:storage_docs][:one_drive_drive_id_guide][:href]
+      I18n.t('storages.instructions.one_drive.drive_id',
+             drive_id_link_text: render(Primer::Beta::Link.new(href:, target: '_blank')) do
+               I18n.t('storages.instructions.one_drive.documentation_link_text')
+             end)
     end
   end
 end

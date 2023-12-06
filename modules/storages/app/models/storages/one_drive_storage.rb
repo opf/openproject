@@ -30,7 +30,7 @@
 
 module Storages
   class OneDriveStorage < Storage
-    store_attribute :provider_fields, :tenant_id, :string, default: 'consumers'
+    store_attribute :provider_fields, :tenant_id, :string
     store_attribute :provider_fields, :drive_id, :string
 
     using ::Storages::Peripherals::ServiceResultRefinements
