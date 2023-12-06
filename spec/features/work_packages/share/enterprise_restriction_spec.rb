@@ -55,7 +55,8 @@ RSpec.describe 'Work Package Sharing Enterprise Restriction',
 
   before do
     work_package_page.visit!
-    click_button 'Share'
+    work_package_page.click_share_button
+
     share_modal.expect_open
   end
 

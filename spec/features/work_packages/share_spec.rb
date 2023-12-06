@@ -94,7 +94,7 @@ RSpec.describe 'Work package sharing',
       # Clicking on the share button opens a modal which lists all of the users a work package
       # is explicitly shared with.
       # Project members are not listed unless the work package is also shared with them explicitly.
-      click_button 'Share'
+      work_package_page.click_share_button
 
       aggregate_failures "Initial shares list" do
         share_modal.expect_title(I18n.t('js.work_packages.sharing.title'))
@@ -225,7 +225,7 @@ RSpec.describe 'Work package sharing',
       end
 
       share_modal.close
-      click_button 'Share'
+      work_package_page.click_share_button
 
       aggregate_failures "Re-opening the modal after changes performed" do
         # This user preserved its group independent share
@@ -255,8 +255,7 @@ RSpec.describe 'Work package sharing',
 
     it "lets the sharer know a user needs to be selected to share the work package with them" do
       work_package_page.visit!
-
-      click_button 'Share'
+      work_package_page.click_share_button
 
       share_modal.expect_open
       share_modal.click_share
@@ -342,7 +341,7 @@ RSpec.describe 'Work package sharing',
 
     before do
       work_package_page.visit!
-      click_button 'Share'
+      work_package_page.click_share_button
     end
 
     it 'allows inviting and directly sharing with a user who is not part of the instance yet' do
@@ -390,7 +389,7 @@ RSpec.describe 'Work package sharing',
   context 'when lacking global invite permission' do
     it 'does not allow creating a user who is not part of the instance yet' do
       work_package_page.visit!
-      click_button 'Share'
+      work_package_page.click_share_button
 
       share_modal.expect_open
       share_modal.expect_shared_count_of(6)
