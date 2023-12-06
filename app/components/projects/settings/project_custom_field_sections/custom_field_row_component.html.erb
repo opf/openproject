@@ -1,31 +1,8 @@
 <%=
   component_wrapper do
     flex_layout(align_items: :center) do |custom_field_container|
-      custom_field_container.with_column(mr: 2) do
-        if active_in_project?
-          render(Primer::Beta::IconButton.new(
-            tag: :a,
-            href: toggle_project_settings_project_custom_fields_path(project_id: @project.id, project_custom_field_id: @project_custom_field.id),
-            scheme: :invisible,
-            icon: 'check-circle',
-            'aria-label': t('projects.settings.project_custom_fields.actions.label_disable_single'),
-            data: { 'turbo-method': :put, 'turbo-stream': true }
-          ))
-        else
-          render(Primer::Beta::IconButton.new(
-            tag: :a,
-            href: toggle_project_settings_project_custom_fields_path(project_id: @project.id, project_custom_field_id: @project_custom_field.id),
-            scheme: :invisible,
-            icon: 'circle',
-            'aria-label':  t('projects.settings.project_custom_fields.actions.label_enable_single'),
-            data: { 'turbo-method': :put, 'turbo-stream': true }
-          ))
-        end
-      end
-      custom_field_container.with_column(mr: 2) do
-        render(Primer::Beta::Text.new(font_weight: :bold)) do
-          @project_custom_field.name
-        end
+      custom_field_container.with_column(mr: 1) do
+        toggle_button
       end
       custom_field_container.with_column do
         render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do

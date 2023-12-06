@@ -53,6 +53,19 @@ module Projects
             mapping.custom_field_id == @project_custom_field.id
           end
         end
+
+        def toggle_button
+          render(Primer::Beta::Button.new(
+                   tag: :a,
+                   href: toggle_project_settings_project_custom_fields_path(project_id: @project.id,
+                                                                            project_custom_field_id: @project_custom_field.id),
+                   scheme: :invisible,
+                   data: { 'turbo-method': :put, 'turbo-stream': true }
+                 )) do |button|
+            button.with_leading_visual_icon(icon: (active_in_project? ? 'check-circle' : 'circle'))
+            @project_custom_field.name
+          end
+        end
       end
     end
   end
