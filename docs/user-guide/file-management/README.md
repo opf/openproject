@@ -14,11 +14,9 @@ keywords: files, attachment, Nextcloud, OneDrive, Sharepoint
 | [Nextcloud integration](#nextcloud-integration)                                      | How to manage files using Nextcloud integration in OpenProject.           |
 | [OneDrive/SharePoint integration](#onedrivesharepoint-integration-enterprise-add-on) | How to manage files using OneDrive/Sharepoint integration in OpenProject. |
 
-There are several ways of adding or linking files to work packages in OpenProject. You can manually attach files
-directly to work packages or use one of the integrations with file management systems.
+There are several ways of adding or linking files to work packages in OpenProject. You can manually attach files directly to work packages or use one of the integrations with file management systems.
 
-> Note: in order to use Nextcloud or OneDrive/SharePoint integrations you first need to activate
-> the [File storages module](../projects/project-settings/file-storages/) in your project settings.
+> Note: in order to use Nextcloud or OneDrive/SharePoint integrations you first need to activate the [File storages module](../projects/project-settings/file-storages/) in your project settings.
 
 ## Manual upload
 
@@ -26,27 +24,19 @@ For the manual upload please refer to documentation on [attaching files to work 
 
 ## Nextcloud integration
 
-You can use Nextcloud as an integrated file storage in OpenProject, allowing you to link files and folders stored in
-Nextcloud directly with work packages in OpenProject.
+You can use Nextcloud as an integrated file storage in OpenProject, allowing you to link files and folders stored in Nextcloud directly with work packages in OpenProject.
 
-Please refer to [Nextcloud integration user guide](./nextcloud-integration) for further instructions on using the
-integration.
+Please refer to [Nextcloud integration user guide](./nextcloud-integration) for further instructions on using the integration.
 
 For the initial setup please refer to the [Nextcloud integration setup guide](../../system-admin-guide/integrations/nextcloud/).
 
 ## OneDrive/SharePoint integration (Enterprise add-on)
 
-You can also use OneDrive/SharePoint integration to link OpenProject work packages directly to the files stored in your
-OneDrive/SharePoint repository.
+You can also use OneDrive/SharePoint integration to link OpenProject work packages directly to the files stored in your OneDrive/SharePoint repository.
 
-> **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used
-with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/)
-or  [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free community
-edition is easy and helps support OpenProject.
+> **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or  [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free community edition is easy and helps support OpenProject.
 
-Please refer to [OneDrive/SharePoint integration user guide](./one-drive-integration) for further instructions on using
-the integration.
+Please refer to [OneDrive/SharePoint integration user guide](./one-drive-integration) for further instructions on using the integration.
 
-For the initial setup please refer to
-the [OneDrive/SharePoint integration setup guide](../../system-admin-guide/integrations/one-drive/).
+For the initial setup please refer to the [OneDrive/SharePoint integration setup guide](../../system-admin-guide/integrations/one-drive/).
 
