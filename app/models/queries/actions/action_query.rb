@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Actions::ActionQuery < Queries::BaseQuery
+class Queries::Actions::ActionQuery
+  include Queries::BaseQuery
+
   def self.model
     Action
   end

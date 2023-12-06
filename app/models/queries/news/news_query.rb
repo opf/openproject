@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::News::NewsQuery < Queries::BaseQuery
+class Queries::News::NewsQuery
+  include Queries::BaseQuery
+
   def self.model
     News
   end

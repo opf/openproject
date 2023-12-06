@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::BaseQuery
+module Queries::BaseQuery
   class << self
     def model
       @model ||= name.demodulize.gsub('Query', '').constantize

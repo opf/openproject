@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
+class Queries::Capabilities::CapabilityQuery
+  include Queries::BaseQuery
+
   def self.model
     Capability
   end

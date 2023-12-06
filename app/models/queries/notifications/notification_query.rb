@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Notifications::NotificationQuery < Queries::BaseQuery
+class Queries::Notifications::NotificationQuery
+  include Queries::BaseQuery
+
   def self.model
     Notification
   end

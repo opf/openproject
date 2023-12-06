@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::PlaceholderUsers::PlaceholderUserQuery < Queries::BaseQuery
+class Queries::PlaceholderUsers::PlaceholderUserQuery
+  include Queries::BaseQuery
+
   def self.model
     PlaceholderUser
   end

@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::ProjectQuery < Queries::BaseQuery
+class Queries::Projects::ProjectQuery
+  include Queries::BaseQuery
+
   include Queries::Serialization::Hash
 
   def self.model

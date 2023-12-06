@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Versions::VersionQuery < Queries::BaseQuery
+class Queries::Versions::VersionQuery
+  include Queries::BaseQuery
+
   def self.model
     Version
   end

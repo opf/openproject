@@ -27,7 +27,9 @@
 #++
 
 module Grids
-  class Query < ::Queries::BaseQuery
+  class Query
+    include ::Queries::BaseQuery
+
     def self.model
       Grids::Grid
     end

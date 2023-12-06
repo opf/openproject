@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Groups::GroupQuery < Queries::BaseQuery
+class Queries::Groups::GroupQuery
+  include Queries::BaseQuery
+
   def self.model
     Group
   end

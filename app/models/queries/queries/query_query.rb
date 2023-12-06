@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
+class Queries::Queries::QueryQuery
+  include Queries::BaseQuery
+
   def self.model
     Query
   end

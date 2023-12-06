@@ -26,5 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WeekDays::WeekDayQuery < Queries::BaseQuery
+class Queries::WeekDays::WeekDayQuery
+  include Queries::BaseQuery
 end

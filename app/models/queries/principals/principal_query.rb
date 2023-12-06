@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Principals::PrincipalQuery < Queries::BaseQuery
+class Queries::Principals::PrincipalQuery
+  include Queries::BaseQuery
+
   def self.model
     Principal
   end

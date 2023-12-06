@@ -29,7 +29,9 @@
 #++
 
 module Queries::Storages::Storages
-  class StorageQuery < Queries::BaseQuery
+  class StorageQuery
+    include Queries::BaseQuery
+
     class << self
       def model
         @model ||= ::Storages::Storage
