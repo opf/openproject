@@ -116,7 +116,9 @@ module Admin::Settings
     end
 
     def set_sections
-      @project_custom_field_sections = ProjectCustomFieldSection.all
+      @project_custom_field_sections = ProjectCustomFieldSection
+        .includes(custom_fields: :project_custom_field_project_mappings)
+        .all
     end
 
     def find_custom_field

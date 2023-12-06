@@ -16,9 +16,14 @@
             @project_custom_field.name
           end
         end
-        content_container.with_column do
+        content_container.with_column(mr: 2) do
           render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
             @project_custom_field.field_format.capitalize
+          end
+        end
+        content_container.with_column do
+          render(Primer::Beta::Text.new(font_size: :small)) do
+            project_count_text
           end
         end
       end

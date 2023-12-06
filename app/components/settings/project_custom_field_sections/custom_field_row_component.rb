@@ -79,6 +79,16 @@ module Settings
           item.with_leading_visual_icon(icon: :trash)
         end
       end
+
+      def project_count_text
+        project_count = @project_custom_field.project_custom_field_project_mappings.size
+
+        if project_count == 1
+          "#{project_count} #{t('activerecord.models.project')}"
+        else
+          "#{project_count} #{t('label_project_plural')}"
+        end
+      end
     end
   end
 end
