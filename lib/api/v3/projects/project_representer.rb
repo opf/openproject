@@ -39,6 +39,12 @@ module API
         include API::Decorators::FormattableProperty
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
+        def self.current_user_view_allowed_lambda
+          ->(*) { current_user.allowed_in_project?(:view_project, represented) || current_user.allowed_globally?(:add_project) }
+        end
+
+        custom_field_injector cache_if: current_user_view_allowed_lambda
+
         cached_representer disabled: false
 
         self_link
@@ -183,15 +189,18 @@ module API
         property :public
 
         formattable_property :description,
-                             cache_if: -> { current_user.allowed_in_project?(:view_project, represented) }
+                             cache_if: current_user_view_allowed_lambda
 
         date_time_property :created_at
 
         date_time_property :updated_at
 
         resource :status,
-                 show_if: ->(*) { !current_user.allowed_in_project?(:view_project, represented) },
-                 uncacheable_link: true,
+                 skip_render: ->(*) {
+                   !current_user.allowed_in_project?(:view_project, represented) &&
+                     !current_user.allowed_globally?(:add_project)
+                 },
+                 link_cache_if: current_user_view_allowed_lambda,
                  getter: ->(*) {
                            next unless represented.status_code
 
@@ -199,9 +208,7 @@ module API
                              .create(represented.status_code, current_user:, embed_links:)
                          },
                  link: ->(*) {
-                         if !current_user.allowed_in_project?(:view_project, represented)
-                           { href: nil }
-                         elsif represented.status_code
+                         if represented.status_code
                            {
                              href: api_v3_paths.project_status(represented.status_code),
                              title: I18n.t(:"activerecord.attributes.project.status_codes.#{represented.status_code}",
@@ -222,7 +229,7 @@ module API
                          }
 
         formattable_property :status_explanation,
-                             cache_if: -> { current_user.allowed_in_project?(:view_project, represented) }
+                             cache_if: current_user_view_allowed_lambda
 
         def _type
           'Project'

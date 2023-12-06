@@ -160,6 +160,29 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
           expect(subject).not_to have_json_path("customField#{int_custom_field.id}")
         end
       end
+
+      context 'if the user is no admin and the field is visible' do
+        before do
+          int_custom_field.visible = true
+        end
+
+        it "has a property for the int custom field" do
+          expect(subject).to be_json_eql(int_custom_value.value.to_json)
+                               .at_path("customField#{int_custom_field.id}")
+        end
+      end
+
+      context 'if the user lacks the :view_project permission' do
+        let(:permissions) { [] }
+
+        before do
+          int_custom_field.visible = true
+        end
+
+        it "has no property for the int custom field" do
+          expect(subject).not_to have_json_path("customField#{int_custom_field.id}")
+        end
+      end
     end
   end
 
@@ -359,12 +382,9 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
       context 'if the user does not have the view_project permission' do
         let(:permissions) { [] }
 
-        it_behaves_like 'has an untitled link' do
+        it_behaves_like 'has no link' do
           let(:link) { 'status' }
-          let(:href) { nil }
         end
-
-        it_behaves_like 'no property', 'status'
       end
     end
 
@@ -505,7 +525,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
           version_custom_field.visible = false
         end
 
-        it "has no property for the int custom field" do
+        it "does not link the custom field" do
           expect(subject).not_to have_json_path("links/customField#{version_custom_field.id}")
         end
       end
@@ -514,6 +534,14 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
         it 'links custom fields' do
           expect(subject).to be_json_eql(api_v3_paths.version(version.id).to_json)
                                .at_path("_links/customField#{version_custom_field.id}/href")
+        end
+      end
+
+      context 'if the user lacks the :view_project permission' do
+        let(:permissions) { [] }
+
+        it 'does not link the custom field' do
+          expect(subject).not_to have_json_path("links/customField#{version_custom_field.id}")
         end
       end
     end
@@ -608,6 +636,38 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
         let(:parent_visible) { false }
 
         it 'hides the parent' do
+          expect(generated)
+            .not_to have_json_path(embedded_path)
+        end
+      end
+    end
+
+    describe 'status' do
+      let(:embedded_path) { '_embedded/status' }
+
+      it 'has the status embedded' do
+        expect(generated)
+          .to be_json_eql('ProjectStatus'.to_json)
+                .at_path("#{embedded_path}/_type")
+
+        expect(generated)
+          .to be_json_eql(I18n.t("activerecord.attributes.project.status_codes.#{project.status_code}").to_json)
+                .at_path("#{embedded_path}/name")
+      end
+
+      context 'if the status_code is nil' do
+        before { project.status_code = nil }
+
+        it 'has no status embedded' do
+          expect(generated)
+            .not_to have_json_path(embedded_path)
+        end
+      end
+
+      context 'if the user does not have the view_project permission' do
+        let(:permissions) { [] }
+
+        it 'has no status embedded' do
           expect(generated)
             .not_to have_json_path(embedded_path)
         end
