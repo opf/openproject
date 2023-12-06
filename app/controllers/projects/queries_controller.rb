@@ -27,5 +27,7 @@
 # ++
 
 class Projects::QueriesController < ApplicationController
-  def create; end
+  def create
+    redirect_to projects_path
+  end
 end
