@@ -65,7 +65,7 @@ zh-CN:
       done_continue: "完成, 继续"
       done_continue_setup: "已完成。继续设置"
       done_complete_setup: "完成，完成设置"
-      complete_without_setup: "Complete without it"
+      complete_without_setup: "没有它就完成"
       edit_automatically_managed_project_folders: "编辑自动托管的项目文件夹"
       replace_openproject_oauth: "替换 OpenProject OAuth"
       replace_provider_type_oauth: "替换 %{provider_type} OAuth"
@@ -139,9 +139,9 @@ zh-CN:
         oauth_client_id: >
           从 Azure 门户复制客户端 ID。这是生成重定向 URI 所必需的。
         oauth_client_secret: >
-          The client secret has been automatically copied from an already fully connected file storage with the same Application (client) ID.
+          客户端密钥已从与相同应用程序（客户端）ID 完全连接的文件存储自动复制。
         oauth_client_redirect_uri: >
-          Please copy this value to a new Web redirect URI under Redirect URIs.
+          请将该值复制到“重定向 URI ”下的新 Web 重定向 URI。
         missing_client_id_for_redirect_uri: "请填写OAuth 值以生成 URI"
         tenant_id: "请从您的 Azure 应用程序复制租户。"
         tenant_id_placeholder: "名称或 UUID"
@@ -228,13 +228,13 @@ zh-CN:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "例如 Nextcloud"
-        label_oauth_client_id: "Nextcloud OAuth Client ID"
-        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
+        label_oauth_client_id: "Nextcloud OAuth 客户端 ID"
+        label_oauth_client_secret: "Nextcloud OAuth 客户端密钥"
       one_drive:
         name: "OneDrive/Sharepoint"
         name_placeholder: "例如OneDrive"
-        label_oauth_client_id: "Azure OAuth Application (client) ID"
-        label_oauth_client_secret: "Azure OAuth Client Secret Value"
+        label_oauth_client_id: "Azure OAuth 应用程序 (客户端) ID"
+        label_oauth_client_secret: "Azure OAuth 客户端密钥值"
     confirm_replace_oauth_application: "确定吗？所有用户都必须再次针对 OpenProject 授权。"
     confirm_replace_oauth_client: "确定吗？所有用户都必须再次针对存储授权。"
     oauth_client_details_missing: "要完成设置，请从您的存储中添加 OAuth 客户端凭据。"
@@ -254,3 +254,6 @@ zh-CN:
       label_error: "错误"
       label_healthy: "健康"
       checked: "检查于 %{datetime} "
+    upsale:
+      title: "OneDrive/SharePoint integration"
+      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

@@ -1013,7 +1013,7 @@ tr:
     base: "Genel Hata:"
     blocks_ids: "Engellenen iş paketlerinin ID'leri"
     category: "Kategori"
-    comment: "Yorum"
+    comment: "Yorumlar"
     comments: "Yorum"
     content: "İçerik"
     color: "Renk"
@@ -3095,6 +3095,7 @@ tr:
       code_429: "Çok fazla istek. Lütfen daha sonra tekrar deneyiniz."
       code_500: "İç hata oluştu."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "Aradığınız çalışma paketi bulunamadı veya silinmiş."
       expected:

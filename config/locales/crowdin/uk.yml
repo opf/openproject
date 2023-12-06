@@ -1851,7 +1851,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції зі встановлення"
+  label_installation_guides: "Інструкції із встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -3151,6 +3151,7 @@ uk:
       code_429: "Забагато запитів. Повторіть спробу пізніше."
       code_500: "Сталася внутрішня помилка."
       code_500_outbound_request_failure: "Вихідний запит до іншого ресурсу завершився помилкою з кодом стану: %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "Пакет робіт, який ви шукаєте, не можна знайти або його видалено."
       expected:
