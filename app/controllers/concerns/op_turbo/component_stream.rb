@@ -30,13 +30,13 @@ module OpTurbo
   module ComponentStream
     extend ActiveSupport::Concern
 
-    def respond_to_with_turbo_streams(&format_block)
+    def respond_to_with_turbo_streams(status: :ok, &format_block)
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_streams, status:
         end
 
-        format_block.call(format) if block_given?
+        yield(format) if format_block
       end
     end
     alias_method :respond_with_turbo_streams, :respond_to_with_turbo_streams
