@@ -47,9 +47,6 @@ module Accounts::OmniauthLogin
   end
 
   def omniauth_login
-    # Set back url to page the omniauth login link was clicked on
-    params[:back_url] = request.env['omniauth.origin']
-
     # Extract auth info and perform check / login or activate user
     auth_hash = request.env['omniauth.auth']
     handle_omniauth_authentication(auth_hash)
