@@ -38,10 +38,7 @@ module CostScopes
     table = arel_table
 
     view_allowed = Project.allowed_to(user, view_allowed_entries_permission).select(:id)
-    # TODO: We either should move all _own_ permissions to be work package scoped and then change this
-    # query, or make this method less generic
-    view_own_allowed = Project.allowed_to(user, view_allowed_own_entries_permission).select(:id)
-    visible_scope = scope.where view_or_view_own(table, view_allowed, view_own_allowed, user)
+    visible_scope = scope.where view_or_view_own(table, view_allowed, own_scope_for(user), user)
 
     if project
       visible_scope.where(project_id: project.id)
@@ -54,7 +51,7 @@ module CostScopes
     table[:project_id]
       .in(view_allowed.arel)
       .or(
-        table[:project_id]
+        table[:work_package_id]
           .in(view_own_allowed.arel)
           .and(table[:user_id].eq(user.id))
       )
@@ -65,5 +62,18 @@ module CostScopes
     view_allowed = Project.allowed_to(user, view_rates_permissions).select(:id)
 
     scope.where(table[:project_id].in(view_allowed.arel))
+  end
+
+  def own_scope_for(user)
+    # We allow some of the `_own_` permissions on the WorkPackage, but others only on the project,
+    # so we need to figure out the correct scope to use
+    permissions = Authorization.permissions_for(view_allowed_own_entries_permission)
+
+    work_package_permissions = permissions.select(&:work_package?)
+    if work_package_permissions.any?
+      WorkPackage.allowed_to(user, view_allowed_own_entries_permission).select(:id)
+    else
+      WorkPackage.where(project_id: Project.allowed_to(user, view_allowed_own_entries_permission).select(:id)).select(:id)
+    end
   end
 end
