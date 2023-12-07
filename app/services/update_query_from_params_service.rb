@@ -81,7 +81,7 @@ class UpdateQueryFromParamsService
   end
 
   def apply_filters(params)
-    return unless params[:filters]
+    return if params[:filters].blank?
 
     query.filters = []
 

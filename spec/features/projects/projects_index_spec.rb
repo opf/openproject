@@ -1130,9 +1130,21 @@ RSpec.describe 'Projects index page',
       projects_page.open_filters
       projects_page.filter_by_membership('yes')
 
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project, development_project)
+
       projects_page.save_query('My saved query')
 
       projects_page.expect_sidebar_filter('My saved query', selected: false)
+
+      projects_page.set_sidebar_filter('All projects')
+
+      projects_page.expect_projects_listed(project, public_project, development_project)
+
+      projects_page.set_sidebar_filter('My saved query')
+
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project, development_project)
     end
   end
 end

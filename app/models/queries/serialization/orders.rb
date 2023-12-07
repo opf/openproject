@@ -34,7 +34,7 @@ class Queries::Serialization::Orders
 
     serialized_orders.map do |o|
       order_for(o["attribute"].to_sym).tap do |order|
-        order.direction = o["direction"]
+        order.direction = o["direction"].to_sym
       end
     end
   end
