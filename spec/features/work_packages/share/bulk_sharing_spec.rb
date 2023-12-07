@@ -77,7 +77,8 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
     it 'allows administrating shares in bulk' do
       work_package_page.visit!
 
-      click_button 'Share'
+      work_package_page.click_share_button
+
       share_modal.expect_open
       share_modal.expect_shared_count_of(3)
 
@@ -257,7 +258,8 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
 
         share_modal.close
         share_modal.expect_closed
-        click_button 'Share'
+
+        work_package_page.click_share_button
         share_modal.expect_open
 
         share_modal.expect_shared_count_of(3)
@@ -287,7 +289,7 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
     it 'does not allow bulk sharing' do
       work_package_page.visit!
 
-      click_button 'Share'
+      work_package_page.click_share_button
       share_modal.expect_open
 
       share_modal.expect_shared_count_of(3)

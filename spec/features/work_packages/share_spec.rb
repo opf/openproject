@@ -94,7 +94,7 @@ RSpec.describe 'Work package sharing',
       # Clicking on the share button opens a modal which lists all of the users a work package
       # is explicitly shared with.
       # Project members are not listed unless the work package is also shared with them explicitly.
-      click_button 'Share'
+      work_package_page.click_share_button
 
       aggregate_failures "Initial shares list" do
         share_modal.expect_title(I18n.t('js.work_packages.sharing.title'))
@@ -225,7 +225,7 @@ RSpec.describe 'Work package sharing',
       end
 
       share_modal.close
-      click_button 'Share'
+      work_package_page.click_share_button
 
       aggregate_failures "Re-opening the modal after changes performed" do
         # This user preserved its group independent share
@@ -255,8 +255,7 @@ RSpec.describe 'Work package sharing',
 
     it "lets the sharer know a user needs to be selected to share the work package with them" do
       work_package_page.visit!
-
-      click_button 'Share'
+      work_package_page.click_share_button
 
       share_modal.expect_open
       share_modal.click_share
@@ -268,7 +267,8 @@ RSpec.describe 'Work package sharing',
     end
   end
 
-  context 'when lacking share permission' do
+
+  context 'when lacking share permission but having the viewing permission' do
     let(:sharer_role) do
       create(:project_role,
              permissions: %i(view_work_packages
@@ -281,7 +281,7 @@ RSpec.describe 'Work package sharing',
       # Clicking on the share button opens a modal which lists all of the users a work package
       # is explicitly shared with.
       # Project members are not listed unless the work package is also shared with them explicitly.
-      click_button 'Share'
+      work_package_page.click_share_button
 
       share_modal.expect_open
       share_modal.expect_shared_with(view_user, editable: false)
@@ -300,13 +300,48 @@ RSpec.describe 'Work package sharing',
     end
   end
 
+  shared_examples_for "'Share' button is not rendered" do
+    it "doesn't render the 'Share' button" do
+      work_package_page.visit!
+
+      within work_package_page.toolbar do
+        # The button's rendering is conditional to the
+        # response of the capabilities request for +shares/index+.
+        # Hence, not waiting for the network to be idle could lead to
+        # false positives on the button not being rendered because
+        # its request is still pending.
+        wait_for_network_idle(timeout: 10)
+        expect(page).not_to have_button("Share")
+      end
+    end
+  end
+
+  context 'without the feature flag enabled', with_flag: { work_package_sharing: false } do
+    let(:sharer_role) do
+      create(:project_role,
+             permissions: %i(view_work_packages
+                             view_shared_work_packages))
+    end
+
+    it_behaves_like "'Share' button is not rendered"
+  end
+
+  context "without the viewing permission" do
+    let(:sharer_role) do
+      create(:project_role,
+             permissions: %i(view_work_packages))
+    end
+
+    it_behaves_like "'Share' button is not rendered"
+  end
+
   context 'when having global invite permission' do
     let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manager_user }
 
     before do
       work_package_page.visit!
-      click_button 'Share'
+      work_package_page.click_share_button
     end
 
     it 'allows inviting and directly sharing with a user who is not part of the instance yet' do
@@ -354,7 +389,7 @@ RSpec.describe 'Work package sharing',
   context 'when lacking global invite permission' do
     it 'does not allow creating a user who is not part of the instance yet' do
       work_package_page.visit!
-      click_button 'Share'
+      work_package_page.click_share_button
 
       share_modal.expect_open
       share_modal.expect_shared_count_of(6)
