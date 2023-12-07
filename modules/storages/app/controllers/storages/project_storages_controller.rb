@@ -45,15 +45,27 @@ class Storages::ProjectStoragesController < ApplicationController
     if @object.project_folder_automatic?
       storage = @object.storage
       # check if user "see" project_folder
-      ::Storages::Peripherals::Registry
-        .resolve("queries.#{storage.short_provider_type}.file_info")
-        .call(storage:,
-              user: current_user,
-              file_id: @object.project_folder_id)
-        .match(
-          on_success: user_can_read_project_folder(storage_open_url:),
-          on_failure: user_can_not_read_project_folder(storage:, storage_open_url:)
-        )
+      if @object.project_folder_id.present?
+        ::Storages::Peripherals::Registry
+          .resolve("queries.#{storage.short_provider_type}.file_info")
+          .call(storage:,
+                user: current_user,
+                file_id: @object.project_folder_id)
+          .match(
+            on_success: user_can_read_project_folder(storage_open_url:),
+            on_failure: user_can_not_read_project_folder(storage:, storage_open_url:)
+          )
+      else
+        respond_to do |format|
+          format.turbo_stream { head :no_content }
+          format.html do
+            redirect_to_project_overview_with_modal(
+              project_identifier: @project.identifier,
+              storage_open_url:
+            )
+          end
+        end
+      end
     else
       redirect_to storage_open_url
     end
@@ -93,22 +105,29 @@ class Storages::ProjectStoragesController < ApplicationController
               )
             )
           when :forbidden
-            redirect_to(
-              project_overview_path(project_id: @project.identifier),
-              flash: {
-                modal: {
-                  type: 'Storages::OpenProjectStorageModalComponent',
-                  parameters: {
-                    project_storage_open_url: request.path,
-                    redirect_url: storage_open_url,
-                    state: :waiting
-                  }
-                }
-              }
+            redirect_to_project_overview_with_modal(
+              project_identifier: @project.identifier,
+              storage_open_url:
             )
           end
         end
       end
     end
+  end
+
+  def redirect_to_project_overview_with_modal(project_identifier:, storage_open_url:)
+    redirect_to(
+      project_overview_path(project_id: project_identifier),
+      flash: {
+        modal: {
+          type: 'Storages::OpenProjectStorageModalComponent',
+          parameters: {
+            project_storage_open_url: request.path,
+            redirect_url: storage_open_url,
+            state: :waiting
+          }
+        }
+      }
+    )
   end
 end
