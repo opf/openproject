@@ -100,7 +100,17 @@ module Storages
         !EnterpriseToken.allows_to?(:one_drive_sharepoint_file_storage)
     end
 
+    def self.extract_part_from_piped_string(text, index)
+      return if text.nil?
+
+      split_reason = text.split('|')
+      if split_reason.length > index
+        split_reason[index].strip
+      end
+    end
+
     def mark_as_unhealthy(reason: nil)
+      reason = forward_or_add_health_reason_since_time(reason.to_s) unless reason.nil?
       update(health_status: 'unhealthy', health_changed_at: Time.now.utc, health_reason: reason)
     end
 
@@ -142,15 +152,29 @@ module Storages
       provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
     end
 
-    # Currently the error messages saved look like:
+    def health_reason_identifier
+      @health_reason_identifier ||= self.class.extract_part_from_piped_string(health_reason, 0)
+    end
+
+    def health_reason_description
+      @health_reason_description ||= self.class.extract_part_from_piped_string(health_reason, 1)
+    end
+
+    def health_reason_since_time
+      @health_reason_since_time ||= self.class.extract_part_from_piped_string(health_reason, 3)
+    end
+
+    private
+
+    # The error messages from the ServiceResult look like:
     # "unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>"
-    # This method returns the first two parts of the error message.
-    def formatted_health_reason
-      split_reason = health_reason.split('|')
-      if split_reason.length === 3
-        "#{split_reason[0].strip.capitalize}: #{split_reason[1]}"
+    # This method adds the Time.now.utc when the error occurs the first time and forwards it subsequently till the
+    # error identifier changes.
+    def forward_or_add_health_reason_since_time(new_health_reason)
+      if health_reason_since_time && health_reason_identifier == self.class.extract_part_from_piped_string(new_health_reason, 0)
+        "#{new_health_reason} | #{ health_reason_since_time }"
       else
-        health_reason
+        "#{new_health_reason} | #{ Time.now.utc }"
       end
     end
   end

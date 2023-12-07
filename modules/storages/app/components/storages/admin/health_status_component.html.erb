@@ -2,7 +2,9 @@
   <%= render(Primer::Beta::Heading.new(tag: :h4, mb: 2)) { I18n.t('storages.health.title') } %>
 
   <%= render(Primer::Box.new(py: 1)) do %>
-    <%= render(Primer::Beta::Text.new(test_selector: "storage-health-changed-at")) { I18n.t('storages.health.checked', datetime: helpers.format_time(storage.health_changed_at)) } %>
+    <%= render(Primer::Beta::Text.new(test_selector: "storage-health-changed-at")) {
+      I18n.t('storages.health.checked', datetime: helpers.format_time(storage.health_changed_at))
+    } %>
     <% if storage.health_healthy? %>
       <%= render(Primer::Beta::Label.new(scheme: :success, test_selector: "storage-health-label-healthy")) {
         I18n.t('storages.health.label_healthy')
@@ -19,6 +21,8 @@
   <% end %>
 
   <% if storage.health_unhealthy? %>
-    <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, py: 1, test_selector: "storage-health-reason")) { storage.formatted_health_reason } %>
+    <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, py: 1, test_selector: "storage-health-reason")) {
+      formatted_health_reason
+    } %>
   <% end %>
 <% end %>
