@@ -308,9 +308,7 @@ RSpec.describe 'Admin storages',
         aggregate_failures 'General information' do
           within_test_selector('storage-general-info-form') do
             fill_in 'storages_one_drive_storage_name', with: 'My OneDrive', fill_options: { clear: :backspace }
-            fill_in 'storages_one_drive_storage_tenant_id',
-                    with: '029d4741-a4be-44c6-a8e4-e4eff7b19f65',
-                    fill_options: { clear: :backspace }
+            fill_in 'storages_one_drive_storage_tenant_id', with: '029d4741-a4be-44c6-a8e4-e4eff7b19f65'
             click_button 'Save and continue'
 
             expect(page).to have_text("Drive can't be blank.")

@@ -24,7 +24,7 @@ module Storages::Admin
 
     def configuration_check_label_for(*configs)
       # do not show the status label, if storage is completely empty (initial state)
-      return nil if storage.configuration_checks.values.none?
+      return if storage.configuration_checks.values.none?
 
       if storage.configuration_checks.slice(*configs.map(&:to_sym)).values.all?
         status_label(I18n.t('storages.label_completed'), scheme: :success, test_selector: "label-#{configs.join('-')}-status")
@@ -39,7 +39,7 @@ module Storages::Admin
 
     def automatically_managed_project_folders_status_label
       # do not show the status label, if storage is completely empty (initial state)
-      return nil if storage.configuration_checks.values.none?
+      return if storage.configuration_checks.values.none?
 
       test_selector = 'label-managed-project-folders-status'
 
