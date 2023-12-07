@@ -27,15 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream.update :storage_openproject_oauth_section do %>
-  <%=
-    render(
-      Storages::Admin::OAuthApplicationInfoComponent.new(
-        oauth_application: @oauth_application,
-        storage: @storage,
+<% if @storage.provider_type_nextcloud? %>
+  <%= turbo_stream.update :storage_openproject_oauth_section do %>
+    <%=
+      render(
+        Storages::Admin::OAuthApplicationInfoComponent.new(
+          oauth_application: @oauth_application,
+          storage: @storage,
+        )
       )
-    )
-  %>
+    %>
+  <% end %>
 <% end %>
 
 <%= turbo_stream.update :storage_redirect_uri_section do %>

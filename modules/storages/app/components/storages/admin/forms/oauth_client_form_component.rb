@@ -48,8 +48,19 @@ module Storages::Admin::Forms
       storage.persisted? ? edit_admin_settings_storage_path(storage) : admin_settings_storages_path
     end
 
-    def submit_button_disabled?
-      !oauth_client_configured?
+    def submit_button_data_options
+      {}.tap do |data|
+        # For One Drive create action, break from Turbo Frame and follow full page redirect
+        data[:turbo] = false if one_drive_first_time_configuration?
+      end
+    end
+
+    def redirect_uri_or_instructions
+      if oauth_client_configured?
+        oauth_client.redirect_uri
+      else
+        I18n.t("storages.instructions.one_drive.missing_client_id_for_redirect_uri")
+      end
     end
 
     def storage_provider_credentials_instructions

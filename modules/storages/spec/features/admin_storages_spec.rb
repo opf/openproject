@@ -204,12 +204,14 @@ RSpec.describe 'Admin storages',
             # With null values, submit button should be disabled
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
+            find_test_selector('storage-oauth-client-submit-button').click
+
+            expect(page).to have_text("Client can't be blank.")
+            expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
             fill_in 'oauth_client_client_id', with: '1234567890'
             fill_in 'oauth_client_client_secret', with: '0987654321'
-            expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
             click_button 'Save and continue'
           end
 
