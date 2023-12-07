@@ -30,10 +30,17 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe 'projects/:project_id/project_storages/:id/open' do
-  shared_let(:project) { create(:project) }
-  shared_let(:storage) { create(:nextcloud_storage_configured) }
+  let(:expected_redirect_path) do
+    API::V3::Utilities::PathHelper::ApiV3Path.project_storage_open(project_storage.id)
+  end
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:route) { "projects/#{project.identifier}/project_storages/#{project_storage.id}/open" }
+  let(:expected_redirect_url) do
+    "#{last_request.scheme}://#{last_request.host}#{expected_redirect_path}"
+  end
+
+  shared_let(:project) { create(:project) }
+  shared_let(:storage) { create(:nextcloud_storage_configured) }
 
   context 'when user is logged in' do
     current_user { create(:user, member_with_permissions: { project => permissions }) }
@@ -55,11 +62,11 @@ RSpec.describe 'projects/:project_id/project_storages/:id/open' do
             end
 
             context 'html' do
-              it 'redirects to storage_open_url' do
+              it 'redirects to api_v3_projects_storage_open_url' do
                 get route, {}, { 'HTTP_ACCEPT' => 'text/html' }
 
                 expect(last_response.status).to eq (302)
-                expect(last_response.headers["Location"]).to eq ("#{storage.host}/index.php/apps/files")
+                expect(last_response.headers["Location"]).to eq(expected_redirect_url)
               end
             end
 
@@ -94,8 +101,8 @@ RSpec.describe 'projects/:project_id/project_storages/:id/open' do
 
                   expect(last_response.status).to eq (302)
                   expect(last_response.headers["Location"]).to eq (
-                                                                 "http://example.org/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?destination_url=http%3A%2F%2Fexample.org%2Fprojects%2F#{project.identifier}%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}"
-                                                               )
+                    "http://example.org/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?destination_url=http%3A%2F%2Fexample.org%2Fprojects%2F#{project.identifier}%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}"
+                  )
                 end
               end
 
@@ -110,7 +117,7 @@ RSpec.describe 'projects/:project_id/project_storages/:id/open' do
                              "modal" => {
                                type: "Storages::OpenProjectStorageModalComponent",
                                parameters: { project_storage_open_url: "/projects/#{project.identifier}/project_storages/#{project_storage.id}/open",
-                                             redirect_url: "#{storage.host}/index.php/apps/files",
+                                             redirect_url: expected_redirect_path,
                                              state: :waiting }
                              }
                            })
@@ -141,7 +148,7 @@ RSpec.describe 'projects/:project_id/project_storages/:id/open' do
                          "modal" => {
                            type: "Storages::OpenProjectStorageModalComponent",
                            parameters: { project_storage_open_url: "/projects/#{project.identifier}/project_storages/#{project_storage.id}/open",
-                                         redirect_url: "#{storage.host}/index.php/apps/files",
+                                         redirect_url: expected_redirect_path,
                                          state: :waiting }
                          }
                        })
@@ -164,7 +171,7 @@ RSpec.describe 'projects/:project_id/project_storages/:id/open' do
           get route, {}, { 'HTTP_ACCEPT' => 'text/html' }
 
           expect(last_response.status).to eq (302)
-          expect(last_response.headers["Location"]).to eq ("#{storage.host}/index.php/apps/files")
+          expect(last_response.headers["Location"]).to eq (expected_redirect_url)
         end
       end
     end
