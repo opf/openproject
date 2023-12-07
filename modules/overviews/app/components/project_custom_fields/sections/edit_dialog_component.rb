@@ -70,38 +70,40 @@ module ProjectCustomFields
       end
 
       def render_single_value_custom_field_input(form, custom_field, custom_field_value)
+        form_args = { custom_field:, custom_field_value:, project: @project }
+
         case custom_field.field_format
         when "string"
-          render(Project::CustomValueForm::String.new(form, custom_field:, custom_field_value:, project: @project))
+          render(Project::CustomValueForm::String.new(form, **form_args))
         when "text"
-          render(Project::CustomValueForm::Text.new(form, custom_field:, custom_field_value:, project: @project))
+          render(Project::CustomValueForm::Text.new(form, **form_args))
         when "int"
-          render(Project::CustomValueForm::Int.new(form, custom_field:, custom_field_value:, project: @project))
+          render(Project::CustomValueForm::Int.new(form, **form_args))
         when "float"
-          render(Project::CustomValueForm::Float.new(form, custom_field:, custom_field_value:, project: @project))
+          render(Project::CustomValueForm::Float.new(form, **form_args))
         when "list"
-          render(Project::CustomValueForm::SingleSelectList.new(form, custom_field:, custom_field_value:, project: @project))
+          render(Project::CustomValueForm::SingleSelectList.new(form, **form_args))
         when "date"
-          render(Project::CustomValueForm::Date.new(form, custom_field:, custom_field_value:, project: @project))
+          render(Project::CustomValueForm::Date.new(form, **form_args))
         when "bool"
-          render(Project::CustomValueForm::Bool.new(form, custom_field:, custom_field_value:, project: @project))
+          render(Project::CustomValueForm::Bool.new(form, **form_args))
         when "user"
-          render(Project::CustomValueForm::SingleUserSelectList.new(form, custom_field:, custom_field_value:, project: @project))
+          render(Project::CustomValueForm::SingleUserSelectList.new(form, **form_args))
         when "version"
-          render(Project::CustomValueForm::SingleVersionSelectList.new(form, custom_field:, custom_field_value:,
-                                                                             project: @project))
+          render(Project::CustomValueForm::SingleVersionSelectList.new(form, **form_args))
         end
       end
 
       def render_multi_value_custom_field_input(form, custom_field, custom_field_values)
+        form_args = { custom_field:, custom_field_values:, project: @project }
+
         case custom_field.field_format
         when "list"
-          render(Project::CustomValueForm::MultiSelectList.new(form, custom_field:, custom_field_values:, project: @project))
+          render(Project::CustomValueForm::MultiSelectList.new(form, **form_args))
         when "user"
-          render(Project::CustomValueForm::MultiUserSelectList.new(form, custom_field:, custom_field_values:, project: @project))
+          render(Project::CustomValueForm::MultiUserSelectList.new(form, **form_args))
         when "version"
-          render(Project::CustomValueForm::MultiVersionSelectList.new(form, custom_field:, custom_field_values:,
-                                                                            project: @project))
+          render(Project::CustomValueForm::MultiVersionSelectList.new(form, **form_args))
         end
       end
     end

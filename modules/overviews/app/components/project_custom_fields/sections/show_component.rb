@@ -60,8 +60,8 @@ module ProjectCustomFields
         @project_custom_fields.sort_by { |pcf| pcf.position_in_custom_field_section }
       end
 
-      def get_eager_loaded_project_custom_field_value_for(custom_field_id)
-        @eager_loaded_project_custom_field_values.find { |pcfv| pcfv.custom_field_id == custom_field_id }
+      def get_eager_loaded_project_custom_field_values_for(custom_field_id)
+        @eager_loaded_project_custom_field_values.select { |pcfv| pcfv.custom_field_id == custom_field_id }
       end
     end
   end

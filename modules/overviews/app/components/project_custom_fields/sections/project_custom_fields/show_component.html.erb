@@ -6,10 +6,10 @@
     end
 
     custom_field_value_container.with_row do
-      if @project_custom_field_value.blank?
+      if @project_custom_field_values.empty?
         render(Primer::Beta::Text.new(color: :subtle)) { t('label_not_set_yet') }
       else
-        render(Primer::Beta::Text.new()) { formated_value }
+        render(Primer::Beta::Text.new()) { render_formated_value }
       end
     end
   end

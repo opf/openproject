@@ -33,25 +33,43 @@ module ProjectCustomFields
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
 
-        def initialize(project_custom_field:, project_custom_field_value:)
+        def initialize(project_custom_field:, project_custom_field_values:)
           super
 
           @project_custom_field = project_custom_field
-          @project_custom_field_value = project_custom_field_value
+          @project_custom_field_values = project_custom_field_values
         end
 
         private
 
-        def formated_value
-          return if @project_custom_field_value.blank?
+        def render_formated_value
+          return if @project_custom_field_values.empty?
 
+          if @project_custom_field_values.one?
+            render_single_value(@project_custom_field_values.first)
+          else
+            render_multiple_values(@project_custom_field_values)
+          end
+        end
+
+        def render_single_value(value)
+          formated_value(value)
+        end
+
+        def render_multiple_values(values)
+          values.map do |value|
+            formated_value(value)
+          end.join(", ")
+        end
+
+        def formated_value(value)
           case @project_custom_field.field_format
           when "text"
-            ::OpenProject::TextFormatting::Renderer.format_text(@project_custom_field_value.typed_value)
+            ::OpenProject::TextFormatting::Renderer.format_text(value.typed_value)
           when "date"
-            format_date(@project_custom_field_value.typed_value)
+            format_date(value.typed_value)
           else
-            @project_custom_field_value.typed_value&.to_s
+            value.typed_value&.to_s
           end
         end
       end
