@@ -8,12 +8,13 @@ keywords: edit work packages
 
 # Edit work packages
 
-| Feature                                             | Documentation for                                  |
-|-----------------------------------------------------|----------------------------------------------------|
-| [Update a work package](#update-a-work-package)     | How to make a change to an existing work package.  |
-| [Watchers](#watchers)                               | How to add or remove watchers from a work package. |
-| [Export work packages](#export-work-packages)       | How to export work packages.                       |
-| [Bulk edit work packages](#bulk-edit-work-packages) | How to edit several work packages as once.         |
+| Feature                                                         | Documentation for                                  |
+|-----------------------------------------------------------------|----------------------------------------------------|
+| [Update a work package](#update-a-work-package)                 | How to make a change to an existing work package.  |
+| [Attach files to work packages](#attach-files-to-work-packages) | How to manually attach files to work packages.     |
+| [Watchers](#watchers)                                           | How to add or remove watchers from a work package. |
+| [Export work packages](#export-work-packages)                   | How to export work packages.                       |
+| [Bulk edit work packages](#bulk-edit-work-packages)             | How to edit several work packages as once.         |
 
 ## Update a work package
 
@@ -74,6 +75,20 @@ Starting with OpenProject 13.0 you can add emojis to all text editors. Type a co
 
 ![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
 
+## Attach files to work packages
+
+You can manually upload files to work packages directly under the tab **Files** in the work package detailed view. You
+can either attach files by dragging and dropping or by using the **+Attach files** option.
+
+![Manual attachment upload in an OpenProject work package](openproject_user_guide_wp_file_upload.png)
+
+Under the **Files** tab you will see the list of the all previously uploaded attachments, including file names, as well
+as which user uploaded an attachment and when. If no files were attached yet, the list will be empty.
+
+You can remove an attachment by hovering over it and clicking the **Delete** icon.
+
+![Delete a work package attachment in OpenProject](openproject_user_guide_wp_file_delete.png)
+
 ## Watchers
 
 ### How to add watchers to a work package
@@ -82,7 +97,7 @@ Starting with OpenProject 13.0 you can add emojis to all text editors. Type a co
 **Watchers** can be added to a work package in order to notify members about changes. They will receive notifications according to their notification settings if changes are made to the respective work package.
 </div>
 
-To add watchers, open the work package [details view](../../work-packages/work-package-views/#full-screen-view), select the tab watchers on the right hand side and choose the members you want to add with the drop-down menu or by starting to type their name.
+To add watchers, open the work package [detailed view](../../work-packages/work-package-views/#full-screen-view), select the tab watchers on the right hand side and choose the members you want to add with the drop-down menu or by starting to type their name.
 
 It is also possible to add oneself as watcher (if you have sufficient permissions).
 

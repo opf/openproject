@@ -1,14 +1,14 @@
 ---
 sidebar_navigation:
   title: Nextcloud integration
-  priority: 600
+  priority: 900
 description: Using the Nextcloud integration to link/unlink files and folders to work packages, viewing and downloading files and troubleshooting common errors
 keywords: integration, apps, Nextcloud, user
 ---
 
 # Nextcloud integration
 
-Starting with OpenProject 12.2, you can use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
+You can use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
 
 This integration makes it possible for you to:
 
@@ -17,9 +17,9 @@ This integration makes it possible for you to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
-Since OpenProject 13.0 it is also possible to automatically create dedicated [project folders](../projects/project-settings/file-storages/#project-folders), which makes documentation structure clearer and makes navigation more intuitive. 
+It is also possible to automatically create dedicated [project folders](../../projects/project-settings/file-storages/#project-folders), which makes documentation structure clearer and makes navigation more intuitive. 
 
-> **Important note**: To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud). Then a project administrator can activate Nextcloud in the  [**File storages**](../projects/project-settings/file-storages/) for a project.
+> **Important note**: To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../../system-admin-guide/integrations/nextcloud). Then a project administrator can activate Nextcloud in the  [**File storages**](../../projects/project-settings/file-storages/) for a project.
 
 
 | Topic                                                        | Description                                                  |
@@ -75,7 +75,7 @@ To link a Nextcloud file to the current work package, you can either:
 
 ![Link existing file in Nextcloud](link_existing_files.png)
 
-> **Info**: The default project that opens in the location picker is set by the project administrators in the [File storages settings](../projects/project-settings/file-storages).
+> **Info**: The default project that opens in the location picker is set by the project administrators in the [File storages settings](../../projects/project-settings/file-storages).
 
 ![Select a file to be linked in Nextcloud](nc_select_file_to_link.png)
 
@@ -93,7 +93,7 @@ Alternatively, you can also simply drag a file or folder from your computer to t
 
 Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored.
 
-> **Info**: The default project that opens in the location picker is defined by the project administrators in the [File storages settings](../projects/project-settings/file-storages).
+> **Info**: The default project that opens in the location picker is defined by the project administrators in the [File storages settings](../../projects/project-settings/file-storages).
 
 ![Select the destination folder on Nextcloud](NC_12.5-selectLocationToUploadTo.png)
 
@@ -178,7 +178,7 @@ There are two additional features related to the integration that you can enable
 
 Starting with **OpenProject Nextcloud Integration App 2.4** a work package link preview will be shown if you use Nextcloud Talk or Text apps. Please note that you will need Nextcloud 26 or higher to be able to use this feature.
 
-You can [copy a work package link](../work-packages/copy-move-delete/#copy-link-to-clipboard) and paste it into a text field, e.g in  Nextcloud Talk or Nextcloud Collectives. Whenever you paste a a URL to a work package in a text field, a card for previewing the work  package will get rendered. 
+You can [copy a work package link](../../work-packages/copy-move-delete/#copy-link-to-clipboard) and paste it into a text field, e.g in  Nextcloud Talk or Nextcloud Collectives. Whenever you paste a a URL to a work package in a text field, a card for previewing the work  package will get rendered. 
 
 Alternatively you can use **/** to activate the **smart picker** and find the work package by searching.
 

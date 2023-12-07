@@ -125,7 +125,11 @@ export default class BulkSelectionController extends Controller {
   refresh() {
     const checkedSharesCount = this.checked.length;
     const sharesCount = this.shareCheckboxTargets.length;
-    this.toggleAllTarget.checked = checkedSharesCount === sharesCount;
+    if (sharesCount === 0) {
+      this.toggleAllTarget.checked = false;
+    } else {
+      this.toggleAllTarget.checked = checkedSharesCount === sharesCount;
+    }
 
     if (this.checked.length === 0) {
       this.bulkActionsTarget.setAttribute('hidden', 'true');
