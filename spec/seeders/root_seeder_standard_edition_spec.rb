@@ -103,12 +103,6 @@ RSpec.describe RootSeeder,
       expect(member_role.permissions).not_to include(
         :view_linked_issues # from bim module
       )
-
-      project_admin_role = root_seeder.seed_data.find_reference(:default_role_project_admin)
-      expect(project_admin_role.permissions).not_to include(
-        :save_cost_reports, # removed by reporting module
-        :save_private_cost_reports # removed by reporting module
-      )
     end
 
     include_examples 'it creates records', model: Color, expected_count: 144

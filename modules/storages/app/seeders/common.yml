@@ -38,9 +38,15 @@ modules_permissions:
     add:
     - :view_file_links
     - :manage_file_links
+    - :read_files
+    - :write_files
+    - :create_files
+    - :delete_files
+    - :share_files
   - role: :default_role_reader
     add:
     - :view_file_links
+    - :read_files
   - role: :default_role_work_package_editor
     add:
       - :view_file_links
