@@ -72,7 +72,7 @@ You can either select **Labor** which will display the logged time to the work p
 
 ![Time-costs-units](Time-costs-units-1574773348146.png)
 
-The **Cash value** will display the costs logged according to the filter and grouping criteria above. This includes labor costs (calculated based on the logged time and the [hourly rate](../time-tracking#define-hourly-rate-for-labor-costs) as well as the unit costs.
+The **Cash value** will display the costs logged according to the filter and grouping criteria above. This includes labor costs (calculated based on the logged time and the [hourly rate](../time-tracking/#define-hourly-rate-for-labor-costs) as well as the unit costs.
 
 ![Time-costs-cash-value](Time-costs-cash-value.png)
 
