@@ -45,11 +45,11 @@ module Roles
     private
 
     def assignable_global_permissions
-      OpenProject::AccessControl.global_permissions
+      OpenProject::AccessControl.global_permissions.reject(&:public?)
     end
 
     def assignable_work_package_permissions
-      OpenProject::AccessControl.work_package_permissions
+      OpenProject::AccessControl.work_package_permissions.reject(&:public?)
     end
 
     def assignable_member_permissions
@@ -62,7 +62,7 @@ module Roles
                                 []
                               end
 
-      OpenProject::AccessControl.project_permissions - permissions_to_remove
+      (OpenProject::AccessControl.project_permissions - permissions_to_remove).reject(&:public?)
     end
 
     def check_permission_prerequisites
