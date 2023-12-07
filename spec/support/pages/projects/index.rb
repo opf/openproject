@@ -62,6 +62,12 @@ module Pages
         end
       end
 
+      def expect_sidebar_filter(filter_name, selected: false)
+        within '#main-menu' do
+          expect(page).to have_css(".op-sidemenu--item-action#{selected ? '.selected' : ''}", text: filter_name)
+        end
+      end
+
       def set_sidebar_filter(filter_name)
         within '#main-menu' do
           click_link text: filter_name

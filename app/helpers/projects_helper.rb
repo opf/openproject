@@ -71,7 +71,7 @@ module ProjectsHelper
       global_menu_my_projects_item,
       global_menu_public_projects_item,
       global_menu_archived_projects_item
-    ]
+    ] + global_menu_dynamic_items
   end
 
   def global_menu_all_projects_item
@@ -124,10 +124,30 @@ module ProjectsHelper
     ]
   end
 
+  def global_menu_dynamic_items
+    # TODO: Load submenu asynchronously
+    Queries::Projects::ProjectQuery.all.map do |query|
+      path = projects_path_with_query(query)
+
+      [
+        query.name,
+        path,
+        {
+          class: global_menu_item_css_class(path),
+          title: query.name
+        }
+      ]
+    end
+  end
+
   def projects_path_with_filters(filters)
     return projects_path if filters.empty?
 
     projects_path(filters: filters.to_json, hide_filters_section: true)
+  end
+
+  def projects_path_with_query(query)
+    projects_path(query_id: query.id, hide_filters_section: true)
   end
 
   def global_menu_item_css_class(path)

@@ -1122,12 +1122,17 @@ RSpec.describe 'Projects index page',
   describe 'persisting queries' do
     current_user { admin }
 
+    let!(:member) { create(:member, principal: admin, project:, roles: [developer]) }
+
     it 'allows saving and loading persisted filter sets with them being displayed in the sidebar' do
       projects_page.visit!
 
+      projects_page.open_filters
+      projects_page.filter_by_membership('yes')
+
       projects_page.save_query('My saved query')
 
-      projects_page.set_sidebar_filter('My saved query')
+      projects_page.expect_sidebar_filter('My saved query', selected: false)
     end
   end
 end

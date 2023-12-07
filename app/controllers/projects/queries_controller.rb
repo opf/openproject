@@ -31,7 +31,6 @@ class Projects::QueriesController < ApplicationController
     query = load_query
     query.name = params[:name]
 
-    binding.pry
     query.save
 
     redirect_to projects_path
