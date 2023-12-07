@@ -62,21 +62,21 @@ module API
               opts, = args
               opts[:attribute_group] = attribute_group property
 
-              super property, **opts
+              super(property, **opts)
             end
 
             def schema_with_allowed_link(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
 
-              super property, **opts
+              super(property, **opts)
             end
 
             def schema_with_allowed_collection(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
 
-              super property, **opts
+              super(property, **opts)
             end
           end
 
@@ -168,9 +168,9 @@ module API
                  type: 'Duration',
                  required: false,
                  show_if: ->(*) {
-                   current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-                   current_user.allowed_in_work_package?(:view_own_time_entries, represented)
-                 }
+                            current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+                            current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
+                          }
 
           schema :percentage_done,
                  type: 'Integer',
