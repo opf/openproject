@@ -32,24 +32,26 @@ module Roles
 
     validate :check_permission_prerequisites
 
-    def assignable_permissions
+    def assignable_permissions(keep_public: false)
       if model.is_a?(GlobalRole)
         assignable_global_permissions
       elsif model.is_a?(WorkPackageRole)
         assignable_work_package_permissions
       else
         assignable_member_permissions
+      end.reject do |permission|
+        !keep_public && permission.public?
       end
     end
 
     private
 
     def assignable_global_permissions
-      OpenProject::AccessControl.global_permissions.reject(&:public?)
+      OpenProject::AccessControl.global_permissions
     end
 
     def assignable_work_package_permissions
-      OpenProject::AccessControl.work_package_permissions.reject(&:public?)
+      OpenProject::AccessControl.work_package_permissions
     end
 
     def assignable_member_permissions
@@ -62,7 +64,7 @@ module Roles
                                 []
                               end
 
-      (OpenProject::AccessControl.project_permissions - permissions_to_remove).reject(&:public?)
+      OpenProject::AccessControl.project_permissions - permissions_to_remove
     end
 
     def check_permission_prerequisites
