@@ -9,14 +9,14 @@ keywords: One Drive, SharePoint, file storage, integration
 
 # OneDrive/SharePoint (Enterprise add-on) integration setup
 
-| Topic                                                                                   | Description                                                               |
-|-----------------------------------------------------------------------------------------|:--------------------------------------------------------------------------|
-| [Minimum requirements](#minimum-requirements)                                           | Minimum version requirements to enable the integration                    |
-| [Set up the integration](#set-up-the-integration)                                       | Connect OpenProject and OneDrive/SharePoint instances as an administrator |
-| [Drive ID guide](./drive-id-guide)                                                      | How to obtain a drive ID                                                  |
-| [Using the integration](#using-the-integration)                                         | How to use the OneDrive/SharePoint integration                            |
-|                                                                                         | Edit a OneDrive/SharePoint file storage                                   |
-| [Delete an OneDrive/SharePoint file storage](#delete-a-onedrivesharepoint-file-storage) | Delete a OneDrive/SharePoint file storage                                 |
+| Topic                                                        | Description                                                  |
+| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| [Minimum requirements](#minimum-requirements)                | Minimum version requirements to enable the integration       |
+| [Set up the integration](#set-up-the-integration)            | Connect OpenProject and OneDrive/SharePoint instances as an administrator |
+| [Drive ID guide](./drive-id-guide)                           | How to obtain a drive ID                                     |
+| [Using the integration](#using-the-integration)              | How to use the OneDrive/SharePoint integration               |
+| [Edit a OneDrive/SharePoint file storage](#edit-a-onedrivesharepoint-file-storage) | Edit a OneDrive/SharePoint file storage                      |
+| [Delete an OneDrive/SharePoint file storage](#delete-a-onedrivesharepoint-file-storage) | Delete a OneDrive/SharePoint file storage                    |
 
 > **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
