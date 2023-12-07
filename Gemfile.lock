@@ -123,6 +123,11 @@ PATH
     openproject-documents (1.0.0)
 
 PATH
+  remote: modules/gantt
+  specs:
+    openproject-gantt (1.0.0)
+
+PATH
   remote: modules/github_integration
   specs:
     openproject-github_integration (1.0.0)
@@ -1150,6 +1155,7 @@ DEPENDENCIES
   openproject-boards!
   openproject-calendar!
   openproject-documents!
+  openproject-gantt!
   openproject-github_integration!
   openproject-job_status!
   openproject-ldap_groups!
