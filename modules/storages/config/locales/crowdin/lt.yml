@@ -65,7 +65,7 @@ lt:
       done_continue: "Baigta, tęsti"
       done_continue_setup: "Atlikta. Tęsti nustatymą"
       done_complete_setup: "Atlikta, baigti nustatymą"
-      complete_without_setup: "Complete without it"
+      complete_without_setup: "Baigti be jo"
       edit_automatically_managed_project_folders: "Keisti automatiškai sukonfigūruotus projekto aplankus"
       replace_openproject_oauth: "Keisti OpenProject OAuth"
       replace_provider_type_oauth: "Keisti %{provider_type} OAuth"
@@ -139,9 +139,9 @@ lt:
         oauth_client_id: >
           Kopijuoti kliento id iš Azure portalo. Tai reikalinga nukreipimo URI generavimui.
         oauth_client_secret: >
-          The client secret has been automatically copied from an already fully connected file storage with the same Application (client) ID.
+          Kliento paslaptis buvo automatiškai nukopijuota iš jau turimos pilnai prijungtos failų saugyklos su tuo pačiu Aplikacijos (kliento) ID.
         oauth_client_redirect_uri: >
-          Please copy this value to a new Web redirect URI under Redirect URIs.
+          Prašome nukopijuoti šią reikšmę į naują Tinklo peradresavimo URI prie jūsų Peradresavimo URI.
         missing_client_id_for_redirect_uri: "Prašome užpildyti OAuth reikšmes, kad sugeneruotumėte URI"
         tenant_id: "Prašome nukopijuoti klientą iš jūsų Azure aplikacijos."
         tenant_id_placeholder: "Vardas ar UUID"
@@ -228,13 +228,13 @@ lt:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "pvz. Nextcloud"
-        label_oauth_client_id: "Nextcloud OAuth Client ID"
-        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
+        label_oauth_client_id: "Nextcloud OAuth kliento ID"
+        label_oauth_client_secret: "Nextcloud OAuth kliento paslaptis"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "pvz. OneDrive"
-        label_oauth_client_id: "Azure OAuth Application (client) ID"
-        label_oauth_client_secret: "Azure OAuth Client Secret Value"
+        label_oauth_client_id: "Azure OAuth Application (kliento) ID"
+        label_oauth_client_secret: "Azure OAuth kliento slapta reikšmė"
     confirm_replace_oauth_application: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su OpenProject."
     confirm_replace_oauth_client: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su saugykla."
     oauth_client_details_missing: "Norėdami baigti nustatymą, prašome pridėti OAuth kliento prisijungimo duomenis iš jūsų saugyklos."
@@ -255,5 +255,5 @@ lt:
       label_healthy: "Sveikas"
       checked: "Patikrinta  %{datetime}"
     upsale:
-      title: "OneDrive/SharePoint integration"
-      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'
+      title: "OneDrive/SharePoint integracija"
+      description: 'Integruokite jūsų OneDrive/SharePoint kaip failų saugyklą su OpenProject. Įkelkite failus ir susiekite juos tiesiogiai su projekto darbo paketais.'
