@@ -203,8 +203,6 @@ class AccountController < ApplicationController
       else
         flash[:error] = I18n.t(:notice_activation_failed)
       end
-
-      redirect_to signin_path
     else
       if user.active?
         flash[:notice] = I18n.t(:notice_account_already_activated)
@@ -212,8 +210,9 @@ class AccountController < ApplicationController
         flash[:error] = I18n.t(:notice_activation_failed)
       end
 
-      redirect_to home_url
     end
+
+    redirect_to signin_path(back_url: params[:back_url])
   end
 
   def activate_by_invite_token(token)
@@ -224,6 +223,7 @@ class AccountController < ApplicationController
 
   def activate_invited(token)
     session[:invitation_token] = token.value
+    session[:back_url] = params[:back_url]
     user = token.user
 
     if user.ldap_auth_source
@@ -524,7 +524,7 @@ class AccountController < ApplicationController
   def invalid_token_and_redirect
     flash[:error] = I18n.t(:notice_account_invalid_token)
 
-    redirect_to home_url
+    redirect_to signin_path
   end
 
   def apply_csp_appends
