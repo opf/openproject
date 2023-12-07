@@ -47,6 +47,13 @@ module Accounts::OmniauthLogin
   end
 
   def omniauth_login
+    # Remmember the back_url to redirect to after login
+    # only if we're in a direct login phase, so the user ends up
+    # in the original requested URL after logging in
+    if omniauth_direct_login?
+      params[:back_url] = request.env['omniauth.origin']
+    end
+
     # Extract auth info and perform check / login or activate user
     auth_hash = request.env['omniauth.auth']
     handle_omniauth_authentication(auth_hash)
