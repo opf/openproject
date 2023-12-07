@@ -38,42 +38,35 @@ class Storages::ProjectStoragesController < ApplicationController
   before_action :render_403, unless: -> { User.current.allowed_in_project?(:view_file_links, @project) }
 
   def open
-    storage_open_url = @object.open(current_user).match(
-      on_success: ->(url) { url },
-      on_failure: ->(error) { raise_error(error) }
-    )
     if @object.project_folder_automatic?
-      storage = @object.storage
+      @storage = @object.storage
       # check if user "see" project_folder
       if @object.project_folder_id.present?
         ::Storages::Peripherals::Registry
-          .resolve("queries.#{storage.short_provider_type}.file_info")
-          .call(storage:,
+          .resolve("queries.#{@storage.short_provider_type}.file_info")
+          .call(storage: @storage,
                 user: current_user,
                 file_id: @object.project_folder_id)
           .match(
-            on_success: user_can_read_project_folder(storage_open_url:),
-            on_failure: user_can_not_read_project_folder(storage:, storage_open_url:)
+            on_success: user_can_read_project_folder,
+            on_failure: user_can_not_read_project_folder
           )
       else
         respond_to do |format|
           format.turbo_stream { head :no_content }
           format.html do
-            redirect_to_project_overview_with_modal(
-              project_identifier: @project.identifier,
-              storage_open_url:
-            )
+            redirect_to_project_overview_with_modal
           end
         end
       end
     else
-      redirect_to storage_open_url
+      redirect_to api_v3_project_storage_open
     end
   end
 
   private
 
-  def user_can_read_project_folder(storage_open_url:)
+  def user_can_read_project_folder
     ->(_) do
       respond_to do |format|
         format.turbo_stream do
@@ -85,12 +78,12 @@ class Storages::ProjectStoragesController < ApplicationController
             ).render_in(view_context)
           )
         end
-        format.html { redirect_to storage_open_url }
+        format.html { redirect_to api_v3_project_storage_open }
       end
     end
   end
 
-  def user_can_not_read_project_folder(storage_open_url:, storage:)
+  def user_can_not_read_project_folder
     ->(result) do
       respond_to do |format|
         format.turbo_stream { head :no_content }
@@ -99,35 +92,36 @@ class Storages::ProjectStoragesController < ApplicationController
           when :unauthorized
             redirect_to(
               oauth_clients_ensure_connection_url(
-                oauth_client_id: storage.oauth_client.client_id,
-                storage_id: storage.id,
+                oauth_client_id: @storage.oauth_client.client_id,
+                storage_id: @storage.id,
                 destination_url: request.url
               )
             )
           when :forbidden
-            redirect_to_project_overview_with_modal(
-              project_identifier: @project.identifier,
-              storage_open_url:
-            )
+            redirect_to_project_overview_with_modal
           end
         end
       end
     end
   end
 
-  def redirect_to_project_overview_with_modal(project_identifier:, storage_open_url:)
+  def redirect_to_project_overview_with_modal
     redirect_to(
-      project_overview_path(project_id: project_identifier),
+      project_overview_path(project_id: @project.identifier),
       flash: {
         modal: {
           type: 'Storages::OpenProjectStorageModalComponent',
           parameters: {
             project_storage_open_url: request.path,
-            redirect_url: storage_open_url,
+            redirect_url: api_v3_project_storage_open,
             state: :waiting
           }
         }
       }
     )
+  end
+
+  def api_v3_project_storage_open
+    ::API::V3::Utilities::PathHelper::ApiV3Path.project_storage_open(@object.id)
   end
 end
