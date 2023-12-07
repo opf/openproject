@@ -223,6 +223,7 @@ module Pages
       end
 
       def save_query(name)
+        page.find('[data-test-selector="project-more-dropdown-menu"]').click
         click_button 'Save'
 
         within '#op-project-list-save-modal' do

@@ -33,7 +33,7 @@ class Projects::QueriesController < ApplicationController
 
     query.save
 
-    redirect_to projects_path
+    redirect_to projects_path(query_id: query.id)
   end
 
   private

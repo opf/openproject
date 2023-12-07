@@ -147,7 +147,7 @@ module ProjectsHelper
   end
 
   def projects_path_with_query(query)
-    projects_path(query_id: query.id, hide_filters_section: true)
+    projects_path(query_id: query.id)
   end
 
   def global_menu_item_css_class(path)

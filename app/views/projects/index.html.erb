@@ -65,22 +65,6 @@ See COPYRIGHT and LICENSE files for more details.
         <%= op_icon("button--icon icon-external-link") %>
       <% end %>
     </li>
-    <li class="toolbar-item">
-      <%= render(Primer::Alpha::Dialog.new(title: 'Save', id: 'op-project-list-save-modal')) do |d| %>
-        <% d.with_show_button { 'Save' } %>
-        <%= primer_form_with(url: projects_queries_path) do %>
-
-          <%= hidden_field_tag :filters, params[:filters] %>
-
-          <%= render(Primer::Alpha::Dialog::Body.new) do %>
-            <%= render(Primer::Alpha::TextField.new(name: 'name', label: 'Name', required: true)) %>
-          <% end %>
-          <%= render(Primer::Alpha::Dialog::Footer.new) do %>
-            <%= render(Primer::ButtonComponent.new(type: :submit, scheme: :primary, data: { "close-dialog-id": 'op-project-list-save-modal' })) { "Save" } %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </li>
     <li class="toolbar-item drop-down">
       <a
         href="#"
@@ -107,6 +91,18 @@ See COPYRIGHT and LICENSE files for more details.
           </li>
           <%= render partial: 'project_export_modal' %>
         </section>
+        <li>
+          <%= render(Primer::Beta::Button.new(
+                  scheme: :invisible,
+                  color: :default,
+                  underline: false,
+                  font_weight: :normal,
+                  data: { 'show-dialog-id': 'op-project-list-save-modal' }
+                )) do |button|
+                  button.with_leading_visual_icon(icon: "op-save")
+                  'Save'
+                end
+          %>
       </ul>
     </li>
   <% end %>
@@ -126,5 +122,20 @@ See COPYRIGHT and LICENSE files for more details.
             count: Project.count,
             storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
     </p>
+  <% end %>
+
+  <%= render(Primer::Alpha::Dialog.new(title: 'Save', id: 'op-project-list-save-modal', show_button: false)) do |d| %>
+    <% d.with_header(show_divider: false) %>
+
+    <%= primer_form_with(url: projects_queries_path) do %>
+      <%= hidden_field_tag :filters, params[:filters] %>
+
+      <%= render(Primer::Alpha::Dialog::Body.new) do %>
+        <%= render(Primer::Alpha::TextField.new(name: 'name', label: 'Name', required: true, autofocus: true )) %>
+      <% end %>
+      <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+        <%= render(Primer::ButtonComponent.new(type: :submit, scheme: :primary, data: { "close-dialog-id": 'op-project-list-save-modal' })) { "Save" } %>
+      <% end %>
+    <% end %>
   <% end %>
 </div>
