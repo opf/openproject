@@ -207,6 +207,7 @@ ka:
   concatenation:
     single: "ან"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "ვიკი"
       messages: "ფორუმი"

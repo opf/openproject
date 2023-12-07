@@ -1174,7 +1174,6 @@ ko:
       current_project_and_all_descendants: "이 프로젝트 + 하위 프로젝트에서"
       current_project: "이 프로젝트에서"
       recently_viewed: "최근에 조회됨"
-      search: "검색"
       title:
         all_projects: "모든 프로젝트"
         project_and_subprojects: "그리고 모든 하위 프로젝트"

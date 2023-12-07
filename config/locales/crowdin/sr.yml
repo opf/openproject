@@ -207,6 +207,7 @@ sr:
   concatenation:
     single: "or"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"

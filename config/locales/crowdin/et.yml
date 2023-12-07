@@ -207,6 +207,7 @@ et:
   concatenation:
     single: "või"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Viki"
       messages: "Foorum"

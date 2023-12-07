@@ -101,7 +101,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновить"
+    button_update: "Обновление"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -1182,7 +1182,6 @@ ru:
       current_project_and_all_descendants: "В этом проекте + подпроектах"
       current_project: "В этом проекте"
       recently_viewed: "Недавно просмотренные"
-      search: "Искать"
       title:
         all_projects: "все проекты"
         project_and_subprojects: "и все подпроекты"

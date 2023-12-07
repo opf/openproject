@@ -49,7 +49,7 @@ de:
         main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
       customize: "Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an."
-      enterprise_notice: "Dieses kleine Add-on steht den Abonnenten der Enterprise-Edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
+      enterprise_notice: "Diese kleine Erweiterung steht den Abonnenten der Enterprise edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
       enterprise_more_info: "Hinweis: Das verwendete Logo wird öffentlich zugänglich sein."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
@@ -64,15 +64,15 @@ de:
         main-menu-bg-color: "Hintergrundfarbe des Menüs in der linken Seitenleiste."
       theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
     enterprise:
-      upgrade_to_ee: "Auf Enterprise-Edition upgraden"
-      add_token: "Enterprise-Edition Support Token hochladen"
+      upgrade_to_ee: "Auf Enterprise edition upgraden"
+      add_token: "Enterprise edition Support Token hochladen"
       delete_token_modal:
-        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise Edition-Token entfernen möchten?"
+        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise edition token entfernen möchten?"
         title: "Token löschen"
       replace_token: "Aktuellen Enterprise edition Support Token ersetzen"
       order: "Enterprise on-premises bestellen"
-      paste: "Enterprise-Edition Support Token hier einfügen"
-      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar."
+      paste: "Enterprise edition Support Token hier einfügen"
+      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
       start_trial: "Kostenlose Testversion starten"
       book_now: "Jetzt buchen"
@@ -204,6 +204,7 @@ de:
   concatenation:
     single: "oder"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -1362,7 +1363,7 @@ de:
   error_cookie_missing: "Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert."
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
-  error_enterprise_token_invalid_domain: "Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
+  error_enterprise_token_invalid_domain: "Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
   error_failed_to_delete_entry: "Fehler beim Löschen dieses Eintrags."
   error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Fehler beim Versuch, abhängiges Objekt zu erstellen: %{dependent_class} - %{related_subject}: %{error}"
@@ -1457,10 +1458,10 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        title: "Auf Enterprise-Edition upgraden"
+        title: "Auf Enterprise edition upgraden"
         more_info: "Weitere Informationen"
     links:
-      upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
+      upgrade_enterprise_edition: "Auf Enterprise edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
       user_guides: "Benutzerhandbuch"
       faq: "Häufig gestellte Fragen"
@@ -1738,7 +1739,7 @@ de:
   label_enumerations: "Aufzählungen"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise Support"
   label_enterprise_addon: "Enterprise Add-on"
   label_environment: "Umgebung"
@@ -2207,13 +2208,13 @@ de:
     sharing:
       work_packages:
         allowed_actions: "Sie haben auf diesem Arbeitspakte folgende Berechtigungen: %{allowed_actions}. Dies kann sich je nach Ihrer Projektrolle und Berechtigungen ändern."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "Um auf dieses Arbeitspaket zuzugreifen, müssen Sie ein Konto für %{instance} erstellen. "
         open_work_package: "Arbeitspaket öffnen"
-        subject: "You have been shared work package #%{id}"
-        enterprise_text: "Share work packages with users who are not members of the project."
+        subject: "Mit Ihnen wurde Arbeitspaket #%{id} geteilt"
+        enterprise_text: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
         summary:
-          user: "%{user} shared a work package with you with %{role_rights} rights"
-          group: "%{user} shared a work package with the group %{group} you are a member of"
+          user: "%{user} hat Ihnen ein Arbeitspaket mit %{role_rights} Rechten geteilt"
+          group: "%{user} hat ein Arbeitspaket mit der Gruppe %{group} geteilt, in der Sie Mitglied sind"
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
@@ -2385,7 +2386,7 @@ de:
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekte erstellen"
   permission_add_work_package_attachments: "Anhänge hinzufügen"
-  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
+  permission_add_work_package_attachments_explanation: "Erlaubt das Hinzufügen von Anhängen ohne die Berechtigung, das Arbeitspaket selbst zu bearbeiten"
   permission_archive_project: "Projekt archivieren"
   permission_create_user: "Benutzer erstellen"
   permission_manage_user: "Benutzer bearbeiten"
@@ -2466,14 +2467,14 @@ de:
   permission_view_project_activity: "Projektaktivität anzeigen"
   permission_save_bcf_queries: "BCF-Abfragen speichern"
   permission_manage_public_bcf_queries: "Öffentliche BCF-Abfragen verwalten"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_edit_attribute_help_texts: "Attribut-Hilfetxt bearbeiten"
   placeholders:
     default: "-"
   project:
     destroy:
-      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
-      project_delete_result_1: "Delete all related data."
-      project_delete_result_2: "Delete all managed project folders in the attached storages."
+      confirmation: "Wenn Sie fortfahren, wird das Projekt %{identifier} dauerhaft zerstört. Um diese Aktion zu bestätigen, geben Sie bitte den Projektnamen in das untenstehende Feld ein:"
+      project_delete_result_1: "Alle zugehörigen Daten löschen."
+      project_delete_result_2: "Alle verwalteten Projektordner in den angehängten Speichern löschen."
       info: "Die Löschung des Projekts kann nicht rückgängig gemacht werden."
       project_verification: "Geben Sie den Projektnamen %{name} ein um die Löschung zu bestätigen."
       subprojects_confirmation: "Sein(e) Unterprojekt(e): %{value} werden ebenfalls gelöscht."
@@ -2635,7 +2636,7 @@ de:
     Wenn die Dokumentationsseite aktiviert ist,  sehen Sie eine interaktive APIv3 Dokumentation unter <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Positivliste für Dateiuploads"
   setting_email_delivery_method: "E-Mail Zustellungsoption"
-  setting_emails_salutation: "Address user in emails with"
+  setting_emails_salutation: "Anrede der Benutzer in E-Mails"
   setting_sendmail_location: "Systempfad zu sendmail"
   setting_smtp_enable_starttls_auto: "Automatisch STARTTLS verwenden, falls vorhanden"
   setting_smtp_ssl: "Benutzen Sie eine SSL-Verbindung"
@@ -2826,7 +2827,7 @@ de:
   text_custom_export_logo_instructions: >
     Dies ist das Logo, das in Ihren PDF-Exporten erscheint. Es muss eine PNG- oder JPEG-Bilddatei sein. Ein schwarzes oder farbiges Logo auf transparentem oder weißem Hintergrund wird empfohlen.
   text_custom_export_cover_instructions: >
-    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
+    Dies ist das Bild, das im Hintergrund einer Cover-Seite in Ihren PDF-Exporten erscheint. Es muss eine etwa 800px breite und 500px hohe PNG- oder JPEG-Bilddatei sein.
   text_custom_favicon_instructions: >
     Dies ist das kleine Symbol, das in Ihrem Browser-Fenster/Tab neben dem Seitentitel angezeigt wird. Es muss ein quadratisches 32 x 32 Pixel großes PNG mit transparentem Hintergrund sein.
   text_custom_touch_icon_instructions: >
@@ -2914,7 +2915,7 @@ de:
   help_texts:
     views:
       project: >
-        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
+        %{plural} sind immer einem Projekt zugeordnet. Sie können hier nur Projekte auswählen, bei denen das %{plural} -Modul aktiv ist. Nach dem Erstellen eines %{singular} können Sie Arbeitspakete aus anderen Projekten hinzufügen.
       public: "Veröffentlichen Sie diese Ansicht und erlauben Sie anderen Benutzern, auf sie zuzugreifen. Benutzer mit der Berechtigung \"Öffentliche Ansichten verwalten\" können öffentliche Abfragen ändern oder entfernen. Dies hat keinen Einfluss auf die Sichtbarkeit von Arbeitspaketen in dieser Ansicht und je nach Berechtigung, können Benutzer unterschiedliche Ergebnisse sehen."
       favoured: "Markiert diese Ansicht als Favorit und fügt sie der linken Seitenleiste hinzu."
   time:
@@ -2951,7 +2952,7 @@ de:
     activate: "Aktiviere"
     activate_and_reset_failed_logins: "Aktivieren und fehlgeschlagene Logins zurücksetzen"
     authentication_provider: "Authentifizierungsprovider"
-    identity_url_text: "The internal unique identifier provided by the authentication provider."
+    identity_url_text: "Die interne eindeutige Kennung, der vom Authentifizierungsanbieter bereitgestellt wird."
     authentication_settings_disabled_due_to_external_authentication: >
       Dieser Nutzer authentifiziert sich über einen externen Authentifizierungsprovider, so dass das Passwort über OpenProject nicht geändert werden kann.
     authorization_rejected: "Sie dürfen sich nicht einloggen."
@@ -2988,11 +2989,11 @@ de:
   warning_registration_token_expired: |
     E-Mail mit dem Aktivierungslink ist abgelaufen. Wir haben Ihnen ein neues zu %{email} geschickt. Bitte aktivieren Sie Ihr Konto über den Link in dieser E-Mail.
   warning_user_limit_reached: >
-    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+    Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte kontaktieren Sie einen Administrator, um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
   warning_user_limit_reached_admin: >
-    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
+    Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
   warning_user_limit_reached_instructions: >
-    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -3024,13 +3025,13 @@ de:
         one: "1 Benutzer"
         other: "%{count} Benutzer"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
-      label_search: "Search for users to invite"
+        project_member: 'Projektmitglied'
+        not_project_member: 'Kein Projektmitglied'
+        project_group: 'Projektgruppe'
+        not_project_group: 'Keine Projektgruppe'
+        role: 'Rolle'
+        type: 'Typ'
+      label_search: "Suche nach einzuladenen Benutzern"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:

@@ -207,6 +207,7 @@ zh-TW:
   concatenation:
     single: "或者"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "維基"
       messages: "討論區"

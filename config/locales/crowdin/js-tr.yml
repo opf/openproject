@@ -1176,7 +1176,6 @@ tr:
       current_project_and_all_descendants: "Bu projede + alt projelerde"
       current_project: "Bu projede"
       recently_viewed: "Recently viewed"
-      search: "Ara"
       title:
         all_projects: "tüm projeler"
         project_and_subprojects: "ve tüm alt projeler"

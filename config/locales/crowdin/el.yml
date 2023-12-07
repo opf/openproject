@@ -203,6 +203,7 @@ el:
   concatenation:
     single: "ή"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Φόρουμ"

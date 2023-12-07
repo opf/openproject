@@ -204,6 +204,7 @@ ca:
   concatenation:
     single: "o"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Fòrum"

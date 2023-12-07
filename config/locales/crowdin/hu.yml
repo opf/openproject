@@ -206,6 +206,7 @@ hu:
   concatenation:
     single: "vagy"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Fórum"

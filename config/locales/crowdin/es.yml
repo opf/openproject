@@ -204,6 +204,7 @@ es:
   concatenation:
     single: "o bien"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Foro"

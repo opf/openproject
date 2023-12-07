@@ -101,7 +101,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitzar"
+    button_update: "Actualitza"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -755,7 +755,7 @@ ca:
           label: 'Pausa els correu electrònic recordatori temporalment'
           first_day: 'Primer dia'
           last_day: 'Últim dia'
-    text_are_you_sure: "N'estas segur?"
+    text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
     types:
       attribute_groups:
@@ -1177,7 +1177,6 @@ ca:
       current_project_and_all_descendants: "En aquest projecte + subprojectes"
       current_project: "En aquest projecte"
       recently_viewed: "Vist recentment"
-      search: "Cercar"
       title:
         all_projects: "tots els projectes"
         project_and_subprojects: "i tots els subprojectes"

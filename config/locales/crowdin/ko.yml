@@ -207,6 +207,7 @@ ko:
   concatenation:
     single: "또는"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "위키"
       messages: "포럼"

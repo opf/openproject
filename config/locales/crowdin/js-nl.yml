@@ -1177,7 +1177,6 @@ nl:
       current_project_and_all_descendants: "In dit project + subprojecten"
       current_project: "In dit project"
       recently_viewed: "Recent bekeken"
-      search: "Zoeken"
       title:
         all_projects: "alle projecten"
         project_and_subprojects: "en alle subprojecten"

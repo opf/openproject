@@ -118,7 +118,7 @@ cs:
   notice_timezone_missing: Není nastaveno žádné časové pásmo a předpokládá se %{zone} . Chcete-li vybrat časové pásmo, klikněte prosím zde.
   permission_create_meetings: "Vytvořit schůzku\n"
   permission_edit_meetings: "Upravit schůzku"
-  permission_delete_meetings: "Odstranit schůzky"
+  permission_delete_meetings: "Smazat schůzku"
   permission_view_meetings: "Zobrazit schůzky"
   permission_create_meeting_agendas: "Create meeting agendas"
   permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."

@@ -1176,7 +1176,6 @@ sv:
       current_project_and_all_descendants: "I detta projekt + delprojekt"
       current_project: "I detta projekt"
       recently_viewed: "Recently viewed"
-      search: "Sök"
       title:
         all_projects: "alla projekt"
         project_and_subprojects: "och alla delprojekt"
