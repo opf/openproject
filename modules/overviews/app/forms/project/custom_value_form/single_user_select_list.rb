@@ -33,19 +33,19 @@ class Project::CustomValueForm::SingleUserSelectList < Project::CustomValueForm:
 
   def base_config
     super.merge({
-      autocomplete_options: {
-        inputId: id,
-        placeholder: "Search for a user",
-        resource: 'users',
-        # filters: [{ name: 'type', operator: '=', values: ['User'] },
-        #           { name: 'id', operator: '!', values: [::Queries::Filters::MeValue::KEY] }],
-        searchKey: 'any_name_attribute',
-        inputName: name,
-        inputValue: @custom_field_value&.value&.to_i || '',
-        # focusDirectly: true,
-        # appendTo: 'body',
-        # disabled: @disabled
-      }
-    })
+                  autocomplete_options: {
+                    inputId: id,
+                    placeholder: "Search for a user",
+                    resource: 'principals',
+                    filters: [{ name: 'type', operator: '=', values: ['User'] },
+                              { name: 'member', operator: '=', values: ['1'] }],
+                    searchKey: 'any_name_attribute',
+                    inputName: name,
+                    inputValue: @custom_field_value&.value&.to_i || ''
+                    # focusDirectly: true,
+                    # appendTo: 'body',
+                    # disabled: @disabled
+                  }
+                })
   end
 end
