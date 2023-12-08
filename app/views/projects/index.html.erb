@@ -93,6 +93,19 @@ See COPYRIGHT and LICENSE files for more details.
         </section>
         <li>
           <%= render(Primer::Beta::Button.new(
+            scheme: :invisible,
+            color: :default,
+            underline: false,
+            font_weight: :normal,
+            data: { 'show-dialog-id': 'op-project-list-columns-modal' }
+          )) do |button|
+            button.with_leading_visual_icon(icon: "columns")
+            'Columns'
+          end
+          %>
+        </li>
+        <li>
+          <%= render(Primer::Beta::Button.new(
                   scheme: :invisible,
                   color: :default,
                   underline: false,
@@ -113,7 +126,8 @@ See COPYRIGHT and LICENSE files for more details.
     rows: @projects,
     current_user: current_user,
     orders: @orders,
-    params: params) %>
+    params: params,
+    query: @query) %>
 
   <% if User.current.admin? %>
     <p class="information-section">
@@ -124,17 +138,47 @@ See COPYRIGHT and LICENSE files for more details.
     </p>
   <% end %>
 
-  <%= render(Primer::Alpha::Dialog.new(title: 'Save', id: 'op-project-list-save-modal', show_button: false)) do |d| %>
-    <% d.with_header(show_divider: false) %>
+  <%= render(Primer::Alpha::Dialog.new(title: 'Save list', id: 'op-project-list-save-modal')) do |d| %>
+    <% d.with_header(show_divider: true) %>
 
     <%= primer_form_with(url: projects_queries_path) do %>
       <%= hidden_field_tag :filters, params[:filters] %>
+      <% params[:columns]&.each do |column| %>
+        <%= hidden_field_tag 'columns[]', column %>
+      <% end %>
 
       <%= render(Primer::Alpha::Dialog::Body.new) do %>
         <%= render(Primer::Alpha::TextField.new(name: 'name', label: 'Name', required: true, autofocus: true )) %>
       <% end %>
       <%= render(Primer::Alpha::Dialog::Footer.new) do %>
         <%= render(Primer::ButtonComponent.new(type: :submit, scheme: :primary, data: { "close-dialog-id": 'op-project-list-save-modal' })) { "Save" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%
+    column_choices = ::Projects::TableComponent
+      .new(current_user: current_user)
+      .all_columns
+      .reject { |_, options| !options[:caption] }
+      .map { |name, options| {label: options[:caption], value: name.to_s, checked: @query.columns.include?(name.to_s), disabled: options[:builtin]} }
+  %>
+
+  <%= render(Primer::Alpha::Dialog.new(title: 'Columns', id: 'op-project-list-columns-modal', size: :auto)) do |d| %>
+    <% d.with_header(show_divider: true) %>
+
+    <%= primer_form_with(url: projects_path, method: :get) do %>
+      <%= hidden_field_tag :filters, params[:filters] %>
+
+      <%= render(Primer::Alpha::Dialog::Body.new) do %>
+        <%= render(Primer::Alpha::CheckBoxGroup.new(name: 'columns', label: 'Choose active columns')) do |component| %>
+          <% column_choices.each do |column_choice| %>
+            <% component.check_box(**column_choice) %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+        <%= render(Primer::ButtonComponent.new(type: :submit, scheme: :primary, data: { "close-dialog-id": 'op-project-list-save-modal' })) { "Apply" } %>
       <% end %>
     <% end %>
   <% end %>

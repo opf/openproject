@@ -45,7 +45,11 @@ class ParamsToQueryService
     query = apply_filters(query, params)
     apply_order(query, params)
     apply_group_by(query, params)
+
+    apply_columns(query, params) if query.respond_to?(:columns)
+    query
   end
+
 
   private
 
@@ -139,5 +143,13 @@ class ParamsToQueryService
 
                          "::Queries::#{model_name.pluralize}::#{model_name.demodulize}Query".constantize
                        end
+  end
+
+  def apply_columns(query, params)
+    if params[:columns]
+      query.columns = params[:columns]
+    elsif query.new_record?
+      query.columns = query.default_columns
+    end
   end
 end

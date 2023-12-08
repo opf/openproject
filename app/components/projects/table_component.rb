@@ -32,6 +32,7 @@ module Projects
   class TableComponent < ::TableComponent
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
+    options :query # The query defining the data to display
 
     def initial_sort
       %i[lft asc]
@@ -95,7 +96,7 @@ module Projects
     def headers
       all_columns
         .select do |name, options|
-        options[:builtin] || Setting.enabled_projects_columns.include?(name.to_s)
+        options[:builtin] || query.columns.include?(name.to_s)
       end
     end
 

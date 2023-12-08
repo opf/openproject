@@ -118,5 +118,9 @@
                             }
       %>
     <% end %>
+
+    <% query.columns.each do |column| %>
+      <%= hidden_field_tag 'columns[]', column, data: { 'project-target': "columns" } %>
+    <% end %>
   </fieldset>
 <% end %>

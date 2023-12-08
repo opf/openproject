@@ -42,14 +42,7 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
     super
 
     self.orders = []
-    #set_default_order
   end
-
-  #def set_default_order
-  #  return if orders&.any?
-
-  #  self.orders = [%w[id asc]]
-  #end
 
   def self.model
     Project
@@ -66,5 +59,13 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
       # to be in select.
       super.where(id: Project.visible)
     end
+  end
+
+  def default_columns
+    ::Projects::TableComponent
+      .new(current_user: user)
+      .all_columns
+      .map { _1.first.to_s }
+      .select { Setting.enabled_projects_columns.include?(_1.to_s) }
   end
 end

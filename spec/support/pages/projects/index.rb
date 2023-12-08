@@ -186,6 +186,26 @@ module Pages
         end
       end
 
+      def set_columns(*columns)
+        open_more_menu_and do
+          click_button 'Columns'
+        end
+
+        within '#op-project-list-columns-modal' do
+          all('input[type=checkbox]').each do |checkbox|
+            if checkbox.checked? then
+              checkbox.click
+            end
+          end
+
+          columns.each do |column|
+            check column
+          end
+
+          click_button 'Apply'
+        end
+      end
+
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
         page.within('.menu-drop-down-container') do
@@ -223,8 +243,9 @@ module Pages
       end
 
       def save_query(name)
-        page.find('[data-test-selector="project-more-dropdown-menu"]').click
-        click_button 'Save'
+        open_more_menu_and do
+          click_button 'Save'
+        end
 
         within '#op-project-list-save-modal' do
           fill_in 'Name', with: name
@@ -244,6 +265,13 @@ module Pages
 
         within row do
           yield row
+        end
+      end
+
+      def open_more_menu_and
+        page.find('[data-test-selector="project-more-dropdown-menu"]').click
+        page.within('.menu-drop-down-container') do
+          yield
         end
       end
     end

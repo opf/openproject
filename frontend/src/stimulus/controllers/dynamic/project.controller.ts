@@ -43,6 +43,7 @@ export default class ProjectController extends Controller {
     'filterFormToggle',
     'filterForm',
     'filter',
+    'columns',
     'addFilterSelect',
     'spacer',
     'descriptionToggle',
@@ -70,6 +71,7 @@ export default class ProjectController extends Controller {
   declare readonly daysTargets:HTMLInputElement[];
   declare readonly singleDayTargets:HTMLInputElement[];
   declare readonly simpleValueTargets:HTMLInputElement[];
+  declare readonly columnsTargets:HTMLInputElement[];
 
   toggleFilterForm() {
     this.filterFormToggleTarget.classList.toggle('-active');
@@ -213,8 +215,12 @@ export default class ProjectController extends Controller {
     ajaxIndicator.style.display = '';
 
     const filters = this.parseFilters();
+    const columns = this.parseColumns();
     const orderParam = this.getUrlParameter('sortBy');
     let queryString = `?filters=${encodeURIComponent(JSON.stringify(filters))}`;
+    columns.forEach((column) => {
+      queryString += `&columns[]=${column}`;
+    });
     if (orderParam) {
       queryString = `${queryString}&sortBy=${encodeURIComponent(orderParam)}`;
     }
@@ -244,6 +250,10 @@ export default class ProjectController extends Controller {
     });
 
     return filters;
+  }
+
+  private parseColumns() {
+    return this.columnsTargets.map((target) => target.value);
   }
 
   private readonly operatorsWithoutValues = ['*', '!*', 't', 'w'];

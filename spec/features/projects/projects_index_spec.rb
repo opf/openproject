@@ -1133,18 +1133,31 @@ RSpec.describe 'Projects index page',
       projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(public_project, development_project)
 
+      # 'Name' is always active
+      projects_page.set_columns('Public')
+
+      expect(page).to have_css('th', text: 'PUBLIC')
+      expect(page).not_to have_css('th', text: 'STATUS')
+
       projects_page.save_query('My saved query')
 
       projects_page.expect_sidebar_filter('My saved query', selected: false)
 
+      # Opening the default filter again to reset the values
       projects_page.set_sidebar_filter('All projects')
 
       projects_page.expect_projects_listed(project, public_project, development_project)
+      expect(page).to have_css('th', text: 'PUBLIC')
+      expect(page).to have_css('th', text: 'STATUS')
 
+      # Reloading the persisted query will reconstruct filters and columns
       projects_page.set_sidebar_filter('My saved query')
 
       projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(public_project, development_project)
+
+      expect(page).to have_css('th', text: 'PUBLIC')
+      expect(page).not_to have_css('th', text: 'STATUS')
     end
   end
 end
