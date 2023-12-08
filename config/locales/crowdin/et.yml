@@ -2503,6 +2503,7 @@ et:
   project_module_news: "Uudised"
   project_module_repository: "Hoidla"
   project_module_wiki: "Viki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),

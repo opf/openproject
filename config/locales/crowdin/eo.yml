@@ -2503,6 +2503,7 @@ eo:
   project_module_news: "Novaĵoj"
   project_module_repository: "Deponejo"
   project_module_wiki: "Vikio"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),

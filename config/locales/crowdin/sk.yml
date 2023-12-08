@@ -2560,6 +2560,7 @@ sk:
   project_module_news: "Novinky"
   project_module_repository: "Repozitár"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
