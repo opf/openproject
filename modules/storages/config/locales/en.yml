@@ -30,7 +30,7 @@ en:
         creator: "Creator"
         provider_type: "Provider type"
         host: "Host"
-        tenant: "Tenant"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Origin Id"
 
@@ -91,6 +91,7 @@ en:
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "Redirect URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
@@ -170,6 +171,8 @@ en:
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
         Are you sure you want to delete %{file_storage}? To confirm this action please introduce the
@@ -220,11 +223,13 @@ en:
     label_provider_type: "Provider type"
     label_project_folder: "Project folder"
     label_redirect_uri: "Redirect URI"
+    label_uri: "URI"
     label_new_storage: "New storage"
     label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_show_storage_redirect_uri: "Show redirect URI"
     label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"

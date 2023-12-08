@@ -54,7 +54,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
                       .result
 
     respond_to do |format|
-      format.html { render '/storages/admin/storages/new_oauth_client' }
+      format.html
       format.turbo_stream
     end
   end
@@ -66,21 +66,27 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     call_oauth_clients_create_service
 
     service_result.on_failure do
-      render '/storages/admin/storages/new_oauth_client'
+      respond_to do |format|
+        format.html { render :new }
+      end
     end
 
     service_result.on_success do
       if @storage.provider_type_nextcloud?
         prepare_storage_for_automatic_management_form
 
-        respond_to do |format|
-          format.turbo_stream { render :create }
-        end
-      elsif @storage.provider_type_one_drive?
-        flash[:primer_banner] = { message: I18n.t(:'storages.notice_successful_storage_connection'), scheme: :success }
-        redirect_to admin_settings_storages_path
-      else
-        raise "Unsupported provider type: #{@storage.short_provider_type}"
+        #   respond_to do |format|
+        #     format.turbo_stream { render :create }
+        #   end
+        # elsif @storage.provider_type_one_drive?
+        #   flash[:primer_banner] = { message: I18n.t(:'storages.notice_successful_storage_connection'), scheme: :success }
+        #   redirect_to admin_settings_storages_path
+        # else
+        #   raise "Unsupported provider type: #{@storage.short_provider_type}"
+      end
+
+      respond_to do |format|
+        format.turbo_stream
       end
     end
   end
@@ -96,7 +102,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
     service_result.on_success do
       respond_to do |format|
-        format.turbo_stream { render :update }
+        format.turbo_stream
       end
     end
   end
@@ -114,14 +120,25 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     true
   end
 
+  def show_redirect_uri
+    respond_to do |format|
+      format.html { render layout: false }
+    end
+  end
+
+  def finish_setup
+    flash[:primer_banner] = { message: I18n.t(:'storages.notice_successful_storage_connection'), scheme: :success }
+    redirect_to admin_settings_storages_path
+  end
+
   private
 
   attr_reader :service_result
 
   def call_oauth_clients_create_service
     @service_result = ::OAuthClients::CreateService
-      .new(user: User.current)
-      .call(oauth_client_params.merge(integration: @storage))
+                        .new(user: User.current)
+                        .call(oauth_client_params.merge(integration: @storage))
     @oauth_client = service_result.result
     @storage = @storage.reload
   end
@@ -130,9 +147,9 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     return unless @storage.automatic_management_unspecified?
 
     @storage = ::Storages::Storages::SetNextcloudProviderFieldsAttributesService
-        .new(user: current_user, model: @storage, contract_class: EmptyContract)
-        .call
-        .result
+                 .new(user: current_user, model: @storage, contract_class: EmptyContract)
+                 .call
+                 .result
   end
 
   # Called by create and update above in order to check if the

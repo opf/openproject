@@ -65,5 +65,13 @@ module Storages::Admin
         I18n.t("storages.configuration_checks.oauth_client_incomplete.#{storage.short_provider_type}")
       end
     end
+
+    def provider_redirect_uri_description
+      if storage.oauth_client
+        "#{I18n.t('storages.label_uri')}: #{storage.oauth_client.redirect_uri}"
+      else
+        I18n.t("storages.configuration_checks.redirect_uri_incomplete.#{storage.short_provider_type}")
+      end
+    end
   end
 end

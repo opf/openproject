@@ -28,9 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Storages::Admin::Forms
-  class OAuthClientFormComponent < ApplicationComponent
+module Storages::Admin
+  class RedirectUriComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include StorageViewInformation
 
     attr_reader :storage
     alias_method :oauth_client, :model
@@ -40,46 +41,21 @@ module Storages::Admin::Forms
       @storage = storage
     end
 
-    def form_method
-      options[:form_method] || default_form_method
-    end
-
-    def cancel_button_path
-      storage.persisted? ? edit_admin_settings_storage_path(storage) : admin_settings_storages_path
-    end
-
-    def submit_button_disabled?
-      !oauth_client_configured?
-    end
-
-    def storage_provider_credentials_instructions
-      I18n.t("storages.instructions.#{storage.short_provider_type}.oauth_configuration",
-             application_link_text: send(:"#{storage.short_provider_type}_integration_link")).html_safe
+    def edit_icon_button_options
+      {
+        icon: oauth_client_configured? ? :eye : :pencil,
+        tag: :a,
+        href: Rails.application.routes.url_helpers.show_redirect_uri_admin_settings_storage_oauth_client_path(storage),
+        scheme: :invisible,
+        aria: { label: I18n.t("storages.label_show_storage_redirect_uri") },
+        test_selector: 'storage-edit-oauth-client-button'
+      }
     end
 
     private
 
-    def one_drive_integration_link(target: '_blank')
-      href = ::OpenProject::Static::Links[:storage_docs][:one_drive_oauth_application][:href]
-      render(Primer::Beta::Link.new(href:, target:)) { I18n.t('storages.instructions.one_drive.application_link_text') }
-    end
-
-    def nextcloud_integration_link(target: '_blank')
-      href = Storages::Peripherals::StorageInteraction::Nextcloud::Util
-               .join_uri_path(storage.host, 'settings/admin/openproject')
-      render(Primer::Beta::Link.new(href:, target:)) { I18n.t('storages.instructions.nextcloud.integration') }
-    end
-
-    def first_time_configuration?
-      storage.oauth_client.blank? || storage.oauth_client.new_record?
-    end
-
-    def default_form_method
-      first_time_configuration? ? :post : :patch
-    end
-
     def oauth_client_configured?
-      oauth_client.present? && oauth_client.client_id.present? && oauth_client.client_secret.present?
+      storage.configuration_checks[:storage_oauth_client_configured]
     end
   end
 end

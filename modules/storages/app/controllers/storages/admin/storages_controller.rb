@@ -86,10 +86,10 @@ class Storages::Admin::StoragesController < ApplicationController
   def select_provider
     @object = Storages::Storage.new(provider_type: @provider_type)
     service_result = ::Storages::Storages::SetAttributesService
-                 .new(user: current_user,
-                      model: @object,
-                      contract_class: EmptyContract)
-                 .call
+                       .new(user: current_user,
+                            model: @object,
+                            contract_class: EmptyContract)
+                       .call
     @storage = service_result.result
 
     respond_to do |format|
@@ -99,8 +99,8 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def create
     service_result = Storages::Storages::CreateService
-                      .new(user: current_user)
-                      .call(permitted_storage_params)
+                       .new(user: current_user)
+                       .call(permitted_storage_params)
 
     @storage = service_result.result
     @oauth_application = oauth_application(service_result)
@@ -112,14 +112,20 @@ class Storages::Admin::StoragesController < ApplicationController
     end
 
     service_result.on_success do
-      respond_to { |format| format.turbo_stream }
+      service_result.on_success do
+        respond_to do |format|
+          format.turbo_stream
+        end
+      end
     end
   end
 
   def show_oauth_application
     @oauth_application = @storage.oauth_application
 
-    respond_to { |format| format.turbo_stream }
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   # Edit page is very similar to new page, except that we don't need to set
@@ -128,7 +134,9 @@ class Storages::Admin::StoragesController < ApplicationController
   def edit; end
 
   def edit_host
-    respond_to { |format| format.turbo_stream }
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   # Update is similar to create above
@@ -141,7 +149,9 @@ class Storages::Admin::StoragesController < ApplicationController
     @storage = service_result.result
 
     if service_result.success?
-      respond_to { |format| format.turbo_stream }
+      respond_to do |format|
+        format.turbo_stream
+      end
     else
       respond_to do |format|
         format.html { render :edit }
@@ -156,8 +166,8 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def destroy
     service_result = Storages::Storages::DeleteService
-      .new(user: User.current, model: @storage)
-      .call
+                       .new(user: User.current, model: @storage)
+                       .call
 
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     service_result.on_failure do
