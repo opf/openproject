@@ -29,6 +29,7 @@
 module Queries::Meetings
   class MeetingQuery
     include ::Queries::BaseQuery
+    include ::Queries::UnpersistedQuery
 
     def self.model
       Meeting

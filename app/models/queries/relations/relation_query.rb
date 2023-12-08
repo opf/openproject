@@ -30,6 +30,7 @@ module Queries
   module Relations
     class RelationQuery
       include ::Queries::BaseQuery
+      include ::Queries::UnpersistedQuery
 
       def self.model
         Relation
