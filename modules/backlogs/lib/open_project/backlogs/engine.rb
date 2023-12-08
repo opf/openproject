@@ -129,10 +129,8 @@ module OpenProject::Backlogs
                VersionsController
                Version]
 
-    patch_with_namespace :WorkPackages, :UpdateAncestors, :Loader
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :DemoData, :ProjectSeeder
-    patch_with_namespace :WorkPackages, :UpdateAncestorsService
     patch_with_namespace :WorkPackages, :UpdateService
     patch_with_namespace :WorkPackages, :SetAttributesService
     patch_with_namespace :WorkPackages, :BaseContract
@@ -168,7 +166,6 @@ module OpenProject::Backlogs
                         &::OpenProject::Backlogs::Patches::API::WorkPackageSchemaRepresenter.extension)
 
     add_api_attribute on: :work_package, ar_name: :story_points
-    add_api_attribute on: :work_package, ar_name: :remaining_hours
 
     add_api_path :backlogs_type do |id|
       # There is no api endpoint for this url
@@ -199,11 +196,7 @@ module OpenProject::Backlogs
         end
       end
 
-      ::Type.add_constraint :remaining_time, ->(_type, project: nil) do
-        project.nil? || project.backlogs_enabled?
-      end
-
-      ::Type.add_default_mapping(:estimates_and_time, :story_points, :remaining_time)
+      ::Type.add_default_mapping(:estimates_and_time, :story_points)
       ::Type.add_default_mapping(:other, :position)
 
       ::Queries::Register.register(::Query) do

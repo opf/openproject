@@ -67,20 +67,4 @@ RSpec.describe WorkPackages::CreateContract do
       it('is valid') { expect(contract.errors.symbols_for(:story_points)).to be_empty }
     end
   end
-
-  describe 'remaining hours' do
-    before do
-      contract.validate
-    end
-
-    context 'when not changed' do
-      it('is valid') { expect(contract.errors.symbols_for(:remaining_hours)).to be_empty }
-    end
-
-    context 'when changed' do
-      let(:changed_values) { ['remaining_hours'] }
-
-      it('is valid') { expect(contract.errors.symbols_for(:remaining_hours)).to be_empty }
-    end
-  end
 end

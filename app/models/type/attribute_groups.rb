@@ -45,6 +45,7 @@ module Type::AttributeGroups
         assignee: :people,
         responsible: :people,
         estimated_time: :estimates_and_time,
+        remaining_time: :estimates_and_time,
         spent_time: :estimates_and_time,
         priority: :details
       }
@@ -227,7 +228,7 @@ module Type::AttributeGroups
 
     ids = (old_groups.map(&:last).flatten - new_groups.map(&:last).flatten)
           .filter_map { |k| ::Type::QueryGroup.query_attribute_id(k) }
-          
+
 
     Query.where(id: ids).destroy_all
   end

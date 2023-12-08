@@ -35,10 +35,6 @@ module OpenProject::Backlogs
         sortable: "#{WorkPackage.table_name}.story_points",
         summable: true
       },
-      remaining_hours: {
-        sortable: "#{WorkPackage.table_name}.remaining_hours",
-        summable: true
-      },
       position: {
         default_order: 'asc',
         # Sort by position only, always show work_packages without a position at the end

@@ -164,6 +164,16 @@ module API
                  type: 'Duration',
                  required: false
 
+          schema :remaining_time,
+                 name_source: :remaining_hours,
+                 type: 'Duration',
+                 required: false
+
+          schema :derived_remaining_time,
+                 name_source: :derived_remaining_hours,
+                 type: 'Duration',
+                 required: false
+
           schema :spent_time,
                  type: 'Duration',
                  required: false,

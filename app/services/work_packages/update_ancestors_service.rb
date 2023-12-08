@@ -79,6 +79,8 @@ class WorkPackages::UpdateAncestorsService
     # to trigger a recalculation of done_ratio.
     inherit_done_ratio(ancestor, loader) if inherit?(attributes, :done_ratio) || inherit?(attributes, :estimated_hours)
 
+    derive_remaining_hours(ancestor, loader) if inherit?(attributes, :remaining_hours)
+
     inherit_ignore_non_working_days(ancestor, loader) if inherit?(attributes, :ignore_non_working_days)
   end
 
@@ -171,6 +173,12 @@ class WorkPackages::UpdateAncestorsService
     work_package.derived_estimated_hours = not_zero(all_estimated_hours(descendants).sum.to_f)
   end
 
+  def derive_remaining_hours(work_package, loader)
+    descendants = loader.descendants_of(work_package)
+
+    work_package.derived_remaining_hours = not_zero(all_remaining_hours(descendants).sum.to_f)
+  end
+
   def not_zero(value)
     value unless value.zero?
   end
@@ -181,8 +189,13 @@ class WorkPackages::UpdateAncestorsService
       .reject { |hours| hours.to_f.zero? }
   end
 
+  def all_remaining_hours(work_packages)
+    work_packages.map(&:remaining_hours).reject { |hours| hours.to_f.zero? }
+  end
+
   def attributes_justify_inheritance?(attributes)
-    (%i(estimated_hours done_ratio parent parent_id status status_id ignore_non_working_days) & attributes).any?
+    %i[estimated_hours done_ratio parent parent_id status status_id ignore_non_working_days
+       remaining_hours].intersect?(attributes)
   end
 
   def ignore_non_working_days_of_descendants(ancestor, loader)

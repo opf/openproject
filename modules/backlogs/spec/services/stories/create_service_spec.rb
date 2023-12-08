@@ -49,8 +49,7 @@ RSpec.describe Stories::CreateService, type: :model do
   end
 
   let(:instance) do
-    Stories::CreateService
-      .new(user:)
+    described_class.new(user:)
   end
 
   let(:attributes) do

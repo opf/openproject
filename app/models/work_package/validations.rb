@@ -35,6 +35,8 @@ module WorkPackage::Validations
     validates :subject, length: { maximum: 255 }
     validates :done_ratio, inclusion: { in: 0..100 }
     validates :estimated_hours, numericality: { allow_nil: true }
+    validates :remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
+    validates :derived_remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
 
     validates :due_date, date: { allow_blank: true }
     validates :start_date, date: { allow_blank: true }
