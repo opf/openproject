@@ -45,7 +45,7 @@ jobs:
       with:
         admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,cbliard
         compose_files: docker-compose.pullpreview.yml
-        instance_type: large
+        instance_type: xlarge
         ports: 80,443,8080
         default_port: 443
         ttl: 10d
