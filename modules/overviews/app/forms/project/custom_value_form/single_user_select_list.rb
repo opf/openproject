@@ -41,11 +41,33 @@ class Project::CustomValueForm::SingleUserSelectList < Project::CustomValueForm:
                               { name: 'member', operator: '=', values: ['1'] }],
                     searchKey: 'any_name_attribute',
                     inputName: name,
-                    inputValue: @custom_field_value&.value&.to_i || ''
+                    inputValue: input_value
                     # focusDirectly: true,
                     # appendTo: 'body',
                     # disabled: @disabled
-                  }
+                  },
+                  invalid: invalid?,
+                  validation_message:
                 })
+  end
+
+  def input_value
+    "?#{input_values_filter}"
+  end
+
+  def input_values_filter
+    user_filter = { "type" => { "operator" => "=", "values" => ["User"] } }
+    id_filter = { "id" => { "operator" => "=", "values" => @custom_field_value.value } }
+
+    filters = [user_filter, id_filter]
+    URI.encode_www_form("filters" => filters.to_json)
+  end
+
+  def invalid?
+    @custom_field_value.errors.any?
+  end
+
+  def validation_message
+    @custom_field_value.errors.full_messages.join(', ') if invalid?
   end
 end

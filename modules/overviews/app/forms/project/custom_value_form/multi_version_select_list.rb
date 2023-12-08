@@ -59,10 +59,10 @@ class Project::CustomValueForm::MultiVersionSelectList < Project::CustomValueFor
         multiple: true,
         decorated: true,
         inputId: id,
-        inputName: name,
+        inputName: name
       },
-      invalid: false,
-      validation_message: nil
+      invalid: invalid?,
+      validation_message:
     }
   end
 
@@ -70,4 +70,11 @@ class Project::CustomValueForm::MultiVersionSelectList < Project::CustomValueFor
     "project[multi_custom_field_values_attributes][#{@custom_field.id}][values]"
   end
 
+  def invalid?
+    @custom_field_values.any? { |custom_field_value| custom_field_value.errors.any? }
+  end
+
+  def validation_message
+    @custom_field_values.map { |custom_field_value| custom_field_value.errors.full_messages }.join(', ') if invalid?
+  end
 end

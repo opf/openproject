@@ -42,8 +42,8 @@ module ::Overviews
       has_errors = false
 
       ActiveRecord::Base.transaction do
-        modified_custom_field_values = update_custom_field_values(section)
-        modified_custom_field_values = mark_required_missing_custom_values(section, modified_custom_field_values)
+        modified_custom_field_values = modify_custom_field_values(section)
+        modified_custom_field_values = add_missing_required_custom_values(section, modified_custom_field_values)
 
         has_errors = modified_custom_field_values.any?(&:invalid?)
 
@@ -52,6 +52,7 @@ module ::Overviews
         else
           save_custom_field_values(modified_custom_field_values)
           delete_missing_custom_field_values(section, modified_custom_field_values)
+          delete_unused_multi_values(unused_multi_values(section))
 
           update_sidebar_component
         end
@@ -73,6 +74,7 @@ module ::Overviews
       params.require(:project).permit(
         custom_field_values_attributes: [:value],
         new_custom_field_values_attributes: [:value],
+        multi_user_custom_field_values_attributes: [:custom_field_id, { comma_seperated_values: [] }],
         multi_custom_field_values_attributes: [:custom_field_id, { values: [] }]
       )
     end
@@ -99,7 +101,7 @@ module ::Overviews
       ProjectCustomFieldSection.find(params[:section_id])
     end
 
-    def update_custom_field_values(section)
+    def modify_custom_field_values(section)
       custom_field_values = []
 
       transaction_custom_field_values(section, :custom_field_values_attributes) do |custom_value_id, attributes|
@@ -114,6 +116,24 @@ module ::Overviews
 
       transaction_custom_field_values(section, :multi_custom_field_values_attributes) do |custom_field_id, attributes|
         custom_field_values.concat(update_multi_custom_field_values(custom_field_id, attributes))
+      end
+
+      transaction_custom_field_values(section, :multi_user_custom_field_values_attributes) do |custom_field_id, attributes|
+        custom_field_values.concat(update_multi_user_custom_field_values(custom_field_id, attributes))
+      end
+
+      custom_field_values
+    end
+
+    def unused_multi_values(section)
+      custom_field_values = []
+
+      transaction_custom_field_values(section, :multi_custom_field_values_attributes) do |custom_field_id, attributes|
+        custom_field_values.concat(detect_unused_multi_values(custom_field_id, attributes))
+      end
+
+      transaction_custom_field_values(section, :multi_user_custom_field_values_attributes) do |custom_field_id, attributes|
+        custom_field_values.concat(detect_unused_user_multi_values(custom_field_id, attributes))
       end
 
       custom_field_values
@@ -144,7 +164,6 @@ module ::Overviews
       custom_field_values = []
 
       existing_values_to_keep = attributes[:values] || []
-      remove_unused_multi_values(custom_field_id, existing_values_to_keep)
 
       existing_values_to_keep.each do |value|
         custom_value = find_or_initialize_custom_value(custom_field_id, value)
@@ -154,11 +173,34 @@ module ::Overviews
       custom_field_values
     end
 
-    def remove_unused_multi_values(custom_field_id, existing_values_to_keep)
+    def update_multi_user_custom_field_values(custom_field_id, attributes)
+      custom_field_values = []
+
+      existing_values_to_keep = attributes[:comma_seperated_values][0]&.split(',') || []
+
+      existing_values_to_keep.each do |value|
+        custom_value = find_or_initialize_custom_value(custom_field_id, value)
+        custom_field_values << custom_value
+      end
+
+      custom_field_values
+    end
+
+    def detect_unused_multi_values(custom_field_id, attributes)
+      existing_values_to_keep = attributes[:values] || []
+      unused_multi_values_to_be_deleted(custom_field_id, existing_values_to_keep)
+    end
+
+    def detect_unused_user_multi_values(custom_field_id, attributes)
+      existing_values_to_keep = attributes[:comma_seperated_values][0]&.split(',') || []
+      unused_multi_values_to_be_deleted(custom_field_id, existing_values_to_keep)
+    end
+
+    def unused_multi_values_to_be_deleted(custom_field_id, existing_values_to_keep)
       @project.custom_values
         .where(custom_field_id: custom_field_id.to_i)
         .where.not(value: existing_values_to_keep)
-        .destroy_all
+        .to_a
     end
 
     def find_or_initialize_custom_value(custom_field_id, value)
@@ -209,7 +251,11 @@ module ::Overviews
         .destroy_all
     end
 
-    def mark_required_missing_custom_values(section, modified_custom_field_values)
+    def delete_unused_multi_values(custom_values_to_be_deleted)
+      custom_values_to_be_deleted.each(&:destroy!)
+    end
+
+    def add_missing_required_custom_values(section, modified_custom_field_values)
       missing_custom_field_ids = get_missing_custom_field_ids(section, modified_custom_field_values)
 
       required_custom_field_ids = ProjectCustomField
