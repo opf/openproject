@@ -125,7 +125,7 @@ COPY --chown=$APP_USER:$APP_USER --from=assets /app/public/assets /app/public/as
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/config/frontend_assets.manifest.json /app/config/frontend_assets.manifest.json
 COPY --chown=$APP_USER:$APP_USER . .
 # Update Gemfile.lock in case a plugin has been added. It it hasn't, the file stays identical.
-COPY --chown=$APP_USER:$APP_USER --from=rubygems Gemfile.lock .
+COPY --chown=$APP_USER:$APP_USER --from=rubygems /app/Gemfile.lock /app/
 
 ENV BUNDLE_FROZEN=true
 
