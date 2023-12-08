@@ -94,9 +94,10 @@ module Projects
     end
 
     def headers
-      all_columns
-        .select do |name, options|
-        options[:builtin] || query.columns.include?(name.to_s)
+      query
+        .columns
+        .map do |column_name|
+        all_columns.find { |column| column.first == column_name.to_sym }
       end
     end
 

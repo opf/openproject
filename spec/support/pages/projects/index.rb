@@ -192,14 +192,12 @@ module Pages
         end
 
         within '#op-project-list-columns-modal' do
-          all('input[type=checkbox]').each do |checkbox|
-            if checkbox.checked? then
-              checkbox.click
-            end
-          end
+          find('.selectize-control .clear').click
 
+          find('#columns-selectized').click
           columns.each do |column|
-            check column
+            find('.selectize-control .selectize-input input').click
+            find('.selectize-dropdown-content [data-value="' + column.downcase + '"]').click
           end
 
           click_button 'Apply'

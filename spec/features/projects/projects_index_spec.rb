@@ -1134,7 +1134,7 @@ RSpec.describe 'Projects index page',
       projects_page.expect_projects_not_listed(public_project, development_project)
 
       # 'Name' is always active
-      projects_page.set_columns('Public')
+      projects_page.set_columns('Name', 'Public')
 
       expect(page).to have_css('th', text: 'PUBLIC')
       expect(page).not_to have_css('th', text: 'STATUS')

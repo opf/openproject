@@ -65,7 +65,7 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
     ::Projects::TableComponent
       .new(current_user: user)
       .all_columns
+      .select { Setting.enabled_projects_columns.include?(_1.first.to_s) || _1.last[:builtin] }
       .map { _1.first.to_s }
-      .select { Setting.enabled_projects_columns.include?(_1.to_s) }
   end
 end

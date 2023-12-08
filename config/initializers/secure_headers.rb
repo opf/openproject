@@ -18,6 +18,7 @@ Rails.application.config.after_initialize do
     # Valid for assets
     assets_src = ["'self'"]
     asset_host = OpenProject::Configuration.rails_asset_host
+    assets_src << 'https://cdnjs.cloudflare.com'
     assets_src << asset_host if asset_host.present?
 
     # Valid for iframes

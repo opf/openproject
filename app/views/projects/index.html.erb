@@ -28,6 +28,20 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title(t(:label_project_plural)) -%>
 
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+  integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+  />
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+  integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
 <div data-controller="project"
      data-application-target="dynamic">
   <%= toolbar title: t(:label_project_plural), html: { class: '-with-dropdown' } do %>
@@ -164,17 +178,22 @@ See COPYRIGHT and LICENSE files for more details.
       .map { |name, options| {label: options[:caption], value: name.to_s, checked: @query.columns.include?(name.to_s), disabled: options[:builtin]} }
   %>
 
-  <%= render(Primer::Alpha::Dialog.new(title: 'Columns', id: 'op-project-list-columns-modal', size: :auto)) do |d| %>
+  <%= render(Primer::Alpha::Dialog.new(title: 'Columns', id: 'op-project-list-columns-modal', size: :'auto')) do |d| %>
     <% d.with_header(show_divider: true) %>
 
     <%= primer_form_with(url: projects_path, method: :get) do %>
       <%= hidden_field_tag :filters, params[:filters] %>
 
-      <%= render(Primer::Alpha::Dialog::Body.new) do %>
-        <%= render(Primer::Alpha::CheckBoxGroup.new(name: 'columns', label: 'Choose active columns')) do |component| %>
-          <% column_choices.each do |column_choice| %>
-            <% component.check_box(**column_choice) %>
-          <% end %>
+      <%= render(Primer::Alpha::Dialog::Body.new(pt: 1, style: "height: 250px; width: 500px")) do %>
+        <%= select_tag 'columns',
+                       options_for_select(column_choices.map { [_1[:label], _1[:value]]},
+                                          column_choices.select { _1[:checked] }.map { _1[:value] }),
+                       multiple: true %>
+        <%= nonced_javascript_tag do %>
+          jQuery(function($) {
+          $('#columns').selectize({ plugins: ["drag_drop", "clear_button"] });
+          }
+          );
         <% end %>
       <% end %>
       <%= render(Primer::Alpha::Dialog::Footer.new) do %>
@@ -182,4 +201,5 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
   <% end %>
+
 </div>
