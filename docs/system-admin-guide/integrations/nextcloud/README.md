@@ -323,15 +323,19 @@ The integration OpenProject with Nextcloud makes use of authorized HTTP requests
   ```json
   {"user_id":"","authorization_header":foo}
   ```
-
-  If not, first verify that the app **OpenProject Integration** is installed. If that is the case please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
-
-  This often happens because mod_rewrite is not activated on the Nextcloud server.  
+  
+  If not, first verify that the app **OpenProject Integration** is installed.  
+  
+  If that is the case verify that the mod_rewrite is  activated on the Nextcloud server.  
   To activate mod_rewrite the following commands can be used on the Nextcloud server:
   ```shell
   sudo a2enmod rewrite
   sudo systemctl restart apache2
   ```
+
+   If that also not work please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
+
+  
 
 #### Project folders are not created or you do not have access
 
