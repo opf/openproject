@@ -110,12 +110,25 @@ module Storages
     end
 
     def mark_as_unhealthy(reason: nil)
-      reason = forward_or_add_health_reason_since_time(reason.to_s) unless reason.nil?
-      update(health_status: 'unhealthy', health_changed_at: Time.now.utc, health_reason: reason)
+      if health_status == 'unhealthy' && reason_is_same(reason)
+        touch(:health_checked_at)
+      else
+        update(health_status: 'unhealthy',
+               health_changed_at: Time.now.utc,
+               health_checked_at: Time.now.utc,
+               health_reason: reason)
+      end
     end
 
     def mark_as_healthy
-      update(health_status: 'healthy', health_changed_at: Time.now.utc, health_reason: nil)
+      if health_status == 'healthy'
+        touch(:health_checked_at)
+      else
+        update(health_status: 'healthy',
+               health_changed_at: Time.now.utc,
+               health_checked_at: Time.now.utc,
+               health_reason: nil)
+      end
     end
 
     def configured?
@@ -160,22 +173,10 @@ module Storages
       @health_reason_description ||= self.class.extract_part_from_piped_string(health_reason, 1)
     end
 
-    def health_reason_since_time
-      @health_reason_since_time ||= self.class.extract_part_from_piped_string(health_reason, 3)
-    end
-
     private
 
-    # The error messages from the ServiceResult look like:
-    # "unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>"
-    # This method adds the Time.now.utc when the error occurs the first time and forwards it subsequently till the
-    # error identifier changes.
-    def forward_or_add_health_reason_since_time(new_health_reason)
-      if health_reason_since_time && health_reason_identifier == self.class.extract_part_from_piped_string(new_health_reason, 0)
-        "#{new_health_reason} | #{ health_reason_since_time }"
-      else
-        "#{new_health_reason} | #{ Time.now.utc }"
-      end
+    def reason_is_same(new_health_reason)
+      health_reason_identifier == self.class.extract_part_from_piped_string(new_health_reason, 0)
     end
   end
 end

@@ -2,8 +2,8 @@
   <%= render(Primer::Beta::Heading.new(tag: :h4, mb: 2)) { I18n.t('storages.health.title') } %>
 
   <%= render(Primer::Box.new(py: 1)) do %>
-    <%= render(Primer::Beta::Text.new(test_selector: "storage-health-changed-at")) {
-      I18n.t('storages.health.checked', datetime: helpers.format_time(storage.health_changed_at))
+    <%= render(Primer::Beta::Text.new(test_selector: "storage-health-checked-at")) {
+      I18n.t('storages.health.checked', datetime: helpers.format_time(storage.health_checked_at))
     } %>
     <% if storage.health_healthy? %>
       <%= render(Primer::Beta::Label.new(scheme: :success, test_selector: "storage-health-label-healthy")) {

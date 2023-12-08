@@ -647,7 +647,7 @@ RSpec.describe 'Admin storages',
     it 'shows healthy status for storages that are healthy' do
       visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_healthy)
       expect(page).to have_test_selector('storage-health-label-healthy', text: 'Healthy')
-      expect(page).to have_test_selector('storage-health-changed-at', text: "Checked 11/28/2023 01:02 AM")
+      expect(page).to have_test_selector('storage-health-checked-at', text: "Last checked 11/28/2023 01:02 AM")
     end
 
     it 'shows pending label for a storage that is pending' do
@@ -658,13 +658,14 @@ RSpec.describe 'Admin storages',
     it 'shows error status for storages that are unhealthy' do
       visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy)
       expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
-      expect(page).to have_test_selector('storage-health-reason', text: 'error reason')
+      expect(page).to have_test_selector('storage-health-reason', text: 'Error code: description since 11/28/2023 01:02 AM')
     end
 
     it 'shows formatted error reason for storages that are unhealthy' do
       visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy_long_reason)
       expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
-      expect(page).to have_test_selector('storage-health-reason', text: 'Unauthorized: Outbound request not authorized')
+      expect(page).to have_test_selector('storage-health-reason', text:
+        'Unauthorized: Outbound request not authorized since 11/28/2023 01:02 AM')
     end
   end
 end
