@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 <% end %>
 
-<%= turbo_stream.update :storage_redirect_url_section do %>
+<%= turbo_stream.update :storage_redirect_uri_section do %>
   <%= render(Storages::Admin::RedirectUriComponent.new(oauth_client: @oauth_client, storage: @storage)) %>
 <% end %>
 

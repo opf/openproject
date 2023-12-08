@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: @oauth_client, storage: @storage)) %>
 <% end %>
 
-<%= turbo_stream.update :storage_redirect_url_section do %>
+<%= turbo_stream.update :storage_redirect_uri_section do %>
   <%= render(Storages::Admin::Forms::RedirectUriFormComponent.new(oauth_client: @oauth_client, storage: @storage)) %>
 <% end %>
 
