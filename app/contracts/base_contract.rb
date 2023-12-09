@@ -242,13 +242,6 @@ class BaseContract < Disposable::Twin
   def reduce_by_writable_permissions(attributes)
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
-    # For new models we don't go to per-field checks if the user has any of the default permissions.
-    permissions = attribute_permissions[:default_permission]
-    if model.new_record? && permissions
-      return attributes if model.project.present? && permissions.any? { |perm| user.allowed_in_project?(perm, model.project) }
-      return attributes if model.project.blank? && permissions.any? { |perm| user.allowed_in_any_project?(perm) }
-    end
-
     attributes.reject do |attribute|
       canonical_attribute = attribute.delete_suffix('_id')
 

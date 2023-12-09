@@ -83,9 +83,7 @@ RSpec.describe 'edit work package', :js do
     end
   end
 
-  # TODO this currently does not work because the schema doesn't reflect WP edit properly:
-  #  https://community.openproject.org/projects/openproject/work_packages/50920/activity
-  xcontext 'as a user having only the edit_work_packages permission' do
+  context 'as a user having only the edit_work_packages permission' do
     let(:permissions) { %i[view_work_packages edit_work_packages] }
 
     it 'can not change the status' do
