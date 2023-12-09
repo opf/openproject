@@ -10,8 +10,8 @@ es:
     error_captcha: "No se pudo verificar su cuenta. Póngase en contacto con un administrador."
     settings:
       website_key: 'Clave del sitio web'
-      response_limit: 'Response limit for HCaptcha'
-      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
+      response_limit: 'Límite de respuesta para HCaptcha'
+      response_limit_text: 'El número máximo de caracteres para tratar la respuesta de HCaptcha como válida.'
       website_key_text: 'Especifique la clave del sitio web que ha creado en la consola de administración de reCAPTCHA para este dominio.'
       secret_key: 'Clave secreta'
       secret_key_text: 'Especifique la clave secreta que ha creado en la consola de administración de reCAPTCHA.'

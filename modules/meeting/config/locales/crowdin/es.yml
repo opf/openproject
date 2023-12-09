@@ -34,8 +34,8 @@ es:
         notes: "Notas"
         participants: "Participantes"
         participant:
-          one: "1 Participant"
-          other: "%{count} Participants"
+          one: "1 Participante"
+          other: "%{count} Participantes"
         participants_attended: "Asistentes"
         participants_invited: "Invitados"
         project: "Proyecto"
@@ -45,7 +45,7 @@ es:
       meeting_agenda_items:
         title: "Título"
         author: "Responsable"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "Duración (min)"
         description: "Notas"
     errors:
       messages:
@@ -96,7 +96,7 @@ es:
   label_start_date: "Fecha de inicio"
   meeting:
     email:
-      open_meeting_link: "Open meeting"
+      open_meeting_link: "Abrir reunión"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
       rescheduled:
