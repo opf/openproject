@@ -255,5 +255,5 @@ zh-CN:
       label_healthy: "健康"
       checked: "检查于 %{datetime} "
     upsale:
-      title: "OneDrive/SharePoint integration"
-      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'
+      title: "OneDrive/SharePoint 集成"
+      description: '将您的 OneDrive/SharePoint 集成到 OpenProject 文件存储。上传文件并将其直接链接到项目中的工作包。'

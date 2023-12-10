@@ -98,7 +98,7 @@ es:
     email:
       open_meeting_link: "Abrir reunión"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+        summary: "%{actor} te ha enviado una invitación para la reunión %{title}"
       rescheduled:
         summary: "Meeting %{title} has been rescheduled by %{actor}"
         body: "The meeting %{title} has been rescheduled by %{actor}."
