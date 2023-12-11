@@ -30,7 +30,7 @@ module API
   module V3
     module Queries
       module Schemas
-        class AllPrincipalsFilterDependencyRepresenter <
+        class ProjectMembersFilterDependencyRepresenter <
           PrincipalFilterDependencyRepresenter
           def json_cache_key
             if filter.project

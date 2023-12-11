@@ -40,16 +40,24 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
     context 'assigned to filter' do
       let(:filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
 
-      it 'is a all principals dependency' do
-        expect(subject).to be_a(API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
+      it 'is a all principals with access to project dependency' do
+        expect(subject).to be_a(API::V3::Queries::Schemas::AccessToProjectFilterDependencyRepresenter)
+      end
+    end
+
+    context 'shared with user filter' do
+      let(:filter) { Queries::WorkPackages::Filter::SharedWithUserFilter.create! }
+
+      it 'is a all principals with access to project dependency' do
+        expect(subject).to be_a(API::V3::Queries::Schemas::AccessToProjectFilterDependencyRepresenter)
       end
     end
 
     context 'responsible filter' do
       let(:filter) { Queries::WorkPackages::Filter::ResponsibleFilter.create! }
 
-      it 'is a all principals dependency' do
-        expect(subject).to be_a(API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
+      it 'is a project members dependency' do
+        expect(subject).to be_a(API::V3::Queries::Schemas::ProjectMembersFilterDependencyRepresenter)
       end
     end
 
