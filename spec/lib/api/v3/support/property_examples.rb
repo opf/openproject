@@ -34,6 +34,12 @@ RSpec.shared_examples_for 'property' do |name|
   end
 end
 
+RSpec.shared_examples_for 'no property' do |name|
+  it "does not have the #{name} property" do
+    expect(subject).not_to have_json_path(name.to_s)
+  end
+end
+
 RSpec.shared_examples_for 'formattable property' do |name|
   it "has the #{name} property" do
     expect(subject)

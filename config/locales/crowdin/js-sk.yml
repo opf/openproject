@@ -1183,6 +1183,7 @@ sk:
       current_project_and_all_descendants: "V tomto projekte + podprojektoch"
       current_project: "V tomto projekte"
       recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "všetky projekty"
         project_and_subprojects: "a všetky podprojekty"

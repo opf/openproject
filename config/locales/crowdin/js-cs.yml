@@ -1183,6 +1183,7 @@ cs:
       current_project_and_all_descendants: "V tomto projektu + podprojektech"
       current_project: "V tomto projektu"
       recently_viewed: "Nedávno zobrazené"
+      search: "Search"
       title:
         all_projects: "všechny projekty"
         project_and_subprojects: "a všechny podprojekty"

@@ -1173,6 +1173,7 @@ zh-CN:
       current_project_and_all_descendants: "在当前项目和子项目中"
       current_project: "在当前项目中"
       recently_viewed: "最近浏览"
+      search: "搜索"
       title:
         all_projects: "所有项目"
         project_and_subprojects: "和所有子项目"

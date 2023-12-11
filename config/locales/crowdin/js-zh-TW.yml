@@ -1173,6 +1173,7 @@ zh-TW:
       current_project_and_all_descendants: "對現在的專案和子專案"
       current_project: "對現在的專案"
       recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "所有專案"
         project_and_subprojects: "和所有的子專案"

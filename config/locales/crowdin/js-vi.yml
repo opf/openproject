@@ -1173,6 +1173,7 @@ vi:
       current_project_and_all_descendants: "Trong dự án này + các dự án con"
       current_project: "Trong dự án này"
       recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "mọi dự án"
         project_and_subprojects: "và tất cả các dự án con"

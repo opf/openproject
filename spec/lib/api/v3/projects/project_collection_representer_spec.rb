@@ -75,8 +75,8 @@ RSpec.describe API::V3::Projects::ProjectCollectionRepresenter do
   end
 
   describe '.checked_permissions' do
-    it 'lists add_work_packages' do
-      expect(described_class.checked_permissions).to match_array([:add_work_packages])
+    it 'lists add_work_packages and view_projects' do
+      expect(described_class.checked_permissions).to contain_exactly(:add_work_packages, :view_project)
     end
   end
 end
