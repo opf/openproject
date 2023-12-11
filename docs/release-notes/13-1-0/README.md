@@ -12,23 +12,17 @@ Release date: 2023-12-13
 
 We released [OpenProject 13.1.0](https://community.openproject.com/versions/1486).
 
-This new release brings a great update to our **Meetings module** along with many smaller changes and improvements, including the integration of **Primer** and providing a  **high contrast mode** to improve accessibility of OpenProject.
+It brings significant enhancements in our **Meetings module** and various minor adjustments, such as the integration of **Primer design system** and the introduction of a **high contrast mode** to enhance OpenProject's accessibility.
 
-Enterprise customers will benefit from two more features that will make  it easier than ever to work efficiently with OpenProject: **Share work  packages with users outside a project** and a brand new  **OneDrive/SharePoint integration**. 
+For enterprise users, two additional features have been introduced to streamline workflow efficiency within OpenProject: the capability to **share work packages externally** and the debut of a **OneDrive/SharePoint integration**.
 
 As always, this release contains several bug fixes and we recommend updating to the newest version.
 
 ## Dynamic meetings and agenda items linked to work packages
 
-If you are already a user of OpenProject, you are probably familiar  with the Meetings module, which allows you to document meeting details.  Previously, it was only possible to use this module to create the agenda of a meeting in a single text block. 
-
-With the introduction of  OpenProject 13.1,  in addition to the traditional meeting format a more dynamic  approach is offered. This enhanced module enables the **creation and management of individual agenda items**.
+The Meetings module itself is not a new feature. Formerly, this module restricted users to creating meeting agendas in a single text block. OpenProject 13.1 enables the **creation and management of individual agenda items**.  This includes **creating direct links to specific meetings from a work package** and provides a comprehensive overview of  the discussions and links directly to the meeting associated with the  work package.
 
 ![OpenProject dynamic meetings example](openproject-13-1-dynamic-meetings.png)
-
-In addition, it is now possible to **create direct links to specific meetings from a work package**. To do this, a new **“Meetings“ tab** is added to every work package, providing a comprehensive overview of  the discussions and linking directly to the meeting associated with the  work package.
-
-![Dynamic meeting in OpenProject work package](openproject-dynamic-meeting-work-package.png)
 
 This feature, designed with the latest Primer UI components and UX  patterns, is funded by the German Federal Ministry of the Interior and  Home Affairs (BMI) as part of the [openDesk](././././blog/sovereign-workplace/) project.
 
@@ -38,7 +32,7 @@ See our user guide to learn more about the [updated meetings module and how to u
 
 ## OneDrive/SharePoint integration (Enterprise add-on)
 
-Document sharing is an important aspect of collaboration, and  OpenProject has long been integrated with Nextcloud, a well-known open  source collaboration platform. However, OpenProject has recognized that  some customers use other document storage solutions, such as Microsoft  SharePoint, and has therefore developed integrations as an Enterprise  add-on. With OpenProject 13.1, users now have the option to upload,  link, and open files from work packages in OpenProject to  OneDrive/SharePoint.
+OpenProject already offered the file sharing integration with Nextcloud. However, we recognized that  some customers use other document storage solutions, such as Microsoft  SharePoint. This is why, alongside the already existing integration with Nextcloud, OpenProject 13.1 brings the new file sharing integration with OneDrive/SharePoint as an Enterprise add-on. This feature allows you to easily upload, link, and access SharePoint files directly from your work packages.
 
 > Please note: The Nextcloud integration remains part of the free Community edition. We plan to regularly publish Enterprise add-ons for the Community version.
 
@@ -48,19 +42,15 @@ See our user guide to learn more about this Enterprise add-on and how to [use th
 
 ## Share work packages with external users and groups (Enterprise add-on)
 
-The new version 13.1 of OpenProject introduces a new work package  sharing feature available as an Enterprise add-on. With this feature,  work packages can be shared with users or groups that have no  permissions to see this project, while maintaining confidentiality and  data integrity. This way, stakeholders can get easy access to relevant  project information without having to see all of a project’s work  packages.
+With OpenProject 13.1 it is possible to share work packages with users and/or groups outside of your installation. This  sharing feature is available as an Enterprise add-on. Work packages can now be shared with users or groups that have no  permissions to see a particular project in its entirety, only allowing access to relevant work packages. This way, stakeholders can get easy access to relevant  project information without having to see all of a project’s work  packages. 
 
 ![Share work packages with external users in OpenProject](openproject-13-1-share-work-packages.png)
-
-However, this sharing is limited to users who are already part of the instance or who can be invited to join the instance. Guest accounts for sharing with external parties are not part of OpenProject 13.1 - but  may be considered in a future release.
 
 See the user guide for [instructions on how to use this new feature](./././user-guide/work-packages/share-work-packages/).
 
 ## Attribute help texts are released into Community edition
 
-We remain committed to our Community and believe that continuous  development of the OpenProject Community edition will benefit everyone.  Therefore, we plan to regularly publish Enterprise add-ons for the  Community version. With OpenProject 13.1, we release [Attribute help texts](./././system-admin-guide/attribute-help-texts/) for the Community.
-
-For all project attributes, including status, accountable, or any custom  field, you can set up explanatory help text. This will be represented by a small question mark icon positioned next to the attribute, aiding in  the input process and helping to reduce mistakes.
+With OpenProject 13.1, we released [Attribute help texts](./././system-admin-guide/attribute-help-texts/) for the Community edition. This allows providing explanatory help text for all project attributes, such as status, accountable or any custom field. The help text will be displayed as a small question mark icon beside the attribute, simplifying the input process and helping to avoid mistakes.
 
 ![Example of an attribute text in OpenProject](openproject-13-1-help-texts.png)
 
@@ -74,7 +64,7 @@ We continued to work on improving accessibility of OpenProject according to the 
 
 With OpenProject 13.1 we have continued to integration the [Primer Design system](https://primer.style/). This will especially be noticeable in the new features, such as the new Meetings module. 
 
-#### List of all bug fixes and changes
+## List of all bug fixes and changes
 
 - Epic: Share work packages with external users and groups that are not member of the project team \[[#31150](https://community.openproject.com/wp/31150)\]
 - Epic: Link work packages with files and folders in OneDrive/SharePoint \[[#36057](https://community.openproject.com/wp/36057)\]
@@ -161,7 +151,7 @@ With OpenProject 13.1 we have continued to integration the [Primer Design system
 - Fixed: Search not working on some meetings (possibly because of agenda items containing macros) \[[#51426](https://community.openproject.com/wp/51426)\]
 - Fixed: Overview page suggests some information (e.g. custom fields, status, description) not set when they are hidden \[[#51431](https://community.openproject.com/wp/51431)\]
 
-#### Contributions
+### Contributions
 A big thanks to Community members for reporting bugs and helping us identifying and providing fixes.
 
 - Special thanks for reporting and finding bugs go to Jeff Tseung, Richard Richter, Daniel Elkeles, Jörg Mollowitz, Christina Vechkanova, Sven Kunze, Jeff Li, Mario Haustein, Mario Zeppin
