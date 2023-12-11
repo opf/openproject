@@ -20,7 +20,7 @@ As always, this release contains several bug fixes and we recommend updating to 
 
 ## Dynamic meetings and agenda items linked to work packages
 
-The Meetings module itself is not a new feature. Formerly, this module restricted users to creating meeting agendas in a single text block. OpenProject 13.1 enables the **creation and management of individual agenda items**.  This includes **creating direct links to specific meetings from a work package** and provides a comprehensive overview of  the discussions and links directly to the meeting associated with the  work package.
+You probably already know OpenProject's Meetings module. Formerly, this module restricted users to creating meeting agendas in a single text block. OpenProject 13.1 enables the **creation and management of individual agenda items**.  This includes **creating direct links to specific meetings from a work package** and provides a comprehensive overview of  the discussions and links directly to the meeting associated with the  work package.
 
 ![OpenProject dynamic meetings example](openproject-13-1-dynamic-meetings.png)
 
@@ -33,8 +33,6 @@ See our user guide to learn more about the [updated meetings module and how to u
 ## OneDrive/SharePoint integration (Enterprise add-on)
 
 OpenProject already offered the file sharing integration with Nextcloud. However, we recognized that  some customers use other document storage solutions, such as Microsoft  SharePoint. This is why, alongside the already existing integration with Nextcloud, OpenProject 13.1 brings the new file sharing integration with OneDrive/SharePoint as an Enterprise add-on. This feature allows you to easily upload, link, and access SharePoint files directly from your work packages.
-
-> Please note: The Nextcloud integration remains part of the free Community edition. We plan to regularly publish Enterprise add-ons for the Community version.
 
 ![SharePoint integration in OpenProject](openproject-13-1-onedrive-sharepoint-integration.png)
 
