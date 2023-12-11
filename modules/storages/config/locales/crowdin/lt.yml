@@ -132,21 +132,23 @@ lt:
         application_link_text: "aplikacija „Integration OpenProject“"
         integration: "Nextclout Administravimas / OpenProject"
       one_drive:
-        provider_configuration: "Prašome prieš vykdant nustatymus įsitikinti, kad jūs turite %{application_link_text} administratoriaus teises."
-        oauth_configuration: "Nukopijuokite šias reikšmes iš %{application_link_text}. Tada nukopijuokite peradresavimo URI atgal į %{application_link_text}."
-        application_link_text: "Azure aplikacija"
+        provider_configuration: >
+          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
+        application_link_text: "Azure portal"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Kopijuoti kliento id iš Azure portalo. Tai reikalinga nukreipimo URI generavimui.
         oauth_client_secret: >
-          Kliento paslaptis buvo automatiškai nukopijuota iš jau turimos pilnai prijungtos failų saugyklos su tuo pačiu Aplikacijos (kliento) ID.
+          In case there is no application client secret under Client credentials, please create a new one.
         oauth_client_redirect_uri: >
           Prašome nukopijuoti šią reikšmę į naują Tinklo peradresavimo URI prie jūsų Peradresavimo URI.
         missing_client_id_for_redirect_uri: "Prašome užpildyti OAuth reikšmes, kad sugeneruotumėte URI"
-        tenant_id: "Prašome nukopijuoti klientą iš jūsų Azure aplikacijos."
+        tenant_id: >
+          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Vardas ar UUID"
-        drive_id: "Prašome nukopijuoti disko ID iš jūsų Azure aplikacijos."
-        drive_id_placeholder: "UUID ar trigubas ID"
+        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
+        documentation_link_text: "OneDrive/SharePoint file storages documentation"
     help_texts:
       project_folder: >
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.

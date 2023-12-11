@@ -132,21 +132,23 @@ ru:
         application_link_text: "Приложение «Интеграция OpenProject»"
         integration: "Администрирование NextCloud / OpenProject"
       one_drive:
-        provider_configuration: "Перед установкой убедитесь, что у вас есть права администрирования в %{application_link_text}."
-        oauth_configuration: "Скопируйте эти значения из %{application_link_text}. После этого скопируйте URI обратно в %{application_link_text}."
-        application_link_text: "Приложение Azure"
+        provider_configuration: >
+          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
+        application_link_text: "Azure portal"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Скопируйте идентификатор клиента из портала Azure. Это необходимо для генерации редиректного URI.
         oauth_client_secret: >
-
+          In case there is no application client secret under Client credentials, please create a new one.
         oauth_client_redirect_uri: >
           Скопируйте это значение в новый Web redirect URI под URI перенаправления.
         missing_client_id_for_redirect_uri: "Пожалуйста, заполните значения OAuth для генерации URI"
-        tenant_id: "Пожалуйста, скопируйте арендатора из вашего приложения Azure."
+        tenant_id: >
+          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Имя или UUID"
-        drive_id: "Пожалуйста, скопируйте ID диска из вашего приложения Azure."
-        drive_id_placeholder: "UUID или тройной ID"
+        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
+        documentation_link_text: "OneDrive/SharePoint file storages documentation"
     help_texts:
       project_folder: >
         Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.

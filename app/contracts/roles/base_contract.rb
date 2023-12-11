@@ -32,13 +32,15 @@ module Roles
 
     validate :check_permission_prerequisites
 
-    def assignable_permissions
+    def assignable_permissions(keep_public: false)
       if model.is_a?(GlobalRole)
         assignable_global_permissions
       elsif model.is_a?(WorkPackageRole)
         assignable_work_package_permissions
       else
         assignable_member_permissions
+      end.reject do |permission|
+        !keep_public && permission.public?
       end
     end
 

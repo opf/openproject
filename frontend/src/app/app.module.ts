@@ -26,17 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  APP_INITIALIZER,
-  ApplicationRef,
-  Injector,
-  NgModule,
-} from '@angular/core';
+import { APP_INITIALIZER, ApplicationRef, Injector, NgModule } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import {
-  HTTP_INTERCEPTORS, HttpClient,
-  HttpClientModule,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   OpContextMenuTrigger,
@@ -118,6 +110,41 @@ import { OpUploadService } from 'core-app/core/upload/upload.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { FogUploadService } from 'core-app/core/upload/fog-upload.service';
 import { LocalUploadService } from 'core-app/core/upload/local-upload.service';
+import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
+import {
+  EmbeddedTablesMacroComponent,
+} from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
+import { OpPrincipalComponent } from 'core-app/shared/components/principal/principal.component';
+import {
+  OpBasicSingleDatePickerComponent,
+} from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
+import {
+  OpBasicRangeDatePickerComponent,
+} from 'core-app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component';
+import { GlobalSearchInputComponent } from 'core-app/core/global_search/input/global-search-input.component';
+import {
+  OpAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import {
+  ProjectAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
+import {
+  AutocompleteSelectDecorationComponent,
+} from 'core-app/shared/components/autocompleter/autocomplete-select-decoration/autocomplete-select-decoration.component';
+import {
+  MembersAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component';
+import {
+  UserAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
+import { AttributeValueMacroComponent } from 'core-app/shared/components/fields/macros/attribute-value-macro.component';
+import { AttributeLabelMacroComponent } from 'core-app/shared/components/fields/macros/attribute-label-macro.component';
+import {
+  WorkPackageQuickinfoMacroComponent,
+} from 'core-app/shared/components/fields/macros/work-package-quickinfo-macro.component';
+import {
+  CkeditorAugmentedTextareaComponent,
+} from 'core-app/shared/components/editor/components/ckeditor-augmented-textarea/ckeditor-augmented-textarea.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -272,6 +299,7 @@ export class OpenProjectModule {
     // Perform global dynamic bootstrapping of our entry components
     // that are in the current DOM response.
     DynamicBootstrapper.bootstrapOptionalDocument(appRef, document);
+    this.registerCustomElements(appRef.injector);
 
     // Call hook service to allow modules to bootstrap additional elements.
     // We can't use ngDoBootstrap in nested modules since they are not called.
@@ -281,5 +309,22 @@ export class OpenProjectModule {
       .forEach((results:{ selector:string, cls:any }[]) => {
         DynamicBootstrapper.bootstrapOptionalDocument(appRef, document, results);
       });
+  }
+
+  private registerCustomElements(injector:Injector) {
+    registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
+    registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
+    registerCustomElement('opce-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
+    registerCustomElement('opce-range-date-picker', OpBasicRangeDatePickerComponent, { injector });
+    registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector });
+    registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
+    registerCustomElement('opce-project-autocompleter', ProjectAutocompleterComponent, { injector });
+    registerCustomElement('opce-select-decoration', AutocompleteSelectDecorationComponent, { injector });
+    registerCustomElement('opce-members-autocompleter', MembersAutocompleterComponent, { injector });
+    registerCustomElement('opce-user-autocompleter', UserAutocompleterComponent, { injector });
+    registerCustomElement('opce-macro-attribute-value', AttributeValueMacroComponent, { injector });
+    registerCustomElement('opce-macro-attribute-label', AttributeLabelMacroComponent, { injector });
+    registerCustomElement('opce-macro-wp-quickinfo', WorkPackageQuickinfoMacroComponent, { injector });
+    registerCustomElement('opce-ckeditor-augmented-textarea', CkeditorAugmentedTextareaComponent, { injector });
   }
 }

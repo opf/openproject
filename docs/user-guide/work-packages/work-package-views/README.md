@@ -20,6 +20,7 @@ A list of work packages is considered a view. Each view is based on a set of fil
 - **Summary**: Table overview of the number of work packages grouped by type, status, priority, assignee, accountable, author, version, category and subproject
 - **Created by me**: All work packages created by you (the current user) in descending order of last updated date (latest on top)
 - **Assigned to me**: All work packages that are assigned to you in descending order of last updated date (latest on top)
+- **Shared with users**: All work packages that have been [shared with users or groups](./share-work-packages/) (including the current user and/or external users or groups)
 
 You can also create, save and modify your own work package views. Read about [work package table configuration](../work-package-table-configuration/#save-work-package-views) to learn how.
 
