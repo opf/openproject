@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Shared User Access',
+RSpec.describe 'Shared Work Package Access',
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing],
                with_flag: { work_package_sharing: true } do
-  shared_let(:project) { create(:project) }
+  shared_let(:project) { create(:project_with_types) }
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:sharer) do
     create(:user,
@@ -54,7 +54,7 @@ RSpec.describe 'Shared User Access',
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
 
-  specify "Work Package Access" do
+  specify "Shared-with user access" do
     using_session "shared-with user" do
       login_as(shared_with_user)
 
@@ -115,9 +115,18 @@ RSpec.describe 'Shared User Access',
       end
       work_packages_page.expect_work_package_listed(work_package)
       work_package_page.visit!
+      work_package_page.ensure_loaded
 
-      expect(page)
-        .to have_text(work_package.subject)
+      # Every field however is read-only
+      %i[type subject description
+         assignee responsible
+         estimatedTime remainingTime
+         combinedDate percentageDone category version derivedRemainingTime
+         overallCosts laborCosts].each do |field|
+        work_package_page.edit_field(field).expect_read_only
+      end
+
+      # So is commenting and file upload...
     end
   end
 end
