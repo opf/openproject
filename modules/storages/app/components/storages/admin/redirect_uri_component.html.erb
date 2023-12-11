@@ -4,13 +4,15 @@
       concat(
         render(
           Primer::Beta::Text.new(font_weight: :bold, mr: 1, test_selector: 'storage-redirect-uri-label')
-        ) { I18n.t("storages.file_storage_view.redirect_uri") }
+        ) { I18n.t('storages.file_storage_view.redirect_uri') }
       )
       concat(configuration_check_label_for(:storage_oauth_client_configured))
     end
 
     grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-redirect-uri-description') do
-      render(Primer::Beta::Text.new) { provider_redirect_uri_description }
+      concat(render(Primer::Beta::Text.new) { provider_redirect_uri_description })
+      concat(render(Primer::Beta::ClipboardCopy.new('aria-label': I18n.t('storages.instructions.one_drive.copy_redirect_uri'),
+                                                    value: storage.oauth_client.redirect_uri)))
     end
 
     if editable_storage?

@@ -163,6 +163,7 @@ en:
         tenant_id_placeholder: "Name or UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project.
