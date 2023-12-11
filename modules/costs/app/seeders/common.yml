@@ -30,12 +30,14 @@ modules_permissions:
   costs:
   - role: :default_role_member
     add:
-    - :view_own_hourly_rate
     - :view_cost_rates
     - :log_own_costs
     - :edit_own_cost_entries
     - :view_budgets
     - :view_own_cost_entries
+    - :log_own_time
+    - :save_cost_reports
+    - :save_private_cost_reports
   - role: :default_role_work_package_editor
     add:
       - :view_own_time_entries

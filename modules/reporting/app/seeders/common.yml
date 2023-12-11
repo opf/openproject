@@ -28,10 +28,7 @@
 
 modules_permissions:
   reporting:
-  # The Project Admin role is assigned all possible permission in
-  # the core's `roles.rb` seed. Here we remove those permissions
-  # which should not be assigned by default.
-  - role: :default_role_project_admin
-    remove:
-    - :save_cost_reports
-    - :save_private_cost_reports
+  - role: :default_role_member
+    add:
+      - :save_cost_reports
+      - :save_private_cost_reports

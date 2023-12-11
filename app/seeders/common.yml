@@ -280,8 +280,6 @@ project_roles:
       - :view_work_packages
       - :view_calendar
       - :comment_news
-      - :browse_repository
-      - :view_changesets
       - :view_wiki_pages
   - reference: :default_role_anonymous
     t_name: Anonymous
@@ -289,8 +287,6 @@ project_roles:
     builtin: :anonymous
     permissions:
       - :view_work_packages
-      - :browse_repository
-      - :view_changesets
       - :view_wiki_pages
   - reference: :default_role_member
     t_name: Member
@@ -307,7 +303,6 @@ project_roles:
       - :edit_own_work_package_notes
       - :manage_work_package_relations
       - :manage_subtasks
-      - :manage_public_queries
       - :save_queries
       - :view_work_package_watchers
       - :add_work_package_watchers
@@ -315,7 +310,6 @@ project_roles:
       - :view_calendar
       - :comment_news
       - :manage_news
-      - :log_time
       - :view_time_entries
       - :view_own_time_entries
       - :edit_own_time_entries
@@ -326,7 +320,6 @@ project_roles:
       - :edit_reportings
       - :delete_reportings
       - :manage_wiki
-      - :manage_wiki_menu
       - :rename_wiki_pages
       - :change_wiki_parent_page
       - :delete_wiki_pages
@@ -346,6 +339,9 @@ project_roles:
       - :view_commit_author_statistics
       - :view_members
       - :view_team_planner
+      - :view_shared_work_packages
+      - :copy_work_packages
+      - :add_work_package_attachments
   - reference: :default_role_reader
     t_name: Reader
     position: 4
@@ -366,7 +362,9 @@ project_roles:
       - :delete_own_messages
       - :browse_repository
       - :view_changesets
+      - :view_commit_author_statistics
       - :view_team_planner
+      - :view_shared_work_packages
   - reference: :default_role_project_admin
     t_name: Project admin
     position: 5

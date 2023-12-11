@@ -37,3 +37,12 @@ modules_permissions:
     - role: :default_role_work_package_viewer
       add:
         - :show_github_content
+    - role: :default_role_member
+      add:
+        - :show_github_content
+    - role: :default_role_reader
+      add:
+        - :show_github_content
+    - role: :default_role_non_member
+      add:
+        - :show_github_content
