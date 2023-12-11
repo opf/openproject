@@ -35,7 +35,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
   shared_let(:manager)   { create(:project_role, name: 'Manager') }
   shared_let(:developer) { create(:project_role, name: 'Developer') }
 
-  shared_let(:custom_field) { create(:project_custom_field) }
+  shared_let(:custom_field) { create(:text_project_custom_field) }
   shared_let(:invisible_custom_field) { create(:project_custom_field, visible: false) }
 
   shared_let(:project) do
@@ -59,6 +59,8 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
   end
   let(:news) { create(:news, project:) }
   let(:projects_page) { Pages::Projects::Index.new }
+
+  include ProjectStatusHelper
 
   def load_and_open_filters(user)
     login_as(user)
@@ -117,6 +119,41 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         # Non-admin users shall not see invisible CFs.
         expect(page).not_to have_text(invisible_custom_field.name.upcase)
         expect(page).not_to have_select('add_filter_select', with_options: [invisible_custom_field.name])
+      end
+    end
+
+    context 'for work package members', with_ee: %i[custom_fields_in_projects_list] do
+      shared_let(:work_package) { create(:work_package, project: development_project) }
+      shared_let(:user) do
+        create(:user,
+               member_with_permissions: { work_package => [:view_work_packages] },
+               login: 'nerd',
+               firstname: 'Alan',
+               lastname: 'Turing')
+      end
+
+      specify 'only public projects or those the user is member in a specific work package' do
+        Setting.enabled_projects_columns += [custom_field.column_name]
+
+        development_project.update(
+          description: 'I am a nice project',
+          status_explanation: 'We are on track',
+          status_code: 'on_track',
+          custom_field_values: { custom_field.id => 'This is a test value' }
+        )
+
+        login_as(user)
+        visit projects_path
+
+        expect(page).to have_text(development_project.name)
+        expect(page).to have_text(public_project.name)
+        expect(page).not_to have_text(project.name)
+
+        # They should not see the description, status or custom fields for the project
+        expect(page).not_to have_text(development_project.description)
+        expect(page).not_to have_text(project_status_name(development_project.status_code))
+        expect(page).not_to have_text(development_project.status_explanation)
+        expect(page).not_to have_text(development_project.custom_value_for(custom_field))
       end
     end
 
