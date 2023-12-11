@@ -306,7 +306,7 @@ GEM
       activerecord (>= 4.2)
     acts_as_tree (2.9.1)
       activerecord (>= 3.0.0)
-    addressable (2.8.5)
+    addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     aes_key_wrap (1.1.0)
     afm (0.2.2)
