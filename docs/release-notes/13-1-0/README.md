@@ -162,7 +162,7 @@ With OpenProject 13.1 we have continued to integration the [Primer Design system
 - Fixed: Overview page suggests some information (e.g. custom fields, status, description) not set when they are hidden \[[#51431](https://community.openproject.com/wp/51431)\]
 
 #### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+A big thanks to Community members for reporting bugs and helping us identifying and providing fixes.
 
 - Special thanks for reporting and finding bugs go to Jeff Tseung, Richard Richter, Daniel Elkeles, Jörg Mollowitz, Christina Vechkanova, Sven Kunze, Jeff Li, Mario Haustein, Mario Zeppin
 
