@@ -34,26 +34,17 @@ export default class OAuthClientFormController extends Controller {
   static targets = [
     'clientId',
     'clientSecret',
-    'redirectUri',
     'submitButton',
   ];
-
-  static values = {
-    clientIdMissing: String,
-  };
 
   declare readonly hasClientIdTarget:boolean;
   declare readonly hasClientSecretTarget:boolean;
   declare readonly hasSubmitButtonTarget:boolean;
   declare readonly clientIdTarget:HTMLInputElement;
   declare readonly clientSecretTarget:HTMLInputElement;
-  declare readonly redirectUriTargets:HTMLInputElement[];
   declare readonly submitButtonTarget:HTMLInputElement;
 
-  declare readonly clientIdMissingValue:string;
-
   connect():void {
-    this.setRedirectUriValue();
     this.toggleSubmitButtonDisabled();
   }
 
@@ -69,21 +60,5 @@ export default class OAuthClientFormController extends Controller {
     } else {
       this.submitButtonTarget.disabled = false;
     }
-  }
-
-  public setRedirectUriValue():void {
-    const newValue = this.redirectUri();
-    this.redirectUriTargets.forEach((target) => {
-      target.value = newValue;
-      target.setAttribute('value', newValue);
-    });
-  }
-
-  private redirectUri():string {
-    if (this.clientIdTarget.value === '') {
-      return this.clientIdMissingValue;
-    }
-
-    return `${window.location.origin}/oauth_clients/${this.clientIdTarget.value}/callback`;
   }
 }
