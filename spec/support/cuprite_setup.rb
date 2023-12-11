@@ -89,6 +89,7 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       'disable-gpu': nil,
       'disable-popup-blocking': nil,
       lang: language,
+      'accept-lang': language,
       'no-sandbox': nil,
       'disable-smooth-scrolling': true
     }
