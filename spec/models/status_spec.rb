@@ -112,7 +112,7 @@ RSpec.describe Status do
     end
 
     context 'with Setting.work_package_done_ratio using the status', with_settings: { work_package_done_ratio: 'status' } do
-      it "updates all of the work package's done_ratios to match their status" do
+      it "updates all of the work package's % Complete values to match their status" do
         described_class.update_work_package_done_ratios
 
         expect(work_package.reload.done_ratio)
