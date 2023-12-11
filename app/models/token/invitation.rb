@@ -31,9 +31,9 @@ module Token
     include ExpirableToken
 
     ##
-    # Invitation tokens are valid for one day.
+    # Invitation tokens are valid for a configurable amount of days
     def self.validity_time
-      (Setting.invitation_expiration_days || 1).days
+      Setting.invitation_expiration_days.days
     end
 
     ##
