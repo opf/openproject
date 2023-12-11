@@ -28,6 +28,7 @@
 
 module Queries::Principals
   ::Queries::Register.register(PrincipalQuery) do
+    filter Filters::AccessToAnythingInProjectFilter
     filter Filters::TypeFilter
     filter Filters::MemberFilter
     filter Filters::MentionableOnWorkPackageFilter

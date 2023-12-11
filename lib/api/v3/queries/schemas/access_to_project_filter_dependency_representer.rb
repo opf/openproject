@@ -30,7 +30,7 @@ module API
   module V3
     module Queries
       module Schemas
-        class AllPrincipalsFilterDependencyRepresenter <
+        class AccessToProjectFilterDependencyRepresenter <
           PrincipalFilterDependencyRepresenter
           def json_cache_key
             if filter.project
@@ -47,9 +47,9 @@ module API
                                   values: [Principal.statuses[:locked].to_s] } }]
 
             params << if filter.project
-                        { member: { operator: '=', values: [filter.project.id.to_s] } }
+                        { access_to_anything_in_project: { operator: '=', values: [filter.project.id.to_s] } }
                       else
-                        { member: { operator: '*', values: [] } }
+                        { access_to_anything_in_project: { operator: '*', values: [] } }
                       end
 
             params

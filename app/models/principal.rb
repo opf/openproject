@@ -87,6 +87,14 @@ class Principal < ApplicationRecord
     where.not(id: Member.of_project(project).select(:user_id))
   }
 
+  scope :in_anything_in_project, ->(project) {
+    where(id: Member.of_anything_in_project(project).select(:user_id))
+  }
+
+  scope :not_in_anything_in_project, ->(project) {
+    where.not(id: Member.of_anything_in_project(project).select(:user_id))
+  }
+
   scope :in_group, ->(group) {
     within_group(group)
   }
