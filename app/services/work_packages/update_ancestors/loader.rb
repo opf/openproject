@@ -131,8 +131,7 @@ class WorkPackages::UpdateAncestors::Loader
   def former_ancestors
     @former_ancestors ||= if previous_parent_id && include_former_ancestors
                             parent = WorkPackage.find(previous_parent_id)
-
-                            [parent] + parent.ancestors
+                            parent.self_and_ancestors
                           else
                             []
                           end
@@ -171,7 +170,7 @@ class WorkPackages::UpdateAncestors::Loader
   def previous_change_parent_id
     previous = work_package.previous_changes
 
-    previous_parent_changes = (previous[:parent_id] || previous[:parent])
+    previous_parent_changes = previous[:parent_id] || previous[:parent]
 
     previous_parent_changes ? previous_parent_changes.first : nil
   end

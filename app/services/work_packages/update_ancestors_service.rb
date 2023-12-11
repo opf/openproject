@@ -57,8 +57,9 @@ class WorkPackages::UpdateAncestorsService
   private
 
   def update_current_and_former_ancestors(attributes)
+    include_former_ancestors = attributes.intersect?(%i[parent_id parent])
     WorkPackages::UpdateAncestors::Loader
-      .new(work_package, (%i(parent_id parent) & attributes).any?)
+      .new(work_package, include_former_ancestors)
       .select do |ancestor, loader|
         inherit_attributes(ancestor, loader, attributes)
 

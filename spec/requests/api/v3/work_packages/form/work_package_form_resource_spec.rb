@@ -340,6 +340,33 @@ RSpec.describe 'API v3 Work package form resource' do
               end
             end
 
+            describe 'remaining work' do
+              include_context 'with post request'
+
+              context 'for valid duration' do
+                let(:params) { valid_params.merge(remainingTime: 'PT12H45M') }
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'responds with updated work package' do
+                  expect(subject.body).to be_json_eql('PT12H45M'.to_json)
+                    .at_path('_embedded/payload/remainingTime')
+                end
+              end
+
+              context 'for invalid duration' do
+                let(:params) { valid_params.merge(remainingTime: 'not a duration') }
+
+                it_behaves_like 'format error',
+                                I18n.t('api_v3.errors.invalid_format',
+                                       property: 'remainingTime',
+                                       expected_format: I18n.t('api_v3.errors.expected.duration'),
+                                       actual: 'not a duration')
+              end
+            end
+
             describe 'status' do
               let(:path) { '_embedded/payload/_links/status/href' }
               let(:target_status) { create(:status) }
