@@ -26,18 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Principals
-  ::Queries::Register.register(PrincipalQuery) do
-    filter Filters::AccessToAnythingInProjectFilter
-    filter Filters::TypeFilter
-    filter Filters::MemberFilter
-    filter Filters::MentionableOnWorkPackageFilter
-    filter Filters::StatusFilter
-    filter Filters::NameFilter
-    filter Filters::AnyNameAttributeFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::IdFilter
+module API
+  module V3
+    module Queries
+      module Schemas
+        class AccessToProjectFilterDependencyRepresenter <
+          PrincipalFilterDependencyRepresenter
+          def json_cache_key
+            if filter.project
+              super + [filter.project.id]
+            else
+              super
+            end
+          end
 
-    order Orders::NameOrder
+          private
+
+          def filter_query
+            params = [{ status: { operator: '!',
+                                  values: [Principal.statuses[:locked].to_s] } }]
+
+            params << if filter.project
+                        { access_to_anything_in_project: { operator: '=', values: [filter.project.id.to_s] } }
+                      else
+                        { access_to_anything_in_project: { operator: '*', values: [] } }
+                      end
+
+            params
+          end
+        end
+      end
+    end
   end
 end

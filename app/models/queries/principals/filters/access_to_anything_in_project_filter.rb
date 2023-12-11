@@ -26,18 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Principals
-  ::Queries::Register.register(PrincipalQuery) do
-    filter Filters::AccessToAnythingInProjectFilter
-    filter Filters::TypeFilter
-    filter Filters::MemberFilter
-    filter Filters::MentionableOnWorkPackageFilter
-    filter Filters::StatusFilter
-    filter Filters::NameFilter
-    filter Filters::AnyNameAttributeFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::IdFilter
+class Queries::Principals::Filters::AccessToAnythingInProjectFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values
+    Project.active.pluck(:name, :id)
+  end
 
-    order Orders::NameOrder
+  def type
+    :list_optional
+  end
+
+  def self.key
+    :access_to_anything_in_project
+  end
+
+  def scope
+    case operator
+    when '='
+      visible_scope.in_anything_in_project(values)
+    when '!'
+      visible_scope.not_in_anything_in_project(values)
+    when '*'
+      member_included_scope.where.not(members: { id: nil })
+    when '!*'
+      member_included_scope.where.not(id: Member.distinct(:user_id).select(:user_id))
+    end
+  end
+
+  private
+
+  def visible_scope
+    Principal.visible(User.current)
+  end
+
+  def member_included_scope
+    visible_scope
+      .includes(:members)
+      .merge(Member.of_any_project)
   end
 end
