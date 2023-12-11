@@ -70,7 +70,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </td>
 </tr>
-<% if project.description.present? %>
+<% if User.current.allowed_in_project?(:view_project, project) && project.description.present? %>
   <tr class="project-description <%= project_css_classes %> <%= row_css_level_classes %> <%= params[:expand] == 'all' ? '-expanded' : '' %>"
       data-project-target="descriptionRow"
       data-project-id="<%= project.id %>">
