@@ -209,7 +209,7 @@ gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
 # Lookbook
-gem 'lookbook', '~> 2.1.0'
+gem 'lookbook', '~> 2.2.0'
 
 # Require factory_bot for usage with openproject plugins testing
 gem 'factory_bot', '~> 6.4.0', require: false
@@ -255,7 +255,7 @@ group :test do
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.15.0'
-  gem 'selenium-webdriver', '~> 4.15.0'
+  gem 'selenium-webdriver', '~> 4.16.0'
   gem 'capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', branch: 'main'
 
   gem 'fuubar', '~> 2.5.0'
@@ -324,7 +324,7 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem 'brakeman', '~> 6.0.0'
+  gem 'brakeman', '~> 6.1.0'
 end
 
 gem 'bootsnap', '~> 1.17.0', require: false
