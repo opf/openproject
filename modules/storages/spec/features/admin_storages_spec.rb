@@ -332,10 +332,13 @@ RSpec.describe 'Admin storages',
                                                text: 'Copy these values from the desired application in the ' \
                                                  'Azure portal.')
 
-            # With null values, submit button should be disabled
+            # With null values, upon submit validation errors are show
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
+            click_button 'Save and continue'
+
+            expect(page).to have_text("Client can't be blank.")
+            expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
             fill_in 'oauth_client_client_id', with: '1234567890'
