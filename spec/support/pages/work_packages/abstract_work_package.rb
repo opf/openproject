@@ -94,9 +94,9 @@ module Pages
     def ensure_page_loaded
       expect_angular_frontend_initialized
       expect(page).to have_css('.op-user-activity--user-name',
-                                    text: work_package.journals.last.user.name,
-                                    minimum: 1,
-                                    wait: 10)
+                               text: work_package.journals.last.user.name,
+                               minimum: 1,
+                               wait: 10)
     end
 
     def disable_ajax_requests
@@ -141,7 +141,7 @@ module Pages
 
     def expect_activity_message(message)
       expect(page).to have_css('.work-package-details-activities-messages .message',
-                                    text: message)
+                               text: message)
     end
 
     def expect_no_parent
