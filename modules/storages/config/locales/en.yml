@@ -277,7 +277,8 @@ en:
       label_pending: "Pending"
       label_error: "Error"
       label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
     upsale:
       title: "OneDrive/SharePoint integration"
       description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'
