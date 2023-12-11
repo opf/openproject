@@ -365,7 +365,7 @@ GEM
     bindata (2.4.15)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
-    brakeman (6.0.1)
+    brakeman (6.1.0)
     browser (5.3.1)
     builder (3.2.4)
     byebug (11.1.3)
@@ -1078,7 +1078,7 @@ DEPENDENCIES
   axe-core-rspec
   bcrypt (~> 3.1.6)
   bootsnap (~> 1.17.0)
-  brakeman (~> 6.0.0)
+  brakeman (~> 6.1.0)
   browser (~> 5.3.0)
   budgets!
   capybara (~> 3.39.0)

@@ -324,7 +324,7 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem 'brakeman', '~> 6.0.0'
+  gem 'brakeman', '~> 6.1.0'
 end
 
 gem 'bootsnap', '~> 1.17.0', require: false
