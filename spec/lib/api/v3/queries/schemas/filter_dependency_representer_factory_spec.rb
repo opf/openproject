@@ -41,7 +41,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
 
       it 'is a all principals with access to project dependency' do
-        expect(subject).to be_a(API::V3::Queries::Schemas::AccessToProjectFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::ProjectMembersFilterDependencyRepresenter)
       end
     end
 

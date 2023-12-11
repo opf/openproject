@@ -56,7 +56,7 @@ module API
             UpdatedAtFilter: 'DateTimeFilter',
             AuthorFilter: 'UserFilter',
             ResponsibleFilter: 'ProjectMembersFilter',
-            AssignedToFilter: 'AccessToProjectFilter',
+            AssignedToFilter: 'ProjectMembersFilter',
             SharedWithUserFilter: 'AccessToProjectFilter',
             WatcherFilter: 'UserFilter'
           }
