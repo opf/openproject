@@ -27,8 +27,8 @@
               client_id_input_options: {
                 data: {
                   'storages--oauth-client-form-target': 'clientId',
-                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled '\
-                          'input->storages--oauth-client-form#setRedirectUriValue'
+                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled ' \
+                    'input->storages--oauth-client-form#setRedirectUriValue'
                 }
               },
               client_secret_input_options: {
@@ -41,36 +41,6 @@
           )
         end
 
-        if storage.provider_type_one_drive?
-          oauth_client_row.with_row(mb: 3) do
-            concat(render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
-              input_group.with_text_input(name: :oauth_client_redirect_uri,
-                                          label: I18n.t('storages.label_redirect_uri'),
-                                          visually_hide_label: false,
-                                          value: redirect_uri_or_instructions,
-                                          required: true,
-                                          data: {
-                                            'storages--oauth-client-form-target': 'redirectUri'
-                                          })
-              input_group.with_trailing_action_clipboard_copy_button(
-                value: redirect_uri_or_instructions,
-                aria: {
-                  label: I18n.t('button_copy_to_clipboard')
-                },
-                data: {
-                  'storages--oauth-client-form-target': 'redirectUri'
-                })
-            end)
-
-            # NOTE: Hardcoded `FormControl-caption` class is used to align the text with the input field.
-            #      This is a workaround until Primer::OpenProject::InputGroup supports a caption.
-            #      See https://community.openproject.org/wp/51376
-            concat(render(Primer::Beta::Text.new(classes: 'FormControl-caption')) do
-              I18n.t('storages.instructions.one_drive.oauth_client_redirect_uri')
-            end)
-          end
-        end
-
         oauth_client_row.with_row do
           render(
             Storages::Admin::SubmitOrCancelForm.new(
@@ -80,7 +50,7 @@
                 disabled: submit_button_disabled?,
                 data: {
                   'storages--oauth-client-form-target': 'submitButton',
-                }.merge(submit_button_data_options),
+                },
                 test_selector: 'storage-oauth-client-submit-button'
               },
               cancel_button_options: {

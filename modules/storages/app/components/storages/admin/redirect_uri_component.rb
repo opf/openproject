@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,21 +27,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
+#
 module Storages::Admin
-  class ProviderTypeHiddenInputForm < ApplicationForm
-    form do |storage_form|
-      storage_form.hidden(
-        name: :provider_type,
-        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
-        required: true,
-        value: @storage.provider_type
-      )
+  class RedirectUriComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include StorageViewInformation
+
+    attr_reader :storage
+    alias_method :oauth_client, :model
+
+    def initialize(oauth_client:, storage:, **options)
+      super(oauth_client, **options)
+      @storage = storage
     end
 
-    def initialize(storage:)
-      super()
-      @storage = storage
+    def show_icon_button_options
+      {
+        icon: :eye,
+        tag: :a,
+        href: Rails.application.routes.url_helpers.show_redirect_uri_admin_settings_storage_oauth_client_path(storage),
+        scheme: :invisible,
+        aria: { label: I18n.t("storages.label_show_storage_redirect_uri") },
+        test_selector: 'storage-show-redirect-uri-button'
+      }
     end
   end
 end

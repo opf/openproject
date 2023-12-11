@@ -38,6 +38,10 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 <% end %>
 
+<%= turbo_stream.update :storage_redirect_uri_section do %>
+  <%= render(Storages::Admin::RedirectUriComponent.new(oauth_client: @oauth_client, storage: @storage)) %>
+<% end %>
+
 <% if @storage.provider_type_nextcloud? && @storage.oauth_client.blank?  %>
   <%= turbo_stream.update :storage_oauth_client_section  do %>
     <%= render(Storages::Admin::Forms::OAuthClientFormComponent.new(oauth_client: @oauth_client, storage: @storage)) %>

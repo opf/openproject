@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,21 +27,39 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin::Forms
+  class RedirectUriFormComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-module Storages::Admin
-  class ProviderTypeHiddenInputForm < ApplicationForm
-    form do |storage_form|
-      storage_form.hidden(
-        name: :provider_type,
-        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
-        required: true,
-        value: @storage.provider_type
-      )
+    attr_reader :storage
+    alias_method :oauth_client, :model
+
+    def initialize(oauth_client:, storage:, **options)
+      super(oauth_client, **options)
+      @storage = storage
     end
 
-    def initialize(storage:)
-      super()
-      @storage = storage
+    def cancel_button_path
+      storage.persisted? ? edit_admin_settings_storage_path(storage) : admin_settings_storages_path
+    end
+
+    def submit_button_disabled?
+      !oauth_client_configured?
+    end
+
+    def redirect_uri_or_instructions
+      if oauth_client_configured?
+        oauth_client.redirect_uri
+      else
+        I18n.t("storages.instructions.one_drive.missing_client_id_for_redirect_uri")
+      end
+    end
+
+    private
+
+    def oauth_client_configured?
+      oauth_client.present? && oauth_client.client_id.present? && oauth_client.client_secret.present?
     end
   end
 end
