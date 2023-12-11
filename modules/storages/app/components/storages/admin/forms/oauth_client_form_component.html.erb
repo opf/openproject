@@ -6,8 +6,7 @@
       method: form_method,
       data: {
         controller: 'storages--oauth-client-form',
-        application_target: 'dynamic',
-        'storages--oauth-client-form-client-id-missing-value': t(:"storages.instructions.one_drive.missing_client_id_for_redirect_uri")
+        application_target: 'dynamic'
       }
     ) do |form|
       flex_layout do |oauth_client_row|
@@ -27,8 +26,7 @@
               client_id_input_options: {
                 data: {
                   'storages--oauth-client-form-target': 'clientId',
-                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled ' \
-                    'input->storages--oauth-client-form#setRedirectUriValue'
+                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled'
                 }
               },
               client_secret_input_options: {
