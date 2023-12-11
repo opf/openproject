@@ -476,7 +476,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
       sibling2_work_package
     end
 
-    it 'works and inherits average done ratio of leaves weighted by estimated times' do
+    it 'works and inherits average done ratio of leaves weighted by work values' do
       expect(subject)
         .to be_success
 
