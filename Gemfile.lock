@@ -389,7 +389,7 @@ GEM
     carrierwave_direct (2.1.0)
       carrierwave (>= 1.0.0)
       fog-aws
-    cgi (0.4.0)
+    cgi (0.4.1)
     climate_control (1.2.0)
     closure_tree (7.4.0)
       activerecord (>= 4.2.10)
@@ -666,7 +666,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.5.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2023.1003)
+    mime-types-data (3.2023.1205)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
