@@ -77,7 +77,7 @@ FactoryBot.define do
           create(:member, principal:, project: object, roles: [role])
         elsif Member.can_be_member_of?(object)
           role = create(:work_package_role, permissions:)
-          create(:member, principal:, entity: object, project: entity.project, roles: [role])
+          create(:member, principal:, entity: object, project: object.project, roles: [role])
         end
       end
 
