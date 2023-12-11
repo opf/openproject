@@ -777,7 +777,7 @@ GEM
       multi_json
     puma (6.4.0)
       nio4r (~> 2.0)
-    puma-plugin-statsd (2.5.0)
+    puma-plugin-statsd (2.6.0)
       puma (>= 5.0, < 7)
     raabro (1.4.0)
     racc (1.7.3)
