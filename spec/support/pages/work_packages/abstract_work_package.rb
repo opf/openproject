@@ -152,14 +152,14 @@ module Pages
 
     def expect_zen_mode
       expect(page).to have_css('.zen-mode')
-      expect(page).to have_css('#main-menu', visible: false)
-      expect(page).to have_css('.op-app-header', visible: false)
+      expect(page).to have_css('#main-menu', visible: :hidden)
+      expect(page).to have_css('.op-app-header', visible: :hidden)
     end
 
     def expect_no_zen_mode
       expect(page).not_to have_css('.zen-mode')
-      expect(page).to have_css('#main-menu', visible: true)
-      expect(page).to have_css('.op-app-header', visible: true)
+      expect(page).to have_css('#main-menu')
+      expect(page).to have_css('.op-app-header')
     end
 
     def expect_custom_action(name)
