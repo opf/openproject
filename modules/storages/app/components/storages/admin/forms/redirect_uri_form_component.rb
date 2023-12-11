@@ -27,31 +27,39 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin::Forms
+  class RedirectUriFormComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-module Storages
-  module ManageNextcloudIntegrationJobMixin
-    using Peripherals::ServiceResultRefinements
+    attr_reader :storage
+    alias_method :oauth_client, :model
 
-    def perform
-      OpenProject::Mutex.with_advisory_lock(
-        ::Storages::NextcloudStorage,
-        'sync_all_group_folders',
-        timeout_seconds: 0,
-        transaction: false
-      ) do
-        ::Storages::NextcloudStorage.automatically_managed.includes(:oauth_client).find_each do |storage|
-          result = GroupFolderPropertiesSyncService.call(storage)
-          result.match(
-            on_success: ->(_) do
-              storage.mark_as_healthy
-            end,
-            on_failure: ->(errors) do
-              storage.mark_as_unhealthy(reason: errors.to_s)
-            end
-          )
-        end
-        true
+    def initialize(oauth_client:, storage:, **options)
+      super(oauth_client, **options)
+      @storage = storage
+    end
+
+    def cancel_button_path
+      storage.persisted? ? edit_admin_settings_storage_path(storage) : admin_settings_storages_path
+    end
+
+    def submit_button_disabled?
+      !oauth_client_configured?
+    end
+
+    def redirect_uri_or_instructions
+      if oauth_client_configured?
+        oauth_client.redirect_uri
+      else
+        I18n.t("storages.instructions.one_drive.missing_client_id_for_redirect_uri")
       end
+    end
+
+    private
+
+    def oauth_client_configured?
+      oauth_client.present? && oauth_client.client_id.present? && oauth_client.client_secret.present?
     end
   end
 end

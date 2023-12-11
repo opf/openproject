@@ -27,31 +27,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin
+  class RedirectUriComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include StorageViewInformation
 
-module Storages
-  module ManageNextcloudIntegrationJobMixin
-    using Peripherals::ServiceResultRefinements
+    attr_reader :storage
+    alias_method :oauth_client, :model
 
-    def perform
-      OpenProject::Mutex.with_advisory_lock(
-        ::Storages::NextcloudStorage,
-        'sync_all_group_folders',
-        timeout_seconds: 0,
-        transaction: false
-      ) do
-        ::Storages::NextcloudStorage.automatically_managed.includes(:oauth_client).find_each do |storage|
-          result = GroupFolderPropertiesSyncService.call(storage)
-          result.match(
-            on_success: ->(_) do
-              storage.mark_as_healthy
-            end,
-            on_failure: ->(errors) do
-              storage.mark_as_unhealthy(reason: errors.to_s)
-            end
-          )
-        end
-        true
-      end
+    def initialize(oauth_client:, storage:, **options)
+      super(oauth_client, **options)
+      @storage = storage
+    end
+
+    def show_icon_button_options
+      {
+        icon: :eye,
+        tag: :a,
+        href: Rails.application.routes.url_helpers.show_redirect_uri_admin_settings_storage_oauth_client_path(storage),
+        scheme: :invisible,
+        aria: { label: I18n.t("storages.label_show_storage_redirect_uri") },
+        test_selector: 'storage-show-redirect-uri-button'
+      }
     end
   end
 end

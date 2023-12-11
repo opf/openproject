@@ -31,19 +31,17 @@ require 'spec_helper'
 RSpec.describe 'invitations', :js, :with_cuprite do
   let(:user) { create(:invited_user, mail: 'holly@openproject.com') }
 
-  before do
-    allow(User).to receive(:current).and_return current_user
-  end
-
   shared_examples 'resending invitations' do |redirect_to_edit_page: true|
     it 'resends the invitation' do
+      login_with current_user.login, 'adminADMIN!'
+
       visit user_path(user)
       click_on I18n.t(:label_send_invitation)
       expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
       expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(user) : user_path(user)
 
       # Logout admin
-      logout
+      visit signout_path
 
       # Visit invitation with wrong token
       visit account_activate_path(token: 'some invalid value')
