@@ -2338,7 +2338,7 @@ en:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package you will need to create and activate an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
         enterprise_text: "Share work packages with users who are not members of the project."

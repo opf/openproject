@@ -21,4 +21,7 @@
 <%= I18n.t('mail.work_packages.reason.shared') %>:
 <%= t('mail.sharing.work_packages.allowed_actions', allowed_actions: @allowed_work_package_actions.to_sentence).html_safe %>
 
+<%= t('mail.sharing.work_packages.open_work_package') %>
+<%= @url %>
+
 <%= "-" * 100 %>
