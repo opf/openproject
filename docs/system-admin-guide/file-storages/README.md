@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: File storages
-  priority: 8300
+  priority: 830
 description: File storages in OpenProject.
 keywords: file storages, nextcloud setup, nextcloud integration, onedrive setup, sharepoint setup, onedrive, sharepoint
 ---

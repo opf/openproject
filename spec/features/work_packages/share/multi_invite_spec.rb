@@ -82,7 +82,7 @@ RSpec.describe 'Work package sharing',
       # Clicking on the share button opens a modal which lists all of the users a work package
       # is explicitly shared with.
       # Project members are not listed unless the work package is also shared with them explicitly.
-      click_button 'Share'
+      work_package_page.click_share_button
 
       aggregate_failures "Inviting multiple users or groups at once" do
         share_modal.expect_shared_count_of(1)
@@ -135,7 +135,7 @@ RSpec.describe 'Work package sharing',
       end
 
       share_modal.close
-      click_button 'Share'
+      work_package_page.click_share_button
 
       aggregate_failures "Re-opening the modal after changes performed" do
         # This user preserved
@@ -161,7 +161,7 @@ RSpec.describe 'Work package sharing',
 
     before do
       work_package_page.visit!
-      click_button 'Share'
+      work_package_page.click_share_button
     end
 
     it 'allows adding multiple users and updates the modal correctly' do
@@ -193,7 +193,7 @@ RSpec.describe 'Work package sharing',
 
     it 'allows creating multiple users at once' do
       work_package_page.visit!
-      click_button 'Share'
+      work_package_page.click_share_button
 
       share_modal.expect_open
       share_modal.expect_shared_count_of(1)
@@ -233,7 +233,7 @@ RSpec.describe 'Work package sharing',
 
     it 'allows sharing with an existing user and creating a new one at the same time' do
       work_package_page.visit!
-      click_button 'Share'
+      work_package_page.click_share_button
 
       share_modal.expect_open
       share_modal.expect_shared_count_of(1)
@@ -267,7 +267,7 @@ RSpec.describe 'Work package sharing',
 
       it 'shows a warning as soon as you reach the user limit' do
         work_package_page.visit!
-        click_button 'Share'
+        work_package_page.click_share_button
 
         share_modal.expect_open
         share_modal.expect_shared_count_of(1)

@@ -124,6 +124,10 @@ COPY --chown=$APP_USER:$APP_USER --from=rubygems /usr/local/bundle /usr/local/bu
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/public/assets /app/public/assets
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/config/frontend_assets.manifest.json /app/config/frontend_assets.manifest.json
 COPY --chown=$APP_USER:$APP_USER . .
+# Update Gemfile.lock in case a plugin has been added. It it hasn't, the file stays identical.
+COPY --chown=$APP_USER:$APP_USER --from=rubygems /app/Gemfile.lock /app/
+
+ENV BUNDLE_FROZEN=true
 
 # We need this so puma is allowed to create the tmp/pids folder and
 # temporary upload files when running with a uid other than 1000 (app)

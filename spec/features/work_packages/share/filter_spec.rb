@@ -79,7 +79,7 @@ RSpec.describe 'Work package sharing',
   context 'when having share permission' do
     before do
       work_package_page.visit!
-      click_button 'Share'
+      work_package_page.click_share_button
     end
 
     it 'allows to filter for the type' do

@@ -1182,6 +1182,7 @@ ru:
       current_project_and_all_descendants: "В этом проекте + подпроектах"
       current_project: "В этом проекте"
       recently_viewed: "Недавно просмотренные"
+      search: "Search"
       title:
         all_projects: "все проекты"
         project_and_subprojects: "и все подпроекты"

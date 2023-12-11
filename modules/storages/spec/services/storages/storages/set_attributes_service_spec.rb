@@ -88,10 +88,6 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
       expect(subject.result.provider_type).to eq Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
     end
 
-    it 'sets name to "My Nextcloud" by default' do
-      expect(subject.result.name).to eq I18n.t('storages.default_name')
-    end
-
     context 'when setting host' do
       before do
         params[:host] = "https://some.host.com//"

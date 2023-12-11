@@ -204,7 +204,7 @@ zh-CN:
   concatenation:
     single: "或"
   global_search:
-    placeholder: "Search in %{app_title}"
+    placeholder: "在%{app_title}中搜索"
     overwritten_tabs:
       wiki_pages: "维基"
       messages: "论坛"
@@ -3009,10 +3009,10 @@ zh-CN:
         view_description: "可以查看此工作包。"
       remove: "移除"
       share: "分享"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "没有符合当前过滤条件的用户。"
+      text_empty_search_header: "我们找不到任何匹配的结果。"
       text_empty_state_description: "工作包尚未共享给任何人。"
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "没有共享的成员。"
       text_user_limit_reached: "添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。"
       text_user_limit_reached_admins: '添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>以添加更多用户。'
       warning_user_limit_reached: >
@@ -3062,7 +3062,7 @@ zh-CN:
       code_429: "请求次数过多，请稍后再试。"
       code_500: "发生了内部错误。"
       code_500_outbound_request_failure: "对另一个资源的出站请求存在失败状态代码 %{status_code} 。"
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "由于企业令牌是无效的或缺失的，故无法处理该请求。"
       not_found:
         work_package: "找不到您要查找的工作包或者它已被删除。"
       expected:

@@ -41,7 +41,6 @@ import {
 } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
-import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 
 @NgModule({
   imports: [
@@ -63,6 +62,5 @@ import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-el
 })
 export class OpenprojectGlobalSearchModule {
   constructor(readonly injector:Injector) {
-    registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector });
   }
 }

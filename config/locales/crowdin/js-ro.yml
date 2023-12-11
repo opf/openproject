@@ -1179,6 +1179,7 @@ ro:
       current_project_and_all_descendants: "In acest proiect + subproiecte"
       current_project: "In acest proiect"
       recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "toate proiectele"
         project_and_subprojects: "si toate subproiectele"

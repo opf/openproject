@@ -144,18 +144,18 @@ RSpec.describe 'Admin storages',
 
           # OAuth application
           expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
-          expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Incomplete')
+          expect(page).not_to have_test_selector('label-openproject_oauth_application_configured-status')
 
           # OAuth client
           wait_for(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
-          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
+          expect(page).not_to have_test_selector('label-storage_oauth_client_configured-status')
           expect(page).to have_test_selector('storage-oauth-client-id-description',
                                              text: "Allow OpenProject to access Nextcloud data using OAuth.")
 
           # Automatically managed project folders
           expect(page).to have_test_selector('storage-managed-project-folders-label',
                                              text: 'Automatically managed folders')
-          expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Incomplete')
+          expect(page).not_to have_test_selector('label-managed-project-folders-status')
           expect(page).to have_test_selector('storage-automatically-managed-project-folders-description',
                                              text: 'Let OpenProject create folders per project automatically.')
         end
@@ -293,11 +293,13 @@ RSpec.describe 'Admin storages',
           # General information
           expect(page).to have_test_selector('storage-provider-configuration-instructions',
                                              text: "Please make sure you have administration privileges in the " \
-                                                   "Azure application before doing the setup.")
+                                                   "Azure portal or contact your Microsoft administrator before " \
+                                                   "doing the setup. In the portal, you also need to register an " \
+                                                   "Azure application or use an existing one for authentication.")
 
           # OAuth client
           wait_for(page).to have_test_selector('storage-oauth-client-label', text: 'Azure OAuth')
-          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
+          expect(page).not_to have_test_selector('label-storage_oauth_client_configured-status')
           expect(page).to have_test_selector('storage-oauth-client-id-description',
                                              text: "Allow OpenProject to access Azure data using OAuth " \
                                                    "to connect OneDrive/Sharepoint.")
@@ -306,6 +308,7 @@ RSpec.describe 'Admin storages',
         aggregate_failures 'General information' do
           within_test_selector('storage-general-info-form') do
             fill_in 'storages_one_drive_storage_name', with: 'My OneDrive', fill_options: { clear: :backspace }
+            fill_in 'storages_one_drive_storage_tenant_id', with: '029d4741-a4be-44c6-a8e4-e4eff7b19f65'
             click_button 'Save and continue'
 
             expect(page).to have_text("Drive can't be blank.")
@@ -322,8 +325,8 @@ RSpec.describe 'Admin storages',
         aggregate_failures 'OAuth Client' do
           within_test_selector('storage-oauth-client-form') do
             expect(page).to have_test_selector('storage-provider-credentials-instructions',
-                                               text: 'Copy these values from the Azure application. ' \
-                                                     'After that, copy the redirect URI back to the Azure application.')
+                                               text: 'Copy these values from the desired application in the ' \
+                                                     'Azure portal.')
 
             # With null values, submit button should be disabled
             expect(page).to have_css('#oauth_client_client_id', value: '')
