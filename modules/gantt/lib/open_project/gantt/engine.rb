@@ -46,19 +46,18 @@ module OpenProject::Gantt
         end
       end
 
-      # should_render_global_menu_item = Proc.new do
-      #   (User.current.logged? || !Setting.login_required?) &&
-      #   User.current.allowed_in_any_project?(:view_work_packages)
-      # end
+      should_render_global_menu_item = Proc.new do
+        (User.current.logged? || !Setting.login_required?) &&
+        User.current.allowed_in_any_project?(:view_work_packages)
+      end
 
-      # menu :global_menu,
-      #      :gantt,
-      #      { controller: '/gantt/gantt', action: 'index' },
-      #      caption: :label_gantt,
-      #      icon: 'view-timeline',
-      #      html: {
-      #        id: 'main-menu-gantt',
-      #      }
+      menu :global_menu,
+           :gantt,
+           { controller: '/gantt/gantt', action: 'index', project_id: nil },
+           caption: :label_gantt,
+           after: :work_packages,
+           icon: 'view-timeline',
+           if: should_render_global_menu_item
 
       menu :project_menu,
            :gantt,
@@ -80,14 +79,13 @@ module OpenProject::Gantt
            caption: :label_gantt_chart,
            if: ->(project) { project.module_enabled?(:gantt) }
 
-      # menu :top_menu,
-      #      :gantt,
-      #      { controller: '/gantt/gantt', action: 'index' },
-      #      caption: :label_gantt,
-      #      icon: 'view-timeline',
-      #      html: {
-      #        id: 'main-menu-gantt',
-      #      }
+      menu :top_menu,
+           :gantt,
+           { controller: '/gantt/gantt', action: 'index', project_id: nil },
+           caption: :label_gantt,
+           after: :work_packages,
+           icon: 'view-timeline',
+           if: should_render_global_menu_item
     end
 
     add_view :Gantt,
