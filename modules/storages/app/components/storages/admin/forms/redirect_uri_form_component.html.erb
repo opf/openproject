@@ -12,8 +12,6 @@
     ) do |form|
       flex_layout do |oauth_client_row|
         oauth_client_row.with_row(mb: 3) do
-          # concat(render(Storages::Admin::StorageIsCompleteHiddenInputForm.new(form)))
-
           concat(render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
             input_group.with_text_input(
               name: :oauth_client_redirect_uri,
@@ -33,7 +31,8 @@
               },
               data: {
                 'storages--oauth-client-form-target': 'redirectUri'
-              }
+              },
+              test_selector: 'storage-oauth-client-redirect-uri'
             )
           end)
 

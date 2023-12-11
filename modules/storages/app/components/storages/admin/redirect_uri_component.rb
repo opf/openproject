@@ -41,21 +41,15 @@ module Storages::Admin
       @storage = storage
     end
 
-    def edit_icon_button_options
+    def show_icon_button_options
       {
-        icon: oauth_client_configured? ? :eye : :pencil,
+        icon: :eye,
         tag: :a,
         href: Rails.application.routes.url_helpers.show_redirect_uri_admin_settings_storage_oauth_client_path(storage),
         scheme: :invisible,
         aria: { label: I18n.t("storages.label_show_storage_redirect_uri") },
-        test_selector: 'storage-edit-oauth-client-button'
+        test_selector: 'storage-show-redirect-uri-button'
       }
-    end
-
-    private
-
-    def oauth_client_configured?
-      storage.configuration_checks[:storage_oauth_client_configured]
     end
   end
 end
