@@ -12,6 +12,8 @@
     ) do |form|
       flex_layout do |oauth_client_row|
         oauth_client_row.with_row(mb: 3) do
+          # concat(render(Storages::Admin::StorageIsCompleteHiddenInputForm.new(form)))
+
           concat(render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
             input_group.with_text_input(
               name: :oauth_client_redirect_uri,
@@ -48,7 +50,7 @@
             form,
             storage:,
             submit_button_options: {
-              disabled: submit_button_disabled?,
+              disabled: submit_button_disabled? || @options[:is_complete],
               label: I18n.t('storages.buttons.done_complete_setup'),
               data: {
                 'storages--oauth-client-form-target': 'submitButton',

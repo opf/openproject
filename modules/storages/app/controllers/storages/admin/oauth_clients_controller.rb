@@ -119,6 +119,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
   def finish_setup
     flash[:primer_banner] = { message: I18n.t(:'storages.notice_successful_storage_connection'), scheme: :success }
+
     redirect_to admin_settings_storages_path
   end
 
