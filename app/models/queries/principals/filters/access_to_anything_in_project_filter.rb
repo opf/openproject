@@ -28,7 +28,10 @@
 
 class Queries::Principals::Filters::AccessToAnythingInProjectFilter < Queries::Principals::Filters::PrincipalFilter
   def allowed_values
-    Project.active.pluck(:name, :id)
+    Project
+    .visible(User.current)
+    .active
+    .pluck(:name, :id)
   end
 
   def type
@@ -61,6 +64,6 @@ class Queries::Principals::Filters::AccessToAnythingInProjectFilter < Queries::P
   def member_included_scope
     visible_scope
       .includes(:members)
-      .merge(Member.of_any_project)
+      .merge(Member.where.not(project: nil))
   end
 end
