@@ -520,6 +520,7 @@ RSpec.describe 'Admin storages',
 
           expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
           expect(page).to have_test_selector('storage-oauth-client-id-description', text: "OAuth Client ID: 1234567890")
+          expect(OAuthClient.where(integration: storage).count).to eq(1)
         end
 
         aggregate_failures 'Automatically managed project folders' do
