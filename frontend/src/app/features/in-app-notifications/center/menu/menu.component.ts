@@ -101,14 +101,13 @@ export class IanMenuComponent implements OnInit {
       isEnterprise: true,
       ...this.eeGuardedDateAlertRoute,
     },
+    {
+      key: 'shared',
+      title: this.I18n.t('js.notifications.menu.shared'),
+      icon: 'share',
+      ...getUiLinkForFilters({ filter: 'reason', name: 'shared' }),
+    },
   ];
-
-  sharedMenuItem = {
-    key: 'shared',
-    title: this.I18n.t('js.notifications.menu.shared'),
-    icon: 'share',
-    ...getUiLinkForFilters({ filter: 'reason', name: 'shared' }),
-  };
 
   notificationsByProject$ = this.ianMenuService.notificationsByProject$.pipe(
     map((items) => items
@@ -171,9 +170,7 @@ export class IanMenuComponent implements OnInit {
     readonly state:StateService,
     readonly bannersService:BannersService,
     readonly configurationService:ConfigurationService,
-  ) {
-      this.reasonMenuItems.push(this.sharedMenuItem);
-  }
+  ) { }
 
   ngOnInit():void {
     this.ianMenuService.reload();
