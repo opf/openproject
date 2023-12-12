@@ -32,7 +32,7 @@ RSpec.describe 'Shared Work Package Access',
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
   shared_let(:project) { create(:project_with_types) }
-  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:work_package) { create(:work_package, project:, journal_notes: 'Hello!') }
   shared_let(:sharer) do
     create(:user,
            member_with_permissions: { project => %i[share_work_packages
@@ -52,6 +52,8 @@ RSpec.describe 'Shared Work Package Access',
   let(:work_packages_page) { Pages::WorkPackagesTable.new(project) }
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:add_comment_button_selector) { '.work-packages--activity--add-comment' }
+  let(:attach_files_button_selector) { 'op-attachments--upload-button' }
 
   specify "Shared-with user access" do
     using_session "shared-with user" do
@@ -125,7 +127,19 @@ RSpec.describe 'Shared Work Package Access',
         work_package_page.edit_field(field).expect_read_only
       end
 
-      # So is commenting and file upload...
+      work_package_page.within_active_tab do
+        # Commenting is disabled
+        expect(page)
+          .not_to have_css(add_comment_button_selector)
+      end
+
+      # And so is viewing and uploading attachments
+      work_package_page.switch_to_tab(tab: 'Files')
+      work_package_page.expect_tab('Files')
+      work_package_page.within_active_tab do
+        expect(page)
+          .not_to have_test_selector(attach_files_button_selector)
+      end
     end
   end
 end

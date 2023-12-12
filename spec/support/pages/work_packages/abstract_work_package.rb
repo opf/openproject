@@ -49,6 +49,10 @@ module Pages
       expect(page).to have_css('.op-tab-row--link_selected', text: tab.to_s.upcase)
     end
 
+    def within_active_tab(&)
+      within('.work-packages-full-view--split-right .work-packages--panel-inner', &)
+    end
+
     def edit_field(attribute)
       work_package_field(attribute)
     end
