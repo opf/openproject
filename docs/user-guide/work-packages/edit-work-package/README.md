@@ -77,13 +77,11 @@ Starting with OpenProject 13.0 you can add emojis to all text editors. Type a co
 
 ## Attach files to work packages
 
-You can manually upload files to work packages directly under the tab **Files** in the work package detailed view. You
-can either attach files by dragging and dropping or by using the **+Attach files** option.
+You can manually upload files to work packages directly under the tab **Files** in the work package detailed view. You can either attach files by dragging and dropping or by using the **+Attach files** option.
 
 ![Manual attachment upload in an OpenProject work package](openproject_user_guide_wp_file_upload.png)
 
-Under the **Files** tab you will see the list of the all previously uploaded attachments, including file names, as well
-as which user uploaded an attachment and when. If no files were attached yet, the list will be empty.
+Under the **Files** tab you will see the list of the all previously uploaded attachments, including file names, as well as which user uploaded an attachment and when. If no files were attached yet, the list will be empty.
 
 You can remove an attachment by hovering over it and clicking the **Delete** icon.
 
