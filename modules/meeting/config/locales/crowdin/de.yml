@@ -100,6 +100,7 @@ de:
       invited:
         summary: "%{actor} hat Ihnen eine Einladung für die folgende Besprechung gesendet: %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Die Besprechung %{title} wurde durch %{actor} verschoben."
         body: "Die Besprechung %{title} wurde durch %{actor} verschoben."
         old_date_time: "Alte(s) Datum/Zeit"

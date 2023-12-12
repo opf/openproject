@@ -27,7 +27,7 @@ lt:
         creator: "Kūrėjas"
         provider_type: "Tiekėjo tipas"
         host: "Serveris"
-        tenant: "Gyventojas"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Kilmės Id"
     errors:
@@ -82,6 +82,7 @@ lt:
       storage_provider: "Saugyklos tiekėjas"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "Redirect URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatiškai valdomi aplankai"
     page_titles:
@@ -133,9 +134,9 @@ lt:
         integration: "Nextclout Administravimas / OpenProject"
       one_drive:
         provider_configuration: >
-          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
-        application_link_text: "Azure portal"
+          Prašome įsitikinti, kad turite %{application_link_text} administratoriaus privilegijas arba susisiekite su savo Microsoft administratoriumi prieš darydami nustatymus. Portale jums taipogi reikia registruoti Azure aplikaciją arba naudoti esamą autentifikacijai.
+        oauth_configuration: "Kopijuoti šias reikšmes iš norimos aplikacijos %{application_link_text}."
+        application_link_text: "Azure portalas"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Kopijuoti kliento id iš Azure portalo. Tai reikalinga nukreipimo URI generavimui.
@@ -149,6 +150,7 @@ lt:
         tenant_id_placeholder: "Vardas ar UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
@@ -156,6 +158,8 @@ lt:
       oauth_client_incomplete:
         nextcloud: "Leisti OpenProject prieigą prie Nextcloud duomenų naudojant OAuth."
         one_drive: "Leisti OpenProject prieigą prie Azure duomenų naudojant OAuth prisijungimui prie OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
         Ar tikrai norite ištrinti %{file_storage}? Šio veiksmo patvirtinimui prašome įvesti saugyklos pavadinimą lake žemiau:
@@ -204,11 +208,13 @@ lt:
     label_provider_type: "Tiekėjo tipas"
     label_project_folder: "Projekto aplankas"
     label_redirect_uri: "Peradresavimo URI"
+    label_uri: "URI"
     label_new_storage: "Nauja saugykla"
     label_new_file_storage: "Nauja %{provider} saugykla"
     label_edit_storage: "Keisti saugyklą"
     label_edit_storage_host: "Keisti saugyklos adresą"
     label_edit_storage_oauth_client: "Keisti saugyklos OAuth klientą"
+    label_show_storage_redirect_uri: "Show redirect URI"
     label_edit_storage_automatically_managed_folders: "Keisti saugyklos automatiškai tvarkomus aplankus"
     label_existing_manual_folder: "Esamas aplankas su rankiniu būdu valdomomis teisėmis"
     label_no_specific_folder: "Jokio konkretaus aplanko"
@@ -255,7 +261,8 @@ lt:
       label_pending: "Laukiama"
       label_error: "Klaida"
       label_healthy: "Sveikas"
-      checked: "Patikrinta  %{datetime}"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
     upsale:
       title: "OneDrive/SharePoint integracija"
       description: 'Integruokite jūsų OneDrive/SharePoint kaip failų saugyklą su OpenProject. Įkelkite failus ir susiekite juos tiesiogiai su projekto darbo paketais.'

@@ -290,8 +290,8 @@ fr:
     autologins:
       prompt: "Stay logged in for %{num_days}"
     sessions:
-      remembered_devices: "Remembered devices"
-      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
+      remembered_devices: "Appareils enregistrés"
+      remembered_devices_caption: "Une liste de tous les appareils connectés à ce compte à l'aide de l'option \"rester connecté\"."
       session_name: "%{browser_name} %{browser_version} sur %{os_name}"
       browser: "Navigateur"
       device: "Dispositif/système d'exploitation"
@@ -1032,7 +1032,7 @@ fr:
     due_date: "Date de fin"
     estimated_hours: "Durée estimée"
     estimated_time: "Durée estimée"
-    expires_at: "Expires at"
+    expires_at: "Expire le"
     firstname: "Prénom"
     group: "Groupe"
     groups: "Groupes"
@@ -2213,7 +2213,7 @@ fr:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package you will need to create and activate an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
         enterprise_text: "Share work packages with users who are not members of the project."

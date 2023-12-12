@@ -68,9 +68,9 @@ You can also remove the user from the list by clicking on **Remove** next to the
 
 ## Shared work packages overview
 
-For an overview of all work packages that have been shared with other users or groups, navigate to the [global modules](././home/global-modules/), select the module **Work Packages** and choose the filter **Shared with users** from the list of default work package filters on the left side. 
+For an overview of all work packages that have been shared with other users or groups, navigate to the [global modules](../../home/global-modules/), select the module **Work Packages** and choose the filter **Shared with users** from the list of default work package filters on the left side. 
 
-If you want to see all shared work packages within a specific project, navigate to that project first and then select the same filter. You can also [adjust this filter](./work-package-table-configuration/#filter-work-packages) and save it under your private work package filters.
+If you want to see all shared work packages within a specific project, navigate to that project first and then select the same filter. You can also [adjust this filter](../work-package-table-configuration/#filter-work-packages) and save it under your private work package filters.
 
 You (with the correct permissions) can always change or remove sharing options. 
 

@@ -376,7 +376,7 @@ fr:
     label_add_selected_columns: "Ajouter les colonnes sélectionnées"
     label_added_by: "Ajouté par"
     label_added_time_by: "Ajouté par <a href=\"%{authorLink}\">%{author}</a> le %{age}"
-    label_ago: "il y a quelques jours"
+    label_ago: "il y a"
     label_all: "tous"
     label_all_work_packages: "tous les lots de travaux"
     label_and: "et"

@@ -2181,7 +2181,7 @@ zh-CN:
     sharing:
       work_packages:
         allowed_actions: "你可以 %{allowed_actions} 这个工作包。这可以基于你的项目角色和权限而变化。"
-        create_account: "要访问此工作包，您需要创建一个 %{instance} 帐户。"
+        create_account: "To access this work package you will need to create and activate an %{instance} account. "
         open_work_package: "打开工作包"
         subject: "工作包 %{id} 已被共享给你"
         enterprise_text: "与非此项目成员的用户共享工作包。"

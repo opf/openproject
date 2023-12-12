@@ -27,8 +27,8 @@ it:
     attributes:
       work_package:
         position: "Posizione"
-        remaining_hours: "Ore rimaste"
-        remaining_time: "Ore rimaste"
+        remaining_hours: "Ore rimanenti"
+        remaining_time: "Ore rimanenti"
         derived_remaining_hours: "Ore rimanenti derivate"
         derived_remaining_time: "Ore rimanenti derivate"
         story_points: "Punti della storia"
