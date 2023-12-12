@@ -34,7 +34,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 
 @Component({
   selector: 'wp-details-toolbar',
-  templateUrl: './wp-details-toolbar.html'
+  templateUrl: './wp-details-toolbar.html',
 })
 export class WorkPackageSplitViewToolbarComponent {
   @Input() workPackage:WorkPackageResource;
