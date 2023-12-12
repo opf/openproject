@@ -188,7 +188,7 @@ But you can do it via the console as described [here](../../../installation-and-
 
 You  can still use an arbitrary provider. But for the time being there is no user interface yet for this. That means you will have to do it directly using the console on the server or via environment variables.
 
-Please continue reading in the [Miscellaneous section of the Installation and Operations Guide](https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/).
+Please continue reading in the [Miscellaneous section of the Installation and Operations Guide](../../../installation-and-operations/misc/custom-openid-connect-providers/).
 
 ## Troubleshooting
 
