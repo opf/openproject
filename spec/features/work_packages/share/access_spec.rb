@@ -92,8 +92,7 @@ RSpec.describe 'Shared Work Package Access',
       work_package_page.click_share_button
       share_modal.expect_open
 
-      share_modal.invite_user(shared_with_user, 'View')
-      share_modal.expect_shared_with(shared_with_user)
+      share_modal.invite_user!(shared_with_user, 'View')
     end
 
     using_session "shared-with user" do
