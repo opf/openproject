@@ -30,8 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'Shared Work Package Access',
                :js, :with_cuprite,
-               with_ee: %i[work_package_sharing],
-               with_flag: { work_package_sharing: true } do
+               with_ee: %i[work_package_sharing] do
   shared_let(:project) { create(:project_with_types) }
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:sharer) do
