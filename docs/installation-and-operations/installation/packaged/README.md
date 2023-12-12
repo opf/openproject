@@ -35,9 +35,7 @@ The package is available for the following Linux distributions:
 | [Debian 10 Buster](#debian-10)              |
 | [CentOS/RHEL 9.x](#centos-9--rhel-9)        |
 | [CentOS/RHEL 8.x](#centos-8--rhel-8)        |
-| [CentOS/RHEL 7.x](#centos-7--rhel-7)        |
 | [Suse Linux Enterprise Server 15](#sles-15) |
-| [Suse Linux Enterprise Server 12](#sles-12) |
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
 
@@ -265,25 +263,6 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 > **Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 >
 
-### CentOS 7 / RHEL 7
-
-Add the OpenProject package source:
-
-```shell
-sudo wget -O /etc/yum.repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/el/7.repo
-```
-
-Download the OpenProject package:
-
-```shell
-sudo yum install openproject
-```
-
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
-
-> **Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
-
 **Workaround for outdated PostgreSQL library package**
 
 Depending on your version and installation variant, you might receive errors like `symbol lookup error: /opt/openproject/vendor/bundle/ruby/3.1.0/gems/pg-1.4.3/lib/pg_ext.so: undefined symbol: PQconninfo`.
@@ -309,30 +288,6 @@ Add the OpenProject package source:
 ```shell
 wget -O /etc/zypp/repos.d/openproject.repo \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/sles/15.repo
-```
-
-If you already had an old package source that is being updated you must refresh
-your source next. It can't hurt to do this in any case, though.
-
-```shell
-sudo zypper refresh openproject
-```
-
-Next, download the OpenProject package:
-
-```shell
-sudo zypper install openproject
-```
-
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
-
-### SLES 12
-
-Add the OpenProject package source:
-
-```shell
-wget -O /etc/zypp/repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/sles/12.repo
 ```
 
 If you already had an old package source that is being updated you must refresh
