@@ -212,7 +212,10 @@ These following points are some known issues around the update to 8.0. It does n
 
 ### Upgrades in NPM may result in package inconsistencies
 
-As has been reported from the community, [there appear to be issues with NPM leftover packages](https://community.openproject.com/wp/28571) upgrading to OpenProject 8.0.0. This is due to the packages applying a delta between your installed version and the to-be-installed 8.0. package. In some cases such as SLES12 and Centos 7, the `frontend/node_modules` folder is not fully correctly replaced. This appears to hint at an issue with yum, the package manager behind both.
+As has been reported from the
+community, [there appear to be issues with NPM leftover packages](https://community.openproject.com/wp/28571) upgrading
+to OpenProject 8.0.0. This is due to the packages applying a delta between your installed version and the
+to-be-installed 8.0. package.
 
 To ensure the package's node_modules folder matches your local version, we recommend you simply remove `/opt/openproject/frontend/node_modules` entirely **before** installing the package
 
