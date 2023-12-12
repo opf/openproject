@@ -22,7 +22,7 @@ This section concerns upgrading of your OpenProject installation for packaged-ba
 
 ### Patch and minor releases
 Upgrading to a newer patch or minor version of OpenProject is as easy as installing a newer OpenProject package and
-running the `openproject configure` command. 
+running the `openproject configure` command.
 Please follow the steps listed below according to your Linux distribution.
 
 ### Debian / Ubuntu
@@ -67,7 +67,7 @@ sudo openproject configure
 
 ### Major upgrades
 
-OpenProject uses a different package repository for each Major version of OpenProject. 
+OpenProject uses a different package repository for each Major version of OpenProject.
 This means that if you want to switch from (e.g.) OpenProject 11.x to 12.x, you will need to explicitly update your package source to be able to install the newer versions.
 
 The necessary steps are the same as setting up the package source for the first time. You can also check the [installation guide](../../installation/packaged) for more information. Please follow the link below to see the appropriate steps for your Linux distribution.
@@ -76,11 +76,12 @@ The necessary steps are the same as setting up the package source for the first 
 |--------------------------------------------------------------------------|
 | [Ubuntu 22.04 Jammy Jellyfish](../../installation/packaged/#ubuntu-2204) |
 | [Ubuntu 20.04 Focal](../../installation/packaged/#ubuntu-2004)           |
+| [Debian 12 Bookworm](../../installation/packaged/#debian-12)             |
 | [Debian 11 Bullseye](../../installation/packaged/#debian-11)             |
 | [Debian 10 Buster](../../installation/packaged/#debian-10)               |
+| [CentOS/RHEL 9.x](../../installation/packaged/#centos-9--rhel-9)         |
 | [CentOS/RHEL 8.x](../../installation/packaged/#centos-8--rhel-8)         |
-| [CentOS/RHEL 7.x](../../installation/packaged/#centos-7--rhel-7)         |
-| [Suse Linux Enterprise Server 12](../../installation/packaged/#sles-12)  |
+| [Suse Linux Enterprise Server 15](../../installation/packaged/#sles-15)  |
 
 After following the steps to update the package source, updating the openproject package and running `openproject configure`, your system will be up to date.
 
