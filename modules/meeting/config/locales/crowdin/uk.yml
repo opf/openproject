@@ -102,6 +102,7 @@ uk:
       invited:
         summary: "%{actor} надіслав запрошення на зустріч %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Зустріч  %{title} перепланована  %{actor}"
         body: "Зустріч  %{title} перепланована  %{actor}"
         old_date_time: "Стара дата/час"

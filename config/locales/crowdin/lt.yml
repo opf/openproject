@@ -204,7 +204,7 @@ lt:
   concatenation:
     single: "arba"
   global_search:
-    placeholder: "Search in %{app_title}"
+    placeholder: "Ieškoti %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forumas"
@@ -2266,7 +2266,7 @@ lt:
     sharing:
       work_packages:
         allowed_actions: "Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių."
-        create_account: "Kas prieitumėte prie šio darbo paketo, jums reikia sukurti %{instance} paskyrą. "
+        create_account: "To access this work package you will need to create and activate an %{instance} account. "
         open_work_package: "Atverti darbo paketą"
         subject: "Su jumis bendrinamas darbo paketas #%{id}"
         enterprise_text: "Dalintis darbo paketais su naudotojais, kurie nėra projekto nariai."
@@ -3102,10 +3102,10 @@ lt:
         view_description: "Gali žiūrėti šį darbo paketą."
       remove: "Išimti"
       share: "Dalintis"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "Nėra naudotojų su dabartiniu filtro kriterijumi."
+      text_empty_search_header: "Mes neradome jokių atitinkančių rezultatų."
       text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Nėra bendrinamų narių."
       text_user_limit_reached: "Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo."
       text_user_limit_reached_admins: 'Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad galėtumėte pridėti daugiau naudotojų.'
       warning_user_limit_reached: >
