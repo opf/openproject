@@ -67,8 +67,6 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
 
   public eeShowBanners = false;
 
-  public displaySharedOption = false;
-
   public form = new UntypedFormGroup({
     assignee: new UntypedFormControl(false),
     responsible: new UntypedFormControl(false),
@@ -154,7 +152,6 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     this.form.disable();
     this.userId = (this.userId || this.uiRouterGlobals.params.userId) as string;
     this.eeShowBanners = this.bannersService.eeShowBanners;
-    this.displaySharedOption = true;
 
     this
       .currentUserService
