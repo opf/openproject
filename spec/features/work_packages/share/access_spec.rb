@@ -127,6 +127,7 @@ RSpec.describe 'Shared Work Package Access',
         work_package_page.edit_field(field).expect_read_only
       end
 
+      work_package_page.ensure_page_loaded # waits for activity section to be ready
       work_package_page.within_active_tab do
         # Commenting is disabled
         expect(page)
