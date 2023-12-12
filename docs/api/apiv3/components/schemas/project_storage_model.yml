@@ -69,14 +69,27 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              The directory on the storage that is used as a manual project folder.
+              The directory on the storage that is used as a project folder.
 
               **Resource**: StorageFile
 
               # Conditions
 
-              Only provided, if the `projectFolderMode` is set to `manual`.
+              Only provided, if the `projectFolderMode` is `manual` or `automatic`.
+      open:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A link to open project strorage.
+      openWithConnectionEnsured:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A link to open project storage with making sure user has access to it.
 
+              # Conditions
+
+              If the storage has not been configured(oauth client is missing, for instance), then the link is empty.
 example:
   _type: 'ProjectStorage'
   id: 1337
@@ -97,3 +110,7 @@ example:
     storage:
       title: "Palpatine's Data Vault"
       href: '/api/v3/storages/81'
+    open:
+      href: '/api/v3/storages/81/open'
+    openWithConnectionEnsured:
+      href: '/oauth_clients/123/ensure_connection?destination_url=https%3A%2F%2Fopenproject.local%2Fprojects%2Fdeath-star%2Fproject_storages%2F23%2Fopen&storage_id=81'
