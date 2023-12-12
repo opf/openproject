@@ -24,11 +24,11 @@ You probably already know OpenProject's Meetings module. Formerly, this module r
 
 ![OpenProject dynamic meetings example](openproject-13-1-dynamic-meetings.png)
 
-This feature, designed with the latest Primer UI components and UX  patterns, is funded by the German Federal Ministry of the Interior and  Home Affairs (BMI) as part of the [openDesk](././././blog/sovereign-workplace/) project.
+This feature, designed with the latest Primer UI components and UX  patterns, is funded by the German Federal Ministry of the Interior and  Home Affairs (BMI) as part of the [openDesk](https://www.openproject.org/blog/sovereign-workplace/) project.
 
 > Please note: The already existing classic meetings will be removed with one of the upcoming releases and only the new dynamic meetings will remain.  Migrations will be provided.
 
-See our user guide to learn more about the [updated meetings module and how to use it](./././user-guide/meetings/dynamic-meetings/).
+See our user guide to learn more about the [updated meetings module and how to use it](../../user-guide/meetings/dynamic-meetings/).
 
 ## OneDrive/SharePoint integration (Enterprise add-on)
 
@@ -36,7 +36,7 @@ OpenProject already offered the file sharing integration with Nextcloud. However
 
 ![SharePoint integration in OpenProject](openproject-13-1-onedrive-sharepoint-integration.png)
 
-See our user guide to learn more about this Enterprise add-on and how to [use the SharePoint integration](././user-guide/file-management/one-drive-integration/).
+See our user guide to learn more about this Enterprise add-on and how to [use the SharePoint integration](../../user-guide/file-management/one-drive-integration/).
 
 ## Share work packages with external users and groups (Enterprise add-on)
 
@@ -44,17 +44,17 @@ With OpenProject 13.1 it is possible to share work packages with users and/or gr
 
 ![Share work packages with external users in OpenProject](openproject-13-1-share-work-packages.png)
 
-See the user guide for [instructions on how to use this new feature](./././user-guide/work-packages/share-work-packages/).
+See the user guide for [instructions on how to use this new feature](../../user-guide/work-packages/share-work-packages/).
 
 ## Attribute help texts are released into Community edition
 
-With OpenProject 13.1, we released [Attribute help texts](./././system-admin-guide/attribute-help-texts/) for the Community edition. This allows providing explanatory help text for all project attributes, such as status, accountable or any custom field. The help text will be displayed as a small question mark icon beside the attribute, simplifying the input process and helping to avoid mistakes.
+With OpenProject 13.1, we released [Attribute help texts](../../system-admin-guide/attribute-help-texts/) for the Community edition. This allows providing explanatory help text for all project attributes, such as status, accountable or any custom field. The help text will be displayed as a small question mark icon beside the attribute, simplifying the input process and helping to avoid mistakes.
 
 ![Example of an attribute text in OpenProject](openproject-13-1-help-texts.png)
 
 ## Accessibility improvements and high contrast mode
 
-We continued to work on improving accessibility of OpenProject according to the WCAG 2.1 AA. You can now select to use a high contrast mode in your [profile settings](./././getting-started/my-account/#select-the-high-contrast-color-mode), which will override the current OpenProject theme and be especially valuable for OpenProject users with visual impairments. 
+We continued to work on improving accessibility of OpenProject according to the WCAG 2.1 AA. You can now select to use a high contrast mode in your [profile settings](../../getting-started/my-account/#select-the-high-contrast-color-mode), which will override the current OpenProject theme and be especially valuable for OpenProject users with visual impairments. 
 
 ![High contrast mode in OpenProject](openproject_my_account_high_contrast_mode.png)
 
@@ -154,6 +154,6 @@ A big thanks to Community members for reporting bugs and helping us identifying 
 
 - Special thanks for reporting and finding bugs go to Jeff Tseung, Richard Richter, Daniel Elkeles, Jörg Mollowitz, Christina Vechkanova, Sven Kunze, Jeff Li, Mario Haustein, Mario Zeppin
 
-- A big thank you to every other dedicated user who has [reported bugs](https://www.openproject.org/docs/development/report-a-bug) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- A big thank you to every other dedicated user who has [reported bugs](../../development/report-a-bug) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 
 - A big thank you to all the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).

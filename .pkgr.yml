@@ -23,7 +23,7 @@ targets:
     <<: *debian
   ubuntu-22.04:
     <<: *debian
-  centos-7: &centos7
+  centos-8: &centos8
     env:
       - BUNDLE_BUILD__PG="--with-pg-config=/usr/pgsql-13/bin/pg_config"
       - NODE_ENV=production
@@ -33,21 +33,11 @@ targets:
       - ImageMagick
       - unzip
       - poppler-utils
-  centos-8:
-    <<: *centos7
-    env:
-      - NODE_ENV=production
-      - NPM_CONFIG_PRODUCTION=false
   centos-9:
-    <<: *centos7
+    <<: *centos8
     env:
       - NODE_ENV=production
       - NPM_CONFIG_PRODUCTION=false
-  sles-12:
-    build_dependencies:
-      - sqlite3-devel
-    dependencies:
-      - ImageMagick
   sles-15:
     build_dependencies:
       - sqlite3-devel

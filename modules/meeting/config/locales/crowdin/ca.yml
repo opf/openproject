@@ -100,6 +100,7 @@ ca:
       invited:
         summary: "%{actor} us ha enviat una invitació per a la reunió %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "La reunió %{title} ha estat reprogramada per %{actor}"
         body: "La reunió %{title} ha estat reprogramada per %{actor}"
         old_date_time: "Data/hora antiga"

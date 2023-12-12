@@ -165,7 +165,7 @@ Based on the Product Managers judgement (taking among other things the RICE scor
 
 3. PM and Developer validate solution (technical feasibility / solution).
 
-   *If this solution touches security relevant components of the application, a Security Engineer is involved to identity and model the associated risks and impacts (thread modelling) according to the documented risks in the [Secure Coding Guidelines](https://www.openproject.org/docs/development/concepts/secure-coding/#secure-coding-guidelines).*
+   *If this solution touches security relevant components of the application, a Security Engineer is involved to identity and model the associated risks and impacts (thread modelling) according to the documented risks in the [Secure Coding Guidelines](../../development/concepts/secure-coding/#secure-coding-guidelines).*
 
 4. PM / UX Researcher validates the solution through user interviews. (optional)
 
@@ -225,10 +225,10 @@ Ideally the preparation of both QA and development happen at the same time so th
 3. Developer creates a pull request on GitHub where all automated tests are run.
 4. Developer hands over "Implementation" work package upon completion to another developer for review (status: “In review”).
 5. Developer (different from the one implementing the code) performs a review and, if changes are accepted according to the points mentioned below merges the pull request and closes the "Implementation" work package.
-   1. [Secure coding guidelines](https://www.openproject.org/docs/development/concepts/secure-coding/) have been evaluated for the proposed changes.
-   2. New or changed functionality is covered following the [Writing and Running Tests guide](https://www.openproject.org/docs/development/running-tests/) to ensure the entire required spectrum of tests were added.
-   3. [Code review guidelines](https://www.openproject.org/docs/development/code-review-guidelines/) are followed by the submitter and reviewer
-   4. [Pull request targets the correct version](https://www.openproject.org/docs/development/git-workflow/#create-a-pull-request), and has a related work package that will form the changelog.
+   1. [Secure coding guidelines](../concepts/secure-coding/) have been evaluated for the proposed changes.
+   2. New or changed functionality is covered following the [Writing and Running Tests guide](../running-tests/) to ensure the entire required spectrum of tests were added.
+   3. [Code review guidelines](../code-review-guidelines/) are followed by the submitter and reviewer
+   4. [Pull request targets the correct version](../git-workflow/#create-a-pull-request), and has a related work package that will form the changelog.
 7. The feature lead developer updates the status of the feature to "merged" once the feature is fully implemented. This can be done even with bugs still open that QA has already identified.
 8. Developer highlights features that require change in documentation if necessary (custom field “Requires doc change”).
 
@@ -240,13 +240,13 @@ Changes to the technical documentation, e.g API documentation, are done in paral
 
 ### 3.2.3 Building phase 3: Quality Assurance
 
-| Involved | Output                                                       |
-| -------- | :----------------------------------------------------------- |
-| - DevOps | [Edge or Staging environments](https://www.openproject.org/docs/development/application-architecture/#environments) are updated automatically or manually with necessary changes |
-| - QA     | Tested feature                                               |
+| Involved | Output                                                                                                                                 |
+| -------- |:---------------------------------------------------------------------------------------------------------------------------------------|
+| - DevOps | [Edge or Staging environments](../application-architecture/#environments) are updated automatically or manually with necessary changes |
+| - QA     | Tested feature                                                                                                                         |
 
 1. Tester adapts test plan if acceptance criteria was altered since the original creation of the test plan.
-2. Tester performs and verifies additional tests according to the  [Writing and Running Tests guide](https://www.openproject.org/docs/development/running-tests/) to ensure the application has been tested according to specifications and requirements.
+2. Tester performs and verifies additional tests according to the  [Writing and Running Tests guide](../../development/running-tests/) to ensure the application has been tested according to specifications and requirements.
 3. Tester tests feature (based on test plan) 
    1. Tester adjusts status when no errors in feature (status: “tested”).
    2. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 2 - Implementation)

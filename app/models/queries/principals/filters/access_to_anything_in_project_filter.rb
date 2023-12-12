@@ -26,25 +26,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-modules_permissions:
-  costs:
-  - role: :default_role_member
-    add:
-    - :view_cost_rates
-    - :log_own_costs
-    - :edit_own_cost_entries
-    - :view_budgets
-    - :view_own_cost_entries
-    - :log_own_time
-    - :save_cost_reports
-    - :save_private_cost_reports
-  - role: :default_role_work_package_editor
-    add:
-      - :view_own_time_entries
-      - :log_own_time
-      - :edit_own_time_entries
-  - role: :default_role_work_package_commenter
-    add:
-      - :view_own_time_entries
-      - :log_own_time
-      - :edit_own_time_entries
+class Queries::Principals::Filters::AccessToAnythingInProjectFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values
+    Project
+    .visible(User.current)
+    .active
+    .pluck(:name, :id)
+  end
+
+  def type
+    :list_optional
+  end
+
+  def self.key
+    :access_to_anything_in_project
+  end
+
+  def scope
+    case operator
+    when '='
+      visible_scope.in_anything_in_project(values)
+    when '!'
+      visible_scope.not_in_anything_in_project(values)
+    when '*'
+      member_included_scope.where.not(members: { id: nil })
+    when '!*'
+      member_included_scope.where.not(id: Member.distinct(:user_id).select(:user_id))
+    end
+  end
+
+  private
+
+  def visible_scope
+    Principal.visible(User.current)
+  end
+
+  def member_included_scope
+    visible_scope
+      .includes(:members)
+      .merge(Member.where.not(project: nil))
+  end
+end

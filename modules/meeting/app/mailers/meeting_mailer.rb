@@ -52,7 +52,7 @@ class MeetingMailer < UserMailer
 
     with_attached_ics(meeting, user) do
       subject = "[#{@meeting.project.name}] "
-      subject << I18n.t('meeting.email.rescheduled.header', title: @meeting.title, actor: @actor)
+      subject << I18n.t('meeting.email.rescheduled.header', title: @meeting.title)
       mail(to: user.mail, subject:)
     end
   end
