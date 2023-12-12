@@ -107,8 +107,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     this.isWatched = Object.prototype.hasOwnProperty.call(wp, 'unwatch');
     this.displayWatchButton = Object.prototype.hasOwnProperty.call(wp, 'unwatch') || Object.prototype.hasOwnProperty.call(wp, 'watch');
     this.displayTimerButton = Object.prototype.hasOwnProperty.call(wp, 'logTime');
-    this.displayShareButton$ = this.configurationService.activeFeatureFlags.includes('workPackageSharing')
-      && this.currentUserService.hasCapabilities$('work_package_shares/index', wp.project.id);
+    this.displayShareButton$ = this.currentUserService.hasCapabilities$('work_package_shares/index', wp.project.id);
 
     // watchers
     if (wp.watchers) {
