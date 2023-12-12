@@ -89,7 +89,7 @@ export class NotificationSettingsTableComponent implements OnInit {
 
   ngOnInit():void {
     this.eeShowBanners = this.bannersService.eeShowBanners;
-    this.displaySharedOption = this.configurationService.activeFeatureFlags.includes('workPackageSharing');
+    this.displaySharedOption = true;
   }
 
   projectLink(href:string) {

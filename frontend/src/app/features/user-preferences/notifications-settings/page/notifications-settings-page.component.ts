@@ -154,7 +154,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     this.form.disable();
     this.userId = (this.userId || this.uiRouterGlobals.params.userId) as string;
     this.eeShowBanners = this.bannersService.eeShowBanners;
-    this.displaySharedOption = this.configurationService.activeFeatureFlags.includes('workPackageSharing');
+    this.displaySharedOption = true;
 
     this
       .currentUserService

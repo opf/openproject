@@ -35,6 +35,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 @Component({
   selector: 'wp-details-toolbar',
   templateUrl: './wp-details-toolbar.html',
+                                        changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageSplitViewToolbarComponent {
   @Input() workPackage:WorkPackageResource;
@@ -52,6 +53,6 @@ export class WorkPackageSplitViewToolbarComponent {
     readonly halEditing:HalResourceEditingService,
     readonly configurationService:ConfigurationService,
   ) {
-    this.displayShareButton = this.configurationService.activeFeatureFlags.includes('workPackageSharing');
+    this.displayShareButton = true;
   }
 }

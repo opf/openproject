@@ -172,9 +172,7 @@ export class IanMenuComponent implements OnInit {
     readonly bannersService:BannersService,
     readonly configurationService:ConfigurationService,
   ) {
-    if (this.configurationService.activeFeatureFlags.includes('workPackageSharing')) {
       this.reasonMenuItems.push(this.sharedMenuItem);
-    }
   }
 
   ngOnInit():void {
