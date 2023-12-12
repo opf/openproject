@@ -8,7 +8,7 @@ keywords: meetings, dynamic meetings, meeting agenda
 
 # Add work packages to meetings
 
-Starting with OpenProject 13.1, meetings cand work packages can be linked to one another. This can be done either from the detailed view of a work package or when editing [a dynamic meeting](../../meetings/dynamic-meetings/#add-a-work-package-to-the-agenda).
+Starting with OpenProject 13.1, meetings and work packages can be linked to one another. This can be done either from the detailed view of a work package or when editing [a dynamic meeting](../../meetings/dynamic-meetings/#add-a-work-package-to-the-agenda).
 
 To add a work package to a meeting, open the detailed view of that work package, select the **Meetings** tab and click the **+Add to meeting** button.
 

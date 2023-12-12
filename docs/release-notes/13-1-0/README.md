@@ -150,10 +150,14 @@ With OpenProject 13.1 we have continued to integration the [Primer Design system
 - Fixed: Overview page suggests some information (e.g. custom fields, status, description) not set when they are hidden \[[#51431](https://community.openproject.com/wp/51431)\]
 
 ### Contributions
-A big thanks to Community members for reporting bugs and helping us identifying and providing fixes.
+A very special thank you goes to our sponsors for features and improvements of this release:
 
-- Special thanks for reporting and finding bugs go to Jeff Tseung, Richard Richter, Daniel Elkeles, Jörg Mollowitz, Christina Vechkanova, Sven Kunze, Jeff Li, Mario Haustein, Mario Zeppin
+- **Deutsche Bahn** – for the OneDrive/SharePoint integration
+- **AMG** – for the feature to share work packages
+- **German Federal Ministry of the Interior and Home Affairs (BMI)** – for the dynamic meetings module and the accessibility test and improvements
 
-- A big thank you to every other dedicated user who has [reported bugs](https://www.openproject.org/docs/development/report-a-bug) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+A big thanks to Community members for reporting bugs and helping us identifying and providing fixes:
 
-- A big thank you to all the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
+Jeff Tseung, Richard Richter, Daniel Elkeles, Jörg Mollowitz, Christina Vechkanova, Sven Kunze, Jeff Li, Mario Haustein, Mario Zeppin.
+
+A big thank you to every other dedicated user who has [reported bugs](https://www.openproject.org/docs/development/report-a-bug), supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards) and provided translations on [CrowdIn](https://crowdin.com/projects/opf).
