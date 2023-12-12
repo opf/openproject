@@ -54,7 +54,6 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
     CommentService,
     { provide: HalResourceNotificationService, useExisting: WorkPackageNotificationService },
   ],
-                                        changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
   // Watcher properties
