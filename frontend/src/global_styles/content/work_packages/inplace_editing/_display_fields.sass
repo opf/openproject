@@ -28,11 +28,11 @@
 
 @mixin wp-table--time-values
   display: inline-block
-  width: 48%
+  width: calc(50% - 0.5rem)
 
 @mixin wp-table--actual-time-values
   text-align: right
-  padding-right: 0.5rem
+  padding-right: 0.25rem
 
 @mixin wp-table--placeholder-time-values
   display: inline-block
@@ -82,15 +82,17 @@
       .-derived-value
         @include wp-table--time-values
 
-      .-derived-value:not(.-with-actual-value)
-        margin-left: 48%
-
     .-actual-value
       @include wp-table--actual-time-values
 
+    .-separator
+      padding-right: 0.25rem
+
+    .-separator::before
+      content: "·"
+
     .-derived-value
       color: var(--color-fg-muted)
-      font-style: italic
       font-weight: var(--base-text-weight-bold)
 
   &.spentTime .time-logging--value
