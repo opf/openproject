@@ -1,28 +1,26 @@
-<% case @state %>
-<% when :waiting %>
-  <%= render(Primer::OpenProject::FlexLayout.new(align_items: :center)) do |flex| %>
+<%= render(Primer::OpenProject::FlexLayout.new(align_items: :center, p: 4)) do |flex| %>
+  <% case @state %>
+  <% when :waiting %>
     <% flex.with_row do %>
       <div class="op-loading-indicator">
         <div></div><div></div>
       </div>
     <% end %>
     <% flex.with_row do %>
-      <%= render(Primer::Beta::Text.new) { I18n.t('storages.open_project_storage_modal.waiting.a') } %>
+      <%= render(Primer::Beta::Heading.new(tag: :h2, text_align: :center)) { I18n.t('storages.open_project_storage_modal.waiting.a') } %>
     <% end %>
     <% flex.with_row do %>
-      <%= render(Primer::Beta::Text.new) { I18n.t('storages.open_project_storage_modal.waiting.b') } %>
+      <%= render(Primer::Beta::Text.new(text_align: :center, color: :muted)) { I18n.t('storages.open_project_storage_modal.waiting.b') } %>
     <% end %>
-  <% end %>
-<% when :success %>
-  <%= render(Primer::OpenProject::FlexLayout.new(align_items: :center)) do |flex| %>
+  <% when :success %>
     <% flex.with_row do %>
       <%= render(Primer::Beta::Octicon.new(:"check-circle", size: :medium, color: :success)) %>
     <% end %>
     <% flex.with_row do %>
-      <%= render(Primer::Beta::Text.new) { I18n.t('storages.open_project_storage_modal.success.a') } %>
+      <%= render(Primer::Beta::Heading.new(tag: :h2, text_align: :center)) { I18n.t('storages.open_project_storage_modal.success.a') } %>
     <% end %>
     <% flex.with_row do %>
-      <%= render(Primer::Beta::Text.new) { I18n.t('storages.open_project_storage_modal.success.b') } %>
+      <%= render(Primer::Beta::Text.new(text_align: :center, color: :muted)) { I18n.t('storages.open_project_storage_modal.success.b') } %>
     <% end %>
   <% end %>
 <% end %>
