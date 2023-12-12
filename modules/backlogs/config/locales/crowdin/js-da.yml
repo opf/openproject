@@ -24,4 +24,4 @@ da:
     work_packages:
       properties:
         storyPoints: "Historiepunkter"
-        remainingTime: "Resterende timer"
+        remainingTime: "Remaining work"

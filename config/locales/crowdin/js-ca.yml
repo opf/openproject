@@ -966,7 +966,6 @@ ca:
         date: "Data"
         dueDate: "Data final"
         duration: "Durada"
-        estimatedTime: "Temps estimat"
         spentTime: "Temps utilitzat"
         category: "Categoria"
         percentageDone: "Percentatge fet"

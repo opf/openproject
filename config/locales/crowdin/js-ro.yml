@@ -966,7 +966,6 @@ ro:
         date: "Dată"
         dueDate: "Data de finalizare"
         duration: "Durată"
-        estimatedTime: "Durata estimată"
         spentTime: "Timp consumat"
         category: "Categorie"
         percentageDone: "Procent realizat"

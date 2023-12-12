@@ -964,7 +964,6 @@ zh-CN:
         date: "日期"
         dueDate: "完成日期"
         duration: "时长"
-        estimatedTime: "估算工时"
         spentTime: "已耗工时"
         category: "类别"
         percentageDone: "完成百分比"

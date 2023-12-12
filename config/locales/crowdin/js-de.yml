@@ -965,7 +965,6 @@ de:
         date: "Datum"
         dueDate: "Endtermin"
         duration: "Dauer"
-        estimatedTime: "Geschätzter Aufwand"
         spentTime: "Aufgewendete Zeit"
         category: "Kategorie"
         percentageDone: "Prozentsatz erledigt"

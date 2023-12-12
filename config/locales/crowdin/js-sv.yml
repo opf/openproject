@@ -965,7 +965,6 @@ sv:
         date: "Datum"
         dueDate: "Slutdatum"
         duration: "Varaktighet"
-        estimatedTime: "Beräknad tid"
         spentTime: "Förbrukad tid"
         category: "Kategori"
         percentageDone: "Procent gjort"

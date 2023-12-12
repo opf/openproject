@@ -966,7 +966,6 @@
         date: "Dato"
         dueDate: "Sluttdato"
         duration: "Varighet"
-        estimatedTime: "Tidsestimat"
         spentTime: "Tid brukt"
         category: "Kategori"
         percentageDone: "Prosent utført"

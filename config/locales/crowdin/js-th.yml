@@ -965,7 +965,6 @@ th:
         date: "วันที่"
         dueDate: "Finish date"
         duration: "ระยะเวลา"
-        estimatedTime: "ระยะเวลาโดยประมาณ"
         spentTime: "เวลาที่ใช้"
         category: "ประเภท"
         percentageDone: "Percentage done"

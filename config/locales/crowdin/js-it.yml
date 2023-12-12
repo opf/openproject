@@ -966,7 +966,6 @@ it:
         date: "Data"
         dueDate: "Data di fine"
         duration: "Durata"
-        estimatedTime: "Tempo stimato"
         spentTime: "Tempo speso"
         category: "Categoria"
         percentageDone: "Percentuale di completamento"

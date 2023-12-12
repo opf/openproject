@@ -964,7 +964,6 @@ vi:
         date: "Ngày"
         dueDate: "Ngày hoàn thành"
         duration: "Duration"
-        estimatedTime: "Thời gian dự kiến"
         spentTime: "Thời gian"
         category: "Thể loại"
         percentageDone: "Percentage done"

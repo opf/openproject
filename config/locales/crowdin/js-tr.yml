@@ -965,7 +965,6 @@ tr:
         date: "Tarih"
         dueDate: "Bitiş tarihi"
         duration: "Süre"
-        estimatedTime: "Tahmini süre"
         spentTime: "Harcanan zaman"
         category: "Kategori"
         percentageDone: "Tamamlanan yüzde"

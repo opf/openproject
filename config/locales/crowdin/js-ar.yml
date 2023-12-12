@@ -970,7 +970,6 @@ ar:
         date: "التاريخ"
         dueDate: "Finish date"
         duration: "المدّة"
-        estimatedTime: "الوقت المُقّدَّر"
         spentTime: "الوقت المستهلك"
         category: "الفئة"
         percentageDone: "النسبة المئوية المُنجزة"

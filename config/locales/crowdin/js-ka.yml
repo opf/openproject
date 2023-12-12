@@ -966,7 +966,6 @@ ka:
         date: "თარიღი"
         dueDate: "Finish date"
         duration: "ხანგრძლივობა"
-        estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "კატეგორია"
         percentageDone: "Percentage done"

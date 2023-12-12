@@ -27,10 +27,10 @@ ckb-IR:
     attributes:
       work_package:
         position: "پێگە"
-        remaining_hours: "کاتژمێری ماوە"
-        remaining_time: "کاتژمێری ماوە"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "Story Points"
         backlogs_work_package_type: "جۆری Backlog"
     errors:

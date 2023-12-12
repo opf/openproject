@@ -24,4 +24,4 @@ id:
     work_packages:
       properties:
         storyPoints: "Cerita poin"
-        remainingTime: "Jam yang tersisa"
+        remainingTime: "Remaining work"

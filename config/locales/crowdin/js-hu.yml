@@ -966,7 +966,6 @@ hu:
         date: "dátum"
         dueDate: "Befejezési dátum"
         duration: "Időtartam"
-        estimatedTime: "Becsült idő (óra)"
         spentTime: "Eltöltött idő"
         category: "Kategória"
         percentageDone: "Százalékosan elkészült"

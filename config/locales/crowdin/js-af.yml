@@ -966,7 +966,6 @@ af:
         date: "Datum"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Geraamde tyd"
         spentTime: "Tyd gespandeer"
         category: "Kategorie"
         percentageDone: "Percentage done"

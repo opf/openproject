@@ -964,7 +964,6 @@ zh-TW:
         date: "日期"
         dueDate: "完成日期"
         duration: "時間長度"
-        estimatedTime: "預估時間"
         spentTime: "耗時"
         category: "類別"
         percentageDone: "完成百分比"

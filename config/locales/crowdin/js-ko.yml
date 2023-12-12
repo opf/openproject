@@ -965,7 +965,6 @@ ko:
         date: "날짜"
         dueDate: "완료 날짜"
         duration: "기간"
-        estimatedTime: "예상된 시간"
         spentTime: "소비한 시간"
         category: "카테고리"
         percentageDone: "완료율"

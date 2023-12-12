@@ -27,10 +27,10 @@ vi:
     attributes:
       work_package:
         position: "Vị trí"
-        remaining_hours: "Số giờ còn lại"
-        remaining_time: "Số giờ còn lại"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "Điểm câu chuyện"
         backlogs_work_package_type: "Loại Backlog"
     errors:

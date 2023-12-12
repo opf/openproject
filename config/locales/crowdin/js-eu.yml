@@ -966,7 +966,6 @@ eu:
         date: "Date"
         dueDate: "Finish date"
         duration: "Iraupena"
-        estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
         percentageDone: "Percentage done"

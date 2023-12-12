@@ -968,7 +968,6 @@ pl:
         date: "Data"
         dueDate: "Data zakończenia"
         duration: "Czas trwania"
-        estimatedTime: "Szacowany czas"
         spentTime: "Czas pracy"
         category: "Kategoria"
         percentageDone: "Wykonano procent"

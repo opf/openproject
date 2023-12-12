@@ -966,7 +966,6 @@ hi:
         date: "तिथि"
         dueDate: "समाप्ति दिनांक"
         duration: "Duration"
-        estimatedTime: "Estimated time"
         spentTime: "समय बिताया"
         category: "श्रेणी"
         percentageDone: "Percentage done"

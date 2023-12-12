@@ -965,7 +965,6 @@ da:
         date: "Dato"
         dueDate: "Finish date"
         duration: "Varighed"
-        estimatedTime: "Anslået tid"
         spentTime: "Anvendt tid"
         category: "Kategori"
         percentageDone: "Procentdel udført"

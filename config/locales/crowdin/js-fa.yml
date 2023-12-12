@@ -966,7 +966,6 @@ fa:
         date: "تاریخ"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Estimated time"
         spentTime: "زمان صرف شده"
         category: "Category"
         percentageDone: "Percentage done"

@@ -27,10 +27,10 @@ bg:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Оставащи часове"
-        remaining_time: "Remaining hours"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "Точки на история"
         backlogs_work_package_type: "Backlog type"
     errors:

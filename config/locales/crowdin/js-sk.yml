@@ -968,7 +968,6 @@ sk:
         date: "Dátum"
         dueDate: "Dátum dokončenia"
         duration: "Trvanie"
-        estimatedTime: "Predpokladaný čas"
         spentTime: "Strávený čas"
         category: "Kategória"
         percentageDone: "hotovo na (%)"

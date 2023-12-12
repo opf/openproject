@@ -27,10 +27,10 @@ sr:
     attributes:
       work_package:
         position: "Pozicija"
-        remaining_hours: "Preostalo časova"
-        remaining_time: "Preostalo časova"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "Poeni Priče"
         backlogs_work_package_type: "Tip backlog-a"
     errors:

@@ -968,7 +968,6 @@ cs:
         date: "Datum"
         dueDate: "Datum dokončení"
         duration: "Doba trvání"
-        estimatedTime: "Odhadovaný čas"
         spentTime: "Strávený čas"
         category: "Kategorie"
         percentageDone: "Procento hotovo"

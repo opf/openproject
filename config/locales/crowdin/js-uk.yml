@@ -968,7 +968,6 @@ uk:
         date: "Дата"
         dueDate: "Дата закінчення"
         duration: "Тривалість"
-        estimatedTime: "Час (приблизно)"
         spentTime: "Трудовитрати"
         category: "Категорія"
         percentageDone: "Процент виконання"

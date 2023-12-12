@@ -965,7 +965,6 @@ el:
         date: "Ημερομηνία"
         dueDate: "Ημερομηνία λήξης"
         duration: "Διάρκεια"
-        estimatedTime: "Εκτιμώμενος χρόνος"
         spentTime: "Χρόνος που δαπανήθηκε"
         category: "Κατηγορία"
         percentageDone: "Ποσοστό ολοκλήρωσης"

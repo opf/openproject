@@ -965,7 +965,6 @@ id:
         date: "Tanggal"
         dueDate: "Tanggal selesai"
         duration: "Durasi"
-        estimatedTime: "Estimasi Waktu"
         spentTime: "Durasi"
         category: "Kategori"
         percentageDone: "Persentase selesai"

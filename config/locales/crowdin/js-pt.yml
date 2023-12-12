@@ -965,7 +965,6 @@ pt:
         date: "Data"
         dueDate: "Data de conclusão"
         duration: "Duração"
-        estimatedTime: "Tempo estimado"
         spentTime: "Tempo gasto"
         category: "Categoria"
         percentageDone: "Percentual pronto"

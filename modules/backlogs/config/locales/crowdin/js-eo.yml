@@ -24,4 +24,4 @@ eo:
     work_packages:
       properties:
         storyPoints: "Historiaj poentoj"
-        remainingTime: "Restantaj horoj"
+        remainingTime: "Remaining work"

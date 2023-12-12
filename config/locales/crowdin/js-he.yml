@@ -968,7 +968,6 @@ he:
         date: "תאריך"
         dueDate: "Finish date"
         duration: "משך זמן"
-        estimatedTime: "זמן משוער"
         spentTime: "זמן שבוזבז"
         category: "קטגוריה"
         percentageDone: "האחוזים הסתיימו"

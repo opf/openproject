@@ -966,7 +966,6 @@ fil:
         date: "Petsa"
         dueDate: "Finish date"
         duration: "Durasyon"
-        estimatedTime: "Tinantyang oras"
         spentTime: "Nauubos na oras"
         category: "Kategorya"
         percentageDone: "Porsyentong natapos"

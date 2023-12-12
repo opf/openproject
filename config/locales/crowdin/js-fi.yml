@@ -966,7 +966,6 @@ fi:
         date: "Päivämäärä"
         dueDate: "Päättymispäivä"
         duration: "Kesto"
-        estimatedTime: "Työmääräarvio"
         spentTime: "Käytetty aika"
         category: "Kategoria"
         percentageDone: "Osuus tehnyt"

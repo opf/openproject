@@ -968,7 +968,6 @@ be:
         date: "Дата"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
         percentageDone: "Percentage done"

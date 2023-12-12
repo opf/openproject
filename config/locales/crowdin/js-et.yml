@@ -966,7 +966,6 @@ et:
         date: "Kuupäev"
         dueDate: "Lõpetamise kuupäev"
         duration: "kestus"
-        estimatedTime: "Eeldatav ajakulu"
         spentTime: "Kulutatud aeg"
         category: "Kategooria"
         percentageDone: "Percentage done"

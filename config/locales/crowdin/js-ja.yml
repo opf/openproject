@@ -966,7 +966,6 @@ ja:
         date: "日付"
         dueDate: "終了日"
         duration: "期間"
-        estimatedTime: "予定工数"
         spentTime: "作業時間の記録"
         category: "カテゴリ"
         percentageDone: "完了比率"

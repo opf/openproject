@@ -967,7 +967,6 @@ sl:
         date: "Datum"
         dueDate: "Končni datum"
         duration: "Trajanje"
-        estimatedTime: "Predvideni čas"
         spentTime: "Porabljen čas"
         category: "Kategorija"
         percentageDone: "Procent dokončanega dela"

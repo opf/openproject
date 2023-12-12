@@ -24,4 +24,4 @@ he:
     work_packages:
       properties:
         storyPoints: "Story Points"
-        remainingTime: "שעות שנותרו"
+        remainingTime: "Remaining work"

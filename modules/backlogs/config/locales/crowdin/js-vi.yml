@@ -24,4 +24,4 @@ vi:
     work_packages:
       properties:
         storyPoints: "Story Points"
-        remainingTime: "Số giờ còn lại"
+        remainingTime: "Remaining work"

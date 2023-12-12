@@ -966,7 +966,6 @@ si:
         date: "දිනය"
         dueDate: "අවසන් දිනය"
         duration: "කාල සීමාව"
-        estimatedTime: "ඇස්තමේන්තුගත කාලය"
         spentTime: "වැය කළ කාලය"
         category: "ප්රවර්ගය"
         percentageDone: "ප්රතිශතය සිදු"
