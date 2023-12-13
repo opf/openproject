@@ -60,8 +60,10 @@ module API
             end
           end
 
+          # No need to reapply the visibility scope here as this will be done by the used
+          # NotificationQuery.
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
-            .new(model: Notification, scope: -> { notification_scope })
+            .new(model: Notification, scope: -> { Notification.where.not(read_ian: nil) })
             .mount
 
           post :read_ian do
