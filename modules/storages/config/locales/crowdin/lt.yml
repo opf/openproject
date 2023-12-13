@@ -82,7 +82,7 @@ lt:
       storage_provider: "Saugyklos tiekėjas"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "Peradresavimo URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatiškai valdomi aplankai"
     page_titles:

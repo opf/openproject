@@ -34,9 +34,9 @@ ca:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Carregant..."
+      not_found: "Elements no trobats"
+      type_to_search: "Escriviu per cercar"
     autocomplete_select:
       placeholder:
         multi: "Afegir \"%{name}\""
@@ -303,33 +303,33 @@ ca:
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Diagrama de Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Configuració d''etiquetes'
+        bar: 'Etiquetes de barres'
+        left: 'Esquerra'
+        right: 'Dreta'
+        farRight: 'Extrem dret'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Selecciona els atributs que vols que es mostrin en les posicions corresponents del diagrama de Gantt en tot moment. Tingui en compte que, en mantenir el ratolí sobre un element, es mostraran les etiquetes de data en lloc d'aquests atributs.
+      button_activate: 'Mostra el diagrama de Gantt'
+      button_deactivate: 'Amaga el diagrama de Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(cap)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Faci clic en qualsevol paquet de treball ressaltat per a crear la relació. Cliqui Esc per a cancel·lar.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Ampliar"
+        out: "Allunyar"
+        auto: "Zoom automàtic"
+        days: "Dies"
+        weeks: "Setmanes"
+        months: "Mesos"
+        quarters: "Quatrimestres"
+        years: "Anys"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Seleccioni el nivell inicial de zoom que s'ha de mostrar quan el zoom automàtic no estigui disponible.
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -1026,7 +1026,7 @@ ca:
         is_parent: "Les dates d'aquest paquet de treball estan derivades automàticament dels seus fills. Activa la \"Planificació manual\" per canviar les dates."
         is_switched_from_manual_to_automatic: "Pot ser que les dates d'aquest paquet de treball no es tornin a calcular automàticament en canviar de planificació manual a automàtica a causa de les relacions amb altres paquets de treball."
       sharing:
-        share: 'Share'
+        share: 'Compartir'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1176,7 +1176,7 @@ ca:
       current_project_and_all_descendants: "En aquest projecte + subprojectes"
       current_project: "En aquest projecte"
       recently_viewed: "Vist recentment"
-      search: "Search"
+      search: "Cercar"
       title:
         all_projects: "tots els projectes"
         project_and_subprojects: "i tots els subprojectes"

@@ -7,11 +7,11 @@ zh-TW:
   permission_manage_team_planner: "Manage team planner"
   project_module_team_planner_view: "Team planners"
   team_planner:
-    label_team_planner: "Team planner"
+    label_team_planner: "團隊規劃"
     label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Create new team planner"
     label_team_planner_plural: "Team planners"
     label_assignees: "Assignees"
     upsale:
-      title: "Team planner"
+      title: "團隊規劃"
       description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

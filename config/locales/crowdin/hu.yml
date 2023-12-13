@@ -102,8 +102,8 @@ hu:
       error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"
       cancelled_due_to: "A műveletet hiba miatt törölték: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "LDAP-hiba: %{error_message}"
+    ldap_auth_failed: "A hitelesítés meghiúsult az LDAP-kiszolgálón."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Ehhez az LDAP űrlaphoz az Ön LDAP / Acitive Directory beállításainak ismerete szükséges.
@@ -165,18 +165,18 @@ hu:
     index:
       no_results_title_text: Jelenleg nincsenek színek.
       no_results_content_text: Új szín létrehozása
-      label_new_color: "New color"
+      label_new_color: "Új szín"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Új szín"
+      label_edit_color: "Színek szerkesztése"
     label_no_color: "Nincs szín"
-    label_properties: "Properties"
+    label_properties: "Tulajdonságok"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Biztos, hogy törli a következő színt? Ezt a színt használja egy típus, igy nem törlhető.
   custom_actions:
     actions:
       name: "Műveletek"
@@ -260,7 +260,7 @@ hu:
       types:
         no_results_title_text: Jelenleg nincs elérhető típus.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Engedélyezett típus  "%{type}"'
       versions:
         no_results_title_text: Jelenleg nincsenek verziók a projekthez.
         no_results_content_text: Új verzió létrehozása
@@ -455,20 +455,20 @@ hu:
         attribute_name: "Attribútum"
         help_text: "Súgószöveg"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        account: "Felhasználói fiók"
+        attr_firstname: "Keresztnév attribútum"
+        attr_lastname: "Vezetéknév attribútum"
+        attr_login: "Felhasználónév attribútum"
+        attr_mail: "Email attribútum"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
+        onthefly: "Automatikus felhasználó készítés"
+        port: "Port szám"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hexa kód"
       comment:
         commented: "Hozzászólás" #an object that this comment belongs to
       custom_action:
@@ -564,7 +564,7 @@ hu:
         color: "Szín"
       user:
         admin: "Adminisztrátor"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "LDAP csatlakozás"
         identity_url: "Identity URL"
         current_password: "Jelenlegi jelszó"
         force_password_change: "Kötelező jelszóváltás a következő bejelentkezéskor"
@@ -644,7 +644,7 @@ hu:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "lehet, hogy nem érhető el."
         error_readonly: "írása megkísérelve, de nem írható."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Az adatokat frissítette egy másik felhasználó időközben."
         email: "nem valós e-mail cím"
         empty: "nem lehet üres."
         even: "kell még."
@@ -693,7 +693,7 @@ hu:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
-              format: "%{message}"
+              format: "%{message}\n"
         attachment:
           attributes:
             content_type:
@@ -914,7 +914,7 @@ hu:
             status:
               invalid_on_create: "ez nem egy érvényes állapot, az új felhasználó számára."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "nem található"
         member:
           principal_blank: "Kérem, válasszon legalább egy felhasználót vagy csoportot."
           role_blank: "Hozzá kell rendelve lennie"
@@ -925,7 +925,7 @@ hu:
             principal:
               unassignable: "nem lehet hozzárendelni a projekthez"
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
           undeletable_work_packages_attached: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
         status:
           readonly_default_exlusive: "nem aktiválható az alapértelmezettként megjelölt állapotokhoz."
@@ -967,7 +967,7 @@ hu:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Problémák merültek fel az alábbi mezőkkel:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1029,7 +1029,7 @@ hu:
     due_date: "Befejezési dátum"
     estimated_hours: "Work"
     estimated_time: "Work"
-    expires_at: "Expires at"
+    expires_at: "Lejárat ekkor"
     firstname: "Keresztnév"
     group: "Csoport"
     groups: "Csoportok"
@@ -1279,8 +1279,8 @@ hu:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "1 óra"
+        other: "%{count} óra"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
@@ -1291,7 +1291,7 @@ hu:
         one: "1 hónapja"
         other: "%{count} hónapja"
       x_years:
-        one: "1 year"
+        one: "1 év"
         other: "%{count} years"
       x_seconds:
         one: "1 másodperce"
@@ -1361,7 +1361,7 @@ hu:
   error_can_not_unarchive_project: "Ezt a projektet nem lehet az archívumból visszavenni: %{errors}"
   error_check_user_and_role: "Légy szíves válassz felhasználót és szerepkört"
   error_code: "Hibakód: %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "A szín nem menthető"
   error_cookie_missing: "Hiányzó OpenProject cookie. Ellenőrizze, hogy böngészőjében a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud megfelelően működni."
   error_custom_option_not_found: "A beállítás nem létezik."
   error_enterprise_activation_user_limit: "Fiókját nem lehet aktiválni (elérte a felhasználói korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez."
@@ -1386,7 +1386,7 @@ hu:
   error_password_change_failed: "Hiba történt a jelszó megváltoztatásakor."
   error_scm_command_failed: "Hiba mikor kipróbáláshoz el akarja érni a repository: %{value}"
   error_scm_not_found: "A bejegyzés vagy a revízió  a csomagtárolóban  nem található."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "A típust nem lehet menteni"
   error_unable_delete_status: "A munka csomag állapot nem törölhető, mivel legalább egy munka csomag használja."
   error_unable_delete_default_status: "Nem tudom törtölni az alapértelmezett munkacsomag állapotát. Kérjük, válasszon egy másik alapértelmezett munka csomag állapotot, mielött ezt törli."
   error_unable_to_connect: "Nem tud kapcsolódni (%{value} )"
@@ -1590,7 +1590,7 @@ hu:
   label_age: "Életkor"
   label_ago: "nappal ezelőtt"
   label_all: "mind"
-  label_all_projects: "All projects"
+  label_all_projects: "Minden projekt"
   label_all_time: "minden alkalommal"
   label_all_words: "Minden szó"
   label_all_open_wps: "Nyitottak"
@@ -1617,7 +1617,7 @@ hu:
   label_attribute: "Attribútum"
   label_attribute_plural: "Attribútumok"
   label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source: "LDAP csatlakozás"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Hitelesítés"
   label_available_global_roles: "Available global roles"
@@ -1679,7 +1679,7 @@ hu:
   label_confirmation: "Új jelszó újra"
   label_contains: "tartalmaznak"
   label_content: "Tartalom"
-  label_color_plural: "Colors"
+  label_color_plural: "Színek"
   label_copied: "másolva"
   label_copy_same_as_target: "Ugyanaz, mint a cél"
   label_copy_source: "Forrás"
@@ -1709,7 +1709,7 @@ hu:
   label_deleted: "Törölve"
   label_deleted_custom_field: "(egyéni mező törölve)"
   label_deleted_custom_option: "(opció törlése)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(üres)"
   label_missing_or_hidden_custom_option: "(hiányzó érték vagy a hozzáférési jogosultságok hiánya)\n"
   label_descending: "Csökkenő"
   label_details: "Részletek"
@@ -1907,7 +1907,7 @@ hu:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "bármely"
   label_open_menu: "Menü megnyitása"
   label_open_work_packages: "nyitott"
   label_open_work_packages_plural: "nyitott"
@@ -2045,7 +2045,7 @@ hu:
   label_this_week: "ezen a héten"
   label_this_year: "Ebben az évben"
   label_time_entry_plural: "Eltöltött idő"
-  label_title: "Title"
+  label_title: "Cím"
   label_projects_menu: "Projektek"
   label_today: "Ma"
   label_top_menu: "Felső menü"
@@ -2246,8 +2246,8 @@ hu:
   mail_body_register_ending: "Maradj kapcsolatban! Üdvözlettel,"
   mail_body_reminder: "Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon esedékesek:"
   mail_body_group_reminder: 'A "%{group}" csoporthoz rendelt %{count} feladat határidős az elkövetkező %{days} napban:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "A '%{id}' wiki oldal hozzáadva %{author} által."
+  mail_body_wiki_page_updated: "A '%{id}' wiki oldal frissítve %{author} által."
   mail_subject_account_activation_request: "%{value} fiók aktiválásának kérése"
   mail_subject_backup_ready: "A biztonsági mentés elkészült"
   mail_subject_backup_token_reset: "Biztonsági mentés token visszaállítás"
@@ -2386,7 +2386,7 @@ hu:
   permission_add_work_packages: "feladatcsoport hozzáadása"
   permission_add_messages: "Elküldött üzenetek"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Melléklet hozzáadása"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Projekt archiválása"
   permission_create_user: "Create users"
@@ -2754,7 +2754,7 @@ hu:
     brute_force_prevention: "Felhasználó automatikus blokkolása"
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Ha a "%{day_of_week_setting_name}" vagy a "%{first_week_setting_name}" opciók közül valamelyik be van állítva, akkor a másiknak is be kell lennie, hogy elkerüljük az ellentmondásokat a frontendben.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
     experimental:
@@ -2918,7 +2918,7 @@ hu:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      public: "Tegye közzé ezt a nézetet, lehetővé téve más felhasználók számára, hogy hozzáférjenek a nézethez. A „Nyilvános nézetek kezelése” engedéllyel rendelkező felhasználók módosíthatják vagy eltávolíthatják a nyilvános lekérdezéseket. Ez nem befolyásolja a munkacsomag-eredmények láthatóságát abban a nézetben, és engedélyüktől függően a felhasználók eltérő eredményeket láthatnak."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "Délelött"
@@ -3032,21 +3032,21 @@ hu:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Szerepkör'
+        type: 'Típus'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Vélemény"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Szerkesztés"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Nézet"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Eltávolítás"
+      share: "Megosztás"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."

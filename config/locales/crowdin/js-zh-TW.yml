@@ -34,7 +34,7 @@ zh-TW:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "讀取中..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -111,7 +111,7 @@ zh-TW:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: '從清單列表中移除'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "費率歷史紀錄"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "已成功複製到剪貼簿"
@@ -302,33 +302,33 @@ zh-TW:
           two: "第二個排序條件"
           three: "第三個排序條件"
     gantt_chart:
-      label: 'Gantt chart'
+      label: '甘特圖'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: '標籤配置'
+        bar: '列標籤'
+        left: '左'
+        right: '右'
+        farRight: '最右'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: '檢視甘特圖'
+      button_deactivate: '隱藏甘特圖'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "（無）"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: '按一下任何標示的工作項目來建立關聯。按 ESC 取消。'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "放大"
+        out: "縮小"
+        auto: "自動縮放"
+        days: "日"
+        weeks: "週"
+        months: "月"
+        quarters: "季"
+        years: "年"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          選擇自動縮放無法接通應顯示的初始縮放級別。
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -1024,7 +1024,7 @@ zh-TW:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: '分享'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1172,7 +1172,7 @@ zh-TW:
       current_project_and_all_descendants: "對現在的專案和子專案"
       current_project: "對現在的專案"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "搜尋"
       title:
         all_projects: "所有專案"
         project_and_subprojects: "和所有的子專案"

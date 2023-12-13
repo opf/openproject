@@ -69,7 +69,7 @@ az:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save: "Save"
+      save: "Saxla"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"

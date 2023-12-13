@@ -61,7 +61,7 @@ ka:
           assignee: დასაქმებული
           status: სტატუსი
           version: ვერსია
-          subproject: Subproject
+          subproject: ქვეპროექტი
           subtasks: მშობელი-შვილი
           basic: ძირითადი
         select_attribute: "Action attribute"

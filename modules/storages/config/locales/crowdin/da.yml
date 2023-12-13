@@ -19,14 +19,14 @@ da:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Fil"
       storages/storage: "Storage"
     attributes:
       storages/storage:
         name: "Navn"
         creator: "Creator"
         provider_type: "Provider type"
-        host: "Host"
+        host: "Vært"
         tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Origin Id"
@@ -69,12 +69,12 @@ da:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save: "Save"
+      save: "Gem"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
-      configure: "Configure"
+      configure: "Opsæt"
     file_storage_view:
       general_information: "General information"
       oauth_applications: "OAuth applications"
@@ -176,7 +176,7 @@ da:
       heading: "You don't have any storages yet."
       description: "Add a storage to see them here."
     error_invalid_provider_type: "Please select a valid storage provider."
-    label_active: "Active"
+    label_active: "Aktiv"
     label_add_new_storage: "Add new storage"
     label_delete_storage: "Delete storage"
     label_inactive: "Inactive"
@@ -224,7 +224,7 @@ da:
     label_storage: "Storage"
     label_storages: "Storages"
     label_status: "Status"
-    label_files: "Files"
+    label_files: "Filer"
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
@@ -259,7 +259,7 @@ da:
     health:
       title: "Managed folders status"
       label_pending: "Pending"
-      label_error: "Error"
+      label_error: "Fejl"
       label_healthy: "Healthy"
       checked: "Last checked %{datetime}"
       since: "since %{datetime}"

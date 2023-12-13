@@ -31,7 +31,7 @@ ka:
         remaining_time: "Remaining work"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
-        story_points: "Story Points"
+        story_points: "ისტორიული წერტილები"
         backlogs_work_package_type: "Backlog type"
     errors:
       models:
@@ -68,11 +68,11 @@ ka:
     properties: "თვისებები"
     rebuild: "თავიდან აგება"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining hours"
+    remaining_hours: "დარჩენილია საათები"
     remaining_hours_ideal: "Remaining hours (ideal)"
     show_burndown_chart: "Burndown Chart"
     story: "ამბავი"
-    story_points: "Story Points"
+    story_points: "ისტორიული წერტილები"
     story_points_ideal: "Story Points (ideal)"
     task: "დავალება"
     task_color: "ამოცანის ფერი"

@@ -179,7 +179,7 @@ be:
     label_active: "Active"
     label_add_new_storage: "Add new storage"
     label_delete_storage: "Delete storage"
-    label_inactive: "Inactive"
+    label_inactive: "Неактыўны"
     label_creator: "Стваральнік"
     label_provider: "Provider"
     label_file_link: "Файлавая спасылка"

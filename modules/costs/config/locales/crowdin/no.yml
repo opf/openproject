@@ -47,7 +47,7 @@
     models:
       cost_type:
         one: "Type kostnader"
-        other: "Cost types"
+        other: "Kostnadstyper"
       rate: "Sats"
     errors:
       models:

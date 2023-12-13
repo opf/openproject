@@ -34,7 +34,7 @@ ar:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "جاري التحميل..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -316,18 +316,18 @@ ar:
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(بلا)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "تكبير"
+        out: "تصغير"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        days: "أيام"
+        weeks: "أسابيع"
+        months: "أشهر"
+        quarters: "أرباع"
+        years: "السنوات"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "لا"
@@ -1030,7 +1030,7 @@ ar:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'شارك'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1188,7 +1188,7 @@ ar:
       current_project_and_all_descendants: "In this project + subprojects"
       current_project: "In this project"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "البحث"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

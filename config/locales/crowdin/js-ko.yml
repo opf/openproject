@@ -34,9 +34,9 @@ ko:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "로드 중..."
+      not_found: "항목 없음"
+      type_to_search: "검색할 유형"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" 추가"
@@ -1025,7 +1025,7 @@ ko:
         is_parent: "이 작업 패키지의 날짜는 자식으로부터 자동으로 추정됩니다. '수동 스케줄링'을 활성화하여 날짜를 설정할 수 있습니다."
         is_switched_from_manual_to_automatic: "다른 작업 패키지와의 관계로 인해 수동 스케줄링에서 자동 스케줄링으로 전환한 후 이 작업 패키지의 날짜를 다시 계산해야 할 수 있습니다."
       sharing:
-        share: 'Share'
+        share: '공유하기'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1173,7 +1173,7 @@ ko:
       current_project_and_all_descendants: "이 프로젝트 + 하위 프로젝트에서"
       current_project: "이 프로젝트에서"
       recently_viewed: "최근에 조회됨"
-      search: "Search"
+      search: "검색"
       title:
         all_projects: "모든 프로젝트"
         project_and_subprojects: "그리고 모든 하위 프로젝트"

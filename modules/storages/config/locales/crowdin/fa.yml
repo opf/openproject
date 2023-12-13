@@ -19,14 +19,14 @@ fa:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "فایل"
       storages/storage: "Storage"
     attributes:
       storages/storage:
         name: "نام"
         creator: "Creator"
         provider_type: "Provider type"
-        host: "Host"
+        host: "میزبان"
         tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Origin Id"
@@ -69,21 +69,21 @@ fa:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save: "Save"
+      save: "ذخیره"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
-      configure: "Configure"
+      configure: "ویرایش"
     file_storage_view:
       general_information: "General information"
       oauth_applications: "OAuth applications"
       project_folders: "Project folders"
       storage_provider: "Storage provider"
-      openproject_oauth: "OpenProject OAuth"
+      openproject_oauth: "احراز هویت(OAuth) OpenProject"
       one_drive_oauth: "Azure OAuth"
       redirect_uri: "Redirect URI"
-      nextcloud_oauth: "Nextcloud OAuth"
+      nextcloud_oauth: "احراز هویت (OAuth) Nextcloud "
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
       file_storages:

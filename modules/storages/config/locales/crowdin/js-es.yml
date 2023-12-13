@@ -65,7 +65,7 @@ es:
           other: "Se han creado correctamente %{count} enlaces de fichero."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded.
+            Tu archivo (%{fileName}) no pudo ser subido.
           403: >
             Su archivo (%{fileName}) no se pudo cargar debido a las restricciones del sistema. Por favor, contacte con su administrador para más información.
           413: >
@@ -74,7 +74,7 @@ es:
             Su archivo (%{fileName}) es mayor de lo que permite la cuota de almacenamiento. Póngase en contacto con su administrador para modificar esta cuota.
           detail:
             nextcloud: >
-              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+              Por favor, compruebe que la última versión de la aplicación de Nextcloud "OpenProject Integration" está instalada y póngase en contacto con su administrador para obtener más información.
         link_uploaded_file_error: >
           Se ha producido un error al vincular el archivo cargado recientemente "%{fileName}" al paquete de trabajo %{workPackageId}.
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"

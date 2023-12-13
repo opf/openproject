@@ -35,9 +35,9 @@ ja:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "読み込み中..."
       not_found: "No items found"
-      type_to_search: "Type to search"
+      type_to_search: "検索キーワードを入力"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" を追加"
@@ -304,33 +304,33 @@ ja:
           two: "2 番目の並べ替え基準"
           three: "3 番目の並べ替え条件"
     gantt_chart:
-      label: 'Gantt chart'
-      quarter_label: 'Q%{quarter_number}'
+      label: 'ガントチャート'
+      quarter_label: '第%{quarter_number}四半期'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'ラベル設定'
+        bar: 'バーのラベル'
+        left: '左'
+        right: '右'
+        farRight: '右端'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'ガントチャートの表示'
+      button_deactivate: 'ガントチャートを隠す'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(なし)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: '関連を作成するには、強調表示されたワークパッケージをクリックします。キャンセルするにはエスケープキーを押してください。'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "拡大"
+        out: "拡大"
+        auto: "自動ズーム"
+        days: "日"
+        weeks: "週"
+        months: "ヶ月"
+        quarters: "四半期ごと"
+        years: " 年"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          オートズームが使用できない場合に表示される初期ズームレベルを選択します。
     general_text_no: "いいえ"
     general_text_yes: "はい"
     general_text_No: "いいえ"
@@ -1026,7 +1026,7 @@ ja:
         is_parent: "このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。"
         is_switched_from_manual_to_automatic: "他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。"
       sharing:
-        share: 'Share'
+        share: '共有'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1174,7 +1174,7 @@ ja:
       current_project_and_all_descendants: "このプロジェクトとサブプロジェクトでは"
       current_project: "このプロジェクトでは"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "検索"
       title:
         all_projects: "すべてのプロジェクト"
         project_and_subprojects: "すべてのプロジェクトで"

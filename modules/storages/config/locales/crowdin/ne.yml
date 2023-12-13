@@ -19,7 +19,7 @@ ne:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "फाइल"
       storages/storage: "Storage"
     attributes:
       storages/storage:
@@ -186,7 +186,7 @@ ne:
     label_file_links: "File links"
     label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_completed: "Completed"
+    label_completed: "पूरा भयो"
     label_incomplete: "Incomplete"
     label_name: "Name"
     label_host: "Host URL"

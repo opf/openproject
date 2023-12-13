@@ -27,10 +27,10 @@ zh-CN:
     attributes:
       work_package:
         position: "位置"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        remaining_hours: "剩余工作"
+        remaining_time: "剩余工作"
+        derived_remaining_hours: "派生的剩余工作"
+        derived_remaining_time: "派生的剩余工作"
         story_points: "故事点"
         backlogs_work_package_type: "待办清单类型"
     errors:

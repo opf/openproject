@@ -50,18 +50,18 @@ ko:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: 멤버 없음
         item_1:
-          name: Anonymous
+          name: 익명
         item_2:
-          name: Member
+          name: 멤버
         item_3:
-          name: Reader
+          name: 참관자
         item_4:
-          name: Project admin
+          name: 프로젝트 관리자
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: 스태프 및 프로젝트 관리자
     standard:
       priorities:
         item_0:

@@ -34,9 +34,9 @@ uk:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Завантаження..."
+      not_found: "Елементів не знайдено"
+      type_to_search: "Введіть для пошуку"
     autocomplete_select:
       placeholder:
         multi: "Додати %{name}"
@@ -1028,7 +1028,7 @@ uk:
         is_parent: "Дати цього пакета робіт автоматично виводяться з його дочірніх елементів. Активуйте «Ручне планування», щоб установити ці дати."
         is_switched_from_manual_to_automatic: "Можливо, дати цього пакета робіт знадобиться перерахувати після переходу з ручного на автоматичне планування через зв’язок з іншими пакетами робіт."
       sharing:
-        share: 'Share'
+        share: 'Поширити'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1182,7 +1182,7 @@ uk:
       current_project_and_all_descendants: "У цьому проекті + підпроекти"
       current_project: "У цьому проекті"
       recently_viewed: "Нещодавно переглянуті"
-      search: "Search"
+      search: "Пошук"
       title:
         all_projects: "всі проекти"
         project_and_subprojects: "і всі підпроекти"

@@ -82,7 +82,7 @@ ru:
       storage_provider: "Поставщик хранилища"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "URI перенаправления"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Автоматически управляемые папки"
     page_titles:

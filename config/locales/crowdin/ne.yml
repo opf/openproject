@@ -458,7 +458,7 @@ ne:
         attribute_name: "Attribute"
         help_text: "Help text"
       ldap_auth_source:
-        account: "Account"
+        account: "खाता"
         attr_firstname: "Firstname attribute"
         attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"

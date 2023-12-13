@@ -24,4 +24,4 @@ pl:
     work_packages:
       properties:
         storyPoints: "Historia Punktów"
-        remainingTime: "Remaining work"
+        remainingTime: "Pozostała praca"

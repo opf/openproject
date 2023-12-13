@@ -36,9 +36,9 @@ ka:
           name: შავები
       document_categories:
         item_0:
-          name: Documentation
+          name: დოკუმენტაცია
         item_1:
-          name: Specification
+          name: სპეციფიკაცია
         item_2:
           name: სხვა
       work_package_roles:
@@ -52,7 +52,7 @@ ka:
         item_0:
           name: Non member
         item_1:
-          name: Anonymous
+          name: ანონიმური
         item_2:
           name: წევრი
         item_3:
@@ -86,7 +86,7 @@ ka:
         item_5:
           name: დაგეგმილია
         item_6:
-          name: In progress
+          name: მიმდინარეობს
         item_7:
           name: შემუშავებულია
         item_8:
@@ -103,9 +103,9 @@ ka:
           name: უარყოფილია
       time_entry_activities:
         item_0:
-          name: Management
+          name: მართვა
         item_1:
-          name: Specification
+          name: სპეციფიკაცია
         item_2:
           name: Development
         item_3:
@@ -163,13 +163,13 @@ ka:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: პროექტის გეგმა
             item_1:
-              name: Milestones
+              name: ნიშანსვეტები
             item_2:
               name: დავალებები
             item_3:
-              name: Team planner
+              name: გუნდის მგეგმავი
           boards:
             kanban:
               name: Kanban board
@@ -212,10 +212,10 @@ ka:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: სამუშაო პაკეტები
               item_6:
                 options:
-                  name: Milestones
+                  name: ნიშანსვეტები
           work_packages:
             item_0:
               subject: Start of project
@@ -322,7 +322,7 @@ ka:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: პროექტის გეგმა
             item_1:
               name: Product backlog
             item_2:
@@ -333,7 +333,7 @@ ka:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: ამოცანების დაფა
               lists:
                 item_0:
                   name: სურვილების სია
@@ -368,10 +368,10 @@ ka:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: სამუშაო პაკეტები
               item_6:
                 options:
-                  name: Project plan
+                  name: პროექტის გეგმა
           work_packages:
             item_0:
               subject: New login screen

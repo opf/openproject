@@ -107,7 +107,7 @@ bg:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Екипен плановик
           boards:
             bcf:
               name: Simple drag'n drop workflow
@@ -169,7 +169,7 @@ bg:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Екипен плановик
           project-overview:
             widgets:
               item_0:
@@ -423,7 +423,7 @@ bg:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Екипен плановик
           project-overview:
             widgets:
               item_0:
@@ -696,7 +696,7 @@ bg:
             item_6:
               name: Tasks
             item_7:
-              name: Team planner
+              name: Екипен плановик
           boards:
             bcf:
               name: BCF issues

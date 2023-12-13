@@ -34,9 +34,9 @@
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "Laster..."
       not_found: "No items found"
-      type_to_search: "Type to search"
+      type_to_search: "Skriv for å søke"
     autocomplete_select:
       placeholder:
         multi: "Legg til \"%{name}\""
@@ -111,7 +111,7 @@
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "Satshistorikk"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
@@ -303,33 +303,33 @@
           two: "Second sorting criteria"
           three: "Third sorting criteria"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Gantt diagram'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Etikettkonfigurasjon'
+        bar: 'Linjeetiketter'
+        left: 'Venstre'
+        right: 'Høyre'
+        farRight: 'Langt til høyre'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Velg attributtene du vil bli vist i de respektive posisjonene i Gantt-diagrammet til enhver tid. Merk at når man peker på et element, vil datomerkene vises i stedet for disse attributtene.
+      button_activate: 'Vis Gantt-diagram'
+      button_deactivate: 'Skjul Gantt-diagram'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(ingen)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Klikk på eventuelle uthevede arbeidspakker for å opprette relasjonen. Trykk escape for å avbryte.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Zoom inn"
+        out: "Zoom ut"
+        auto: "Automatisk zoom"
+        days: "Dager"
+        weeks: "Uker"
+        months: "Måneder"
+        quarters: "Kvartaler"
+        years: "År"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Velg standard zoom-nivå som skal vises når autozoom ikke er tilgjengelig.
     general_text_no: "nei"
     general_text_yes: "ja"
     general_text_No: "Nei"
@@ -836,10 +836,10 @@
       save: "Save relation"
       abort: "Abort"
     relations_autocomplete:
-      placeholder: "Type to search"
+      placeholder: "Skriv for å søke"
       parent_placeholder: "Choose new parent or press escape to cancel."
     autocompleter:
-      placeholder: "Type to search"
+      placeholder: "Skriv for å søke"
       notFoundText: "No items found"
       project:
         placeholder: "Select project"
@@ -1026,7 +1026,7 @@
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Del'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1176,7 +1176,7 @@
       current_project_and_all_descendants: "In this project + subprojects"
       current_project: "In this project"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "Søk"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

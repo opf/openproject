@@ -34,9 +34,9 @@ hu:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Betöltés..."
+      not_found: "Nem található elem"
+      type_to_search: "Gépeljen a kereséshez"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" hozzáadása"
@@ -303,33 +303,33 @@ hu:
           two: "Második rendezési feltétel"
           three: "Harmadik rendezési feltétel"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Gantt-diagram'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Címke konfiguráció'
+        bar: 'Oszlop címkék'
+        left: 'Bal'
+        right: 'Jobb'
+        farRight: 'Jobb szélen'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Gannt diagramm megtekintése'
+      button_deactivate: 'Gannt diagramm elrejtése'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(nincs)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Klikkeljen valamelyik feladatcsoportra a kapcsolat létrehozásához. Visszavonás az Esc megnyomásával.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Nagyítás"
+        out: "Kicsinyítés"
+        auto: "Automatikus nagyítás"
+        days: "Nap"
+        weeks: "Hetek"
+        months: "Hónap"
+        quarters: "Negyedek"
+        years: "Évek"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
     general_text_no: "nem"
     general_text_yes: "igen"
     general_text_No: "Nem"
@@ -1026,7 +1026,7 @@ hu:
         is_parent: "A munkacsomag dátumait automatikusan levezetik a gyermekeiből. A dátumok beállításához aktiválja a „Kézi ütemezést”"
         is_switched_from_manual_to_automatic: "Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.\n"
       sharing:
-        share: 'Share'
+        share: 'Megosztás'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1176,7 +1176,7 @@ hu:
       current_project_and_all_descendants: "Ebben a projektben + alprojektekben"
       current_project: "Ebben a projektben"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "Keresés"
       title:
         all_projects: "minden projekt"
         project_and_subprojects: "az összes alprojektben"

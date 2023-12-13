@@ -24,4 +24,4 @@ zh-CN:
     work_packages:
       properties:
         storyPoints: "故事点"
-        remainingTime: "Remaining work"
+        remainingTime: "剩余的工作"

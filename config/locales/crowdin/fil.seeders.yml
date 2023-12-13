@@ -50,15 +50,15 @@ fil:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Di-miyembro
         item_1:
-          name: Anonymous
+          name: Hindi kilala
         item_2:
-          name: Member
+          name: Miyembro
         item_3:
-          name: Reader
+          name: Mambabasa
         item_4:
-          name: Project admin
+          name: Namuno ng proyekto
       global_roles:
         item_0:
           name: Staff and projects manager

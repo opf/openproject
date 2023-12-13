@@ -99,7 +99,7 @@ zh-CN:
       invited:
         summary: "%{actor} 已经向您发送了一个 %{title} 会议邀请"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: " %{title} 会议已经被重新安排"
         summary: "会议 %{title} 已经被 %{actor} 重新安排"
         body: "此会议 %{title} 已经被 %{actor} 重新安排。"
         old_date_time: "旧日期/时间"

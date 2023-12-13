@@ -34,9 +34,9 @@ it:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Caricamento..."
+      not_found: "Nessun elemento trovato"
+      type_to_search: "Digita per cercare"
     autocomplete_select:
       placeholder:
         multi: "Aggiungi \"%{name}\""
@@ -1026,7 +1026,7 @@ it:
         is_parent: "Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date."
         is_switched_from_manual_to_automatic: "Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività."
       sharing:
-        share: 'Share'
+        share: 'Condividi'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1176,7 +1176,7 @@ it:
       current_project_and_all_descendants: "In questo progetto + sottoprogetti"
       current_project: "In questo progetto"
       recently_viewed: "Visualizzati di recente"
-      search: "Search"
+      search: "Cerca"
       title:
         all_projects: "tutti i progetti"
         project_and_subprojects: "e tutti i sottoprogetti"

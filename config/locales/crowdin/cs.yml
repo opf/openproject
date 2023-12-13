@@ -102,8 +102,8 @@ cs:
       error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
       cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "Chyba LDAP: %{error_message}"
+    ldap_auth_failed: "Nelze autentizovat u serveru LDAP."
     back_to_index: "Kliknutím sem se vrátíte do seznamu připojení."
     technical_warning_html: |
       Tento LDAP formulář vyžaduje technické znalosti nastavení LDAP / Active Directory.
@@ -177,7 +177,7 @@ cs:
     label_no_color: "Bez barvy"
     label_properties: "Vlastnosti"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Opravdu chcete odstranit následující barvu? Typy v této barvě nebudou odstraněny.
   custom_actions:
     actions:
       name: "Akce"
@@ -466,10 +466,10 @@ cs:
         attr_login: "Atribut uživatelského jména"
         attr_mail: "Email (atribut)"
         base_dn: "Base DN"
-        host: "Host"
+        host: "Hostitel"
         onthefly: "Automatické vytváření uživatele"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "SSL certifikát LDAP serveru"
       changeset:
         repository: "Repozitář"
       color:
@@ -649,7 +649,7 @@ cs:
         error_enterprise_only: "%{action} je k dispozici pouze ve vydání OpenProject Enterprise"
         error_unauthorized: "není přístupný."
         error_readonly: "se pokusil být napsán, ale není zapisovatelný."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Informace mezitím aktualizoval alespoň jeden další uživatel."
         email: "není platná e-mailová adresa"
         empty: "nemůže být prázdné."
         even: "musí být sudé."
@@ -932,7 +932,7 @@ cs:
             principal:
               unassignable: "nelze přiřadit k projektu."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
           undeletable_work_packages_attached: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
         status:
           readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
@@ -980,9 +980,9 @@ cs:
   errors:
     header_invalid_fields:
       one: "Došlo k potížím s následujícím polem:"
-      few: "There were problems with the following fields:"
-      many: "There were problems with the following fields:"
-      other: "There were problems with the following fields:"
+      few: "Nastaly prolémy v následujících polích:"
+      many: "Nastaly prolémy v následujících polích:"
+      other: "Nastaly prolémy v následujících polích:"
     header_additional_invalid_fields:
       one: "Navíc došlo k potížím s následujícím polem:"
       few: "Additionally, there were problems with the following fields:"
@@ -1050,7 +1050,7 @@ cs:
     due_date: "Datum dokončení"
     estimated_hours: "Work"
     estimated_time: "Work"
-    expires_at: "Expires at"
+    expires_at: "Vyprší za"
     firstname: "Křestní jméno"
     group: "Skupina"
     groups: "Skupiny"
@@ -1320,10 +1320,10 @@ cs:
         many: "%{count} mins"
         other: "min"
       x_hours:
-        one: "1 hour"
-        few: "%{count} hours"
-        many: "%{count} hours"
-        other: "%{count} hours"
+        one: "1 hodina"
+        few: "%{count} hodin"
+        many: "%{count} hodin"
+        other: "%{count} hodin"
       x_hours_abbreviated:
         one: "1 hr"
         few: "%{count} hrs"
@@ -1340,7 +1340,7 @@ cs:
         many: "%{count} měsíců"
         other: "%{count} měsíců"
       x_years:
-        one: "1 year"
+        one: "1 rok"
         few: "%{count} years"
         many: "%{count} years"
         other: "%{count} years"
@@ -1964,7 +1964,7 @@ cs:
   label_operator_none: "je prázdný"
   label_operator_equals_or: "je (OR)"
   label_operator_equals_all: "je (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "jakákoliv"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
@@ -2305,8 +2305,8 @@ cs:
   mail_body_register_ending: "Zůstaňte ve spojení! S pozdravem,"
   mail_body_reminder: "%{count} pracovních balíčků, které máte přiřazeny, mají termín během následujících %{days} dnů:"
   mail_body_group_reminder: '%{count} pracovních balíčků, které jsou přiřazeny ke skupině "%{group}", má termín splatnosti během následujících %{days} dnů:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Wiki stránka '%{id}' byla přidána uživatelem %{author}."
+  mail_body_wiki_page_updated: "Wiki stránka '%{id}' byla aktualizována uživatelem %{author}."
   mail_subject_account_activation_request: "Žádost o aktivaci účtu %{value}"
   mail_subject_backup_ready: "Vaše záloha je připravena"
   mail_subject_backup_token_reset: "Resetovat token zálohy"
@@ -2815,7 +2815,7 @@ cs:
     brute_force_prevention: "Automatizované blokování uživatelů"
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Pokud jsou nastaveny možnosti buď "%{day_of_week_setting_name}" nebo "%{first_week_setting_name}", druhý je třeba nastavit také aby jste se vyhli nesrovnalostem na frontendu.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
     experimental:
@@ -2979,7 +2979,7 @@ cs:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      public: "Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním 'Spravovat veřejné zobrazení' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky."
       favoured: "Označte toto zobrazení jako oblíbené a přidejte do postranního panelu vlevo."
   time:
     am: "am"
@@ -3095,7 +3095,7 @@ cs:
         project_group: 'Project group'
         not_project_group: 'Not project group'
         role: 'Role'
-        type: 'Type'
+        type: 'Typ'
       label_search: "Search for users to invite"
       label_search_placeholder: "Hledat podle uživatele nebo e-mailové adresy"
       label_toggle_all: "Toggle all shares"

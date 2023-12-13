@@ -34,7 +34,7 @@ sk:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "Načítava sa..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -303,33 +303,33 @@ sk:
           two: "Druhé kritérium zoradenia"
           three: "Tretie kritérium zoradenia"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Ganttov diagram'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Konfigurácia popisku'
+        bar: 'Menovky pásov'
+        left: 'Vľavo'
+        right: 'Vpravo'
+        farRight: 'Vzdialene vpravo'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Zobraziť Ganttov graf'
+      button_deactivate: 'Skryť Ganttov graf'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(žiadny)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Kliknutím na ľubovoľný zvýraznený pracovný balíček vytvoríte vzťah. Ak chcete zrušiť stlačte klávesu escape.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Priblížiť"
+        out: "Vzdialiť"
+        auto: "Automatické zväčšenie"
+        days: "Dni"
+        weeks: "Týždne"
+        months: "Mesiace"
+        quarters: "Kvartály"
+        years: "Roky"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Zvoľte počiatočnú úroveň priblíženia, ktorá by sa mala zobraziť, ak nie je k dispozícii autozoom.
     general_text_no: "nie"
     general_text_yes: "áno"
     general_text_No: "Nie"
@@ -1028,7 +1028,7 @@ sk:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Zdieľať'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1182,7 +1182,7 @@ sk:
       current_project_and_all_descendants: "V tomto projekte + podprojektoch"
       current_project: "V tomto projekte"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "Vyhľadávanie"
       title:
         all_projects: "všetky projekty"
         project_and_subprojects: "a všetky podprojekty"

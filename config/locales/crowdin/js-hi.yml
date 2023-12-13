@@ -303,18 +303,18 @@ hi:
           two: "Second sorting criteria"
           three: "Third sorting criteria"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'गैंट चार्ट'
       quarter_label: 'Q%{quarter_number}'
       labels:
         title: 'Label configuration'
         bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
+        left: 'बाएँ'
+        right: 'दाएँ'
         farRight: 'Far right'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'गैन्ट चार्ट दिखाएं'
+      button_deactivate: 'गैन्ट चार्ट छुपाएं'
       filter:
         noneSelection: "(none)"
       selection_mode:
@@ -1026,7 +1026,7 @@ hi:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'सांझा करें'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

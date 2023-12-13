@@ -103,7 +103,7 @@ fil:
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_auth_failed: "Hindi maarig mapatunayan sa LDAP-Server."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -166,18 +166,18 @@ fil:
     index:
       no_results_title_text: Walang mga kasulukuyan kulay.
       no_results_content_text: Gumawa ng bagong kulay
-      label_new_color: "New color"
+      label_new_color: "Bagong kulay"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Bagong kulay"
+      label_edit_color: "I-edit ang kulay"
     label_no_color: "No color"
-    label_properties: "Properties"
+    label_properties: "Mga property"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Sigurado ka ba, na gusto mong burahin ang sumusunod na kulay? Ang mga uri gamit ang kulay ay hindi mabubura.
   custom_actions:
     actions:
       name: "Mga aksyon"
@@ -261,7 +261,7 @@ fil:
       types:
         no_results_title_text: Sa kasalukuyan ay walang mga uri na available.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Paganahin ang uri "%{type}"'
       versions:
         no_results_title_text: Sa kasalukuyan ay walang mga bersyon para sa proyekto.
         no_results_content_text: Gumawa ng bagong bersyon
@@ -458,12 +458,12 @@ fil:
         attribute_name: "Katangian"
         help_text: "Tekstong tulong"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Akawnt"
+        attr_firstname: "Ang katangian ng unang pangalan"
+        attr_lastname: "Ang huling katangian ng apelyido"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
+        attr_mail: "Ang katangian ng Email"
+        base_dn: "Ang Base DN"
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
@@ -647,7 +647,7 @@ fil:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Ang impormasyon ay naka-update sa kahit hindi baba isa o."
         email: "is not a valid email address."
         empty: "hindi pwedeng blanko."
         even: "dapat ay kapareho."
@@ -917,7 +917,7 @@ fil:
             status:
               invalid_on_create: "ay hindi isang balidong estado para sa mga bagong gumagamit."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "hindi nakita"
         member:
           principal_blank: "Mangayring pumili na kahit isang gumagamit o grupo."
           role_blank: "need to be assigned."
@@ -970,7 +970,7 @@ fil:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Mayroon mga problema sa mga sumusnod na mga patlang:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1032,7 +1032,7 @@ fil:
     due_date: "Finish date"
     estimated_hours: "Work"
     estimated_time: "Work"
-    expires_at: "Expires at"
+    expires_at: "Matapos sa"
     firstname: "Unang pangalan"
     group: "Grupo"
     groups: "Mga grupo"
@@ -1282,8 +1282,8 @@ fil:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "Isang oras"
+        other: "%{count} mga oras"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
@@ -1364,7 +1364,7 @@ fil:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Mangyaring pumili ng gumagamit at tungkulin."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Ang kulay ay hindi dapat naka-save"
   error_cookie_missing: "Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos na hindi kasama ang."
   error_custom_option_not_found: "Ang opsyon ay hindi umiiral."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1389,7 +1389,7 @@ fil:
   error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Isang mali ang naganap nong subukam ang pag-access ng repositoryo: %{value}"
   error_scm_not_found: "Ang entry o rebisyon ay hindi natagpuan sa repositoryo."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Ang mga uri ay hindi mai-save"
   error_unable_delete_status: "Ang estado ng work package ay hindi pwedeng burahin dahil ginamit ito sa kahit isang work package."
   error_unable_delete_default_status: "Hindi mabura ang default estado ng work package. Mangyaring pumili ng ibang estado ng work package bago buburahin ang kasulukuyang isa."
   error_unable_to_connect: "Hindi makakonekta (%{value})"
@@ -1682,7 +1682,7 @@ fil:
   label_confirmation: "Kompirmasyon"
   label_contains: "naglalaman"
   label_content: "Nilalaman"
-  label_color_plural: "Colors"
+  label_color_plural: "Mga kulay"
   label_copied: "kinopya"
   label_copy_same_as_target: "Tulad bilang target"
   label_copy_source: "Pinagkukunan"
@@ -1712,7 +1712,7 @@ fil:
   label_deleted: "binura"
   label_deleted_custom_field: "(binurang custom field)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(walang laman)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Pababa"
   label_details: "Mga detalye"
@@ -2048,7 +2048,7 @@ fil:
   label_this_week: "ngayong semana"
   label_this_year: "ngayong taon"
   label_time_entry_plural: "Nauubos na oras"
-  label_title: "Title"
+  label_title: "Pamagat"
   label_projects_menu: "Mga proyekto"
   label_today: "ngayon"
   label_top_menu: "Itaas na pagpipilian"
@@ -2249,8 +2249,8 @@ fil:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package na nakatakaga sa iyo ay dapat isumite sa mga sumusunod na %{days} araw:"
   mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Ang '%{id}' wiking pahina ay naidagdag sa %{author}."
+  mail_body_wiki_page_updated: "Ang '%{id}' wiking pahina ay na i-update sa %{author}."
   mail_subject_account_activation_request: "%{value} kahilingan ng akwant aktibasyon"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2390,7 +2390,7 @@ fil:
   permission_add_work_packages: "Magdagdag ng mga work package"
   permission_add_messages: "Mga post na mensahe"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Magdagdag ng mga nakalakip"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "I-archive ang proyekto"
   permission_create_user: "Create users"
@@ -3034,21 +3034,21 @@ fil:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Tungkulin'
+        type: 'Uri'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Komento"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "I-edit"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Tingnan"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Tanggalin"
+      share: "Ibahagi"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."

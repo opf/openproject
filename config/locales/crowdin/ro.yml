@@ -102,8 +102,8 @@ ro:
       error_requeue: "Lucrarea a avut o eroare, dar încearcă din nou. Eroarea a fost: %{message}"
       cancelled_due_to: "Lucrarea a fost anulată din cauza unei erori: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "Eroare LDAP: %{error_message}"
+    ldap_auth_failed: "Nu a putut fi realizată autentificarea pe serverul LDAP."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Acest formular LDAP necesită cunoștințe tehnice privind configurația LDAP / Active Directory.
@@ -166,18 +166,18 @@ ro:
     index:
       no_results_title_text: În acest moment nu există culori.
       no_results_content_text: Creare culoare nouă
-      label_new_color: "New color"
+      label_new_color: "Culoare nouă"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Culoare nouă"
+      label_edit_color: "Editare culoare"
     label_no_color: "Nicio culoare"
-    label_properties: "Properties"
+    label_properties: "Proprietăţi"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Sunteţi sigur că doriţi să ştergeţi următoarea culoare? Tipurile care folosesc această culoare nu vor fi şterse.
   custom_actions:
     actions:
       name: "Acțiuni"
@@ -261,7 +261,7 @@ ro:
       types:
         no_results_title_text: În acest moment nu există tipuri disponibile.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Activare tip %{type}'
       versions:
         no_results_title_text: În acest moment nu există versiuni pentru acest proiect.
         no_results_content_text: Creare versiune nouă
@@ -459,20 +459,20 @@ ro:
         attribute_name: "Atribut"
         help_text: "Text de ajutor"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
+        account: "Cont"
+        attr_firstname: "Câmp prenume"
+        attr_lastname: "Câmp nume"
+        attr_login: "Atributul nume de utilizator"
+        attr_mail: "Atribut e-mail"
+        base_dn: "Nume domeniu de bază"
+        host: "Server gazdă"
+        onthefly: "Crearea automată a utilizatorilor"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "Certificat SSL pentru serverul LDAP"
       changeset:
         repository: "Repo"
       color:
-        hexcode: "Hex code"
+        hexcode: "Cod hexa"
       comment:
         commented: "Cu comentarii" #an object that this comment belongs to
       custom_action:
@@ -568,7 +568,7 @@ ro:
         color: "Culoare"
       user:
         admin: "Administrator"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "Conexiune LDAP"
         identity_url: "Identity URL"
         current_password: "Parola curentă"
         force_password_change: "Impune schimbarea parolei la următoarea autentificare"
@@ -648,7 +648,7 @@ ro:
         error_enterprise_only: "%{action} este disponibil doar în ediția OpenProject Enterprise"
         error_unauthorized: "nu pot fi accesate."
         error_readonly: "a fost încercat să fie scris, dar nu este inscriptibil."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Informaţia a fost actualizată de cel puţin un alt utilizator între timp."
         email: "nu este o adresă de e-mail validă."
         empty: "nu poate fi gol."
         even: "trebuie să fie par."
@@ -696,7 +696,7 @@ ro:
         ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Certificatul SSL furnizat nu este valid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -919,7 +919,7 @@ ro:
             status:
               invalid_on_create: "nu este un statut valabil pentru utilizatorii noi."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "%s nu a fost găsit"
         member:
           principal_blank: "Trebuie să alegeţi cel puţin un utilizator sau grup."
           role_blank: "trebuie să fie atribuite."
@@ -930,7 +930,7 @@ ro:
             principal:
               unassignable: "nu poate fi atribuit unui proiect."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Versiunea nu poate fi ștearsă, deoarece are atașate pachete de lucru."
           undeletable_work_packages_attached: "Versiunea nu poate fi ștearsă, deoarece are atașate pachete de lucru."
         status:
           readonly_default_exlusive: "nu poate fi activată pentru statusurile care sunt marcate ca fiind implicite."
@@ -975,8 +975,8 @@ ro:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      few: "There were problems with the following fields:"
-      other: "There were problems with the following fields:"
+      few: "Există probleme cu următoarele câmpuri:"
+      other: "Există probleme cu următoarele câmpuri:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       few: "Additionally, there were problems with the following fields:"
@@ -1041,7 +1041,7 @@ ro:
     due_date: "Data de finalizare"
     estimated_hours: "Work"
     estimated_time: "Work"
-    expires_at: "Expires at"
+    expires_at: "Expiră la"
     firstname: "Prenume"
     group: "Grup"
     groups: "Grupuri"
@@ -1301,9 +1301,9 @@ ro:
         few: "%{count} mins"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        few: "%{count} hours"
-        other: "%{count} hours"
+        one: "1 oră"
+        few: "%{count} ore"
+        other: "%{count} ore"
       x_hours_abbreviated:
         one: "1 hr"
         few: "%{count} hrs"
@@ -1317,7 +1317,7 @@ ro:
         few: "%{count} luni"
         other: "%{count} luni"
       x_years:
-        one: "1 year"
+        one: "1 an"
         few: "%{count} years"
         other: "%{count} years"
       x_seconds:
@@ -1391,7 +1391,7 @@ ro:
   error_can_not_unarchive_project: "Acest proiect nu poate fi dezarhivat: %{errors}"
   error_check_user_and_role: "Alegeți un utilizator și un rol."
   error_code: "Eroare %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Culoarea nu a putut fi salvată"
   error_cookie_missing: "Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea."
   error_custom_option_not_found: "Opțiunea nu există."
   error_enterprise_activation_user_limit: "Contul dvs. nu a putut fi activat (limita utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces."
@@ -1416,7 +1416,7 @@ ro:
   error_password_change_failed: "Eroare la încercarea de a schimba parola."
   error_scm_command_failed: "A intervenit o eroare la accesarea repo-ului: %{value}"
   error_scm_not_found: "Nu am găsit articolul sau revizia în repo."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Tipul nu a putut fi salvat"
   error_unable_delete_status: "Starea pachetului de lucru nu poate fi ștearsă deoarece este folosită de cel puțin un pachet de lucru."
   error_unable_delete_default_status: "Starea implicită pentru pachetele de lucru nu poate fi ștearsă. Setați o altă stare implicită pentru pachetele de lucru și apoi ștergeți-o pe cea actuală."
   error_unable_to_connect: "Nu a putut fi stabilită conexiunea (%{value})"
@@ -1620,7 +1620,7 @@ ro:
   label_age: "Vârstă"
   label_ago: "zile în urmă"
   label_all: "toate"
-  label_all_projects: "All projects"
+  label_all_projects: "Toate Proiectele"
   label_all_time: "oricând"
   label_all_words: "Toate cuvintele"
   label_all_open_wps: "Toate deschise"
@@ -1647,7 +1647,7 @@ ro:
   label_attribute: "Atribut"
   label_attribute_plural: "Atribute"
   label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source: "Conexiune LDAP"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentificare"
   label_available_global_roles: "Available global roles"
@@ -1709,7 +1709,7 @@ ro:
   label_confirmation: "Confirmare parolă"
   label_contains: "conţine"
   label_content: "Conținut"
-  label_color_plural: "Colors"
+  label_color_plural: "Culori"
   label_copied: "copiat"
   label_copy_same_as_target: "La fel ca destinația"
   label_copy_source: "Sursă"
@@ -1739,7 +1739,7 @@ ro:
   label_deleted: "șters"
   label_deleted_custom_field: "(câmp personalizat șters)"
   label_deleted_custom_option: "(opțiune eliminată)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(gol)"
   label_missing_or_hidden_custom_option: "(valoare lipsă sau lipsa permisiunilor de acces)"
   label_descending: "Descrescător"
   label_details: "Detalii"
@@ -1937,7 +1937,7 @@ ro:
   label_operator_none: "este gol"
   label_operator_equals_or: "este (SAU)"
   label_operator_equals_all: "este (ȘI)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "Oricare"
   label_open_menu: "Deschidere meniu"
   label_open_work_packages: "deschise"
   label_open_work_packages_plural: "deschise"
@@ -2075,7 +2075,7 @@ ro:
   label_this_week: "săptămâna curentă"
   label_this_year: "anul curent"
   label_time_entry_plural: "Timp consumat"
-  label_title: "Title"
+  label_title: "Titlu"
   label_projects_menu: "Proiecte"
   label_today: "astăzi"
   label_top_menu: "Meniul de sus"
@@ -2277,8 +2277,8 @@ ro:
   mail_body_register_ending: "Rămâneți conectați! Vă salutăm cu drag,"
   mail_body_reminder: "%{count} pachete de lucru care vă sunt atribuite au scadență în următoarele %{days} zile:"
   mail_body_group_reminder: '%{count} pachetul (pachetele) de lucru care sunt atribuite grupului "%{group}" trebuie depuse în următoarele %{days} zile:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Pagina de wiki '%{id}' a fost adăugată de %{author}."
+  mail_body_wiki_page_updated: "Pagina wiki '%{id}' a fost actualizată de %{author}."
   mail_subject_account_activation_request: "cererea de activare a contului %{value}"
   mail_subject_backup_ready: "Backup-ul tău este gata"
   mail_subject_backup_token_reset: "Resetarea token-ului de backup"
@@ -2418,7 +2418,7 @@ ro:
   permission_add_work_packages: "Adăugare pachete de lucru"
   permission_add_messages: "Publicare mesaje"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Adaugă fișiere"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Proiect de arhivă"
   permission_create_user: "Create users"
@@ -2432,7 +2432,7 @@ ro:
   permission_comment_news: "Comentare noutăți"
   permission_commit_access: "Acces de citire/scriere la repo (încărcare)"
   permission_copy_projects: "Copiere proiecte"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Copierea pachetelor de lucru"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Eliminare observatori"
   permission_delete_work_packages: "Ștergere pachete de lucru"
@@ -2950,7 +2950,7 @@ ro:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      public: "Publicați această vizualizare, permițând altor utilizatori să vă acceseze vizualizarea. Utilizatorii cu permisiunea \"Manage public views\" pot modifica sau elimina interogarea publică. Acest lucru nu afectează vizibilitatea rezultatelor pachetului de lucru în vizualizarea respectivă și, în funcție de permisiunile lor, utilizatorii pot vedea rezultate diferite."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "AM"
@@ -3065,21 +3065,21 @@ ro:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Rol'
+        type: 'Tip'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Comentariu"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Editare"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Vizualizare"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Eliminare"
+      share: "Distribuiți"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
