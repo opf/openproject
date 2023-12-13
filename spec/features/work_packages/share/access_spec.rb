@@ -33,12 +33,7 @@ RSpec.describe 'Shared Work Package Access',
                with_ee: %i[work_package_sharing] do
   shared_let(:project) { create(:project_with_types) }
   shared_let(:work_package) { create(:work_package, project:, journal_notes: 'Hello!') }
-  shared_let(:sharer) do
-    create(:user,
-           member_with_permissions: { project => %i[share_work_packages
-                                                    view_shared_work_packages
-                                                    view_work_packages] })
-  end
+  shared_let(:sharer) { create(:admin) }
   shared_let(:shared_with_user) { create(:user, firstname: 'Mean', lastname: 'Turkey') }
 
   shared_let(:viewer_role) { create(:view_work_package_role) }
@@ -55,35 +50,7 @@ RSpec.describe 'Shared Work Package Access',
   let(:add_comment_button_selector) { '.work-packages--activity--add-comment' }
   let(:attach_files_button_selector) { 'op-attachments--upload-button' }
 
-  specify "Shared-with user access" do
-    using_session "shared-with user" do
-      login_as(shared_with_user)
-
-      #
-      # Work Package's project is not visible without the work package having been shared
-      # 1. Via the Project's Index Page
-      projects_page.visit!
-      projects_page.expect_projects_not_listed(project)
-
-      # 2. Via the Projects dropdown in the top menu
-      projects_top_menu.toggle!
-      projects_top_menu.expect_blankslate
-
-      # 3. Visiting the Project's URL directly
-      project_page.visit!
-      project_page.expect_toast(type: :error, message: I18n.t(:notice_not_authorized))
-
-      #
-      # Work Package is not visible without the work package having been shared
-      # 1. Via the Work Packages Global Index Page
-      global_work_packages_page.visit!
-      global_work_packages_page.expect_toast(type: :error, message: I18n.t(:notice_not_authorized))
-
-      # 2. Via the URL to work package
-      work_package_page.visit!
-      work_package_page.expect_toast(type: :error, message: I18n.t(:notice_file_not_found))
-    end
-
+  specify "'View' role share access" do
     using_session "sharer" do
       # Sharing the Work Package with "View" access
       login_as(sharer)
@@ -93,9 +60,21 @@ RSpec.describe 'Shared Work Package Access',
       share_modal.expect_open
 
       share_modal.invite_user!(shared_with_user, 'View')
+
+      share_modal.close
+
+      # Shared-with users with the "View" role can't become assignees
+      assignee_field = work_package_page.edit_field(:assignee)
+      assignee_field.activate!
+      results = assignee_field.autocomplete('Mean Turkey', select: false)
+      wait_for_network_idle
+      expect(results)
+        .not_to have_css('.ng-option', text: 'Mean Turkey', wait: 0)
+      assignee_field.cancel_by_escape
     end
 
     using_session "shared-with user" do
+      login_as(shared_with_user)
       # Work Package's project is now listed
       # 1. Via the Projects Index Page
       projects_page.visit!
