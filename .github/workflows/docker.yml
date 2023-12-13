@@ -8,6 +8,11 @@ on:
   push:
     tags:
       - v*
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The version to release. Note that this happens by default on the tag push. Only run this action when something went wrong!"
+        required: true
 
 permissions:
   contents: read # to fetch code (actions/checkout)
@@ -77,6 +82,7 @@ jobs:
             --name openproject \
             -d -p 8080:80 --platform ${{ matrix.platform }} \
             -e SUPERVISORD_LOG_LEVEL=debug \
+            -e OPENPROJECT_LOGIN__REQUIRED=false \
             -e OPENPROJECT_HTTPS=false \
             ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
 
