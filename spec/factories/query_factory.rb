@@ -73,6 +73,14 @@ FactoryBot.define do
       end
     end
 
+    factory :query_with_view_gantt do
+      sequence(:name) { |n| "Gantt query #{n}" }
+
+      callback(:after_create) do |query|
+        create(:view_gantt, query:)
+      end
+    end
+
     callback(:after_build) { |query| query.add_default_filter }
   end
 end

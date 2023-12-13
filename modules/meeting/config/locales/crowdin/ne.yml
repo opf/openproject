@@ -31,7 +31,7 @@ ne:
         type: "Meeting type"
         location: "Location"
         duration: "Duration"
-        notes: "Notes"
+        notes: "द्रष्टव्यहरु"
         participants: "Participants"
         participant:
           one: "1 Participant"
@@ -46,7 +46,7 @@ ne:
         title: "Title"
         author: "Responsible"
         duration_in_minutes: "Duration (min)"
-        description: "Notes"
+        description: "द्रष्टव्यहरु"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
@@ -100,6 +100,7 @@ ne:
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Meeting %{title} has been rescheduled by %{actor}"
         body: "The meeting %{title} has been rescheduled by %{actor}."
         old_date_time: "Old date/time"

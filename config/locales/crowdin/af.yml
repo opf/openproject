@@ -201,12 +201,21 @@ af:
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
   concatenation:
     single: "or"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -457,20 +466,20 @@ af:
         attribute_name: "Kenmerk"
         help_text: "Help text"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Rekening"
+        attr_firstname: "Eerstenaam kenmerk"
+        attr_lastname: "Van kenmerk"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
+        attr_mail: "Epos kenmerk"
+        base_dn: "Basis (Onderskeidende Naam) ON"
+        host: "Gasheer"
         onthefly: "Automatic user creation"
-        port: "Port"
+        port: "Poort"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hex kode"
       comment:
         commented: "Kommentaar gelewer" #an object that this comment belongs to
       custom_action:
@@ -597,7 +606,7 @@ af:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
-        done_ratio: "Progress (%)"
+        done_ratio: "% Complete"
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
@@ -611,7 +620,7 @@ af:
         parent_issue: "Ouer"
         parent_work_package: "Ouer"
         priority: "Prioriteit"
-        progress: "Progress (%)"
+        progress: "% Complete"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Tyd gespandeer"
@@ -969,7 +978,7 @@ af:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Daar was probleme met die volgende velde:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1025,12 +1034,12 @@ af:
     default_columns: "Verstekkolomme"
     description: "Beskrywing"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Vertoon totale"
     due_date: "Finish date"
-    estimated_hours: "Geraamde tyd"
-    estimated_time: "Geraamde tyd"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Expires at"
     firstname: "Voornaam"
     group: "Groep"
@@ -1376,7 +1385,7 @@ af:
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Werkspakket klaar-verhoudings nie bygewerk nie."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Die werkspakket is nie gekry nie of behoort nie aan hierdie projek nie"
   error_must_be_project_member: "moet projeklid wees"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -2047,7 +2056,7 @@ af:
   label_this_week: "vandeesweek"
   label_this_year: "vandeesjaar"
   label_time_entry_plural: "Tyd gespandeer"
-  label_title: "Title"
+  label_title: "Titel"
   label_projects_menu: "Projekte"
   label_today: "vandag"
   label_top_menu: "Top Menu"
@@ -2056,7 +2065,7 @@ af:
   label_type_new: "New type"
   label_type_plural: "Soorte"
   label_ui: "User Interface"
-  label_update_work_package_done_ratios: "Update work package done ratios"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Updated %{value} ago"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
@@ -2212,7 +2221,7 @@ af:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package you will need to create and activate an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
         enterprise_text: "Share work packages with users who are not members of the project."
@@ -2324,7 +2333,7 @@ af:
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "Work package done ratios updated."
+  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
@@ -2476,7 +2485,9 @@ af:
     default: "-"
   project:
     destroy:
-      confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Deleting the project is an irreversible action."
       project_verification: "Enter the project's name %{name} to verify the deletion."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
@@ -2500,6 +2511,7 @@ af:
   project_module_news: "Nuus"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2689,10 +2701,10 @@ af:
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate the work package done ratio with"
-  setting_work_package_done_ratio_field: "Use the work package field"
-  setting_work_package_done_ratio_status: "Use the work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the progress)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Display by default"
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
@@ -3032,29 +3044,33 @@ af:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Rol'
+        type: 'Soort'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Opmerking"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Redigeer"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Bekyk"
         view_description: "Can view this work package."
       remove: "Remove"
       share: "Share"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3097,6 +3113,7 @@ af:
       code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3125,9 +3142,9 @@ af:
         unsupported_context: "Die bron gegee word nie as konteks ondersteun nie."
         context_object_not_found: "Kan nie die hulpbron gegee as die konteks vind nie."
       validation:
-        done_ratio: "Klaar verhouding kan nie gestel word op ouerwerkspakkette wanneer dit vanuit status afgelei is of wanneer onaktief is."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Beraamde ure kan nie gestel word op ouerwerkspakkette nie."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Die gekose gebruiker is nie toegelaat om '%{property}' vir hierdie werkspakket te wees nie."
         start_date: "Begindatum kan nie gestel word op ouerwerkspakkette nie."
       eprops:

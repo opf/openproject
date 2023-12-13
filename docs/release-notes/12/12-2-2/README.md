@@ -19,7 +19,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 ### Pending database migration issue
 
-When upgrading to 12.2.1, a migration was added to restore some deleted historical values. For more information, please see the release notes for 12.2.1: https://www.openproject.org/docs/release-notes/12/12-2-1/
+When upgrading to 12.2.1, a migration was added to restore some deleted historical values. For more information, please see the release notes for [12.2.1](../12-2-1/)
 
 For a few customers, this migration appears to have been unsuccessful to restore all affected journal entries. This resulted in the migration to fail and being unable to continue with the update. As we could not reproduce this issue as of now, you can choose to ignore the missing journals if you're affected.
 

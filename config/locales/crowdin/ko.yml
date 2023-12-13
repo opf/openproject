@@ -207,6 +207,7 @@ ko:
   concatenation:
     single: "또는"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "위키"
       messages: "포럼"
@@ -468,7 +469,7 @@ ko:
       changeset:
         repository: "리포지토리"
       color:
-        hexcode: "Hex code"
+        hexcode: "16진수 코드"
       comment:
         commented: "덧글을 달았습니다." #an object that this comment belongs to
       custom_action:
@@ -595,7 +596,7 @@ ko:
         begin_insertion: "삽입 시작"
         begin_deletion: "삭제 시작"
         children: "하위 요소"
-        done_ratio: "진행률 (%)"
+        done_ratio: "% Complete"
         duration: "기간"
         end_insertion: "삽입 끝"
         end_deletion: "삭제 끝"
@@ -609,7 +610,7 @@ ko:
         parent_issue: "부모"
         parent_work_package: "부모"
         priority: "우선 순위"
-        progress: "진행률 (%)"
+        progress: "% Complete"
         readonly: "읽기 전용"
         schedule_manually: "수동 스케줄링"
         spent_hours: "소비한 시간"
@@ -644,7 +645,7 @@ ko:
         error_enterprise_only: "%{action}은(는) OpenProject Enterprise Edition에서만 사용할 수 있습니다"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "그 사이에 정보가 한 명 이상의 다른 사용자에 의해 업데이트되었습니다."
         email: "- 유효한 이메일 주소가 아닙니다."
         empty: "비워둘 수 없습니다."
         even: "에 짝수를 입력해 주세요"
@@ -1015,13 +1016,13 @@ ko:
     default_columns: "기본 칼럼"
     description: "설명"
     derived_due_date: "파생된 완료 날짜"
-    derived_estimated_hours: "파생된 예상 시간"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "파생된 시작 날짜"
     display_sums: "합계 표시"
     due_date: "완료 날짜"
-    estimated_hours: "예상된 시간"
-    estimated_time: "예상된 시간"
-    expires_at: "Expires at"
+    estimated_hours: "Work"
+    estimated_time: "Work"
+    expires_at: "에서 만료됨"
     firstname: "이름"
     group: "그룹"
     groups: "그룹"
@@ -1261,7 +1262,7 @@ ko:
       x_minutes_abbreviated:
         other: "%{count} mins"
       x_hours:
-        other: "%{count} hours"
+        other: "%{count} 시간"
       x_hours_abbreviated:
         other: "%{count} hrs"
       x_weeks:
@@ -1348,7 +1349,7 @@ ko:
   error_pdf_export_too_many_columns: "PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오."
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
   error_token_authenticity: "교차 사이트 요청 위조 토큰을 확인할 수 없습니다. 여러 브라우저나 탭에서 데이터 제출을 시도하셨습니까? 모든 탭을 닫고 다시 시도하세요."
-  error_work_package_done_ratios_not_updated: "작업 패키지 완료 비율이 업데이트되지 않았습니다."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "작업 패키지가 없거나 이 프로젝트에 속하지 않습니다."
   error_must_be_project_member: "은(는) 프로젝트 멤버여야 합니다."
   error_migrations_are_pending: "OpenProject 설치에 보류 중인 데이터베이스 마이그레이션이 있습니다. 지난 업그레이드에서 마이그레이션을 실행하지 않았을 가능성이 있습니다. 업그레이드 가이드를 확인하여 제대로 설치를 업그레이드하세요."
@@ -1881,7 +1882,7 @@ ko:
   label_operator_none: "비어 있음"
   label_operator_equals_or: "(OR)"
   label_operator_equals_all: "(AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "모두"
   label_open_menu: "메뉴 열기"
   label_open_work_packages: "열기"
   label_open_work_packages_plural: "열기"
@@ -2028,7 +2029,7 @@ ko:
   label_type_new: "새 유형"
   label_type_plural: "유형"
   label_ui: "사용자 인터페이스"
-  label_update_work_package_done_ratios: "작업 패키지 완료 비율 업데이트"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "%{value} 전에 업데이트됨"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}이(가) %{age} 전에 업데이트함"
@@ -2183,7 +2184,7 @@ ko:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package you will need to create and activate an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
         enterprise_text: "Share work packages with users who are not members of the project."
@@ -2219,8 +2220,8 @@ ko:
   mail_body_register_ending: "계속 지켜봐 주세요! 감사합니다."
   mail_body_reminder: "사용자에게 할당된 %{count} 작업 패키지가 다음 %{days}일 후 만료됩니다."
   mail_body_group_reminder: '"%{group}" 그룹에 할당된 %{count}개 작업 패키지가 향후 %{days}일 후 만료됩니다.'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "%{author}이(가) '%{id}' 위키 페이지를 추가했습니다."
+  mail_body_wiki_page_updated: "%{author}이(가) '%{id}' 위키 페이지를 업데이트했습니다."
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_subject_backup_ready: "백업이 준비되었습니다"
   mail_subject_backup_token_reset: "백업 토큰 초기화"
@@ -2295,7 +2296,7 @@ ko:
   notice_file_not_found: "액세스하려는 페이지가 존재하지 않거나 제거되었습니다."
   notice_forced_logout: "비활성화된지 %{ttl_time}분 후 자동으로 로그아웃되었습니다."
   notice_internal_server_error: "액세스하려는 페이지에 오류가 발생했습니다. 계속하여 문제가 발생하는 경우 %{app_title} 관리자에게 문의하여 지원을 받으세요."
-  notice_work_package_done_ratios_updated: "작업 패키지 완료 비율이 업데이트되었습니다."
+  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
   notice_locking_conflict: "그 사이에 정보가 한 명 이상의 다른 사용자에 의해 업데이트되었습니다."
   notice_locking_conflict_additional_information: "%{users}의 업데이트입니다."
   notice_locking_conflict_reload_page: "페이지를 다시 로드하고, 변경 사항을 검토하고, 업데이트를 다시 적용하세요."
@@ -2358,7 +2359,7 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "첨부 파일 추가"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "프로젝트 보관"
   permission_create_user: "사용자 만들기"
@@ -2372,7 +2373,7 @@ ko:
   permission_comment_news: "뉴스에 코멘트 달기"
   permission_commit_access: "리포지토리(커밋)에 대한 읽기/쓰기 액세스"
   permission_copy_projects: "프로젝트 복사"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "작업 패키지 복사"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "주시자 삭제"
   permission_delete_work_packages: "작업 패키지 삭제"
@@ -2445,7 +2446,9 @@ ko:
     default: "-"
   project:
     destroy:
-      confirmation: "계속하는 경우, 프로젝트 %{identifier} 및 관련된 모든 데이터가 영구적으로 제거됩니다."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "프로젝트 삭제는 취소할 수 없는 작업입니다."
       project_verification: "삭제를 확인하려면 프로젝트 이름 %{name}(을)를 입력하세요."
       subprojects_confirmation: "하위 프로젝트 %{value}도 삭제됩니다."
@@ -2469,6 +2472,7 @@ ko:
   project_module_news: "뉴스"
   project_module_repository: "리포지토리"
   project_module_wiki: "위키"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2656,10 +2660,10 @@ ko:
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"
   setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
-  setting_work_package_done_ratio: "다음으로 작업 패키지 완료 비율 계산"
-  setting_work_package_done_ratio_field: "작업 패키지 필드 사용"
-  setting_work_package_done_ratio_status: "작업 패키지 상태 사용"
-  setting_work_package_done_ratio_disabled: "사용 안 함(진행률 숨기기)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "기본적으로 사용 안 함"
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
@@ -2998,29 +3002,32 @@ ko:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: '역할'
+        type: '타입'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "코멘트"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "편집"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "보기"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "제거"
+      share: "공유하기"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3063,6 +3070,7 @@ ko:
       code_429: "너무 많은 요청이 들어왔습니다. 나중에 다시 시도해주십시오."
       code_500: "내부 오류가 발생하였습니다."
       code_500_outbound_request_failure: "다른 리소스에 대한 아웃바운드 요청이 실패했으며 상태 코드는 %{status_code}입니다."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다."
       expected:
@@ -3091,9 +3099,9 @@ ko:
         unsupported_context: "지정된 리소스는 컨텍스트로 지원되지 않습니다."
         context_object_not_found: "컨텍스트로 지정된 리소스를 찾을 수 없습니다."
       validation:
-        done_ratio: "완료 비율은 상태에 의해 유추되는 경우 또는 비활성화된 경우 부모 작업 패키지에서 설정할 수 없습니다."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "완료 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
-        estimated_hours: "예상 시간은 부모 작업 패키지에서 설정할 수 없습니다."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "선택한 사용자는 이 작업 패키지에 대해 '%{property}' 허가되지 않았습니다."
         start_date: "시작 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
       eprops:

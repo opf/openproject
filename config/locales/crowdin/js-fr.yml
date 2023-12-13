@@ -32,11 +32,11 @@ fr:
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "Ajouter un élément"
+      clear_all: "Tout réinitialiser"
+      loading: "Chargement…"
+      not_found: "Aucun élément trouvé"
+      type_to_search: "Taper pour rechercher"
     autocomplete_select:
       placeholder:
         multi: "Ajouter «%{name} »"
@@ -352,7 +352,7 @@ fr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Partagez des packages de travail avec des utilisateurs et des groupes externes qui ne sont pas membres du projet (module complémentaire Enterprise).</ li> <li>Nouvelles réunions dynamiques avec ordres du jour et compte rendus liés aux lots de travaux.</li> <li>Lier les lots de travaux avec des fichiers et des dossiers dans OneDrive/SharePoint.</li> <li>Test d'accessibilité et premières améliorations selon WCAG 2.1 AA, y compris un mode contraste élevé.</li> <li>Poursuite de l'intégration du Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -376,7 +376,7 @@ fr:
     label_add_selected_columns: "Ajouter les colonnes sélectionnées"
     label_added_by: "Ajouté par"
     label_added_time_by: "Ajouté par <a href=\"%{authorLink}\">%{author}</a> le %{age}"
-    label_ago: "il y a quelques jours"
+    label_ago: "il y a"
     label_all: "tous"
     label_all_work_packages: "tous les lots de travaux"
     label_and: "et"
@@ -604,7 +604,7 @@ fr:
         processed: 'traité'
         prioritized: 'priorisé'
         dateAlert: 'Alarmes'
-        shared: 'shared'
+        shared: 'partagé'
       date_alerts:
         milestone_date: 'Date jalon'
         overdue: 'En retard'
@@ -649,7 +649,7 @@ fr:
         mentioned: 'Mentionné'
         watched: 'Observateur'
         date_alert: 'Alarmes'
-        shared: 'Shared'
+        shared: 'Partagé'
       settings:
         change_notification_settings: 'Vous pouvez modifier vos <a target="_blank" href="%{url}">paramètres de notification</a> pour vous assurer de ne jamais manquer une mise à jour importante.'
         title: "Paramètres de notifications"
@@ -672,7 +672,7 @@ fr:
             description: 'Recevoir une notification chaque fois que quelqu''un me mentionne n''importe où'
           assignee: 'Assigné'
           responsible: 'Responsable'
-          shared: 'Shared'
+          shared: 'Partagé'
           watched: 'Observateur'
           work_package_commented: 'Tous les nouveaux commentaires'
           work_package_created: 'Nouveaux lots de travaux'
@@ -966,7 +966,6 @@ fr:
         date: "date"
         dueDate: "Date de fin"
         duration: "Durée"
-        estimatedTime: "Durée estimée"
         spentTime: "Temps passé"
         category: "Catégorie"
         percentageDone: "Pourcentage effectué"
@@ -989,7 +988,7 @@ fr:
         recently_created: "Créé récemment"
         all_open: "Tous les ouverts"
         summary: "Résumé"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Partagée avec des utilisateurs"
       jump_marks:
         pagination: "Passer à la pagination du tableau"
         label_pagination: "Cliquez ici pour sauter le tableau des lots de travaux et accéder à la pagination"
@@ -1027,11 +1026,11 @@ fr:
         is_parent: "Les dates de ce lot de travaux sont automatiquement déduites de ses enfants. Activez la « Planification manuelle » pour définir les dates."
         is_switched_from_manual_to_automatic: "Les dates de ce lot de travaux peuvent avoir besoin d'être recalculées après avoir passé de la planification manuelle à la planification automatique en raison de relations avec d'autres lots de travaux."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Partager'
+        title: "Partager le lot de travaux"
+        selected_count: "%{count} sélectionné"
         selection:
-          mixed: "Mixed"
+          mixed: "Mixte"
       table:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."

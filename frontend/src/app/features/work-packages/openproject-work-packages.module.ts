@@ -417,7 +417,6 @@ import {
 import {
   WorkPackageShareModalComponent,
 } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
-import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 
 @NgModule({
   imports: [
@@ -695,10 +694,8 @@ import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-el
 export class OpenprojectWorkPackagesModule {
   static bootstrapAttributeGroupsCalled = false;
 
-  constructor(injector:Injector) {
+  constructor(private injector:Injector) {
     OpenprojectWorkPackagesModule.bootstrapAttributeGroups(injector);
-
-    registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
   }
 
   // The static property prevents running the function

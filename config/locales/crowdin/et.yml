@@ -166,18 +166,18 @@ et:
     index:
       no_results_title_text: There are currently no colors.
       no_results_content_text: Create a new color
-      label_new_color: "New color"
+      label_new_color: "Uus värv"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Uus värv"
+      label_edit_color: "Muuda värvi"
     label_no_color: "No color"
-    label_properties: "Properties"
+    label_properties: "Atribuudid"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Kas oled kindel, et tahad seda värvi kustutada? Tüübid, mis seda värvi kasutavad, jäävad alles.
   custom_actions:
     actions:
       name: "Actions"
@@ -207,6 +207,7 @@ et:
   concatenation:
     single: "või"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Viki"
       messages: "Foorum"
@@ -260,7 +261,7 @@ et:
       types:
         no_results_title_text: There are currently no types available.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Luba kasutada tüüpi "%{type}" projektis'
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
@@ -457,12 +458,12 @@ et:
         attribute_name: "Atribuut"
         help_text: "Abitekst"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Konto"
+        attr_firstname: "Eesnimi"
+        attr_lastname: "Perekonnanimi"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
+        attr_mail: "E-posti aadress"
+        base_dn: "Põhiline domeeninimi"
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
@@ -470,7 +471,7 @@ et:
       changeset:
         repository: "Hoidla"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hex kood"
       comment:
         commented: "Kommenteeritud" #an object that this comment belongs to
       custom_action:
@@ -597,7 +598,7 @@ et:
         begin_insertion: "Sisestamise algus"
         begin_deletion: "Kustutamise algus"
         children: "Alamelemendid"
-        done_ratio: "Progress (%)"
+        done_ratio: "% Complete"
         duration: "kestus"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
@@ -611,7 +612,7 @@ et:
         parent_issue: "Pärineb teemast"
         parent_work_package: "Pärineb teemast"
         priority: "Prioriteet"
-        progress: "Progress (%)"
+        progress: "% Complete"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Kulutatud aeg"
@@ -646,7 +647,7 @@ et:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Teine kasutaja uuendas vahepeal neid andmeid."
         email: "is not a valid email address."
         empty: "ei tohi olla tühi."
         even: "peab olema paarisarv."
@@ -969,7 +970,7 @@ et:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Järgmiste väljadega esines tõrkeid:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1025,13 +1026,13 @@ et:
     default_columns: "Vaikimisi veerud"
     description: "Teave"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Kuva summasid"
     due_date: "Lõpetamise kuupäev"
-    estimated_hours: "Eeldatav ajakulu"
-    estimated_time: "Eeldatav ajakulu"
-    expires_at: "Expires at"
+    estimated_hours: "Work"
+    estimated_time: "Work"
+    expires_at: "Aegub"
     firstname: "Eesnimi"
     group: "Grupp"
     groups: "Rühmad"
@@ -1363,7 +1364,7 @@ et:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Palun vali kasutaja ja roll."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Värvi ei saa salvestada"
   error_cookie_missing: "The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without."
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1376,7 +1377,7 @@ et:
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Teema edenemise astmed jäid uuendamata."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Teemat ei leitud või see ei kuulu siia projekti"
   error_must_be_project_member: "peab olema projekti liige"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1388,7 +1389,7 @@ et:
   error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Juurdepääsu katsel versioonihalduse süsteemile ilmnes tõrge: %{value}"
   error_scm_not_found: "Versioonihalduse süsteemis ei leidunud otsitavat sissekannet või versiooni."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Tüüpi ei saa salvestada"
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
   error_unable_delete_default_status: "Unable to delete the default work package status. Please select another default work package status before deleting the current one."
   error_unable_to_connect: "Ühenduse loomine ebaõnnestus (%{value})"
@@ -1681,7 +1682,7 @@ et:
   label_confirmation: "Kinnitus"
   label_contains: "sisaldab"
   label_content: "Sisu"
-  label_color_plural: "Colors"
+  label_color_plural: "Värvid"
   label_copied: "kopeeritud"
   label_copy_same_as_target: "Sama mis sihtkoht"
   label_copy_source: "Lähtepunkt"
@@ -1711,7 +1712,7 @@ et:
   label_deleted: "kustutatud"
   label_deleted_custom_field: "(kustutatud lisaväli)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(tühi)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Kahanev"
   label_details: "Üksikasjad"
@@ -2047,7 +2048,7 @@ et:
   label_this_week: "sel nädalal"
   label_this_year: "sel aastal"
   label_time_entry_plural: "Kulutatud aeg"
-  label_title: "Title"
+  label_title: "Pealkiri"
   label_projects_menu: "Projektid"
   label_today: "täna"
   label_top_menu: "Ülemine menüü"
@@ -2056,7 +2057,7 @@ et:
   label_type_new: "Uus tüüp"
   label_type_plural: "Tüübid"
   label_ui: "Kasutajaliides"
-  label_update_work_package_done_ratios: "Uuenda edenemise astmeid"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Uuendatud %{value} tagasi"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Uuendatud %{author} poolt %{age} tagasi"
@@ -2212,7 +2213,7 @@ et:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package you will need to create and activate an %{instance} account. "
         open_work_package: "Open work package"
         subject: "You have been shared work package #%{id}"
         enterprise_text: "Share work packages with users who are not members of the project."
@@ -2248,8 +2249,8 @@ et:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} Sulle määratud teema tähtaeg jõuab kätte järgmise %{days} päeva jooksul:"
   mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Kasutaja %{author} lisas uue lehekülje \"%{id}\" vikisse."
+  mail_body_wiki_page_updated: "Kasutaja %{author} toimetas lehekülje \"%{id}\" sisu vikis."
   mail_subject_account_activation_request: "%{value} konto aktiveerimise nõuet"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2324,7 +2325,7 @@ et:
   notice_file_not_found: "Sellist lehte ei leitud."
   notice_forced_logout: "Sind logiti automaatselt välja %{ttl_time} tegevuseta minuti järel."
   notice_internal_server_error: "Lehel, mida Sa üritasid avada, ilmnes tõrge. Kui probleem on püsiv, siis pöörduge abi saamiseks rakenduse %{app_title} administraatori poole."
-  notice_work_package_done_ratios_updated: "Teema edenemise astmed on uuendatud."
+  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
   notice_locking_conflict: "Teine kasutaja uuendas vahepeal neid andmeid."
   notice_locking_conflict_additional_information: "Uuendused on tehtud %{users} poolt."
   notice_locking_conflict_reload_page: "Palun laadi lehekülg uuesti, kontrolli tehtud muudatusi ja püüa neid uuesti salvestada."
@@ -2476,7 +2477,9 @@ et:
     default: "-"
   project:
     destroy:
-      confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Deleting the project is an irreversible action."
       project_verification: "Enter the project's name %{name} to verify the deletion."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
@@ -2500,6 +2503,7 @@ et:
   project_module_news: "Uudised"
   project_module_repository: "Hoidla"
   project_module_wiki: "Viki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2689,10 +2693,10 @@ et:
   setting_file_max_size_displayed: "Teksti sees kuvatava tekstifaili maksimaalne suurus"
   setting_host_name: "Serveri nimi ja teerada"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Määra teema edenemise aste"
-  setting_work_package_done_ratio_field: "kasutades vastavat välja"
-  setting_work_package_done_ratio_status: "kasutades teema olekut"
-  setting_work_package_done_ratio_disabled: "Ära kuva edenemist"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Kuva vaikimisi"
   setting_work_package_properties: "Teemade atribuudid"
   setting_work_package_startdate_is_adddate: "Uute teemade alguskuupäevaks käesolev päev"
@@ -3032,29 +3036,32 @@ et:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Roll'
+        type: 'Tüüp'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Kommentaar"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Muuda"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Kuva"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Eemalda"
+      share: "Jaga"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3097,6 +3104,7 @@ et:
       code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3125,9 +3133,9 @@ et:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
       eprops:

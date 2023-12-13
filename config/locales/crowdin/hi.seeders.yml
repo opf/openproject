@@ -50,15 +50,15 @@ hi:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: गैर सदस्य
         item_1:
-          name: Anonymous
+          name: अज्ञात
         item_2:
-          name: Member
+          name: सदस्य
         item_3:
-          name: Reader
+          name: पाठक
         item_4:
-          name: Project admin
+          name: परियोजना व्यवस्थापक
       global_roles:
         item_0:
           name: Staff and projects manager

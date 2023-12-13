@@ -24,7 +24,7 @@ de:
   plugin_openproject_meeting:
     name: "OpenProject Besprechung"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      Besprechungen für OpenProject
   activerecord:
     attributes:
       meeting:
@@ -34,8 +34,8 @@ de:
         notes: "Anmerkungen"
         participants: "Teilnehmer"
         participant:
-          one: "1 Participant"
-          other: "%{count} Participants"
+          one: "1 Teilnehmer"
+          other: "%{count} Teilnehmer"
         participants_attended: "Anwesend"
         participants_invited: "Eingeladen"
         project: "Projekt"
@@ -100,6 +100,7 @@ de:
       invited:
         summary: "%{actor} hat Ihnen eine Einladung für die folgende Besprechung gesendet: %{title}"
       rescheduled:
+        header: "Besprechung %{title} verschoben"
         summary: "Die Besprechung %{title} wurde durch %{actor} verschoben."
         body: "Die Besprechung %{title} wurde durch %{actor} verschoben."
         old_date_time: "Alte(s) Datum/Zeit"
@@ -110,7 +111,7 @@ de:
       classic_text: 'Organisieren Sie Ihr Meeting in einer formatierbaren textbasierter Agenda und zugehöriges Protokoll.'
       structured: 'Dynamisch'
       structured_text: 'Organisieren Sie Ihr Meeting als strukturierte Liste von Einträgen und verknüpfen Sie diese optional mit einem Arbeitspaket.'
-      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
+      structured_text_copy: 'Das Kopieren einer Besprechung kopiert derzeit nicht die zugehörigen Tagesordnungspunkte, sondern nur dessen Details'
     copied: "Kopiert von Meeting #%{id}"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
@@ -164,7 +165,7 @@ de:
   label_meeting_manage_participants: "Teilnehmer verwalten"
   label_meeting_no_participants: "Keine Teilnehmer"
   label_meeting_show_hide_participants: "%{count} weitere anzeigen/ausblenden"
-  label_meeting_show_all_participants: "Show all"
+  label_meeting_show_all_participants: "Alle anzeigen"
   label_meeting_add_participants: "Teilnehmer hinzufügen"
   text_meeting_not_editable_anymore: "Diese Besprechung ist nicht mehr bearbeitbar."
   text_meeting_not_present_anymore: "Dieses Meeting wurde gelöscht. Bitte wählen Sie eine andere Besprechung."

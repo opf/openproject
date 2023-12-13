@@ -19,15 +19,15 @@
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Fil"
       storages/storage: "Storage"
     attributes:
       storages/storage:
         name: "Navn"
-        creator: "Creator"
+        creator: "Skaper"
         provider_type: "Provider type"
-        host: "Host"
-        tenant: "Tenant"
+        host: "Vert"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Origin Id"
     errors:
@@ -65,15 +65,16 @@
       done_continue: "Done, continue"
       done_continue_setup: "Done. Continue setup"
       done_complete_setup: "Done, complete setup"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save: "Save"
+      save: "Lagre"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
-      configure: "Configure"
+      configure: "Konfigurer"
     file_storage_view:
       general_information: "General information"
       oauth_applications: "OAuth applications"
@@ -81,6 +82,7 @@
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "Omdiriger URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
@@ -131,19 +133,24 @@
         application_link_text: "application “Integration OpenProject”"
         integration: "Nextcloud Administration / OpenProject"
       one_drive:
-        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
-        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
-        application_link_text: "Azure application"
+        provider_configuration: >
+          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
+        application_link_text: "Azure portal"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
-          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+          In case there is no application client secret under Client credentials, please create a new one.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
-        tenant_id: "Please copy the tenant from your Azure application."
+        tenant_id: >
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
-        drive_id: "Please copy the drive ID from your Azure application."
-        drive_id_placeholder: "UUID or triple ID"
+        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
+        documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
@@ -151,6 +158,8 @@
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
         Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
@@ -167,11 +176,11 @@
       heading: "You don't have any storages yet."
       description: "Add a storage to see them here."
     error_invalid_provider_type: "Please select a valid storage provider."
-    label_active: "Active"
+    label_active: "Aktiv"
     label_add_new_storage: "Add new storage"
     label_delete_storage: "Delete storage"
-    label_inactive: "Inactive"
-    label_creator: "Creator"
+    label_inactive: "Inaktiv"
+    label_creator: "Skaper"
     label_provider: "Provider"
     label_file_link: "File link"
     label_file_links: "File links"
@@ -198,12 +207,14 @@
     label_information: "Additional information"
     label_provider_type: "Provider type"
     label_project_folder: "Project folder"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "Omdiriger URI"
+    label_uri: "URI"
     label_new_storage: "New storage"
     label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_show_storage_redirect_uri: "Show redirect URI"
     label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
@@ -213,7 +224,7 @@
     label_storage: "Storage"
     label_storages: "Storages"
     label_status: "Status"
-    label_files: "Files"
+    label_files: "Filer"
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
@@ -225,9 +236,13 @@
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
@@ -244,6 +259,10 @@
     health:
       title: "Managed folders status"
       label_pending: "Pending"
-      label_error: "Error"
+      label_error: "Feil"
       label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
+    upsale:
+      title: "OneDrive/SharePoint integration"
+      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

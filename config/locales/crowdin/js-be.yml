@@ -312,7 +312,7 @@ be:
         right: 'Right'
         farRight: 'Far right'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Адзначце атрыбуты, якія будуць паказвацца заўсёды ў адпаведных пазіцыях дыяграмы Ганта. Звярніце ўвагу, што пры навядзенні курсора на элемент, замест гэтых атрыбутаў будуць паказаны яго часавыя меткі.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
@@ -352,7 +352,7 @@ be:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -968,7 +968,6 @@ be:
         date: "Дата"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
         percentageDone: "Percentage done"

@@ -24,4 +24,4 @@ zh-TW:
     work_packages:
       properties:
         storyPoints: "需求重要性"
-        remainingTime: "剩餘時數"
+        remainingTime: "Remaining work"

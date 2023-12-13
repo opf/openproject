@@ -34,7 +34,7 @@ ka:
     autocomplete_ng_select:
       add_tag: "ელემენტის დამატება"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "იტვირთება..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -82,7 +82,7 @@ ka:
     button_edit: "ჩასწორება"
     button_filter: "ფილტრი"
     button_collapse_all: "Collapse all"
-    button_expand_all: "Expand all"
+    button_expand_all: "ყველას გაშლა"
     button_advanced_filter: "Advanced filter"
     button_list_view: "სიის ხედი"
     button_show_view: "Fullscreen view"
@@ -211,7 +211,7 @@ ka:
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
             invalid_email: "Invalid email address"
             label_company: "კომპანია"
-            label_first_name: "First name"
+            label_first_name: "სახელი"
             label_last_name: "გვარი"
             label_domain: "დომენი"
             label_subscriber: "Subscriber"
@@ -250,7 +250,7 @@ ka:
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
           button_upgrade: "ახლავე განაახლე"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "დემოსთვის დაგვიკავშირდით"
           button_book_now: "ახლა დაჯავშნა"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -352,7 +352,7 @@ ka:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -395,7 +395,7 @@ ka:
     label_date: "თარიღი"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
     label_deactivate: "Deactivate"
-    label_descending: "Descending"
+    label_descending: "დაღმავალი"
     label_description: "Description"
     label_details: "დეტალები"
     label_display: "ჩვენება"
@@ -415,7 +415,7 @@ ka:
     label_equals: "არის"
     label_expand: "გაფართოება"
     label_expanded: "გაშლილი"
-    label_expand_all: "Expand all"
+    label_expand_all: "ყველას გაშლა"
     label_expand_project_menu: "Expand project menu"
     label_export: "გატანა"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
@@ -439,10 +439,10 @@ ka:
     label_import: "შემოტანა"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
-    label_learn_more_link: "Learn more"
+    label_learn_more_link: "გაიგეთ მეტი"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
-    label_loading: "Loading..."
+    label_loading: "იტვირთება..."
     label_mail_notification: "Email notifications"
     label_me: "მე"
     label_meeting_agenda: "დღის განრიგი"
@@ -492,7 +492,7 @@ ka:
     label_sort_higher: "აწევა"
     label_sort_lower: "ქვემოთ ჩატანა"
     label_sorting: "დალაგება"
-    label_spent_time: "Spent time"
+    label_spent_time: "დახარჯული დრო"
     label_star_query: "რჩეულია"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "საჯარო"
@@ -502,7 +502,7 @@ ka:
     label_subject: "თემა"
     label_this_week: "ამ კვირაში "
     label_today: "დღეს"
-    label_time_entry_plural: "Spent time"
+    label_time_entry_plural: "დახარჯული დრო"
     label_up: "ზემოთ"
     label_user_plural: "მომხმარებლები"
     label_activity_show_only_comments: "Show activities with comments only"
@@ -513,9 +513,9 @@ ka:
     label_value_derived_from_children: "(value derived from children)"
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "გაფრთხილება"
-    label_work_package: "Work package"
+    label_work_package: "სამუშაო პაკეტი"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work packages"
+    label_work_package_plural: "სამუშაო პაკეტები"
     label_watch: "თვალის დევნება"
     label_watch_work_package: "Watch work package"
     label_watcher_added_successfully: "Watcher successfully added!"
@@ -603,7 +603,7 @@ ka:
         commented: 'დაკომენტარებულია'
         processed: 'დამუშავებულია'
         prioritized: 'prioritized'
-        dateAlert: 'Date alert'
+        dateAlert: 'გაფრთხილების თარიღი'
         shared: 'გაზიარებული'
       date_alerts:
         milestone_date: 'Milestone date'
@@ -648,7 +648,7 @@ ka:
         inbox: 'შემომავალი'
         mentioned: 'მოხსენიებულები'
         watched: 'მეთვალყურე'
-        date_alert: 'Date alert'
+        date_alert: 'გაფრთხილების თარიღი'
         shared: 'გაზიარებული'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -742,7 +742,7 @@ ka:
           title: 'Email alerts for other items (that are not work packages)'
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
-          news_added: 'News added'
+          news_added: 'სიახლე დამატებულია'
           news_commented: 'Comment on a news item'
           document_added: 'Documents added'
           forum_messages: 'New forum messages'
@@ -902,14 +902,14 @@ ka:
         ignore_non_working_days:
           title: 'Working days only'
       description_filter: "ფილტრი"
-      description_enter_text: "Enter text"
+      description_enter_text: "შეიყვანეთ ტექსტი"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Enable multiselect"
       label_disable_multi_select: "Disable multiselect"
-      label_filter_add: "Add filter"
+      label_filter_add: "ფილტრის დამატება"
       label_filter_by_text: "Filter by text"
       label_options: "მორგება"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
@@ -961,25 +961,24 @@ ka:
       properties:
         assignee: "დასაქმებული"
         author: "ავტორი"
-        createdAt: "Created on"
+        createdAt: "შექმნის დრო"
         description: "Description"
         date: "თარიღი"
         dueDate: "Finish date"
         duration: "ხანგრძლივობა"
-        estimatedTime: "Estimated time"
-        spentTime: "Spent time"
+        spentTime: "დახარჯული დრო"
         category: "კატეგორია"
         percentageDone: "Percentage done"
         priority: "პრიორიტეტი"
         projectName: "პროექტი"
         responsible: "Responsible"
-        startDate: "Start date"
+        startDate: "დაწყების თარიღი"
         status: "სტატუსი"
         subject: "თემა"
-        subproject: "Subproject"
+        subproject: "ქვეპროექტი"
         title: "სათაური"
         type: "ტიპი"
-        updatedAt: "Updated on"
+        updatedAt: "განახლების თარიღი"
         versionName: "ვერსია"
         version: "ვერსია"
       default_queries:
@@ -1100,7 +1099,7 @@ ka:
         page_settings: "Rename view"
         delete: "წაშლა"
       filter: "ფილტრი"
-      unselected_title: "Work package"
+      unselected_title: "სამუშაო პაკეტი"
       search_query_label: "Search saved views"
     modals:
       label_name: "სახელი"
@@ -1166,7 +1165,7 @@ ka:
         zero: "0 სთ"
       day:
         one: "1 დღე"
-        other: "%{count} days"
+        other: "%{count} დღე"
         zero: "0 დღე"
     zen_mode:
       button_activate: 'Activate zen mode'
@@ -1284,7 +1283,7 @@ ka:
         yesterday: 'გუშინ'
         last_working_day: 'last working day'
         last_week: 'ბოლო კვირას'
-        last_month: 'last month'
+        last_month: 'ბოლო თვე'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

@@ -31,7 +31,7 @@ lv:
         type: "Meeting type"
         location: "Location"
         duration: "Duration"
-        notes: "Notes"
+        notes: "Piezīmes"
         participants: "Participants"
         participant:
           zero: "%{count} Participants"
@@ -39,15 +39,15 @@ lv:
           other: "%{count} Participants"
         participants_attended: "Attendees"
         participants_invited: "Invitees"
-        project: "Project"
-        start_date: "Date"
+        project: "Projekts"
+        start_date: "Datums"
         start_time: "Time"
         start_time_hour: "Starting time"
       meeting_agenda_items:
         title: "Title"
-        author: "Responsible"
+        author: "Atbildīgais"
         duration_in_minutes: "Duration (min)"
-        description: "Notes"
+        description: "Piezīmes"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
@@ -101,6 +101,7 @@ lv:
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Meeting %{title} has been rescheduled by %{actor}"
         body: "The meeting %{title} has been rescheduled by %{actor}."
         old_date_time: "Old date/time"
@@ -165,7 +166,7 @@ lv:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
-  label_meeting_show_all_participants: "Show all"
+  label_meeting_show_all_participants: "Rādīt visus"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

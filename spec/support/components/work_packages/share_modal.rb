@@ -136,8 +136,8 @@ module Components
 
       def expect_bulk_actions_not_available
         within shares_header do
-          expect(page).not_to have_button 'Remove'
-          expect(page).not_to have_test_selector('op-share-wp-bulk-update-role')
+          expect(page).not_to have_button('Remove', wait: 0)
+          expect(page).not_to have_test_selector('op-share-wp-bulk-update-role', wait: 0)
         end
       end
 
@@ -194,6 +194,12 @@ module Components
         end
       end
 
+      def expect_empty_search_blankslate
+        within_modal do
+          expect(page).to have_text(I18n.t('work_package.sharing.text_empty_search_description'))
+        end
+      end
+
       def invite_user(users, role_name)
         Array(users).each do |user|
           case user
@@ -246,11 +252,14 @@ module Components
       end
 
       def filter(filter_name, value)
-        within modal_element.find("[data-test-selector='op-share-wp-filter-#{filter_name}']") do
-          # Open the ActionMenu
-          retry_block do # Sometimes this is just too fast.
-            click_button filter_name.capitalize
+        within(shares_header) do
+          retry_block do
+            # The button's text changes dynamically based on the currently selected option
+            # Hence the spec's readability is hindered by using something like
+            # `click_button filter_name.capitalize`
+            find("[data-test-selector='op-share-wp-filter-#{filter_name}-button']").click
 
+            # Open the ActionMenu
             find('.ActionListContent', text: value).click
           end
         end
@@ -272,15 +281,17 @@ module Components
 
       def expect_shared_with(user, role_name = nil, position: nil, editable: true)
         within_modal do
-          expect(page).to have_list_item(text: user.name, position:)
-          within(:list_item, text: user.name, position:) do
-            if role_name
-              expect(page).to have_button(role_name),
-                              "Expected share with #{user.name.inspect} to have button #{role_name}."
-            end
-            unless editable
-              expect(page).not_to have_button,
-                                  "Expected share with #{user.name.inspect} not to be editable (expected no buttons)."
+          within shares_list do
+            expect(page).to have_list_item(text: user.name, position:)
+            within(:list_item, text: user.name, position:) do
+              if role_name
+                expect(page).to have_button(role_name),
+                                "Expected share with #{user.name.inspect} to have button #{role_name}."
+              end
+              unless editable
+                expect(page).not_to have_button,
+                                    "Expected share with #{user.name.inspect} not to be editable (expected no buttons)."
+              end
             end
           end
         end
@@ -340,7 +351,7 @@ module Components
       end
 
       def shares_list
-        active_list.find_by_id('op-share-wp-active-shares')
+        find_by_id('op-share-wp-active-shares')
       end
 
       def select_existing_user(user)
@@ -375,6 +386,14 @@ module Components
         within modal_element do
           expect(page)
             .to have_text(I18n.t('work_package.sharing.warning_user_limit_reached'))
+        end
+      end
+
+      def expect_error_message(text)
+        within modal_element do
+          expect(page)
+            .to have_css('[data-test-selector="op-share-wp-error-message"]',
+                         text: text)
         end
       end
 

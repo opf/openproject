@@ -7,11 +7,11 @@ he:
   permission_manage_team_planner: "Manage team planner"
   project_module_team_planner_view: "Team planners"
   team_planner:
-    label_team_planner: "Team planner"
+    label_team_planner: "מתכנן צוות"
     label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Create new team planner"
     label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_assignees: "משויך אל"
     upsale:
-      title: "Team planner"
+      title: "מתכנן צוות"
       description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

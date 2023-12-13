@@ -24,4 +24,4 @@ fi:
     work_packages:
       properties:
         storyPoints: "Tarinapisteet"
-        remainingTime: "Jäljellä olevat tunnit"
+        remainingTime: "Remaining work"

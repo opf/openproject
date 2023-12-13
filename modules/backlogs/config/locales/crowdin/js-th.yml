@@ -24,4 +24,4 @@ th:
     work_packages:
       properties:
         storyPoints: "Story Points"
-        remainingTime: "Remaining hours"
+        remainingTime: "Remaining work"

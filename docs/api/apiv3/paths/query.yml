@@ -311,7 +311,7 @@ patch:
                     href: "/api/v3/users/1"
                     title: OpenProject Admin
                 _type: Query
-                createdAt: '2015-03-20T12:56:56Z'
+                createdAt: '2015-03-20T12:56:56.343Z'
                 filters:
                 - _links:
                     filter:
@@ -343,7 +343,7 @@ patch:
                 public: false
                 starred: false
                 sums: false
-                updatedAt: '2015-05-20T18:16:53Z'
+                updatedAt: '2015-05-20T18:16:53.884Z'
           schema:
             "$ref": "../components/schemas/query_model.yml"
       description: OK

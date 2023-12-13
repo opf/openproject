@@ -110,6 +110,10 @@ module Components
         add_filter(name)
 
         set_filter(name, operator, value, selector)
+
+        # Wait for the debounce of the filter input to apply filters
+        # See frontend/src/app/features/work-packages/components/filters/query-filters/query-filters.component.ts:69
+        sleep 0.5
       end
 
       def set_operator(name, operator, selector = nil)

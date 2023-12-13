@@ -27,10 +27,10 @@ it:
     attributes:
       work_package:
         position: "Posizione"
-        remaining_hours: "Ore rimaste"
-        remaining_time: "Ore rimaste"
-        derived_remaining_hours: "Ore rimanenti derivate"
-        derived_remaining_time: "Ore rimanenti derivate"
+        remaining_hours: "Lavoro rimanente"
+        remaining_time: "Lavoro rimanente"
+        derived_remaining_hours: "Lavoro rimanente derivato"
+        derived_remaining_time: "Lavoro rimanente derivato"
         story_points: "Punti della storia"
         backlogs_work_package_type: "Tipo di backlog"
     errors:

@@ -27,10 +27,10 @@ id:
     attributes:
       work_package:
         position: "Posisi"
-        remaining_hours: "Waktu tersisa"
-        remaining_time: "Jam tersisa"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "Cerita poin"
         backlogs_work_package_type: "Jenis jaminan tersimpan"
     errors:

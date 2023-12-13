@@ -24,4 +24,4 @@ be:
     work_packages:
       properties:
         storyPoints: "Story Points"
-        remainingTime: "Засталося гадзін"
+        remainingTime: "Remaining work"

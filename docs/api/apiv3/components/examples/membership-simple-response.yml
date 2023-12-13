@@ -3,8 +3,8 @@ description: |-
 value:
   _type: Membership
   id: 11
-  createdAt: '2015-03-20T12:56:56Z'
-  updatedAt: '2018-12-20T18:16:11Z'
+  createdAt: '2015-03-20T12:56:56.626Z'
+  updatedAt: '2018-12-20T18:16:11.563Z'
   _embedded:
     project:
       _type: Project

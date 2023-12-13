@@ -93,13 +93,14 @@ ka:
   label_icalendar_download: "Download iCalendar event"
   label_version: "ვერსია"
   label_time_zone: "დროის სარტყელი"
-  label_start_date: "Start date"
+  label_start_date: "დაწყების თარიღი"
   meeting:
     email:
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Meeting %{title} has been rescheduled by %{actor}"
         body: "The meeting %{title} has been rescheduled by %{actor}."
         old_date_time: "Old date/time"
@@ -164,7 +165,7 @@ ka:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
-  label_meeting_show_all_participants: "Show all"
+  label_meeting_show_all_participants: "ყველაფრის ჩვენება"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

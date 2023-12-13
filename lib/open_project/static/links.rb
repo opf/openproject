@@ -265,11 +265,14 @@ module OpenProject
               one_drive_setup: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/'
               },
+              one_drive_drive_id_guide: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/drive-id-guide/'
+              },
               nextcloud_oauth_application: {
                 href: 'https://apps.nextcloud.com/apps/integration_openproject'
               },
               one_drive_oauth_application: {
-                href: 'https://docs.microsoft.com/en-us/graph/auth-register-app-v2'
+                href: 'https://portal.azure.com/'
               }
             },
             ical_docs: {

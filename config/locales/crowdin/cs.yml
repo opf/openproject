@@ -102,8 +102,8 @@ cs:
       error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
       cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "Chyba LDAP: %{error_message}"
+    ldap_auth_failed: "Nelze autentizovat u serveru LDAP."
     back_to_index: "Kliknutím sem se vrátíte do seznamu připojení."
     technical_warning_html: |
       Tento LDAP formulář vyžaduje technické znalosti nastavení LDAP / Active Directory.
@@ -177,7 +177,7 @@ cs:
     label_no_color: "Bez barvy"
     label_properties: "Vlastnosti"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Opravdu chcete odstranit následující barvu? Typy v této barvě nebudou odstraněny.
   custom_actions:
     actions:
       name: "Akce"
@@ -207,6 +207,7 @@ cs:
   concatenation:
     single: "nebo"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Fórum"
@@ -465,10 +466,10 @@ cs:
         attr_login: "Atribut uživatelského jména"
         attr_mail: "Email (atribut)"
         base_dn: "Base DN"
-        host: "Host"
+        host: "Hostitel"
         onthefly: "Automatické vytváření uživatele"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "SSL certifikát LDAP serveru"
       changeset:
         repository: "Repozitář"
       color:
@@ -599,7 +600,7 @@ cs:
         begin_insertion: "Začátek vložení"
         begin_deletion: "Začátek odstranění"
         children: "Dílčí prvky"
-        done_ratio: "Průběh (%)"
+        done_ratio: "% Complete"
         duration: "Doba trvání"
         end_insertion: "Konec vložení"
         end_deletion: "Konec odstranění"
@@ -613,7 +614,7 @@ cs:
         parent_issue: "Rodič"
         parent_work_package: "Nadřazený"
         priority: "Priorita"
-        progress: "Průběh (%)"
+        progress: "% Complete"
         readonly: "Pouze pro čtení"
         schedule_manually: "Manuální plánování"
         spent_hours: "Strávený čas"
@@ -648,7 +649,7 @@ cs:
         error_enterprise_only: "%{action} je k dispozici pouze ve vydání OpenProject Enterprise"
         error_unauthorized: "není přístupný."
         error_readonly: "se pokusil být napsán, ale není zapisovatelný."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Informace mezitím aktualizoval alespoň jeden další uživatel."
         email: "není platná e-mailová adresa"
         empty: "nemůže být prázdné."
         even: "musí být sudé."
@@ -931,7 +932,7 @@ cs:
             principal:
               unassignable: "nelze přiřadit k projektu."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
           undeletable_work_packages_attached: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
         status:
           readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
@@ -979,9 +980,9 @@ cs:
   errors:
     header_invalid_fields:
       one: "Došlo k potížím s následujícím polem:"
-      few: "There were problems with the following fields:"
-      many: "There were problems with the following fields:"
-      other: "There were problems with the following fields:"
+      few: "Nastaly prolémy v následujících polích:"
+      many: "Nastaly prolémy v následujících polích:"
+      other: "Nastaly prolémy v následujících polích:"
     header_additional_invalid_fields:
       one: "Navíc došlo k potížím s následujícím polem:"
       few: "Additionally, there were problems with the following fields:"
@@ -1043,13 +1044,13 @@ cs:
     default_columns: "Výchozí sloupce"
     description: "Popis"
     derived_due_date: "Derivované Datum ukončení "
-    derived_estimated_hours: "Derivované předpokládaný čas"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derivované Datum zahájení "
     display_sums: "Zobrazit součty"
     due_date: "Datum dokončení"
-    estimated_hours: "Odhadovaný čas"
-    estimated_time: "Odhadovaný čas"
-    expires_at: "Expires at"
+    estimated_hours: "Work"
+    estimated_time: "Work"
+    expires_at: "Vyprší za"
     firstname: "Křestní jméno"
     group: "Skupina"
     groups: "Skupiny"
@@ -1319,10 +1320,10 @@ cs:
         many: "%{count} mins"
         other: "min"
       x_hours:
-        one: "1 hour"
-        few: "%{count} hours"
-        many: "%{count} hours"
-        other: "%{count} hours"
+        one: "1 hodina"
+        few: "%{count} hodin"
+        many: "%{count} hodin"
+        other: "%{count} hodin"
       x_hours_abbreviated:
         one: "1 hr"
         few: "%{count} hrs"
@@ -1339,7 +1340,7 @@ cs:
         many: "%{count} měsíců"
         other: "%{count} měsíců"
       x_years:
-        one: "1 year"
+        one: "1 rok"
         few: "%{count} years"
         many: "%{count} years"
         other: "%{count} years"
@@ -1430,7 +1431,7 @@ cs:
   error_pdf_export_too_many_columns: "Příliš mnoho sloupců vybraných pro PDF export. Snižte počet sloupců."
   error_pdf_failed_to_export: "PDF export nelze uložit: %{error}"
   error_token_authenticity: "Nelze ověřit token Cross-Site Request Forgy. Pokusili jste se odeslat data na více prohlížečích nebo kartách? Prosím zavřete všechny panely a zkuste to znovu."
-  error_work_package_done_ratios_not_updated: "Statistiky pokroku pracovního balíčku nebyly aktualizovány."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Pracovný balíček nebyl nalezen, nebo nepatří k tomuto projektu"
   error_must_be_project_member: "musí být členem projektu"
   error_migrations_are_pending: "Vaše instalace OpenProject čeká na migraci databáze. Pravděpodobně jste při poslední aktualizaci zmeškali migrace. Pro správnou aktualizaci vaší instalace prosím zkontrolujte průvodce aktualizací."
@@ -1963,7 +1964,7 @@ cs:
   label_operator_none: "je prázdný"
   label_operator_equals_or: "je (OR)"
   label_operator_equals_all: "je (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "jakákoliv"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
@@ -2110,7 +2111,7 @@ cs:
   label_type_new: "Nový typ"
   label_type_plural: "Typy"
   label_ui: "Uživatelské rozhraní"
-  label_update_work_package_done_ratios: "Aktualizovat statistiky pracovních balíčků"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Aktualizováno před %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Aktualizováno uživatelem %{author} před %{age}"
@@ -2268,7 +2269,7 @@ cs:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package you will need to create and activate an %{instance} account. "
         open_work_package: "Open work package"
         subject: "Byl Vám sdílen pracovní balíček #%{id}"
         enterprise_text: "Share work packages with users who are not members of the project."
@@ -2304,8 +2305,8 @@ cs:
   mail_body_register_ending: "Zůstaňte ve spojení! S pozdravem,"
   mail_body_reminder: "%{count} pracovních balíčků, které máte přiřazeny, mají termín během následujících %{days} dnů:"
   mail_body_group_reminder: '%{count} pracovních balíčků, které jsou přiřazeny ke skupině "%{group}", má termín splatnosti během následujících %{days} dnů:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Wiki stránka '%{id}' byla přidána uživatelem %{author}."
+  mail_body_wiki_page_updated: "Wiki stránka '%{id}' byla aktualizována uživatelem %{author}."
   mail_subject_account_activation_request: "Žádost o aktivaci účtu %{value}"
   mail_subject_backup_ready: "Vaše záloha je připravena"
   mail_subject_backup_token_reset: "Resetovat token zálohy"
@@ -2379,7 +2380,7 @@ cs:
   notice_file_not_found: "Stránka, kterou se snažíte získat přístup, neexistuje nebo byla odstraněna."
   notice_forced_logout: "Byli jste automaticky odhlášeni po %{ttl_time} minutách nečinnosti."
   notice_internal_server_error: "Nastala chyba na stránce, ke které se pokoušíte přistoupit. Pokud přetrváváte problémy, obraťte se na správce %{app_title}."
-  notice_work_package_done_ratios_updated: "Podíl dokončených pracovních balíčků byl aktualizován."
+  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
   notice_locking_conflict: "Informace mezitím aktualizoval alespoň jeden další uživatel."
   notice_locking_conflict_additional_information: "Aktualizace pocházely z %{users}."
   notice_locking_conflict_reload_page: "Prosím obnovte stránku, zkontrolujte změny a znovu aplikujte aktualizace."
@@ -2533,7 +2534,9 @@ cs:
     default: "-"
   project:
     destroy:
-      confirmation: "Pokud budete pokračovat, projekt %{identifier} a všechna související data budou trvale zničena."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Odstranění projektu je nevratná akce."
       project_verification: "Zadejte název projektu %{name} pro potvrzení odstranění."
       subprojects_confirmation: "Jeho podprojek(y): %{value} budou také smazány."
@@ -2557,6 +2560,7 @@ cs:
   project_module_news: "Novinky"
   project_module_repository: "Repozitář"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2746,10 +2750,10 @@ cs:
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
   setting_host_name: "Název serveru"
   setting_invitation_expiration_days: "Platnost aktivačního e-mailu vyprší po"
-  setting_work_package_done_ratio: "Vypočítat koeficient dokončení úkolu s"
-  setting_work_package_done_ratio_field: "Použít pole pracovního balíčku"
-  setting_work_package_done_ratio_status: "Použít stav pracovního balíčku"
-  setting_work_package_done_ratio_disabled: "Zakázat (Skrýt průběh)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Zobrazit ve výchozím nastavení"
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
@@ -2811,7 +2815,7 @@ cs:
     brute_force_prevention: "Automatizované blokování uživatelů"
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Pokud jsou nastaveny možnosti buď "%{day_of_week_setting_name}" nebo "%{first_week_setting_name}", druhý je třeba nastavit také aby jste se vyhli nesrovnalostem na frontendu.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
     experimental:
@@ -2975,7 +2979,7 @@ cs:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      public: "Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním 'Spravovat veřejné zobrazení' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky."
       favoured: "Označte toto zobrazení jako oblíbené a přidejte do postranního panelu vlevo."
   time:
     am: "am"
@@ -3091,7 +3095,7 @@ cs:
         project_group: 'Project group'
         not_project_group: 'Not project group'
         role: 'Role'
-        type: 'Type'
+        type: 'Typ'
       label_search: "Search for users to invite"
       label_search_placeholder: "Hledat podle uživatele nebo e-mailové adresy"
       label_toggle_all: "Toggle all shares"
@@ -3105,14 +3109,17 @@ cs:
         view_description: "Can view this work package."
       remove: "Odebrat"
       share: "Sdílet"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3155,6 +3162,7 @@ cs:
       code_429: "Příliš mnoho dotazů, zkuste to znovu později"
       code_500: "Došlo k vnitřní chybě."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "Pracovní balíček, který hledáte, nebyl nalezen nebo byl odstraněn."
       expected:
@@ -3183,9 +3191,9 @@ cs:
         unsupported_context: "Zadaný dokument není podporován jako kontext."
         context_object_not_found: "Zdroj nelze najít jako kontext."
       validation:
-        done_ratio: "Hotový poměr nelze nastavit na nadřazených pracovních balíčcích, pokud je odvozen ze stavu nebo pokud je zakázán."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Datum ukončení nemůže být nastaveno na nadřazených pracovních balíčcích."
-        estimated_hours: "Předpokládané hodiny nelze nastavit na nadřazených pracovních balíčcích."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Zvolený uživatel nesmí být '%{property}' pro tento pracovní balíček."
         start_date: "Počáteční datum nelze nastavit na nadřazených pracovních balíčcích."
       eprops:

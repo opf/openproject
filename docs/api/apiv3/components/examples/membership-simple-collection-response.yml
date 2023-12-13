@@ -10,8 +10,8 @@ value:
     elements:
       - _type: Membership
         id: 11
-        createdAt: '2015-03-20T12:56:56Z'
-        updatedAt: '2018-12-20T18:16:11Z'
+        createdAt: '2015-03-20T12:56:56.643Z'
+        updatedAt: '2018-12-20T18:16:11.643Z'
         _links:
           self:
             href: '/api/v3/memberships/11'
@@ -39,11 +39,11 @@ value:
   _links:
     self:
       href: '/api/v3/memberships'
-    jumpTo: 
+    jumpTo:
       href: '/api/v3/memberships?filters=%5B%5D&offset=%7Boffset%7D&pageSize=20'
       templated: true
-    changeSize: 
+    changeSize:
       href: '/api/v3/memberships?filters=%5B%5D&offset=1&pageSize=%7Bsize%7D'
       templated: true
-    nextByOffset: 
+    nextByOffset:
       href: '/api/v3/memberships?filters=%5B%5D&offset=2&pageSize=20'

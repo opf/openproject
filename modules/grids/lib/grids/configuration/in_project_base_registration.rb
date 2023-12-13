@@ -29,7 +29,7 @@ module Grids::Configuration
     }
 
     view_work_packages_lambda = ->(user, project) {
-      user.allowed_in_project?(:view_work_packages, project)
+      user.allowed_in_any_work_package?(:view_work_packages, in_project: project)
     }
 
     widget_strategy 'work_packages_table' do
@@ -61,21 +61,15 @@ module Grids::Configuration
     end
 
     widget_strategy 'members' do
-      allowed ->(user, project) {
-        user.allowed_in_project?(:view_members, project)
-      }
+      allowed ->(user, project) { user.allowed_in_project?(:view_members, project) }
     end
 
     widget_strategy 'news' do
-      allowed ->(user, project) {
-        user.allowed_in_project?(:view_news, project)
-      }
+      allowed ->(user, project) { user.allowed_in_project?(:view_news, project) }
     end
 
     widget_strategy 'documents' do
-      allowed ->(user, project) {
-        user.allowed_in_project?(:view_documents, project)
-      }
+      allowed ->(user, project) { user.allowed_in_project?(:view_documents, project) }
     end
 
     macroed_getter_setter :view_permission
@@ -84,7 +78,11 @@ module Grids::Configuration
 
     class << self
       def all_scopes
-        view_allowed = Project.allowed_to(User.current, view_permission)
+        view_allowed = if view_permission == :view_project
+                         Project.visible(User.current)
+                       else
+                         Project.allowed_to(User.current, view_permission)
+                       end
 
         projects = Project.where(id: view_allowed)
 
@@ -113,8 +111,11 @@ module Grids::Configuration
       end
 
       def visible(user = User.current)
-        super
-          .where(project_id: Project.allowed_to(user, view_permission))
+        if view_permission == :view_project
+          super.where(project_id: Project.visible(user))
+        else
+          super.where(project_id: Project.allowed_to(user, view_permission))
+        end
       end
     end
   end

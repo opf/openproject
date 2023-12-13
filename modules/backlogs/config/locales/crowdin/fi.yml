@@ -27,10 +27,10 @@ fi:
     attributes:
       work_package:
         position: "Sijainti"
-        remaining_hours: "Jäljellä olevat tunnit"
-        remaining_time: "Jäljellä olevat tunnit"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "Tarinapisteet"
         backlogs_work_package_type: "Työjonon tyyppi"
     errors:

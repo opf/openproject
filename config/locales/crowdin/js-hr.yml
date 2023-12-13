@@ -34,7 +34,7 @@ hr:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "Učitavanje..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -316,18 +316,18 @@ hr:
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(nijedan)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "Zumiraj"
+        out: "Odzumiraj"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        days: "Dane"
+        weeks: "Tjedne"
+        months: "Mjeseci"
+        quarters: "Kvartali"
+        years: "Godine"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ne"
@@ -352,7 +352,7 @@ hr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -967,7 +967,6 @@ hr:
         date: "Datum"
         dueDate: "Finish date"
         duration: "Trajanje"
-        estimatedTime: "Predviđeno vrijeme"
         spentTime: "Utrošeno vrijeme"
         category: "Kategorija"
         percentageDone: "Postotak dovršenosti"
@@ -1028,7 +1027,7 @@ hr:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Podijeli'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

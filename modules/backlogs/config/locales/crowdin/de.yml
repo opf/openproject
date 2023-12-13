@@ -27,10 +27,10 @@ de:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Verbleibende Stunden"
-        remaining_time: "Verbleibende Stunden"
-        derived_remaining_hours: "Abgeleitete verbleibende Stunden"
-        derived_remaining_time: "Abgeleitete verbleibende Stunden"
+        remaining_hours: "Verbleibender Aufwand"
+        remaining_time: "Verbleibender Aufwand"
+        derived_remaining_hours: "Abgeleitete verbleibender Aufwand"
+        derived_remaining_time: "Abgeleitete verbleibende ArbeitAbgeleitete verbleibender Aufwand"
         story_points: "Story-Punkte"
         backlogs_work_package_type: "Backlog Typ"
     errors:

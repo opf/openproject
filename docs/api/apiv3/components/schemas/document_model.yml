@@ -65,7 +65,7 @@ example:
       ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter
       somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
       vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
-  createdAt: '2018-12-10T20:53:39Z'
+  createdAt: '2018-12-10T20:53:39.539Z'
   _links:
     attachments:
       href: "/api/v3/documents/1/attachments"

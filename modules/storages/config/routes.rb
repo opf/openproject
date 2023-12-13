@@ -34,6 +34,8 @@ OpenProject::Application.routes.draw do
       resources :storages, controller: '/storages/admin/storages', except: [:show] do
         resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create] do
           patch :update, on: :member
+          get :show_redirect_uri
+          post :finish_setup
         end
 
         resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
@@ -47,6 +49,8 @@ OpenProject::Application.routes.draw do
           get :confirm_destroy
           delete :replace_oauth_application
         end
+
+        get :upsale, on: :collection
       end
     end
   end

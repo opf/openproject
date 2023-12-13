@@ -200,12 +200,21 @@ ru:
     confirm_destroy_option: "Удаление опции приведет к удалению всех ее вхождений (например, в пакеты работ). Вы уверены, что вы хотите удалить ее?"
     reorder_alphabetical: "Переупорядочить значения по алфавиту"
     reorder_confirmation: "Внимание: Текущий порядок доступных значений будет утерян. Продолжить?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
   concatenation:
     single: "или"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Форум"
@@ -598,7 +607,7 @@ ru:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
-        done_ratio: "Прогресс (%)"
+        done_ratio: "% Complete"
         duration: "Продолжительность"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
@@ -612,7 +621,7 @@ ru:
         parent_issue: "Родитель"
         parent_work_package: "Родитель"
         priority: "Приоритет"
-        progress: "Прогресс (%)"
+        progress: "% Complete"
         readonly: "Только для чтения"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
@@ -1042,12 +1051,12 @@ ru:
     default_columns: "Столбцы по умолчанию"
     description: "Описание"
     derived_due_date: "Дата окончания производства"
-    derived_estimated_hours: "Полученное время ожидания"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Дата начала производства"
     display_sums: "Отображение суммы"
     due_date: "Дата окончания"
-    estimated_hours: "Предполагаемое время"
-    estimated_time: "Предполагаемое время"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Истекает в"
     firstname: "Имя"
     group: "Группа"
@@ -1429,7 +1438,7 @@ ru:
   error_pdf_export_too_many_columns: "Для экспорта в PDF-файл выбрано слишком много столбцов. Пожалуйста, сократите количество столбцов."
   error_pdf_failed_to_export: "Не удалось сохранить экспорт в PDF: %{error}"
   error_token_authenticity: "Не удалось проверить CSRF-токен. Возможно, вы попытались отправить данные сразу из нескольких браузеров или вкладок. Закройте все вкладки и попробуйте снова."
-  error_work_package_done_ratios_not_updated: "Сделанные соотношения пакета работ не обновляются."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Пакет работ не найден или не принадлежит к этому проекту"
   error_must_be_project_member: "должен быть участник проекта"
   error_migrations_are_pending: "Ваша версия OpenProject находится в ожидании миграции базы данных. Вероятно, вы пропустили запуск миграции при во время последнего обновления. Пожалуйста, ознакомьтесь с руководством по обновлению, чтобы правильно настроить вашу новую установку."
@@ -2109,7 +2118,7 @@ ru:
   label_type_new: "Новый тип"
   label_type_plural: "Типы"
   label_ui: "Интерфейс пользователя"
-  label_update_work_package_done_ratios: "Обновить  пакет работ созданными коэффициентами"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Обновлено %{value} назад"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Обновил %{author} %{age} назад"
@@ -2267,7 +2276,7 @@ ru:
     sharing:
       work_packages:
         allowed_actions: "Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта."
-        create_account: "Для доступа к этому пакету работ необходимо создать учетную запись %{instance}. "
+        create_account: "To access this work package you will need to create and activate an %{instance} account. "
         open_work_package: "Открыть пакет работ"
         subject: "Вам предоставили общий доступ к пакету работ #%{id}"
         enterprise_text: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
@@ -2378,7 +2387,7 @@ ru:
   notice_file_not_found: "Страница, к которой Вы обратились, не существует или была удалена."
   notice_forced_logout: "Вы автоматически вышли из системы после %{ttl_time} минут бездействия."
   notice_internal_server_error: "На странице, к которой Вы пытаетесь получить доступ, возникла ошибка. Если ошибка повторится, пожалуйста, свяжитесь со своим %{app_title} администратором."
-  notice_work_package_done_ratios_updated: "В пакете работ обновлены коэфиценты."
+  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
   notice_locking_conflict: "Информация была обновлена одновременно с вами  по крайней мере одним пользователем."
   notice_locking_conflict_additional_information: "Обновление(-ия) пришли от %{users}."
   notice_locking_conflict_reload_page: "Пожалуйста перезагрузите страницу, пересмотрите изменения и повторно примените Ваши обновления."
@@ -2532,7 +2541,9 @@ ru:
     default: "-"
   project:
     destroy:
-      confirmation: "Если вы продолжите, проект %{identifier} и все связанные с ним данные будут перманентно уничтожены."
+      confirmation: ""
+      project_delete_result_1: "Удалить все связанные данные."
+      project_delete_result_2: "Удалить все папки управляемых проектов в приложенных хранилищах."
       info: "Удаление проекта – действие необратимое."
       project_verification: "Введите название проекта %{name} для проверки удаления."
       subprojects_confirmation: "Его подпроекты: %{value} также будут удалены."
@@ -2556,6 +2567,7 @@ ru:
   project_module_news: "Новости"
   project_module_repository: "Репозиторий"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2743,10 +2755,10 @@ ru:
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
   setting_invitation_expiration_days: "Действие письма активации истекает после"
-  setting_work_package_done_ratio: "Калькуляции пакета работ сделаны со следующими коэфицентами"
-  setting_work_package_done_ratio_field: "Использовать поле пакета работ"
-  setting_work_package_done_ratio_status: "Использовать статус пакета работ"
-  setting_work_package_done_ratio_disabled: "Отключить (скрыть прогресс)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Отображать по умолчанию"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
@@ -3102,14 +3114,18 @@ ru:
         view_description: "Может просматривать этот пакет работ."
       remove: "Удалить"
       share: "Поделиться"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "Пакет работ еще не передан никому."
-      text_empty_state_header: "Нет общих пользователей"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ."
       text_user_limit_reached_admins: 'Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой тарифный план </a>, чтобы иметь возможность добавлять больше пользователей.'
       warning_user_limit_reached: >
         Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ.
       warning_user_limit_reached_admin: >
         Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой план </a>, чтобы обеспечить доступ внешних пользователей к этому рабочему пакету.
+      warning_no_selected_user: "Пожалуйста, выберите пользователей для отправки этого пакета работ"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Заблокированный пользователь"
         invited: "Приглашение отправлено. "
@@ -3152,6 +3168,7 @@ ru:
       code_429: "Слишком много запросов. Пожалуйста, повторите попытку позже."
       code_500: "Произошла внутренняя ошибка."
       code_500_outbound_request_failure: "Исходящий запрос к другому ресурсу не удался с кодом статуса %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:
@@ -3180,9 +3197,9 @@ ru:
         unsupported_context: "Ресурс не поддерживается как контекст."
         context_object_not_found: "Не удается найти ресурс заданный как контекст."
       validation:
-        done_ratio: "Установленное соотношение нельзя задать для родительских пакетов работ, когда оно задается статусом или  отключено."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Дату окончания нельзя задать на родительских пакетах работ."
-        estimated_hours: "Предполагаемое количество часов не может быть задано для родительских пакетов."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Выбранный пользователь не может быть «%{property}» для этого пакета работ."
         start_date: "Дата начала не может быть задана на родительских  пакетах работ."
       eprops:

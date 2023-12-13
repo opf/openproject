@@ -26,8 +26,8 @@ ko:
         name: "이름"
         creator: "생성자"
         provider_type: "공급자 유형"
-        host: "Host"
-        tenant: "Tenant"
+        host: "호스트"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "원본 ID"
     errors:
@@ -65,10 +65,11 @@ ko:
       done_continue: "Done, continue"
       done_continue_setup: "완료. 설정을 계속하세요."
       done_complete_setup: "완료, 설정 완료"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "자동으로 관리되는 프로젝트 폴더 편집"
       replace_openproject_oauth: "OpenProject OAuth 바꾸기"
       replace_provider_type_oauth: "%{provider_type} OAuth 바꾸기"
-      save: "Save"
+      save: "저장"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "저장하고 설정 계속하기"
       save_and_complete_setup: "저장하고 설정 완료"
@@ -76,17 +77,18 @@ ko:
       configure: "구성"
     file_storage_view:
       general_information: "General information"
-      oauth_applications: "OAuth applications"
+      oauth_applications: "OAuth 애플리케이션"
       project_folders: "Project folders"
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "리디렉션 URI"
       nextcloud_oauth: "Nextcloud OAuth"
-      automatically_managed_folders: "Automatically managed folders"
+      automatically_managed_folders: "자동으로 관리되는 폴더"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
-        delete: "Delete file storage"
+        delete: "파일 저장소 삭제"
       managed_project_folders:
         title: "자동으로 관리되는 프로젝트 폴더"
         subtitle_short: "Let OpenProject create folders per project automatically."
@@ -131,19 +133,24 @@ ko:
         application_link_text: "application “Integration OpenProject”"
         integration: "Nextcloud 관리/OpenProject"
       one_drive:
-        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
-        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
-        application_link_text: "Azure application"
+        provider_configuration: >
+          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
+        application_link_text: "Azure portal"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
-          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+          In case there is no application client secret under Client credentials, please create a new one.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
-        tenant_id: "Please copy the tenant from your Azure application."
+        tenant_id: >
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
-        drive_id: "Please copy the drive ID from your Azure application."
-        drive_id_placeholder: "UUID or triple ID"
+        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
+        documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
@@ -151,6 +158,8 @@ ko:
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
         Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
@@ -177,7 +186,7 @@ ko:
     label_file_links: "파일 링크"
     label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_completed: "Completed"
+    label_completed: "완료"
     label_incomplete: "Incomplete"
     label_name: "이름"
     label_host: "호스트 URL"
@@ -193,17 +202,19 @@ ko:
     label_oauth_client_details: "OAuth 클라이언트 세부 정보"
     label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
     label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
+    label_oauth_client_id: "OAuth 클라이언트 ID"
+    label_oauth_client_secret: "OAuth 클라이언트 비밀"
     label_information: "Additional information"
     label_provider_type: "공급자 유형"
     label_project_folder: "프로젝트 폴더"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "리디렉션 URI"
+    label_uri: "URI"
     label_new_storage: "새로운 저장소"
     label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_show_storage_redirect_uri: "Show redirect URI"
     label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "수동으로 관리되는 권한이 있는 기존 폴더"
     label_no_specific_folder: "특정 폴더 없음"
@@ -225,9 +236,13 @@ ko:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "예: Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "계속하시겠습니까? 모든 사용자는 OpenProject에 대해 다시 권한을 부여해야 합니다."
     confirm_replace_oauth_client: "계속하시겠습니까? 모든 사용자는 저장소에 대해 다시 권한을 부여해야 합니다."
     oauth_client_details_missing: "설정을 완료하려면 저장소에서 OAuth 클라이언트 자격 증명을 추가하세요."
@@ -243,7 +258,11 @@ ko:
         b: "You are being redirected"
     health:
       title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
+      label_pending: "대기 중"
+      label_error: "오류"
       label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
+    upsale:
+      title: "OneDrive/SharePoint integration"
+      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

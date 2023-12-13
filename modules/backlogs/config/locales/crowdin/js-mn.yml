@@ -24,4 +24,4 @@ mn:
     work_packages:
       properties:
         storyPoints: "Гүйцэтгэлийн оноо"
-        remainingTime: "Хүлээгдэж буй хугацаа"
+        remainingTime: "Remaining work"

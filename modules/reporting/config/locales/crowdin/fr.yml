@@ -47,7 +47,7 @@ fr:
   label_is_project_with_subprojects: "est (y compris les sous-projets)"
   label_work_package_attributes: "Attributs du lot de travaux"
   label_less: "<"
-  label_logged_by_reporting: "Logged by"
+  label_logged_by_reporting: "Saisi par"
   label_money: "Valeur marchande"
   label_month_reporting: "Mois (passé)"
   label_new_report: "Nouveau rapport de coût"

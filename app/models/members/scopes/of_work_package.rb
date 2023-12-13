@@ -33,7 +33,8 @@ module Members::Scopes
     class_methods do
       # Find all members of a specific Work Package
       def of_work_package(work_package)
-        where(entity: work_package)
+        of_any_entity
+          .where(entity: work_package)
       end
     end
   end

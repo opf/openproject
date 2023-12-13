@@ -352,7 +352,7 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                Šioje laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Dalinkitės darbo paketais su išoriniais naudotojais ir grupėmis, kurios nėra projekto nariai (Enterprise priedas).</li> <li>Nauji dinaminiai susitikimai su planais ir protokolu, susietu su darbo paketais.</li> <li>Prieinamumo testai ir pirmi patobulinimai pagal WCAG 2.1 AA, įskaitant didelio kontrasto režimą.</li> <li>Susiekite darbo paketus su failais, esančiais SharePoint/OneDrive.</li> <li>Tęsiama integracija su Primer dizaino sistema.</li> </ul>
+                Šioje laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Dalinkitės darbo paketais su išoriniais naudotojais ir grupėmis, kurios nėra projekto nariai (Enterprise priedas).</li> <li>Nauji dinaminiai susitikimai su planais ir protokolu, susietu su darbo paketais.</li> <li>Susiekite darbo paketus su failais, esančiais OneDrive/SharePoint.</li> <li>Prieinamumo testai ir pirmi patobulinimai pagal WCAG 2.1 AA, įskaitant didelio kontrasto režimą.</li> <li>Tęsiama integracija su Primer dizaino sistema.</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -968,7 +968,6 @@ lt:
         date: "Data"
         dueDate: "Pabaigos data"
         duration: "Trukmė"
-        estimatedTime: "Numatyta trukmė"
         spentTime: "Praleista laiko"
         category: "Kategorija"
         percentageDone: "Atlikta procentinė dalis"

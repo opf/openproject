@@ -45,7 +45,7 @@ fa:
         referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
         states:
           opened: 'opened'
-          closed: 'closed'
+          closed: 'بسته'
           draft: 'drafted'
           merged: 'merged'
           ready_for_review: 'marked ready for review'

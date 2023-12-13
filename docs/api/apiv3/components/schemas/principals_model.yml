@@ -16,10 +16,10 @@ example:
       name: Danika O'Keefe
       email: jackie@dicki.org
       avatar: https://example.org/users/4/avatar
-      createdAt: '2015-03-20T12:57:02Z'
-      updatedAt: '2015-06-16T15:28:14Z'
+      createdAt: '2015-03-20T12:57:02.646Z'
+      updatedAt: '2015-06-16T15:28:14.550Z'
       status: active
-      identityUrl: 
+      identityUrl:
       _links:
         self:
           href: "/api/v3/users/4"
@@ -46,12 +46,12 @@ example:
       firstName: Peggie
       lastName: Feeney
       name: Peggie Feeney
-      email: 
+      email:
       avatar: https://example.org/users/4/avatar
-      createdAt: '2015-03-20T12:56:55Z'
-      updatedAt: '2015-03-20T12:56:55Z'
+      createdAt: '2015-03-20T12:56:55.963Z'
+      updatedAt: '2015-03-20T12:56:55.963Z'
       status: active
-      identityUrl: 
+      identityUrl:
       _links:
         self:
           href: "/api/v3/users/2"
@@ -74,8 +74,8 @@ example:
     - _type: Group
       id: 9
       name: The group
-      createdAt: '2015-09-23T11:06:36Z'
-      updatedAt: '2015-09-23T11:06:36Z'
+      createdAt: '2015-09-23T11:06:36.687Z'
+      updatedAt: '2015-09-23T11:06:36.687Z'
       _links:
         self:
           href: "/api/v3/groups/9"
@@ -83,8 +83,8 @@ example:
     - _type: PlaceholderUser
       id: 29
       name: UX Designer
-      createdAt: '2018-09-23T11:06:36Z'
-      updatedAt: '2019-10-23T11:06:36Z'
+      createdAt: '2018-09-23T11:06:36.687Z'
+      updatedAt: '2019-10-23T11:06:36.687Z'
       _links:
         self:
           href: "/api/v3/placeholder_users/29"

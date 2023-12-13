@@ -27,10 +27,10 @@ uk:
     attributes:
       work_package:
         position: "Позиція"
-        remaining_hours: "Залишилися години"
-        remaining_time: "Залишилися години"
-        derived_remaining_hours: "Отриманий залишок годин"
-        derived_remaining_time: "Отриманий залишок годин"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "Точки історії"
         backlogs_work_package_type: "Тип Backlog-у"
     errors:

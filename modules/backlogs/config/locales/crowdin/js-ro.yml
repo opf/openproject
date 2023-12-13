@@ -24,4 +24,4 @@ ro:
     work_packages:
       properties:
         storyPoints: "Puncte"
-        remainingTime: "Ore"
+        remainingTime: "Remaining work"

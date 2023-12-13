@@ -30,7 +30,7 @@ fa:
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
         description: "توضیحات"
-        spent: "Spent"
+        spent: "صرف شده"
         status: "Status"
         subject: "Subject"
         type: "نوع هزینه"

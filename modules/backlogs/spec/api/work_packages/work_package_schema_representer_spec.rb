@@ -113,11 +113,11 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
       end
 
-      it 'has no schema for remaining time' do
+      it 'has no schema for remainingTime' do
         expect(subject).not_to have_json_path('remainingTime')
       end
 
-      it 'has no schema for derivedRemaining time' do
+      it 'has no schema for derivedRemainingTime' do
         expect(subject).not_to have_json_path('derivedRemainingTime')
       end
     end

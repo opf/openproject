@@ -32,8 +32,8 @@ get:
                   format: markdown
                   html: "<p>Lorem ipsum dolor sit amet.</p>"
                   raw: Lorem ipsum dolor sit amet.
-                createdAt: '2014-05-21T08:51:20Z'
-                updatedAt: '2014-05-21T09:14:02Z'
+                createdAt: '2014-05-21T08:51:20.396Z'
+                updatedAt: '2014-05-21T09:14:02.300Z'
                 details:
                 - format: markdown
                   html: "<p>Lorem ipsum dolor sit amet.</p>"
@@ -81,8 +81,8 @@ patch:
                   format: markdown
                   html: "<p>Lorem ipsum dolor sit amet.</p>"
                   raw: Lorem ipsum dolor sit amet.
-                createdAt: '2014-05-21T08:51:20Z'
-                updatedAt: '2014-05-21T09:14:02Z'
+                createdAt: '2014-05-21T08:51:20.396Z'
+                updatedAt: '2014-05-21T09:14:02.776Z'
                 details:
                 - format: markdown
                   html: "<p>Lorem ipsum dolor sit amet.</p>"

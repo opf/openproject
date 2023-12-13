@@ -19,15 +19,15 @@ ca:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Fitxer"
       storages/storage: "Emmagatzematge"
     attributes:
       storages/storage:
         name: "Nom"
         creator: "Autor"
         provider_type: "Tipus de proveïdor"
-        host: "Host"
-        tenant: "Tenant"
+        host: "Servidor"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "ID d'origen"
     errors:
@@ -65,22 +65,24 @@ ca:
       done_continue: "Done, continue"
       done_continue_setup: "Fet. Continua la instal·lació"
       done_complete_setup: "Done, complete setup"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Substitueix l'OAuth d'OpenProject"
       replace_provider_type_oauth: "Substitueix l'OAuth de %{provider_type}"
-      save: "Save"
+      save: "Desa"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Desar i continua la configuració"
       save_and_complete_setup: "Desar i completa la configuració"
       select_folder: "Seleccionar carpeta"
-      configure: "Configure"
+      configure: "Configurar"
     file_storage_view:
       general_information: "General information"
-      oauth_applications: "OAuth applications"
+      oauth_applications: "Aplicacions OAuth"
       project_folders: "Project folders"
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "Redirigeix URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
@@ -131,19 +133,24 @@ ca:
         application_link_text: "application “Integration OpenProject”"
         integration: "Administració Nextcloud / OpenProject"
       one_drive:
-        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
-        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
-        application_link_text: "Azure application"
+        provider_configuration: >
+          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
+        application_link_text: "Azure portal"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
-          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+          In case there is no application client secret under Client credentials, please create a new one.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
-        tenant_id: "Please copy the tenant from your Azure application."
+        tenant_id: >
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
-        drive_id: "Please copy the drive ID from your Azure application."
-        drive_id_placeholder: "UUID or triple ID"
+        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
+        documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         La carpeta de projecte és la carpeta per defecte on es carregaran els fitxers d'aquest projecte. Tot i això, els usuaris podran carregar fitxers en altres carpetes.
@@ -151,6 +158,8 @@ ca:
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
         Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
@@ -167,17 +176,17 @@ ca:
       heading: "You don't have any storages yet."
       description: "Add a storage to see them here."
     error_invalid_provider_type: "Please select a valid storage provider."
-    label_active: "Active"
+    label_active: "Actiu"
     label_add_new_storage: "Add new storage"
     label_delete_storage: "Delete storage"
-    label_inactive: "Inactive"
+    label_inactive: "Inactiu"
     label_creator: "Autor"
     label_provider: "Provider"
     label_file_link: "Enllaç a fitxer"
     label_file_links: "Enllaços a fitxer"
     label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_completed: "Completed"
+    label_completed: "Completat"
     label_incomplete: "Incomplete"
     label_name: "Nom"
     label_host: "URL d'allotjament"
@@ -193,17 +202,19 @@ ca:
     label_oauth_client_details: "Detalls del client OAuth"
     label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
     label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
+    label_oauth_client_id: "OAuth ID del client"
+    label_oauth_client_secret: "OAuth secreta del client"
     label_information: "Additional information"
     label_provider_type: "Tipus de proveïdor"
     label_project_folder: "Carpeta del projecte"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "Redirigeix URI"
+    label_uri: "URI"
     label_new_storage: "Nou emmagatzematge"
     label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_show_storage_redirect_uri: "Show redirect URI"
     label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Carpeta existent amb permisos gestionats automàticament"
     label_no_specific_folder: "Cap carpeta específica"
@@ -212,10 +223,10 @@ ca:
     label_select_provider: "Select provider"
     label_storage: "Emmagatzematge"
     label_storages: "Emmagatzematges"
-    label_status: "Status"
-    label_files: "Files"
+    label_status: "Estat"
+    label_files: "Arxius"
     member_connection_status:
-      connected: "Connected"
+      connected: "Connectat"
       connected_no_permissions: "User role has no storages permissions"
       not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "No s'han configurat emmagatzematges encara."
@@ -225,9 +236,13 @@ ca:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "ex. Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra OpenProject."
     confirm_replace_oauth_client: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra l'emmagatzematge."
     oauth_client_details_missing: "Per tal de completar la configuració, si us plau afegeix les credencials de client OAuth del teu emmagatzematge."
@@ -243,7 +258,11 @@ ca:
         b: "You are being redirected"
     health:
       title: "Managed folders status"
-      label_pending: "Pending"
+      label_pending: "Pendent"
       label_error: "Error"
       label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
+    upsale:
+      title: "OneDrive/SharePoint integration"
+      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

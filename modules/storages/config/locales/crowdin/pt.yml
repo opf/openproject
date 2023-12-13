@@ -26,8 +26,8 @@ pt:
         name: "Nome"
         creator: "Criador"
         provider_type: "Tipo de provedor"
-        host: "Host"
-        tenant: "Tenant"
+        host: "Servidor"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Id da origem"
     errors:
@@ -65,10 +65,11 @@ pt:
       done_continue: "Done, continue"
       done_continue_setup: "Concluído. Continuar configuração"
       done_complete_setup: "Pronto, concluir configuração"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "Editar pastas do projeto gerenciadas automaticamente"
       replace_openproject_oauth: "Substituir OAuth OpenProject"
       replace_provider_type_oauth: "Substituir OAuth %{provider_type}"
-      save: "Save"
+      save: "Salvar"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Salvar e continuar configuração"
       save_and_complete_setup: "Salvar e concluir configuração"
@@ -76,17 +77,18 @@ pt:
       configure: "Configurar"
     file_storage_view:
       general_information: "General information"
-      oauth_applications: "OAuth applications"
+      oauth_applications: "Aplicações OAuth"
       project_folders: "Project folders"
       storage_provider: "Storage provider"
-      openproject_oauth: "OpenProject OAuth"
+      openproject_oauth: "OAuth OpenProject"
       one_drive_oauth: "Azure OAuth"
-      nextcloud_oauth: "Nextcloud OAuth"
-      automatically_managed_folders: "Automatically managed folders"
+      redirect_uri: "Redirecionar URI"
+      nextcloud_oauth: "OAuth Nextcloud"
+      automatically_managed_folders: "Pastas gerenciadas automaticamente"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
-        delete: "Delete file storage"
+        delete: "Excluir armazenamento de arquivos"
       managed_project_folders:
         title: "Pastas do projeto gerenciadas automaticamente"
         subtitle_short: "Let OpenProject create folders per project automatically."
@@ -131,19 +133,24 @@ pt:
         application_link_text: "application “Integration OpenProject”"
         integration: "Administração de Nextcloud / OpenProject"
       one_drive:
-        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
-        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
-        application_link_text: "Azure application"
+        provider_configuration: >
+          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
+        application_link_text: "Azure portal"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
-          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+          In case there is no application client secret under Client credentials, please create a new one.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
-        tenant_id: "Please copy the tenant from your Azure application."
+        tenant_id: >
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
-        drive_id: "Please copy the drive ID from your Azure application."
-        drive_id_placeholder: "UUID or triple ID"
+        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
+        documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         A pasta do projeto é a pasta padrão para uploads de arquivos para esse projeto. No entanto, os usuários ainda podem carregar arquivos em outros locais.
@@ -151,6 +158,8 @@ pt:
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
         Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
@@ -177,7 +186,7 @@ pt:
     label_file_links: "Vínculos dos arquivos"
     label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_completed: "Completed"
+    label_completed: "Concluído"
     label_incomplete: "Incomplete"
     label_name: "Nome"
     label_host: "URL do host"
@@ -193,17 +202,19 @@ pt:
     label_oauth_client_details: "Detalhes do cliente OAuth"
     label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
     label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
+    label_oauth_client_id: "ID do cliente Oauth2"
+    label_oauth_client_secret: "Cliente Secreto OAuth"
     label_information: "Additional information"
     label_provider_type: "Tipo de provedor"
     label_project_folder: "Pasta do projeto"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "Redirecionar URI"
+    label_uri: "URI"
     label_new_storage: "Novo armazenamento"
     label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_show_storage_redirect_uri: "Show redirect URI"
     label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Pasta existente com permissões gerenciadas manualmente"
     label_no_specific_folder: "Nenhuma pasta específica"
@@ -225,9 +236,13 @@ pt:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "Ex.: Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "Tem certeza? Todos os usuários terão que autorizar novamente com o OpenProject."
     confirm_replace_oauth_client: "Tem certeza? Todos os usuários terão que autorizar novamente no armazenamento."
     oauth_client_details_missing: "Para concluir a configuração, adicione as credenciais do cliente OAuth do seu armazenamento."
@@ -243,7 +258,11 @@ pt:
         b: "You are being redirected"
     health:
       title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
+      label_pending: "Pendente"
+      label_error: "Erro"
       label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
+    upsale:
+      title: "OneDrive/SharePoint integration"
+      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

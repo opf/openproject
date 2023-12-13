@@ -27,10 +27,10 @@ sk:
     attributes:
       work_package:
         position: "Pozícia"
-        remaining_hours: "Zvyšné hodiny"
-        remaining_time: "Zvyšné hodiny"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "História bodov"
         backlogs_work_package_type: "Typ oneskorenia"
     errors:

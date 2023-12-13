@@ -100,6 +100,7 @@ eu:
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Meeting %{title} has been rescheduled by %{actor}"
         body: "The meeting %{title} has been rescheduled by %{actor}."
         old_date_time: "Old date/time"
@@ -120,7 +121,7 @@ eu:
   permission_view_meetings: "Ikusi hitzorduak"
   permission_create_meeting_agendas: "Create meeting agendas"
   permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
-  permission_manage_agendas: "Manage agendas"
+  permission_manage_agendas: "Kudeatu agendak"
   permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
   permission_close_meeting_agendas: "Itxi agendak"
   permission_send_meeting_agendas_notification: "Bidali agendak berrikusteko jakinarazpena"
@@ -155,7 +156,7 @@ eu:
   label_agenda_item_add_notes: "Add notes"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
-  label_meeting_state_open: "Open"
+  label_meeting_state_open: "Ireki"
   label_meeting_state_closed: "Closed"
   label_meeting_reopen_action: "Reopen meeting"
   label_meeting_close_action: "Close meeting"

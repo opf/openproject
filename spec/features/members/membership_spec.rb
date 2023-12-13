@@ -28,15 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Administrating memberships via the project settings', :js do
+RSpec.describe 'Administrating memberships via the project settings', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
-  let(:current_user) do
-    create(:user,
-           member_with_roles: { project => manager })
-  end
-  let!(:project) { create(:project) }
+  shared_let(:project) { create(:project) }
 
-  let!(:peter) do
+  shared_let(:peter) do
     create(:user,
            status: User.statuses[:active],
            firstname: 'Peter',
@@ -44,7 +40,7 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
            mail: 'foo@example.org',
            preferences: { hide_mail: false })
   end
-  let!(:hannibal) do
+  shared_let(:hannibal) do
     create(:user,
            status: User.statuses[:invited],
            firstname: 'Hannibal',
@@ -52,13 +48,14 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
            mail: 'boo@bar.org',
            preferences: { hide_mail: true })
   end
-  let!(:developer_placeholder) { create(:placeholder_user, name: 'Developer 1') }
-  let!(:group) do
+  shared_let(:developer_placeholder) { create(:placeholder_user, name: 'Developer 1') }
+  shared_let(:group) do
     create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
-  let!(:manager) { create(:project_role, name: 'Manager', permissions: [:manage_members]) }
-  let!(:developer) { create(:project_role, name: 'Developer') }
+  shared_let(:manager)   { create(:project_role, name: 'Manager', permissions: [:manage_members]) }
+  shared_let(:developer) { create(:project_role, name: 'Developer') }
+
   let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
   let(:member2) { create(:member, principal: hannibal, project:, roles: [developer]) }
   let(:member3) { create(:member, principal: group, project:, roles: [manager]) }
@@ -67,9 +64,9 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
 
   let(:members_page) { Pages::Members.new project.identifier }
 
-  before do
-    login_as(admin)
+  current_user { admin }
 
+  before do
     members_page.visit!
 
     SeleniumHubWaiter.wait
@@ -158,5 +155,22 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
 
     members_page.search_principal! 'Smith, H'
     expect(members_page).to have_search_result 'Hannibal Smith'
+  end
+
+  context 'with work packages shared' do
+    let(:work_package) { create(:work_package, project:) }
+    let(:view_work_package_role) { create(:view_work_package_role) }
+    let(:member) { create(:member, entity: work_package, principal: peter, project:, roles: [view_work_package_role]) }
+
+    let!(:existing_members) { [member] }
+
+    it 'still allows adding the user the work package is shared with' do
+      members_page.open_new_member!
+
+      SeleniumHubWaiter.wait
+
+      members_page.search_principal! peter.firstname
+      expect(members_page).to have_search_result peter.name
+    end
   end
 end

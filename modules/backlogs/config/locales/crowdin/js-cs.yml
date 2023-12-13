@@ -24,4 +24,4 @@ cs:
     work_packages:
       properties:
         storyPoints: "Body příběhu"
-        remainingTime: "Zbývající hodiny"
+        remainingTime: "Remaining work"

@@ -24,4 +24,4 @@ nl:
     work_packages:
       properties:
         storyPoints: "Verhaal punten"
-        remainingTime: "Resterende uren"
+        remainingTime: "Remaining work"

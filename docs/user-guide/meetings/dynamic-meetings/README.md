@@ -10,7 +10,7 @@ keywords: meetings, dynamic meetings, agenda, minutes
 
 Introduced in OpenProject 13.1, dynamic meetings offer easier meeting management, improved agenda creation and the ability to link work packages to meetings and vice-versa. 
 
-> **Note:** The **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/) to be able to create and edit meetings.
+> **Note:** The **Meetings module needs to be activated** in the [Project Settings](../../projects/project-settings/modules/) to be able to create and edit meetings.
 
 
 | Topic                                                        | Content                                           |
@@ -96,7 +96,7 @@ The durations of each agenda item are automatically summed up. If that sum excee
 
 ### Add a work package to the agenda
 
-There are two ways to add a work package to a work package agenda. 
+There are two ways to add a work package to a meeting agenda. 
 
 - **From the Meetings module**: using the **+ Add** button [add a work package agenda item](#create-or-edit-the-meeting-agenda) or
 - **From a particular work package**: using the **+ Add to meeting** button on the [**Meetings** tab](../../work-packages/add-work-packages-to-meetings)
@@ -134,7 +134,7 @@ Read more about [subscribing to a calendar](../../calendar/#subscribe-to-a-calen
 
 Clicking on the **Close meeting** after the meeting is completed with lock the current state and make render it read-only. 
 
-![](openproject_userguide_close_meeting.png)
+![Close a meeting in OpenProject](openproject_userguide_close_meeting.png)
 
 ## Re-open a meeting
 

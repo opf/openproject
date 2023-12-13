@@ -73,7 +73,7 @@ nl:
   label_meeting_new: "Nieuwe vergadering"
   label_meeting_edit: "Vergadering bewerken"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minuten"
+  label_meeting_minutes: "Notulen"
   label_meeting_close: "Sluiten"
   label_meeting_open: "Open"
   label_meeting_agenda_close: "Sluit de agenda om de notulen te beginnen"
@@ -100,6 +100,7 @@ nl:
       invited:
         summary: "%{actor} heeft je een uitnodiging gestuurd voor de meeting %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Vergadering %{title} is verplaatst door %{actor}"
         body: "De vergadering %{title} is opnieuw gepland door %{actor}."
         old_date_time: "Oude datum/tijd"
@@ -164,7 +165,7 @@ nl:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
-  label_meeting_show_all_participants: "Show all"
+  label_meeting_show_all_participants: "Toon alle"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

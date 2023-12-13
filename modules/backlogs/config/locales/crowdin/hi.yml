@@ -27,10 +27,10 @@ hi:
     attributes:
       work_package:
         position: "स्थिति"
-        remaining_hours: "बाकी बचे घंटे"
-        remaining_time: "बाकी बचे घंटे"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "कहानी अंक"
         backlogs_work_package_type: "बैकलॉग प्रकार"
     errors:

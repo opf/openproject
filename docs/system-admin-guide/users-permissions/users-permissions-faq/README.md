@@ -23,7 +23,7 @@ There are two possibilities:
 
 There is no built in way to do that.
 
-The best way of achieving the result is via the API v3 by [fetching users](../../../api/endpoints/users/#list-users) based on their creation date and for every newly created user, [assign the roles](../../../api/endpoints/memberships/#create-membership) that a new user should have. 
+The best way of achieving the result is via the API v3 by [fetching users](../../../api/endpoints/users/#list-users) based on their creation date and for every newly created user, [assign the roles](../../../api/endpoints/memberships/#create-a-membership) that a new user should have. 
 Starting with OpenProject 11.2 this is also possible for global roles.
 
 ## What happens to a user's contributions (e.g. work packages) if I delete their account?

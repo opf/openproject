@@ -27,7 +27,7 @@ uk:
         creator: "Автор"
         provider_type: "Тип постачальника"
         host: "Хост"
-        tenant: "Tenant"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Код джерела"
     errors:
@@ -65,6 +65,7 @@ uk:
       done_continue: "Виконано, продовжити "
       done_continue_setup: "Готово – продовжити налаштування"
       done_complete_setup: "Готово – завершити налаштування"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "Редагувати папки проєкту з автоматичним керуванням"
       replace_openproject_oauth: "Замінити OpenProject OAuth"
       replace_provider_type_oauth: "Замінити %{provider_type} OAuth"
@@ -76,17 +77,18 @@ uk:
       configure: "Налаштувати"
     file_storage_view:
       general_information: "Загальна інформація"
-      oauth_applications: "OAuth applications"
+      oauth_applications: "Програми OAuth"
       project_folders: "Project folders"
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "URI переспрямування"
       nextcloud_oauth: "Nextcloud OAuth"
-      automatically_managed_folders: "Automatically managed folders"
+      automatically_managed_folders: "Папки з автоматичним керуванням"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
-        delete: "Delete file storage"
+        delete: "Видалити файлове сховище"
       managed_project_folders:
         title: "Папки проєкту з автоматичним керуванням"
         subtitle_short: "Let OpenProject create folders per project automatically."
@@ -131,19 +133,24 @@ uk:
         application_link_text: "application “Integration OpenProject”"
         integration: "Адміністрування Nextcloud / OpenProject"
       one_drive:
-        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
-        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
-        application_link_text: "Azure application"
+        provider_configuration: >
+          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
+        application_link_text: "Azure portal"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
-          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+          In case there is no application client secret under Client credentials, please create a new one.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
-        tenant_id: "Please copy the tenant from your Azure application."
+        tenant_id: >
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
-        drive_id: "Please copy the drive ID from your Azure application."
-        drive_id_placeholder: "UUID or triple ID"
+        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
+        documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
@@ -151,6 +158,8 @@ uk:
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
         Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
@@ -177,7 +186,7 @@ uk:
     label_file_links: "Посилання на файл"
     label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_completed: "Completed"
+    label_completed: "Завершено"
     label_incomplete: "Incomplete"
     label_name: "Назва"
     label_host: "URL-адреса хосту"
@@ -193,17 +202,19 @@ uk:
     label_oauth_client_details: "Докладні відомості про клієнт OAuth"
     label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
     label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
+    label_oauth_client_id: "Ідентифікатор клієнта OAuth"
+    label_oauth_client_secret: "Секретний ключ клієнта OAuth"
     label_information: "Additional information"
     label_provider_type: "Тип постачальника"
     label_project_folder: "Папка проєкту"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "URI переспрямування"
+    label_uri: "URI"
     label_new_storage: "Нове сховище"
     label_new_file_storage: "New %{provider} storage"
     label_edit_storage: "Edit storage"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_show_storage_redirect_uri: "Show redirect URI"
     label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Наявна папка з ручним керуванням дозволами"
     label_no_specific_folder: "Немає конкретної папки"
@@ -225,9 +236,13 @@ uk:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "наприклад, Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "Ви впевнені? Усім користувачам знадобиться знову авторизуватися в OpenProject."
     confirm_replace_oauth_client: "Ви впевнені? Усім користувачам знадобиться знову авторизуватися в сховищі."
     oauth_client_details_missing: "Щоб завершити налаштування, додайте облікові дані клієнта OAuth зі свого сховища."
@@ -243,7 +258,11 @@ uk:
         b: "You are being redirected"
     health:
       title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
+      label_pending: "Очікування"
+      label_error: "Помилка"
       label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
+    upsale:
+      title: "OneDrive/SharePoint integration"
+      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

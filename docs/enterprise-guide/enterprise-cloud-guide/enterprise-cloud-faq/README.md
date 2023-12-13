@@ -88,3 +88,17 @@ Whitelisting IPs is no option since the OpenProject servers' IPs are not permane
 Moreover we do not have a mechanism to list all IP addresses currently in use.
 
 If you really did want to do it still you would have to whitelist any IP included in the [IP ranges](https://ip-ranges.amazonaws.com/ip-ranges.json) published by AWS for the eu-west-1 region. This is not recommended, though.
+
+## Can I use inbound emails in my Enterprise cloud environment?
+
+Yes if you’re using the Enterprise cloud, inbound emails are already configured.
+
+## How do I use inbound emails?
+
+Inbound emails are already configured in Enterprise cloud.
+You can see how to use in the [inbound email documentation](../../../installation-and-operations/configuration/incoming-emails/).
+
+## Can I set a default project for inbound emails?
+
+No it's not possible to set a default project for inbound mails.
+The project must set as an argument in the email as described in the [inbound email documentation](../../../installation-and-operations/configuration/incoming-emails/).

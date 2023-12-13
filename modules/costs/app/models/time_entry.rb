@@ -52,7 +52,6 @@ class TimeEntry < ApplicationRecord
   include Entry::SplashedDates
 
   scopes :of_user_and_day,
-         :visible,
          :ongoing
 
   # TODO: move into service

@@ -2,7 +2,7 @@
 de:
   plugin_openproject_team_planner:
     name: "OpenProject-Teamplaner"
-    description: "Provides team planner views."
+    description: "Stellt Ansichten für Teamplaner zur Verfügung."
   permission_view_team_planner: "Teamplaner anzeigen"
   permission_manage_team_planner: "Teamplaner verwalten"
   project_module_team_planner_view: "Teamplaner"
