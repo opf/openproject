@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative './../support/onboarding_steps'
+require_relative '../support/onboarding_steps'
 
-RSpec.describe 'boards onboarding tour',
-               js: true do
+RSpec.describe 'boards onboarding tour', :js, with_settings: { notifications_polling_interval: 10_000 } do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
     create(:admin,

@@ -29,9 +29,8 @@
 require 'spec_helper'
 require_relative '../../support/onboarding/onboarding_steps'
 
-RSpec.describe 'team planner onboarding tour', :js,
-               with_cuprite: false,
-               with_ee: %i[team_planner_view] do
+RSpec.describe 'team planner onboarding tour', :js, with_cuprite: false, with_ee: %i[team_planner_view],
+                                                    with_settings: { notifications_polling_interval: 10_000 } do
   let(:next_button) { find('.enjoyhint_next_btn') }
 
   let(:demo_project) do
