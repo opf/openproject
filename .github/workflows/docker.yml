@@ -46,7 +46,7 @@ jobs:
       - name: Checkout specific version
         if: ${{ github.event_name != 'push' }}
         with:
-          ref: ref/tags/${{ inputs.version }}
+          ref: ${{ inputs.version }}
         uses: actions/checkout@v3
       - name: Prepare docker files
         run: |
