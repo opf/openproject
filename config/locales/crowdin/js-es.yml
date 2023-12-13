@@ -32,11 +32,11 @@ es:
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "Añadir elemento"
+      clear_all: "Limpiar todo"
+      loading: "Cargando..."
+      not_found: "No se encontraron elementos"
+      type_to_search: "Escriba para buscar"
     autocomplete_select:
       placeholder:
         multi: "Añadir \"%{name}\""
@@ -352,7 +352,7 @@ es:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>Comparte paquetes de trabajo con usuarios externos y grupos que no son miembros del proyecto (extensión Enterprise).</li> <li>Nuevas reuniones dinámicas con agendas y minutos vinculados a paquetes de trabajo.</li> <li>Enlace paquetes de trabajo con archivos y carpetas en OneDrive/SharePoint.</li> <li>Prueba de accesibilidad y primeras mejoras según WCAG 2. AA, incluido el modo de alto contraste.</li> <li>Integración continua del Sistema de Diseño Primer.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -422,7 +422,7 @@ es:
     label_filename: "Archivo"
     label_filesize: "Tamaño"
     label_general: "General"
-    label_global_roles: "Global roles"
+    label_global_roles: "Roles globales"
     label_greater_or_equal: ">="
     label_group: 'Grupo'
     label_group_by: "Agrupar por"
@@ -604,7 +604,7 @@ es:
         processed: 'procesado'
         prioritized: 'priorizar'
         dateAlert: 'Alerta de fecha'
-        shared: 'shared'
+        shared: 'compartido'
       date_alerts:
         milestone_date: 'Fecha de hito'
         overdue: 'Vencido'
@@ -649,7 +649,7 @@ es:
         mentioned: 'Mencionado'
         watched: 'Observador'
         date_alert: 'Alerta de fecha'
-        shared: 'Shared'
+        shared: 'Compartido'
       settings:
         change_notification_settings: 'Puede modificar su <a target="_blank" href="%{url}">configuración de notificaciones</a> para asegurarse que nunca se pierda una actualización importante.'
         title: "Ajustes de notificación"
@@ -672,7 +672,7 @@ es:
             description: 'Recibir una notificación cada vez que un usuario me mencione'
           assignee: 'Asignado a'
           responsible: 'Responsable'
-          shared: 'Shared'
+          shared: 'Compartido'
           watched: 'Observador'
           work_package_commented: 'Todos los nuevos comentarios'
           work_package_created: 'Nuevos paquetes de trabajo'
@@ -989,7 +989,7 @@ es:
         recently_created: "Creado recientemente"
         all_open: "Todo abierto"
         summary: "Resumen"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Compartido con usuarios"
       jump_marks:
         pagination: "Saltar a la paginación de la tabla"
         label_pagination: "Haga clic aquí para omitir la tabla de paquetes de trabajo e ir a la paginación"
@@ -1027,11 +1027,11 @@ es:
         is_parent: "Las fechas de este paquete de trabajo son deducidas automáticamente de sus sub-elementos. Active 'Programación manual' para establecer las fechas."
         is_switched_from_manual_to_automatic: "Las fechas de este paquete de trabajo pueden necesitar ser recalculadas después de pasar de programación manual a programación automática debido a las relaciones con otros paquetes de trabajo."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Compartir'
+        title: "Compartir paquete de trabajo"
+        selected_count: "%{count} seleccionados"
         selection:
-          mixed: "Mixed"
+          mixed: "Mixto"
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."
@@ -1177,7 +1177,7 @@ es:
       current_project_and_all_descendants: "En este proyecto + subproyectos"
       current_project: "En este proyecto"
       recently_viewed: "Vistos recientemente"
-      search: "Search"
+      search: "Buscar"
       title:
         all_projects: "todos los proyectos"
         project_and_subprojects: "y todos los subproyectos"

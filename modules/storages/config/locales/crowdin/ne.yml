@@ -19,7 +19,7 @@ ne:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "फाइल"
       storages/storage: "Storage"
     attributes:
       storages/storage:
@@ -146,7 +146,7 @@ ne:
           Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
@@ -186,7 +186,7 @@ ne:
     label_file_links: "File links"
     label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_completed: "Completed"
+    label_completed: "पूरा भयो"
     label_incomplete: "Incomplete"
     label_name: "Name"
     label_host: "Host URL"

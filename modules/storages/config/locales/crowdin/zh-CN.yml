@@ -27,7 +27,7 @@ zh-CN:
         creator: "创建者"
         provider_type: "提供商类型"
         host: "主机"
-        tenant: "Directory (tenant) ID"
+        tenant: "目录 (租户) ID"
       storages/file_link:
         origin_id: "来源 ID"
     errors:
@@ -82,7 +82,7 @@ zh-CN:
       storage_provider: "存储提供商"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "重定向 URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "自动托管的文件夹"
     page_titles:
@@ -146,11 +146,11 @@ zh-CN:
           请将该值复制到“重定向 URI ”下的新 Web 重定向 URI。
         missing_client_id_for_redirect_uri: "请填写OAuth 值以生成 URI"
         tenant_id: >
-          请从%{application_link_text}中的 App 注册中复制所需应用程序的 Directory (tenant) ID。
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "名称或 UUID"
         drive_id: ""
         documentation_link_text: "OneDrive/SharePoint 文件存储文档"
-        copy_redirect_uri: "Copy redirect URI"
+        copy_redirect_uri: "复制重定向 URI"
     help_texts:
       project_folder: >
         项目文件夹是此项目上传文件的默认文件夹。用户仍然可以上传文件到其他位置。
@@ -159,7 +159,7 @@ zh-CN:
         nextcloud: "允许 OpenProject 使用 OAuth 访问 Nextcloud 数据。"
         one_drive: "允许 OpenProject 使用 OAuth 访问Azure 数据来连接 OneDrive/Sharepoint。"
       redirect_uri_incomplete:
-        one_drive: "Complete the setup with the correct URI redirection."
+        one_drive: "使用正确的 URI 重定向完成设置。"
     delete_warning:
       storage: >
         您确定要删除 %{file_storage} 吗？请在下面的字段中输入存储名称以确认此操作。进行此操作将会：
@@ -214,7 +214,7 @@ zh-CN:
     label_edit_storage: "编辑存储"
     label_edit_storage_host: "编辑存储主机"
     label_edit_storage_oauth_client: "编辑存储 OAuth 客户端"
-    label_show_storage_redirect_uri: "Show redirect URI"
+    label_show_storage_redirect_uri: "显示重定向 URI"
     label_edit_storage_automatically_managed_folders: "编辑存储自动管理的文件夹"
     label_existing_manual_folder: "具有手动管理权限的现有文件夹"
     label_no_specific_folder: "未指定文件夹"
@@ -261,8 +261,8 @@ zh-CN:
       label_pending: "待处理"
       label_error: "错误"
       label_healthy: "健康"
-      checked: "Last checked %{datetime}"
-      since: "since %{datetime}"
+      checked: "上次检查于 %{datetime} "
+      since: "自从 %{datetime} "
     upsale:
       title: "OneDrive/SharePoint 集成"
       description: '将您的 OneDrive/SharePoint 集成到 OpenProject 文件存储。上传文件并将其直接链接到项目中的工作包。'

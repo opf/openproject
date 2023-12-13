@@ -200,6 +200,14 @@ pt:
     confirm_destroy_option: "Removendo uma opção removerá todas as suas ocorrências (ex. em pacotes de trabalho). Tem certeza que você quer removê-la?"
     reorder_alphabetical: "Reorganizar valores em ordem alfabética"
     reorder_confirmation: "Aviso: A ordem atual dos valores disponíveis será perdida. Continuar?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Atualmente, não há campos personalizados.
       no_results_content_text: Criar um novo campo personalizado
@@ -470,7 +478,7 @@ pt:
       changeset:
         repository: "Repositório"
       color:
-        hexcode: "Hex code"
+        hexcode: "Código hexadecimal"
       comment:
         commented: "Comentado" #an object that this comment belongs to
       custom_action:
@@ -646,7 +654,7 @@ pt:
         error_enterprise_only: "%{action} só está disponível na edição OpenProject Enterprise"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Informação foi atualizada por pelo menos um outro usuário."
         email: "não é um endereço de e-mail válido."
         empty: "não pode ser vazio."
         even: "deve ser par."
@@ -1031,7 +1039,7 @@ pt:
     due_date: "Data de conclusão"
     estimated_hours: "Tempo estimado"
     estimated_time: "Tempo estimado"
-    expires_at: "Expires at"
+    expires_at: "Expira em"
     firstname: "Nome"
     group: "Grupo"
     groups: "Grupos"
@@ -1281,8 +1289,8 @@ pt:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "1 hora"
+        other: "%{count} horas"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
@@ -1293,7 +1301,7 @@ pt:
         one: "1 mês"
         other: "%{count} meses"
       x_years:
-        one: "1 year"
+        one: "1 ano"
         other: "%{count} years"
       x_seconds:
         one: "1 segundo"
@@ -1909,7 +1917,7 @@ pt:
   label_operator_none: "está vazio"
   label_operator_equals_or: "é (OR)"
   label_operator_equals_all: "é (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "qualquer"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
   label_open_work_packages_plural: "aberto"
@@ -2247,8 +2255,8 @@ pt:
   mail_body_register_ending: "Fique ligado! Atenciosamente,"
   mail_body_reminder: "%{count} pacote(s) de trabalho foram atribuídos a você para os próximos %{days} dias:"
   mail_body_group_reminder: '%{count} pacote(s) de trabalho que estão atribuídos ao grupo "%{group}" expiram nos próximos %{days} dias:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "A página wiki '%{id}' foi adicionada por %{author}."
+  mail_body_wiki_page_updated: "A página wiki '%{id}' foi atualizada por %{author}."
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
   mail_subject_backup_ready: "Seu backup está pronto"
   mail_subject_backup_token_reset: "Redefinir token de backup"
@@ -2387,7 +2395,7 @@ pt:
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Adicionar anexos"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Arquivar projeto"
   permission_create_user: "Criar usuários"
@@ -2401,7 +2409,7 @@ pt:
   permission_comment_news: "Comentar notícias"
   permission_commit_access: "Acesso de leitura/gravação para o repositório (commit)"
   permission_copy_projects: "Copiar projetos"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Copiar pacotes de trabalho"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Excluir observadores"
   permission_delete_work_packages: "Excluir pacotes de trabalho"
@@ -3031,21 +3039,21 @@ pt:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Papel'
+        type: 'Tipo'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Comentário"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Editar"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Ver"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Remover"
+      share: "Compartilhar"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
@@ -3057,6 +3065,7 @@ pt:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

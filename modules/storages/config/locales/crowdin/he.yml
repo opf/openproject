@@ -19,14 +19,14 @@ he:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "קובץ"
       storages/storage: "Storage"
     attributes:
       storages/storage:
         name: "שם"
         creator: "Creator"
         provider_type: "Provider type"
-        host: "Host"
+        host: "שרת"
         tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Origin Id"
@@ -69,12 +69,12 @@ he:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save: "Save"
+      save: "שמור"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
-      configure: "Configure"
+      configure: "הגדר"
     file_storage_view:
       general_information: "General information"
       oauth_applications: "OAuth applications"
@@ -146,7 +146,7 @@ he:
           Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
@@ -176,7 +176,7 @@ he:
       heading: "You don't have any storages yet."
       description: "Add a storage to see them here."
     error_invalid_provider_type: "Please select a valid storage provider."
-    label_active: "Active"
+    label_active: "פעיל"
     label_add_new_storage: "Add new storage"
     label_delete_storage: "Delete storage"
     label_inactive: "Inactive"
@@ -223,8 +223,8 @@ he:
     label_select_provider: "Select provider"
     label_storage: "Storage"
     label_storages: "Storages"
-    label_status: "Status"
-    label_files: "Files"
+    label_status: "מצב"
+    label_files: "קבצים"
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
@@ -259,7 +259,7 @@ he:
     health:
       title: "Managed folders status"
       label_pending: "Pending"
-      label_error: "Error"
+      label_error: "שגיאה"
       label_healthy: "Healthy"
       checked: "Last checked %{datetime}"
       since: "since %{datetime}"

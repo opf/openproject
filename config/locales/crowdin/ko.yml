@@ -201,6 +201,14 @@ ko:
     confirm_destroy_option: "옵션을 삭제하면 모든 해당 항목(예: 작업 패키지 내 모든 항목)이 삭제됩니다. 그래도 삭제하시겠습니까?"
     reorder_alphabetical: "알파벳순으로 값 재정렬"
     reorder_confirmation: "경고: 사용 가능한 값의 현재 순서가 손실됩니다. 계속하시겠습니까?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
@@ -469,7 +477,7 @@ ko:
       changeset:
         repository: "리포지토리"
       color:
-        hexcode: "Hex code"
+        hexcode: "16진수 코드"
       comment:
         commented: "덧글을 달았습니다." #an object that this comment belongs to
       custom_action:
@@ -645,7 +653,7 @@ ko:
         error_enterprise_only: "%{action}은(는) OpenProject Enterprise Edition에서만 사용할 수 있습니다"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "그 사이에 정보가 한 명 이상의 다른 사용자에 의해 업데이트되었습니다."
         email: "- 유효한 이메일 주소가 아닙니다."
         empty: "비워둘 수 없습니다."
         even: "에 짝수를 입력해 주세요"
@@ -1022,7 +1030,7 @@ ko:
     due_date: "완료 날짜"
     estimated_hours: "예상된 시간"
     estimated_time: "예상된 시간"
-    expires_at: "Expires at"
+    expires_at: "에서 만료됨"
     firstname: "이름"
     group: "그룹"
     groups: "그룹"
@@ -1262,7 +1270,7 @@ ko:
       x_minutes_abbreviated:
         other: "%{count} mins"
       x_hours:
-        other: "%{count} hours"
+        other: "%{count} 시간"
       x_hours_abbreviated:
         other: "%{count} hrs"
       x_weeks:
@@ -1882,7 +1890,7 @@ ko:
   label_operator_none: "비어 있음"
   label_operator_equals_or: "(OR)"
   label_operator_equals_all: "(AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "모두"
   label_open_menu: "메뉴 열기"
   label_open_work_packages: "열기"
   label_open_work_packages_plural: "열기"
@@ -2220,8 +2228,8 @@ ko:
   mail_body_register_ending: "계속 지켜봐 주세요! 감사합니다."
   mail_body_reminder: "사용자에게 할당된 %{count} 작업 패키지가 다음 %{days}일 후 만료됩니다."
   mail_body_group_reminder: '"%{group}" 그룹에 할당된 %{count}개 작업 패키지가 향후 %{days}일 후 만료됩니다.'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "%{author}이(가) '%{id}' 위키 페이지를 추가했습니다."
+  mail_body_wiki_page_updated: "%{author}이(가) '%{id}' 위키 페이지를 업데이트했습니다."
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_subject_backup_ready: "백업이 준비되었습니다"
   mail_subject_backup_token_reset: "백업 토큰 초기화"
@@ -2359,7 +2367,7 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "첨부 파일 추가"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "프로젝트 보관"
   permission_create_user: "사용자 만들기"
@@ -2373,7 +2381,7 @@ ko:
   permission_comment_news: "뉴스에 코멘트 달기"
   permission_commit_access: "리포지토리(커밋)에 대한 읽기/쓰기 액세스"
   permission_copy_projects: "프로젝트 복사"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "작업 패키지 복사"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "주시자 삭제"
   permission_delete_work_packages: "작업 패키지 삭제"
@@ -3001,21 +3009,21 @@ ko:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: '역할'
+        type: '타입'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "코멘트"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "편집"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "보기"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "제거"
+      share: "공유하기"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
@@ -3027,6 +3035,7 @@ ko:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

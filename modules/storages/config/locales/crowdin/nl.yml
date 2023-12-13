@@ -69,7 +69,7 @@ nl:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Vervang OpenProject OAuth"
       replace_provider_type_oauth: "Vervang %{provider_type} OAuth"
-      save: "Save"
+      save: "Opslaan"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Opslaan en doorgaan met instellen"
       save_and_complete_setup: "Opslaan en de installatie voltooien"
@@ -77,18 +77,18 @@ nl:
       configure: "Configureren"
     file_storage_view:
       general_information: "General information"
-      oauth_applications: "OAuth applications"
+      oauth_applications: "OAuth toepassingen"
       project_folders: "Project folders"
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "URI omleiden"
       nextcloud_oauth: "Nextcloud OAuth"
-      automatically_managed_folders: "Automatically managed folders"
+      automatically_managed_folders: "Automatisch beheerde mappen"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
-        delete: "Delete file storage"
+        delete: "Verwijder bestandsopslag"
       managed_project_folders:
         title: "Automatisch beheerde projectmappen"
         subtitle_short: "Let OpenProject create folders per project automatically."
@@ -146,7 +146,7 @@ nl:
           Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
@@ -186,7 +186,7 @@ nl:
     label_file_links: "Bestand links"
     label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_completed: "Completed"
+    label_completed: "Voltooid"
     label_incomplete: "Incomplete"
     label_name: "Naam"
     label_host: "Host URL"
@@ -207,7 +207,7 @@ nl:
     label_information: "Additional information"
     label_provider_type: "Provider type"
     label_project_folder: "Projectmap"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "URI omleiden"
     label_uri: "URI"
     label_new_storage: "Nieuwe opslag"
     label_new_file_storage: "New %{provider} storage"
@@ -258,8 +258,8 @@ nl:
         b: "You are being redirected"
     health:
       title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
+      label_pending: "Lopende"
+      label_error: "Fout"
       label_healthy: "Healthy"
       checked: "Last checked %{datetime}"
       since: "since %{datetime}"

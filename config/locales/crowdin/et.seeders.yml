@@ -50,15 +50,15 @@ et:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Mitteliige
         item_1:
-          name: Anonymous
+          name: Anonüümne
         item_2:
-          name: Member
+          name: Liige
         item_3:
-          name: Reader
+          name: Lugeja
         item_4:
-          name: Project admin
+          name: Projekti administraator
       global_roles:
         item_0:
           name: Staff and projects manager

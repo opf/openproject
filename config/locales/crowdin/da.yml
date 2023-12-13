@@ -102,8 +102,8 @@ da:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "LDAP-fejl: %{error_message}"
+    ldap_auth_failed: "Kunne ikke godkendes på LDAP-serveren."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Denne LDAP-formular kræver teknisk viden om din LDAP/Active Directory opsætning.
@@ -164,18 +164,18 @@ da:
     index:
       no_results_title_text: Der er i øjeblikket ingen farver.
       no_results_content_text: Opret en ny farve
-      label_new_color: "New color"
+      label_new_color: "Ny farve"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Ny farve"
+      label_edit_color: "Rediger farve"
     label_no_color: "Ingen farve"
-    label_properties: "Properties"
+    label_properties: "Egenskaber"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Er du sikker på, du vil slette den følgende farve? Typer med denne farve vil ikke blive slettet.
   custom_actions:
     actions:
       name: "Handlinger"
@@ -199,6 +199,14 @@ da:
     confirm_destroy_option: "Sletning af en indstilling vil slette alle dens forekomster (f.eks. i arbejdspakker). Er du sikker på, at du vil slette den?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter.
       no_results_content_text: Oprette en ny brugerdefineret felt
@@ -259,7 +267,7 @@ da:
       types:
         no_results_title_text: Der er i øjeblikket ingen tilgængelige typer.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Aktivér typen "%{type}"'
       versions:
         no_results_title_text: Der er i øjeblikket ingen versioner til projektet.
         no_results_content_text: Create a new version
@@ -456,20 +464,20 @@ da:
         attribute_name: "Egenskab"
         help_text: "Help text"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Konto"
+        attr_firstname: "Fornavn"
+        attr_lastname: "Efternavn"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
+        attr_mail: "E-mail"
+        base_dn: "DN base"
+        host: "Vært"
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Projektarkiv"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hex kode"
       comment:
         commented: "Kommenterede" #an object that this comment belongs to
       custom_action:
@@ -645,7 +653,7 @@ da:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "kan muligvis ikke tilgås."
         error_readonly: "was attempted to be written but is not writable."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Oplysning er opdateret af mindst én anden bruger i mellemtiden."
         email: "is not a valid email address."
         empty: "må ikke være tomt."
         even: "skal være lige."
@@ -968,7 +976,7 @@ da:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Der var problemer med disse felter:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1280,8 +1288,8 @@ da:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "1 time"
+        other: "%{count} timer"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
@@ -1362,7 +1370,7 @@ da:
   error_can_not_unarchive_project: "Dette projekt kan ikke fjernes fra arkivering: %{errors}"
   error_check_user_and_role: "Vælg venligst en bruger og en rolle."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Farve kan ikke gemmes"
   error_cookie_missing: "The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without."
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1387,7 +1395,7 @@ da:
   error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Der opstod en fejl da du forsøgte at tilgå projektarkivet: %{value}"
   error_scm_not_found: "Indholdet eller ændring findes ikke i projektarkivet."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Typen kan ikke gemmes"
   error_unable_delete_status: "Arbejdspakkens status kan ikke slettes da den bruges af mindst én pakke."
   error_unable_delete_default_status: "Det er ikke muligt at slette forhåndsværdien for arbejdspakkens status. Vælg venligst en anden status for arbejdspakken før den nuværende slettes."
   error_unable_to_connect: "Kan ikke forbinde til (%{value})"
@@ -1680,7 +1688,7 @@ da:
   label_confirmation: "Bekræftelse"
   label_contains: "indeholder"
   label_content: "Indhold"
-  label_color_plural: "Colors"
+  label_color_plural: "Farver"
   label_copied: "kopieret"
   label_copy_same_as_target: "Samme som mål"
   label_copy_source: "Kilde"
@@ -1710,7 +1718,7 @@ da:
   label_deleted: "slettet"
   label_deleted_custom_field: "(slettet selvvalgt felt)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(tom)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Faldende"
   label_details: "Detaljer"
@@ -1908,7 +1916,7 @@ da:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "alle"
   label_open_menu: "Åbn menuen"
   label_open_work_packages: "åbn"
   label_open_work_packages_plural: "åbn"
@@ -2046,7 +2054,7 @@ da:
   label_this_week: "denne uge"
   label_this_year: "dette år"
   label_time_entry_plural: "Anvendt tid"
-  label_title: "Title"
+  label_title: "Titel"
   label_projects_menu: "Projekter"
   label_today: "i dag"
   label_top_menu: "Topmenu"
@@ -2247,8 +2255,8 @@ da:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} arbejdspakke(r), der er tilknyttet dig, udløber indenfor de næste %{days} dage:"
   mail_body_group_reminder: '%{count} arbejdspakke(r) som er tildelt "%{group}" har deadline indenfor %{days} dage:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Wiki-siden '%{id}' er blevet tilføjet af %{author}."
+  mail_body_wiki_page_updated: "Wiki-siden '%{id}' er blevet opdateret af %{author}."
   mail_subject_account_activation_request: "%{value} anmodninger om kontoaktivering"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -3031,21 +3039,21 @@ da:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
+        role: 'Rolle'
         type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Kommentér"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Rediger"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Se"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Fjern"
+      share: "Del"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
@@ -3057,6 +3065,7 @@ da:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

@@ -28,7 +28,7 @@ az:
       work_package:
         position: "Vəzifə"
         remaining_hours: "Qalan vaxt %d saat"
-        remaining_time: "Remaining hours"
+        remaining_time: "Qalan vaxt %d saat"
         derived_remaining_hours: "Derived remaining hours"
         derived_remaining_time: "Derived remaining hours"
         story_points: "Story Points"
@@ -68,7 +68,7 @@ az:
     properties: "Properties"
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining hours"
+    remaining_hours: "Qalan vaxt %d saat"
     remaining_hours_ideal: "Remaining hours (ideal)"
     show_burndown_chart: "Burndown Chart"
     story: "Story"

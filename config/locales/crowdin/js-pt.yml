@@ -34,9 +34,9 @@ pt:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Carregando..."
+      not_found: "Nenhum item encontrado"
+      type_to_search: "Escreva para pesquisar"
     autocomplete_select:
       placeholder:
         multi: "Adicionar \"%{name}\""
@@ -1026,7 +1026,7 @@ pt:
         is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Planejamento manual' para definir as datas."
         is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar ser recalculadas após a alteração de planejamento manual para automático devido a relações com outros pacotes de trabalho."
       sharing:
-        share: 'Share'
+        share: 'Compartilhar'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1176,7 +1176,7 @@ pt:
       current_project_and_all_descendants: "Neste projeto + subprojetos"
       current_project: "Neste projeto"
       recently_viewed: "Visualizado recentemente"
-      search: "Search"
+      search: "Pesquisar"
       title:
         all_projects: "todos os projetos"
         project_and_subprojects: "e todos os subprojetos"

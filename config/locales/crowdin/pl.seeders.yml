@@ -50,18 +50,18 @@ pl:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: nie jest członkiem
         item_1:
-          name: Anonymous
+          name: Anonimowy
         item_2:
-          name: Member
+          name: Członek
         item_3:
-          name: Reader
+          name: Czytnik
         item_4:
-          name: Project admin
+          name: Administrator projektu
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Kierownik personelu i projektów
     standard:
       priorities:
         item_0:

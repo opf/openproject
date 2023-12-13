@@ -198,6 +198,14 @@ zh-CN:
     confirm_destroy_option: "删除某个选项将会删除其所有实例 (例如, 在工作包中)。确定要删除？"
     reorder_alphabetical: "按字母顺序重新排序"
     reorder_confirmation: "警告：可用值的当前顺序将丢失。是否继续？"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
@@ -2181,7 +2189,7 @@ zh-CN:
     sharing:
       work_packages:
         allowed_actions: "你可以 %{allowed_actions} 这个工作包。这可以基于你的项目角色和权限而变化。"
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "要访问此工作包，您需要创建并激活一个 %{instance} 帐户。"
         open_work_package: "打开工作包"
         subject: "工作包 %{id} 已被共享给你"
         enterprise_text: "与非此项目成员的用户共享工作包。"
@@ -3020,6 +3028,7 @@ zh-CN:
       warning_user_limit_reached_admin: >
         添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此工作包。
       warning_no_selected_user: "请选择要共享此工作包的用户"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "锁定的用户"
         invited: "邀请已发送。 "

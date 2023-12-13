@@ -31,7 +31,7 @@ ne:
         type: "Meeting type"
         location: "Location"
         duration: "Duration"
-        notes: "Notes"
+        notes: "द्रष्टव्यहरु"
         participants: "Participants"
         participant:
           one: "1 Participant"
@@ -46,7 +46,7 @@ ne:
         title: "Title"
         author: "Responsible"
         duration_in_minutes: "Duration (min)"
-        description: "Notes"
+        description: "द्रष्टव्यहरु"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
