@@ -63,7 +63,7 @@ RSpec.describe 'Shared Work Package Access',
 
       share_modal.close
 
-      # Shared-with users with the "View" role can't become assignees
+      # Shared-with users with the "View" role CAN'T become assignees
       assignee_field = work_package_page.edit_field(:assignee)
       assignee_field.activate!
       results = assignee_field.autocomplete('Mean Turkey', select: false)
@@ -118,6 +118,168 @@ RSpec.describe 'Shared Work Package Access',
       work_package_page.within_active_tab do
         expect(page)
           .not_to have_test_selector(attach_files_button_selector)
+      end
+    end
+  end
+
+  specify "'Comment' role share access" do
+    using_session "sharer" do
+      # Sharing the Work Package with "View" access
+      login_as(sharer)
+
+      work_package_page.visit!
+      work_package_page.click_share_button
+      share_modal.expect_open
+
+      share_modal.invite_user!(shared_with_user, 'Comment')
+      share_modal.close
+
+      # TODO: This is currently expected failing behavior.
+      # Will be fixed in #51551
+      # Shared-with users with the "Comment" role CAN become assignees
+      #
+      # assignee_field = work_package_page.edit_field(:assignee)
+      # assignee_field.activate!
+      # results = assignee_field.autocomplete('Mean Turkey', select: false)
+      # wait_for_network_idle
+      # expect(results)
+      #   .to have_css('.ng-option', text: 'Mean Turkey', wait: 0)
+      # assignee_field.cancel_by_escape
+    end
+
+    using_session "shared-with user" do
+      login_as(shared_with_user)
+      # Work Package's project is now listed
+      # 1. Via the Projects Index Page
+      projects_page.visit!
+      projects_page.expect_projects_listed(project)
+
+      # 2. Via the Projects dropdown in the top menu
+      projects_top_menu.toggle!
+      projects_top_menu.expect_result(project.name)
+
+      # 3. Visiting the Project's URL directly
+      project_page.visit!
+
+      #
+      # Work Package is now visible
+      project_page.within_sidebar do
+        click_link(I18n.t('label_work_package_plural'))
+      end
+      work_packages_page.expect_work_package_listed(work_package)
+      work_package_page.visit!
+      work_package_page.ensure_loaded
+
+      # Every field however is read-only
+      %i[type subject description
+         assignee responsible
+         estimatedTime remainingTime
+         combinedDate percentageDone category version derivedRemainingTime
+         overallCosts laborCosts].each do |field|
+        work_package_page.edit_field(field).expect_read_only
+      end
+
+      # Spent time is visible and loggable
+      SpentTimeEditField.new(page, 'spentTime')
+                        .time_log_icon_visible(true)
+
+      work_package_page.ensure_page_loaded # waits for activity section to be ready
+      work_package_page.within_active_tab do
+        # Commenting is enabled
+        expect(page)
+          .to have_css(add_comment_button_selector)
+      end
+
+      # Attachments are uploadable
+      work_package_page.switch_to_tab(tab: 'Files')
+      work_package_page.expect_tab('Files')
+      work_package_page.within_active_tab do
+        expect(page)
+          .to have_test_selector(attach_files_button_selector)
+      end
+    end
+  end
+
+  specify "'Edit' role share access" do
+    using_session "sharer" do
+      # Sharing the Work Package with "View" access
+      login_as(sharer)
+
+      work_package_page.visit!
+      work_package_page.click_share_button
+      share_modal.expect_open
+
+      share_modal.invite_user!(shared_with_user, 'Edit')
+
+      share_modal.close
+
+      # TODO: This is currently expected failing behavior.
+      # Will be fixed in #51551
+      # Shared-with users with the "Edit" role CAN become assignees
+      #
+      # assignee_field = work_package_page.edit_field(:assignee)
+      # assignee_field.activate!
+      # results = assignee_field.autocomplete('Mean Turkey', select: false)
+      # wait_for_network_idle
+      # expect(results)
+      #   .to have_css('.ng-option', text: 'Mean Turkey', wait: 0)
+      # assignee_field.cancel_by_escape
+    end
+
+    using_session "shared-with user" do
+      login_as(shared_with_user)
+      # Work Package's project is now listed
+      # 1. Via the Projects Index Page
+      projects_page.visit!
+      projects_page.expect_projects_listed(project)
+
+      # 2. Via the Projects dropdown in the top menu
+      projects_top_menu.toggle!
+      projects_top_menu.expect_result(project.name)
+
+      # 3. Visiting the Project's URL directly
+      project_page.visit!
+
+      #
+      # Work Package is now visible
+      project_page.within_sidebar do
+        click_link(I18n.t('label_work_package_plural'))
+      end
+      work_packages_page.expect_work_package_listed(work_package)
+      work_package_page.visit!
+      work_package_page.ensure_loaded
+
+      # Every field however is editable
+      %i[type subject description
+         assignee responsible
+         estimatedTime remainingTime
+         combinedDate percentageDone category].each do |field|
+        expect(work_package_page.edit_field(field))
+          .to be_editable
+      end
+      # Except for
+      %i[version derivedRemainingTime
+         overallCosts laborCosts].each do |field|
+        work_package_page.edit_field(field).expect_read_only
+      end
+
+      # Spent time is visible and loggable
+      SpentTimeEditField.new(page, 'spentTime')
+                        .time_log_icon_visible(true)
+
+      work_package_page.ensure_page_loaded # waits for activity section to be ready
+      work_package_page.within_active_tab do
+        # Commenting is enabled
+        expect(page)
+          .to have_css(add_comment_button_selector)
+      end
+
+      # Attachments are uploadable
+      work_package_page.switch_to_tab(tab: 'Files')
+      work_package_page.expect_tab('Files')
+      work_package_page.within_active_tab do
+        expect(page)
+          .to have_test_selector(attach_files_button_selector)
       end
     end
   end

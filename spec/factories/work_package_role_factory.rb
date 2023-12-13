@@ -49,6 +49,7 @@ FactoryBot.define do
     permissions do
       %i(view_work_packages
          work_package_assigned
+         add_work_package_attachments
          add_work_package_notes
          edit_own_work_package_notes
          export_work_packages
