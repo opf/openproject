@@ -75,3 +75,17 @@ If you want to see all shared work packages within a specific project, navigate 
 You (with the correct permissions) can always change or remove sharing options. 
 
 ![Filter for work packages shared with other users in OpenProject](openproject_user_guide_shared_with_users_filter.png)
+
+## Configuration
+
+Users with the edit role can update most of the attributes of a shared work package (e.g. 'Subject' and 'Description') and this includes the status. A change in status is governed by the workflows configured for the role the user has. An administrator will therefore have to setup the necessary workflows once. A message at the bottom of the screen will notify administrators of this:
+
+![Message on unconfigured work package editor workflows](openproject_user_guide_sharing_configuration_message.png)
+
+To do so, an administrator can follow the link in the message to get to the form for copying workflows. In that form, select the source type (e.g. 'Task') and source role (e.g. 'Member') to copy the workflow from. Afterwards, select the target (e.g. 'Task') and lastly the role which will be 'Work package editor' to copy the workflow for:
+
+![Example for copying a workflow](openproject_user_guide_sharing_configuration_example.png)
+
+You can also choose to use the workflows for the source type and role as the blueprint for multiple target types at the same time.
+
+The copy of a workflow can later on be altered to better reflect the desired transitions between statuses for the edit role. You can also create the desired workflows from scratch.
