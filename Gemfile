@@ -253,10 +253,10 @@ group :test do
   gem 'rails-controller-testing', '~> 1.0.2'
 
   gem 'capybara', '~> 3.39.0'
+  gem 'capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', branch: 'main'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.15.0'
   gem 'selenium-webdriver', '~> 4.16.0'
-  gem 'capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', branch: 'main'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -325,6 +325,9 @@ group :development, :test do
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.1.0'
+
+  # i18n-tasks helps find and manage missing and unused translations.
+  gem 'i18n-tasks', '~> 1.0.13'
 end
 
 gem 'bootsnap', '~> 1.17.0', require: false
