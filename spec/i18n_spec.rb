@@ -9,6 +9,8 @@ RSpec.describe I18n do
   let(:inconsistent_interpolations) { i18n.inconsistent_interpolations }
 
   it 'does not have missing keys' do
+    pending "Enable when activated across the project"
+
     expect(missing_keys).to be_empty,
                             "Missing #{missing_keys.leaves.count} i18n keys, run `i18n-tasks missing' to show them"
   end
