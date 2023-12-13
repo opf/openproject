@@ -40,7 +40,7 @@ RSpec.describe 'API v3 Work package form resource' do
   shared_let(:type) { create(:type_bug, custom_fields: [cf_all]) }
   shared_let(:project) { create(:project, public: false, types: [type]) }
   shared_let(:authorized_user) do
-    create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)
+    create(:user, member_with_permissions: { project => all_allowed_permissions })
   end
   shared_let(:work_package) do
     # Prevent executing as potentially unsaved AnyonymousUser which would
@@ -50,7 +50,7 @@ RSpec.describe 'API v3 Work package form resource' do
     end
   end
   shared_let(:authorized_assign_user) do
-    create(:user, member_in_project: project, member_with_permissions: assign_permissions)
+    create(:user, member_with_permissions: { project => assign_permissions })
   end
   shared_let(:unauthorized_user) { create(:user) }
 
@@ -424,8 +424,7 @@ RSpec.describe 'API v3 Work package form resource' do
                 let(:path) { "_embedded/payload/_links/#{property}/href" }
                 let(:visible_user) do
                   create(:user,
-                         member_in_project: project,
-                         member_with_permissions: [:work_package_assigned])
+                         member_with_permissions: { project => [:work_package_assigned] })
                 end
                 let(:user_parameter) { { _links: { property => { href: user_link } } } }
                 let(:params) { valid_params.merge(user_parameter) }
@@ -462,7 +461,7 @@ RSpec.describe 'API v3 Work package form resource' do
                   context 'for existing group' do
                     let(:user_link) { api_v3_paths.group group.id }
                     let(:group) { create(:group) }
-                    let(:role) { create(:role, permissions: %i[work_package_assigned]) }
+                    let(:role) { create(:project_role, permissions: %i[work_package_assigned]) }
                     let(:group_member) do
                       create(:member,
                              principal: group,
@@ -481,8 +480,7 @@ RSpec.describe 'API v3 Work package form resource' do
                     let(:user_link) { api_v3_paths.placeholder_user placeholder_user.id }
                     let(:placeholder_user) do
                       create(:placeholder_user,
-                             member_in_project: project,
-                             member_with_permissions: %i[work_package_assigned])
+                             member_with_permissions: { project => %i[work_package_assigned] })
                     end
 
                     it_behaves_like 'valid user assignment'

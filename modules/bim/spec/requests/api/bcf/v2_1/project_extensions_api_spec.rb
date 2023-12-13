@@ -44,8 +44,7 @@ RSpec.describe 'BCF 2.1 project extensions resource', content_type: :json do
   context 'with only view_project permissions' do
     let(:current_user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: [:view_project])
+             member_with_permissions: { project => [:view_project] })
     end
 
     before do
@@ -74,14 +73,12 @@ RSpec.describe 'BCF 2.1 project extensions resource', content_type: :json do
   context 'with edit permissions in project' do
     let(:current_user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[view_project edit_project manage_bcf view_members work_package_assigned])
+             member_with_permissions: { project => %i[view_project edit_project manage_bcf view_members work_package_assigned] })
     end
 
     let(:other_user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[view_project work_package_assigned])
+             member_with_permissions: { project => %i[view_project work_package_assigned] })
     end
 
     before do

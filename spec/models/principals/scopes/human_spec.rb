@@ -41,7 +41,7 @@ RSpec.describe Principals::Scopes::Human do
 
     it 'returns only actual users and groups' do
       expect(subject)
-        .to match_array [user, group]
+        .to contain_exactly(user, group)
     end
   end
 end

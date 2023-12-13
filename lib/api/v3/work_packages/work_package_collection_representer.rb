@@ -125,7 +125,7 @@ module API
 
         link :customFields do
           if project.present? &&
-             current_user_allowed_to(:select_custom_fields, context: project)
+            current_user.allowed_in_project?(:select_custom_fields, project)
             {
               href: project_settings_custom_fields_path(project.identifier),
               type: 'text/html',
@@ -135,7 +135,9 @@ module API
         end
 
         links :representations do
-          representation_formats if current_user.allowed_to?(:export_work_packages, project, global: project.nil?)
+          if current_user.allowed_in_any_work_package?(:export_work_packages, in_project: project)
+            representation_formats
+          end
         end
 
         collection :elements,
@@ -175,12 +177,15 @@ module API
                  render_nil: false
 
         def current_user_allowed_to_add_work_packages?
-          @current_user_allowed_to_add_work_packages ||=
-            current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
+          if project
+            current_user.allowed_in_project?(:add_work_packages, project)
+          else
+            current_user.allowed_in_any_project?(:add_work_packages)
+          end
         end
 
         def current_user_allowed_to_edit_work_packages?
-          current_user.allowed_to?(:edit_work_packages, project, global: project.nil?)
+          current_user.allowed_in_any_work_package?(:edit_work_packages, in_project: project)
         end
 
         def schemas

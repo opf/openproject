@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe JournalsController do
   shared_let(:project) { create(:project_with_types) }
-  shared_let(:user) { create(:user, member_in_project: project, member_with_permissions: [:view_work_packages]) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => [:view_work_packages] }) }
 
   current_user { user }
   subject(:response) do

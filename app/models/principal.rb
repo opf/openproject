@@ -43,25 +43,33 @@ class Principal < ApplicationRecord
   has_one :preference,
           dependent: :destroy,
           class_name: 'UserPreference',
-          foreign_key: 'user_id'
-  has_many :members, foreign_key: 'user_id', dependent: :destroy
+          foreign_key: 'user_id',
+          inverse_of: :user
+  has_many :members, foreign_key: 'user_id', dependent: :destroy, inverse_of: :principal
   has_many :memberships,
            -> {
              includes(:project, :roles)
-               .where(["projects.active = ? OR project_id IS NULL", true])
+               .merge(Member.of_any_project.or(Member.global))
+               .where(["projects.active = ? OR members.project_id IS NULL", true])
                .order(Arel.sql('projects.name ASC'))
-             # haven't been able to produce the order using hashes
            },
            inverse_of: :principal,
            dependent: :nullify,
            class_name: 'Member',
            foreign_key: 'user_id'
+  has_many :work_package_shares,
+           -> { where(entity_type: WorkPackage.name) },
+           inverse_of: :principal,
+           dependent: :delete_all,
+           class_name: 'Member',
+           foreign_key: 'user_id'
   has_many :projects, through: :memberships
-  has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
+  has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify, inverse_of: :assigned_to
 
   has_paper_trail
 
   scopes :like,
+         :having_entity_membership,
          :human,
          :not_builtin,
          :possible_assignee,
@@ -72,11 +80,19 @@ class Principal < ApplicationRecord
          :status
 
   scope :in_project, ->(project) {
-    where(id: Member.of(project).select(:user_id))
+    where(id: Member.of_project(project).select(:user_id))
   }
 
   scope :not_in_project, ->(project) {
-    where.not(id: Member.of(project).select(:user_id))
+    where.not(id: Member.of_project(project).select(:user_id))
+  }
+
+  scope :in_anything_in_project, ->(project) {
+    where(id: Member.of_anything_in_project(project).select(:user_id))
+  }
+
+  scope :not_in_anything_in_project, ->(project) {
+    where.not(id: Member.of_anything_in_project(project).select(:user_id))
   }
 
   scope :in_group, ->(group) {
@@ -119,7 +135,7 @@ class Principal < ApplicationRecord
   end
 
   def self.in_visible_project(user = User.current)
-    in_project(Project.visible(user))
+    where(id: Member.of_anything_in_project(Project.visible(user)).select(:user_id))
   end
 
   def self.in_visible_project_or_me(user = User.current)
@@ -164,7 +180,7 @@ class Principal < ApplicationRecord
     # by the #compact call.
     def type_condition(table = arel_table)
       sti_column = table[inheritance_column]
-      sti_names = ([self] + descendants).map(&:sti_name).compact
+      sti_names = ([self] + descendants).filter_map(&:sti_name)
 
       predicate_builder.build(sti_column, sti_names)
     end
@@ -180,6 +196,4 @@ class Principal < ApplicationRecord
     self.mail ||= ''
     true
   end
-
-  extend Pagination::Model
 end

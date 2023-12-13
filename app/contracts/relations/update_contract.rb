@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'relations/base_contract'
-
 module Relations
   class UpdateContract < BaseContract
     validate :from_immutable

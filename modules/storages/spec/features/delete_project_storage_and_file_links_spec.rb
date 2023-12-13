@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,13 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 # Test if the deletion of a ProjectStorage actually deletes related FileLink
 # objects.
-RSpec.describe 'Delete ProjectStorage with FileLinks', js: true, webmock: true do
+RSpec.describe 'Delete ProjectStorage with FileLinks', :js, :webmock do
   let(:user) { create(:user) }
-  let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
+  let(:role) { create(:project_role, permissions: [:manage_storages_in_project]) }
   let(:project) do
     create(:project,
            name: 'Project 1',

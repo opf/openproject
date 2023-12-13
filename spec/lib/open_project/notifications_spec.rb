@@ -45,7 +45,7 @@ RSpec.describe OpenProject::Notifications do
     end
 
     it 'delivers a notification' do
-      OpenProject::Notifications.send('notifications_spec_send', payload)
+      OpenProject::Notifications.send(:notifications_spec_send, payload)
     end
   end
 

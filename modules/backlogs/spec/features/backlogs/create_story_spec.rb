@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Backlogs', js: true do
+RSpec.describe 'Backlogs', :js, :with_cuprite do
   let(:story_type) do
     create(:type_feature)
   end
@@ -52,11 +52,10 @@ RSpec.describe 'Backlogs', js: true do
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i(add_work_packages
-                                       view_master_backlog
-                                       view_work_packages
-                                       assign_versions))
+           member_with_permissions: { project => %i(add_work_packages
+                                                    view_master_backlog
+                                                    view_work_packages
+                                                    assign_versions) })
   end
   let(:project) { create(:project) }
 
@@ -113,7 +112,7 @@ RSpec.describe 'Backlogs', js: true do
       # inactive types should not be selectable
       # but the user can choose from the active types
       expect(page)
-        .not_to have_selector('option', text: inactive_story_type.name)
+        .not_to have_css('option', text: inactive_story_type.name)
 
       select story_type2.name, from: 'type'
 
@@ -122,7 +121,7 @@ RSpec.describe 'Backlogs', js: true do
 
       # velocity should be summed up immediately
       expect(page)
-        .to have_selector('.velocity', text: "12")
+        .to have_css('.velocity', text: "12")
 
       # this will ensure that the page refresh is through before we check the order
       menu.click
@@ -137,14 +136,14 @@ RSpec.describe 'Backlogs', js: true do
       .not_to have_content 'Another story'
 
     expect(page)
-      .to have_selector '.story:nth-of-type(1)', text: 'The new story'
+      .to have_css '.story:nth-of-type(1)', text: 'The new story'
     expect(page)
-      .to have_selector '.story:nth-of-type(2)', text: existing_story1.subject
+      .to have_css '.story:nth-of-type(2)', text: existing_story1.subject
     expect(page)
-      .to have_selector '.story:nth-of-type(3)', text: existing_story2.subject
+      .to have_css '.story:nth-of-type(3)', text: existing_story2.subject
 
     # created with the selected type
     expect(page)
-      .to have_selector '.story:nth-of-type(1) .type_id', text: story_type2.name
+      .to have_css '.story:nth-of-type(1) .type_id', text: story_type2.name
   end
 end

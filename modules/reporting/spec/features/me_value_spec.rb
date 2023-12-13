@@ -38,6 +38,8 @@ RSpec.describe 'Cost report showing my own times', js: true do
       fill_in 'query_name', with: 'Query ME value'
       check 'query_is_public'
       find_by_id('query-icon-save-button').click
+      # wait until the save is complete
+      expect(page).to have_selector('h2', text: 'Query ME value')
 
       expect(page).to have_selector('.report', text: '10.00')
 

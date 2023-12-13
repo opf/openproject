@@ -6,7 +6,7 @@ module OpenProject
       ##
       # Do we use lograge in the end to perform the payload output
       def lograge_enabled?
-        OpenProject::Configuration.lograge_formatter.present?
+        OpenProject::Configuration.lograge_enabled?
       end
 
       ##

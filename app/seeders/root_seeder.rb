@@ -50,21 +50,21 @@ class RootSeeder < Seeder
     reset_active_record!
     set_locale! do
       prepare_seed! do
-        do_seed!
+        ActiveRecord::Base.transaction do
+          block_given? ? (yield self) : do_seed!
+        end
       end
     end
   end
 
   def do_seed!
-    ActiveRecord::Base.transaction do
-      # Basic data needs be seeded before anything else.
-      seed_basic_data
-      seed_admin_user
-      seed_demo_data
-      seed_development_data if seed_development_data?
-      seed_plugins_data
-      seed_env_data
-    end
+    # Basic data needs be seeded before anything else.
+    seed_basic_data
+    seed_admin_user
+    seed_demo_data
+    seed_development_data if seed_development_data?
+    seed_plugins_data
+    seed_env_data
   end
 
   def seed_development_data?

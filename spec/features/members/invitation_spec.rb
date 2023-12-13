@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'invite user via email', js: true do
   let!(:project) { create(:project, name: 'Project 1', identifier: 'project1', members: project_members) }
-  let!(:developer) { create(:role, name: 'Developer') }
+  let!(:developer) { create(:project_role, name: 'Developer') }
   let(:project_members) { {} }
 
   let(:members_page) { Pages::Members.new project.identifier }
@@ -38,8 +38,7 @@ RSpec.describe 'invite user via email', js: true do
   current_user do
     create(:user,
            global_permissions: [:create_user],
-           member_in_project: project,
-           member_with_permissions: %i[view_members manage_members])
+           member_with_permissions: { project => %i[view_members manage_members] })
   end
 
   context 'with a new user' do
@@ -70,6 +69,32 @@ RSpec.describe 'invite user via email', js: true do
       # Should show the invited user on the default filter as well
       members_page.visit!
       expect(members_page).to have_user 'finkelstein @openproject.com'
+    end
+
+    context 'with an instance with a user limit (regression)' do
+      before do
+        allow(OpenProject::Enterprise).to receive_messages(
+          user_limit: 10,
+          open_seats_count: 1
+        )
+      end
+
+      it 'shows a warning when the limit is reached' do
+        members_page.visit!
+        click_button 'Add member'
+
+        members_page.search_and_select_principal! 'finkelstein@openproject.com',
+                                                  'Send invite to finkelstein@openproject.com'
+
+        expect(members_page).not_to have_text sanitize_string(I18n.t(:warning_user_limit_reached)),
+                                              normalize_ws: true
+
+        members_page.search_and_select_principal! 'frankenstein@openproject.com',
+                                                  'Send invite to frankenstein@openproject.com'
+
+        expect(members_page).to have_text sanitize_string(I18n.t(:warning_user_limit_reached)),
+                                          normalize_ws: true
+      end
     end
   end
 

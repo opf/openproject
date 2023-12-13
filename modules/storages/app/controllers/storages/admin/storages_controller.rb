@@ -31,6 +31,7 @@
 # Purpose: CRUD the global admin page of Storages (=Nextcloud servers)
 class Storages::Admin::StoragesController < ApplicationController
   using Storages::Peripherals::ServiceResultRefinements
+  include FlashMessagesHelper
 
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout 'admin'
@@ -41,7 +42,10 @@ class Storages::Admin::StoragesController < ApplicationController
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
-  before_action :find_model_object, only: %i[show destroy edit update replace_oauth_application]
+  before_action :find_model_object,
+                only: %i[show show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
+  before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
+  before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -64,80 +68,129 @@ class Storages::Admin::StoragesController < ApplicationController
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
     # That service inherits from ::BaseServices::SetAttributes
-    @object = ::Storages::Storages::SetAttributesService
-                .new(user: current_user,
-                     model: Storages::NextcloudStorage.new,
-                     contract_class: EmptyContract)
-                .call
-                .result
+    @storage = ::Storages::Storages::SetAttributesService
+                 .new(user: current_user,
+                      model: Storages::Storage.new,
+                      contract_class: EmptyContract)
+                 .call
+                 .result
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
-  # Actually create a Storage object.
-  # Overwrite the creator_id with the current_user. Is this this pattern always used?
-  # Use service pattern to create a new Storage
-  # See also: storages/services/storages/storages/create_service.rb
-  # Called by: Global app/config/routes.rb to serve Web page
+  def upsale; end
+
+  def select_provider
+    @object = Storages::Storage.new(provider_type: @provider_type)
+    service_result = ::Storages::Storages::SetAttributesService
+                       .new(user: current_user,
+                            model: @object,
+                            contract_class: EmptyContract)
+                       .call
+    @storage = service_result.result
+
+    respond_to do |format|
+      format.html { render :new }
+    end
+  end
+
   def create
-    service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
-    @object = service_result.result
+    service_result = Storages::Storages::CreateService
+                       .new(user: current_user)
+                       .call(permitted_storage_params)
+
+    @storage = service_result.result
     @oauth_application = oauth_application(service_result)
 
-    if service_result.success? && @oauth_application
-      flash[:notice] = I18n.t(:notice_successful_create)
-      render :show_oauth_application
-    else
-      @errors = service_result.errors
-      render :new
+    service_result.on_failure do
+      respond_to do |format|
+        format.turbo_stream { render :new }
+      end
+    end
+
+    service_result.on_success do
+      service_result.on_success do
+        respond_to do |format|
+          format.turbo_stream
+        end
+      end
+    end
+  end
+
+  def show_oauth_application
+    @oauth_application = @storage.oauth_application
+
+    respond_to do |format|
+      format.turbo_stream
     end
   end
 
   # Edit page is very similar to new page, except that we don't need to set
-  # default attribute values because the object already exists
+  # default attribute values because the object already exists;
   # Called by: Global app/config/routes.rb to serve Web page
   def edit; end
+
+  def edit_host
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
 
   # Update is similar to create above
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
   def update
     service_result = ::Storages::Storages::UpdateService
-                       .new(user: current_user,
-                            model: @object)
+                       .new(user: current_user, model: @storage)
                        .call(permitted_storage_params)
+    @storage = service_result.result
 
     if service_result.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to edit_admin_settings_storage_path(@object)
+      respond_to do |format|
+        format.turbo_stream
+      end
     else
-      @errors = service_result.errors
-      render :edit
+      respond_to do |format|
+        format.html { render :edit }
+        format.turbo_stream { render :edit_host }
+      end
     end
   end
 
+  def confirm_destroy
+    @storage_to_destroy = @storage
+  end
+
   def destroy
-    Storages::Storages::DeleteService
-      .new(user: User.current, model: @object)
-      .call
-      .match(
-        # rubocop:disable Rails/ActionControllerFlashBeforeRender
-        on_success: ->(*) { flash[:notice] = I18n.t(:notice_successful_delete) },
-        on_failure: ->(error) { flash[:error] = error.full_messages }
-        # rubocop:enable Rails/ActionControllerFlashBeforeRender
-      )
+    service_result = Storages::Storages::DeleteService
+                       .new(user: User.current, model: @storage)
+                       .call
+
+    # rubocop:disable Rails/ActionControllerFlashBeforeRender
+    service_result.on_failure do
+      flash[:primer_banner] = { message: join_flash_messages(service_result.errors.full_messages), scheme: :danger }
+    end
+
+    service_result.on_success do
+      flash[:primer_banner] = { message: I18n.t(:notice_successful_delete), scheme: :success }
+    end
+    # rubocop:enable Rails/ActionControllerFlashBeforeRender
 
     redirect_to admin_settings_storages_path
   end
 
   def replace_oauth_application
-    @object.oauth_application.destroy
-    service_result = ::Storages::OAuthApplications::CreateService.new(storage: @object, user: current_user).call
+    @storage.oauth_application.destroy
+    service_result = ::Storages::OAuthApplications::CreateService.new(storage: @storage, user: current_user).call
+    @oauth_application = service_result.result
 
     if service_result.success?
       flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
-      @oauth_application = service_result.result
       render :show_oauth_application
     else
-      @errors = service_result.errors
       render :edit
     end
   end
@@ -161,15 +214,39 @@ class Storages::Admin::StoragesController < ApplicationController
 
   private
 
+  def ensure_valid_provider_type_selected
+    short_provider_type = params[:provider]
+    if short_provider_type.blank? || (@provider_type = ::Storages::Storage::PROVIDER_TYPE_SHORT_NAMES[short_provider_type]).blank?
+      flash[:primer_banner] = { message: I18n.t('storages.error_invalid_provider_type'), scheme: :danger }
+      redirect_to admin_settings_storages_path
+    end
+  end
+
   def oauth_application(service_result)
     service_result.dependent_results&.first&.result
   end
 
   # Called by create and update above in order to check if the
   # update parameters are correctly set.
-  def permitted_storage_params
+  def permitted_storage_params(model_parameter_name = storage_provider_parameter_name)
     params
-      .require(:storages_storage)
-      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret')
+      .require(model_parameter_name)
+      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret', 'tenant_id', 'drive_id')
+  end
+
+  def storage_provider_parameter_name
+    if params.key?(:storages_nextcloud_storage)
+      :storages_nextcloud_storage
+    elsif params.key?(:storages_one_drive_storage)
+      :storages_one_drive_storage
+    else
+      :storages_storage
+    end
+  end
+
+  def require_ee_token_for_one_drive
+    if ::Storages::Storage::one_drive_without_ee_token?(@provider_type)
+      redirect_to action: :upsale
+    end
   end
 end

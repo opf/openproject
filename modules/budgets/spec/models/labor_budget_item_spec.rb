@@ -46,7 +46,7 @@ RSpec.describe LaborBudgetItem do
     create(:member,
            project:,
            user:,
-           roles: [create(:role, permissions:)])
+           roles: [create(:project_role, permissions:)])
   end
 
   describe '#calculated_costs' do

@@ -1,0 +1,18 @@
+.op-share-wp-modal-body
+  &--user-row
+    display: grid
+    grid-template-columns: minmax(31px, auto) 1fr // 31px is the width needed to display a group avatar
+    grid-template-areas: "avatar user_details"
+    grid-column-gap: 10px
+
+    &_manageable
+      display: grid
+      grid-template-columns: 20px minmax(31px, auto) 1fr auto auto
+      grid-template-areas: "selection avatar user_details button remove"
+      grid-column-gap: 10px
+
+  &--header
+    display: grid
+    grid-template-columns: 1fr auto
+    grid-template-areas: "counter actions"
+    grid-column-gap: 10px

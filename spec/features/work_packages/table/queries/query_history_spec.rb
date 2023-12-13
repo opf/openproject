@@ -28,16 +28,14 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Going back and forth through the browser history', js: true do
+RSpec.describe 'Going back and forth through the browser history', :js do
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            save_queries])
   end

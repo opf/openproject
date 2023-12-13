@@ -204,7 +204,7 @@ class Repository < ApplicationRecord
     name = name.to_s
     return nil if name.blank?
 
-    changesets.where((name.match(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%'])).first
+    changesets.where((name.match?(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%'])).first
   end
 
   def latest_changeset

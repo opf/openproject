@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::FileLinks::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
@@ -34,11 +37,7 @@ RSpec.describe Storages::FileLinks::SetAttributesService, type: :model do
   let(:contract_instance) do
     contract = instance_double(Storages::Storages::BaseContract, 'contract_instance')
     allow(contract)
-      .to receive(:validate)
-      .and_return(contract_valid)
-    allow(contract)
-      .to receive(:errors)
-      .and_return(contract_errors)
+      .to receive_messages(validate: contract_valid, errors: contract_errors)
     contract
   end
 

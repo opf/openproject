@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
-require_relative './create_from_journal_job_shared'
+require_relative 'create_from_journal_job_shared'
 
 RSpec.describe Notifications::CreateFromModelService,
                'work_package',
@@ -54,8 +54,17 @@ RSpec.describe Notifications::CreateFromModelService,
              **wp_attributes.merge(user_property => recipient))
     elsif user_property == :watcher
       create(:work_package,
-             **wp_attributes).tap do |wp|
+             **wp_attributes) do |wp|
         Watcher.new(watchable: wp, user: recipient).save(validate: false)
+      end
+    elsif user_property == :shared
+      create(:work_package,
+             **wp_attributes) do |wp|
+        Member.new(entity: wp,
+                   project: wp.project,
+                   principal: recipient,
+                   roles: [create(:work_package_role)])
+              .save(validate: false)
       end
     else
       # Initialize recipient to have the same behaviour as if the recipient is assigned/responsible
@@ -118,7 +127,7 @@ RSpec.describe Notifications::CreateFromModelService,
       end
     end
 
-    context 'when assignee has in app notifications disabled' do
+    context 'when assignee has all app notification reasons enabled' do
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_true)
@@ -396,6 +405,53 @@ RSpec.describe Notifications::CreateFromModelService,
     end
 
     context 'when recipient has all notifications enabled but made the change himself' do
+      let(:recipient_notification_settings) do
+        [
+          build(:notification_setting, **notification_settings_all_true)
+        ]
+      end
+      let(:author) { recipient }
+
+      it_behaves_like 'creates no notification'
+    end
+  end
+
+  context 'when the work package is shared with the user' do
+    let(:user_property) { :shared }
+    let(:recipient_notification_settings) do
+      [
+        build(:notification_setting, **notification_settings_all_false.merge(shared: true))
+      ]
+    end
+
+    it_behaves_like 'creates notification' do
+      let(:notification_channel_reasons) do
+        {
+          read_ian: false,
+          reason: :shared,
+          mail_alert_sent: false,
+          mail_reminder_sent: false
+        }
+      end
+    end
+
+    context 'when the shared with user has all notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          build(:notification_setting, **notification_settings_all_false)
+        ]
+      end
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'when the shared with user is not allowed to view work packages' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'when the shared with user has all notifications enabled but made the change himself' do
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_true)
@@ -747,7 +803,7 @@ RSpec.describe Notifications::CreateFromModelService,
       end
 
       context 'with the group not allowed to view the work package' do
-        let(:group_role) { create(:role, permissions: []) }
+        let(:group_role) { create(:project_role, permissions: []) }
         let(:permissions) { [] }
 
         it_behaves_like 'creates no notification'
@@ -981,7 +1037,7 @@ RSpec.describe Notifications::CreateFromModelService,
       end
 
       context 'for groups' do
-        let(:group_role) { create(:role, permissions: %i[view_work_packages]) }
+        let(:group_role) { create(:project_role, permissions: %i[view_work_packages]) }
         let(:group) do
           create(:group, members: recipient) do |group|
             Members::CreateService
@@ -1040,7 +1096,7 @@ RSpec.describe Notifications::CreateFromModelService,
       end
 
       context 'with users and groups' do
-        let(:group_role) { create(:role, permissions: %i[view_work_packages]) }
+        let(:group_role) { create(:project_role, permissions: %i[view_work_packages]) }
         let(:group) do
           create(:group, members: recipient) do |group|
             Members::CreateService
@@ -1050,8 +1106,7 @@ RSpec.describe Notifications::CreateFromModelService,
         end
         let(:other_recipient) do
           create(:user,
-                 member_in_project: project,
-                 member_with_permissions: permissions,
+                 member_with_permissions: { project => permissions },
                  notification_settings: [build(:notification_setting, **notification_settings_all_true)])
         end
         let(:notification_group_recipient) { build_stubbed(:notification, recipient:) }

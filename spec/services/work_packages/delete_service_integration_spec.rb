@@ -31,13 +31,11 @@ require 'spec_helper'
 RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
   shared_let(:project) { create(:project) }
   shared_let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[delete_work_packages view_work_packages add_work_packages manage_subtasks])
   end
   shared_let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   describe 'deleting a child with estimated_hours set' do

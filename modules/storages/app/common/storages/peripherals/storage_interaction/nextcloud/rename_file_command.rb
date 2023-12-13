@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -31,10 +33,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
       @username = storage.username
       @password = storage.password
+    end
+
+    def self.call(storage:, source:, target:)
+      new(storage).call(source:, target:)
     end
 
     def call(source:, target:)
@@ -45,15 +51,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         )
       )
 
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
       case response
       when Net::HTTPSuccess
         ServiceResult.success
       when Net::HTTPNotFound
-        Util.error(:not_found)
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
       when Net::HTTPUnauthorized
-        Util.error(:not_authorized)
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
-        Util.error(:error)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
   end

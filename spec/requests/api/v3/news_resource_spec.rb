@@ -34,7 +34,7 @@ RSpec.describe 'API v3 news resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:news) do
     create(:news, project:, author: current_user)
@@ -43,14 +43,14 @@ RSpec.describe 'API v3 news resource' do
     create(:news, project:, author: other_user)
   end
   let(:other_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:invisible_news) do
     create(:news, project: other_project, author: other_user)
   end
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_news) }
 
   subject(:response) { last_response }

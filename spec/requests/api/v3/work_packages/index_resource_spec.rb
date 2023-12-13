@@ -43,11 +43,11 @@ RSpec.describe 'API v3 Work package resource',
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   describe 'GET /api/v3/work_packages' do
@@ -107,9 +107,13 @@ RSpec.describe 'API v3 Work package resource',
     end
 
     context 'with a user not seeing any work packages' do
-      include_context 'with non-member permissions from non_member_permissions'
+      # Create a public project so that the non-member permission has something to attach to
+      let!(:public_project) { create(:project, public: true, active: true) }
+
       let(:current_user) { create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
+
+      include_context 'with non-member permissions from non_member_permissions'
 
       it 'succeeds' do
         expect(subject.status).to be 200
@@ -387,7 +391,7 @@ RSpec.describe 'API v3 Work package resource',
       end
 
       context 'when a link type custom value changes' do
-        let(:original_user) { create(:user, member_in_project: project, member_through_role: role) }
+        let(:original_user) { create(:user, member_with_roles: { project => role }) }
         let(:custom_field) do
           create(:user_wp_custom_field,
                  name: 'User CF',

@@ -113,7 +113,7 @@ module ::Query::Results::Sums
                []
              end
 
-    select + query.summed_up_columns.map(&:summable_work_packages_select).compact.map { |c| "SUM(#{c}) #{c}" }
+    select + query.summed_up_columns.filter_map(&:summable_work_packages_select).map { |c| "SUM(#{c}) #{c}" }
   end
 
   def callable_summed_up_columns

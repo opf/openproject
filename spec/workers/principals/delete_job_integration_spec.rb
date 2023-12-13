@@ -47,7 +47,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
   end
 
   shared_let(:role) do
-    create(:role, permissions: %i[view_work_packages])
+    create(:project_role, permissions: %i[view_work_packages])
   end
 
   describe '#perform' do
@@ -116,7 +116,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
         create(:member,
                project: work_package.project,
                user: principal,
-               roles: [build(:role)])
+               roles: [build(:project_role)])
         entry
 
         job
@@ -140,6 +140,40 @@ RSpec.describe Principals::DeleteJob, type: :model do
 
       it 'leaves the role' do
         expect(Role.find_by(id: role.id)).to eq(role)
+      end
+
+      it 'leaves the project' do
+        expect(Project.find_by(id: project.id)).to eq(project)
+      end
+    end
+
+    shared_examples_for 'work package member handling' do
+      let(:work_package) { create(:work_package, project:) }
+
+      let(:work_package_member) do
+        create(:work_package_member,
+               principal:,
+               project:,
+               work_package:,
+               roles: [role])
+      end
+
+      before do
+        work_package_member
+
+        job
+      end
+
+      it 'removes that work package member' do
+        expect(Member.find_by(id: work_package_member.id)).to be_nil
+      end
+
+      it 'leaves the role' do
+        expect(Role.find_by(id: role.id)).to eq(role)
+      end
+
+      it 'leaves the work_package' do
+        expect(WorkPackage.find_by(id: work_package.id)).to eq(work_package)
       end
 
       it 'leaves the project' do
@@ -210,7 +244,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
 
     shared_examples_for 'private query handling' do
       let!(:query) do
-        create(:private_query, user: principal, views: [create(:view_work_packages_table)])
+        create(:private_query, user: principal, views: create_list(:view_work_packages_table, 1))
       end
 
       before do

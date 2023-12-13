@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,14 +29,17 @@
 #++
 
 require 'spec_helper'
-require_relative '../../../support/storage_server_helpers'
+require_module_spec_helper
+require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'file_link contract' do
+  include_context 'ModelContract shared context'
+
   let(:current_user) { create(:user) }
-  let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
+  let(:role) { create(:project_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { current_user => role }) }
   let(:work_package) { create(:work_package, project:) }
-  let(:storage) { create(:storage) }
+  let(:storage) { create(:nextcloud_storage) }
   let!(:project_storage) { create(:project_storage, project:, storage:) }
   let(:file_link) do
     build(:file_link, container: work_package,
@@ -65,13 +70,13 @@ RSpec.shared_examples_for 'file_link contract' do
       context 'when empty' do
         let(:file_link_attributes) { { origin_id: '' } }
 
-        include_examples 'contract is invalid', origin_id: :blank
+        include_examples 'contract is invalid', origin_id: %i[blank too_short]
       end
 
       context 'when nil' do
         let(:file_link_attributes) { { origin_id: nil } }
 
-        include_examples 'contract is invalid', origin_id: :blank
+        include_examples 'contract is invalid', origin_id: %i[blank too_short]
       end
 
       context 'when numeric' do
@@ -89,11 +94,11 @@ RSpec.shared_examples_for 'file_link contract' do
       context 'when having non ascii characters' do
         let(:file_link_attributes) { { origin_id: 'Hëllò Wôrłd!' } }
 
-        include_examples 'contract is invalid', origin_id: :invalid
+        include_examples 'contract is valid'
       end
 
       context 'when longer than 100 characters' do
-        let(:file_link_attributes) { { origin_id: '1' * 101 } }
+        let(:file_link_attributes) { { origin_id: '1' * 201 } }
 
         include_examples 'contract is invalid', origin_id: :too_long
       end
@@ -164,4 +169,6 @@ RSpec.shared_examples_for 'file_link contract' do
       end
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

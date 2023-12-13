@@ -31,6 +31,7 @@ import { HttpEvent } from '@angular/common/http';
 
 export interface IUploadFile {
   file:File;
+  overwrite?:boolean;
 }
 
 export abstract class OpUploadService {

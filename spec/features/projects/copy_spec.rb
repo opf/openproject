@@ -70,7 +70,7 @@ RSpec.describe 'Projects copy', :with_cuprite, js: true do
     end
     let(:user) { create(:user) }
     let(:role) do
-      create(:role,
+      create(:project_role,
              permissions:)
     end
     let(:permissions) do
@@ -124,7 +124,7 @@ RSpec.describe 'Projects copy', :with_cuprite, js: true do
 
     let(:parent_field) { FormFields::SelectFormField.new :parent }
 
-    let(:storage) { create(:storage) }
+    let(:storage) { create(:nextcloud_storage) }
     let(:project_storage) { create(:project_storage, project:, storage:) }
     let(:file_link) { create(:file_link, container: work_package, storage:) }
 

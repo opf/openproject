@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -59,6 +61,7 @@ class API::V3::FileLinks::CreateEndpoint < API::Utilities::Endpoints::Create
       # rollback records created if an error occurred (validation failed)
       raise ActiveRecord::Rollback if global_result.failure?
     end
+
     global_result
   end
 

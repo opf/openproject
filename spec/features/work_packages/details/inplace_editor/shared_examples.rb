@@ -36,14 +36,7 @@ RSpec.shared_examples 'as an auth aware field' do
 
   context 'when user is not authorized' do
     let(:user) do
-      create(
-        :user,
-        member_in_project: project,
-        member_through_role: build(
-          :role,
-          permissions: [:view_work_packages]
-        )
-      )
+      create(:user, member_with_permissions: { project => %i(view_work_packages) })
     end
 
     it 'is not editable' do
@@ -113,27 +106,20 @@ RSpec.shared_examples 'a workpackage autocomplete field' do
 end
 
 RSpec.shared_examples 'a principal autocomplete field' do
-  let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            firstname: 'John')
   end
   let!(:mentioned_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            firstname: 'Laura',
            lastname: 'Foobar')
   end
   let!(:mentioned_group) do
-    create(:group, lastname: 'Laudators').tap do |group|
-      create(:member,
-             principal: group,
-             project:,
-             roles: [role])
-    end
+    create(:group, lastname: 'Laudators', member_with_roles: { project => role })
   end
 
   shared_examples 'principal autocomplete on field' do
@@ -177,27 +163,20 @@ RSpec.shared_examples 'a principal autocomplete field' do
 end
 
 RSpec.shared_examples 'not a principal autocomplete field' do
-  let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            firstname: 'John')
   end
   let!(:mentioned_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            firstname: 'Laura',
            lastname: 'Foobar')
   end
   let!(:mentioned_group) do
-    create(:group, lastname: 'Laudators').tap do |group|
-      create(:member,
-             principal: group,
-             project:,
-             roles: [role])
-    end
+    create(:group, lastname: 'Laudators', member_with_roles: { project => role })
   end
 
   shared_examples 'not principal autocomplete on field' do

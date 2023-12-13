@@ -38,8 +38,8 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
     let!(:project) { create(:project) }
     let!(:archived_project) { create(:project, active: false) }
 
-    let(:user) { create(:user, member_in_projects: [project, archived_project], member_through_role: role) }
-    let(:role) { create(:role, permissions: %i(view_work_packages)) }
+    let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
+    let(:user) { create(:user, member_with_roles: { project => role, archived_project => role }) }
 
     before do
       login_as user
@@ -47,7 +47,7 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
 
     it 'does not include the archived project (Regression #36026)' do
       expect(instance.allowed_values)
-        .to match_array [[project.name, project.id.to_s]]
+        .to contain_exactly([project.name, project.id.to_s])
     end
   end
 end

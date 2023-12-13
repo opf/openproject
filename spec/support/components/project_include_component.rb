@@ -34,19 +34,19 @@ module Components
 
     def clear_tooltips
       # Just hover anything else
-      page.find("[data-qa-selector='project-include-search']").hover
+      page.find("[data-test-selector='project-include-search']").hover
     end
 
     def toggle!
-      page.find("[data-qa-selector='project-include-button']").click
+      page.find("[data-test-selector='project-include-button']").click
     end
 
     def expect_open
-      expect(page).to have_selector("[data-qa-selector='project-include-list']")
+      expect(page).to have_selector("[data-test-selector='project-include-list']")
     end
 
     def expect_count(count)
-      expect(page).to have_selector("[data-qa-selector='project-include-button'] .badge", text: count)
+      expect(page).to have_selector("[data-test-selector='project-include-button'] .badge", text: count)
     end
 
     def toggle_include_all_subprojects
@@ -60,7 +60,7 @@ module Components
 
     def set_filter_selected(filter)
       within_body do
-        page.find("[data-qa-selector='spot-toggle--option']", text: filter ? 'Only selected' : 'All projects').click
+        page.find("[data-test-selector='spot-toggle--option']", text: filter ? 'Only selected' : 'All projects').click
       end
     end
 
@@ -89,7 +89,7 @@ module Components
     end
 
     def expect_closed
-      expect(page).not_to have_selector("[data-qa-selector='project-include-list']")
+      expect(page).not_to have_selector("[data-test-selector='project-include-list']")
     end
 
     def click_button(text)
@@ -115,7 +115,7 @@ module Components
     end
 
     def no_loading_indicator
-      expect(page).not_to have_selector("[data-qa-selector='op-project-include--loading']")
+      expect(page).not_to have_selector("[data-test-selector='op-project-include--loading']")
     end
   end
 end

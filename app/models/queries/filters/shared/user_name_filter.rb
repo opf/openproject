@@ -67,11 +67,11 @@ module Queries::Filters::Shared::UserNameFilter
 
     def sql_concat_name
       case Setting.user_format
-      when :firstname_lastname, :lastname_coma_firstname
+      when :firstname_lastname
         "LOWER(CONCAT(users.firstname, CONCAT(' ', users.lastname)))"
       when :firstname
         'LOWER(users.firstname)'
-      when :lastname_firstname
+      when :lastname_firstname, :lastname_coma_firstname
         "LOWER(CONCAT(users.lastname, CONCAT(' ', users.firstname)))"
       when :lastname_n_firstname
         "LOWER(CONCAT(users.lastname, users.firstname))"

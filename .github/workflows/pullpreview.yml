@@ -41,10 +41,9 @@ jobs:
       run: |
         cp ./docker/pullpreview/docker-compose.yml ./docker-compose.pullpreview.yml
         cp ./docker/prod/Dockerfile ./Dockerfile
-        cp ./docker/pullpreview-storybook/Dockerfile ./Dockerfile-storybook
     - uses: pullpreview/action@v5
       with:
-        admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,b12f,cbliard
+        admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,cbliard
         compose_files: docker-compose.pullpreview.yml
         instance_type: large
         ports: 80,443,8080

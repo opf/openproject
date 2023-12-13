@@ -2,7 +2,7 @@
   class="spot-modal spot-modal_wide wp-table--configuration-modal loading-indicator--location"
   data-indicator-name="modal"
 >
-  <div class="spot-modal--header">{{text.title}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
 
   <div class="spot-divider"></div>
 
@@ -32,7 +32,7 @@
       </button>
       <button
         class="button button_no-margin -highlight spot-action-bar--action"
-        data-qa-selector="spot-modal-wp-table-configuration-save-button"
+        data-test-selector="spot-modal-wp-table-configuration-save-button"
         [textContent]="text.applyButton"
         (click)="saveChanges()"
       >

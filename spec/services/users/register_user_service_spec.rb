@@ -79,7 +79,6 @@ RSpec.describe Users::RegisterUserService do
   describe '#register_omniauth_user' do
     let(:user) { User.new(status: Principal.statuses[:registered], identity_url: 'azure:1234') }
     let(:instance) { described_class.new(user) }
-    let(:call) { instance.call }
 
     before do
       allow(user).to receive(:activate)
@@ -87,33 +86,87 @@ RSpec.describe Users::RegisterUserService do
 
       # required so that the azure provider is visible (ee feature)
       allow(EnterpriseToken).to receive(:show_banners?).and_return false
-
-      with_all_registration_options do |_type|
-        call
-      end
     end
 
     it 'tries to activate that user regardless of settings' do
-      expect(call).to be_success
-      expect(call.result).to eq user
-      expect(call.message).to eq I18n.t(:notice_account_registered_and_logged_in)
+      with_all_registration_options do |_type|
+        call = instance.call
+        expect(call).to be_success
+        expect(call.result).to eq user
+        expect(call.message).to eq I18n.t(:notice_account_registered_and_logged_in)
+      end
     end
 
-    context(
-      'with limit_self_registration enabled and self_registration disabled',
-      with_settings: {
-        self_registration: 0,
-        plugin_openproject_openid_connect: {
-          providers: {
-            azure: { identifier: "foo", secret: "bar", limit_self_registration: true }
-          }
-        }
-      }
-    ) do
+    context 'with limit_self_registration enabled and self_registration disabled',
+            with_settings: {
+              self_registration: 0,
+              plugin_openproject_openid_connect: {
+                providers: {
+                  azure: { identifier: "foo", secret: "bar", limit_self_registration: true }
+                }
+              }
+            } do
       it 'fails to activate due to disabled self registration' do
+        call = instance.call
         expect(call).not_to be_success
         expect(call.result).to eq user
-        expect(call.message).to eq I18n.t('account.error_self_registration_disabled')
+        expect(call.message).to eq I18n.t('account.error_self_registration_limited_provider', name: 'azure')
+      end
+    end
+
+    context 'with limit_self_registration enabled and self_registration manual',
+            with_settings: {
+              self_registration: 2,
+              plugin_openproject_openid_connect: {
+                providers: {
+                  azure: { identifier: "foo", secret: "bar", limit_self_registration: true }
+                }
+              }
+            } do
+      it 'registers the user, but does not activate it' do
+        call = instance.call
+        expect(call).to be_success
+        expect(call.result).to eq user
+        expect(user).to be_registered
+        expect(user).not_to have_received(:activate)
+        expect(call.message).to eq I18n.t(:notice_account_pending)
+      end
+    end
+
+    context 'with limit_self_registration enabled and self_registration email',
+            with_settings: {
+              self_registration: 1,
+              plugin_openproject_openid_connect: {
+                providers: {
+                  azure: { identifier: "foo", secret: "bar", limit_self_registration: true }
+                }
+              }
+            } do
+      it 'registers the user, but does not activate it' do
+        call = instance.call
+        expect(call).to be_success
+        expect(call.result).to eq user
+        expect(user).to be_registered
+        expect(user).not_to have_received(:activate)
+        expect(call.message).to eq I18n.t(:notice_account_register_done)
+      end
+    end
+
+    context 'with limit_self_registration enabled and self_registration automatic',
+            with_settings: {
+              self_registration: 3,
+              plugin_openproject_openid_connect: {
+                providers: {
+                  azure: { identifier: "foo", secret: "bar", limit_self_registration: true }
+                }
+              }
+            } do
+      it 'activates the user' do
+        call = instance.call
+        expect(call).to be_success
+        expect(call.result).to eq user
+        expect(user).to have_received(:activate)
+        expect(call.message).to eq I18n.t(:notice_account_activated)
       end
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,18 +29,14 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = instance_double(Storages::Storages::BaseContract, 'contract_instance')
-    allow(contract)
-      .to receive(:validate)
-      .and_return(contract_valid)
-    allow(contract)
-      .to receive(:errors)
-      .and_return(contract_errors)
+    contract = instance_double(Storages::Storages::CreateContract, 'contract_instance')
+    allow(contract).to receive_messages(validate: contract_valid, errors: contract_errors)
     contract
   end
 
@@ -56,7 +54,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   let(:contract_class) do
     allow(Storages::Storages::CreateContract)
       .to receive(:new)
-      .and_return(contract_instance)
+            .and_return(contract_instance)
 
     Storages::Storages::CreateContract
   end
@@ -66,7 +64,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   before do
     allow(model_instance)
       .to receive(:valid?)
-      .and_return(model_valid)
+            .and_return(model_valid)
   end
 
   subject { instance.call(params) }
@@ -90,10 +88,6 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
       expect(subject.result.provider_type).to eq Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
     end
 
-    it 'sets name to "My Nextcloud" by default' do
-      expect(subject.result.name).to eq I18n.t('storages.provider_types.nextcloud.default_name')
-    end
-
     context 'when setting host' do
       before do
         params[:host] = "https://some.host.com//"
@@ -106,7 +100,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   end
 
   context 'with existing record' do
-    let(:model_instance) { build_stubbed(:storage, name: 'My Storage', creator: build_stubbed(:user)) }
+    let(:model_instance) { build_stubbed(:nextcloud_storage, name: 'My Storage', creator: build_stubbed(:user)) }
 
     it 'keeps its name' do
       expect(subject.result.name).to eq 'My Storage'

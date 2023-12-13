@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/filesinfo
+    body:
+      encoding: UTF-8
+      string: '{"fileIds":["182","203","222"]}'
+    headers:
+      Authorization:
+      - Bearer L49hIQGzShBYfjblMAtTDtT15rtZ8wagxFIbwQTzD0LRIfUOBmOYz9wY5pvIY9zkLMpXLcK9
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Ocs-Apirequest:
+      - 'true'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Length:
+      - '577'
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 30 Aug 2023 15:45:26 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.56 (Debian)
+      Set-Cookie:
+      - __Host-nc_sameSiteCookielax=true; path=/; httponly;secure; expires=Fri, 31-Dec-2100
+        23:59:59 GMT; SameSite=lax
+      - __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict
+      - oc_sessionPassphrase=bZysxrG%2Fl16DjX2dkVG88Pgrm1tYYZ7EzUwAVCaBnEnVxo8pbldMJx2U9QF%2FXm%2Blyz8WZSNH10txYYv%2BXIBIOhZQCpNue%2BiOgD4BTSq%2BBL4VlFQ4OEnyKTMeCwrk1vr%2F;
+        path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=57a237ced5d8cbea7fa030db90ed0f3f; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=e4353119162ec0f0020b925c614ce423; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=e4353119162ec0f0020b925c614ce423; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=e4353119162ec0f0020b925c614ce423; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=e4353119162ec0f0020b925c614ce423; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=e4353119162ec0f0020b925c614ce423; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=e4353119162ec0f0020b925c614ce423; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=e4353119162ec0f0020b925c614ce423; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=e4353119162ec0f0020b925c614ce423; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=e4353119162ec0f0020b925c614ce423; path=/; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.8
+      X-Request-Id:
+      - Oi4F9CkhBWYYmLeEmoUp
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK","totalitems":"","itemsperpage":""},"data":{"182":{"status":"Forbidden","statuscode":403},"203":{"status":"Forbidden","statuscode":403},"222":{"status":"OK","statuscode":200,"id":222,"name":"Screenshot
+        2023-08-15 at 3.00.54 PM.jpg","mtime":1692187580,"ctime":0,"mimetype":"image\/jpeg","size":81944,"owner_name":"member","owner_id":"member","trashed":false,"modifier_name":null,"modifier_id":null,"dav_permissions":"RMGDNVW","path":"files\/OpenProject\/Scrum
+        project (2)\/Screenshot 2023-08-15 at 3.00.54 PM.jpg"}}}}'
+  recorded_at: Wed, 30 Aug 2023 15:45:26 GMT
+recorded_with: VCR 6.2.0

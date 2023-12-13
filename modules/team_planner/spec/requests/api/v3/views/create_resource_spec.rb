@@ -34,7 +34,7 @@ RSpec.describe API::V3::Views::ViewsAPI,
 
   shared_let(:permitted_user) { create(:user) }
   shared_let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %w[view_work_packages
                            save_queries
                            manage_public_queries

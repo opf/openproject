@@ -33,7 +33,7 @@ RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
     create(:type)
   end
   let(:role) do
-    create(:role)
+    create(:project_role)
   end
   let(:status1) do
     create(:status)

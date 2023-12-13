@@ -55,7 +55,7 @@ RSpec.describe 'Enterprise Edition token domain',
       it_behaves_like 'when uploading a token' do
         it 'saves the token' do
           expect(body).to have_text 'Successful update.'
-          expect(page).to have_selector('[data-qa-selector="ee-active-trial-email"]', text: 'operations@openproject.com')
+          expect(page).to have_test_selector('ee-active-trial-email', text: 'operations@openproject.com')
         end
       end
     end
@@ -90,7 +90,7 @@ RSpec.describe 'Enterprise Edition token domain',
     end
 
     it 'shows the current token info' do
-      expect(page).to have_selector('[data-qa-selector="ee-active-trial-email"]', text: 'operations@openproject.com')
+      expect(page).to have_test_selector('ee-active-trial-email', text: 'operations@openproject.com')
     end
 
     describe 'replacing the token' do
@@ -113,7 +113,7 @@ RSpec.describe 'Enterprise Edition token domain',
           end
 
           it "shows the new token's info" do
-            expect(page).to have_selector('[data-qa-selector="ee-active-trial-domain"]', text: 'localhost:3000')
+            expect(page).to have_test_selector('ee-active-trial-domain', text: 'localhost:3000')
           end
 
           it "but doesn't save the new token" do

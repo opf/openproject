@@ -1,8 +1,7 @@
 <%= render layout: 'mailer/spacer_table' do %>
-  <%= render partial: 'mailer/notification_mailer_header',
+  <%= render partial: 'mailer/mailer_header',
              locals: {
                summary: header_summary,
-               salutation: salutation,
                user: user
              } %>
 

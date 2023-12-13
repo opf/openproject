@@ -193,7 +193,7 @@ RSpec.describe API::V3::Users::UsersAPI do
   end
 
   describe 'user with global user create permission' do
-    shared_let(:current_user) { create(:user, global_permission: :create_user) }
+    shared_let(:current_user) { create(:user, global_permissions: [:create_user]) }
 
     it_behaves_like 'create user request flow'
 

@@ -57,8 +57,7 @@
               "node_modules/jquery-ui/themes/base/core.css",
               "node_modules/jquery-ui/themes/base/datepicker.css",
               "node_modules/jquery-ui/themes/base/dialog.css",
-              "node_modules/flatpickr/dist/flatpickr.min.css",
-              "node_modules/@primer/css/core/index.scss"
+              "node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -101,6 +100,22 @@
               ]
             },
             "fastprod": {
+              "index": "",
+              "preserveSymlinks": true,
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": false,
+              "buildOptimizer" : false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "ci": {
               "index": "",
               "preserveSymlinks": true,
               "optimization": false,
@@ -161,41 +176,6 @@
               "src/**/*.html"
             ],
             "preserveSymlinks": true
-          }
-        },
-        "storybook": {
-          "builder": "@storybook/angular:start-storybook",
-          "options": {
-            "configDir": ".storybook",
-            "browserTarget": "OpenProject:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              ".",
-              "-p",
-              "src/tsconfig.compodoc.json"
-            ],
-            "port": 6006,
-            "host": "0.0.0.0"
-          }
-        },
-        "build-storybook": {
-          "builder": "@storybook/angular:build-storybook",
-          "options": {
-            "configDir": ".storybook",
-            "browserTarget": "OpenProject:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              ".",
-              "-p",
-              "src/tsconfig.compodoc.json"
-            ],
-            "outputDir": "storybook-static"
           }
         }
       }

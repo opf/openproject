@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 require 'rack/test'
-require_relative './create_shared_examples'
+require_relative 'create_shared_examples'
 
 RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
                'create' do
@@ -40,7 +40,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   end
 
   describe 'user with manage_placeholder_user permission' do
-    let(:user) { create(:user, global_permission: %i[manage_placeholder_user]) }
+    let(:user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
     it_behaves_like 'create placeholder user request flow'
   end

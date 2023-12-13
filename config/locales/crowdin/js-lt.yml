@@ -31,6 +31,12 @@ lt:
         Ar tikrai norite ištrinti šį failą? Šio veiksmo nebus galima atšaukti.
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
+    autocomplete_ng_select:
+      add_tag: "Pridėti elementą"
+      clear_all: "Valyti viską"
+      loading: "Įkeliama..."
+      not_found: "Nieko nerasta"
+      type_to_search: "Rašykite paieškai"
     autocomplete_select:
       placeholder:
         multi: "Pridėti „%{name}“"
@@ -342,11 +348,11 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                Laidoje yra naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Bazinės linijos lyginimas lengvesniam pokyčių sekimui.</li> <li>Darbo plano PDF eksportas ataskaitoms.</li> <li>Projekto kalendorių prenumerata per URL (iCalendar).</li> <li>Projekto aplankai su dokumentų šablonais Nextcloud integracijai.</li> <li>Lokalizuotas visų duomenų siuntimas.</li> <li>Globalūs moduliai rodomi naujuose turinio puslapiuose.</li> </ul>
+                Šioje laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Dalinkitės darbo paketais su išoriniais naudotojais ir grupėmis, kurios nėra projekto nariai (Enterprise priedas).</li> <li>Nauji dinaminiai susitikimai su planais ir protokolu, susietu su darbo paketais.</li> <li>Susiekite darbo paketus su failais, esančiais OneDrive/SharePoint.</li> <li>Prieinamumo testai ir pirmi patobulinimai pagal WCAG 2.1 AA, įskaitant didelio kontrasto režimą.</li> <li>Tęsiama integracija su Primer dizaino sistema.</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -554,7 +560,6 @@ lt:
       steps:
         help_menu: 'Pagalbos (?) meniu yra <b>papildomi pagalbos resursai</b>. Čia jūs galite rasti naudotojo vadovą, naudingus video kaip atlikti veiksmus ir dar daugiau. <br>Sėkmės naudojant OpenProject!'
         members: 'Pakvieskite naujus <b>narius</b> prisijungti prie projekto.'
-        project_selection: 'Prašome paspausti ant vieno iš mūsų paruoštų demonstracinių projektų. Demonstraciniai duomenys yra tik anglų kalba. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
         quick_add_button: 'Paspauskite pliuso (+) ženklą navigacijos antraštėje ir <b>sukursite naują projektą</b> arba </b>pakviesite bendradarbius</b>.'
         sidebar_arrow: "Pasinaudokite grįžimo rodykle viršutiniame kairiajame kampe grįžimui į projekto <b>pagrindinį meniu</b>."
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
@@ -599,6 +604,7 @@ lt:
         processed: 'apdorota'
         prioritized: 'prioritetizuota'
         dateAlert: 'Datos įspėjimas'
+        shared: 'bendrinta'
       date_alerts:
         milestone_date: 'Gairės data'
         overdue: 'Vėluojama'
@@ -645,6 +651,7 @@ lt:
         mentioned: 'Paminėtas'
         watched: 'Stebėtojas'
         date_alert: 'Datos įspėjimas'
+        shared: 'Bendrinta'
       settings:
         change_notification_settings: 'Jūs galite keisti savo <a target="_blank" href="%{url}">pranešimų nustatymus</a>, kad užtikrintumėte, jog niekada nepraleisite svarbaus atnaujinimo.'
         title: "Pranešimų nustatymai"
@@ -667,6 +674,7 @@ lt:
             description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
           assignee: 'Paskirtas'
           responsible: 'Atsakingas'
+          shared: 'Bendrinta'
           watched: 'Stebėtojas'
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'
@@ -983,6 +991,7 @@ lt:
         recently_created: "Neseniai sukurti"
         all_open: "Visi atviri"
         summary: "Santrauka"
+        shared_with_users: "Bendrinamas su naudotojais"
       jump_marks:
         pagination: "Pereiti į lentelės laužymą puslapiais"
         label_pagination: "Paspauskite čia, kad praleistumėte darbų paketų lentelės peržiūrą ir patektumėte į atvaizdavimą puslapiais"
@@ -1019,6 +1028,12 @@ lt:
       scheduling:
         is_parent: "Šio darbų paketo datos yra automatiškai nustatomos pagal jo vaikų datas. Norėdami nustatyti kitokias datas įjunkite „Rankinį tvarkaraščio parinkimą“"
         is_switched_from_manual_to_automatic: "Po perjungimo iš rankinio į automatinį tvarkaraščio parinkimą, šio darbų paketo datas gali reikėti perskaičiuoti, nes yra sąryšių su kitais darbų paketais."
+      sharing:
+        share: 'Dalintis'
+        title: "Dalintis darbo paketu"
+        selected_count: "%{count} pažymėta"
+        selection:
+          mixed: "Mišrus"
       table:
         configure_button: 'Sukonfigūruokite darbų paketo lentelę'
         summary: "Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų."

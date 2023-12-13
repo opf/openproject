@@ -34,9 +34,9 @@ RSpec.describe 'API v3 Root resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions: []) }
+  let(:role) { create(:project_role, permissions: []) }
   let(:project) { create(:project, public: false) }
 
   describe '#get' do
@@ -50,12 +50,18 @@ RSpec.describe 'API v3 Root resource' do
         get get_path
       end
 
-      it 'responds with 200' do
-        expect(response.status).to eq(200)
+      context 'when login_required', with_settings: { login_required: true } do
+        it_behaves_like 'error response',
+                        401,
+                        'Unauthenticated',
+                        I18n.t('api_v3.errors.code_401')
       end
 
-      it 'responds with a root representer' do
-        expect(subject).to have_json_path('instanceName')
+      context 'when not login_required', with_settings: { login_required: false } do
+        it 'responds with 200', :aggregate_failures do
+          expect(response.status).to eq(200)
+          expect(subject).to have_json_path('instanceName')
+        end
       end
     end
 

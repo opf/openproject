@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'messages', js: true do
+RSpec.describe 'messages', :js do
   let(:forum) do
     create(:forum)
   end
@@ -41,23 +41,21 @@ RSpec.describe 'messages', js: true do
 
   let(:user) do
     create(:user,
-           member_in_project: forum.project,
-           member_through_role: role,
+           member_with_roles: { forum.project => role },
            notification_settings: [
              build(:notification_setting, **notification_settings_all_false, watched: true)
            ])
   end
   let(:other_user) do
     create(:user,
-           member_in_project: forum.project,
-           member_through_role: role,
+           member_with_roles: { forum.project => role },
            notification_settings: [
              build(:notification_setting, **notification_settings_all_false, watched: true)
            ]).tap do |u|
       forum.watcher_users << u
     end
   end
-  let(:role) { create(:role, permissions: [:add_messages]) }
+  let(:role) { create(:project_role, permissions: [:add_messages]) }
 
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 
@@ -80,14 +78,15 @@ RSpec.describe 'messages', js: true do
     SeleniumHubWaiter.wait
     create_page.add_text 'There is no message here'
 
-    show_page = perform_enqueued_jobs do
+    perform_enqueued_jobs do
       create_page.click_save
+      expect(page).to have_text 'There is no message here'
+      show_page = Pages::Messages::Show.new(Message.last)
+      show_page.expect_current_path
+
+      show_page.expect_subject('The message is')
+      show_page.expect_content('There is no message here')
     end
-
-    show_page.expect_current_path
-
-    show_page.expect_subject('The message is')
-    show_page.expect_content('There is no message here')
 
     index_page.visit!
     click_link forum.name
@@ -111,18 +110,21 @@ RSpec.describe 'messages', js: true do
 
     login_as other_user
 
+    show_page = Pages::Messages::Show.new(Message.last)
     show_page.visit!
     show_page.expect_no_replies
 
     reply = perform_enqueued_jobs do
-      show_page.reply 'But, but there should be one'
+      message = show_page.reply 'But, but there should be one'
+
+      show_page.expect_current_path(message)
+      show_page.expect_num_replies(1)
+
+      show_page.expect_reply(subject: 'RE: The message is',
+                             content: 'But, but there should be one')
+
+      message
     end
-
-    show_page.expect_current_path(reply)
-    show_page.expect_num_replies(1)
-
-    show_page.expect_reply(subject: 'RE: The message is',
-                           content: 'But, but there should be one')
 
     index_page.visit!
     click_link forum.name
@@ -159,8 +161,7 @@ RSpec.describe 'messages', js: true do
     expect(page).to have_selector('blockquote', text: 'But, but there should be one')
 
     # Quoting the first message
-    show_page.quote(quoted_message: nil,
-                    subject: 'Also quoting the first message',
+    show_page.quote(subject: 'Also quoting the first message',
                     content: "Should also work")
 
     show_page.expect_num_replies(3)

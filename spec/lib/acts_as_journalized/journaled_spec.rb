@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe 'Journalized Objects' do
   describe 'journal_editable_by?' do
     context 'when the journable is a work package' do
-      let!(:user) { create(:user, member_in_project: project, member_with_permissions: []) }
+      let!(:user) { create(:user, member_with_permissions: { project => [] }) }
       let!(:project) { create(:project_with_types) }
       let!(:work_package) do
         create(:work_package,

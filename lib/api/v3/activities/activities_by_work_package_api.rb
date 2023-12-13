@@ -50,7 +50,7 @@ module API
             requires :comment, type: Hash
           end
           post do
-            authorize({ controller: :journals, action: :new }, context: @work_package.project) do
+            authorize_in_work_package({ controller: :journals, action: :new }, work_package: @work_package) do
               raise ::API::Errors::NotFound.new
             end
 

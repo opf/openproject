@@ -1,5 +1,32 @@
 # /api/v3/storages
 ---
+get:
+  summary: Get Storages
+  operationId: list_storages
+  tags:
+    - File links
+  description: Returns a collection of storages.
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/storage_collection_model.yml'
+          examples:
+            'Simple storage collection':
+              $ref: '../components/examples/storages-simple-collection-response.yml'
+    '400':
+      description: Returned if the client sends invalid request parameters e.g. filters
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: Filters Invalid filter does not exist.
+
 post:
   summary: Creates a storage.
   operationId: create_storage
@@ -27,3 +54,27 @@ post:
         application/hal+json:
           schema:
             $ref: '../components/schemas/storage_read_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Depends on the page the grid is defined for.
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

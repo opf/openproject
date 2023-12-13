@@ -36,9 +36,9 @@ RSpec.describe 'API v3 Grids resource for Board Grids', content_type: :json do
   shared_let(:manage_board_views_project) { create(:project) }
   shared_let(:show_board_views_project) { create(:project) }
   shared_let(:other_project) { create(:project) }
-  shared_let(:show_board_views_role) { create(:role, permissions: [:show_board_views]) }
-  shared_let(:manage_board_views_role) { create(:role, permissions: [:manage_board_views]) }
-  shared_let(:other_role) { create(:role, permissions: []) }
+  shared_let(:show_board_views_role) { create(:project_role, permissions: [:show_board_views]) }
+  shared_let(:manage_board_views_role) { create(:project_role, permissions: [:manage_board_views]) }
+  shared_let(:other_role) { create(:project_role, permissions: []) }
   shared_let(:current_user) do
     create(:user).tap do |user|
       create(:member, user:, project: manage_board_views_project, roles: [manage_board_views_role])
@@ -97,7 +97,7 @@ RSpec.describe 'API v3 Grids resource for Board Grids', content_type: :json do
 
     context 'with a filter on the scope attribute for all boards of a project' do
       # The user would be able to see both boards
-      shared_let(:other_role) { create(:role, permissions: [:show_board_views]) }
+      shared_let(:other_role) { create(:project_role, permissions: [:show_board_views]) }
 
       let(:path) do
         filter = [{ 'scope' =>

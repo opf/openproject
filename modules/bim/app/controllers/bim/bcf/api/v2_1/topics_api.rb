@@ -63,7 +63,7 @@ module Bim::Bcf::API::V2_1
       end
 
       after_validation do
-        authorize :view_linked_issues, context: @project
+        authorize_in_project(:view_linked_issues, project: @project)
       end
 
       get &::Bim::Bcf::API::V2_1::Endpoints::Index

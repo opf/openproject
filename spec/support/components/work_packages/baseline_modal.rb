@@ -34,7 +34,7 @@ module Components
       include RSpec::Matchers
 
       def toggle_drop_modal
-        page.find('[data-qa-selector="baseline-button"]').click
+        page.find('[data-test-selector="baseline-button"]').click
       end
 
       def expect_closed

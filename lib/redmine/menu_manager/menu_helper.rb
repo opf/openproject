@@ -136,7 +136,6 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def render_menu_node_with_children(node, project = nil)
     content_tag :li, menu_node_options(node) do
       items = [
@@ -148,8 +147,6 @@ module Redmine::MenuManager::MenuHelper
       safe_join(items, "\n")
     end
   end
-
-  # rubocop:enable Metrics/AbcSize
 
   def render_wrapped_menu_parent_node(node, project)
     html_id = node.html_options[:id] || node.name
@@ -232,7 +229,7 @@ module Redmine::MenuManager::MenuHelper
                              lang: menu_item_locale(item)) do
       title_text = ''.html_safe + content_tag(:span, caption, class: 'ellipsis') + badge_for(item)
       if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
-        title_text << (''.html_safe + spot_icon('enterprise-addons', size: '1_25', classnames: 'upsale-icon_highlighted'))
+        title_text << (''.html_safe + spot_icon('enterprise-addons', size: '1_25', classnames: 'upsale-colored'))
       end
       title_text
     end
@@ -244,7 +241,7 @@ module Redmine::MenuManager::MenuHelper
     html_options = item.html_options(selected:)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
     html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
-    html_options['data-qa-selector'] = "#{menu_class}--item-action"
+    html_options['data-test-selector'] = "#{menu_class}--item-action"
     html_options['target'] = '_blank' if item.icon_after.present? && item.icon_after == 'external-link'
 
     link_to link_text, url, html_options
@@ -301,7 +298,7 @@ module Redmine::MenuManager::MenuHelper
             ':child_menus must be an array of MenuItems'
     end
 
-    if User.current.allowed_to?(menu_item.url(project), project)
+    if User.current.allowed_in_project?(menu_item.url(project), project)
       link_to(menu_item.caption,
               menu_item.url(project),
               menu_item.html_options)
@@ -417,11 +414,16 @@ module Redmine::MenuManager::MenuHelper
 
   def node_action_allowed?(node, project, user)
     return true if node.skip_permissions_check?
+    return false if user.nil?
 
     url = node.url(project)
     return true unless url
 
-    user&.allowed_to?(url, project)
+    begin
+      user.allowed_based_on_permission_context?(url, project:)
+    rescue Authorization::UnknownPermissionError, Authorization::IllegalPermissionContextError
+      false
+    end
   end
 
   def visible_node?(menu, node)

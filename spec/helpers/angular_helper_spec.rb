@@ -39,7 +39,7 @@ RSpec.describe AngularHelper do
   end
   let(:data) do
     {
-      'qa-selector': 'foo'
+      'test-selector': 'foo'
     }
   end
 
@@ -63,7 +63,7 @@ RSpec.describe AngularHelper do
           data-number="1"
           data-an-array="[1,2,3]"
           data-some-random-object="{&quot;complex&quot;:true,&quot;foo&quot;:&quot;bar&quot;}"
-          data-qa-selector="foo"
+          data-test-selector="foo"
         /></op-test>
       HTML
     end

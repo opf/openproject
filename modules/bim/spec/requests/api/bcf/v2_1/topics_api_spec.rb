@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-require_relative './shared_responses'
+require_relative 'shared_responses'
 
 RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
   include Rack::Test::Methods
@@ -37,40 +37,35 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
 
   let(:view_only_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_linked_issues view_work_packages work_package_assigned])
+           member_with_permissions: { project => %i[view_linked_issues view_work_packages work_package_assigned] })
   end
   let(:only_member_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: [])
+           member_with_permissions: { project => [] })
   end
   let(:edit_member_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[manage_bcf
-                                       add_work_packages
-                                       view_linked_issues
-                                       view_work_packages
-                                       edit_work_packages])
+           member_with_permissions: { project => %i[manage_bcf
+                                                    add_work_packages
+                                                    view_linked_issues
+                                                    view_work_packages
+                                                    edit_work_packages] })
   end
   let(:edit_and_delete_member_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[delete_bcf
-                                       delete_work_packages
-                                       manage_bcf
-                                       add_work_packages
-                                       view_linked_issues
-                                       view_work_packages])
+           member_with_permissions: { project => %i[delete_bcf
+                                                    delete_work_packages
+                                                    manage_bcf
+                                                    add_work_packages
+                                                    view_linked_issues
+                                                    view_work_packages] })
   end
   let(:edit_work_package_member_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[add_work_packages
-                                       view_linked_issues
-                                       edit_work_packages
-                                       view_work_packages])
+           member_with_permissions: { project => %i[add_work_packages
+                                                    view_linked_issues
+                                                    edit_work_packages
+                                                    view_work_packages] })
   end
   let(:non_member_user) do
     create(:user)
@@ -122,7 +117,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           {
             assigned_to: assignee.mail,
             creation_author: work_package.author.mail,
-            creation_date: work_package.created_at.iso8601,
+            creation_date: work_package.created_at.iso8601(3),
             description: work_package.description,
             due_date: work_package.due_date.iso8601,
             guid: bcf_issue.uuid,
@@ -130,7 +125,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
             labels: bcf_issue.labels,
             priority: work_package.priority.name,
             modified_author: current_user.mail,
-            modified_date: work_package.updated_at.iso8601,
+            modified_date: work_package.updated_at.iso8601(3),
             reference_links: [
               api_v3_paths.work_package(work_package.id)
             ],
@@ -170,7 +165,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
             {
               assigned_to: assignee.mail,
               creation_author: work_package.author.mail,
-              creation_date: work_package.created_at.iso8601,
+              creation_date: work_package.created_at.iso8601(3),
               description: work_package.description,
               due_date: work_package.due_date.iso8601,
               guid: bcf_issue.uuid,
@@ -178,7 +173,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
               labels: bcf_issue.labels,
               priority: work_package.priority.name,
               modified_author: current_user.mail,
-              modified_date: work_package.updated_at.iso8601,
+              modified_date: work_package.updated_at.iso8601(3),
               reference_links: [
                 api_v3_paths.work_package(work_package.id)
               ],
@@ -215,7 +210,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         {
           assigned_to: assignee.mail,
           creation_author: work_package.author.mail,
-          creation_date: work_package.created_at.iso8601,
+          creation_date: work_package.created_at.iso8601(3),
           description: work_package.description,
           due_date: work_package.due_date.iso8601,
           guid: bcf_issue.uuid,
@@ -223,7 +218,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           labels: bcf_issue.labels,
           priority: work_package.priority.name,
           modified_author: current_user.mail,
-          modified_date: work_package.updated_at.iso8601,
+          modified_date: work_package.updated_at.iso8601(3),
           reference_links: [
             api_v3_paths.work_package(work_package.id)
           ],
@@ -267,7 +262,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           {
             assigned_to: assignee.mail,
             creation_author: work_package.author.mail,
-            creation_date: work_package.created_at.iso8601,
+            creation_date: work_package.created_at.iso8601(3),
             description: work_package.description,
             due_date: work_package.due_date.iso8601,
             guid: bcf_issue.uuid,
@@ -275,7 +270,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
             labels: bcf_issue.labels,
             priority: work_package.priority.name,
             modified_author: current_user.mail,
-            modified_date: work_package.updated_at.iso8601,
+            modified_date: work_package.updated_at.iso8601(3),
             reference_links: [
               api_v3_paths.work_package(work_package.id)
             ],
@@ -311,8 +306,8 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
     end
 
     it 'deletes the Bcf Issue as well as the belonging Work Package' do
-      expect(WorkPackage.where(id: work_package.id)).to match_array []
-      expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to match_array []
+      expect(WorkPackage.where(id: work_package.id)).to be_empty
+      expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to be_empty
     end
 
     context 'lacking permission to delete bcf' do
@@ -321,8 +316,8 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       it_behaves_like 'bcf api not allowed response'
 
       it 'deletes neither the Work Package nor the Bcf Issue' do
-        expect(WorkPackage.where(id: work_package.id)).to match_array [work_package]
-        expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to match_array [bcf_issue]
+        expect(WorkPackage.where(id: work_package.id)).to contain_exactly(work_package)
+        expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to contain_exactly(bcf_issue)
       end
     end
   end
@@ -569,9 +564,9 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           due_date: Date.today.iso8601,
           stage:,
           creation_author: edit_member_user.mail,
-          creation_date: work_package&.created_at&.iso8601,
+          creation_date: work_package&.created_at&.iso8601(3),
           modified_author: edit_member_user.mail,
-          modified_date: work_package&.updated_at&.iso8601,
+          modified_date: work_package&.updated_at&.iso8601(3),
           description:,
           authorization: {
             topic_status: [other_status.name, status.name],
@@ -608,9 +603,9 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         due_date: due_date || base&.due_date,
         stage: nil,
         creation_author: creation_author_mail,
-        creation_date: work_package&.created_at&.iso8601,
+        creation_date: work_package&.created_at&.iso8601(3),
         modified_author: modified_author_mail,
-        modified_date: work_package&.updated_at&.iso8601,
+        modified_date: work_package&.updated_at&.iso8601(3),
         description: description || base&.description,
         authorization: {
           topic_status: [(base && base.status.name) || default_status.name],
@@ -820,9 +815,9 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           due_date: Date.today.iso8601,
           stage: nil,
           creation_author: work_package.author.mail,
-          creation_date: work_package&.created_at&.iso8601,
+          creation_date: work_package&.created_at&.iso8601(3),
           modified_author: edit_member_user.mail,
-          modified_date: work_package&.updated_at&.iso8601,
+          modified_date: work_package&.updated_at&.iso8601(3),
           description:,
           authorization: {
             topic_status: [other_status.name, status.name],
@@ -859,9 +854,9 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
             due_date: nil,
             stage: nil,
             creation_author: work_package.author.mail,
-            creation_date: work_package&.created_at&.iso8601,
+            creation_date: work_package&.created_at&.iso8601(3),
             modified_author: edit_member_user.mail,
-            modified_date: reloaded_work_package&.updated_at&.iso8601,
+            modified_date: reloaded_work_package&.updated_at&.iso8601(3),
             description: nil,
             authorization: {
               topic_status: [default_status.name],

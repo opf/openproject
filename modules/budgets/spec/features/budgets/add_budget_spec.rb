@@ -97,7 +97,7 @@ RSpec.describe 'adding a new budget', js: true do
     let(:new_budget_page) { Pages::NewBudget.new project.identifier }
     let(:budget_page) { Pages::EditBudget.new Budget.last }
 
-    let(:project_members) { { user => create(:role, permissions: %i[work_package_assigned]) } }
+    let(:project_members) { { user => create(:project_role, permissions: %i[work_package_assigned]) } }
 
     before do
       create(:cost_rate, cost_type:, rate: 50.0)

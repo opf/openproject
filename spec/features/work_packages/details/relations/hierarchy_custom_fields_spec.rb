@@ -65,13 +65,13 @@ RSpec.describe 'creating a child directly after the wp itself was created', js: 
 
     # Add child
     scroll_to_and_click relations_tab
-    find('[data-qa-selector="op-wp-inline-create"]').click
+    find_test_selector('op-wp-inline-create').click
     fill_in 'wp-new-inline-edit--field-subject', with: 'A child WP'
     find_by_id('wp-new-inline-edit--field-subject').native.send_keys(:return)
 
     # Expect CF value to be still visible
     wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
-    expect(wp_page).to have_selector('[data-qa-selector="tab-count"]', text: "(1)")
+    expect(wp_page).to have_test_selector('tab-count', text: "(1)")
     wp_page.expect_attributes "customField#{custom_field.id}": '42'
   end
 end

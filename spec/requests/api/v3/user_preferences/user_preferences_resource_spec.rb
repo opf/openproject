@@ -57,12 +57,15 @@ RSpec.describe 'API v3 UserPreferences resource', content_type: :json do
     context 'when not logged in' do
       let(:user) { User.anonymous }
 
-      it 'responds with 200' do
-        expect(subject.status).to eq(200)
+      context 'when login_required', with_settings: { login_required: true } do
+        it_behaves_like 'unauthenticated access'
       end
 
-      it 'responds with a UserPreferences representer' do
-        expect(subject.body).to be_json_eql('UserPreferences'.to_json).at_path('_type')
+      context 'when not login_required', with_settings: { login_required: false } do
+        it 'responds with a UserPreferences representer', :aggregate_failures do
+          expect(subject.status).to eq(200)
+          expect(subject.body).to be_json_eql('UserPreferences'.to_json).at_path('_type')
+        end
       end
     end
 

@@ -37,7 +37,7 @@ class DateEditField < EditField
            :toggle_scheduling_mode, to: :datepicker
 
   def modal_selector
-    '[data-qa-selector="op-datepicker-modal"]'
+    '[data-test-selector="op-datepicker-modal"]'
   end
 
   def input_selector
@@ -71,13 +71,13 @@ class DateEditField < EditField
 
   def activate_start_date_within_modal
     within_modal do
-      find('[data-qa-selector="op-datepicker-modal--start-date-field"]').click
+      find('[data-test-selector="op-datepicker-modal--start-date-field"]').click
     end
   end
 
   def activate_due_date_within_modal
     within_modal do
-      find('[data-qa-selector="op-datepicker-modal--end-date-field"]').click
+      find('[data-test-selector="op-datepicker-modal--end-date-field"]').click
     end
   end
 
@@ -170,6 +170,6 @@ class DateEditField < EditField
   end
 
   def action_button(text)
-    page.find("#{modal_selector} [data-qa-selector='op-datepicker-modal--action']", text:)
+    page.find("#{modal_selector} [data-test-selector='op-datepicker-modal--action']", text:)
   end
 end

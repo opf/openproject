@@ -58,8 +58,7 @@ RSpec.describe 'Overview page managing', js: true do
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:overview_page) do
     Pages::Overview.new(project)

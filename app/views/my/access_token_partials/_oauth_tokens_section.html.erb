@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
               <% granted_applications.each do |application, tokens| %>
                 <% latest = tokens.sort_by(&:created_at).last %>
                 <tr id="oauth-application-grant-<%= application.id %>">
-                  <td class="-w-rel-60" data-qa-selector="oauth-token-row-<%= application.id %>-name">
+                  <td class="-w-rel-60" data-test-selector="oauth-token-row-<%= application.id %>-name">
                     <%= t('oauth.application.named', name: application.name) %>
                     &nbsp;
                     (<%= t('oauth.x_active_tokens', count: tokens.count) %>)
@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
                                 revoke_my_oauth_application_path(application_id: application.id),
                                 data: { confirm: t('oauth.revoke_my_application_confirmation',
                                         token_count: t('oauth.x_active_tokens', count: tokens.count)),
-                                        qa_selector: "oauth-token-row-#{application.id}-revoke" },
+                                        test_selector: "oauth-token-row-#{application.id}-revoke" },
                                 method: :post,
                                 class: 'icon icon-delete' %>
                   </td>

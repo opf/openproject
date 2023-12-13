@@ -28,18 +28,31 @@ hu:
   activerecord:
     attributes:
       meeting:
+        type: "Meeting type"
         location: "Helyszín"
         duration: "Időtartam"
+        notes: "Jegyzet"
         participants: "Közreműködők"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
         participants_attended: "Résztvevők"
         participants_invited: "Meghívottak"
-        project: "Project"
+        project: "Projekt"
+        start_date: "dátum"
         start_time: "Idő"
         start_time_hour: "Kezdési időpont"
+      meeting_agenda_items:
+        title: "Cím"
+        author: "Felelős"
+        duration_in_minutes: "Duration (min)"
+        description: "Jegyzet"
     errors:
       messages:
         invalid_time_format: "nem egy érvényes időpont. Előírt formátum: óó:pp"
     models:
+      structured_meeting: "Meeting (dynamic)"
+      meeting_agenda_item: "Agenda item"
       meeting_agenda: "Napirend"
       meeting_minutes: "Jegyzőkönyv"
   activity:
@@ -68,6 +81,8 @@ hu:
   label_meeting_diff: "Eltérés"
   label_upcoming_meetings: "Upcoming meetings"
   label_past_meetings: "Past meetings"
+  label_upcoming_meetings_short: "Upcoming"
+  label_past_meetings_short: "Past"
   label_involvement: "Involvement"
   label_upcoming_invitations: "Upcoming invitations"
   label_past_invitations: "Past invitations"
@@ -75,10 +90,28 @@ hu:
   label_author: "Creator"
   label_notify: "Küldés véleményezésre"
   label_icalendar: "iCalendar küldése"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "Verzió"
   label_time_zone: "Időzóna"
   label_start_date: "Kezdési dátum"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        header: "Meeting %{title} has been rescheduled"
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
+    types:
+      classic: 'Classic'
+      classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
+      structured: 'Dynamic'
+      structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "#%{id} megbeszélésből másolva"
   notice_successful_notification: "Értesítés sikeresen kiküldve"
   notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.
@@ -86,7 +119,10 @@ hu:
   permission_edit_meetings: "Megbeszélések szerkesztése"
   permission_delete_meetings: "Megbeszélések törlése"
   permission_view_meetings: "Megbeszélések megtekintése"
-  permission_create_meeting_agendas: "Napirendek kezelése"
+  permission_create_meeting_agendas: "Create meeting agendas"
+  permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
+  permission_manage_agendas: "Napirendek kezelése"
+  permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
   permission_close_meeting_agendas: "Napirendek lezárása"
   permission_send_meeting_agendas_notification: "Napirend véleményezésre küldésének értesítése"
   permission_create_meeting_minutes: "Jegyzőkönyvek kezelése"
@@ -100,6 +136,45 @@ hu:
   text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "Ez minden változást felül fog írni. Biztosan folytani akarja?"
   text_meeting_minutes_for_meeting: 'a "%{meeting}" megbeszélés jegyzőkönyve'
-  text_review_meeting_agenda: "%{author} véleményezésre küldte %{link} -t."
-  text_review_meeting_minutes: "%{author} véleményezésre küldte %{link} -t."
   text_notificiation_invited: "Ez a levél alább egy ics bejegyzést tartalmaz a megbeszélésről:"
+  text_meeting_empty_heading: "Your meeting is empty"
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."
+  text_meeting_empty_description_2: "You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's \"Meetings\" tab."
+  label_meeting_empty_action: "Add agenda item"
+  label_meeting_actions: "Meeting actions"
+  label_meeting_edit_title: "Edit meeting title"
+  label_meeting_delete: "Delete meeting"
+  label_meeting_created_by: "Létrehozta"
+  label_meeting_last_updated: "Last updated"
+  label_agenda_item_undisclosed_wp: "Undisclosed work package reference #%{id}"
+  label_agenda_item_deleted_wp: "Deleted work package reference"
+  label_agenda_item_actions: "Agenda items actions"
+  label_agenda_item_move_to_top: "Mozgatás felfelé"
+  label_agenda_item_move_to_bottom: "Mozgatás az aljára"
+  label_agenda_item_move_up: "Mozgatás felfelé"
+  label_agenda_item_move_down: "Mozgás lefelé"
+  label_agenda_item_add_notes: "Megjegyzések hozzáadása"
+  label_meeting_details: "Meeting details"
+  label_meeting_details_edit: "Edit meeting details"
+  label_meeting_state_open: "Open"
+  label_meeting_state_closed: "Lezárva"
+  label_meeting_reopen_action: "Reopen meeting"
+  label_meeting_close_action: "Close meeting"
+  text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
+  text_meeting_closed_description: "This meeting is closed. You cannot add/remove agenda items anymore."
+  label_meeting_manage_participants: "Manage participants"
+  label_meeting_no_participants: "No participants"
+  label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Minden megjelenítése"
+  label_meeting_add_participants: "Add participants"
+  text_meeting_not_editable_anymore: "This meeting is not editable anymore."
+  text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."
+  label_add_work_package_to_meeting_dialog_title: "Add work package to meeting"
+  label_add_work_package_to_meeting_dialog_button: "Add to meeting"
+  label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
+  text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
+  text_agenda_item_no_notes: "No notes provided"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
+  text_work_package_add_to_meeting_hint: "Use the \"Add to meeting\" button to add this work package to an upcoming meeting."
+  text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

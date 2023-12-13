@@ -58,20 +58,22 @@ module Pages
     end
 
     def resize_date(work_package, date, end_date: true)
-      wp_strip = event(work_package)
+      retry_block do
+        wp_strip = event(work_package)
 
-      page
-        .driver
-        .browser
-        .action
-        .move_to(wp_strip.native)
-        .perform
+        page
+          .driver
+          .browser
+          .action
+          .move_to(wp_strip.native)
+          .perform
 
-      selector = end_date ? '.fc-event-resizer-end' : '.fc-event-resizer-start'
-      resizer = wp_strip.find(selector)
-      end_container = date_container date
+        selector = end_date ? '.fc-event-resizer-end' : '.fc-event-resizer-start'
+        resizer = wp_strip.find(selector)
+        end_container = date_container date
 
-      drag_n_drop_element(from: resizer, to: end_container)
+        drag_n_drop_element(from: resizer, to: end_container)
+      end
     end
 
     def drag_event(work_package, target)
@@ -119,7 +121,7 @@ module Pages
     end
 
     def set_project(project)
-      select_autocomplete(find('[data-qa-selector="project_id"]'),
+      select_autocomplete(find('[data-test-selector="project_id"]'),
                           query: project,
                           results_selector: 'body',
                           wait_for_fetched_options: false)
@@ -156,11 +158,11 @@ module Pages
     end
 
     def expect_delete_button(query)
-      expect(page).to have_selector "[data-qa-selector='calendar-remove-#{query.id}']"
+      expect(page).to have_selector "[data-test-selector='calendar-remove-#{query.id}']"
     end
 
     def expect_no_delete_button(query)
-      expect(page).not_to have_selector "[data-qa-selector='calendar-remove-#{query.id}']"
+      expect(page).not_to have_selector "[data-test-selector='calendar-remove-#{query.id}']"
     end
 
     def expect_no_views_visible

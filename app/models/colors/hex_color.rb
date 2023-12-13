@@ -53,7 +53,7 @@ module Colors
     # Splits the hexcode into rbg color array
     def rgb_colors
       hexcode
-        .gsub('#', '') # Remove trailing #
+        .delete('#') # Remove trailing #
         .scan(/../) # Pair hex chars
         .map(&:hex) # to int
     end

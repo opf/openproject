@@ -32,8 +32,7 @@ RSpec.describe 'Work package calendars', js: true do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages view_calendar manage_calendars])
+           member_with_permissions: { project => %i[view_work_packages view_calendar manage_calendars] })
   end
   let!(:current_work_package) do
     create(:work_package,

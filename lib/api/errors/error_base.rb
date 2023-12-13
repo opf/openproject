@@ -88,7 +88,7 @@ module API
           errors.attribute_names.each do |attribute|
             api_attribute_name = ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
 
-            errors.symbols_and_messages_for(attribute).each do |symbol, message|
+            symbols_and_messages_for(errors, attribute).each do |symbol, message|
               api_errors << if symbol == :error_readonly
                               ::API::Errors::UnwritableProperty.new(api_attribute_name, message)
                             else
@@ -98,6 +98,13 @@ module API
           end
 
           api_errors
+        end
+
+        def symbols_and_messages_for(errors, attribute)
+          symbols = errors.details[attribute].pluck(:error)
+          messages = errors.full_messages_for(attribute)
+
+          symbols.zip(messages)
         end
       end
 

@@ -38,8 +38,8 @@ class CostQuery::Filter::UserId < Report::Filter::Base
   def transformed_values
     # Map the special 'me' value
     super
-        .map { |val| replace_me_value(val) }
-        .compact
+        .filter_map { |val| replace_me_value(val) }
+        
   end
 
   def replace_me_value(value)

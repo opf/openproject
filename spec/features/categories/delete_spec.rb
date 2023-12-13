@@ -32,8 +32,7 @@ require 'features/categories/categories_page'
 RSpec.describe 'Deletion', js: true, with_cuprite: true do
   let(:current_user) do
     create(:user,
-           member_in_project: category.project,
-           member_with_permissions: %i[manage_categories])
+           member_with_permissions: { category.project => %i[manage_categories] })
   end
   let(:category) { create(:category) }
   let(:categories_page) { CategoriesPage.new(category.project) }

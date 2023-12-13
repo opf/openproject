@@ -28,18 +28,31 @@ fr:
   activerecord:
     attributes:
       meeting:
+        type: "Type de réunion"
         location: "Lieu"
         duration: "Durée"
+        notes: "Notes"
         participants: "Participant(s)"
+        participant:
+          one: "1 participant"
+          other: "%{count} participants"
         participants_attended: "Présent(s)"
         participants_invited: "Invités"
         project: "Projet"
+        start_date: "Date"
         start_time: "Heure "
         start_time_hour: "Heure de début"
+      meeting_agenda_items:
+        title: "Titre"
+        author: "Responsable"
+        duration_in_minutes: "Durée (min)"
+        description: "Notes"
     errors:
       messages:
         invalid_time_format: "n’est pas une heure valide. Format requis : HH:MM"
     models:
+      structured_meeting: "Réunion (dynamique)"
+      meeting_agenda_item: ""
       meeting_agenda: "Ordre du jour"
       meeting_minutes: "Compte-rendu"
   activity:
@@ -68,6 +81,8 @@ fr:
   label_meeting_diff: "Différence"
   label_upcoming_meetings: "Réunions à venir"
   label_past_meetings: "Réunions passées"
+  label_upcoming_meetings_short: "À venir"
+  label_past_meetings_short: "Passé"
   label_involvement: "Participation"
   label_upcoming_invitations: "Invitations à venir"
   label_past_invitations: "Invitations passées"
@@ -75,10 +90,28 @@ fr:
   label_author: "Créateur"
   label_notify: "Envoyer pour révision"
   label_icalendar: "Envoyer iCalendar"
+  label_icalendar_download: "Télécharger l'événement iCalendar"
   label_version: "Version"
   label_time_zone: "Fuseau horaire"
   label_start_date: "Date de début"
   meeting:
+    email:
+      open_meeting_link: "Ouvrir la réunion"
+      invited:
+        summary: "%{actor} vous a envoyé une invitation pour la réunion %{title}"
+      rescheduled:
+        header: "Meeting %{title} has been rescheduled"
+        summary: "La réunion %{title} a été reprogrammée par %{actor}"
+        body: "La réunion %{title} a été reprogrammée par %{actor}."
+        old_date_time: "Ancienne date/heure"
+        new_date_time: "Nouvelle date/heure"
+    label_mail_all_participants: "Envoyer un mail à tous les participants"
+    types:
+      classic: 'Classique'
+      classic_text: 'Organisez votre réunion sous la forme d''un ordre du jour et d''un protocole en texte formatable.'
+      structured: 'Dynamique'
+      structured_text: 'Organisez votre réunion sous la forme d''une liste de points à l''ordre du jour, en les reliant éventuellement à des lots de travaux.'
+      structured_text_copy: 'Actuellement, la copie d''une réunion n''entraîne pas la copie des points de l''ordre du jour de la réunion, mais uniquement des détails.'
     copied: "Copié depuis la réunion #%{id}"
   notice_successful_notification: "Notification envoyée avec succès"
   notice_timezone_missing: Aucun fuseau horaire n'est défini et %{zone} est supposé. Pour choisir votre fuseau horaire, veuillez cliquer ici.
@@ -86,7 +119,10 @@ fr:
   permission_edit_meetings: "Modifier les réunions"
   permission_delete_meetings: "Supprimer des réunions"
   permission_view_meetings: "Afficher les réunions"
-  permission_create_meeting_agendas: "Gérer les ordres du jour"
+  permission_create_meeting_agendas: "Établir l'ordre du jour des réunions"
+  permission_create_meeting_agendas_explanation: "Permet de modifier le contenu de l'agenda des réunions classiques."
+  permission_manage_agendas: "Gérer les ordres du jour"
+  permission_manage_agendas_explanation: "Permet de modifier le contenu de l'agenda des réunions dynamiques."
   permission_close_meeting_agendas: "Fermer les ordres du jour"
   permission_send_meeting_agendas_notification: "Envoyer une notification de révision pour les ordres du jour"
   permission_create_meeting_minutes: "Gérer les minutes"
@@ -100,6 +136,45 @@ fr:
   text_meeting_closing_are_you_sure: "Voulez-vous vraiment clôturer l'ordre du jour de la réunion ?"
   text_meeting_agenda_open_are_you_sure: "Ceci va écraser toutes les modifications dans les minutes ! Voulez-vous continuer ?"
   text_meeting_minutes_for_meeting: 'Minutes de la réunion "%{meeting}"'
-  text_review_meeting_agenda: "%{author} à marqué le %{link} pour vérification."
-  text_review_meeting_minutes: "%{author} à marqué le %{link} pour vérification."
   text_notificiation_invited: "Cet e-mail contient une entrée ics pour la réunion ci-dessous :"
+  text_meeting_empty_heading: "Votre réunion est vide"
+  text_meeting_empty_description_1: "Commencez par ajouter des points à l'ordre du jour ci-dessous. Chaque élément peut être aussi simple qu'un titre, mais vous pouvez également ajouter des détails supplémentaires comme la durée et des notes."
+  text_meeting_empty_description_2: "Vous pouvez également ajouter des références aux lots de travaux existants. Les notes connexes seront automatiquement visibles dans l'onglet \"Réunions\" du lot de travaux concerné."
+  label_meeting_empty_action: "Ajouter un point d'ordre du jour"
+  label_meeting_actions: "Actions pour la réunion"
+  label_meeting_edit_title: "Modifier le titre de la réunion"
+  label_meeting_delete: "Supprimer la réunion"
+  label_meeting_created_by: "Créé par"
+  label_meeting_last_updated: "Dernière mise à jour"
+  label_agenda_item_undisclosed_wp: "Référence du lot de travaux non divulguée #%{id}"
+  label_agenda_item_deleted_wp: "Référence de lot de travaux supprimée"
+  label_agenda_item_actions: "Actions des points de l'ordre du jour"
+  label_agenda_item_move_to_top: "Déplacer vers le haut"
+  label_agenda_item_move_to_bottom: "Déplacer vers le bas"
+  label_agenda_item_move_up: "Monter"
+  label_agenda_item_move_down: "Descendre"
+  label_agenda_item_add_notes: "Ajouter des notes"
+  label_meeting_details: "Détails de la réunion"
+  label_meeting_details_edit: "Modifier les détails de la réunion"
+  label_meeting_state_open: "Ouvert"
+  label_meeting_state_closed: "Fermé"
+  label_meeting_reopen_action: "Réouvrir la réunion"
+  label_meeting_close_action: "Fermer la réunion"
+  text_meeting_open_description: "Cette réunion est ouverte. Vous pouvez ajouter/supprimer des points de l'ordre du jour et les modifier comme vous le souhaitez. Une fois la réunion terminée, clôturez-la pour la verrouiller."
+  text_meeting_closed_description: "Cette réunion est clôturée. Vous ne pouvez plus ajouter/supprimer des points de l'ordre du jour."
+  label_meeting_manage_participants: "Gérer les participants"
+  label_meeting_no_participants: "Aucun participant"
+  label_meeting_show_hide_participants: "Afficher/masquer %{count} autre(s)"
+  label_meeting_show_all_participants: "Afficher tout"
+  label_meeting_add_participants: "Ajouter des participants"
+  text_meeting_not_editable_anymore: "Cette réunion n'est plus modifiable."
+  text_meeting_not_present_anymore: "Cette réunion a été supprimée. Veuillez sélectionner une autre réunion."
+  label_add_work_package_to_meeting_dialog_title: "Ajouter ce lot de travaux à une réunion"
+  label_add_work_package_to_meeting_dialog_button: "Ajouter à la réunion"
+  label_meeting_selection_caption: "Il n'est possible d'ajouter ce work package qu'aux réunions ouvertes et à venir."
+  text_add_work_package_to_meeting_description: "Un lot de travaux peut être ajouté à une ou plusieurs réunions pour y être discuté. Les éventuelles notes le concernant sont également visibles ici."
+  text_agenda_item_no_notes: "Aucune note fournie"
+  text_agenda_item_not_editable_anymore: "Ce point d'ordre du jour n'est plus modifiable."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Ce lot de travaux n'est pas encore inclus dans l'ordre du jour d'une prochaine réunion."
+  text_work_package_add_to_meeting_hint: "Utilisez le bouton \"Ajouter à la réunion\" pour ajouter ce lot de travaux à une réunion à venir."
+  text_work_package_has_no_past_meeting_agenda_items: "Ce lot de travaux n'a pas été mentionné lors d'une réunion précédente."

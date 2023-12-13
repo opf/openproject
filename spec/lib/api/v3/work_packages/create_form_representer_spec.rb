@@ -101,13 +101,9 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
     describe 'commit' do
       before do
-        allow(current_user)
-          .to receive(:allowed_to?)
-                .and_return(false)
-        allow(current_user)
-          .to receive(:allowed_to?)
-                .with(:edit_work_packages, project)
-                .and_return(true)
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :add_work_packages, project:
+        end
       end
 
       context 'for a valid work package' do
@@ -134,10 +130,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
       context 'for a user with insufficient permissions' do
         before do
-          allow(current_user)
-            .to receive(:allowed_to?)
-                  .with(:edit_work_packages, project)
-                  .and_return(false)
+          mock_permissions_for(current_user, &:forbid_everything)
         end
 
         it 'has no link' do
@@ -148,17 +141,14 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
     describe 'customFields' do
       before do
-        allow(current_user)
-          .to receive(:allowed_to?)
-                .and_return(false)
+        mock_permissions_for(current_user, &:forbid_everything)
       end
 
       context 'with the permission to select custom fields' do
         before do
-          allow(current_user)
-            .to receive(:allowed_to?)
-                  .with(:select_custom_fields, work_package.project)
-                  .and_return(true)
+          mock_permissions_for(current_user) do |mock|
+            mock.allow_in_project :select_custom_fields, project:
+          end
         end
 
         it 'has a link to set the custom fields for that project' do
@@ -183,7 +173,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
     describe 'configureForm' do
       before do
-        allow(current_user).to receive(:allowed_to?).and_return(true)
+        mock_permissions_for(current_user, &:allow_everything)
       end
 
       context 'for an admin and with type' do
@@ -195,12 +185,6 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
                 created_at: DateTime.now,
                 updated_at: DateTime.now,
                 type:)
-        end
-
-        before do
-          allow(current_user).to receive(:allowed_to?)
-            .with(:edit_project, work_package.project)
-            .and_return(false)
         end
 
         it 'has a link to configure the form' do

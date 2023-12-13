@@ -35,13 +35,11 @@ RSpec.describe API::V3::Memberships::UpdateFormAPI, content_type: :json do
   let(:member) { create(:member, project:, roles: [role, another_role]) }
   let(:project) { create(:project) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
-  let(:other_role) { create(:role) }
-  let(:another_role) { create(:role) }
+  let(:role) { create(:project_role, permissions:) }
+  let(:other_role) { create(:project_role) }
+  let(:another_role) { create(:project_role) }
   let(:other_user) { create(:user) }
   let(:permissions) { [:manage_members] }
   let(:path) { api_v3_paths.membership_form(member.id) }
@@ -86,7 +84,7 @@ RSpec.describe API::V3::Memberships::UpdateFormAPI, content_type: :json do
 
     it 'does not update the member (no new roles)' do
       expect(member.roles.reload)
-        .to match_array [role, another_role]
+        .to contain_exactly(role, another_role)
     end
 
     it 'contains the update roles in the payload' do
@@ -146,7 +144,7 @@ RSpec.describe API::V3::Memberships::UpdateFormAPI, content_type: :json do
 
     context 'with wanting to alter the project' do
       let(:other_project) do
-        role = create(:role, permissions:)
+        role = create(:project_role, permissions:)
 
         create(:project,
                members: { user => role })

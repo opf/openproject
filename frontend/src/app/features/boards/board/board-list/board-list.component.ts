@@ -64,6 +64,9 @@ import {
 } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { firstValueFrom } from 'rxjs';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -75,6 +78,7 @@ export interface DisabledButtonPlaceholder {
   templateUrl: './board-list.component.html',
   styleUrls: ['./board-list.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   providers: [
     { provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService },
     BoardListMenuComponent,

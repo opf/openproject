@@ -52,8 +52,8 @@ class Queries::WorkPackages::Filter::PriorityFilter <
     available_priorities = priorities.index_by(&:id)
 
     values
-      .map { |priority_id| available_priorities[priority_id.to_i] }
-      .compact
+      .filter_map { |priority_id| available_priorities[priority_id.to_i] }
+      
   end
 
   private

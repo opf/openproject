@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe 'Project storage members connection status view' do
   let(:user) { create(:user) }
@@ -69,11 +72,11 @@ RSpec.describe 'Project storage members connection status view' do
 
     aggregate_failures 'Verifying Connection Statuses' do
       [
-        [user, 'Not connected. The user should login to the storage via the Files tab of a work package to connect.'],
+        [user, 'Not connected. The user should login to the storage via the following link.'],
         [admin_user, 'Connected'],
         [connected_user, 'Connected'],
         [connected_no_permissions_user, 'User role has no storages permissions'],
-        [disconnected_user, 'Not connected. The user should login to the storage via the Files tab of a work package to connect.']
+        [disconnected_user, 'Not connected. The user should login to the storage via the following link.']
       ].each do |(principal, status)|
         expect(page).to have_selector("#member-#{principal.id} .name", text: principal.name)
         expect(page).to have_selector("#member-#{principal.id} .status", text: status)
@@ -102,8 +105,8 @@ RSpec.describe 'Project storage members connection status view' do
   end
 
   def create_project_with_storage_and_members
-    role_can_read_files = create(:role, permissions: %i[manage_storages_in_project read_files])
-    role_cannot_read_files = create(:role, permissions: %i[manage_storages_in_project])
+    role_can_read_files = create(:project_role, permissions: %i[manage_storages_in_project read_files])
+    role_cannot_read_files = create(:project_role, permissions: %i[manage_storages_in_project])
 
     create(:project,
            members: { user => role_can_read_files,

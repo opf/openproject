@@ -1,5 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared_examples')
+require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
+require File.expand_path("#{File.dirname(__FILE__)}/../shared_examples")
 
 RSpec.describe User do
   let(:user) { build(:user) }
@@ -11,13 +11,13 @@ RSpec.describe User do
   describe "#local_avatar_attachment" do
     subject { user.local_avatar_attachment }
 
-    context "WHEN user has an avatar" do
+    context "when user has an avatar" do
       let(:user) { user_with_avatar }
 
       it { is_expected.to be_a Attachment }
     end
 
-    context "WHEN user has no avatar" do
+    context "when user has no avatar" do
       let(:user) { user_without_avatar }
 
       it { is_expected.to be_blank }
@@ -25,11 +25,11 @@ RSpec.describe User do
   end
 
   describe "#local_avatar_attachment=" do
-    context "WHEN the uploaded file is a good image" do
+    context "when the uploaded file is a good image" do
       subject { lambda { user.local_avatar_attachment = avatar_file } }
 
-      it { is_expected.not_to raise_error }
-      specify { is_expected.to change(user, :local_avatar_attachment) }
+      specify { expect { subject.call }.not_to raise_error }
+      specify { expect { subject.call }.to change(user, :local_avatar_attachment) }
     end
   end
 end

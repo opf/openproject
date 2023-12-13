@@ -51,8 +51,8 @@ module API
         def render_details(journal, html: true, activity_page: nil)
           journal
             .details
-            .map { |d| journal.render_detail(d, html:, activity_page:) }
-            .compact
+            .filter_map { |d| journal.render_detail(d, html:, activity_page:) }
+            
         end
 
         def journal_note(journal)

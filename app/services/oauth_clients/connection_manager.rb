@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -32,14 +34,12 @@ require "uri/http"
 module OAuthClients
   class ConnectionManager
     # Nextcloud API endpoint to check if Bearer token is valid
-    AUTHORIZATION_CHECK_PATH = '/ocs/v1.php/cloud/user'.freeze
     TOKEN_IS_FRESH_DURATION = 10.seconds.freeze
 
-    attr_reader :user, :oauth_client
-
-    def initialize(user:, oauth_client:)
+    def initialize(user:, configuration:)
       @user = user
-      @oauth_client = oauth_client
+      @oauth_client = configuration.oauth_client
+      @config = configuration
     end
 
     # Main method to initiate the OAuth2 flow called by a "client" component
@@ -48,16 +48,19 @@ module OAuthClients
     # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
     # @return ServiceResult with ServiceResult.result being either an OAuthClientToken or a redirection URL
-    def get_access_token(scope: [], state: nil)
+    def get_access_token(state: nil)
       # Check for an already existing token from last call
       token = get_existing_token
       return ServiceResult.success(result: token) if token.present?
 
       # Return the Nextcloud OAuth authorization URI that a user needs to open to grant access and eventually obtain
       # a token.
-      @redirect_url = get_authorization_uri(scope:, state:)
+      @redirect_url = get_authorization_uri(state:)
+
       ServiceResult.failure(result: @redirect_url)
     end
+
+    # rubocop:disable Metrics/AbcSize
 
     # The bearer/access token has expired or is due for renew for other reasons.
     # Talk to OAuth2 Authorization Server to exchange the renew_token for a new bearer token.
@@ -78,19 +81,27 @@ module OAuthClients
             ServiceResult.success(result: oauth_client_token)
           end
         else
-          service_result_with_error(I18n.t('oauth_client.errors.refresh_token_called_without_existing_token'))
+          storage_error = ::Storages::StorageError.new(
+            code: :error,
+            log_message: I18n.t('oauth_client.errors.refresh_token_called_without_existing_token')
+          )
+          ServiceResult.failure(result: :error, errors: storage_error)
         end
       end
     end
+
+    # rubocop:enable Metrics/AbcSize
 
     # Returns the URI of the "authorize" endpoint of the OAuth2 Authorization Server.
     # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
     # return to at the end of the whole flow.
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
-    def get_authorization_uri(scope: [], state: nil)
+    def get_authorization_uri(state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
-      client.authorization_uri(scope:, state:)
+      client.authorization_uri(scope: @config.scope, state:)
     end
+
+    # rubocop:disable Metrics/AbcSize
 
     # Called by callback_page with a cryptographic "code" that indicates
     # that the user has successfully authorized the OAuth2 Authorization Server.
@@ -127,6 +138,8 @@ module OAuthClients
       ServiceResult.success(result: oauth_client_token)
     end
 
+    # rubocop:enable Metrics/AbcSize
+
     # Called by StorageRepresenter to inquire about the status of the OAuth2
     # authentication server.
     # Returns :connected/:authorization_failed or :error for a general error.
@@ -137,32 +150,21 @@ module OAuthClients
       oauth_client_token = get_existing_token
       return :failed_authorization unless oauth_client_token
 
-      # Check for user information. This is the cheapest Nextcloud call that requires
-      # valid authentication, so we use it for testing the validity of the Bearer token.
-      # curl -H "Authorization: Bearer MY_TOKEN" -X GET 'https://my.nextcloud.org/ocs/v1.php/cloud/user' \
-      #      -H "OCS-APIRequest: true" -H "Accept: application/json"
-      RestClient.get(
-        File.join(oauth_client.integration.host, AUTHORIZATION_CHECK_PATH),
-        {
-          'Authorization' => "Bearer #{oauth_client_token.access_token}",
-          'OCS-APIRequest' => "true",
-          'Accept' => "application/json"
-        }
-      )
-      :connected
-    rescue RestClient::Unauthorized, RestClient::Forbidden
-      service_result = refresh_token # `refresh_token` already has exception handling
-      return :connected if service_result.success?
-
-      if service_result.result == 'invalid_request'
-        # This can happen if the Authorization Server invalidated all tokens.
-        # Then the user would ideally be asked to reauthorize.
-        :failed_authorization
+      state = @config.authorization_state_check(oauth_client_token.access_token)
+      case state
+      when :success
+        :connected
+      when :refresh_needed
+        service_result = refresh_token
+        if service_result.success?
+          :connected
+        elsif service_result.errors.data.payload[:error] == 'invalid_request'
+          :failed_authorization
+        else
+          :error
+        end
       else
-        # It could also be that some other error happened, i.e. firewall badly configured.
-        # Then the user needs to know that something is technically off. The user could try
-        # to reload the page or contact an admin.
-        :error
+        state
       end
     rescue StandardError
       :error
@@ -172,16 +174,12 @@ module OAuthClients
     def request_with_token_refresh(oauth_client_token)
       # `yield` needs to returns a ServiceResult:
       #   success: result= any object with data
-      #   failure: result= :error or :not_authorized
+      #   failure: result= :error or :unauthorized
       yield_service_result = yield(oauth_client_token)
 
-      if yield_service_result.failure? && yield_service_result.result == :not_authorized
+      if yield_service_result.failure? && yield_service_result.result == :unauthorized
         refresh_service_result = refresh_token
-        if refresh_service_result.failure?
-          failed_service_result = ServiceResult.failure(result: :error)
-          failed_service_result.merge!(refresh_service_result)
-          return failed_service_result
-        end
+        return refresh_service_result if refresh_service_result.failure?
 
         oauth_client_token.reload
         yield_service_result = yield(oauth_client_token) # Should contain result=<data> in case of success
@@ -199,30 +197,26 @@ module OAuthClients
       OAuthClientToken.find_by(user_id: @user, oauth_client_id: @oauth_client.id)
     end
 
-    # Calls client.access_token!
-    # Convert the various exceptions into user-friendly error strings.
     def request_new_token(options = {})
       rack_access_token = rack_oauth_client(options).access_token!(:body)
 
       ServiceResult.success(result: rack_access_token)
     rescue Rack::OAuth2::Client::Error => e
-      service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
-    rescue Faraday::TimeoutError,
-           Faraday::ConnectionFailed,
-           Faraday::ParsingError,
-           Faraday::SSLError => e
+      service_result_with_error(:bad_request, e.response, i18n_rack_oauth2_error_message(e))
+    rescue Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::ParsingError, Faraday::SSLError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}",
-        e.message
+        :internal_server_error,
+        e,
+        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}"
       )
     rescue StandardError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}",
-        e.message
+        :error,
+        e,
+        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}"
       )
     end
 
-    # Localize the error message
     def i18n_rack_oauth2_error_message(rack_oauth2_client_exception)
       i18n_key = "oauth_client.errors.rack_oauth2.#{rack_oauth2_client_exception.message}"
       if I18n.exists? i18n_key
@@ -235,31 +229,13 @@ module OAuthClients
     # Return a fully configured RackOAuth2Client.
     # This client does all the heavy lifting with the OAuth2 protocol.
     def rack_oauth_client(options = {})
-      rack_oauth_client = build_basic_rack_oauth_client
+      rack_oauth_client = @config.basic_rack_oauth_client
 
       # Write options, for example authorization_code and refresh_token
       rack_oauth_client.refresh_token = options[:refresh_token] if options[:refresh_token]
       rack_oauth_client.authorization_code = options[:authorization_code] if options[:authorization_code]
 
       rack_oauth_client
-    end
-
-    def build_basic_rack_oauth_client
-      oauth_client_uri = URI.parse(@oauth_client.integration.host)
-      oauth_client_scheme = oauth_client_uri.scheme
-      oauth_client_host = oauth_client_uri.host
-      oauth_client_port = oauth_client_uri.port
-      oauth_client_path = oauth_client_uri.path
-
-      Rack::OAuth2::Client.new(
-        identifier: @oauth_client.client_id,
-        secret: @oauth_client.client_secret,
-        scheme: oauth_client_scheme,
-        host: oauth_client_host,
-        port: oauth_client_port,
-        authorization_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/authorize"),
-        token_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/api/v1/token")
-      )
     end
 
     # Update an OpenProject token based on updated values from a
@@ -281,12 +257,10 @@ module OAuthClients
       end
     end
 
-    # Shortcut method to convert an error message into an unsuccessful
-    # ServiceResult with that error message
-    def service_result_with_error(message, result = nil)
-      ServiceResult.failure(result:).tap do |r|
-        r.errors.add(:base, message)
-      end
+    def service_result_with_error(code, data, log_message = nil)
+      error_data = ::Storages::StorageErrorData.new(source: self, payload: data)
+      ServiceResult.failure(result: code,
+                            errors: ::Storages::StorageError.new(code:, data: error_data, log_message:))
     end
   end
 end

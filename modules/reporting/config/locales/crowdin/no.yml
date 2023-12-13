@@ -47,6 +47,7 @@
   label_is_project_with_subprojects: "er (inkluderer underprosjekter)"
   label_work_package_attributes: "Statuser for arbeidspakke"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Kontantverdi"
   label_month_reporting: "Måned (brukt)"
   label_new_report: "Ny kostnadsrapport"

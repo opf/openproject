@@ -29,8 +29,7 @@
 require 'spec_helper'
 require_relative '../../support/onboarding/onboarding_steps'
 
-RSpec.describe 'team planner onboarding tour',
-               js: true,
+RSpec.describe 'team planner onboarding tour', :js,
                with_cuprite: false,
                with_ee: %i[team_planner_view] do
   let(:next_button) { find('.enjoyhint_next_btn') }
@@ -42,20 +41,12 @@ RSpec.describe 'team planner onboarding tour',
            public: true,
            enabled_module_names: %w[work_package_tracking wiki team_planner_view])
   end
-  let(:scrum_project) do
-    create(:project,
-           name: 'Scrum project',
-           identifier: 'your-scrum-project',
-           public: true,
-           enabled_module_names: %w[work_package_tracking wiki])
-  end
 
   let(:user) do
     create(:admin,
-           member_in_project: demo_project,
-           member_with_permissions: %w[view_work_packages edit_work_packages add_work_packages
-                                       view_team_planner manage_team_planner save_queries manage_public_queries
-                                       work_package_assigned])
+           member_with_permissions: { demo_project => %w[view_work_packages edit_work_packages add_work_packages
+                                                         view_team_planner manage_team_planner save_queries
+                                                         manage_public_queries work_package_assigned] })
   end
 
   let!(:wp1) do
@@ -65,14 +56,13 @@ RSpec.describe 'team planner onboarding tour',
            start_date: Time.zone.today,
            due_date: Time.zone.today)
   end
-  let!(:wp2) { create(:work_package, project: scrum_project) }
 
   let(:query) { create(:query, user:, project: demo_project, public: true, name: 'Team planner') }
   let(:team_plan) do
     create(:view_team_planner,
            query:,
            assignees: [user],
-           projects: [demo_project, scrum_project])
+           projects: [demo_project])
   end
 
   before do
@@ -96,18 +86,6 @@ RSpec.describe 'team planner onboarding tour',
       step_through_onboarding_wp_tour demo_project, wp1
 
       step_through_onboarding_team_planner_tour
-
-      step_through_onboarding_main_menu_tour has_full_capabilities: true
-    end
-
-    it "I do not see the team planner onboarding tour in the scrum project" do
-      # Set sessionStorage value so that the tour knows that it is in the scum tour
-      page.execute_script("window.sessionStorage.setItem('openProject-onboardingTour', 'startMainTourFromBacklogs');")
-
-      # Set the tour parameter so that we can start on the wp page
-      visit "/projects/#{scrum_project.identifier}/work_packages?start_onboarding_tour=true"
-
-      step_through_onboarding_wp_tour scrum_project, wp2
 
       step_through_onboarding_main_menu_tour has_full_capabilities: true
     end

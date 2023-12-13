@@ -35,7 +35,7 @@ module BudgetsHelper
   # Check if the current user is allowed to manage the budget.  Based on Role
   # permissions.
   def allowed_management?
-    User.current.allowed_to?(:edit_budgets, @project)
+    User.current.allowed_in_project?(:edit_budgets, @project)
   end
 
   def budgets_to_csv(budgets)

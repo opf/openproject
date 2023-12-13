@@ -1,0 +1,95 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU?$select=parentReference
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Etag:
+      - '"{3D884033-B88B-4195-8F36-D30B41AB9234},5"'
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - e5f991d2-3358-4694-93dd-0c4e2bf0eb33
+      Client-Request-Id:
+      - e5f991d2-3358-4694-93dd-0c4e2bf0eb33
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002DC"}}'
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Wed, 18 Oct 2023 11:19:43 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/items(parentReference)/$entity","@odata.etag":"\"{3D884033-B88B-4195-8F36-D30B41AB9234},5\"","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR","name":"Folder","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Folder","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"}}'
+  recorded_at: Wed, 18 Oct 2023 11:19:43 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR?$select=webUrl
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Etag:
+      - '"{6087B980-4C01-4020-BBF2-1E349BD0C831},1"'
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 9e4c6634-4ae1-44cb-bc53-4904ff8eed29
+      Client-Request-Id:
+      - 9e4c6634-4ae1-44cb-bc53-4904ff8eed29
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002E0"}}'
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Wed, 18 Oct 2023 11:19:43 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/items(webUrl)/$entity","@odata.etag":"\"{6087B980-4C01-4020-BBF2-1E349BD0C831},1\"","webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Folder"}'
+  recorded_at: Wed, 18 Oct 2023 11:19:43 GMT
+recorded_with: VCR 6.2.0

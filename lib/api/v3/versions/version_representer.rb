@@ -50,7 +50,7 @@ module API
         end
 
         link :update,
-             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:manage_versions, represented.project) } do
           {
             href: api_v3_paths.version_form(represented.id),
             method: :post
@@ -58,7 +58,7 @@ module API
         end
 
         link :updateImmediately,
-             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:manage_versions, represented.project) } do
           {
             href: api_v3_paths.version(represented.id),
             method: :patch
@@ -66,7 +66,7 @@ module API
         end
 
         link :delete,
-             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:manage_versions, represented.project) } do
           {
             href: api_v3_paths.version(represented.id),
             method: :delete

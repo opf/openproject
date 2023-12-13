@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -57,13 +59,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       File.join(uri.to_s, *)
     end
 
-    def token(user:, oauth_client:, &block)
-      connection_manager = ::OAuthClients::ConnectionManager.new(user:, oauth_client:)
+    def token(user:, configuration:, &)
+      connection_manager = ::OAuthClients::ConnectionManager.new(user:, configuration:)
       connection_manager.get_access_token.match(
         on_success: ->(token) do
-          connection_manager.request_with_token_refresh(token) { block.call(token) }
+          connection_manager.request_with_token_refresh(token) { yield token }
         end,
-        on_failure: ->(_) { error(:not_authorized, 'Query could not be created! No access token found!') }
+        on_failure: ->(_) do
+          error(:unauthorized,
+                'Query could not be created! No access token found!',
+                Storages::StorageErrorData.new(source: connection_manager))
+        end
       )
     end
 

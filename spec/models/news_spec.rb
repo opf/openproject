@@ -41,7 +41,7 @@ RSpec.describe News do
 
   let!(:news) { create(:news, project:) }
   let(:permissions) { [] }
-  let(:role) { build(:role, permissions:) }
+  let(:role) { build(:project_role, permissions:) }
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { create(:news) }
@@ -53,7 +53,7 @@ RSpec.describe News do
     let(:project_news) { described_class.where(project:) }
 
     before do
-      Role.anonymous
+      ProjectRole.anonymous
     end
 
     it 'includes news elements from projects where news module is enabled' do
@@ -102,8 +102,7 @@ RSpec.describe News do
   describe '#save' do
     it 'sends email notifications when created' do
       create(:user,
-             member_in_project: project,
-             member_through_role: role,
+             member_with_roles: { project => role },
              notification_settings: [
                build(:notification_setting,
                      news_added: true)

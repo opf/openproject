@@ -83,7 +83,7 @@ RSpec.describe OpenProject::TwoFactorAuthentication::TokenStrategy::Sns do
           expect(api).to receive(:set_sms_attributes).and_return(nil)
           expect(api)
             .to receive(:publish)
-            .with({ phone_number: phone.gsub(' ', ''),
+            .with({ phone_number: phone.delete(' '),
                     message: I18n.t('two_factor_authentication.text_otp_delivery_message_sms',
                                     app_title: Setting.app_title, token: 1234) })
             .and_return(api_result)

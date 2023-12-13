@@ -42,7 +42,7 @@ RSpec.describe MemberMailer do
   end
   let(:principal) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
-  let(:roles) { [build_stubbed(:role), build_stubbed(:role)] }
+  let(:roles) { [build_stubbed(:project_role), build_stubbed(:project_role)] }
   let(:message) { nil }
 
   around do |example|

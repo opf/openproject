@@ -136,9 +136,7 @@ RSpec.describe Query::Results, 'sums' do
     end
   end
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:permissions) do
     %i[view_work_packages view_cost_entries view_time_entries view_cost_rates view_hourly_rates]

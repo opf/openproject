@@ -93,7 +93,7 @@ RSpec.describe CostEntry do
                     roles: [role],
                     principal: user)
   end
-  let(:role) { create(:role, permissions: []) }
+  let(:role) { create(:project_role, permissions: []) }
   let(:units) { 5.0 }
   let(:date) { Date.today }
 

@@ -28,22 +28,20 @@
 
 require 'spec_helper'
 
-RSpec.describe 'invitations', js: true, with_cuprite: true do
+RSpec.describe 'invitations', :js, :with_cuprite do
   let(:user) { create(:invited_user, mail: 'holly@openproject.com') }
-
-  before do
-    allow(User).to receive(:current).and_return current_user
-  end
 
   shared_examples 'resending invitations' do |redirect_to_edit_page: true|
     it 'resends the invitation' do
+      login_with current_user.login, 'adminADMIN!'
+
       visit user_path(user)
       click_on I18n.t(:label_send_invitation)
       expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
       expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(user) : user_path(user)
 
       # Logout admin
-      logout
+      visit signout_path
 
       # Visit invitation with wrong token
       visit account_activate_path(token: 'some invalid value')
@@ -64,14 +62,14 @@ RSpec.describe 'invitations', js: true, with_cuprite: true do
   end
 
   context 'as as user with global user_create permission' do
-    shared_let(:global_create_user) { create(:user, global_permission: :create_user) }
+    shared_let(:global_create_user) { create(:user, global_permissions: [:create_user]) }
     let(:current_user) { global_create_user }
 
     include_examples 'resending invitations', redirect_to_edit_page: false
   end
 
   context 'as as user with global user_create and manage_user permission' do
-    shared_let(:global_create_user) { create(:user, global_permission: %i[create_user manage_user]) }
+    shared_let(:global_create_user) { create(:user, global_permissions: %i[create_user manage_user]) }
     let(:current_user) { global_create_user }
 
     include_examples 'resending invitations', redirect_to_edit_page: true

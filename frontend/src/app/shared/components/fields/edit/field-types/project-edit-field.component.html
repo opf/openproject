@@ -2,15 +2,15 @@
   *ngIf="url; else loadingTemplate"
   [ngClass]="'inline-edit--field ' + handler.fieldName"
 
-  [value]="value"
+  [model]="value"
   [url]="url"
-  [apiFilters]="APIFilters"
+  [filters]="APIFilters"
   [focusDirectly]="!(handler.inEditMode || isNew)"
   [openDirectly]="!isNew"
   [isInlineContext]="true"
   appendTo=".op-wide-autocomplete-wrapper"
 
-  (valueChange)="onModelChange($event)"
+  (change)="onModelChange($event)"
   (cancel)="handler.handleUserCancel()"
 ></op-project-autocompleter>
 

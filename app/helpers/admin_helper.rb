@@ -31,4 +31,12 @@ module AdminHelper
     options_for_select([[I18n.t(:label_all), ''],
                         [I18n.t(:status_active), 1]], selected)
   end
+
+  def linked_sha_reference(sha, url)
+    if sha && url
+      link_to sha, url, target: '_blank'
+    else
+      sha
+    end
+  end
 end

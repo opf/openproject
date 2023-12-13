@@ -8,13 +8,12 @@ updates:
     open-pull-requests-limit: 3
     versioning-strategy: lockfile-only
     groups:
-      storybook:
-        patterns:
-          - 'storybook*'
-          - '@storybook/*'
       angular:
         patterns:
           - '@angular*'
+      fullcalendar:
+        patterns:
+          - '@fullcalendar*'
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:

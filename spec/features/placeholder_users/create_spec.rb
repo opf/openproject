@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'create placeholder users', selenium: true do
+RSpec.describe 'create placeholder users', :selenium do
   let(:new_placeholder_user_page) { Pages::NewPlaceholderUser.new }
 
   shared_examples_for 'placeholders creation flow' do
@@ -67,7 +67,7 @@ RSpec.describe 'create placeholder users', selenium: true do
   end
 
   context 'as user with global permission' do
-    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
+    current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
     it_behaves_like 'placeholders creation flow'
   end

@@ -33,408 +33,347 @@ RSpec.describe User, 'allowed_to?' do
   let(:anonymous) { build(:anonymous) }
   let(:project) { build(:project, public: false) }
   let(:project2) { build(:project, public: false) }
-  let(:role) { build(:role) }
-  let(:role2) { build(:role) }
+  let(:work_package) { build(:work_package, project:) }
+  let(:role) { build(:project_role) }
+  let(:role2) { build(:project_role) }
+  let(:wp_role) { build(:work_package_role) }
+  let(:wp_member) { build(:member, project:, entity: work_package, roles: [wp_role], principal: user) }
   let(:anonymous_role) { build(:anonymous_role) }
-  let(:member) do
-    build(:member, project:,
-                   roles: [role],
-                   principal: user)
-  end
-  let(:member2) do
-    build(:member, project: project2,
-                   roles: [role2],
-                   principal: user)
-  end
-  let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
+  let(:member) { build(:member, project:, roles: [role], principal: user) }
+  let(:member2) { build(:member, project: project2, roles: [role2], principal: user) }
+  let(:global_permission) { OpenProject::AccessControl.permissions.find(&:global?) }
   let(:global_role) { build(:global_role, permissions: [global_permission.name]) }
-  let(:global_member) do
-    build(:global_member,
-          principal: user,
-          roles: [global_role])
-  end
+  let(:global_member) { build(:global_member, principal: user, roles: [global_role]) }
 
   before do
     anonymous_role.save!
-    Role.non_member
+    ProjectRole.non_member
     user.save!
   end
 
-  shared_examples_for 'w/ inquiring for project' do
+  shared_examples_for 'when inquiring for project' do
     let(:permission) { :add_work_packages }
     let(:final_setup_step) {}
 
-    context 'w/ the user being admin' do
-      before do
-        user.update(admin: true)
+    before do
+      project.save
+    end
 
-        project.save
+    context 'with the user being admin' do
+      before { user.update(admin: true) }
 
-        final_setup_step
+      context 'with the project being persisted and active' do
+        before do
+          project.save
+
+          final_setup_step
+        end
+
+        it { expect(user).to be_allowed_to(permission, project) }
       end
 
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, project)
+      context 'with the project being archived' do
+        before do
+          project.update(active: false)
+
+          final_setup_step
+        end
+
+        it { expect(user).not_to be_allowed_to(permission, project) }
+      end
+
+      context 'with the required module being inactive' do
+        let(:permission) { :create_meetings } # pick a permission from a module
+
+        before do
+          project.enabled_module_names -= ['meetings']
+
+          final_setup_step
+        end
+
+        it { expect(user).not_to be_allowed_to(permission, project) }
+      end
+
+      context 'with the permission not being automatically granted to admins' do
+        let(:permission) { :work_package_assigned } # permission that is not automatically granted to admins
+
+        before do
+          final_setup_step
+        end
+
+        it { expect(user).not_to be_allowed_to(permission, project) }
       end
     end
 
-    context 'w/ the user being admin
-             w/ the project being archived' do
-      before do
-        user.update(admin: true)
-        project.update(active: false)
+    context 'without the user being a member in the project' do
+      context 'with the project being private' do
+        before { project.update(public: false) }
 
-        final_setup_step
+        context 'with the user being a member of a single work package inside the project' do
+          before do
+            work_package.save!
+            wp_member.save!
+          end
+
+          context 'with the role granting the permission' do
+            before do
+              wp_role.add_permission!(permission)
+            end
+
+            it { expect(user).not_to be_allowed_to(permission, project) }
+          end
+        end
+
+        context 'and the permission being assigend to the non-member role' do
+          before do
+            non_member = ProjectRole.non_member
+            non_member.add_permission! permission
+
+            final_setup_step
+          end
+
+          it do
+            expect(user).not_to be_allowed_to(permission, project)
+          end
+        end
+
+        context 'and requesting a public permission' do
+          let(:permission) { :view_project } # a permission defined as public
+
+          before do
+            final_setup_step
+          end
+
+          it { expect(user).not_to be_allowed_to(permission, project) }
+        end
       end
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
-      end
-    end
+      context 'and the project being public' do
+        before { project.update(public: true) }
 
-    context 'w/ the user being admin
-             w/ the project module the permission belongs to being inactive' do
-      before do
-        user.update(admin: true)
-        project.enabled_module_names = []
+        context 'and the permission not being assigend to the non-member role' do
+          before do
+            non_member = ProjectRole.non_member
+            non_member.remove_permission! permission
 
-        final_setup_step
-      end
+            final_setup_step
+          end
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
-      end
-    end
+          it { expect(user).not_to be_allowed_to(permission, project) }
+        end
 
-    context 'w/ the user being admin
-             w/ the permission not automatically granted to admins' do
-      let(:permission) { :work_package_assigned }
+        context 'and the permission being assigned to the non-member role' do
+          before do
+            non_member = ProjectRole.non_member
+            non_member.add_permission! permission
 
-      before do
-        user.update(admin: true)
+            final_setup_step
+          end
 
-        project.save
+          it do
+            expect(user).to be_allowed_to(permission, project)
+          end
+        end
 
-        final_setup_step
-      end
+        context 'and requesting a public permission' do
+          let(:permission) { :view_project } # a permission defined as public
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
-      end
-    end
+          before do
+            final_setup_step
+          end
 
-    context 'w/ the user being a member in the project
-             w/o the role having the necessary permission' do
-      before do
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
-      end
-    end
-
-    context 'w/ the user being a member in the project
-             w/ the role having the necessary permission' do
-      before do
-        role.add_permission! permission
-
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, project)
-      end
-    end
-
-    context 'w/ the user being a member in the project
-             w/ the role having the necessary permission
-             w/o the module being active' do
-      let(:permission) { :view_news }
-
-      before do
-        role.add_permission! permission
-        project.enabled_module_names = []
-
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
+          it { expect(user).to be_allowed_to(permission, project) }
+        end
       end
     end
 
-    context 'w/ the user being a member in the project
-             w/ the role having the necessary permission
-             w/ asking for a controller/action hash
-             w/o the module being active' do
-      let(:permission) { { controller: 'news', action: 'show' } }
+    context 'with the user being a member in the project' do
+      before { member.save! }
 
-      before do
-        role.add_permission! permission
-        project.enabled_module_names = []
+      context 'without the role granting the requested permission' do
+        before do
+          role.remove_permission!(permission)
+        end
 
-        member.save!
+        context 'and no permissions being assigned to the non-member role' do
+          before { final_setup_step }
 
-        final_setup_step
+          it { expect(user).not_to be_allowed_to(permission, project) }
+        end
+
+        context 'and requesting a public permission' do
+          let(:permission) { :view_project } # a permission defined as public
+
+          before do
+            project.update(public: false)
+            final_setup_step
+          end
+
+          it { expect(user).to be_allowed_to(permission, project) }
+        end
       end
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
-      end
-    end
+      context 'with the role granting the requested permission' do
+        let(:permission) { :view_news }
 
-    context 'w/ the user being a member in the project
-             w/o the role having the necessary permission
-             w/ non members having the necessary permission' do
-      before do
-        project.public = false
+        before do
+          role.add_permission!(permission)
+        end
 
-        non_member = Role.non_member
-        non_member.add_permission! permission
+        context 'with the module being active' do
+          before do
+            project.enabled_module_names += ['news']
 
-        member.save!
+            final_setup_step
+          end
 
-        final_setup_step
-      end
+          context 'and the permission being requested with the permission name' do
+            it { expect(user).to be_allowed_to(permission, project) }
+          end
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
-      end
-    end
+          context 'and the permission being requested with the controller name and action' do
+            it { expect(user).to be_allowed_to({ controller: 'news', action: 'show' }, project) }
+          end
+        end
 
-    context 'w/ the user being a member in the project
-             w/o the role having the necessary permission
-             w/ inquiring for a permission that is public' do
-      let(:permission) { :view_project }
+        context 'without the module being active' do
+          before do
+            project.enabled_module_names -= ['news']
 
-      before do
-        project.public = false
+            final_setup_step
+          end
 
-        member.save!
+          context 'and the permission being requested with the permission name' do
+            it { expect(user).not_to be_allowed_to(permission, project) }
+          end
 
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, project)
-      end
-    end
-
-    context 'w/o the user being member in the project
-             w/ non member being allowed the action
-             w/ the project being private' do
-      before do
-        project.public = false
-        project.save!
-
-        non_member = Role.non_member
-
-        non_member.add_permission! permission
-
-        final_setup_step
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
+          context 'and the permission being requested with the controller name and action' do
+            it { expect(user).not_to be_allowed_to({ controller: 'news', action: 'show' }, project) }
+          end
+        end
       end
     end
 
-    context 'w/o the user being member in the project
-             w/ the project being public
-             w/ non members being allowed the action' do
-      before do
-        project.public = true
-        project.save!
+    context 'with the user being anonymous' do
+      context 'with the project being public' do
+        before { project.update(public: true) }
 
-        non_member = Role.non_member
+        context 'without the anonymous role being given the permission' do
+          before do
+            anonymous_role.remove_permission!(permission)
+            final_setup_step
+          end
 
-        non_member.add_permission! permission
+          it { expect(anonymous).not_to be_allowed_to(permission, project) }
+        end
 
-        final_setup_step
-      end
+        context 'with the anonymous role being given the permission' do
+          before do
+            anonymous_role.add_permission!(permission)
+            final_setup_step
+          end
 
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, project)
-      end
-    end
+          it { expect(anonymous).to be_allowed_to(permission, project) }
+        end
 
-    context 'w/ the user being member in the project
-             w/ the project being public
-             w/ non members being allowed the action
-             w/o the role being allowed the action' do
-      before do
-        project.public = true
-        project.save!
+        context 'with a public permission' do
+          let(:permission) { :view_project }
 
-        non_member = Role.non_member
-        non_member.add_permission! permission
+          before { final_setup_step }
 
-        member.save!
+          it { expect(anonymous).to be_allowed_to(permission, project) }
+        end
 
-        final_setup_step
-      end
+        context 'with a controller and action that is allowed via multiple permissions' do
+          let(:permission) { :manage_categories }
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
-      end
-    end
+          before do
+            anonymous_role.add_permission! permission
+            final_setup_step
+          end
 
-    context 'w/ the user being anonymous
-             w/ the project being public
-             w/ anonymous being allowed the action' do
-      before do
-        project.public = true
-        project.save!
-
-        anonymous_role.add_permission! permission
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(anonymous).to be_allowed_to(permission, project)
+          it { expect(anonymous).to be_allowed_to({ controller: '/projects/settings/categories', action: 'show' }, project) }
+        end
       end
     end
 
-    context 'w/ the user being anonymous
-             w/ the project being public
-             w/ querying for a public permission' do
-      let(:permission) { :view_project }
+    context 'when requesting permission for multiple projects' do
+      context 'with the user being a member of multiple projects' do
+        before do
+          member.save
+          member2.save
+        end
 
-      before do
-        project.public = true
-        project.save!
+        context 'with the permission being granted in both projects' do
+          before do
+            role.add_permission! permission
+            role2.add_permission! permission
 
-        anonymous_role.save!
+            final_setup_step
+          end
 
-        final_setup_step
+          it { expect(user).to be_allowed_to(permission, [project, project2]) }
+        end
       end
 
-      it 'is true' do
-        expect(anonymous).to be_allowed_to(permission, project)
-      end
-    end
+      context 'with the permission being granted in only one of the two projects' do
+        before do
+          role.add_permission! permission
+          role2.remove_permission! permission
 
-    context 'w/ the user being anonymous
-             w/ requesting a controller and action allowed by multiple permissions
-             w/ the project being public
-             w/ anonymous being allowed the action' do
-      let(:permission) { { controller: '/projects/settings/categories', action: 'show' } }
+          final_setup_step
+        end
 
-      before do
-        project.public = true
-        project.save!
-
-        anonymous_role.add_permission! :manage_categories
-
-        final_setup_step
+        it { expect(user).not_to be_allowed_to(permission, [project, project2]) }
       end
 
-      it 'is true' do
-        expect(anonymous)
-          .to be_allowed_to(permission, project)
-      end
-    end
+      context 'with the user not being member of any projects, but both projects being public' do
+        before do
+          project.update(public: true)
+          project2.update(public: true)
+        end
 
-    context 'w/ the user being anonymous
-             w/ the project being public
-             w/ anonymous being not allowed the action' do
-      before do
-        project.public = true
-        project.save!
+        context 'with non-member role having the permission' do
+          before do
+            non_member = ProjectRole.non_member
+            non_member.add_permission! permission
+            final_setup_step
+          end
 
-        final_setup_step
-      end
+          it { expect(user).to be_allowed_to(permission, [project, project2]) }
+        end
 
-      it 'is false' do
-        expect(anonymous).not_to be_allowed_to(permission, project)
-      end
-    end
+        context 'without non-member role having the permission' do
+          before do
+            non_member = ProjectRole.non_member
+            non_member.remove_permission! permission
+            final_setup_step
+          end
 
-    context 'w/ the user being a member in two projects
-             w/ the user being allowed the action in both projects' do
-      before do
-        role.add_permission! permission
-        role2.add_permission! permission
-
-        member.save!
-        member2.save!
-
-        final_setup_step
+          it { expect(user).not_to be_allowed_to(permission, [project, project2]) }
+        end
       end
 
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, [project, project2])
-      end
-    end
+      context 'with the user not being member of any projects, but one of the projects being public' do
+        before do
+          project.update(public: true)
+          project2.update(public: false)
+        end
 
-    context 'w/ the user being a member in two projects
-             w/ the user being allowed in only one project' do
-      before do
-        role.add_permission! permission
+        context 'with non-member role having the permission' do
+          before do
+            non_member = ProjectRole.non_member
+            non_member.add_permission! permission
+            final_setup_step
+          end
 
-        member.save!
-        member2.save!
-
-        final_setup_step
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, [project, project2])
+          it { expect(user).not_to be_allowed_to(permission, [project, project2]) }
+        end
       end
     end
 
-    context 'w/o the user being a member in the two projects
-             w/ both projects being public
-             w/ non member being allowed the action' do
+    context 'when requesting a global permission, but with the project as a context' do
       before do
-        non_member = Role.non_member
-        non_member.add_permission! permission
-
-        project.update(public: true)
-        project2.update(public: true)
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, [project, project2])
-      end
-    end
-
-    context 'w/o the user being a member in the two projects
-             w/ only one project being public
-             w/ non member being allowed the action' do
-      before do
-        non_member = Role.non_member
-        non_member.add_permission! permission
-
-        project.update(public: true)
-        project2.update(public: false)
-
-        final_setup_step
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, [project, project2])
-      end
-    end
-
-    context "w/o the user being member in a project
-             w/ the user having the global role
-             w/ the global role having the necessary permission" do
-      before do
-        project.save!
-
-        global_role.save!
-
         global_member.save!
       end
 
@@ -442,233 +381,181 @@ RSpec.describe User, 'allowed_to?' do
         expect(user).not_to be_allowed_to(global_permission.name, project)
       end
     end
-
-    context 'w/ requesting a controller and action
-             w/ the user being allowed the action' do
-      let(:permission) { :view_wiki_pages }
-
-      before do
-        role.add_permission! permission
-
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user)
-          .to be_allowed_to({ controller: 'wiki', action: 'show' }, project)
-      end
-    end
-
-    context 'w/ requesting a controller and action allowed by multiple permissions
-             w/ the user being allowed the action' do
-      let(:permission) { :manage_categories }
-
-      before do
-        role.add_permission! permission
-
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user)
-          .to be_allowed_to({ controller: 'projects', action: 'show' }, project)
-      end
-    end
   end
 
-  shared_examples_for 'w/ inquiring globally' do
+  shared_examples_for 'when inquiring globally' do
     let(:permission) { :add_work_packages }
-    let(:final_setup_step) {}
 
-    context 'w/ the user being admin' do
+    context 'when the user is an admin' do
+      before { user.update(admin: true) }
+
+      it { expect(user).to be_allowed_to(permission, nil, global: true) }
+    end
+
+    context 'when the non-member role has the permission' do
       before do
-        user.admin = true
-        user.save!
-
-        final_setup_step
+        ProjectRole.non_member.add_permission! permission
       end
 
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, nil, global: true)
+      it { expect(user).to be_allowed_to(permission, nil, global: true) }
+    end
+
+    context 'when there is a global role giving the permission' do
+      before { global_role.save! }
+
+      context 'without the user having the role assigned' do
+        it { expect(user).not_to be_allowed_to(global_permission.name, nil, global: true) }
+      end
+
+      context 'with the user having the role assigned' do
+        before { global_member.save! }
+
+        context 'with the role having the global permission' do
+          it { expect(user).to be_allowed_to(global_permission.name, nil, global: true) }
+        end
+
+        context 'without the role having the global permission' do
+          before do
+            global_role.remove_permission!(global_permission.name)
+          end
+
+          it { expect(user).not_to be_allowed_to(global_permission.name, nil, global: true) }
+        end
       end
     end
 
-    context 'w/ the user being a member in a project
-             w/o the role having the necessary permission' do
-      before do
-        member.save!
+    context 'when the user is member of a project' do
+      before { member.save }
 
-        final_setup_step
+      context 'and a project permission is requested globally' do
+        context 'without the permission being assigned to the role' do
+          it { expect(user).not_to be_allowed_to(permission, nil, global: true) }
+        end
+
+        # TODO: Ask somebody why this is supposed to work!?
+        context 'with the permissio being assigned to the role' do
+          before do
+            role.add_permission! permission
+          end
+
+          it { expect(user).to be_allowed_to(permission, nil, global: true) }
+        end
       end
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, nil, global: true)
-      end
-    end
+      context 'when requesting a controller and action allowed by multiple permissions' do
+        let(:permission) { :manage_categories }
 
-    context 'w/ the user being a member in the project
-             w/ the role having the necessary permission' do
-      before do
-        role.add_permission! permission
+        context 'without the role having the permission' do
+          before { role.remove_permission!(permission) }
 
-        member.save!
+          it do
+            expect(user)
+              .not_to be_allowed_to({ controller: '/projects/settings/categories', action: 'show' }, nil, global: true)
+          end
 
-        final_setup_step
-      end
+          context 'with the non-member having the permission' do
+            before do
+              ProjectRole.non_member.add_permission! permission
+            end
 
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, nil, global: true)
-      end
-    end
-
-    context 'w/ the user being a member in the project
-             w/ inquiring for controller and action
-             w/ the role having the necessary permission' do
-      let(:permission) { :view_wiki_pages }
-
-      before do
-        role.add_permission! permission
-
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user)
-          .to be_allowed_to({ controller: 'wiki', action: 'show' }, nil, global: true)
+            it do
+              expect(user)
+                .to be_allowed_to({ controller: '/projects/settings/categories', action: 'show' }, nil, global: true)
+            end
+          end
+        end
       end
     end
 
-    context 'w/ the user being a member in the project
-             w/o the role having the necessary permission
-             w/ non members having the necessary permission' do
-      before do
-        non_member = Role.non_member
-        non_member.add_permission! permission
+    context 'when the user is anonymous' do
+      context 'with the anonymous role having the permission allowed' do
+        before do
+          anonymous_role.add_permission! permission
+        end
 
-        member.save!
-
-        final_setup_step
+        it { expect(anonymous).to be_allowed_to(permission, nil, global: true) }
       end
 
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, nil, global: true)
-      end
-    end
-
-    context 'w/o the user being a member in the project
-             w/ non members being allowed the action' do
-      before do
-        non_member = Role.non_member
-        non_member.add_permission! permission
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, nil, global: true)
-      end
-    end
-
-    context "w/o the user being member in a project
-             w/ the user having a global role
-             w/ the global role having the necessary permission" do
-      before do
-        global_role.save!
-
-        global_member.save!
-      end
-
-      it 'is true' do
-        expect(user).to be_allowed_to(global_permission.name, nil, global: true)
-      end
-    end
-
-    context "w/o the user being member in a project
-             w/ the user having a global role
-             w/o the global role having the necessary permission" do
-      before do
-        global_role.permissions = []
-        global_role.save!
-
-        global_member.save!
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(global_permission.name, nil, global: true)
-      end
-    end
-
-    context "w/o the user being member in a project
-             w/o the user having the global role
-             w/ the global role having the necessary permission" do
-      before do
-        global_role.save!
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(global_permission.name, nil, global: true)
-      end
-    end
-
-    context 'w/ the user being anonymous
-             w/ anonymous being allowed the action' do
-      before do
-        anonymous_role.add_permission! permission
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(anonymous).to be_allowed_to(permission, nil, global: true)
-      end
-    end
-
-    context 'w/ requesting a controller and action allowed by multiple permissions
-             w/ the user being a member in the project
-             w/o the role having the necessary permission
-             w/ non members having the necessary permission' do
-      let(:permission) { :manage_categories }
-
-      before do
-        non_member = Role.non_member
-        non_member.add_permission! permission
-
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user)
-          .to be_allowed_to({ controller: '/projects/settings/categories', action: 'show' }, nil, global: true)
-      end
-    end
-
-    context 'w/ the user being anonymous
-             w/ anonymous being not allowed the action' do
-      before do
-        final_setup_step
-      end
-
-      it 'is false' do
-        expect(anonymous).not_to be_allowed_to(permission, nil, global: true)
+      context 'without the anonymous role having the permission allowed' do
+        it { expect(anonymous).not_to be_allowed_to(permission, nil, global: true) }
       end
     end
   end
 
-  context 'w/o preloaded permissions' do
-    it_behaves_like 'w/ inquiring for project'
-    it_behaves_like 'w/ inquiring globally'
+  shared_examples_for 'when inquiring for work_package' do
+    let(:permission) { :view_work_packages }
+    before do
+      project.save!
+      work_package.save!
+    end
+
+    context 'with the user being a member of the work package' do
+      before do
+        wp_member.save!
+      end
+
+      context 'with the role granting the permission' do
+        before do
+          wp_role.add_permission!(permission)
+        end
+
+        it { expect(user).to be_allowed_to(permission, work_package) }
+      end
+
+      context 'without the role granting the permission' do
+        it { expect(user).not_to be_allowed_to(permission, work_package) }
+
+        context 'with a membership on the project granting the permission' do
+          before do
+            role.save!
+            member.save!
+            role.add_permission!(permission)
+          end
+
+          it { expect(user).to be_allowed_to(permission, work_package) }
+        end
+      end
+    end
+
+    context 'without the user being a member of the work package' do
+      context 'with the user being a member of the project the work package belongs to' do
+        before do
+          member.save!
+        end
+
+        context 'and the project role does not grant the permission' do
+          it { expect(user).not_to be_allowed_to(permission, work_package) }
+        end
+
+        context 'and the project role grants the permission' do
+          before do
+            role.add_permission!(permission)
+          end
+
+          it { expect(user).to be_allowed_to(permission, work_package) }
+        end
+      end
+
+      context 'with the user being a member of another project where the role grants the permission' do
+        before do
+          role.save!
+          member2.save!
+          role.add_permission!(permission)
+        end
+
+        it { expect(user).not_to be_allowed_to(permission, work_package) }
+      end
+    end
   end
 
-  context 'w/ preloaded permissions' do
-    it_behaves_like 'w/ inquiring for project' do
+  context 'without preloaded permissions' do
+    it_behaves_like 'when inquiring for project'
+    it_behaves_like 'when inquiring globally'
+    it_behaves_like 'when inquiring for work_package'
+  end
+
+  context 'with preloaded permissions' do
+    it_behaves_like 'when inquiring for project' do
       let(:final_setup_step) do
         user.preload_projects_allowed_to(permission)
       end

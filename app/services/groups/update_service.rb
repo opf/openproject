@@ -58,7 +58,7 @@ class Groups::UpdateService < BaseServices::Update
   end
 
   def groups_removed_users(group)
-    group.group_users.select(&:marked_for_destruction?).map(&:user).compact
+    group.group_users.select(&:marked_for_destruction?).filter_map(&:user)
   end
 
   def remove_member_roles(member_role_ids)

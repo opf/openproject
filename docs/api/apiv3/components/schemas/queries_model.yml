@@ -13,8 +13,8 @@ example:
     - _type: Query
       id: 9
       name: fdsfdsfdsf
-      createdAt: '2015-03-20T12:56:56Z'
-      updatedAt: '2015-05-20T18:16:53Z'
+      createdAt: '2015-03-20T12:56:56.858Z'
+      updatedAt: '2015-05-20T18:16:53.887Z'
       filters:
       - _type: StatusQueryFilter
         name: Status
@@ -44,11 +44,11 @@ example:
       public: false
       sums: false
       starred: true
-      projections: 
+      projections:
         - _type: Query::TableProjection
         - _type: Query::TeamPlannerProjection
-          _links: 
-            rows: 
+          _links:
+            rows:
               - href: "/api/v3/users/1"
                 title: "Bob Bobbit"
         - _type: Query::CalendarProjection
@@ -99,8 +99,8 @@ example:
         - href: "/api/v3/queries/columns/updated_at"
           title: Updated on
         groupBy:
-          href: 
-          title: 
+          href:
+          title:
         sortBy:
         - href: "/api/v3/queries/sort_bys/parent-desc"
           title: Parent (Descending)

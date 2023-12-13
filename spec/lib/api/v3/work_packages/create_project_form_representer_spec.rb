@@ -43,7 +43,13 @@ RSpec.describe API::V3::WorkPackages::CreateProjectFormRepresenter do
     described_class.new(work_package, current_user: user, errors:)
   end
 
-  include_context 'user with stubbed permissions'
+  let(:user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
+  end
 
   subject(:generated) { representer.to_json }
 
@@ -151,7 +157,7 @@ RSpec.describe API::V3::WorkPackages::CreateProjectFormRepresenter do
 
     describe 'configureForm' do
       context "for an admin and with a type" do
-        include_context 'user with stubbed permissions', admin: true
+        let(:user) { build_stubbed(:user, admin: true) }
 
         it 'has a link to configure the form' do
           expected = {
@@ -169,7 +175,7 @@ RSpec.describe API::V3::WorkPackages::CreateProjectFormRepresenter do
       context 'for an admin and without type' do
         let(:type) { nil }
 
-        include_context 'user with stubbed permissions', admin: true
+        let(:user) { build_stubbed(:user, admin: true) }
 
         it 'has no link to configure the form' do
           expect(generated).not_to have_json_path('_links/configureForm')

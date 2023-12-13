@@ -43,7 +43,7 @@ RSpec.describe Projects::UpdateContract do
         p.identifier = project_identifier
       end
     end
-    let(:permissions) { [:edit_project] }
+    let(:project_permissions) { [:edit_project] }
 
     subject(:contract) { described_class.new(project, current_user) }
 

@@ -68,7 +68,7 @@ module Pages
     end
 
     def list_count
-      page.all('[data-qa-selector="op-board-list"]').count
+      page.all('[data-test-selector="op-board-list"]').count
     end
 
     def within_list(name, &)
@@ -76,12 +76,12 @@ module Pages
     end
 
     def list_selector(name)
-      "[data-qa-selector='op-board-list'][data-query-name='#{name}']"
+      "[data-test-selector='op-board-list'][data-query-name='#{name}']"
     end
 
     def add_card(list_name, card_title)
       within_list(list_name) do
-        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
+        page.find('[data-test-selector="op-board-list--card-dropdown-add-button"]').click
       end
 
       # Add item in dropdown
@@ -97,16 +97,16 @@ module Pages
     end
 
     def remove_card(list_name, card_title, index)
-      source = page.all("#{list_selector(list_name)} [data-qa-selector='op-wp-single-card']")[index]
+      source = page.all("#{list_selector(list_name)} [data-test-selector='op-wp-single-card']")[index]
       source.hover
-      source.find('[data-qa-selector="op-wp-single-card--inline-cancel-button"]').click
+      source.find('[data-test-selector="op-wp-single-card--inline-cancel-button"]').click
 
       expect_card(list_name, card_title, present: false)
     end
 
     def reference(list_name, work_package)
       within_list(list_name) do
-        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
+        page.find('[data-test-selector="op-board-list--card-dropdown-add-button"]').click
       end
 
       page.find('.menu-item', text: 'Add existing').click
@@ -121,7 +121,7 @@ module Pages
 
     def expect_not_referencable(list_name, work_package)
       within_list(list_name) do
-        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
+        page.find('[data-test-selector="op-board-list--card-dropdown-add-button"]').click
       end
 
       page.find('.menu-item', text: 'Add existing').click
@@ -138,7 +138,7 @@ module Pages
     def expect_card(list_name, card_title, present: true)
       within_list(list_name) do
         expect(page).to have_conditional_selector(present,
-                                                  '[data-qa-selector="op-wp-single-card--content-subject"]',
+                                                  '[data-test-selector="op-wp-single-card--content-subject"]',
                                                   text: card_title)
       end
     end
@@ -148,7 +148,7 @@ module Pages
     # No non mentioned cards are allowed to be in the list.
     def expect_cards_in_order(list_name, *card_titles)
       within_list(list_name) do
-        found = all('[data-qa-selector="op-wp-single-card--content-subject"]')
+        found = all('[data-test-selector="op-wp-single-card--content-subject"]')
           .map(&:text)
         expected = card_titles.map { |title| title.is_a?(WorkPackage) ? title.subject : title.to_s }
 
@@ -159,15 +159,15 @@ module Pages
 
     def expect_movable(list_name, card_title, movable: true)
       within_list(list_name) do
-        expect(page).to have_selector('[data-qa-selector="op-wp-single-card"]', text: card_title)
+        expect(page).to have_selector('[data-test-selector="op-wp-single-card"]', text: card_title)
         expect(page).to have_conditional_selector(movable,
-                                                  '[data-qa-selector="op-wp-single-card"][data-qa-draggable]',
+                                                  '[data-test-selector="op-wp-single-card"][data-qa-draggable]',
                                                   text: card_title)
       end
     end
 
     def move_card(index, from:, to:)
-      source = page.all("#{list_selector(from)} [data-qa-selector='op-wp-single-card']")[index]
+      source = page.all("#{list_selector(from)} [data-test-selector='op-wp-single-card']")[index]
       target = page.find list_selector(to)
 
       drag_n_drop_element(from: source, to: target)
@@ -190,11 +190,11 @@ module Pages
 
       if option.nil?
         page.find('.boards-list--add-item').click
-        expect(page).to have_selector('[data-qa-selector="op-board-list"]', count: count + 1)
+        expect(page).to have_selector('[data-test-selector="op-board-list"]', count: count + 1)
       else
         open_and_fill_add_list_modal query
         page.find('.ng-option', text: option, wait: 10).click
-        page.find('[data-qa-selector="confirmation-modal--confirmed"]').click
+        page.find('[data-test-selector="confirmation-modal--confirmed"]').click
       end
     end
 
@@ -218,11 +218,11 @@ module Pages
     end
 
     def expect_list(name)
-      expect(page).to have_selector('[data-qa-selector="op-board-list--header"]', text: name, wait: 10)
+      expect(page).to have_selector('[data-test-selector="op-board-list--header"]', text: name, wait: 10)
     end
 
     def expect_no_list(name)
-      expect(page).not_to have_selector('[data-qa-selector="op-board-list--header"]', text: name)
+      expect(page).not_to have_selector('[data-test-selector="op-board-list--header"]', text: name)
     end
 
     def expect_empty
@@ -240,8 +240,8 @@ module Pages
 
     def click_list_dropdown(list_name, action)
       within_list(list_name) do
-        page.find('[data-qa-selector="op-board-list--header"]').hover
-        page.find('[data-qa-selector="op-board-list--menu"] a').click
+        page.find('[data-test-selector="op-board-list--header"]').hover
+        page.find('[data-test-selector="op-board-list--menu"] a').click
       end
 
       page.find('.dropdown-menu button', text: action).click
@@ -292,7 +292,7 @@ module Pages
     end
 
     def expect_editable_list(editable)
-      expect(page).to have_conditional_selector(editable, '[data-qa-selector="op-board-list--card-dropdown-add-button"]')
+      expect(page).to have_conditional_selector(editable, '[data-test-selector="op-board-list--card-dropdown-add-button"]')
     end
 
     def rename_board(new_name, through_dropdown: false)

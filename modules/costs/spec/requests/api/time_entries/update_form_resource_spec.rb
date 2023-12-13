@@ -43,8 +43,7 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
   let(:custom_field) { create(:time_entry_custom_field) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:work_package) do
     create(:work_package, project:)
@@ -199,7 +198,7 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
 
           create(:member,
                  project: time_entry.project,
-                 roles: [create(:role, permissions:)],
+                 roles: [create(:project_role, permissions:)],
                  principal: user)
 
           user

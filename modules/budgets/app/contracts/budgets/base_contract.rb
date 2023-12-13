@@ -55,7 +55,7 @@ module Budgets
     private
 
     def validate_manage_allowed
-      unless user.allowed_to?(:edit_budgets, model.project)
+      unless user.allowed_in_project?(:edit_budgets, model.project)
         errors.add :base, :error_unauthorized
       end
     end

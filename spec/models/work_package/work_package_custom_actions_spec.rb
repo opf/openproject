@@ -38,11 +38,10 @@ RSpec.describe WorkPackage, 'custom_actions' do
   let(:other_status) { create(:status) }
   let(:user) do
     create(:user,
-           member_in_project: work_package.project,
-           member_through_role: role)
+           member_with_roles: { work_package.project => role })
   end
   let(:role) do
-    create(:role)
+    create(:project_role)
   end
   let(:conditions) do
     [CustomActions::Conditions::Status.new([status.id])]
@@ -109,7 +108,7 @@ RSpec.describe WorkPackage, 'custom_actions' do
       end
 
       context 'with the condition requiring a different role' do
-        let(:other_role) { create(:role) }
+        let(:other_role) { create(:project_role) }
 
         let(:conditions) do
           [CustomActions::Conditions::Role.new(other_role.id)]

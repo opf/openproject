@@ -119,7 +119,7 @@ module API
       raise "Path not defined #{spec_path}" unless spec_files
 
       spec_file = spec_files.find { |_k, v| v["$ref"] == file }&.first
-      raise "Reference '#{file}' not valid within #{spec_path}" unless spec_file
+      raise "'#{file}' not defined under #{spec_path.join('.')} in `docs/api/apiv3/openapi-spec.yml`" unless spec_file
 
       spec_file
     end

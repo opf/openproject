@@ -229,13 +229,13 @@ Non-functional testing goes beyond the functionality of the product and is aimed
 
 Examples for non-functional test cases: software should be compatible with most used desktop and mobile browsers, as well as operating systems; all the actions can be performed with keyboard navigation; page loading should take no more than X seconds; users who lost access should no longer be able to login etc.
 
-| Type                                                            | Description                                                                                                                                                                                   | Examples, References                                                                                                                                                                                                                 |
-|-----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Stress and performance tests](#performance-tests)              | (Half-)automated or manual testing of the response of the application during higher load, or expected upper boundaries of customer-defined data                                               | e.g., running and evaluating new query plans on existing, anonymized or simulated data that matches potential or known performance bottlenecks                                                                                       |
-| [Security tests](#security-tests)                               | Automated or manually crafted test cases for evaluating application security by assuming the role of an attacker, e.g., by providing malicious user input or trying to break the application. | Statical and automated code scanning (CodeQL, Brakeman), defined test cases for verifying security related input as defined in the [secure coding guidelines](https://www.openproject.org/docs/development/concepts/secure-coding/). |
-| [Installation / upgrade tests](#installation-and-upgrade-tests) | Automated and manual installation tests of OpenProject                                                                                                                                        | Packaged installation build tests for various distributions, Docker installation smoke tests for verifying correct startup and basic operation of the container.                                                                     |
-| [Usability tests](#usability-testing)                           | Evaluating the UX of the application as defined and in comparison to the requirements. Involves QA, Product, Customer.                                                                        | e.g., verifying common use-cases as defined in the requirements in an early development stage (such as a PullPreview deployment), or on a pre-released version of the application.                                                   |
-| [Accessibility tests](#accessibility-tests)                     | Evaluating the accessibility of the application according to [WCAG AA](https://www.w3.org/WAI/WCAG2AA-Conformance) and similar standards                                                      | Performing automated keyboard navigation tests. <br />Manually executing screen readers to ensure application can be used.                                                                                                           |
+| Type                                                            | Description                                                                                                                                                                                   | Examples, References                                                                                                                                                                       |
+|-----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Stress and performance tests](#performance-tests)              | (Half-)automated or manual testing of the response of the application during higher load, or expected upper boundaries of customer-defined data                                               | e.g., running and evaluating new query plans on existing, anonymized or simulated data that matches potential or known performance bottlenecks                                             |
+| [Security tests](#security-tests)                               | Automated or manually crafted test cases for evaluating application security by assuming the role of an attacker, e.g., by providing malicious user input or trying to break the application. | Statical and automated code scanning (CodeQL, Brakeman), defined test cases for verifying security related input as defined in the [secure coding guidelines](../concepts/secure-coding/). |
+| [Installation / upgrade tests](#installation-and-upgrade-tests) | Automated and manual installation tests of OpenProject                                                                                                                                        | Packaged installation build tests for various distributions, Docker installation smoke tests for verifying correct startup and basic operation of the container.                           |
+| [Usability tests](#usability-testing)                           | Evaluating the UX of the application as defined and in comparison to the requirements. Involves QA, Product, Customer.                                                                        | e.g., verifying common use-cases as defined in the requirements in an early development stage (such as a PullPreview deployment), or on a pre-released version of the application.         |
+| [Accessibility tests](#accessibility-tests)                     | Evaluating the accessibility of the application according to [WCAG AA](https://www.w3.org/WAI/WCAG2AA-Conformance) and similar standards                                                      | Performing automated keyboard navigation tests. <br />Manually executing screen readers to ensure application can be used.                                                                 |
 
 
 
@@ -311,7 +311,7 @@ Upgrade tests are manually performed for major code changes and data migrations 
 - Use automated testing scripts to simulate various installation and upgrade scenarios.
 - Provide and test the rollback of data migrations to make sure they work as intended.
 - Keep up-to-date documentation for the installation and upgrade procedures, including a list of known issues and workarounds.
-- Example of test cases would be ensuring that software works in a satisfying manner on major browsers and operating systems which are defined in https://www.openproject.org/docs/installation-and-operations/system-requirements/
+- Example of test cases would be ensuring that software works in a satisfying manner on major browsers and operating systems which are defined in [system-requirements](../../installation-and-operations/system-requirements/)
 
 
 
@@ -363,9 +363,21 @@ OpenProject strives to be accessible for all users while also retaining a high u
 **Best practices**
 
 1. Make accessibility testing an integral part of the development lifecycle, starting with the requirements.
-2. Use automated accessibility testing tools and tests that can quickly identify issues against established accessibility guidelines.
-3. Follow the best practices of the [WCAG checklists](https://www.w3.org/WAI/WCAG21/quickref/) to ensure screen readers and other assistive technologies are well supported.
-4. Consult with accessibility experts to conduct audits and provide recommendations for improvements. Alternatively, consult the development colleagues with experience in accessibility testing to evaluate requirements and implementation proposals.
+2. Use specialized browser extension to help identify and resolve common accessibility issues.
+3. Follow the best practices of the [WCAG 2 checklists](https://www.w3.org/WAI/WCAG22/quickref/) and [accessibility patterns](https://www.w3.org/WAI/ARIA/apg/patterns/) from ARIA authoring practices guide to ensure screen readers and other assistive technologies are well supported.
+4. Use [axe-core-rspec](https://github.com/dequelabs/axe-core-gems/blob/develop/packages/axe-core-rspec/README.md) in automated accessibility tests to provide continuous regression testing against common accessibility issues.
+5. Use [capybara-accessible-selectors](https://github.com/citizensadvice/capybara_accessible_selectors) in [feature tests](#feature-tests) to find UI elements using screen-reader compatible selectors. This ensures the page elements used by feature tests are accessible to assistive technologies.
+6. Consult with accessibility experts to conduct audits and provide recommendations for improvements. Alternatively, consult the development colleagues with experience in accessibility testing to evaluate requirements and implementation proposals.
+
+
+
+**References**
+
+- https://www.deque.com/axe/browser-extensions/
+- https://www.w3.org/WAI/WCAG22/quickref/
+- https://www.w3.org/WAI/ARIA/apg/patterns/
+- https://github.com/dequelabs/axe-core-gems/blob/develop/packages/axe-core-rspec/README.md
+- https://github.com/citizensadvice/capybara_accessible_selectors
 
 
 
@@ -477,6 +489,7 @@ Possible reasons are:
   * To help diagnose why a system test is failing:
     * Browser screenshots are created for failing system tests involving a browser. You can find them in the job log output.
     * Try running with `OPENPROJECT_TESTING_NO_HEADLESS=1` to view what the browser is doing. Use `OPENPROJECT_TESTING_AUTO_DEVTOOLS=1` to have DevTools opened so that you can use `debugger` statements in the js code.
+    * If the interactions are still too fast to understand why the test is failing, use `OPENPROJECT_TESTING_SLOWDOWN_FACTOR`, providing the number of seconds to slow down every browser command with. For example, if you'd like to slow down every interaction by 200 milliseconds, run with `OPENPROJECT_TESTING_SLOWDOWN_FACTOR=0.2`.
 * Migration executed locally
   * While developing on another branch, you may run migrations and forget to roll them back when switching branches. This can lead to different test results: a migration modifying a database column default value can impact system behavior and change test results.
   * To find if this is your case, run `rails db:migrate:status` to list migration status. Look for `up    <migration-id>  ********** NO FILE **********` patterns. If you have some, try looking up the commit associated with this migration and check if it explains behavior difference.
@@ -839,3 +852,22 @@ good as a test server.
 
 Most of the above applies to running tests locally, with some docker specific setup changes that are discussed [in the
 docker development documentation](../development-environment-docker).
+
+## Generators
+
+In order to support developer productivity and testing confidence, we've extracted out common setup and boilerplate for good tests
+as RSpec generators and are encouraged to use them when adding a new spec file in OpenProject.
+
+To see the list of available RSpec generators, run:
+
+```shell
+./bin/rails generate -h
+```
+
+You'll see them under the "OpenProject" generator namespace.
+
+Along with the generators, we've bundled some helpful **USAGE** guides for each to help get up and running with them. Accessing them is as simple as:
+
+```shell
+./bin/rails generate open_project:rspec:GENERATOR_NAME -h
+```

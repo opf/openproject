@@ -65,14 +65,14 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <div class="op-sidebar--footer">
-    <% if User.current.allowed_to?(:create_meetings, @project, global: true) %>
+    <% if (@project && User.current.allowed_in_project?(:create_meetings, @project)) || (@project.nil? && User.current.allowed_in_any_project?(:create_meetings)) %>
       <%= button_to polymorphic_path([:new, @project, :meeting]),
                     { method: :get,
                       class: 'button -alt-highlight -expand',
                       aria: { label: t(:label_meeting_new) },
                       title: t(:label_meeting_new) } do %>
         <%= spot_icon('add') %>
-        <span><%= Meeting.model_name.human %></span>
+        <span><%= t(:label_meeting) %></span>
       <% end %>
     <% end %>
   </div>

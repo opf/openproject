@@ -22,7 +22,10 @@
 
   &--item-action
     background: transparent
-    border: 0
+    border-right: 1px solid transparent
+    border-left: 1px solid transparent
+    border-top: 0
+    border-bottom: var(--header-border-bottom-width) solid transparent
     display: flex
     justify-content: center
     align-items: center
@@ -43,7 +46,9 @@
       text-decoration: none
       background: var(--header-item-bg-hover-color)
       color: var(--header-item-font-hover-color)
-      border-bottom: var(--header-border-bottom-width) solid var(--header-border-bottom-color)
+      border-bottom: var(--header-border-bottom-width) solid var(--header-border-bottom-color) !important
+      border-left-color: var(--main-menu-hover-border-color)
+      border-right-color: var(--main-menu-hover-border-color)
 
     &:focus
       color: var(--header-item-font-hover-color)

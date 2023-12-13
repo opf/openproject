@@ -102,7 +102,7 @@ module Pages
       def show_model(model)
         click_model_link model.title
 
-        expect_correct_page_loaded '[data-qa-selector="op-ifc-viewer--container"]'
+        expect_correct_page_loaded '[data-test-selector="op-ifc-viewer--container"]'
 
         expect_model_active(model)
       end
@@ -114,7 +114,7 @@ module Pages
       def show_defaults(models = [])
         click_toolbar_button 'Show defaults'
 
-        expect_correct_page_loaded '[data-qa-selector="op-ifc-viewer--container"]'
+        expect_correct_page_loaded '[data-test-selector="op-ifc-viewer--container"]'
 
         models.each do |model|
           expect_model_active(model, model.is_default)

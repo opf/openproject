@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -51,7 +53,8 @@ RSpec.describe RootSeeder,
       expect(View.where(type: 'work_packages_table').count).to eq 7
       expect(View.where(type: 'team_planner').count).to eq 1
       expect(Query.count).to eq 26
-      expect(Role.where(type: 'Role').count).to eq 5
+      expect(ProjectRole.count).to eq 5
+      expect(WorkPackageRole.count).to eq 3
       expect(GlobalRole.count).to eq 1
       expect(Grids::Overview.count).to eq 2
       expect(Version.count).to eq 4
@@ -80,6 +83,13 @@ RSpec.describe RootSeeder,
     it 'adds additional permissions from modules' do
       # do not test for all permissions but only some of them to ensure each
       # module got processed for a standard edition
+      work_package_editor_role = root_seeder.seed_data.find_reference(:default_role_work_package_editor)
+      expect(work_package_editor_role.permissions).to include(
+        :view_work_packages, # from common basic data
+        :view_own_time_entries, # from costs module
+        :view_file_links, # from storages module
+        :show_github_content # from github_integration module
+      )
       member_role = root_seeder.seed_data.find_reference(:default_role_member)
       expect(member_role.permissions).to include(
         :view_work_packages, # from common basic data
@@ -93,22 +103,18 @@ RSpec.describe RootSeeder,
       expect(member_role.permissions).not_to include(
         :view_linked_issues # from bim module
       )
-
-      project_admin_role = root_seeder.seed_data.find_reference(:default_role_project_admin)
-      expect(project_admin_role.permissions).not_to include(
-        :save_cost_reports, # removed by reporting module
-        :save_private_cost_reports # removed by reporting module
-      )
     end
 
     include_examples 'it creates records', model: Color, expected_count: 144
     include_examples 'it creates records', model: DocumentCategory, expected_count: 3
     include_examples 'it creates records', model: GlobalRole, expected_count: 1
+    include_examples 'it creates records', model: WorkPackageRole, expected_count: 3
+    include_examples 'it creates records', model: Role, expected_count: 9
     include_examples 'it creates records', model: IssuePriority, expected_count: 4
-    include_examples 'it creates records', model: Role, expected_count: 6
     include_examples 'it creates records', model: Status, expected_count: 14
     include_examples 'it creates records', model: TimeEntryActivity, expected_count: 6
-    include_examples 'it creates records', model: Workflow, expected_count: 1172
+    include_examples 'it creates records', model: Workflow, expected_count: 1758
+    include_examples 'it creates records', model: Meeting, expected_count: 1
   end
 
   describe 'demo data' do
@@ -137,7 +143,8 @@ RSpec.describe RootSeeder,
         expect(View.where(type: 'work_packages_table').count).to eq 7
         expect(View.where(type: 'team_planner').count).to eq 1
         expect(Query.count).to eq 26
-        expect(Role.where(type: 'Role').count).to eq 5
+        expect(ProjectRole.count).to eq 5
+        expect(WorkPackageRole.count).to eq 3
         expect(GlobalRole.count).to eq 1
         expect(Grids::Overview.count).to eq 2
         expect(Version.count).to eq 4
@@ -145,6 +152,24 @@ RSpec.describe RootSeeder,
         expect(Boards::Grid.count).to eq 5
       end
     end
+  end
+
+  describe 'demo data with work package role migration having been run' do
+    shared_let(:root_seeder) { described_class.new }
+
+    before_all do
+      # call the migration which will add data for work package roles. This
+      # needs to be done manually as running tests automatically calls the
+      # `db:test:purge` rake task.
+      require(Rails.root.join('db/migrate/20231128080650_add_work_package_roles'))
+      AddWorkPackageRoles.new.up
+
+      with_edition('standard') do
+        root_seeder.seed_data!
+      end
+    end
+
+    include_examples 'creates standard demo data'
   end
 
   describe 'demo data mock-translated in another language' do
@@ -216,8 +241,16 @@ RSpec.describe RootSeeder,
       expect(admins.pluck(:language)).to match_array(%w[en de])
     end
 
-    it 'creates 4 additional projects for development' do
-      expect(Project.count).to eq 6
+    it 'creates 5 additional projects for development' do
+      expect(Project.count).to eq 7
+    end
+
+    it 'creates 4 additional work packages for development' do
+      expect(WorkPackage.count).to eq 40
+    end
+
+    it 'creates 1 project with custom fields' do
+      expect(CustomField.count).to eq 12
     end
 
     include_examples 'no email deliveries'

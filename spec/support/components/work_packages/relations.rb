@@ -48,7 +48,7 @@ module Components
 
       def click_relation(relatable)
         SeleniumHubWaiter.wait
-        page.find(".relation-row-#{relatable.id} [data-qa-selector='op-relation--row-id']").click
+        page.find(".relation-row-#{relatable.id} [data-test-selector='op-relation--row-id']").click
       end
 
       def edit_relation_type(relatable, to_type:)
@@ -63,7 +63,7 @@ module Components
       def hover_action(relatable, action)
         retry_block do
           # Focus type edit to expose buttons
-          span = page.find(".relation-row-#{relatable.id} [data-qa-selector='op-relation--row-type']", wait: 20)
+          span = page.find(".relation-row-#{relatable.id} [data-test-selector='op-relation--row-type']", wait: 20)
           scroll_to_element(span)
           page.driver.browser.action.move_to(span.native).perform
 
@@ -101,7 +101,7 @@ module Components
         select relation_label, from: 'relation-type--select'
 
         # Enter the query and select the child
-        autocomplete = container.find("[data-qa-selector='wp-relations-autocomplete']")
+        autocomplete = container.find("[data-test-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             results_selector: '.ng-dropdown-panel-items',
                             query: to.subject,
@@ -111,9 +111,9 @@ module Components
                                       text: relation_label.upcase,
                                       wait: 10)
 
-        expect(page).to have_selector("[data-qa-selector='op-relation--row-type']", text: to.type.name.upcase)
+        expect(page).to have_selector("[data-test-selector='op-relation--row-type']", text: to.type.name.upcase)
 
-        expect(page).to have_selector("[data-qa-selector='op-relation--row-subject']", text: to.subject)
+        expect(page).to have_selector("[data-test-selector='op-relation--row-subject']", text: to.subject)
 
         ## Test if relation exist
         work_package.reload
@@ -123,15 +123,15 @@ module Components
       end
 
       def expect_relation(relatable)
-        expect(relations_group).to have_selector("[data-qa-selector='op-relation--row-subject']", text: relatable.subject)
+        expect(relations_group).to have_selector("[data-test-selector='op-relation--row-subject']", text: relatable.subject)
       end
 
       def expect_relation_by_text(text)
-        expect(relations_group).to have_selector("[data-qa-selector='op-relation--row-subject']", text:)
+        expect(relations_group).to have_selector("[data-test-selector='op-relation--row-subject']", text:)
       end
 
       def expect_no_relation(relatable)
-        expect(page).not_to have_selector("[data-qa-selector='op-relation--row-subject']", text: relatable.subject)
+        expect(page).not_to have_selector("[data-test-selector='op-relation--row-subject']", text: relatable.subject)
       end
 
       def add_parent(query, work_package)
@@ -141,7 +141,7 @@ module Components
 
         # Enter the query and select the child
         SeleniumHubWaiter.wait
-        autocomplete = find("[data-qa-selector='wp-relations-autocomplete']")
+        autocomplete = find("[data-test-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             query:,
                             results_selector: '.ng-dropdown-panel-items',
@@ -149,13 +149,13 @@ module Components
       end
 
       def expect_parent(work_package)
-        expect(page).to have_selector '[data-qa-selector="op-wp-breadcrumb-parent"]',
+        expect(page).to have_selector '[data-test-selector="op-wp-breadcrumb-parent"]',
                                       text: work_package.subject,
                                       wait: 10
       end
 
       def expect_no_parent
-        expect(page).not_to have_selector '[data-qa-selector="op-wp-breadcrumb-parent"]', wait: 10
+        expect(page).not_to have_selector '[data-test-selector="op-wp-breadcrumb-parent"]', wait: 10
       end
 
       def remove_parent
@@ -165,7 +165,7 @@ module Components
 
       def inline_create_child(subject_text)
         container = find('.wp-relations--children')
-        scroll_to_and_click(container.find('[data-qa-selector="op-wp-inline-create"]'))
+        scroll_to_and_click(container.find('[data-test-selector="op-wp-inline-create"]'))
 
         subject = ::EditField.new(container, 'subject')
         subject.expect_active!
@@ -177,7 +177,7 @@ module Components
           next if page.has_selector?('.wp-relations--children .ng-input input')
 
           SeleniumHubWaiter.wait
-          find('[data-qa-selector="op-wp-inline-create-reference"]', text: I18n.t('js.relation_buttons.add_existing_child')).click
+          find('[data-test-selector="op-wp-inline-create-reference"]', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           # Security check to be sure that the autocompleter has finished loading
           page.find '.wp-relations--children .ng-input input'
@@ -186,7 +186,7 @@ module Components
 
       def add_existing_child(work_package)
         # Enter the query and select the child
-        autocomplete = page.find(".wp-relations--add-form [data-qa-selector='wp-relations-autocomplete']")
+        autocomplete = page.find(".wp-relations--add-form [data-test-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             query: work_package.id,
                             results_selector: '.ng-dropdown-panel-items',

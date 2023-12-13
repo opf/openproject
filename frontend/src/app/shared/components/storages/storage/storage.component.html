@@ -3,7 +3,7 @@
 >
   <div class=op-tab-content--header>
     <span
-      class="op-tab-content--header-icon spot-icon spot-icon_nextcloud-circle op-files-tab--icon op-files-tab--icon_primary"
+      class="op-tab-content--header-icon spot-icon spot-icon_{{icon.storageHeader((storage | async)?._links.type.href)}} op-files-tab--icon op-files-tab--icon_primary"
     ></span>
     <span class="op-tab-content--header-text" [textContent]="(storage | async)?.name"></span>
     <a
@@ -20,7 +20,7 @@
   <op-storage-information
     *ngFor="let infoBox of storageErrors | async"
     class="op-files-tab--storage-info-box"
-    data-qa-selector="op-storage--information"
+    data-test-selector="op-storage--information"
     [content]="infoBox"
   ></op-storage-information>
 
@@ -32,12 +32,12 @@
         'op-file-section': true,
         'op-file-section--list_dragging': dragging > 0
       }"
-      data-qa-selector="file-list"
+      data-test-selector="file-list"
     >
       <li
         *ngFor="let fileLink of fileLinks | async; let i = index;"
         class="spot-list--item op-file-list--item"
-        data-qa-selector="file-list--item"
+        data-test-selector="file-list--item"
         op-file-link-list-item
         [fileLink]="fileLink"
         [disabled]="disabled | async"
@@ -65,7 +65,7 @@
     <button
       *ngIf="allowUploading && (storageErrors | async)?.length === 0"
       [attr.aria-label]="text.dropBox.uploadLabel"
-      data-qa-selector="op-storage--drop-box"
+      data-test-selector="op-storage--drop-box"
       [ngClass]="{
         'hide-when-print': true,
         'op-file-section--drop-box': true,
@@ -102,7 +102,7 @@
         *ngIf="allowUploading"
         type="button"
         class="spot-link"
-        data-qa-selector="op-storage--upload-file-button"
+        data-test-selector="op-storage--upload-file-button"
         (click)="triggerFileInput()"
       >
         <span class="spot-icon spot-icon_upload-arrow"></span>
@@ -112,7 +112,7 @@
         *ngIf="allowLinking"
         type="button"
         class="spot-link"
-        data-qa-selector="op-storage--link-existing-file-button"
+        data-test-selector="op-storage--link-existing-file-button"
         (click)="openLinkFilesDialog()"
       >
         <span class="spot-icon spot-icon_add-link"></span>

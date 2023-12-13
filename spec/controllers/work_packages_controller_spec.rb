@@ -34,6 +34,7 @@ RSpec.describe WorkPackagesController do
   end
 
   let(:project) { create(:project, identifier: 'test_project', public: false) }
+  let(:other_project) { build_stubbed(:project) }
   let(:stub_project) { build_stubbed(:project, identifier: 'test_project', public: false) }
   let(:type) { build_stubbed(:type) }
   let(:stub_work_package) do
@@ -72,13 +73,12 @@ RSpec.describe WorkPackagesController do
     describe 'w/ the export permission
               w/o a project' do
       let(:project) { nil }
+      let(:other_project) { build_stubbed(:project) }
 
       before do
-        expect(User.current).to receive(:allowed_to?)
-          .with(:export_work_packages,
-                project,
-                global: true)
-          .and_return(true)
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :export_work_packages, project: other_project
+        end
       end
 
       instance_eval(&)
@@ -89,11 +89,9 @@ RSpec.describe WorkPackagesController do
       before do
         params[:project_id] = project.id
 
-        expect(User.current).to receive(:allowed_to?)
-          .with(:export_work_packages,
-                project,
-                global: false)
-          .and_return(true)
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :export_work_packages, project:
+        end
       end
 
       instance_eval(&)
@@ -103,11 +101,7 @@ RSpec.describe WorkPackagesController do
       let(:project) { nil }
 
       before do
-        expect(User.current).to receive(:allowed_to?)
-          .with(:export_work_packages,
-                project,
-                global: true)
-          .and_return(false)
+        mock_permissions_for(current_user, &:forbid_everything)
 
         call_action
       end
@@ -125,13 +119,10 @@ RSpec.describe WorkPackagesController do
 
     describe 'with valid query' do
       before do
-        allow(User.current).to receive(:allowed_to?).and_return(false)
-        expect(User.current).to receive(:allowed_to?)
-                                  .with({ controller: 'work_packages',
-                                          action: 'index' },
-                                        project,
-                                        global: project.nil?)
-                                  .and_return(true)
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :view_work_packages, project: other_project
+          mock.allow_in_project(:view_work_packages, project:) if project
+        end
 
         allow(controller).to receive(:retrieve_query).and_return(query)
       end
@@ -143,7 +134,7 @@ RSpec.describe WorkPackagesController do
           call_action
         end
 
-        describe 'w/o a project' do
+        describe 'without a project, but with view_work_packages permission on any project' do
           let(:project) { nil }
           let(:call_action) { get('index') }
 
@@ -152,7 +143,7 @@ RSpec.describe WorkPackagesController do
           end
         end
 
-        context 'w/ a project' do
+        context 'with a project' do
           it 'renders the index template' do
             expect(response).to render_template('work_packages/index')
           end
@@ -239,7 +230,7 @@ RSpec.describe WorkPackagesController do
 
         context 'when a non-existent query has been previously selected' do
           before do
-            allow(User.current).to receive(:allowed_to?).and_return(true)
+            mock_permissions_for(current_user, &:allow_everything)
 
             allow(controller)
               .to receive(:retrieve_query)
@@ -291,7 +282,7 @@ RSpec.describe WorkPackagesController do
         time = DateTime.new(2023, 6, 30, 23, 59)
         allow(DateTime).to receive(:now).and_return(time)
         expected_name = [stub_work_package.project.identifier, "##{stub_work_package.id}",
-                         stub_work_package.subject, '2023-06-30_23-59'].join('_').gsub(' ', '-')
+                         stub_work_package.subject, '2023-06-30_23-59'].join('_').tr(' ', '-')
         expected_type = 'application/pdf'
         pdf_result = double('pdf_result',
                             error?: false,

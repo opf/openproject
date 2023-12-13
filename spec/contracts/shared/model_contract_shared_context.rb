@@ -55,4 +55,10 @@ RSpec.shared_context 'ModelContract shared context' do # rubocop:disable RSpec/C
       it_behaves_like 'contract user is unauthorized'
     end
   end
+
+  shared_examples 'contract reuses the model errors' do
+    it 'reuses the model`s errors object' do
+      expect(contract.errors.object_id).to be(contract.model.errors.object_id)
+    end
+  end
 end

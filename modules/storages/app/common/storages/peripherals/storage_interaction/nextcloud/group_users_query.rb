@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -31,18 +33,24 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
-      @group = storage.group
+    end
+
+    def self.call(storage:, group: storage.group)
+      new(storage).call(group:)
     end
 
     # rubocop:disable Metrics/AbcSize
-    def call(group: @group)
+    def call(group:)
       response = Util.http(@uri).get(
         Util.join_uri_path(@uri.path, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)),
         Util.basic_auth_header(@username, @password).merge('OCS-APIRequest' => 'true')
       )
+
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
       case response
       when Net::HTTPSuccess
         group_users = Nokogiri::XML(response.body)
@@ -50,15 +58,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                         .map(&:text)
         ServiceResult.success(result: group_users)
       when Net::HTTPMethodNotAllowed
-        Util.error(:not_allowed)
-      when Net::HTTPUnauthorized
-        Util.error(:not_authorized)
+        Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
       when Net::HTTPNotFound
-        Util.error(:not_found)
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
+      when Net::HTTPUnauthorized
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       when Net::HTTPConflict
-        Util.error(:conflict, error_text_from_response(response))
+        Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
-        Util.error(:error)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
     # rubocop:enable Metrics/AbcSize

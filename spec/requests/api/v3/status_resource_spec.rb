@@ -33,12 +33,10 @@ RSpec.describe 'API v3 Status resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:project) { create(:project, public: false) }
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let!(:statuses) { create_list(:status, 4) }
@@ -64,10 +62,7 @@ RSpec.describe 'API v3 Status resource' do
           get get_path
         end
 
-        it_behaves_like 'error response',
-                        403,
-                        'MissingPermission',
-                        I18n.t('api_v3.errors.code_403')
+        it_behaves_like 'forbidden response based on login_required'
       end
     end
   end
@@ -105,10 +100,7 @@ RSpec.describe 'API v3 Status resource' do
           get get_path
         end
 
-        it_behaves_like 'error response',
-                        403,
-                        'MissingPermission',
-                        I18n.t('api_v3.errors.code_403')
+        it_behaves_like 'forbidden response based on login_required'
       end
     end
   end

@@ -37,7 +37,7 @@ module Pages
 
         SeleniumHubWaiter.wait unless using_cuprite?
 
-        page.find('[data-qa-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$")).click
+        page.find('[data-test-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$")).click
       end
     end
 
@@ -108,7 +108,7 @@ module Pages
           .to have_content(I18n.t('js.grid.add_widget'))
 
         expect(page)
-          .not_to have_selector('[data-qa-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$"))
+          .not_to have_selector('[data-test-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$"))
       end
     end
   end

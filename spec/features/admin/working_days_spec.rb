@@ -197,19 +197,19 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       datepicker.expect_day '5'
 
       # It can cancel and reopen
-      page.within('[data-qa-selector="op-datepicker-modal"]') do
+      within_test_selector('op-datepicker-modal') do
         click_on 'Cancel'
       end
       click_on 'Non-working day'
 
-      page.within('[data-qa-selector="op-datepicker-modal"]') do
+      within_test_selector('op-datepicker-modal') do
         fill_in 'name', with: 'My holiday'
       end
 
       date1 = NonWorkingDay.maximum(:date).next_week(:monday).next_occurring(:monday)
       datepicker.set_date date1
 
-      page.within('[data-qa-selector="op-datepicker-modal"]') do
+      within_test_selector('op-datepicker-modal') do
         click_on 'Add'
       end
 
@@ -218,14 +218,14 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       # Add a second day
       click_on 'Non-working day'
 
-      page.within('[data-qa-selector="op-datepicker-modal"]') do
+      within_test_selector('op-datepicker-modal') do
         fill_in 'name', with: 'Another important day'
       end
 
       date2 = NonWorkingDay.maximum(:date).next_week(:monday).next_occurring(:tuesday)
       datepicker.set_date date2
 
-      page.within('[data-qa-selector="op-datepicker-modal"]') do
+      within_test_selector('op-datepicker-modal') do
         click_on 'Add'
       end
 
@@ -243,19 +243,19 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       # Check if date and name are entered then close the datepicker
       click_on 'Non-working day'
 
-      page.within('[data-qa-selector="op-datepicker-modal"]') do
+      within_test_selector('op-datepicker-modal') do
         click_on 'Add'
       end
       expect(page).to have_selector('.flatpickr-calendar')
       datepicker.expect_visible
 
-      page.within('[data-qa-selector="op-datepicker-modal"]') do
+      within_test_selector('op-datepicker-modal') do
         fill_in 'name', with: 'Instance-wide NWD'
       end
 
       datepicker.set_date date2
 
-      page.within('[data-qa-selector="op-datepicker-modal"]') do
+      within_test_selector('op-datepicker-modal') do
         click_on 'Add'
       end
       expect(page).not_to have_selector('.flatpickr-calendar')

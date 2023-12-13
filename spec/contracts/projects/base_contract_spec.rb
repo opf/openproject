@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require_relative 'shared_contract_examples'
 
 RSpec.describe Projects::BaseContract do
   let(:project) { Project.new(name: 'Foo', identifier: 'foo', templated: false) }
@@ -61,7 +61,7 @@ RSpec.describe Projects::BaseContract do
       it 'returns an error on validation' do
         expect(subject).to be false
         expect(contract.errors.symbols_for(:templated))
-          .to match_array [:error_unauthorized]
+          .to contain_exactly(:error_unauthorized)
       end
     end
   end

@@ -38,9 +38,8 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
                   :with_status,
                   parent: parent_project,
                   description: 'some description').tap do |p|
-      allow(p)
-        .to receive(:available_custom_fields)
-              .and_return([int_custom_field, version_custom_field])
+      allow(p).to receive_messages(available_custom_fields: [int_custom_field, version_custom_field],
+                                   ancestors_from_root: ancestors)
 
       allow(p)
         .to receive(int_custom_field.attribute_getter)
@@ -50,29 +49,6 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
         .to receive(:custom_value_for)
               .with(version_custom_field)
               .and_return(version_custom_value)
-
-      allow(p)
-        .to receive(:ancestors_from_root)
-              .and_return(ancestors)
-    end
-  end
-  let(:parent_project) do
-    build_stubbed(:project).tap do |parent|
-      allow(parent)
-        .to receive(:visible?)
-              .and_return(parent_visible)
-    end
-  end
-  let(:representer) { described_class.create(project, current_user: user, embed_links: true) }
-  let(:parent_visible) { true }
-  let(:ancestors) { [parent_project] }
-
-  let(:user) do
-    build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?) do |permission, context|
-        permissions.include?(permission) && context == project
-      end
     end
   end
 
@@ -93,8 +69,25 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
               .and_return(version)
     end
   end
+  let(:permissions) { %i[view_project add_work_packages view_members] }
+  let(:parent_project) do
+    build_stubbed(:project).tap do |parent|
+      allow(parent)
+        .to receive(:visible?)
+              .and_return(parent_visible)
+    end
+  end
+  let(:representer) { described_class.create(project, current_user: user, embed_links: true) }
+  let(:parent_visible) { true }
+  let(:ancestors) { [parent_project] }
 
-  let(:permissions) { %i[add_work_packages view_members] }
+  let(:user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
+  end
 
   it { is_expected.to include_json('Project'.to_json).at_path('_type') }
 
@@ -141,6 +134,13 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
       let(:json_path) { 'updatedAt' }
     end
 
+    context 'when the user does not have the view_project permission' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'no property', 'statusExplanation'
+      it_behaves_like 'no property', :description
+    end
+
     describe 'int custom field' do
       context 'if the user is admin' do
         before do
@@ -156,6 +156,29 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
       end
 
       context 'if the user is no admin' do
+        it "has no property for the int custom field" do
+          expect(subject).not_to have_json_path("customField#{int_custom_field.id}")
+        end
+      end
+
+      context 'if the user is no admin and the field is visible' do
+        before do
+          int_custom_field.visible = true
+        end
+
+        it "has a property for the int custom field" do
+          expect(subject).to be_json_eql(int_custom_value.value.to_json)
+                               .at_path("customField#{int_custom_field.id}")
+        end
+      end
+
+      context 'if the user lacks the :view_project permission' do
+        let(:permissions) { [] }
+
+        before do
+          int_custom_field.visible = true
+        end
+
         it "has no property for the int custom field" do
           expect(subject).not_to have_json_path("customField#{int_custom_field.id}")
         end
@@ -355,6 +378,14 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
           let(:href) { nil }
         end
       end
+
+      context 'if the user does not have the view_project permission' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'status' }
+        end
+      end
     end
 
     describe 'categories' do
@@ -445,7 +476,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
     end
 
     describe 'storages' do
-      let(:storage) { build_stubbed(:storage) }
+      let(:storage) { build_stubbed(:nextcloud_storage) }
       let(:permissions) { %i[view_file_links] }
 
       before do
@@ -494,7 +525,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
           version_custom_field.visible = false
         end
 
-        it "has no property for the int custom field" do
+        it "does not link the custom field" do
           expect(subject).not_to have_json_path("links/customField#{version_custom_field.id}")
         end
       end
@@ -503,6 +534,14 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
         it 'links custom fields' do
           expect(subject).to be_json_eql(api_v3_paths.version(version.id).to_json)
                                .at_path("_links/customField#{version_custom_field.id}/href")
+        end
+      end
+
+      context 'if the user lacks the :view_project permission' do
+        let(:permissions) { [] }
+
+        it 'does not link the custom field' do
+          expect(subject).not_to have_json_path("links/customField#{version_custom_field.id}")
         end
       end
     end
@@ -602,6 +641,38 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
         end
       end
     end
+
+    describe 'status' do
+      let(:embedded_path) { '_embedded/status' }
+
+      it 'has the status embedded' do
+        expect(generated)
+          .to be_json_eql('ProjectStatus'.to_json)
+                .at_path("#{embedded_path}/_type")
+
+        expect(generated)
+          .to be_json_eql(I18n.t("activerecord.attributes.project.status_codes.#{project.status_code}").to_json)
+                .at_path("#{embedded_path}/name")
+      end
+
+      context 'if the status_code is nil' do
+        before { project.status_code = nil }
+
+        it 'has no status embedded' do
+          expect(generated)
+            .not_to have_json_path(embedded_path)
+        end
+      end
+
+      context 'if the user does not have the view_project permission' do
+        let(:permissions) { [] }
+
+        it 'has no status embedded' do
+          expect(generated)
+            .not_to have_json_path(embedded_path)
+        end
+      end
+    end
   end
 
   describe 'caching' do
@@ -642,8 +713,8 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
   end
 
   describe '.checked_permissions' do
-    it 'lists add_work_packages' do
-      expect(described_class.checked_permissions).to contain_exactly(:add_work_packages)
+    it 'lists add_work_packages and view_project' do
+      expect(described_class.checked_permissions).to contain_exactly(:add_work_packages, :view_project)
     end
   end
 end

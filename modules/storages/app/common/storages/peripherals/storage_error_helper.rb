@@ -38,8 +38,10 @@ module Storages::Peripherals
         raise API::Errors::BadRequest.new(error.log_message)
       when :forbidden
         raise API::Errors::OutboundRequestForbidden.new
+      when :missing_ee_token_for_one_drive
+        raise API::Errors::EnterpriseTokenMissing.new
       else
-        raise API::Errors::InternalError.new
+        raise API::Errors::InternalError.new(error.log_message)
       end
     end
   end

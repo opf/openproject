@@ -16,6 +16,7 @@ keywords: work packages FAQ, tickets, how to, task
 | [Move and copy](#move-and-copy)                           | Moving and copying work packages                             |
 | [Custom fields](#custom-fields)                           | Additional fields, self-defined attributes and values        |
 | [Export](#export)                                         | Exporting, printing, external saving                         |
+| [Sharing](#sharing-work-packages)               | Sharing work packages                                        |
 | [Versions and backlog](#versions-and-backlog)             | Using versions in work packages, relations to the backlogs module |
 
 ## Working with work packages
@@ -27,6 +28,10 @@ Please navigate to *Administration ->Work packages ->Types*, choose the respecti
 ### How can I assign users who do not have an account to work packages?
 
 If you want to manage your project alone (without informing other team members) we recommend to use the [placeholder users](../../../system-admin-guide/users-permissions/placeholder-users) feature.
+
+### How can I add an attachment to a work package if I am not a member of the project?
+
+It is possible for a project non-member to add attachments to work packages. For this the system administrator needs to add the **Add attachments** permission to the **Non member** role.
 
 ### How can I set workload, deadline and duration in a work package?
 
@@ -210,7 +215,9 @@ Yes, you can display the sum of custom fields in the work package tables by chec
 
 Calculating a sum across different attributes (e.g. Estimated time + added hours) is however not possible.
 
-
+## Sharing work packages
+### Is it possible to share a work packages with a user outside my project?
+Yes, starting with OpenProject 13.1 you can [share a work package](../share-work-packages) with users outside your project or even with user who do not yet have an account on your instance. 
 
 ## Export
 

@@ -42,8 +42,7 @@ RSpec.describe 'Overview page on the fly creation if user lacks :mange_overview 
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:overview_page) do
     Pages::Overview.new(project)

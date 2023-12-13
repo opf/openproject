@@ -27,22 +27,22 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
-RSpec.describe 'Team planner constraints for a subproject', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner constraints for a subproject',
+               :js,
+               with_ee: %i[team_planner_view],
+               with_settings: { start_of_week: 1 } do
   include_context 'with team planner full access'
 
   let!(:other_user) do
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_team_planner work_package_assigned
-           ])
+           member_with_permissions: { project => %w[view_work_packages view_team_planner work_package_assigned] })
   end
 
   let!(:subproject) { create(:project, parent: project) }
-  let!(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages work_package_assigned]) }
+  let!(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages work_package_assigned]) }
   let!(:member) { create(:member, principal: user, project: subproject, roles: [role]) }
   let(:project_include) { Components::ProjectIncludeComponent.new }
 

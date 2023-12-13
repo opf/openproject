@@ -276,11 +276,10 @@ RSpec.describe WikiPage do
     let(:other_project) { create(:project).reload }
     let(:other_wiki) { project.wiki }
     let(:other_wiki_page) { create(:wiki_page, wiki:, title: wiki.wiki_menu_items.first.title) }
-    let(:role) { create(:role, permissions: [:view_wiki_pages]) }
+    let(:role) { create(:project_role, permissions: [:view_wiki_pages]) }
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     it 'returns all pages for which the user has the \'view_wiki_pages\' permission' do
@@ -377,8 +376,7 @@ RSpec.describe WikiPage do
     before do
       create(:user,
              firstname: 'project_watcher',
-             member_in_project: wiki.project,
-             member_with_permissions: [:view_wiki_pages],
+             member_with_permissions: { wiki.project => [:view_wiki_pages] },
              notification_settings: [
                build(:notification_setting,
                      wiki_page_added: true,
@@ -387,8 +385,7 @@ RSpec.describe WikiPage do
 
       wiki_watcher = create(:user,
                             firstname: 'wiki_watcher',
-                            member_in_project: wiki.project,
-                            member_with_permissions: [:view_wiki_pages],
+                            member_with_permissions: { wiki.project => [:view_wiki_pages] },
                             notification_settings: [
                               build(:notification_setting,
                                     wiki_page_added: true,
@@ -417,8 +414,7 @@ RSpec.describe WikiPage do
       let!(:page_watcher) do
         watcher = create(:user,
                          firstname: 'page_watcher',
-                         member_in_project: wiki.project,
-                         member_with_permissions: [:view_wiki_pages],
+                         member_with_permissions: { wiki.project => [:view_wiki_pages] },
                          notification_settings: [
                            build(:notification_setting, wiki_page_updated: true)
                          ])

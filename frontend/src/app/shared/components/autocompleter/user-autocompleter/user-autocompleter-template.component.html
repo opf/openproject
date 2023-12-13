@@ -1,0 +1,21 @@
+<ng-template
+  #optionTemplate
+  let-item
+  let-search="search"
+>
+  <op-principal
+    *ngIf="item && item.href"
+    [principal]="item"
+    [hideName]="true"
+    size="mini"
+  ></op-principal>
+  <span [opSearchHighlight]="search">
+      {{ item.name }}
+    </span>
+</ng-template>
+<ng-template #footerTemplate *ngIf="inviteUserToProject">
+  <op-invite-user-button
+    [projectId]="inviteUserToProject"
+    class="op-select-footer"
+  ></op-invite-user-button>
+</ng-template>

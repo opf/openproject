@@ -1,11 +1,11 @@
 # Example: Simple grid collection response
 ---
 value:
-  _type: Collection,
-  total: 1,
-  count: 1,
-  pageSize: 30,
-  offset: 1,
+  _type: Collection
+  total: 1
+  count: 1
+  pageSize: 30
+  offset: 1
   _embedded:
     elements:
       - _type: Grid
@@ -31,8 +31,8 @@ value:
             endRow: 3
             startColumn: 3
             endColumn: 6
-        createdAt: '2018-12-03T16:58:30Z'
-        updatedAt: '2018-12-13T19:36:40Z'
+        createdAt: '2018-12-03T16:58:30.297Z'
+        updatedAt: '2018-12-13T19:36:40.352Z'
         _links:
           scope:
             href: "/my/page"

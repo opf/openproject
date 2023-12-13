@@ -54,10 +54,10 @@ See COPYRIGHT and LICENSE files for more details.
           <legend class="form--fieldset-legend"><%=t(:label_user_new)%></legend>
           <div class="form--field -vertical">
             <%=
-            angular_component_tag 'op-user-autocompleter',
+              angular_component_tag 'opce-user-autocompleter',
                                   inputs: {
-                                    additionalFilters: autocompleter_filters(@group),
-                                    name: 'user_ids',
+                                    inputName: 'user_ids',
+                                    filters: autocompleter_filters(@group),
                                   },
                                   class: "new-group-members--autocomplete"
             %>

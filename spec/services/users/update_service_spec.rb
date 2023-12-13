@@ -38,7 +38,7 @@ RSpec.describe Users::UpdateService do
 
   describe 'updating attributes' do
     let(:instance) { described_class.new(model: update_user, user: current_user) }
-    let(:current_user) { build_stubbed(:admin) }
+    let(:current_user) { create(:admin) }
     let(:update_user) { create(:user, mail: 'correct@example.org') }
 
     subject { instance.call(attributes:) }

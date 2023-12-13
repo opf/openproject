@@ -31,7 +31,7 @@ module WorkPackages
     include UnchangedProject
 
     attribute :lock_version,
-              permission: %i[edit_work_packages assign_versions manage_subtasks move] do
+              permission: %i[edit_work_packages assign_versions manage_subtasks move_work_packages] do
       if model.lock_version.nil? || model.lock_version_changed?
         errors.add :base, :error_conflict
       end

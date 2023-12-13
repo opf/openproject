@@ -33,7 +33,7 @@ RSpec.describe PlaceholderUsers::MembershipsController do
   shared_let(:placeholder_user) { create(:placeholder_user) }
   shared_let(:anonymous) { create(:anonymous) }
   shared_let(:project) { create(:project) }
-  shared_let(:role) { create(:role) }
+  shared_let(:role) { create(:project_role) }
 
   shared_examples 'update memberships flow' do
     it 'works' do
@@ -106,16 +106,15 @@ RSpec.describe PlaceholderUsers::MembershipsController do
   context 'as user with global permission and manage_members' do
     current_user do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[manage_members],
-             global_permission: %i[manage_placeholder_user])
+             member_with_permissions: { project => %i[manage_members] },
+             global_permissions: %i[manage_placeholder_user])
     end
 
     it_behaves_like 'update memberships flow'
   end
 
   context 'as user with global permission but not project permission' do
-    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
+    current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
     describe 'POST create' do
       it 'redirects but fails to create' do

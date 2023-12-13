@@ -29,25 +29,35 @@
 require 'spec_helper'
 
 RSpec.describe WorkflowsController do
+  let!(:role_scope) do
+    role_scope = instance_double(ActiveRecord::Relation)
+
+    allow(Role)
+      .to receive(:where)
+            .with(type: ProjectRole.name)
+            .and_return(role_scope)
+
+    allow(role_scope)
+      .to receive_messages(order: role_scope, find_by: nil)
+
+    allow(role_scope)
+      .to receive(:find)
+            .with(role.id.to_s)
+            .and_return(role)
+
+    allow(role_scope)
+      .to receive(:find_by)
+            .with(id: role.id.to_s)
+            .and_return(role)
+
+    role_scope
+  end
+
   let!(:role) do
-    build_stubbed(:role).tap do |r|
-      allow(Role)
-        .to receive(:find)
-              .with(r.id.to_s)
-              .and_return(r)
-
-      allow(Role)
-        .to receive(:find_by)
-              .and_return(nil)
-
-      allow(Role)
-        .to receive(:find_by)
-              .with(id: r.id.to_s)
-              .and_return(r)
-    end
+    build_stubbed(:project_role)
   end
   let!(:type) do
-    build_stubbed(:type).tap do |t|
+    build_stubbed(:type) do |t|
       allow(Type)
         .to receive(:find)
               .with(t.id.to_s)
@@ -105,7 +115,7 @@ RSpec.describe WorkflowsController do
         .to receive(:order)
               .and_return([type])
 
-      allow(Role)
+      allow(role_scope)
         .to receive(:order)
               .and_return([role])
     end
@@ -270,8 +280,8 @@ RSpec.describe WorkflowsController do
     let(:target_type1) { build_stubbed(:type) }
     let(:target_type2) { build_stubbed(:type) }
 
-    let(:target_role1) { build_stubbed(:role) }
-    let(:target_role2) { build_stubbed(:role) }
+    let(:target_role1) { build_stubbed(:project_role) }
+    let(:target_role2) { build_stubbed(:project_role) }
 
     let(:params) do
       {
@@ -283,7 +293,7 @@ RSpec.describe WorkflowsController do
     end
 
     before do
-      allow(Role)
+      allow(role_scope)
         .to receive(:where)
               .with(id: [target_role1.id.to_s, target_role2.id.to_s])
               .and_return([target_role1, target_role2])

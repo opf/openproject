@@ -80,7 +80,7 @@ RSpec.describe 'Projects autocomplete page', js: true, with_cuprite: true do
   # necessary to be able to see public projects
   let!(:non_member_role) { create(:non_member) }
   # we only need the public permissions: view_project, :view_news
-  let(:role) { create(:role, permissions: []) }
+  let(:role) { create(:project_role, permissions: []) }
 
   include BecomeMember
 

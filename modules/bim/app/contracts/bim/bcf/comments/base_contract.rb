@@ -40,7 +40,7 @@ module Bim::Bcf
       private
 
       def user_allowed_to_manage_bcf
-        errors.add :base, :error_unauthorized unless @user.allowed_to?(:manage_bcf, model.issue.work_package.project)
+        errors.add :base, :error_unauthorized unless @user.allowed_in_project?(:manage_bcf, model.issue.work_package.project)
       end
 
       def validate_viewpoint_reference

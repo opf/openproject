@@ -64,14 +64,13 @@ RSpec.describe 'Assigned to me embedded query on my page', js: true do
   end
 
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries work_package_assigned])
   end
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:my_page) do
     Pages::My::Page.new

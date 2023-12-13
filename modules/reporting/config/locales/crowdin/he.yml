@@ -47,6 +47,7 @@ he:
   label_is_project_with_subprojects: "הוא (כולל תת פרוייקטים)"
   label_work_package_attributes: "תכונות חבילת עבודה"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "ערך כספי"
   label_month_reporting: "חודש (הוצא)"
   label_new_report: "דוח עלות חדש"

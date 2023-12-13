@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregation_time_minutes: 0 } do
   shared_let(:user) { create(:user) }
   shared_let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(move_work_packages
                            view_work_packages
                            add_work_packages

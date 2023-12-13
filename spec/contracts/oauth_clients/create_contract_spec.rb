@@ -36,7 +36,7 @@ RSpec.describe OAuthClients::CreateContract do
   let(:current_user) { create(:admin) }
   let(:client_id) { "1234567889" }
   let(:client_secret) { "asdfasdfasdf" }
-  let(:integration) { build_stubbed(:storage) }
+  let(:integration) { build_stubbed(:nextcloud_storage) }
   let(:oauth_client) do
     build(:oauth_client, client_id:, client_secret:, integration:)
   end
@@ -73,7 +73,7 @@ RSpec.describe OAuthClients::CreateContract do
     end
 
     context 'with integration (polymorphic attribute) linked' do
-      let(:integration) { create(:storage) }
+      let(:integration) { create(:nextcloud_storage) }
 
       include_examples 'contract is valid'
     end
@@ -84,4 +84,6 @@ RSpec.describe OAuthClients::CreateContract do
       include_examples 'contract is invalid', { integration_id: :blank, integration_type: :blank }
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

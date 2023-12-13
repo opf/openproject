@@ -27,12 +27,13 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'placeholder user contract' do
   let(:placeholder_user_name) { 'UX Designer' }
 
   context 'when user with global permission' do
-    let(:current_user) { create(:user, global_permission: %i[manage_placeholder_user]) }
+    let(:current_user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
     it_behaves_like 'contract is valid'
   end
@@ -77,5 +78,9 @@ RSpec.shared_examples_for 'placeholder user contract' do
         it_behaves_like 'contract is invalid'
       end
     end
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:current_user) { build_stubbed(:admin) }
   end
 end

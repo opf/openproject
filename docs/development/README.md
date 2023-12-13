@@ -38,7 +38,7 @@ Take a look at the bottom under Additional resources to see how to setup your de
 
 ## Branching model and development flow
 
-Please see this separate guide for the [git branching model and core development](git-workflow).
+Please see this separate guide for the [git branching model and core development](git-workflow/).
 
 
 
@@ -50,7 +50,7 @@ We prepared a set of documentation concepts for an introduction into various bac
 
 ## Translations
 
-If you want to contribute to the localization of OpenProject and its plugins you can do so on the [Crowdin OpenProject page](https://crowdin.com/project/openproject). Once a day we fetch those locales and automatically them to GitHub. Contributing there will ensure your language will be up to date for the next release!
+If you want to contribute to the localization of OpenProject and its plugins you can do so on the [Crowdin OpenProject page](https://crowdin.com/project/openproject). Once a day we fetch those locales and automatically upload them to GitHub. Contributing there will ensure your language will be up to date for the next release!
 
 More on this topic can be found in our [blog post](https://www.openproject.org/blog/help-translate-openproject-into-your-language/).
 

@@ -37,11 +37,13 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery, 'integration' do
 
   context 'when using ongoing filter' do
     let(:project) { create(:project, enabled_module_names: %w[costs]) }
-    let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[log_own_time]) }
-    let(:other_user) { create(:user, member_in_project: project, member_with_permissions: %i[log_own_time]) }
+    let(:user) { create(:user, member_with_permissions: { project => %i[log_own_time] }) }
+    let(:work_package) { create(:work_package, project:) }
+    let(:other_user) { create(:user, member_with_permissions: { project => %i[log_own_time] }) }
+    let(:other_work_package) { create(:work_package, project:) }
 
-    let!(:user_timer) { create(:time_entry, user:, project:, ongoing: true) }
-    let!(:other_user_timer) { create(:time_entry, user: other_user, project:, ongoing: true) }
+    let!(:user_timer) { create(:time_entry, user:, work_package:, ongoing: true) }
+    let!(:other_user_timer) { create(:time_entry, user: other_user, work_package: other_work_package, ongoing: true) }
 
     describe '#results' do
       subject { instance.results }

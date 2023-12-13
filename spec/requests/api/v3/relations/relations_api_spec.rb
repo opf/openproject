@@ -314,7 +314,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
     let(:permissions) { %i(view_work_packages manage_work_package_relations) }
 
     let(:role) do
-      create(:existing_role, permissions:)
+      create(:existing_project_role, permissions:)
     end
 
     let(:project) { create(:project, members: { user => role }) }
@@ -372,7 +372,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
     end
 
     let(:permissions) { %i[view_work_packages manage_work_package_relations] }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
 
     let(:current_user) do
       create(:user).tap do |user|
@@ -411,7 +411,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
 
   describe 'GET /api/v3/relations?[filter]' do
     let(:user) { create(:user) }
-    let(:role) { create(:role, permissions: [:view_work_packages]) }
+    let(:role) { create(:project_role, permissions: [:view_work_packages]) }
     let(:member_project_to) do
       build(:member,
             project: to.project,
@@ -481,7 +481,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
       api_v3_paths.relation(relation.id)
     end
 
-    let(:role) { create(:role, permissions: [:view_work_packages]) }
+    let(:role) { create(:project_role, permissions: [:view_work_packages]) }
 
     let(:current_user) do
       create(:user).tap do |user|

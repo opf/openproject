@@ -81,7 +81,7 @@ RSpec.describe 'Enterprise token',
         submit_button.click
 
         expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
-        expect(page).to have_selector('[data-qa-selector="op-enterprise--active-token"]')
+        expect(page).to have_test_selector('op-enterprise--active-token')
 
         expect(page.all('.attributes-key-value--key').map(&:text))
           .to eq ['Subscriber', 'Email', 'Domain', 'Maximum active users', 'Starts at', 'Expires at']
@@ -113,7 +113,7 @@ RSpec.describe 'Enterprise token',
         click_on "Delete"
 
         # Expect modal
-        find('[data-qa-selector="confirmation-modal--confirmed"]').click
+        find_test_selector('confirmation-modal--confirmed').click
 
         wait_for_reload
 

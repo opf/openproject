@@ -37,17 +37,6 @@ module ErrorMessageHelper
     render_error_messages_partial(object.errors, object)
   end
 
-  # Will take a contract to display the errors in a rails form.
-  def error_messages_for_contract(object, errors)
-    return unless errors
-
-    # In order to have faulty field highlighted, the method sets
-    # all errors in the contract on the object as well.
-    object.errors.merge!(errors)
-
-    render_error_messages_partial(errors, object)
-  end
-
   def render_error_messages_partial(errors, object)
     return '' if errors.empty?
 

@@ -34,13 +34,13 @@ RSpec.describe 'API v3 documents resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:document) { create(:document, project:) }
   let(:invisible_document) { create(:document, project: other_project) }
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_documents) }
 
   subject(:response) { last_response }

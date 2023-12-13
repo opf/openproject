@@ -38,7 +38,7 @@ RSpec.describe CostlogController do
   end
   let (:user) { create(:user) }
   let (:user2) { create(:user) }
-  let (:controller) { build(:role, permissions: %i[log_costs edit_cost_entries]) }
+  let (:controller) { build(:project_role, permissions: %i[log_costs edit_cost_entries]) }
   let (:cost_type) { build(:cost_type) }
   let (:cost_entry) do
     build(:cost_entry, work_package:,
@@ -54,7 +54,7 @@ RSpec.describe CostlogController do
   def grant_current_user_permissions(user, permissions)
     member = build(:member, project:,
                             principal: user)
-    member.roles << build(:role, permissions:)
+    member.roles << build(:project_role, permissions:)
     member.principal = user
     member.save!
     user.reload # in order to refresh the member/membership associations

@@ -49,7 +49,7 @@ module OpenProject::TextFormatting
 
         html.gsub(self.class.regexp) do |matched_string|
           variable = ($1.presence || $2.presence).dup
-          variable.gsub!('\\', '')
+          variable.delete!('\\')
 
           if ALLOWED_SETTINGS.include?(variable)
             send variable

@@ -45,10 +45,10 @@ RSpec.describe 'API v3 Work package resource',
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:unauthorize_user) { create(:user) }
   let(:type) { create(:type) }
@@ -123,7 +123,7 @@ RSpec.describe 'API v3 Work package resource',
 
             # resolves links
             expect(subject['html'])
-              .to have_selector("macro.macro--wp-quickinfo[data-id='#{other_wp.id}']")
+              .to have_selector("opce-macro-wp-quickinfo[data-id='#{other_wp.id}']")
             # resolves macros, e.g. toc
             expect(subject['html'])
               .to have_selector('.op-uc-toc--list-item', text: "OpenProject Masterplan for 2015")
@@ -202,7 +202,7 @@ RSpec.describe 'API v3 Work package resource',
         get get_path
       end
 
-      it_behaves_like 'not found',
+      it_behaves_like 'not found response based on login_required',
                       I18n.t('api_v3.errors.not_found.work_package')
     end
   end

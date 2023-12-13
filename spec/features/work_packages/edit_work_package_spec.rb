@@ -4,7 +4,7 @@ require 'features/page_objects/notification'
 RSpec.describe 'edit work package',
                js: true do
   let(:dev_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            add_work_packages])
   end
@@ -12,11 +12,10 @@ RSpec.describe 'edit work package',
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: dev_role)
+           member_with_roles: { project => dev_role })
   end
   let(:manager_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            edit_work_packages
                            work_package_assigned])
@@ -25,13 +24,11 @@ RSpec.describe 'edit work package',
     create(:admin,
            firstname: 'Manager',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: manager_role)
+           member_with_roles: { project => manager_role })
   end
   let(:placeholder_user) do
     create(:placeholder_user,
-           member_in_project: project,
-           member_through_role: manager_role)
+           member_with_roles: { project => manager_role })
   end
 
   let(:cf_all) do

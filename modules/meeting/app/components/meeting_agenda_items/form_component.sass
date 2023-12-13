@@ -1,0 +1,13 @@
+@import 'helpers'
+
+.op-meeting-agenda-item-form
+  display: grid
+  grid-template-columns: 1fr 140px
+  grid-template-areas: "title duration" "notes notes" "add_note actions"
+  grid-gap: 8px
+
+  &--actions
+    justify-self: end
+
+  @media screen and (max-width: $breakpoint-sm)
+    grid-template-areas: "title title" "duration duration" "notes notes" "add_note actions"

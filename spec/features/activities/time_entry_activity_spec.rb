@@ -34,14 +34,13 @@ RSpec.describe 'TimeEntry activity',
                with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[log_time
-                                       view_time_entries
-                                       view_own_time_entries
-                                       edit_own_time_entries
-                                       view_work_packages
-                                       edit_work_packages
-                                       edit_time_entries])
+           member_with_permissions: { project => %i[log_time
+                                                    view_time_entries
+                                                    view_own_time_entries
+                                                    edit_own_time_entries
+                                                    view_work_packages
+                                                    edit_work_packages
+                                                    edit_time_entries] })
   end
   let(:user2) { create(:user, firstname: 'Peter', lastname: 'Parker') }
   let(:project) { build(:project_with_types, enabled_module_names: %w[costs activity work_package_tracking]) }

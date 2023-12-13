@@ -30,12 +30,10 @@ require 'spec_helper'
 
 RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions:)
   end
 
@@ -95,8 +93,7 @@ RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
       describe 'copied watchers' do
         let(:watcher_user) do
           create(:user,
-                 member_in_project: source_project,
-                 member_with_permissions: %i(view_work_packages))
+                 member_with_permissions: { source_project => %i(view_work_packages) })
         end
 
         before do
@@ -105,7 +102,7 @@ RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
 
         it 'copies the watcher and does not add the copying user as a watcher' do
           expect(copy.watcher_users)
-            .to match_array([watcher_user])
+            .to contain_exactly(watcher_user)
         end
       end
     end
@@ -125,7 +122,7 @@ RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
         p
       end
       let(:target_custom_fields) { [] }
-      let(:target_role) { create(:role, permissions: target_permissions) }
+      let(:target_role) { create(:project_role, permissions: target_permissions) }
       let(:target_permissions) { %i(add_work_packages manage_subtasks) }
       let(:attributes) { { project: target_project, type: target_type } }
 
@@ -180,7 +177,7 @@ RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
             create(:member,
                    project: target_project,
                    principal: target_user,
-                   roles: [create(:role, permissions: [:work_package_assigned])])
+                   roles: [create(:project_role, permissions: [:work_package_assigned])])
           end
           let(:attributes) { { project: target_project, assigned_to_id: target_user.id } }
 

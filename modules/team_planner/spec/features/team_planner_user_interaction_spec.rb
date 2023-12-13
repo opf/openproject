@@ -27,18 +27,18 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
-RSpec.describe 'Team planner drag&dop and resizing', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner drag&dop and resizing',
+               :js,
+               with_ee: %i[team_planner_view],
+               with_settings: { start_of_week: 1 } do
   include_context 'with team planner full access'
 
   let!(:other_user) do
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_team_planner work_package_assigned
-           ])
+           member_with_permissions: { project => %w[view_work_packages view_team_planner work_package_assigned] })
   end
 
   let!(:first_wp) do

@@ -68,8 +68,7 @@ RSpec.describe "Immediate reminder settings",
           build(:notification_setting,
                 mentioned: true)
         ],
-        member_in_project: project,
-        member_with_permissions: %i[view_work_packages]
+        member_with_permissions: { project => %i[view_work_packages] }
       )
     end
 

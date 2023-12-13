@@ -55,7 +55,7 @@ FactoryBot.define do
                 xml['oc'].size('20028269')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:27:36 GMT')
                 xml['oc'].permissions('RGDNVCK')
-                xml['oc'].send('owner-display-name', url_safe_user_id)
+                xml['oc'].send(:"owner-display-name", url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -74,7 +74,7 @@ FactoryBot.define do
                 xml['oc'].size('6592')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
                 xml['oc'].permissions('RGDNVCK')
-                xml['oc'].send('owner-display-name', url_safe_user_id)
+                xml['oc'].send(:"owner-display-name", url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -93,7 +93,7 @@ FactoryBot.define do
                 xml['oc'].size('8592')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:43:26 GMT')
                 xml['oc'].permissions('RGDNV')
-                xml['oc'].send('owner-display-name', url_safe_user_id)
+                xml['oc'].send(:"owner-display-name", url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -113,7 +113,7 @@ FactoryBot.define do
                 xml['d'].getcontenttype('text/markdown')
                 xml['d'].getlastmodified('Thu, 14 Jul 2022 08:42:15 GMT')
                 xml['oc'].permissions('RGDNVW')
-                xml['oc'].send('owner-display-name', url_safe_user_id)
+                xml['oc'].send(:"owner-display-name", url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -127,7 +127,7 @@ FactoryBot.define do
                 xml['d'].getcontenttype('application/pdf')
                 xml['d'].getlastmodified('Thu, 14 Jul 2022 08:42:15 GMT')
                 xml['oc'].permissions('RGDNV')
-                xml['oc'].send('owner-display-name', url_safe_user_id)
+                xml['oc'].send(:"owner-display-name", url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -156,7 +156,7 @@ FactoryBot.define do
                 xml['oc'].size('6592')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
                 xml['oc'].permissions('RGDNVCK')
-                xml['oc'].send('owner-display-name', 'admin')
+                xml['oc'].send(:"owner-display-name", 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -176,7 +176,7 @@ FactoryBot.define do
                 xml['d'].getcontenttype('image/png')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
                 xml['oc'].permissions('RGDNVW')
-                xml['oc'].send('owner-display-name', 'admin')
+                xml['oc'].send(:"owner-display-name", 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -190,7 +190,7 @@ FactoryBot.define do
                 xml['d'].getcontenttype('audio/ogg')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
                 xml['oc'].permissions('RGDNVW')
-                xml['oc'].send('owner-display-name', 'admin')
+                xml['oc'].send(:"owner-display-name", 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -204,7 +204,7 @@ FactoryBot.define do
                 xml['d'].getcontenttype('text/plain')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
                 xml['oc'].permissions('RGDNVW')
-                xml['oc'].send('owner-display-name', 'admin')
+                xml['oc'].send(:"owner-display-name", 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end

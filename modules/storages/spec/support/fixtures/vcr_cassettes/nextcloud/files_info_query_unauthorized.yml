@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/filesinfo
+    body:
+      encoding: UTF-8
+      string: '{"fileIds":["182","203","222"]}'
+    headers:
+      Authorization:
+      - Bearer 1234567890-1
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Ocs-Apirequest:
+      - 'true'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Length:
+      - '140'
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 31 Aug 2023 15:56:02 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.56 (Debian)
+      Set-Cookie:
+      - __Host-nc_sameSiteCookielax=true; path=/; httponly;secure; expires=Fri, 31-Dec-2100
+        23:59:59 GMT; SameSite=lax
+      - __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict
+      - oc_sessionPassphrase=jerIWxh2u207KZvn8P9QfqUQqhxH1PU9dwZGLgmFmmE7YvuUvHLkMAXQJ6cxw0Tv622PCSD3z4wvuv%2BQZYmocMUcRJxkjuSMaUrwXB83Ys2%2BO%2BegSfLT12NgAQPSGY82;
+        path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=40ab489740e67cfe180e2c0fce9972a4; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=8e5f3e155930f7d2a03ce41bb8c67e49; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=8e5f3e155930f7d2a03ce41bb8c67e49; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=8e5f3e155930f7d2a03ce41bb8c67e49; path=/; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.8
+      X-Request-Id:
+      - HbnpSYoZ0evEYxmtZRPO
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"ocs":{"meta":{"status":"failure","statuscode":997,"message":"Current
+        user is not logged in","totalitems":"","itemsperpage":""},"data":[]}}'
+  recorded_at: Thu, 31 Aug 2023 15:56:02 GMT
+recorded_with: VCR 6.2.0

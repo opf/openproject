@@ -1,0 +1,43 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('48d31887-5fad-4d73-a9f5-3c356e68a038')/drive/items/$entity",
+  "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=b2cad8f3-d3cb-4f14-a801-f6bafa078d64&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5NTIwNzI4MSIsImV4cCI6IjE2OTUyMTA4ODEiLCJlbmRwb2ludHVybCI6Ii85bTNxeGlHT1ZBQWxldjhkMmttNG96aktvck55VGlrdTYrZzRQNTFJUnM9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IkttRk1WN3JTVzBDS1RJRzNFRVArY1E9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ._a-C996692KBUCD7GF5ZQtwoemiL_lw4qVMt0E7Jhzc&ApiVersion=2.0",
+  "createdDateTime": "2017-08-07T16:16:53Z",
+  "eTag": "\"{B2CAD8F3-D3CB-4F14-A801-F6BAFA078D64},2\"",
+  "id": "01BYE5RZ7T3DFLFS6TCRH2QAPWXL5APDLE",
+  "lastModifiedDateTime": "2017-08-07T16:16:53Z",
+  "name": "Popular Mixed Drinks.xlsx",
+  "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BB2CAD8F3-D3CB-4F14-A801-F6BAFA078D64%7D&file=Popular%20Mixed%20Drinks.xlsx&action=default&mobileredirect=true",
+  "cTag": "\"c:{B2CAD8F3-D3CB-4F14-A801-F6BAFA078D64},1\"",
+  "size": 7064929,
+  "createdBy": {
+    "user": {
+      "email": "MeganB@M365x214355.onmicrosoft.com",
+      "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+      "displayName": "Megan Bowen"
+    }
+  },
+  "lastModifiedBy": {
+    "user": {
+      "email": "MeganB@M365x214355.onmicrosoft.com",
+      "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+      "displayName": "Megan Bowen"
+    }
+  },
+  "parentReference": {
+    "driveType": "business",
+    "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+    "id": "01BYE5RZ5MYLM2SMX75ZBIPQZIHT6OAYPB",
+    "path": "/drive/root:/Business Data",
+    "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+  },
+  "file": {
+    "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "hashes": {
+      "quickXorHash": "IQcTRezR55cAlOtZGiOF33CuqMU="
+    }
+  },
+  "fileSystemInfo": {
+    "createdDateTime": "2017-08-07T16:16:53Z",
+    "lastModifiedDateTime": "2017-08-07T16:16:53Z"
+  }
+}

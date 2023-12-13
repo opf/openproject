@@ -26,12 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require_relative '../../toasts/expectations'
+
 module Components
   module WorkPackages
     class SettingsMenu
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
+      include Toasts::Expectations
 
       def open_and_save_query(name)
         open_and_choose('Save')
@@ -93,6 +96,7 @@ module Components
       end
 
       def wait_for_save_completion
+        expect_and_dismiss_toaster
         modal.expect_closed
       end
 

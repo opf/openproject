@@ -46,7 +46,7 @@ RSpec.describe Representable do
       property :title
     end
 
-    it { expect(UpcaseRepresenter.new(object).to_json).to eql("{\"TITLE\":\"test\"}") }
+    it { expect(UpcaseRepresenter.new(object).to_json).to eql('{"TITLE":"test"}') }
   end
 
   describe 'as_strategy with class responding to #call?' do
@@ -58,7 +58,7 @@ RSpec.describe Representable do
       property :title
     end
 
-    it { expect(ReverseRepresenter.new(object).to_json).to eql("{\"eltit\":\"test\"}") }
+    it { expect(ReverseRepresenter.new(object).to_json).to eql('{"eltit":"test"}') }
   end
 
   describe 'as_strategy with class not responding to #call?' do

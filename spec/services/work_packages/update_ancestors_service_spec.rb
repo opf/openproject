@@ -29,12 +29,16 @@
 require 'spec_helper'
 
 RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
-  let(:user) { create(:user) }
+  shared_association_default(:author, factory_name: :user) { create(:user) }
+  shared_association_default(:project_with_types) { create(:project_with_types) }
+  shared_association_default(:priority) { create(:priority) }
+  shared_association_default(:open_status, factory_name: :status) { create(:status) }
+  shared_let(:closed_status) { create(:closed_status) }
+  shared_let(:user) { create(:user) }
+
   let(:estimated_hours) { [nil, nil, nil] }
   let(:done_ratios) { [0, 0, 0] }
   let(:statuses) { %i(open open open) }
-  let(:open_status) { create(:status) }
-  let(:closed_status) { create(:closed_status) }
   let(:aggregate_done_ratio) { 0.0 }
   let(:ignore_non_working_days) { [false, false, false] }
 
@@ -47,7 +51,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
         it 'updated one work package - the parent' do
           expect(subject.dependent_results.map(&:result))
-          .to match_array [parent]
+          .to contain_exactly(parent)
         end
 
         it 'has the expected aggregate done ratio' do
@@ -76,7 +80,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                  ignore_non_working_days:)
         end
       end
-      let(:parent) { create(:work_package, status: open_status) }
+
+      shared_let(:parent) { create(:work_package, status: open_status) }
 
       subject do
         # In the call we only use estimated_hours (instead of also adding
@@ -209,18 +214,18 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context 'for the previous ancestors' do
-      let(:sibling_status) { open_status }
-      let(:sibling_done_ratio) { 50 }
-      let(:sibling_estimated_hours) { 7.0 }
+      shared_let(:sibling_status) { open_status }
+      shared_let(:sibling_done_ratio) { 50 }
+      shared_let(:sibling_estimated_hours) { 7.0 }
 
-      let!(:grandparent) do
+      shared_let(:grandparent) do
         create(:work_package)
       end
-      let!(:parent) do
+      shared_let(:parent) do
         create(:work_package,
                parent: grandparent)
       end
-      let!(:sibling) do
+      shared_let(:sibling) do
         create(:work_package,
                parent:,
                status: sibling_status,
@@ -228,7 +233,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                done_ratio: sibling_done_ratio)
       end
 
-      let!(:work_package) do
+      shared_let(:work_package) do
         create(:work_package,
                parent:)
       end
@@ -254,7 +259,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns the former ancestors in the dependent results' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array [parent, grandparent]
+          .to contain_exactly(parent, grandparent)
       end
 
       it 'updates the done_ratio of the former parent' do
@@ -279,18 +284,18 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context 'for new ancestors' do
-      let(:status) { open_status }
-      let(:done_ratio) { 50 }
-      let(:estimated_hours) { 7.0 }
+      shared_let(:status) { open_status }
+      shared_let(:done_ratio) { 50 }
+      shared_let(:estimated_hours) { 7.0 }
 
-      let!(:grandparent) do
+      shared_let(:grandparent) do
         create(:work_package)
       end
-      let!(:parent) do
+      shared_let(:parent) do
         create(:work_package,
                parent: grandparent)
       end
-      let!(:work_package) do
+      shared_let(:work_package) do
         create(:work_package,
                status:,
                estimated_hours:,
@@ -309,7 +314,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
         it 'returns the new ancestors in the dependent results' do
           expect(subject.dependent_results.map(&:result))
-            .to match_array [parent, grandparent]
+            .to contain_exactly(parent, grandparent)
         end
 
         it 'updates the done_ratio of the new parent' do
@@ -365,26 +370,26 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context 'with old and new parent having a common ancestor' do
-      let(:status) { open_status }
-      let(:done_ratio) { 50 }
-      let(:estimated_hours) { 7.0 }
+      shared_let(:status) { open_status }
+      shared_let(:done_ratio) { 50 }
+      shared_let(:estimated_hours) { 7.0 }
 
-      let!(:grandparent) do
+      shared_let(:grandparent) do
         create(:work_package,
                derived_estimated_hours: estimated_hours,
                done_ratio:)
       end
-      let!(:old_parent) do
+      shared_let(:old_parent) do
         create(:work_package,
                parent: grandparent,
                derived_estimated_hours: estimated_hours,
                done_ratio:)
       end
-      let!(:new_parent) do
+      shared_let(:new_parent) do
         create(:work_package,
                parent: grandparent)
       end
-      let!(:work_package) do
+      shared_let(:work_package) do
         create(:work_package,
                parent: old_parent,
                status:,
@@ -424,7 +429,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns both the former and new ancestors in the dependent results without duplicates' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array [new_parent, grandparent, old_parent]
+          .to contain_exactly(new_parent, grandparent, old_parent)
       end
 
       it 'updates the done_ratio of the former parent' do
@@ -498,7 +503,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns the former ancestors in the dependent results' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array [parent, grandparent, grandgrandparent]
+          .to contain_exactly(parent, grandparent, grandgrandparent)
       end
 
       it 'sets the ignore_non_working_days property of the former ancestor chain to the value of the
@@ -541,7 +546,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns the former ancestors in the dependent results' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array [parent]
+          .to contain_exactly(parent)
       end
 
       it 'sets the ignore_non_working_days property of the new ancestors' do
@@ -583,7 +588,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       it 'returns the former ancestors in the dependent results' do
         expect(subject.dependent_results.map(&:result))
-          .to match_array []
+          .to be_empty
       end
 
       it 'sets the ignore_non_working_days property of the new ancestors' do

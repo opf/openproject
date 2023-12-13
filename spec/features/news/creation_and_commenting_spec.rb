@@ -32,8 +32,7 @@ RSpec.describe 'News creation and commenting', :js, :with_cuprite do
   let(:project) { create(:project) }
   let!(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[],
+           member_with_permissions: { project => %i[] },
            notification_settings: [
              build(:notification_setting, news_added: true, news_commented: true)
            ])
@@ -41,8 +40,7 @@ RSpec.describe 'News creation and commenting', :js, :with_cuprite do
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[manage_news comment_news])
+           member_with_permissions: { project => %i[manage_news comment_news] })
   end
 
   it 'allows creating new and commenting it all of which will result in notifications and mails' do

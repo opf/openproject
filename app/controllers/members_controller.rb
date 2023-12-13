@@ -27,29 +27,36 @@
 #++
 
 class MembersController < ApplicationController
+  include MemberHelper
   model_object Member
   before_action :find_model_object_and_project, except: [:autocomplete_for_member]
   before_action :find_project_by_project_id, only: [:autocomplete_for_member]
   before_action :authorize
-
-  include Pagination::Controller
-  paginate_model User
-  search_for User, :search_in_project
-  search_options_for User, lambda { |*| { project: @project } }
 
   def index
     set_index_data!
   end
 
   def create
-    service_call = create_members
+    overall_result = []
 
-    if service_call.success?
-      display_success(members_added_notice(service_call.all_results))
+    find_or_create_users(send_notification: false) do |member_params|
+      service_call = Members::CreateService
+                       .new(user: current_user)
+                       .call(member_params)
+
+      overall_result.push(service_call)
+    end
+
+    if overall_result.empty?
+      flash[:error] = I18n.t('activerecord.errors.models.member.principal_blank')
+      redirect_to project_members_path(project_id: @project, status: 'all')
+    elsif overall_result.all?(&:success?)
+      display_success(members_added_notice(overall_result.map(&:result)))
 
       redirect_to project_members_path(project_id: @project, status: 'all')
     else
-      display_error(service_call)
+      display_error(overall_result.first)
 
       set_index_data!
 
@@ -104,7 +111,7 @@ class MembersController < ApplicationController
   private
 
   def authorize_for(controller, action)
-    current_user.allowed_to?({ controller:, action: }, @project)
+    current_user.allowed_in_project?({ controller:, action: }, @project)
   end
 
   def build_members
@@ -147,7 +154,7 @@ class MembersController < ApplicationController
   end
 
   def suggest_invite_via_email?(user, query, principals)
-    user.allowed_to_globally?(:create_user) &&
+    user.allowed_globally?(:create_user) &&
       query =~ mail_regex &&
       principals.none? { |p| p.mail == query || p.login == query } &&
       query # finally return email
@@ -166,7 +173,7 @@ class MembersController < ApplicationController
   end
 
   def set_roles_and_principles!
-    @roles = Role.givable
+    @roles = ProjectRole.givable
     # Check if there is at least one principal that can be added to the project
     @principals_available = possible_members('', 1)
   end
@@ -183,90 +190,6 @@ class MembersController < ApplicationController
     filters[:project_id] = @project.id.to_s
 
     @members_query = Members::UserFilterComponent.query(filters)
-  end
-
-  def create_members
-    overall_result = nil
-
-    each_new_member_param do |member_params|
-      service_call = Members::CreateService
-                       .new(user: current_user)
-                       .call(member_params)
-
-      if overall_result
-        overall_result.merge!(service_call)
-      else
-        overall_result = service_call
-      end
-    end
-
-    overall_result
-  end
-
-  def each_new_member_param
-    user_ids = user_ids_for_new_members(params[:member])
-
-    group_ids = Group.where(id: user_ids).pluck(:id)
-
-    user_ids.sort_by! { |id| group_ids.include?(id) ? 1 : -1 }
-
-    user_ids.each do |id|
-      yield permitted_params.member.merge(user_id: id, project: @project)
-    end
-  end
-
-  def user_ids_for_new_members(member_params)
-    invite_new_users possibly_separated_ids_for_entity(member_params, :user)
-  end
-
-  def invite_new_users(user_ids)
-    user_ids.map do |id|
-      if id.to_i == 0 && id.present? # we've got an email - invite that user
-        # Only users with the create_user permission can add users.
-        if current_user.allowed_to_globally?(:create_user) && enterprise_allow_new_users?
-          # The invitation can pretty much only fail due to the user already
-          # having been invited. So look them up if it does.
-          user = UserInvitation.invite_new_user(email: id) ||
-                 User.find_by_mail(id)
-
-          user&.id
-        end
-      else
-        id
-      end
-    end.compact
-  end
-
-  def enterprise_allow_new_users?
-    !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
-  end
-
-  def each_comma_separated(array, &block)
-    array.map do |e|
-      if e.to_s.match /\d(,\d)*/
-        block.call(e)
-      else
-        e
-      end
-    end.flatten
-  end
-
-  def transform_array_of_comma_separated_ids(array)
-    return array if array.blank?
-
-    each_comma_separated(array) do |elem|
-      elem.to_s.split(',')
-    end
-  end
-
-  def possibly_separated_ids_for_entity(array, entity = :user)
-    if !array[:"#{entity}_ids"].nil?
-      transform_array_of_comma_separated_ids(array[:"#{entity}_ids"])
-    elsif !array[:"#{entity}_id"].nil? && (id = array[:"#{entity}_id"]).present?
-      [id]
-    else
-      []
-    end
   end
 
   def members_added_notice(members)

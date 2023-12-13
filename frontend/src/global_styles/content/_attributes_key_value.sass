@@ -39,7 +39,7 @@
     flex-basis: 140px
     flex-grow: 1
     padding: 0.375rem 0
-    font-weight: bold
+    font-weight: var(--base-text-weight-bold)
     overflow-wrap: break-word
     hyphens: auto
 
@@ -52,7 +52,8 @@
     > wp-replacement-label
       padding-right: $spot-spacing-0_5
       flex: 1 1 auto
-      max-width: 100%
+      max-width: calc(100% - 1rem)
+      word-wrap: break-word
 
     > attribute-help-text
       flex: 100 0 auto
@@ -93,7 +94,7 @@
 
 .attributes-map--key
   @include text-shortener
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
   line-height: 27px
 
   &.-required:after

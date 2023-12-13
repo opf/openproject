@@ -47,11 +47,10 @@ RSpec.describe 'Cost report saving', js: true do
   end
 
   context 'as user without permissions' do
-    let(:role) { create(:role, permissions: %i(view_time_entries)) }
+    let(:role) { create(:project_role, permissions: %i(view_time_entries)) }
     let!(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     it 'cannot save reports' do

@@ -47,8 +47,8 @@ RSpec.describe 'members pagination', js: true do
   let(:bob)   { create(:user, firstname: 'Bob', lastname: 'Bobbit') }
   let(:alice) { create(:user, firstname: 'Alice', lastname: 'Alison') }
 
-  let(:manager)   { create(:role, name: 'Manager') }
-  let(:developer) { create(:role, name: 'Developer') }
+  let(:manager)   { create(:project_role, name: 'Manager') }
+  let(:developer) { create(:project_role, name: 'Developer') }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

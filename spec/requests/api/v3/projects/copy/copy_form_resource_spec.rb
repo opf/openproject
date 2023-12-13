@@ -49,8 +49,7 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
   shared_let(:current_user) do
     create(:user,
-           member_in_project: source_project,
-           member_with_permissions: %i[copy_projects view_project view_work_packages])
+           member_with_permissions: { source_project => %i[copy_projects view_project view_work_packages] })
   end
 
   let(:path) { api_v3_paths.project_copy_form(source_project.id) }
@@ -237,8 +236,7 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   context 'without the necessary permission' do
     let(:current_user) do
       create(:user,
-             member_in_project: source_project,
-             member_with_permissions: %i[view_project view_work_packages])
+             member_with_permissions: { source_project => %i[view_project view_work_packages] })
     end
 
     it 'returns 403 Not Authorized' do

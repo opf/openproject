@@ -38,7 +38,7 @@
         free_text: >
           Start fra bunn med en tom tavle. Legg til oppgaver og kolonner på denne tavlen.
         action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+        action_by_attribute: 'Handlingstavle (%{attribute})'
         action_text: >
           Et tavle med filtrerte lister på %{attribute} attributt. Flytting av arbeidspakker til andre lister vil oppdatere attributtet deres.
         action_text_subprojects: >
@@ -46,11 +46,11 @@
         action_text_subtasks: >
           Tavle med automatiserte kolonner for underprosjekter. Dra oppgaver til andre lister opp oppdateringer av overordnet tilsvarende.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Grunnleggende kanban-stil tavle med kolonner for status, slik som Å Gjøre, Underveis, Ferdig.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Tavle med automatiserte kolonner basert på tildelte brukere. Ideelt for utsendelse av arbeidspakker.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Tavle med automatiserte kolonner basert på versjonsattributt. Ideelt for planlegging av produktutvikling.
         action_type:
           assignee: assignee
           status: status

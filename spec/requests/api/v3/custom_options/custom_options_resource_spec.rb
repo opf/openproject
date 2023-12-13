@@ -35,11 +35,9 @@ RSpec.describe 'API v3 Custom Options resource', :aggregate_failures do
 
   shared_let(:project) { create(:project) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:modification) { nil }
 
@@ -144,9 +142,18 @@ RSpec.describe 'API v3 Custom Options resource', :aggregate_failures do
         let(:user) { User.anonymous }
         let(:permissions) { [] }
 
-        it 'is 404' do
-          expect(subject.status)
-            .to be(404)
+        context 'when login_required', with_settings: { login_required: true } do
+          it_behaves_like 'error response',
+                          401,
+                          'Unauthenticated',
+                          I18n.t('api_v3.errors.code_401')
+        end
+
+        context 'when not login_required', with_settings: { login_required: false } do
+          it 'is 404' do
+            expect(subject.status)
+              .to be(404)
+          end
         end
       end
     end
@@ -189,10 +196,7 @@ RSpec.describe 'API v3 Custom Options resource', :aggregate_failures do
         let(:user) { User.anonymous }
         let(:permissions) { [] }
 
-        it 'is 404' do
-          expect(subject.status)
-            .to be(404)
-        end
+        it_behaves_like 'not found response based on login_required'
       end
     end
 

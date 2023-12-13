@@ -3,11 +3,11 @@ require 'features/page_objects/notification'
 
 RSpec.describe 'Add an attachment to a meeting (agenda)', js: true, with_cuprite: false do
   let(:role) do
-    create(:role, permissions: %i[view_meetings edit_meetings create_meeting_agendas])
+    create(:project_role, permissions: %i[view_meetings edit_meetings create_meeting_agendas])
   end
 
   let(:dev) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:project) { create(:project) }
@@ -47,7 +47,7 @@ RSpec.describe 'Add an attachment to a meeting (agenda)', js: true, with_cuprite
 
         click_on "Save"
 
-        content = find('[data-qa-selector="op-meeting--meeting_agenda"]')
+        content = find_test_selector('op-meeting--meeting_agenda')
 
         expect(content).to have_selector('img')
         expect(content).to have_content('Some image caption')

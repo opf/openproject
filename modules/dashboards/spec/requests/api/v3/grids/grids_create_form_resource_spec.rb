@@ -43,20 +43,17 @@ RSpec.describe "POST /api/v3/grids/form for Dashboard Grids", content_type: :jso
 
   shared_let(:allowed_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_dashboards manage_dashboards save_queries manage_public_queries])
+           member_with_permissions: { project => %i[view_dashboards manage_dashboards save_queries manage_public_queries] })
   end
 
   shared_let(:no_save_query_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_dashboards manage_dashboards])
+           member_with_permissions: { project => %i[view_dashboards manage_dashboards] })
   end
 
   shared_let(:prohibited_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: [])
+           member_with_permissions: { project => [] })
   end
 
   subject(:response) { last_response }

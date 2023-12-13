@@ -32,7 +32,7 @@ RSpec.describe WorkPackages::AutoCompletesController do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: [:view_work_packages])
   end
   let(:member) do

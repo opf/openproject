@@ -95,7 +95,7 @@ RSpec.describe 'Work package calendar widget on dashboard',
   end
 
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
 
   let(:user) do

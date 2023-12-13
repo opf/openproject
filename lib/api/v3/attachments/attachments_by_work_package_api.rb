@@ -50,13 +50,13 @@ module API
           # while attachments are #addable? when the user has the :add_work_packages permission or
           # the :edit_work_packages permission, we cannot differentiate here between adding to a newly
           # created work package (for which :add_work_package would be required) and adding to an older
-          # work package (for which :edit_work_packages would be required). We thus only allow
-          # :edit_work_packages in this endpoint and require clients to upload uncontainered work packages
-          # first and attach them on wp creation.
-          post &API::V3::Attachments::AttachmentsByContainerAPI.create([:edit_work_packages])
+          # work package (for which :edit_work_packages or :add_work_package_attachments would be required).
+          # We thus only allow :edit_work_packages in this endpoint and require clients to upload uncontainered work
+          # packages first and attach them on wp creation.
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create(%i[edit_work_packages add_work_package_attachments])
 
           namespace :prepare do
-            post &API::V3::Attachments::AttachmentsByContainerAPI.prepare([:edit_work_packages])
+            post &API::V3::Attachments::AttachmentsByContainerAPI.prepare(%i[edit_work_packages add_work_package_attachments])
           end
         end
       end

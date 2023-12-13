@@ -1,0 +1,113 @@
+<%=
+  component_wrapper(tag: 'turbo-frame') do
+    flex_layout(data: { turbo: true }) do |modal_content|
+      modal_content.with_row do
+        render(WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package, errors: @errors))
+      end
+
+      modal_content.with_row(mt: 3,
+                             data: { 'test-selector': 'op-share-wp-active-list',
+                                     controller: 'work-packages--share--bulk-selection',
+                                     application_target: 'dynamic' }) do
+        render(Primer::Beta::BorderBox.new(list_id: insert_target_modifier_id)) do |border_box|
+          border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-wp-header' }) do
+            grid_layout('op-share-wp-modal-body--header', tag: :div, align_items: :center) do |header_grid|
+              header_grid.with_area(:counter, tag: :div) do
+                render(WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: @shares.size))
+              end
+
+              header_grid.with_area(:actions,
+                                    tag: :div,
+                                    data: { 'work-packages--share--bulk-selection-target': 'defaultActions' }) do
+                flex_layout do |header_actions|
+                  header_actions.with_column(mr: 2) do
+                    render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
+                                                         select_variant: :single,
+                                                         dynamic_label: true,
+                                                         dynamic_label_prefix: I18n.t('work_package.sharing.filter.type'),
+                                                         color: :muted,
+                                                         data: { 'test-selector': 'op-share-wp-filter-type' })) do |menu|
+                      menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-wp-filter-type-button' }) do |button|
+                        button.with_trailing_action_icon(icon: "triangle-down")
+                        I18n.t('work_package.sharing.filter.type')
+                      end
+                      type_filter_options.each do |option|
+                        menu.with_item(label: option[:label],
+                                       href: filter_url(type_option: option),
+                                       method: :get,
+                                       tag: :a,
+                                       active: type_filter_option_active?(option),
+                                       role: "menuitem")
+                      end
+                    end
+                  end
+
+                  header_actions.with_column do
+                    render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
+                                                         select_variant: :single,
+                                                         dynamic_label: true,
+                                                         dynamic_label_prefix: I18n.t('work_package.sharing.filter.role'),
+                                                         color: :muted,
+                                                         data: { 'test-selector': 'op-share-wp-filter-role' })) do |menu|
+                      menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-wp-filter-role-button' }) do |button|
+                        button.with_trailing_action_icon(icon: "triangle-down")
+                        I18n.t('work_package.sharing.filter.role')
+                      end
+                      options.each do |option|
+                        menu.with_item(label: option[:label],
+                                       href: filter_url(role_option: option),
+                                       method: :get,
+                                       tag: :a,
+                                       active: role_filter_option_active?(option),
+                                       role: "menuitem")
+                      end
+                    end
+                  end
+                end
+              end
+
+              header_grid.with_area(:actions,
+                                    tag: :div,
+                                    hidden: true, # Prevent flicker on initial render
+                                    data: { 'work-packages--share--bulk-selection-target': 'bulkActions' }) do
+                if sharing_manageable?
+                  concat(
+                    render(WorkPackages::Share::BulkPermissionButtonComponent.new(work_package: @work_package))
+                  )
+
+                  concat(
+                    form_with(url: work_package_shares_bulk_path(@work_package),
+                              method: :delete,
+                              data: { 'work-packages--share--bulk-selection-target': 'bulkForm' }) do
+                      render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+                    end
+                  )
+                end
+              end
+            end
+          end
+
+          if @shares.blank?
+            border_box.with_row do
+              render(Primer::Beta::Blankslate.new) do |component|
+                component.with_visual_icon(icon: blankslate_config[:icon], size: :medium)
+                component.with_heading(tag: :h2).with_content(blankslate_config[:heading_text])
+                component.with_description do
+                  flex_layout do |flex|
+                    flex.with_row(mb: 2) do
+                      render(Primer::Beta::Text.new(color: :subtle)) { blankslate_config[:description_text] }
+                    end
+                  end
+                end
+              end
+            end
+          else
+            @shares.each do |share|
+              render(WorkPackages::Share::ShareRowComponent.new(share: share, container: border_box))
+            end
+          end
+        end
+      end
+    end
+  end
+%>

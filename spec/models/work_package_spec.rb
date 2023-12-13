@@ -51,6 +51,29 @@ RSpec.describe WorkPackage do
     end
   end
 
+  describe 'associations' do
+    subject { work_package }
+
+    it { is_expected.to belong_to(:project) }
+    it { is_expected.to belong_to(:type) }
+    it { is_expected.to belong_to(:status) }
+    it { is_expected.to belong_to(:author) }
+    it { is_expected.to belong_to(:assigned_to).class_name('Principal').optional }
+    it { is_expected.to belong_to(:responsible).class_name('Principal').optional }
+    it { is_expected.to belong_to(:version).optional }
+    it { is_expected.to belong_to(:priority).class_name('IssuePriority') }
+    it { is_expected.to belong_to(:category).optional }
+    it { is_expected.to have_many(:time_entries).dependent(:delete_all) }
+    it { is_expected.to have_many(:file_links).dependent(:delete_all).class_name("Storages::FileLink") }
+    it { is_expected.to have_many(:storages).through(:project) }
+    it { is_expected.to have_and_belong_to_many(:changesets) }
+    it { is_expected.to have_and_belong_to_many(:github_pull_requests) }
+    it { is_expected.to have_many(:members).dependent(:destroy) }
+    it { is_expected.to have_many(:member_principals).through(:members).class_name('Principal').source(:principal) }
+    it { is_expected.to have_many(:meeting_agenda_items) }
+    it { is_expected.to have_many(:meetings).through(:meeting_agenda_items).source(:meeting) }
+  end
+
   describe '.new' do
     context 'type' do
       let(:type2) { create(:type) }
@@ -139,7 +162,7 @@ RSpec.describe WorkPackage do
   end
 
   describe '#category' do
-    let(:user_2) { create(:user, member_in_project: project) }
+    let(:user_2) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
     let(:category) do
       create(:category,
              project:,
@@ -162,7 +185,7 @@ RSpec.describe WorkPackage do
       create(:member,
              principal: group,
              project: work_package.project,
-             roles: [create(:role)])
+             roles: [create(:project_role)])
     end
 
     shared_context 'assign group as responsible' do
@@ -253,7 +276,7 @@ RSpec.describe WorkPackage do
 
     it 'returns all open versions of the project' do
       expect(work_package.assignable_versions)
-        .to match_array [version_current, version_open]
+        .to contain_exactly(version_current, version_open)
     end
   end
 
@@ -605,20 +628,20 @@ RSpec.describe WorkPackage do
 
   describe '.allowed_target_project_on_move' do
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions: [:move_work_packages]) }
+    let(:role) { create(:project_role, permissions: [:move_work_packages]) }
     let(:user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
 
     context 'when having the move_work_packages permission' do
       it 'returns the project' do
         expect(described_class.allowed_target_projects_on_move(user))
-          .to match_array [project]
+          .to contain_exactly(project)
       end
     end
 
     context 'when lacking the move_work_packages permission' do
-      let(:role) { create(:role, permissions: []) }
+      let(:role) { create(:project_role, permissions: []) }
 
       it 'does not return the project' do
         expect(described_class.allowed_target_projects_on_move(user))
@@ -629,20 +652,20 @@ RSpec.describe WorkPackage do
 
   describe '.allowed_target_project_on_create' do
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions: [:add_work_packages]) }
+    let(:role) { create(:project_role, permissions: [:add_work_packages]) }
     let(:user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
 
     context 'when having the add_work_packages permission' do
       it 'returns the project' do
         expect(described_class.allowed_target_projects_on_create(user))
-          .to match_array [project]
+          .to contain_exactly(project)
       end
     end
 
     context 'when lacking the add_work_packages permission' do
-      let(:role) { create(:role, permissions: []) }
+      let(:role) { create(:project_role, permissions: []) }
 
       it 'does not return the project' do
         expect(described_class.allowed_target_projects_on_create(user))
@@ -679,7 +702,7 @@ RSpec.describe WorkPackage do
     describe 'null' do
       subject { described_class.changed_since(nil) }
 
-      it { expect(subject).to match_array([work_package]) }
+      it { expect(subject).to contain_exactly(work_package) }
     end
 
     describe 'now' do
@@ -691,7 +714,7 @@ RSpec.describe WorkPackage do
     describe 'work package update' do
       subject { described_class.changed_since(work_package.reload.updated_at) }
 
-      it { expect(subject).to match_array([work_package]) }
+      it { expect(subject).to contain_exactly(work_package) }
     end
   end
 
@@ -701,6 +724,58 @@ RSpec.describe WorkPackage do
         expect(described_class.new.ignore_non_working_days)
           .to be false
       end
+    end
+  end
+
+  context 'when destroying with agenda items' do
+    let(:meeting_agenda_items) { create_list(:meeting_agenda_item, 3, work_package:) }
+    let(:other_agenda_item) { create(:meeting_agenda_item, work_package_id: create(:work_package).id) }
+    let(:other_meeting) { other_agenda_item.meeting }
+    let(:latest_journals) do
+      Journal
+        .select('DISTINCT ON (journable_id) *')
+        .where(journable_type: 'Meeting', journable_id: meeting_agenda_items.pluck(:meeting_id))
+        .order('journable_id, updated_at DESC')
+    end
+
+    subject { work_package.destroy }
+
+    before do
+      work_package.save
+      meeting_agenda_items
+      other_agenda_item
+      Meeting.find_each(&:save_journals)
+    end
+
+    it 'dissociates the agenda items' do
+      expect { subject }
+        .to change { MeetingAgendaItem.find(meeting_agenda_items).pluck(:work_package_id) }
+        .from(Array.new(3, work_package.id))
+        .to(Array.new(3, nil))
+    end
+
+    it 'does not affect other agenda items' do
+      expect { subject }.not_to change(other_agenda_item, :reload)
+    end
+
+    it 'updates the agenda item journal' do
+      expect { subject }
+        .to change {
+          Journal::MeetingAgendaItemJournal
+            .where(agenda_item: meeting_agenda_items)
+            .pluck(:work_package_id)
+        }
+        .from(Array.new(3, work_package.id))
+        .to(Array.new(3, nil))
+    end
+
+    it 'does not affect the agenda item journal' do
+      expect { subject }
+        .not_to change {
+          Journal::MeetingAgendaItemJournal
+            .find_by(agenda_item: other_agenda_item)
+            .work_package_id
+        }
     end
   end
 end

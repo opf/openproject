@@ -32,18 +32,13 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   let(:project) { build(:project) }
   let(:type) { build(:type) }
 
-  let(:current_user) do
-    double('user').tap do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(true)
-    end
-  end
+  let(:current_user) { build_stubbed(:user) }
 
   subject { described_class.new(project:, type:) }
 
   before do
     login_as(current_user)
+    mock_permissions_for(current_user, &:allow_everything)
   end
 
   it 'has the project set' do

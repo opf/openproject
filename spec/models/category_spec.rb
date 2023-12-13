@@ -44,8 +44,7 @@ RSpec.describe Category do
     context 'with a group assignment' do
       let(:group) do
         create(:group,
-               member_in_project: project,
-               member_with_permissions: [])
+               member_with_permissions: { project => [] })
       end
       let(:assignee) { group }
 

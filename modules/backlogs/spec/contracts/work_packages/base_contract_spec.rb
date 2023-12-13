@@ -35,7 +35,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
   let(:type_bug) { build(:type_bug) }
   let(:version1) { build_stubbed(:version, name: 'Version1', project: p) }
   let(:version2) { build_stubbed(:version, name: 'Version2', project: p) }
-  let(:role) { build(:role) }
+  let(:role) { build(:project_role) }
   let(:user) { build(:admin) }
   let(:issue_priority) { build(:priority) }
   let(:status) { build_stubbed(:status, name: 'status 1', is_default: true) }

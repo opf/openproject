@@ -73,7 +73,7 @@ RSpec.describe 'work package export' do
                                  wait: 10
 
     # Expect title
-    expect(page).to have_selector '[data-qa-selector="job-status--header"]', text: I18n.t('export.your_work_packages_export')
+    expect(page).to have_test_selector 'job-status--header', text: I18n.t('export.your_work_packages_export')
 
     begin
       perform_enqueued_jobs

@@ -179,8 +179,7 @@ RSpec.describe API::V3::Projects::CreateFormAPI, content_type: :json do
     context 'with only add_subprojects permission' do
       current_user do
         create(:user,
-               member_in_project: parent_project,
-               member_with_permissions: %i[add_subprojects])
+               member_with_permissions: { parent_project => %i[add_subprojects] })
       end
 
       let(:parent_project) { create(:project) }

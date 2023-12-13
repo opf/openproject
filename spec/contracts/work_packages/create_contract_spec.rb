@@ -42,24 +42,19 @@ RSpec.describe WorkPackages::CreateContract do
   end
   let(:work_package_project) { project }
   let(:project) { build_stubbed(:project) }
+  let(:other_project) { build_stubbed(:project) }
   let(:user) { build_stubbed(:user) }
 
   subject(:contract) { described_class.new(work_package, user) }
 
   it_behaves_like 'work package contract'
 
-  def add_work_packages_allowed(in_project: true, in_global: true)
-    allow(user)
-      .to receive(:allowed_to?) do |permission, permission_project, global: false|
-      (in_project && project == permission_project && permission == :add_work_packages) ||
-        (in_global && global && permission == :add_work_packages)
-    end
-  end
-
   describe 'authorization' do
     context 'user allowed in project and project specified' do
       before do
-        add_work_packages_allowed(in_project: true, in_global: true)
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :add_work_packages, project:
+        end
 
         work_package.project = project
       end
@@ -71,7 +66,9 @@ RSpec.describe WorkPackages::CreateContract do
 
     context 'user not allowed in project and project specified' do
       before do
-        add_work_packages_allowed(in_project: false, in_global: true)
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :add_work_packages, project: other_project
+        end
 
         work_package.project = project
       end
@@ -84,7 +81,9 @@ RSpec.describe WorkPackages::CreateContract do
 
     context 'user allowed in a project and no project specified' do
       before do
-        add_work_packages_allowed(in_project: true, in_global: true)
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :add_work_packages, project:
+        end
       end
 
       it 'has no authorization error' do
@@ -94,7 +93,7 @@ RSpec.describe WorkPackages::CreateContract do
 
     context 'user not allowed in any project and no project specified' do
       before do
-        add_work_packages_allowed(in_project: false, in_global: false)
+        mock_permissions_for(user, &:forbid_everything)
       end
 
       it 'is not authorized' do
@@ -105,7 +104,7 @@ RSpec.describe WorkPackages::CreateContract do
 
     context 'user not allowed in any project and project specified' do
       before do
-        add_work_packages_allowed(in_project: false, in_global: false)
+        mock_permissions_for(user, &:forbid_everything)
 
         work_package.project = project
       end
@@ -119,7 +118,9 @@ RSpec.describe WorkPackages::CreateContract do
 
   describe 'author_id' do
     before do
-      add_work_packages_allowed(in_project: true, in_global: true)
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project :add_work_packages, project:
+      end
       work_package.project = project
     end
 

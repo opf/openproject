@@ -47,8 +47,7 @@ RSpec.describe 'My page news widget spec', js: true do
   end
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[])
+           member_with_permissions: { project => %i[] })
   end
   let(:my_page) do
     Pages::My::Page.new

@@ -33,18 +33,27 @@ module Storages::Storages
 
     def set_default_attributes(_params)
       storage.creator ||= user
-      storage.name ||= derive_default_storage_name
     end
 
     private
 
     def set_attributes(params)
-      super(params)
+      super(replace_empty_host_with_nil(params))
       unset_nextcloud_application_credentials if nextcloud_storage?
     end
 
     def remove_host_trailing_slashes
       storage.host = storage.host&.gsub(/\/+$/, '')
+    end
+
+    def replace_empty_host_with_nil(params)
+      cloned_param = params.clone
+
+      if cloned_param[:host] == ''
+        cloned_param[:host] = nil
+      end
+
+      cloned_param
     end
 
     def unset_nextcloud_application_credentials
@@ -59,15 +68,6 @@ module Storages::Storages
 
     def storage
       model
-    end
-
-    def derive_default_storage_name
-      prefix = I18n.t("storages.provider_types.#{storage.short_provider_type}.default_name")
-      last_id = Storages::Storage.where("name like ?", "#{prefix}%").maximum(:id)
-
-      return prefix if last_id.nil?
-
-      "#{prefix} #{last_id + 1}"
     end
 
     def nextcloud_storage?

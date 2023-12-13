@@ -199,7 +199,7 @@ class BackupJob < ApplicationJob
   def get_cache_folder_path(attachment)
     # expecting paths like /tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext
     # just making extra sure so we don't delete anything wrong later on
-    unless attachment.diskfile.path =~ /#{attachment.file.cache_dir}\/[^\/]+\/[^\/]+/
+    unless /#{attachment.file.cache_dir}\/[^\/]+\/[^\/]+/.match?(attachment.diskfile.path)
       raise "Unexpected cache path for attachment ##{attachment.id}: #{attachment.diskfile}"
     end
 

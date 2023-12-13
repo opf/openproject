@@ -40,6 +40,8 @@ class ProjectsController < ApplicationController
   include QueriesHelper
   include ProjectsHelper
 
+  helper_method :has_managed_project_folders?
+
   current_menu_item :index do
     :projects
   end
@@ -95,6 +97,10 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def has_managed_project_folders?(project)
+    project.project_storages.any?(&:project_folder_automatic?)
+  end
 
   def find_optional_project
     return true unless params[:id]

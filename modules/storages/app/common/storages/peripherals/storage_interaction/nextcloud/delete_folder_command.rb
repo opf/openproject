@@ -32,6 +32,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @delegate = Internal::DeleteEntityCommand.new(storage)
     end
 
+    def self.call(storage:, location:)
+      new(storage).call(location:)
+    end
+
     def call(location:)
       @delegate.call(location:)
     end

@@ -30,11 +30,11 @@ require 'spec_helper'
 
 RSpec.describe Bim::Bcf::IssuesController do
   let(:manage_bcf_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_bcf view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:collaborator_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:bcf_manager) { create(:user, firstname: "BCF Manager") }

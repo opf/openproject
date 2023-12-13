@@ -4,7 +4,7 @@ module OpenIDConnect
 
     class NewProvider < OpenStruct
       def to_h
-        @table.dup.delete_if { |_k, v| v.blank? }
+        @table.compact
       end
     end
 
@@ -22,29 +22,33 @@ module OpenIDConnect
     delegate :to_h, to: :omniauth_provider, allow_nil: false
 
     delegate :tenant, to: :omniauth_provider, allow_nil: false
+    delegate :configuration, to: :omniauth_provider, allow_nil: true
     delegate :use_graph_api, to: :omniauth_provider, allow_nil: false
-
-    ##
-    # Controls whether or not self registration shall be limited for this provider.
-    #
-    # See also:
-    #   - OpenProject::Plugins::AuthPlugin.limit_self_registration?
-    #   - OpenProject::AuthPlugins::Patches::RegisterUserServicePatch
-    attr_reader :limit_self_registration
 
     def initialize(omniauth_provider)
       @omniauth_provider = omniauth_provider
       @errors = ActiveModel::Errors.new(self)
       @display_name = omniauth_provider.to_h[:display_name]
-      @limit_self_registration = initial_value_for_limit_self_registration
     end
 
     def self.initialize_with(params)
-      do_limit = params[:limit_self_registration]
+      normalized = normalized_params(params)
 
-      new(NewProvider.new(params.except(:limit_self_registration))).tap do |p|
-        p.limit_self_registration = String(do_limit).to_bool unless do_limit.nil?
+      # We want all providers to be limited by the self registration setting by default
+      normalized.reverse_merge!(limit_self_registration: true)
+
+      new(NewProvider.new(normalized))
+    end
+
+    def self.normalized_params(params)
+      transformed = %i[limit_self_registration use_graph_api].filter_map do |key|
+        if params.key?(key)
+          value = params[key]
+          [key, ActiveRecord::Type::Boolean.new.deserialize(value)]
+        end
       end
+
+      params.merge(transformed.to_h)
     end
 
     def new_record?
@@ -55,22 +59,16 @@ module OpenIDConnect
       omniauth_provider.is_a?(OmniAuth::OpenIDConnect::Provider)
     end
 
-    def limit_self_registration?
-      @limit_self_registration
+    def limit_self_registration
+      (configuration || {}).fetch(:limit_self_registration, true)
     end
 
-    def limit_self_registration=(value)
-      @limit_self_registration = value
-    end
+    alias_method :limit_self_registration?, :limit_self_registration
 
     def to_h
       return {} if omniauth_provider.nil?
 
-      omniauth_provider.to_h.merge(limit_self_registration: limit_self_registration?)
-    end
-
-    def limit_self_registration_default
-      name == "google" # limit by default only for Google since anyone can sign in
+      omniauth_provider.to_h
     end
 
     def id
@@ -128,16 +126,6 @@ module OpenIDConnect
     # https://api.rubyonrails.org/classes/ActiveModel/Errors.html
     def read_attribute_for_validation(attr)
       send(attr)
-    end
-
-    private
-
-    def initial_value_for_limit_self_registration
-      if omniauth_provider.configuration&.has_key? :limit_self_registration
-        omniauth_provider.configuration[:limit_self_registration]
-      else
-        limit_self_registration_default
-      end
     end
   end
 end

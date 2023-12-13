@@ -29,10 +29,12 @@ module OpenProject::Boards
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
         permission :show_board_views,
                    { 'boards/boards': %i[index show] },
+                   permissible_on: :project,
                    dependencies: :view_work_packages,
                    contract_actions: { boards: %i[read] }
         permission :manage_board_views,
                    { 'boards/boards': %i[index show new create destroy] },
+                   permissible_on: :project,
                    dependencies: :manage_public_queries,
                    contract_actions: { boards: %i[create update destroy] }
       end
@@ -54,7 +56,7 @@ module OpenProject::Boards
 
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
-        User.current.allowed_to_globally?(:show_board_views)
+        User.current.allowed_in_any_project?(:show_board_views)
       end
 
       menu :top_menu,

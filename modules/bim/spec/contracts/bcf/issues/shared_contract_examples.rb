@@ -32,12 +32,13 @@ RSpec.shared_examples_for 'issues contract' do
   let(:current_user) do
     build_stubbed(:user)
   end
-  let!(:allowed_to) do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
-      permissions.include?(permission) && project == permission_project
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project:
     end
   end
+
   let(:issue_uuid) { 'issue uuid' }
   let(:project) { build_stubbed(:project) }
   let(:issue_work_package) { build_stubbed(:work_package, project:) }

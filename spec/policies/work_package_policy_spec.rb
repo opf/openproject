@@ -36,85 +36,92 @@ RSpec.describe WorkPackagePolicy, type: :controller do
   describe '#allowed?' do
     let(:subject) { described_class.new(user) }
 
-    before do
-      allow(user).to receive(:allowed_to?).and_return false
-    end
-
     context 'for edit' do
-      subject { described_class.new(user).allowed?(work_package, :edit) }
-
-      it 'is false if the user has no permission in the project' do
-        expect(subject).to be_falsey
+      it 'is false if the user has no permissions' do
+        mock_permissions_for(user, &:forbid_everything)
+        expect(subject).not_to be_allowed(work_package, :edit)
       end
 
-      it 'is true if the user has the edit_work_package permission in the project' do
-        allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
-        expect(subject).to be_truthy
+      it 'is true if the user has the edit_work_package permission' do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :edit_work_packages, project:
+        end
+
+        expect(subject).to be_allowed(work_package, :edit)
       end
 
-      # used to be truthy
-      it 'is false if the user has only the add_work_package_notes permission in the project' do
-        allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
-          .and_return true
-        expect(subject).to be_falsey
+      it 'is true if the user has the edit_work_package permission on the work packge' do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_work_package :edit_work_packages, work_package:
+        end
+
+        expect(subject).to be_allowed(work_package, :edit)
       end
 
-      it 'is false if the user has the edit_work_package permission in the project' do
-        allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
-        expect(subject).to be_truthy
+      it 'is false if the user has only the add_work_package_notes permission' do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :add_work_package_notes, project:
+        end
+
+        expect(subject).not_to be_allowed(work_package, :edit)
       end
 
       it 'is false if the user has the permissions but the work package is unpersisted' do
-        allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
-        allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
-          .and_return true
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :edit_work_packages, :add_work_package_notes, project:
+        end
+
         allow(work_package).to receive(:persisted?).and_return false
 
-        expect(subject).to be_falsey
+        expect(subject).not_to be_allowed(work_package, :edit)
       end
     end
 
     context 'for manage_subtasks' do
       it 'is true if the user has the manage_subtasks permission in the project' do
-        allow(user)
-          .to receive(:allowed_to?).with(:manage_subtasks, project, global: false)
-          .and_return true
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :manage_subtasks, project:
+        end
 
-        expect(subject.allowed?(work_package, :manage_subtasks)).to be_truthy
+        expect(subject).to be_allowed(work_package, :manage_subtasks)
       end
     end
 
     context 'for comment' do
-      subject { described_class.new(user).allowed?(work_package, :comment) }
-
       it 'is false if the user lacks permission' do
-        expect(subject).to be_falsey
+        expect(subject).not_to be_allowed(work_package, :comment)
       end
 
       it 'is true if the user has the add_work_package_notes permission' do
-        allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
-          .and_return true
-
-        expect(subject).to be_truthy
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :add_work_package_notes, project:
+        end
+        expect(subject).to be_allowed(work_package, :comment)
       end
 
-      it 'is true if the user has the edit_work_package permission' do
-        allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
-
-        expect(subject).to be_truthy
+      it 'is true if the user has the add_work_package_notes permission on the work package' do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_work_package :add_work_package_notes, work_package:
+        end
+        expect(subject).to be_allowed(work_package, :comment)
       end
 
-      it 'is false if the user has the edit_work_package permission
+      it 'is true if the user has the edit_work_packages permission' do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :edit_work_packages, project:
+        end
+
+        expect(subject).to be_allowed(work_package, :comment)
+      end
+
+      it 'is false if the user has the edit_work_packages permission
           but the work_package is unpersisted' do
-        allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :edit_work_packages, project:
+        end
         allow(work_package).to receive(:persisted?).and_return false
 
-        expect(subject).to be_falsey
+        expect(subject).not_to be_allowed(work_package, :comment)
       end
     end
   end

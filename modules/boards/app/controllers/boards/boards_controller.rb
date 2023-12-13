@@ -37,7 +37,6 @@ module ::Boards
         flash[:notice] = I18n.t(:notice_successful_create)
         redirect_to project_work_package_board_path(@project, @board_grid)
       else
-        @errors = service_result.errors
         render action: :new
       end
     end
@@ -73,8 +72,16 @@ module ::Boards
     end
 
     def authorize_work_package_permission
-      unless current_user.allowed_to?(:view_work_packages, @project, global: @project.nil?)
+      unless user_allowed_to_view_work_packages?
         deny_access
+      end
+    end
+
+    def user_allowed_to_view_work_packages?
+      if @project
+        current_user.allowed_in_project?(:view_work_packages, @project)
+      else
+        current_user.allowed_in_any_project?(:view_work_packages)
       end
     end
 

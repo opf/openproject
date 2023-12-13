@@ -36,15 +36,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { StateService } from '@uirouter/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-} from 'rxjs';
-import {
-  distinctUntilChanged,
-  first,
-  map,
-} from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { distinctUntilChanged, first, map } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';

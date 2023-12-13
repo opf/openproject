@@ -31,9 +31,7 @@ RSpec.describe Attachments::DeleteService, 'integration', with_settings: { journ
   subject(:call) { described_class.new(model: attachment, user:).call }
 
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:project) { create(:project) }
   let(:attachment) { create(:attachment, container:, author:) }

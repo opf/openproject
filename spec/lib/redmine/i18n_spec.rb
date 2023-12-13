@@ -86,7 +86,7 @@ module OpenProject
       end
 
       it 'returns no js language as they are duplicates of the rest of the other language' do
-        expect(all_languages).not_to be_any { |l| /\Ajs-/.match(l.to_s) }
+        expect(all_languages).not_to be_any { |l| l.to_s.start_with?('js-') }
       end
 
       # it is OK if more languages exist

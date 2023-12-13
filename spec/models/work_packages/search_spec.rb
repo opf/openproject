@@ -38,7 +38,7 @@ RSpec.describe WorkPackage, 'search' do
   let(:permissions) { [:view_work_packages] }
   let(:searchword) { 'keyword' }
 
-  current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  current_user { create(:user, member_with_permissions: { project => permissions }) }
 
   subject { described_class.search("%#{searchword}%").first }
 

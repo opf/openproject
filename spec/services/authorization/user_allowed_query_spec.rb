@@ -34,8 +34,8 @@ RSpec.describe Authorization::UserAllowedQuery do
     let(:anonymous) { build(:anonymous) }
     let(:project) { build(:project, public: false) }
     let(:project2) { build(:project, public: false) }
-    let(:role) { build(:role) }
-    let(:role2) { build(:role) }
+    let(:role) { build(:project_role) }
+    let(:role2) { build(:project_role) }
     let(:anonymous_role) { build(:anonymous_role) }
     let(:non_member_role) { build(:non_member) }
     let(:member) do
@@ -154,7 +154,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       before do
         project.public = true
 
-        non_member = Role.non_member
+        non_member = ProjectRole.non_member
         non_member.add_permission! action
         non_member.save
 
@@ -172,7 +172,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       before do
         project.public = true
 
-        anonymous_role = Role.anonymous
+        anonymous_role = ProjectRole.anonymous
         anonymous_role.add_permission! action
         anonymous_role.save
 
@@ -190,7 +190,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       before do
         project.public = true
 
-        non_member = Role.non_member
+        non_member = ProjectRole.non_member
         non_member.add_permission! other_action
         non_member.save
 
@@ -206,7 +206,7 @@ RSpec.describe Authorization::UserAllowedQuery do
              w/o the user being member in the project
              w/ the non member role having the permission' do
       before do
-        non_member = Role.non_member
+        non_member = ProjectRole.non_member
         non_member.add_permission! action
         non_member.save
 
@@ -229,7 +229,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         role.add_permission! other_action
         member.save!
 
-        non_member = Role.non_member
+        non_member = ProjectRole.non_member
         non_member.add_permission! action
         non_member.save
       end

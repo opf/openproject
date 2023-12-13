@@ -49,11 +49,11 @@
             <op-tab-count
               *ngIf="tab.showCountAsBubble"
               [count]="tabCounter"
-              [attr.data-qa-selector]="'tab-counter-' + tab.name"
+              [attr.data-test-selector]="'tab-counter-' + tab.name"
             ></op-tab-count>
             <span
               *ngIf="tabCounter > 0 && !tab.showCountAsBubble"
-              data-qa-selector="tab-count"
+              data-test-selector="tab-count"
             > ({{ tabCounter }})</span>
           </ng-container>
         </a>

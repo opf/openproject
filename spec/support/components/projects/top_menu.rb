@@ -105,23 +105,23 @@ module Components
       end
 
       def autocompleter_item_selector
-        '[data-qa-selector="op-header-project-select--item"]'
+        '[data-test-selector="op-header-project-select--item"]'
       end
 
       def autocompleter_item_title_selector
-        '[data-qa-selector="op-header-project-select--item-title"]'
+        '[data-test-selector="op-header-project-select--item-title"]'
       end
 
       def autocompleter_item_disabled_title_selector
-        '[data-qa-selector="op-header-project-select--item-disabled-title"]'
+        '[data-test-selector="op-header-project-select--item-disabled-title"]'
       end
 
       def autocompleter_results_selector
-        '[data-qa-selector="op-header-project-select--list"]'
+        '[data-test-selector="op-header-project-select--list"]'
       end
 
       def autocompleter_selector
-        '[data-qa-selector="op-header-project-select--search"] input'
+        '[data-test-selector="op-header-project-select--search"] input'
       end
     end
   end

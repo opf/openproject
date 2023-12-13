@@ -47,11 +47,11 @@ RSpec.describe 'API v3 Revisions resource' do
     create(:project, identifier: 'test_project', public: false)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: [:view_changesets])
   end
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:unauthorized_user) { create(:user) }

@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
-RSpec.describe 'Copy work packages through Rails view', js: true do
+RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:type) { create(:type, name: 'Bug') }
@@ -15,20 +15,18 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages work_package_assigned])
+           member_with_permissions: { project => %i[view_work_packages work_package_assigned] })
   end
   shared_let(:mover) do
     create(:user,
            firstname: 'Manager',
            lastname: 'Guy',
-           member_in_projects: [project, project2],
-           member_with_permissions: %i[view_work_packages
-                                       copy_work_packages
-                                       move_work_packages
-                                       manage_subtasks
-                                       assign_versions
-                                       add_work_packages])
+           member_with_permissions: {
+             project => %i[view_work_packages copy_work_packages move_work_packages manage_subtasks assign_versions
+                           add_work_packages],
+             project2 => %i[view_work_packages copy_work_packages move_work_packages manage_subtasks assign_versions
+                            add_work_packages]
+           })
   end
 
   shared_let(:work_package) do
@@ -72,14 +70,17 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
         context_menu.open_for work_package
         context_menu.choose 'Bulk copy'
 
-        expect(page).to have_selector('#new_project_id')
+        expect(page).to have_css('#new_project_id') # rubocop:disable RSpec/ExpectInHook
+        
+        wait_for_network_idle
+        
         expect_page_reload do
-          select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+          select_autocomplete page.find_test_selector('new_project_id'),
                               query: project2.name,
                               select_text: project2.name,
                               results_selector: 'body'
         end
-        sleep(1) # wait for the change of target project to finish updating the page
+        wait_for_network_idle # wait for the change of target project to finish updating the page
       end
 
       it 'sets the version on copy and leaves a note' do
@@ -89,7 +90,7 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
 
         wp_table_target.expect_current_path
         wp_table_target.expect_work_package_count 2
-        expect(page).to have_selector('#projects-menu', text: 'Target')
+        expect(page).to have_css('#projects-menu', text: 'Target')
 
         # Should not move the sources
         work_package2.reload
@@ -126,24 +127,62 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
                  type:,
                  parent: work_package)
         end
+        let!(:relation) do
+          create(:relation,
+                 from: child,
+                 to: work_package,
+                 relation_type: Relation::TYPE_RELATES)
+        end
 
-        it 'moves parent and child wp to a new project with the hierarchy amended' do
+        before do
+          login_as current_user
+          wp_table.visit!
+          expect_angular_frontend_initialized
+          wp_table.expect_work_package_listed work_package, work_package2, child
+          find('body').send_keys [:control, 'a']
+          wp_table.expect_work_package_count 3
+          context_menu.open_for work_package
+          context_menu.choose 'Bulk copy'
+
+          expect(page).to have_css('#new_project_id') # rubocop:disable RSpec/ExpectInHook
+          expect_page_reload do
+            select_autocomplete page.find_test_selector('new_project_id'),
+                                query: project2.name,
+                                select_text: project2.name,
+                                results_selector: 'body'
+          end
+          sleep(1) # wait for the change of target project to finish updating the page
+        end
+
+        it 'copies WPs with parent/child hierarchy and relations maintained' do
           click_on 'Copy and follow'
 
           wp_table_target.expect_current_path
-          wp_table_target.expect_work_package_count 3
-          expect(page).to have_selector('#projects-menu', text: 'Target')
+          expect(page).to have_css('#projects-menu', text: 'Target')
 
           # Should not move the sources
           expect(work_package.reload.project_id).to eq(project.id)
           expect(work_package2.reload.project_id).to eq(project.id)
+          expect(child.reload.project_id).to eq(project.id)
 
-          # Check project of last two created wps
+          # Check project of last three created wps
           copied_wps = WorkPackage.last(3)
           expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
 
-          expect(project2.work_packages.find_by(subject: child.subject).parent)
-            .to eq project2.work_packages.find_by(subject: work_package.subject)
+          new_parent = project2.work_packages.find_by(subject: work_package.subject)
+          new_child = project2.work_packages.find_by(subject: child.subject)
+
+          expect(new_child.parent)
+            .to eq new_parent
+
+          expect(new_child.relations.count)
+            .to eq 1
+
+          expect(new_child.relations.first.relation_type)
+            .to eq relation.relation_type
+
+          expect(new_child.relations.first.to_id)
+            .to eq new_parent.id
         end
       end
 
@@ -164,31 +203,31 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
           click_on 'Copy and follow'
 
           expect(page)
-            .to have_selector(
+            .to have_css(
               '.op-toast.-error',
               text: I18n.t('work_packages.bulk.none_could_be_saved', total: 3)
             )
 
           expect(page)
-            .to have_selector(
+            .to have_css(
               '.op-toast.-error',
               text: I18n.t('work_packages.bulk.selected_because_descendants', total: 3, selected: 2)
             )
 
           expect(page)
-            .to have_selector(
+            .to have_css(
               '.op-toast.-error',
               text: "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
             )
 
           expect(page)
-            .to have_selector(
+            .to have_css(
               '.op-toast.-error',
               text: "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
             )
 
           expect(page)
-            .to have_selector(
+            .to have_css(
               '.op-toast.-error',
               text: "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
             )
@@ -293,21 +332,21 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
       context_menu.choose 'Copy to other project'
 
       # On work packages move page
-      select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
-                          query: project2.name,
-                          select_text: project2.name,
-                          results_selector: 'body'
-
-      # wait for page reload after selecting the target project
-      sleep(2)
+      expect_page_reload do
+        select_autocomplete page.find_test_selector('new_project_id'),
+                            query: project2.name,
+                            select_text: project2.name,
+                            results_selector: 'body'
+      end
+      wait_for_network_idle # wait for page reload after selecting the target project
 
       select 'nobody', from: 'Assignee'
 
       click_on 'Copy and follow'
 
       expect(page)
-        .to have_selector('.op-toast.-success',
-                          text: I18n.t(:notice_successful_create))
+        .to have_css('.op-toast.-success',
+                     text: I18n.t(:notice_successful_create))
 
       wp_page = Pages::FullWorkPackage.new(WorkPackage.last)
 

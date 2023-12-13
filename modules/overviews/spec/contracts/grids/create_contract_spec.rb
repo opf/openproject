@@ -37,19 +37,18 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
         .and_return(p)
     end
   end
-  let(:instance) { described_class.new(grid, current_user) }
-  let(:permissions) { %i[manage_overview] }
-  let(:current_user) do
-    build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?) do |permission, permission_project|
-          permissions.include?(permission) && permission_project == project
-        end
-    end
-  end
   let(:grid) do
     scope = OpenProject::StaticRouting::StaticUrlHelpers.new.project_overview_path(project)
     Grids::Factory.build(scope, current_user)
+  end
+  let(:instance) { described_class.new(grid, current_user) }
+  let(:permissions) { %i[manage_overview] }
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
   end
 
   include_context 'model contract'
@@ -70,15 +69,9 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
 
   context 'if an overview grid already exists for the project' do
     before do
-      scope = double('grid exists scope')
-
       allow(Grids::Overview)
-        .to receive(:where)
-        .with(project_id: project.id)
-        .and_return scope
-
-      allow(scope)
         .to receive(:exists?)
+        .with(project_id: project.id)
         .and_return(true)
     end
 
@@ -86,7 +79,7 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
       instance.validate
 
       expect(instance.errors.symbols_for(:scope))
-        .to match_array [:taken]
+        .to contain_exactly(:taken)
     end
   end
 
@@ -117,7 +110,7 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
           instance.validate
 
           expect(instance.errors.symbols_for(:row_count))
-            .to match_array [:unchangeable]
+            .to contain_exactly(:unchangeable)
         end
       end
 
@@ -130,7 +123,7 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
           instance.validate
 
           expect(instance.errors.symbols_for(:column_count))
-            .to match_array [:unchangeable]
+            .to contain_exactly(:unchangeable)
         end
       end
 
@@ -151,7 +144,7 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
           instance.validate
 
           expect(instance.errors.symbols_for(:widgets))
-            .to match_array [:unchangeable]
+            .to contain_exactly(:unchangeable)
         end
       end
 
@@ -165,7 +158,7 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
           instance.validate
 
           expect(instance.errors.symbols_for(:widgets))
-            .to match_array [:unchangeable]
+            .to contain_exactly(:unchangeable)
         end
       end
 
@@ -178,7 +171,7 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
           instance.validate
 
           expect(instance.errors.symbols_for(:widgets))
-            .to match_array [:unchangeable]
+            .to contain_exactly(:unchangeable)
         end
       end
     end

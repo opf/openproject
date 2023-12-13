@@ -53,6 +53,7 @@ import { OpUploadService } from 'core-app/core/upload/upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { HttpErrorResponse } from '@angular/common/http';
 
 function containsFiles(dataTransfer:DataTransfer):boolean {
   return dataTransfer.types.indexOf('Files') >= 0;
@@ -67,7 +68,7 @@ export const attachmentsSelector = 'op-attachments';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @HostBinding('attr.data-qa-selector') public qaSelector = 'op-attachments';
+  @HostBinding('attr.data-test-selector') public testSelector = 'op-attachments';
 
   @HostBinding('class.op-file-section') public className = true;
 
@@ -246,7 +247,10 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     this
       .attachmentsResourceService
       .attachFiles(this.resource, filesWithoutFolders)
-      .subscribe();
+      .subscribe({
+        next: () => {},
+        error: (error:HttpErrorResponse) => this.toastService.addError(error),
+      });
   }
 
   /**

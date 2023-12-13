@@ -27,9 +27,12 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
-RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner',
+               :js,
+               with_ee: %i[team_planner_view],
+               with_settings: { start_of_week: 1 } do
   include_context 'with team planner full access'
 
   it 'hides the internally used filters' do
@@ -63,10 +66,9 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
       create(:user,
              firstname: 'Other',
              lastname: 'User',
-             member_in_project: project,
-             member_with_permissions: %w[
+             member_with_permissions: { project => %w[
                view_work_packages edit_work_packages view_team_planner manage_team_planner
-             ])
+             ] })
     end
     let!(:user_outside_project) { create(:user, firstname: 'Not', lastname: 'In Project') }
     let(:type_task) { create(:type_task) }
@@ -155,7 +157,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 
@@ -163,7 +165,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add other_user.name
       end
 
@@ -249,7 +251,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 
@@ -259,7 +261,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add other_user.name
       end
 
@@ -280,7 +282,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
       # Try one more time to make sure deleting the full filter didn't kill the functionality
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 
@@ -293,11 +295,11 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.search_user_to_add user_outside_project.name
       end
 
-      expect(page).to have_selector('.ng-option-disabled', text: "No items found")
+      expect(page).to have_css('.ng-option-disabled', text: "No items found")
 
       retry_block do
         team_planner.select_user_to_add user.name
@@ -307,11 +309,11 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.search_user_to_add user.name
       end
 
-      expect(page).to have_selector('.ng-option-disabled', text: "No items found")
+      expect(page).to have_css('.ng-option-disabled', text: "No items found")
     end
   end
 
@@ -337,7 +339,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 

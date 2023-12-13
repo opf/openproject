@@ -1,7 +1,6 @@
 // Dynamically loads and triggers the onboarding tour
 // when on the correct spots
 import {
-  demoProjectsLinks,
   OnboardingTourNames,
   onboardingTourStorageKey,
   ProjectName,
@@ -29,7 +28,7 @@ export function detectOnboardingTour():void {
   if (!isMobile && demoProjectsAvailable) {
     // Start after the intro modal (language selection)
     // This has to be changed once the project selection is implemented
-    if (url.searchParams.get('first_time_user') && demoProjectsLinks().length === 2) {
+    if (url.searchParams.get('first_time_user')) {
       currentTourPart = '';
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
@@ -62,28 +61,8 @@ export function detectOnboardingTour():void {
     }
 
     // ------------------------------- Tutorial WP page -------------------------------
-    if (currentTourPart === 'startMainTourFromBacklogs' || url.searchParams.get('start_onboarding_tour')) {
-      const projectName:ProjectName = currentTourPart === 'startMainTourFromBacklogs' ? ProjectName.scrum : ProjectName.demo;
-      void triggerTour('main', projectName);
-    }
-
-    // ------------------------------- Prepare Backlogs page -------------------------------
-    if (url.searchParams.get('start_scrum_onboarding_tour')) {
-      if (jQuery('.backlogs-menu-item').length > 0) {
-        void triggerTour('prepareBacklogs', ProjectName.scrum);
-      } else {
-        void triggerTour('taskboard', ProjectName.scrum);
-      }
-    }
-
-    // ------------------------------- Tutorial Backlogs page -------------------------------
-    if (currentTourPart === 'prepareTaskBoardTour') {
-      void triggerTour('backlogs', ProjectName.scrum);
-    }
-
-    // ------------------------------- Tutorial Task Board page -------------------------------
-    if (currentTourPart === 'startTaskBoardTour') {
-      void triggerTour('taskboard', ProjectName.scrum);
+    if (url.searchParams.get('start_onboarding_tour')) {
+      void triggerTour('main', ProjectName.demo);
     }
   }
 }

@@ -35,9 +35,9 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
 
   let(:project) { create(:project) }
   let(:type) { create(:type) }
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   describe 'GET /api/v3/work_packages/schemas/filters=...' do
@@ -119,7 +119,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
     end
 
     context 'not authorized' do
-      let(:role) { create(:role, permissions: []) }
+      let(:role) { create(:project_role, permissions: []) }
 
       it 'returns HTTP 403' do
         expect(last_response.status).to be(403)
@@ -174,10 +174,11 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
     end
 
     context 'not logged in' do
-      it 'acts as if the schema does not exist' do
+      before do
         get schema_path
-        expect(last_response.status).to be(404)
       end
+
+      it_behaves_like 'not found response based on login_required'
     end
   end
 
@@ -210,11 +211,12 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
       end
     end
 
-    context 'not logged in' do
-      it 'acts as if the schema does not exist' do
+    context 'when not logged in' do
+      before do
         get schema_path
-        expect(last_response.status).to be(404)
       end
+
+      it_behaves_like 'not found response based on login_required'
     end
   end
 end

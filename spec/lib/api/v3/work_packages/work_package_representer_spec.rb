@@ -73,21 +73,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                   budget:,
                   ignore_non_working_days:,
                   status:) do |wp|
-      allow(wp)
-        .to receive(:available_custom_fields)
-        .and_return(available_custom_fields)
-
-      allow(wp)
-        .to receive(:spent_hours)
-        .and_return(spent_hours)
-
-      allow(wp)
-        .to receive(:derived_start_date)
-        .and_return(derived_start_date)
-
-      allow(wp)
-        .to receive(:derived_due_date)
-        .and_return(derived_due_date)
+      allow(wp).to receive_messages(available_custom_fields:,
+                                    spent_hours:,
+                                    derived_start_date:,
+                                    derived_due_date:)
     end
   end
   let(:all_permissions) do
@@ -122,9 +111,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   before do
     login_as current_user
 
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, _context|
-      permissions.include?(permission)
+    mock_permissions_for(current_user) do |mock|
+      permissions.each do |permission|
+        perm = OpenProject::AccessControl.permission(permission)
+        mock.allow_globally perm.name if perm.global?
+        mock.allow_in_project perm.name, project: project if perm.project?
+      end
     end
   end
 
@@ -260,7 +252,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           it 'renders as null' do
             expect(subject)
               .to be_json_eql(nil.to_json)
-              .at_path('derivedStartDate')
+                    .at_path('derivedStartDate')
           end
         end
 
@@ -414,7 +406,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           before do
             allow(Setting)
               .to receive(:work_package_done_ratio)
-              .and_return('disabled')
+                    .and_return('disabled')
           end
 
           it { is_expected.not_to have_json_path('percentageDone') }
@@ -616,6 +608,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             api_v3_paths.work_package_revisions(work_package.id)
           end
         end
+
+        context 'when user lacks the view_changesets permission' do
+          let(:permissions) { all_permissions - [:view_changesets] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'revisions' }
+          end
+        end
       end
 
       describe 'version' do
@@ -721,7 +721,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           it 'has the budget embedded' do
             expect(subject)
               .to be_json_eql(budget.subject.to_json)
-              .at_path('_embedded/budget/subject')
+                    .at_path('_embedded/budget/subject')
           end
         end
 
@@ -811,7 +811,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it 'has a link to watch' do
           expect(subject)
             .to be_json_eql(api_v3_paths.work_package_watchers(work_package.id).to_json)
-            .at_path('_links/watch/href')
+                  .at_path('_links/watch/href')
         end
 
         it 'does not have a link to unwatch' do
@@ -825,13 +825,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         before do
           allow(work_package)
             .to receive(:watchers)
-            .and_return(watchers)
+                  .and_return(watchers)
         end
 
         it 'has a link to unwatch' do
           expect(subject)
             .to be_json_eql(api_v3_paths.watcher(current_user.id, work_package.id).to_json)
-            .at_path('_links/unwatch/href')
+                  .at_path('_links/unwatch/href')
         end
 
         it 'does not have a link to watch' do
@@ -926,7 +926,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       context 'when the user has the permission to add work packages' do
         it 'has a link to add child' do
           expect(subject).to be_json_eql("/api/v3/projects/#{project.identifier}/work_packages".to_json)
-            .at_path('_links/addChild/href')
+                               .at_path('_links/addChild/href')
         end
       end
 
@@ -962,7 +962,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'linked relations' do
         let(:project) { create(:project, public: false) }
         let(:forbidden_project) { create(:project, public: false) }
-        let(:user) { create(:user, member_in_project: project) }
+        let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
 
         before do
           login_as(user)
@@ -974,7 +974,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
-                .and_return(true)
+                      .and_return(true)
             end
           end
           let(:invisible_parent) do
@@ -1019,7 +1019,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           context 'when ancestors are visible' do
             before do
               allow(work_package).to receive(:visible_ancestors)
-                .and_return([root, intermediate])
+                                       .and_return([root, intermediate])
             end
 
             it 'renders two items in ancestors' do
@@ -1035,7 +1035,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           context 'when ancestors are invisible' do
             before do
               allow(work_package).to receive(:visible_ancestors)
-                .and_return([])
+                                       .and_return([])
             end
 
             it 'renders empty ancestors' do
@@ -1079,17 +1079,20 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'logTime' do
-        it_behaves_like 'action link' do
-          let(:action) { 'logTime' }
-          let(:permission) { :log_own_time }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'logTime' }
+          let(:permission) { %i(log_time log_own_time) }
           let(:href) { api_v3_paths.time_entries }
+          let(:title) { "Log time on #{work_package.subject}" }
         end
       end
 
       describe 'move' do
-        it_behaves_like 'action link' do
-          let(:action) { 'move' }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'move' }
+          let(:href) { work_package_path(work_package, 'move/new') }
           let(:permission) { :move_work_packages }
+          let(:title) { "Move #{work_package.subject}" }
         end
       end
 
@@ -1103,19 +1106,21 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'pdf' do
-        it_behaves_like 'action link' do
-          let(:action) { 'pdf' }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'pdf' }
           let(:permission) { :export_work_packages }
           let(:href) { "/work_packages/#{work_package.id}.pdf" }
+          let(:title) { "Export as PDF" }
         end
       end
 
       describe 'atom' do
         context 'with feeds enabled', with_settings: { feeds_enabled?: true } do
-          it_behaves_like 'action link' do
-            let(:action) { 'atom' }
+          it_behaves_like 'has a titled action link' do
+            let(:link) { 'atom' }
             let(:permission) { :export_work_packages }
             let(:href) { "/work_packages/#{work_package.id}.atom" }
+            let(:title) { "Atom feed" }
           end
         end
 
@@ -1129,24 +1134,29 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'changeParent' do
-        it_behaves_like 'action link' do
-          let(:action) { 'changeParent' }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'changeParent' }
+          let(:href) { api_v3_paths.work_package(work_package.id) }
           let(:permission) { :manage_subtasks }
+          let(:title) { "Change parent of #{work_package.subject}" }
+          let(:method) { :patch }
         end
       end
 
       describe 'availableWatchers' do
-        it_behaves_like 'action link' do
-          let(:action) { 'availableWatchers' }
+        it_behaves_like 'has an untitled action link' do
+          let(:link) { 'availableWatchers' }
+          let(:href) { api_v3_paths.available_watchers(work_package.id) }
           let(:permission) { :add_work_package_watchers }
         end
       end
 
       describe 'customFields' do
-        it_behaves_like 'action link' do
-          let(:action) { 'customFields' }
+        it_behaves_like 'has a titled action link' do
+          let(:link) { 'customFields' }
           let(:permission) { :select_custom_fields }
           let(:href) { project_settings_custom_fields_path(work_package.project.identifier) }
+          let(:title) { 'Custom fields' }
         end
       end
 
@@ -1175,7 +1185,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                                           name: 'Unassign')
           allow(work_package)
             .to receive(:custom_actions)
-            .and_return([unassign_action])
+                  .and_return([unassign_action])
 
           expected = [
             {
@@ -1186,7 +1196,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
           expect(subject)
             .to be_json_eql(expected.to_json)
-            .at_path('_links/customActions')
+                  .at_path('_links/customActions')
         end
       end
     end
@@ -1233,28 +1243,28 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it 'embeds a collection' do
           expect(subject)
             .to be_json_eql('Collection'.to_json)
-            .at_path('_embedded/relations/_type')
+                  .at_path('_embedded/relations/_type')
         end
 
         it 'embeds with an href containing the work_package' do
           expect(subject)
             .to be_json_eql(api_v3_paths.work_package_relations(work_package.id).to_json)
-            .at_path('_embedded/relations/_links/self/href')
+                  .at_path('_embedded/relations/_links/self/href')
         end
 
         it 'embeds the visible relations' do
           expect(subject)
             .to be_json_eql(1.to_json)
-            .at_path('_embedded/relations/total')
+                  .at_path('_embedded/relations/total')
 
           expect(subject)
             .to be_json_eql(api_v3_paths.relation(relation.id).to_json)
-            .at_path('_embedded/relations/_embedded/elements/0/_links/self/href')
+                  .at_path('_embedded/relations/_embedded/elements/0/_links/self/href')
         end
       end
 
       describe 'fileLinks' do
-        let(:storage) { build_stubbed(:storage) }
+        let(:storage) { build_stubbed(:nextcloud_storage) }
         let(:file_link) { build_stubbed(:file_link, storage:, container: work_package) }
 
         before do
@@ -1291,11 +1301,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                                           name: 'Unassign')
           allow(work_package)
             .to receive(:custom_actions)
-            .and_return([unassign_action])
+                  .and_return([unassign_action])
 
           expect(subject)
             .to be_json_eql('Unassign'.to_json)
-            .at_path('_embedded/customActions/0/name')
+                  .at_path('_embedded/customActions/0/name')
         end
       end
 
@@ -1319,8 +1329,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           create(:user,
                  firstname: 'user',
                  lastname: '1',
-                 member_in_project: project,
-                 member_with_permissions: %i[view_work_packages view_file_links])
+                 member_with_permissions: { project => %i[view_work_packages view_file_links] })
         end
 
         before do
@@ -1330,7 +1339,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           #
           allow(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
             .to receive(:wrap_one)
-            .and_call_original
+                  .and_call_original
         end
 
         describe 'attributesByTimestamp' do
@@ -1341,7 +1350,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           it 'has the historic attributes for each timestamp when they differ from the current attributes' do
             expect(subject)
               .to be_json_eql('The original work package'.to_json)
-              .at_path("_embedded/attributesByTimestamp/0/subject")
+                    .at_path("_embedded/attributesByTimestamp/0/subject")
           end
 
           it 'skips the historic attributes when they are the same as the current attributes' do
@@ -1354,10 +1363,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           it 'has a link to the work package at the timestamp' do
             expect(subject)
               .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[0]]).to_json)
-              .at_path("_embedded/attributesByTimestamp/0/_links/self/href")
+                    .at_path("_embedded/attributesByTimestamp/0/_links/self/href")
             expect(subject)
               .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[1]]).to_json)
-              .at_path("_embedded/attributesByTimestamp/1/_links/self/href")
+                    .at_path("_embedded/attributesByTimestamp/1/_links/self/href")
           end
 
           it 'has no information about whether the work package matches the query filters at the timestamp ' \
@@ -1392,10 +1401,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             it 'states whether the work package matches the query filters at the timestamp' do
               expect(subject)
                 .to be_json_eql(true.to_json)
-                .at_path("_embedded/attributesByTimestamp/0/_meta/matchesFilters")
+                      .at_path("_embedded/attributesByTimestamp/0/_meta/matchesFilters")
               expect(subject)
                 .to be_json_eql(false.to_json)
-                .at_path("_embedded/attributesByTimestamp/1/_meta/matchesFilters")
+                      .at_path("_embedded/attributesByTimestamp/1/_meta/matchesFilters")
             end
           end
 
@@ -1427,7 +1436,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                 # at another of the given timestamps, e.g. the baseline timestamp.
                 expect(subject)
                   .to be_json_eql(false.to_json)
-                  .at_path('_meta/matchesFilters')
+                        .at_path('_meta/matchesFilters')
               end
             end
           end
@@ -1439,12 +1448,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       it 'is based on the representer\'s cache_key' do
         allow(OpenProject::Cache)
           .to receive(:fetch)
-          .and_return({ _links: {} }.to_json)
+                .and_return({ _links: {} }.to_json)
 
         allow(OpenProject::Cache)
-         .to receive(:fetch)
-         .with(representer.json_cache_key)
-         .and_call_original
+          .to receive(:fetch)
+                .with(representer.json_cache_key)
+                .and_call_original
 
         representer.to_json
 
@@ -1478,7 +1487,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect do
             allow(Setting)
               .to receive(:feeds_enabled?)
-              .and_return(!Setting.feeds_enabled?)
+                    .and_return(!Setting.feeds_enabled?)
           end.to change(representer, :json_cache_key)
         end
 
@@ -1486,7 +1495,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect do
             allow(Setting)
               .to receive(:work_package_done_ratio)
-              .and_return('status')
+                    .and_return('status')
           end.to change(representer, :json_cache_key)
         end
 
@@ -1499,7 +1508,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it 'factors in the eager loaded cache_checksum' do
           allow(work_package)
             .to receive(:cache_checksum)
-            .and_return(srand)
+                  .and_return(srand)
 
           representer.json_cache_key
 

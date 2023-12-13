@@ -43,51 +43,80 @@ module Costs
                menu_item: :costs_setting
              } do
       project_module :costs do
-        permission :view_time_entries, {}
-        permission :view_own_time_entries, {}
+        permission :view_time_entries,
+                   {},
+                   permissible_on: :project
+        permission :view_own_time_entries,
+                   {},
+                   permissible_on: %i[work_package project]
 
         permission :log_own_time,
                    {},
+                   permissible_on: %i[work_package project],
                    require: :loggedin,
                    dependencies: :view_own_time_entries
 
         permission :log_time,
                    {},
+                   permissible_on: :project,
                    require: :loggedin,
                    dependencies: :view_time_entries
 
         permission :edit_own_time_entries,
                    {},
+                   permissible_on: %i[work_package project],
                    require: :loggedin
 
         permission :edit_time_entries,
                    {},
+                   permissible_on: :project,
                    require: :member
 
         permission :manage_project_activities,
                    { 'projects/settings/time_entry_activities': %i[show update] },
+                   permissible_on: :project,
                    require: :member
-        permission :view_own_hourly_rate, {}
-        permission :view_hourly_rates, {}
 
-        permission :edit_own_hourly_rate, { hourly_rates: %i[set_rate edit update] },
+        permission :view_own_hourly_rate,
+                   {},
+                   permissible_on: :project
+        permission :view_hourly_rates,
+                   {},
+                   permissible_on: :project
+
+        permission :edit_own_hourly_rate,
+                   { hourly_rates: %i[set_rate edit update] },
+                   permissible_on: :project,
                    require: :member
-        permission :edit_hourly_rates, { hourly_rates: %i[set_rate edit update] },
+
+        permission :edit_hourly_rates,
+                   { hourly_rates: %i[set_rate edit update] },
+                   permissible_on: :project,
                    require: :member
-        permission :view_cost_rates, {} # cost item values
+        permission :view_cost_rates, # cost item values
+                   {},
+                   permissible_on: :project
 
         permission :log_own_costs, { costlog: %i[new create] },
+                   permissible_on: :project,
                    require: :loggedin
         permission :log_costs, { costlog: %i[new create] },
+                   permissible_on: :project,
                    require: :member
 
         permission :edit_own_cost_entries, { costlog: %i[edit update destroy] },
+                   permissible_on: :project,
                    require: :loggedin
         permission :edit_cost_entries, { costlog: %i[edit update destroy] },
+                   permissible_on: :project,
                    require: :member
 
-        permission :view_cost_entries, { costlog: [:index] }
-        permission :view_own_cost_entries, { costlog: [:index] }
+        permission :view_cost_entries,
+                   { costlog: [:index] },
+                   permissible_on: :project
+        permission :view_own_cost_entries,
+                   { costlog: [:index] },
+                   permissible_on: :project
       end
 
       # Menu extensions
@@ -145,8 +174,8 @@ module Costs
 
       link :logCosts,
            cache_if: -> {
-             current_user_allowed_to(:log_costs, context: represented.project) ||
-               current_user_allowed_to(:log_own_costs, context: represented.project)
+             current_user.allowed_in_project?(:log_costs, represented.project) ||
+             current_user.allowed_in_project?(:log_own_costs, represented.project)
            } do
         next unless represented.costs_enabled? && represented.persisted?
 
@@ -159,8 +188,8 @@ module Costs
 
       link :showCosts,
            cache_if: -> {
-             current_user_allowed_to(:view_cost_entries, context: represented.project) ||
-               current_user_allowed_to(:view_own_cost_entries, context: represented.project)
+             current_user.allowed_in_project?(:view_cost_entries, represented.project) ||
+             current_user.allowed_in_project?(:view_own_cost_entries, represented.project)
            } do
         next unless represented.persisted? && represented.project.costs_enabled?
 

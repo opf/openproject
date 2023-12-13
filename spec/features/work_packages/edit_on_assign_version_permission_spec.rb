@@ -1,13 +1,12 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'edit work package', js: true do
+RSpec.describe 'edit work package', :js do
   let(:current_user) do
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:permissions) { %i[view_work_packages assign_versions] }
 

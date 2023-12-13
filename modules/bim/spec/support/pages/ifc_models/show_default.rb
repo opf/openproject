@@ -74,12 +74,12 @@ module Pages
         selector = '.xeokit-btn'
 
         if visible
-          within('[data-qa-selector="op-ifc-viewer--toolbar-container"]') do
+          within('[data-test-selector="op-ifc-viewer--toolbar-container"]') do
             expect(page).to have_selector(selector, count: 8)
           end
         else
           expect(page).not_to have_selector(selector)
-          expect(page).not_to have_selector('[data-qa-selector="op-ifc-viewer--toolbar-container"]')
+          expect(page).not_to have_selector('[data-test-selector="op-ifc-viewer--toolbar-container"]')
         end
       end
 

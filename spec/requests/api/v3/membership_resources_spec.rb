@@ -40,11 +40,11 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
   shared_let(:admin) do
     create(:admin)
   end
-  shared_let(:other_role) { create(:role) }
+  shared_let(:other_role) { create(:project_role) }
   shared_let(:global_role) { create(:global_role) }
   let(:own_member) do
     create(:member,
-           roles: [create(:role, permissions:)],
+           roles: create_list(:project_role, 1, permissions:),
            project:,
            user: current_user)
   end
@@ -58,11 +58,20 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
   end
   let(:invisible_member) do
     create(:member,
-           roles: [create(:role)])
+           roles: create_list(:project_role, 1))
   end
   let(:global_member) do
     create(:global_member,
            roles: [global_role])
+  end
+
+  let(:work_package) { create(:work_package, project:) }
+  let(:work_package_member) do
+    create(:member,
+           user: current_user,
+           project:,
+           entity: work_package,
+           roles: create_list(:work_package_role, 1))
   end
 
   subject(:response) { last_response }
@@ -85,7 +94,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
   end
 
   describe 'GET api/v3/memberships' do
-    let(:members) { [own_member, other_member, invisible_member, global_member] }
+    let(:members) { [own_member, other_member, invisible_member, global_member, work_package_member] }
     let(:filters) { nil }
     let(:path) { api_v3_paths.path_for(:memberships, filters:, sort_by: [%i(id asc)]) }
 
@@ -181,7 +190,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       let(:group) { create(:group) }
       let(:group_member) do
         create(:member,
-               roles: [create(:role)],
+               roles: create_list(:project_role, 1),
                project:,
                principal: group)
       end
@@ -212,7 +221,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       end
       let(:placeholder_member) do
         create(:member,
-               roles: [create(:role)],
+               roles: create_list(:project_role, 1),
                project:,
                principal: placeholder_user)
       end
@@ -261,7 +270,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
       let(:own_other_member) do
         create(:member,
-               roles: [create(:role, permissions:)],
+               roles: create_list(:project_role, 1, permissions:),
                project: other_project,
                user: current_user)
       end
@@ -290,7 +299,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       let(:group) { create(:group) }
       let(:group_member) do
         create(:member,
-               roles: [create(:role)],
+               roles: create_list(:project_role, 1),
                principal: group,
                project:)
       end
@@ -502,7 +511,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         create(:group, members: users)
       end
       let(:principal) { group }
-      let(:users) { [create(:user), create(:user)] }
+      let(:users) { create_list(:user, 2) }
       let(:principal_path) { api_v3_paths.group(group.id) }
       let(:body) do
         {
@@ -728,7 +737,8 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         expect(last_response.status).to eq(422)
 
         error_message = "For property 'user' a link like '/api/v3/groups/:id' or " +
-                        "'/api/v3/users/:id' or '/api/v3/placeholder_users/:id' is expected, but got '#{api_v3_paths.role(other_user.id)}'."
+                        "'/api/v3/users/:id' or '/api/v3/placeholder_users/:id' is expected, " +
+                        "but got '#{api_v3_paths.role(other_user.id)}'."
 
         expect(last_response.body)
           .to be_json_eql(error_message.to_json)
@@ -818,7 +828,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
   describe 'PATCH api/v3/memberships/:id' do
     let(:path) { api_v3_paths.membership(other_member.id) }
-    let(:another_role) { create(:role) }
+    let(:another_role) { create(:project_role) }
     let(:custom_message) { 'Wish you where **here**.' }
     let(:body) do
       {
@@ -859,7 +869,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         other_member.reload
 
         expect(other_member.roles)
-          .to match_array [another_role]
+          .to contain_exactly(another_role)
 
         # Assigning a new role also updates the member
         expect(other_member.updated_at > other_member_updated_at)
@@ -920,10 +930,10 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       # expecting to have first user role changed from `other_role` to `another_role`
       # and second user role extended from `[other_role]` to `[other_role, another_role]` because has direct role
       let(:group) do
-        create(:group, member_in_project: project, member_through_role: other_role, members: users)
+        create(:group, member_with_roles: { project => other_role }, members: users)
       end
       let(:principal) { group }
-      let(:users) { [create(:user), create(:user)] }
+      let(:users) { create_list(:user, 2) }
       let(:other_member) do
         Member.find_by(principal: group).tap do
           # Behaves as if the user had that role before the role's membership was created.
@@ -950,7 +960,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
       it 'updates the member and all inherited members but does not update memberships users have already had' do
         expect(other_member.reload.roles)
-          .to match_array [another_role]
+          .to contain_exactly(another_role)
 
         expect(other_member.updated_at > other_member_updated_at)
           .to be_truthy
@@ -958,7 +968,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         last_user_member = Member.find_by(principal: users.last)
 
         expect(last_user_member.roles)
-          .to match_array [another_role]
+          .to contain_exactly(another_role)
 
         expect(last_user_member.updated_at > last_user_member_updated_at)
           .to be_truthy
@@ -966,7 +976,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         first_user_member = Member.find_by(principal: users.first)
 
         expect(first_user_member.roles.uniq)
-          .to match_array [other_role, another_role]
+          .to contain_exactly(other_role, another_role)
 
         expect(first_user_member.updated_at)
           .to eql first_user_member_updated_at
@@ -1020,7 +1030,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
       context 'when updating global role permission as admin' do
         let(:group) do
-          create(:group, global_role: other_role, members: users)
+          create(:group, global_roles: [other_role], members: users)
         end
         let(:current_user) { admin }
         let(:project) { nil }
@@ -1034,7 +1044,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         it 'updates the member and all inherited members but does not update memberships users have already had' do
           # other member is the group member
           expect(other_member.reload.roles)
-            .to match_array [another_role]
+            .to contain_exactly(another_role)
 
           expect(other_member.updated_at > other_member_updated_at)
             .to be_truthy
@@ -1042,7 +1052,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
           last_user_member = Member.find_by(principal: users.last)
 
           expect(last_user_member.roles)
-            .to match_array [another_role]
+            .to contain_exactly(another_role)
 
           expect(last_user_member.updated_at > last_user_member_updated_at)
             .to be_truthy
@@ -1050,7 +1060,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
           first_user_member = Member.find_by(principal: users.first)
 
           expect(first_user_member.roles.uniq)
-            .to match_array [other_role, another_role]
+            .to contain_exactly(other_role, another_role)
 
           expect(first_user_member.updated_at)
             .to eql first_user_member_updated_at
@@ -1106,7 +1116,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         create(:project).tap do |p|
           create(:member,
                  project: p,
-                 roles: [create(:role, permissions: [:manage_members])],
+                 roles: create_list(:project_role, 1, permissions: [:manage_members]),
                  user: current_user)
         end
       end
@@ -1178,7 +1188,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       end
 
       it 'deletes the member' do
-        expect(Member.exists?(other_member.id)).to be_falsey
+        expect(Member).not_to exist(other_member.id)
       end
 
       context 'for a non-existent version' do
@@ -1190,16 +1200,14 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
     context 'with a group' do
       let(:group) do
-        create(:group, member_in_project: project, member_through_role: other_role, members: users)
+        create(:group, member_with_roles: { project => other_role }, members: users)
       end
       let(:principal) { group }
       let(:users) do
-        [
-          create(:user, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)]),
-          create(:user, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)])
-        ]
+        create_list(:user, 2,
+                    notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)])
       end
-      let(:another_role) { create(:role) }
+      let(:another_role) { create(:project_role) }
       let(:other_member) do
         Member.find_by(principal: group).tap do
           # Behaves as if the user had a role before the role's membership was created.
@@ -1219,13 +1227,13 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       end
 
       it 'deletes the member but does not remove the previously assigned role' do
-        expect(Member.exists?(other_member.id)).to be_falsey
+        expect(Member).not_to exist(other_member.id)
         expect(Member.where(principal: users.last)).not_to be_exists
 
         first_user_member = Member.find_by(principal: users.first)
 
         expect(first_user_member.roles)
-          .to match_array [another_role]
+          .to contain_exactly(another_role)
 
         expect(first_user_member.updated_at > first_user_member_updated_at)
           .to be_truthy
@@ -1243,7 +1251,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       it_behaves_like 'unauthorized access'
 
       it 'does not delete the member' do
-        expect(Member.exists?(other_member.id)).to be_truthy
+        expect(Member).to exist(other_member.id)
       end
     end
   end

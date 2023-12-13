@@ -37,12 +37,12 @@ RSpec.describe 'API v3 Query resource',
   let(:project) { create(:project, identifier: 'test_project', public: false) }
   let(:other_project) { create(:project) }
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:view_work_packages] }
   let(:manage_public_queries_role) do
-    create(:role, permissions: [:manage_public_queries])
+    create(:project_role, permissions: [:manage_public_queries])
   end
   let(:query) { create(:public_query, project:) }
   let(:other_query) { create(:public_query, project: other_project) }
@@ -78,9 +78,15 @@ RSpec.describe 'API v3 Query resource',
     end
 
     context 'user not allowed to see queries' do
-      include_context 'with non-member permissions from non_member_permissions'
       let(:current_user) { create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
+
+      let(:prepare) do
+        # Create a public project so that the non-member permission has something to attach to
+        create(:project, public: true, active: true)
+      end
+
+      include_context 'with non-member permissions from non_member_permissions'
 
       it 'succeeds' do
         expect(last_response.status).to eq(200)

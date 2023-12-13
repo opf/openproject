@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package filtering by id', js: true do
+RSpec.describe 'Work package filtering by id', :js do
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
-  let(:role) { create(:role, permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries]) }
 
   let!(:work_package) do
     create(:work_package,
@@ -44,9 +44,7 @@ RSpec.describe 'Work package filtering by id', js: true do
   end
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   before do

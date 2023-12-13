@@ -32,23 +32,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project_with_types) }
-  let(:wp_type) { project.types.first }
-  let(:custom_field) { build_stubbed(:custom_field) }
-  let(:work_package) do
-    build_stubbed(:work_package, project:, type: wp_type) do |wp|
-      allow(wp)
-        .to receive(:available_custom_fields)
-        .and_return(available_custom_fields)
-    end
-  end
-  let(:current_user) do
-    build_stubbed(:user).tap do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |per, pro|
-        project == pro && permissions.include?(per)
-      end
-    end
-  end
   let(:permissions) { [:edit_work_packages] }
   let(:attribute_query) do
     build_stubbed(:query).tap do |query|
@@ -87,8 +70,22 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
                            current_user:)
   end
   let(:available_custom_fields) { [] }
+  let(:wp_type) { project.types.first }
+  let(:custom_field) { build_stubbed(:custom_field) }
+  let(:work_package) do
+    build_stubbed(:work_package, project:, type: wp_type) do |wp|
+      allow(wp)
+        .to receive(:available_custom_fields)
+        .and_return(available_custom_fields)
+    end
+  end
+  let(:current_user) { build_stubbed(:user) }
 
   before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: schema.project
+    end
+
     login_as(current_user)
     allow(schema.project)
       .to receive(:module_enabled?)
@@ -1219,27 +1216,13 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'if the users permissions change' do
         it_behaves_like 'changes' do
-          let(:role1) { build_stubbed(:role, permissions: permissions1) }
-          let(:permissions1) { %i[blubs some more] }
-          let(:role2) { build_stubbed(:role, permissions: permissions2) }
-          let(:permissions2) { %i[and other random permissions] }
-          let(:roles) { [role1, role2] }
-
+          let(:cache_perms) { %i[view_work_packages edit_work_packages] }
           let(:setup) do
-            allow(Authorization)
-              .to receive(:roles)
-              .with(current_user, project)
-              .and_return(roles)
-
-            allow(roles)
-              .to receive(:eager_load)
-              .and_return(roles)
+            allow(representer).to receive(:all_permissions_granted_to_user_under_project).and_return(cache_perms)
           end
 
           let(:change) do
-            allow(role2)
-              .to receive(:permissions)
-              .and_return(%i[but now they are different])
+            cache_perms << :manage_versions
           end
         end
       end

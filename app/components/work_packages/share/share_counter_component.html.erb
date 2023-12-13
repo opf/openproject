@@ -1,0 +1,5 @@
+<%
+  concat(render(Primer::Beta::Octicon.new(icon: 'person')))
+
+  concat(render(Primer::Beta::Text.new(ml: 2)) { I18n.t('work_package.sharing.count', count:) })
+%>

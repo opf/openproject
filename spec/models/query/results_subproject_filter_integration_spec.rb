@@ -47,8 +47,10 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_projects: [parent_project, child_project],
-           member_with_permissions: [:view_work_packages])
+           member_with_permissions: {
+             parent_project => [:view_work_packages],
+             child_project => [:view_work_packages]
+           })
   end
 
   shared_let(:parent_wp) { create(:work_package, project: parent_project) }
@@ -61,13 +63,13 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
   describe 'new default query' do
     context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
       it 'shows the sub work packages' do
-        expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+        expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
       end
     end
 
     context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
       it 'does not show the sub work packages' do
-        expect(query_results.work_packages).to match_array [parent_wp]
+        expect(query_results.work_packages).to contain_exactly(parent_wp)
       end
 
       context 'when subproject filter added manually' do
@@ -76,7 +78,7 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
         end
 
         it 'shows the sub work packages' do
-          expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+          expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
         end
       end
 
@@ -86,7 +88,7 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
         end
 
         it 'shows only the sub work packages' do
-          expect(query_results.work_packages).to match_array [child_wp]
+          expect(query_results.work_packages).to contain_exactly(child_wp)
         end
       end
     end
@@ -99,13 +101,13 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
 
     context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
       it 'shows the sub work packages' do
-        expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+        expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
       end
     end
 
     context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
       it 'shows the sub work packages' do
-        expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+        expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
       end
 
       context 'when subproject filter added manually' do
@@ -114,7 +116,7 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
         end
 
         it 'shows the sub work packages' do
-          expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+          expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
         end
       end
 
@@ -124,7 +126,7 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
         end
 
         it 'shows only the sub work packages' do
-          expect(query_results.work_packages).to match_array [child_wp]
+          expect(query_results.work_packages).to contain_exactly(child_wp)
         end
       end
     end
@@ -137,13 +139,13 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
 
     context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
       it 'does not show the sub work packages' do
-        expect(query_results.work_packages).to match_array [parent_wp]
+        expect(query_results.work_packages).to contain_exactly(parent_wp)
       end
     end
 
     context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
       it 'does not show the sub work packages' do
-        expect(query_results.work_packages).to match_array [parent_wp]
+        expect(query_results.work_packages).to contain_exactly(parent_wp)
       end
 
       context 'when subproject filter added manually' do
@@ -152,7 +154,7 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
         end
 
         it 'shows the sub work packages' do
-          expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+          expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
         end
       end
 
@@ -162,7 +164,7 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
         end
 
         it 'shows only the sub work packages' do
-          expect(query_results.work_packages).to match_array [child_wp]
+          expect(query_results.work_packages).to contain_exactly(child_wp)
         end
       end
     end

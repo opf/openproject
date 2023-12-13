@@ -47,8 +47,7 @@ RSpec.describe 'My page documents widget', js: true do
   end
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_documents])
+           member_with_permissions: { project => %i[view_documents] })
   end
   let(:my_page) do
     Pages::My::Page.new

@@ -33,14 +33,16 @@ RSpec.describe Capabilities::Scopes::Default do
   subject(:scope) { Capability.default.where(principal_id: user.id) }
 
   shared_let(:project) { create(:project, enabled_module_names: []) }
+  shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:user) { create(:user) }
 
-  let(:permissions) { %i[] }
+  let(:member_permissions) { %i[] }
   let(:global_permissions) { %i[] }
+  let(:work_package_permissions) { %i[] }
   let(:non_member_permissions) { %i[] }
   let(:anonymous_permissions) { %i[] }
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions: member_permissions)
   end
   let(:global_role) do
     create(:global_role, permissions: global_permissions)
@@ -50,6 +52,11 @@ RSpec.describe Capabilities::Scopes::Default do
            principal: user,
            roles: [global_role])
   end
+  let(:work_package_role) { create(:work_package_role, permissions: work_package_permissions) }
+  let(:work_package_member) do
+    create(:member, principal: user, project:, entity: work_package, roles: [work_package_role])
+  end
+
   let(:member) do
     create(:member,
            principal: user,
@@ -163,7 +170,7 @@ RSpec.describe Capabilities::Scopes::Default do
     end
 
     context 'with a member with a project permission' do
-      let(:permissions) { %i[manage_members] }
+      let(:member_permissions) { %i[manage_members] }
       let(:members) { [member] }
 
       include_examples 'consists of contract actions', with: 'the actions of the project permission' do
@@ -279,25 +286,51 @@ RSpec.describe Capabilities::Scopes::Default do
       let(:non_member_permissions) { %i[view_members] }
       let(:members) { [member, non_member_role] }
 
-      include_examples 'consists of contract actions', with: 'the actions of the project permission' do
-        let(:expected) do
-          [
-            ['memberships/read', user.id, project.id]
-          ]
+      context 'when the project is private' do
+        include_examples 'is empty'
+      end
+
+      context 'when the project is public' do
+        before do
+          project.update(public: true)
         end
+
+        include_examples 'is empty'
       end
     end
 
-    context 'with a member with a project permission and with the non member having the same project permission' do
+    context 'with a member with a project permission and with the non member having another project permission' do
+      # This setup is not possible as having the manage_members permission requires to have view_members via the dependency
+      # but it is convenient to test.
       let(:non_member_permissions) { %i[view_members] }
-      let(:member_permissions) { %i[view_members] }
+      let(:member_permissions) { %i[manage_members] }
       let(:members) { [member, non_member_role] }
 
-      include_examples 'consists of contract actions', with: 'the actions of the project permission' do
-        let(:expected) do
-          [
-            ['memberships/read', user.id, project.id]
-          ]
+      context 'when the project is private' do
+        include_examples 'consists of contract actions', with: 'the capabilities granted by the user`s membership' do
+          let(:expected) do
+            [
+              ['memberships/create', user.id, project.id],
+              ['memberships/update', user.id, project.id],
+              ['memberships/destroy', user.id, project.id]
+            ]
+          end
+        end
+      end
+
+      context 'when the project is public' do
+        before do
+          project.update(public: true)
+        end
+
+        include_examples 'consists of contract actions', with: 'the capabilities granted by the user`s membership' do
+          let(:expected) do
+            [
+              ['memberships/create', user.id, project.id],
+              ['memberships/update', user.id, project.id],
+              ['memberships/destroy', user.id, project.id]
+            ]
+          end
         end
       end
     end
@@ -384,7 +417,7 @@ RSpec.describe Capabilities::Scopes::Default do
     end
 
     context 'without the current user being member in a project' do
-      let(:permissions) { %i[manage_members] }
+      let(:member_permissions) { %i[manage_members] }
       let(:global_permissions) { %i[manage_user] }
       let(:members) { [member, global_member] }
 
@@ -396,9 +429,9 @@ RSpec.describe Capabilities::Scopes::Default do
     end
 
     context 'with the current user being member in a project' do
-      let(:permissions) { %i[manage_members] }
+      let(:member_permissions) { %i[manage_members] }
       let(:global_permissions) { %i[manage_user] }
-      let(:own_role) { create(:role, permissions: []) }
+      let(:own_role) { create(:project_role, permissions: []) }
       let(:own_member) do
         create(:member,
                principal: current_user,
@@ -425,7 +458,7 @@ RSpec.describe Capabilities::Scopes::Default do
     end
 
     context 'with a member with an action permission that is not granted to admin' do
-      let(:permissions) { %i[work_package_assigned] }
+      let(:member_permissions) { %i[work_package_assigned] }
       let(:members) { [member] }
 
       before do
@@ -442,7 +475,7 @@ RSpec.describe Capabilities::Scopes::Default do
     end
 
     context 'with a member with a project permission and the project being archived' do
-      let(:permissions) { %i[manage_members] }
+      let(:member_permissions) { %i[manage_members] }
       let(:members) { [member] }
 
       before do
@@ -450,6 +483,43 @@ RSpec.describe Capabilities::Scopes::Default do
       end
 
       include_examples 'is empty'
+    end
+
+    context 'with a work package membership' do
+      before do
+        project.enabled_module_names = ['work_package_tracking']
+      end
+
+      let(:members) { [work_package_member] }
+
+      context 'when no permissions are associated with the role' do
+        include_examples 'is empty'
+      end
+
+      # TODO: This is temporary, we do not want the capabilities of the entity specific memberships to
+      # show up in the capabilities API for now. This will change in the future
+      context 'when a permission is granted to the role' do
+        let(:work_package_permissions) { [:view_work_packages] }
+
+        include_examples 'is empty'
+      end
+
+      context 'for a public project' do
+        let(:non_member_permissions) { %i[view_members] }
+        let(:members) { [work_package_member, non_member_role] }
+
+        before do
+          project.update(public: true)
+        end
+
+        include_examples 'consists of contract actions', with: 'the actions of the non member role`s permission' do
+          let(:expected) do
+            [
+              ['memberships/read', user.id, project.id]
+            ]
+          end
+        end
+      end
     end
   end
 end

@@ -33,8 +33,7 @@ RSpec.describe 'Navigate to dashboard', js: true do
   let(:permissions) { [:view_dashboards] }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   before do

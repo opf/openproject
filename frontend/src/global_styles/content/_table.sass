@@ -110,6 +110,7 @@ table.generic-table
         background: none
     th
       font-size: var(--generic-table--header-font-size)
+      font-weight: var(--base-text-weight-bold)
       text-transform: uppercase
       text-align: left
       line-height: 34px
@@ -157,11 +158,11 @@ table.generic-table
     tr
       background: #f6f7f8
     td
-      font-weight: bold
+      font-weight: var(--base-text-weight-bold)
 
   tbody
     tr:not(.-no-highlighting)
-      border-bottom: 1px solid var(--table-row-border-color)
+      border-bottom: 1px solid var(--table-border-color)
 
     @media screen
       td:not(.-no-ellipsis)
@@ -239,19 +240,19 @@ table.generic-table
 
       &.-mw-abs-200
         max-width: 200px //override the default max-width for appropriate text ellipsis
-        
+
       &.-w-rel-40
         width: 40%
-      
+
       &.-mw-abs-400
         max-width: 400px //override the default max-width for appropriate text ellipsis
-        
+
       &.-w-rel-60
         width: 60%
-      
+
       &.-mw-abs-600
         max-width: 600px //override the default max-width for appropriate text ellipsis
-      
+
       &.-w-rel-80
         width: 80%
 
@@ -277,7 +278,7 @@ thead.-sticky th
   line-height:  var(--generic-table--header-height)
   height:  var(--generic-table--header-height)
   z-index:      1
-  border-bottom: 1px solid var(--table-row-border-color)
+  border-bottom: 1px solid var(--table-border-color)
 
   &:hover,
   &.hover
@@ -292,7 +293,7 @@ thead.-sticky th
   padding:       0 6px
   height:        var(--generic-table--header-height)
   line-height:   var(--generic-table--header-height)
-  border-bottom: 1px solid var(--table-row-border-color)
+  border-bottom: 1px solid var(--table-border-color)
   z-index:       1
 
   // In case the table header contains invisible content for screen readers
@@ -321,7 +322,7 @@ thead.-sticky th
   & > a
     flex: 1 1
     width: 100%
-    font-weight: bold
+    font-weight: var(--base-text-weight-bold)
     @include text-shortener
 
   & > op-icon
@@ -344,7 +345,7 @@ thead.-sticky th
 
 .generic-table--no-results-container
   background:   var(--gray-light)
-  border:       1px solid var(--gray)
+  border:       1px solid var(--color-border-muted)
   border-radius: 4px
   padding:      14px 14px 14px 36px
   display:      block

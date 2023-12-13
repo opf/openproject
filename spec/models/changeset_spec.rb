@@ -267,7 +267,7 @@ RSpec.describe Changeset do
           expect { c.scan_comment_for_work_package_ids }
             .to change(TimeEntry, :count).by(2)
 
-          expect(c.work_package_ids).to match_array [work_package.id, work_package2.id]
+          expect(c.work_package_ids).to contain_exactly(work_package.id, work_package2.id)
 
           work_package.reload
           work_package2.reload
@@ -275,7 +275,7 @@ RSpec.describe Changeset do
           expect(work_package2).to be_closed
 
           times = TimeEntry.order(Arel.sql('id desc')).limit(2)
-          expect(times.map(&:work_package_id)).to match_array [work_package.id, work_package2.id]
+          expect(times.map(&:work_package_id)).to contain_exactly(work_package.id, work_package2.id)
         end
       end
     end

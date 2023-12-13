@@ -30,13 +30,15 @@ require 'spec_helper'
 require 'services/base_services/behaves_like_delete_service'
 
 RSpec.describe Roles::DeleteService, type: :model do
-  it_behaves_like 'BaseServices delete service'
+  it_behaves_like 'BaseServices delete service' do
+    let(:factory) { :project_role }
+  end
 
   it 'sends a delete notification' do
     allow(OpenProject::Notifications).to(receive(:send))
 
     existing_permissions = %i[view_files view_work_packages view_calender]
-    role = create(:role, permissions: existing_permissions)
+    role = create(:project_role, permissions: existing_permissions)
 
     result = described_class
       .new(user: create(:user, admin: true), model: role)
@@ -44,7 +46,7 @@ RSpec.describe Roles::DeleteService, type: :model do
     expect(result).to be_success
     expect(OpenProject::Notifications).to have_received(:send).with(
       OpenProject::Events::ROLE_DESTROYED,
-      permissions: existing_permissions
+      permissions: existing_permissions + OpenProject::AccessControl.public_permissions.map(&:name)
     )
   end
 end

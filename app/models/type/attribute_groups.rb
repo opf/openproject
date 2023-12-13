@@ -226,8 +226,8 @@ module Type::AttributeGroups
     old_groups = attribute_groups_was
 
     ids = (old_groups.map(&:last).flatten - new_groups.map(&:last).flatten)
-          .map { |k| ::Type::QueryGroup.query_attribute_id(k) }
-          .compact
+          .filter_map { |k| ::Type::QueryGroup.query_attribute_id(k) }
+          
 
     Query.where(id: ids).destroy_all
   end

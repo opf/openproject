@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Quick-add menu', js: true, with_cuprite: true do
+RSpec.describe 'Quick-add menu', :js, :with_cuprite do
   let(:quick_add) { Components::QuickAddMenu.new }
 
   context 'as a logged in user with add_project permission' do
-    current_user { create(:user, global_permission: %i[add_project]) }
+    current_user { create(:user, global_permissions: %i[add_project]) }
 
     it 'shows the add project option' do
       visit home_path
@@ -53,8 +53,7 @@ RSpec.describe 'Quick-add menu', js: true, with_cuprite: true do
 
       current_user do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: %i[add_subprojects])
+               member_with_permissions: { project => %i[add_subprojects] })
       end
 
       it 'moves to a form with parent_id set' do
@@ -78,8 +77,7 @@ RSpec.describe 'Quick-add menu', js: true, with_cuprite: true do
 
     current_user do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[manage_members])
+             member_with_permissions: { project => %i[manage_members] })
     end
 
     it 'shows the user invite screen' do
@@ -100,8 +98,8 @@ RSpec.describe 'Quick-add menu', js: true, with_cuprite: true do
     let!(:type_bug) { create(:type_bug) }
     let!(:other_type) { create(:type_task) }
     let!(:other_project_type) { create(:type) }
-    let!(:add_role) { create(:role, permissions: %i[add_work_packages]) }
-    let!(:read_role) { create(:role, permissions: %i[view_work_packages]) }
+    let!(:add_role) { create(:project_role, permissions: %i[add_work_packages]) }
+    let!(:read_role) { create(:project_role, permissions: %i[view_work_packages]) }
     let!(:project_with_permission) do
       create(:project,
              types: [type_bug],

@@ -28,8 +28,16 @@
 
 module Roles
   class SetAttributesService < ::BaseServices::SetAttributes
+    def set_attributes(params)
+      super(params)
+
+      if model.is_a?(ProjectRole)
+        model.permissions += OpenProject::AccessControl.public_permissions.map(&:name)
+      end
+    end
+
     def set_default_attributes(*)
-      model.permissions = Role.non_member.permissions if model.permissions.blank?
+      model.permissions = ProjectRole.non_member.permissions if model.permissions.blank? && model.is_a?(ProjectRole)
     end
   end
 end

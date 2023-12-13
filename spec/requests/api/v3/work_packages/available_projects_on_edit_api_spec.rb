@@ -33,11 +33,11 @@ RSpec.describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI' do
   include API::V3::Utilities::PathHelper
 
   let(:edit_role) do
-    create(:role, permissions: %i[edit_work_packages
+    create(:project_role, permissions: %i[edit_work_packages
                                   view_work_packages])
   end
   let(:move_role) do
-    create(:role, permissions: [:move_work_packages])
+    create(:project_role, permissions: [:move_work_packages])
   end
   let(:project) { create(:project) }
   let(:target_project) { create(:project) }
@@ -45,8 +45,7 @@ RSpec.describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI' do
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_through_role: edit_role).tap do |user|
+           member_with_roles: { project => edit_role }).tap do |user|
       create(:member,
              user:,
              project: target_project,
@@ -66,7 +65,7 @@ RSpec.describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI' do
 
   context 'without the edit_work_packages permission' do
     let(:edit_role) do
-      create(:role, permissions: [:view_work_packages])
+      create(:project_role, permissions: [:view_work_packages])
     end
 
     it_behaves_like 'unauthorized access'

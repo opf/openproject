@@ -75,6 +75,14 @@ Rails.application.config.after_initialize do
                      message: payload[:message])
   end
 
+  OpenProject::Notifications.subscribe(OpenProject::Events::WORK_PACKAGE_SHARED) do |payload|
+    next unless payload[:send_notifications]
+
+    Mails::WorkPackageSharedJob
+      .perform_later(current_user: User.current,
+                     work_package_member: payload[:work_package_member])
+  end
+
   OpenProject::Notifications.subscribe(OpenProject::Events::NEWS_COMMENT_CREATED) do |payload|
     Notifications::WorkflowJob
       .perform_later(:create_notifications,

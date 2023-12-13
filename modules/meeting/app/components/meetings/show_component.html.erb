@@ -1,0 +1,34 @@
+<%=
+  flex_layout(data: { turbo: true }) do |show_page|
+    show_page.with_row do
+      # prototyical usage of Primer's flash message component wrapped in a component which can be updated via turbo stream
+      # empty initially
+      # should become part of the application layout once finalized
+      render(FlashMessageComponent.new)
+    end
+
+    show_page.with_row(mt: 2, mb: 3, pb: 2, border: :bottom) do
+      render(Meetings::HeaderComponent.new(meeting: @meeting))
+    end
+
+    show_page.with_row do
+      render(Primer::Alpha::Layout.new(stacking_breakpoint: :sm)) do |content|
+        content.with_main do
+          flex_layout do |agenda|
+            agenda.with_row do
+              render(MeetingAgendaItems::ListComponent.new(meeting: @meeting))
+            end
+
+            agenda.with_row do
+              render(MeetingAgendaItems::NewButtonComponent.new(meeting: @meeting))
+            end
+          end
+        end
+
+        content.with_sidebar(row_placement: :start, col_placement: :end) do
+          render(Meetings::SidebarComponent.new(meeting: @meeting))
+        end
+      end
+    end
+  end
+%>

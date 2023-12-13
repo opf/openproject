@@ -27,17 +27,16 @@
 #++
 
 require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require_relative 'support/board_index_page'
+require_relative 'support/board_page'
 
-RSpec.describe 'Board reference work package spec', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Board reference work package spec', :js, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let!(:work_package) { create(:work_package, version:, subject: 'Foo', project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
@@ -98,9 +97,7 @@ RSpec.describe 'Board reference work package spec', js: true, with_ee: %i[board_
     let!(:work_package) { create(:work_package, subject: 'WP SUB', project: child_project) }
 
     let(:user) do
-      create(:user,
-             member_in_projects: [project, child_project],
-             member_through_role: role)
+      create(:user, member_with_roles: { project => role, child_project => role })
     end
 
     it 'returns the work package when subproject filters is added' do

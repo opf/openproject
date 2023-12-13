@@ -1,0 +1,49 @@
+description: |-
+  A simple membership collection response example.
+value:
+  _type: Collection
+  total: 2
+  count: 2
+  pageSize: 20
+  offset: 1
+  _embedded:
+    elements:
+      - _type: Membership
+        id: 11
+        createdAt: '2015-03-20T12:56:56.643Z'
+        updatedAt: '2018-12-20T18:16:11.643Z'
+        _links:
+          self:
+            href: '/api/v3/memberships/11'
+            title: Darth Vader
+          schema:
+            href: '/api/v3/memberships/schema'
+          update:
+            href: '/api/v3/memberships/11/form'
+            method: post
+          updateImmediately:
+            href: '/api/v3/memberships/11'
+            method: patch
+          project:
+            href: '/api/v3/projects/3'
+            title: Death Start v3
+          principal:
+            href: '/api/v3/users/5'
+            title: Darth Vader
+          roles:
+            - href: '/api/v3/roles/4'
+              title: Sith Lord
+      - _type: Membership
+        id: 12
+        _hint: Membership resource shortened for brevity
+  _links:
+    self:
+      href: '/api/v3/memberships'
+    jumpTo:
+      href: '/api/v3/memberships?filters=%5B%5D&offset=%7Boffset%7D&pageSize=20'
+      templated: true
+    changeSize:
+      href: '/api/v3/memberships?filters=%5B%5D&offset=1&pageSize=%7Bsize%7D'
+      templated: true
+    nextByOffset:
+      href: '/api/v3/memberships?filters=%5B%5D&offset=2&pageSize=20'

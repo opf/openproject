@@ -26,10 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component, ElementRef, Input, OnInit, ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -38,6 +35,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
+  ICKEditorMacroType,
   ICKEditorType,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
@@ -50,6 +48,7 @@ import {
 import { fromEvent } from 'rxjs';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { navigator } from '@hotwired/turbo';
 
 export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 
@@ -63,9 +62,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   @Input() public previewContext:string;
 
-  @Input() public macros:boolean;
+  @Input() public macros:ICKEditorMacroType;
 
   @Input() public resource?:object;
+
+  @Input() public turboMode = false;
 
   @Input() public editorType:ICKEditorType = 'full';
 
@@ -128,8 +129,10 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
       resource: this.halResource,
       previewContext: this.previewContext,
     };
-    if (!this.macros || this.readOnly) {
+    if (this.readOnly) {
       this.context.macros = 'none';
+    } else if (this.macros) {
+      this.context.macros = this.macros;
     }
 
     this.registerFormSubmitListener();
@@ -138,10 +141,12 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   private registerFormSubmitListener():void {
     fromEvent(this.formElement, 'submit')
       .pipe(
+        filter(() => !this.inFlight),
         this.untilDestroyed(),
       )
-      .subscribe(() => {
-        this.saveForm();
+      .subscribe((evt:SubmitEvent) => {
+        evt.preventDefault();
+        this.saveForm(evt);
       });
   }
 
@@ -149,10 +154,22 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     window.OpenProject.pageWasEdited = true;
   }
 
-  public saveForm():void {
+  public saveForm(evt?:SubmitEvent):void {
     this.syncToTextarea();
+    this.inFlight = true;
     window.OpenProject.pageIsSubmitted = true;
-    this.formElement.submit();
+
+    setTimeout(() => {
+      if (evt?.submitter) {
+        (evt.submitter as HTMLInputElement).disabled = false;
+      }
+
+      if (this.turboMode) {
+        navigator.submitForm(this.formElement, evt?.submitter || undefined);
+      } else {
+        this.formElement.requestSubmit(evt?.submitter);
+      }
+    });
   }
 
   public setup(editor:ICKEditorInstance) {

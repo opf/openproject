@@ -6,11 +6,10 @@ RSpec.describe 'Cost report calculations', js: true do
   let(:admin) { create(:admin) }
 
   let!(:permissions) { %i(view_cost_entries view_own_cost_entries) }
-  let!(:role) { create(:role, permissions:) }
+  let!(:role) { create(:project_role, permissions:) }
   let!(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let(:work_package) { create(:work_package, project:) }

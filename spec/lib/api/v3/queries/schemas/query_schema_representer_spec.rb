@@ -50,17 +50,16 @@ RSpec.describe API::V3::Queries::Schemas::QuerySchemaRepresenter do
     query
   end
 
-  let(:instance) { described_class.new(query, self_link:, current_user: user, form_embedded:) }
-  let(:user) do
-    build_stubbed(:user).tap do |user|
-      allow(user)
-        .to receive(:allowed_to?)
-        .and_return(false)
-    end
-  end
   let(:form_embedded) { false }
   let(:self_link) { 'bogus_self_path' }
   let(:project) { nil }
+
+  let(:instance) { described_class.new(query, self_link:, current_user: user, form_embedded:) }
+  let(:user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(user, &:forbid_everything)
+  end
 
   subject(:generated) { instance.to_json }
 
@@ -199,11 +198,13 @@ RSpec.describe API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         context 'when having the :manage_public_queries permission' do
+          let(:other_project) { build_stubbed(:project) }
+
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:manage_public_queries, project, global: project.nil?)
-              .and_return(true)
+            mock_permissions_for(user) do |mock|
+              # so that allowed_in_any_project? returns true
+              mock.allow_in_project :manage_public_queries, project: other_project
+            end
           end
 
           it 'marks public as writable' do

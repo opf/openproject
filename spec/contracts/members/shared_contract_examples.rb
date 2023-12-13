@@ -27,16 +27,19 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 RSpec.shared_examples_for 'member contract' do
-  let(:current_user) do
-    build_stubbed(:user, admin: current_user_admin) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && member_project == permission_project
-      end
+  include_context 'ModelContract shared context'
+
+  let(:current_user) { build_stubbed(:user, admin: current_user_admin) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*permissions, project: member_project) if member_project
     end
   end
+
   let(:member_project) do
     build_stubbed(:project)
   end
@@ -47,7 +50,7 @@ RSpec.shared_examples_for 'member contract' do
     build_stubbed(:user)
   end
   let(:role) do
-    build_stubbed(:role)
+    build_stubbed(:project_role)
   end
   let(:permissions) { [:manage_members] }
   let(:current_user_admin) { false }
@@ -79,7 +82,7 @@ RSpec.shared_examples_for 'member contract' do
 
     context 'if any role is not assignable (e.g. builtin)' do
       let(:member_roles) do
-        [build_stubbed(:role), build_stubbed(:anonymous_role)]
+        [build_stubbed(:project_role), build_stubbed(:anonymous_role)]
       end
 
       it 'is invalid' do
@@ -116,7 +119,7 @@ RSpec.shared_examples_for 'member contract' do
       context 'if the role is not a global role' do
         let(:current_user_admin) { true }
         let(:role) do
-          build_stubbed(:role)
+          build_stubbed(:project_role)
         end
 
         it 'is invalid' do
@@ -147,4 +150,6 @@ RSpec.shared_examples_for 'member contract' do
         .to eql(member.project)
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

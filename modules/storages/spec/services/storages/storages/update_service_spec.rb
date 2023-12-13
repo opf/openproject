@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,11 +29,13 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
+
 require 'services/base_services/behaves_like_update_service'
 
 RSpec.describe Storages::Storages::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
-    let(:factory) { :storage }
+    let(:factory) { :nextcloud_storage }
     let!(:user) { create(:admin) }
 
     let(:instance) do
@@ -67,7 +71,8 @@ RSpec.describe Storages::Storages::UpdateService, type: :model do
   it 'cannot update storage creator' do
     storage_creator = create(:admin, login: "storage_creator")
     storage = create(:nextcloud_storage, creator: storage_creator)
-    service = described_class.new(user: create(:admin), model: storage)
+    service = described_class.new(user: create(:admin),
+                                  model: storage)
 
     service_result = service.call(creator: create(:user, login: "impostor"))
 

@@ -54,7 +54,7 @@ RSpec.describe 'Impediments on taskboard',
            type_id: task.id)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_taskboards
                            add_work_packages
                            view_work_packages
@@ -65,8 +65,7 @@ RSpec.describe 'Impediments on taskboard',
   end
   let!(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let!(:task1) do
     create(:work_package,

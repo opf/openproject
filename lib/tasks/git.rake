@@ -82,7 +82,7 @@ namespace :git do
       puts local_branches.join("\n")
       puts 'Proceed? (y/n)'
 
-      if STDIN.gets =~ /^y/i
+      if /^y/i.match?(STDIN.gets)
         remote_branches.each do |b|
           match = b.match(/^([^\/]+)\/(.+)/)
           remote = match[1]

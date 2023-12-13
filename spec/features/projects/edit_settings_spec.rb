@@ -28,17 +28,13 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects', 'editing settings',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Projects', 'editing settings', :js, :with_cuprite do
   let(:name_field) { FormFields::InputFormField.new :name }
   let(:parent_field) { FormFields::SelectFormField.new :parent }
   let(:permissions) { %i(edit_project) }
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   shared_let(:project) do

@@ -132,10 +132,10 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
   }
 
   def self.instances(_context = nil)
-    property_columns.map do |name, options|
+    property_columns.filter_map do |name, options|
       next unless !options[:if] || options[:if].call
 
       new(name, options.except(:if))
-    end.compact
+    end
   end
 end

@@ -34,15 +34,15 @@ module Components
       include RSpec::Matchers
 
       def expect_active
-        expect(page).to have_selector('[data-qa-selector="timer-active"]', wait: 10)
+        expect(page).to have_selector('[data-test-selector="timer-active"]', wait: 10)
       end
 
       def expect_inactive
-        expect(page).to have_selector('[data-qa-selector="timer-inactive"]', wait: 10)
+        expect(page).to have_selector('[data-test-selector="timer-inactive"]', wait: 10)
       end
 
       def expect_time(text)
-        expect(page).to have_selector('[data-qa-selector="timer-active"]', wait: 10, text:)
+        expect(page).to have_selector('[data-test-selector="timer-active"]', wait: 10, text:)
       end
 
       def expect_visible(visible: true)
@@ -56,13 +56,13 @@ module Components
       def start
         close_dropdown
         page.within('op-wp-timer-button') do
-          find('[data-qa-selector="timer-inactive"]').click
+          find('[data-test-selector="timer-inactive"]').click
         end
       end
 
       def stop
         page.within('op-wp-timer-button') do
-          find('[data-qa-selector="timer-active"]').click
+          find('[data-test-selector="timer-active"]').click
         end
       end
 

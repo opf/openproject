@@ -72,7 +72,7 @@ module Pages
     end
 
     def expect_view_mode(text)
-      expect(page).to have_selector('[data-qa-selector="op-team-planner--view-select-dropdown"]', text:)
+      expect(page).to have_selector('[data-test-selector="op-team-planner--view-select-dropdown"]', text:)
 
       param = {
         'Work week' => :resourceTimelineWorkWeek,
@@ -85,7 +85,7 @@ module Pages
 
     def switch_view_mode(text)
       retry_block do
-        find('[data-qa-selector="op-team-planner--view-select-dropdown"]').click
+        find('[data-test-selector="op-team-planner--view-select-dropdown"]').click
 
         within('#op-team-planner--view-select-dropdown') do
           click_button(text)
@@ -157,13 +157,13 @@ module Pages
 
     def expect_delete_buttons_for(*queries)
       queries.each do |query|
-        expect(page).to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+        expect(page).to have_selector "[data-test-selector='team-planner-remove-#{query.id}']"
       end
     end
 
     def expect_no_delete_buttons_for(*queries)
       queries.each do |query|
-        expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+        expect(page).not_to have_selector "[data-test-selector='team-planner-remove-#{query.id}']"
       end
     end
 
@@ -206,7 +206,7 @@ module Pages
     end
 
     def set_project(project)
-      select_autocomplete(find('[data-qa-selector="project_id"]'),
+      select_autocomplete(find('[data-test-selector="project_id"]'),
                           query: project,
                           results_selector: 'body',
                           wait_for_fetched_options: false)
@@ -226,25 +226,25 @@ module Pages
 
     def add_assignee(name)
       click_add_user
-      page.find('[data-qa-selector="tp-add-assignee"] input')
-      search_user_to_add name
+      page.find("#{page.test_selector('tp-add-assignee')} input")
       select_user_to_add name
     end
 
     def click_add_user
-      # Close the existing, if it is open
-      is_open = page.all('[data-qa-selector="tp-add-assignee"] input').first
-      page.find('[data-qa-selector="tp-assignee-add-button"]').click unless is_open
+      is_open = page.has_selector?('[data-test-selector="tp-add-assignee"] input', wait: 0)
+      return if is_open
+
+      page.find('[data-test-selector="tp-assignee-add-button"]').click
     end
 
     def select_user_to_add(name)
-      select_autocomplete page.find('[data-qa-selector="tp-add-assignee"]'),
+      select_autocomplete page.find('[data-test-selector="tp-add-assignee"]'),
                           query: name,
                           results_selector: 'body'
     end
 
     def search_user_to_add(name)
-      search_autocomplete page.find('[data-qa-selector="tp-add-assignee"]'),
+      search_autocomplete page.find('[data-test-selector="tp-add-assignee"]'),
                           query: name,
                           results_selector: 'body'
     end
@@ -261,7 +261,7 @@ module Pages
 
       resizer = is_start_date ? wp_strip.find('.fc-event-resizer-start') : wp_strip.find('.fc-event-resizer-end')
 
-      drag_by_pixel(element: resizer, by_x: number_of_days * 180, by_y: 0) unless resizer.nil?
+      drag_by_pixel(element: resizer, by_x: number_of_days * 250, by_y: 0) unless resizer.nil?
     end
 
     def drag_wp_by_pixel(work_package, by_x, by_y)
@@ -284,12 +284,12 @@ module Pages
       end
 
       # Move the footer first to signal we're dragging something
-      footer = find('[data-qa-selector="op-team-planner-footer"]')
+      footer = find('[data-test-selector="op-team-planner-footer"]')
       drag_element_to(footer)
 
       sleep 1
 
-      dropzone = find('[data-qa-selector="op-team-planner-dropzone"]')
+      dropzone = find('[data-test-selector="op-team-planner-dropzone"]')
       drag_element_to(dropzone)
 
       if expect_removable

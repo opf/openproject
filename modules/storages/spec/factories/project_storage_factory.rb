@@ -30,7 +30,7 @@
 FactoryBot.define do
   factory :project_storage, class: '::Storages::ProjectStorage' do
     creator factory: :user
-    storage factory: :storage
+    storage factory: :nextcloud_storage
     project factory: :project
     project_folder_id { nil }
     project_folder_mode { 'inactive' }

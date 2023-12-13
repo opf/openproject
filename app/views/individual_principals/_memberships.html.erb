@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% roles = Role.givable %>
+<% roles = ProjectRole.givable %>
 <% projects = ::Members::CreateContract
   .new(@individual_principal.memberships.build, current_user)
   .assignable_projects
@@ -116,7 +116,7 @@ See COPYRIGHT and LICENSE files for more details.
                                                                  roles: roles,
                                                                  projects: projects) %>
                   <td class="buttons">
-                    <% if User.current.allowed_to?(:manage_members, membership.project) %>
+                    <% if User.current.allowed_in_project?(:manage_members, membership.project) %>
                       <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
                                            "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
                                            class: "member-#{membership.id}--edit-toggle-item memberships--edit-button",
@@ -146,15 +146,15 @@ See COPYRIGHT and LICENSE files for more details.
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=t(:label_available_projects)%></legend>
           <% principal_project_ids = @individual_principal.projects.ids  %>
-          <% filter = [['active', '=', 't']] %>
-          <% filter << ['id', '!', principal_project_ids.map(&:to_s)] if principal_project_ids.any? %>
-          <%= angular_component_tag 'op-project-autocompleter',
+          <% filter = [{ name: 'active', operator: '=', values: ['t'] }] %>
+          <% filter << { name: 'id', operator: '!', values: principal_project_ids.map(&:to_s)} if principal_project_ids.any? %>
+          <%= angular_component_tag 'opce-project-autocompleter',
                                     inputs: {
-                                      apiFilters: filter,
-                                      name: 'membership[project_id]'
+                                      filters: filter,
+                                      inputName: 'membership[project_id]'
                                     },
                                     data: {
-                                      'qa-selector': 'membership_project_id'
+                                      'test-selector': 'membership_project_id'
                                     },
                                     class: 'form--field'
           %>

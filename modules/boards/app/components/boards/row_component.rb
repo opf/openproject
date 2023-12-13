@@ -64,7 +64,7 @@ module Boards
           class: 'icon icon-delete',
           data: {
             confirm: I18n.t(:text_are_you_sure),
-            'qa-selector': "board-remove-#{model.id}"
+            'test-selector': "board-remove-#{model.id}"
           },
           title: t(:button_delete)
         )
@@ -74,7 +74,7 @@ module Boards
     private
 
     def render_delete_link?
-      table.current_project && table.current_user.allowed_to?(:manage_board_views, table.current_project)
+      table.current_project && table.current_user.allowed_in_project?(:manage_board_views, table.current_project)
     end
   end
 end

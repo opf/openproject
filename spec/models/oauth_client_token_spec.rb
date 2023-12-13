@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -41,22 +43,6 @@ RSpec.describe OAuthClientToken do
     context 'with default arguments' do
       it 'succeeds' do
         expect(subject).to be_truthy
-      end
-    end
-
-    context 'with access_token too long' do
-      let(:access_token) { "x" * 257 }
-
-      it 'fails with access_token too long' do
-        expect(subject).to be_falsey
-      end
-    end
-
-    context 'with refresh_token too long' do
-      let(:refresh_token) { "x" * 257 }
-
-      it 'fails with refresh_token too long' do
-        expect(subject).to be_falsey
       end
     end
 

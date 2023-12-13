@@ -44,8 +44,7 @@ RSpec.describe Attachments::CreateService, 'integration', with_settings: { journ
       shared_let(:container) { create(:work_package) }
       shared_let(:user) do
         create(:user,
-               member_in_project: container.project,
-               member_with_permissions: %i[view_work_packages edit_work_packages])
+               member_with_permissions: { container.project => %i[view_work_packages edit_work_packages] })
       end
 
       shared_examples 'successful creation' do
@@ -107,8 +106,7 @@ RSpec.describe Attachments::CreateService, 'integration', with_settings: { journ
       shared_let(:container) { create(:message) }
       shared_let(:user) do
         create(:user,
-               member_in_project: container.forum.project,
-               member_with_permissions: %i[add_messages edit_messages])
+               member_with_permissions: { container.forum.project => %i[add_messages edit_messages] })
       end
 
       shared_examples 'successful creation' do

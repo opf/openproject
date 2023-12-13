@@ -14,7 +14,7 @@ gem 'omniauth-openid_connect-providers',
 
 gem 'omniauth-openid-connect',
     git: 'https://github.com/opf/omniauth-openid-connect.git',
-    ref: 'efddc061a72791db019259768a4656c0435709e8'
+    ref: 'd63f5967514d10db9ddece798dadfa2ac532cbe0'
 
 group :opf_plugins do
     # included so that engines can reference OpenProject::Version

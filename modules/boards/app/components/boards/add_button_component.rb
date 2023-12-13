@@ -33,9 +33,9 @@ module Boards
   class AddButtonComponent < ::AddButtonComponent
     def render?
       if current_project
-        User.current.allowed_to?(:manage_board_views, current_project)
+        User.current.allowed_in_project?(:manage_board_views, current_project)
       else
-        User.current.allowed_to_globally?(:manage_board_views)
+        User.current.allowed_in_any_project?(:manage_board_views)
       end
     end
 

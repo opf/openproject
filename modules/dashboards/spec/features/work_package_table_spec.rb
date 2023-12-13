@@ -69,7 +69,7 @@ RSpec.describe 'Arbitrary WorkPackage query table widget dashboard', js: true do
   end
 
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
 
   let(:user) do

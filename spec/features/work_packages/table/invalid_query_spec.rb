@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Invalid query spec', js: true do
+RSpec.describe 'Invalid query spec', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
@@ -12,7 +12,7 @@ RSpec.describe 'Invalid query spec', js: true do
     create(:member,
            user:,
            project:,
-           roles: [create(:role)])
+           roles: [create(:project_role)])
   end
   let(:status) do
     create(:status)
@@ -80,10 +80,10 @@ RSpec.describe 'Invalid query spec', js: true do
     filter_props = [{ n: 'assignee', o: '=', v: ['999999'] },
                     { n: 'status', o: '=', v: [status.id.to_s, status2.id.to_s] }]
     column_props = %w(id subject customField0815)
-    invalid_props = JSON.dump(f: filter_props,
-                              c: column_props,
-                              g: 'customField0815',
-                              t: 'customField0815:desc')
+    invalid_props = JSON.dump({ f: filter_props,
+                                c: column_props,
+                                g: 'customField0815',
+                                t: 'customField0815:desc' })
 
     wp_table.visit_with_params("query_id=#{valid_query.id}&query_props=#{invalid_props}")
 

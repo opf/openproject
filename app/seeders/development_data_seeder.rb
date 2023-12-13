@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -30,7 +32,8 @@ class DevelopmentDataSeeder < CompositeSeeder
     [
       DevelopmentData::UsersSeeder,
       DevelopmentData::CustomFieldsSeeder,
-      DevelopmentData::ProjectsSeeder
+      DevelopmentData::ProjectsSeeder,
+      DevelopmentData::SharedWorkPackagesSeeder
     ]
   end
 

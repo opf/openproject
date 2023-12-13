@@ -1,5 +1,5 @@
 <form
-  data-qa-selector="op-datepicker-modal"
+  data-test-selector="op-datepicker-modal"
   [attr.id]="htmlId"
   class="op-datepicker-modal op-datepicker-modal_wide"
   #modalContainer
@@ -30,12 +30,12 @@
     <div class="op-datepicker-modal--dates-container">
       <spot-form-field
         [label]="text.startDate"
-        data-qa-selector="datepicker-start-date"
+        data-test-selector="datepicker-start-date"
       >
         <spot-text-field
           slot="input"
           name="startDate"
-          data-qa-selector="op-datepicker-modal--start-date-field"
+          data-test-selector="op-datepicker-modal--start-date-field"
           class="op-datepicker-modal--date-field"
           [attr.data-qa-highlighted]="showFieldAsActive('start') || undefined"
           [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('start')}"
@@ -56,12 +56,12 @@
       </spot-form-field>
       <spot-form-field
         [label]="text.endDate"
-        data-qa-selector="datepicker-end-date"
+        data-test-selector="datepicker-end-date"
       >
         <spot-text-field
           slot="input"
           name="endDate"
-          data-qa-selector="op-datepicker-modal--end-date-field"
+          data-test-selector="op-datepicker-modal--end-date-field"
           class="op-datepicker-modal--date-field"
           [attr.data-qa-highlighted]="showFieldAsActive('end') || undefined"
           [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('end')}"
@@ -82,13 +82,13 @@
       </spot-form-field>
       <spot-form-field
         [label]="text.duration"
-        data-qa-selector="datepicker-duration"
+        data-test-selector="datepicker-duration"
       >
         <spot-text-field
           #durationField
           slot="input"
           name="duration"
-          data-qa-selector="op-datepicker-modal--duration-field"
+          data-test-selector="op-datepicker-modal--duration-field"
           class="op-datepicker-modal--date-field"
           [attr.data-qa-highlighted]=" showFieldAsActive('duration') || undefined"
           [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('duration')}"
@@ -117,13 +117,13 @@
         type="button"
         (click)="doCancel()"
         class="spot-modal--cancel-button button spot-action-bar--action"
-        data-qa-selector="op-datepicker-modal--action"
+        data-test-selector="op-datepicker-modal--action"
         [textContent]="text.cancel"
       ></button>
       <button
         type="submit"
         class="button -highlight spot-action-bar--action"
-        data-qa-selector="op-datepicker-modal--action"
+        data-test-selector="op-datepicker-modal--action"
         [textContent]="text.save"
       ></button>
     </div>

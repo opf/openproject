@@ -22,7 +22,7 @@
 de:
   plugin_openproject_reporting:
     name: "OpenProject Berichterstattung"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
+    description: "Dieses Plugin ermöglicht die Erstellung benutzerdefinierter Kostenberichte mit Filtern und Gruppierungen"
   button_save_as: "Speichern unter ..."
   comments: "Kommentar"
   cost_reports_title: "Zeit und Kosten"
@@ -47,6 +47,7 @@ de:
   label_is_project_with_subprojects: "ist (mit Unterprojekten)"
   label_work_package_attributes: "Attribute am Ticket"
   label_less: "<"
+  label_logged_by_reporting: "Gebucht von"
   label_money: "Geldwert"
   label_month_reporting: "Monat der Buchung"
   label_new_report: "Neue Kostenauswertung"

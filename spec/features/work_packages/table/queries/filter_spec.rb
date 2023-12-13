@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe 'filter work packages', js: true do
-  shared_let(:user) { create(:admin) }
+RSpec.describe 'filter work packages', :js do
+  shared_let(:user) { create(:admin, preferences: { time_zone: 'Etc/UTC' }) }
   shared_let(:watcher) { create(:user) }
-  shared_let(:role) { create(:existing_role, permissions: [:view_work_packages]) }
+  shared_let(:role) { create(:existing_project_role, permissions: [:view_work_packages]) }
   shared_let(:project) { create(:project, members: { watcher => role }) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }

@@ -21,12 +21,16 @@ import {
   skip,
 } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 @Component({
   selector: 'widget-wp-table',
   templateUrl: './wp-table.component.html',
   styleUrls: ['./wp-table.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
 })
 export class WidgetWpTableComponent extends AbstractWidgetComponent implements OnInit {
   public queryId:string|null;

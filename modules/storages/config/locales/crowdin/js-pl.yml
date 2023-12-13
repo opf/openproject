@@ -69,13 +69,16 @@ pl:
           other: "Pomyślnie utworzono %{count} połączeń plików."
         upload_error:
           default: >
-            Nie można przesłać pliku (%{fileName}). Sprawdź, czy zainstalowana jest najnowsza wersja aplikacji Nextcloud „OpenProject Integration” i skontaktuj się z administratorem, aby uzyskać więcej informacji.
+            Your file (%{fileName}) could not be uploaded.
           403: >
             Nie można przesłać pliku (%{fileName}) ze względu na ograniczenia systemu. Aby uzyskać więcej informacji, skontaktuj się z administratorem.
           413: >
             Plik (%{fileName}) ma rozmiar większy niż ten, który OpenProject może przesłać do %{storageType}. Możesz najpierw przesłać go bezpośrednio do %{storageType} , a następnie powiązać plik.
           507: >
             Plik (%{fileName}) jest większy niż dozwolony limit przechowywania. Aby zmodyfikować ten limit, skontaktuj się z administratorem.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           Wystąpił błąd podczas łączenia niedawno przesłanego pliku '%{fileName}' z pakietem roboczym %{workPackageId}.
         not_allowed_tooltip: "Zaloguj się do Nextcloud aby uzyskać dostęp do tego pliku"

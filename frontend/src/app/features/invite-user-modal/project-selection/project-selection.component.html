@@ -3,7 +3,7 @@
   [formGroup]="projectAndTypeForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <div class="spot-modal--header">{{text.title}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
 
   <div class="spot-divider"></div>
 
@@ -15,7 +15,7 @@
       <op-project-autocompleter
         slot="input"
         formControlName="project"
-        [apiFilters]="APIFiltersForProjects"
+        [filters]="APIFiltersForProjects"
         [mapResultsFn]="projectFilterFn.bind(this)"
         appendTo=".spot-modal-overlay"
       ></op-project-autocompleter>

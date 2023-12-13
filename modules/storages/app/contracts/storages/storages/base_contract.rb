@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -34,58 +36,42 @@ require 'uri'
 # and uses the contract to validate the model under consideration
 # (normally it's a model).
 module Storages::Storages
-  class BaseContract < ::ModelContract
-    MINIMAL_NEXTCLOUD_VERSION = 22
-
+  class BaseContract < ::BaseContract
     include ::Storages::Storages::Concerns::ManageStoragesGuarded
-    include ActiveModel::Validations
 
     attribute :name
     validates :name, presence: true, length: { maximum: 255 }
 
     attribute :provider_type
-    validates :provider_type, inclusion: { in: Storages::Storage::PROVIDER_TYPES }
-
-    attribute :host
-    validates :host, url: { message: I18n.t('activerecord.errors.messages.invalid_url') }, length: { maximum: 255 }
-    # Check that a host actually is a storage server.
-    # But only do so if the validations above for URL were successful.
-    validates :host, secure_context_uri: true, nextcloud_compatible_host: true, unless: -> { errors.include?(:host) }
+    validates :provider_type, inclusion: { in: Storages::Storage::PROVIDER_TYPES }, allow_nil: false
 
     attribute :provider_fields
-    attribute :automatically_managed
 
-    attribute :username
-    validates :username, presence: true, if: :nextcloud_storage_automatically_managed?
-    validates :username, absence: true,
-                         unless: -> { nextcloud_storage_automatically_managed? || nextcloud_default_storage_username? }
-
-    attribute :password
-    validates :password, presence: true, if: :nextcloud_storage_automatically_managed?
-    validates :password, absence: true, unless: :nextcloud_storage_automatically_managed?
-
-    validate do
-      if nextcloud_storage_automatically_managed? && errors.exclude?(:password)
-        NextcloudApplicationCredentialsValidator.new(self).call
-      end
-    end
+    validate :provider_type_strategy,
+             unless: -> { errors.include?(:provider_type) || @options.delete(:skip_provider_type_strategy) }
 
     private
 
-    def nextcloud_storage_automatically_managed?
-      return false unless nextcloud_storage?
+    def provider_type_strategy
+      contract = ::Storages::Peripherals::Registry.resolve("contracts.#{model.short_provider_type}")
+                                                  .new(model, @user, options: @options)
 
-      @model.automatically_managed?
+      # Append the attributes defined in the internal contract
+      # to the list of writable attributes.
+      # Otherwise, we get :readonly validation errors.
+      contract.writable_attributes.append(*writable_attributes)
+
+      # Validating the contract will clear the errors
+      # of this contract so we save them for later.
+      with_merged_former_errors do
+        contract.validate
+      end
     end
 
-    def nextcloud_default_storage_username?
-      return false unless nextcloud_storage?
-
-      @model.username == @model.provider_fields_defaults[:username]
-    end
-
-    def nextcloud_storage?
-      @model.is_a?(Storages::NextcloudStorage)
+    def require_ee_token_for_one_drive
+      if ::Storages::Storage.one_drive_without_ee_token?(provider_type)
+        errors.add(:base, I18n.t('api_v3.errors.code_500_missing_enterprise_token'))
+      end
     end
   end
 end

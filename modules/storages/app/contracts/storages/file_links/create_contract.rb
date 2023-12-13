@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -34,8 +36,7 @@ class Storages::FileLinks::CreateContract < ModelContract
   attribute :container_type
 
   attribute :origin_id
-  validates :origin_id, length: { maximum: 100 },
-                        format: { with: /\A[-0-9a-f]*\z/i, message: :only_numeric_or_uuid }
+  validates :origin_id, length: 1..100
   attribute :origin_name
   validates :origin_name, presence: true
   attribute :origin_created_by_name
@@ -49,6 +50,7 @@ class Storages::FileLinks::CreateContract < ModelContract
   validate :validate_storage_presence
   validate :validate_user_allowed_to_manage
   validate :validate_project_storage_link
+  validate :require_ee_token_for_one_drive
 
   private
 
@@ -60,7 +62,7 @@ class Storages::FileLinks::CreateContract < ModelContract
 
   def validate_user_allowed_to_manage
     container = model.container
-    if container.present? && !user.allowed_to?(:manage_file_links, container.project)
+    if container.present? && !user.allowed_in_project?(:manage_file_links, container.project)
       errors.add(:base, :error_unauthorized)
     end
   end
@@ -79,5 +81,11 @@ class Storages::FileLinks::CreateContract < ModelContract
     return if model.container.nil? || model.project.storages.include?(model.storage)
 
     errors.add(:storage, :not_linked_to_project)
+  end
+
+  def require_ee_token_for_one_drive
+    if model.storage && ::Storages::Storage.one_drive_without_ee_token?(model.storage.provider_type)
+      errors.add(:base, I18n.t('api_v3.errors.code_500_missing_enterprise_token'))
+    end
   end
 end

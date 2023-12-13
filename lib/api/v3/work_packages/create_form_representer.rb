@@ -54,8 +54,7 @@ module API
 
         link :commit do
           if represented.project &&
-             current_user.allowed_to?(:edit_work_packages,
-                                      represented.project) &&
+             current_user.allowed_in_project?(:add_work_packages, represented.project) &&
              @errors.empty?
             {
               href: api_v3_paths.work_packages,
@@ -65,9 +64,7 @@ module API
         end
 
         link :customFields do
-          if represented.project &&
-             current_user_allowed_to(:select_custom_fields,
-                                     context: represented.project)
+          if represented.project && current_user.allowed_in_project?(:select_custom_fields, represented.project)
             {
               href: project_settings_custom_fields_path(represented.project.identifier),
               type: 'text/html',

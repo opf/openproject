@@ -39,7 +39,7 @@ RSpec.shared_context 'with a project with an arrangement of custom fields' do
   shared_let(:system_version) { create(:version, sharing: 'system') }
 
   shared_let(:role) do
-    create(:role)
+    create(:project_role)
   end
 
   shared_let(:other_user) do
@@ -75,8 +75,7 @@ RSpec.shared_context 'with an instance of the described exporter' do
 
   let(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i(view_projects))
+           member_with_permissions: { project => %i(view_projects) })
   end
   let(:query) { Queries::Projects::ProjectQuery.new }
   let(:instance) do

@@ -170,7 +170,7 @@ module Pages
     end
 
     def select_principal!(principal_name)
-      select_autocomplete page.find("op-members-autocompleter"),
+      select_autocomplete page.find("opce-members-autocompleter"),
                           query: principal_name,
                           results_selector: '.ng-dropdown-panel-items'
     end
@@ -187,7 +187,7 @@ module Pages
     end
 
     def search_principal!(query)
-      search_autocomplete page.find("op-members-autocompleter"),
+      search_autocomplete page.find("opce-members-autocompleter"),
                           query:,
                           results_selector: '.ng-dropdown-panel-items'
     end

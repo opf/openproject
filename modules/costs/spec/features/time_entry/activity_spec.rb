@@ -39,7 +39,7 @@ RSpec.describe 'Time entry activity' do
   it 'supports CRUD' do
     visit enumerations_path
 
-    page.find('[data-qa-selector="create-enumeration-time-entry-activity"]').click
+    page.find_test_selector('create-enumeration-time-entry-activity').click
 
     fill_in 'Name', with: 'A new activity'
     click_on('Create')

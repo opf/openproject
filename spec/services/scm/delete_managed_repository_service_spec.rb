@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SCM::DeleteManagedRepositoryService do
+RSpec.describe SCM::DeleteManagedRepositoryService, skip_if_command_unavailable: 'svnadmin' do
   let(:user) { build(:user) }
   let(:config) { {} }
   let(:project) { build(:project) }

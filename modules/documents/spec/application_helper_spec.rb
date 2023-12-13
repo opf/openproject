@@ -38,13 +38,12 @@ RSpec.describe ApplicationHelper do
     let(:project) { create(:valid_project) }
     let(:identifier) { project.identifier }
     let(:role) do
-      create(:role, permissions: %i[
+      create(:project_role, permissions: %i[
                view_work_packages edit_work_packages view_documents browse_repository view_changesets view_wiki_pages
              ])
     end
     let(:project_member) do
-      create(:user, member_in_project: project,
-                    member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
     let(:document) do
       create(:document,
@@ -65,31 +64,32 @@ RSpec.describe ApplicationHelper do
       let(:document_link) do
         link_to('Test document',
                 { controller: 'documents', action: 'show', id: document.id },
-                class: 'document op-uc-link')
+                class: 'document op-uc-link',
+                target: '_top')
       end
 
       context "Plain link" do
         subject { format_text("document##{document.id}") }
 
-        it { is_expected.to eq("<p class=\"op-uc-p\">#{document_link}</p>") }
+        it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{document_link}</p>") }
       end
 
       context "Link with document name" do
         subject { format_text("document##{document.id}") }
 
-        it { is_expected.to eq("<p class=\"op-uc-p\">#{document_link}</p>") }
+        it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{document_link}</p>") }
       end
 
       context "Escaping plain link" do
         subject { format_text("!document##{document.id}") }
 
-        it { is_expected.to eq("<p class=\"op-uc-p\">document##{document.id}</p>") }
+        it { is_expected.to be_html_eql("<p class=\"op-uc-p\">document##{document.id}</p>") }
       end
 
       context "Escaping link with document name" do
         subject { format_text('!document:"Test document"') }
 
-        it { is_expected.to eq('<p class="op-uc-p">document:"Test document"</p>') }
+        it { is_expected.to be_html_eql('<p class="op-uc-p">document:"Test document"</p>') }
       end
     end
 
@@ -99,14 +99,14 @@ RSpec.describe ApplicationHelper do
       context "By name without project" do
         subject { format_text("document:\"#{document.title}\"", project: the_other_project) }
 
-        it { is_expected.to eq('<p class="op-uc-p">document:"Test document"</p>') }
+        it { is_expected.to be_html_eql('<p class="op-uc-p">document:"Test document"</p>') }
       end
 
       context "By id and given project" do
         subject { format_text("#{identifier}:document##{document.id}", project: the_other_project) }
 
         it {
-          expect(subject).to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>")
+          expect(subject).to be_html_eql("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\" target=\"_top\">Test document</a></p>")
         }
       end
 
@@ -114,14 +114,14 @@ RSpec.describe ApplicationHelper do
         subject { format_text("#{identifier}:document:\"#{document.title}\"", project: the_other_project) }
 
         it {
-          expect(subject).to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>")
+          expect(subject).to be_html_eql("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\" target=\"_top\">Test document</a></p>")
         }
       end
 
       context "Invalid link" do
         subject { format_text("invalid:document:\"Test document\"", project: the_other_project) }
 
-        it { is_expected.to eq('<p class="op-uc-p">invalid:document:"Test document"</p>') }
+        it { is_expected.to be_html_eql('<p class="op-uc-p">invalid:document:"Test document"</p>') }
       end
     end
   end

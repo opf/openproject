@@ -30,8 +30,8 @@ require 'spec_helper'
 
 RSpec.describe WorkPackages::BulkController do
   let(:project) { create(:project_with_types) }
-  let(:controller_role) { build(:role, permissions: %i[view_work_packages edit_work_packages]) }
-  let(:user) { create(:user, member_in_project: project, member_through_role: controller_role) }
+  let(:controller_role) { build(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
+  let(:user) { create(:user, member_with_roles: { project => controller_role }) }
   let(:budget) { create(:budget, project:) }
   let(:work_package) { create(:work_package, project:) }
 

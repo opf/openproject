@@ -46,13 +46,11 @@ RSpec.describe SearchController do
   end
 
   shared_let(:role) do
-    create(:role, permissions: %i[view_wiki_pages view_work_packages])
+    create(:project_role, permissions: %i[view_wiki_pages view_work_packages])
   end
 
   shared_let(:user) do
-    create(:user,
-           member_in_projects: [project, subproject],
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role, subproject => role })
   end
 
   shared_let(:wiki_page) do
@@ -137,6 +135,22 @@ RSpec.describe SearchController do
       describe '#results_count' do
         it { expect(assigns(:results_count)).to be_a(Hash) }
         it { expect(assigns(:results_count)['work_packages']).to be(3) }
+      end
+    end
+
+    context 'when searching in all projects with an untransliterable character' do
+      before do
+        work_package_1.update_column(:subject, 'Something 会议 something')
+        get :index, params: { q: '会议', scope: 'all' }
+      end
+
+      it_behaves_like 'successful search'
+
+      it 'returns the result', :aggregate_failures do
+        expect(assigns(:results).count).to be(1)
+        expect(assigns(:results)).to include(work_package_1)
+        expect(assigns(:results_count)).to be_a(Hash)
+        expect(assigns(:results_count)['work_packages']).to be(1)
       end
     end
 

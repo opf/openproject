@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+export DOCKER_BUILDKIT=1
+export APP_USER_UID=$(id -u)
+export APP_USER_GID=$(id -g)
+export COMPOSE_FILE=docker-compose.ci.yml
+export RUBY_VERSION="$(cat .ruby-version)"
+export LOCAL_CACHE_PATH="./cache"
+
+mkdir -p $LOCAL_CACHE_PATH/{bundle,node/.npm,node/node_modules,node/frontend/node_modules,angular,runtime-logs}
+
+if [ "$1" = "down" ]; then
+  exec docker compose down --remove-orphans --volumes
+else
+  additional_args=""
+  if [ "$CI_REBUILD" = "true" ]; then
+    additional_args="$additional_args --build"
+  fi
+  exec docker compose run --rm --remove-orphans $additional_args app "$@"
+fi

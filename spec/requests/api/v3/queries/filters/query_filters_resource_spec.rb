@@ -37,12 +37,11 @@ RSpec.describe 'API v3 Query Filter resource' do
     let(:path) { api_v3_paths.query_filter(filter_name) }
     let(:filter_name) { 'assignee' }
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     before do

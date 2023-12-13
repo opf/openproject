@@ -71,7 +71,7 @@ RSpec.describe 'Wysiwyg work package quicklink macros', js: true do
     # Expect output widget
     within('#content') do
       expected_macro_text = "#{work_package.type.name.upcase} ##{work_package.id}: My subject"
-      expect(page).to have_selector('macro', text: expected_macro_text)
+      expect(page).to have_selector('opce-macro-wp-quickinfo', text: expected_macro_text)
       expect(page).to have_selector('span', text: work_package.type.name.upcase)
       expect(page).to have_selector('.work-package--quickinfo.preview-trigger', text: "##{work_package.id}")
       expect(page).to have_selector('span', text: 'My subject')
@@ -93,7 +93,7 @@ RSpec.describe 'Wysiwyg work package quicklink macros', js: true do
     within('#content') do
       expected_macro_text = "#{work_package.status.name}#{work_package.type.name.upcase} " \
                             "##{work_package.id}: My subject (01/01/2020 - 02/01/2020)"
-      expect(page).to have_selector('macro', text: expected_macro_text)
+      expect(page).to have_selector('opce-macro-wp-quickinfo', text: expected_macro_text)
       expect(page).to have_selector('span', text: work_package.status.name)
       expect(page).to have_selector('span', text: work_package.type.name.upcase)
       expect(page).to have_selector('.work-package--quickinfo.preview-trigger', text: "##{work_package.id}")
@@ -162,12 +162,12 @@ RSpec.describe 'Wysiwyg work package quicklink macros', js: true do
     click_on 'Save'
 
     within('#content') do
-      expect(page).to have_selector('macro', text: /No dates$/)
-      expect(page).to have_selector('macro', text: 'Start date only (01/01/2020 - no finish date)')
-      expect(page).to have_selector('macro', text: 'End date only (no start date - 12/31/2020)')
-      expect(page).to have_selector('macro', text: 'Both dates (01/01/2020 - 12/31/2020)')
-      expect(page).to have_selector('macro', text: 'Milestone with date (01/01/2020)')
-      expect(page).to have_selector('macro', text: /Milestone without date$/)
+      expect(page).to have_selector('opce-macro-wp-quickinfo', text: /No dates$/)
+      expect(page).to have_selector('opce-macro-wp-quickinfo', text: 'Start date only (01/01/2020 - no finish date)')
+      expect(page).to have_selector('opce-macro-wp-quickinfo', text: 'End date only (no start date - 12/31/2020)')
+      expect(page).to have_selector('opce-macro-wp-quickinfo', text: 'Both dates (01/01/2020 - 12/31/2020)')
+      expect(page).to have_selector('opce-macro-wp-quickinfo', text: 'Milestone with date (01/01/2020)')
+      expect(page).to have_selector('opce-macro-wp-quickinfo', text: /Milestone without date$/)
     end
   end
 end

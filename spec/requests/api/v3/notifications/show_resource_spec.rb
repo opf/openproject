@@ -36,7 +36,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
   shared_let(:recipient) do
     create(:user)
   end
-  shared_let(:role) { create(:role, permissions: %i(view_work_packages)) }
+  shared_let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
   shared_let(:project) do
     create(:project,
            members: { recipient => role })

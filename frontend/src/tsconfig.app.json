@@ -10,7 +10,8 @@
     "polyfills.ts",
     "app/core/setup/init-globals.ts",
     "app/core/setup/init-vendors.ts",
-    "stimulus/setup.ts"
+    "stimulus/setup.ts",
+    "turbo/setup.ts"
   ],
   "include": [
     "src/**/*.ts",

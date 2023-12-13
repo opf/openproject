@@ -39,7 +39,7 @@ RSpec.describe 'Work Package timer', js: true do
   let(:time_logging_modal) { Components::TimeLoggingModal.new }
   let(:timer_button) { Components::WorkPackages::TimerButton.new }
 
-  let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before do
     login_as user
@@ -61,13 +61,15 @@ RSpec.describe 'Work Package timer', js: true do
       page.find('.op-top-menu-user').click
       expect(page).to have_selector('.op-timer-account-menu', wait: 10)
       expect(page).to have_selector('.op-timer-account-menu--wp-details', text: "##{work_package_a.id}: WP A")
-      page.find('[data-qa-selector="op-timer-account-menu-stop"]').click
+      page.find_test_selector('op-timer-account-menu-stop').click
 
       time_logging_modal.is_visible true
 
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+      # wait for available_work_packages query to finish before saving
+      time_logging_modal.expect_work_package(work_package_a.subject)
 
       time_logging_modal.perform_action 'Save'
       time_logging_modal.is_visible false
@@ -104,6 +106,8 @@ RSpec.describe 'Work Package timer', js: true do
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+      # wait for available_work_packages query to finish before saving
+      time_logging_modal.expect_work_package(work_package_a.subject)
 
       time_logging_modal.perform_action 'Save'
 
@@ -167,6 +171,8 @@ RSpec.describe 'Work Package timer', js: true do
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+      # wait for available_work_packages query to finish before saving
+      time_logging_modal.expect_work_package(work_package_a.subject)
 
       time_logging_modal.perform_action 'Save'
       wp_view_b.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
@@ -178,6 +184,8 @@ RSpec.describe 'Work Package timer', js: true do
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+      # wait for available_work_packages query to finish before saving
+      time_logging_modal.expect_work_package(work_package_a.subject)
 
       time_logging_modal.perform_action 'Save'
       wp_view_b.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)

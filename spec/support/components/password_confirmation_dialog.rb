@@ -51,7 +51,7 @@ module Components
     end
 
     def submit_button
-      page.find('[data-qa-selector="confirmation-modal--confirmed"]')
+      page.find('[data-test-selector="confirmation-modal--confirmed"]')
     end
 
     private

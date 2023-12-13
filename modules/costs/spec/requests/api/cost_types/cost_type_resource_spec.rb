@@ -34,10 +34,10 @@ RSpec.describe 'API v3 Cost Type resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let!(:cost_type) { create(:cost_type) }
-  let(:role) { create(:role, permissions: [:view_cost_entries]) }
+  let(:role) { create(:project_role, permissions: [:view_cost_entries]) }
   let(:project) { create(:project) }
 
   subject(:response) { last_response }

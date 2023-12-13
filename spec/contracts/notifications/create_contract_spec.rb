@@ -96,4 +96,6 @@ RSpec.describe Notifications::CreateContract do
       it_behaves_like 'contract is invalid', mail_reminder_sent: :set_on_creation
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

@@ -34,7 +34,7 @@ module API
           # The empty namespaces are added so that anonymous users can receive a 401 response
           namespace '' do
             after_validation do
-              authorize_by_with_raise(current_user.allowed_to_globally?(:manage_user) || @user == current_user)
+              authorize_by_with_raise(current_user.allowed_globally?(:manage_user) || @user == current_user)
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: UserPreference,
@@ -44,7 +44,7 @@ module API
 
           namespace '' do
             after_validation do
-              authorize_by_with_raise(current_user.allowed_to_globally?(:manage_user) ||
+              authorize_by_with_raise(current_user.allowed_globally?(:manage_user) ||
                                         (current_user.logged? && @user == current_user)) do
                 if current_user.anonymous?
                   raise API::Errors::Unauthenticated

@@ -246,7 +246,7 @@ RSpec.describe 'activity comments', js: true do
         comment_field.submit_by_click
 
         wp_page.expect_comment text: "Single ##{work_package2.id}"
-        expect(page).to have_selector('.user-comment .macro--wp-quickinfo', count: 2)
+        expect(page).to have_selector('.user-comment opce-macro-wp-quickinfo', count: 2)
         expect(page).to have_selector('.user-comment .work-package--quickinfo.preview-trigger', count: 2)
       end
     end
@@ -256,7 +256,7 @@ RSpec.describe 'activity comments', js: true do
       comment_field.input_element.send_keys "I'm typing an important message here ..."
 
       wp_page.switch_to_tab tab: :files
-      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]')
+      expect(page).to have_test_selector('op-tab-content--tab-section')
 
       wp_page.switch_to_tab tab: :activity
 
@@ -273,7 +273,7 @@ RSpec.describe 'activity comments', js: true do
       # Has removed the draft now
 
       wp_page.switch_to_tab tab: :files
-      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]')
+      expect(page).to have_test_selector('op-tab-content--tab-section')
 
       wp_page.switch_to_tab tab: :activity
       comment_field.expect_inactive!
@@ -284,8 +284,8 @@ RSpec.describe 'activity comments', js: true do
   end
 
   context 'with no permission' do
-    let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create(:role, permissions: %i(view_work_packages)) }
+    let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
+    let(:current_user) { create(:user, member_with_roles: { project => role }) }
 
     before do
       wp_page.visit!

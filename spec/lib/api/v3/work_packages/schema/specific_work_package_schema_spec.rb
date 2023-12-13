@@ -36,15 +36,10 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
                   project:,
                   type:)
   end
-  let(:current_user) do
-    double('current user').tap do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(true)
-    end
-  end
+  let(:current_user) { build_stubbed(:user) }
 
   before do
+    mock_permissions_for(current_user, &:allow_everything)
     login_as(current_user)
   end
 
@@ -156,7 +151,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     it 'returns all categories of the project' do
-      expect(subject.assignable_values(:category, current_user)).to match_array([category])
+      expect(subject.assignable_values(:category, current_user)).to contain_exactly(category)
     end
   end
 

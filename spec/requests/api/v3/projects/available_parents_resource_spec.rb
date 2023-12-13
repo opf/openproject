@@ -34,7 +34,7 @@ RSpec.describe 'API v3 Project available parents resource', content_type: :json 
   include API::V3::Utilities::PathHelper
 
   current_user do
-    create(:user, member_in_project: project, member_with_permissions: permissions).tap do |u|
+    create(:user, member_with_permissions: { project => permissions }).tap do |u|
       create(:global_member,
              principal: u,
              roles: [create(:global_role, permissions: global_permissions)])
@@ -45,7 +45,7 @@ RSpec.describe 'API v3 Project available parents resource', content_type: :json 
       create(:member,
              user: current_user,
              project: p,
-             roles: [create(:role, permissions: [:add_subprojects])])
+             roles: [create(:project_role, permissions: [:add_subprojects])])
     end
   end
   let(:child_project_with_add_subproject_permission) do
@@ -53,7 +53,7 @@ RSpec.describe 'API v3 Project available parents resource', content_type: :json 
       create(:member,
              user: current_user,
              project: p,
-             roles: [create(:role, permissions: [:add_subprojects])])
+             roles: [create(:project_role, permissions: [:add_subprojects])])
     end
   end
   let(:project_without_add_subproject_permission) do
@@ -61,7 +61,7 @@ RSpec.describe 'API v3 Project available parents resource', content_type: :json 
       create(:member,
              user: current_user,
              project: p,
-             roles: [create(:role, permissions: [])])
+             roles: [create(:project_role, permissions: [])])
     end
   end
   let!(:project) do

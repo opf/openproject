@@ -37,6 +37,7 @@ RSpec.shared_examples 'module specific query view management' do
       # Change the query
       filters.open
       filters.add_filter_by 'Subject', 'contains', ['Test']
+      filters.expect_filter_count(initial_filter_count + 1)
 
       # Save it
       query_title.expect_changed
@@ -47,6 +48,7 @@ RSpec.shared_examples 'module specific query view management' do
 
       # Change the filter again
       filters.add_filter_by 'Progress (%)', 'is', ['25'], 'percentageDone'
+      filters.expect_filter_count(initial_filter_count + 2)
 
       # Save as another query
       query_title.expect_changed
@@ -55,8 +57,6 @@ RSpec.shared_examples 'module specific query view management' do
       query_title.expect_title 'My second query'
       query_menu.expect_menu_entry 'My second query'
       query_menu.expect_menu_entry 'My first query'
-
-      module_page.expect_and_dismiss_toaster
 
       # Rename a query
       settings_menu.open_and_choose 'Rename view'

@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 RSpec.shared_examples_for 'wiki page contract' do
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && page_wiki.project == permission_project
-      end
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: page_wiki.project if page_wiki
     end
   end
+
   let(:page_wiki) { build_stubbed(:wiki) }
   let(:page_author) { current_user }
   let(:page_title) { 'Wiki title' }
@@ -44,7 +44,7 @@ RSpec.shared_examples_for 'wiki page contract' do
   let(:page_protected) { false }
   let(:page_parent) { nil }
   let(:page_text) { 'Wiki text' }
-  let(:permissions) { %i[view_wiki edit_wiki_pages] }
+  let(:permissions) { %i[view_wiki_pages edit_wiki_pages] }
 
   def expect_valid(valid, symbols = {})
     expect(contract.validate).to eq(valid)
@@ -129,7 +129,7 @@ RSpec.shared_examples_for 'wiki page contract' do
     end
 
     context 'if the user lacks permission' do
-      let(:permissions) { %i[view_wiki] }
+      let(:permissions) { %i[view_wiki_pages] }
 
       it 'is invalid' do
         expect_valid(false, base: :error_unauthorized)
@@ -137,7 +137,7 @@ RSpec.shared_examples_for 'wiki page contract' do
     end
 
     context 'if the page is protected and the user has permission to protect pages' do
-      let(:permissions) { %i[view_wiki edit_wiki_pages protect_wiki_pages] }
+      let(:permissions) { %i[view_wiki_pages edit_wiki_pages protect_wiki_pages] }
       let(:page_protected) { true }
 
       it_behaves_like 'is valid'

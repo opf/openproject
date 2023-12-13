@@ -77,7 +77,7 @@ class Message < ApplicationRecord
   }
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_to?(:view_messages, project)
+    !user.nil? && user.allowed_in_project?(:view_messages, project)
   end
 
   validate :validate_unlocked_root, on: :create
@@ -116,13 +116,14 @@ class Message < ApplicationRecord
   end
 
   def editable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:edit_messages,
-                                           project) || (author == usr && usr.allowed_to?(:edit_own_messages, project)))
+    usr && usr.logged? &&
+    (usr.allowed_in_project?(:edit_messages, project) || (author == usr && usr.allowed_in_project?(:edit_own_messages, project)))
   end
 
   def destroyable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:delete_messages,
-                                           project) || (author == usr && usr.allowed_to?(:delete_own_messages, project)))
+    usr && usr.logged? &&
+    (usr.allowed_in_project?(:delete_messages,
+                             project) || (author == usr && usr.allowed_in_project?(:delete_own_messages, project)))
   end
 
   private

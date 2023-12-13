@@ -186,8 +186,8 @@ RSpec.describe OpenIDConnect::ProvidersController do
             get :edit, params: { id: 'azure' }
           end
 
-          it 'shows limit_self_registration as unchecked' do
-            expect(assigns[:provider]).not_to be_limit_self_registration
+          it 'shows limit_self_registration as checked' do
+            expect(assigns[:provider]).to be_limit_self_registration
           end
         end
       end
@@ -215,6 +215,37 @@ RSpec.describe OpenIDConnect::ProvidersController do
           expect(flash[:notice]).to be_present
           provider = OpenProject::OpenIDConnect.providers.find { |item| item.name == "azure" }
           expect(provider.secret).to eq("NEWSECRET")
+        end
+
+        context 'with limit_self_registration checked' do
+          let(:params) do
+            { id: 'azure', openid_connect_provider: valid_params.merge(limit_self_registration: 1) }
+          end
+
+          it 'sets the setting' do
+            put(:update, params:)
+
+            expect(OpenProject::Plugins::AuthPlugin)
+              .to be_limit_self_registration provider: :azure
+            provider = OpenProject::OpenIDConnect.providers.find { |item| item.name == "azure" }
+            expect(provider.limit_self_registration).to be true
+          end
+        end
+
+        context 'with limit_self_registration unchecked' do
+          let(:params) do
+            { id: :azure, openid_connect_provider: valid_params.merge(limit_self_registration: 0) }
+          end
+
+          it 'does not set the setting' do
+            put(:update, params:)
+
+            expect(OpenProject::Plugins::AuthPlugin)
+              .not_to be_limit_self_registration provider: valid_params[:name]
+
+            provider = OpenProject::OpenIDConnect.providers.find { |item| item.name == "azure" }
+            expect(provider.limit_self_registration).to be false
+          end
         end
       end
     end

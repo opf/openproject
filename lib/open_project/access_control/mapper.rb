@@ -29,8 +29,8 @@
 module OpenProject
   module AccessControl
     class Mapper
-      def permission(name, hash, **options)
-        mapped_permissions << Permission.new(name, hash, project_module: @project_module, **options)
+      def permission(name, hash, **)
+        mapped_permissions << Permission.new(name, hash, project_module: @project_module, **)
       end
 
       def project_module(name, options = {})

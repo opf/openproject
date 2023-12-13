@@ -1,9 +1,7 @@
 require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
-RSpec.describe "multi select custom values",
-               js: true,
-               with_cuprite: true do
+RSpec.describe "multi select custom values", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
@@ -15,7 +13,7 @@ RSpec.describe "multi select custom values",
 
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
-  shared_let(:role) { create(:role) }
+  shared_let(:role) { create(:project_role) }
 
   shared_let(:custom_field) do
     create(
@@ -40,22 +38,19 @@ RSpec.describe "multi select custom values",
       create(:user,
              firstname: 'Da Real',
              lastname: 'User',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let!(:group) do
       create(:group,
              name: 'groupfoo',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let!(:placeholder) do
       create(:placeholder_user,
              name: 'PLACEHOLDER',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     it "is shown and allowed to be updated" do
@@ -106,16 +101,14 @@ RSpec.describe "multi select custom values",
       create(:user,
              firstname: 'Billy',
              lastname: 'Nobbler',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let!(:user2) do
       create(:user,
              firstname: 'Cooper',
              lastname: 'Quatermaine',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let!(:user3) do
@@ -123,8 +116,7 @@ RSpec.describe "multi select custom values",
              firstname: 'Anton',
              lastname: 'Lupin',
              status: User.statuses[:invited],
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     context "with existing custom values" do

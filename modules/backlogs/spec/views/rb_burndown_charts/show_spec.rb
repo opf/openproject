@@ -32,10 +32,10 @@ RSpec.describe 'rb_burndown_charts/show' do
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
   let(:role_allowed) do
-    create(:role,
+    create(:project_role,
            permissions: %i[add_work_packages manage_subtasks])
   end
-  let(:role_forbidden) { create(:role) }
+  let(:role_forbidden) { create(:project_role) }
   # We need to create these as some view helpers access the database
   let(:statuses) do
     [create(:status),

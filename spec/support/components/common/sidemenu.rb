@@ -34,7 +34,7 @@ module Components
       include RSpec::Matchers
 
       def expect_open
-        expect(page).to have_selector('[data-qa-selector="op-sidemenu"]')
+        expect(page).to have_selector('[data-test-selector="op-sidemenu"]')
       end
 
       def expect_item_not_visible(item)
@@ -61,7 +61,7 @@ module Components
 
       def finished_loading
         wait_for_network_idle if using_cuprite?
-        expect(page).not_to have_selector('[data-qa-selector="op-ian-center--loading-indicator"]')
+        expect(page).not_to have_selector('[data-test-selector="op-ian-center--loading-indicator"]')
       end
 
       private
@@ -75,11 +75,11 @@ module Components
       end
 
       def item_action_selector(item)
-        "[data-qa-selector='op-sidemenu--item-action--#{item.delete(' ')}']"
+        "[data-test-selector='op-sidemenu--item-action--#{item.delete(' ')}']"
       end
 
       def item_selector
-        '[data-qa-selector="op-sidemenu--item"]'
+        '[data-test-selector="op-sidemenu--item"]'
       end
     end
   end

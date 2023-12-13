@@ -33,7 +33,7 @@ RSpec.describe 'Global role: Unchanged Member Roles',
                with_cuprite: true do
   let(:admin) { create(:admin) }
   let(:project) { create(:project) }
-  let!(:role) { create(:role, name: 'MemberRole1') }
+  let!(:role) { create(:project_role, name: 'MemberRole1') }
   let!(:global_role) { create(:global_role, name: 'GlobalRole1') }
 
   let(:members) { Pages::Members.new project.identifier }

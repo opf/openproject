@@ -38,6 +38,10 @@ module Enumerations
       end
     end
 
+    def sortable?
+      false
+    end
+
     def headers
       [
         ['name', { caption: Enumeration.human_attribute_name(:name) }],
@@ -59,7 +63,7 @@ module Enumerations
       link_to new_enumeration_path(type: rows.name),
               aria: { label: t(:label_enumeration_new) },
               class: 'wp-inline-create--add-link',
-              data: { 'qa-selector': "create-enumeration-#{rows.name.underscore.dasherize}" },
+              data: { 'test-selector': "create-enumeration-#{rows.name.underscore.dasherize}" },
               title: t(:label_enumeration_new) do
         helpers.op_icon('icon icon-add')
       end

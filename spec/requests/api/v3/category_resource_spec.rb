@@ -33,14 +33,13 @@ RSpec.describe 'API v3 Category resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions: []) }
+  let(:role) { create(:project_role, permissions: []) }
   let(:private_project) { create(:project, public: false) }
   let(:public_project) { create(:project, public: true) }
   let(:anonymous_user) { create(:user) }
   let(:privileged_user) do
     create(:user,
-           member_in_project: private_project,
-           member_through_role: role)
+           member_with_roles: { private_project => role })
   end
 
   let!(:categories) { create_list(:category, 3, project: private_project) }

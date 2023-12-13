@@ -37,8 +37,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
   let(:user) do
     create(:user,
            lastname: 'First',
-           member_in_project: project,
-           member_with_permissions: permissions).tap do |u|
+           member_with_permissions: { project => permissions }).tap do |u|
       u.pref[:time_zone] = time_zone
 
       u.save!
@@ -47,8 +46,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
   let(:other_user) do
     create(:user,
            lastname: 'Second',
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:permissions) { %i[view_meetings create_meetings] }
   let(:current_user) { user }
@@ -89,6 +87,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
           expect_angular_frontend_initialized # Wait for project dropdown to be ready
 
           new_page.set_title 'Some title'
+          new_page.set_type 'Classic'
           new_page.set_project project
 
           new_page.set_start_date '2013-03-28'
@@ -135,6 +134,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
         before do
           new_page.visit!
           new_page.set_title 'Some title'
+          new_page.set_type 'Classic'
           new_page.set_start_date '2013-03-28'
           new_page.set_start_time '13:30'
           new_page.set_duration '1.5'
@@ -170,6 +170,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
         expect_angular_frontend_initialized # Wait for project dropdown to be ready
 
         new_page.set_title 'Some title'
+        new_page.set_type 'Classic'
 
         new_page.set_project project
 
@@ -187,6 +188,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
         before do
           new_page.visit!
           new_page.set_title 'Some title'
+          new_page.set_type 'Classic'
         end
 
         it 'renders a validation error' do
@@ -244,6 +246,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
           new_page.visit!
 
           new_page.set_title 'Some title'
+          new_page.set_type 'Classic'
           new_page.set_start_date '2013-03-28'
           new_page.set_start_time '13:30'
           new_page.set_duration '1.5'
@@ -294,12 +297,13 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
       let(:field) do
         TextEditorField.new(page,
                             '',
-                            selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
+                            selector: test_selector('op-meeting--meeting_agenda'))
       end
 
       it 'allows creating meeting in a project without members' do
         new_page.visit!
 
+        new_page.set_type 'Classic'
         new_page.set_title 'Some title'
 
         show_page = new_page.click_create
@@ -329,6 +333,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
         new_page.visit!
 
         new_page.set_title 'Some title'
+        new_page.set_type 'Classic'
 
         show_page = new_page.click_create
 

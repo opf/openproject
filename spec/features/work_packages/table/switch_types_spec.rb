@@ -275,11 +275,10 @@ RSpec.describe 'Switching types in work package table', js: true do
     let!(:type_with_cf) { create(:type_task, custom_fields: [custom_field]) }
     let!(:type) { create(:type_bug) }
     let(:permissions) { %i(view_work_packages add_work_packages) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let(:custom_field) do

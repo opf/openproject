@@ -59,12 +59,11 @@ RSpec.describe PlaceholderUsers::DeleteService, type: :model do
   end
 
   context 'with global user' do
-    let(:actor) do
-      build_stubbed(:user).tap do |u|
-        allow(u)
-          .to receive(:allowed_to_globally?) do |permission|
-            [:manage_placeholder_user].include?(permission)
-          end
+    let(:actor) { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(actor) do |mock|
+        mock.allow_globally :manage_placeholder_user
       end
     end
 

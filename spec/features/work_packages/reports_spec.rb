@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'work package reports', js: true do
   let(:project) { create(:project_with_types, types: [type_a]) }
-  let(:user) { create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages)) }
+  let(:user) { create(:user, member_with_permissions: { project => %i(view_work_packages) }) }
 
   let(:type_a) do
     create(:type_with_workflow, name: 'Type A').tap do |t|

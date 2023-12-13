@@ -63,8 +63,7 @@ RSpec.describe Calendar::ICalController do
   end
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: sufficient_permissions)
+           member_with_permissions: { project => sufficient_permissions })
   end
   let(:sufficient_permissions) { %i[view_work_packages share_calendars] }
   let(:insufficient_permissions) { %i[view_work_packages] }
@@ -180,8 +179,7 @@ RSpec.describe Calendar::ICalController do
     context 'with valid params and permissions when targeting a public query of somebody else' do
       let(:user2) do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: sufficient_permissions)
+               member_with_permissions: { project => sufficient_permissions })
       end
       let(:query2) do
         create(:query,
@@ -208,8 +206,7 @@ RSpec.describe Calendar::ICalController do
             with_settings: { ical_enabled: false } do
       let(:user2) do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: sufficient_permissions)
+               member_with_permissions: { project => sufficient_permissions })
       end
       let(:query2) do
         create(:query,
@@ -236,8 +233,7 @@ RSpec.describe Calendar::ICalController do
             with_settings: { login_required: true } do
       let(:user2) do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: sufficient_permissions)
+               member_with_permissions: { project => sufficient_permissions })
       end
       let(:query2) do
         create(:query,
@@ -263,8 +259,7 @@ RSpec.describe Calendar::ICalController do
     context 'with valid params and permissions when targeting a private query of somebody else' do
       let(:user2) do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: sufficient_permissions)
+               member_with_permissions: { project => sufficient_permissions })
       end
       let(:query2) do
         create(:query,
@@ -291,8 +286,7 @@ RSpec.describe Calendar::ICalController do
       let(:project2) { create(:project) }
       let(:user) do
         create(:user,
-               member_in_project: project2,
-               member_with_permissions: sufficient_permissions)
+               member_with_permissions: { project2 => sufficient_permissions })
       end
 
       before do
@@ -309,8 +303,7 @@ RSpec.describe Calendar::ICalController do
     context 'with valid params and missing permissions' do
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: insufficient_permissions)
+               member_with_permissions: { project => insufficient_permissions })
       end
 
       before do

@@ -31,6 +31,12 @@ ca:
         Estàs segur que vols esborrar aquest fitxer adjunt? Aquesta acció és irreversible.
       draggable_hint: |
         Arrossega a l'editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l'editor seguiran oberts mentre se segueixi arrossegant.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Carregant..."
+      not_found: "Elements no trobats"
+      type_to_search: "Escriviu per cercar"
     autocomplete_select:
       placeholder:
         multi: "Afegir \"%{name}\""
@@ -297,33 +303,33 @@ ca:
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Diagrama de Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Configuració d''etiquetes'
+        bar: 'Etiquetes de barres'
+        left: 'Esquerra'
+        right: 'Dreta'
+        farRight: 'Extrem dret'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Selecciona els atributs que vols que es mostrin en les posicions corresponents del diagrama de Gantt en tot moment. Tingui en compte que, en mantenir el ratolí sobre un element, es mostraran les etiquetes de data en lloc d'aquests atributs.
+      button_activate: 'Mostra el diagrama de Gantt'
+      button_deactivate: 'Amaga el diagrama de Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(cap)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Faci clic en qualsevol paquet de treball ressaltat per a crear la relació. Cliqui Esc per a cancel·lar.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Ampliar"
+        out: "Allunyar"
+        auto: "Zoom automàtic"
+        days: "Dies"
+        weeks: "Setmanes"
+        months: "Mesos"
+        quarters: "Quatrimestres"
+        years: "Anys"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Seleccioni el nivell inicial de zoom que s'ha de mostrar quan el zoom automàtic no estigui disponible.
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -342,11 +348,11 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "S'ha produït un error en carregar les dades."
@@ -554,7 +560,6 @@ ca:
       steps:
         help_menu: 'El menú d''Ajuda (?) proveeix <b>recursos d''ajuda addicionals</b>. Aquí podràs trobar la guia d''usuari, vídeos explicatius i molt més. <br> Gaudeix del teu treball amb OpenProject!'
         members: 'Convida nous <b>membres</b> a afegir-se al teu projecte.'
-        project_selection: 'Si us plau, fes clic a un dels projectes de demostració que hem preparat. Les dades de demostració de moment només estan disponibles en anglès. <br>El projecte general <b> de demostració</b> està configurat pensant en una gestió de projectes clàssica, mentre que el <b>projecte Scrum</b> és millor per a gestió de projectes "agile".'
         quick_add_button: 'Fes clic a la icona de més (+) en la navegació superior per <b>crear un nou projecte</b> o <b>convidar companys de feina</b>.'
         sidebar_arrow: "Utilitza la fletxa de retorn a la cantonada esquerra per tornar al <b>menú principal</b> del projecte."
         welcome: 'Segueix la introducció de tres minuts per aprendre les <b> funcions més importants</b>. <br>Recomanem completar les passes fins al final. Podràs tornar a començar aquesta introducció en qualsevol moment.'
@@ -599,6 +604,7 @@ ca:
         processed: 'processat'
         prioritized: 'prioritzat'
         dateAlert: 'Alerta per dates'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data de fita'
         overdue: 'Vençut'
@@ -643,6 +649,7 @@ ca:
         mentioned: 'Mencionat'
         watched: 'Observador'
         date_alert: 'Alerta per dates'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Pots modificar la teva <a target="_blank" href="%{url}">configuració de notificacions</a> per assegurar-te que mai et perds informació important.'
         title: "Configuració de notificacions"
@@ -665,6 +672,7 @@ ca:
             description: 'Rep una notificació cada vegada que algú em menciona a qualsevol lloc'
           assignee: 'Assignat a'
           responsible: 'Responsable'
+          shared: 'Shared'
           watched: 'Observador'
           work_package_commented: 'Tots els nous comentaris'
           work_package_created: 'Paquets de treball nou'
@@ -981,6 +989,7 @@ ca:
         recently_created: "Creat recentment"
         all_open: "Tots els oberts"
         summary: "Resum"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Saltar a la paginació de la taula"
         label_pagination: "Fes clic aquí per saltar per sobre la taula de paquets de treball i anar a paginació"
@@ -1017,6 +1026,12 @@ ca:
       scheduling:
         is_parent: "Les dates d'aquest paquet de treball estan derivades automàticament dels seus fills. Activa la \"Planificació manual\" per canviar les dates."
         is_switched_from_manual_to_automatic: "Pot ser que les dates d'aquest paquet de treball no es tornin a calcular automàticament en canviar de planificació manual a automàtica a causa de les relacions amb altres paquets de treball."
+      sharing:
+        share: 'Compartir'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configura la taula de paquets de treball'
         summary: "Taula amb fileres de paquets de treball i columnes amb els atributs dels paquets de treball."

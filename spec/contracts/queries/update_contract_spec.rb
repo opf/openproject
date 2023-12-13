@@ -27,11 +27,9 @@
 #++
 
 require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
 RSpec.describe Queries::UpdateContract do
-  include_context 'ModelContract shared context'
   include_context 'with queries contract'
 
   describe 'private query' do
@@ -66,7 +64,7 @@ RSpec.describe Queries::UpdateContract do
     let(:user) { nil }
 
     context 'when user has no permission to save' do
-      let(:permissions) { %i(invalid_permission) }
+      let(:permissions) { %i() }
 
       it_behaves_like 'contract user is unauthorized'
     end

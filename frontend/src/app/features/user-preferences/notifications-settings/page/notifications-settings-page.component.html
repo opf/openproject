@@ -53,6 +53,18 @@
     />
   </spot-selector-field>
 
+  <spot-selector-field
+    [label]="text.shared"
+    [control]="form.get('shared')"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="shared"
+      data-qa-global-notification-type="shared"
+    />
+  </spot-selector-field>
+
   <h5>{{ text.dateAlerts.title }}</h5>
   <p>{{ text.dateAlerts.description }}</p>
   <div *ngIf="!eeShowBanners">

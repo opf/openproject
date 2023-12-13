@@ -31,7 +31,6 @@ require 'spec_helper'
 RSpec.describe API::V3::Versions::VersionRepresenter, 'rendering' do
   let(:version) { build_stubbed(:version) }
   let(:permissions) { [:manage_versions] }
-  let(:permissions) { [:manage_versions] }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.create(version, current_user: user) }
 
@@ -40,10 +39,9 @@ RSpec.describe API::V3::Versions::VersionRepresenter, 'rendering' do
   subject(:generated) { representer.to_json }
 
   before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission, project|
-        project == version.project && permissions.include?(permission)
-      end
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project: version.project
+    end
   end
 
   it { is_expected.to include_json('Version'.to_json).at_path('_type') }

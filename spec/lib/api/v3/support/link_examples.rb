@@ -28,42 +28,6 @@
 
 require 'spec_helper'
 
-# FIXME: deprecate this example and replace by 'has an untitled action link'
-# it does not work as intended (setting user has no effect, but by chance :role overrides base spec)
-# it does not check the actual href/method
-RSpec.shared_examples_for 'action link' do
-  let(:permissions) { %i(view_work_packages edit_work_packages) }
-  let(:user) do
-    build_stubbed(:user)
-  end
-
-  let(:href) { nil }
-
-  before do
-    login_as(user)
-    allow(user)
-      .to receive(:allowed_to?) do |permission, _project|
-      permissions.include?(permission)
-    end
-  end
-
-  it { expect(subject).not_to have_json_path("_links/#{action}/href") }
-
-  describe 'with permission' do
-    before do
-      permissions << permission
-    end
-
-    it { expect(subject).to have_json_path("_links/#{action}/href") }
-
-    it do
-      if href
-        expect(subject).to be_json_eql(href.to_json).at_path("_links/#{action}/href")
-      end
-    end
-  end
-end
-
 RSpec.shared_context 'action link shared' do
   let(:all_permissions) { OpenProject::AccessControl.permissions.map(&:name) }
   let(:permissions) { all_permissions }
@@ -73,9 +37,13 @@ RSpec.shared_context 'action link shared' do
 
   before do
     login_as(action_link_user)
-    allow(action_link_user)
-      .to receive(:allowed_to?) do |permission, _project|
-      permissions.include?(permission)
+
+    mock_permissions_for(action_link_user) do |mock|
+      permissions.each do |permission|
+        perm = OpenProject::AccessControl.permission(permission)
+        mock.allow_globally perm.name if perm.global?
+        mock.allow_in_project perm.name, project: project if perm.project?
+      end
     end
   end
 
@@ -99,7 +67,7 @@ RSpec.shared_context 'action link shared' do
   end
 
   describe 'without permission' do
-    let(:permissions) { all_permissions - [permission] }
+    let(:permissions) { all_permissions - Array(permission) }
 
     it_behaves_like 'has no link'
   end

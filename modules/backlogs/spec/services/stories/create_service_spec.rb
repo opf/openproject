@@ -39,7 +39,7 @@ RSpec.describe Stories::CreateService, type: :model do
            roles: [role])
     project
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(add_work_packages manage_subtasks assign_versions) }
   let(:status) { create(:status) }
   let(:type_feature) { create(:type_feature) }

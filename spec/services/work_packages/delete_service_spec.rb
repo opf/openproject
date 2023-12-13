@@ -46,22 +46,13 @@ RSpec.describe WorkPackages::DeleteService do
   subject { instance.call }
 
   before do
-    allow(work_package)
-      .to receive(:reload)
-      .and_return(work_package)
+    allow(work_package).to receive(:reload).and_return(work_package)
+    expect(work_package).to receive(:destroy).and_return(destroyed_result)
+    allow(work_package).to receive(:destroyed?).and_return(destroyed_result)
 
-    expect(work_package)
-      .to receive(:destroy)
-      .and_return(destroyed_result)
-
-    allow(work_package)
-      .to receive(:destroyed?)
-      .and_return(destroyed_result)
-
-    allow(user)
-      .to receive(:allowed_to?)
-      .with(:delete_work_packages, work_package.project)
-      .and_return(destroy_allowed)
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project :delete_work_packages, project: work_package.project
+    end
   end
 
   it 'destroys the work package' do

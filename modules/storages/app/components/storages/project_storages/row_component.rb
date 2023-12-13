@@ -41,7 +41,7 @@ module Storages::ProjectStorages
     end
 
     def provider_type
-      project_storage.storage.short_provider_type
+      I18n.t(:"storages.provider_types.#{project_storage.storage.short_provider_type}.name")
     end
 
     def creator
@@ -50,11 +50,11 @@ module Storages::ProjectStorages
     end
 
     def button_links
-      [edit_link, delete_link].tap do |links|
-        if project_storage.project_folder_automatic?
-          links.unshift members_connection_status_link
-        end
-      end
+      links = [delete_link]
+      links.prepend(edit_link) if project_storage.storage.provider_type_nextcloud?
+      links.prepend(members_connection_status_link) if project_storage.project_folder_automatic?
+
+      links
     end
 
     def members_connection_status_link

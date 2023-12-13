@@ -117,7 +117,7 @@ RSpec.describe "SMTP settings" do
 
         expect_any_instance_of(Net::SMTP).to receive(:start) do |instance|
           expect(instance).to be_tls
-          expect(instance.instance_variable_get('@ssl_context_tls').verify_mode).to eq OpenSSL::SSL::VERIFY_PEER
+          expect(instance.instance_variable_get(:@ssl_context_tls).verify_mode).to eq OpenSSL::SSL::VERIFY_PEER
         end
       end
 
@@ -136,7 +136,7 @@ RSpec.describe "SMTP settings" do
 
         expect_any_instance_of(Net::SMTP).to receive(:start) do |instance|
           expect(instance).to be_tls
-          expect(instance.instance_variable_get('@ssl_context_tls').verify_mode).to eq OpenSSL::SSL::VERIFY_NONE
+          expect(instance.instance_variable_get(:@ssl_context_tls).verify_mode).to eq OpenSSL::SSL::VERIFY_NONE
         end
       end
 
@@ -157,7 +157,7 @@ RSpec.describe "SMTP settings" do
         expect_any_instance_of(Net::SMTP).to receive(:start) do |instance|
           expect(instance).to be_tls
           expect(instance).not_to be_starttls_auto
-          expect(instance.instance_variable_get('@ssl_context_tls').verify_mode).to eq OpenSSL::SSL::VERIFY_PEER
+          expect(instance.instance_variable_get(:@ssl_context_tls).verify_mode).to eq OpenSSL::SSL::VERIFY_PEER
         end
       end
 

@@ -13,10 +13,10 @@ This guide describes how internal team members with write permissions can contri
 
 ## Prerequisites
 
-1. [The contributor has a user account on GitHub.com](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-1-create-user-account-on-githubcom)
+1. [The contributor has a user account on GitHub.com](../../../development/contribution-documentation/documentation-process/#step-1-create-user-account-on-githubcom)
 2. The contributor has write permissions on the [OpenProject repository](https://github.com/opf/openproject)
-3. [Software Typora editor installed](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-2-install-typora)
-4. [Software GitHub Desktop installed](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-3-install-github-desktop)
+3. [Software Typora editor installed](../../../development/contribution-documentation/documentation-process/#step-2-install-typora)
+4. [Software GitHub Desktop installed](../../../development/contribution-documentation/documentation-process/#step-3-install-github-desktop)
 
 ## Step 1: Clone the OpenProject repository in GitHub Desktop
 

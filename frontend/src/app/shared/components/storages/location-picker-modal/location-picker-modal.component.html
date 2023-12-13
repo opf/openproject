@@ -1,9 +1,9 @@
 <div
   class="spot-modal op-file-picker"
-  data-qa-selector="op-files-picker-modal"
+  data-test-selector="op-files-picker-modal"
 >
   <div class="spot-modal--header">
-    <span class="spot-modal--header-title">{{text.header}}</span>
+    <span id="spotModalTitle" class="spot-modal--header-title">{{text.header}}</span>
   </div>
 
   <div class="spot-divider"></div>
@@ -34,12 +34,12 @@
       <ul
         *ngIf="(listItems$ | async).length > 0; else emptyTemplate"
         class="spot-list spot-list_compact op-file-list op-file-picker--scrollable-content"
-        data-qa-selector="op-files-picker-modal--file-list"
+        data-test-selector="op-files-picker-modal--file-list"
       >
         <li
           *ngFor="let file of listItems$ | async; let i = index;"
           class="spot-list--item op-file-list--item"
-          data-qa-selector="op-file-list--item"
+          data-test-selector="op-file-list--item"
           op-storage-file-list-item
           [content]="file"
         ></li>
@@ -49,7 +49,7 @@
     <ng-template #loadingTemplate>
       <op-loading-file-list
         class="spot-body-small"
-        data-qa-selector="op-file-list--loading-indicator"
+        data-test-selector="op-file-list--loading-indicator"
       ></op-loading-file-list>
     </ng-template>
 
@@ -82,7 +82,7 @@
       <button
         type="button"
         class="button spot-action-bar--action -highlight"
-        data-qa-selector="op-files-picker-modal--confirm"
+        data-test-selector="op-files-picker-modal--confirm"
         [disabled]="!canChooseLocation"
         [textContent]="text.buttons.submit"
         (click)="chooseLocation()"

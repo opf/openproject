@@ -44,8 +44,7 @@ RSpec.describe 'baseline query saving',
   shared_let(:berlin_user) do
     create(:user,
            preferences: { time_zone: 'Europe/Berlin' },
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages save_queries manage_public_queries])
+           member_with_permissions: { project => %i[view_work_packages save_queries manage_public_queries] })
   end
 
   # 1 or 2 depending on daylight saving time
@@ -58,8 +57,7 @@ RSpec.describe 'baseline query saving',
   shared_let(:tokyo_user) do
     create(:user,
            preferences: { time_zone: 'Asia/Tokyo' },
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages save_queries manage_public_queries])
+           member_with_permissions: { project => %i[view_work_packages save_queries manage_public_queries] })
   end
   # always 9 as Japan does not observe daylight saving time
   shared_let(:tokyo_hours_offset) { tokyo_user.time_zone.tzinfo.observed_utc_offset / 3600 }
@@ -95,7 +93,7 @@ RSpec.describe 'baseline query saving',
       text: 'Baseline mode is on but some of your active filters are not included in the comparison.'
     )
     page.within('#filter_watcher') do
-      expect(page).to have_selector('[data-qa-selector="query-filter-baseline-incompatible"]')
+      expect(page).to have_test_selector('query-filter-baseline-incompatible')
     end
   end
 

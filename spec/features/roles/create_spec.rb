@@ -32,7 +32,7 @@ RSpec.describe 'Role creation',
                js: true,
                with_cuprite: true do
   let!(:admin) { create(:admin) }
-  let!(:existing_role) { create(:role) }
+  let!(:existing_role) { create(:project_role) }
   let!(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type:) }
   let!(:type) { create(:type) }
   let!(:non_member) do

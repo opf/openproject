@@ -32,8 +32,7 @@ require 'features/page_objects/notification'
 RSpec.describe 'Upload attachment to wiki page', js: true do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_wiki_pages edit_wiki_pages])
+           member_with_permissions: { project => %i[view_wiki_pages edit_wiki_pages] })
   end
   let(:project) { create(:project) }
   let(:attachments) { Components::Attachments.new }

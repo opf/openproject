@@ -29,15 +29,17 @@
 require 'spec_helper'
 
 RSpec.shared_examples_for 'project contract' do
-  let(:current_user) do
-    build_stubbed(:user)
-  end
-  let!(:allowed_to) do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
-      permissions.include?(permission) && project == permission_project
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*project_permissions, project:)
+      mock.allow_globally(*global_permissions)
     end
   end
+
+  let(:project_permissions) { [] }
+  let(:global_permissions) { [] }
   let(:project_name) { 'Project name' }
   let(:project_identifier) { 'project_identifier' }
   let(:project_description) { 'Project description' }
@@ -216,7 +218,8 @@ RSpec.shared_examples_for 'project contract' do
   end
 
   context 'if the user lacks permission' do
-    let(:permissions) { [] }
+    let(:global_permissions) { [] }
+    let(:project_permissions) { [] }
 
     it 'is invalid' do
       expect_valid(false, base: %i(error_unauthorized))

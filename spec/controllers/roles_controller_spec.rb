@@ -250,9 +250,9 @@ RSpec.describe RolesController do
       [role0, role1, role2, role3]
     end
 
-    let!(:roles_scope) do
-      allow(Role)
-        .to receive(:order)
+    let!(:stub_roles_scope) do
+      allow(controller)
+        .to receive(:roles_scope)
         .and_return(roles)
     end
 
@@ -372,7 +372,7 @@ RSpec.describe RolesController do
   end
 
   describe '#destroy' do
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
     let(:params) { { id: role.id } }
 
     subject { delete(:destroy, params:) }
@@ -411,12 +411,13 @@ RSpec.describe RolesController do
   end
 
   describe '#report' do
+    let!(:stub_roles_scope) do
+      allow(controller)
+        .to receive(:roles_scope)
+              .and_return(roles)
+    end
     let!(:roles) do
-      [build_stubbed(:role)].tap do |roles|
-        allow(Role)
-          .to receive(:order)
-                .and_return(roles)
-      end
+      build_stubbed_list(:project_role, 1)
     end
 
     before do

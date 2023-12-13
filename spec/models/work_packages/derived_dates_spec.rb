@@ -53,13 +53,12 @@ RSpec.describe WorkPackage, 'derived dates' do
   let(:work_packages) { [work_package, child_work_package, child_work_package_in_other_project] }
 
   let(:role) do
-    build(:role,
+    build(:project_role,
           permissions: %i[view_work_packages])
   end
   let(:user) do
     create(:user,
-           member_in_project: work_package.project,
-           member_through_role: role)
+           member_with_roles: { work_package.project => role })
   end
 
   before do

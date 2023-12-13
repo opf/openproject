@@ -51,17 +51,17 @@ module Pages
       end
 
       def deactivate_time(label)
-        find("[data-qa-selector='op-settings-daily-time--active-#{label.split[1]}']").click
+        find("[data-test-selector='op-settings-daily-time--active-#{label.split[1]}']").click
       end
 
       def remove_time(label)
-        find("[data-qa-selector='op-settings-daily-time--remove-#{label.split[1]}']").click
+        find("[data-test-selector='op-settings-daily-time--remove-#{label.split[1]}']").click
       end
 
       def expect_active_daily_times(*times)
         times.each_with_index do |time, index|
           expect(page)
-            .to have_css("input[data-qa-selector='op-settings-daily-time--active-#{index + 1}']:checked")
+            .to have_css("input[data-test-selector='op-settings-daily-time--active-#{index + 1}']:checked")
 
           expect(page)
             .to have_field("Time #{index + 1}", text: time)
@@ -116,7 +116,7 @@ module Pages
         end
 
         if first && last
-          expect(page).to have_selector('[data-qa-selector="op-basic-range-date-picker"]',
+          expect(page).to have_selector('[data-test-selector="op-basic-range-date-picker"]',
                                         value: "#{first.iso8601} - #{last.iso8601}")
         end
       end

@@ -47,6 +47,7 @@ hu:
   label_is_project_with_subprojects: "egyezik (alprojektekkel együtt)"
   label_work_package_attributes: "Munkacsomag attribútumai"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Készpénz érték"
   label_month_reporting: "Hónap (eltöltött)"
   label_new_report: "Új költség-jelentés"

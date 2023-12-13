@@ -8,14 +8,14 @@
   <p>
     <span>{{ text.status_label }} </span>
     <span *ngIf="!context.confirmed; else confirmedStatus" class="op-ee-trial-waiting-status--waiting"
-          data-qa-selector="op-ee-trial-waiting-status--waiting">
+          data-test-selector="op-ee-trial-waiting-status--waiting">
       {{ text.status_waiting }}
 
       <!-- <a id="op-ee-trial-waiting-resend-link"
-      data-qa-selector='op-ee-trial-waiting-resend-link' (click)="resendMail()">{{ text.resend }}</a> -->
+      data-test-selector='op-ee-trial-waiting-resend-link' (click)="resendMail()">{{ text.resend }}</a> -->
       <button
         class="spot-link op-ee-trial-waiting-resend-link"
-        data-qa-selector='op-ee-trial-waiting-resend-link'
+        data-test-selector='op-ee-trial-waiting-resend-link'
         (click)="resendMail()">
       {{ text.resend }}</button>
     </span>
@@ -24,7 +24,7 @@
     <ng-template #confirmedStatus>
         <span
           class="op-ee-trial-waiting-status--confirmed icon-yes"
-          data-qa-selector="op-ee-trial-waiting-status--confirmed"> {{ text.status_confirmed }}
+          data-test-selector="op-ee-trial-waiting-status--confirmed"> {{ text.status_confirmed }}
         </span>
     </ng-template>
   </p>

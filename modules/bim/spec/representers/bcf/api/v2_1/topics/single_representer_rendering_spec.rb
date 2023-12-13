@@ -56,7 +56,7 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   end
   let(:current_user) { build_stubbed(:user) }
   let(:issue) { build_stubbed(:bcf_issue, work_package:) }
-  let(:manage_bcf_allowed) { true }
+  let(:permissions) { [:manage_bcf] }
   let(:statuses) do
     [
       build_stubbed(:status),
@@ -69,10 +69,13 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   before do
     login_as(current_user)
 
-    allow(current_user)
-      .to receive(:allowed_to?)
-      .with(:manage_bcf, issue.project)
-      .and_return(manage_bcf_allowed)
+    # the has_one :through association on bcf issue needs to be manually mocked here,
+    # otherwise it would be nil
+    allow(issue).to receive(:project).and_return(work_package.project)
+
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: work_package.project
+    end
 
     contract = double('contract',
                       model: issue,
@@ -146,7 +149,7 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
 
     context 'creation_date' do
       it_behaves_like 'attribute' do
-        let(:value) { work_package.created_at.iso8601 }
+        let(:value) { work_package.created_at.iso8601(3) }
         let(:path) { 'creation_date' }
       end
     end
@@ -160,7 +163,7 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
 
     context 'modified_date' do
       it_behaves_like 'attribute' do
-        let(:value) { work_package.updated_at.iso8601 }
+        let(:value) { work_package.updated_at.iso8601(3) }
         let(:path) { 'modified_date' }
       end
     end
@@ -217,7 +220,7 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
     end
 
     context 'if the user lacks manage_bcf permission' do
-      let(:manage_bcf_allowed) { false }
+      let(:permissions) { [] }
 
       it 'signals lack of available actions' do
         expect(subject)

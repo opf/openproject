@@ -10,8 +10,7 @@ RSpec.describe 'BCF snapshot column',
   let!(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package:) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let!(:query) do
     query              = build(:query, user:, project:)

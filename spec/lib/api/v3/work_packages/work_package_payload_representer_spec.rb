@@ -44,27 +44,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         .and_return(available_custom_fields)
     end
   end
-  let(:user) do
-    build_stubbed(:user) do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(true)
-    end
-  end
-
   let(:budget) { build_stubbed(:budget) }
-
   let(:representer) do
     described_class
       .create(work_package, current_user: user)
   end
-
   let(:available_custom_fields) { [] }
+  let(:user) { build_stubbed(:user) }
 
   before do
-    allow(work_package)
-      .to receive(:lock_version)
-      .and_return(1)
+    mock_permissions_for(user, &:allow_everything)
+    allow(work_package).to receive(:lock_version).and_return(1)
   end
 
   context 'for generation' do
@@ -432,10 +422,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
         context 'without necessary permissions' do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_budgets, work_package.project)
-              .and_return(false)
+            mock_permissions_for(user, &:forbid_everything)
           end
 
           it 'has no href' do

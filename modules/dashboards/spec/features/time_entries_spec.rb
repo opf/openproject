@@ -66,7 +66,7 @@ RSpec.describe 'Time entries widget on dashboard', js: true do
            hours: 4)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_time_entries
                            view_work_packages
                            edit_time_entries
@@ -128,7 +128,7 @@ RSpec.describe 'Time entries widget on dashboard', js: true do
         .to have_selector('.hours', text: other_visible_time_entry.hours)
 
       # Allows to edit
-      page.find("[data-qa-selector='edit-time-entry-#{visible_time_entry.id}']").click
+      page.find_test_selector("edit-time-entry-#{visible_time_entry.id}").click
     end
 
     time_logging_modal.is_visible true

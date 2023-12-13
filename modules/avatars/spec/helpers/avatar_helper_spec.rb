@@ -31,10 +31,13 @@ RSpec.describe AvatarHelper, with_settings: { protocol: 'http' } do
       id: user.id
     }
 
-    angular_component_tag 'op-principal',
+    angular_component_tag 'opce-principal',
                           inputs: {
                             principal:,
                             hideName: true,
+                            nameClasses: '',
+                            link: nil,
+                            title: user.name,
                             size: 'default'
                           }
   end

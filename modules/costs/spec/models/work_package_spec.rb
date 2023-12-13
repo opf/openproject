@@ -30,7 +30,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 RSpec.describe WorkPackage do
   let(:user) { create(:admin) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let(:project) do
     create(:project_with_types, members: { user => role })
   end

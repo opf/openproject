@@ -28,25 +28,13 @@
 require 'spec_helper'
 
 RSpec.describe API::Decorators::Single do
-  let(:user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:user) { create(:user, member_with_roles: { project => role }) }
   let(:project) { create(:project_with_types) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:view_work_packages] }
   let(:model) { Object.new }
 
   let(:single) { API::Decorators::Single.new(model, current_user: user) }
-
-  it 'authorizes for a given permission' do
-    expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_truthy
-  end
-
-  context 'unauthorized user' do
-    let(:permissions) { [] }
-
-    it 'does not authorize unauthorized user' do
-      expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_falsey
-    end
-  end
 
   describe '.checked_permissions' do
     let(:permissions) { [:add_work_packages] }

@@ -55,7 +55,7 @@ RSpec.describe OpenProject::Logging, 'Log extenders' do
     end
 
     after do
-      described_class.instance_variable_set('@payload_extenders', nil)
+      described_class.instance_variable_set(:@payload_extenders, nil)
     end
 
     it 'calls that extender as well as the default one' do
@@ -82,7 +82,7 @@ RSpec.describe OpenProject::Logging, 'Log extenders' do
     end
 
     after do
-      described_class.instance_variable_set('@payload_extenders', nil)
+      described_class.instance_variable_set(:@payload_extenders, nil)
     end
 
     it 'does not break the returned payload' do

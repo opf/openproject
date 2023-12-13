@@ -45,12 +45,11 @@ RSpec.describe 'API v3 Principals resource' do
     let(:project) { create(:project) }
     let(:other_project) { create(:project) }
     let(:non_member_project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { [] }
     let(:user) do
       user = create(:user,
-                    member_in_project: project,
-                    member_through_role: role,
+                    member_with_roles: { project => role },
                     lastname: 'Aaaa',
                     mail: 'aaaa@example.com')
 
@@ -63,26 +62,22 @@ RSpec.describe 'API v3 Principals resource' do
     end
     let!(:other_user) do
       create(:user,
-             member_in_project: other_project,
-             member_through_role: role,
+             member_with_roles: { other_project => role },
              lastname: 'Bbbb')
     end
     let!(:user_in_non_member_project) do
       create(:user,
-             member_in_project: non_member_project,
-             member_through_role: role,
+             member_with_roles: { non_member_project => role },
              lastname: 'Cccc')
     end
     let!(:group) do
       create(:group,
-             member_in_project: project,
-             member_through_role: role,
+             member_with_roles: { project => role },
              lastname: 'Gggg')
     end
     let!(:placeholder_user) do
       create(:placeholder_user,
-             member_in_project: project,
-             member_through_role: role,
+             member_with_roles: { project => role },
              name: 'Pppp')
     end
 
@@ -168,6 +163,30 @@ RSpec.describe 'API v3 Principals resource' do
       end
     end
 
+    context 'with the permission to `manage_members`' do
+      let(:permissions) { [:manage_members] }
+
+      it_behaves_like 'API V3 collection response', 5, 5 do
+        let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
+      end
+    end
+
+    context 'with the permission to `manage_user`' do
+      let(:permissions) { [:manage_user] }
+
+      it_behaves_like 'API V3 collection response', 5, 5 do
+        let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
+      end
+    end
+
+    context 'with the permission to `share_work_packages`' do
+      let(:permissions) { [:share_work_packages] }
+
+      it_behaves_like 'API V3 collection response', 5, 5 do
+        let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
+      end
+    end
+
     context 'when signaling' do
       let(:select) { 'total,count,elements/*' }
 
@@ -231,6 +250,78 @@ RSpec.describe 'API v3 Principals resource' do
       it 'is the reduced set of properties of the embedded elements' do
         expect(last_response.body)
           .to be_json_eql(expected.to_json)
+      end
+    end
+
+    # This request is executed like this by the user dropdown in the frontend
+    # INFO -- : duration=55.89 db=29.21 view=26.68 status=200 method=GET path=/api/v3/principals params={"filters"=>"[{\"status\":{\"operator\":\"!\",\"values\":[\"3\"]}},{\"type\":{\"operator\":\"=\",\"values\":[\"User\",\"Group\",\"PlaceholderUser\"]}},{\"member\":{\"operator\":\"*\",\"values\":[]}}]", "pageSize"=>"-1", "select"=>"elements/id,elements/name,elements/self,total,count,pageSize"} host=localhost user=4
+    describe 'REGRESSION #50930: When the user is member of multiple projects, filtering for memberships and using select' do
+      let(:filter) do
+        [
+          { status: { operator: "!", values: ["3"] } },
+          { type: { operator: "=", values: ["User", "Group", "PlaceholderUser"] } },
+          { member: { operator: "*", values: [] } }
+        ]
+      end
+
+      let(:select) { "elements/id,elements/name,elements/self,total,count,pageSize" }
+
+      let(:expected) do
+        {
+          count: 4,
+          total: 4,
+          pageSize: 20,
+          _embedded: {
+            elements: [
+              {
+                id: placeholder_user.id,
+                name: placeholder_user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.placeholder_user(placeholder_user.id),
+                    title: placeholder_user.name
+                  }
+                }
+              },
+              {
+                id: group.id,
+                name: group.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.group(group.id),
+                    title: group.name
+                  }
+                }
+              },
+              {
+                id: other_user.id,
+                name: other_user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(other_user.id),
+                    title: other_user.name
+                  }
+                }
+              },
+              # The user is member of multiple projects, we still expect them to only be included once in our result set
+              {
+                id: user.id,
+                name: user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(user.id),
+                    title: user.name
+                  }
+                }
+              }
+            ]
+          }
+        }
+      end
+
+      it 'contains each user element only once' do
+        pending "This is just a fix to note that we have the bug, the fix will be done in the frontend at first, then we can come back here"
+        expect(last_response.body).to be_json_eql(expected.to_json)
       end
     end
   end

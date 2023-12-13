@@ -64,8 +64,7 @@ RSpec.describe Journable::WithHistoricAttributes,
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages view_file_links])
+           member_with_permissions: { project => %i[view_work_packages view_file_links] })
   end
   let(:build_query) do
     build(:query, user: nil, project: nil).tap do |query|

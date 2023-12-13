@@ -35,9 +35,7 @@ RSpec.describe 'API v3 Version schema resource', content_type: :json do
 
   let(:project) { create(:project) }
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   let(:permissions) { [:manage_versions] }

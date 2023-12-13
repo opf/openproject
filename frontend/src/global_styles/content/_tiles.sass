@@ -74,10 +74,14 @@
     color: var(--primary-color-dark)
     display: block
     text-align: left
-    font-weight: bolder
+    font-weight: var(--base-text-weight-bold)
     font-size: large
 
   &--description
     text-align: left
     width: 90%
     font-weight: normal
+
+@media screen and (max-width: $breakpoint-md)
+  .op-tile-block
+    grid-template-columns: auto

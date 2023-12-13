@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,26 +29,10 @@
 #++
 
 require 'spec_helper'
-require_relative '../../../support/storage_server_helpers'
+require_module_spec_helper
+require 'contracts/shared/model_contract_shared_context'
 
-RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: true do
-  # Only admins have the right to create/delete storages.
-  let(:current_user) { create(:admin) }
-  let(:storage_name) { 'Storage 1' }
-  let(:storage_provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-  let(:storage_host) { 'https://host1.example.com' }
-  let(:storage_creator) { current_user }
-
-  before do
-    if storage_host.present?
-      mock_server_capabilities_response(storage_host)
-      mock_server_config_check_response(storage_host)
-      mock_nextcloud_application_credentials_validation(storage_host)
-    end
-  end
-
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
-
+RSpec.shared_examples_for 'storage contract' do
   describe 'validations' do
     context 'when all attributes are valid' do
       include_examples 'contract is valid'
@@ -85,7 +71,47 @@ RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: 
         include_examples 'contract is invalid', provider_type: :inclusion
       end
     end
+  end
 
+  include_examples 'contract reuses the model errors'
+end
+
+RSpec.shared_examples_for 'onedrive storage contract' do
+  include_context 'ModelContract shared context'
+
+  let(:current_user) { create(:admin) }
+  let(:storage_name) { 'Storage 1' }
+  let(:storage_provider_type) { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
+  let(:storage_creator) { current_user }
+
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  it_behaves_like 'storage contract'
+end
+
+RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers, :webmock do
+  include_context 'ModelContract shared context'
+
+  # Only admins have the right to create/delete storages.
+  let(:current_user) { create(:admin) }
+  let(:storage_name) { 'Storage 1' }
+  let(:storage_provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+  let(:storage_host) { 'https://host1.example.com' }
+  let(:storage_creator) { current_user }
+
+  before do
+    if storage_host.present?
+      mock_server_capabilities_response(storage_host)
+      mock_server_config_check_response(storage_host)
+      mock_nextcloud_application_credentials_validation(storage_host)
+    end
+  end
+
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  it_behaves_like 'storage contract'
+
+  describe 'validations' do
     context 'when host is invalid' do
       context 'as host is not a URL' do
         let(:storage_host) { '---invalid-url---' }
@@ -262,6 +288,33 @@ RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: 
       end
 
       it_behaves_like 'contract is invalid', username: :present, password: :present
+    end
+
+    describe 'provider_type_strategy' do
+      before do
+        allow(contract).to receive(:provider_type_strategy)
+      end
+
+      context 'without `skip_provider_type_strategy` option' do
+        it 'validates the provider type contract' do
+          contract.validate
+
+          expect(contract).to have_received(:provider_type_strategy)
+        end
+      end
+
+      context 'with `skip_provider_type_strategy` option' do
+        let(:contract) do
+          described_class.new(storage, build_stubbed(:admin),
+                              options: { skip_provider_type_strategy: true })
+        end
+
+        it 'does not validate the provider type' do
+          contract.validate
+
+          expect(contract).not_to have_received(:provider_type_strategy)
+        end
+      end
     end
   end
 end

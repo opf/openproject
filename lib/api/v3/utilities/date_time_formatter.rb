@@ -79,7 +79,7 @@ module API
         def format_datetime(datetime, allow_nil: false)
           return nil if datetime.nil? && allow_nil
 
-          datetime.to_datetime.utc.iso8601
+          datetime.to_datetime.utc.iso8601(3)
         end
 
         def format_duration_from_hours(hours, allow_nil: false)

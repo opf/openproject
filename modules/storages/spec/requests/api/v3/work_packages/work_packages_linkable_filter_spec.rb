@@ -35,8 +35,8 @@ RSpec.describe 'API v3 work packages resource with filters for the linkable to s
 
   let(:file_link_permissions) { %i(view_work_packages view_file_links manage_file_links) }
 
-  let(:role1) { create(:role, permissions: file_link_permissions) }
-  let(:role2) { create(:role, permissions: file_link_permissions) }
+  let(:role1) { create(:project_role, permissions: file_link_permissions) }
+  let(:role2) { create(:project_role, permissions: file_link_permissions) }
 
   let(:current_user) { create(:user) }
   let(:project1) { create(:project, members: { current_user => role1 }) }
@@ -50,7 +50,7 @@ RSpec.describe 'API v3 work packages resource with filters for the linkable to s
   let(:work_package5) { create(:work_package, author: current_user, project: project3) }
   let(:work_package6) { create(:work_package, author: current_user, project: project3) }
 
-  let(:storage) { create(:storage, creator: current_user) }
+  let(:storage) { create(:nextcloud_storage, creator: current_user) }
 
   let(:project_storage1) { create(:project_storage, project: project1, storage:) }
   let(:project_storage2) { create(:project_storage, project: project2, storage:) }
@@ -98,7 +98,7 @@ RSpec.describe 'API v3 work packages resource with filters for the linkable to s
       end
 
       context 'if user has no sufficient permissions in one project' do
-        let(:role2) { create(:role, permissions: %i(view_work_packages view_file_links)) }
+        let(:role2) { create(:project_role, permissions: %i(view_work_packages view_file_links)) }
 
         it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [work_package1, work_package2] }
@@ -140,7 +140,7 @@ RSpec.describe 'API v3 work packages resource with filters for the linkable to s
       end
 
       context 'if user has no sufficient permissions in one project' do
-        let(:role2) { create(:role, permissions: %i(view_work_packages view_file_links)) }
+        let(:role2) { create(:project_role, permissions: %i(view_work_packages view_file_links)) }
 
         it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [work_package1, work_package2] }

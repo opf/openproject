@@ -414,7 +414,7 @@ cs:
                 In this module you can communicate project news to your team members.
               description: Aktuální novinky
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (bude změněno v nastavení projektu)
           queries:
             item_0:
               name: Plán projektu
@@ -679,7 +679,7 @@ cs:
             item_2:
               name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (bude změněno v nastavení projektu)
           queries:
             item_0:
               name: Problémy

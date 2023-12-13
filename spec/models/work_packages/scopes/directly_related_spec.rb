@@ -62,10 +62,11 @@ RSpec.describe WorkPackages::Scopes::DirectlyRelated, '.directly_related scope' 
            to: related_work_package_to,
            from: transitively_related_work_package_to)
   end
+  let(:ignored_relations) { nil }
 
   let!(:existing_relations) { [relation_to, transitive_relation_to, relation_from, transitive_relation_from] }
 
-  subject(:directly_related) { WorkPackage.directly_related(origin) }
+  subject(:directly_related) { WorkPackage.directly_related(origin, ignored_relation: ignored_relations) }
 
   it 'is an AR scope' do
     expect(directly_related)
@@ -78,7 +79,16 @@ RSpec.describe WorkPackages::Scopes::DirectlyRelated, '.directly_related scope' 
     context "with existing relations of type '#{current_type}'" do
       it 'contains the directly related work packages in both directions' do
         expect(directly_related)
-          .to match_array([related_work_package_to, related_work_package_from])
+          .to contain_exactly(related_work_package_to, related_work_package_from)
+      end
+    end
+
+    context "with existing relations of type '#{current_type}' and ignoring one relation" do
+      let(:ignored_relations) { relation_to }
+
+      it 'contains the directly related work packages for which the relation isn`t ignored' do
+        expect(directly_related)
+          .to contain_exactly(related_work_package_from)
       end
     end
   end

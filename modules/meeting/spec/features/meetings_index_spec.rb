@@ -36,7 +36,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
   # correct for the right reasons (sorting by Project name and not id)
   shared_let(:project) { create(:project, name: 'Project 2', enabled_module_names: %w[meetings]) }
   shared_let(:other_project) { create(:project, name: 'Project 1', enabled_module_names: %w[meetings]) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_meetings) }
   let(:user) do
     create(:user) do |user|

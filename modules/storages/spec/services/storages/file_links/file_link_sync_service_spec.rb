@@ -29,30 +29,23 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::FileLinkSyncService, type: :model do
   let(:user) { create(:user) }
-  let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
+  let(:role) { create(:project_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { user => role }) }
   let(:work_package) { create(:work_package, project:) }
 
-  let(:storage_one) { create(:storage, host: "https://host-1.example.org") }
-  let(:storage_two) { create(:storage, host: "https://host-2.example.org") }
+  let(:storage_one) { create(:nextcloud_storage, host: "https://host-1.example.org") }
+  let(:storage_two) { create(:nextcloud_storage, host: "https://host-2.example.org") }
 
   let(:file_link_one) { create(:file_link, storage: storage_one, container: work_package) }
   let(:file_link_two) { create(:file_link, storage: storage_two, container: work_package) }
 
   let(:file_links) { [file_link_one] }
 
-  let(:files_info_query) { instance_double(Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQuery) }
-
-  subject { described_class.new(user:).call(file_links) }
-
-  before do
-    storage_requests = instance_double(Storages::Peripherals::StorageRequests)
-    allow(storage_requests).to receive(:files_info_query).and_return(files_info_query)
-    allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
-  end
+  subject(:service) { described_class.new(user:).call(file_links) }
 
   describe '#call' do
     context 'with one file link' do
@@ -60,20 +53,21 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
 
       before do
-        allow(files_info_query).to receive(:call).and_return(ServiceResult.success(result: [file_info]))
+        Storages::Peripherals::Registry
+          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
       it 'updates all origin_* fields' do
-        expect(subject.success).to be_truthy
-        expect(subject.result.count).to be 1
-        expect(subject.result.first).to be_a Storages::FileLink
+        expect(service.success).to be_truthy
+        expect(service.result.count).to be 1
+        expect(service.result.first).to be_a Storages::FileLink
 
-        expect(subject.result.first.origin_id).to eql file_info.id
-        expect(subject.result.first.origin_created_at).to eql file_info.created_at
-        expect(subject.result.first.origin_updated_at).to eql file_info.last_modified_at
-        expect(subject.result.first.origin_mime_type).to eql file_info.mime_type
-        expect(subject.result.first.origin_name).to eql file_info.name
-        expect(subject.result.first.origin_created_by_name).to eql file_info.owner_name
+        expect(service.result.first.origin_id).to eql file_info.id
+        expect(service.result.first.origin_created_at).to eql file_info.created_at
+        expect(service.result.first.origin_updated_at).to eql file_info.last_modified_at
+        expect(service.result.first.origin_mime_type).to eql file_info.mime_type
+        expect(service.result.first.origin_name).to eql file_info.name
+        expect(service.result.first.origin_created_by_name).to eql file_info.owner_name
       end
     end
 
@@ -82,12 +76,13 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
 
       before do
-        allow(files_info_query).to receive(:call).and_return(ServiceResult.success(result: [file_info]))
+        Storages::Peripherals::Registry
+          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
       it 'returns a FileLink with #origin_permission :not_allowed' do
-        expect(subject.success).to be_truthy
-        expect(subject.result.first.origin_permission).to be :not_allowed
+        expect(service.success).to be_truthy
+        expect(service.result.first.origin_permission).to be :not_allowed
       end
     end
 
@@ -101,16 +96,18 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       let(:file_links) { [file_link_one, file_link_two] }
 
       before do
-        allow(files_info_query).to receive(:call).and_return(ServiceResult.success(result: [file_info_one, file_info_two]))
+        Storages::Peripherals::Registry
+          .stub('queries.nextcloud.files_info',
+                ->(_) { ServiceResult.success(result: [file_info_one, file_info_two]) })
       end
 
       it 'returns a successful result with two file links with different permissions' do
-        expect(subject.success).to be_truthy
-        expect(subject.result.count).to be 2
-        expect(subject.result[0].origin_id).to eql file_info_one.id
-        expect(subject.result[1].origin_id).to eql file_info_two.id
-        expect(subject.result[0].origin_permission).to be :view
-        expect(subject.result[1].origin_permission).to be :not_allowed
+        expect(service.success).to be_truthy
+        expect(service.result.count).to be 2
+        expect(service.result[0].origin_id).to eql file_info_one.id
+        expect(service.result[1].origin_id).to eql file_info_two.id
+        expect(service.result[0].origin_permission).to be :view
+        expect(service.result[1].origin_permission).to be :not_allowed
       end
     end
 
@@ -119,12 +116,13 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
 
       before do
-        allow(files_info_query).to receive(:call).and_return(ServiceResult.success(result: [file_info]))
+        Storages::Peripherals::Registry
+          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
       it 'deletes the file link' do
-        expect(subject.success).to be_truthy
-        expect(subject.result.count).to be 0
+        expect(service.success).to be_truthy
+        expect(service.result.count).to be 0
         expect(Storages::FileLink.all.count).to be 0
       end
     end
@@ -134,27 +132,28 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
 
       before do
-        allow(files_info_query).to receive(:call).and_return(ServiceResult.success(result: [file_info]))
+        Storages::Peripherals::Registry
+          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
       it 'returns the file link with a permission set to :error' do
-        expect(subject.success).to be_truthy
-        expect(subject.result.count).to be 1
+        expect(service.success).to be_truthy
+        expect(service.result.count).to be 1
         expect(Storages::FileLink.all.count).to be 1
-        expect(subject.result.first.origin_permission).to be :error
+        expect(service.result.first.origin_permission).to be :error
       end
     end
 
     context 'with files_info_query failing' do
       before do
-        allow(files_info_query).to receive(:call).and_return(
-          ServiceResult.failure(result: :error, errors: Storages::StorageError.new(code: :error))
-        )
+        Storages::Peripherals::Registry
+          .stub('queries.nextcloud.files_info',
+                ->(_) { ServiceResult.failure(result: :error, errors: Storages::StorageError.new(code: :error)) })
       end
 
       it 'leaves the list of file_links unchanged with permissions = :error' do
-        expect(subject.success).to be_truthy
-        expect(subject.result.first.origin_permission).to be :error
+        expect(service.success).to be_truthy
+        expect(service.result.first.origin_permission).to be :error
       end
     end
 
@@ -163,13 +162,14 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
 
       before do
-        allow(files_info_query).to receive(:call).and_return(ServiceResult.success(result: [file_info]))
+        Storages::Peripherals::Registry
+          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
       it 'returns an empty list of FileLinks' do
         expect(subject).to be_a ServiceResult
-        expect(subject.success).to be_truthy
-        expect(subject.result.length).to be 0
+        expect(service.success).to be_truthy
+        expect(service.result.length).to be 0
       end
     end
   end

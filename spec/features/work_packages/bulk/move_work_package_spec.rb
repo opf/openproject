@@ -6,26 +6,24 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:dev_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages add_work_packages])
   end
   let(:mover_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages])
   end
   let(:dev) do
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: dev_role)
+           member_with_roles: { project => dev_role })
   end
   let(:mover) do
     create(:admin,
            firstname: 'Manager',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: mover_role)
+           member_with_roles: { project => mover_role })
   end
 
   let(:type) { create(:type, name: 'Bug') }
@@ -85,7 +83,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
 
         # On work packages move page
         expect(page).to have_selector('#new_project_id')
-        select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+        select_autocomplete page.find_test_selector('new_project_id'),
                             query: 'Target',
                             select_text: 'Target',
                             results_selector: 'body'
@@ -101,7 +99,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
         it 'copies them in the background and shows a status page', :with_cuprite do
           click_on 'Move and follow'
           wait_for_reload
-          page.find('[data-qa-selector="job-status--header"]')
+          page.find_test_selector('job-status--header')
 
           expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
@@ -217,7 +215,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
       context_menu.choose 'Bulk change of project'
 
       # On work packages move page
-      select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+      select_autocomplete page.find_test_selector('new_project_id'),
                           query: project2.name,
                           select_text: project2.name,
                           results_selector: 'body'

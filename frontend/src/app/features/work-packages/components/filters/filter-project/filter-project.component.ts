@@ -57,7 +57,7 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
 
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this), 0);
 
-  additionalProjectApiFilters:ApiV3ListFilter[] = [];
+  additionalProjectApiFilters:IAPIFilter[] = [];
 
   constructor(
     readonly I18n:I18nService,
@@ -70,7 +70,7 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
   ngOnInit():void {
     const projectID = this.currentProjectService.id;
     if (projectID && (this.filter.id === 'subprojectId' || this.filter.id === 'onlySubproject')) {
-      this.additionalProjectApiFilters.push(['ancestor', '=', [projectID]]);
+      this.additionalProjectApiFilters.push({ name: 'ancestor', operator: '=', values: [projectID] });
     }
   }
 

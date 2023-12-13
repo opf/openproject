@@ -32,8 +32,7 @@ RSpec.describe WorkPackages::ExportJob, 'Integration' do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[view_work_packages export_work_packages])
+           member_with_permissions: { project => %w[view_work_packages export_work_packages] })
   end
   let(:export) do
     create(:work_packages_export)
@@ -75,7 +74,7 @@ RSpec.describe WorkPackages::ExportJob, 'Integration' do
       expect(job_status.status).to eq 'success'
 
       attachment = export.attachments.last
-      expected = "Foo-Bla.-Report-No.-4-2021-with-for-Case-42_Query-report-04-2021-äöü_2023-06-30_23-59.pdf"
+      expected = "Foo_Bla_Report_No._4_2021_with_for_Case_42_Query_report_04_2021__2023-06-30_23-59.pdf"
       expect(attachment.filename).to eq expected
     end
   end
@@ -92,7 +91,7 @@ RSpec.describe WorkPackages::ExportJob, 'Integration' do
       expect(job_status.status).to eq 'success'
 
       attachment = export.attachments.last
-      expect(attachment.filename.chars.length).to eq 255
+      expect(attachment.filename.length).to eq 255
       expect(attachment.filename).to end_with "_2023-06-30_23-59.pdf"
     end
   end

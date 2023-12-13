@@ -33,23 +33,19 @@ RSpec.describe Projects::EnabledModulesContract do
   include_context 'ModelContract shared context'
 
   let(:project) { build_stubbed(:project, enabled_module_names: enabled_modules) }
-  let(:contract) { described_class.new(project, current_user) }
-  let(:ac_modules) { [{ name: :a_module, dependencies: %i[b_module] }] }
-  let(:current_user) do
-    build_stubbed(:user).tap do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |requested_permission, requested_project|
-        permissions.include?(requested_permission) && requested_project == project
-      end
-    end
-  end
   let(:enabled_modules) { %i[a_module b_module] }
   let(:permissions) { %i[select_project_modules] }
+  let(:contract) { described_class.new(project, current_user) }
+  let(:ac_modules) { [{ name: :a_module, dependencies: %i[b_module] }] }
+
+  let(:current_user) { build_stubbed(:user) }
 
   before do
-    allow(OpenProject::AccessControl)
-      .to receive(:modules)
-      .and_return(ac_modules)
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
+
+    allow(OpenProject::AccessControl).to receive(:modules).and_return(ac_modules)
   end
 
   describe '#valid?' do

@@ -31,7 +31,7 @@ require 'features/page_objects/notification'
 
 RSpec.describe 'Upload attachment to budget', js: true do
   let(:user) do
-    create(:user, member_in_project: project, member_with_permissions: %i[view_budgets edit_budgets])
+    create(:user, member_with_permissions: { project => %i[view_budgets edit_budgets] })
   end
   let(:project) { create(:project) }
   let(:attachments) { Components::Attachments.new }

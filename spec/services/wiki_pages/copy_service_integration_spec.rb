@@ -44,7 +44,7 @@ RSpec.describe WikiPages::CopyService, 'integration', type: :model do
   end
 
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions:)
   end
 

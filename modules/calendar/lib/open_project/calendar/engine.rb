@@ -29,21 +29,24 @@ module OpenProject::Calendar
       project_module :calendar_view, dependencies: :work_package_tracking do
         permission :view_calendar,
                    { 'calendar/calendars': %i[index show] },
+                   permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { calendar: %i[read] }
         permission :manage_calendars,
                    { 'calendar/calendars': %i[index show new create destroy] },
+                   permissible_on: :project,
                    dependencies: %i[view_calendar add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { calendar: %i[create update destroy] }
         permission :share_calendars,
                    {},
+                   permissible_on: :project,
                    dependencies: %i[view_calendar],
                    contract_actions: { calendar: %i[read] }
       end
 
       should_render = Proc.new do
-          (User.current.logged? || !Setting.login_required?) &&
-          User.current.allowed_to_globally?(:view_calendar)
+        (User.current.logged? || !Setting.login_required?) &&
+        User.current.allowed_in_any_project?(:view_calendar)
       end
 
       menu :top_menu,

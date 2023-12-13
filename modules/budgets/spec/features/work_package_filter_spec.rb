@@ -39,7 +39,7 @@ RSpec.describe 'Filter by budget', js: true do
     create(:member,
            user:,
            project:,
-           roles: [create(:role)])
+           roles: [create(:project_role)])
   end
   let(:status) do
     create(:status)

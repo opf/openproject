@@ -28,25 +28,24 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work packages remaining time', js: true do
+RSpec.describe 'Work packages remaining time', :js, :with_cuprite do
   before do
-    allow(User).to receive(:current).and_return current_user
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
                                                                        'wiki_template' => '',
                                                                        'story_types' => [story_type.id.to_s],
                                                                        'task_type' => task_type.id.to_s)
   end
 
-  let(:current_user) { create(:admin) }
-  let(:project) do
+  shared_current_user { create(:admin) }
+  shared_let(:project) do
     create(:project,
            enabled_module_names: %w(work_package_tracking backlogs))
   end
-  let(:status) { create(:default_status) }
-  let(:story_type) { create(:type_feature) }
-  let(:task_type) { create(:type_feature) }
+  shared_let(:status) { create(:default_status) }
+  shared_let(:story_type) { create(:type_feature) }
+  shared_let(:task_type) { create(:type_feature) }
 
-  let(:work_package) do
+  shared_let(:work_package) do
     create(:story,
            type: task_type,
            author: current_user,
@@ -75,8 +74,10 @@ RSpec.describe 'Work packages remaining time', js: true do
     work_package
     wp_table_page = Pages::WorkPackagesTable.new(project)
 
-    query_props = JSON.dump(c: %w(id subject remainingTime),
-                            s: true)
+    query_props = JSON.dump({
+                              c: %w(id subject remainingTime),
+                              s: true
+                            })
 
     wp_table_page.visit_with_params("query_props=#{query_props}")
 

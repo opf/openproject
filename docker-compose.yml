@@ -87,15 +87,6 @@ services:
     depends_on:
       - backend
 
-  storybook:
-    build:
-      <<: *frontend-build
-    command: "npm run storybook:serve"
-    volumes:
-      - ".:/home/dev/openproject"
-    networks:
-      - network
-
   db:
     image: postgres:13
     <<: *restart_policy

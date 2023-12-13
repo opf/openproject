@@ -41,7 +41,7 @@ class Test
   end
 
   def to_line
-    [path, normalized_name, runs.count, runs.select(&:passed?).count, runs.select(&:failed?).count].join(' | ')
+    [path, normalized_name, runs.count, runs.count(&:passed?), runs.count(&:failed?)].join(' | ')
   end
 
   def normalized_name

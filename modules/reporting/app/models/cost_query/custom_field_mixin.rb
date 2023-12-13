@@ -68,7 +68,7 @@ module CostQuery::CustomFieldMixin
 
   def remove_subclasses
     module_parent.constants.each do |constant|
-      if constant.to_s.match /^CustomField\d+/
+      if constant.to_s.match? /^CustomField\d+/
         module_parent.send(:remove_const, constant)
       end
     end

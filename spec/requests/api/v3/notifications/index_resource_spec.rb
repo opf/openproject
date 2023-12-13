@@ -35,8 +35,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
   shared_let(:work_package) { create(:work_package) }
   shared_let(:recipient) do
     create(:user,
-           member_in_project: work_package.project,
-           member_with_permissions: %i[view_work_packages])
+           member_with_permissions: { work_package.project => %i[view_work_packages] })
   end
   shared_let(:mentioned_notification) do
     create(:notification,
@@ -377,8 +376,6 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
   describe 'as an anonymous user' do
     let(:current_user) { User.anonymous }
 
-    it 'returns a 403 response' do
-      expect(last_response.status).to eq(403)
-    end
+    it_behaves_like 'forbidden response based on login_required'
   end
 end

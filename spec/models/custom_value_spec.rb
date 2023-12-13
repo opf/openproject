@@ -348,7 +348,9 @@ RSpec.describe CustomValue do
       include_examples 'returns true for generated custom value'
 
       describe 'for a custom value with a user selected' do
-        let!(:alice) { create(:user, firstname: 'Alice', member_in_project: project) }
+        let!(:alice) do
+          create(:user, firstname: 'Alice', member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
+        end
 
         it 'returns false' do
           project.send(custom_field.attribute_setter, alice.id)
@@ -366,8 +368,12 @@ RSpec.describe CustomValue do
       include_examples 'returns true for generated custom value'
 
       describe 'for a custom value with multiple users selected' do
-        let!(:alice) { create(:user, firstname: 'Alice', member_in_project: project) }
-        let!(:bob) { create(:user, firstname: 'Bob', member_in_project: project) }
+        let!(:alice) do
+          create(:user, firstname: 'Alice', member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
+        end
+        let!(:bob) do
+          create(:user, firstname: 'Bob', member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
+        end
 
         it 'returns false' do
           project.send(custom_field.attribute_setter, [alice.id, bob.id])

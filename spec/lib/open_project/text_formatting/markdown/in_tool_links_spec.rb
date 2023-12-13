@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './expected_markdown'
+require_relative 'expected_markdown'
 
 RSpec.describe OpenProject::TextFormatting,
                'in tool links' do
@@ -38,15 +38,14 @@ RSpec.describe OpenProject::TextFormatting,
     let(:identifier) { project.identifier }
 
     shared_let(:role) do
-      create(:role,
+      create(:project_role,
              permissions: %i(view_work_packages edit_work_packages
                              browse_repository view_changesets view_wiki_pages))
     end
 
     shared_let(:project_member) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
     shared_let(:work_package) do
       create(:work_package,
@@ -82,12 +81,12 @@ RSpec.describe OpenProject::TextFormatting,
       let(:changeset_link) do
         link_to("r#{changeset1.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset1.revision },
-                class: 'changeset op-uc-link', title: 'My very first commit')
+                class: 'changeset op-uc-link', title: 'My very first commit', target: '_top')
       end
       let(:changeset_link2) do
         link_to("r#{changeset2.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset2.revision },
-                class: 'changeset op-uc-link', title: 'This commit fixes #1, #2 and references #1 & #3')
+                class: 'changeset op-uc-link', title: 'This commit fixes #1, #2 and references #1 & #3', target: '_top')
       end
 
       before do
@@ -137,7 +136,7 @@ RSpec.describe OpenProject::TextFormatting,
       let(:version_link) do
         link_to('1.0',
                 { controller: 'versions', action: 'show', id: version.id },
-                class: 'version op-uc-link')
+                class: 'version op-uc-link', target: '_top')
       end
 
       context 'Link with version id' do
@@ -187,7 +186,8 @@ RSpec.describe OpenProject::TextFormatting,
         link_to(
           'project plan with milestones',
           project_work_packages_path([query.project.id], query_id: query.id),
-          class: 'query op-uc-link'
+          class: 'query op-uc-link',
+          target: '_top'
         )
       end
 
@@ -209,7 +209,8 @@ RSpec.describe OpenProject::TextFormatting,
         link_to(
           'Work packages',
           project_work_packages_path([project.id]),
-          class: 'query op-uc-link'
+          class: 'query op-uc-link',
+          target: '_top'
         )
       end
 
@@ -244,7 +245,8 @@ RSpec.describe OpenProject::TextFormatting,
 
         it {
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(message1.subject, topic_path(message1),
-                                                                       class: 'message op-uc-link')}</p>")
+                                                                       class: 'message op-uc-link',
+                                                                       target: '_top')}</p>")
         }
       end
 
@@ -252,8 +254,11 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text("message##{message2.id}") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(message2.subject,
-                                                                       topic_path(message1, anchor: "message-#{message2.id}", r: message2.id), class: 'message op-uc-link')}</p>")
+          link = link_to(message2.subject,
+                         topic_path(message1, anchor: "message-#{message2.id}", r: message2.id),
+                         class: 'message op-uc-link',
+                         target: '_top')
+          expect(subject).to be_html_eql("<p class='op-uc-p'>#{link}</p>")
         }
       end
     end
@@ -262,7 +267,8 @@ RSpec.describe OpenProject::TextFormatting,
       let(:work_package_link) do
         link_to("##{work_package.id}",
                 work_package_path(work_package),
-                class: 'issue work_package preview-trigger op-uc-link')
+                class: 'issue work_package preview-trigger op-uc-link',
+                target: '_top')
       end
 
       context 'Plain work_package link' do
@@ -289,9 +295,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       describe 'double hash work_package link' do
         let(:work_package_link) do
-          content_tag :macro,
+          content_tag 'opce-macro-wp-quickinfo',
                       '',
-                      class: "macro--wp-quickinfo",
                       data: { id: '1234', detailed: 'false' }
         end
 
@@ -302,9 +307,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       describe 'triple hash work_package link' do
         let(:work_package_link) do
-          content_tag :macro,
+          content_tag 'opce-macro-wp-quickinfo',
                       '',
-                      class: "macro--wp-quickinfo",
                       data: { id: '1234', detailed: 'true' }
         end
 
@@ -333,7 +337,8 @@ RSpec.describe OpenProject::TextFormatting,
         let(:work_package_link) do
           link_to("##{work_package.id}",
                   work_package_path(work_package),
-                  class: 'issue work_package preview-trigger op-uc-link')
+                  class: 'issue work_package preview-trigger op-uc-link',
+                  target: '_top')
         end
 
         subject { format_text("##{work_package.id}") }
@@ -359,6 +364,7 @@ RSpec.describe OpenProject::TextFormatting,
 
         it {
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
+                                                                       target: '_top',
                                                                        class: 'project op-uc-link')}</p>")
         }
       end
@@ -368,6 +374,7 @@ RSpec.describe OpenProject::TextFormatting,
 
         it {
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
+                                                                       target: '_top',
                                                                        class: 'project op-uc-link')}</p>")
         }
       end
@@ -377,6 +384,7 @@ RSpec.describe OpenProject::TextFormatting,
 
         it {
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
+                                                                       target: '_top',
                                                                        class: 'project op-uc-link')}</p>")
         }
       end
@@ -430,7 +438,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[CookBook documentation]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation\">CookBook documentation</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation\">CookBook documentation</a></p>")
         }
       end
 
@@ -439,7 +447,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text("[[#{title}]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/alert-foo\">#{h(title)}</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project.identifier}/wiki/alert-foo\">#{h(title)}</a></p>")
         }
       end
 
@@ -447,7 +455,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[Another page|Page]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></p>")
         }
       end
 
@@ -455,7 +463,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[CookBook documentation#One-section]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation#One-section\">CookBook documentation</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\"  href=\"/projects/#{project.identifier}/wiki/cookbook-documentation#One-section\">CookBook documentation</a></p>")
         }
       end
 
@@ -463,7 +471,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[Another page#anchor|Page]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page#anchor\">Page</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project.identifier}/wiki/another-page#anchor\">Page</a></p>")
         }
       end
 
@@ -471,7 +479,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[Unknown page]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" target=\"_top\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>")
         }
       end
 
@@ -479,7 +487,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[Unknown page|404]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=404\">404</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" target=\"_top\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=404\">404</a></p>")
         }
       end
 
@@ -487,7 +495,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[onlinestore:]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">onlinestore</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/start-page\">onlinestore</a></p>")
         }
       end
 
@@ -495,7 +503,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[onlinestore:|Wiki]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Wiki</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/start-page\">Wiki</a></p>")
         }
       end
 
@@ -503,7 +511,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[onlinestore:Start page]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Start Page</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/start-page\">Start Page</a></p>")
         }
       end
 
@@ -511,7 +519,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[onlinestore:Start page|Text]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Text</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/start-page\">Text</a></p>")
         }
       end
 
@@ -519,7 +527,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('[[onlinestore:Unknown page]]') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/onlinestore/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>")
         }
       end
 
@@ -527,7 +535,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('~~[[Another page|Page]]~~') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></del></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></del></p>")
         }
       end
 
@@ -535,7 +543,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text('~~[[Another page|Page]] link~~') }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a> link</del></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a> link</del></p>")
         }
       end
 
@@ -563,39 +571,48 @@ RSpec.describe OpenProject::TextFormatting,
         build_stubbed(:repository_subversion, project:)
       end
 
-      def source_url(**args)
-        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file', **args)
+      def source_url(**)
+        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file', **)
       end
 
-      def source_url_with_ext(**args)
-        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file.ext', **args)
+      def source_url_with_ext(**)
+        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file.ext', **)
       end
 
       before do
         allow(project).to receive(:repository).and_return(repository)
         allow(User).to receive(:current).and_return(project_member)
-        allow(project_member)
-          .to receive(:allowed_to?)
-                .with(:browse_repository, project)
-                .and_return(true)
+
+        mock_permissions_for(project_member) do |mock|
+          mock.allow_in_project :browse_repository, project:
+        end
 
         @to_test = {
           # source
-          'source:/some/file' => link_to('source:/some/file', source_url, class: 'source op-uc-link'),
-          'source:/some/file.' => link_to('source:/some/file', source_url, class: 'source op-uc-link') + '.',
-          'source:"/some/file.ext".' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link') + '.',
-          'source:/some/file. ' => link_to('source:/some/file', source_url, class: 'source op-uc-link') + '.',
-          'source:"/some/file.ext". ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link') + '.',
-          'source:/some/file, ' => link_to('source:/some/file', source_url, class: 'source op-uc-link') + ',',
-          'source:/some/file@52' => link_to('source:/some/file@52', source_url(rev: 52), class: 'source op-uc-link'),
+          'source:/some/file' => link_to('source:/some/file', source_url, class: 'source op-uc-link', target: '_top'),
+          'source:/some/file.' => link_to('source:/some/file', source_url, class: 'source op-uc-link', target: '_top') + '.',
+          'source:"/some/file.ext".' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link',
+                                                                                              target: '_top') + '.',
+          'source:/some/file. ' => link_to('source:/some/file', source_url, class: 'source op-uc-link', target: '_top') + '.',
+          'source:"/some/file.ext". ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link',
+                                                                                               target: '_top') + '.',
+          'source:/some/file, ' => link_to('source:/some/file', source_url, class: 'source op-uc-link', target: '_top') + ',',
+          'source:/some/file@52' => link_to('source:/some/file@52', source_url(rev: 52), class: 'source op-uc-link',
+                                                                                         target: '_top'),
           'source:"/some/file.ext@52"' => link_to('source:/some/file.ext@52', source_url_with_ext(rev: 52),
-                                                  class: 'source op-uc-link'),
-          'source:"/some/file#L110"' => link_to('source:/some/file#L110', source_url(anchor: 'L110'), class: 'source op-uc-link'),
+                                                  class: 'source op-uc-link',
+                                                  target: '_top'),
+          'source:"/some/file#L110"' => link_to('source:/some/file#L110', source_url(anchor: 'L110'), class: 'source op-uc-link',
+                                                                                                      target: '_top'),
           'source:"/some/file.ext#L110"' => link_to('source:/some/file.ext#L110', source_url_with_ext(anchor: 'L110'),
-                                                    class: 'source op-uc-link'),
+                                                    class: 'source op-uc-link',
+                                                    target: '_top'),
           'source:"/some/file@52#L110"' => link_to('source:/some/file@52#L110', source_url(rev: 52, anchor: 'L110'),
-                                                   class: 'source op-uc-link'),
-          'export:/some/file' => link_to('export:/some/file', source_url(format: 'raw'), class: 'source download op-uc-link'),
+                                                   class: 'source op-uc-link',
+                                                   target: '_top'),
+          'export:/some/file' => link_to('export:/some/file', source_url(format: 'raw'),
+                                         class: 'source download op-uc-link',
+                                         target: '_top'),
           # escaping
           '!source:/some/file' => 'source:/some/file',
           # invalid expressions
@@ -638,8 +655,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       let(:expected) do
         <<~EXPECTED
-          <p class='op-uc-p'><a class="wiki-page op-uc-link" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
-          <p class='op-uc-p'><a class="issue work_package preview-trigger op-uc-link" href="/work_packages/#{work_package.id}">##{work_package.id}</a></p>
+          <p class='op-uc-p'><a class="wiki-page op-uc-link" target="_top" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
+          <p class='op-uc-p'><a class="issue work_package preview-trigger op-uc-link" target="_top" href="/work_packages/#{work_package.id}">##{work_package.id}</a></p>
           <pre class="op-uc-code-block">
           [[CookBook documentation]]
 

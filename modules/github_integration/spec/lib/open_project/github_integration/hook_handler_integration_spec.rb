@@ -49,7 +49,7 @@ RSpec.describe OpenProject::GithubIntegration::HookHandler do
   let(:host_name) { 'example.net' }
   let(:user) { create(:user) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages add_work_package_notes])
   end
   let(:project) do

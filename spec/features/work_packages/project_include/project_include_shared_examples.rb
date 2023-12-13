@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.shared_examples 'has a project include dropdown', js: true, type: :feature do
+RSpec.shared_examples 'has a project include dropdown', :js, type: :feature do
   let(:dropdown) { Components::ProjectIncludeComponent.new }
 
   shared_let(:project) do
@@ -67,32 +67,30 @@ RSpec.shared_examples 'has a project include dropdown', js: true, type: :feature
 
   shared_let(:user) do
     create(:user,
-           member_in_projects: [
-             project,
-             sub_project,
-             sub_sub_sub_project,
-             other_project,
-             other_sub_project,
-             other_sub_sub_project,
-             another_sub_sub_project
-           ],
-           member_with_permissions: permissions)
+           member_with_permissions: {
+             project => permissions,
+             sub_project => permissions,
+             sub_sub_sub_project => permissions,
+             other_project => permissions,
+             other_sub_project => permissions,
+             other_sub_sub_project => permissions,
+             another_sub_sub_project => permissions
+           })
   end
 
   shared_let(:other_user) do
     create(:user,
            firstname: 'Other',
            lastname: 'User',
-           member_in_projects: [
-             project,
-             sub_project,
-             sub_sub_sub_project,
-             other_project,
-             other_sub_project,
-             other_sub_sub_project,
-             another_sub_sub_project
-           ],
-           member_with_permissions: permissions)
+           member_with_permissions: {
+             project => permissions,
+             sub_project => permissions,
+             sub_sub_sub_project => permissions,
+             other_project => permissions,
+             other_sub_project => permissions,
+             other_sub_sub_project => permissions,
+             another_sub_sub_project => permissions
+           })
   end
 
   current_user { user }
@@ -459,6 +457,6 @@ RSpec.shared_examples 'has a project include dropdown', js: true, type: :feature
     dropdown.toggle!
     dropdown.expect_open
     dropdown.search 'Nonexistent'
-    expect(page).not_to have_selector("[data-qa-selector='op-project-include--loading']")
+    expect(page).not_to have_selector("[data-test-selector='op-project-include--loading']")
   end
 end

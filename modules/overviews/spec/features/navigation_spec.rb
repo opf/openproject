@@ -33,8 +33,7 @@ RSpec.describe 'Navigate to overview', js: true do
   let(:permissions) { [] }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   before do

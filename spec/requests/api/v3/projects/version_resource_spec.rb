@@ -35,14 +35,13 @@ RSpec.describe "API v3 project's versions resource" do
 
   let(:current_user) do
     user = create(:user,
-                  member_in_project: project,
-                  member_through_role: role)
+                  member_with_roles: { project => role })
 
     allow(User).to receive(:current).and_return user
 
     user
   end
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:project) { create(:project, public: false) }
   let(:other_project) { create(:project, public: false) }
   let(:versions) { create_list(:version, 4, project:) }
@@ -67,7 +66,7 @@ RSpec.describe "API v3 project's versions resource" do
     end
 
     context 'logged in user without permission' do
-      let(:role) { create(:role, permissions: []) }
+      let(:role) { create(:project_role, permissions: []) }
 
       before do
         current_user

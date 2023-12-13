@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './mentioned_journals_shared'
+require_relative 'mentioned_journals_shared'
 
 RSpec.describe Notifications::MailService, 'Mentioned integration', type: :model do
   include_context 'with a mentioned work package being updated again'
@@ -45,8 +45,7 @@ RSpec.describe Notifications::MailService, 'Mentioned integration', type: :model
                    assignee: true,
                    responsible: true)
            ],
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let(:assigned_notification) do

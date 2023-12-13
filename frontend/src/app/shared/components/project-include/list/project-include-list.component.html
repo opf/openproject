@@ -1,7 +1,7 @@
 <li
   class="spot-list--item op-project-include-list--item"
   *ngFor="let project of projects"
-  data-qa-selector="op-project-include-list--item"
+  data-test-selector="op-project-include-list--item"
   [attr.data-list-selector]="projectListItemIdentifier"
 >
   <spot-tooltip
@@ -31,7 +31,7 @@
         ></spot-checkbox>
         <div
           class="spot-list--item-title spot-list--item-title_ellipse-text"
-          data-qa-selector="op-project-include-list--item-title"
+          data-test-selector="op-project-include-list--item-title"
           [opSearchHighlight]="searchText"
         >{{ project.name }}</div>
       </label>

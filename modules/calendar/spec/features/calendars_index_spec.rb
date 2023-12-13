@@ -41,19 +41,16 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
     create(:project, name: 'Project 1', enabled_module_names: %w[work_package_tracking calendar_view])
   end
 
-  shared_let(:user) do
-    create(:user,
-           member_in_projects: [project, other_project],
-           member_with_permissions: %w[
-             view_work_packages
-             edit_work_packages
-             save_queries
-             save_public_queries
-             view_calendar
-             manage_calendars
-           ])
+  shared_let(:permissions) do
+    %w[
+      view_work_packages
+      edit_work_packages
+      save_queries
+      save_public_queries
+      view_calendar
+      manage_calendars
+    ]
   end
-
   let(:query) do
     create(:query_with_view_work_packages_calendar,
            project:,
@@ -66,15 +63,18 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
            user:,
            public: true)
   end
-
   let(:current_user) { user }
+
+  shared_let(:user) do
+    create(:user, member_with_permissions: { project => permissions, other_project => permissions })
+  end
 
   context 'when navigating to the global index page', :js do
     shared_examples 'global index page is reachable' do
       it 'is reachable' do
         expect(page).to have_current_path(calendars_path)
         expect(page).to have_text 'There is currently nothing to display.'
-        expect(page).to have_selector '#main-menu'
+        expect(page).to have_css '#main-menu'
       end
     end
 
@@ -181,8 +181,7 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
       let(:current_user) do
         create(:user,
                firstname: 'Bernd',
-               member_in_project: project,
-               member_with_permissions: %w[view_work_packages view_calendar])
+               member_with_permissions: { project => %w[view_work_packages view_calendar] })
       end
 
       context 'and the view is non-public' do
@@ -226,8 +225,7 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
         let(:current_user) do
           create(:user,
                  firstname: 'Bernd',
-                 member_in_project: project,
-                 member_with_permissions: %w[view_work_packages view_calendar])
+                 member_with_permissions: { project => %w[view_work_packages view_calendar] })
         end
 
         it 'does not show the management buttons' do

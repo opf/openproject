@@ -49,7 +49,7 @@ module Pages
           end
           set_action_value(name, value)
           within '#custom-actions-form--active-actions' do
-            expect(page).to have_selector('.form--label', text: name)
+            expect(page).to have_css('.form--label', text: name)
           end
         end
 
@@ -62,7 +62,7 @@ module Pages
         end
 
         def expect_selected_option(value)
-          expect(page).to have_selector('.ng-value-label', text: value)
+          expect(page).to have_css('.ng-value-label', text: value)
         end
 
         def expect_action(name, value)
@@ -85,19 +85,13 @@ module Pages
         end
 
         def set_condition(name, value)
-          page.within('#custom-actions-form--conditions') do
-            page.find_field(name)
-          end
-
           Array(value).each do |val|
-            within '#custom-actions-form--conditions' do
-              fill_in name, with: val
-            end
+            retry_block do
+              set_condition_value(name, val)
 
-            find('.ng-option', wait: 5, text: val).click
-
-            within '#custom-actions-form--conditions' do
-              expect_selected_option val
+              within '#custom-actions-form--conditions' do
+                expect_selected_option val
+              end
             end
           end
         end
@@ -107,22 +101,34 @@ module Pages
         def set_action_value(name, value)
           field = find('#custom-actions-form--active-actions .form--field', text: name, wait: 5)
 
+          set_field_value(field, name, value)
+        end
+
+        def set_condition_value(name, value)
+          field = find('#custom-actions-form--conditions .form--field', text: name, wait: 5)
+
+          set_field_value(field, name, value)
+        end
+
+        def set_field_value(field, name, value)
           autocomplete = false
 
           Array(value).each do |val|
             within field do
-              if has_selector?('.form--selected-value--container', wait: 1)
+              if has_selector?('.form--selected-value--container', wait: 0)
                 find('.form--selected-value--container').click
                 autocomplete = true
-              elsif has_selector?('.autocomplete-select-decoration--wrapper', wait: 1)
+              elsif has_selector?('.autocomplete-select-decoration--wrapper', wait: 0)
                 autocomplete = true
               end
 
               target = page.find_field(name)
+              has_no_css?('.ng-spinner-loader') # wait for possible async loading of options for ng-select
               target.send_keys val
             end
 
             if autocomplete
+              has_no_css?('.ng-spinner-loader') # wait for possible async loading of options for ng-select
               dropdown_el = find('.ng-option', text: val, wait: 5)
               scroll_to_and_click(dropdown_el)
             end

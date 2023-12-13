@@ -41,7 +41,13 @@ RSpec.describe API::V3::WorkPackages::UpdateFormRepresenter do
     build_stubbed(:work_package)
   end
 
-  include_context 'user with stubbed permissions'
+  let(:user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }

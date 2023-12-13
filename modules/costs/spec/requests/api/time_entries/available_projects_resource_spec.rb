@@ -42,15 +42,16 @@ RSpec.describe 'API v3 time entries available projects resource' do
   let(:project_with_log_permission) do
     create(:project).tap do |p|
       create(:member,
-             roles: [create(:role, permissions: [:log_own_time])],
+             roles: [create(:project_role, permissions: [:log_own_time])],
              project: p,
              user: current_user)
+      create(:work_package, project: p, author: current_user)
     end
   end
   let(:project_with_edit_permission) do
     create(:project).tap do |p|
       create(:member,
-             roles: [create(:role, permissions: [:edit_time_entries])],
+             roles: [create(:project_role, permissions: [:edit_time_entries])],
              project: p,
              user: current_user)
     end
@@ -58,15 +59,16 @@ RSpec.describe 'API v3 time entries available projects resource' do
   let(:project_with_edit_own_permission) do
     create(:project).tap do |p|
       create(:member,
-             roles: [create(:role, permissions: [:edit_own_time_entries])],
+             roles: [create(:project_role, permissions: [:edit_own_time_entries])],
              project: p,
              user: current_user)
+      create(:work_package, project: p, author: current_user)
     end
   end
   let(:project_with_view_permission) do
     create(:project).tap do |p|
       create(:member,
-             roles: [create(:role, permissions: [:view_time_entries])],
+             roles: [create(:project_role, permissions: [:view_time_entries])],
              project: p,
              user: current_user)
     end
@@ -74,7 +76,7 @@ RSpec.describe 'API v3 time entries available projects resource' do
   let(:project_without_permission) do
     create(:project).tap do |p|
       create(:member,
-             roles: [create(:role, permissions: [])],
+             roles: [create(:project_role, permissions: [])],
              project: p,
              user: current_user)
     end
@@ -85,7 +87,7 @@ RSpec.describe 'API v3 time entries available projects resource' do
 
   subject(:response) { last_response }
 
-  describe 'GET api/v3/memberships/available_projects' do
+  describe 'GET api/v3/time_entries/available_projects' do
     let(:projects) do
       [project_with_log_permission,
        project_with_edit_permission,
@@ -98,6 +100,7 @@ RSpec.describe 'API v3 time entries available projects resource' do
 
     before do
       projects
+
       login_as(current_user)
 
       get path

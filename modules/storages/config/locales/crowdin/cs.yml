@@ -26,6 +26,8 @@ cs:
         name: "Název"
         creator: "Autor"
         provider_type: "Typ poskytovatele"
+        host: "Hostitel"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Origin ID"
     errors:
@@ -57,21 +59,39 @@ cs:
     errors:
       too_many_elements_created_at_once: "Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}."
   storages:
+    default_name: "Mé úložiště"
     unknown_storage: "Neznámé úložiště"
     buttons:
+      done_continue: "Done, continue"
       done_continue_setup: "Hotovo. Pokračovat v nastavení"
       done_complete_setup: "Hotovo, kompletní nastavení"
+      complete_without_setup: "Complete without it"
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Nahradit OpenProject OAuth"
       replace_provider_type_oauth: "Nahradit %{provider_type} OAuth"
       save: "Uložit"
+      save_and_continue: "Uložit a pokračovat"
       save_and_continue_setup: "Uložit a pokračovat v nastavení"
       save_and_complete_setup: "Uložit a dokončit nastavení"
       select_folder: "Vyberte složku"
       configure: "Konfigurace"
+    file_storage_view:
+      general_information: "Všeobecné informace"
+      oauth_applications: "OAuth aplikace"
+      project_folders: "Project folders"
+      storage_provider: "Poskytovatel úložiště"
+      openproject_oauth: "OpenProject OAuth"
+      one_drive_oauth: "Azure OAuth"
+      redirect_uri: "Přesměrovat URI"
+      nextcloud_oauth: "Nextcloud OAuth"
+      automatically_managed_folders: "Automatically managed folders"
     page_titles:
+      file_storages:
+        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
+        delete: "Odstranit úložiště souborů"
       managed_project_folders:
         title: "Automatically managed project folders"
+        subtitle_short: "Let OpenProject create folders per project automatically."
         subtitle: >
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
@@ -90,6 +110,8 @@ cs:
       host: "Přidejte prosím adresu hostitele vašeho úložiště obsahující https://. Nemělo by být delší než 255 znaků."
       managed_project_folders_application_password: >
         Zkopírovat tuto hodnotu z:
+      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
+      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
       no_storage_set_up: "Dosud nejsou nastaveny žádné úložiště souborů."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
@@ -102,28 +124,70 @@ cs:
       setting_up_storages: "Pro nastavení úložišť souborů navštivte prosím"
       setting_up_storages_non_admin: "Administrátoři mohou nastavit další úložiště souborů v administraci / Úložiště souborů."
       all_available_storages_already_added: "Do projektu jsou již přidány všechny dostupné úložiště."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
       copy_from: "Zkopírovat tuto hodnotu z"
       nextcloud:
+        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
+        oauth_configuration: "Copy these values from %{application_link_text}."
+        application_link_text: "application “Integration OpenProject”"
         integration: "Nextcloud Administrace / OpenProject"
+      one_drive:
+        provider_configuration: >
+          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
+        application_link_text: "Azure portal"
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          In case there is no application client secret under Client credentials, please create a new one.
+        oauth_client_redirect_uri: >
+          Please copy this value to a new Web redirect URI under Redirect URIs.
+        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
+        tenant_id: >
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+        tenant_id_placeholder: "Name or UUID"
+        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
+        documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
+      oauth_client_incomplete:
+        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
+        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
-        Jste si jisti, že chcete smazat toto úložiště? Toto také odstraní úložiště ze všech projektů, kde je použito. Dále také smaže všechny odkazy z pracovních balíčků do souborů, které jsou uloženy v úložišti.
+        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
+      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
+      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
+      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
       project_storage: >
         Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
       project_storage_delete_result_1: "Odstraňte všechny odkazy z pracovních balíčků tohoto projektu do souborů a složek tohoto úložiště."
       project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
       input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
       irreversible_notice: "Smazání úložiště souborů je nevratná akce."
+    storage_list_blank_slate:
+      heading: "You don't have any storages yet."
+      description: "Add a storage to see them here."
+    error_invalid_provider_type: "Please select a valid storage provider."
     label_active: "Aktivní"
+    label_add_new_storage: "Přidat nové úložiště"
+    label_delete_storage: "Smazat úložiště"
     label_inactive: "Neaktivní"
     label_creator: "Vytvořil"
+    label_provider: "Poskytovatel"
     label_file_link: "Odkaz na soubor"
     label_file_links: "Odkazy na soubor"
+    label_file_storage: "Úložiště souborů"
+    label_creation_time: ""
+    label_completed: "Dokončeno"
+    label_incomplete: "Nekompletní"
     label_name: "Název:"
     label_host: "URL adresa hostitele"
     label_managed_project_folders:
@@ -133,16 +197,30 @@ cs:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Podrobnosti OAuth aplikace"
     label_oauth_client_details: "Podrobnosti OAuth klienta"
+    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
+    label_oauth_client_id: "OAuth ID klienta"
+    label_oauth_client_secret: "OAuth Client Secret"
+    label_information: "Další informace"
     label_provider_type: "Typ poskytovatele"
     label_project_folder: "Složka projektu"
+    label_redirect_uri: "Přesměrovat URI"
+    label_uri: "URI"
     label_new_storage: "Nové úložiště"
+    label_new_file_storage: "New %{provider} storage"
     label_edit_storage: ""
+    label_edit_storage_host: "Edit storage host"
+    label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_show_storage_redirect_uri: "Show redirect URI"
+    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "Žádná specifická složka"
     label_automatic_folder: "New folder with automatically managed permissions"
     label_no_selected_folder: "Žádná vybraná složka"
+    label_select_provider: "Vyberte poskytovatele"
     label_storage: "Úložiště"
     label_storages: "Úložiště"
     label_status: "Stav"
@@ -150,7 +228,7 @@ cs:
     member_connection_status:
       connected: "Připojeno"
       connected_no_permissions: "Uživatelská role nemá oprávnění k ukládání"
-      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+      not_connected: "Not connected. The user should login to the storage via the following %{link}."
     no_results: "Zatím nejsou nastaveny žádné úložiště."
     members_no_results: "Žádní členové k zobrazení."
     provider_types:
@@ -158,9 +236,33 @@ cs:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
-        default_name: "Můj Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Client ID"
+        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "např. OneDrive"
+        label_oauth_client_id: "Azure OAuth Application (client) ID"
+        label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "Jste si jisti? Všichni uživatelé se budou muset znovu autorizovat proti OpenProject."
     confirm_replace_oauth_client: "Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti."
     oauth_client_details_missing: "Chcete-li dokončit nastavení, přidejte prosím přihlašovací údaje OAuth klienta z vašeho úložiště."
     automatically_managed_project_folder_missing: "To complete the setup, please configure automatically managed project folders for your storage."
     notice_oauth_application_replaced: "OpenProject OAuth aplikace byla úspěšně nahrazena."
+    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    open_project_storage_modal:
+      waiting:
+        a: "We are setting up your permissions on the project folder."
+        b: "One moment please, this might take some time..."
+      success:
+        a: "Integration setup completed"
+        b: "You are being redirected"
+    health:
+      title: "Managed folders status"
+      label_pending: "Nevyřízeno"
+      label_error: "Chyba"
+      label_healthy: "Healthy"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
+    upsale:
+      title: "OneDrive/SharePoint integration"
+      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

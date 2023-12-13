@@ -47,8 +47,7 @@ RSpec.describe Watcher do
   let(:notification_settings) { [] }
   let(:saved_user) do
     create(:user,
-           member_in_project: saved_watchable.project,
-           member_with_permissions: [],
+           member_with_permissions: { saved_watchable.project => [] },
            notification_settings:)
   end
   let(:saved_watchable) { create(:news) }

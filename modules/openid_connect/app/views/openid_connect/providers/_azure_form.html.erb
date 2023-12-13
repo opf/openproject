@@ -6,7 +6,7 @@
                   },
                   hidden: @provider.name.present? && @provider.name != 'azure' do %>
     <div class="form--field -required">
-      <%= f.text_field :tenant, required: true, container_class: '-middle' %>
+      <%= f.text_field :tenant, required: true, placeholder: 'common', container_class: '-middle' %>
       <div class="form--field-instructions">
         <%= t('openid_connect.setting_instructions.azure_tenant_html') %>
       </div>

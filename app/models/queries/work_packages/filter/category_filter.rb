@@ -48,8 +48,8 @@ class Queries::WorkPackages::Filter::CategoryFilter <
     available_categories = all_project_categories.index_by(&:id)
 
     values
-      .map { |category_id| available_categories[category_id.to_i] }
-      .compact
+      .filter_map { |category_id| available_categories[category_id.to_i] }
+      
   end
 
   def ar_object_filter?

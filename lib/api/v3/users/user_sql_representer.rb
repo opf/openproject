@@ -51,7 +51,7 @@ module API
           end
 
           def render_if_manage_user_or_self(*)
-            if User.current.allowed_to_globally?(:manage_user)
+            if User.current.allowed_globally?(:manage_user)
               'TRUE'
             else
               "id = #{User.current.id}"

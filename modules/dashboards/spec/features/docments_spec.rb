@@ -43,7 +43,7 @@ RSpec.describe 'Documents widget on dashboard', js: true do
            project: other_project)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_documents
                            view_dashboards
                            manage_dashboards])

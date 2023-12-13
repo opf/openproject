@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% resource = budget_attachment_representer(f.object) %>
-<%= error_messages_for_contract @budget, @errors %>
+<%= error_messages_for @budget %>
 
 <div class="form--field -required">
   <%= f.text_field :subject, required: true, autofocus: true, container_class: '-wide' %>

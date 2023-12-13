@@ -41,7 +41,7 @@ RSpec.describe 'Modifying a dashboard which already has widgets for which permis
   end
 
   let(:user) do
-    create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let!(:dashboard) do
     create(:dashboard_with_table, project:)

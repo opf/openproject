@@ -1,5 +1,6 @@
 // Storage types
 export const nextcloud = 'urn:openproject-org:api:v3:storages:Nextcloud';
+export const oneDrive = 'urn:openproject-org:api:v3:storages:OneDrive';
 
 // Storage authorization state
 export const storageConnected = 'urn:openproject-org:api:v3:storages:authorization:Connected';

@@ -39,7 +39,7 @@ RSpec.describe API::V3::WorkPackages::FormRepresenter do
           updated_at: DateTime.now)
   end
   let(:current_user) do
-    create(:user, member_in_project: work_package.project)
+    create(:user, member_with_permissions: { work_package.project => %i[view_work_packages edit_work_packages] })
   end
   let(:representer) do
     described_class.new(work_package, current_user:, errors:)

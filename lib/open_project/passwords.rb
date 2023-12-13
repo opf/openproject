@@ -114,7 +114,7 @@ module OpenProject
       # Returns the number of active rules password adheres to.
       def self.size_active_rules_adhered_by(password)
         active_rules.count do |name|
-          password =~ RULES[name] ? true : false
+          password&.match?(RULES[name]) ? true : false
         end
       end
 

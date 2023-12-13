@@ -100,7 +100,7 @@ class Mails::MemberJob < ApplicationJob
 
   def every_group_user_member(member, &)
     Member
-      .of(member.project)
+      .of_project(member.project)
       .where(principal: member.principal.users)
       .includes(:project, :principal, :roles, :member_roles)
       .each(&)

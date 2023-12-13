@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'Zen mode', js: true do
   let(:dev_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            edit_work_packages])
   end
@@ -10,8 +10,7 @@ RSpec.describe 'Zen mode', js: true do
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: dev_role)
+           member_with_roles: { project => dev_role })
   end
 
   let(:type) { create(:type) }

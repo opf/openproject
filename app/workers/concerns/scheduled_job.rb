@@ -34,8 +34,6 @@ module ScheduledJob
       delayed_job_query.exists?
     end
 
-    private
-
     def delayed_job_query
       Delayed::Job.where('handler LIKE ?', "%job_class: #{name}%")
     end

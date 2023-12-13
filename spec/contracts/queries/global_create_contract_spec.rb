@@ -29,11 +29,9 @@
 #++
 
 require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
 require 'contracts/queries/shared_contract_examples'
 
 RSpec.describe Queries::GlobalCreateContract do
-  include_context 'ModelContract shared context'
   include_context 'with queries contract'
 
   describe 'validation' do

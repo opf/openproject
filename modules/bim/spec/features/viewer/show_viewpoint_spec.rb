@@ -138,8 +138,7 @@ RSpec.describe 'Show viewpoint in model viewer',
 
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: permissions)
+               member_with_permissions: { project => permissions })
       end
 
       it 'does not show the viewpoint' do

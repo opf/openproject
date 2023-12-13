@@ -27,9 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
-RSpec.describe 'Team planner create new work package', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   let(:type_task) { create(:type_task) }
@@ -79,7 +79,7 @@ RSpec.describe 'Team planner create new work package', js: true, with_ee: %i[tea
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
     end
@@ -92,26 +92,24 @@ RSpec.describe 'Team planner create new work package', js: true, with_ee: %i[tea
       create(:user,
              firstname: 'Other',
              lastname: 'User',
-             member_in_project: project,
-             member_with_permissions: %w[
+             member_with_permissions: { project => %w[
                view_work_packages edit_work_packages add_work_packages
                view_team_planner manage_team_planner
                save_queries manage_public_queries
                work_package_assigned
-             ])
+             ] })
     end
 
     let!(:third_user) do
       create(:user,
              firstname: 'Other',
              lastname: 'User',
-             member_in_project: project,
-             member_with_permissions: %w[
+             member_with_permissions: { project => %w[
                view_work_packages edit_work_packages add_work_packages
                view_team_planner manage_team_planner
                save_queries manage_public_queries
                work_package_assigned
-             ])
+             ] })
     end
 
     before do
@@ -123,19 +121,19 @@ RSpec.describe 'Team planner create new work package', js: true, with_ee: %i[tea
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add other_user.name
       end
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add third_user.name
       end
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
     end

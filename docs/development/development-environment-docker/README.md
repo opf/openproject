@@ -161,18 +161,6 @@ Again the first request to the server can take some time too. But subsequent req
 
 Changes you make to the code will be picked up automatically. No need to restart the containers.
 
-### Storybook
-
-There is a service to launch the storybook of the SPOT design system in the local development environment. To run it,
-simply use:
-
-```shell
-# Start the worker and let them run continuously
-docker compose up -d storybook
-```
-
-If you used the default overrides you will access the storybook now under `http://localhost:6006`.
-
 ### Volumes
 
 There are volumes for
@@ -241,8 +229,8 @@ and `443` and redirect those requests to the specific container. To make it happ
 define for your services to your `/etc/hosts`.
 
 ```shell
-127.0.0.1   openproject.local traefik.local step.local
-::1         openproject.local traefik.local step.local
+127.0.0.1   openproject.local traefik.local
+::1         openproject.local traefik.local
 ```
 
 #### DNS? Where are you?

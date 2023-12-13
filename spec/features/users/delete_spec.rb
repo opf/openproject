@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'user deletion:', js: true, with_cuprite: true do
+RSpec.describe 'user deletion:', :js, :with_cuprite do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
 
   before do
@@ -43,7 +43,7 @@ RSpec.describe 'user deletion:', js: true, with_cuprite: true do
              password_confirmation: user_password)
     end
 
-    it 'can delete their own account', signout_via_visit: true do
+    it 'can delete their own account', :signout_via_visit do
       Setting.users_deletable_by_self = 1
       visit delete_my_account_info_path
 
@@ -68,7 +68,7 @@ RSpec.describe 'user deletion:', js: true, with_cuprite: true do
 
   context 'user with global add role' do
     let!(:user) { create(:user) }
-    let(:current_user) { create(:user, global_permission: :manage_user) }
+    let(:current_user) { create(:user, global_permissions: [:manage_user]) }
 
     it 'can not delete even if settings allow it' do
       Setting.users_deletable_by_admins = 1

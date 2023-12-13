@@ -71,5 +71,7 @@ module OpenProject
 
     WATCHER_ADDED = 'watcher_added'.freeze
     WATCHER_DESTROYED = 'watcher_destroyed'.freeze
+
+    WORK_PACKAGE_SHARED = 'work_package_shared'.freeze
   end
 end

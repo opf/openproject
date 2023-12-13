@@ -34,17 +34,11 @@ RSpec.describe 'Projects module administration' do
            enabled_module_names: [])
   end
 
-  let(:role) do
-    create(:role,
-           permissions:)
-  end
   let(:permissions) { %i(edit_project select_project_modules) }
   let(:settings_page) { Pages::Projects::Settings.new(project) }
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   it 'allows adding and removing modules' do
@@ -103,8 +97,7 @@ RSpec.describe 'Projects module administration' do
   context 'with a user who does not have the correct permissions (#38097)' do
     let(:user_without_permission) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i(edit_project))
+             member_with_permissions: { project => %i(edit_project) })
     end
 
     before do

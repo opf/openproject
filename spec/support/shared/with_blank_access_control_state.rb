@@ -36,7 +36,7 @@ RSpec.shared_context 'with blank access control state' do
     OpenProject::AccessControl.clear_caches
     example.run
   ensure
-    unstash_instance_variables(OpenProject::AccessControl, stash)
+    pop_instance_variables(OpenProject::AccessControl, stash)
     OpenProject::AccessControl.clear_caches
   end
 
@@ -47,7 +47,7 @@ RSpec.shared_context 'with blank access control state' do
     end
   end
 
-  def unstash_instance_variables(instance, stash)
+  def pop_instance_variables(instance, stash)
     stash.each do |instance_variable, value|
       instance.instance_variable_set(instance_variable, value)
     end

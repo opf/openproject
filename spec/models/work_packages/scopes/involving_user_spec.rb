@@ -35,8 +35,7 @@ RSpec.describe WorkPackages::Scopes::InvolvingUser do
     create(
       :user,
       # project_with_types is from create_shared_association_defaults_for_work_package_factory helper
-      member_in_project: project_with_types,
-      member_with_permissions: %i[view_work_packages]
+      member_with_permissions: { project_with_types => %i[view_work_packages] }
     )
   end
 

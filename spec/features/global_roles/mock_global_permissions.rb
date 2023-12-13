@@ -24,7 +24,7 @@ end
 
 def mock_global_permissions(permissions)
   mapped = permissions.map do |name, options|
-    mock_permissions(name, options.merge(global: true))
+    mock_permissions(name, options.reverse_merge(permissible_on: :global))
   end
 
   mapped_modules = permissions.map do |_, options|
@@ -46,9 +46,9 @@ def mock_permissions(name, options = {})
   OpenProject::AccessControl::Permission.new(
     name,
     { does_not: :matter },
+    permissible_on: :project,
     project_module: 'Foo',
     public: false,
-    global: false,
     **options
   )
 end
@@ -82,7 +82,7 @@ class PermissionTranslationMocker
 
   def translation_registry
     @translation_registry ||= @permissions.to_h do |name, _options|
-      [name, I18n.exists?("permissions_#{name}")]
+      [name, I18n.exists?("permissions_#{name}", :en)]
     end
   end
 end

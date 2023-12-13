@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Project attribute help texts', js: true, with_cuprite: true do
+RSpec.describe 'Project attribute help texts', :js, :with_cuprite do
   let(:project) { create(:project) }
 
   let(:instance) do
@@ -68,12 +68,12 @@ RSpec.describe 'Project attribute help texts', js: true, with_cuprite: true do
         click_link "Overview"
       end
 
-      expect(page).to have_selector('[data-qa-selector="op-widget-box--header"] .help-text--entry', wait: 10)
+      expect(page).to have_selector("#{test_selector('op-widget-box--header')} .help-text--entry", wait: 10)
 
       # Open help text modal
       modal.open!
-      expect(modal.modal_container).to have_selector('strong', text: 'help text')
-      modal.expect_edit(admin: user.admin?)
+      expect(modal.modal_container).to have_css('strong', text: 'help text')
+      modal.expect_edit(editable: user.allowed_globally?(:edit_attribute_help_texts))
 
       modal.close!
     end
@@ -89,25 +89,20 @@ RSpec.describe 'Project attribute help texts', js: true, with_cuprite: true do
 
       page.find('.op-fieldset--legend', text: 'ADVANCED SETTINGS').click
 
-      expect(page).to have_selector('.spot-form-field--label attribute-help-text', wait: 10)
+      expect(page).to have_css('.spot-form-field--label attribute-help-text', wait: 10)
 
       # Open help text modal
       modal.open!
-      expect(modal.modal_container).to have_selector('strong', text: 'help text')
-      modal.expect_edit(admin: user.admin?)
+      expect(modal.modal_container).to have_css('strong', text: 'help text')
+      modal.expect_edit(editable: user.allowed_globally?(:edit_attribute_help_texts))
 
       modal.close!
     end
   end
 
   describe 'as regular user' do
-    let(:view_role) do
-      create(:role, permissions: [:view_project])
-    end
     let(:user) do
-      create(:user,
-             member_in_project: project,
-             member_through_role: view_role)
+      create(:user, member_with_permissions: { project => [:view_project] })
     end
 
     it_behaves_like 'allows to view help texts'

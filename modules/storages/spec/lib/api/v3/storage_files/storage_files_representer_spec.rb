@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,10 +29,11 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe API::V3::StorageFiles::StorageFilesRepresenter do
   let(:user) { build_stubbed(:user) }
-  let(:storage) { build_stubbed(:storage) }
+  let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:created_at) { DateTime.now }
   let(:last_modified_at) { DateTime.now }
 

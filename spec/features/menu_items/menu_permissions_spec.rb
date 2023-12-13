@@ -33,8 +33,7 @@ RSpec.describe 'menu permissions',
                with_cuprite: true do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[manage_versions view_work_packages])
+           member_with_permissions: { project => %i[manage_versions view_work_packages] })
   end
   let(:admin) { create(:admin) }
 

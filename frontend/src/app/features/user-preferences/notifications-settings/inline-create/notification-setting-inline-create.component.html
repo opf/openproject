@@ -14,10 +14,10 @@
   <op-project-autocompleter
     *ngIf="active"
 
-    (valueChange)="selectProject($event)"
+    (change)="selectProject($event)"
     (keydown.escape)="active = false"
 
-    [apiFilters]="APIFilters"
+    [filters]="APIFilters"
     [mapResultsFn]="this.mapProjectsFn.bind(this)"
 
     [placeholder]="text.please_select"

@@ -115,14 +115,14 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     return this.handler.handleUserSubmit();
   }
 
-  public get APIFilters():(string | string[])[][] {
+  public get APIFilters():IAPIFilter[] {
     const filters = [
-      ['active', '=', ['t']],
+        { name: 'active', operator: '=', values: ['t'] },
     ];
 
     if (isNewResource(this.resource) && this.change.value('type')) {
       const typeId = idFromLink((this.change.value('type') as HalResource).href);
-      filters.push(['type_id', '=', [typeId]]);
+      filters.push({ name: 'type_id', operator: '=', values: [typeId] });
     }
 
     return filters;

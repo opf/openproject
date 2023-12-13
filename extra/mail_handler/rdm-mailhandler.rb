@@ -163,7 +163,6 @@ class RedmineMailHandler
     debug "Response received: #{response.code}"
 
     case response.code.to_i
-        debug "Processed successfully"
     when 403
       warn "Request was denied by your Redmine server. " +
            "Make sure that 'WS for incoming emails' is enabled in application settings and that you provided the correct API key."

@@ -37,7 +37,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   before_action :require_admin
 
   before_action :find_storage
-  before_action :delete_current_oauth_client, only: %i[create]
+  before_action :delete_current_oauth_client, only: %i[create update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -46,31 +46,55 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
   # Show the admin page to create a new OAuthClient object.
   def new
-    @oauth_client = ::OAuthClients::SetAttributesService.new(user: User.current,
-                                                             model: OAuthClient.new,
-                                                             contract_class: EmptyContract)
-                                                        .call
-                                                        .result
-    render '/storages/admin/storages/new_oauth_client'
+    @oauth_client = ::OAuthClients::SetAttributesService
+                      .new(user: User.current,
+                           model: OAuthClient.new,
+                           contract_class: EmptyContract)
+                      .call
+                      .result
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   # Actually create a OAuthClient object.
   # Use service pattern to create a new OAuthClient
   # Called by: Global app/config/routes.rb to serve Web page
-  def create # rubocop:disable Metrics/AbcSize
-    service_result = ::OAuthClients::CreateService.new(user: User.current)
-                                                  .call(permitted_oauth_client_params.merge(integration: @storage))
-    @oauth_client = service_result.result
-    if service_result.success?
-      flash[:notice] = I18n.t(:notice_successful_create)
-      if @storage.automatic_management_unspecified?
-        redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
-      else
-        redirect_to edit_admin_settings_storage_path(@storage)
+  def create
+    call_oauth_clients_create_service
+
+    service_result.on_failure do
+      respond_to do |format|
+        format.html { render :new }
       end
-    else
-      @errors = service_result.errors
-      render '/storages/admin/storages/new_oauth_client'
+    end
+
+    service_result.on_success do
+      if @storage.provider_type_nextcloud?
+        prepare_storage_for_automatic_management_form
+      end
+
+      respond_to do |format|
+        format.turbo_stream
+      end
+    end
+  end
+
+  def update
+    call_oauth_clients_create_service
+
+    service_result.on_failure do
+      respond_to do |format|
+        format.turbo_stream { render :new }
+      end
+    end
+
+    service_result.on_success do
+      respond_to do |format|
+        format.turbo_stream
+      end
     end
   end
 
@@ -87,11 +111,42 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     true
   end
 
+  def show_redirect_uri
+    respond_to do |format|
+      format.html { render layout: false }
+    end
+  end
+
+  def finish_setup
+    flash[:primer_banner] = { message: I18n.t(:'storages.notice_successful_storage_connection'), scheme: :success }
+
+    redirect_to admin_settings_storages_path
+  end
+
   private
+
+  attr_reader :service_result
+
+  def call_oauth_clients_create_service
+    @service_result = ::OAuthClients::CreateService
+                        .new(user: User.current)
+                        .call(oauth_client_params.merge(integration: @storage))
+    @oauth_client = service_result.result
+    @storage = @storage.reload
+  end
+
+  def prepare_storage_for_automatic_management_form
+    return unless @storage.automatic_management_unspecified?
+
+    @storage = ::Storages::Storages::SetNextcloudProviderFieldsAttributesService
+                 .new(user: current_user, model: @storage, contract_class: EmptyContract)
+                 .call
+                 .result
+  end
 
   # Called by create and update above in order to check if the
   # update parameters are correctly set.
-  def permitted_oauth_client_params
+  def oauth_client_params
     params
       .require(:oauth_client)
       .permit('client_id', 'client_secret')

@@ -30,7 +30,6 @@ class Authorization::EnterpriseService
   attr_accessor :token
 
   GUARDED_ACTIONS = %i(
-    attribute_help_texts
     baseline_comparison
     board_view
     conditional_highlighting
@@ -47,6 +46,8 @@ class Authorization::EnterpriseService
     team_planner_view
     two_factor_authentication
     work_package_query_relation_columns
+    work_package_sharing
+    one_drive_sharepoint_file_storage
   ).freeze
 
   def initialize(token)

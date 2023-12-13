@@ -29,7 +29,10 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-RSpec.describe 'Team planner working days', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner working days',
+               js: true,
+               with_ee: %i[team_planner_view],
+               with_settings: { start_of_week: 1 } do
   include_context 'with team planner full access'
 
   context 'with week days defined' do
@@ -41,7 +44,7 @@ RSpec.describe 'Team planner working days', js: true, with_ee: %i[team_planner_v
       team_planner.expect_empty_state
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 

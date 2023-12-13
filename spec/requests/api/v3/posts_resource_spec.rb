@@ -34,12 +34,12 @@ RSpec.describe 'API v3 posts resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:forum) { create(:forum, project:) }
   let(:message) { create(:message, forum:) }
   let(:project) { create(:project) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_messages) }
 
   subject(:response) { last_response }

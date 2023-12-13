@@ -125,11 +125,11 @@ module OpenProject
         end
 
         def supports_annotate?
-          respond_to?('annotate')
+          respond_to?(:annotate)
         end
 
         def target(path = '')
-          base = path.match(/\A\//) ? root_url : url
+          base = path.start_with?('/') ? root_url : url
           "#{base}/#{path}"
         end
 

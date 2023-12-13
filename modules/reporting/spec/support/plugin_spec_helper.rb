@@ -29,7 +29,7 @@
 module OpenProject::Reporting
   module PluginSpecHelper
     def is_member(project, user, permissions = [])
-      role = create(:role, permissions:)
+      role = create(:project_role, permissions:)
 
       create(:member, project:,
                       principal: user,

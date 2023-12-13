@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,6 +29,8 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
+
 require 'contracts/shared/model_contract_shared_context'
 
 RSpec.describe Storages::ProjectStorages::BaseContract do
@@ -79,4 +83,6 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
       it_behaves_like 'contract is valid'
     end
   end
+
+  include_examples 'contract reuses the model errors'
 end

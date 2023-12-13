@@ -124,7 +124,7 @@ module Pages
           elsif name == 'created_at'
             select(human_operator, from: 'operator')
             set_created_at_filter(human_operator, values)
-          elsif name =~ /cf_\d+/
+          elsif /cf_\d+/.match?(name)
             select(human_operator, from: 'operator')
             set_custom_field_filter(selected_filter, human_operator, values)
           end
@@ -133,16 +133,16 @@ module Pages
 
       def set_toggle_filter(values)
         should_active = values.first == 'yes'
-        is_active = page.has_selector? '[data-qa-selector="spot-switch-handle"][data-qa-active]'
+        is_active = page.has_selector? '[data-test-selector="spot-switch-handle"][data-qa-active]'
 
         if should_active != is_active
-          page.find('[data-qa-selector="spot-switch-handle"]').click
+          page.find('[data-test-selector="spot-switch-handle"]').click
         end
 
         if should_active
-          expect(page).to have_selector('[data-qa-selector="spot-switch-handle"][data-qa-active]')
+          expect(page).to have_selector('[data-test-selector="spot-switch-handle"][data-qa-active]')
         else
-          expect(page).to have_selector('[data-qa-selector="spot-switch-handle"]:not([data-qa-active])')
+          expect(page).to have_selector('[data-test-selector="spot-switch-handle"]:not([data-qa-active])')
         end
       end
 
@@ -181,7 +181,7 @@ module Pages
       end
 
       def click_more_menu_item(item)
-        page.find('[data-qa-selector="project-more-dropdown-menu"]').click
+        page.find('[data-test-selector="project-more-dropdown-menu"]').click
         page.within('.menu-drop-down-container') do
           click_link(item)
         end

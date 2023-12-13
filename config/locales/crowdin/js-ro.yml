@@ -31,6 +31,12 @@ ro:
         Sunteți sigur că doriți să ștergeți acest fișier? Această acțiune nu este reversibilă.
       draggable_hint: |
         Trageți pe câmpul editorului pentru a introduce o imagine sau un atașament de referință. Câmpurile de editor închise vor fi deschise în timp ce continuați să trageți.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Se încarcă..."
+      not_found: "Niciun articol găsit"
+      type_to_search: "Introduceți textul de căutat"
     autocomplete_select:
       placeholder:
         multi: "Adăugaţi \"%{name}\""
@@ -296,33 +302,33 @@ ro:
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Grafic Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: '-- Fără etichetă --'
+        bar: 'Etichete de bare'
+        left: 'Stânga'
+        right: 'Dreapta'
+        farRight: 'Extrema dreaptă'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Selectați atributele pe care doriți să le afișați în pozițiile respective ale graficului Gantt tot timpul. Țineți cont că atunci când planează deasupra unui element, etichetele sale vor fi afișate în locul acestor atribute.
+      button_activate: 'Grafic Gantt'
+      button_deactivate: 'Grafic Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(nimic)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Faceți click pe oricare dintre pachetele de lucru pentru a crea o legătură. Apăsați Escape pentru a anula.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Mărire"
+        out: "Micșorare"
+        auto: "Mărire"
+        days: "Zile"
+        weeks: "Săptămâni"
+        months: "Luni"
+        quarters: "Trimestre"
+        years: "Ani"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Selectați nivelul inițial de zoom care trebuie afișat atunci când funcția de zoom automat nu este disponibilă.
     general_text_no: "nu"
     general_text_yes: "da"
     general_text_No: "Nu"
@@ -341,11 +347,11 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -553,7 +559,6 @@ ro:
       steps:
         help_menu: 'Meniul Ajutor (?) oferă <b>resurse suplimentare de ajutor</b>. Aici puteți găsi un ghid de utilizator, un ghid util pentru videoclipuri și multe altele. <br> Bucurați-vă de munca dumneavoastră cu OpenProject!'
         members: 'Invitați noi <b>membri</b> să se alăture proiectului dumneavoastră.'
-        project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele demo pe care le-am pregătit. Datele demo sunt disponibile în prezent doar în limba engleză. <br> Proiectul demonstrativ <b>general</b> se potrivește cel mai bine pentru gestionarea proiectelor clasice, în timp ce proiectul <b>Scrum</b> este mai bun pentru managementul agile al proiectului.'
         quick_add_button: 'Dă click pe pictograma plus (+) din antetul navigării pentru a <b>crea un nou proiect</b> sau <b>invita colaboratori</b>.'
         sidebar_arrow: "Folosește săgeata de întoarcere din colțul din stânga sus pentru a te întoarce în meniul <b>al proiectului</b>."
         welcome: 'Faceți un tur introductiv de trei minute pentru a afla cele mai <b>importante caracteristici</b>. <br> Vă recomandăm să parcurgeți pașii până la sfârșit. Puteți relua turul în orice moment.</br> '
@@ -598,6 +603,7 @@ ro:
         processed: 'prelucrate'
         prioritized: 'prioritizat'
         dateAlert: 'Alertă de dată'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Data etapa'
         overdue: 'Restanțe'
@@ -643,6 +649,7 @@ ro:
         mentioned: 'Menţionat'
         watched: 'Observator'
         date_alert: 'Alertă de dată'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'Puteți modifica setările <a target="_blank" href="%{url}">de notificare</a> pentru a vă asigura că nu pierdeți niciodată o actualizare importantă.'
         title: "Setări de notificare"
@@ -665,6 +672,7 @@ ro:
             description: 'Primește o notificare de fiecare dată când cineva mă menționează oriunde'
           assignee: 'Responsabil'
           responsible: 'Responsabil'
+          shared: 'Shared'
           watched: 'Observator'
           work_package_commented: 'Toate comentariile noi'
           work_package_created: 'Pachete de lucru noi'
@@ -981,6 +989,7 @@ ro:
         recently_created: "Creat de"
         all_open: "Toate deschise"
         summary: "Descriere"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Salt la paginarea tabelului"
         label_pagination: "Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare"
@@ -1017,6 +1026,12 @@ ro:
       scheduling:
         is_parent: "Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați \"Programare manuală\" pentru a stabili datele."
         is_switched_from_manual_to_automatic: "Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru."
+      sharing:
+        share: 'Distribuiți'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configurarea tabelului pachetului de lucru'
         summary: "Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane."

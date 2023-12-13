@@ -30,12 +30,10 @@ require 'spec_helper'
 
 RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions:)
   end
 
@@ -130,7 +128,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
 
       # adds the user (author) as watcher
       expect(new_work_package.watcher_users)
-        .to match_array([user])
+        .to contain_exactly(user)
     end
 
     describe 'setting the attachments' do
@@ -148,7 +146,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
           .to be_failure
 
         expect(result.errors.symbols_for(:attachments))
-          .to match_array [:does_not_exist]
+          .to contain_exactly(:does_not_exist)
 
         # The parent work package
         expect(WorkPackage.count)
@@ -163,7 +161,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
           .to be_success
 
         expect(result.result.attachments)
-          .to match_array [users_attachment]
+          .to contain_exactly(users_attachment)
 
         expect(users_attachment.reload.container)
           .to eql result.result

@@ -31,9 +31,9 @@ class MeetingsController < ApplicationController
   before_action :find_optional_project, only: %i[index new create]
   before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
-  before_action :convert_params, only: %i[create update]
-  before_action :authorize, except: %i[index new create]
-  before_action :authorize_global, only: %i[index new create]
+  before_action :convert_params, only: %i[create update update_participants]
+  before_action :authorize, except: %i[index new create update_title update_details update_participants change_state]
+  before_action :authorize_global, only: %i[index new create update_title update_details update_participants change_state]
 
   helper :watchers
   helper :meeting_contents
@@ -42,6 +42,10 @@ class MeetingsController < ApplicationController
   include WatchersHelper
   include PaginationHelper
   include SortHelper
+
+  include OpTurbo::ComponentStream
+  include ApplicationComponentStreams
+  include Meetings::AgendaComponentStreams
 
   menu_item :new_meeting, only: %i[new create]
 
@@ -56,7 +60,11 @@ class MeetingsController < ApplicationController
   end
 
   def show
-    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+    if @meeting.is_a?(StructuredMeeting)
+      render(Meetings::ShowComponent.new(meeting: @meeting))
+    elsif @meeting.agenda.present? && @meeting.agenda.locked?
+      params[:tab] ||= 'minutes'
+    end
   end
 
   def create
@@ -94,7 +102,7 @@ class MeetingsController < ApplicationController
     params[:copied_from_meeting_id] = @meeting.id
     params[:copied_meeting_agenda_text] = @meeting.agenda.text if @meeting.agenda.present?
     @meeting = @meeting.copy(author: User.current)
-    render action: 'new', project_id: @project
+    render action: 'new', project_id: @project, locals: { copy: true }
   end
 
   def destroy
@@ -103,7 +111,24 @@ class MeetingsController < ApplicationController
     redirect_to action: 'index', project_id: @project
   end
 
-  def edit; end
+  def edit
+    respond_to do |format|
+      format.turbo_stream do
+        update_header_component_via_turbo_stream(state: :edit)
+
+        render turbo_stream: @turbo_streams
+      end
+      format.html do
+        render :edit
+      end
+    end
+  end
+
+  def cancel_edit
+    update_header_component_via_turbo_stream(state: :show)
+
+    respond_with_turbo_streams
+  end
 
   def update
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
@@ -114,6 +139,96 @@ class MeetingsController < ApplicationController
     else
       render action: 'edit'
     end
+  end
+
+  def participants_dialog
+    render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting), layout: false)
+  end
+
+  def update_participants
+    @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
+    @meeting.save
+
+    if @meeting.errors.any?
+      update_sidebar_participants_form_component_via_turbo_stream
+    else
+      update_sidebar_details_component_via_turbo_stream
+      update_sidebar_participants_component_via_turbo_stream
+    end
+
+    respond_with_turbo_streams
+  end
+
+  def update_title
+    @meeting.update(title: structured_meeting_params[:title])
+
+    if @meeting.errors.any?
+      update_header_component_via_turbo_stream(state: :edit)
+    else
+      update_header_component_via_turbo_stream(state: :show)
+    end
+
+    respond_with_turbo_streams
+  end
+
+  def update_details
+    call = ::Meetings::UpdateService
+      .new(user: current_user, model: @meeting)
+      .call(structured_meeting_params)
+
+    if call.success?
+      update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
+
+      # the list needs to be updated if the start time has changed
+      # in order to update the agenda item time slots
+      update_list_via_turbo_stream if @meeting.previous_changes[:start_time].present?
+    else
+      update_sidebar_details_form_component_via_turbo_stream
+    end
+
+    respond_with_turbo_streams
+  end
+
+  def change_state
+    case structured_meeting_params[:state]
+    when "open"
+      @meeting.open!
+    when "closed"
+      @meeting.closed!
+    end
+
+    if @meeting.errors.any?
+      update_sidebar_state_component_via_turbo_stream
+    else
+      update_all_via_turbo_stream
+    end
+
+    respond_with_turbo_streams
+  end
+
+  def download_ics
+    ::Meetings::ICalService
+      .new(user: current_user, meeting: @meeting)
+      .call
+      .on_failure { |call| render_500(message: call.message) }
+      .on_success do |call|
+      send_data call.result, filename: filename_for_content_disposition("#{@meeting.title}.ics")
+    end
+  end
+
+  def notify
+    service = MeetingNotificationService.new(@meeting)
+    result = service.call(:invited)
+
+    if result.success?
+      flash[:notice] = I18n.t(:notice_successful_notification)
+    else
+      flash[:error] = I18n.t(:error_notification_with_errors,
+                             recipients: result.errors.map(&:name).join('; '))
+    end
+
+    redirect_to action: :show, id: @meeting
   end
 
   private
@@ -163,15 +278,15 @@ class MeetingsController < ApplicationController
   end
 
   def global_upcoming_meetings
-    projects = Project.allowed_to(User.current, :view_meetings)
+    projects = Project.allowed_in_project(User.current, :view_meetings)
 
     Meeting.where(project: projects).from_today
   end
 
   def find_meeting
     @meeting = Meeting
-               .includes([:project, :author, { participants: :user }, :agenda, :minutes])
-               .find(params[:id])
+      .includes([:project, :author, { participants: :user }, :agenda, :minutes])
+      .find(params[:id])
     @project = @meeting.project
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -182,7 +297,8 @@ class MeetingsController < ApplicationController
     # instance variable.
     @converted_params = meeting_params.to_h
 
-    @converted_params[:duration] = @converted_params[:duration].to_hours
+    @converted_params[:type] = meeting_type(@converted_params[:type])
+    @converted_params[:duration] = @converted_params[:duration].to_hours if @converted_params[:duration].present?
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
     @converted_params[:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }
@@ -190,9 +306,26 @@ class MeetingsController < ApplicationController
 
   def meeting_params
     if params[:meeting].present?
-      params.require(:meeting).permit(:title, :location, :start_time,
+      params.require(:meeting).permit(:title, :location, :start_time, :type,
                                       :duration, :start_date, :start_time_hour,
                                       participants_attributes: %i[email name invited attended user user_id meeting id])
+    end
+  end
+
+  def structured_meeting_params
+    if params[:structured_meeting].present?
+      params
+        .require(:structured_meeting)
+        .permit(:title, :location, :start_time_hour, :duration, :start_date, :state, :lock_version)
+    end
+  end
+
+  def meeting_type(given_type)
+    case given_type
+    when 'dynamic'
+      'StructuredMeeting'
+    else
+      'Meeting'
     end
   end
 end

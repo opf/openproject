@@ -31,14 +31,7 @@ require 'spec_helper'
 RSpec.describe API::V3::Activities::ActivityRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) do
-    build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?) do |checked_permission, project|
-        project == work_package.project && permissions.include?(checked_permission)
-      end
-    end
-  end
+  let(:current_user) { build_stubbed(:user) }
   let(:other_user) { build_stubbed(:user) }
   let(:work_package) { journal.journable }
   let(:notes) { "My notes" }
@@ -54,6 +47,10 @@ RSpec.describe API::V3::Activities::ActivityRepresenter, 'rendering' do
   let(:representer) { described_class.new(journal, current_user:) }
 
   before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: work_package.project
+    end
+
     login_as(current_user)
   end
 

@@ -44,7 +44,7 @@ FactoryBot.define do
           .new(user: User.system, contract_class: EmptyContract)
           .call(principal: ce.user,
                 project: ce.project,
-                roles: [create(:role)])
+                roles: [create(:project_role)])
       end
     end
   end

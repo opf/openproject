@@ -125,7 +125,7 @@ RSpec.describe ProjectsHelper do
   describe '#project_more_menu_items' do
     # need to use refind: true because @allowed_permissions is cached in the instance
     shared_let(:project, refind: true) { create(:project) }
-    shared_let(:current_user) { create(:user, member_in_project: project) }
+    shared_let(:current_user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
 
     subject(:menu) do
       items = project_more_menu_items(project)

@@ -26,12 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A ProjectStorage is a kind of relation between a Storage and
-# a Project in order to enable or disable a Storage for a specific
-# WorkPackages in the project.
-# See also: file_link.rb and storage.rb
 class Storages::ProjectStorage < ApplicationRecord
-  # ProjectStorage sits between Project and Storage.
+  using Storages::Peripherals::ServiceResultRefinements
+
   belongs_to :project, touch: true
   belongs_to :storage, touch: true, class_name: 'Storages::Storage'
   belongs_to :creator, class_name: 'User'
@@ -50,13 +47,19 @@ class Storages::ProjectStorage < ApplicationRecord
   }.freeze, _prefix: 'project_folder'
 
   scope :automatic, -> { where(project_folder_mode: 'automatic') }
+  scope :active, -> { joins(:project).where(project: { active: true }) }
+  scope :active_nextcloud_automatically_managed, -> do
+    automatic
+      .active
+      .where(storages: Storages::NextcloudStorage.automatically_managed)
+  end
 
   def automatic_management_possible?
     storage.present? && storage.provider_type_nextcloud? && storage.automatically_managed?
   end
 
   def project_folder_path
-    "#{storage.group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
+    "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/"
   end
 
   def project_folder_path_escaped
@@ -67,11 +70,23 @@ class Storages::ProjectStorage < ApplicationRecord
     escaped_file_path.match?(%r|^/#{project_folder_path_escaped}|)
   end
 
+  def open(user)
+    if project_folder_inactive? ||
+       (project_folder_automatic? && !user.allowed_in_project?(:read_files, project)) ||
+       project_folder_id.blank?
+      Storages::Peripherals::Registry
+        .resolve("queries.#{storage.short_provider_type}.open_storage")
+        .call(storage:, user:)
+    else
+      Storages::Peripherals::Registry
+        .resolve("queries.#{storage.short_provider_type}.open_file_link")
+        .call(storage:, user:, file_id: project_folder_id)
+    end
+  end
+
   private
 
   def escape_path(path)
-    ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(
-      path
-    )
+    ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)
   end
 end

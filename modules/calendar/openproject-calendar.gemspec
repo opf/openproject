@@ -8,6 +8,6 @@ Gem::Specification.new do |s|
   s.license     = 'GPLv3'
 
   s.files = Dir['{app,config,db,lib}/**/*']
-  s.add_dependency 'icalendar', '~> 2.8.0'
+  s.add_dependency 'icalendar', '~> 2.10.0'
   s.metadata['rubygems_mfa_required'] = 'true'
 end

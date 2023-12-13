@@ -33,11 +33,10 @@ require_relative './support/board_page'
 RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let!(:work_package) { create(:work_package, subject: 'Foo', project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
@@ -75,14 +74,14 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
 
       # Open in list 1
       board_page.within_list('List 1') do
-        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
+        page.find_test_selector('op-board-list--card-dropdown-add-button').click
       end
 
       page.find('.menu-item', text: 'Add new card').click
 
       # Open in list 2
       board_page.within_list('List 2') do
-        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
+        page.find_test_selector('op-board-list--card-dropdown-add-button').click
       end
 
       page.find('.menu-item', text: 'Add new card').click

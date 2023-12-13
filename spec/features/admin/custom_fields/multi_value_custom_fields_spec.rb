@@ -48,13 +48,13 @@ RSpec.describe 'Multi-value custom fields creation', js: true do
     fill_in 'custom_field_custom_options_attributes_0_value', with: 'A'
 
     # Add new row
-    page.find('[data-qa-selector="add-custom-option"]').click
+    page.find_test_selector('add-custom-option').click
     SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_1_value')
     fill_in 'custom_field_custom_options_attributes_1_value', with: 'B'
 
     # Add new row
-    page.find('[data-qa-selector="add-custom-option"]').click
+    page.find_test_selector('add-custom-option').click
     SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_2_value')
     fill_in 'custom_field_custom_options_attributes_2_value', with: 'C'
@@ -77,7 +77,7 @@ RSpec.describe 'Multi-value custom fields creation', js: true do
 
     # We need to hack a target for where to drag the row to
     page.execute_script <<-JS
-      const container = document.querySelector('[data-qa-selector="dragula-container"]');
+      const container = document.querySelector('[data-test-selector="dragula-container"]');
       const element = document.createElement('tr')
       element.classList.add('__drag_and_drop_end_of_list');
       element.innerHTML = '<td colspan="4" style="height: 100px"></td>';

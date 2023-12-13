@@ -51,7 +51,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
 
       it 'returns the corrected value object' do
@@ -117,7 +117,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
         # The first value is guaranteed to be 'me'.
         # There is no order on the other values.
         expect(objects.map(&:id)[0]).to eql 'me'
-        expect(objects.map(&:id)[1..-1]).to match_array [responsible.id, responsible2.id]
+        expect(objects.map(&:id)[1..-1]).to contain_exactly(responsible.id, responsible2.id)
       end
     end
 
@@ -127,7 +127,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
 
       it 'returns the work package' do
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -263,9 +263,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
       context 'when being logged in' do
         it 'returns the me value, the available users, and groups' do
           expect(instance.allowed_values)
-            .to match_array([[I18n.t(:label_me), 'me'],
-                             [nil, user_1.id.to_s],
-                             [nil, group.id.to_s]])
+            .to contain_exactly([I18n.t(:label_me), 'me'], [nil, user_1.id.to_s], [nil, group.id.to_s])
         end
       end
 
@@ -274,8 +272,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
 
         it 'returns the available users' do
           expect(instance.allowed_values)
-            .to match_array([[nil, user_1.id.to_s],
-                             [nil, group.id.to_s]])
+            .to contain_exactly([nil, user_1.id.to_s], [nil, group.id.to_s])
         end
       end
     end
@@ -302,7 +299,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
 
       it 'returns an array of objects' do
         expect(instance.value_objects)
-          .to match_array([user, user2])
+          .to contain_exactly(user, user2)
       end
     end
   end

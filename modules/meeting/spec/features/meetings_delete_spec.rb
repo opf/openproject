@@ -32,13 +32,11 @@ RSpec.describe 'Meetings deletion' do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   let!(:meeting) { create(:meeting, project:, title: 'Own awesome meeting!', author: user) }
@@ -58,6 +56,7 @@ RSpec.describe 'Meetings deletion' do
 
       click_link meeting.title
       accept_confirm do
+        find_test_selector('meetings-more-dropdown-menu').click
         click_link "Delete"
       end
 
@@ -66,6 +65,7 @@ RSpec.describe 'Meetings deletion' do
 
       click_link other_meeting.title
       accept_confirm do
+        find_test_selector('meetings-more-dropdown-menu').click
         click_link "Delete"
       end
 

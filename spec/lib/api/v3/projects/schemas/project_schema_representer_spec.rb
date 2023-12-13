@@ -31,15 +31,7 @@ require 'spec_helper'
 RSpec.describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) do
-    build_stubbed(:user).tap do |user|
-      allow(user)
-        .to receive(:allowed_to_globally?) do |permission|
-        global_permissions.include?(permission)
-      end
-    end
-  end
-
+  let(:current_user) { build_stubbed(:user) }
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
   let(:new_record) { true }
@@ -83,14 +75,20 @@ RSpec.describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     contract
   end
-
   let(:global_permissions) { %i[add_project] }
-
+  let(:project_permissions) { [] }
   let(:representer) do
     described_class.create(contract,
                            self_link:,
                            form_embedded: embedded,
                            current_user:)
+  end
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*project_permissions, project: build_stubbed(:project)) if project_permissions.any?
+      mock.allow_globally *global_permissions
+    end
   end
 
   context 'generation' do
@@ -268,7 +266,8 @@ RSpec.describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         end
 
         context 'when only having the add_subprojects permissions' do
-          let(:global_permissions) { %i[add_subprojects] }
+          let(:project_permissions) { %i[add_subprojects] }
+          let(:global_permissions) { [] }
 
           it_behaves_like 'has basic schema properties' do
             let(:type) { 'Project' }

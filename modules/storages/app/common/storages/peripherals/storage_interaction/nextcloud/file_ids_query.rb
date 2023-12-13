@@ -32,6 +32,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @query = ::Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQuery.new(storage)
     end
 
+    def self.call(storage:, path:)
+      new(storage).call(path:)
+    end
+
     def call(path:)
       query_params = {
         depth: '1',

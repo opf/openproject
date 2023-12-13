@@ -1,0 +1,29 @@
+<%=
+  render(Primer::Alpha::ActionMenu.new(select_variant: :single,
+                                       dynamic_label: true,
+                                       anchor_align: :end,
+                                       color: :subtle,
+                                       data: { test_selector: 'op-share-wp-bulk-update-role'})) do |menu|
+    menu.with_show_button(scheme: :invisible, color: :subtle, data: { 'work-packages--share--bulk-selection-target': 'bulkUpdateRoleLabel' }) do |button|
+      button.with_trailing_action_icon(icon: "triangle-down")
+      'Placeholder'
+    end
+
+    options.each do |option|
+      menu.with_item(label: option[:label],
+                     href: update_path,
+                     method: :patch,
+                     active: false,
+                     form_arguments: {
+                       method: :patch,
+                       name: 'role_ids[]',
+                       value: option[:value],
+                       data: { 'work-packages--share--bulk-selection-target': 'bulkForm bulkUpdateRoleForm',
+                               'role-name': option[:label],
+                               'test-selector': "op-share-wp-bulk-update-role-permission-#{option[:label]}" }
+                     }) do |item|
+        item.with_description.with_content(option[:description])
+      end
+    end
+  end
+%>

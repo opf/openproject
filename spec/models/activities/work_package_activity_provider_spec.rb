@@ -34,7 +34,7 @@ RSpec.describe Activities::WorkPackageActivityProvider do
   let(:work_package_closed_event) { 'work_package-closed' }
 
   let(:user) { create(:admin) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let(:status_closed) { create(:closed_status) }
   let(:work_package) do
     User.execute_as(user) do
@@ -119,15 +119,15 @@ RSpec.describe Activities::WorkPackageActivityProvider do
           create(:member,
                  user: u,
                  project:,
-                 roles: [create(:role, permissions: [:view_work_packages])])
+                 roles: [create(:project_role, permissions: [:view_work_packages])])
           create(:member,
                  user: u,
                  project: child_project1,
-                 roles: [create(:role, permissions: [:view_work_packages])])
+                 roles: [create(:project_role, permissions: [:view_work_packages])])
           create(:member,
                  user: u,
                  project: child_project2,
-                 roles: [create(:role, permissions: [])])
+                 roles: [create(:project_role, permissions: [])])
 
           create(:non_member, permissions: [:view_work_packages])
         end

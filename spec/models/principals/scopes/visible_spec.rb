@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Principals::Scopes::Visible do
   describe '.visible' do
-    shared_let(:role) { create(:role, permissions: %i[manage_members]) }
+    shared_let(:role) { create(:project_role, permissions: %i[manage_members]) }
 
     shared_let(:anonymous_user) { User.anonymous }
     shared_let(:system_user) { User.system }
@@ -38,18 +38,15 @@ RSpec.describe Principals::Scopes::Visible do
     shared_let(:project) { create(:project) }
     shared_let(:project_user) do
       create(:user, firstname: 'project user',
-                    member_in_project: project,
-                    member_through_role: role)
+                    member_with_roles: { project => role })
     end
     shared_let(:project_group) do
       create(:group, firstname: 'project group',
-                     member_in_project: project,
-                     member_through_role: role)
+                     member_with_roles: { project => role })
     end
     shared_let(:project_placeholder_user) do
       create(:placeholder_user, firstname: 'project placeholder user',
-                                member_in_project: project,
-                                member_through_role: role)
+                                member_with_roles: { project => role })
     end
 
     # The 'other project' is here to ensure their members are not visible from
@@ -57,18 +54,15 @@ RSpec.describe Principals::Scopes::Visible do
     shared_let(:other_project) { create(:project) }
     shared_let(:other_project_user) do
       create(:user, firstname: 'other project user',
-                    member_in_project: other_project,
-                    member_through_role: role)
+                    member_with_roles: { other_project => role })
     end
     shared_let(:other_project_group) do
       create(:group, firstname: 'other project group',
-                     member_in_project: other_project,
-                     member_through_role: role)
+                     member_with_roles: { other_project => role })
     end
     shared_let(:other_placeholder_user) do
       create(:placeholder_user, firstname: 'other project placeholder user',
-                                member_in_project: other_project,
-                                member_through_role: role)
+                                member_with_roles: { other_project => role })
     end
 
     shared_let(:global_user) { create(:user, firstname: 'global user') }
@@ -79,24 +73,15 @@ RSpec.describe Principals::Scopes::Visible do
 
     shared_examples 'sees all principals' do
       it 'sees all users, groups, and placeholder users' do
-        expect(subject).to match_array [
-          # system and anonymous users
-          anonymous_user, system_user,
-          # regular users
-          current_user, project_user, other_project_user, global_user,
-          # groups,
-          project_group, other_project_group, global_group,
-          # placeholder users
-          project_placeholder_user, other_placeholder_user, global_placeholder_user
-        ]
+        expect(subject).to contain_exactly(anonymous_user, system_user, current_user, project_user, other_project_user,
+                                           global_user, project_group, other_project_group, global_group, project_placeholder_user, other_placeholder_user, global_placeholder_user)
       end
     end
 
     context 'when user has manage_members project permission' do
       current_user do
         create(:user, firstname: 'current user',
-                      member_in_project: project,
-                      member_through_role: role)
+                      member_with_roles: { project => role })
       end
 
       include_examples 'sees all principals'
@@ -105,12 +90,11 @@ RSpec.describe Principals::Scopes::Visible do
     context 'when user has no manage_members project permission, and is member of a project' do
       current_user do
         create(:user, firstname: 'current user',
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages])
+                      member_with_permissions: { project => %i[view_work_packages] })
       end
 
       it 'sees only the users, groups, and placeholder users in the same project' do
-        expect(subject).to match_array [current_user, project_user, project_group, project_placeholder_user]
+        expect(subject).to contain_exactly(current_user, project_user, project_group, project_placeholder_user)
       end
     end
 
@@ -124,7 +108,7 @@ RSpec.describe Principals::Scopes::Visible do
       current_user { create(:user, firstname: 'current user') }
 
       it 'sees only themself' do
-        expect(subject).to match_array [current_user]
+        expect(subject).to contain_exactly(current_user)
       end
     end
   end

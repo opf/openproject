@@ -21,6 +21,7 @@ get:
 
         - project_id
         - storage_id
+        - storage_url
       example: '[{ "project_id": { "operator": "=", "values": ["42"] }}, { "storage_id": { "operator": "=", "values": ["1337"] }}]'
   responses:
     '200':

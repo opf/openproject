@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe Queries::Members::Filters::RoleFilter do
-  let(:role1) { build_stubbed(:role) }
-  let(:role2) { build_stubbed(:role) }
+  let(:role1) { build_stubbed(:project_role) }
+  let(:role2) { build_stubbed(:project_role) }
 
   before do
     allow(Role)

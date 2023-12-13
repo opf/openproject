@@ -61,10 +61,12 @@ RSpec.describe OpenProject::TextFormatting,
           </p>
           <p class="op-uc-p">
             <a href="#{OpenProject::Application.root_url}/foo/bar" rel="noopener noreferrer"
+               target="_top"
                class="op-uc-link">Link with setting</a>
           </p>
           <p class="op-uc-p">
             <a href="#{OpenProject::Application.root_url}/foo/bar" rel="noopener noreferrer"
+               target="_top"
                class="op-uc-link">Saved and transformed link with setting</a>
           </p>
           <p class="op-uc-p">

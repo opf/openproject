@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,16 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# This class provides definitions for API routes and endpoints for the file_links namespace. It inherits the
-# functionality from the Grape REST API framework. It is mounted in lib/api/v3/work_packages/work_packages_api.rb,
-# which puts the file_links namespace behind the provided namespace of the work packages api
-# -> /api/v3/work_packages/:id/file_links/...
 class API::V3::FileLinks::WorkPackagesFileLinksAPI < API::OpenProjectAPI
   # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
   resources :file_links do
-    # Get the list of FileLinks related to a work package, with updated information from Nextcloud.
     get do
-      # API supports query filters on storages, for example { storage: { operator: '=', values: [storage_id] }
       query = ParamsToQueryService
                 .new(::Storages::Storage,
                      current_user,
@@ -47,13 +43,10 @@ class API::V3::FileLinks::WorkPackagesFileLinksAPI < API::OpenProjectAPI
         raise ::API::Errors::InvalidQuery.new(message)
       end
 
-      result = if current_user.allowed_to?(:view_file_links, @work_package.project)
-                 # Get a (potentially huge...) list of all FileLinks for the work package.
+      result = if current_user.allowed_in_project?(:view_file_links, @work_package.project)
                  file_links = query.results.where(container_id: @work_package.id,
                                                   container_type: 'WorkPackage',
                                                   storage: @work_package.project.storages)
-                 # Synchronize with Nextcloud. StorageAPI has handled OAuth2 for us before.
-                 # We ignore the result, because partial errors (storage network issues) are written to each FileLink
                  ::Storages::FileLinkSyncService
                    .new(user: current_user)
                    .call(file_links)

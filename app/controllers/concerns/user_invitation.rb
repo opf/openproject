@@ -54,7 +54,7 @@ module UserInvitation
   # @return The invited user. If the invitation failed, calling `#registered?`
   #         on the returned user will yield `false`. Check for validation errors
   #         in that case.
-  def invite_new_user(email:, login: nil, first_name: nil, last_name: nil)
+  def invite_new_user(email:, login: nil, first_name: nil, last_name: nil, send_notification: true)
     attributes = {
       mail: email,
       login:,
@@ -67,7 +67,7 @@ module UserInvitation
 
     yield user if block_given?
 
-    invite_user! user
+    invite_user! user, send_notification:
   end
 
   ##
@@ -114,10 +114,10 @@ module UserInvitation
   # Validates and saves the given user. The invitation will fail if the user is invalid.
   #
   # @return The invited user or nil if the invitation failed.
-  def invite_user!(user)
+  def invite_user!(user, send_notification: true)
     user, token = user_invitation user
 
-    if token
+    if token && send_notification
       OpenProject::Notifications.send(Events.user_invited, token)
 
       user

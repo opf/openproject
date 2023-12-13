@@ -35,7 +35,7 @@ RSpec.describe 'API v3 Work package form resource' do
 
   let(:project) { create(:project, public: false) }
   let(:work_package) { create(:work_package, project:) }
-  let(:authorized_user) { create(:user, member_in_project: project) }
+  let(:authorized_user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
   let(:unauthorized_user) { create(:user) }
 
   before do

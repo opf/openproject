@@ -35,24 +35,22 @@ RSpec.describe 'API v3 Watcher resource', content_type: :json do
 
   shared_let(:project) { create(:project, identifier: 'test_project', public: false) }
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [] }
-  let(:view_work_packages_role) { create(:role, permissions: [:view_work_packages]) }
+  let(:view_work_packages_role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:work_package) { create(:work_package, project:) }
   let(:available_watcher) do
     create(:user,
            firstname: 'Something',
            lastname: 'Strange',
-           member_in_project: project,
-           member_through_role: view_work_packages_role)
+           member_with_roles: { project => view_work_packages_role })
   end
 
   let(:watching_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: view_work_packages_role)
+           member_with_roles: { project => view_work_packages_role })
   end
   let(:existing_watcher) do
     create(:watcher, watchable: work_package, user: watching_user)
@@ -62,8 +60,7 @@ RSpec.describe 'API v3 Watcher resource', content_type: :json do
     create(:user,
            login: 'lockedUser',
            mail: 'lockedUser@gmail.com',
-           member_in_project: project,
-           member_through_role: view_work_packages_role)
+           member_with_roles: { project => view_work_packages_role })
   end
   let!(:existing_blocked_watcher) do
     create(:watcher, watchable: work_package, user: watching_blocked_user).tap do
@@ -180,8 +177,7 @@ RSpec.describe 'API v3 Watcher resource', content_type: :json do
     context 'when the target user is locked' do
       let(:new_watcher) do
         user = create(:user,
-                      member_in_project: project,
-                      member_through_role: view_work_packages_role)
+                      member_with_roles: { project => view_work_packages_role })
         user.locked!
         user
       end

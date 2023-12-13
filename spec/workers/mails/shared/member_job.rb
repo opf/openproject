@@ -68,7 +68,7 @@ RSpec.shared_examples 'member job' do
       scope = group_user_members
 
       allow(Member)
-        .to receive(:of)
+        .to receive(:of_project)
               .with(project)
               .and_return(scope)
 
@@ -87,7 +87,7 @@ RSpec.shared_examples 'member job' do
     end
   end
   let(:group_user_members) { [] }
-  let(:role) { build_stubbed(:role) }
+  let(:role) { build_stubbed(:project_role) }
   let(:member_role_inherited_from) { nil }
   let(:message) { "Some message" }
 

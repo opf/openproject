@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -35,7 +37,7 @@ RSpec.describe 'API v3 file links resource' do
 
   let(:project) { create(:project) }
   let(:permissions) { %i(view_work_packages view_file_links) }
-  let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
   let(:work_package) { create(:work_package, author: user, project:) }
 
@@ -45,11 +47,11 @@ RSpec.describe 'API v3 file links resource' do
   let(:host_timeout) { "http://host-timeout.example.org" }
   let(:host_notoken) { "http://host-notoken.example.org" }
 
-  let(:storage_good) { create(:storage, host: host_good) }
-  let(:storage_unauth) { create(:storage, host: host_unauth) }
-  let(:storage_error) { create(:storage, host: host_error) }
-  let(:storage_timeout) { create(:storage, host: host_timeout) }
-  let(:storage_notoken) { create(:storage, host: host_notoken) }
+  let(:storage_good) { create(:nextcloud_storage, host: host_good) }
+  let(:storage_unauth) { create(:nextcloud_storage, host: host_unauth) }
+  let(:storage_error) { create(:nextcloud_storage, host: host_error) }
+  let(:storage_timeout) { create(:nextcloud_storage, host: host_timeout) }
+  let(:storage_notoken) { create(:nextcloud_storage, host: host_notoken) }
 
   let!(:project_storage_good) { create(:project_storage, project:, storage: storage_good) }
   let!(:project_storage_unauth) { create(:project_storage, project:, storage: storage_unauth) }
@@ -123,7 +125,6 @@ RSpec.describe 'API v3 file links resource' do
   subject { last_response }
 
   before do
-    storage_good
     project_storage_good
 
     oauth_client_good
@@ -148,7 +149,7 @@ RSpec.describe 'API v3 file links resource' do
     login_as user
   end
 
-  describe 'GET /api/v3/work_packages/:work_package_id/file_links', webmock: true do
+  describe 'GET /api/v3/work_packages/:work_package_id/file_links', :webmock do
     let(:path) { api_v3_paths.file_links(work_package.id) }
     let(:response_host_happy) do
       {
@@ -210,7 +211,7 @@ RSpec.describe 'API v3 file links resource' do
       happy_file_link = elements.detect { |e| e["originData"]["id"] == "24" }
       expect(happy_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_VIEW
       # Check that we've got an updated mtime
-      expect(happy_file_link["originData"]["lastModifiedAt"]).to eql Time.zone.at(1655301234).iso8601
+      expect(happy_file_link["originData"]["lastModifiedAt"]).to eql Time.zone.at(1655301234).iso8601(3)
 
       # A file link created by another user is not_allowed
       other_user_file_link = elements.detect { |e| e["originData"]["id"] == "25" }

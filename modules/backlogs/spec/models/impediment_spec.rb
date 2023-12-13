@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Impediment do
   let(:user) { @user ||= create(:user) }
-  let(:role) { @role ||= create(:role) }
+  let(:role) { @role ||= create(:project_role) }
   let(:type_feature) { @type_feature ||= create(:type_feature) }
   let(:type_task) { @type_task ||= create(:type_task) }
   let(:issue_priority) { @issue_priority ||= create(:priority, is_default: true) }

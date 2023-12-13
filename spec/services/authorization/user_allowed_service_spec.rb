@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+# TODO: Fix tests here
+
 RSpec.describe Authorization::UserAllowedService do
   let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(user) }
@@ -35,7 +37,7 @@ RSpec.describe Authorization::UserAllowedService do
   let(:action_hash) { { controller: '/controller', action: 'action' } }
   let(:project) { build_stubbed(:project) }
   let(:other_project) { build_stubbed(:project) }
-  let(:role) { build_stubbed(:role) }
+  let(:role) { build_stubbed(:project_role) }
   let(:user_roles_in_project) do
     array = [role]
     allow(array)
@@ -60,21 +62,11 @@ RSpec.describe Authorization::UserAllowedService do
       Array(context).each do |project|
         project.active = true
 
-        allow(project)
-          .to receive(:allows_to?)
-          .with(action)
-          .and_return(project_allows_to)
-
-        allow(Authorization)
-          .to receive(:roles)
-          .with(user, project)
-          .and_return(user_roles_in_project)
+        allow(project).to receive(:allows_to?).with(action).and_return(project_allows_to)
+        allow(Authorization).to receive(:roles).with(user, project).and_return(user_roles_in_project)
       end
 
-      allow(role)
-        .to receive(:allowed_to?)
-        .with(action)
-        .and_return(role_grants_action)
+      allow(role).to receive(:allowed_to?).with(action).and_return(role_grants_action)
     end
 
     context 'with the user having a granting role' do
@@ -84,10 +76,7 @@ RSpec.describe Authorization::UserAllowedService do
 
       it 'does not call the db twice for a project' do
         Array(context).each do |project|
-          allow(Authorization)
-            .to receive(:roles)
-            .with(user, project)
-            .and_return(user_roles_in_project)
+          allow(Authorization).to receive(:roles).with(user, project).and_return(user_roles_in_project)
         end
 
         subject
@@ -275,15 +264,8 @@ RSpec.describe Authorization::UserAllowedService do
 
       context 'with the user having a granting role' do
         before do
-          allow(Authorization)
-            .to receive(:roles)
-            .with(user, nil)
-            .and_return(user_roles_in_project)
-
-          allow(role)
-            .to receive(:allowed_to?)
-            .with(action)
-            .and_return(true)
+          allow(Authorization).to receive(:roles).with(user, nil).and_return(user_roles_in_project)
+          allow(role).to receive(:allowed_to?).with(action).and_return(true)
         end
 
         context 'but the user not being active' do
@@ -303,15 +285,8 @@ RSpec.describe Authorization::UserAllowedService do
 
       context 'with the user not having a granting role' do
         before do
-          allow(Authorization)
-            .to receive(:roles)
-            .with(user, nil)
-            .and_return(user_roles_in_project)
-
-          allow(role)
-            .to receive(:allowed_to?)
-            .with(action)
-            .and_return(false)
+          allow(Authorization).to receive(:roles).with(user, nil).and_return(user_roles_in_project)
+          allow(role).to receive(:allowed_to?).with(action).and_return(false)
         end
 
         it 'is false' do

@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 RSpec.shared_examples_for 'version contract' do
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        (permissions.include?(permission) && version_project == permission_project) ||
-          (root_permissions.include?(permission) && root_project == permission_project)
-      end
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*permissions, project: version_project) if version_project
+      mock.allow_in_project(*root_permissions, project: root_project) if root_project
     end
   end
+
   let(:root_project) { build_stubbed(:project) }
   let(:version_project) do
     build_stubbed(:project, wiki: project_wiki).tap do |p|

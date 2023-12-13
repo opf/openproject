@@ -15,6 +15,13 @@ class ApplicationRecord < ActiveRecord::Base
     errors[attribute].empty?
   end
 
+  # We want to add a validation error whenever someone sets a property that we don't know.
+  # However AR will cleverly try to resolve the value for erroneous properties. Thus we need
+  # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
+  def read_attribute_for_validation(attribute)
+    super if respond_to?(attribute)
+  end
+
   ##
   # Get the newest recently changed resource for the given record classes
   #
@@ -40,5 +47,17 @@ class ApplicationRecord < ActiveRecord::Base
       .rows
       &.first # first result row
       &.first # max column
+  end
+
+  def self.skip_optimistic_locking(&)
+    # TODO: The activerecord-import gem does not respect the ActiveRecord::Base.lock_optimistically
+    # flag, so a direct cleaning of the locking_column is necessary.
+    # Once the gem is updated we can use the ActiveRecord::Base.lock_optimistically = false, instead of
+    # removing the locking_column. See: https://github.com/zdennis/activerecord-import/pull/822
+    original_locking_column = locking_column
+    self.locking_column = nil
+    yield
+  ensure
+    self.locking_column = original_locking_column
   end
 end

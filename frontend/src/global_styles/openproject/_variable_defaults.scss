@@ -48,15 +48,16 @@
    */
 
   --app-height: 100vh;
-  --body-font-family: 'Lato', 'Lucida Grande', Helvetica, Arial, sans-serif;
+  --body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+
   --gray: #EAEAEA;
-  --gray-dark: #878787;
   --gray-light: #F8F8F8;
   --gray-lighter: #E9E9E9;
   --light-gray: #CCCCCC;
   --body-background: #FFFFFF;
   --body-font-color: #333333;
   --base-line-height: 1.5;
+  --base-text-weight-bold: 600;
   --secondary-color: #bfbfbf;
   --content-link-color: var(--primary-color-dark);
   --font-color-on-primary: #FFFFFF;
@@ -89,6 +90,7 @@
   --main-menu-selected-font-color: var(--main-menu-font-color);
   --main-menu-font-size: 14px;
   --main-menu-fieldset-header-color: #B0B2B3;
+  --main-menu-hover-border-color: var(--color-canvas-default-transparent);
   --toolbar-title-color: #5F5F5F;
   --toolbar-item--bg-color: #F8F8F8;
   --toolbar-item--bg-color-pressed: var(--gray-lighter);
@@ -96,22 +98,16 @@
   --breadcrumb-height: 40px;
   --breadcrumb-font-size: 12px;
   --breadcrumb-font-color: lighten(var(--body-font-color), 20);
-  --content-default-border-color: #EAEAEA;
-  --content-link-hover-active-color: var(--primary-color-dark);
   --content-icon-link-color: #4b4b4b;
   --content-icon-color: var(--content-link-color);
   --content-form-bg-color: #F8F8F8;
-  --content-form-input-border: 1px solid #CACACA;
   --content-form-input-hover-border: 1px solid #888888;
   --content-form-error-color: #9E2A1C;
-  --content-form-separator-color: #DDDDDD;
   --content-form-danger-zone-bg-color: #CA3F3F;
   --content-form-danger-zone-font-color: #FFFFFF;
-  --drop-down-selected-font-color: var(--primary-color);
   --drop-down-selected-bg-color: #E7E7E7;
   --drop-down-hover-bg-color: #EFEFEF;
   --context-menu-unselected-font-color: var(--body-font-color);
-  --context-menu-hover-font-color: var(--drop-down-selected-font-color);
   --wiki-default-font-size: var(--body-font-size);
   --user-avatar-border-radius: 50%;
   --inplace-edit--border-color: #ddd;
@@ -119,7 +115,7 @@
   --inplace-edit--color--very-dark: #cacaca;
   --inplace-edit--color--disabled: #4d4d4d;
   --inplace-edit--bg-color--disabled: #eee;
-  --table-row-border-color: #E7E7E7;
+  --table-border-color: #E7E7E7;
   --table-row-highlighting-color: #CCE6F7;
   --table-row-highlighting-outline-color: #00A6FF;
   --button--font-color: #222222;
@@ -142,6 +138,11 @@
   --timeline--type-fallback-color: rgba(150, 150, 150, 0.8);
   --table-timeline--row-height: 40px;
   --status-selector-bg-color: #F99601;
+  --status-selector-border-color: transparent;
   --warn:#C92A2A;
   --grid-background-color: #F3F6F8;
+  --avatar-border-color: transparent;
+  --list-item-hover--border-color: var(--color-canvas-default-transparent);
+  --list-item-hover--color: var(--primary-color-dark);
+  --link-text-decoration: none;
 }

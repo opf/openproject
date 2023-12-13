@@ -44,7 +44,7 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
   let(:other_project) do
     create(:project, public: false)
   end
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
   let(:custom_field) do
     create(:text_project_custom_field)
   end
@@ -65,10 +65,10 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
     create(:member,
            user: current_user,
            project: parent_project,
-           roles: [create(:role, permissions: [])])
+           roles: [create(:project_role, permissions: [])])
   end
 
-  current_user { create(:user, member_in_project: project, member_through_role: role) }
+  current_user { create(:user, member_with_roles: { project => role }) }
 
   subject(:response) do
     get get_path
@@ -177,6 +177,6 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
       get get_path
     end
 
-    it_behaves_like 'not found'
+    it_behaves_like 'not found response based on login_required'
   end
 end

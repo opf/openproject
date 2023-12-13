@@ -42,13 +42,13 @@ module Components
 
     def confirm
       page.within(container) do
-        page.find('[data-qa-selector="confirmation-modal--confirmed"]').click
+        page.find('[data-test-selector="confirmation-modal--confirmed"]').click
       end
     end
 
     def cancel
       page.within(container) do
-        page.find('[data-qa-selector="confirmation-modal--cancel"]').click
+        page.find('[data-test-selector="confirmation-modal--cancel"]').click
       end
     end
   end

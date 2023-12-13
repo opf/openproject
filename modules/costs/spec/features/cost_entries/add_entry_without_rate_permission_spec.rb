@@ -36,7 +36,7 @@ RSpec.describe 'Create cost entry without rate permissions', js: true do
     create(:project, types: [type_task])
   end
   shared_let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            log_costs
                            view_cost_entries
@@ -44,8 +44,7 @@ RSpec.describe 'Create cost entry without rate permissions', js: true do
   end
   shared_let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   shared_let(:cost_type) do

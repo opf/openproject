@@ -31,11 +31,11 @@ require 'services/base_services/behaves_like_create_service'
 
 RSpec.describe Projects::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
-    let(:new_project_role) { build_stubbed(:role) }
+    let(:new_project_role) { build_stubbed(:project_role) }
     let(:create_member_instance) { instance_double(Members::CreateService) }
 
     before do
-      allow(Role)
+      allow(ProjectRole)
         .to(receive(:in_new_project))
         .and_return(new_project_role)
 

@@ -60,10 +60,16 @@ module Capabilities::Scopes
             users.id principal_id,
             projects.id context_id
           FROM (#{Action.default.to_sql}) actions
-          LEFT OUTER JOIN "role_permissions" ON "role_permissions"."permission" = "actions"."permission"
-          LEFT OUTER JOIN "roles" ON "roles".id = "role_permissions".role_id OR "actions"."public"
-          LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = "roles".id
-          LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
+          LEFT OUTER JOIN "role_permissions"
+            ON "role_permissions"."permission" = "actions"."permission"
+          LEFT OUTER JOIN "roles"
+            ON "roles".id = "role_permissions".role_id OR "actions"."public"
+          LEFT OUTER JOIN "member_roles"
+            ON "member_roles".role_id = "roles".id
+          LEFT OUTER JOIN "members"
+            ON members.id = member_roles.member_id
+            AND members.entity_type IS NULL
+            AND members.entity_id IS NULL
           JOIN (#{Principal.visible.not_builtin.not_locked.to_sql}) users
             ON "users".id = members.user_id
           LEFT OUTER JOIN "projects"
@@ -102,17 +108,22 @@ module Capabilities::Scopes
             users.id principal_id,
             projects.id context_id
           FROM (#{Action.default.to_sql}) actions
-          LEFT JOIN "role_permissions" ON "role_permissions"."permission" = "actions"."permission"
-          JOIN "roles" ON ("roles".id = "role_permissions".role_id OR "actions"."public") AND roles.builtin = #{Role::BUILTIN_NON_MEMBER}
+          LEFT JOIN "role_permissions"
+            ON "role_permissions"."permission" = "actions"."permission"
+          JOIN "roles"
+            ON ("roles".id = "role_permissions".role_id OR "actions"."public")
+            AND roles.builtin = #{Role::BUILTIN_NON_MEMBER}
           JOIN (#{Principal.visible.not_builtin.not_locked.to_sql}) users
             ON 1 = 1
           JOIN "projects"
             ON "projects".active = true
-            AND ("projects".public = true OR EXISTS (SELECT 1
-                                                     FROM members
-                                                     WHERE members.project_id = projects.id
-                                                     AND members.user_id = users.id
-                                                     LIMIT 1))
+            AND ("projects".public = true AND NOT EXISTS (SELECT 1
+                                                          FROM members
+                                                          WHERE members.project_id = projects.id
+                                                          AND members.user_id = users.id
+                                                          AND members.entity_type IS NULL
+                                                          AND members.entity_id IS NULL
+                                                          LIMIT 1))
           LEFT OUTER JOIN enabled_modules
             ON enabled_modules.project_id = projects.id
             AND actions.module = enabled_modules.name
@@ -128,8 +139,11 @@ module Capabilities::Scopes
             users.id principal_id,
             projects.id context_id
           FROM (#{Action.default.to_sql}) actions
-          LEFT JOIN "role_permissions" ON "role_permissions"."permission" = "actions"."permission"
-          JOIN "roles" ON ("roles".id = "role_permissions".role_id OR "actions"."public") AND roles.builtin = #{Role::BUILTIN_ANONYMOUS}
+          LEFT JOIN "role_permissions"
+            ON "role_permissions"."permission" = "actions"."permission"
+          JOIN "roles"
+            ON ("roles".id = "role_permissions".role_id OR "actions"."public")
+            AND roles.builtin = #{Role::BUILTIN_ANONYMOUS}
           JOIN users ON users.type = '#{AnonymousUser.name}'
           JOIN "projects"
             ON "projects".active = true

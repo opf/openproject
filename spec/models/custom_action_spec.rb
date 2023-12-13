@@ -125,7 +125,7 @@ RSpec.describe CustomAction do
 
   describe '.conditions' do
     let(:status) { create(:status) }
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
     let(:project) { create(:project) }
 
     it 'is empty initially' do

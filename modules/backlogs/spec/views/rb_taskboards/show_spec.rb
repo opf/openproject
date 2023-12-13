@@ -32,16 +32,12 @@ RSpec.describe 'rb_taskboards/show' do
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
   let(:role_allowed) do
-    create(:role,
+    create(:project_role,
            permissions: %i[add_work_packages edit_work_packages manage_subtasks])
   end
-  let(:role_forbidden) { create(:role) }
+  let(:role_forbidden) { create(:project_role) }
   # We need to create these as some view helpers access the database
-  let(:statuses) do
-    [create(:status),
-     create(:status),
-     create(:status)]
-  end
+  let(:statuses) { create_list(:status, 3) }
 
   let(:type_task) { create(:type_task) }
   let(:type_feature) { create(:type_feature) }

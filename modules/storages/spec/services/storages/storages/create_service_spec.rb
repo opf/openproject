@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,6 +29,8 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
+
 require 'services/base_services/behaves_like_create_service'
 
 RSpec.describe Storages::Storages::CreateService, type: :model do

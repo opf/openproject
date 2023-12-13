@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'index placeholder users', js: true, with_ee: %i[placeholder_users] do
+RSpec.describe 'index placeholder users', :js, with_ee: %i[placeholder_users] do
   let!(:current_user) { create(:admin) }
   let!(:anonymous) { create(:anonymous) }
   let!(:placeholder_user_1) do
@@ -46,8 +46,8 @@ RSpec.describe 'index placeholder users', js: true, with_ee: %i[placeholder_user
            name: 'C',
            created_at: 1.minute.ago)
   end
-  let(:manager_role) { create(:existing_role, permissions: [:manage_members]) }
-  let(:member_role) { create(:existing_role, permissions: [:view_work_packages]) }
+  let(:manager_role) { create(:existing_project_role, permissions: [:manage_members]) }
+  let(:member_role) { create(:existing_project_role, permissions: [:view_work_packages]) }
   let(:index_page) { Pages::Admin::PlaceholderUsers::Index.new }
 
   shared_examples 'placeholders index flow' do
@@ -85,7 +85,7 @@ RSpec.describe 'index placeholder users', js: true, with_ee: %i[placeholder_user
   end
 
   context 'as user with global permission' do
-    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
+    current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
     it_behaves_like 'placeholders index flow'
 

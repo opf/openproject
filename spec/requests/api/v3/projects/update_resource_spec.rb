@@ -59,9 +59,7 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
   end
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   before do

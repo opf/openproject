@@ -63,8 +63,8 @@ RSpec.describe OpenProject::TextFormatting,
   end
 
   context 'when visible' do
-    let(:role) { create(:role, permissions: %i[view_documents view_project]) }
-    let(:user) { create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { create(:project_role, permissions: %i[view_documents view_project]) }
+    let(:user) { create(:user, member_with_roles: { project => role }) }
 
     let(:expected) do
       <<~HTML
@@ -78,7 +78,8 @@ RSpec.describe OpenProject::TextFormatting,
       link_to(
         'My document',
         { controller: '/documents', action: 'show', id: document.id, only_path: true },
-        class: 'document op-uc-link'
+        class: 'document op-uc-link',
+        target: '_top'
       )
     end
 

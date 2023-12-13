@@ -33,13 +33,11 @@ RSpec.describe '/api/v3/projects/:id/types' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:project) { create(:project, no_types: true, public: false) }
   let(:requested_project) { project }
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let!(:irrelevant_types) { create_list(:type, 4) }
@@ -91,7 +89,7 @@ RSpec.describe '/api/v3/projects/:id/types' do
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found response based on login_required'
     end
   end
 end

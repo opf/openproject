@@ -178,7 +178,7 @@ RSpec.describe MeetingsController do
             expect(response).to render_template :new
             expect(response.body)
               .to have_selector '#errorExplanation li',
-                                text: "Start date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
+                                text: "Date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
           end
         end
 
@@ -220,6 +220,34 @@ RSpec.describe MeetingsController do
             .to have_selector '#errorExplanation li',
                               text: "Project #{I18n.t('activerecord.errors.messages.blank')}"
         end
+      end
+    end
+  end
+
+  describe 'notify' do
+    let!(:meeting) { create(:meeting) }
+    let!(:participant) { create(:meeting_participant, meeting:, attended: true) }
+
+    it 'produces a background job for notification' do
+      post :notify, params: { id: meeting.id }
+
+      perform_enqueued_jobs
+      expect(ActionMailer::Base.deliveries.count).to eq(1)
+    end
+
+    context 'with an error during deliver' do
+      before do
+        allow(MeetingMailer).to receive(:invited).and_raise(Net::SMTPError)
+      end
+
+      it 'produces a flash message containing the mail addresses raising the error' do
+        expect { post :notify, params: { id: meeting.id } }.not_to raise_error
+        meeting.participants.each do |participant|
+          expect(flash[:error]).to include(participant.name)
+        end
+
+        perform_enqueued_jobs
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
       end
     end
   end

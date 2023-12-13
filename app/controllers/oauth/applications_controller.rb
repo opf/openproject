@@ -57,7 +57,6 @@ module OAuth
         flash[:_application_secret] = call.result.plaintext_secret
         redirect_to action: :show, id: call.result.id
       else
-        @errors = call.errors
         render action: :new
       end
     end
@@ -70,7 +69,6 @@ module OAuth
         flash[:notice] = t(:notice_successful_update)
         redirect_to action: :index
       else
-        @errors = call.errors
         flash[:error] = call.errors.full_messages.join('\n')
         render action: :edit
       end

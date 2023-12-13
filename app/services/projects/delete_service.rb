@@ -49,7 +49,7 @@ module Projects
     private
 
     def before_perform(*)
-      OpenProject::Notifications.send('project_deletion_imminent', project: @project_to_destroy)
+      OpenProject::Notifications.send(:project_deletion_imminent, project: @project_to_destroy)
 
       delete_all_members
       destroy_all_work_packages
