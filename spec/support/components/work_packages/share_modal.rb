@@ -389,6 +389,14 @@ module Components
         end
       end
 
+      def expect_error_message(text)
+        within modal_element do
+          expect(page)
+            .to have_css('[data-test-selector="op-share-wp-error-message"]',
+                         text: text)
+        end
+      end
+
       def expect_select_a_user_hint
         within modal_element do
           expect(page)

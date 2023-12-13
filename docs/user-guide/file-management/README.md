@@ -3,7 +3,7 @@ sidebar_navigation:
   title: File management
   priority: 640
 description: Manage files in OpenProject.
-keywords: files, attachment, Nextcloud, OneDrive, Sharepoint
+keywords: files, attachment, Nextcloud, OneDrive, SharePoint
 ---
 
 # File Management

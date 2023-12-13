@@ -36,11 +36,12 @@ module WorkPackages
       include WorkPackages::Share::Concerns::Authorization
       include WorkPackages::Share::Concerns::DisplayableRoles
 
-      def initialize(work_package:, shares:)
+      def initialize(work_package:, shares:, errors: nil)
         super
 
         @work_package = work_package
         @shares = shares
+        @errors = errors
       end
 
       def self.wrapper_key

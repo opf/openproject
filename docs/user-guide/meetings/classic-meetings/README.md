@@ -33,7 +33,7 @@ By selecting **Meetings** in the project menu on the left, you get an overview o
 
 **Note:** In order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../../projects/project-settings/modules/).
 
-![FLAG Image needs updating](1567598397931.png)
+![Meetings module in OpenProject](1567598397931.png)
 
 ## Create a new meeting
 

@@ -200,6 +200,14 @@ ru:
     confirm_destroy_option: "Удаление опции приведет к удалению всех ее вхождений (например, в пакеты работ). Вы уверены, что вы хотите удалить ее?"
     reorder_alphabetical: "Переупорядочить значения по алфавиту"
     reorder_confirmation: "Внимание: Текущий порядок доступных значений будет утерян. Продолжить?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
@@ -3117,6 +3125,7 @@ ru:
       warning_user_limit_reached_admin: >
         Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой план </a>, чтобы обеспечить доступ внешних пользователей к этому рабочему пакету.
       warning_no_selected_user: "Пожалуйста, выберите пользователей для отправки этого пакета работ"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Заблокированный пользователь"
         invited: "Приглашение отправлено. "

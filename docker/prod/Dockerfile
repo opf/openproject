@@ -124,6 +124,7 @@ COPY --chown=$APP_USER:$APP_USER --from=rubygems /usr/local/bundle /usr/local/bu
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/public/assets /app/public/assets
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/config/frontend_assets.manifest.json /app/config/frontend_assets.manifest.json
 COPY --chown=$APP_USER:$APP_USER . .
+COPY --chown=$APP_USER:$APP_USER ./config/database.production.yml /app/config/database.yml
 # Update Gemfile.lock in case a plugin has been added. It it hasn't, the file stays identical.
 COPY --chown=$APP_USER:$APP_USER --from=rubygems /app/Gemfile.lock /app/
 
@@ -197,6 +198,9 @@ COPY . .
 RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak
 
 RUN ./docker/prod/setup/postinstall.sh
+
+# this has to happen after postinstall.sh since it uses a different database.yml
+COPY config/database.production.yml ./config/database.yml
 
 # Expose ports for apache and postgres
 EXPOSE 80 5432
