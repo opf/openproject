@@ -27,8 +27,8 @@ id:
     attributes:
       work_package:
         position: "Posisi"
-        remaining_hours: "Waktu tersisa"
-        remaining_time: "Jam tersisa"
+        remaining_hours: "Jam yang tersisa"
+        remaining_time: "Jam yang tersisa"
         derived_remaining_hours: "Derived remaining hours"
         derived_remaining_time: "Derived remaining hours"
         story_points: "Cerita poin"

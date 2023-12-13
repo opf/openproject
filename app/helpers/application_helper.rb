@@ -43,7 +43,10 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)
-    User.current.allowed_to?({ controller:, action: }, project)
+    User.current.allowed_in_project?({ controller:, action: }, project)
+  rescue Authorization::UnknownPermissionError
+    # TODO: Temporary fix until we find something better
+    false
   end
 
   # Display a link if user is authorized
@@ -109,47 +112,6 @@ module ApplicationHelper
     if date
       label = date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in
       I18n.t(label, value: distance_of_date_in_words(Date.today, date))
-    end
-  end
-
-  # Renders flash messages
-  def render_flash_messages
-    messages = flash
-      .reject { |k, _| k.start_with? '_' }
-      .map { |k, v| render_flash_message(k, v) }
-
-    safe_join messages, "\n"
-  end
-
-  def join_flash_messages(messages)
-    if messages.respond_to?(:join)
-      safe_join(messages, '<br />'.html_safe)
-    else
-      messages
-    end
-  end
-
-  def render_flash_message(type, message, html_options = {})
-    if type.to_s == 'notice'
-      type = 'success'
-    end
-    toast_css_classes = ["op-toast -#{type}", html_options.delete(:class)]
-    # Add autohide class to notice flashes if configured
-    if type.to_s == 'success' && User.current.pref.auto_hide_popups?
-      toast_css_classes << 'autohide-toaster'
-    end
-    html_options = { class: toast_css_classes.join(' '), role: 'alert' }.merge(html_options)
-    close_button = content_tag :a, '', class: 'op-toast--close icon-context icon-close',
-                                       title: I18n.t('js.close_popup_title'),
-                                       tabindex: '0'
-    toast = content_tag(:div, join_flash_messages(message), class: 'op-toast--content')
-    content_tag :div, '', class: 'op-toast--wrapper' do
-      content_tag :div, '', class: 'op-toast--casing' do
-        content_tag :div, html_options do
-          concat(close_button)
-          concat(toast)
-        end
-      end
     end
   end
 
@@ -320,10 +282,7 @@ module ApplicationHelper
   def theme_options_for_select
     [
       [t('themes.light'), 'light'],
-      [t('themes.light_high_contrast'), 'light_high_contrast'],
-      [t('themes.dark'), 'dark'],
-      [t('themes.dark_dimmed'), 'dark_dimmed'],
-      [t('themes.dark_high_contrast'), 'dark_high_contrast']
+      [t('themes.light_high_contrast'), 'light_high_contrast']
     ]
   end
 
@@ -331,6 +290,7 @@ module ApplicationHelper
     mode, _theme_suffix = User.current.pref.theme.split("_", 2)
     "data-color-mode=#{mode} data-#{mode}-theme=#{User.current.pref.theme}"
   end
+
   def highlight_default_language(lang_options)
     lang_options.map do |(language_name, code)|
       if code == Setting.default_language
@@ -347,8 +307,8 @@ module ApplicationHelper
     form_for(record, options, &)
   end
 
-  def back_url_hidden_field_tag
-    back_url = params[:back_url] || request.env['HTTP_REFERER']
+  def back_url_hidden_field_tag(use_referer: true)
+    back_url = params[:back_url] || (use_referer ? request.env['HTTP_REFERER'] : nil)
     back_url = CGI.unescape(back_url.to_s)
     hidden_field_tag('back_url', CGI.escape(back_url), id: nil) if back_url.present?
   end
@@ -388,7 +348,7 @@ module ApplicationHelper
   def progress_bar(pcts, options = {})
     pcts = Array(pcts).map(&:round)
     closed = pcts[0]
-    done   = (pcts[1] || closed) - closed
+    done   = pcts[1] || 0
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
     total_progress = options[:hide_total_progress] ? '' : t(:total_progress)

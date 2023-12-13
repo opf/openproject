@@ -2,85 +2,85 @@
 sr:
   js:
     boards:
-      create_new: 'Create new board'
-      label_unnamed_board: 'Unnamed board'
-      label_unnamed_list: 'Unnamed list'
-      label_board_type: 'Board type'
+      create_new: 'Nova tabla'
+      label_unnamed_board: 'Neimenovana tabla'
+      label_unnamed_list: 'Neimenovana lista'
+      label_board_type: 'Tip table'
       upsale:
         teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
+        upgrade: 'Nadogradite'
       lists:
-        delete: 'Delete list'
+        delete: 'Obriši listu'
       version:
-        is_locked: 'Version is locked. No items can be added to this version.'
-        is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'Show version'
-        locked: 'Locked'
-        closed: 'Closed'
-      new_board: 'New board'
-      add_list: 'Add list to board'
-      add_card: 'Add card'
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      error_loading_the_list: "Error loading the list: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
-      click_to_remove_list: "Click to remove this list"
+        is_locked: 'Verzija je zaključana. U ovu verziju nije moguće dodavati stavke.'
+        is_closed: 'Verzija je zatvorena. U ovu verziju nije moguće dodavati stavke.'
+        close_version: 'Zatvori verziju'
+        open_version: 'Otvori verziju'
+        lock_version: 'Zaključaj verziju'
+        unlock_version: 'Otključaj verziju'
+        edit_version: 'Uredi verziju'
+        show_version: 'Prikaži verziju'
+        locked: 'Zaključano'
+        closed: 'Zatvoreno'
+      new_board: 'Nova tabla'
+      add_list: 'Dodaj listu na tablu'
+      add_card: 'Dodaj karticu'
+      error_attribute_not_writable: "Radni paket nije moguće premestiti, %{attribute} nije upisiv."
+      error_loading_the_list: "Greška pri učitavanju liste: %{error_message}"
+      error_permission_missing: "Nemate dozvolu za kreiranje javnih upita"
+      error_cannot_move_into_self: "Nemožeta premestiti radni paket u izdvojenu kolonu"
+      text_hidden_list_warning: "Nemate dovoljno privilegija za prikaz svih lista. Za više informacija kontaktirajte vašeg administratora."
+      click_to_remove_list: "Klikni da ukloniš ovu listu"
       board_type:
-        text: 'Board type'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        text: 'Tip table'
+        free: 'osnovno'
+        select_board_type: 'Izaberite tip table.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+          Počnite ispočetka sa praznom tablom. Na tablu, ručno dodaj kartice i kolone.
+        action: 'Tabla sa zadacima'
+        action_by_attribute: 'Tabla sa zadacima (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Tabla sa filtriranim listama po %{attribute}. Premeštanje radnog paketa na druge liste osvežava njihove atribute.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Tabla sa automatizovanim kolonama za potprojekte. Prevlačenje radnog paketa na druge liste osvežava stanje potprojekta.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Tabla sa automatizovanim kolonama za podelemente. Prevlačenje radnog paketa na druge liste osvežava stanje izvornog elementa.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Osnovna tabla u kanban stilu, sa kolonama koje prikazuju status, kao što su: Uraditi, Tekuće, Završeno.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Tabla sa automatizovanim kolonama, po dodeljenim korisnicima. Idealna za otpremanje radnih paketa.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Tabla sa automatizovanim kolonama, po atributima verzije. Idealna za planiranje razvoja proizvoda.
         action_type:
-          assignee: assignee
+          assignee: zadužen
           status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          version: verzija
+          subproject: potprojekat
+          subtasks: roditelj-dete
         board_type_title:
-          assignee: Assignee
+          assignee: Zadužen
           status: Status
-          version: Version
-          subproject: Subproject
+          version: Verzija
+          subproject: Potprojekat
           subtasks: Parent-child
-          basic: Basic
-        select_attribute: "Action attribute"
+          basic: Osnovno
+        select_attribute: "Atribut akcije"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Izaberi korisnika za dodavanje kao novu listu dodeljenih
+          status: Izaberi status za dodavanje kao novu listu
+          version: Izaberite verziju, za dodavanje kao novu list
+          subproject: Izaberite potprojekat, za dodavanje kao novu listu
+          subtasks: Izaberite radni paket, za dodavanje kao novu listu
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            Trenutno nema dostupnih statusa.  <br>
+            Ili ne postoji ni jedan, ili su svi već dodati na tablu.
+          assignee: Nema članova koji odgovaraju traženom filteru.
+          no_member: Projekat trenutno nema članova dostupnih za dodavanje.
+          add_members: <a href="%{link}">Dodaj novog člana ovom projektu</a>da bi ste ponovo izabrali korisnike.
       configuration_modal:
-        title: 'Configure this board'
+        title: 'Konfigurišite ovu tablu'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "Prikaži kao kartice"
+          table_mode: "Prikaži kao tablu"

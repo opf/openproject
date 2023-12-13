@@ -3,7 +3,7 @@
 get:
   summary: List Users
   operationId: list_Users
-  description: Lists users. Only administrators or users with manage_user global permission have permission to do this.
+  description: "Lists users. Only administrators or users with any of the following can access this resource: 'manage_members', 'manage_user', 'share_work_packages'."
   tags:
     - Users
   parameters:
@@ -80,7 +80,7 @@ get:
       description: |-
         Returned if the client does not have sufficient permissions.
 
-        **Required permission:** Administrator
+        **Required permission:** Administrator or any of: 'manage_members', 'manage_user', 'share_work_packages'.
 
 post:
   summary: Create User

@@ -10,6 +10,8 @@ ko:
     error_captcha: "계정을 인증할 수 없습니다. 관리자에게 문의하십시오."
     settings:
       website_key: '웹사이트 키'
+      response_limit: 'Response limit for HCaptcha'
+      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: '이 도메인의 reCAPTCHA 관리 콘솔에서 만든 웹사이트 키를 입력하십시오.'
       secret_key: '비밀 키'
       secret_key_text: 'reCAPTCHA 관리 콘솔에서 만든 비밀 키를 입력하십시오.'
@@ -17,5 +19,6 @@ ko:
       type_disabled: 'reCAPTCHA 사용 안 함'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA는 해당 OpenProject 인스턴스에 대해 활성화할 수 있는 Google의 무료 서비스입니다. 활성화하면, 캡차를 아직 확인하지 않은 모든 사용자가 로그인할 때 캡차 양식이 렌더링됩니다. <br/> reCAPTCHA와 해당 버전 관련 세부 정보 및 웹사이트 키와 비밀 키를 생성하는 방법은 다음 링크를 참조하십시오: %{recaptcha_link}
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}

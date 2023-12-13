@@ -6,8 +6,6 @@ $user-avatar-medium-height: 28px
 $user-avatar-mini-border-radius: 50%
 $user-avatar-mini-width: 20px
 $user-avatar-mini-height: 20px
-$user-avatar-default-bg-color: white
-
 
 .op-avatar
   border-radius: var(--user-avatar-border-radius)
@@ -21,10 +19,10 @@ $user-avatar-default-bg-color: white
   vertical-align: middle
   cursor: inherit
   user-select: none
-  background-color: $user-avatar-default-bg-color
-  // Default size
-  line-height: 36px
+  // (Default height) 36 - 2(border pixels)
+  line-height: 34px
   font-size: 16px
+  border: 1px solid var(--avatar-border-color)
 
   // Fallback avatar if no img tag gets rendered
   &--fallback
@@ -35,7 +33,8 @@ $user-avatar-default-bg-color: white
     width: $user-avatar-mini-width
     min-width: $user-avatar-mini-width
     height: $user-avatar-mini-height
-    line-height: $user-avatar-mini-height
+    // (mini height) 20 - 2(border pixels)
+    line-height: 18px
     font-size: 10px
 
   &_medium
@@ -43,13 +42,15 @@ $user-avatar-default-bg-color: white
     width: $user-avatar-medium-width
     min-width: $user-avatar-medium-width
     height: $user-avatar-medium-height
-    line-height: $user-avatar-medium-height
+    // (medium height) 28 - 2(border pixels)
+    line-height: 26px
     font-size: 13px
 
   // Different border styling for placeholders
   &_placeholder-user
-    border: 1px dashed
-    background: none
+    border: 1px dashed var(--body-font-color)
+    background: none !important
+    color: var(--body-font-color)
 
   // Different border styling for groups
   &_group

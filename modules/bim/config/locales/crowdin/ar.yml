@@ -17,6 +17,7 @@ ar:
     exceptions:
       file_invalid: "ملف BCF غير صالح"
     x_bcf_issues:
+      zero: 'لا توجد مشاكل BCF'
       one: 'One BCF issue'
       other: '%{count} BCF issues'
     bcf_xml:

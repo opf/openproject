@@ -1,198 +1,123 @@
 # /api/v3/projects
 ---
 get:
-  parameters:
-  - description: |-
-      JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
-      Currently supported filters are:
-
-      + active: based on the active property of the project
-
-      + ancestor: filters projects by their ancestor. A project is not considered to be it's own ancestor.
-
-      + created_at: based on the time the project was created
-
-      + latest_activity_at: based on the time the last activity was registered on a project.
-
-      + name_and_identifier: based on both the name and the identifier.
-
-      + parent_id: filters projects by their parent.
-
-      + principal: based on members of the project.
-
-      + type_id: based on the types active in a project.
-
-      + user_action: based on the actions the current user has in the project.
-
-      + id: based on projects' id.
-
-      + visible: based on the visibility for the user (id) provided as the filter value. This filter is useful for admins to identify the projects visible to a user.
-      There might also be additional filters based on the custom fields that have been configured.
-    example: '[{ "ancestor": { "operator": "=", "values": [''1''] }" }]'
-    in: query
-    name: filters
-    required: false
-    schema:
-      type: string
-  - description: |-
-      JSON specifying sort criteria.
-      Currently supported orders are:
-
-      + id
-
-      + name
-
-      + typeahead (sorting by hierarchy and name)
-
-      + created_at
-
-      + public
-
-      + latest_activity_at
-
-      + required_disk_space
-      There might also be additional orders based on the custom fields that have been configured.
-    example: '[["id", "asc"]]'
-    in: query
-    name: sortBy
-    required: false
-    schema:
-      type: string
-  - description: |-
-      Comma separated list of properties to include.
-    example: 'total,elements/identifier,elements/name'
-    in: query
-    name: select
-    required: false
-    schema:
-      type: string
-  responses:
-    '200':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _embedded:
-                  elements:
-                  - _links:
-                      categories:
-                        href: "/api/v3/projects/6/categories"
-                      createWorkPackage:
-                        href: "/api/v3/projects/6/work_packages/form"
-                        method: post
-                      createWorkPackageImmediate:
-                        href: "/api/v3/projects/6/work_packages"
-                        method: post
-                      projects:
-                        href: "/api/v3/projects/123"
-                      self:
-                        href: "/api/v3/projects/6"
-                        title: A project
-                      status:
-                        href: "/api/v3/project_statuses/on_track"
-                        title: On track
-                      versions:
-                        href: "/api/v3/projects/6/versions"
-                    _type: Project
-                    active: true
-                    createdAt: '2015-07-06T13:28:14+00:00'
-                    description:
-                      format: markdown
-                      html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
-                      raw: Lorem **ipsum** dolor sit amet
-                    id: 6
-                    identifier: a_project
-                    name: A project
-                    public: false
-                    statusExplanation:
-                      format: markdown
-                      html: "<p>Everything <strong>fine</strong></p>"
-                      raw: Everything **fine**
-                    type: Customer Project
-                    updatedAt: '2015-10-01T09:55:02+00:00'
-                  - _links:
-                      categories:
-                        href: "/api/v3/projects/14/categories"
-                      createWorkPackage:
-                        href: "/api/v3/projects/14/work_packages/form"
-                        method: post
-                      createWorkPackageImmediate:
-                        href: "/api/v3/projects/14/work_packages"
-                        method: post
-                      projects:
-                        href: 
-                      self:
-                        href: "/api/v3/projects/14"
-                        title: Another project
-                      status:
-                        href: "/api/v3/project_statuses/off_track"
-                        title: Off track
-                      versions:
-                        href: "/api/v3/projects/14/versions"
-                    _type: Project
-                    active: false
-                    createdAt: '2016-02-29T12:50:20+00:00'
-                    description:
-                      format: markdown
-                      html: ''
-                      raw: ''
-                    id: 14
-                    identifier: another_project
-                    name: Another project
-                    public: true
-                    statusExplanation:
-                      format: markdown
-                      html: "<p>Uh <strong>oh</strong></p>"
-                      raw: Uh **oh**
-                    type: 
-                    updatedAt: '2016-02-29T12:50:20+00:00'
-                _links:
-                  self:
-                    href: "/api/v3/projects"
-                _type: Collection
-                count: 2
-                total: 2
-          schema:
-            "$ref": "../components/schemas/list_projects_model.yml"
-      description: OK
-      headers: {}
+  summary: List projects
+  operationId: list_projects
   tags:
-  - Projects
+    - Projects
   description: Returns a collection of projects. The collection can be filtered via
     query parameters similar to how work packages are filtered. In addition to the
     provided filter, the result set is always limited to only contain projects the
     client is allowed to see.
-  operationId: List_projects
-  summary: List projects
+  parameters:
+    - name: filters
+      schema:
+        type: string
+      in: query
+      required: false
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+        Currently supported filters are:
+        
+        + active: based on the active property of the project
+        + ancestor: filters projects by their ancestor. A project is not considered to be it's own ancestor.
+        + created_at: based on the time the project was created
+        + latest_activity_at: based on the time the last activity was registered on a project.
+        + name_and_identifier: based on both the name and the identifier.
+        + parent_id: filters projects by their parent.
+        + principal: based on members of the project.
+        + storage_id: filters projects by linked storages
+        + storage_url: filters projects by linked storages identified by the host url
+        + type_id: based on the types active in a project.
+        + user_action: based on the actions the current user has in the project.
+        + id: based on projects' id.
+        + visible: based on the visibility for the user (id) provided as the filter value. This filter is useful for admins to identify the projects visible to a user.
+        
+        There might also be additional filters based on the custom fields that have been configured.
+      example: '[{ "ancestor": { "operator": "=", "values": ["1"] }" }]'
+    - name: sortBy
+      schema:
+        type: string
+      in: query
+      required: false
+      description: |-
+        JSON specifying sort criteria.
+        Currently supported orders are:
+        
+        + id
+        + name
+        + typeahead (sorting by hierarchy and name)
+        + created_at
+        + public
+        + latest_activity_at
+        + required_disk_space
+        
+        There might also be additional orders based on the custom fields that have been configured.
+      example: '[["id", "asc"]]'
+    - name: select
+      schema:
+        type: string
+      in: query
+      required: false
+      description: |-
+        Comma separated list of properties to include.
+      example: 'total,elements/identifier,elements/name'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/project_collection_model.yml'
+          examples:
+            'simple project collection':
+              $ref: '../components/examples/project_collection.yml'
+    '400':
+      description: Returned if the client sends invalid request parameters e.g. filters
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: Filters Invalid filter does not exist.
+
 post:
+  summary: Create project
+  operationId: create_project
+  tags:
+    - Projects
+  description: |-
+    Creates a new project, applying the attributes provided in the body.
+
+    You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
   requestBody:
     content:
       application/json:
         schema:
           type: object
         examples:
-          "with custom fields":
-            "$ref": "../components/examples/project_body.yml"
+          'with custom fields':
+            $ref: '../components/examples/project_body.yml'
   responses:
     '201':
+      description: Created
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/project_model.yml"
+            $ref: '../components/schemas/project_model.yml'
           examples:
-            "with custom fields":
-              "$ref": "../components/examples/project.yml"
-      description: Created
-      headers: {}
+            'with custom fields':
+              $ref: '../components/examples/project.yml'
     '400':
-      $ref: "../components/responses/invalid_request_body.yml"
+      $ref: '../components/responses/invalid_request_body.yml'
     '403':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
@@ -203,35 +128,23 @@ post:
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** add project which is a global permission
-      headers: {}
     '406':
-      $ref: "../components/responses/missing_content_type.yml"
+      $ref: '../components/responses/missing_content_type.yml'
     '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
+      $ref: '../components/responses/unsupported_media_type.yml'
     '422':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _embedded:
-                  details:
-                    attribute: name
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: Name can't be blank.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: name
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Name can't be blank.
       description: |-
         Returned if:
 
         * a constraint for a property was violated (`PropertyConstraintViolation`)
-      headers: {}
-  tags:
-  - Projects
-  description: |-
-    Creates a new project, applying the attributes provided in the body.
-
-    You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
-  operationId: Create_project
-  summary: Create project

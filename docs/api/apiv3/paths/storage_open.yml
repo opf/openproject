@@ -1,0 +1,39 @@
+# /api/v3/storage/{id}/open
+---
+get:
+  summary: Open the storage
+  operationId: open_storage
+  tags:
+    - File Links
+  description: |-
+    Gets a redirect to the location of the storage's remote origin. The storage's files root should be the target
+    location.
+  parameters:
+    - name: id
+      description: Storage id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+  responses:
+    '303':
+      description: Redirect
+      headers:
+        Location:
+          schema:
+            type: string
+            format: uri
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the storage does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view file links

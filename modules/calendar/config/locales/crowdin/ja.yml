@@ -5,7 +5,7 @@ ja:
     description: "Provides calendar views."
   label_calendar: "カレンダー"
   label_calendar_plural: "カレンダー"
-  label_new_calendar: "New calendar"
+  label_new_calendar: "新しいカレンダー"
   permission_view_calendar: "カレンダーを表示"
   permission_manage_calendars: "カレンダーを管理"
   permission_share_calendars: "iCalendarを購読"

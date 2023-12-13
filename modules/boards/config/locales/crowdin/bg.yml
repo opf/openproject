@@ -23,17 +23,17 @@ bg:
       basic: Основен
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Започнете от нулата с празна дъска. Ръчно добавете карти и колони към тази дъска.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Основна дъска в стила на канбан със колони за състояние като Завършване, В процес на изпълнение, Готово
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Табло с автоматизирани колони въз основа на назначени потребители. Идеален за изпращане на работни пакети.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Табло с автоматизирани колони въз основа на атрибута версия. Идеален за планиране разработването на продукта.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Табло с автоматизирани колони за подпроекти. Плъзгането на работни пакети към други списъци актуализира (под) проекта съответно.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Табло с автоматизирани колони за поделементи. Плъзгането на работни пакети към други списъци актуализира родителя съответно.
     upsale:
       teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
       upgrade: 'Upgrade now'

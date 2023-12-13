@@ -41,6 +41,9 @@ class Authorization::UserAllowedService
   # Context can be:
   # * a project : returns true if user is allowed to do the specified action on this project
   # * a group of projects : returns true if user is allowed on every project
+  # * an entity that a user can become a member of specifically (listed in Member::ALLOWED_ENTITIES) :
+  #   * returns true if user is allowed to do the specified action on the given item or
+  #   * returns ture if user is allowed to do the specified action on the project the entity belongs to
   # * nil with +global+ set to +true+ : check if user has at least one role allowed for this action,
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
   def call(action, context, global: false)
@@ -66,6 +69,8 @@ class Authorization::UserAllowedService
       allowed_to_globally?(action)
     elsif context.is_a? Project
       allowed_to_in_project?(action, context)
+    elsif supported_entity?(context)
+      allowed_to_in_entity?(action, context)
     elsif context.respond_to?(:to_a)
       allowed_to_in_all_projects?(action, context)
     else
@@ -73,7 +78,24 @@ class Authorization::UserAllowedService
     end
   end
 
+  def allowed_to_in_entity?(action, entity)
+    # Inactive users are never authorized
+    return false unless authorizable_user?
+
+    # Short circuit: When the user is already allowed to execute the action baed
+    # on the project, there's no need to do a check on the entity
+    return true if entity.respond_to?(:project) && allowed_to_in_project?(action, entity.project)
+
+    # Admin users are authorized for anything else
+    # unless the permission is explicitly flagged not to be granted to admins.
+    return true if granted_to_admin?(action)
+
+    has_authorized_role?(action, entity)
+  end
+
   def allowed_to_in_project?(action, project)
+    return false if project.nil?
+
     if project_authorization_cache.cached?(action)
       return project_authorization_cache.allowed?(action, project)
     end
@@ -122,9 +144,9 @@ class Authorization::UserAllowedService
     user.admin? && OpenProject::AccessControl.grant_to_admin?(action)
   end
 
-  def has_authorized_role?(action, project = nil)
+  def has_authorized_role?(action, context = nil)
     project_role_cache
-      .fetch(project)
+      .fetch(context)
       .any? do |role|
       role.allowed_to?(action)
     end
@@ -146,6 +168,11 @@ class Authorization::UserAllowedService
   def supported_context?(context, global:)
     (context.nil? && global) ||
       context.is_a?(Project) ||
+      supported_entity?(context) ||
       (!context.nil? && context.respond_to?(:to_a))
+  end
+
+  def supported_entity?(entity)
+    Member.can_be_member_of?(entity)
   end
 end

@@ -41,7 +41,14 @@ es:
           name: Especificación
         item_2:
           name: Otros
-      roles:
+      work_package_roles:
+        item_0:
+          name: Editor de paquetes de trabajo
+        item_1:
+          name: Comentador de paquetes de trabajo
+        item_2:
+          name: Visualizador de paquetes de trabajo
+      project_roles:
         item_0:
           name: No miembro
         item_1:
@@ -52,7 +59,8 @@ es:
           name: Lector
         item_4:
           name: Administrador de proyecto
-        item_5:
+      global_roles:
+        item_0:
           name: Administrador de proyectos y personal
     standard:
       priorities:
@@ -124,16 +132,21 @@ es:
       welcome:
         title: '¡Le damos la bienvenida a OpenProject!'
         text: |
-          Seleccione uno de los proyectos de demostración para empezar con algunos datos de demostración que hemos preparado para usted.
+          OpenProject es el programa de gestión de proyectos de código abierto líder. Puede ser usado tanto en gestion de proyectos clássica, Agile o híbrida y le proporciona un control total sobre sus datos.
 
-          * [Proyecto de demostración]({{opSetting:base_url}}/projects/demo-project): para obtener una visión general sobre la gestión clásica de proyectos.
-          * [Proyecto Scrum]({{opSetting:base_url}}/projects/your-scrum-project): para aprender sobre la gestión de proyectos Agile y Scrum.
+          Funciones base y casos de uso:
 
-          También puede crear un [nuevo proyecto]({{opSetting:base_url}}/projects/new) en blanco.
+          * [Gestión de Portfolios de Proyectos](https://www.openproject.org/es/funcionalidades-software-colaboracion/gestion-portfolio-proyecto/)
+          * [Planificación y Organización de Proyectos](https://www.openproject.org/es/funcionalidades-software-colaboracion/programacion-proyecto-planificacion/)
+          * [Gestión de Tareas y Seguimiento de Problemas](https://www.openproject.org/es/funcionalidades-software-colaboracion/gestion-tareas/)
+          * [Tableros Agile (Scrum y Kanban)](https://www.openproject.org/es/funcionalidades-software-colaboracion/gestion-proyectos-agile/)
+          * [Gestión de Requisitos y Planificación de Lanzamientos](https://www.openproject.org/es/funcionalidades-software-colaboracion/desarrollo-producto/)
+          * [Seguimiento de Tiempo y Costos, Presupuestos](https://www.openproject.org/es/funcionalidades-software-colaboracion/seguimiento-tiempo/)
+          * [Colaboración de Equipos y Documentación](https://www.openproject.org/es/funcionalidades-software-colaboracion/colaboracion-equipo/)
 
-          Nunca deje de colaborar. Con código abierto y mente abierta.
+          Bienvenido al futuro de la gestión de proyectos.
 
-          Puede cambiar este texto de bienvenida [aquí]({{opSetting:base_url}}/admin/settings/general).
+          Para administradors: Puede cambiar este texto de bienvenida [aquí]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Proyecto de demostración
@@ -339,22 +352,18 @@ es:
                 options:
                   name: Primeros pasos
                   text: |
-                    ¡Nos alegramos de tenerle! Le sugerimos que pruebe algunas cosas para iniciarse en OpenProject.
+                    ¡Nos alegra que te hayas unido! Te sugerimos probar algunas cosas para empezar en OpenProject.
 
-                    Descubra las características más importantes con nuestra [Visita guiada]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    _Prueba los siguientes pasos:_[Backlogs]. *Invitar nuevos miembros a tu proyecto*: &rightarrow; Ir a [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) en la navegación del proyecto.
+                    2. *Ver el registro de tu producto y los backlogs de Sprint*: &rightarrow; Ir a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) en la navegación del proyecto.
+                    3. *Ver el tablero de tareas*: &rightarrow; Ir a [Backlogs] ({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Haga clic en la flecha derecha en Sprint &rightarrow; Seleccione [Task Board](##sprint:scrum_project__version__sprint_1).
+                    4. *Crear un nuevo paquete de trabajo*: &rightarrow; Ir a [Paquetes de trabajo &rightarrow; Crear]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Crear y actualizar un plan de proyecto*: &rightarrow; Ir a [Plan del proyecto](##query:scrum_project__query__project_plan) en la navegación del proyecto.
+                    6. *Crea un wiki de Sprint*: &rightarrow; Ir a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) y abre el wiki de sprint desde el menú desplegable derecho en un sprint. Puedes editar la [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) en función de tus necesidades.
+                    7. *Activar más módulos*: &rightarrow; Ir a [Configuración del proyecto &rightarrow; Módulos]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    _Pruebelos siguientes pasos:_
-
-                    1. *Invitar a nuevos miembros a su proyecto*: &rightarrow; Vaya a [Miembros]({{opSetting:base_url}}/projects/your-scrum-project/members) en la navegación del proyecto.
-                    2. *Ver sus backlogs de Producto y Sprint*: &rightarrow; Vaya a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) en la navegación del proyecto.
-                    3. *Ver su Tablero de Tareas*: &rightarrow; Vaya a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Haga clic en la flecha derecha sobre Sprint &rightarrow; Seleccione [Tablero de Tareas](##sprint:scrum_project__version__sprint_1).
-                    4. *Crearun nuevo paquete de trabajo*: &rightarrow; Vaya a [Paquetes de trabajo rightarrow; Crear]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Crear y actualizar un plan de proyecto*: &rightarrow; Vaya a [Plan de proyecto](##query:scrum_project__query__project_plan) en la navegación del proyecto.
-                    6. *Crear un wiki de sprint*: &rightarrow; Vaya a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) y abra el wiki de sprint desde el menú desplegable de la derecha en un sprint. Puede editar la [plantilla wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) en función de sus necesidades.
-                    7. *Active otros módulos*: &rightarrow; Vaya a [Configuración del proyecto &rightarrow; Módulos]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
-
-                    Aquí encontrará nuestras [Guías del usuario](https://www.openproject.org/docs/user-guide/).
-                    Háganos saber si tiene alguna pregunta o necesita asistencia. Póngase en contacto con nosotros: [support[at]openproject.com](mailto:support@openproject.com).
+                    Aquí encontrarás nuestras [Guías de usuario](https://www. penproject.org/docs/user-guide/).
+                    Por favor, háganos saber si tienes alguna pregunta o necesitas ayuda. Contáctanos: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Paquetes de trabajo

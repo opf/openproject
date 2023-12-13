@@ -18,8 +18,8 @@ ka:
       assignee: დასაქმებული
       status: სტატუსი
       version: ვერსია
-      subproject: Subproject
-      subtasks: Parent-child
+      subproject: ქვეპროექტი
+      subtasks: მშობელი-შვილი
       basic: ძირითადი
     board_type_descriptions:
       basic: >
@@ -35,5 +35,5 @@ ka:
       subtasks: >
         Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'გნებავთ თქვენი საწარმოო პროცესების ავტომატიზაცია Boards-ით? დამატებითი დაფები საწარმოო ვერსიის მოდულია. გადადით ფასიან ვერსიაზე.'
+      upgrade: 'ახლავე განაახლე'

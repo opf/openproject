@@ -23,5 +23,5 @@ sr:
   js:
     work_packages:
       properties:
-        storyPoints: "Story Points"
-        remainingTime: "Remaining hours"
+        storyPoints: "Poeni Priče"
+        remainingTime: "Preostalo časova"

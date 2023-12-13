@@ -72,7 +72,7 @@ class Timestamp
         # map -1y1d to P-1Y-1D
         units = ['y', 'm', 'w', 'd']
         sign = '-' if string.start_with?('-')
-        substitutions = units.map { |unit| string.scan(/\d+#{unit}/).first&.upcase }.compact
+        substitutions = units.filter_map { |unit| string.scan(/\d+#{unit}/).first&.upcase }
 
         return string if substitutions.empty?
 

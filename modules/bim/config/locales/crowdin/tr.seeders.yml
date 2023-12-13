@@ -13,14 +13,14 @@ tr:
         item_2:
           name: Yüksek
         item_3:
-          name: Critical
+          name: Kritik
       statuses:
         item_0:
           name: Yeni
         item_1:
           name: Devam eden
         item_2:
-          name: Resolved
+          name: Çözüldü
         item_3:
           name: Kapalı
       time_entry_activities:
@@ -101,11 +101,11 @@ tr:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Proje planı
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: Görevler
             item_3:
               name: Takım planlayıcısı
           boards:
@@ -115,7 +115,7 @@ tr:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Hoş geldiniz
               item_1:
                 options:
                   name: Başlarken
@@ -163,18 +163,18 @@ tr:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Proje planı
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: Görevler
             item_3:
               name: Takım planlayıcısı
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Hoş geldiniz
               item_1:
                 options:
                   name: Başlarken
@@ -417,18 +417,18 @@ tr:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Proje planı
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: Görevler
             item_3:
               name: Takım planlayıcısı
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Hoş geldiniz
               item_1:
                 options:
                   name: Başlarken
@@ -690,11 +690,11 @@ tr:
             item_3:
               name: Remarks
             item_4:
-              name: Project plan
+              name: Proje planı
             item_5:
               name: Milestones
             item_6:
-              name: Tasks
+              name: Görevler
             item_7:
               name: Takım planlayıcısı
           boards:
@@ -704,7 +704,7 @@ tr:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Hoş geldiniz
               item_1:
                 options:
                   name: Başlarken

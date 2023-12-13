@@ -39,7 +39,8 @@ class Notification < ApplicationRecord
     scheduled: 8,
     responsible: 9,
     date_alert_start_date: 10,
-    date_alert_due_date: 11
+    date_alert_due_date: 11,
+    shared: 12
   }.freeze
 
   enum reason: REASONS,

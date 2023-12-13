@@ -31,9 +31,9 @@ module Members::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      # Find all members that are global, i.e. have not project
+      # Find all members that are global, i.e. have no project
       def global
-        where(project: nil)
+        where(project: nil, entity: nil)
       end
     end
   end

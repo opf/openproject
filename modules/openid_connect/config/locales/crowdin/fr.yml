@@ -22,6 +22,8 @@ fr:
       plural: Fournisseurs OpenID
       singular: Fournisseur OpenID
     setting_instructions:
+      azure_deprecation_warning: >
+        L'application Azure configurée pointe vers une API obsolète d'Azure. Veuillez créer une nouvelle application Azure pour assurer le bon fonctionnement dans l'avenir.
       azure_graph_api: >
         Utilisez le point de terminaison graph.microsoft.com userinfo pour demander des données d'utilisateur. Cela devrait être la valeur par défaut, sauf si vous avez une application Azure plus ancienne.
       azure_tenant_html: >

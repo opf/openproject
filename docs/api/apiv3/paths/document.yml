@@ -41,7 +41,7 @@ get:
                     href: "/api/v3/documents/1"
                     title: Some document
                 _type: Document
-                createdAt: '2018-12-10T20:53:39Z'
+                createdAt: '2018-12-10T20:53:39.698Z'
                 description:
                   format: markdown
                   html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia est

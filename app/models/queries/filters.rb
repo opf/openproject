@@ -31,6 +31,7 @@ module Queries::Filters
     list: Queries::Filters::Strategies::List,
     list_all: Queries::Filters::Strategies::ListAll,
     list_optional: Queries::Filters::Strategies::ListOptional,
+    shared_with_user_list_optional: Queries::Filters::Strategies::WorkPackages::SharedWithUser::ListOptional,
     integer: Queries::Filters::Strategies::Integer,
     date: Queries::Filters::Strategies::Date,
     datetime_past: Queries::Filters::Strategies::DateTimePast,

@@ -31,6 +31,12 @@ el:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Σύρετε στο πεδίο επεξεργαστή για να ευθυγραμμίσετε συνημμένα εικόνας ή αναφοράς. Τα κλειστά πεδία επεξεργαστή θα ανοίξουν όσο συνεχίζετε να σέρνετε.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Φόρτωση..."
+      not_found: "No items found"
+      type_to_search: "Πληκτρολογήστε για αναζήτηση"
     autocomplete_select:
       placeholder:
         multi: "Προσθήκη \"%{name}\""
@@ -296,33 +302,33 @@ el:
           two: "Δεύτερο κριτήριο ταξινόμησης"
           three: "Τρίτο κριτήριο ταξινόμησης"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Διάγραμμα Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Διαμόρφωση ετικέτας'
+        bar: 'Ετικέτες μπάρας'
+        left: 'Αριστερά'
+        right: 'Δεξιά'
+        farRight: 'Πολύ δεξιά'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Εμφάνιση διαγράμματος Gantt'
+      button_deactivate: 'Απόκρυψη διαγράμματος Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(κανένα)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Κάντε κλικ σε οποιοδήποτε πακέτο εργασίας για να δημιουργήσετε τη συσχέτιση. Πατήστε το πλήκτρο escape για ακύρωση.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Μεγέθυνση"
+        out: "Σμίκρυνση"
+        auto: "Αυτόματη μεγέθυνση"
+        days: "Ημέρες"
+        weeks: "Εβδομάδες"
+        months: "Μήνες"
+        quarters: "Τρίμηνα"
+        years: "Χρόνια"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Επιλέξτε το αρχικό επίπεδο μεγέθυνσης που θα πρέπει να εμφανίζεται όταν η αυτόματη μεγέθυνση δεν είναι διαθέσιμη.
     general_text_no: "όχι"
     general_text_yes: "ναι"
     general_text_No: "Όχι"
@@ -341,11 +347,11 @@ el:
           learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -553,7 +559,6 @@ el:
       steps:
         help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Κάντε μια τρίλεπτη εισαγωγική περιήγηση για να μάθετε τα πιο <b>σημαντικά χαρακτηριστικά</b>. <br> Προτείνουμε να ολοκληρώσετε τα βήματα μέχρι το τέλος. Μπορείτε να επανεκκινήσετε την περιήγηση ανά πάσα στιγμή.'
@@ -598,6 +603,7 @@ el:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -642,6 +648,7 @@ el:
         mentioned: 'Mentioned'
         watched: 'Παρατηρητής'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -664,6 +671,7 @@ el:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Ανάθεση σε'
           responsible: 'Υπόλογος'
+          shared: 'Shared'
           watched: 'Παρατηρητής'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -980,6 +988,7 @@ el:
         recently_created: "Δημιουργήθηκαν πρόσφατα"
         all_open: "Όλα τα ανοιχτά"
         summary: "Περίληψη"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Μεταπήδηση στον πίνακα σελιδοποίησης"
         label_pagination: "Πατήστε εδώ για να προσπεράσετε τον πίνακα πακέτων εργασίας και να πάτε στην σελιδοποίηση"
@@ -1016,6 +1025,12 @@ el:
       scheduling:
         is_parent: "Οι ημερομηνίες αυτού του πακέτου εργασίας προκύπτουν αυτόματα από τα παιδιά του. Ενεργοποιήστε τον \"Χειροκίνητο προγραμματισμό\" για να ορίσετε τις ημερομηνίες."
         is_switched_from_manual_to_automatic: "Οι ημερομηνίες αυτού του πακέτου εργασίας μπορεί να χρειαστεί να υπολογιστούν εκ νέου μετά τη μετάβαση από χειροκίνητο σε αυτόματο προγραμματισμό λόγω των σχέσεων με άλλα πακέτα εργασίας."
+      sharing:
+        share: 'Share'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Διαμόρφωση του πίνακα πακέτων εργασίας'
         summary: "Πίνακας με γραμμές από πακέτα εργασίας και στήλες από χαρακτηριστικά πακέτων εργασίας."

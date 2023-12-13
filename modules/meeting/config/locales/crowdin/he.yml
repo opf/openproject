@@ -28,18 +28,33 @@ he:
   activerecord:
     attributes:
       meeting:
+        type: "Meeting type"
         location: "מיקום"
         duration: "משך זמן"
+        notes: "הערות"
         participants: "משתתפים"
+        participant:
+          one: "1 Participant"
+          two: "%{count} Participants"
+          many: "%{count} Participants"
+          other: "%{count} Participants"
         participants_attended: "נוכחים"
         participants_invited: "מוזמנים"
-        project: "Project"
+        project: "פרוייקט"
+        start_date: "תאריך"
         start_time: "זמן"
         start_time_hour: "זמן התחלה"
+      meeting_agenda_items:
+        title: "כותרת"
+        author: "אחראי על"
+        duration_in_minutes: "Duration (min)"
+        description: "הערות"
     errors:
       messages:
         invalid_time_format: "תבנית הזמן אינה תקינה. התבנית הנדרשת היא: HH:MM"
     models:
+      structured_meeting: "Meeting (dynamic)"
+      meeting_agenda_item: "Agenda item"
       meeting_agenda: "סדר היום"
       meeting_minutes: "דקות"
   activity:
@@ -68,6 +83,8 @@ he:
   label_meeting_diff: "הבדלים"
   label_upcoming_meetings: "Upcoming meetings"
   label_past_meetings: "Past meetings"
+  label_upcoming_meetings_short: "Upcoming"
+  label_past_meetings_short: "Past"
   label_involvement: "Involvement"
   label_upcoming_invitations: "Upcoming invitations"
   label_past_invitations: "Past invitations"
@@ -75,10 +92,28 @@ he:
   label_author: "Creator"
   label_notify: "שלח לבדיקה"
   label_icalendar: "שלח iCalendar"
+  label_icalendar_download: "Download iCalendar event"
   label_version: "גירסה"
   label_time_zone: "איזור זמן"
   label_start_date: "תאריך התחלה"
   meeting:
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        header: "Meeting %{title} has been rescheduled"
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
+    types:
+      classic: 'Classic'
+      classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
+      structured: 'Dynamic'
+      structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "הודעה נשלחה בהצלחה"
   notice_timezone_missing: אין איזור זמן מוגדר, ההערכה היא %{zone}. כדי לבחור את איזור הזמן שלך, אנא לחץ כאן.
@@ -86,7 +121,10 @@ he:
   permission_edit_meetings: "ערוך פגישות"
   permission_delete_meetings: "מחק פגישות"
   permission_view_meetings: "הצג פגישות"
-  permission_create_meeting_agendas: "נהל סדר יום"
+  permission_create_meeting_agendas: "Create meeting agendas"
+  permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
+  permission_manage_agendas: "נהל סדר יום"
+  permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
   permission_close_meeting_agendas: "סגור סדר יום"
   permission_send_meeting_agendas_notification: "שלח הודעה סקירה עבור סדר יום"
   permission_create_meeting_minutes: "נהל דקות"
@@ -100,6 +138,45 @@ he:
   text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'דקות לפגישה "%{meeting}"'
-  text_review_meeting_agenda: "על %{author} לשים את %{link} לבדיקה."
-  text_review_meeting_minutes: "על %{author} לשים את %{link} לבדיקה."
   text_notificiation_invited: "דואר זה מכיל קובץ ics לפגישה שלהלן:"
+  text_meeting_empty_heading: "Your meeting is empty"
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."
+  text_meeting_empty_description_2: "You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's \"Meetings\" tab."
+  label_meeting_empty_action: "Add agenda item"
+  label_meeting_actions: "Meeting actions"
+  label_meeting_edit_title: "Edit meeting title"
+  label_meeting_delete: "Delete meeting"
+  label_meeting_created_by: "Created by"
+  label_meeting_last_updated: "Last updated"
+  label_agenda_item_undisclosed_wp: "Undisclosed work package reference #%{id}"
+  label_agenda_item_deleted_wp: "Deleted work package reference"
+  label_agenda_item_actions: "Agenda items actions"
+  label_agenda_item_move_to_top: "Move to top"
+  label_agenda_item_move_to_bottom: "Move to bottom"
+  label_agenda_item_move_up: "Move up"
+  label_agenda_item_move_down: "Move down"
+  label_agenda_item_add_notes: "הוסף הערות"
+  label_meeting_details: "Meeting details"
+  label_meeting_details_edit: "Edit meeting details"
+  label_meeting_state_open: "פתיחה"
+  label_meeting_state_closed: "סגור"
+  label_meeting_reopen_action: "Reopen meeting"
+  label_meeting_close_action: "Close meeting"
+  text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
+  text_meeting_closed_description: "This meeting is closed. You cannot add/remove agenda items anymore."
+  label_meeting_manage_participants: "Manage participants"
+  label_meeting_no_participants: "No participants"
+  label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
+  label_meeting_add_participants: "Add participants"
+  text_meeting_not_editable_anymore: "This meeting is not editable anymore."
+  text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."
+  label_add_work_package_to_meeting_dialog_title: "Add work package to meeting"
+  label_add_work_package_to_meeting_dialog_button: "Add to meeting"
+  label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
+  text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
+  text_agenda_item_no_notes: "No notes provided"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
+  text_work_package_add_to_meeting_hint: "Use the \"Add to meeting\" button to add this work package to an upcoming meeting."
+  text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

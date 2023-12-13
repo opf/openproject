@@ -103,20 +103,15 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def attribute_data_list(work_package)
     list = if respond_to?(:column_objects)
-             attributes_list_by_columns
+             attributes_data_by_columns
            else
-             attributes_list_by_wp(work_package)
+             attributes_data_by_wp(work_package)
            end
     list
-      .map { |entry| entry.merge({ value: entry[:value] || get_column_value_cell(work_package, entry[:name]) }) }
-      .select { |attribute_data| can_show_attribute?(attribute_data) }
+      .map { |entry| entry.merge({ value: get_column_value_cell(work_package, entry[:name]) }) }
   end
 
-  def can_show_attribute?(attribute_data)
-    attribute_data[:value].present?
-  end
-
-  def attributes_list_by_columns
+  def attributes_data_by_columns
     column_objects
       .reject { |column| column.name == :subject }
       .map do |column|
@@ -124,28 +119,49 @@ module WorkPackage::PDFExport::WorkPackageDetail
     end
   end
 
-  def attributes_list_by_wp(work_package)
-    list = ::Query.available_columns(work_package.project)
-                  .reject { |column| %i[subject project].include?(column.name) }
-                  .map do |column|
-      { label: column.caption || '', name: column.name }
-    end
-    spent_units = costs_attribute_spent_units(work_package)
-    list << spent_units unless spent_units.nil?
-    list
+  def attributes_data_by_wp(work_package)
+    column_entries(%i[id type status])
+      .concat(form_configuration_columns(work_package))
   end
 
-  def costs_attribute_spent_units(work_package)
-    cost_helper = ::Costs::AttributesHelper.new(work_package, User.current)
-    values = cost_helper.summarized_cost_entries.map do |kvp|
-      cost_type = kvp[0]
-      volume = kvp[1]
-      type_unit = volume.to_d == 1.0.to_d ? cost_type.unit : cost_type.unit_plural
-      "#{volume} #{type_unit}"
-    end
-    return nil if values.empty?
+  def form_configuration_columns(work_package)
+    work_package
+      .type.attribute_groups
+      .filter { |group| group.is_a?(Type::AttributeGroup) }
+      .map do |group|
+      group.attributes.map do |form_key|
+        form_key_to_column_entries(form_key.to_sym, work_package)
+      end
+    end.flatten
+  end
 
-    { label: I18n.t('activerecord.attributes.work_package.spent_units'), name: :spent_units, value: values.join(', ') }
+  def form_key_to_column_entries(form_key, work_package)
+    if CustomField.custom_field_attribute? form_key
+      id = form_key.to_s.sub('custom_field_', '').to_i
+      cf = CustomField.find_by(id:)
+      return [] if cf.nil? || cf.formattable?
+
+      return [] unless cf.is_for_all? || work_package.project.work_package_custom_field_ids.include?(cf.id)
+
+      return [{ label: cf.name || form_key, name: form_key }]
+    end
+
+    if form_key == :date
+      column_entries(%i[start_date due_date duration])
+    elsif form_key == :bcf_thumbnail
+      []
+    else
+      column_name = ::API::Utilities::PropertyNameConverter.to_ar_name(form_key, context: work_package)
+      [column_entry(column_name)]
+    end
+  end
+
+  def column_entries(column_names)
+    column_names.map { |key| column_entry(key) }
+  end
+
+  def column_entry(column_name)
+    { label: WorkPackage.human_attribute_name(column_name), name: column_name }
   end
 
   def build_columns_table_cells(attribute_data)

@@ -60,7 +60,7 @@ sr:
     cost_type: "Cost type"
     costs: "Costs"
     current_rate: "Current rate"
-    hours: "Hours"
+    hours: "Časovi"
     units: "Units"
     valid_from: "Valid from"
     fixed_date: "Fixed date"

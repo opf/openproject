@@ -101,7 +101,7 @@ class BaseContract < Disposable::Twin
     private
 
     def add_writable(attribute, writable)
-      attribute_name = attribute.to_s.gsub /_id\z/, ''
+      attribute_name = attribute.to_s.delete_suffix('_id')
 
       unless writable == false
         writable_attributes << attribute_name
@@ -125,15 +125,6 @@ class BaseContract < Disposable::Twin
     @options = options
   end
 
-  # we want to add a validation error whenever someone sets a property that we don't know.
-  # However AR will cleverly try to resolve the value for erroneous properties. Thus we need
-  # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
-  def read_attribute_for_validation(attribute)
-    if respond_to? attribute
-      send attribute
-    end
-  end
-
   def writable_attributes
     @writable_attributes ||= reduce_writable_attributes(collect_writable_attributes)
   end
@@ -142,19 +133,13 @@ class BaseContract < Disposable::Twin
     writable_attributes.include?(attribute.to_s)
   end
 
-  def valid?(*_args)
-    super()
-
-    errors.empty?
-  end
-
   # Provide same interface with valid? and validate
   # as with AM::Validations
   #
   # Do not use alias_method as this will not work when
   # valid? is overridden in subclasses
-  def validate(*args)
-    valid?(*args)
+  def validate(*)
+    valid?(*)
   end
 
   # Methods required to get ActiveModel error messages working
@@ -162,6 +147,14 @@ class BaseContract < Disposable::Twin
 
   def self.model_name
     ActiveModel::Name.new(model, nil)
+  end
+
+  def errors
+    if model.respond_to?(:errors)
+      model.errors
+    else
+      super
+    end
   end
 
   def self.model
@@ -207,7 +200,7 @@ class BaseContract < Disposable::Twin
     # but those attributes would also be duplicated so that performance suffers significantly.
     attributes = klass.send(attribute_to_collect).dup
 
-    while klass.superclass != ModelContract
+    while klass.superclass != ::BaseContract
       # Collect all the attribute_to_collect from ancestors
       klass = klass.superclass
 
@@ -250,7 +243,7 @@ class BaseContract < Disposable::Twin
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     attributes.reject do |attribute|
-      canonical_attribute = attribute.gsub(/_id\z/, '')
+      canonical_attribute = attribute.delete_suffix('_id')
 
       permissions = attribute_permissions[canonical_attribute] ||
                     attribute_permissions["#{canonical_attribute}_id"] ||
@@ -258,11 +251,39 @@ class BaseContract < Disposable::Twin
 
       next unless permissions
 
-      # This will break once a model that does not respond to project is used.
-      # This is intended to be worked on then with the additional knowledge.
-      next if permissions.any? { |p| user.allowed_to?(p, model.project, global: model.project.nil?) }
+      next if permissions.any? do |perm|
+        user.allowed_based_on_permission_context?(
+          perm,
+          project: project_for_permission_check,
+          entity: entity_for_permission_check
+        )
+      end
 
       true
     end
+  end
+
+  def project_for_permission_check
+    if model.is_a?(Project)
+      model
+    else
+      model.respond_to?(:project) ? model.project : nil
+    end
+  end
+
+  def entity_for_permission_check
+    if model.is_a?(Project)
+      nil
+    else
+      model
+    end
+  end
+
+  def with_merged_former_errors
+    former_errors = errors.dup
+
+    yield
+
+    errors.merge!(former_errors)
   end
 end

@@ -12,10 +12,6 @@ services:
     ports:
       - "${PORT}:4200"
 
-  storybook:
-    ports:
-      - '6006:6006'
-
   db:
     ports:
       - '5432:5432'

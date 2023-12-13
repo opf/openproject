@@ -65,13 +65,16 @@ fr:
           other: "%{count} liens de fichier ont été créés avec succès."
         upload_error:
           default: >
-            Votre fichier (%{fileName}) n'a pas pu être téléversé. Veuillez vérifier que la dernière version de l'application Nextcloud « OpenProject Integration » est installée et contactez votre administrateur pour obtenir plus d'informations.
+            Votre fichier (%{fileName}) n'a pas pu être téléchargé.
           403: >
             Votre fichier (%{fileName}) n'a pas pu être téléversé en raison de restrictions du système. Veuillez contacter votre administrateur pour obtenir plus d'informations.
           413: >
             Votre fichier (%{fileName}) a une taille supérieure à la taille limite que OpenProject peut téléverser sur %{storageType}. Vous pouvez d'abord téléverser le fichier directement sur %{storageType}, puis le lier.
           507: >
             Votre fichier (%{fileName}) a une taille supérieure au quota de stockage autorisé. Contactez votre administrateur pour modifier ce quota.
+          detail:
+            nextcloud: >
+              Veuillez vérifier que la dernière version de l'application Nextcloud "OpenProject Integration" est installée et contactez votre administrateur pour plus d'informations.
         link_uploaded_file_error: >
           Une erreur s'est produite lors de la liaison du fichier '%{fileName}' récemment téléversé au lot de travaux %{workPackageId}.
         not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"

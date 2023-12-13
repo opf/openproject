@@ -278,7 +278,7 @@ class Query < ApplicationRecord
                   end
 
     # preserve the order
-    column_list.map { |name| displayable_columns.find { |col| col.name == name.to_sym } }.compact
+    column_list.filter_map { |name| displayable_columns.find { |col| col.name == name.to_sym } }
   end
 
   def column_names=(names)

@@ -29,6 +29,7 @@
 require 'digest/sha1'
 
 class User < Principal
+  VALID_NAME_REGEX = /\A[\d\p{Alpha}\p{Mark}\p{Space}\p{Emoji}'’´\-_.,@()+&*–]+\z/
   CURRENT_USER_LOGIN_ALIAS = 'me'.freeze
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
@@ -41,10 +42,9 @@ class User < Principal
 
   include ::Associations::Groupable
   include ::Users::Avatars
+  include ::Users::PermissionChecks
   extend DeprecatedAlias
 
-  has_many :categories, foreign_key: 'assigned_to_id',
-                        dependent: :nullify
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
@@ -55,6 +55,9 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
   has_one :api_token, class_name: '::Token::API', dependent: :destroy
+
+  # The user might have one invitation token
+  has_one :invitation_token, class_name: '::Token::Invitation', dependent: :destroy
 
   # everytime a user subscribes to a calendar, a new ical_token is generated
   # unlike on other token types, all previously generated ical_tokens are kept
@@ -122,7 +125,10 @@ class User < Principal
   # Login must contain letters, numbers, underscores only
   validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
   validates :login, length: { maximum: 256 }
+
   validates :firstname, :lastname, length: { maximum: 256 }
+  validates :firstname, :lastname, format: { with: VALID_NAME_REGEX, allow_blank: true }
+
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates :mail, length: { maximum: 256, allow_nil: true }
 
@@ -168,14 +174,6 @@ class User < Principal
       clean_up_former_passwords
       clean_up_password_attribute
     end
-  end
-
-  def reload(*args)
-    @name = nil
-    @user_allowed_service = nil
-    @project_role_cache = nil
-
-    super
   end
 
   def mail=(arg)
@@ -264,7 +262,6 @@ class User < Principal
     token = Token::AutoLogin.find_by_plaintext_value(key)
     # Make sure there's only 1 token that matches the key
     if token && ((token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?)
-      token.user.log_successful_login
       token.user
     end
   end
@@ -466,12 +463,6 @@ class User < Principal
     !logged?
   end
 
-  # Return user's roles for project
-  def roles_for_project(project)
-    project_role_cache.fetch(project)
-  end
-  alias :roles :roles_for_project
-
   # Cheap version of Project.visible.count
   def number_of_known_projects
     if admin?
@@ -480,33 +471,6 @@ class User < Principal
       Project.public_projects.count + memberships.size
     end
   end
-
-  # Return true if the user is a member of project
-  def member_of?(project)
-    roles_for_project(project).any?(&:member?)
-  end
-
-  def self.allowed(action, project)
-    Authorization.users(action, project)
-  end
-
-  def self.allowed_members(action, project)
-    Authorization.users(action, project).where.not(members: { id: nil })
-  end
-
-  def allowed_to?(action, context, global: false)
-    user_allowed_service.call(action, context, global:)
-  end
-
-  def allowed_to_in_project?(action, project)
-    allowed_to?(action, project)
-  end
-
-  def allowed_to_globally?(action)
-    allowed_to?(action, nil, global: true)
-  end
-
-  delegate :preload_projects_allowed_to, to: :user_allowed_service
 
   def reported_work_package_count
     WorkPackage.on_active_project.with_author(self).visible.count
@@ -617,14 +581,6 @@ class User < Principal
     regexp = "^#{recipient}([#{separators}][^@]+)*@#{domain}$"
 
     [skip_suffix_check, regexp]
-  end
-
-  def user_allowed_service
-    @user_allowed_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
-  end
-
-  def project_role_cache
-    @project_role_cache ||= ::Users::ProjectRoleCache.new(self)
   end
 
   def former_passwords_include?(password)

@@ -123,8 +123,8 @@ module SortHelper
       @criteria
         .map { |c, o| [@available_criteria[c], o] }
         .reject { |c, _| c.nil? }
-        .map { |c, o| append_direction(Array(c), o) }
-        .compact
+        .filter_map { |c, o| append_direction(Array(c), o) }
+        
     end
 
     def to_query_hash
@@ -187,7 +187,7 @@ module SortHelper
 
     # Appends DESC to the sort criterion unless it has a fixed order
     def append_desc(criterion)
-      if criterion =~ / (asc|desc)\z/i
+      if / (asc|desc)\z/i.match?(criterion)
         criterion
       else
         "#{criterion} DESC"

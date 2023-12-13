@@ -32,6 +32,7 @@ class MemberRole < ApplicationRecord
 
   # `inherited` is reserved ActiveRecord method
   scope :only_inherited, -> { where.not(inherited_from: nil) }
+  scope :only_non_inherited, -> { where(inherited_from: nil) }
 
   validates :role, presence: true
   validate :validate_project_member_role

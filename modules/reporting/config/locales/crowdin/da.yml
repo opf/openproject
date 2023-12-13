@@ -47,6 +47,7 @@ da:
   label_is_project_with_subprojects: "findes (inkluderer underprojekter)"
   label_work_package_attributes: "Egenskaber for arbejdspakker"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "Kontantværdi"
   label_month_reporting: "Måned (Brugt)"
   label_new_report: "Ny omkostningsrapport"

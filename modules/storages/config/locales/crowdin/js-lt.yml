@@ -69,13 +69,16 @@ lt:
           other: "Sėkmingai sukurtos %{count} failų nuorodos."
         upload_error:
           default: >
-            Jūsų failo (%{fileName}) nepavyko įkelti. Prašome patikrinti, kad įdiegta paskutinė Nextcloud aplikacijos „OpenProject Integration“ versija ir susisiekti su jūsų administratoriumi, kad gautumėte daugiau informacijos.
+            Jūsų failo (%{fileName}) nepavyko įkelti.
           403: >
             Jūsų failas (%{fileName}) negalėjo būti įkeltas dėl sistemos apribojimų. Prašome susiekti su jūsų administratoriumi, kad gautumėte daugiau informacijos.
           413: >
             Jūsų failas (%{fileName}) per didelis, kad OpenProject galėtų įkelti jį į %{storageType}. Jūs galite įkelti tiesiai į %{storageType} ir tada susieti failą.
           507: >
             Jūsų failas (%{fileName}) yra didesnis nei leidžia saugyklos apribojimai. Susisiekite su jūsų administratoriumi, kad padidintumėte šį apribojimą.
+          detail:
+            nextcloud: >
+              Prašome patikrinti, kad įdiegta paskutinė Nectcloud aplikacija „OpenProject integration“ ir susisiekti su jūsų administratoriumi, jei reikia daugiau informacijos.
         link_uploaded_file_error: >
           Susiejant neseniai įkeltą failą „%{fileName}“ su darbo paketu %{workPackageId} įvyko klaida.
         not_allowed_tooltip: "Prašome prisijungti prie Nextcloud, kad pasiektumėte failą"

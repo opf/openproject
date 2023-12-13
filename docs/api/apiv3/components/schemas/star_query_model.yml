@@ -5,8 +5,8 @@ example:
   _type: Query
   id: 9
   name: fdsfdsfdsf
-  createdAt: '2015-03-20T12:56:56Z'
-  updatedAt: '2015-05-20T18:16:53Z'
+  createdAt: '2015-03-20T12:56:56.085Z'
+  updatedAt: '2015-05-20T18:16:53.619Z'
   filters:
   - _type: StatusQueryFilter
     name: Status
@@ -83,8 +83,8 @@ example:
     - href: "/api/v3/queries/columns/updated_at"
       title: Updated on
     groupBy:
-      href: 
-      title: 
+      href:
+      title:
     sortBy:
     - href: "/api/v3/queries/sort_bys/parent-desc"
       title: Parent (Descending)

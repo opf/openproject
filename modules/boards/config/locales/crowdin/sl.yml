@@ -9,8 +9,8 @@ sl:
   boards:
     label_board: "Tabla"
     label_boards: "Table"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Ustvari novo tablo"
+    label_board_type: "Vrsta table"
     board_types:
       free: Osnovno
       action: "Tabla opravil (%{attribute})"
@@ -23,17 +23,17 @@ sl:
       basic: Osnovno
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Začni s praznim tablo in ročno dodaj kartice in stolpce.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Osnoven kanban stil odložišča s stolpci za stanja: Za narediti, V delu, Narejeno.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Tabla s samodejnimi stolpci glede na dodeljene člane. Popoln za odpošiljanje delovnih paketov
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Tabla s samodejnimi stolpci glede na verzijo lastnosti. Popoln za načrtovanje razvoja projekta.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Tabla s samodejnimi stolpci za podprojekte. Če premaknete delovne pakete na druge sezname, boste ustrezno posodobili (pod)projekt.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Tabla s samodejnimi stolpci za podelemente. Če premaknete delovne pakete na druge sezname, boste ustrezno posodobili nadrazred.
     upsale:
       teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      upgrade: 'Nadgradi zdaj'

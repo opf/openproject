@@ -76,7 +76,7 @@
     display: block
     margin: 0
     background: 0
-    border: 0
+    border: 1px solid transparent
     color: var(--context-menu-unselected-font-color)
     text-decoration: none
     padding: 4px 13px 4px 10px
@@ -87,8 +87,9 @@
 
     &:not(.inactive):hover
       background-color: #F0F0F0
-      color: var(--context-menu-hover-font-color)
       cursor: pointer
+      border-color: var(--list-item-hover--border-color)
+      color: var(--list-item-hover--color)
 
     .icon-hierarchy
       padding-right: 5px
@@ -98,11 +99,11 @@
       margin-left: 19.09px //for whatever reasons it is the right dimension
 
   LI > .inactive
-    color: #999999
+    color: var(--color-fg-subtle)
 
   LI > .selected
     background: var(--drop-down-selected-bg-color)
-    color: var(--drop-down-selected-font-color)
+    font-weight: var(--base-text-weight-bold)
 
 .dropdown
   @include dot_border_width_style

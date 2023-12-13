@@ -75,7 +75,11 @@ module Queries
     end
 
     def may_not_manage_queries?
-      !user.allowed_to?(:manage_public_queries, model.project, global: model.project.nil?)
+      if model.project
+        !user.allowed_in_project?(:manage_public_queries, model.project)
+      else
+        !user.allowed_in_any_project?(:manage_public_queries)
+      end
     end
 
     def user_allowed_to_make_public

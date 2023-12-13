@@ -1,0 +1,60 @@
+# Schema: MembershipFormModel
+---
+type: object
+required:
+  - _type
+  - _embedded
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - Form
+  _embedded:
+    type: object
+    required:
+      - payload
+      - schema
+      - validationError
+    properties:
+      payload:
+        $ref: './membership_write_model.yml'
+      schema:
+        $ref: './membership_schema_model.yml'
+      validationError:
+        type: object
+        properties:
+          base:
+            $ref: './error_response.yml'
+          principal:
+            $ref: './error_response.yml'
+          roles:
+            $ref: './error_response.yml'
+  _links:
+    type: object
+    required:
+      - self
+      - validate
+      - commit
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This form request.
+
+              **Resource**: Form
+      validate:
+        type: array
+        items:
+          allOf:
+            - $ref: './link.yml'
+            - description: |-
+                The endpoint to validate the membership payload.
+      commit:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The endpoint to create the membership with the same payload, as sent to the form.
+
+              **Resource**: Membership

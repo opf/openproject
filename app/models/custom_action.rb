@@ -87,9 +87,9 @@ class CustomAction < ApplicationRecord
   end
 
   def conditions
-    @conditions ||= available_conditions.map do |condition_class|
+    @conditions ||= available_conditions.filter_map do |condition_class|
       condition_class.getter(self)
-    end.compact
+    end
   end
 
   def conditions=(new_conditions)

@@ -77,14 +77,14 @@
     // from http://codepen.io/ericrasch/pen/Irlpm
 
     &:after
-      border-bottom: 2px solid var(--content-form-separator-color)
+      border-bottom: 2px solid var(--color-border-muted)
       content: ""
       // this centers the line to the full width specified
       margin: 0 auto
       // positioning must be absolute here, and relative positioning
       //  must be applied to the parent
       position: absolute
-      top: 33%
+      bottom: 5px
       left: 0
       right: 0
       width: 95%
@@ -95,6 +95,7 @@
       // to hide the lines from behind the text, you have to set the
       // background color the same as the container
       background: var(--content-form-bg-color)
+      padding: 0 0.5rem
 
   .login-auth-provider-list
     @include prevent-float-collapse

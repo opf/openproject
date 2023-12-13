@@ -31,7 +31,7 @@ get:
                         href: "/projects/identifier/repository/revision/11f4b07"
                     _type: Revision
                     authorName: John Sheppard
-                    createdAt: '2015-07-21T13:36:59Z'
+                    createdAt: '2015-07-21T13:36:59.220Z'
                     formattedIdentifier: 11f4b07
                     id: 13
                     identifier: 11f4b07dff4f4ce9548a52b7d002daca7cd63ec6
@@ -56,7 +56,7 @@ get:
                         href: "/projects/identifier/repository/revision/029ed72a"
                     _type: Revision
                     authorName: j1msheppard
-                    createdAt: '2015-06-30T08:47:00Z'
+                    createdAt: '2015-06-30T08:47:00.818Z'
                     formattedIdentifier: '029ed72a'
                     id: 13
                     identifier: '029ed72a3b7b7c4ab332b1f6eaa6576e7c946059'

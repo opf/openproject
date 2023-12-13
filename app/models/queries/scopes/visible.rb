@@ -44,7 +44,7 @@ module Queries::Scopes
                 .or(where(public: true))
                 .where(project: Project.allowed_to(user, :view_work_packages))
 
-        if user.allowed_to_globally?(:view_work_packages)
+        if user.allowed_in_any_project?(:view_work_packages)
           scope
             .or(where(project: nil, public: true))
             .or(where(project: nil, user_id: user.id))

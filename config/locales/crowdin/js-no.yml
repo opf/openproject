@@ -31,6 +31,12 @@
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Laster..."
+      not_found: "No items found"
+      type_to_search: "Skriv for å søke"
     autocomplete_select:
       placeholder:
         multi: "Legg til \"%{name}\""
@@ -105,7 +111,7 @@
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "Satshistorikk"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
@@ -297,33 +303,33 @@
           two: "Second sorting criteria"
           three: "Third sorting criteria"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Gantt diagram'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Etikettkonfigurasjon'
+        bar: 'Linjeetiketter'
+        left: 'Venstre'
+        right: 'Høyre'
+        farRight: 'Langt til høyre'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Velg attributtene du vil bli vist i de respektive posisjonene i Gantt-diagrammet til enhver tid. Merk at når man peker på et element, vil datomerkene vises i stedet for disse attributtene.
+      button_activate: 'Vis Gantt-diagram'
+      button_deactivate: 'Skjul Gantt-diagram'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(ingen)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Klikk på eventuelle uthevede arbeidspakker for å opprette relasjonen. Trykk escape for å avbryte.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Zoom inn"
+        out: "Zoom ut"
+        auto: "Automatisk zoom"
+        days: "Dager"
+        weeks: "Uker"
+        months: "Måneder"
+        quarters: "Kvartaler"
+        years: "År"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Velg standard zoom-nivå som skal vises når autozoom ikke er tilgjengelig.
     general_text_no: "nei"
     general_text_yes: "ja"
     general_text_No: "Nei"
@@ -342,11 +348,11 @@
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -554,7 +560,6 @@
       steps:
         help_menu: 'Hjelpemenyen (?) gir <b>ytterligere hjelpemidler</b>. Her kan du finne en brukerveiledning, hjelpevideoer og mer. <br> Nyt ditt arbeid med OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
@@ -599,6 +604,7 @@
         processed: 'behandlet'
         prioritized: 'prioritert'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -643,6 +649,7 @@
         mentioned: 'Mentioned'
         watched: 'Overvåker'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -665,6 +672,7 @@
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Deltaker'
           responsible: 'Ansvarlig'
+          shared: 'Shared'
           watched: 'Overvåker'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -828,10 +836,10 @@
       save: "Save relation"
       abort: "Abort"
     relations_autocomplete:
-      placeholder: "Type to search"
+      placeholder: "Skriv for å søke"
       parent_placeholder: "Choose new parent or press escape to cancel."
     autocompleter:
-      placeholder: "Type to search"
+      placeholder: "Skriv for å søke"
       notFoundText: "No items found"
       project:
         placeholder: "Select project"
@@ -981,6 +989,7 @@
         recently_created: "Nylig opprettet"
         all_open: "Alle åpne"
         summary: "Sammendrag"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
@@ -1017,6 +1026,12 @@
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: 'Del'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."

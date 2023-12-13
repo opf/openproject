@@ -30,8 +30,10 @@ class CustomStylesController < ApplicationController
   layout 'admin'
   menu_item :custom_style
 
-  before_action :require_admin, except: %i[logo_download export_logo_download favicon_download touch_icon_download]
-  skip_before_action :check_if_login_required, only: %i[logo_download export_logo_download favicon_download touch_icon_download]
+  before_action :require_admin,
+                except: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+  skip_before_action :check_if_login_required,
+                     only: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
@@ -61,12 +63,28 @@ class CustomStylesController < ApplicationController
     end
   end
 
+  def update_export_cover_text_color
+    @custom_style = get_or_create_custom_style
+    color = params[:export_cover_text_color]
+    color_hexcode_regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+    color = nil if color.blank?
+    if color.nil? || color.match(color_hexcode_regex)
+      @custom_style.export_cover_text_color = color
+      @custom_style.save
+    end
+    redirect_to custom_style_path
+  end
+
   def logo_download
     file_download(:logo_path)
   end
 
   def export_logo_download
     file_download(:export_logo_path)
+  end
+
+  def export_cover_download
+    file_download(:export_cover_path)
   end
 
   def favicon_download
@@ -83,6 +101,10 @@ class CustomStylesController < ApplicationController
 
   def export_logo_delete
     file_delete(:remove_export_logo)
+  end
+
+  def export_cover_delete
+    file_delete(:remove_export_cover)
   end
 
   def favicon_delete
@@ -144,6 +166,8 @@ class CustomStylesController < ApplicationController
   def custom_style_params
     params.require(:custom_style).permit(:logo, :remove_logo,
                                          :export_logo, :remove_export_logo,
+                                         :export_cover, :remove_export_cover,
+                                         :export_cover_text_color,
                                          :favicon, :remove_favicon,
                                          :touch_icon, :remove_touch_icon)
   end

@@ -28,5 +28,12 @@
 
 module Token
   class AutoLogin < HashedToken
+    protected
+
+    ##
+    # Autologin tokens might have multiple data
+    def single_value?
+      false
+    end
   end
 end

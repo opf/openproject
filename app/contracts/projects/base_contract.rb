@@ -90,7 +90,7 @@ module Projects
 
     def validate_user_allowed_to_manage
       with_unchanged_id do
-        errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+        errors.add :base, :error_unauthorized unless user.allowed_in_project?(manage_permission, model)
       end
     end
 
@@ -122,9 +122,10 @@ module Projects
 
       contract_klass = model.being_archived? ? ArchiveContract : UnarchiveContract
       contract = contract_klass.new(model, user)
-      contract.validate
 
-      errors.merge!(contract.errors)
+      with_merged_former_errors do
+        contract.validate
+      end
     end
   end
 end

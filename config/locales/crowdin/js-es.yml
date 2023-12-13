@@ -31,6 +31,12 @@ es:
         ¿Estás seguro de que quieres eliminar este archivo? Esta acción es irreversible.
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
+    autocomplete_ng_select:
+      add_tag: "Añadir elemento"
+      clear_all: "Limpiar todo"
+      loading: "Cargando..."
+      not_found: "No se encontraron elementos"
+      type_to_search: "Escriba para buscar"
     autocomplete_select:
       placeholder:
         multi: "Añadir \"%{name}\""
@@ -342,11 +348,11 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                El lanzamiento contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Comparación de referencia para facilitar el seguimiento de los cambios.</li> <li>Exportación de PDF para informes sobre planes de trabajo.</li> <li>Suscripción a calendarios de proyectos a través de URL (iCalendar).</li> <li>Carpetas de proyectos con plantillas de documentos para la integración de Nextcloud.</li> <li>Sembrado localizado de todos los datos de semillas.</li> <li>Los módulos globales se enumeran en nuevas páginas de índice.</li> </ul>
+                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>Comparte paquetes de trabajo con usuarios externos y grupos que no son miembros del proyecto (extensión Enterprise).</li> <li>Nuevas reuniones dinámicas con agendas y minutos vinculados a paquetes de trabajo.</li> <li>Enlace paquetes de trabajo con archivos y carpetas en OneDrive/SharePoint.</li> <li>Prueba de accesibilidad y primeras mejoras según WCAG 2. AA, incluido el modo de alto contraste.</li> <li>Integración continua del Sistema de Diseño Primer.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -416,7 +422,7 @@ es:
     label_filename: "Archivo"
     label_filesize: "Tamaño"
     label_general: "General"
-    label_global_roles: "Global roles"
+    label_global_roles: "Roles globales"
     label_greater_or_equal: ">="
     label_group: 'Grupo'
     label_group_by: "Agrupar por"
@@ -554,7 +560,6 @@ es:
       steps:
         help_menu: 'El menú Ayuda (?) proporciona <b>recursos de ayuda adicionales</b>. Aquí puedes encontrar una guía de usuario, vídeos explicativos y más. <br> ¡Disfruta de tu trabajo con OpenProject!'
         members: 'Invitar a nuevos <b>miembros</b> a unirse a tu proyecto.'
-        project_selection: 'Haga clic en uno de los proyectos de demostración que hemos preparado. Los datos de demostración solo están disponibles en inglés actualmente. <br> El <b>proyecto general de demostración</b> es la opción recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto de Scrum</b> es más adecuado para la gestión de proyectos Agile.'
         quick_add_button: 'Haga clic en el icono del signo más (+) en el menú de navegación del encabezado para <b>crear un proyecto</b> o <b>invitar a compañeros</b>.'
         sidebar_arrow: "Usa la flecha de retorno en la esquina superior izquierda para regresar al <b>menú principal</b> del proyecto."
         welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>funciones más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
@@ -599,6 +604,7 @@ es:
         processed: 'procesado'
         prioritized: 'priorizar'
         dateAlert: 'Alerta de fecha'
+        shared: 'compartido'
       date_alerts:
         milestone_date: 'Fecha de hito'
         overdue: 'Vencido'
@@ -643,6 +649,7 @@ es:
         mentioned: 'Mencionado'
         watched: 'Observador'
         date_alert: 'Alerta de fecha'
+        shared: 'Compartido'
       settings:
         change_notification_settings: 'Puede modificar su <a target="_blank" href="%{url}">configuración de notificaciones</a> para asegurarse que nunca se pierda una actualización importante.'
         title: "Ajustes de notificación"
@@ -665,6 +672,7 @@ es:
             description: 'Recibir una notificación cada vez que un usuario me mencione'
           assignee: 'Asignado a'
           responsible: 'Responsable'
+          shared: 'Compartido'
           watched: 'Observador'
           work_package_commented: 'Todos los nuevos comentarios'
           work_package_created: 'Nuevos paquetes de trabajo'
@@ -981,6 +989,7 @@ es:
         recently_created: "Creado recientemente"
         all_open: "Todo abierto"
         summary: "Resumen"
+        shared_with_users: "Compartido con usuarios"
       jump_marks:
         pagination: "Saltar a la paginación de la tabla"
         label_pagination: "Haga clic aquí para omitir la tabla de paquetes de trabajo e ir a la paginación"
@@ -1017,6 +1026,12 @@ es:
       scheduling:
         is_parent: "Las fechas de este paquete de trabajo son deducidas automáticamente de sus sub-elementos. Active 'Programación manual' para establecer las fechas."
         is_switched_from_manual_to_automatic: "Las fechas de este paquete de trabajo pueden necesitar ser recalculadas después de pasar de programación manual a programación automática debido a las relaciones con otros paquetes de trabajo."
+      sharing:
+        share: 'Compartir'
+        title: "Compartir paquete de trabajo"
+        selected_count: "%{count} seleccionados"
+        selection:
+          mixed: "Mixto"
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."

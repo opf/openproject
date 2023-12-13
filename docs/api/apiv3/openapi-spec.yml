@@ -270,6 +270,8 @@ paths:
     "$ref": "./paths/project_storages.yml"
   "/api/v3/project_storages/{id}":
     "$ref": "./paths/project_storage.yml"
+  "/api/v3/project_storages/{id}/open":
+    "$ref": "./paths/project_storage_open.yml"
   "/api/v3/projects":
     "$ref": "./paths/projects.yml"
   "/api/v3/projects/form":
@@ -374,6 +376,8 @@ paths:
     "$ref": "./paths/storage_files_prepare_upload.yml"
   "/api/v3/storages/{id}/oauth_client_credentials":
     "$ref": "./paths/storage_oauth_client_credentials.yml"
+  "/api/v3/storages/{id}/open":
+    "$ref": "./paths/storage_open.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -464,45 +468,67 @@ components:
     DateAlertNotification:
       $ref: './components/examples/date_alert_notification.yml'
     GridSimpleCollectionResponse:
-      "$ref": "./components/examples/grid-simple-collection-response.yml"
+      $ref: './components/examples/grid-simple-collection-response.yml'
     GridSimplePatchModel:
-      "$ref": "./components/examples/grid-simple-patch-model.yml"
+      $ref: './components/examples/grid-simple-patch-model.yml'
     GridSimpleResponse:
-      "$ref": "./components/examples/grid-simple-response.yml"
+      $ref: './components/examples/grid-simple-response.yml'
+    MembershipCreateRequestCustomMessage:
+      $ref: './components/examples/membership-create-request-custom-message.yml'
+    MembershipCreateRequestGlobalRole:
+      $ref: './components/examples/membership-create-request-global-role.yml'
+    MembershipCreateRequestNoNotification:
+      $ref: './components/examples/membership-create-request-no-notification.yml'
+    MembershipFormResponse:
+      $ref: './components/examples/membership-form-response.yml'
+    MembershipSchemaResponse:
+      $ref: './components/examples/membership-schema-response.yml'
+    MembershipSimpleCollectionResponse:
+      $ref: './components/examples/membership-simple-collection-response.yml'
+    MembershipSimpleResponse:
+      $ref: './components/examples/membership-simple-response.yml'
+    MembershipUpdateAdditionalRoles:
+      $ref: './components/examples/membership-update-additional-roles.yml'
     MentionedNotification:
       $ref: './components/examples/mentioned_notification.yml'
     NotificationCollection:
       $ref: './components/examples/notification_collection.yml'
     Project:
-      $ref: "./components/examples/project.yml"
+      $ref: './components/examples/project.yml'
     ProjectBody:
-      $ref: "./components/examples/project_body.yml"
+      $ref: './components/examples/project_body.yml'
+    ProjectCollection:
+      $ref: './components/examples/project_collection.yml'
     QueriesModel:
-      "$ref": "./components/examples/queries.yml"
+      $ref: './components/examples/queries.yml'
     QueryModel:
-      "$ref": "./components/examples/query.yml"
+      $ref: './components/examples/query.yml'
     QuerySchemaModel:
-      "$ref": "./components/examples/query_schema.yml"
+      $ref: './components/examples/query_schema.yml'
+    StoragesSimpleCollectionModel:
+      $ref: './components/examples/storages-simple-collection-response.yml'
     ValuesPropertyStartDateSchema:
-      "$ref": "./components/examples/values_property_start_date_schema.yml"
+      $ref: './components/examples/values_property_start_date_schema.yml'
     ValuesPropertyDueDateSchema:
-      "$ref": "./components/examples/values_property_due_date_schema.yml"
+      $ref: './components/examples/values_property_due_date_schema.yml'
     ValuesPropertyDateSchema:
-      "$ref": "./components/examples/values_property_date_schema.yml"
+      $ref: './components/examples/values_property_date_schema.yml'
     ValuesPropertyStartDate:
-      "$ref": "./components/examples/values_property_start_date.yml"
+      $ref: './components/examples/values_property_start_date.yml'
     ValuesPropertyDueDate:
-      "$ref": "./components/examples/values_property_due_date.yml"
+      $ref: './components/examples/values_property_due_date.yml'
     ValuesPropertyDate:
-      "$ref": "./components/examples/values_property_date.yml"
+      $ref: './components/examples/values_property_date.yml'
     Views:
-      "$ref": "./components/examples/views.yml"
+      $ref: './components/examples/views.yml'
     ViewWorkPackagesTable:
-      "$ref": "./components/examples/view_work_packages_table.yml"
+      $ref: './components/examples/view_work_packages_table.yml'
     ViewTeamPlanner:
-      "$ref": "./components/examples/view_team_planner.yml"
+      $ref: './components/examples/view_team_planner.yml'
 
   responses:
+    InvalidQuery:
+      "$ref": "./components/responses/invalid_query.yml"
     InvalidRequestBody:
       "$ref": "./components/responses/invalid_request_body.yml"
     MissingContentType:
@@ -523,8 +549,6 @@ components:
       "$ref": "./components/schemas/available_responsibles_model.yml"
     Available_WatchersModel:
       "$ref": "./components/schemas/available_watchers_model.yml"
-    Available_projects_for_membershipsModel:
-      "$ref": "./components/schemas/available_projects_for_memberships_model.yml"
     Available_projects_for_queryModel:
       "$ref": "./components/schemas/available_projects_for_query_model.yml"
     Available_projects_for_time_entriesModel:
@@ -607,16 +631,22 @@ components:
       "$ref": "./components/schemas/list_available_parent_project_candidates_model.yml"
     List_capabilitiesModel:
       "$ref": "./components/schemas/list_capabilities_model.yml"
-    List_membershipsModel:
-      "$ref": "./components/schemas/list_memberships_model.yml"
     List_of_NewsModel:
       "$ref": "./components/schemas/list_of_news_model.yml"
-    List_projectsModel:
-      "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
     MarkdownModel:
       "$ref": "./components/schemas/markdown_model.yml"
+    MembershipCollectionModel:
+      "$ref": "./components/schemas/membership_collection_model.yml"
+    MembershipFormModel:
+      "$ref": "./components/schemas/membership_form_model.yml"
+    MembershipReadModel:
+      "$ref": "./components/schemas/membership_read_model.yml"
+    MembershipSchemaModel:
+      "$ref": "./components/schemas/membership_schema_model.yml"
+    MembershipWriteModel:
+      "$ref": "./components/schemas/membership_write_model.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
     NonWorkingDayCollectionModel:
@@ -645,6 +675,8 @@ components:
       "$ref": "./components/schemas/priorities_model.yml"
     PriorityModel:
       "$ref": "./components/schemas/priority_model.yml"
+    ProjectCollectionModel:
+      "$ref": "./components/schemas/project_collection_model.yml"
     ProjectModel:
       "$ref": "./components/schemas/project_model.yml"
     ProjectStorageCollectionModel:
@@ -695,6 +727,8 @@ components:
       "$ref": "./components/schemas/root_model.yml"
     SchemaModel:
       "$ref": "./components/schemas/schema_model.yml"
+    SchemaPropertyModel:
+      "$ref": "./components/schemas/schema_property_model.yml"
     Schema_For_Global_QueriesModel:
       "$ref": "./components/schemas/schema_for_global_queries_model.yml"
     Schema_For_Project_QueriesModel:
@@ -705,6 +739,8 @@ components:
       "$ref": "./components/schemas/status_model.yml"
     StatusesModel:
       "$ref": "./components/schemas/statuses_model.yml"
+    StorageCollectionModel:
+      "$ref": "./components/schemas/storage_collection_model.yml"
     StorageFileModel:
       "$ref": "./components/schemas/storage_file_model.yml"
     StorageFilesModel:
@@ -755,10 +791,6 @@ components:
       "$ref": "./components/schemas/view_capabilities_model.yml"
     View_global_contextModel:
       "$ref": "./components/schemas/view_global_context_model.yml"
-    View_membershipModel:
-      "$ref": "./components/schemas/view_membership_model.yml"
-    View_membership_schemaModel:
-      "$ref": "./components/schemas/view_membership_schema_model.yml"
     View_project_statusModel:
       "$ref": "./components/schemas/view_project_status_model.yml"
     View_time_entry_schemaModel:

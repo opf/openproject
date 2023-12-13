@@ -4,8 +4,8 @@ ja:
     team_planner:
       add_existing: '既存を追加'
       add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      create_label: 'チーム プランナー'
+      create_title: '新しいチームプランナーを作成'
       unsaved_title: 'Unnamed team planner'
       no_data: 'Add assignees to set up your team planner.'
       add_assignee: 'Add assignee'

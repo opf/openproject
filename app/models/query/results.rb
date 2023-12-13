@@ -135,8 +135,8 @@ class ::Query::Results
   def sort_criteria_joins
     query
       .sort_criteria_columns
-      .map { |column, _direction| column.sortable_join_statement(query) }
-      .compact
+      .filter_map { |column, _direction| column.sortable_join_statement(query) }
+      
   end
 
   def sort_criteria_array

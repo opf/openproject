@@ -3,11 +3,11 @@
   border-collapse: collapse
   border-spacing: 0
   width: 100%
-  border: 1px solid rgba(0, 0, 0, 0.1)
+  border: 1px solid var(--table-border-color)
 
   &--row
     &:not(:last-child)
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+      border-bottom: 1px solid var(--table-border-color)
 
     @at-root .op-uc-container:not(.op-uc-container_editing) &:hover
       background: rgba(26, 103, 163, 0.05)
@@ -18,7 +18,7 @@
     padding: 0.75rem
 
     &:not(:last-child):not([colspan])
-      border-right: 1px solid rgba(0, 0, 0, 0.1)
+      border-right: 1px solid var(--table-border-color)
 
     @include user-content-children
 

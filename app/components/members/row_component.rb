@@ -45,9 +45,7 @@ module Members
     end
 
     def name
-      icon = helpers.avatar principal, size: :mini
-
-      icon + principal_link
+      render Users::AvatarComponent.new(user: principal, size: :mini, link: true, show_name: true)
     end
 
     def mail

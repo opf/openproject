@@ -41,7 +41,14 @@ he:
           name: מפרט
         item_2:
           name: אחר
-      roles:
+      work_package_roles:
+        item_0:
+          name: Work package editor
+        item_1:
+          name: Work package commenter
+        item_2:
+          name: Work package viewer
+      project_roles:
         item_0:
           name: לא חבר
         item_1:
@@ -52,7 +59,8 @@ he:
           name: קורא
         item_4:
           name: מנהל פרוייקט
-        item_5:
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:
@@ -124,16 +132,21 @@ he:
       welcome:
         title: Welcome to OpenProject!
         text: |
-          Select one of the demo projects to get started with some demo data we have prepared for you.
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
-          * [Demo project]({{opSetting:base_url}}/projects/demo-project): to get an overview about classical project management.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): to learn about Agile and Scrum project management.
+          Core features and use cases:
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Never stop collaborating. With open source and open mind.
+          Welcome to the future of project management.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project
@@ -199,7 +212,7 @@ he:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: חבילת עבודה
               item_6:
                 options:
                   name: אבני דרך
@@ -306,42 +319,40 @@ he:
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: קטגוריה 1 (שינוי בהגדרות הפרויקט)
           queries:
             item_0:
-              name: Project plan
+              name: תכנית פרויקט
             item_1:
               name: Product backlog
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: משימות
           boards:
             kanban:
-              name: Kanban board
+              name: לוח קאנבן
             basic:
               name: Task board
               lists:
                 item_0:
-                  name: Wish list
+                  name: רשימת משאלות
                 item_1:
-                  name: Short list
+                  name: רשימה מקוצרת
                 item_2:
-                  name: Priority list for today
+                  name: רשימת עדיפות להיום
                 item_3:
-                  name: Never
+                  name: אף פעם
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: ברוכים הבאים
               item_1:
                 options:
                   name: Getting started
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
                     _Try the following steps:_
 
@@ -357,10 +368,10 @@ he:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: חבילת עבודה
               item_6:
                 options:
-                  name: Project plan
+                  name: תכנית פרויקט
           work_packages:
             item_0:
               subject: New login screen

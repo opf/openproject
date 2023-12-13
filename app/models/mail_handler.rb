@@ -248,7 +248,7 @@ class MailHandler < ActionMailer::Base
     if message
       message = message.root
 
-      if !options[:no_permission_check] && !user.allowed_to?(:add_messages, message.project)
+      if !options[:no_permission_check] && !user.allowed_in_project?(:add_messages, message.project)
         raise UnauthorizedAction
       end
 
@@ -272,8 +272,7 @@ class MailHandler < ActionMailer::Base
     email
       .attachments
       .reject { |attachment| ignored_filename?(attachment.filename) }
-      .map { |attachment| create_attachment(attachment, container) }
-      .compact
+      .filter_map { |attachment| create_attachment(attachment, container) }
   end
 
   def create_attachment(attachment, container)
@@ -298,8 +297,8 @@ class MailHandler < ActionMailer::Base
   # Adds To and Cc as watchers of the given object if the sender has the
   # appropriate permission
   def add_watchers(obj)
-    if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project) ||
-       user.allowed_to?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
+    if user.allowed_in_project?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project) ||
+       user.allowed_in_project?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
       unless addresses.empty?
         User

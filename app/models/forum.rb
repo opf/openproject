@@ -44,7 +44,7 @@ class Forum < ApplicationRecord
   validates :description, length: { maximum: 255 }
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_to?(:view_messages, project)
+    !user.nil? && user.allowed_in_project?(:view_messages, project)
   end
 
   def to_s

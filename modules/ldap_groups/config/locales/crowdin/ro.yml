@@ -6,11 +6,11 @@ ro:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'Conexiune LDAP'
         sync_users: 'Sincronizați utilizatorii'
       ldap_groups/synchronized_filter:
         filter_string: 'Filtru LDAP'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'Conexiune LDAP'
         group_name_attribute: "Atributul nume de grup"
         sync_users: 'Sincronizați utilizatorii'
         base_dn: "Baza de căutare DN"

@@ -31,6 +31,12 @@ sk:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Pre vloženie obrázka alebo referenčnej prílohy presuňte súbor do editovateľného poľa. Uzavreté pole editora sa bude otvárať počas nepretržitého ťahania.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Načítava sa..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Pridať \"%{name}\""
@@ -297,33 +303,33 @@ sk:
           two: "Druhé kritérium zoradenia"
           three: "Tretie kritérium zoradenia"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Ganttov diagram'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Konfigurácia popisku'
+        bar: 'Menovky pásov'
+        left: 'Vľavo'
+        right: 'Vpravo'
+        farRight: 'Vzdialene vpravo'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Zobraziť Ganttov graf'
+      button_deactivate: 'Skryť Ganttov graf'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(žiadny)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Kliknutím na ľubovoľný zvýraznený pracovný balíček vytvoríte vzťah. Ak chcete zrušiť stlačte klávesu escape.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Priblížiť"
+        out: "Vzdialiť"
+        auto: "Automatické zväčšenie"
+        days: "Dni"
+        weeks: "Týždne"
+        months: "Mesiace"
+        quarters: "Kvartály"
+        years: "Roky"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Zvoľte počiatočnú úroveň priblíženia, ktorá by sa mala zobraziť, ak nie je k dispozícii autozoom.
     general_text_no: "nie"
     general_text_yes: "áno"
     general_text_No: "Nie"
@@ -342,11 +348,11 @@ sk:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -554,7 +560,6 @@ sk:
       steps:
         help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Urobte si tri minúty čas na úvodnú prehliadku, aby ste sa naučili čo najviac <b>dôležité funkcie</b>.<br> Doporučujeme dokončiť prehliadku až do konca. Prehliadku môžete kedykoľvek reštartovať.'
@@ -599,6 +604,7 @@ sk:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+        shared: 'shared'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -645,6 +651,7 @@ sk:
         mentioned: 'Mentioned'
         watched: 'Pozorovateľ'
         date_alert: 'Date alert'
+        shared: 'Shared'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -667,6 +674,7 @@ sk:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Priradené'
           responsible: 'Zodpovedný'
+          shared: 'Shared'
           watched: 'Pozorovateľ'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -983,6 +991,7 @@ sk:
         recently_created: "Nedávno vytvorené"
         all_open: "Všetky otvorené"
         summary: "Zhrnutie"
+        shared_with_users: "Shared with users"
       jump_marks:
         pagination: "Prejsť na stránkovanie tabuľky"
         label_pagination: "Kliknite sem pre preskočenie tabuľky pracovných balíčkov a zobrazenie stránkovania"
@@ -1019,6 +1028,12 @@ sk:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: 'Zdieľať'
+        title: "Share work package"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
       table:
         configure_button: 'Konfigurovať tabuľku pracovného balíčka'
         summary: "Tabuľka s riadkami pracovného balíka a so stĺpcami pracovného balíka atribútov."

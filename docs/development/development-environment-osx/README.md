@@ -104,11 +104,11 @@ $ nodenv init
 
 You can find the latest LTS version here: [nodejs.org/en/download](https://nodejs.org/en/download/)
 
-At the time of writing this is v16.17.0. Install and activate it with:
+At the time of writing this is v20.9.0. Install and activate it with:
 
 ```shell
-nodenv install 16.17.0
-nodenv global 16.17.0
+nodenv install 20.9.0
+nodenv global 20.9.0
 ```
 
 ### Update NPM to the latest version
@@ -129,10 +129,10 @@ $ bundler --version
 Bundler version 2.4.7
 
 node --version
-v16.17.0
+v20.9.0
 
 npm --version
-8.12.1
+10.1.0
 ```
 
 # Install OpenProject
@@ -254,6 +254,47 @@ RAILS_ENV=development bin/rails jobs:work
 ```
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
+
+## Additional test dependencies
+
+The test suite requires a few additional dependencies to be installed. These are not required for running OpenProject in
+development mode, but only for running the entire test suite.
+
+### Java 7 or later
+
+To test the integration with LDAP servers, we rely on [ladle](https://github.com/NUBIC/ladle) to spin up an LDAP server
+when running tests. As this runs [ApacheDS](https://directory.apache.org/apacheds/) internally, it requires Java 7 or
+later to be installed.
+
+If java is not installed, some tests will stall for 60 seconds before timing out. To run the tests, install java with
+
+```shell
+brew install openjdk
+
+# The installation instructions will tell you to add a symlink to the JDK for the `java` command to pick it up
+sudo ln -sfn $(brew --prefix)/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+```
+
+### Subversion
+
+To test the integration with Subversion repositories, we rely on the `svnadmin` command to be available. If subversion
+is not installed, the tests *will be skipped*. To run the tests, install subversion with
+
+```shell
+brew install subversion
+```
+
+### Git
+
+To test the integration with Git repositories, we rely on the `git` command to be available. Git is either installed via the Xcode Command Line Tools, with [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12) or via homebrew.
+
+```shell
+xcode-select --install
+
+# or
+
+brew install git
+```
 
 ## Known issues
 

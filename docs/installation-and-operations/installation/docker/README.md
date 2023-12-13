@@ -200,7 +200,7 @@ docker rm openproject
 
 ### Configuration
 
-Please see the [advanced configuration guide's docker paragraphs](../../configuration#docker)
+Please see the [advanced configuration guide's docker paragraphs](../../configuration/#docker)
 
 #### Disabling HTTPS mode
 

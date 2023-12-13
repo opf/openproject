@@ -36,12 +36,19 @@ ka:
           name: შავები
       document_categories:
         item_0:
-          name: Documentation
+          name: დოკუმენტაცია
         item_1:
-          name: Specification
+          name: სპეციფიკაცია
         item_2:
           name: სხვა
-      roles:
+      work_package_roles:
+        item_0:
+          name: Work package editor
+        item_1:
+          name: Work package commenter
+        item_2:
+          name: Work package viewer
+      project_roles:
         item_0:
           name: Non member
         item_1:
@@ -52,7 +59,8 @@ ka:
           name: მკითხველი
         item_4:
           name: Project admin
-        item_5:
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:
@@ -78,7 +86,7 @@ ka:
         item_5:
           name: დაგეგმილია
         item_6:
-          name: In progress
+          name: მიმდინარეობს
         item_7:
           name: შემუშავებულია
         item_8:
@@ -95,9 +103,9 @@ ka:
           name: უარყოფილია
       time_entry_activities:
         item_0:
-          name: Management
+          name: მართვა
         item_1:
-          name: Specification
+          name: სპეციფიკაცია
         item_2:
           name: Development
         item_3:
@@ -124,16 +132,21 @@ ka:
       welcome:
         title: Welcome to OpenProject!
         text: |
-          Select one of the demo projects to get started with some demo data we have prepared for you.
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
-          * [Demo project]({{opSetting:base_url}}/projects/demo-project): to get an overview about classical project management.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): to learn about Agile and Scrum project management.
+          Core features and use cases:
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Never stop collaborating. With open source and open mind.
+          Welcome to the future of project management.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project
@@ -150,13 +163,13 @@ ka:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: პროექტის გეგმა
             item_1:
-              name: Milestones
+              name: ნიშანსვეტები
             item_2:
               name: დავალებები
             item_3:
-              name: Team planner
+              name: გუნდის მგეგმავი
           boards:
             kanban:
               name: Kanban board
@@ -199,10 +212,10 @@ ka:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: სამუშაო პაკეტები
               item_6:
                 options:
-                  name: Milestones
+                  name: ნიშანსვეტები
           work_packages:
             item_0:
               subject: Start of project
@@ -309,7 +322,7 @@ ka:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: პროექტის გეგმა
             item_1:
               name: Product backlog
             item_2:
@@ -320,7 +333,7 @@ ka:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: ამოცანების დაფა
               lists:
                 item_0:
                   name: სურვილების სია
@@ -341,8 +354,6 @@ ka:
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
-
                     _Try the following steps:_
 
                     1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
@@ -357,10 +368,10 @@ ka:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: სამუშაო პაკეტები
               item_6:
                 options:
-                  name: Project plan
+                  name: პროექტის გეგმა
           work_packages:
             item_0:
               subject: New login screen

@@ -31,6 +31,12 @@ zh-CN:
         确定要删除此规则吗？此操作无法撤消。
       draggable_hint: |
         将图片或附件拖到编辑区内即可添加。鼠标在关闭的编辑区上停留将打开这个编辑区。
+    autocomplete_ng_select:
+      add_tag: "添加项目"
+      clear_all: "全部清除"
+      loading: "加载中..."
+      not_found: "未找到项目"
+      type_to_search: "键入内容进行搜索"
     autocomplete_select:
       placeholder:
         multi: "添加“%{name}”"
@@ -107,7 +113,7 @@ zh-CN:
       remove_from_list: '从列表中移除卡'
     caption_rate_history: "费率历史记录"
     clipboard:
-      browser_error: "您的浏览器不支持复制到剪贴板。请手动复制：%{content}。"
+      browser_error: "您的浏览器不支持复制到剪贴板，请手动复制：%{content}"
       copied_successful: "成功复制到剪贴板！"
     chart:
       type: '图表类型'
@@ -341,11 +347,11 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li>基线比较，以轻松跟踪更改。</li> <li>PDF 导出，以报告工作计划。</li> <li>通过 URL (iCalendar) 订阅项目日历。</li> <li>具有文档模板的项目文件夹，以集成 Nextcloud。</li> <li>所有种子数据均已本地化。</li> <li>在新的索引页中列出全局模块。</li> </ul>
+                该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>与非项目成员的外部用户和组共享工作包（企业版增值功能）。</li> <li>新的动态会议，包括与工作包相关联的议程和会议纪要。</li> <li>将工作包与 OneDrive/SharePoint 中的文件和文件夹链接。</li> <li>根据WCAG 2.1 AA进行可访问性测试和首次改进，包括高对比度模式。</li> <li>持续集成 Primer 设计系统。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -553,7 +559,6 @@ zh-CN:
       steps:
         help_menu: '帮助 (?) 菜单中提供了<b>其他帮助资源</b>。您可以在这里找到用户指南、实用的使用方法视频等内容。<br>使用 OpenProject 尽情享受您的工作吧！'
         members: '邀请新<b>成员</b>加入您的项目。'
-        project_selection: '请点击我们准备的演示项目之一。演示数据目前仅提供英文版本。<br>一般的<b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>则更适合敏捷项目管理。'
         quick_add_button: '点击标题导航中的加号 (+) 图标可<b>创建新项目</b>或<b>邀请同事</b>。'
         sidebar_arrow: "使用左上角的返回箭头可返回到项目的<b>主菜单</b>。"
         welcome: '通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。'
@@ -598,6 +603,7 @@ zh-CN:
         processed: '已处理'
         prioritized: '已优先安排'
         dateAlert: '日期提醒'
+        shared: '共享'
       date_alerts:
         milestone_date: '里程碑日期'
         overdue: '逾期'
@@ -641,6 +647,7 @@ zh-CN:
         mentioned: '被提及'
         watched: '关注者'
         date_alert: '日期提醒'
+        shared: '共享'
       settings:
         change_notification_settings: '您可以修改您的<a target="_blank" href="%{url}">通知设置</a>，以确保您不会错过重要的更新。'
         title: "通知设置"
@@ -663,6 +670,7 @@ zh-CN:
             description: '每当有人在任何位置提及我时都接收通知'
           assignee: '受理人'
           responsible: '负责人'
+          shared: '共享'
           watched: '关注者'
           work_package_commented: '所有新评论'
           work_package_created: '新工作包'
@@ -979,6 +987,7 @@ zh-CN:
         recently_created: "最近创建"
         all_open: "全部打开"
         summary: "摘要"
+        shared_with_users: "与用户共享"
       jump_marks:
         pagination: "跳转到表格分页"
         label_pagination: "单击此处跳过工作包表格并转到分页"
@@ -1015,6 +1024,12 @@ zh-CN:
       scheduling:
         is_parent: "此工作包的日期会自动从其子项推导出。可激活“手动计划”来设置日期。"
         is_switched_from_manual_to_automatic: "由于与其他工作包的关系，在从手动计划切换为自动计划后，此工作包的日期可能需要重新计算。"
+      sharing:
+        share: '共享'
+        title: "共享工作包"
+        selected_count: "%{count} 已选择"
+        selection:
+          mixed: "混合"
       table:
         configure_button: '配置工作包表'
         summary: "行为工作包且列为工作包属性的表格。"

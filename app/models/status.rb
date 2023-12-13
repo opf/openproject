@@ -27,8 +27,6 @@
 #++
 
 class Status < ApplicationRecord
-  extend Pagination::Model
-
   default_scope { order_by_position }
   before_destroy :check_integrity
   has_many :workflows, foreign_key: 'old_status_id'

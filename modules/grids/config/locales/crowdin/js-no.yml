@@ -36,7 +36,7 @@
           off_track: 'Sporet av'
           at_risk: 'I fare'
           not_set: 'Not set'
-          finished: 'Finished'
+          finished: 'Fullført'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Underprosjekter'

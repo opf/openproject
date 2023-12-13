@@ -53,7 +53,7 @@ class Queries::Roles::Filters::UnitFilter < Queries::Roles::Filters::RoleFilter
     if values.first == 'system'
       [GlobalRole.name.to_s]
     else
-      [Role.name.to_s]
+      [ProjectRole.name.to_s]
     end
   end
 end

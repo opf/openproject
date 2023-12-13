@@ -90,7 +90,6 @@ class PlaceholderUsersController < ApplicationController
         end
       end
     else
-      @errors = service_result.errors
       respond_to do |format|
         format.html do
           render action: :new

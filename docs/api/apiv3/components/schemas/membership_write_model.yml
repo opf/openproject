@@ -1,0 +1,44 @@
+# Schema: MembershipWriteModel
+---
+type: object
+required:
+  - _links
+properties:
+  _links:
+    type: object
+    properties:
+      principal:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The principal that is to get a membership.
+
+              **Resource**: Principal
+      roles:
+        type: array
+        items:
+          allOf:
+            - $ref: './link.yml'
+            - description: |-
+                A role the principal has.
+                
+                **Resource**: Role
+      project:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The project that is to get a membership. If no project is given, the principal's membership is supposed
+              to be global.
+
+              **Resource**: Project
+  _meta:
+    type: object
+    properties:
+      notificationMessage:
+        allOf:
+          - $ref: './formattable.yml'
+          - description: A customised notification message, which will overwrite the standard notification.
+      sendNotification:
+        type: boolean
+        description: Set to false, if no notification should get sent.
+        default: true

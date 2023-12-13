@@ -9,8 +9,8 @@ tr:
   boards:
     label_board: "Pano"
     label_boards: "Panolar"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Yeni pano oluştur"
+    label_board_type: "Pano türü"
     board_types:
       free: Temel
       action: "Eylem kurulu (%{attribute})"
@@ -23,17 +23,17 @@ tr:
       basic: Temel
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Boş bir tahtayla sıfırdan başlayın. Bu panoya kartları ve sütunları manuel olarak ekleyin.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Yapılacaklar, Devam Ediyor, Tamamlandı gibi durum sütunlarını içeren temel kanban tarzı pano.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Atanan kullanıcılara dayalı otomatik sütunlara sahip pano. İş paketlerini göndermek için idealdir.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Sürüm özelliğine dayalı otomatik sütunlara sahip pano. Ürün geliştirmeyi planlamak için idealdir.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Alt projeler için otomatik sütunlara sahip pano. İş paketlerini diğer listelere sürüklemek üzere (alt)projeyi buna göre günceller.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Alt öğeler için otomatik sütunlara sahip pano. İş paketlerini diğer listelere sürüklemek üzere üst öğeyi buna göre günceller.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'İş akışlarınızı Boards ile otomatikleştirmek ister misiniz? Gelişmiş kartlar Kurumsal bir eklentidir. Lütfen ücretli bir plana yükseltin.'
+      upgrade: 'Şimdi Yükselt'

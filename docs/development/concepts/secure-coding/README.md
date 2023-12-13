@@ -55,6 +55,8 @@ Implement strong authentication mechanisms for any sensitive credentials to be u
 
 
 
+<a id="usage-at-openproject"></a>
+
 **Usage at OpenProject**
 
 OpenProject uses industry standard authentication mechanisms that follow the best practices and are the de-facto norm for many organizations:
@@ -63,6 +65,19 @@ OpenProject uses industry standard authentication mechanisms that follow the bes
 - External authentication through LDAP user binds, optional LDAP user and group membership synchronization (Enterprise-Edition add-on)
 - OAuth 2.0 application authentication and authorization with OpenProject acting as the authorization server. Access tokens are hashed using SHA256 in the database.
 - Internal user credential authentication against passwords stored in BCrypt with a high default yet configurable cost factor depending on the organizational requirements.
+
+
+
+<a id="usage-recommendations"></a>
+
+OpenProject recommends these authenticiation mechanisms:
+
+- All connections to and from OpenProject should be secured through TLS/SSL transport encryption. OpenProject assumes connections are secured through TLS/SSL by default in all production systems. Note that OpenProject does not provide TLS/SSL termination itself for Docker-based installations. The customer's IT department needs to configure and maintain the TLS certificates at the load balancer or proxying server before connections reach the application server.
+- For any external connection (Database, LDAP, etc.), OpenProject uses openssl library for the host or container's openssl certificate store. Use your distribution's mechanisms to add verified certificate or certificate chains. For more infomration, see the [Ruby OpenSSL X509 Store documentation](https://ruby-doc.org/stdlib-2.4.0/libdoc/openssl/rdoc/OpenSSL/X509/Store.html).
+
+- For smaller to medium organizations with no centralized authentication mechanism, use the internal username / password authentication mechanism for secure storing of your user's credentials using BCrypt salted cryptographic hash function.
+- For organizations with a centralized and accessible LDAP server, [OpenProject provides LDAP userbind authentication](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/) to foward the authentication request to your LDAP server. Use TLS or LDAPS encrypted connections to the LDAP server to ensure transport level security. Optionally, synchronize roles and permissions using the [LDAP Group sync functionality](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/).
+- If your organization operates a central authentication services, it is very likely it supports one of the standard remote authentication mechanisms for single sign-on, such as [OpenID connect](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/),  [SAML](https://www.openproject.org/docs/system-admin-guide/authentication/saml/), or [Kerberos](https://www.openproject.org/docs/system-admin-guide/authentication/kerberos/). Use these mechanisms to ensure a standardized and secure authentication of users without requiring the storage of any credentials at OpenProject while providing a high level of usability due to centralized logins.
 
 
 
@@ -209,37 +224,6 @@ As OpenProject may handle and distribute sensitive user data, attack vectors suc
 
 
 
-## External dependencies
-
-OpenProject includes a number of external dependencies both in Ruby as well as in the JavaScript ecosystem. Regardless of the selection of these dependencies, maintaining and keeping the dependencies up-to-date is a critical part of the security of the application. We have seen a lot of attacks surface in the past years originating from either outdated or manipulated dependencies.
-
-**Risks**
-
-- *Outdated code or known Vulnerabilities*: Older versions of libraries or dependencies may have publicly disclosed vulnerabilities. If these known vulnerabilities are not patched, they can be readily exploited by attackers.
-- *Increased Attack Surface*: Over time, libraries can become bloated with features, some of which may not be needed in OpenProject. This increases the overall attack surface, making the application more vulnerable to potential attacks.
-- *Lack of Support*: Outdated libraries may no longer be maintained. This means no more security updates, bug fixes, or support from the developer community.
-- *Legacy Code and Deprecated Functions*: Outdated dependencies might utilize functions or methods that have since been deprecated or replaced without OpenProject developers being aware of that fact, leading to unreliable or unsafe code practices.
-- *Reduced Performance*: Newer versions of libraries often come with performance improvements. Using outdated dependencies can lead to inefficiencies or bottlenecks in the application.
-- *Increased maintenance burden*: With a rising number of dependencies that are outdated or unmaintained, providing a secure upgrade path becomes harder due to e.g., newer versions of Rails or Ruby no longer being compatible with the gem or package in question.
-- *Chain of Dependencies*: Some dependencies rely on other dependencies. Using an outdated library might cause a cascading effect where multiple parts of your application become outdated and vulnerable. Also, selection of dependencies is important to minimize attack vectors. Every platform handles this differently.
-
-**Guidelines**
-
-- *Automate Updates*: Use and maintain automated tools such as Dependabot and workflows that check for dependency updates regularly, and run tests when updates are available. Before updating the dependencies, review its changelog or release notes to understand changes and potential impacts on your application.
-- *Manual update checking:* For pinned versions, use `npm outdated`, `bundle outdated` or `npm-check-updates `to ensure you staay on top of new versions and see if breaking changes ocurred.
-- *Lockfile integrity*: Use `package-lock.json` and `Gemfile.lock` to pin exact version for a released version of OpenProject, ensuring that all environments use the same versions.
-- *Stay Informed*: Subscribe to mailing lists, newsletters, or vulnerability databases to receive timely information on crucial updates or security patches so that updates can be performed as fast as possible.
-- *Vet new dependencies*: Before adding a new gem or package, research its maintenance history, last update, known vulnerabilities, and community reviews. Check if it's actively maintained, and evaluate all the alternatives.
-- *Remove outdated dependencies* :Only include gems and packages that are absolutely necessary for your project. Less dependencies mean a reduced attack surface. Remove libraries if they become unused.
-
-
-
-**References**
-
-https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html
-
-
-
 ## Logging and Error Handling
 
 Inconsiderate use of error handling, logging, and monitoring mechanisms of a web frameworks can lead to the following risks and impacts.
@@ -276,3 +260,75 @@ Inconsiderate use of error handling, logging, and monitoring mechanisms of a web
 https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html
 
 https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
+
+
+
+## External dependencies
+
+OpenProject includes a number of external dependencies both in Ruby as well as in the JavaScript ecosystem. Regardless of the selection of these dependencies, maintaining and keeping the dependencies up-to-date is a critical part of the security of the application. We have seen a lot of attacks surface in the past years originating from either outdated or manipulated dependencies.
+
+**Risks**
+
+- *Outdated code or known Vulnerabilities*: Older versions of libraries or dependencies may have publicly disclosed vulnerabilities. If these known vulnerabilities are not patched, they can be readily exploited by attackers.
+- *Increased Attack Surface*: Over time, libraries can become bloated with features, some of which may not be needed in OpenProject. This increases the overall attack surface, making the application more vulnerable to potential attacks.
+- *Lack of Support*: Outdated libraries may no longer be maintained. This means no more security updates, bug fixes, or support from the developer community.
+- *Legacy Code and Deprecated Functions*: Outdated dependencies might utilize functions or methods that have since been deprecated or replaced without OpenProject developers being aware of that fact, leading to unreliable or unsafe code practices.
+- *Reduced Performance*: Newer versions of libraries often come with performance improvements. Using outdated dependencies can lead to inefficiencies or bottlenecks in the application.
+- *Increased maintenance burden*: With a rising number of dependencies that are outdated or unmaintained, providing a secure upgrade path becomes harder due to e.g., newer versions of Rails or Ruby no longer being compatible with the gem or package in question.
+- *Chain of Dependencies*: Some dependencies rely on other dependencies. Using an outdated library might cause a cascading effect where multiple parts of your application become outdated and vulnerable. Also, selection of dependencies is important to minimize attack vectors. Every platform handles this differently.
+
+**Guidelines**
+
+- *Automate Updates*: Use and maintain automated tools such as Dependabot and workflows that check for dependency updates regularly, and run tests when updates are available. Before updating the dependencies, review its changelog or release notes to understand changes and potential impacts on your application.
+- *Manual update checking:* For pinned versions, use `npm outdated`, `bundle outdated` or `npm-check-updates `to ensure you staay on top of new versions and see if breaking changes ocurred.
+- *Lockfile integrity*: Use `package-lock.json` and `Gemfile.lock` to pin exact version for a released version of OpenProject, ensuring that all environments use the same versions.
+- *Stay Informed*: Subscribe to mailing lists, newsletters, or vulnerability databases to receive timely information on crucial updates or security patches so that updates can be performed as fast as possible.
+- *Vet new dependencies*: Before adding a new gem or package, research its maintenance history, last update, known vulnerabilities, and community reviews. Check if it's actively maintained, and evaluate all the alternatives.
+- *Remove outdated dependencies* :Only include gems and packages that are absolutely necessary for your project. Less dependencies mean a reduced attack surface. Remove libraries if they become unused.
+
+
+
+**References**
+
+https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html
+
+
+
+## Packaging and containerization
+
+Packaging and containerization are critical artefacts in the delivery pipeline of OpenProject. They encapsulate the application and its environment, ensuring consistent operation across different systems and infrastructures. These artefacts need to provide a secure and stable default for maintaining and upgrading OpenProject.
+
+Properly managed packaging and containerization pipelines ensure smooth installations, upgrades, and scaling, enhancing the deployment process and - as a result - the overall user experience. This section highlights risks connected to improper containerization or packaging as well as our main objectives and  best practices to provide a secure, efficient, and reliable software delivery process.
+
+OpenProject provides several installation mechanisms: 
+
+- [Packaged installations](https://www.openproject.org/docs/installation-and-operations/installation/packaged/) using the distribution's package manager for dependency control
+
+- [Slim and all-in-one docker images](https://www.openproject.org/docs/installation-and-operations/installation/docker/) for manual operation with docker
+
+- [OpenProject helm chart](https://www.openproject.org/docs/installation-and-operations/installation/helm-chart/) , as a "package" for kubernetes clusters
+
+  
+
+**Risks and Impact**
+
+- *Security Vulnerabilities*: Containers may inherit vulnerabilities from base images or packages.
+- *Update Management*: Inability to provide an easy and fast upgrade may lead to installations remaining outdated and as a result, vulnerable to known exploits.
+- *Configuration Drift*: Variations in configurations across different environments can lead to unexpected behaviors. They also make documentation of these variations harder, and lead to confusion for administrators and users.
+- *Resource Utilization*: Inefficient containerization can lead to excessive resource usage or an unstable software.
+- *Dependency conflicts*: Heterogenous installations may result in dependency conflicts or incompatibilities when using packages for installations.
+- *Orchestration Complexity*: With more dependencies and services, deployments add complexity that can introduce errors in service discovery, networking, and persistence.
+- *Compliance and Compatibility*: Ensuring that packaging and containerization meet known regulatory compliance requirements and are compatible with commonly used platforms.
+
+
+
+**Guidelines**
+
+- *Use Immutable Tags*: Provide specific, immutable tags for Docker images and fixed packaged versions to ensure consistency and provide clear upgrade paths instead of automatically pulling the latest image
+- *Scan for Vulnerabilities*: Regularly scan container images for vulnerabilities and promptly update them. On top of statical code analysis for code and dependencies (see above), OpenProject uses Snyk and Docker scout for its public docker images to be informed of which vulnerabilities exist in the base images.
+- *Minimal base Images*: Use minimal base images for Docker containers to reduce the attack surface. OpenProject currently uses a `ruby-${version}-${debianversion}` image as its base.
+- *Configuration Management*: Ensure configuration management is consistent between deployments. OpenProject provides an interface to ENV-based configuration for packages and Docker to ensure both can be configured similarly. Where necessary, different configuration mechanisms are documented for the different installation mechanisms.
+- *Resource Limits*: Set resource limits and requests in container definitions to prevent resource contention. The packaged installation provides a set of default scaling services. The OpenProject helm-charts define limits and resource requirements in the helm values.
+- *Monitor and Logging*: Implement robust monitoring and logging to track the health and performance of containers. [OpenProject provides individually pluggable health checks for various services as well as flexible logging](https://www.openproject.org/docs/installation-and-operations/operation/monitoring/).
+- *Continuous Integration/Continuous Deployment (CI/CD)*: Automate the building, testing, and deployment of containers using CI/CD pipelines. OpenProject builds `dev` containers and packages for every change to the core application.
+- *Documentation*: Maintain comprehensive documentation for installation and configuration processes across different mechanisms. OpenProject documents all changes as part of the standard development workflow. Documentation is released together with OpenProject to ensure consistency. [The documentation workflow is part of the product development handbook.](../../product-development-handbook/)

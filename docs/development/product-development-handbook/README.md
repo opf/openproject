@@ -14,7 +14,7 @@ keywords: product development, requirement process, RICE score
 
 OpenProject aims to connect distributed teams and organizations and make project management intuitive and fun. The application is continuously developed and maintained by an active international community to provide a powerful feature set and yet intuitive user interface. The overall purpose is to create customer benefit. To achieve this, OpenProject follows a requirements and product development process that empathizes identifying and building the functionality which most aligns with OpenProject’s product vision and delivers customer value.
 
-This guide is an evolving description of the steps taken from collecting requirements all the way to implementation and release. The goal is to provide a single source of truth and provide a guideline for team members, community contributors and interested customers. As such this document will continuously be updated.
+This guide is an evolving description of the steps taken from collecting requirements all the way to implementation and release. The goal is to provide a single source of truth and provide a guideline for team members, community contributors and interested customers. As such this document will continuously be updated whenever involved components, roles, or permissions are changing.
 
 ## 2. Process overview
 
@@ -160,16 +160,29 @@ For internal or customer requirements requirements may directly be created, eval
 Based on the Product Managers judgement (taking among other things the RICE score and customer backing into account) validated and prioritized features (status: “In specification”) are specified in more detail: 
 
 1. PM specifies the solution and creates mockups (e.g. PowerPoint, Google Docs, …).
+
 2. PM updates the Opportunity Canvas (especially “Solution” section).
+
 3. PM and Developer validate solution (technical feasibility / solution).
+
+   *If this solution touches security relevant components of the application, a Security Engineer is involved to identity and model the associated risks and impacts (thread modelling) according to the documented risks in the [Secure Coding Guidelines](../../development/concepts/secure-coding/#secure-coding-guidelines).*
+
 4. PM / UX Researcher validates the solution through user interviews. (optional)
+
 5. PM / UX Researcher iterates through possible solutions based on user interviews and updates the Opportunity canvas. (optional)
+
 6. PM / Developer adds more detailed effort and cost estimates.
+
 7. Designer is assigned to the "Designer" field of the feature.
+
 8. Designer creates visuals based on mockups (if necessary).
+
 9. PM validates design with users (user interviews) (optional)
+
 10. PM in coordination with Developer assigns feature to upcoming product version.
+
 11. PM hands over features to the Developer.
+
 12. PM highlights features that require change in documentation if necessary (custom field “Requires doc change”).
 
 The features in a product version need to be specified at least one iteration prior to development start. If a feature is added to the current version it needs to be specified with high priority. If it is added to the next version it can be specified with a lower priority but still higher then other features in the product backlog.
@@ -212,9 +225,10 @@ Ideally the preparation of both QA and development happen at the same time so th
 3. Developer creates a pull request on GitHub where all automated tests are run.
 4. Developer hands over "Implementation" work package upon completion to another developer for review (status: “In review”).
 5. Developer (different from the one implementing the code) performs a review and, if changes are accepted according to the points mentioned below merges the pull request and closes the "Implementation" work package.
-   1. [Secure coding guidelines](https://www.openproject.org/docs/development/concepts/secure-coding/) have been evaluated for the proposed changes.
-   2. [Code review guidelines](https://www.openproject.org/docs/development/code-review-guidelines/) are followed by the submitter and reviewer
-   3. [Pull request targets the correct version](https://www.openproject.org/docs/development/git-workflow/#create-a-pull-request), and has a related work package that will form the changelog.
+   1. [Secure coding guidelines](../concepts/secure-coding/) have been evaluated for the proposed changes.
+   2. New or changed functionality is covered following the [Writing and Running Tests guide](../running-tests/) to ensure the entire required spectrum of tests were added.
+   3. [Code review guidelines](../code-review-guidelines/) are followed by the submitter and reviewer
+   4. [Pull request targets the correct version](../git-workflow/#create-a-pull-request), and has a related work package that will form the changelog.
 7. The feature lead developer updates the status of the feature to "merged" once the feature is fully implemented. This can be done even with bugs still open that QA has already identified.
 8. Developer highlights features that require change in documentation if necessary (custom field “Requires doc change”).
 
@@ -226,12 +240,14 @@ Changes to the technical documentation, e.g API documentation, are done in paral
 
 ### 3.2.3 Building phase 3: Quality Assurance
 
-| Involved                     | Output         |
-|------------------------------|:---------------|
-| - QA                         | Tested feature |
+| Involved | Output                                                                                                                                 |
+| -------- |:---------------------------------------------------------------------------------------------------------------------------------------|
+| - DevOps | [Edge or Staging environments](../application-architecture/#environments) are updated automatically or manually with necessary changes |
+| - QA     | Tested feature                                                                                                                         |
 
 1. Tester adapts test plan if acceptance criteria was altered since the original creation of the test plan.
-2. Tester tests feature (based on test plan) 
+2. Tester performs and verifies additional tests according to the  [Writing and Running Tests guide](../../development/running-tests/) to ensure the application has been tested according to specifications and requirements.
+3. Tester tests feature (based on test plan) 
    1. Tester adjusts status when no errors in feature (status: “tested”).
    2. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 2 - Implementation)
 
@@ -241,11 +257,14 @@ When all features, bugs have been tested successfully, regression testing was pe
 
 ### 3.2.3 Building phase 4: Acceptance test
 
-| Involved          | Output           |
-|-------------------|:-----------------|
-| - Product manager | Accepted feature |
+| Involved                                                  | Output                                                       |
+| --------------------------------------------------------- | :----------------------------------------------------------- |
+| - Product manager<br />- (possibly) External Stakeholders | Accepted feature (acceptenace succeeded) OR<br />Changes necessary (acceptance failed) |
 
 1. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
+1. If external stakeholders are involved and depending on any additional agreements between OpenProject and the external stakeholders, an additional presentation or feature presentation is performed as part of the acceptance testing. The result of this test may result in additional iterations of the steps Buidling phase 1 - 3.
+
+If required changes are identified or predefined acceptance criteria is not met, the acceptance test is failed, the respective work packages are returned ot the developers/product team for additional changes or specification work
 
 ### 3.2.4 Building phase 4: Documentation
 
@@ -278,7 +297,7 @@ Developed features are bundled into a version that is released to the public via
 Those steps can be repeated multiple times (restarting at step 2) until the release candidate is deemed stable enough to be released.
 
 For patch level releases, where only bugs are addressed, the process for a version starts at this point.
-  
+
 ## 3.3 Release phase
 
 During the release phase, the new OpenProject version is rolled out, release notes are published and lessons learned are documented.
@@ -456,5 +475,4 @@ An Opportunity Canvas may not always be required - especially when a problem is 
 **References:**
 
 - [Opportunity Canvas Template](https://docs.google.com/document/d/1sgNrEx_PRCwewI9-46mN0qnyzz2AWq_SwFc6gLOcrbI/edit)
-
 

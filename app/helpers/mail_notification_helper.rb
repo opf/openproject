@@ -53,39 +53,4 @@ module MailNotificationHelper
     color_id = selected_color(status)
     Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ') if color_id
   end
-
-  def placeholder_table_styles(options = {})
-    default_options = {
-      style: 'table-layout:fixed;border-collapse:separate;border-spacing:0;font-family:Helvetica;' <<
-             (options[:style].present? ? options.delete(:style) : ''),
-      cellspacing: "0",
-      cellpadding: "0"
-    }
-
-    default_options.merge(options).map { |k, v| "#{k}=#{v}" }.join(' ')
-  end
-
-  def placeholder_text_styles(**overwrites)
-    {
-      color: '#878787',
-      'line-height': '24px',
-      'font-size': '14px',
-      'white-space': 'normal',
-      overflow: 'hidden',
-      'max-width': '100%',
-      width: '100%'
-    }.merge(overwrites)
-     .map { |k, v| "#{k}: #{v}" }
-     .join('; ')
-  end
-
-  def placeholder_cell(number, vertical:)
-    style = if vertical
-              "max-width:#{number}; min-width:#{number}; width:#{number}"
-            else
-              "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
-            end
-
-    content_tag('td', '&nbsp;'.html_safe, style:)
-  end
 end
