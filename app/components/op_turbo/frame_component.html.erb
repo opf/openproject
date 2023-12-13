@@ -27,12 +27,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% if options[:lazy] == true %>
-<turbo-frame id="<%=turbo_frame_id%>" src="<%= lazy_loaded_source %>" loading="lazy">
-  <%= content %>
-</turbo-frame>
+  <turbo-frame id="<%=turbo_frame_id%>" src="<%= options[:lazy_source] %>" loading="lazy">
+    <%= content %>
+  </turbo-frame>
 <% else %>
-<turbo-frame id="<%=turbo_frame_id%>">
-  <%= content %>
-  LAZY
-</turbo-frame>
+  <turbo-frame id="<%=turbo_frame_id%>">
+    <%= content %>
+  </turbo-frame>
 <% end %>
