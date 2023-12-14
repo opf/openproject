@@ -396,8 +396,8 @@ zh-CN:
     sharing:
       missing_workflow_waring:
         title: "工作包共享缺少工作流"
-        message: "没有为“工作包编辑器”角色配置的工作流。没有工作流，共享工作包的状态无法改变。"
-        link_message: "在管理中配置一个工作流。"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
