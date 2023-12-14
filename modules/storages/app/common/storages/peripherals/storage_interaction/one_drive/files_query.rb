@@ -101,7 +101,7 @@ module Storages
               last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
               created_by_name: json_file.dig(:createdBy, :user, :displayName),
               last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: extract_location(json_file[:parentReference], json_file[:name]),
+              location: Util.extract_location(json_file[:parentReference], json_file[:name]),
               permissions: %i[readable writeable]
             )
           end
@@ -131,13 +131,6 @@ module Storages
             )
           end
 
-          def extract_location(parent_reference, file_name = '')
-            location = parent_reference[:path].gsub(/.*root:/, '')
-
-            appendix = file_name.blank? ? '' : "/#{file_name}"
-            location.empty? ? "/#{file_name}" : "#{location}#{appendix}"
-          end
-
           def parent(parent_reference)
             _, _, name = parent_reference[:path].gsub(/.*root:/, '').rpartition '/'
 
@@ -147,7 +140,7 @@ module Storages
               StorageFile.new(
                 id: parent_reference[:id],
                 name:,
-                location: extract_location(parent_reference),
+                location: Util.extract_location(parent_reference),
                 permissions: %i[readable writeable]
               )
             end

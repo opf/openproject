@@ -58,5 +58,12 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
           end
         )
     end
+
+    def extract_location(parent_reference, file_name = '')
+      location = parent_reference[:path].gsub(/.*root:/, '')
+
+      appendix = file_name.blank? ? '' : "/#{file_name}"
+      location.empty? ? "/#{file_name}" : "#{location}#{appendix}"
+    end
   end
 end
