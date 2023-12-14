@@ -163,65 +163,6 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
   end
 
   describe 'version being restricted' do
-    shared_examples_for 'is invalid and notes the error' do
-      it 'is invalid and notes the error' do
-        expect(subject).to be_falsey
-        expect(instance.errors.symbols_for(:version_id))
-          .to contain_exactly(:task_version_must_be_the_same_as_story_version)
-      end
-    end
-
-    shared_examples_for 'version being restricted by the parent' do
-      before do
-        work_package.parent ||= parent
-      end
-
-      describe 'WITHOUT a version and the parent also having no version' do
-        before do
-          parent.version = nil
-          work_package.version = nil
-        end
-
-        include_examples 'is valid'
-      end
-
-      describe 'WITHOUT a version and the parent having a version' do
-        before do
-          parent.version = version1
-          work_package.version = nil
-        end
-
-        include_examples 'is invalid and notes the error'
-      end
-
-      describe 'WITH a version and the parent having a different version' do
-        before do
-          parent.version = version1
-          work_package.version = version2
-        end
-
-        include_examples 'is invalid and notes the error'
-      end
-
-      describe 'WITH a version and the parent having the same version' do
-        before do
-          parent.version = version1
-          work_package.version = version1
-        end
-
-        include_examples 'is valid'
-      end
-
-      describe 'WITH a version and the parent having no version' do
-        before do
-          parent.version = nil
-          work_package.version = version1
-        end
-
-        include_examples 'is invalid and notes the error'
-      end
-    end
-
     shared_examples_for 'version not being restricted by the parent' do
       before do
         work_package.parent ||= parent
@@ -325,13 +266,13 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
 
         let(:parent) { task2 }
 
-        include_examples 'version being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        include_examples 'version being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
