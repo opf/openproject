@@ -422,7 +422,7 @@ uk:
     label_filename: "Файл"
     label_filesize: "Розмір"
     label_general: "Загальні"
-    label_global_roles: "Global roles"
+    label_global_roles: "Глобальні ролі"
     label_greater_or_equal: ">="
     label_group: 'Група'
     label_group_by: "Групувати за"

@@ -24,4 +24,4 @@ ko:
     work_packages:
       properties:
         storyPoints: "스토리 포인트"
-        remainingTime: "Remaining work"
+        remainingTime: "남은 작업"

@@ -1,7 +1,7 @@
 #English strings go here
 ko:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
+    name: "OpenProject 저장소"
     description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "파일 링크 보기"
   permission_manage_file_links: "파일 링크 관리"
@@ -162,7 +162,7 @@ ko:
         one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
-        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
+        %{file_storage}을(를) 삭제하시겠습니까? 이 작업을 확인하려면 아래 필드에 저장소 이름을 입력하세요. 이렇게 하면 다음이 허용됩니다.
       storage_delete_result_1: "Remove all storage setups for all projects using this storage."
       storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
       storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
@@ -220,7 +220,7 @@ ko:
     label_no_specific_folder: "특정 폴더 없음"
     label_automatic_folder: "자동으로 관리되는 권한이 있는 새 폴더"
     label_no_selected_folder: "선택된 폴더 없음"
-    label_select_provider: "Select provider"
+    label_select_provider: "공급자 선택"
     label_storage: "저장소"
     label_storages: "저장소"
     label_status: "상태"
@@ -228,7 +228,7 @@ ko:
     member_connection_status:
       connected: "연결됨"
       connected_no_permissions: "사용자 역할에 저장소 권한이 없습니다"
-      not_connected: "Not connected. The user should login to the storage via the following %{link}."
+      not_connected: "연결되지 않았습니다. 사용자는 다음 %{link}을(를) 통해 저장소에 로그인해야 합니다."
     no_results: "아직 저장소가 설정되지 않았습니다."
     members_no_results: "표시할 멤버가 없습니다."
     provider_types:
@@ -236,33 +236,33 @@ ko:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "예: Nextcloud"
-        label_oauth_client_id: "Nextcloud OAuth Client ID"
-        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
+        label_oauth_client_id: "Nextcloud OAuth 클라이언트 ID"
+        label_oauth_client_secret: "Nextcloud OAuth 클라이언트 비밀번호"
       one_drive:
         name: "OneDrive/SharePoint"
-        name_placeholder: "e.g. OneDrive"
-        label_oauth_client_id: "Azure OAuth Application (client) ID"
-        label_oauth_client_secret: "Azure OAuth Client Secret Value"
+        name_placeholder: "예: OneDrive"
+        label_oauth_client_id: "Azure OAuth 애플리케이션(클라이언트) ID"
+        label_oauth_client_secret: "Azure OAuth 클라이언트 비밀번호 값"
     confirm_replace_oauth_application: "계속하시겠습니까? 모든 사용자는 OpenProject에 대해 다시 권한을 부여해야 합니다."
     confirm_replace_oauth_client: "계속하시겠습니까? 모든 사용자는 저장소에 대해 다시 권한을 부여해야 합니다."
     oauth_client_details_missing: "설정을 완료하려면 저장소에서 OAuth 클라이언트 자격 증명을 추가하세요."
     automatically_managed_project_folder_missing: "설정을 완료하려면 저장소에 대해 자동으로 관리되는 프로젝트 폴더를 구성하세요."
     notice_oauth_application_replaced: "OpenProject OAuth 애플리케이션이 성공적으로 교체되었습니다."
-    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    notice_successful_storage_connection: "저장소가 연결되었습니다! 이 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다."
     open_project_storage_modal:
       waiting:
-        a: "We are setting up your permissions on the project folder."
-        b: "One moment please, this might take some time..."
+        a: "프로젝트 폴더에 대한 권한을 설정하는 중입니다."
+        b: "잠시 기다려 주세요. 시간이 좀 걸릴 수 있습니다."
       success:
-        a: "Integration setup completed"
-        b: "You are being redirected"
+        a: "통합 설정 완료됨"
+        b: "리디렉션 중입니다"
     health:
-      title: "Managed folders status"
+      title: "관리되는 폴더 상태"
       label_pending: "대기 중"
       label_error: "오류"
-      label_healthy: "Healthy"
-      checked: "Last checked %{datetime}"
-      since: "since %{datetime}"
+      label_healthy: "정상"
+      checked: "마지막 확인: %{datetime}"
+      since: "%{datetime} 이후"
     upsale:
       title: "OneDrive/SharePoint integration"
       description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

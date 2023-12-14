@@ -396,8 +396,8 @@ zh-CN:
     sharing:
       missing_workflow_waring:
         title: "工作包共享缺少工作流"
-        message: "没有为“工作包编辑器”角色配置的工作流。没有工作流，共享工作包的状态无法改变。"
-        link_message: "在管理中配置一个工作流。"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2299,7 +2299,7 @@ zh-CN:
   notice_file_not_found: "你想要访问的页面不存在或已被删除。"
   notice_forced_logout: "%{ttl_time} 分钟不活动后，您已经被自动注销。"
   notice_internal_server_error: "你想要访问的页面上出错。如果您继续遇到问题请联系您 %{app_title} 管理员寻求帮助。"
-  notice_work_package_done_ratios_updated: "工作包 %已完成值已更新。"
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "信息已由至少一个其他用户同时更新。"
   notice_locking_conflict_additional_information: "更新来自 %{users}。"
   notice_locking_conflict_reload_page: "请重新加载该页面，查看所做的更改并重新应用您的更新。"

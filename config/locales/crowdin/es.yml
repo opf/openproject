@@ -198,6 +198,14 @@ es:
     confirm_destroy_option: "Al eliminar una opción, se eliminarán todas las repeticiones (por ejemplo, en paquetes de trabajo). ¿Está seguro de que desea eliminarla?"
     reorder_alphabetical: "Ordenar los valores alfabéticamente"
     reorder_confirmation: "Advertencia: Se perderá el orden actual de los valores disponibles. ¿Quiere continuar?"
+    instructions:
+      is_required: "Marcar el campo personalizado como necesario. Esto hará obligatorio rellenar el campo cuando se creen nuevos o se actualicen los recursos existentes."
+      is_for_all: "Marque el campo personalizado como disponible en todos los proyectos existentes y nuevos."
+      searchable: "Incluye los valores de los campos al usar la funcionalidad de búsqueda global."
+      editable: "Permitir que el campo sea editable por los propios usuarios."
+      visible: "Hacer visible el campo para todos los usuarios (no administradores) en el resumen del proyecto y se muestra en el widget de detalles del proyecto en la vista general del proyecto."
+      is_filter: >
+        Permitir que el campo personalizado se utilice como filtro en las vistas de paquetes de trabajo. Tenga en cuenta que solo 'Para todos los proyectos' seleccionados, el campo personalizado se mostrará en vistas globales.
     tab:
       no_results_title_text: Actualmente no hay campos personalizados.
       no_results_content_text: Crear un nuevo campo personalizado
@@ -390,8 +398,8 @@ es:
     sharing:
       missing_workflow_waring:
         title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
-        message: "Ningún flujo de trabajo configurado para el rol 'Editor de paquetes de trabajo'. Sin un flujo de trabajo, el estado de un paquete de trabajo compartido no se puede cambiar."
-        link_message: "Configurar un flujo de trabajo en la administración."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2322,7 +2330,7 @@ es:
   notice_file_not_found: "La página que estaba intentando acceder no existe o ha sido eliminada."
   notice_forced_logout: "Su sesión ha sido cerrada automáticamente después de %{ttl_time} minutos de inactividad."
   notice_internal_server_error: "Ha ocurrido un error en la página que usted trato de acceder. Si usted continua teniendo problemas por favor contacte su administrador de %{app_title} para asistencia."
-  notice_work_package_done_ratios_updated: "Valores del paquete de trabajo % Completado actualizados."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "La información ha sido actualizada por al menos otro usuario mientras tanto."
   notice_locking_conflict_additional_information: "La(s) actualización(es) hecha(s) por %{users}."
   notice_locking_conflict_reload_page: "Por favor recargue la página, revise los cambios y re-aplique las actualizaciones."
@@ -3057,6 +3065,7 @@ es:
       warning_user_limit_reached_admin: >
         Añadir usuarios adicionales excederá el límite actual. Por favor, <a href="%{upgrade_url}">actualice su plan</a> para asegurar que los usuarios externos puedan acceder a este paquete de trabajo.
       warning_no_selected_user: "Por favor, seleccione usuarios para compartir este paquete de trabajo"
+      warning_locked_user: "él usuario %{user} está bloqueado y no se puede compartir con él"
       user_details:
         locked: "Usuario bloqueado"
         invited: "Invitación enviada. "

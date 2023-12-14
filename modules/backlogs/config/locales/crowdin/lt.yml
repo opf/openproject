@@ -27,10 +27,10 @@ lt:
     attributes:
       work_package:
         position: "Vieta"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        remaining_hours: "Liko darbo"
+        remaining_time: "Liko darbo"
+        derived_remaining_hours: "Išvestas likęs darbas"
+        derived_remaining_time: "Išvestas likęs darbas"
         story_points: "Istorijos taškai"
         backlogs_work_package_type: "Darbų sąrašo tipas"
     errors:

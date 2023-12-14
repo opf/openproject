@@ -22,9 +22,9 @@
 #English strings go here for Rails i18n
 fr:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "Réunion OpenProject"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      Ce module ajoute des fonctionnalités permettant d'organiser des réunions de projet dans OpenProject. Les réunions peuvent être planifiées en sélectionnant des invités du même projet pour y participer. Un ordre du jour peut être créé et envoyé aux invités. Après la réunion, les invités qui étaient présents peuvent être marqués comme participants et un compte-rendu peut être créé et envoyé à tous les participants et invités.
   activerecord:
     attributes:
       meeting:
@@ -100,7 +100,7 @@ fr:
       invited:
         summary: "%{actor} vous a envoyé une invitation pour la réunion %{title}"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: "La réunion %{title} a été reprogrammée"
         summary: "La réunion %{title} a été reprogrammée par %{actor}"
         body: "La réunion %{title} a été reprogrammée par %{actor}."
         old_date_time: "Ancienne date/heure"
