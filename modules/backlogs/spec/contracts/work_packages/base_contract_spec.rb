@@ -147,6 +147,15 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
                                                                          'task_type' => type_task.id.to_s })
   end
 
+  describe 'story_points' do
+    let(:work_package) { task }
+
+    it 'is writable' do
+      work_package.story_points = 5
+      expect(subject).to be_truthy
+    end
+  end
+
   shared_examples_for 'is valid' do
     it 'is valid' do
       expect(subject).to be_truthy
