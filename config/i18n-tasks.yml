@@ -125,6 +125,7 @@ search:
 ## Consider these keys used:
 ignore_unused:
   - 'activerecord.{models,attributes,errors}.*'
+  - 'permission_*'
   - '{devise,kaminari,will_paginate}.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
