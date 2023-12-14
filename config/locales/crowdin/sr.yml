@@ -78,7 +78,7 @@ sr:
       book_now: "Book now"
       get_quote: "Get a quote"
       buttons:
-        upgrade: "Upgrade now"
+        upgrade: "Nadogradite"
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
@@ -175,7 +175,7 @@ sr:
       label_new_color: "New color"
       label_edit_color: "Edit color"
     label_no_color: "No color"
-    label_properties: "Properties"
+    label_properties: "Svojstva"
     label_really_delete_color: >
       Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
@@ -201,6 +201,14 @@ sr:
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
@@ -394,8 +402,8 @@ sr:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -555,7 +563,7 @@ sr:
         permissions: "Permissions"
       time_entry:
         activity: "Activity"
-        hours: "Hours"
+        hours: "Časovi"
         spent_on: "Date"
         type: "Type"
         ongoing: "Ongoing"
@@ -618,10 +626,10 @@ sr:
         schedule_manually: "Manual scheduling"
         spent_hours: "Spent time"
         spent_time: "Spent time"
-        subproject: "Subproject"
+        subproject: "Potprojekat"
         time_entries: "Log time"
         type: "Type"
-        version: "Version"
+        version: "Verzija"
         watcher: "Watcher"
       "doorkeeper/application":
         uid: "Client ID"
@@ -967,7 +975,7 @@ sr:
       status: "Work package status"
       type: "Type"
       user: "User"
-      version: "Version"
+      version: "Verzija"
       workflow: "Workflow"
       work_package: "Work package"
       wiki: "Wiki"
@@ -992,7 +1000,7 @@ sr:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Potprojekat"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -1017,8 +1025,8 @@ sr:
   #common attributes of all models
   attributes:
     active: "Active"
-    assigned_to: "Assignee"
-    assignee: "Assignee"
+    assigned_to: "Zadužen"
+    assignee: "Zadužen"
     attachments: "Attachments"
     author: "Author"
     base: "General Error:"
@@ -1072,7 +1080,7 @@ sr:
     uploader: "Uploader"
     user: "User"
     value: "Value"
-    version: "Version"
+    version: "Verzija"
     work_package: "Work package"
   backup:
     failed: "Backup failed"
@@ -1117,7 +1125,7 @@ sr:
   button_check_all: "Check all"
   button_clear: "Clear"
   button_click_to_reveal: "Click to reveal"
-  button_close: "Close"
+  button_close: "Zatvori"
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
   button_continue: "Continue"
@@ -1663,7 +1671,7 @@ sr:
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_blog: "Blog"
-  label_forums_locked: "Locked"
+  label_forums_locked: "Zaključano"
   label_forum_new: "New forum"
   label_forum_plural: "Forums"
   label_forum_sticky: "Sticky"
@@ -1937,7 +1945,7 @@ sr:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "bilo koji"
   label_open_menu: "Open menu"
   label_open_work_packages: "open"
   label_open_work_packages_plural: "open"
@@ -2061,7 +2069,7 @@ sr:
   label_storage_group: "Storage filesystem %{identifier}"
   label_storage_for: "Encompasses storage for"
   label_string: "Text"
-  label_subproject: "Subproject"
+  label_subproject: "Potprojekat"
   label_subproject_new: "New subproject"
   label_subproject_plural: "Subprojects"
   label_subtask_plural: "Subtasks"
@@ -2823,7 +2831,7 @@ sr:
   text_formatting:
     markdown: "Markdown"
     plain: "Plain text"
-  status_active: "active"
+  status_active: "aktivno"
   status_archived: "archived"
   status_invited: invited
   status_locked: locked
@@ -2982,7 +2990,7 @@ sr:
   total_progress: "Total progress"
   user:
     all: "all"
-    active: "active"
+    active: "aktivno"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
@@ -3091,6 +3099,7 @@ sr:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

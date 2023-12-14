@@ -62,7 +62,7 @@
       no_results: 'Ingen synkroniserte grupper funnet.'
       no_members: 'Denne gruppen har ingen synkroniserte medlemmer ennå.'
       plural: 'Synkroniserte LDAP-grupper'
-      singular: 'Synchronized LDAP group'
+      singular: 'Synkronisert LDAP-gruppe'
       form:
         auth_source_text: 'Select which LDAP connection should be used.'
         sync_users_text: >

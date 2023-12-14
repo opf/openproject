@@ -23,7 +23,7 @@ pt:
       singular: Provedor OpenID
     setting_instructions:
       azure_deprecation_warning: >
-        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
+        O aplicativo Azure configurado aponta para uma API descontinuada do Azure. Crie um novo aplicativo Azure para garantir o funcionalidade no futuro.
       azure_graph_api: >
         Use o ponto de extremidade de userinfo graph.microsoft.com para solicitar dados de usuário. Este deve ser o padrão, a menos que você tenha um aplicativo Azure mais antigo.
       azure_tenant_html: >

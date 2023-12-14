@@ -201,6 +201,14 @@ af:
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
@@ -393,8 +401,8 @@ af:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -458,20 +466,20 @@ af:
         attribute_name: "Kenmerk"
         help_text: "Help text"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Rekening"
+        attr_firstname: "Eerstenaam kenmerk"
+        attr_lastname: "Van kenmerk"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
+        attr_mail: "Epos kenmerk"
+        base_dn: "Basis (Onderskeidende Naam) ON"
+        host: "Gasheer"
         onthefly: "Automatic user creation"
-        port: "Port"
+        port: "Poort"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hex kode"
       comment:
         commented: "Kommentaar gelewer" #an object that this comment belongs to
       custom_action:
@@ -970,7 +978,7 @@ af:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Daar was probleme met die volgende velde:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -2048,7 +2056,7 @@ af:
   label_this_week: "vandeesweek"
   label_this_year: "vandeesjaar"
   label_time_entry_plural: "Tyd gespandeer"
-  label_title: "Title"
+  label_title: "Titel"
   label_projects_menu: "Projekte"
   label_today: "vandag"
   label_top_menu: "Top Menu"
@@ -3035,18 +3043,18 @@ af:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Rol'
+        type: 'Soort'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Opmerking"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Redigeer"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Bekyk"
         view_description: "Can view this work package."
       remove: "Remove"
       share: "Share"
@@ -3061,6 +3069,7 @@ af:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

@@ -102,8 +102,8 @@ sk:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "LDAP-Chyba: %{error_message}"
+    ldap_auth_failed: "Nemožno overiť v LDAP-Serveri."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -166,18 +166,18 @@ sk:
     index:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
       no_results_content_text: Vytvoriť novú farbu
-      label_new_color: "New color"
+      label_new_color: "Nová farba"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Nová farba"
+      label_edit_color: "Upraviť farbu"
     label_no_color: "Žiadna farba"
-    label_properties: "Properties"
+    label_properties: "Vlastnosti"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Naozaj chcete odstrániť nasledujúcu farbu? Typy používajúce túto farbu nebudú odstránené.
   custom_actions:
     actions:
       name: "Akcie"
@@ -201,6 +201,14 @@ sk:
     confirm_destroy_option: "Odstránením hodnoty sa odstránia všetky predtým nastavené hodnoty (napríklad pre pracovné balíčky). Naozaj chcete odstrániť hodnotu?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne vlastné polia.
       no_results_content_text: Vytvoriť nové vlastné pole
@@ -261,7 +269,7 @@ sk:
       types:
         no_results_title_text: Momentálne nie sú k dispozícii žiadne typy.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Povolenie typu "%{type}"'
       versions:
         no_results_title_text: V súčasnosti neexistujú žiadne verzie projektu.
         no_results_content_text: Vytvoriť novú verziu
@@ -395,8 +403,8 @@ sk:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -460,11 +468,11 @@ sk:
         attribute_name: "Atribút"
         help_text: "Text pomocníka"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Účet"
+        attr_firstname: "Krstné meno"
+        attr_lastname: "Priezvisko"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        attr_mail: "E-mail adresa"
         base_dn: "Base DN"
         host: "Host"
         onthefly: "Automatic user creation"
@@ -473,7 +481,7 @@ sk:
       changeset:
         repository: "Repozitár"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hex kód"
       comment:
         commented: "Komentované" #an object that this comment belongs to
       custom_action:
@@ -649,7 +657,7 @@ sk:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Informácia bola medzičasom aktualizovaná aspoň jedným iným používateľom."
         email: "is not a valid email address."
         empty: "nemôže byť prázdny."
         even: "musí byť párne."
@@ -921,7 +929,7 @@ sk:
             status:
               invalid_on_create: "nie je platný stav pre nových používateľov."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "nenájdené"
         member:
           principal_blank: "Vyberte aspoň jedného používateľa alebo skupinu."
           role_blank: "musí byť pridelené."
@@ -980,9 +988,9 @@ sk:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      few: "There were problems with the following fields:"
-      many: "There were problems with the following fields:"
-      other: "There were problems with the following fields:"
+      few: "Nastali problémy s nasledujúcimi poliami:"
+      many: "Nastali problémy s nasledujúcimi poliami:"
+      other: "Nastali problémy s nasledujúcimi poliami:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       few: "Additionally, there were problems with the following fields:"
@@ -1050,7 +1058,7 @@ sk:
     due_date: "Dátum dokončenia"
     estimated_hours: "Predpokladaný čas"
     estimated_time: "Predpokladaný čas"
-    expires_at: "Expires at"
+    expires_at: "Platnosť končí"
     firstname: "Krstné meno"
     group: "Skupina"
     groups: "Skupiny"
@@ -1320,10 +1328,10 @@ sk:
         many: "%{count} mins"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        few: "%{count} hours"
-        many: "%{count} hours"
-        other: "%{count} hours"
+        one: "1 hodina"
+        few: "%{count} hodiny"
+        many: "%{count} hodiny"
+        other: "%{count} hodiny"
       x_hours_abbreviated:
         one: "1 hr"
         few: "%{count} hrs"
@@ -1418,7 +1426,7 @@ sk:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Zvoľte si, prosím, používateľ a rolu."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Farbu nie je možné uložiť"
   error_cookie_missing: "Chýbajú súbory cookie pre OpenProject. Skontrolujte, či sú povolené súbory cookie, nakoľko bez nich táto aplikácia nebude správne fungovať."
   error_custom_option_not_found: "Nastavenie neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nemôže byť aktivovaný (dosiahnutý limit počtu užívateľov). Prosím kontaktujte vášho správcu pre získanie prístupu."
@@ -1443,7 +1451,7 @@ sk:
   error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Vyskytla sa chyba pri pokuse o prístup k repository: %{value}"
   error_scm_not_found: "Položka alebo revízia nebola nájdená v repozitári."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Typ nie je možné uložiť"
   error_unable_delete_status: "Stav pracovného balíčka sa nedá odstrániť, pretože ho používa ešte najmenej jeden ďalší pracovný balíček."
   error_unable_delete_default_status: "Nie je možné odstrániť predvolený stav pracovného balíčka. Pred odstránením aktuálneho vyberte iný predvolený stav."
   error_unable_to_connect: "Nedá sa pripojiť (%{value})"
@@ -1593,7 +1601,7 @@ sk:
         text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
         empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
       rss:
-        title: "RSS"
+        title: "RSS kanál"
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
@@ -1736,7 +1744,7 @@ sk:
   label_confirmation: "Potvrdenie"
   label_contains: "obsahuje"
   label_content: "Obsah"
-  label_color_plural: "Colors"
+  label_color_plural: "Farby"
   label_copied: "skopírované"
   label_copy_same_as_target: "Rovnaký ako cieľ"
   label_copy_source: "Zdroj"
@@ -1766,7 +1774,7 @@ sk:
   label_deleted: "odstránené"
   label_deleted_custom_field: "(odstrániť vlastné pole)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(prázdny)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Zostupne"
   label_details: "Podrobnosti"
@@ -1964,7 +1972,7 @@ sk:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "akékoľvek"
   label_open_menu: "Otvorte menu"
   label_open_work_packages: "otvorené"
   label_open_work_packages_plural: "otvorené"
@@ -2102,7 +2110,7 @@ sk:
   label_this_week: "tento týždeň"
   label_this_year: "Tento rok"
   label_time_entry_plural: "Strávený čas"
-  label_title: "Title"
+  label_title: "Nadpis"
   label_projects_menu: "Projekty"
   label_today: "dnes"
   label_top_menu: "Horné menu"
@@ -2305,8 +2313,8 @@ sk:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} pracovné balíčky (balíček), ktoré sú priradené vám a finišujú v najbližších %{days} dňoch:"
   mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Používateľ %{author} pridal wikistránku '%{id}'."
+  mail_body_wiki_page_updated: "Používateľ %{author} aktualizoval wikistránku '%{id}'."
   mail_subject_account_activation_request: "Požiadavka na aktiváciu účtu %{value}"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2447,7 +2455,7 @@ sk:
   permission_add_work_packages: "Pridať pracovné balíky"
   permission_add_messages: "Publikovať správy"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Pridať prílohy"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archivovať projekt"
   permission_create_user: "Create users"
@@ -2461,7 +2469,7 @@ sk:
   permission_comment_news: "Komentovanie noviniek"
   permission_commit_access: "Prístup do úložiska čítanie/zápis (commit)"
   permission_copy_projects: "Kopírovať projekty"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Skopírovať pracovné balíčky"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Zmazať sledujúcich užívateľov"
   permission_delete_work_packages: "Odstrániť pracovné balíčky"
@@ -3094,21 +3102,21 @@ sk:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Rola'
+        type: 'Typ'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Komentár"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Upraviť"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Zobraziť"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Vymazať"
+      share: "Zdieľať"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
@@ -3120,6 +3128,7 @@ sk:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

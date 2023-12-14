@@ -19,14 +19,14 @@ eo:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Dosiero"
       storages/storage: "Storage"
     attributes:
       storages/storage:
         name: "Nomo"
         creator: "Creator"
         provider_type: "Provider type"
-        host: "Host"
+        host: "Gastiganto"
         tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Origin Id"
@@ -69,12 +69,12 @@ eo:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save: "Save"
+      save: "Konservi"
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
-      configure: "Configure"
+      configure: "Agordi"
     file_storage_view:
       general_information: "General information"
       oauth_applications: "OAuth applications"
@@ -82,7 +82,7 @@ eo:
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "Alidirekti URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
@@ -146,7 +146,7 @@ eo:
           Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
@@ -176,10 +176,10 @@ eo:
       heading: "You don't have any storages yet."
       description: "Add a storage to see them here."
     error_invalid_provider_type: "Please select a valid storage provider."
-    label_active: "Active"
+    label_active: "Aktiva"
     label_add_new_storage: "Add new storage"
     label_delete_storage: "Delete storage"
-    label_inactive: "Inactive"
+    label_inactive: "Neaktiva"
     label_creator: "Creator"
     label_provider: "Provider"
     label_file_link: "File link"
@@ -207,7 +207,7 @@ eo:
     label_information: "Additional information"
     label_provider_type: "Provider type"
     label_project_folder: "Project folder"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "Alidirekti URI"
     label_uri: "URI"
     label_new_storage: "New storage"
     label_new_file_storage: "New %{provider} storage"
@@ -223,8 +223,8 @@ eo:
     label_select_provider: "Select provider"
     label_storage: "Storage"
     label_storages: "Storages"
-    label_status: "Status"
-    label_files: "Files"
+    label_status: "Stato"
+    label_files: "Dosieroj"
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
@@ -259,7 +259,7 @@ eo:
     health:
       title: "Managed folders status"
       label_pending: "Pending"
-      label_error: "Error"
+      label_error: "Eraro"
       label_healthy: "Healthy"
       checked: "Last checked %{datetime}"
       since: "since %{datetime}"

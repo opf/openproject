@@ -23,10 +23,10 @@
   js:
     work_packages:
       property_groups:
-        costs: "Costs"
+        costs: "Kostnader"
       properties:
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
+        overallCosts: "Samlede kostnader"
+        spentUnits: "Brukte enheter"
+    button_log_costs: "Loggfør enhetskostnader"
     label_hour: "time"
     label_hours: " timer"

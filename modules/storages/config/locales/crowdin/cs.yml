@@ -26,7 +26,7 @@ cs:
         name: "Název"
         creator: "Autor"
         provider_type: "Typ poskytovatele"
-        host: "Host"
+        host: "Hostitel"
         tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Origin ID"
@@ -77,18 +77,18 @@ cs:
       configure: "Konfigurace"
     file_storage_view:
       general_information: "Všeobecné informace"
-      oauth_applications: "OAuth applications"
+      oauth_applications: "OAuth aplikace"
       project_folders: "Project folders"
       storage_provider: "Poskytovatel úložiště"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "Přesměrovat URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
-        delete: "Delete file storage"
+        delete: "Odstranit úložiště souborů"
       managed_project_folders:
         title: "Automatically managed project folders"
         subtitle_short: "Let OpenProject create folders per project automatically."
@@ -146,7 +146,7 @@ cs:
           Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
@@ -202,12 +202,12 @@ cs:
     label_oauth_client_details: "Podrobnosti OAuth klienta"
     label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
     label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_id: "OAuth ID klienta"
     label_oauth_client_secret: "OAuth Client Secret"
     label_information: "Další informace"
     label_provider_type: "Typ poskytovatele"
     label_project_folder: "Složka projektu"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "Přesměrovat URI"
     label_uri: "URI"
     label_new_storage: "Nové úložiště"
     label_new_file_storage: "New %{provider} storage"
@@ -258,8 +258,8 @@ cs:
         b: "You are being redirected"
     health:
       title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
+      label_pending: "Nevyřízeno"
+      label_error: "Chyba"
       label_healthy: "Healthy"
       checked: "Last checked %{datetime}"
       since: "since %{datetime}"

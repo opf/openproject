@@ -34,9 +34,9 @@ si:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "පැටවීම..."
       not_found: "No items found"
-      type_to_search: "Type to search"
+      type_to_search: "සෙවීමට ටයිප් කරන්න"
     autocomplete_select:
       placeholder:
         multi: "එකතු කරන්න \"%{name}”"
@@ -303,33 +303,33 @@ si:
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'ගැන්ට් සටහන'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'ලේබල් වින්යාසය'
+        bar: 'බාර් ලේබල්'
+        left: 'වම'
+        right: 'අයිතිය'
+        farRight: 'ඈත හරි'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Gantt සටහන පෙන්වන්න'
+      button_deactivate: 'Gantt සටහන සඟවන්න'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(කිසිවක් නැත)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'සම්බන්ධතාවය නිර්මාණය කිරීම සඳහා ඕනෑම උද්දීපනය කළ වැඩ පැකේජයක් මත ක්ලික් කරන්න. අවලංගු කිරීමට මාධ්ය ගැලවීම.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "විශාලනය"
+        out: "විශාලනය"
+        auto: "වාහන විශාලනය"
+        days: "දින"
+        weeks: "සති"
+        months: "මාස"
+        quarters: "නිල නිවාස"
+        years: "අවුරුදු"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          ස්වයංසූම් ලබා ගත නොහැකි විට පෙන්විය යුතු ආරම්භක විශාලන මට්ටම තෝරන්න.
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
     general_text_No: "නැත"
@@ -1177,7 +1177,7 @@ si:
       current_project_and_all_descendants: "මෙම ව්යාපෘතිය+උප ව්යාපෘති"
       current_project: "මෙම ව්යාපෘතියේ"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "සොයන්න"
       title:
         all_projects: "සියලු ව්යාපෘති"
         project_and_subprojects: "සහ සියළු උප ව්යාපෘති"

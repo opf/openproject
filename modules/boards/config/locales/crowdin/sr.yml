@@ -9,31 +9,31 @@ sr:
   boards:
     label_board: "Board"
     label_boards: "Boards"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Nova tabla"
+    label_board_type: "Tip table"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Osnovno
+      action: "Tabla sa zadacima (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Zadužen
       status: Status
-      version: Version
-      subproject: Subproject
+      version: Verzija
+      subproject: Potprojekat
       subtasks: Parent-child
-      basic: Basic
+      basic: Osnovno
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Počnite ispočetka sa praznom tablom. Na tablu, ručno dodaj kartice i kolone.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Osnovna tabla u kanban stilu, sa kolonama koje prikazuju status, kao što su: Uraditi, Tekuće, Završeno.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Tabla sa automatizovanim kolonama, po dodeljenim korisnicima. Idealna za otpremanje radnih paketa.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Tabla sa automatizovanim kolonama, po atributima verzije. Idealna za planiranje razvoja proizvoda.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Tabla sa automatizovanim kolonama za potprojekte. Prevlačenje radnog paketa na druge liste osvežava stanje potprojekta.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Tabla sa automatizovanim kolonama za podelemente. Prevlačenje radnog paketa na druge liste osvežava stanje izvornog elementa.
     upsale:
       teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      upgrade: 'Nadogradite'

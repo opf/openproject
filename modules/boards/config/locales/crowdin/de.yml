@@ -2,7 +2,7 @@
 de:
   plugin_openproject_boards:
     name: "OpenProject Boards"
-    description: "Provides board views."
+    description: "Board-Ansichten für OpenProject"
   permission_show_board_views: "Boards anzeigen"
   permission_manage_board_views: "Boards verwalten"
   project_module_board_view: "Boards"

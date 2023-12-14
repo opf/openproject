@@ -34,10 +34,11 @@ module WorkPackages
       include OpPrimer::ComponentHelpers
       include WorkPackages::Share::Concerns::Authorization
 
-      def initialize(work_package:)
+      def initialize(work_package:, errors: nil)
         super
 
         @work_package = work_package
+        @errors = errors
       end
 
       def new_share

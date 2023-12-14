@@ -98,10 +98,10 @@ he:
                 In this module you can communicate project news to your team members.
               description: The actual news
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: קטגוריה 1 (שינוי בהגדרות הפרויקט)
           queries:
             item_0:
-              name: Project plan
+              name: תכנית פרויקט
             item_1:
               name: אבני דרך
             item_2:
@@ -115,7 +115,7 @@ he:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: ברוכים הבאים
               item_1:
                 options:
                   name: Getting started
@@ -141,13 +141,13 @@ he:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: חברים
               item_5:
                 options:
-                  name: Work packages
+                  name: חבילת עבודה
               item_6:
                 options:
-                  name: Milestones
+                  name: אבני דרך
         demo-planning-constructing-project:
           name: "(Demo) Planning & constructing"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -160,16 +160,16 @@ he:
                 In this module you can communicate project news to your team members.
               description: The actual news
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: קטגוריה 1 (שינוי בהגדרות הפרויקט)
           queries:
             item_0:
-              name: Project plan
+              name: תכנית פרויקט
             item_1:
-              name: Milestones
+              name: אבני דרך
             item_2:
               name: משימות
             item_3:
-              name: Team planner
+              name: מתכנן צוות
           project-overview:
             widgets:
               item_0:
@@ -414,10 +414,10 @@ he:
                 In this module you can communicate project news to your team members.
               description: The actual news
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: קטגוריה 1 (שינוי בהגדרות הפרויקט)
           queries:
             item_0:
-              name: Project plan
+              name: תכנית פרויקט
             item_1:
               name: אבני דרך
             item_2:
@@ -679,7 +679,7 @@ he:
             item_2:
               name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: קטגוריה 1 (שינוי בהגדרות הפרויקט)
           queries:
             item_0:
               name: Issues
@@ -690,13 +690,13 @@ he:
             item_3:
               name: Remarks
             item_4:
-              name: Project plan
+              name: תכנית פרויקט
             item_5:
-              name: Milestones
+              name: אבני דרך
             item_6:
-              name: Tasks
+              name: משימות
             item_7:
-              name: Team planner
+              name: מתכנן צוות
           boards:
             bcf:
               name: BCF issues
@@ -704,7 +704,7 @@ he:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: ברוכים הבאים
               item_1:
                 options:
                   name: Getting started
@@ -728,7 +728,7 @@ he:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: חברים
               item_5:
                 options:
-                  name: Work packages
+                  name: חבילת עבודה

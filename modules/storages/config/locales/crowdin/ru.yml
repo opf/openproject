@@ -82,7 +82,7 @@ ru:
       storage_provider: "Поставщик хранилища"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "URI перенаправления"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Автоматически управляемые папки"
     page_titles:
@@ -146,7 +146,7 @@ ru:
           Скопируйте это значение в новый Web redirect URI под URI перенаправления.
         missing_client_id_for_redirect_uri: "Пожалуйста, заполните значения OAuth для генерации URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Имя или UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"

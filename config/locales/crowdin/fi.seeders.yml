@@ -50,15 +50,15 @@ fi:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Ei jäsen
         item_1:
-          name: Anonymous
+          name: Anonyymi
         item_2:
-          name: Member
+          name: Jäsen
         item_3:
-          name: Reader
+          name: Lukuoikeus
         item_4:
-          name: Project admin
+          name: Projektin ylläpitäjä
       global_roles:
         item_0:
           name: Staff and projects manager

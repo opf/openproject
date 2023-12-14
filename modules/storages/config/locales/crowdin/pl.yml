@@ -1,8 +1,8 @@
 #English strings go here
 pl:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
-    description: "Allows linking work packages to files in external storages, such as Nextcloud."
+    name: "Magazyny OpenProject"
+    description: "Umożliwia powiązywanie pakietów roboczych z plikami w magazynach zewnętrznych, takich jak Nextcloud."
   permission_view_file_links: "Wyświetl linki do plików"
   permission_manage_file_links: "Zarządzaj linkami do plików"
   permission_manage_storages_in_project: "Zarządzaj magazynami plików w projekcie"
@@ -27,7 +27,7 @@ pl:
         creator: "Twórca"
         provider_type: "Typ dostawcy"
         host: "Host"
-        tenant: "Directory (tenant) ID"
+        tenant: "Identyfikator katalogu (dzierżawcy)"
       storages/file_link:
         origin_id: "Identyfikator pochodzenia"
     errors:
@@ -37,7 +37,7 @@ pl:
         storages/project_storage:
           attributes:
             project_folder_mode:
-              mode_unavailable: "is not available for this storage."
+              mode_unavailable: "jest niedostępny dla tego magazynu."
         storages/storage:
           attributes:
             host:
@@ -59,39 +59,39 @@ pl:
     errors:
       too_many_elements_created_at_once: "Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}."
   storages:
-    default_name: "My storage"
+    default_name: "Mój magazyn"
     unknown_storage: "Nieznany magazyn"
     buttons:
-      done_continue: "Done, continue"
+      done_continue: "Gotowe, kontynuuj"
       done_continue_setup: "Gotowe. Kontynuuj konfigurację"
       done_complete_setup: "Gotowe, konfiguracja ukończona"
-      complete_without_setup: "Complete without it"
+      complete_without_setup: "Ukończ bez tego"
       edit_automatically_managed_project_folders: "Edytuj automatycznie zarządzane foldery projektu"
       replace_openproject_oauth: "Zastąp OpenProject OAuth"
       replace_provider_type_oauth: "Zastąp %{provider_type} OAuth"
-      save: "Save"
-      save_and_continue: "Save and continue"
+      save: "Zapisz"
+      save_and_continue: "Zapisz i kontynuuj"
       save_and_continue_setup: "Zapisz i kontynuuj konfigurację"
       save_and_complete_setup: "Zapisz i zakończ konfigurację"
       select_folder: "Wybierz folder"
       configure: "Konfiguruj"
     file_storage_view:
-      general_information: "General information"
-      oauth_applications: "OAuth applications"
-      project_folders: "Project folders"
-      storage_provider: "Storage provider"
+      general_information: "Informacje ogólne"
+      oauth_applications: "Aplikacje OAuth"
+      project_folders: "Foldery projektu"
+      storage_provider: "Dostawca magazynu"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "Przekieruj URI"
       nextcloud_oauth: "Nextcloud OAuth"
-      automatically_managed_folders: "Automatically managed folders"
+      automatically_managed_folders: "Automatycznie zarządzane foldery"
     page_titles:
       file_storages:
-        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
-        delete: "Delete file storage"
+        subtitle: "Dodaj zewnętrzny magazyn plików w celu przesyłania plików, ich powiązywania i zarządzania nimi w pakietach roboczych."
+        delete: "Usuń magazyn plików"
       managed_project_folders:
         title: "Automatycznie zarządzane foldery projektu"
-        subtitle_short: "Let OpenProject create folders per project automatically."
+        subtitle_short: "Pozwól OpenProject automatycznie tworzyć foldery dla każdego projektu."
         subtitle: >
           Pozwól OpenProject automatycznie tworzyć foldery dla każdego projektu. Jest to zalecane, ponieważ zapewnia, że każdy członek zespołu zawsze ma prawidłowe uprawnienia dostępu.
       project_settings:
@@ -110,8 +110,8 @@ pl:
       host: "Proszę dodać adres hosta magazynu wraz z https://. Nie powinien być dłuższy niż 255 znaków."
       managed_project_folders_application_password: >
         Skopiuj tę wartość z:
-      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
-      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
+      managed_project_folders_application_password_caption: "Włącz automatycznie zarządzane foldery, kopiując tę wartość z: %{provider_type_link}."
+      new_storage: "Aby uzyskać więcej informacji, przeczytaj naszą dokumentację na temat <a target='_blank' href='%{provider_link}'>konfigurowania integracji magazynu plików %{provider_name}</a>."
       no_storage_set_up: "Nie ma jeszcze skonfigurowanych magazynów plików."
       no_specific_folder: "Domyślnie każdy użytkownik rozpocznie we własnym folderze domowym po przesłaniu pliku."
       automatic_folder: "Spowoduje to automatyczne utworzenie katalogu głównego dla tego projektu i zarządzanie uprawnieniami dostępu każdego członka projektu."
@@ -124,48 +124,48 @@ pl:
       setting_up_storages: "Aby skonfigurować magazyny plików, odwiedź"
       setting_up_storages_non_admin: "Administratorzy mogą skonfigurować magazyny plików w obszarze Administracja / Magazyny plików."
       all_available_storages_already_added: "Wszystkie dostępne magazyny zostały już dodane do projektu."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
-      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
+      oauth_application_details: "Wartość tajnego klucza klienta nie będzie ponownie dostępna po zamknięciu tego okna. Skopiuj te wartości do %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Ustawienia Nextcloud OpenProject Integration"
       copy_from: "Skopiuj tę wartość z"
       nextcloud:
-        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
-        oauth_configuration: "Copy these values from %{application_link_text}."
-        application_link_text: "application “Integration OpenProject”"
+        provider_configuration: "Przed wykonaniem konfiguracji upewnij się, że masz uprawnienia administracyjne w swoim wystąpieniu Nextcloud oraz zainstalowaną aplikację %{application_link_text}."
+        oauth_configuration: "Skopiuj te wartości z %{application_link_text}."
+        application_link_text: "aplikacji „Integration OpenProject”"
         integration: "Administracja Nextcloud / OpenProject"
       one_drive:
         provider_configuration: >
-          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
-        application_link_text: "Azure portal"
+          Przed przystąpieniem do konfiguracji upewnij się, że masz uprawnienia administracyjne w %{application_link_text} lub skontaktuj się z administratorem z firmy Microsoft. W portalu musisz również zarejestrować aplikację Azure lub użyć istniejącej do uwierzytelniania.
+        oauth_configuration: "Skopiuj te wartości z żądanej aplikacji w %{application_link_text}."
+        application_link_text: "Portal Azure"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
-          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+          Skopiuj identyfikator klienta z portalu Azure. Jest to potrzebne do wygenerowania identyfikatora URI przekierowania.
         oauth_client_secret: >
-          In case there is no application client secret under Client credentials, please create a new one.
+          Jeśli w sekcji Poświadczenia klienta nie ma tajnego klucza klienta aplikacji, utwórz nowy.
         oauth_client_redirect_uri: >
-          Please copy this value to a new Web redirect URI under Redirect URIs.
-        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
+          Skopiuj tę wartość do nowego identyfikatora URI przekierowania sieci Web w sekcji Przekieruj URI.
+        missing_client_id_for_redirect_uri: "Wprowadź wartości OAuth, aby wygenerować identyfikator URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
-        tenant_id_placeholder: "Name or UUID"
-        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
-        documentation_link_text: "OneDrive/SharePoint file storages documentation"
-        copy_redirect_uri: "Copy redirect URI"
+          Skopiuj identyfikator katalogu (dzierżawcy) z żądanej aplikacji i rejestracje aplikacji w %{application_link_text}.
+        tenant_id_placeholder: "Nazwa lub identyfikator UUID"
+        drive_id: "Skopiuj identyfikator z żądanego dysku, wykonując kroki opisane w %{drive_id_link_text}."
+        documentation_link_text: "dokumentacji plików OneDrive/SharePoint"
+        copy_redirect_uri: "Skopiuj identyfikator URI przekierowania"
     help_texts:
       project_folder: >
         Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
     configuration_checks:
       oauth_client_incomplete:
-        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
-        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+        nextcloud: "Zezwalaj OpenProject na dostęp do danych Nextcloud przy użyciu OAuth."
+        one_drive: "Zezwalaj OpenProject na dostęp do danych Azure przy użyciu OAuth w celu połączenia z usługą OneDrive lub SharePoint."
       redirect_uri_incomplete:
-        one_drive: "Complete the setup with the correct URI redirection."
+        one_drive: "Ukończ konfigurację z poprawnym przekierowaniem identyfikatora URI."
     delete_warning:
       storage: >
-        Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
-      storage_delete_result_1: "Remove all storage setups for all projects using this storage."
-      storage_delete_result_2: "Remove all links from work packages of all projects to files and folders of that storage."
-      storage_delete_result_3: "In case this storage has automatically managed project folders, those and their contained files will be deleted forever."
+        Czy na pewno chcesz usunąć %{file_storage}? Aby potwierdzić to działanie, wprowadź nazwę magazynu w polu poniżej, spowoduje to:
+      storage_delete_result_1: "Usunięcie wszystkich konfiguracji magazynu ze wszystkich korzystających z niego projektów."
+      storage_delete_result_2: "Usunięcie wszystkich linków z pakietów roboczych wszystkich projektów do plików i folderów z tego magazynu."
+      storage_delete_result_3: "W przypadku, gdy ten magazyn zawiera automatycznie zarządzane foldery projektów, foldery te i zawarte w nich pliki zostaną bezpowrotnie usunięte."
       project_storage: >
         Czy na pewno chcesz usunąć %{file_storage} z tego projektu? Aby potwierdzić to działanie, wprowadź nazwę magazynu w polu poniżej, spowoduje to:
       project_storage_delete_result_1: "Usuń wszystkie linki z pakietów roboczych tego projektu do plików i folderów tego magazynu."
@@ -173,21 +173,21 @@ pl:
       input_delete_confirmation: "Aby potwierdzić usunięcie, wprowadź nazwę magazynu plików %{file_storage}."
       irreversible_notice: "Usunięcie magazynu plików jest działaniem nieodwracalnym."
     storage_list_blank_slate:
-      heading: "You don't have any storages yet."
-      description: "Add a storage to see them here."
-    error_invalid_provider_type: "Please select a valid storage provider."
+      heading: "Nie masz jeszcze żadnych magazynów."
+      description: "Dodaj magazyn, aby zobaczyć go tutaj."
+    error_invalid_provider_type: "Wybierz właściwego dostawcę magazynu."
     label_active: "Aktywny"
-    label_add_new_storage: "Add new storage"
-    label_delete_storage: "Delete storage"
+    label_add_new_storage: "Dodaj nowy magazyn"
+    label_delete_storage: "Usuń magazyn"
     label_inactive: "Nieaktywny"
     label_creator: "Twórca"
-    label_provider: "Provider"
+    label_provider: "Dostawca"
     label_file_link: "Link do pliku"
     label_file_links: "Linki do plików"
-    label_file_storage: "File storage"
-    label_creation_time: "Creation time"
-    label_completed: "Completed"
-    label_incomplete: "Incomplete"
+    label_file_storage: "Magazyn plików"
+    label_creation_time: "Czas utworzenia"
+    label_completed: "Ukończono"
+    label_incomplete: "Niekompletny"
     label_name: "Nazwa"
     label_host: "Adres URL hosta "
     label_managed_project_folders:
@@ -197,30 +197,30 @@ pl:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
-      one_drive: "OneDrive OAuth"
+      one_drive: "OAuth OneDrive"
     label_oauth_application_details: "Szczegóły aplikacji OAuth"
     label_oauth_client_details: "Szczegóły klienta OAuth"
-    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
-    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
-    label_information: "Additional information"
+    label_openproject_oauth_application_id: "Identyfikator klienta OAuth OpenProject"
+    label_openproject_oauth_application_secret: "Tajny klucz klienta OAuth OpenProject"
+    label_oauth_client_id: "ID klienta OAuth"
+    label_oauth_client_secret: "Klucz klienta OAuth"
+    label_information: "Dodatkowe informacje"
     label_provider_type: "Typ dostawcy"
     label_project_folder: "Folder projektu"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "Przekieruj URI"
     label_uri: "URI"
     label_new_storage: "Nowy magazyn"
-    label_new_file_storage: "New %{provider} storage"
-    label_edit_storage: "Edit storage"
-    label_edit_storage_host: "Edit storage host"
-    label_edit_storage_oauth_client: "Edit storage OAuth client"
-    label_show_storage_redirect_uri: "Show redirect URI"
-    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
+    label_new_file_storage: "Nowy magazyn %{provider}"
+    label_edit_storage: "Edytuj magazyn"
+    label_edit_storage_host: "Edytuj hosta magazynu"
+    label_edit_storage_oauth_client: "Edytuj klienta OAuth magazynu"
+    label_show_storage_redirect_uri: "Pokaż identyfikator URI przekierowania"
+    label_edit_storage_automatically_managed_folders: "Edytuj automatycznie zarządzane foldery magazynu"
     label_existing_manual_folder: "Istniejący folder z ręcznie zarządzanymi uprawnieniami"
     label_no_specific_folder: "Brak konkretnego folderu"
     label_automatic_folder: "Nowy folder z automatycznie zarządzanymi uprawnieniami"
     label_no_selected_folder: "Nie wybrano folderu"
-    label_select_provider: "Select provider"
+    label_select_provider: "Wybierz dostawcę"
     label_storage: "Magazyn"
     label_storages: "Magazyny"
     label_status: "Status"
@@ -228,7 +228,7 @@ pl:
     member_connection_status:
       connected: "Połączono"
       connected_no_permissions: "Rola użytkownika nie ma uprawnień do magazynów"
-      not_connected: "Not connected. The user should login to the storage via the following %{link}."
+      not_connected: "Nie połączono. Użytkownik powinien zalogować się do magazynu za pomocą %{link}."
     no_results: "Brak skonfigurowanych magazynów."
     members_no_results: "Brak członków do wyświetlenia."
     provider_types:
@@ -236,33 +236,33 @@ pl:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "np. Nextcloud"
-        label_oauth_client_id: "Nextcloud OAuth Client ID"
-        label_oauth_client_secret: "Nextcloud OAuth Client Secret"
+        label_oauth_client_id: "Identyfikator klienta OAuth Nextcloud"
+        label_oauth_client_secret: "Tajny klucz klienta OAuth Nextcloud"
       one_drive:
         name: "OneDrive/SharePoint"
-        name_placeholder: "e.g. OneDrive"
-        label_oauth_client_id: "Azure OAuth Application (client) ID"
-        label_oauth_client_secret: "Azure OAuth Client Secret Value"
+        name_placeholder: "np. OneDrive"
+        label_oauth_client_id: "Identyfikator aplikacji OAuth Azure (klienta)"
+        label_oauth_client_secret: "Tajny klucz klienta OAuth Azure"
     confirm_replace_oauth_application: "Na pewno? Wszyscy użytkownicy będą musieli dokonać ponownej autoryzacji w stosunku do OpenProject."
     confirm_replace_oauth_client: "Na pewno? Wszyscy użytkownicy będą musieli ponownie autoryzować swoje magazyny pamięci."
     oauth_client_details_missing: "Aby zakończyć konfigurację, dodaj poświadczenia klienta OAuth ze swojego magazynu pamięci."
     automatically_managed_project_folder_missing: "Aby ukończyć konfigurację, skonfiguruj foldery projektu automatycznie zarządzane w magazynie."
     notice_oauth_application_replaced: "Aplikacja OpenProject OAuth została pomyślnie zastąpiona."
-    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    notice_successful_storage_connection: "Magazyn został podłączony! Pamiętaj, aby aktywować moduł i konkretny magazyn w ustawieniach każdego żądanego projektu, aby móc z nich korzystać."
     open_project_storage_modal:
       waiting:
-        a: "We are setting up your permissions on the project folder."
-        b: "One moment please, this might take some time..."
+        a: "Konfigurujemy Twoje uprawnienia do folderu projektu."
+        b: "Chwileczkę, to może zająć trochę czasu..."
       success:
-        a: "Integration setup completed"
-        b: "You are being redirected"
+        a: "Ukończono konfigurację integracji"
+        b: "Następuje przekierowanie"
     health:
-      title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
-      label_healthy: "Healthy"
-      checked: "Last checked %{datetime}"
-      since: "since %{datetime}"
+      title: "Status zarządzanych folderów"
+      label_pending: "Oczekujący"
+      label_error: "Błąd"
+      label_healthy: "Zdrowe"
+      checked: "Ostatnio sprawdzono %{datetime}"
+      since: "od %{datetime}"
     upsale:
-      title: "OneDrive/SharePoint integration"
-      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'
+      title: "Integracja OneDrive/SharePoint"
+      description: 'Zintegruj swoją usługę OneDrive/SharePoint z OpenProject jako magazyn plików. Prześlij pliki i powiąż je bezpośrednio z pakietami roboczymi w projekcie.'

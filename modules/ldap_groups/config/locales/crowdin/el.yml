@@ -6,11 +6,11 @@ el:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'Σύνδεση LDAP'
         sync_users: 'Συγχρονισμός χρηστών'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP Φίλτρο'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'Σύνδεση LDAP'
         group_name_attribute: "Χαρακτηριστικό ονόματος ομάδας"
         sync_users: 'Συγχρονισμός χρηστών'
         base_dn: "Αναζήτηση base DN"

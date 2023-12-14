@@ -312,7 +312,7 @@ be:
         right: 'Right'
         farRight: 'Far right'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Адзначце атрыбуты, якія будуць паказвацца заўсёды ў адпаведных пазіцыях дыяграмы Ганта. Звярніце ўвагу, што пры навядзенні курсора на элемент, замест гэтых атрыбутаў будуць паказаны яго часавыя меткі.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:

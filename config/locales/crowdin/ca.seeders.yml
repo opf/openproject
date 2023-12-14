@@ -50,18 +50,18 @@ ca:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: No membre
         item_1:
-          name: Anonymous
+          name: Anònim
         item_2:
-          name: Member
+          name: Membre
         item_3:
-          name: Reader
+          name: Lector
         item_4:
-          name: Project admin
+          name: Administrador del projecte
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Personal i cap de projecte
     standard:
       priorities:
         item_0:

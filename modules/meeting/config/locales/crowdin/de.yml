@@ -24,7 +24,7 @@ de:
   plugin_openproject_meeting:
     name: "OpenProject Besprechung"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      Besprechungen für OpenProject
   activerecord:
     attributes:
       meeting:
@@ -100,7 +100,7 @@ de:
       invited:
         summary: "%{actor} hat Ihnen eine Einladung für die folgende Besprechung gesendet: %{title}"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: "Besprechung %{title} verschoben"
         summary: "Die Besprechung %{title} wurde durch %{actor} verschoben."
         body: "Die Besprechung %{title} wurde durch %{actor} verschoben."
         old_date_time: "Alte(s) Datum/Zeit"

@@ -166,16 +166,16 @@ bg:
     index:
       no_results_title_text: В момента има няма цветове.
       no_results_content_text: Създайте нов цвят
-      label_new_color: "New color"
+      label_new_color: "Нов цвят"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Нов цвят"
+      label_edit_color: "Редактиране на цвета"
     label_no_color: "No color"
-    label_properties: "Properties"
+    label_properties: "Свойства"
     label_really_delete_color: >
       Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
@@ -201,11 +201,19 @@ bg:
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: В момента няма потребителски полета.
       no_results_content_text: Създаване на ново персонализирано поле
   concatenation:
-    single: "or"
+    single: "или"
   global_search:
     placeholder: "Search in %{app_title}"
     overwritten_tabs:
@@ -393,8 +401,8 @@ bg:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -458,20 +466,20 @@ bg:
         attribute_name: "Атрибут"
         help_text: "Help text"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Акаунт"
+        attr_firstname: "Лично име атрибут"
+        attr_lastname: "Фамилно име атрибут"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
+        attr_mail: "Имейл атрибут"
+        base_dn: "Базов DN"
+        host: "Хост"
         onthefly: "Automatic user creation"
-        port: "Port"
+        port: "Порт"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Хранилище"
       color:
-        hexcode: "Hex code"
+        hexcode: "Шестнадесетичен код"
       comment:
         commented: "Коментирани" #an object that this comment belongs to
       custom_action:
@@ -532,7 +540,7 @@ bg:
           on_track: "On track"
           at_risk: "At risk"
           off_track: "Off track"
-          finished: "Finished"
+          finished: "Завършено"
           discontinued: "Discontinued"
         templated: "Шаблонен проект"
         templated_value:
@@ -647,7 +655,7 @@ bg:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Информацията е актуализирана от поне един друг потребител в същото време."
         email: "is not a valid email address."
         empty: "не може да бъде празно."
         even: "трябва да бъде четно число."
@@ -970,7 +978,7 @@ bg:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Имаше проблеми със следните полета:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1282,8 +1290,8 @@ bg:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "1 час"
+        other: "%{count} часа"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
@@ -1682,7 +1690,7 @@ bg:
   label_confirmation: "Потвърждение"
   label_contains: "съдържа"
   label_content: "Съдържание"
-  label_color_plural: "Colors"
+  label_color_plural: "Цветове"
   label_copied: "копирани"
   label_copy_same_as_target: "Също като целта"
   label_copy_source: "Източник"
@@ -1712,7 +1720,7 @@ bg:
   label_deleted: "изтрит"
   label_deleted_custom_field: "(изтрито потребителско поле)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(празно)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Низходящо"
   label_details: "Подробности"
@@ -1910,7 +1918,7 @@ bg:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "всяко"
   label_open_menu: "Open menu"
   label_open_work_packages: "open"
   label_open_work_packages_plural: "open"
@@ -2048,7 +2056,7 @@ bg:
   label_this_week: "тази седмица"
   label_this_year: "тази година"
   label_time_entry_plural: "Отработено време"
-  label_title: "Title"
+  label_title: "Заглавие"
   label_projects_menu: "Проекти"
   label_today: "днес"
   label_top_menu: "Главно меню"
@@ -2921,7 +2929,7 @@ bg:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      public: "Публикувайте този изглед, позволявайки на други потребители да имат достъп до вашия изглед. Потребителите с разрешение „Управление на публични изгледи“ могат да променят или премахват обществени заявки. Това не влияе на видимостта на резултатите от работния пакет в този изглед и в зависимост от техните разрешения, потребителите могат да виждат различни резултати."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "сутрин"
@@ -3035,21 +3043,21 @@ bg:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Роля'
+        type: 'Тип'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Коментар"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Редактиране"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Изглед"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Премахване"
+      share: "Споделяне"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
@@ -3061,6 +3069,7 @@ bg:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

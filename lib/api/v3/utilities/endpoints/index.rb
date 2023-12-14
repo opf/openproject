@@ -164,7 +164,7 @@ module API
             else
               result_scope
                 .includes(constraint.includes_values)
-                .where id: constraint.select(:id)
+                .merge constraint
             end
           end
         end

@@ -302,25 +302,25 @@ vi:
           two: "Tiêu chí phân loại thứ hai"
           three: "Tiêu chí phân loại thứ ba"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Biểu đồ Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
+        title: 'Cấu hình nhãn'
         bar: 'Bar labels'
         left: 'Left'
         right: 'Right'
         farRight: 'Far right'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Xem biểu đồ sự kiện'
+      button_deactivate: 'Ân biểu đồ sự kiện'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(trống)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "Phóng to"
+        out: "Thu nhỏ"
         auto: "Auto zoom"
         days: "Days"
         weeks: "Weeks"
@@ -328,7 +328,7 @@ vi:
         quarters: "Quarters"
         years: "Years"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Chọn mức phóng to ban đầu sẽ được hiển thị khi phóng tự động không có sẵn.
     general_text_no: "không"
     general_text_yes: "có"
     general_text_No: "Không"
@@ -1025,7 +1025,7 @@ vi:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Chia sẻ'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1173,7 +1173,7 @@ vi:
       current_project_and_all_descendants: "Trong dự án này + các dự án con"
       current_project: "Trong dự án này"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "Tìm kiếm"
       title:
         all_projects: "mọi dự án"
         project_and_subprojects: "và tất cả các dự án con"

@@ -13,14 +13,14 @@ zh-TW:
         item_2:
           name: 高
         item_3:
-          name: Critical
+          name: 關鍵的
       statuses:
         item_0:
           name: 新增
         item_1:
           name: 進行中
         item_2:
-          name: Resolved
+          name: 已解決
         item_3:
           name: 已關閉
       time_entry_activities:
@@ -40,14 +40,14 @@ zh-TW:
         item_3:
           name: 問題
         item_4:
-          name: Remark
+          name: 備註
         item_5:
-          name: Request
+          name: 請求
         item_6:
-          name: Clash
+          name: 衝突
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: '嵌入式表：子集'
       type_configuration:
         item_0:
           form_configuration:
@@ -55,23 +55,23 @@ zh-TW:
               group_name: 子階
       groups:
         item_0:
-          name: Architects
+          name: 建築師
         item_1:
-          name: BIM Coordinators
+          name: BIM協調者
         item_2:
-          name: BIM Managers
+          name: BIM管理者
         item_3:
-          name: BIM Modellers
+          name: BIM建模者
         item_4:
-          name: Lead BIM Coordinators
+          name: 主BIM協調者
         item_5:
-          name: MEP Engineers
+          name: MEP工程師
         item_6:
-          name: Planners
+          name: 規劃者
         item_7:
-          name: Structural Engineers
+          name: 結構工程師
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: 歡迎使用 OpenProject BIM版本！
         text: |
           Checkout the demo projects to get started with some examples.
 
@@ -101,13 +101,13 @@ zh-TW:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: 計畫方案
             item_1:
-              name: Milestones
+              name: 里程碑
             item_2:
-              name: Tasks
+              name: 任務
             item_3:
-              name: Team planner
+              name: 團隊規劃
           boards:
             bcf:
               name: Simple drag'n drop workflow
@@ -115,7 +115,7 @@ zh-TW:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: 歡迎
               item_1:
                 options:
                   name: 開始
@@ -147,7 +147,7 @@ zh-TW:
                   name: 工作項目
               item_6:
                 options:
-                  name: Milestones
+                  name: 里程碑
         demo-planning-constructing-project:
           name: "(Demo) Planning & constructing"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -163,18 +163,18 @@ zh-TW:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: 計畫方案
             item_1:
-              name: Milestones
+              name: 里程碑
             item_2:
-              name: Tasks
+              name: 任務
             item_3:
-              name: Team planner
+              name: 團隊規劃
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: 歡迎
               item_1:
                 options:
                   name: 開始
@@ -202,7 +202,7 @@ zh-TW:
                   name: 工作項目
               item_6:
                 options:
-                  name: Milestones
+                  name: 里程碑
           work_packages:
             item_0:
               subject: Project kick off construction project
@@ -417,18 +417,18 @@ zh-TW:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: 計畫方案
             item_1:
-              name: Milestones
+              name: 里程碑
             item_2:
-              name: Tasks
+              name: 任務
             item_3:
-              name: Team planner
+              name: 團隊規劃
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: 歡迎
               item_1:
                 options:
                   name: 開始
@@ -459,7 +459,7 @@ zh-TW:
                   name: 工作項目
               item_6:
                 options:
-                  name: Milestones
+                  name: 里程碑
           work_packages:
             item_0:
               subject: Project kick off creating BIM model
@@ -690,13 +690,13 @@ zh-TW:
             item_3:
               name: Remarks
             item_4:
-              name: Project plan
+              name: 計畫方案
             item_5:
-              name: Milestones
+              name: 里程碑
             item_6:
-              name: Tasks
+              name: 任務
             item_7:
-              name: Team planner
+              name: 團隊規劃
           boards:
             bcf:
               name: BCF issues
@@ -704,7 +704,7 @@ zh-TW:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: 歡迎
               item_1:
                 options:
                   name: 開始

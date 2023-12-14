@@ -198,6 +198,14 @@ lt:
     confirm_destroy_option: "Ištrinant savybę, visi jos panaudojimai (pvz., darbų paketuose) taip pat bus ištrinti. Ar Jūs tikrai norite ištrinti?"
     reorder_alphabetical: "Perrikiuoti reikšmes alfabeto tvarka"
     reorder_confirmation: "Dėmesio: Dabartinė galimų reikšmių tvarka bus prarasta. Tęsti?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
@@ -392,8 +400,8 @@ lt:
     sharing:
       missing_workflow_waring:
         title: "Darbo paketo dalinimuisi trūksta darbo proceso"
-        message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas darbo procesas. Be darbo proceso negalima keisti bendrinamo darbo paketo būsenos."
-        link_message: "Konfigūruokite darbo procesą administravime."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2266,7 +2274,7 @@ lt:
     sharing:
       work_packages:
         allowed_actions: "Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių."
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "Kad prieitumėte prie šio darbo paketo, jums reikės sukurti ir aktyvuoti %{instance} paskyrą. "
         open_work_package: "Atverti darbo paketą"
         subject: "Su jumis bendrinamas darbo paketas #%{id}"
         enterprise_text: "Dalintis darbo paketais su naudotojais, kurie nėra projekto nariai."
@@ -3113,6 +3121,7 @@ lt:
       warning_user_limit_reached_admin: >
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       warning_no_selected_user: "Prašome parinkti naudotjus, su kuriais norite dalintis šiuo darbo paketu"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Užrakintas naudotojas"
         invited: "Pakvietimas išsiųstas. "

@@ -6,11 +6,11 @@ sl:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP povezava'
         sync_users: 'Sinhroniziraj uporabnike'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filter'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP povezava'
         group_name_attribute: "Atribut imena skupine\n"
         sync_users: 'Sinhroniziraj uporabnike'
         base_dn: "Išči po bazi DN"

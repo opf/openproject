@@ -102,8 +102,8 @@ ar:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "خطأ LDAP: %{error_message}"
+    ldap_auth_failed: "لا يمكن مصادقة على ملقم LDAP."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -166,18 +166,18 @@ ar:
     index:
       no_results_title_text: لا يوجد حالياً ألوان.
       no_results_content_text: إنشاء لون جديد
-      label_new_color: "New color"
+      label_new_color: "اللون الجديد"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "اللون الجديد"
+      label_edit_color: "تحرير الألوان"
     label_no_color: "No color"
-    label_properties: "Properties"
+    label_properties: "الخصائص"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      هل أنت متأكد أنك تريد حذف الألوان التالية؟ لن يتم حذف أنواع استخدام هذا اللون.
   custom_actions:
     actions:
       name: "Actions"
@@ -201,6 +201,14 @@ ar:
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: لا يوجد حالياً ملفات للزبائن.
       no_results_content_text: إنشاء ملف زبون جديد
@@ -261,7 +269,7 @@ ar:
       types:
         no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'تمكين نوع "%{type}"'
       versions:
         no_results_title_text: لا يوجد حالياً أية إصدارات للمشروع.
         no_results_content_text: إنشاء إصدار جديد
@@ -397,8 +405,8 @@ ar:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -462,20 +470,20 @@ ar:
         attribute_name: "الواصفة"
         help_text: "Help text"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "الحساب"
+        attr_firstname: "سمة الاسم الأول"
+        attr_lastname: "سمة الاسم الأخير"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
+        attr_mail: "سمة البريد الإلكتروني"
+        base_dn: "قاعدة DN"
+        host: "المضيف"
         onthefly: "Automatic user creation"
-        port: "Port"
+        port: "منفذ"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "مستودع البيانات"
       color:
-        hexcode: "Hex code"
+        hexcode: "رمز Hex"
       comment:
         commented: "علّق" #an object that this comment belongs to
       custom_action:
@@ -571,7 +579,7 @@ ar:
         color: "اللون"
       user:
         admin: "مدير النظام"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "اتصال LDAP"
         identity_url: "Identity URL"
         current_password: "كلمة السر الحالية"
         force_password_change: "تنفيذ تغيير كلمة المرور في تسجيل الدخول التالي"
@@ -651,7 +659,7 @@ ar:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "تم تحديث المعلومات من قبل مستخدم واحد آخر على الأقل في الوقت نفسه."
         email: "is not a valid email address."
         empty: "لا يمكن أن تكون فارغة."
         even: "يجب أن يكون زوجي."
@@ -925,7 +933,7 @@ ar:
             status:
               invalid_on_create: "ليس حالة صحيحة للمستخدمين الجدد."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "لم يتم العثور"
         member:
           principal_blank: "يرجى اختيار مستخدم واحد على الأقل أو مجموعة."
           role_blank: "need to be assigned."
@@ -989,12 +997,12 @@ ar:
       wiki_page: "صفحة وِيكيبيديا"
   errors:
     header_invalid_fields:
-      zero: "There were problems with the following fields:"
+      zero: "كان هناك مشاكل في المجالات التالية:"
       one: "There was a problem with the following field:"
-      two: "There were problems with the following fields:"
-      few: "There were problems with the following fields:"
-      many: "There were problems with the following fields:"
-      other: "There were problems with the following fields:"
+      two: "كان هناك مشاكل في المجالات التالية:"
+      few: "كان هناك مشاكل في المجالات التالية:"
+      many: "كان هناك مشاكل في المجالات التالية:"
+      other: "كان هناك مشاكل في المجالات التالية:"
     header_additional_invalid_fields:
       zero: "Additionally, there were problems with the following fields:"
       one: "Additionally, there was a problem with the following field:"
@@ -1358,12 +1366,12 @@ ar:
         many: "%{count} mins"
         other: "%{count} mins"
       x_hours:
-        zero: "%{count} hours"
-        one: "1 hour"
-        two: "%{count} hours"
-        few: "%{count} hours"
-        many: "%{count} hours"
-        other: "%{count} hours"
+        zero: "%{count} ساعات"
+        one: "ساعة واحدة"
+        two: "%{count} ساعات"
+        few: "%{count} ساعات"
+        many: "%{count} ساعات"
+        other: "%{count} ساعات"
       x_hours_abbreviated:
         zero: "%{count} hrs"
         one: "1 hr"
@@ -1472,7 +1480,7 @@ ar:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "الرجاءاختر مستخدم ودور."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "تعذر حفظ الألوان"
   error_cookie_missing: "ملف تعريف الارتباط \"كوكي\" لأوبن بروجكت مفقود. من فضلك تأكد من أن يتم تمكين ملفات تعريف الارتباط \"كوكيز\"، لأن هذا التطبيق لن يعمل بشكل صحيح دون ذلك."
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1497,7 +1505,7 @@ ar:
   error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "حدث خطأ عند محاولة الوصول إلى مستودع الوثائق: %{value}"
   error_scm_not_found: "لم يتم العثور على إدخال أو مراجعة في مستودع الوثائق."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "لا يمكن حفظ عنصر القائمة"
   error_unable_delete_status: "لا يمكن حذف حالة حزمة العمل نظراً لأنها تستخدم من قبل مجموعة عمل واحدة على الأقل."
   error_unable_delete_default_status: "غير قادر على حذف حالة مجموعة العمل الافتراضية. الرجاء تحديد وضع آخر مجموعة العمل الافتراضي قبل حذف الحالي."
   error_unable_to_connect: "غير قادر على الاتصال (%{value})"
@@ -1647,7 +1655,7 @@ ar:
         text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
         empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
       rss:
-        title: "RSS"
+        title: "اختصاراً لِ:\"Rich Site Summary\" \nReally Simple Syndication\" or\""
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
@@ -1728,7 +1736,7 @@ ar:
   label_attribute: "الواصفة"
   label_attribute_plural: "الواصفات"
   label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source: "اتصال LDAP"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "المصادقة"
   label_available_global_roles: "Available global roles"
@@ -1790,7 +1798,7 @@ ar:
   label_confirmation: "تأكيد"
   label_contains: "يحتوي على"
   label_content: "المحتوى"
-  label_color_plural: "Colors"
+  label_color_plural: "الألوان"
   label_copied: "تم النسخ"
   label_copy_same_as_target: "نفس الهدف"
   label_copy_source: "المصدر"
@@ -1820,7 +1828,7 @@ ar:
   label_deleted: "محذوف"
   label_deleted_custom_field: "(حذف حقل مخصص)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(فارغ)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "ترتيب تنازلي"
   label_details: "تفاصيل"
@@ -2018,7 +2026,7 @@ ar:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "أي"
   label_open_menu: "فتح القائمة"
   label_open_work_packages: "افتح"
   label_open_work_packages_plural: "افتح"
@@ -2156,7 +2164,7 @@ ar:
   label_this_week: "هذا الأسبوع"
   label_this_year: "هذه السنة"
   label_time_entry_plural: "الوقت المستهلك"
-  label_title: "Title"
+  label_title: "العنوان"
   label_projects_menu: "المشاريع"
   label_today: "اليوم"
   label_top_menu: "القائمة العليا"
@@ -2361,8 +2369,8 @@ ar:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} عمل الحزمة (الحزم) التي تم تعيينها لك الواجبة في الأيام المقبلة %{days}:"
   mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "تم إضافة صفحة wiki '%{id}' من %{author}."
+  mail_body_wiki_page_updated: "تم تحديث صفحة wiki '%{id}' من %{author}."
   mail_subject_account_activation_request: "طلب تنشيط حساب %{value}"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2506,7 +2514,7 @@ ar:
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "إضافة مرفقات"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
   permission_create_user: "Create users"
@@ -2520,7 +2528,7 @@ ar:
   permission_comment_news: "أخبار التعليق"
   permission_commit_access: "الوصول للقراءة/الكتابة إلى المستودع (الالتزام)"
   permission_copy_projects: "نسخ المشاريع"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "انسخ مجموعات العمل"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "حذف مراقبات"
   permission_delete_work_packages: "حذف مجموعات العمل"
@@ -3153,21 +3161,21 @@ ar:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'الدور'
+        type: 'النّوع'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "تعليق"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "تعديل"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "عرض"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "إزالة"
+      share: "شارك"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
@@ -3179,6 +3187,7 @@ ar:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

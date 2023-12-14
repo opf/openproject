@@ -82,7 +82,7 @@ lt:
       storage_provider: "Saugyklos tiekėjas"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "Peradresavimo URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatiškai valdomi aplankai"
     page_titles:
@@ -146,7 +146,7 @@ lt:
           Prašome nukopijuoti šią reikšmę į naują Tinklo peradresavimo URI prie jūsų Peradresavimo URI.
         missing_client_id_for_redirect_uri: "Prašome užpildyti OAuth reikšmes, kad sugeneruotumėte URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Vardas ar UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"

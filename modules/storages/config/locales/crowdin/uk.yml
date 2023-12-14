@@ -27,7 +27,7 @@ uk:
         creator: "Автор"
         provider_type: "Тип постачальника"
         host: "Хост"
-        tenant: "Directory (tenant) ID"
+        tenant: "ID каталогу (клієнта)"
       storages/file_link:
         origin_id: "Код джерела"
     errors:
@@ -77,21 +77,21 @@ uk:
       configure: "Налаштувати"
     file_storage_view:
       general_information: "Загальна інформація"
-      oauth_applications: "OAuth applications"
-      project_folders: "Project folders"
-      storage_provider: "Storage provider"
+      oauth_applications: "Програми OAuth"
+      project_folders: "Папки проєкту"
+      storage_provider: "Постачальник сховища"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "URI переспрямування"
       nextcloud_oauth: "Nextcloud OAuth"
-      automatically_managed_folders: "Automatically managed folders"
+      automatically_managed_folders: "Папки з автоматичним керуванням"
     page_titles:
       file_storages:
-        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
-        delete: "Delete file storage"
+        subtitle: "Додає зовнішнє файлове сховище, щоб додавати файли, створювати посилання й керувати файлами в пакетах робіт."
+        delete: "Видалити файлове сховище"
       managed_project_folders:
         title: "Папки проєкту з автоматичним керуванням"
-        subtitle_short: "Let OpenProject create folders per project automatically."
+        subtitle_short: "Дає змогу OpenProject автоматично створювати папки для кожного проєкту."
         subtitle: >
           Дозвольте OpenProject автоматично створювати папки для проєкту. Радимо зробити це, адже в такому разі кожен учасник команди завжди матиме належні дозволи на доступ.
       project_settings:
@@ -110,8 +110,8 @@ uk:
       host: "Додайте адресу хосту для свого сховища, включно з https://. Її довжина не може перевищувати 255 символів."
       managed_project_folders_application_password: >
         Копіювати це значення з:
-      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
-      new_storage: "Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information."
+      managed_project_folders_application_password_caption: "Увімкніть автоматично керовані папки, скопіювавши це значення: %{provider_type_link}."
+      new_storage: "Щою дізнатися більше, ознайомтеся з нашою документацією щодо <a target='_blank' href='%{provider_link}'>створення інтеграції файлового сховища %{provider_name}</a>."
       no_storage_set_up: "Файлові сховища поки не створено."
       no_specific_folder: "За замовчуванням кожен користувач, який передасть файл, починатиме роботу у власній головній папці."
       automatic_folder: "Буде автоматично створено кореневу папку для цього проєкту й налаштовано дозволи на доступ для кожного учасника проєкту."
@@ -124,30 +124,30 @@ uk:
       setting_up_storages: "Щоб створити файлові сховища, перейдіть у"
       setting_up_storages_non_admin: "Адміністратори можуть створювати файлові сховища в розділі «Адміністрування» / «Файлові сховища»."
       all_available_storages_already_added: "У проєкт уже додано всі доступні сховища."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
-      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
+      oauth_application_details: "Секретний ключ клієнта стане недоступним, коли ви закриєте це вікно. Скопіюйте ці значення в %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Налаштування інтеграції Nextcloud OpenProject"
       copy_from: "Копіювати це значення з"
       nextcloud:
-        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
-        oauth_configuration: "Copy these values from %{application_link_text}."
-        application_link_text: "application “Integration OpenProject”"
+        provider_configuration: "Перш ніж виконувати налаштування, переконайтеся, що маєте права адміністратора у своєму екземплярі Nextcloud і що встановлено %{application_link_text}."
+        oauth_configuration: "Скопіюйте ці значення з додатка %{application_link_text}."
+        application_link_text: "Integration OpenProject"
         integration: "Адміністрування Nextcloud / OpenProject"
       one_drive:
         provider_configuration: >
-          Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-        oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
-        application_link_text: "Azure portal"
-        integration: "OneDrive/SharePoint"
+          Перш ніж виконувати налаштування, переконайтеся, що у вас є права адміністратора в додатку %{application_link_text}, або зверніться до свого адміністратора Microsoft. На порталі вам також знадобиться зареєструвати додаток Azure або скористатися наявним під час автентифікації.
+        oauth_configuration: "Скопіюйте ці значення з потрібного додатка в %{application_link_text}."
+        application_link_text: "Портал Azure"
+        integration: "OneDrive / SharePoint"
         oauth_client_id: >
-          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+          Скопіюйте ідентифікатор клієнта з порталу Azure. Це потрібно, щоб згенерувати URI переспрямування.
         oauth_client_secret: >
-          In case there is no application client secret under Client credentials, please create a new one.
+          Якщо в облікових даних клієнта немає секрету клієнту додатка, створіть його.
         oauth_client_redirect_uri: >
-          Please copy this value to a new Web redirect URI under Redirect URIs.
-        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
+          Скопіюйте це значення в новий ідентифікатор URI вебпереспрямуваня в розділі «URI переспрямування».
+        missing_client_id_for_redirect_uri: "Введіть значення OAuth, щоб згенерувати URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
-        tenant_id_placeholder: "Name or UUID"
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+        tenant_id_placeholder: "Назва або UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
         copy_redirect_uri: "Copy redirect URI"
@@ -186,7 +186,7 @@ uk:
     label_file_links: "Посилання на файл"
     label_file_storage: "File storage"
     label_creation_time: "Creation time"
-    label_completed: "Completed"
+    label_completed: "Завершено"
     label_incomplete: "Incomplete"
     label_name: "Назва"
     label_host: "URL-адреса хосту"
@@ -202,12 +202,12 @@ uk:
     label_oauth_client_details: "Докладні відомості про клієнт OAuth"
     label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
     label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
+    label_oauth_client_id: "Ідентифікатор клієнта OAuth"
+    label_oauth_client_secret: "Секретний ключ клієнта OAuth"
     label_information: "Additional information"
     label_provider_type: "Тип постачальника"
     label_project_folder: "Папка проєкту"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "URI переспрямування"
     label_uri: "URI"
     label_new_storage: "Нове сховище"
     label_new_file_storage: "New %{provider} storage"
@@ -258,8 +258,8 @@ uk:
         b: "You are being redirected"
     health:
       title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
+      label_pending: "Очікування"
+      label_error: "Помилка"
       label_healthy: "Healthy"
       checked: "Last checked %{datetime}"
       since: "since %{datetime}"

@@ -50,18 +50,18 @@ ja:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: 非メンバー
         item_1:
-          name: Anonymous
+          name: 匿名ユーザ
         item_2:
-          name: Member
+          name: メンバー
         item_3:
-          name: Reader
+          name: リーダー
         item_4:
-          name: Project admin
+          name: プロジェクト管理者
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: スタッフとプロジェクトマネージャー
     standard:
       priorities:
         item_0:
@@ -169,7 +169,7 @@ ja:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: チーム プランナー
           boards:
             kanban:
               name: Kanban board
