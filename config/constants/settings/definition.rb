@@ -379,7 +379,7 @@ module Settings
       },
       ee_manager_visible: {
         description: 'Show or hide the Enterprise configuration page and enterprise banners',
-        default: true,
+        default: false,
         writable: false
       },
       enable_internal_assets_server: {
@@ -427,17 +427,17 @@ module Settings
       # Allow connections for trial creation and booking
       enterprise_trial_creation_host: {
         description: 'Host for EE trial service',
-        default: 'https://start.openproject.com',
+        default: '',
         writable: false
       },
       enterprise_chargebee_site: {
         description: 'Site name for EE trial service',
-        default: 'openproject-enterprise',
+        default: '',
         writable: false
       },
       enterprise_plan: {
         description: 'Default EE selected plan',
-        default: 'enterprise-on-premises---euro---1-year',
+        default: '',
         writable: false
       },
       feeds_enabled: {
@@ -1065,9 +1065,9 @@ module Settings
       },
       work_package_list_default_highlighting_mode: {
         format: :string,
-        default: -> { EnterpriseToken.allows_to?(:conditional_highlighting) ? 'inline' : 'none' },
+        default: 'inline',
+        writable: true,
         allowed: -> { Query::QUERY_HIGHLIGHTING_MODES.map(&:to_s) },
-        writable: -> { EnterpriseToken.allows_to?(:conditional_highlighting) }
       },
       work_package_list_default_columns: {
         default: %w[id subject type status assigned_to priority],
