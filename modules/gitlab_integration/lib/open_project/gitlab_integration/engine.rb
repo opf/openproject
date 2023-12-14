@@ -44,7 +44,9 @@ module OpenProject::GitlabIntegration
              :author_url => 'https://github.com/btey/openproject',
              bundled: true do
       project_module(:gitlab, dependencies: :work_package_tracking) do
-        permission(:show_gitlab_content, {})
+        permission(:show_gitlab_content,
+                  {},
+                  permissible_on: %i[work_package project])
       end
     end
 
