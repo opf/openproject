@@ -180,7 +180,6 @@ module API
 
           schema :readonly,
                  type: 'Boolean',
-                 show_if: ->(*) { Status.can_readonly? },
                  required: false,
                  has_default: true
 
