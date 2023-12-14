@@ -100,9 +100,6 @@ import {
   IStorageFileUploadResponse,
   StorageUploadService,
 } from 'core-app/shared/components/storages/upload/storage-upload.service';
-import {
-  IHalErrorBase, v3ErrorIdentifierMissingEnterpriseToken,
-} from 'core-app/features/hal/resources/error-resource';
 
 @Component({
   selector: 'op-storage',
@@ -421,7 +418,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private handleUploadError(error:HttpErrorResponse, fileName:string):void {
-    if (error.status === 500 && (error.error as IHalErrorBase).errorIdentifier === v3ErrorIdentifierMissingEnterpriseToken) {
+    if (error.status === 500) {
       this.toastService.addError(error);
       return;
     }
