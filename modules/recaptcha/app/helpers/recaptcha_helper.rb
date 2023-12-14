@@ -3,7 +3,8 @@ module RecaptchaHelper
     [
       [I18n.t('recaptcha.settings.type_disabled'), ::OpenProject::Recaptcha::TYPE_DISABLED],
       [I18n.t('recaptcha.settings.type_v2'), ::OpenProject::Recaptcha::TYPE_V2],
-      [I18n.t('recaptcha.settings.type_v3'), ::OpenProject::Recaptcha::TYPE_V3]
+      [I18n.t('recaptcha.settings.type_v3'), ::OpenProject::Recaptcha::TYPE_V3],
+      [I18n.t('recaptcha.settings.type_hcaptcha'), ::OpenProject::Recaptcha::TYPE_HCAPTCHA]
     ]
   end
 

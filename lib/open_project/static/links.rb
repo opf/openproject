@@ -248,7 +248,22 @@ module OpenProject
             },
             storage_docs: {
               setup: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/storage/'
+              },
+              nextcloud_setup: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/'
+              },
+              one_drive_setup: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/'
+              },
+              one_drive_drive_id_guide: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/drive-id-guide/'
+              },
+              nextcloud_oauth_application: {
+                href: 'https://apps.nextcloud.com/apps/integration_openproject'
+              },
+              one_drive_oauth_application: {
+                href: 'https://portal.azure.com/'
               }
             },
             ical_docs: {

@@ -10,7 +10,7 @@ OpenProject::Application.configure do
 
     ActiveSupport::Notifications.subscribe("sql.active_record") do |_name, start, finish, _id, data|
       # Skip transaction that may be blocked
-      next if data[:sql].match(/BEGIN|COMMIT/)
+      next if data[:sql].match?(/BEGIN|COMMIT/)
 
       # Skip smaller durations
       duration = ((finish - start) * 1000).round(4)

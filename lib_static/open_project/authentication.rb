@@ -217,8 +217,8 @@ module OpenProject
 
         def find_all(identifiers)
           identifiers
-            .map { |ident| stages.find { |st| st.identifier == ident } }
-            .compact
+            .filter_map { |ident| stages.find { |st| st.identifier == ident } }
+            
         end
 
         def complete_path(identifier, session:, back_url: nil)

@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= error_messages_for_contract @view, @errors %>
+<%= error_messages_for @view %>
 
 <section class="form--section">
 
@@ -42,17 +42,17 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required">
     <label class="form--label" for="project_id"><%= Query.human_attribute_name(:project) %>:</label>
     <div class="form--field-container">
-      <%= angular_component_tag 'op-project-autocompleter',
+      <%= angular_component_tag 'opce-project-autocompleter',
                                 inputs: {
-                                  apiFilters: [['user_action', '=', ['team_planners/create']]],
-                                  name: 'project_id',
-                                  value: @project,
+                                  filters: [{ name: 'user_action', operator: '=',values: ['team_planners/create'] }],
+                                  inputName: 'project_id',
+                                  model: @project,
                                   appendTo: 'body',
                                 },
                                 id: 'project_id',
                                 class: 'form--select-container -wide remote-field--input',
                                 data: {
-                                  'qa-selector': 'project_id'
+                                  'test-selector': 'project_id'
                                 }
       %>
     </div>

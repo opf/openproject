@@ -42,7 +42,7 @@ module API
         end
 
         link :update do
-          next unless current_user_allowed_to(:manage_members, context: represented.project)
+          next unless current_user.allowed_in_project?(:manage_members, represented.project)
 
           {
             href: api_v3_paths.membership_form(represented.id),
@@ -51,7 +51,7 @@ module API
         end
 
         link :updateImmediately do
-          next unless current_user_allowed_to(:manage_members, context: represented.project)
+          next unless current_user.allowed_in_project?(:manage_members, represented.project)
 
           {
             href: api_v3_paths.membership(represented.id),

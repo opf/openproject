@@ -68,7 +68,8 @@ module Redmine
             allow_uncontainered: allow_uncontainered(options),
             viewable_by_all_users: viewable_by_all_users(options),
             modification_blocked: options[:modification_blocked],
-            extract_tsv: attachable_extract_tsv_option(options)
+            extract_tsv: attachable_extract_tsv_option(options),
+            skip_permission_checks: skip_permission_checks_option(options)
           }
 
           # Because subclasses can have their own attachable_options,
@@ -84,7 +85,8 @@ module Redmine
                           :allow_uncontainered,
                           :viewable_by_all_users,
                           :modification_blocked,
-                          :extract_tsv)
+                          :extract_tsv,
+                          :skip_permission_checks)
         end
 
         def view_permission(options)
@@ -113,6 +115,10 @@ module Redmine
 
         def allow_uncontainered(options)
           options.fetch(:allow_uncontainered, true)
+        end
+
+        def skip_permission_checks_option(options)
+          options.fetch(:skip_permission_checks, false)
         end
 
         def view_permission_default
@@ -144,8 +150,10 @@ module Redmine
           # Can this acts_as_attachable instance accept attachments from the given user
           # @param user [User]
           def attachments_addable?(user = User.current)
-            user.allowed_to_globally?(attachable_options[:add_on_new_permission]) ||
-              user.allowed_to_globally?(attachable_options[:add_on_persisted_permission])
+            (Array(attachable_options[:add_on_new_permission]) |
+              Array(attachable_options[:add_on_persisted_permission])).any? do |permission|
+              user.allowed_based_on_permission_context?(permission)
+            end
           end
 
           ##
@@ -197,12 +205,12 @@ module Redmine
           private
 
           def allowed_to_on_attachment?(user, permissions)
+            return true if self.class.attachable_options[:skip_permission_checks]
+
+            permission_project_context = (project if respond_to?(:project))
+
             Array(permissions).any? do |permission|
-              if respond_to?(:project)
-                user.allowed_to?(permission, project)
-              else
-                user.allowed_to_globally?(permission)
-              end
+              user.allowed_based_on_permission_context?(permission, project: permission_project_context, entity: self)
             end
           end
 

@@ -43,7 +43,7 @@ end -%>
             <col opHighlightCol>
             <col opHighlightCol>
             <col opHighlightCol>
-            <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+            <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
               <col opHighlightCol>
             <%end%>
             <col>
@@ -77,7 +77,7 @@ end -%>
                   </div>
                 </div>
               </th>
-              <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+              <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
                 <th class="currency" id="labor_budget_items_price">
                   <div class="generic-table--sort-header-outer">
                     <div class="generic-table--sort-header">

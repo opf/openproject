@@ -34,7 +34,7 @@ module API
           inject_basic_schema(custom_field)
         end
 
-        def inject_basic_schema(custom_field)
+        def inject_basic_schema(custom_field, _options = {})
           @class.schema property_name(custom_field),
                         type: TYPE_MAP[custom_field.field_format],
                         name_source: ->(*) { custom_field.name },
@@ -43,7 +43,7 @@ module API
                         show_if: ->(*) { custom_field.summable? }
         end
 
-        def inject_property_value(custom_field)
+        def inject_property_value(custom_field, _options = {})
           @class.property property_name(custom_field),
                           getter: property_value_getter_for(custom_field),
                           setter: property_value_setter_for(custom_field),

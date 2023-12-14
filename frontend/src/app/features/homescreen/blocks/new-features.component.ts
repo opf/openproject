@@ -35,10 +35,10 @@ import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
 
 // The key used in the I18n files to distinguish between versions.
-const OpVersionI18n = '13_0';
+const OpVersionI18n = '13_1';
 
 /** Update the teaser image to the next version */
-const featureTeaserImage = '13_0_features.svg';
+const featureTeaserImage = '13_1_features.svg';
 
 @Component({
   template: `
@@ -50,6 +50,7 @@ const featureTeaserImage = '13_0_features.svg';
         <p [innerHtml]="currentNewFeatureHtml"></p>
         <img
           class="widget-box--teaser-image op-new-features--teaser-image"
+          role="presentation"
           [src]="new_features_image"/>
       </div>
 

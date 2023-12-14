@@ -53,7 +53,7 @@ module Redmine::MenuManager::MenuController
     end
 
     def current_menu_item(actions = :default, &block)
-      raise ArgumentError '#current_menu_item requires a block' unless block_given?
+      raise ArgumentError '#current_menu_item requires a block' unless block
 
       if actions == :default
         menu_items[controller_path.to_sym][:default] = block
@@ -110,6 +110,6 @@ module Redmine::MenuManager::MenuController
   end
 
   def user_allowed_to_access_item?(project, item)
-    item && User.current.allowed_to?(item.url(project), project) && (item.condition.nil? || item.condition.call(project))
+    item && User.current.allowed_in_project?(item.url(project), project) && (item.condition.nil? || item.condition.call(project))
   end
 end

@@ -30,7 +30,6 @@ module ::TeamPlanner
         flash[:notice] = I18n.t(:notice_successful_create)
         redirect_to project_team_planner_path(@project, @view.query)
       else
-        @errors = service_result.errors
         render action: :new
       end
     end

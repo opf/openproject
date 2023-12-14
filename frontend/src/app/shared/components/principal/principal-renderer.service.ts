@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { ColorsService } from 'core-app/shared/components/colors/colors.service';
+import { ColorsService, colorModes } from 'core-app/shared/components/colors/colors.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { IPrincipal } from 'core-app/core/state/principals/principal.model';
@@ -21,6 +21,7 @@ export interface AvatarOptions {
 export interface NameOptions {
   hide:boolean;
   link:boolean;
+  classes?:string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -67,7 +68,11 @@ export class PrincipalRendererService {
     principal:PrincipalLike|IPrincipal,
     name:NameOptions = { hide: false, link: true },
     avatar:AvatarOptions = { hide: false, size: 'default' },
+    title:string|null = null,
   ):void {
+    if (!container.dataset.testSelector) {
+      container.dataset.testSelector = 'op-principal';
+    }
     container.classList.add('op-principal');
     const type = typeFromHref(hrefFromPrincipal(principal)) as PrincipalType;
 
@@ -77,7 +82,7 @@ export class PrincipalRendererService {
     }
 
     if (!name.hide) {
-      const el = this.renderName(principal, type, name.link);
+      const el = this.renderName(principal, type, name.link, title || principal.name, name.classes);
       container.appendChild(el);
     }
   }
@@ -88,7 +93,8 @@ export class PrincipalRendererService {
     type:PrincipalType,
   ) {
     const userInitials = this.getInitials(principal.name);
-    const colorCode = this.colors.toHsl(principal.name);
+    const colorMode = this.colors.colorMode();
+    const colorCode = this.colors.toHsl(principal.name, colorMode);
 
     const fallback = document.createElement('div');
     fallback.classList.add('op-principal--avatar');
@@ -99,7 +105,7 @@ export class PrincipalRendererService {
     fallback.title = principal.name;
     fallback.textContent = userInitials;
 
-    if (type === 'placeholder_user') {
+    if (type === 'placeholder_user' && colorMode !== colorModes.lightHighContrast) {
       fallback.style.color = colorCode;
       fallback.style.borderColor = colorCode;
     } else {
@@ -139,13 +145,20 @@ export class PrincipalRendererService {
     return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
   }
 
-  private renderName(principal:PrincipalLike|IPrincipal, type:PrincipalType, asLink = true) {
+  private renderName(
+    principal:PrincipalLike|IPrincipal,
+    type:PrincipalType,
+    asLink = true,
+    title = '',
+    classes = '',
+  ) {
     if (asLink) {
       const link = document.createElement('a');
       link.textContent = principal.name;
       link.href = this.principalURL(principal, type);
       link.target = '_blank';
       link.classList.add('op-principal--name');
+      link.title = title;
 
       return link;
     }
@@ -153,6 +166,10 @@ export class PrincipalRendererService {
     const span = document.createElement('span');
     span.textContent = principal.name;
     span.classList.add('op-principal--name');
+    span.title = title;
+    classes !== '' && classes.split(' ').forEach((cls) => {
+      span.classList.add(cls);
+    });
     return span;
   }
 

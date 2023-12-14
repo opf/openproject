@@ -42,11 +42,16 @@ module OpenProject
       end
 
       def user_limit
-        Hash(token.restrictions)[:active_user_count] if token
+        #Hash(token.restrictions)[:active_user_count] if token
+        999999
       end
 
       def active_user_count
         User.human.active.count
+      end
+
+      def open_seats_count
+        user_limit - active_user_count if user_limit
       end
 
       ##

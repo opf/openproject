@@ -31,14 +31,23 @@ See COPYRIGHT and LICENSE files for more details.
                               method: :post,
                               html: { id: "members_add_form",
                                       class: "form -vertical -bordered -medium-compressed"},
-                              data: { 'members-form-target': 'addMemberForm' }) do |f| %>
+                              data: {
+                                'members-form-target': 'addMemberForm',
+                                controller: "user-limit",
+                                'user-limit-open-seats-value': 999999,
+                                'user-limit-member-autocompleter-value': true,
+                                'application-target': "dynamic",
+                              }) do |f| %>
     <a title="<%= t('js.close_form_title') %>"
        class="hide-member-form-button form--close icon-context icon-close"
        data-action="members-form#hideAddMemberForm"></a>
     <div id="new-member-message"></div>
     <div class="grid-block">
       <div class="grid-content medium-5 small-12 collapse -flex">
-        <div class="form--field">
+        <div
+          class="form--field"
+          data-user-limit-target="inviteUserForm"
+        >
           <%
             user_id_title = I18n.t(:label_principal_search)
 
@@ -48,9 +57,10 @@ See COPYRIGHT and LICENSE files for more details.
           %>
           <%= styled_label_tag :member_user_ids, user_id_title %>
 
-          <%= angular_component_tag 'op-members-autocompleter',
+          <%= angular_component_tag 'opce-members-autocompleter',
                                     inputs: {
-                                      name: "member[user_ids][]",
+                                      inputName: "member[user_ids][]",
+                                      inputBindValue: "id",
                                       url: autocomplete_for_member_project_members_path + '.json',
                                       appendTo: "body",
                                       multiple: true

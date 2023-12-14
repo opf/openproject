@@ -1,4 +1,10 @@
 <div class="inline-label">
+  <input
+    #syncedInput
+    *ngIf="inputName"
+    type="hidden"
+    [attr.name]="inputName"
+    [attr.data-action]="hiddenFieldAction">
   <ng-select
     #ngSelectInstance
     [(ngModel)]="model"
@@ -58,6 +64,7 @@
     (focus)="focused($event)"
     (clear)="cleared($event)"
     (keydown)="keydowned($event)"
+    (keydown.escape)="canceled($event)"
     (search)="searched($event)"
     (scroll)="scrolled($event)"
     (scrollToEnd)="scrolledToEnd($event)"
@@ -69,10 +76,10 @@
       let-item="item"
       let-index="index"
       let-search="searchTerm"
-      *ngIf="headerTemplate"
+      *ngIf="headerTemplate || projectedHeaderTemplate"
     >
       <ng-container
-        [ngTemplateOutlet]="headerTemplate"
+        [ngTemplateOutlet]="headerTemplate || projectedHeaderTemplate"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
       ></ng-container>
     </ng-template>
@@ -86,7 +93,7 @@
       *ngIf="labelRequired"
     >
       <ng-container
-        [ngTemplateOutlet]="labelTemplate || defaultLabel"
+        [ngTemplateOutlet]="projectedLabelTemplate || labelTemplate || defaultLabel"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index, clear:clear }"
       ></ng-container>
     </ng-template>
@@ -98,7 +105,7 @@
       let-search="searchTerm"
     >
       <ng-container
-        [ngTemplateOutlet]="optionTemplate || defaultOption"
+        [ngTemplateOutlet]="projectedOptionTemplate || optionTemplate || defaultOption"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
       ></ng-container>
     </ng-template>
@@ -108,10 +115,10 @@
       let-item="item"
       let-index="index"
       let-search="searchTerm"
-      *ngIf="footerTemplate"
+      *ngIf="footerTemplate || projectedFooterTemplate"
     >
       <ng-container
-        [ngTemplateOutlet]="footerTemplate"
+        [ngTemplateOutlet]="footerTemplate || projectedFooterTemplate"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
       ></ng-container>
     </ng-template>
@@ -129,7 +136,7 @@
       ></op-principal>
       <span
         class="op-autocompleter--wp-subject"
-        data-qa-selector="op-autocompleter-item-subject"
+        data-test-selector="op-autocompleter-item-subject"
       >
         <span
           *ngIf="item.type"
@@ -164,7 +171,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'">
+  <ng-container *ngSwitchCase="resource ==='users' || resource ==='assignee' || resource === 'principals'">
     <div class="op-autocompleter--option-principal-wrapper">
       <op-principal
         *ngIf="item && item.href"

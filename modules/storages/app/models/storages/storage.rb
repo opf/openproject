@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -36,72 +38,140 @@
 # It defines defines checks and permissions on the Ruby level.
 # Additional attributes and constraints are defined in
 # db/migrate/20220113144323_create_storage.rb "migration".
-class Storages::Storage < ApplicationRecord
-  self.inheritance_column = :provider_type
+module Storages
+  class Storage < ApplicationRecord
+    PROVIDER_TYPES = [
+      PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage',
+      PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'
+    ].freeze
 
-  include ::Storages::Common::ConfigurationChecks
+    PROVIDER_TYPE_SHORT_NAMES = {
+      nextcloud: PROVIDER_TYPE_NEXTCLOUD,
+      one_drive: PROVIDER_TYPE_ONE_DRIVE
+    }.with_indifferent_access.freeze
 
-  # One Storage can have multiple FileLinks, representing external files.
-  #
-  # FileLink deletion is done:
-  #   - through a on_delete: :cascade at the database level when deleting a
-  #     Storage
-  #   - through a before_destroy hook at the application level when deleting a
-  #     ProjectStorage
-  has_many :file_links, class_name: 'Storages::FileLink'
-  # Basically every OpenProject object has a creator
-  belongs_to :creator, class_name: 'User'
-  # A project manager can enable/disable Storages per project.
-  has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  # We can get the list of projects with this Storage enabled.
-  has_many :projects, through: :project_storages
-  # The OAuth client credentials that OpenProject will use to obtain user specific
-  # access tokens from the storage server, i.e a Nextcloud serer.
-  has_one :oauth_client, as: :integration, dependent: :destroy
-  has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
+    self.inheritance_column = :provider_type
 
-  PROVIDER_TYPES = [
-    PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze
-  ].freeze
+    has_many :file_links, class_name: 'Storages::FileLink'
+    belongs_to :creator, class_name: 'User'
+    has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+    has_many :projects, through: :project_storages
+    has_one :oauth_client, as: :integration, dependent: :destroy
+    has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
 
-  # Uniqueness - no two storages should  have the same host.
-  validates_uniqueness_of :host
-  validates_uniqueness_of :name
+    validates_uniqueness_of :host, allow_nil: true
+    validates_uniqueness_of :name
 
-  # Creates a scope of all storages, which belong to a project the user is a member
-  # and has the permission ':view_file_links'
-  scope :visible, ->(user = User.current) do
-    if user.allowed_to_globally?(:manage_storages_in_project)
-      all
-    else
-      where(
-        project_storages: ::Storages::ProjectStorage.where(
-          project: Project.allowed_to(user, :view_file_links)
+    scope :visible, ->(user = User.current) do
+      if user.allowed_in_any_project?(:manage_storages_in_project)
+        all
+      else
+        where(
+          project_storages: ::Storages::ProjectStorage.where(
+            project: Project.allowed_to(user, :view_file_links)
+          )
         )
-      )
+      end
     end
-  end
 
-  scope :not_enabled_for_project, ->(project) do
-    where.not(id: project.project_storages.pluck(:storage_id))
-  end
-
-  def self.shorten_provider_type(provider_type)
-    case /Storages::(?'provider_name'.*)Storage/.match(provider_type)
-    in provider_name:
-      provider_name.downcase
-    else
-      raise ArgumentError,
-            "Unknown provider_type! Given: #{provider_type}. " \
-            "Expected the following signature: Storages::{Name of the provider}Storage"
+    scope :not_enabled_for_project, ->(project) do
+      where.not(id: project.project_storages.pluck(:storage_id))
     end
-  end
 
-  def short_provider_type
-    @short_provider_type ||= self.class.shorten_provider_type(provider_type)
-  end
+    enum health_status: {
+      pending: 'pending',
+      healthy: 'healthy',
+      unhealthy: 'unhealthy'
+    }.freeze, _prefix: :health
 
-  def provider_type_nextcloud?
-    provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+    def self.shorten_provider_type(provider_type)
+      case /Storages::(?'provider_name'.*)Storage/.match(provider_type)
+      in provider_name:
+        provider_name.underscore
+      else
+        raise ArgumentError,
+              "Unknown provider_type! Given: #{provider_type}. " \
+              "Expected the following signature: Storages::{Name of the provider}Storage"
+      end
+    end
+
+    def self.extract_part_from_piped_string(text, index)
+      return if text.nil?
+
+      split_reason = text.split('|')
+      if split_reason.length > index
+        split_reason[index].strip
+      end
+    end
+
+    def mark_as_unhealthy(reason: nil)
+      if health_status == 'unhealthy' && reason_is_same(reason)
+        touch(:health_checked_at)
+      else
+        update(health_status: 'unhealthy',
+               health_changed_at: Time.now.utc,
+               health_checked_at: Time.now.utc,
+               health_reason: reason)
+      end
+    end
+
+    def mark_as_healthy
+      if health_status == 'healthy'
+        touch(:health_checked_at)
+      else
+        update(health_status: 'healthy',
+               health_changed_at: Time.now.utc,
+               health_checked_at: Time.now.utc,
+               health_reason: nil)
+      end
+    end
+
+    def configured?
+      configuration_checks.values.all?
+    end
+
+    def configuration_checks
+      raise Errors::SubclassResponsibility
+    end
+
+    def uri
+      return unless host
+
+      @uri ||= URI(host).normalize
+    end
+
+    def connect_src
+      ["#{uri.scheme}://#{uri.host}"]
+    end
+
+    def oauth_configuration
+      raise Errors::SubclassResponsibility
+    end
+
+    def short_provider_type
+      @short_provider_type ||= self.class.shorten_provider_type(provider_type)
+    end
+
+    def provider_type_nextcloud?
+      provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+    end
+
+    def provider_type_one_drive?
+      provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
+    end
+
+    def health_reason_identifier
+      @health_reason_identifier ||= self.class.extract_part_from_piped_string(health_reason, 0)
+    end
+
+    def health_reason_description
+      @health_reason_description ||= self.class.extract_part_from_piped_string(health_reason, 1)
+    end
+
+    private
+
+    def reason_is_same(new_health_reason)
+      health_reason_identifier == self.class.extract_part_from_piped_string(new_health_reason, 0)
+    end
   end
 end

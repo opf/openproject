@@ -20,9 +20,9 @@ class DirectFogUploader < FogFileUploader
 
       uploader = new
 
-      uploader.instance_variable_set "@file", fog_file_uploader.file
-      uploader.instance_variable_set "@key", fog_file_uploader.path
-      uploader.instance_variable_set "@model", fog_file_uploader.model
+      uploader.instance_variable_set :@file, fog_file_uploader.file
+      uploader.instance_variable_set :@key, fog_file_uploader.path
+      uploader.instance_variable_set :@model, fog_file_uploader.model
 
       uploader
     end

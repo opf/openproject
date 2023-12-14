@@ -39,8 +39,8 @@ module OpenProject::Backlogs::Patches::ProjectSeederPatch
       return if version_data.blank?
 
       versions = version_data
-        .map { |data| Version.find_by(name: data['name']) }
-        .compact
+        .filter_map { |data| Version.find_by(name: data['name']) }
+        
 
       versions.each do |version|
         display = version_settings_display_map[version.name] || VersionSetting::DISPLAY_NONE

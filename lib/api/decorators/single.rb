@@ -68,10 +68,6 @@ module API
       class_attribute :to_eager_load
       class_attribute :checked_permissions
 
-      def current_user_allowed_to(permission, context: represented.respond_to?(:project) ? represented.project : nil)
-        current_user.allowed_to?(permission, context)
-      end
-
       # Override in subclasses to specify the JSON indicated "_type" of this representer
       def _type; end
 

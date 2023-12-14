@@ -35,7 +35,7 @@ module API
       class PrioritiesAPI < ::API::OpenProjectAPI
         resources :priorities do
           after_validation do
-            authorize(:view_work_packages, global: true)
+            authorize_in_any_work_package(:view_work_packages)
 
             @priorities = IssuePriority.all
           end

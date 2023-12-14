@@ -61,11 +61,12 @@ module API
                      setter:,
                      link:,
                      uncacheable_link: false,
+                     link_cache_if: nil,
                      show_if: ->(*) { true },
                      skip_render: nil,
                      embedded: true)
 
-          link(link_attr(name, uncacheable_link), &link)
+          link(link_attr(name, uncacheable_link, link_cache_if), &link)
 
           property name,
                    exec_context: :decorator,
@@ -83,11 +84,12 @@ module API
                       setter:,
                       link:,
                       uncacheable_link: false,
+                      link_cache_if: nil,
                       show_if: ->(*) { true },
                       skip_render: nil,
                       embedded: true)
 
-          links(link_attr(name, uncacheable_link), &link)
+          links(link_attr(name, uncacheable_link, link_cache_if), &link)
 
           property name,
                    exec_context: :decorator,
@@ -144,9 +146,10 @@ module API
                    skip_render:)
         end
 
-        def link_attr(name, uncacheable)
+        def link_attr(name, uncacheable, link_cache_if)
           links_attr = { rel: name.to_s.camelize(:lower) }
           links_attr[:uncacheable] = true if uncacheable
+          links_attr[:cache_if] = link_cache_if if link_cache_if
 
           links_attr
         end

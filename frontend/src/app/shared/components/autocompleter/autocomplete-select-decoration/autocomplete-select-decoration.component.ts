@@ -43,10 +43,10 @@ export const autocompleteSelectDecorationSelector = 'autocomplete-select-decorat
   template: `
     <op-project-autocompleter
       *ngIf="isProjectField()"
-      [value]="currentProjectSelection"
+      [model]="currentProjectSelection"
       [multiple]="multiselect"
       [labelForId]="labelForId"
-      (valueChange)="updateProjectSelection($event)"
+      (change)="updateProjectSelection($event)"
       appendTo="body"
     >
     </op-project-autocompleter>

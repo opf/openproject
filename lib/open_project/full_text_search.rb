@@ -35,6 +35,8 @@ module OpenProject
       if OpenProject::Database.allows_tsv?
         column = "\"#{table_name}\".\"#{column_name}_tsv\""
         query = tokenize(value, concatenation, normalization)
+        return if query.blank?
+
         language = OpenProject::Configuration.main_content_language
 
         ActiveRecord::Base.send(
@@ -68,12 +70,12 @@ module OpenProject
     end
 
     def self.normalize_text(text)
-      I18n.with_locale(:en) { I18n.transliterate(text.to_s.downcase) }
+      I18n.with_locale(:en) { I18n.transliterate(text.to_s.downcase, replacement: '') }
     end
 
     def self.normalize_filename(filename)
       name_in_words = to_words filename.to_s.downcase
-      I18n.with_locale(:en) { I18n.transliterate(name_in_words) }
+      I18n.with_locale(:en) { I18n.transliterate(name_in_words, replacement: '') }
     end
 
     def self.to_words(text)

@@ -229,8 +229,8 @@ module API
 
         def current_user_can_manage?
           current_user && (
-            current_user.allowed_to_globally?(:manage_user) ||
-            current_user.allowed_to_globally?(:create_user) ||
+            current_user.allowed_globally?(:manage_user) ||
+            current_user.allowed_globally?(:create_user) ||
             current_user_is_self?
           )
         end

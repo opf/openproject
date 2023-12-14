@@ -39,8 +39,8 @@ module API
                   title_getter: ->(*) {}
 
         link :editText,
-             cache_if: -> { current_user.admin? } do
-          if represented.persisted?
+             cache_if: -> { current_user.allowed_globally?(:edit_attribute_help_texts) } do
+          if represented.persisted? && current_user.allowed_globally?(:edit_attribute_help_texts)
             {
               href: edit_attribute_help_text_path(represented.id),
               type: 'text/html'

@@ -6,8 +6,12 @@ module Budgets
              author_url: 'https://www.openproject.org',
              bundled: true do
       project_module :budgets do
-        permission :view_budgets, { budgets: %i[index show] }
-        permission :edit_budgets, { budgets: %i[index show edit update destroy destroy_info new create copy] }
+        permission :view_budgets,
+                   { budgets: %i[index show] },
+                   permissible_on: :project
+        permission :edit_budgets,
+                   { budgets: %i[index show edit update destroy destroy_info new create copy] },
+                   permissible_on: :project
       end
 
       menu :project_menu,

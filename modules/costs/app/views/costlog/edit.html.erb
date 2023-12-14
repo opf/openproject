@@ -65,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
                       data: { :'remote-field-key' => 'fixed_date' } %>
     <label for="cost_entry_spent_on" class="hidden-for-sighted"><%= t(:label_date) %> <%= t(:text_hint_date_format) %></label>
   </div>
-  <% if User.current.allowed_to? :log_costs, @project %>
+  <% if User.current.allowed_in_project? :log_costs, @project %>
     <div class="form--field">
       <%# Without knowing why `prompt` is in this case responsible for no blank line in the selection options %>
       <%= f.select :user_id,
@@ -112,7 +112,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <div class="form--field">
     <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
-    <% if User.current.allowed_to?(:view_cost_rates, @cost_entry.project) %>
+    <% if User.current.allowed_in_project?(:view_cost_rates, @cost_entry.project) %>
     <span class="form--field-container">
       <a href="#"
          id="cost_entry_costs"

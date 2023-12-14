@@ -1,0 +1,23 @@
+<%=
+  if @agenda_items_grouped_by_meeting.any?
+    flex_layout do |flex|
+      @agenda_items_grouped_by_meeting.each do |meeting, meeting_agenda_items|
+        flex.with_row(mt: 3) do
+          render(WorkPackageMeetingsTab::MeetingComponent.new(
+            meeting:, meeting_agenda_items:
+          ))
+        end
+      end
+    end
+  else
+    render(Primer::Beta::Blankslate.new(border: true)) do |component|
+      component.with_visual_icon(icon: "comment-discussion")
+      if @direction == :upcoming
+        component.with_heading(tag: :h4).with_content(t("text_work_package_has_no_upcoming_meeting_agenda_items"))
+        component.with_description { t("text_work_package_add_to_meeting_hint") }
+      else
+        component.with_heading(tag: :h4).with_content(t("text_work_package_has_no_past_meeting_agenda_items"))
+      end
+    end
+  end
+%>

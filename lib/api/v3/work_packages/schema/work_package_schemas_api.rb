@@ -73,7 +73,7 @@ module API
             end
 
             get do
-              authorize(:view_work_packages, global: true)
+              authorize_in_any_work_package(:view_work_packages)
 
               project_type_pairs = parse_filter_for_project_type_pairs
 
@@ -104,7 +104,7 @@ module API
                   raise404
                 end
 
-                authorize(:view_work_packages, context: @project) do
+                authorize_in_any_work_package(:view_work_packages, in_project: @project) do
                   raise404
                 end
               end
@@ -124,7 +124,7 @@ module API
 
             namespace 'sums' do
               get do
-                authorize(:view_work_packages, global: true) do
+                authorize_in_any_work_package(:view_work_packages) do
                   raise404
                 end
 

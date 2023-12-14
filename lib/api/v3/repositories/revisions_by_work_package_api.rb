@@ -34,14 +34,13 @@ module API
       class RevisionsByWorkPackageAPI < ::API::OpenProjectAPI
         resources :revisions do
           after_validation do
-            authorize(:view_work_packages, context: work_package.project)
+            authorize_in_work_package(:view_work_packages, work_package:)
           end
 
           get do
-            self_path = api_v3_paths.work_package_revisions(work_package.id)
-
-            revisions = work_package.changesets.visible
-            RevisionCollectionRepresenter.new(revisions, self_link: self_path, current_user:)
+            RevisionCollectionRepresenter.new(work_package.changesets.visible,
+                                              self_link: api_v3_paths.work_package_revisions(work_package.id),
+                                              current_user:)
           end
         end
       end

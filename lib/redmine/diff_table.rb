@@ -44,7 +44,7 @@ module Redmine
     # Returns false when the diff ends
     def add_line(line)
       if @parsing
-        if line =~ /^[^+\-\s@\\]/
+        if /^[^+\-\s@\\]/.match?(line)
           @parsing = false
           return false
         elsif line =~ /^@@ (\+|-)(\d+)(,\d+)? (\+|-)(\d+)(,\d+)? @@/
@@ -117,7 +117,7 @@ module Redmine
         true
       else
         write_offsets
-        if line[0, 1] =~ /\s/
+        if /\s/.match?(line[0, 1])
           diff = Diff.new
           diff.line_right = line[1..-1]
           diff.nb_line_right = @line_num_r

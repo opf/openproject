@@ -58,9 +58,8 @@ module OpenProject::TextFormatting::Matchers
       private
 
       def render_work_package_macro(wp_id, detailed: false)
-        ApplicationController.helpers.content_tag :macro,
+        ApplicationController.helpers.content_tag 'opce-macro-wp-quickinfo',
                                                   '',
-                                                  class: "macro--wp-quickinfo",
                                                   data: { id: wp_id, detailed: }
       end
 

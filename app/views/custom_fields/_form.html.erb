@@ -96,7 +96,7 @@ See COPYRIGHT and LICENSE files for more details.
           <button
             type="button"
             class="spot-link"
-            data-qa-selector="add-custom-option"
+            data-test-selector="add-custom-option"
             data-action="admin--custom-fields#addOption"
           >
             <span class="spot-icon spot-icon_1_25 spot-icon_add"></span>
@@ -105,6 +105,16 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </fieldset>
   <% end %>
+
+  <% if @custom_field.new_record? || @custom_field.version? || @custom_field.allow_non_open_versions_possible? %>
+    <div class="form--field" hidden>
+      <%= f.check_box :allow_non_open_versions,
+                      data: {
+                        'admin--custom-fields-target': 'allowNonOpenVersions'
+                      } %>
+    </div>
+  <% end %>
+
   <div data-admin--custom-fields-target="defaultValue">
     <div class="form--field" id="default_value_text">
       <% if @custom_field.new_record? || !%w[text bool].include?(@custom_field.field_format) %>
@@ -144,16 +154,28 @@ See COPYRIGHT and LICENSE files for more details.
      when "WorkPackageCustomField" %>
     <div class="form--field">
       <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
     </div>
     <div class="form--field">
       <%= f.check_box :is_for_all %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_for_all') %></p>
+      </div>
     </div>
     <div class="form--field">
       <%= f.check_box :is_filter %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_filter') %></p>
+      </div>
     </div>
     <div class="form--field">
       <%= f.check_box :searchable,
                       data: { 'admin--custom-fields-target': 'searchable' }%>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.searchable') %></p>
+      </div>
     </div>
     <div class="form--field" hidden>
       <%= f.check_box :content_right_to_left,
@@ -162,19 +184,34 @@ See COPYRIGHT and LICENSE files for more details.
   <% when "UserCustomField" %>
     <div class="form--field">
       <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
     </div>
     <div class="form--field">
       <%= f.check_box :visible %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.visible') %></p>
+      </div>
     </div>
     <div class="form--field">
       <%= f.check_box :editable %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.editable') %></p>
+      </div>
     </div>
   <% when "ProjectCustomField" %>
     <div class="form--field">
       <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
     </div>
     <div class="form--field">
       <%= f.check_box :visible %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.visible') %></p>
+      </div>
     </div>
     <div class="form--field">
     <%= f.check_box :searchable,
@@ -183,10 +220,16 @@ See COPYRIGHT and LICENSE files for more details.
   <% when "TimeEntryCustomField" %>
     <div class="form--field">
       <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
     </div>
   <% else %>
     <div class="form--field">
       <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
     </div>
   <% end %>
   <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", custom_field: @custom_field, form: f) %>

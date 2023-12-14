@@ -25,6 +25,11 @@
             [stateName$]="stateName$">
           </wp-create-button>
         </li>
+        <li class="toolbar-item"
+            *ngIf="displayShareButton$ | async">
+          <wp-share-button [workPackage]="workPackage">
+          </wp-share-button>
+        </li>
         <li class="toolbar-item hidden-for-tablet" *ngIf="displayTimerButton">
           <op-wp-timer-button
             [workPackage]="workPackage"
@@ -39,7 +44,7 @@
         <li class="toolbar-item" *ngIf="(displayNotificationsButton$ | async)">
           <op-work-package-mark-notification-button
             [workPackage]="workPackage"
-            data-qa-selector="mark-notification-read-button"
+            data-test-selector="mark-notification-read-button"
           ></op-work-package-mark-notification-button>
         </li>
         <li class="toolbar-item hidden-for-tablet">
@@ -57,7 +62,6 @@
       </ul>
     </div>
   </div>
-
   <div class="work-packages-full-view--split-container">
     <div class="work-packages-full-view--split-left">
       <div class="work-packages--panel-inner">

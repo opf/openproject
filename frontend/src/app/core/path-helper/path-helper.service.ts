@@ -260,6 +260,10 @@ export class PathHelperService {
     return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}/copy`;
   }
 
+  public workPackageSharePath(workPackageId:string|number) {
+    return `${this.workPackagePath(workPackageId)}/shares`;
+  }
+
   // Work Package Bulk paths
 
   public workPackagesBulkEditPath() {

@@ -34,7 +34,7 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           get do
-            authorize(:view_work_packages, context: @project)
+            authorize_in_any_work_package(:view_work_packages, in_project: @project)
 
             service = raise_invalid_query_on_service_failure do
               WorkPackageCollectionFromQueryParamsService

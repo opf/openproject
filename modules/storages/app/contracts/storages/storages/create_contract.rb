@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -26,12 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See also: base_contract.rb for comments
 module Storages::Storages
-  # We create the empty class here, so that other pieces of code that looks for the contract in its default place will
-  # find it. So, the CreateService for Storages will expect its contract to be here.
-  #
-  # We inherit from a BaseContract as the BaseContract here is sharing a lot in common with the UpdateContract.
   class CreateContract < ::Storages::Storages::BaseContract
     attribute :creator
     validate :creator_must_be_user

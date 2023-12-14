@@ -54,6 +54,13 @@ Rails.application.config.after_initialize do
       script_src += %w('unsafe-eval')
     end
 
+    # Allow ANDI bookmarklet to run in development mode
+    # https://www.ssa.gov/accessibility/andi/help/install.html
+    if Rails.env.development?
+      script_src += ['https://www.ssa.gov']
+      assets_src += ['https://www.ssa.gov']
+    end
+
     config.csp = {
       preserve_schemes: true,
 

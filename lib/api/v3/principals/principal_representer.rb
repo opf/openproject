@@ -81,8 +81,8 @@ module API
         end
 
         def current_user_allowed_to_see_members?
-          current_user.allowed_to_globally?(:view_members) ||
-            current_user.allowed_to_globally?(:manage_members)
+          current_user.allowed_in_any_project?(:view_members) ||
+            current_user.allowed_in_any_project?(:manage_members)
         end
       end
     end

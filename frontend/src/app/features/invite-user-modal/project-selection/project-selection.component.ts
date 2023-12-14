@@ -160,7 +160,7 @@ export class ProjectSelectionComponent implements OnInit {
     });
   }
 
-  APIFiltersForProjects = [['active', '=', true]];
+  APIFiltersForProjects:IAPIFilter[] = [{ name: 'active', operator: '=', values: ['t'] }];
 
   projectFilterFn(projects:IProjectAutocompleteItem[]):IProjectAutocompleteItem[] {
     const mapped = projects.map((project) => {

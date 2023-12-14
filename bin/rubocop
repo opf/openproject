@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+load File.expand_path("spring", __dir__)
+require 'bundler/setup'
+load Gem.bin_path('rubocop', 'rubocop')

@@ -121,7 +121,9 @@ module Settings
       # autologin duration in days
       # 0 means autologin is disabled
       autologin: {
-        default: 0
+        format: :integer,
+        default: 0,
+        allowed: [1, 7, 14, 30, 60, 90, 365]
       },
       autologin_cookie_name: {
         description: 'Cookie name for autologin cookie',
@@ -131,11 +133,6 @@ module Settings
       autologin_cookie_path: {
         description: 'Cookie path for autologin cookie',
         default: '/',
-        writable: false
-      },
-      autologin_cookie_secure: {
-        description: 'Cookie secure mode for autologin cookie',
-        default: false,
         writable: false
       },
       available_languages: {
@@ -209,7 +206,13 @@ module Settings
         description: 'The memcache server host and IP',
         format: :string,
         default: nil,
-        writable: false
+        writable: false,
+      },
+      cache_redis_url: {
+        description: 'URL to the redis cache server',
+        format: :string,
+        default: nil,
+        writable: false,
       },
       cache_namespace: {
         format: :string,
@@ -376,7 +379,7 @@ module Settings
       },
       ee_manager_visible: {
         description: 'Show or hide the Enterprise configuration page and enterprise banners',
-        default: false,
+        default: true,
         writable: false
       },
       enable_internal_assets_server: {
@@ -395,6 +398,10 @@ module Settings
         format: :symbol,
         default: nil,
         env_alias: 'EMAIL_DELIVERY_METHOD'
+      },
+      emails_salutation: {
+        allowed: %w[firstname name],
+        default: :firstname
       },
       emails_footer: {
         default: {
@@ -420,17 +427,17 @@ module Settings
       # Allow connections for trial creation and booking
       enterprise_trial_creation_host: {
         description: 'Host for EE trial service',
-        default: '',
+        default: 'https://start.openproject.com',
         writable: false
       },
       enterprise_chargebee_site: {
         description: 'Site name for EE trial service',
-        default: '',
+        default: 'openproject-enterprise',
         writable: false
       },
       enterprise_plan: {
         description: 'Default EE selected plan',
-        default: '',
+        default: 'enterprise-on-premises---euro---1-year',
         writable: false
       },
       feeds_enabled: {
@@ -556,7 +563,7 @@ module Settings
         writable: false
       },
       ldap_users_disable_sync_job: {
-        description: 'Deactive user attributes synchronization from LDAP',
+        description: 'Deactivate user attributes synchronization from LDAP',
         default: false,
         writable: false
       },
@@ -580,15 +587,20 @@ module Settings
       log_requesting_user: {
         default: false
       },
-      # Use lograge to format logs, off by default
-      lograge_formatter: {
+      lograge_enabled: {
         description: 'Use lograge formatter for outputting logs',
-        default: nil,
+        default: true,
+        format: :boolean,
+        writable: false
+      },
+      lograge_formatter: {
+        description: 'Lograge formatter to use for outputting logs',
+        default: 'key_value',
         format: :string,
         writable: false
       },
       login_required: {
-        default: false
+        default: true
       },
       lookbook_enabled: {
         description: 'Enable the Lookbook component documentation tool. Discouraged for production environments.',
@@ -703,7 +715,7 @@ module Settings
         format: :symbol,
         default: :file_store,
         writable: false,
-        allowed: %i[file_store memcache]
+        allowed: %i[file_store memcache redis]
       },
       rails_relative_url_root: {
         description: 'Set a URL prefix / base path to run OpenProject under, e.g., host.tld/openproject',
@@ -713,19 +725,23 @@ module Settings
       https: {
         description: 'Set assumed connection security for the Rails processes',
         format: :boolean,
-        default: false, # -> { Rails.env.production? },
+        default: -> { Rails.env.production? },
         writable: false
       },
       hsts: {
         description: 'Allow disabling of HSTS headers and http -> https redirects',
         format: :boolean,
-        default:false, # true,
+        default: true,
         writable: false
       },
       home_url: {
         description: 'Override default link when clicking on the top menu logo (Homescreen by default).',
         format: :string,
         default: nil
+      },
+      rate_limiting: {
+        default: {},
+        description: 'Configure rate limiting for various endpoint rules. See configuration documentation for details.'
       },
       registration_footer: {
         default: {
@@ -871,6 +887,10 @@ module Settings
         default: true,
         writable: false
       },
+      show_product_version: {
+        description: 'Show product version information in the administration section',
+        default: true,
+      },
       show_pending_migrations_warning: {
         description: 'Enable or disable warning bar in case of pending migrations',
         default: true,
@@ -889,7 +909,8 @@ module Settings
       },
       show_warning_bars: {
         description: 'Render warning bars (pending migrations, deprecation, unsupported browsers)',
-        default: true,
+        # Hide warning bars by default in tests as they might overlay other elements
+        default: -> { !Rails.env.test? },
         writable: false
       },
       smtp_authentication: {
@@ -1044,9 +1065,9 @@ module Settings
       },
       work_package_list_default_highlighting_mode: {
         format: :string,
-        default: 'inline',
-        writable: true,
+        default: -> { EnterpriseToken.allows_to?(:conditional_highlighting) ? 'inline' : 'none' },
         allowed: -> { Query::QUERY_HIGHLIGHTING_MODES.map(&:to_s) },
+        writable: -> { EnterpriseToken.allows_to?(:conditional_highlighting) }
       },
       work_package_list_default_columns: {
         default: %w[id subject type status assigned_to priority],

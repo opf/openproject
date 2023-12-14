@@ -112,7 +112,7 @@ module OpenProject::Bim::BcfXml
       aggregations.clear_instance_cache
 
       if treat_non_members?(options)
-        unless User.current.allowed_to?(:manage_members, project)
+        unless User.current.allowed_in_project?(:manage_members, project)
           raise StandardError.new 'For adding members to the project you need admin privileges.'
         end
 

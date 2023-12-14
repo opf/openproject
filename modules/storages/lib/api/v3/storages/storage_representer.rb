@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -36,20 +38,22 @@ module API::V3::Storages
   URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
 
   URN_STORAGE_TYPE_NEXTCLOUD = "#{::API::V3::URN_PREFIX}storages:Nextcloud".freeze
+  URN_STORAGE_TYPE_ONE_DRIVE = "#{::API::V3::URN_PREFIX}storages:OneDrive".freeze
 
   STORAGE_TYPE_MAP = {
-    URN_STORAGE_TYPE_NEXTCLOUD => Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+    URN_STORAGE_TYPE_NEXTCLOUD => Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
+    URN_STORAGE_TYPE_ONE_DRIVE => Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
   }.freeze
 
   STORAGE_TYPE_URN_MAP = {
-    Storages::Storage::PROVIDER_TYPE_NEXTCLOUD => URN_STORAGE_TYPE_NEXTCLOUD
+    Storages::Storage::PROVIDER_TYPE_NEXTCLOUD => URN_STORAGE_TYPE_NEXTCLOUD,
+    Storages::Storage::PROVIDER_TYPE_ONE_DRIVE => URN_STORAGE_TYPE_ONE_DRIVE
   }.freeze
 
   class StorageRepresenter < ::API::Decorators::Single
     # LinkedResource module defines helper methods to describe attributes
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
-    include Storages::Peripherals::StorageUrlHelper
 
     module ClassMethods
       private
@@ -71,8 +75,11 @@ module API::V3::Storages
     extend ClassMethods
 
     def initialize(model, current_user:, embed_links: nil)
-      @connection_manager =
-        ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: model.oauth_client)
+      if model.oauth_configuration.present?
+        # Do not instantiate a connection manager, if representer is used for parsing
+        @connection_manager =
+          ::OAuthClients::ConnectionManager.new(user: current_user, configuration: model.oauth_configuration)
+      end
 
       super
     end
@@ -147,7 +154,7 @@ module API::V3::Storages
     end
 
     link :open do
-      { href: storage_url_open(represented) }
+      { href: api_v3_paths.storage_open(represented.id) }
     end
 
     link :authorizationState do
@@ -176,12 +183,16 @@ module API::V3::Storages
     end
 
     associated_resource :oauth_application,
-                        skip_render: ->(*) { !current_user.admin? },
+                        skip_render: ->(*) { !represent_oauth_application? },
                         getter: ->(*) {
+                          next unless represent_oauth_application? && represented.oauth_application.present?
+
                           ::API::V3::OAuth::OAuthApplicationsRepresenter.create(represented.oauth_application, current_user:)
                         },
                         link: ->(*) {
-                          next unless current_user.admin?
+                          next unless represent_oauth_application?
+
+                          return { href: nil } if represented.oauth_application.blank?
 
                           {
                             href: api_v3_paths.oauth_application(represented.oauth_application.id),
@@ -206,6 +217,10 @@ module API::V3::Storages
     end
 
     private
+
+    def represent_oauth_application?
+      current_user.admin? && represented.provider_type_nextcloud?
+    end
 
     def storage_projects(storage)
       storage.projects.merge(Project.allowed_to(current_user, :manage_file_links))

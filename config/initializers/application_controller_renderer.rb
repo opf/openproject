@@ -5,9 +5,10 @@
 # - https://github.com/hotwired/turbo-rails/issues/155
 # - https://github.com/rails/rails/issues/41795
 ActiveSupport::Reloader.to_prepare do
-  ApplicationController.renderer.instance_variable_get(:@env).merge!(
-    'HTTP_HOST' => Setting.host_name,
-    'HTTPS' => Setting.https?,
-    'SCRIPT_NAME' => OpenProject::Configuration.rails_relative_url_root
-  )
+  ApplicationController.renderer.instance_variable_set(:@env,
+                                                       ApplicationController.renderer.instance_variable_get(:@env).merge(
+                                                         'HTTP_HOST' => Setting.host_name,
+                                                         'HTTPS' => Setting.https?,
+                                                         'SCRIPT_NAME' => OpenProject::Configuration.rails_relative_url_root
+                                                       ))
 end

@@ -6,7 +6,7 @@
   cdkTrapFocus
   [cdkTrapFocusAutoCapture]="true"
 >
-  <div class="spot-modal--header">{{text.title}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
 
   <div *ngIf="divideContent" class="spot-divider"></div>
 
@@ -14,7 +14,7 @@
     <span class="op-confirm-dialog--text spot-body-small"
           [textContent]="text.text"
     ></span>
-    
+
     <ng-container *ngIf="showListData; else showData">
       <span class="op-confirm-dialog--text spot-body-small"
       [textContent]="listTitle"
@@ -25,7 +25,7 @@
         </li>
       </ul>
     </ng-container>
-    
+
     <ng-template #showData>
       <span
         *ngFor="let data of passedData"
@@ -39,7 +39,7 @@
     <span class="op-confirm-dialog--text spot-body-small"
           [innerHtml]="warningText"
     ></span>
-    
+
   </div>
 
   <div class="spot-action-bar">
@@ -47,7 +47,7 @@
       <button
         type="button"
         class="button spot-modal--cancel-button spot-action-bar--action"
-        data-qa-selector="confirmation-modal--cancel"
+        data-test-selector="confirmation-modal--cancel"
         (click)="close($event)"
       >
         <span *ngIf="icon.cancel as clazz" class="spot-icon spot-icon_{{clazz}}"></span>
@@ -56,7 +56,7 @@
       <button
         type="button"
         class="button spot-action-bar--action"
-        data-qa-selector="confirmation-modal--confirmed"
+        data-test-selector="confirmation-modal--confirmed"
         [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
         (click)="confirmAndClose($event)"
       >

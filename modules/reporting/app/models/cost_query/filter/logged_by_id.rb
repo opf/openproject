@@ -28,7 +28,7 @@
 
 class CostQuery::Filter::LoggedById < Report::Filter::Base
   def self.label
-    WorkPackage.human_attribute_name(:logged_by)
+    I18n.t(:label_logged_by_reporting)
   end
 
   def self.me_value
@@ -38,8 +38,7 @@ class CostQuery::Filter::LoggedById < Report::Filter::Base
   def transformed_values
     # Map the special 'me' value
     super
-        .map { |val| replace_me_value(val) }
-        .compact
+        .filter_map { |val| replace_me_value(val) }
   end
 
   def replace_me_value(value)

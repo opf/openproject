@@ -1,7 +1,7 @@
 <spot-text-field
   [ngModel]="searchString$ | async"
   (ngModelChange)="searchString$.next($event)"
-  data-qa-selector="op-add-existing-pane--search-input"
+  data-test-selector="op-add-existing-pane--search-input"
   [placeholder]="text.placeholder"
 >
   <span
@@ -28,7 +28,7 @@
           [disabledInfo]="showDisabledText(wp)"
           [attr.data-drag-helper-id]="wp.id"
           class="op-add-existing-pane--wp"
-          [attr.data-qa-selector]="'op-add-existing-pane--wp-' + wp.id"
+          [attr.data-test-selector]="'op-add-existing-pane--wp-' + wp.id"
           (stateLinkClicked)="openStateLink($event)"
           (cardClicked)="workPackagesCalendar.onCardClicked($event)"
           (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
@@ -40,7 +40,7 @@
   <ng-template #emptyTemplate>
     <div
       class="op-add-existing-pane--empty-state"
-      data-qa-selector="op-add-existing-pane--empty-state"
+      data-test-selector="op-add-existing-pane--empty-state"
     >
       <img
         *ngIf="(noResultsFound$ | async)?.showImage"

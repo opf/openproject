@@ -31,10 +31,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
     UTIL = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @base_path = UTIL.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
       @username = storage.username
       @password = storage.password
+    end
+
+    def self.call(storage:, location:)
+      new(storage).call(location:)
     end
 
     def call(location:)
@@ -49,7 +53,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
       when Net::HTTPNotFound
         UTIL.error(:not_found)
       when Net::HTTPUnauthorized
-        UTIL.error(:not_authorized)
+        UTIL.error(:unauthorized)
       else
         UTIL.error(:error)
       end

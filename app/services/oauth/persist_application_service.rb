@@ -42,6 +42,7 @@ module OAuth
     def call(attributes)
       set_defaults
       application.attributes = attributes
+      set_secret_and_id
 
       result, errors = validate_and_save(application, current_user)
       ServiceResult.new success: result, errors:, result: application
@@ -52,6 +53,14 @@ module OAuth
 
       application.owner = current_user
       application.owner_type = 'User'
+    end
+
+    def set_secret_and_id
+      application.extend(OpenProject::ChangedBySystem)
+      application.change_by_system do
+        application.renew_secret if application.secret.blank?
+        application.uid = Doorkeeper::OAuth::Helpers::UniqueToken.generate if application.uid.blank?
+      end
     end
   end
 end

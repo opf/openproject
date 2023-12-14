@@ -51,7 +51,13 @@ module API
           # Additionally to what would be checked by the contract,
           # we need to restrict permissions in some use cases of the mounts of this endpoint.
           def restrict_permissions(permissions)
-            authorize_any(permissions, projects: container.project) unless permissions.empty?
+            return if permissions.empty?
+
+            if container.is_a?(WorkPackage)
+              authorize_in_work_package(permissions, work_package: container)
+            else
+              authorize_in_project(permissions, project: container.project)
+            end
           end
         end
 

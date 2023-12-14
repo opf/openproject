@@ -64,7 +64,7 @@ module OpenProject::TextFormatting
         filename = node['src'].downcase
 
         # We only match a specific set of attributes as before
-        return unless filename =~ matched_filenames_regex
+        return unless filename&.match?(matched_filenames_regex)
 
         # Try to find the attachment
         if (attachment = attachments.detect { |att| att.filename.downcase == filename })

@@ -94,7 +94,7 @@
     [attr.data-overflowing-identifier]="'.__overflowing_' + group.id"
     class="attributes-group __overflowing_element_container"
   >
-    <ng-container wp-isolated-query-space *ngIf="group.isolated">
+    <ng-container opWorkPackageIsolatedQuerySpace *ngIf="group.isolated">
       <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
                    [ndcDynamicInputs]="{ workPackage: workPackage,
                                          group: group,

@@ -1,20 +1,13 @@
 import { wpOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/work_package_tour';
 import {
-  demoProjectsLinks,
   OnboardingTourNames,
   onboardingTourStorageKey,
-  preventClickHandler,
   ProjectName,
   waitForElement,
 } from 'core-app/core/setup/globals/onboarding/helpers';
 import { boardTourSteps } from 'core-app/core/setup/globals/onboarding/tours/boards_tour';
 import { menuTourSteps } from 'core-app/core/setup/globals/onboarding/tours/menu_tour';
 import { homescreenOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/homescreen_tour';
-import {
-  prepareScrumBacklogsTourSteps,
-  scrumBacklogsTourSteps,
-  scrumTaskBoardTourSteps,
-} from 'core-app/core/setup/globals/onboarding/tours/backlogs_tour';
 import { teamPlannerTourSteps } from 'core-app/core/setup/globals/onboarding/tours/team_planners_tour';
 
 require('core-vendor/enjoyhint');
@@ -41,7 +34,7 @@ export type OnboardingStep = {
   onBeforeStart?:() => void,
 };
 
-function initializeTour(storageValue:string, disabledElements?:string, projectSelection?:boolean) {
+function initializeTour(storageValue:string) {
   window.onboardingTourInstance = new window.EnjoyHint({
     onStart() {
       jQuery('#content-wrapper, #menu-sidebar').addClass('-hidden-overflow');
@@ -52,14 +45,6 @@ function initializeTour(storageValue:string, disabledElements?:string, projectSe
     },
     onSkip() {
       sessionStorage.setItem(onboardingTourStorageKey, 'skipped');
-      if (disabledElements) {
-        jQuery(disabledElements).removeClass('-disabled').unbind('click', preventClickHandler);
-      }
-      if (projectSelection) {
-        jQuery.each(demoProjectsLinks(), (i, e) => {
-          jQuery(e).off('click');
-        });
-      }
       jQuery('#content-wrapper, #menu-sidebar').removeClass('-hidden-overflow');
     },
   });
@@ -108,20 +93,8 @@ function mainTour(project:ProjectName = ProjectName.demo) {
 
 export function start(name:OnboardingTourNames, project?:ProjectName):void {
   switch (name) {
-    case 'prepareBacklogs':
-      initializeTour('prepareTaskBoardTour');
-      startTour(prepareScrumBacklogsTourSteps());
-      break;
-    case 'backlogs':
-      initializeTour('startTaskBoardTour');
-      startTour(scrumBacklogsTourSteps());
-      break;
-    case 'taskboard':
-      initializeTour('startMainTourFromBacklogs');
-      startTour(scrumTaskBoardTourSteps());
-      break;
     case 'homescreen':
-      initializeTour('startProjectTour', '.widget-box--blocks--buttons a', true);
+      initializeTour('startProjectTour');
       startTour(homescreenOnboardingTourSteps());
       break;
     case 'main':

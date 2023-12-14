@@ -43,10 +43,13 @@ module OpenProject::Documents
            icon: 'notes'
 
       project_module :documents do |_map|
-        permission :view_documents, documents: %i[index show download]
-        permission :manage_documents, {
-          documents: %i[new create edit update destroy]
-        }, require: :loggedin
+        permission :view_documents,
+                   { documents: %i[index show download] },
+                   permissible_on: :project
+        permission :manage_documents,
+                   { documents: %i[new create edit update destroy] },
+                   permissible_on: :project,
+                   require: :loggedin
       end
 
       Redmine::Search.register :documents

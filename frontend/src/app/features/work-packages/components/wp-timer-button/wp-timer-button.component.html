@@ -3,7 +3,7 @@
     <button
       class="button button_flex"
       type="button"
-      data-qa-selector="timer-active"
+      data-test-selector="timer-active"
       [title]="text.stop_timer"
       (click)="stop()"
     >
@@ -16,7 +16,7 @@
   <button
     class="button"
     type="button"
-    data-qa-selector="timer-inactive"
+    data-test-selector="timer-inactive"
     *ngIf="!context.timer || !context.active"
     [title]="text.start_timer"
     (click)="start()"

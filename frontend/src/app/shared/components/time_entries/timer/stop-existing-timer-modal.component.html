@@ -1,9 +1,9 @@
 <div
   class="spot-modal"
-  data-qa-selector="op-stop-existing-timer-modal"
+  data-test-selector="op-stop-existing-timer-modal"
 >
   <div class="spot-modal--header">
-    <span class="spot-modal--header-title">{{text.title}}</span>
+    <span id="spotModalTitle" class="spot-modal--header-title">{{text.title}}</span>
   </div>
 
   <p
@@ -37,7 +37,7 @@
       <button
         type="button"
         class="button -highlight spot-action-bar--action"
-        data-qa-selector="op-files-picker-modal--confirm"
+        data-test-selector="op-files-picker-modal--confirm"
         [textContent]="text.button_stop"
         (click)="saveAndClose()"
       >

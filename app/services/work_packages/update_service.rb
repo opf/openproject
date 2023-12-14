@@ -88,6 +88,7 @@ class WorkPackages::UpdateService < BaseServices::Update
       moved_work_packages = [work_package] + work_package.descendants
       delete_relations(moved_work_packages)
       move_time_entries(moved_work_packages, work_package.project_id)
+      move_work_package_memberships(moved_work_packages, work_package.project_id)
     end
     if work_package.saved_change_to_type_id?
       reset_custom_values(work_package)
@@ -105,6 +106,12 @@ class WorkPackages::UpdateService < BaseServices::Update
   def move_time_entries(work_packages, project_id)
     TimeEntry
       .on_work_packages(work_packages)
+      .update_all(project_id:)
+  end
+
+  def move_work_package_memberships(work_packages, project_id)
+    Member
+      .where(entity: work_packages)
       .update_all(project_id:)
   end
 

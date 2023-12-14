@@ -1,4 +1,3 @@
-require 'rest-client'
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -48,11 +47,12 @@ class RepresentedWebhookJob < WebhookJob
     end
 
     begin
-      response = RestClient.post webhook.url, request_body, headers
-    rescue RestClient::RequestTimeout => e
-      response = e.response
-      exception = e
-    rescue RestClient::Exception => e
+      response = Faraday.post(
+        webhook.url,
+        request_body,
+        headers
+      )
+    rescue Faraday::Error => e
       response = e.response
       exception = e
     rescue StandardError => e
@@ -66,16 +66,14 @@ class RepresentedWebhookJob < WebhookJob
       url: webhook.url,
       request_headers: headers,
       request_body: body,
-      response_code: response.try(:code).to_i,
-      response_headers: response.try(:headers),
-      response_body: response.try(:to_s) || exception.try(:message)
+      response_code: response&.status,
+      response_headers: response&.headers&.to_h&.transform_keys { |k| k.underscore.to_sym },
+      response_body: response&.body || exception&.message
     )
 
     # We want to re-raise timeout exceptions
     # but log the request beforehand
-    if exception&.is_a?(RestClient::RequestTimeout)
-      raise exception
-    end
+    raise exception if exception.is_a?(Faraday::TimeoutError)
   end
 
   def accepted_in_project?
@@ -84,7 +82,7 @@ class RepresentedWebhookJob < WebhookJob
 
   def request_signature(request_body)
     if secret = webhook.secret.presence
-      'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), secret, request_body)
+      "sha1=#{OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), secret, request_body)}"
     end
   end
 

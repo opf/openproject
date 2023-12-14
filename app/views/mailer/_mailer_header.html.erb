@@ -1,0 +1,59 @@
+<table <%= placeholder_table_styles(width:'100%',style: "width:100%;min-width:100%") %>>
+  <tr>
+    <td>
+      <table <%= placeholder_table_styles %>>
+        <tr>
+          <td>
+            <table <%= placeholder_table_styles(width:'100%',style: "width:100%") %>>
+              <tr>
+                <td>
+                  <span style="font-size: 24px; color: #333333;">
+                    <%= user_salutation(user) %>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <%= placeholder_cell('8px', vertical: false) %>
+              </tr>
+              <% if local_assigns[:summary] %>
+              <tr>
+                <td>
+                  <span style="font-size:16px; color: #1A67A3; font-weight: 600;">
+                     <%= summary %>
+                  </span>
+                </td>
+              </tr>
+              <% end %>
+              <tr>
+                <%= placeholder_cell('24px', vertical: false) %>
+              </tr>
+              <% if defined?(button_href) && defined?(button_text) %>
+                <tr>
+                  <td>
+                    <table <%= placeholder_table_styles %>>
+                      <tr>
+                        <td style="background: #D1E5F5; padding: 8px 12px; border: 1px solid #1A67A3; border-radius: 16px; overflow: hidden; text-overflow: ellipsis;">
+                          <a href="<%= button_href %>"
+                             target="_blank"
+                             style="color: #1A67A3; text-decoration: none; font-size: 14px;">
+                            <%= button_text %>
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              <% end %>
+              <% if local_assigns[:bottom_spacing] != false %>
+              <tr>
+                <%= placeholder_cell('40px', vertical: false) %>
+              </tr>
+              <% end %>
+            </table>
+          </td>
+          <%= placeholder_cell('16px', vertical: true) %>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

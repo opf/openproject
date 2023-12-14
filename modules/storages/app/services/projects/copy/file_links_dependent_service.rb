@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -48,20 +50,20 @@ module Projects::Copy
       Storages::FileLink
         .where(container_id: source_wp_ids, container_type: "WorkPackage")
         .group_by(&:storage_id)
-        .filter { |_storage_id, source_file_links| source_file_links.any? }
+        .select { |_storage_id, source_file_links| source_file_links.any? }
         .each do |(storage_id, source_file_links)|
         tmp = state
                 .copied_project_storages
                 .find { |item| item["source"].storage_id == storage_id }
         source_project_storage = tmp['source']
         target_project_storage = tmp['target']
-        storage_requests = Storages::Peripherals::StorageRequests.new(storage: source_project_storage.storage)
+        storage = source_project_storage.storage
 
         if source_project_storage.project_folder_mode == 'automatic'
-          files_info_query_result = files_info_query(storage_requests:,
+          files_info_query_result = files_info_query(storage:,
                                                      file_ids: source_file_links.map(&:origin_id))
           folder_files_file_ids_deep_query_result = folder_files_file_ids_deep_query(
-            storage_requests:,
+            storage:,
             path: target_project_storage.project_folder_path
           )
           source_file_links.each do |old_file_link|
@@ -110,18 +112,18 @@ module Projects::Copy
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/PerceivedComplexity
 
-    def files_info_query(storage_requests:, file_ids:)
-      storage_requests
-        .files_info_query
-        .call(user: User.current, file_ids:)
+    def files_info_query(storage:, file_ids:)
+      Storages::Peripherals::Registry
+        .resolve("queries.#{storage.short_provider_type}.files_info")
+        .call(storage:, user: User.current, file_ids:)
         .on_failure { |r| add_error!("files_info_query", r.to_active_model_errors) }
         .result
     end
 
-    def folder_files_file_ids_deep_query(storage_requests:, path:)
-      storage_requests
-        .folder_files_file_ids_deep_query
-        .call(path:)
+    def folder_files_file_ids_deep_query(storage:, path:)
+      Storages::Peripherals::Registry
+        .resolve("queries.#{storage.short_provider_type}.folder_files_file_ids_deep_query")
+        .call(storage:, path:)
         .on_failure { |r| add_error!("folder_files_file_ids_deep_query", r.to_active_model_errors) }
         .result
     end

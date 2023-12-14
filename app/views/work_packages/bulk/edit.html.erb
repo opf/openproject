@@ -139,7 +139,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= styled_text_field_tag 'work_package[subject]', '', size: 10 %>
             </div>
           </div>
-          <% if @project && User.current.allowed_to?(:manage_subtasks, @project) %>
+          <% if @project && User.current.allowed_in_project?(:manage_subtasks, @project) %>
             <div class="form--field">
               <%= styled_label_tag :work_package_parent_id, WorkPackage.human_attribute_name(:parent) %>
               <div class="form--field-container">

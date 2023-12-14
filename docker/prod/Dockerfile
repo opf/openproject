@@ -1,5 +1,5 @@
 ARG RUBY_VERSION="3.2.2"
-ARG NODE_VERSION="16.17.0"
+ARG NODE_VERSION="20.9.0"
 ARG BUNDLER_VERSION="2.4.7"
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -49,6 +49,7 @@ COPY Rakefile .
 COPY bin ./bin
 COPY app ./app
 COPY config ./config
+COPY config/database.production.yml ./config/database.yml
 COPY lib ./lib
 COPY lib_static ./lib_static
 COPY frontend ./frontend
@@ -58,9 +59,7 @@ COPY lookbook ./lookbook
 
 RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
   SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \
-  bin/rails openproject:plugins:register_frontend assets:precompile && \
-  # only keep most current angular cache since webpack is unable to cleanup after itself
-	find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
+  bin/rails openproject:plugins:register_frontend assets:precompile
 
 # -------------------------------------
 # base (private)
@@ -73,6 +72,8 @@ ENV APP_USER=app
 ENV APP_PATH=/app
 ENV APP_DATA_PATH=/var/openproject/assets
 ENV PGVERSION="13"
+ENV CURRENT_PGVERSION="13"
+ENV NEXT_PGVERSION="15"
 ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 ENV BUNDLE_WITHOUT="development:test"
 
@@ -92,7 +93,7 @@ ENV OPENPROJECT_RAILS__CACHE__STORE=file_store
 
 RUN useradd -d /home/$APP_USER -m $APP_USER
 RUN mkdir -p $APP_PATH && chown $APP_USER:$APP_USER $APP_PATH
-RUN mkdir -p $APP_DATA_PATH && chown $APP_USER:$APP_USER $APP_DATA_PATH
+RUN mkdir -p $APP_DATA_PATH && chown $APP_USER:$APP_USER $APP_DATA_PATH && chmod g+rwx $APP_DATA_PATH
 
 WORKDIR $APP_PATH
 
@@ -103,11 +104,12 @@ RUN --mount=type=cache,target=/var/cache/apt \
   curl \
   gnupg2 \
   && curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' $PGVERSION > /etc/apt/sources.list.d/pgdg.list \
+  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
   && apt-get update -qq \
   && apt-get install -yq --no-install-recommends \
   libpq5 \
-  postgresql-client-$PGVERSION \
+  postgresql-client-$CURRENT_PGVERSION \
+  postgresql-client-$NEXT_PGVERSION \
   libffi7 \
   unrtf tesseract-ocr poppler-utils catdoc imagemagick \
   && apt-get purge -y curl gnupg2 \
@@ -122,6 +124,16 @@ COPY --chown=$APP_USER:$APP_USER --from=rubygems /usr/local/bundle /usr/local/bu
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/public/assets /app/public/assets
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/config/frontend_assets.manifest.json /app/config/frontend_assets.manifest.json
 COPY --chown=$APP_USER:$APP_USER . .
+COPY --chown=$APP_USER:$APP_USER ./config/database.production.yml /app/config/database.yml
+# Update Gemfile.lock in case a plugin has been added. It it hasn't, the file stays identical.
+COPY --chown=$APP_USER:$APP_USER --from=rubygems /app/Gemfile.lock /app/
+
+ENV BUNDLE_FROZEN=true
+
+# We need this so puma is allowed to create the tmp/pids folder and
+# temporary upload files when running with a uid other than 1000 (app)
+# but with an allowed supplemental group (1000).
+RUN tmp_path=$APP_PATH/tmp; (mkdir -p $tmp_path || true) && chown $APP_USER:$APP_USER $tmp_path && chmod g+rw $tmp_path
 
 USER $APP_USER
 RUN ln -s $APP_PATH/docker/prod/setup/.irbrc /home/$APP_USER/
@@ -142,7 +154,7 @@ ARG PLATFORM=on-prem
 # Use OAuth token in case private gems need to be fetched
 ARG GITHUB_OAUTH_TOKEN
 ARG BIM_SUPPORT=true
-ARG GOSU_VERSION="1.16"
+ARG GOSU_VERSION="1.17"
 ARG OPENPROJECT_ANGULAR_UGLIFY=true
 
 ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
@@ -187,9 +199,8 @@ RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak
 
 RUN ./docker/prod/setup/postinstall.sh
 
-# We need this so puma is allowed to create the tmp/pids folder and files
-# even when the container is run as a user other than 1000 (app)
-RUN tmp_path=$APP_PATH/tmp; (mkdir -p $tmp_path || true) && chmod og+rw $tmp_path
+# this has to happen after postinstall.sh since it uses a different database.yml
+COPY config/database.production.yml ./config/database.yml
 
 # Expose ports for apache and postgres
 EXPOSE 80 5432

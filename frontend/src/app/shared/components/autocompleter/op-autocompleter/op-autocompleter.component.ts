@@ -6,8 +6,11 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  ElementRef,
   EventEmitter,
+  forwardRef,
   HostBinding,
+  Injector,
   Input,
   NgZone,
   OnChanges,
@@ -15,61 +18,77 @@ import {
   Output,
   SimpleChanges,
   TemplateRef,
+  Type,
   ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import {
-  DropdownPosition,
-  NgSelectComponent,
-} from '@ng-select/ng-select';
-import {
-  BehaviorSubject,
-  merge,
-  NEVER,
-  Observable,
-  of,
-  timer,
-  Subject,
-} from 'rxjs';
-import {
-  debounce,
-  distinctUntilChanged,
-  filter,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
-import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
+import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
+import { BehaviorSubject, merge, NEVER, Observable, of, Subject, timer } from 'rxjs';
+import { debounce, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
+import { AddTagFn, GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import {
+  Highlighting,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
+import {
+  OpAutocompleterFooterTemplateDirective,
+} from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 
 import { OpAutocompleterService } from './services/op-autocompleter.service';
 import { OpAutocompleterHeaderTemplateDirective } from './directives/op-autocompleter-header-template.directive';
 import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompleter-label-template.directive';
 import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocompleter-option-template.directive';
-import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import {
+  repositionDropdownBugfix,
+} from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ID } from '@datorama/akita';
+import { HttpClient } from '@angular/common/http';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+
+export interface IAutocompleteItem {
+  id:ID;
+  href:string|null;
+}
+
+export interface IAutocompleterTemplateComponent {
+  optionTemplate?:TemplateRef<Element>;
+  headerTemplate?:TemplateRef<Element>;
+  labelTemplate?:TemplateRef<Element>;
+  footerTemplate?:TemplateRef<Element>;
+}
 
 @Component({
   selector: 'op-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './op-autocompleter.component.html',
   styleUrls: ['./op-autocompleter.component.sass'],
-  providers: [OpAutocompleterService],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => OpAutocompleterComponent),
+      multi: true,
+    },
+  ],
 })
 // It is component that you can use whenever you need an autocompleter
 // it has all inputs and outputs of ng-select
 // in order to use it, you only need to pass the data type and its filters
 // you also can change the value of ng-select default options by changing @inputs and @outputs
-export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnChanges {
+export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocompleteItem>
+  extends UntilDestroyedMixin
+  implements OnInit, AfterViewInit, OnChanges, ControlValueAccessor {
   @HostBinding('class.op-autocompleter') className = true;
 
   @Input() public filters?:IAPIFilter[] = [];
 
-  @Input() public resource:resource;
+  @Input() public resource:TOpAutocompleterResource;
 
-  @Input() public model?:any;
+  @Input() public model?:T|T[]|null;
 
   @Input() public searchKey?:string = '';
 
@@ -83,6 +102,14 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public name?:string;
 
+  @Input() public inputName?:string;
+
+  @Input() public inputValue?:string;
+
+  @Input() public inputBindValue = 'id';
+
+  @Input() public hiddenFieldAction = '';
+
   @Input() public required?:boolean = false;
 
   @Input() public disabled?:string;
@@ -91,7 +118,16 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public clearable?:boolean = true;
 
-  @Input() public addTag?:boolean = false;
+  @Input() set addTag(val:boolean|AddTagFn) {
+    this._addTag = val === true ? this.addNewObjectFn.bind(this) : val;
+    this.cdRef.detectChanges();
+  }
+
+  get addTag():boolean|AddTagFn {
+    return this._addTag;
+  }
+
+  private _addTag:boolean|AddTagFn = false;
 
   @Input() public id = '';
 
@@ -180,9 +216,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
 
+  @Input() public url:string;
+
   @Output() public open = new EventEmitter<unknown>();
 
   @Output() public close = new EventEmitter<unknown>();
+
+  @Output() public cancel = new EventEmitter<unknown>();
 
   @Output() public change = new EventEmitter<unknown>();
 
@@ -212,44 +252,74 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
+  @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
+
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
-    optionTemplate:TemplateRef<Element>;
+  projectedOptionTemplate:TemplateRef<Element>;
+
+  optionTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
-    labelTemplate:TemplateRef<Element>;
+  projectedLabelTemplate:TemplateRef<Element>;
+
+  labelTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterHeaderTemplateDirective, { read: TemplateRef })
-    headerTemplate:TemplateRef<Element>;
+  projectedHeaderTemplate:TemplateRef<Element>;
+
+  headerTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterFooterTemplateDirective, { read: TemplateRef })
-    footerTemplate:TemplateRef<Element>;
+  projectedFooterTemplate:TemplateRef<Element>;
+
+  footerTemplate:TemplateRef<Element>;
 
   initialDebounce = true;
 
+  private opAutocompleterService = new OpAutocompleterService(this.apiV3Service);
+
   constructor(
-    readonly opAutocompleterService:OpAutocompleterService,
+    readonly injector:Injector,
+    readonly elementRef:ElementRef,
+    readonly http:HttpClient,
+    readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,
     readonly ngZone:NgZone,
-    private readonly I18n:I18nService,
+    readonly vcRef:ViewContainerRef,
+    readonly I18n:I18nService,
   ) {
     super();
   }
 
   ngOnInit() {
+    populateInputsFromDataset(this);
+
     if (!!this.getOptionsFn || this.defaultData) {
       this.typeahead = new BehaviorSubject<string>('');
+    }
+
+    if (this.inputValue && !this.model) {
+      this
+        .opAutocompleterService
+        .loadValue(this.inputValue, this.resource)
+        .subscribe((resource) => {
+          this.model = resource as unknown as T;
+          this.syncHiddenField(this.mappedInputValue);
+          this.cdRef.detectChanges();
+        });
     }
   }
 
   ngOnChanges(changes:SimpleChanges):void {
     if (changes.items) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       this.items$.next(changes.items.currentValue);
     }
   }
 
   ngAfterViewInit():void {
-    if (!this.ngSelectInstance) {
-      return;
+    if (this.inputName && this.model) {
+      this.syncHiddenField(this.mappedInputValue);
     }
 
     this.ngZone.runOutsideAngular(() => {
@@ -271,6 +341,18 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
         }
       }, 25);
     });
+  }
+
+  public get mappedInputValue():string {
+    if (!this.model) {
+      return '';
+    }
+
+    if (Array.isArray(this.model)) {
+      return this.model.map((el) => el[this.inputBindValue as 'id']).join(',');
+    }
+
+    return this.model[this.inputBindValue as 'id'] as string;
   }
 
   public repositionDropdown() {
@@ -308,8 +390,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
     this.close.emit();
   }
 
-  public changed(val:unknown):void {
+  public changed(val:T|T[]|null):void {
+    this.writeValue(val);
+    this.onTouched(val);
+    this.onChange(val);
+    this.syncHiddenField(this.mappedInputValue);
     this.change.emit(val);
+    this.cdRef.detectChanges();
   }
 
   public searched(val:{ term:string, items:unknown[] }):void {
@@ -334,6 +421,10 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   public added(val:unknown):void {
     this.add.emit(val);
+  }
+
+  public canceled(val:unknown):void {
+    this.cancel.emit(val);
   }
 
   public removed(val:unknown):void {
@@ -387,5 +478,70 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
       return 0;
     }
     return 50;
+  }
+
+  writeValue(value:T|T[]|null):void {
+    this.model = value;
+  }
+
+  onChange = (_:T|T[]|null):void => {
+  };
+
+  onTouched = (_:T|T[]|null):void => {
+  };
+
+  registerOnChange(fn:(_:T|T[]|null) => void):void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn:(_:T|T[]|null) => void):void {
+    this.onTouched = fn;
+  }
+
+  /**
+   * Instantiate the given template component and apply any given TemplateRef to this component
+   * so they can be passed to ng-select.
+   *
+   * @param component A templating component defining any combination of the header, option, label, or footer templates.
+   * @param inputs Initial inputs to the templating component
+   * @protected
+   */
+  protected applyTemplates(component:Type<IAutocompleterTemplateComponent>, inputs:{ [key:string]:unknown } = {}) {
+    const componentRef = this.vcRef.createComponent(component, { injector: this.templateInjector });
+    Object.keys(inputs).forEach((key) => {
+      const value = inputs[key];
+      componentRef.setInput(key, value);
+    });
+
+    componentRef.changeDetectorRef.detectChanges();
+
+    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
+      const template = componentRef.instance[name];
+      if (template) {
+        this[name] = template;
+      }
+    });
+  }
+
+  protected get templateInjector() {
+    return Injector.create(
+      {
+        providers: [{ provide: OpAutocompleterComponent, useValue: this }],
+        parent: this.injector,
+      },
+    );
+  }
+
+  protected syncHiddenField(mappedInputValue:string) {
+    const input = this.syncedInput?.nativeElement;
+    if (input) {
+      input.value = mappedInputValue;
+      const event = new Event('change');
+      input.dispatchEvent(event);
+    }
+  }
+
+  public addNewObjectFn(searchTerm:string):unknown {
+    return this.bindLabel ? { [this.bindLabel]: searchTerm } : searchTerm;
   }
 }

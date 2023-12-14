@@ -116,9 +116,9 @@ class SCM::CheckoutInstructionsService
   #
   def permission
     project = repository.project
-    if user.allowed_to?(:commit_access, project)
+    if user.allowed_in_project?(:commit_access, project)
       :readwrite
-    elsif user.allowed_to?(:browse_repository, project)
+    elsif user.allowed_in_project?(:browse_repository, project)
       :read
     else
       :none

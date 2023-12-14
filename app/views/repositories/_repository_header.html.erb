@@ -57,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
     </a>
   </li>
   <% end %>
-  <% if !empty && User.current.allowed_to?(:browse_repository, @project) %>
+  <% if !empty && User.current.allowed_in_project?(:browse_repository, @project) %>
   <li class="toolbar-item -icon-only">
     <%= link_to stats_project_repository_path(@project),
         class: 'button', title: t(:label_statistics) do %>
@@ -67,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   <%= call_hook(:repositories_navigation_toolbar,
                 { repository: @repository, project: @project, repository_empty: empty }) %>
-  <% if User.current.allowed_to?(:manage_repository, @project) %>
+  <% if User.current.allowed_in_project?(:manage_repository, @project) %>
     <li class="toolbar-item -icon-only">
       <%= link_to project_settings_repository_path(@project),
           class: 'button', title: t(:label_setting_plural) do %>

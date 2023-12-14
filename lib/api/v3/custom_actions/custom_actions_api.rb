@@ -41,7 +41,7 @@ module API
             helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
             after_validation do
-              authorize(:edit_work_packages, global: true)
+              authorize_in_any_work_package(:edit_work_packages)
             end
 
             get do

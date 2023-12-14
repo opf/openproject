@@ -68,7 +68,7 @@ class Seedifier
         next
       end
 
-      puts work_packages.map { |work_package| seedify_work_package(work_package, project) }.compact.to_yaml
+      puts work_packages.filter_map { |work_package| seedify_work_package(work_package, project) }.to_yaml
     end
   end
 
@@ -116,7 +116,7 @@ class Seedifier
 
     predecessors = work_package.follows.sort_by(&:start_date).map { |predecessor| { to: predecessor.subject, type: 'follows' } }
 
-    children = work_package.children.sort_by(&:start_date).map { |child| seedify_work_package(child, project) }.compact
+    children = work_package.children.sort_by(&:start_date).filter_map { |child| seedify_work_package(child, project) }
 
     assigned_to = work_package.assigned_to.try(:name)
 

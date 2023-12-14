@@ -47,17 +47,21 @@ module OpenProject::Bim
                      'bim/ifc_models/ifc_models': %i[index show defaults],
                      'bim/ifc_models/ifc_viewer': %i[show]
                    },
+                   permissible_on: :project,
                    contract_actions: { ifc_models: %i[read] }
         permission :manage_ifc_models,
                    { 'bim/ifc_models/ifc_models': %i[index show destroy edit update create new] },
+                   permissible_on: :project,
                    dependencies: %i[view_ifc_models],
                    contract_actions: { ifc_models: %i[create update destroy] }
         permission :view_linked_issues,
                    { 'bim/bcf/issues': %i[index] },
+                   permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { bcf: %i[read] }
         permission :manage_bcf,
                    { 'bim/bcf/issues': %i[index upload prepare_import configure_import perform_import] },
+                   permissible_on: :project,
                    dependencies: %i[view_linked_issues
                                     view_work_packages
                                     add_work_packages
@@ -65,6 +69,7 @@ module OpenProject::Bim
                    contract_actions: { bcf: %i[create update] }
         permission :delete_bcf,
                    {},
+                   permissible_on: :project,
                    dependencies: %i[view_linked_issues
                                     manage_bcf
                                     view_work_packages
@@ -74,9 +79,11 @@ module OpenProject::Bim
                    contract_actions: { bcf: %i[destroy] }
         permission :save_bcf_queries,
                    {},
+                   permissible_on: :project,
                    dependencies: %i[save_queries]
         permission :manage_public_bcf_queries,
                    {},
+                   permissible_on: :project,
                    dependencies: %i[manage_public_queries save_bcf_queries]
       end
 
@@ -120,7 +127,7 @@ module OpenProject::Bim
       include API::Bim::Utilities::PathHelper
 
       link :bcfTopic,
-           cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
+           cache_if: -> { current_user.allowed_in_project?(:view_linked_issues, represented.project) } do
         next unless represented.bcf_issue?
 
         {
@@ -129,7 +136,7 @@ module OpenProject::Bim
       end
 
       link :convertBCF,
-           cache_if: -> { current_user_allowed_to(:manage_bcf) } do
+           cache_if: -> { current_user.allowed_in_project?(:manage_bcf, represented.project) } do
         next if represented.bcf_issue? || represented.project.nil?
 
         {
@@ -141,7 +148,7 @@ module OpenProject::Bim
       end
 
       links :bcfViewpoints,
-            cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
+            cache_if: -> { current_user.allowed_in_project?(:view_linked_issues, represented.project) } do
         next unless represented.bcf_issue?
 
         represented.bcf_issue.viewpoints.map do |viewpoint|
@@ -171,7 +178,8 @@ module OpenProject::Bim
 
       links :bcfViewpoints do
         journable = represented.journable
-        next unless current_user_allowed_to(:view_linked_issues) && represented.bcf_comment.present? && journable.bcf_issue?
+        next unless current_user.allowed_in_project?(:view_linked_issues, represented.project) &&
+          represented.bcf_comment.present? && journable.bcf_issue?
 
         # There will only be one viewpoint per comment but we nevertheless return a collection here so that it is more
         # similar to the work package representer.

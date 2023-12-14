@@ -1,5 +1,5 @@
 <div class="spot-modal op-enterprise-modal">
-  <div class="spot-modal--header" [textContent]="headerText$ | async"></div>
+  <div id="spotModalTitle" class="spot-modal--header" [textContent]="headerText$ | async"></div>
 
   <div class="spot-divider"></div>
 
@@ -39,14 +39,14 @@
            class="spot-action-bar--right">
         <button
           class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
-          data-qa-selector="confirmation-modal--cancel"
+          data-test-selector="confirmation-modal--cancel"
           (click)="closeModal($event)"
           [textContent]="text.button_cancel"
           [attr.title]="text.button_cancel"
         ></button>
         <button
           class="button button_no-margin -highlight spot-action-bar--action"
-          data-qa-selector="confirmation-modal--confirmed"
+          data-test-selector="confirmation-modal--confirmed"
           (click)="onSubmit()"
           [disabled]="!trialForm || trialForm.invalid"
           [textContent]="text.button_submit"
@@ -58,7 +58,7 @@
         <div class="spot-action-bar--right">
           <button
             class="button button_no-margin -highlight spot-action-bar--action"
-            data-qa-selector="confirmation-modal--confirmed"
+            data-test-selector="confirmation-modal--confirmed"
             (click)="startEnterpriseTrial()"
             [textContent]="text.button_continue"
             [attr.title]="text.button_continue"
@@ -68,7 +68,7 @@
           <button
             *ngIf="context.status === 'startTrial'"
             class="button button_no-margin -highlight spot-action-bar--action"
-            data-qa-selector="confirmation-modal--confirmed"
+            data-test-selector="confirmation-modal--confirmed"
             (click)="closeModal($event)"
             [textContent]="text.button_continue"
             [attr.title]="text.button_continue"

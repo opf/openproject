@@ -32,8 +32,8 @@ require 'open3'
 module OpenProject
   module VERSION # :nodoc:
     MAJOR = 13
-    MINOR = 0
-    PATCH = 7
+    MINOR = 1
+    PATCH = 0
 
     class << self
       # Used by semver to define the special version (if any).
@@ -52,24 +52,36 @@ module OpenProject
       end
 
       def revision
-        revision_from_core_version || revision_from_git
+        revision_from_core_sha || revision_from_git
       end
 
-      def product_version
-        cached_or_block(:@product_version) do
-          path = Rails.root.join('config', 'PRODUCT_VERSION')
-          if File.exist? path
-            File.read(path)
-          end
+      def core_sha
+        cached_or_block(:@core_sha) do
+          read_optional 'CORE_VERSION'
         end
       end
 
-      def core_version
-        cached_or_block(:@core_version) do
-          path = Rails.root.join('config', 'CORE_VERSION')
-          if File.exist? path
-            File.read(path)
-          end
+      def core_url
+        cached_or_block(:@core_url) do
+          read_optional 'CORE_URL'
+        end
+      end
+
+      def product_sha
+        cached_or_block(:@product_sha) do
+          read_optional 'PRODUCT_VERSION'
+        end
+      end
+
+      def product_url
+        cached_or_block(:@product_url) do
+          read_optional 'PRODUCT_URL'
+        end
+      end
+
+      def builder_sha
+        cached_or_block(:@builder_sha) do
+          read_optional 'BUILDER_VERSION'
         end
       end
 
@@ -93,7 +105,7 @@ module OpenProject
 
       def release_date_from_file
         cached_or_block(:@release_date_from_file) do
-          path = Rails.root.join('config', 'RELEASE_DATE')
+          path = Rails.root.join('RELEASE_DATE')
           if File.exist? path
             s = File.read(path)
             Date.parse(s)
@@ -108,10 +120,10 @@ module OpenProject
         end
       end
 
-      def revision_from_core_version
-        return unless core_version.is_a?(String)
+      def revision_from_core_sha
+        return unless core_sha.is_a?(String)
 
-        core_version.split.first
+        core_sha.split.first
       end
 
       def revision_from_git
@@ -120,6 +132,13 @@ module OpenProject
           if revision.present?
             revision.strip[0..8]
           end
+        end
+      end
+
+      def read_optional(file)
+        path = Rails.root.join(file)
+        if File.exist? path
+          File.read(path)
         end
       end
 

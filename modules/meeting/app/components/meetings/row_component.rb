@@ -38,6 +38,14 @@ module Meetings
       link_to model.title, meeting_path(model)
     end
 
+    def type
+      if model.is_a?(StructuredMeeting)
+        I18n.t('meeting.types.structured')
+      else
+        I18n.t('meeting.types.classic')
+      end
+    end
+
     def start_time
       safe_join([helpers.format_date(model.start_time), helpers.format_time(model.start_time, false)], " ")
     end

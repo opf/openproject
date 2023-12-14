@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <col opHighlightCol>
                 <col opHighlightCol>
                 <col opHighlightCol>
-                <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+                <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
                   <col opHighlightCol>
                 <%end%>
                 <col>
@@ -85,7 +85,7 @@ See COPYRIGHT and LICENSE files for more details.
                     </div>
                   </div>
                 </th>
-                <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+                <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
                   <th class="currency" id="material_budget_items_price">
                     <div class="generic-table--sort-header-outer">
                       <div class="generic-table--sort-header">

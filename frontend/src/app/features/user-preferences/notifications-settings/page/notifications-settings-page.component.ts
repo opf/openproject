@@ -20,12 +20,14 @@ import { INotificationSetting } from 'core-app/features/user-preferences/state/n
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
 
 interface IToastSettingsValue {
   assignee:boolean;
   responsible:boolean;
+  shared:boolean;
   workPackageCreated:boolean;
   workPackageProcessed:boolean;
   workPackageScheduled:boolean;
@@ -68,6 +70,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   public form = new UntypedFormGroup({
     assignee: new UntypedFormControl(false),
     responsible: new UntypedFormControl(false),
+    shared: new UntypedFormControl(false),
     workPackageCreated: new UntypedFormControl(false),
     workPackageProcessed: new UntypedFormControl(false),
     workPackageScheduled: new UntypedFormControl(false),
@@ -118,6 +121,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     },
     assignee: this.I18n.t('js.notifications.settings.reasons.assignee'),
     responsible: this.I18n.t('js.notifications.settings.reasons.responsible'),
+    shared: this.I18n.t('js.notifications.settings.reasons.shared'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     dueDate: this.I18n.t('js.work_packages.properties.dueDate'),
     overdue: this.I18n.t('js.notifications.settings.global.overdue'),
@@ -139,6 +143,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     private currentUserService:CurrentUserService,
     private uiRouterGlobals:UIRouterGlobals,
     readonly bannersService:BannersService,
+    readonly configurationService:ConfigurationService,
   ) {
     super();
   }
@@ -178,6 +183,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
 
         this.form.get('assignee')?.setValue(settings.assignee);
         this.form.get('responsible')?.setValue(settings.responsible);
+        this.form.get('shared')?.setValue(settings.shared);
         this.form.get('workPackageCreated')?.setValue(settings.workPackageCreated);
         this.form.get('workPackageProcessed')?.setValue(settings.workPackageProcessed);
         this.form.get('workPackageScheduled')?.setValue(settings.workPackageScheduled);
@@ -211,6 +217,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
             project: new UntypedFormControl(setting._links.project),
             assignee: new UntypedFormControl(setting.assignee),
             responsible: new UntypedFormControl(setting.responsible),
+            shared: new UntypedFormControl(setting.shared),
             workPackageCreated: new UntypedFormControl(setting.workPackageCreated),
             workPackageProcessed: new UntypedFormControl(setting.workPackageProcessed),
             workPackageScheduled: new UntypedFormControl(setting.workPackageScheduled),
@@ -239,6 +246,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       mentioned: true,
       assignee: notificationSettings.assignee,
       responsible: notificationSettings.responsible,
+      shared: notificationSettings.shared,
       workPackageCreated: notificationSettings.workPackageCreated,
       workPackageProcessed: notificationSettings.workPackageProcessed,
       workPackageScheduled: notificationSettings.workPackageScheduled,
@@ -255,6 +263,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       mentioned: true,
       assignee: settings.assignee,
       responsible: settings.responsible,
+      shared: settings.shared,
       workPackageCreated: settings.workPackageCreated,
       workPackageProcessed: settings.workPackageProcessed,
       workPackageScheduled: settings.workPackageScheduled,

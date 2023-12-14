@@ -17,7 +17,7 @@ module MyPage
     wp_table_strategy_proc = Proc.new do
       after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
 
-      allowed ->(user, _project) { user.allowed_to_globally?(:save_queries) }
+      allowed ->(user, _project) { user.allowed_in_any_project?(:save_queries) }
 
       options_representer '::API::V3::Grids::Widgets::QueryOptionsRepresenter'
     end
@@ -35,7 +35,7 @@ module MyPage
     widget_strategy 'custom_text' do
       # Requiring a permission here as one is required to assign attachments.
       # Should be replaced by a global permission to have a my page
-      allowed ->(user, _project) { user.allowed_to_globally?(:view_project) }
+      allowed ->(user, _project) { user.allowed_in_any_project?(:view_project) }
 
       options_representer '::API::V3::Grids::Widgets::CustomTextOptionsRepresenter'
     end

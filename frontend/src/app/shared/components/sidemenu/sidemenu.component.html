@@ -25,7 +25,7 @@
   <li
     *ngFor="let item of items"
     class="op-sidemenu--item"
-    data-qa-selector="op-sidemenu--item"
+    data-test-selector="op-sidemenu--item"
   >
     <op-sidemenu
       *ngIf="item.children && item.children.length"
@@ -40,7 +40,7 @@
       [class]="{ 'op-sidemenu--item-action_with_icon': !!item.icon }"
       uiSrefActive="op-sidemenu--item-action_active-child"
       uiSrefActiveEq="op-sidemenu--item-action_active"
-      [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
+      [attr.data-test-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
       [uiSref]="item.uiSref"
       [uiParams]="item.uiParams"
       [uiOptions]="item.uiOptions"
@@ -52,7 +52,7 @@
       *ngIf="!item.children && item.href"
       class="op-sidemenu--item-action"
       [class]="{ 'op-sidemenu--item-action_with_icon': !!item.icon }"
-      [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
+      [attr.data-test-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
       [href]="item.href"
     >
       <ng-container *ngTemplateOutlet="itemTemplate; context: { item }"></ng-container>

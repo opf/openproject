@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
             <tbody>
             <% storage_tokens.each do |token| %>
               <tr id="storage-oauth-token-<%= token.id %>">
-                <td class="-w-rel-60" data-qa-selector="oauth-token-row-<%= token.oauth_client.integration.id %>-name">
+                <td class="-w-rel-60" data-test-selector="oauth-token-row-<%= token.oauth_client.integration.id %>-name">
                   <%= token.oauth_client.integration.name %>
                 </td>
                 <td>
@@ -65,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <%= link_to "",
                               storage_token_delete_path(token.id),
                               data: { confirm: t('my_account.access_tokens.storages.revoke_token', storage: token.oauth_client.integration.name),
-                                      qa_selector: "storages-token-row-#{token.id}-revoke" },
+                                      test_selector: "storages-token-row-#{token.id}-revoke" },
                               method: :delete,
                               class: 'icon icon-delete' %>
                 </td>

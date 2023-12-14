@@ -192,7 +192,7 @@ module OpenProject
       # Either the value already is an array or a string with values separated by spaces.
       # In the latter case the string will be split and the values returned as an array.
       def array(value)
-        if value.is_a?(String) && value =~ / /
+        if value.is_a?(String) && value.include?(' ')
           value.split
         else
           Array(value)

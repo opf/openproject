@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -30,16 +32,20 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class UploadLinkQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    URI_TOKEN_REQUEST = 'index.php/apps/integration_openproject/direct-upload-token'.freeze
-    URI_UPLOAD_BASE_PATH = 'index.php/apps/integration_openproject/direct-upload'.freeze
+    URI_TOKEN_REQUEST = 'index.php/apps/integration_openproject/direct-upload-token'
+    URI_UPLOAD_BASE_PATH = 'index.php/apps/integration_openproject/direct-upload'
 
     def initialize(storage)
-      @base_uri = URI(storage.host).normalize
-      @oauth_client = storage.oauth_client
+      @uri = storage.uri
+      @configuration = storage.oauth_configuration
+    end
+
+    def self.call(storage:, user:, data:)
+      new(storage).call(user:, data:)
     end
 
     def call(user:, data:)
-      Util.token(user:, oauth_client: @oauth_client) do |token|
+      Util.token(user:, configuration: @configuration) do |token|
         if data.nil? || data['parent'].nil?
           Util.error(:error, 'Data is invalid', data)
         else
@@ -50,7 +56,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             token:
           ).map do |response|
             Storages::UploadLink.new(
-              URI.parse(Util.join_uri_path(@base_uri, URI_UPLOAD_BASE_PATH, response.token))
+              URI.parse(Util.join_uri_path(@uri, URI_UPLOAD_BASE_PATH, response.token))
             )
           end
         end
@@ -59,46 +65,33 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     private
 
-    # rubocop:disable Metrics/AbcSize
     def outbound_response(method:, relative_path:, payload:, token:)
-      response = begin
-        ServiceResult.success(
-          result: RestClient::Request.execute(
-            method:,
-            url: Util.join_uri_path(@base_uri, relative_path),
-            payload: payload.to_json,
-            headers: {
-              'Authorization' => "Bearer #{token.access_token}",
-              'Accept' => 'application/json',
-              'Content-Type' => 'application/json'
-            }
+      response = Util.http(@uri).post(
+        Util.join_uri_path(@uri.path, relative_path),
+        payload.to_json,
+        {
+          'Authorization' => "Bearer #{token.access_token}",
+          'Accept' => 'application/json',
+          'Content-Type' => 'application/json'
+        }
+      )
+      case response
+      when Net::HTTPSuccess
+        # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
+        if response.body.present?
+          ServiceResult.success(
+            result: JSON.parse(response.body, object_class: OpenStruct) # rubocop:disable Style/OpenStructUse
           )
-        )
-      rescue RestClient::Unauthorized => e
-        Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
-      rescue RestClient::NotFound => e
-        Util.error(:not_found, 'Outbound request destination not found!', e.response)
-      rescue RestClient::ExceptionWithResponse => e
-        Util.error(:error, 'Outbound request failed!', e.response)
-      rescue StandardError
+        else
+          Util.error(:unauthorized, 'Outbound request not authorized!')
+        end
+      when Net::HTTPNotFound
+        Util.error(:not_found, 'Outbound request destination not found!', response)
+      when Net::HTTPUnauthorized
+        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+      else
         Util.error(:error, 'Outbound request failed!')
       end
-
-      # rubocop:disable Style/OpenStructUse
-      # rubocop:disable Style/MultilineBlockChain
-      response
-        .bind do |r|
-        # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-        if r.body.blank?
-          Util.error(:not_authorized, 'Outbound request not authorized!')
-        else
-          ServiceResult.success(result: r)
-        end
-      end.map { |r| JSON.parse(r.body, object_class: OpenStruct) }
-      # rubocop:enable Style/MultilineBlockChain
-      # rubocop:enable Style/OpenStructUse Style/MultilineBlockChain
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

@@ -107,5 +107,5 @@ export const fileIconMappings:Record<string, IFileIcon> = {
 export const storageIconMappings:Record<string, string> = {
   [nextcloud]: 'nextcloud-circle',
 
-  default: 'ticket',
+  default: 'hosting',
 };

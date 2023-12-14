@@ -54,7 +54,7 @@
       <div class="op-ian-item--buttons">
         <i
           *ngIf="!notification.readIAN"
-          data-qa-selector="mark-as-read-button"
+          data-test-selector="mark-as-read-button"
           class="op-ian-item--button icon-mark-read"
           [title]="text.mark_as_read"
           (click)="markAsRead($event, aggregatedNotifications)"

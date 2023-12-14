@@ -35,13 +35,13 @@ module Grids
 
       def allowed_values_subset
         grid_configs_of_values
-          .map do |value, config|
+          .filter_map do |value, config|
           next unless config && config[:class]
 
           if config && config[:class]
             value
           end
-        end.compact
+        end
       end
 
       def type

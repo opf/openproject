@@ -39,11 +39,11 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="toolbar">
     <div class="title-container">
       <h2 id="ur_caption">
-        <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
+        <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_in_report?(:rename, @query, current_user) %>
       </h2>
     </div>
     <ul class="toolbar-items">
-      <% if User.current.allowed_to? :export_work_packages, @project, global: @project.nil? %>
+      <% if User.current.allowed_in_any_work_package?(:export_work_packages, in_project: @project) %>
         <li class="toolbar-item">
           <%= link_to(t(:export_to_excel),
                       { controller: "cost_reports" ,

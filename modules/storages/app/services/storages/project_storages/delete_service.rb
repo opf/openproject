@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -57,10 +59,8 @@ module Storages::ProjectStorages
     private
 
     def delete_project_folder
-      Storages::Peripherals::StorageRequests
-        .new(storage: model.storage)
-        .delete_folder_command
-        .call(location: model.project_folder_path)
+      Storages::Peripherals::Registry.resolve("commands.#{model.storage.short_provider_type}.delete_folder")
+        .call(storage: model.storage, location: model.project_folder_path)
     end
 
     # Delete FileLinks with the same Storage as the ProjectStorage.
