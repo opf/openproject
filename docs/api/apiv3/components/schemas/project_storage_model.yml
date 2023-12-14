@@ -89,7 +89,7 @@ properties:
 
               # Conditions
 
-              If the storage has not been configured(oauth client is missing, for instance), then the link is empty.
+              If the storage has not been configured(oauth client is missing, for instance), then the link is null.
 example:
   _type: 'ProjectStorage'
   id: 1337
