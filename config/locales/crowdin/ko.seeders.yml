@@ -43,11 +43,11 @@ ko:
           name: 기타
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: 작업 패키지 편집자
         item_1:
-          name: Work package commenter
+          name: 작업 패키지 코멘터
         item_2:
-          name: Work package viewer
+          name: 작업 패키지 뷰어
       project_roles:
         item_0:
           name: 멤버 없음
@@ -132,21 +132,21 @@ ko:
       welcome:
         title: OpenProject에 오신 것을 환영합니다!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject는 최고의 오픈 소스 프로젝트 관리 소프트웨어입니다. 기존의 민첩한 프로젝트 관리뿐만 아니라 하이브리드 프로젝트 관리를 지원하고 데이터를 완벽하게 제어할 수 있게 합니다.
 
-          Core features and use cases:
+          핵심 기능 및 사용 사례:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [프로젝트 포트폴리오 관리](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [프로젝트 계획 및 스케줄링](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [작업 관리 및 이슈 추적](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [애자일 보드(스크럼 및 Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [요구 사항 관리 및 릴리스 계획](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [시간 및 비용 추적, 예산](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [팀 협업 및 문서](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          프로젝트 관리의 미래에 오신 것을 환영합니다.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          관리자용: 이 환영 텍스트는 [여기에서]({{opSetting:base_url}}/admin/settings/general) 변경할 수 있습니다.
       projects:
         demo-project:
           name: 데모 프로젝트
@@ -352,20 +352,20 @@ ko:
                 options:
                   name: 시작하기
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    참여해주셔서 반갑습니다! OpenProject에서 시작하려면 몇 가지 작업을 시도해 보는 것이 좋습니다.
 
-                    _Try the following steps:_
+                    다음 단계를 시도해 보세요._
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *프로젝트에 새 멤버 초대*: &rightarrow; 프로젝트 탐색에서 [멤버]({{opSetting:base_url}}/projects/your-scrum-project/members)로 이동합니다.
+                    2. *제품 백로그 및 스프린트 백로그 보기*: &rightarrow; 프로젝트 탐색에서 [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다.
+                    3. *작업 보드 보기*: &rightarrow; [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다. &rightarrow; 스프린트에서 오른쪽 화살표를 클릭합니다. &rightarrow; [작업 보드](##sprint:scrum_project__version__sprint_1)를 선택합니다.
+                    4. *새 작업 패키지 만들기*: &rightarrow; [작업 패키지 &rightarrow; 만들기]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new)로 이동합니다.
+                    5. *프로젝트 계획 만들기 및 업데이트*: &rightarrow; 프로젝트 탐색에서 [프로젝트 계획](##query:scrum_project__query__project_plan)으로 이동합니다.
+                    6. *스프린트 위키 만들기*: &rightarrow; [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동하고 스프린트의 오른쪽 드롭다운 메뉴에서 스프린트 위키를 엽니다. 필요에 따라 [위키 템플릿]({{opSetting:base_url}}/projects/your-scrum-project/wiki/)을 편집할 수 있습니다.
+                    7. *추가 모듈 활성화*: &rightarrow; [프로젝트 설정 &rightarrow; 모듈]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules)로 이동합니다.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    여기에서 [사용자 가이드](https://www.openproject.org/docs/user-guide/)를 확인할 수 있습니다.
+                    질문이 있거나 지원이 필요하면 알려주세요. 연락처: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: 작업 패키지

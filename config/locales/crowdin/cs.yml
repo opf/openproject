@@ -2277,9 +2277,9 @@ cs:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "Byl Vám sdílen pracovní balíček #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} s vámi sdílel pracovní balíček s právy %{role_rights}"

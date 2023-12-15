@@ -21,16 +21,16 @@
 #++
 uk:
   plugin_openproject_backlogs:
-    name: "Список невиконаних завдань в OpenProject"
-    description: "Цей модуль додає функції, завдяки яким agile-команди можуть працювати над проєктами  Scrum в OpenProject."
+    name: "Невиконані завдання в OpenProject"
+    description: "Цей модуль додає функції, завдяки яким agile-команди можуть працювати над проєктами Scrum в OpenProject."
   activerecord:
     attributes:
       work_package:
         position: "Позиція"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        remaining_hours: "Залишок роботи"
+        remaining_time: "Залишок роботи"
+        derived_remaining_hours: "Отриманий залишок роботи"
+        derived_remaining_time: "Отриманий залишок роботи"
         story_points: "Точки історії"
         backlogs_work_package_type: "Тип Backlog-у"
     errors:

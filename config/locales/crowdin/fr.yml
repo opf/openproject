@@ -401,8 +401,8 @@ fr:
     sharing:
       missing_workflow_waring:
         title: "Flux de travail manquant pour le partage de lots de travaux"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        message: "Aucun flux de travail n'est configuré pour le rôle 'Éditeur de lots de travaux'. Sans flux de travail, le partage avec l'utilisateur ne permet pas de modifier l'état du lot de travaux. Les flux de travail peuvent être copiés. Sélectionnez un type de source (par exemple 'Tâche') et un rôle de source (par exemple 'Membre'). Sélectionnez ensuite les types cibles. Pour commencer, vous pouvez sélectionner tous les types comme cibles. Enfin, sélectionnez le rôle 'Éditeur de lot de travaux' comme cible et cliquez sur 'Copier'. Après avoir ainsi créé les valeurs par défaut, affinez les flux de travail comme vous le faites pour tous les autres rôles."
+        link_message: "Configurez les flux de travail dans l'administration."
     summary:
       reports:
         category:
@@ -1599,7 +1599,7 @@ fr:
   label_administration: "Administration"
   label_advanced_settings: "Paramètres avancés"
   label_age: "Âge"
-  label_ago: "il y a quelques jours"
+  label_ago: "il y a"
   label_all: "tous"
   label_all_projects: "Tous les projets"
   label_all_time: "tout le temps"
@@ -2221,9 +2221,9 @@ fr:
     sharing:
       work_packages:
         allowed_actions: "Vous pouvez %{allowed_actions} ce lot de travaux. Cela peut changer en fonction de votre rôle dans le projet et de vos droits."
-        create_account: "Pour accéder à ce lot de travaux, vous devrez créer et activer un compte %{instance}. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Ouvrir ce lot de travaux"
-        subject: "Le lot de travaux #%{id} a été partagé avec vous"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
         summary:
           user: "%{user} a partagé un lot de travaux avec vous avec les droits %{role_rights}"
@@ -2333,7 +2333,7 @@ fr:
   notice_file_not_found: "La page à laquelle vous essayez d'accéder n'existe pas ou a été supprimée."
   notice_forced_logout: "Vous avez été déconnecté après %{ttl_time} minutes d'inactivité."
   notice_internal_server_error: "Une erreur est survenue sur la page à laquelle vous essayez d'accéder. Si le problème persiste, veuillez contacter votre administrateur %{app_title} pour assistance."
-  notice_work_package_done_ratios_updated: "% complete updated"
+  notice_work_package_done_ratios_updated: "% de mise à jour terminée"
   notice_locking_conflict: "Cette information a été mise a jour par au moin un autre utilisateur pendant la même session"
   notice_locking_conflict_additional_information: "Le(s) mise(s) à jour(s) ont été faite par %{users}."
   notice_locking_conflict_reload_page: "Veuillez rafraîchir la page, vérifier les changements et rélancer la mise à jour."
