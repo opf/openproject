@@ -206,7 +206,7 @@ RSpec.describe 'Admin storages',
             expect(page).to have_css('#oauth_client_client_secret', value: '')
             click_button 'Save and continue'
 
-            expect(page).to have_text("Client can't be blank.")
+            expect(page).to have_text("Client ID can't be blank.")
             expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
@@ -337,7 +337,7 @@ RSpec.describe 'Admin storages',
             expect(page).to have_css('#oauth_client_client_secret', value: '')
             click_button 'Save and continue'
 
-            expect(page).to have_text("Client can't be blank.")
+            expect(page).to have_text("Client ID can't be blank.")
             expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
@@ -508,7 +508,7 @@ RSpec.describe 'Admin storages',
             expect(page).to have_css('#oauth_client_client_secret', value: '')
             click_button 'Save and continue'
 
-            expect(page).to have_text("Client can't be blank.")
+            expect(page).to have_text("Client ID can't be blank.")
             expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
@@ -623,7 +623,7 @@ RSpec.describe 'Admin storages',
             expect(page).to have_css('#oauth_client_client_secret', value: '')
             click_button 'Save and continue'
 
-            expect(page).to have_text("Client can't be blank.")
+            expect(page).to have_text("Client ID can't be blank.")
             expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values

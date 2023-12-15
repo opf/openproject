@@ -3117,7 +3117,7 @@ en:
   help_texts:
     views:
       project: >
-        %{plural} are always attached to a project. 
+        %{plural} are always attached to a project.
         You can only select projects here where the %{plural} module is active.
         After creating a %{singular} you can add work packages from other projects to it.
       public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
@@ -3501,6 +3501,7 @@ en:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
