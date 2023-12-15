@@ -272,5 +272,22 @@ RSpec.describe 'Work package sharing',
         share_modal.expect_select_all_untoggled
       end
     end
+
+    context 'when filtering for a specific role' do
+      before do
+        share_modal.expect_open
+        share_modal.filter('role', "View")
+      end
+
+      context 'and a share from the filtered list is subsequently updated' do
+        before do
+          share_modal.change_role(project_user, "Comment")
+        end
+
+        it 'removes the updated share from the list' do
+          share_modal.expect_not_shared_with(project_user)
+        end
+      end
+    end
   end
 end
