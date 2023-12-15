@@ -9,21 +9,21 @@ ko:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: 매주
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: 반가운 소식
             item_1:
-              title: Updates from development team
+              title: 개발 팀의 업데이트
             item_2:
-              title: Updates from product team
+              title: 제품 팀의 업데이트
             item_3:
-              title: Updates from marketing team
+              title: 마케팅 팀의 업데이트
             item_4:
-              title: Updates from sales team
+              title: 세일즈 팀의 업데이트
             item_5:
-              title: Review of quarterly goals
+              title: 분기별 목표 검토
             item_6:
-              title: Core values feedback
+              title: 핵심 가치 피드백
             item_7:
-              title: General topics
+              title: 일반 주제

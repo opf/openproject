@@ -207,7 +207,7 @@ pt:
       editable: "Permita que o campo seja editável pelos próprios usuários."
       visible: "Torne o campo visível para todos os usuários (não-administradores) na visão geral do projeto e exibido no widget de detalhes do projeto na Visão geral do projeto."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        Permita que o campo personalizado seja utilizado num filtro nas visualizações do pacote de trabalho. Note que apenas com a opção "Para todos os projetos" selecionada, o campo personalizado irá aparecer nas visualizações globais.
     tab:
       no_results_title_text: Atualmente, não há campos personalizados.
       no_results_content_text: Criar um novo campo personalizado
@@ -400,8 +400,8 @@ pt:
     sharing:
       missing_workflow_waring:
         title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        message: "Nenhum fluxo de trabalho está configurado para a função 'Editor de pacote de trabalho'. Sem um fluxo de trabalho, o compartilhado com o usuário não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de fonte (ex. 'Tarefa') e função de origem (ex. 'Membro'). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função 'Editor de pacote de trabalho' como o destino e pressione 'Copiar'. Depois de ter criado os padrões, ajuste os fluxos de trabalho da mesma forma  que faz para todas as outras funções."
+        link_message: "Configure os fluxos de trabalho na administração."
     summary:
       reports:
         category:
@@ -953,7 +953,7 @@ pt:
       custom_field: "Campo personalizado"
       "doorkeeper/application": "Aplicação OAuth"
       forum: "Fórum"
-      global_role: "Global role"
+      global_role: "Função global"
       group: "Grupo"
       member: "Membro"
       news: "Notícias"
@@ -1302,7 +1302,7 @@ pt:
         other: "%{count} meses"
       x_years:
         one: "1 ano"
-        other: "%{count} years"
+        other: "%{count} anos"
       x_seconds:
         one: "1 segundo"
         other: "%{count} segundos"
@@ -2155,8 +2155,8 @@ pt:
     zero: "sem projetos"
   label_yesterday: "ontem"
   label_role_type: "Tipo"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Função do projeto"
+  label_global_role: "Função global"
   label_not_changeable: "(não modificável)"
   label_global: "Global"
   label_seeded_from_env_warning: Este registro foi criado por meio de uma configuração / ambiente variável. Ele não pode ser editado pela interface do usuário.
@@ -2220,9 +2220,9 @@ pt:
     sharing:
       work_packages:
         allowed_actions: "Você pode %{allowed_actions} este pacote de trabalho. Isso pode mudar dependendo da sua função e permissões do projeto."
-        create_account: "Para acessar este pacote de trabalho, você terá que criar e ativar uma conta %{instance}. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Abrir pacote de trabalho"
-        subject: "Você compartilhou o pacote de trabalho nº%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Compartilhe pacotes de trabalho com usuários que não são membros do projeto."
         summary:
           user: "%{user} compartilhou um pacote de trabalho com você com privilégios de %{role_rights}"
@@ -2394,7 +2394,7 @@ pt:
   permission_add_work_package_notes: "Adicionar anotações"
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
-  permission_add_project: "Create projects"
+  permission_add_project: "Criar projetos"
   permission_add_work_package_attachments: "Adicionar anexos"
   permission_add_work_package_attachments_explanation: "Permite adicionar anexos sem permissão de edição de pacotes de trabalho"
   permission_archive_project: "Arquivar projeto"
@@ -2410,7 +2410,7 @@ pt:
   permission_commit_access: "Acesso de leitura/gravação para o repositório (commit)"
   permission_copy_projects: "Copiar projetos"
   permission_copy_work_packages: "Copiar pacotes de trabalho"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "Criar backups"
   permission_delete_work_package_watchers: "Excluir observadores"
   permission_delete_work_packages: "Excluir pacotes de trabalho"
   permission_delete_messages: "Excluir mensagens"
@@ -3054,10 +3054,10 @@ pt:
         view_description: "Pode visualizar este pacote de trabalho."
       remove: "Remover"
       share: "Compartilhar"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "Não há usuários com o critério de filtro atual."
+      text_empty_search_header: "Não encontramos nenhum resultado correspondente."
       text_empty_state_description: "O pacote de trabalho ainda não foi compartilhado com ninguém."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Não há membros compartilhados."
       text_user_limit_reached: "A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar este pacote de trabalho."
       text_user_limit_reached_admins: 'A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder adicionar mais usuários.'
       warning_user_limit_reached: >
@@ -3065,7 +3065,7 @@ pt:
       warning_user_limit_reached_admin: >
         A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder garantir que os usuários externos possam acessar a este pacote de trabalho.
       warning_no_selected_user: "Selecione os usuários com quem compartilhar este pacote de trabalho"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "O usuário %{user} está bloqueado e não pode ser compartilhado com"
       user_details:
         locked: "Usuário bloqueado"
         invited: "Convite enviado. "
@@ -3108,7 +3108,7 @@ pt:
       code_429: "Muitas requisições. Tente novamente mais tarde."
       code_500: "Ocorreu um erro interno."
       code_500_outbound_request_failure: "Uma solicitação de saída para outro recurso falhou com o código de status %{status_code}."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "O pedido não pode ser manipulado devido a um token Enterprise inválido ou ausente."
       not_found:
         work_package: "O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído."
       expected:
@@ -3291,8 +3291,8 @@ pt:
   you: você
   link: link
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    name: "Plugins OpenProject Auth"
+    description: "Integração de fornecedores de estratégias OmniAuth para autenticação no Openproject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML/Início de sessão único"
+    description: "Adiciona o fornecedor SAML OmniAuth ao OpenProject"

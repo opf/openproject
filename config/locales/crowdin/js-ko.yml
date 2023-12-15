@@ -352,7 +352,7 @@ ko:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>프로젝트 멤버가 아닌 외부 사용자 및 그룹과 작업 패키지를 공유합니다(Enterprise 추가 기능).</li> <li>작업 패키지에 링크된 의제 및 의사록이 포함된 새로운 다이내믹 미팅이 있습니다.</li> <li>작업 패키지를 OneDrive/SharePoint의 파일 및 폴더와 연결합니다.</li> <li>고대비 모드를 포함하여 WCAG 2.1 AA에 따른 접근성 테스트 및 첫 번째 개선 사항이 있습니다.</li> <li>Primer Design System의 지속적인 통합이 제공됩니다.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -422,7 +422,7 @@ ko:
     label_filename: "파일"
     label_filesize: "크기"
     label_general: "일반"
-    label_global_roles: "Global roles"
+    label_global_roles: "글로벌 역할"
     label_greater_or_equal: ">="
     label_group: '그룹'
     label_group_by: "그룹화 기준"
@@ -988,7 +988,7 @@ ko:
         recently_created: "최근에 만듦"
         all_open: "모두 열림"
         summary: "요약"
-        shared_with_users: "Shared with users"
+        shared_with_users: "사용자와 공유됨"
       jump_marks:
         pagination: "테이블 페이지 매김으로 이동"
         label_pagination: "여기를 클릭하여 작업 패키지 테이블로 건너뛰고 페이지 매김으로 이동"
@@ -1027,10 +1027,10 @@ ko:
         is_switched_from_manual_to_automatic: "다른 작업 패키지와의 관계로 인해 수동 스케줄링에서 자동 스케줄링으로 전환한 후 이 작업 패키지의 날짜를 다시 계산해야 할 수 있습니다."
       sharing:
         share: '공유하기'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        title: "작업 패키지 공유"
+        selected_count: "%{count}개 선택됨"
         selection:
-          mixed: "Mixed"
+          mixed: "혼합"
       table:
         configure_button: '작업 패키지 테이블 구성'
         summary: "작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블."

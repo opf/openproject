@@ -140,7 +140,7 @@ ru:
   text_meeting_minutes_for_meeting: 'Протокол совещания «%{meeting}»'
   text_notificiation_invited: "Это сообщение содержит запись ics для совещания ниже:"
   text_meeting_empty_heading: "Встреча пуста"
-  text_meeting_empty_description_1: "Начните с добавления пунктов повестки дня ниже. Каждый элемент может быть простым, например названием, но вы также можете добавить дополнительную информацию, такую как продолжительность, примечания и ответственное лицо."
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
   text_meeting_empty_description_2: "Вы также можете добавить ссылки на существующие пакеты работ. Когда вы это сделаете, соответствующие заметки будут автоматически отображаться на вкладке «Встречи» пакета работ."
   label_meeting_empty_action: "Добавить пункт повестки дня"
   label_meeting_actions: "Действия встречи"
@@ -148,7 +148,7 @@ ru:
   label_meeting_delete: "Удалить встречу"
   label_meeting_created_by: "Автор"
   label_meeting_last_updated: "Обновлено"
-  label_agenda_item_undisclosed_wp: "Ссылка на нераскрытый пакет работ #%{id}"
+  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Ссылка на удалённый пакет работ"
   label_agenda_item_actions: "Действия по пунктам повестки дня"
   label_agenda_item_move_to_top: "В начало"

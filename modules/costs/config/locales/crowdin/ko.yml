@@ -22,7 +22,7 @@
 ko:
   plugin_costs:
     name: "시간 및 비용"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "이 모듈은 프로젝트 비용을 계획하고 추적하는 기능을 추가합니다."
   activerecord:
     attributes:
       cost_entry:
