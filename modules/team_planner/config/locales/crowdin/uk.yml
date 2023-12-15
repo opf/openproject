@@ -1,8 +1,8 @@
 #English strings go here
 uk:
   plugin_openproject_team_planner:
-    name: "OpenProject Team Planner"
-    description: "Дає змогу переглядати планувальник команди."
+    name: "Планувальник команд OpenProject"
+    description: "Дає змогу переглядати дані планувальника команд."
   permission_view_team_planner: "Перегляд командного планувальника"
   permission_manage_team_planner: "Керування командним планувальником"
   project_module_team_planner_view: "Командні планувальники"

@@ -2,7 +2,7 @@
 ko:
   plugin_openproject_recaptcha:
     name: "OpenProject ReCaptcha"
-    description: "This module provides recaptcha checks during login."
+    description: "이 모듈은 로그인 시 recaptcha 확인을 제공합니다."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: '기다려주십시오...'

@@ -197,13 +197,13 @@ uk:
     reorder_alphabetical: "Перевпорядкувати значення за алфавітом"
     reorder_confirmation: "Увага! Поточний порядок доступних значень буде втрачено. Продовжити?"
     instructions:
-      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
-      is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Include the field values when using the global search functionality."
-      editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_required: "Позначте користувацьке поле як обов’язкове. Так його потрібно буде заповнювати під час створення нових або оновлення наявних ресурсів."
+      is_for_all: "Позначте користувацьке поле як доступне в усіх наявних і нових проєктах."
+      searchable: "Включіть значення полів під час використання функції глобального пошуку."
+      editable: "Дозвольте користувачам самостійно редагувати це поле."
+      visible: "Зробіть поле видимим для всіх користувачів (які не належать до адміністраторів) на сторінці огляду проєкту й на віджеті з докладними даними про проєкт у розділі «Огляд проєкту»."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        Дозвольте відображати користувацьке поле у фільтрі в поданнях пакета робіт. Зверніть увагу: користувацьке поле відображатиметься в глобальних поданнях, лише якщо встановлено прапорець «Для всіх проєктів».
     tab:
       no_results_title_text: Наразі немає спеціальних полів.
       no_results_content_text: Створіть нове спеціальне поле
@@ -397,9 +397,9 @@ uk:
       unsupported_for_multiple_projects: "Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів"
     sharing:
       missing_workflow_waring:
-        title: "Відсутній робочий процес для надання спільного доступу до пакета робіт"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "Відсутній робочий процес для спільного використання пакета робіт"
+        message: "Для ролі «Редактора пакета робіт» не налаштовано жодного робочого процесу. Без робочого процесу користувач, якому надано доступ, не може змінити статус пакета робіт. Робочі процеси можна копіювати. Виберіть вихідний тип (напр., «Завдання») і роль (напр., «Учасник»). Потім виберіть цільові типи. Для початку радимо вибирати всі типи як цільові. Нарешті, виберіть роль «Редактор пакета робіт» і натисніть «Копіювати». Після цього ви зможете налаштовувати робочі процеси для кожної ролі, як ви це зазвичай робите."
+        link_message: "Налаштовуйте робочі процеси на панелі адміністрування."
     summary:
       reports:
         category:
@@ -442,7 +442,7 @@ uk:
     error_self_registration_disabled: >
       Реєстрація користувача у цій системі відключена. Будь ласка, зверніться до адміністратора, щоб створити обліковий запис для вас.
     error_self_registration_limited_provider: >
-      Реєстрація користувачів через постачальника єдиного входу %{name} обмежена. Зверніться до адміністратора, щоб активувати обліковий запис або змінити ліміт реєстрацій для цього постачальника.
+      Реєстрація користувачів через постачальника єдиного входу %{name} обмежена. Зверніться до адміністратора, щоб активувати обліковий запис або змінити ліміт самостійних реєстрацій для цього постачальника.
     login_with_auth_provider: "або ввійдіть у свій існуючий обліковий запис"
     signup_with_auth_provider: "або зареєструйтесь, використовуючи"
     auth_source_login: Увійдіть, як <em>%{login}</em> для активації облікового запису.
@@ -903,7 +903,7 @@ uk:
           attributes:
             base:
               user_limit_reached: "Досягнуто ліміту користувачів. За поточним тарифним планом більше не можна створювати облікових записів."
-              one_must_be_active: "Користувача з правами адмінісратора не можна заблокувати або вилучити. Має бути активний принайммні один адміністратор."
+              one_must_be_active: "Користувача з правами адміністратора не можна заблокувати або вилучити. Має бути активний принаймні один адміністратор."
             password_confirmation:
               confirmation: "Підтвердження пароля та пароль не збігаються."
               format: "%{message}"
@@ -955,7 +955,7 @@ uk:
       custom_field: "Користувацьке поле"
       "doorkeeper/application": "Програма OAuth"
       forum: "Форум"
-      global_role: "Global role"
+      global_role: "Глобальна роль"
       group: "Група"
       member: "Учасник"
       news: "Новини"
@@ -1344,9 +1344,9 @@ uk:
         other: "%{count} місяців"
       x_years:
         one: "1 рік"
-        few: "%{count} years"
-        many: "%{count} years"
-        other: "%{count} years"
+        few: "%{count} роки"
+        many: "%{count} років"
+        other: "%{count} року"
       x_seconds:
         one: "1 секунда"
         few: "%{count} секунд"
@@ -1538,7 +1538,7 @@ uk:
     changes_retracted: "Зміни було відхилено."
     caused_changes:
       dates_changed: "Дати змінено"
-      system_update: "Оновлення системи OpenProject:"
+      system_update: "Оновлення системи OpenProject"
     cause_descriptions:
       work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
       work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
@@ -1555,7 +1555,7 @@ uk:
           non_working: "%{day} – зараз неробочий день"
       system_update:
         file_links_journal: >
-          Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах) з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:
+          Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах), з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:
   links:
     configuration_guide: "Посібник з налаштування"
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -1641,7 +1641,7 @@ uk:
   label_add_related_work_packages: "Додати відповідні робочі пакети"
   label_add_subtask: "Додати підзавдання"
   label_added: "додано"
-  label_added_by: "Added by %{author}"
+  label_added_by: "Автор: %{author}"
   label_added_time_by: "Доданий %{author} %{age} назад"
   label_additional_workflow_transitions_for_assignee: "Додаткові переходи можна коли користувач є правонаступником"
   label_additional_workflow_transitions_for_author: "Додаткові переходи дозволені користувачу, який є автором"
@@ -2205,8 +2205,8 @@ uk:
     zero: "немає проєктів"
   label_yesterday: "вчора"
   label_role_type: "Тип"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Роль у проєкті"
+  label_global_role: "Глобальна роль"
   label_not_changeable: "(не змінюється)"
   label_global: "Глобальний"
   label_seeded_from_env_warning: Цей запис створено за допомогою параметра /змінної середовища. Його не можна змінити в інтерфейсі користувача.
@@ -2271,14 +2271,14 @@ uk:
       updated_at: "Оновлено о %{timestamp} користувачем %{user}"
     sharing:
       work_packages:
-        allowed_actions: "Вп можете %{allowed_actions} в цьому пакеті робіт, але це залежить від вашої ролі й дозволів у проєкті."
-        create_account: "Щоб отримати доступ до цього пакета робіт, вам потрібно буде створити й активувати обліковий запис %{instance}. "
+        allowed_actions: "Ви можете %{allowed_actions} у цьому пакеті робіт, але це залежить від вашої ролі й дозволів у проєкті."
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Відкрити пакет робіт"
-        subject: "Вам надано спільний доступ до пакета робіт #%{id}"
-        enterprise_text: "Діліться пакетами робіт із користувачами, які не є учасниками проєкту."
+        subject: "Work package #%{id} was shared with you"
+        enterprise_text: "Діліться пакетами робіт із користувачами, які не належать до учасників проєкту."
         summary:
-          user: "%{user} поділився(-лася) пакетом робіт з вами. Надані права: %{role_rights}"
-          group: "%{user} поділився(-лася) пакетом робіт із групою %{group}, до якої ви належите"
+          user: "%{user} надав(-ла) вам доступ до пакета робіт із такими правами: %{role_rights}"
+          group: "%{user} надав(-ла) доступ до пакета робіт групі %{group}, до якої ви належите"
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   mail_body_account_information: "Інформація по Вашому обліковому запису"
   mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
@@ -2447,7 +2447,7 @@ uk:
   permission_add_work_package_notes: "Додати нотатки"
   permission_add_work_packages: "Додати робочі пакети"
   permission_add_messages: "Відправка повідомлень"
-  permission_add_project: "Create projects"
+  permission_add_project: "Створення проєктів"
   permission_add_work_package_attachments: "Додати вкладення"
   permission_add_work_package_attachments_explanation: "Дає змогу додавати вкладення без дозволу «Редагування пакетів робіт»"
   permission_archive_project: "Архівувати проєкт"
@@ -2463,7 +2463,7 @@ uk:
   permission_commit_access: "Доступ для читання/запису до сховища (фіксація)"
   permission_copy_projects: "Копіювати проекти"
   permission_copy_work_packages: "Копіювання робочих пакетів"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "Створення резервних копій"
   permission_delete_work_package_watchers: "Видалення спостерігачів"
   permission_delete_work_packages: "Видалити робочі пакети"
   permission_delete_messages: "Видалити повідомлення"
@@ -2530,7 +2530,7 @@ uk:
   permission_view_project_activity: "Перегляд активності в проєкті"
   permission_save_bcf_queries: "Зберігання запитів BCF"
   permission_manage_public_bcf_queries: "Керування загальнодоступними запитами BCF"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_edit_attribute_help_texts: "Редагування текстів довідки для атрибутів"
   placeholders:
     default: "-"
   project:
@@ -2699,7 +2699,7 @@ uk:
     Якщо сторінку документів увімкнено, ви можете отримати інтерактивне подання документації APIv3 за посиланням <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Дозволений список завантаження вкладень"
   setting_email_delivery_method: "Спосіб доставки електронної пошти"
-  setting_emails_salutation: "Address user in emails with"
+  setting_emails_salutation: "Звертатися до користувача в електронних листах так:"
   setting_sendmail_location: "Розташування виконуваного файлу sendmail"
   setting_smtp_enable_starttls_auto: "Автоматично використовуйте STARTTLS, якщо він доступний"
   setting_smtp_ssl: "Використовуйте SSL-з'єднання"
@@ -3098,7 +3098,7 @@ uk:
         type: 'Тип'
       label_search: "Шукати й запрошувати користувачів"
       label_search_placeholder: "Пошук за користувачем або електронною адресою"
-      label_toggle_all: "Toggle all shares"
+      label_toggle_all: "Перемкнути всі спільні ресурси"
       permissions:
         comment: "Коментар"
         comment_description: "Може переглядати й коментувати цей пакет робіт."
@@ -3112,26 +3112,26 @@ uk:
       text_empty_search_description: "Користувачів за поточними умовами фільтра не знайдено"
       text_empty_search_header: "Результатів за запитом не знайдено."
       text_empty_state_description: "Доступ до цього пакета робіт ще нікому не надано."
-      text_empty_state_header: "Немає спільних учасників."
+      text_empty_state_header: "Немає учасників із доступом."
       text_user_limit_reached: "Додавання користувачів призведе до перевищення поточного ліміту. Зверніться до адміністратора, щоб збільшити ліміт користувачів і таким чином забезпечити доступ до цього пакета робіт зовнішнім користувачам."
       text_user_limit_reached_admins: 'Додавання користувачів призведе до перевищення поточного ліміту. <a href="%{upgrade_url}">Підвищте рівень свого плану</a>, щоб додати користувачів.'
       warning_user_limit_reached: >
         Додавання користувачів призведе до перевищення поточного ліміту. Зверніться до адміністратора, щоб збільшити ліміт користувачів і таким чином забезпечити доступ до цього пакета робіт зовнішнім користувачам.
       warning_user_limit_reached_admin: >
         Додавання користувачів призведе до перевищення поточного ліміту. <a href="%{upgrade_url}">Підвищте рівень свого плану</a>, щоб забезпечити доступ до цього пакета робіт зовнішнім користувачам.
-      warning_no_selected_user: "Please select users to share this work package with"
+      warning_no_selected_user: "Виберіть користувачів, яким потрібно надати доступ до цього пакета робіт"
       warning_locked_user: "Користувача %{user} заблоковано, і йому не можна надати доступ"
       user_details:
-        locked: "Locked user"
-        invited: "Invite sent. "
-        resend_invite: "Resend."
-        invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
-        project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
-        additional_privileges_project: "Might have additional privileges (as project member)"
-        additional_privileges_group: "Might have additional privileges (as group member)"
-        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+        locked: "Заблокований користувач"
+        invited: "Запрошення надіслано. "
+        resend_invite: "Переслати."
+        invite_resent: "Запрошення надіслано повторно"
+        not_project_member: "Не учасник проєкту"
+        project_group: "Учасники групи можуть мати додаткові повноваження (як учасники проєкту)"
+        not_project_group: "Група (спільна для всіх учасників)"
+        additional_privileges_project: "Може мати додаткові повноваження (як учасник проєкту)"
+        additional_privileges_group: "Може мати додаткові повноваження (як учасник групи)"
+        additional_privileges_project_or_group: "Може мати додаткові повноваження (як учасник проєкту або групи)"
   working_days:
     info: >
       Під час планування пакетів робіт невибрані дні пропускаються й не включаються в кількість днів. Це налаштування можна змінити на рівні пакета робіт.
@@ -3346,10 +3346,10 @@ uk:
     response:
       unexpected: "Отримано неочікувану відповідь."
   you: ви
-  link: link
+  link: посилання
   plugin_openproject_auth_plugins:
     name: "Плагіни OpenProject Auth"
-    description: "Інтеграція постачальників стратегії OmniAuth для автентифікції в OpenProject."
+    description: "Інтеграція постачальників стратегії OmniAuth для автентифікації в OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Служба єдиного входу"
     description: "Додає постачальника OmniAuth SAML в OpenProject"

@@ -202,13 +202,13 @@ ko:
     reorder_alphabetical: "알파벳순으로 값 재정렬"
     reorder_confirmation: "경고: 사용 가능한 값의 현재 순서가 손실됩니다. 계속하시겠습니까?"
     instructions:
-      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
-      is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Include the field values when using the global search functionality."
-      editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_required: "사용자 지정 필드를 필수로 표시합니다. 이렇게 하면 새 리소스를 생성하거나 기존 리소스를 업데이트할 때 이 필드를 반드시 입력해야 합니다."
+      is_for_all: "모든 기존 프로젝트와 새 프로젝트에서 사용자 지정 필드를 사용 가능으로 표시합니다."
+      searchable: "글로벌 검색 기능을 사용할 때 필드 값을 포함합니다."
+      editable: "사용자가 필드를 편집할 수 있도록 허용합니다."
+      visible: "프로젝트 개요의 모든 사용자(비관리자)에 대해 필드가 표시되고 프로젝트 개요의 프로젝트 세부 정보 위젯에 표시되게 합니다."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        작업 패키지 보기의 필터에서 사용자 지정 필드를 사용할 수 있도록 허용합니다. '모든 프로젝트용'을 선택한 경우에만 사용자 지정 필드가 글로벌 보기에 표시됩니다.
     tab:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
@@ -399,8 +399,8 @@ ko:
     sharing:
       missing_workflow_waring:
         title: "작업 패키지 공유에 대한 워크플로 누락"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        message: "'작업 패키지 편집자' 역할에 대해 구성된 워크플로가 없습니다. 워크플로가 없으면 사용자와 공유된 워크플로는 작업 패키지의 상태를 변경할 수 없습니다. 워크플로를 복사할 수는 있습니다. 소스 유형(예: '작업')과 소스 역할(예: '멤버')을 선택하세요. 그런 다음 대상 유형을 선택하세요. 시작하기 위해 모든 유형을 대상으로 선택할 수 있습니다. 마지막으로 '작업 패키지 편집자' 역할을 대상으로 선택하고 '복사'를 누르세요. 기본값을 생성한 후 다른 모든 역할에 대해 수행하는 것처럼 워크플로를 미세 조정하세요."
+        link_message: "관리에서 워크플로를 구성하세요."
     summary:
       reports:
         category:
@@ -1036,7 +1036,7 @@ ko:
     groups: "그룹"
     id: "ID"
     is_default: "기본값"
-    is_for_all: "모든 포로젝트를 위한"
+    is_for_all: "모든 프로젝트용"
     public: "공용"
     #kept for backwards compatibility
     issue: "작업 패키지"
@@ -1726,7 +1726,7 @@ ko:
   label_enterprise_active_users: "예약 활성 사용자 %{current}/%{limit}명"
   label_enterprise_edition: "Enterprise Edition"
   label_enterprise_support: "엔터프라이즈 지원"
-  label_enterprise_addon: "Enterprise add-on"
+  label_enterprise_addon: "Enterprise 추가 기능"
   label_environment: "환경"
   label_estimates_and_time: "견적 및 시간"
   label_equals: "일치함"
@@ -1816,10 +1816,10 @@ ko:
   label_login: "로그인"
   label_custom_logo: "사용자 정의 로고"
   label_custom_export_logo: "사용자 지정 내보내기 로고"
-  label_custom_export_cover: "Custom export cover background"
-  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover: "사용자 지정 내보내기 커버 배경"
+  label_custom_export_cover_overlay: "사용자 지정 내보내기 커버 배경 오버레이"
   label_custom_export_cover_text_color: "텍스트 색상"
-  label_custom_pdf_export_settings: "Custom PDF export settings"
+  label_custom_pdf_export_settings: "사용자 지정 PDF 내보내기 설정"
   label_custom_favicon: "사용자 지정 favicon"
   label_custom_touch_icon: "사용자 지정 터치 아이콘"
   label_logout: "로그아웃"
@@ -2192,13 +2192,13 @@ ko:
     sharing:
       work_packages:
         allowed_actions: "이 작업 패키지를 %{allowed_actions}할 수 있습니다. 이는 프로젝트 역할 및 권한에 따라 변경될 수 있습니다."
-        create_account: "이 작업 패키지에 액세스하려면 %{instance}의 계정을 생성하고 활성화해야 합니다."
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "작업 패키지 열기"
-        subject: "You have been shared work package #%{id}"
-        enterprise_text: "Share work packages with users who are not members of the project."
+        subject: "Work package #%{id} was shared with you"
+        enterprise_text: "프로젝트 멤버가 아닌 사용자와 작업 패키지를 공유합니다."
         summary:
-          user: "%{user} shared a work package with you with %{role_rights} rights"
-          group: "%{user} shared a work package with the group %{group} you are a member of"
+          user: "%{user} 님이 %{role_rights} 권한으로 작업 패키지를 귀하와 공유했습니다."
+          group: "%{user} 님이 귀하가 속한 %{group} 그룹과 작업 패키지를 공유했습니다"
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
@@ -2368,7 +2368,7 @@ ko:
   permission_add_messages: "메시지 게시"
   permission_add_project: "프로젝트 만들기"
   permission_add_work_package_attachments: "첨부 파일 추가"
-  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
+  permission_add_work_package_attachments_explanation: "작업 패키지 편집 권한 없이 첨부 파일 추가를 허용합니다."
   permission_archive_project: "프로젝트 보관"
   permission_create_user: "사용자 만들기"
   permission_manage_user: "사용자 편집"
@@ -2436,27 +2436,27 @@ ko:
   permission_view_work_package_watchers: "주시자 목록 보기"
   permission_view_work_packages: "작업 패키지 보기"
   permission_view_messages: "메시지 보기"
-  permission_view_news: "View news"
+  permission_view_news: "뉴스 보기"
   permission_view_members: "멤버 보기"
   permission_view_reportings: "보고 보기"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "공유된 작업 패키지 보기"
   permission_view_time_entries: "소요 시간 보기"
   permission_view_timelines: "타임라인 보기"
   permission_view_wiki_edits: "위키 기록 보기"
   permission_view_wiki_pages: "위키 보기"
   permission_work_package_assigned: "담당자/책임자 되기"
   permission_work_package_assigned_explanation: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
-  permission_view_project_activity: "View project activity"
-  permission_save_bcf_queries: "Save BCF queries"
-  permission_manage_public_bcf_queries: "Manage public BCF queries"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_view_project_activity: "프로젝트 활동 보기"
+  permission_save_bcf_queries: "BCF 쿼리 저장"
+  permission_manage_public_bcf_queries: "공용 BCF 쿼리 관리"
+  permission_edit_attribute_help_texts: "특성 도움말 텍스트 편집"
   placeholders:
     default: "-"
   project:
     destroy:
       confirmation: "계속하면 %{identifier} 프로젝트가 영구적으로 제거됩니다. 이 작업을 확인하려면 아래 필드에 프로젝트 이름을 입력하세요. 이렇게 하면 다음이 허용됩니다."
-      project_delete_result_1: "Delete all related data."
-      project_delete_result_2: "Delete all managed project folders in the attached storages."
+      project_delete_result_1: "모든 관련 데이터를 삭제합니다."
+      project_delete_result_2: "연결된 저장소의 관리되는 프로젝트 폴더를 모두 삭제합니다."
       info: "프로젝트 삭제는 취소할 수 없는 작업입니다."
       project_verification: "삭제를 확인하려면 프로젝트 이름 %{name}(을)를 입력하세요."
       subprojects_confirmation: "하위 프로젝트 %{value}도 삭제됩니다."
@@ -2491,7 +2491,7 @@ ko:
     member_of_group: "담당자의 그룹"
     name_or_identifier: "이름 또는 식별자"
     only_subproject_id: "하위 프로젝트만"
-    shared_with_user: "Shared with user"
+    shared_with_user: "사용자와 공유됨"
     subproject_id: "하위 프로젝트 포함"
   repositories:
     at_identifier: "- %{identifier}"
@@ -2616,7 +2616,7 @@ ko:
     문서 페이지가 활성화되면 <a href="%{link}" target="_blank">%{link}</a>에서 APIv3 문서의 대화식 보기를 얻을 수 있습니다.
   setting_attachment_whitelist: "첨부 파일 업로드 허용 목록"
   setting_email_delivery_method: "이메일 배달 방법"
-  setting_emails_salutation: "Address user in emails with"
+  setting_emails_salutation: "사용자에게 이메일로 다음 내용을 전달하세요:"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
   setting_smtp_enable_starttls_auto: "사용 가능한 경우 자동으로 STARTTLS 사용"
   setting_smtp_ssl: "SSL 연결 사용"
@@ -2807,7 +2807,7 @@ ko:
   text_custom_export_logo_instructions: >
     PDF 내보내기에서 표시되는 로고입니다. PNG 또는 JPEG 이미지 파일이어야 합니다. 투명 또는 흰색 바탕에 검은색 또는 컬러 로고를 사용하는 것이 좋습니다.
   text_custom_export_cover_instructions: >
-    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
+    PDF 내보내기의 커버 페이지 배경에 나타나는 이미지입니다. 약 800px 너비, 500px 높이의 PNG 또는 JPEG 이미지 파일이어야 합니다.
   text_custom_favicon_instructions: >
     페이지 제목 옆의 브라우저 창/탭에 나타나는 작은 아이콘입니다. 투명한 배경을 가진 정사각형 32x32 픽셀 크기의 PNG 이미지 파일이어야 합니다.
   text_custom_touch_icon_instructions: >
@@ -2895,7 +2895,7 @@ ko:
   help_texts:
     views:
       project: >
-        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
+        %{plural}은(는) 항상 프로젝트에 연결됩니다. %{plural} 모듈이 활성화된 프로젝트만 선택할 수 있습니다. %{singular}을(를) 생성한 후 다른 프로젝트의 작업 패키지를 여기에 추가할 수 있습니다.
       public: "다른 사용자가 이 보기에 액세스할 수 있도록 하려면 이 보기를 게시하십시오. '공용 보기 관리' 권한을 가진 사용자는 공용 쿼리를 수정 또는 제거할 수 있습니다. 이는 해당 보기에서 작업 패키지 결과의 표시 여부에 영향을 주지 않기 때문에 사용자의 권한에 따라 다른 결과가 표시될 수 있습니다."
       favoured: "이 보기를 즐겨찾기로 표시하고 왼쪽의 저장된 보기 사이드바에 추가하세요."
   time:
@@ -2932,7 +2932,7 @@ ko:
     activate: "활성화"
     activate_and_reset_failed_logins: "실패한 로그인 활성화 및 재설정"
     authentication_provider: "인증 공급자"
-    identity_url_text: "The internal unique identifier provided by the authentication provider."
+    identity_url_text: "인증 공급자가 제공한 내부 고유 식별자입니다."
     authentication_settings_disabled_due_to_external_authentication: >
       이 사용자는 외부 인증 공급자를 통해 인증하므로, 변경할 OpenProject의 암호가 없습니다.
     authorization_rejected: "로그인할 수 없습니다."
@@ -2969,9 +2969,9 @@ ko:
     활성화 이메일이 만료되었습니다. %{email}(으)로 새로운 이메일이 전송되었습니다.
     이메일 내 링크를 클릭하여 계정을 활성화하세요.
   warning_user_limit_reached: >
-    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+    사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 인스턴스에 액세스할 수 있도록 관리자에게 문의하여 사용자 한도를 늘리세요.
   warning_user_limit_reached_admin: >
-    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
+    사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 인스턴스에 액세스할 수 있도록 하려면 <a href="%{upgrade_url}">플랜을 업그레이드</a>하세요.
   warning_user_limit_reached_instructions: >
     사용자 제한(활성 사용자 %{current}/%{max}명)에 도달했습니다. sales@openproject.com으로 연락하여 Enterprise Edition 플랜을 업그레이드하고 사용자를 더 추가하세요.
   warning_protocol_mismatch_html: >
@@ -3001,52 +3001,52 @@ ko:
       title: "작업 패키지 삭제"
     sharing:
       count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
+        zero: "사용자 0명"
+        one: "사용자 1명"
+        other: "사용자 %{count}명"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
+        project_member: '프로젝트 멤버'
+        not_project_member: '프로젝트 멤버 아님'
+        project_group: '프로젝트 그룹'
+        not_project_group: '프로젝트 그룹 없음'
         role: '역할'
         type: '타입'
-      label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user or email address"
-      label_toggle_all: "Toggle all shares"
+      label_search: "초대할 사용자 검색"
+      label_search_placeholder: "사용자 또는 이메일 주소로 검색"
+      label_toggle_all: "모든 공유 토글"
       permissions:
         comment: "코멘트"
-        comment_description: "Can view and comment this work package."
-        denied: "You don't have permissions to share work packages."
+        comment_description: "이 작업 패키지를 보고 코멘트를 작성할 수 있습니다."
+        denied: "작업 패키지를 공유할 권한이 없습니다."
         edit: "편집"
-        edit_description: "Can view, comment and edit this work package."
+        edit_description: "이 작업 패키지를 보고 코멘트를 작성하고 편집할 수 있습니다."
         view: "보기"
-        view_description: "Can view this work package."
+        view_description: "이 작업 패키지를 볼 수 있습니다."
       remove: "제거"
       share: "공유하기"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
-      text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
-      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
-      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      text_empty_search_description: "현재 필터 기준의 사용자가 없습니다."
+      text_empty_search_header: "일치하는 결과를 찾을 수 없습니다."
+      text_empty_state_description: "작업 패키지가 아직 누구와도 공유되지 않았습니다."
+      text_empty_state_header: "공유된 멤버가 없습니다."
+      text_user_limit_reached: "사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 작업 패키지에 액세스할 수 있도록 관리자에게 문의하여 사용자 한도를 늘리세요."
+      text_user_limit_reached_admins: '사용자를 더 추가하면 현재 한도가 초과됩니다. 사용자를 더 추가할 수 있도록 하려면 <a href="%{upgrade_url}">플랜을 업그레이드</a>하세요.'
       warning_user_limit_reached: >
-        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+        사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 작업 패키지에 액세스할 수 있도록 관리자에게 문의하여 사용자 한도를 늘리세요.
       warning_user_limit_reached_admin: >
-        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
-      warning_no_selected_user: "Please select users to share this work package with"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+        사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 작업 패키지에 액세스할 수 있도록 하려면 <a href="%{upgrade_url}">플랜을 업그레이드</a>하세요.
+      warning_no_selected_user: "이 작업 패키지를 공유할 사용자를 선택하세요"
+      warning_locked_user: "%{user} 사용자는 잠겨 있어 공유할 수 없습니다"
       user_details:
-        locked: "Locked user"
-        invited: "Invite sent. "
-        resend_invite: "Resend."
-        invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
-        project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
-        additional_privileges_project: "Might have additional privileges (as project member)"
-        additional_privileges_group: "Might have additional privileges (as group member)"
-        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+        locked: "잠긴 사용자"
+        invited: "초대장 전송됨. "
+        resend_invite: "다시 보내기."
+        invite_resent: "초대장을 다시 보냈습니다"
+        not_project_member: "프로젝트 멤버 아님"
+        project_group: "그룹 멤버는 (프로젝트 멤버로서) 추가적인 권한을 가질 수 있습니다"
+        not_project_group: "그룹(모든 멤버와 공유됨)"
+        additional_privileges_project: "(프로젝트 멤버로서) 추가적인 권한을 가질 수 있습니다"
+        additional_privileges_group: "(그룹 멤버로서) 추가적인 권한을 가질 수 있습니다"
+        additional_privileges_project_or_group: "(프로젝트 또는 그룹 멤버로서) 추가적인 권한을 가질 수 있습니다"
   working_days:
     info: >
       선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.
@@ -3078,7 +3078,7 @@ ko:
       code_429: "너무 많은 요청이 들어왔습니다. 나중에 다시 시도해주십시오."
       code_500: "내부 오류가 발생하였습니다."
       code_500_outbound_request_failure: "다른 리소스에 대한 아웃바운드 요청이 실패했으며 상태 코드는 %{status_code}입니다."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "Enterprise 토큰이 유효하지 않거나 누락되어 요청을 처리할 수 없습니다."
       not_found:
         work_package: "원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다."
       expected:
@@ -3258,10 +3258,10 @@ ko:
     response:
       unexpected: "예기치 않은 응답을 받았습니다."
   you: 당신
-  link: link
+  link: 링크
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    name: "OpenProject 인증 플러그인"
+    description: "인증을 위해 OpenProject에서 OmniAuth 정책 공급자를 통합합니다."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML/Single-Sign On"
+    description: "OpenProject에 OmniAuth SAML 공급자를 추가합니다"

@@ -2216,9 +2216,9 @@ de:
     sharing:
       work_packages:
         allowed_actions: "Sie haben auf diesem Arbeitspakte folgende Berechtigungen: %{allowed_actions}. Dies kann sich je nach Ihrer Projektrolle und Berechtigungen ändern."
-        create_account: "Um auf dieses Arbeitspaket zuzugreifen, müssen Sie ein Konto für %{instance} erstellen und aktivieren."
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Arbeitspaket öffnen"
-        subject: "Mit Ihnen wurde Arbeitspaket #%{id} geteilt"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
         summary:
           user: "%{user} hat Ihnen ein Arbeitspaket mit %{role_rights} Rechten geteilt"

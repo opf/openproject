@@ -1,8 +1,8 @@
 #English strings go here for Rails i18n
 pt:
   plugin_openproject_recaptcha:
-    name: "OpenProject ReCaptcha"
-    description: "This module provides recaptcha checks during login."
+    name: "ReCaptcha do OpenProject"
+    description: "Este módulo fornece verificações recaptcha durante o início de sessão."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Por favor, aguarde...'

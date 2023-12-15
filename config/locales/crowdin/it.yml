@@ -398,8 +398,8 @@ it:
     sharing:
       missing_workflow_waring:
         title: "Flusso di lavoro mancante per la condivisione di macro-attività"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        message: "Nessun flusso di lavoro è configurato per il ruolo \"Editor di macro-attività\". Senza un flusso di lavoro, la condivisione con l'utente non può alterare lo stato della macro-attività. I flussi di lavoro possono essere copiati. Seleziona un tipo di origine (ad esempio \"Attività\") e un ruolo di origine (ad esempio \"Membro\"). Quindi seleziona i tipi obiettivo. Per cominciare, potresti selezionare tutti i tipi come obiettivi. Infine, seleziona il ruolo \"Editor di macro-attività\" come destinazione e premi \"Copia\". Dopo aver creato le impostazioni predefinite, perfeziona i flussi di lavoro come fai per ogni altro ruolo."
+        link_message: "Configura i flussi di lavoro nell'amministrazione."
     summary:
       reports:
         category:
@@ -2218,9 +2218,9 @@ it:
     sharing:
       work_packages:
         allowed_actions: "Puoi %{allowed_actions} questa macro-attività. Questa impostazione può cambiare a seconda del ruolo e delle autorizzazioni del progetto."
-        create_account: "Per accedere a questa macro-attività è necessario creare e attivare un account %{instance}. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Apri macro-attività"
-        subject: "Ti è stata condivisa la macro-attività #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Condividi macro-attività con utenti che non sono membri del progetto."
         summary:
           user: "%{user} ha condiviso con te una macro-attività con i diritti %{role_rights}"
@@ -3046,12 +3046,12 @@ it:
       label_search_placeholder: "Cerca per utente o indirizzo e-mail"
       label_toggle_all: "Attiva/disattiva tutte le condivisioni"
       permissions:
-        comment: "Commento"
+        comment: "Commentare"
         comment_description: "Può visualizzare e commentare questa macro-attività."
         denied: "Non hai i permessi per condividere macro-attività."
-        edit: "Modifica"
+        edit: "Modificare"
         edit_description: "Può visualizzare, commentare e modificare questa macro-attività."
-        view: "Vedi"
+        view: "Vedere"
         view_description: "Può visualizzare questa macro-attività."
       remove: "Rimuovi"
       share: "Condividi"

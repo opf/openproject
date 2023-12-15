@@ -138,7 +138,7 @@ mn:
   text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
   text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
   text_meeting_empty_heading: "Your meeting is empty"
-  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
   text_meeting_empty_description_2: "You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's \"Meetings\" tab."
   label_meeting_empty_action: "Add agenda item"
   label_meeting_actions: "Meeting actions"
@@ -146,7 +146,7 @@ mn:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "Created by"
   label_meeting_last_updated: "Last updated"
-  label_agenda_item_undisclosed_wp: "Undisclosed work package reference #%{id}"
+  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Deleted work package reference"
   label_agenda_item_actions: "Agenda items actions"
   label_agenda_item_move_to_top: "Move to top"
