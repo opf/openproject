@@ -3,11 +3,7 @@
     primer_form_with(
       model: oauth_client,
       url: admin_settings_storage_oauth_client_path(storage),
-      method: form_method,
-      data: {
-        controller: 'storages--oauth-client-form',
-        application_target: 'dynamic'
-      }
+      method: form_method
     ) do |form|
       flex_layout do |oauth_client_row|
         oauth_client_row.with_row(mb: 3) do
@@ -19,24 +15,7 @@
         end
 
         oauth_client_row.with_row(mb: 3) do
-          render(
-            Storages::Admin::OAuthClientForm.new(
-              form,
-              storage:,
-              client_id_input_options: {
-                data: {
-                  'storages--oauth-client-form-target': 'clientId',
-                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled'
-                }
-              },
-              client_secret_input_options: {
-                data: {
-                  'storages--oauth-client-form-target': 'clientSecret',
-                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled'
-                }
-              }
-            )
-          )
+          render(Storages::Admin::OAuthClientForm.new(form,storage:,))
         end
 
         oauth_client_row.with_row do
