@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   scope '', as: 'bcf' do
     mount Bim::Bcf::API::Root => '/api/bcf'
 

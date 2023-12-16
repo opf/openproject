@@ -1,6 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-OpenProject::Application.configure do
+Rails.application.configure do
   # Version of your assets, change this if you want to expire all your assets.
   # config.assets.version = "1.0"
 

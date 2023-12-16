@@ -30,4 +30,4 @@
 require_relative 'application'
 
 # Initialize the Rails application.
-OpenProject::Application.initialize!
+Rails.application.initialize!

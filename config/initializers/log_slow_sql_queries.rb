@@ -1,4 +1,4 @@
-OpenProject::Application.configure do
+Rails.application.configure do
   config.after_initialize do
     next if Rails.env.test?
 

@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= t("mail_user_activation_limit_reached.message", email: @email, host: OpenProject::Application.root_url) %>
+<%= t("mail_user_activation_limit_reached.message", email: @email, host: Rails.application.root_url) %>
 
 <%= t("mail_user_activation_limit_reached.steps.label") %>
   - <%= t("mail_user_activation_limit_reached.steps.a").sub(link_regex, OpenProject::Enterprise.upgrade_url) %>

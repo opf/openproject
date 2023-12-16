@@ -68,7 +68,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
               expect(last_response.status).to eq(302)
               expect(last_response.body).to eq(
                 "<html><body>You are being <a href=\"#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
-                "#{oauth_client.client_id}&amp;redirect_uri=#{CGI.escape(OpenProject::Application.root_url)}%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
+                "#{oauth_client.client_id}&amp;redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
+                "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
                 "callback&amp;response_type=code&amp;state=#{nonce}\">redirected</a>." \
                 "</body></html>"
               )
@@ -87,7 +88,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                 expect(last_response.status).to eq(302)
                 expect(last_response.body).to eq(
                   "<html><body>You are being <a href=\"#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
-                  "#{oauth_client.client_id}&amp;redirect_uri=#{CGI.escape(OpenProject::Application.root_url)}%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
+                  "#{oauth_client.client_id}&amp;redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
+                  "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
                   "callback&amp;response_type=code&amp;state=#{nonce}\">redirected</a>." \
                   "</body></html>"
                 )
@@ -105,7 +107,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                 expect(last_response.status).to eq(302)
                 expect(last_response.body).to eq(
                   "<html><body>You are being <a href=\"#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
-                  "#{oauth_client.client_id}&amp;redirect_uri=#{CGI.escape(OpenProject::Application.root_url)}%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
+                  "#{oauth_client.client_id}&amp;redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
+                  "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
                   "callback&amp;response_type=code&amp;state=#{nonce}\">redirected</a>." \
                   "</body></html>"
                 )

@@ -1,4 +1,4 @@
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   resources :boards,
             controller: 'boards/boards',
             only: %i[index new create destroy],

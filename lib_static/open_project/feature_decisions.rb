@@ -32,7 +32,7 @@ module OpenProject
   #
   # New feature flags can automatically be added by calling
   #
-  #   OpenProject::Application.initializer 'set flag' do
+  #   Rails.application.initializer 'set flag' do
   #     OpenProject::FeatureDecisions.add :the_name_of_the_flag
   #   end
   #

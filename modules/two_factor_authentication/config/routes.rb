@@ -1,4 +1,4 @@
-OpenProject::Application::routes.draw do
+Rails.application.routes.draw do
   namespace 'two_factor_authentication' do
     get :request, to: 'authentication#request_otp'
     post :confirm, to: 'authentication#confirm_otp'
