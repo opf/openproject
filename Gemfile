@@ -163,7 +163,7 @@ gem 'matrix', '~> 0.4.2'
 
 gem 'meta-tags', '~> 2.20.0'
 
-gem "paper_trail", "~> 12.3"
+gem "paper_trail", "~> 15.1.0"
 
 group :production do
   # we use dalli as standard memcache client
