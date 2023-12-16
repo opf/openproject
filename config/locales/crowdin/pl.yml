@@ -401,7 +401,7 @@ pl:
       missing_workflow_waring:
         title: "Brak przepływu pracy udostępniania pakietu roboczego"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        link_message: "Skonfiguruj przepływy pracy w administracji."
     summary:
       reports:
         category:
@@ -3115,7 +3115,7 @@ pl:
       text_empty_search_description: "Brak użytkowników spełniających bieżące kryteria filtrowania."
       text_empty_search_header: "Nie mogliśmy znaleźć żadnych pasujących wyników."
       text_empty_state_description: "Pakiet roboczy nie został jeszcze nikomu udostępniony."
-      text_empty_state_header: "Brak udostępnionych członków."
+      text_empty_state_header: "Brak członków, którym go udostępniono."
       text_user_limit_reached: "Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego pakietu roboczego, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników."
       text_user_limit_reached_admins: 'Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby móc dodać więcej użytkowników, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.'
       warning_user_limit_reached: >

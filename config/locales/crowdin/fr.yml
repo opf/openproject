@@ -2507,7 +2507,7 @@ fr:
       archived: "Archivé"
   project_module_activity: "Activité"
   project_module_forums: "Forums"
-  project_module_work_package_tracking: "Lots de Travaux"
+  project_module_work_package_tracking: "Lots de travaux"
   project_module_news: "Actualités"
   project_module_repository: "Référentiel"
   project_module_wiki: "Wiki"
@@ -3060,7 +3060,7 @@ fr:
       text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
       text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
       text_empty_state_description: "Le lot de travaux n'a pas encore été partagé avec personne."
-      text_empty_state_header: "Aucun membre partagé."
+      text_empty_state_header: "Partagé avec aucun membre"
       text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce lot de travaux."
       text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour pouvoir ajouter d''autres utilisateurs.'
       warning_user_limit_reached: >
