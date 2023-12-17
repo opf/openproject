@@ -34,7 +34,7 @@ module API
     module GitlabIssues
       class GitlabIssuesByWorkPackageAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize(:show_gitlab_content, context: @work_package.project)
+          authorize_in_work_package(:show_gitlab_content, work_package: @work_package)
           @gitlab_issues = @work_package.gitlab_issues
         end
 

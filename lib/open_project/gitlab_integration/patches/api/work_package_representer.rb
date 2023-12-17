@@ -35,7 +35,7 @@ module OpenProject::GitlabIntegration
         def extension
           ->(*) do
             link :gitlab,
-                 cache_if: -> { current_user.allowed_to?(:show_gitlab_content, represented.project) } do
+                 cache_if: -> { current_user.allowed_in_work_package?(:show_gitlab_content, represented) } do
               next if represented.new_record?
 
               {
