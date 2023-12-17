@@ -64,7 +64,7 @@ uk:
     hours: "Години"
     units: "Одиниці"
     valid_from: "Діє з"
-    fixed_date: "Фіксована дата"
+    fixed_date: "Певна дата "
   button_add_rate: "Додати ставку"
   button_log_costs: "Витрати лог-одиниць"
   caption_booked_on_project: "Записаний на проект"

@@ -199,11 +199,11 @@ lt:
     reorder_alphabetical: "Perrikiuoti reikšmes alfabeto tvarka"
     reorder_confirmation: "Dėmesio: Dabartinė galimų reikšmių tvarka bus prarasta. Tęsti?"
     instructions:
-      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
-      is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Include the field values when using the global search functionality."
-      editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_required: "Pažymėti savo lauką kaip privalomą. Taip bus privaloma jį užpildyti kuriant ar atnaujinant esamus resursus."
+      is_for_all: "Pažymėti savo lauką kaip prieinamą visuose esamuose ir naujuose projektuose."
+      searchable: "Įtraukti lauko reikšmes naudojant globalios paieškos funkcionalumą."
+      editable: "Leisti keisti lauką patiems naudotojams."
+      visible: "Padaryti lauką matomu visiems naudotojams (ne administratoriams) projekto apžvalgoje ir rodomą projekto detalių valdiklyje Projekto apžvalgoje."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -2274,9 +2274,9 @@ lt:
     sharing:
       work_packages:
         allowed_actions: "Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Kad prieitumėte prie darbo paketo, jums reikės sukurti ir aktyvuoti %{instance}  paskyrą."
         open_work_package: "Atverti darbo paketą"
-        subject: "Work package #%{id} was shared with you"
+        subject: "Su jumis buvo pabendrintas darbo paketas #%{id}"
         enterprise_text: "Dalintis darbo paketais su naudotojais, kurie nėra projekto nariai."
         summary:
           user: "%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}"
@@ -3194,9 +3194,9 @@ lt:
         unsupported_context: "Duotas resursas nėra palaikomas kaip kontekstas."
         context_object_not_found: "Nepavyko rasti resurso, duoto kaip kontekstas."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% baigta negali būti nurodytas tėviniams darbų paketams, kai paketas apibrėžtas pagal būseną arba kai jis deaktyvuotas."
         due_date: "Tėviniams darbo paketams negalima nurodyti pabaigos datos."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
+        estimated_hours: "Darbo negalima nustatyti tėviniams darbo paketams." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pasirinktas vartotojas negali būti '%{property}' šiam darbų paketui."
         start_date: "Pradžios data negali būti nustatyta tėviniams darbų paketams."
       eprops:
