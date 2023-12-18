@@ -54,14 +54,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def file_info(file_id, token)
       response = Util
                    .httpx
-                   .get(
-                     Util.join_uri_path(@uri, FILE_INFO_PATH, file_id),
-                     {
-                       'Authorization' => "Bearer #{token.access_token}",
-                       'Accept' => 'application/json',
-                       'OCS-APIRequest' => 'true'
-                     }
-                   )
+                   .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
+                                    'Accept' => 'application/json',
+                                    'OCS-APIRequest' => 'true' })
+                   .get(Util.join_uri_path(@uri, FILE_INFO_PATH, file_id))
 
       case response.status
       when 200

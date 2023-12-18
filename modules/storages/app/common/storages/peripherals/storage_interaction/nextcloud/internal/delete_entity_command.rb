@@ -32,7 +32,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
 
     def initialize(storage)
       @uri = storage.uri
-      @base_path =
       @username = storage.username
       @password = storage.password
     end
@@ -45,7 +44,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
       response = UTIL
                    .httpx
                    .basic_auth(@username, @password)
-                   .delete(UTIL.join_uri_path(@uri, "remote.php/dav/files", CGI.escapeURIComponent(@username), UTIL.escape_path(location)))
+                   .delete(UTIL.join_uri_path(@uri, "remote.php/dav/files",
+                                              CGI.escapeURIComponent(@username),
+                                              UTIL.escape_path(location)))
 
       case response.status
       when 204
