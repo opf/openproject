@@ -31,17 +31,22 @@ module Storages
     include ManageNextcloudIntegrationJobMixin
 
     DEBOUNCE_TIME = 5.seconds.freeze
+    THREAD_KEY = :manage_nextcloud_integration_events_job_debounce_happend_at
 
     queue_with_priority :above_normal
 
     def self.debounce
-      count = Delayed::Job
-                .where("handler LIKE ?", "%job_class: #{self}%")
-                .where(locked_at: nil)
-                .where('run_at <= ?', DEBOUNCE_TIME.from_now)
-                .delete_all
-      Rails.logger.info("deleted: #{count} jobs")
-      set(wait: DEBOUNCE_TIME).perform_later
+      last_debounce_happend_at = Thread.current[THREAD_KEY]
+      if last_debounce_happend_at.blank? || Time.current > (last_debounce_happend_at + DEBOUNCE_TIME)
+        count = Delayed::Job
+                  .where("handler LIKE ?", "%job_class: #{self}%")
+                  .where(locked_at: nil)
+                  .where('run_at <= ?', DEBOUNCE_TIME.from_now)
+                  .delete_all
+        Rails.logger.info("deleted: #{count} jobs")
+        Thread.current[THREAD_KEY] = Time.current
+        set(wait: DEBOUNCE_TIME).perform_later
+      end
     end
 
     def perform

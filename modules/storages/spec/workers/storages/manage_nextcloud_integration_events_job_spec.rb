@@ -39,7 +39,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
   end
 
   describe '.debounce' do
-    it 'debounces job with 1 minute timeframe' do
+    it 'debounces job with 5 seconds timeframe' do
       ActiveJob::Base.disable_test_adapter
 
       other_handler = Storages::ManageNextcloudIntegrationCronJob.perform_later.provider_job_id
@@ -54,7 +54,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
 
       expect(Delayed::Job.count).to eq(6)
 
-      described_class.debounce
+      1000.times { described_class.debounce }
 
       expect(Delayed::Job.count).to eq(4)
       expect(Delayed::Job.pluck(:id)).to include(other_handler,
