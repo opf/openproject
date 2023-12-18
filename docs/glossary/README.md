@@ -41,6 +41,10 @@ In OpenProject, the person who has administrative rights in an instance is calle
 
 Agile project management is an iterative and flexible approach to managing projects. It focuses on collaboration, adaptability, and self-organizing teams. OpenProject supports agile project management as well as [classic project management](#classic-project-management), and works best for [hybrid project management](#hybrid-project-management).
 
+### Attribute help texts
+
+OpenProject offers Attribute help texts that provide additional information for attributes in work packages and projects. After setting them up they are displayed when users click on the question mark symbol next to custom fields in projects and work packages. [Read more about Attribute help texts in OpenProject](https://www.openproject.org/docs/system-admin-guide/attribute-help-texts/)
+
 ### Authentication
 
 In OpenProject, authentication is an important element to guarantee a data protected usage. To adapt these authentication settings, you need to have [admin](#admin) rights. Navigate to your username and select -> Administration -> Authentication. At OpenProject, we use [OAuth 2.0](#oauth) as this is the definitive industry standard for online authorization.
@@ -180,6 +184,10 @@ A Group in OpenProject is defined as a list of users which can be added as a mem
 
 ## H
 
+### High contrast mode
+
+OpenProject offers a high contrast mode to make it easier for visually impaired people to use the software. This mode can be selected in the personal [account settings](https://www.openproject.org/docs/getting-started/my-account/#my-account) and will only affect the individual user's experience.
+
 ### Home page
 
 In the OpenProject application, the home page is defined as a start page for your instance, where you get an overview about important information. From the home page you can access all global [modules](#module) of OpenProject. To get to the OpenProject application home page, click on the logo in the header of the application. [Read more about the OpenProject application home page](https://www.openproject.org/docs/user-guide/home/#application-home-page)
@@ -230,6 +238,10 @@ In OpenProject, you get in-app notifications about important changes that are re
 
 OAuth is an open authorization standard. It allows you to access certain information or resources on behalf of a user without accessing their username and password on each individual service. OpenProject acts as an OAuth provider, allowing you to optionally grant permissions to access your data to authorized third-party applications or services. [Read more about OAuth applications in OpenProject](https://www.openproject.org/docs/system-admin-guide/authentication/oauth-applications/)
 
+### OneDrive/SharePoint integration
+
+OpenProject offers a OneDrive/SharePoint [integration](#integration) as an [Enterprise add-on](#enterprise-add-on). It must be setup by an administrator before members can use it. With this integration, users can link files and folders that are stored in OneDrive/SharePoint with work packages in OpenProject. They can also view, open and download files and folders linked to a work package. [Read more about OpenProject's OneDrive/SharePoint integration](https://www.openproject.org/docs/user-guide/file-management/one-drive-integration/)
+
 ### On-premises
 
 OpenProject on-premises is a self-hosted version of OpenProject. As opposed to the Cloud version, you install, run and maintain the hardware locally and manage the software application there. The on-premises [Community Edition](#community-edition) is free of charge.
@@ -255,6 +267,10 @@ Your activated plugins are listed together with your [modules](#module) in your 
 **More information on plugins in OpenProject**
 - [See all available plugins and integrations for OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/)
 - [Read how to create an OpenProject plugin](https://www.openproject.org/docs/development/create-openproject-plugin/)
+
+### Primer design system
+
+OpenProject started adopting [Github's Primer Design System](https://primer.style/) in 2023. New features will be developed using Primer and existing features will will be gradually revised. Relevant reusable components from Primer as well as common patterns and compositions of these components will be documented in our [Lookbook](https://qa.openproject-edge.com/lookbook/pages/how_to_use). [Read more about OpenProject's decision to use Primer](https://www.openproject.org/blog/primer-design-system/)
 
 ### Project
 
@@ -315,6 +331,10 @@ In OpenProject, a role is defined as a set of permissions defined by a unique na
 In product management, the RICE score indicates the level of prioritization of a single element, e.g. a feature. With the RICE scoring model, you evaluate and compare requirements with each other to decide which products or features to prioritize on the roadmap – in an as objective manner as possible. The formula for the RICE score is the following: **R**each x **I**mpact x **C**onfidence / **E**ffort
 
 ## S
+
+### Share work packages
+
+OpenProject offers the possibility to share work packages with external groups or users that are not [members](#member) of the project. This feature is an [Enterprise add-on](#enterprise-add-on). Every user with whom a work package is shared must either already be a user of the instance or be newly created. The latter requires special rights. [Read more about OpenProject's feature to share work packages with project non-members](https://www.openproject.org/docs/user-guide/work-packages/share-work-packages/)
 
 ### Story points
 
