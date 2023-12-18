@@ -273,6 +273,35 @@ RSpec.describe 'Work package sharing',
       end
     end
 
+    it 'only displays shares that match the current set of applied filters' do
+      share_modal.expect_open
+
+      share_modal.toggle_select_all
+      share_modal.bulk_update("View")
+      share_modal.toggle_select_all
+
+      share_modal.filter('role', "View")
+
+      share_modal.expect_shared_with(project_user)
+      share_modal.expect_shared_with(project_user2)
+      share_modal.expect_shared_with(inherited_project_user)
+      share_modal.expect_shared_with(non_project_user)
+      share_modal.expect_shared_with(shared_project_group)
+      share_modal.expect_shared_with(shared_non_project_group)
+
+      share_modal.change_role(project_user, "Comment")
+      share_modal.filter('role', "Comment")
+      share_modal.expect_shared_with(project_user, "Comment")
+      share_modal.expect_not_shared_with(project_user2)
+      share_modal.expect_not_shared_with(inherited_project_user)
+      share_modal.expect_not_shared_with(non_project_user)
+      share_modal.expect_not_shared_with(shared_project_group)
+      share_modal.expect_not_shared_with(shared_non_project_group)
+
+      share_modal.filter('role', "Edit")
+      share_modal.expect_empty_search_blankslate
+    end
+
     context 'when filtering for a specific role' do
       before do
         share_modal.expect_open
