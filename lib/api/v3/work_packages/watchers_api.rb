@@ -48,7 +48,7 @@ module API
         resources :watchers do
           helpers do
             def watchers_collection
-              watchers = @work_package.watcher_users.merge(Principal.not_locked, rewhere: true)
+              watchers = @work_package.watcher_users.merge(Principal.not_locked)
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UnpaginatedUserCollectionRepresenter.new(watchers,
                                                               self_link:,
