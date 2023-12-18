@@ -33,7 +33,7 @@ module OpenProject::Deprecation
           .new('in a future major upgrade', 'OpenProject')
           .tap do |instance|
         # Reuse the silenced state of the default deprecator
-        instance.silenced = ActiveSupport::Deprecation.silenced
+        instance.silenced = Rails.application.deprecators.silenced
       end
     end
 
