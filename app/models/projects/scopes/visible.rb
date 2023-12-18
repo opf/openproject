@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,60 +24,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-def start_dragging(from, offset_x: nil, offset_y: nil)
-  scroll_to_element(from)
-  page
-    .driver
-    .browser
-    .action
-    .move_to(from.native, offset_x, offset_y)
-    .click_and_hold
-    .perform
-end
+module Projects::Scopes
+  module Visible
+    extend ActiveSupport::Concern
 
-def drag_element_to(to, offset_x: nil, offset_y: nil)
-  scroll_to_element(to)
-  page
-    .driver
-    .browser
-    .action
-    .move_to(to.native, offset_x, offset_y)
-    .perform
-end
-
-def drag_release
-  page
-    .driver
-    .browser
-    .action
-    .release
-    .perform
-end
-
-def drag_n_drop_element(from:, to:, offset_x: nil, offset_y: nil)
-  start_dragging(from)
-  drag_element_to(to, offset_x:, offset_y:)
-  drag_release
-end
-
-def drag_by_pixel(element:, by_x:, by_y:)
-  scroll_to_element(element, block: :center)
-
-  page
-    .driver
-    .browser
-    .action
-    .move_to(element.native)
-    .click_and_hold(element.native)
-    .perform
-
-  page
-    .driver
-    .browser
-    .action
-    .move_by(by_x, by_y)
-    .release
-    .perform
+    class_methods do
+      # Returns all projects the user is allowed to see.
+      # Those include projects where the user has the permission:
+      # * :view_project via a project role (which might also be the non member/anonymous role) or by being administrator
+      # * :view_work_packages via a work package role
+      def visible(user = User.current)
+        # Use a shortcut for admins and anonymous where
+        # we don't need to calculate for work package roles which is more expensive
+        if user.admin? || user.anonymous?
+          Project.allowed_to(user, :view_project)
+        else
+          Project.allowed_to(user, :view_project)
+                 .or(where(id: WorkPackage.allowed_to(user, :view_work_packages).select(:project_id)))
+        end
+      end
+    end
+  end
 end
