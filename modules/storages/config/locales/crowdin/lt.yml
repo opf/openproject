@@ -27,7 +27,7 @@ lt:
         creator: "Kūrėjas"
         provider_type: "Tiekėjo tipas"
         host: "Serveris"
-        tenant: "Directory (tenant) ID"
+        tenant: "Direktorijos (savininko) ID"
       storages/file_link:
         origin_id: "Kilmės Id"
     errors:
@@ -150,7 +150,7 @@ lt:
         tenant_id_placeholder: "Vardas ar UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
-        copy_redirect_uri: "Copy redirect URI"
+        copy_redirect_uri: "Kopijuoti peradresavimo ID"
     help_texts:
       project_folder: >
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
@@ -159,7 +159,7 @@ lt:
         nextcloud: "Leisti OpenProject prieigą prie Nextcloud duomenų naudojant OAuth."
         one_drive: "Leisti OpenProject prieigą prie Azure duomenų naudojant OAuth prisijungimui prie OneDrive/Sharepoint."
       redirect_uri_incomplete:
-        one_drive: "Complete the setup with the correct URI redirection."
+        one_drive: "Baigti nustatymą su tinkamu URI peradresavimu."
     delete_warning:
       storage: >
         Ar tikrai norite ištrinti %{file_storage}? Šio veiksmo patvirtinimui prašome įvesti saugyklos pavadinimą lake žemiau:
@@ -214,7 +214,7 @@ lt:
     label_edit_storage: "Keisti saugyklą"
     label_edit_storage_host: "Keisti saugyklos adresą"
     label_edit_storage_oauth_client: "Keisti saugyklos OAuth klientą"
-    label_show_storage_redirect_uri: "Show redirect URI"
+    label_show_storage_redirect_uri: "Rodyti peradresavimo URI"
     label_edit_storage_automatically_managed_folders: "Keisti saugyklos automatiškai tvarkomus aplankus"
     label_existing_manual_folder: "Esamas aplankas su rankiniu būdu valdomomis teisėmis"
     label_no_specific_folder: "Jokio konkretaus aplanko"
@@ -261,8 +261,8 @@ lt:
       label_pending: "Laukiama"
       label_error: "Klaida"
       label_healthy: "Sveikas"
-      checked: "Last checked %{datetime}"
-      since: "since %{datetime}"
+      checked: "Paskutinį kartą tikrinta %{datetime}"
+      since: "nuo %{datetime}"
     upsale:
       title: "OneDrive/SharePoint integracija"
       description: 'Integruokite jūsų OneDrive/SharePoint kaip failų saugyklą su OpenProject. Įkelkite failus ir susiekite juos tiesiogiai su projekto darbo paketais.'

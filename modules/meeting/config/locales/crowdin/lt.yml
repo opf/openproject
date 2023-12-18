@@ -102,7 +102,7 @@ lt:
       invited:
         summary: "%{actor} atsiuntė jums pakvietimą į susitikimą %{title}"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: "Susitikimas %{title} buvo perplanuotas"
         summary: "Susitikimą %{title} perplanavo %{actor}"
         body: "Susitikimą %{title} perplanavo %{actor}."
         old_date_time: "Sena data/laikas"
