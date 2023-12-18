@@ -199,13 +199,13 @@ lt:
     reorder_alphabetical: "Perrikiuoti reikšmes alfabeto tvarka"
     reorder_confirmation: "Dėmesio: Dabartinė galimų reikšmių tvarka bus prarasta. Tęsti?"
     instructions:
-      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
-      is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Include the field values when using the global search functionality."
-      editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_required: "Pažymėti savo lauką kaip privalomą. Taip bus privaloma jį užpildyti kuriant ar atnaujinant esamus resursus."
+      is_for_all: "Pažymėti savo lauką kaip prieinamą visuose esamuose ir naujuose projektuose."
+      searchable: "Įtraukti lauko reikšmes naudojant globalios paieškos funkcionalumą."
+      editable: "Leisti keisti lauką patiems naudotojams."
+      visible: "Padaryti lauką matomu visiems naudotojams (ne administratoriams) projekto apžvalgoje ir rodomą projekto detalių valdiklyje Projekto apžvalgoje."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        Leisi naudoti savo lauką darbo paketų vaizdų filtruose. Pastebėtina, kad globaliuose vaizduose matysis savi laukai, kuriuose pažymėta „Visiems projektams“.
     tab:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
@@ -400,8 +400,8 @@ lt:
     sharing:
       missing_workflow_waring:
         title: "Darbo paketo dalinimuisi trūksta darbo proceso"
-        message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas darbo procesas. Be darbo proceso negalima keisti bendrinamo darbo paketo būsenos."
-        link_message: "Konfigūruokite darbo procesą administravime."
+        message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas procesas. Be proceso, naudotojas negali pakeisti darbo paketo būsenos. Procesą galima nukopijuoti. Parinkite šaltinio tipą „pvz. „Užduotis“) ir šaltinio vaidmenį (pvz. „Narys“). Tada parinkite paskirties tipus. Pradžiai galėtumėte kaip paskirtį parinkti visus tipus. Galų gale parinkite vaidmenį „Darbo paketų redaktorius“ kaip paskirtį ir spauskite „Kopijuoti“. taip sukūrę numatytąjį variantą, patikslinkite procesus kaip tai darote su kitais vaidmenimis."
+        link_message: "Konfigūruokite procesus administravime."
     summary:
       reports:
         category:
@@ -605,7 +605,7 @@ lt:
         begin_insertion: "Įterpimo pradžioje"
         begin_deletion: "Ištrynimo pradžioje"
         children: "Subelementai"
-        done_ratio: "% Complete"
+        done_ratio: "% baigta"
         duration: "Trukmė"
         end_insertion: "Įterpimo pabaigoje"
         end_deletion: "Ištrynimo pabaigoje"
@@ -619,7 +619,7 @@ lt:
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"
         priority: "Pirmenybė"
-        progress: "% Complete"
+        progress: "% baigta"
         readonly: "Tik skaitymui"
         schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
@@ -1049,12 +1049,12 @@ lt:
     default_columns: "Numatytieji stulpeliai"
     description: "Aprašymas"
     derived_due_date: "Išvestinė pabaigos data"
-    derived_estimated_hours: "Derived work"
+    derived_estimated_hours: "Išvestas darbas"
     derived_start_date: "Išvestinė pradžios data"
     display_sums: "Rodyti suvestines"
     due_date: "Pabaigos data"
-    estimated_hours: "Work"
-    estimated_time: "Work"
+    estimated_hours: "Darbas"
+    estimated_time: "Darbas"
     expires_at: "Baigia galioti"
     firstname: "Vardas"
     group: "Grupė"
@@ -1436,7 +1436,7 @@ lt:
   error_pdf_export_too_many_columns: "PDF eksportavimui pasirinkta per daug stulpelių. Prašome sumažinti stulpelių skaičių."
   error_pdf_failed_to_export: "PDF eksportas negali būti išsaugotas: %{error}"
   error_token_authenticity: "Neįmanoma patikrinti Cross-Site Request Forgery žetono. Gal bandėte nusiųsti duomenis iš kelių naršyklių ar kortelių? Prašome uždaryti visas korteles ir pabandyti dar kartą."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
+  error_work_package_done_ratios_not_updated: "Darbo paketo % baigta reikšmės neatnaujintos."
   error_work_package_not_found_in_project: "Darbų paketas nerastas arba nepriklauso šiam projektui"
   error_must_be_project_member: "turi būti projekto narys"
   error_migrations_are_pending: "Jūsų OpenProject instaliacijai trūksta duomenų bazės migracijos. Greičiausiai atnaujinimo metu buvo nepaleistas migravimas. Atnaujinimo gide aprašyta kaip tinkamai atnaujinti jūsų instaliaciją."
@@ -2116,7 +2116,7 @@ lt:
   label_type_new: "Naujas tipas"
   label_type_plural: "Tipai"
   label_ui: "Vartotojo sąsaja"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
+  label_update_work_package_done_ratios: "Atnaujinti darbo paketo % baigta reikšmes"
   label_updated_time: "Atnaujinta prieš %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} atnaujino prieš %{age}"
@@ -2274,9 +2274,9 @@ lt:
     sharing:
       work_packages:
         allowed_actions: "Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių."
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "Kad prieitumėte prie darbo paketo, jums reikės sukurti ir aktyvuoti %{instance}  paskyrą."
         open_work_package: "Atverti darbo paketą"
-        subject: "Su jumis bendrinamas darbo paketas #%{id}"
+        subject: "Su jumis buvo pabendrintas darbo paketas #%{id}"
         enterprise_text: "Dalintis darbo paketais su naudotojais, kurie nėra projekto nariai."
         summary:
           user: "%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}"
@@ -2386,7 +2386,7 @@ lt:
   notice_file_not_found: "Puslapis, į kurį norite patekti, neegzistuoja arba yra pašalintas."
   notice_forced_logout: "Jūs buvo automatiškai atjungti po %{ttl_time} minučių (-ės) neveiklumo."
   notice_internal_server_error: "Bandant prisijungti prie puslapio įvyko klaida. Jei klaida kartosis, susisiekite su %{app_title} administratoriumi."
-  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
+  notice_work_package_done_ratios_updated: "% baigta atnaujinta"
   notice_locking_conflict: "Mažiausiai vienas vartotojas per tą laiką atnaujino informaciją."
   notice_locking_conflict_additional_information: "%{users} vartotojas (-ai) pateikė atnaujinimų."
   notice_locking_conflict_reload_page: "Įkelkite puslapį iš naujo, peržiūrėkite pakeitimus ir pateikite savo atnaujinimus."
@@ -2752,10 +2752,10 @@ lt:
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
   setting_host_name: "Serverio vardas"
   setting_invitation_expiration_days: "Aktyvavimo laiško galiojimas baigiasi po"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio: "Skaičiuoti darbo paketo % baigta su"
+  setting_work_package_done_ratio_field: "Darbo paketo lauku"
+  setting_work_package_done_ratio_status: "Darbų paketo būsena"
+  setting_work_package_done_ratio_disabled: "Išjungti (paslėpti lauką % baigta)"
   setting_work_package_list_default_columns: "Pagal nutylėjimą rodyti"
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
@@ -3122,7 +3122,7 @@ lt:
       warning_user_limit_reached_admin: >
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       warning_no_selected_user: "Prašome parinkti naudotjus, su kuriais norite dalintis šiuo darbo paketu"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "Naudotojas %{user} yra užrakintas, todėl su juo negalima bendrinti"
       user_details:
         locked: "Užrakintas naudotojas"
         invited: "Pakvietimas išsiųstas. "
@@ -3194,9 +3194,9 @@ lt:
         unsupported_context: "Duotas resursas nėra palaikomas kaip kontekstas."
         context_object_not_found: "Nepavyko rasti resurso, duoto kaip kontekstas."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% baigta negali būti nurodytas tėviniams darbų paketams, kai paketas apibrėžtas pagal būseną arba kai jis deaktyvuotas."
         due_date: "Tėviniams darbo paketams negalima nurodyti pabaigos datos."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
+        estimated_hours: "Darbo negalima nustatyti tėviniams darbo paketams." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pasirinktas vartotojas negali būti '%{property}' šiam darbų paketui."
         start_date: "Pradžios data negali būti nustatyta tėviniams darbų paketams."
       eprops:

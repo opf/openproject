@@ -405,8 +405,8 @@ ar:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2333,9 +2333,9 @@ ar:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2445,7 +2445,7 @@ ar:
   notice_file_not_found: "الصفحة التي تحاول الوصول إليها غير موجودة أو قد أزيلت."
   notice_forced_logout: "لقد قمت تلقائياً بتسجيل خروج بعد %{ttl_time} دقائق من الخمول."
   notice_internal_server_error: "حدث خطأ في الصفحة التي تحاول الوصول إليها. إذا كنت لا تزال تواجه مشاكل الرجاء الاتصال بالمسؤول %{app_title} للحصول على المساعدة."
-  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "تم تحديث المعلومات من قبل مستخدم واحد آخر على الأقل في الوقت نفسه."
   notice_locking_conflict_additional_information: "تم تقديم التحديثات من قبل %{users}."
   notice_locking_conflict_reload_page: "الرجاء إعادة تحميل الصفحة، ومراجعة التغييرات وإعادة تطبيق التحديثات الخاصة بك."

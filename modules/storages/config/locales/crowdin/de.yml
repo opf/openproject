@@ -146,7 +146,7 @@ de:
           Bitte kopieren Sie diesen Wert in eine neue Web-Umleitungs-URI unter Umleitungs-URIs.
         missing_client_id_for_redirect_uri: "Bitte füllen Sie die OAuth-Werte aus, um eine URI zu generieren"
         tenant_id: >
-          Bitte kopieren Sie die Verzeichnis-ID (Mandant) der gewünschten Anwendung aus den App-Registrierungen im %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name oder UUID"
         drive_id: "Bitte kopieren Sie die ID des gewünschten Laufwerks, indem Sie den Schritten der %{drive_id_link_text} folgen."
         documentation_link_text: "OneDrive/SharePoint-Dateispeicherdokumentation"

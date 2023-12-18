@@ -198,6 +198,14 @@ pl:
     confirm_destroy_option: "Usunięcie tej opcji spowoduje usunięcie wszystkich powiązanych wystąpień (np. w Work Package). Czy na pewno chcesz to usunąć?"
     reorder_alphabetical: "Ustaw kolejność wartości alfabetycznie"
     reorder_confirmation: "Ostrzeżenie: Bieżąca kolejność dostępnych wartości zostanie utracona. Kontynuować?"
+    instructions:
+      is_required: "Oznacz pole niestandardowe jako wymagane. To spowoduje obowiązkowe wypełnianie pola podczas tworzenia nowych lub aktualizacji istniejących zasobów."
+      is_for_all: "Zaznacz pole niestandardowe jako dostępne we wszystkich istniejących i nowych projektach."
+      searchable: "Uwzględnij wartości pól podczas korzystania z funkcji wyszukiwania globalnego."
+      editable: "Zezwól na edycję pola przez samych użytkowników."
+      visible: "Ustaw pole jako widoczne dla wszystkich użytkowników (niebędących administratorami) w przeglądzie projektu i wyświetlane w widżecie szczegółów projektu w przeglądzie projektu."
+      is_filter: >
+        Zezwól na użycie pola niestandardowego w filtrze w widokach pakietów roboczych. Pamiętaj, że pole niestandardowe będzie wyświetlane w widokach globalnych dopiero po zaznaczeniu opcji „Dla wszystkich projektów”.
     tab:
       no_results_title_text: Nie ma jeszcze żadnych pól użytkownika.
       no_results_content_text: Utwórz pole użytkownika
@@ -392,8 +400,8 @@ pl:
     sharing:
       missing_workflow_waring:
         title: "Brak przepływu pracy udostępniania pakietu roboczego"
-        message: "Nie skonfigurowano przepływu pracy dla roli „Edytor pakietu roboczego”. Bez przepływu pracy status udostępnionego pakietu roboczego nie może zostać zmieniony."
-        link_message: "Skonfiguruj przepływ pracy w administracji."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Skonfiguruj przepływy pracy w administracji."
     summary:
       reports:
         category:
@@ -1338,9 +1346,9 @@ pl:
         other: "%{count} miesiące"
       x_years:
         one: "1 rok"
-        few: "%{count} years"
-        many: "%{count} years"
-        other: "%{count} years"
+        few: "%{count} lata"
+        many: "%{count} lat"
+        other: "%{count} roku"
       x_seconds:
         one: "1 sekunda"
         few: "%{count} sekundy"
@@ -2266,9 +2274,9 @@ pl:
     sharing:
       work_packages:
         allowed_actions: "Możesz %{allowed_actions} ten pakiet roboczy. Może się to zmienić w zależności od Twojej roli w projekcie i uprawnień."
-        create_account: "Aby uzyskać dostęp do tego pakietu roboczego, musisz utworzyć i aktywować konto %{instance}. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Otwórz pakiet roboczy"
-        subject: "Udostępniasz pakiet roboczy nr %{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu."
         summary:
           user: "Użytkownik %{user} udostępnił Ci pakiet roboczy z uprawnieniami %{role_rights}"
@@ -2377,7 +2385,7 @@ pl:
   notice_file_not_found: "Strona, do której próbowano uzyskać dostęp nie istnieje lub została usunięta."
   notice_forced_logout: "Będziesz automatycznie wylogowany po %{ttl_time} minutach braku aktywności."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "Zaktualizowano wartości % ukończenia pakietu roboczego."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
@@ -3108,7 +3116,7 @@ pl:
       text_empty_search_description: "Brak użytkowników spełniających bieżące kryteria filtrowania."
       text_empty_search_header: "Nie mogliśmy znaleźć żadnych pasujących wyników."
       text_empty_state_description: "Pakiet roboczy nie został jeszcze nikomu udostępniony."
-      text_empty_state_header: "Brak udostępnionych członków."
+      text_empty_state_header: "Brak członków, którym go udostępniono."
       text_user_limit_reached: "Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego pakietu roboczego, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników."
       text_user_limit_reached_admins: 'Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby móc dodać więcej użytkowników, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.'
       warning_user_limit_reached: >
@@ -3116,6 +3124,7 @@ pl:
       warning_user_limit_reached_admin: >
         Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego pakietu roboczego, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.
       warning_no_selected_user: "Wybierz użytkowników, którym chcesz udostępnić ten pakiet roboczy"
+      warning_locked_user: "Użytkownik %{user} jest zablokowany i nie może być udostępniony"
       user_details:
         locked: "Zablokowany użytkownik"
         invited: "Wysłano zaproszenie. "

@@ -201,6 +201,14 @@ fil:
     confirm_destroy_option: "Kapag nagbubura ng opsyon ay makakabura sa lahat ng mga pangyayari nito (e.g. sa mga package na trabaho). Sigurado ka bang gusto mong burahin ito?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Sa kasalukuyan ay walang mga custom field.
       no_results_content_text: Gumawa ng bagong patlang na custom
@@ -393,8 +401,8 @@ fil:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2213,9 +2221,9 @@ fil:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2325,7 +2333,7 @@ fil:
   notice_file_not_found: "Ang package na iyong sinusibukan i-access ay hindi umiiral o inalis na."
   notice_forced_logout: "Ikaw ay automatikong naka-log out pagkatapos ng %{ttl_time} ilang minuto ng hindi aktibidad."
   notice_internal_server_error: "Isang error ang naganap sa oahina na gusto mong i-access. Kung nagpatuloy ang mga problema nararansan mo manyaring kontakin ang iyong %{app_title} tagapangasiwa para sa tulong."
-  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Ang impormasyon ay naka-update sa kahit hindi baba isa o."
   notice_locking_conflict_additional_information: "Ang mga update nagmula sa %{users}."
   notice_locking_conflict_reload_page: "Mangyaring i-reload ang pahina na ito, repasuhin ang mga pagbabago at muling i-apply ang iyong mga update."
@@ -3060,6 +3068,7 @@ fil:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

@@ -201,6 +201,14 @@ zh-TW:
     confirm_destroy_option: "刪除一個項目將會一併刪除所有出現這個項目的地方 (例如：在工作項目中)。你確定要刪除它嗎？"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
@@ -392,8 +400,8 @@ zh-TW:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2185,9 +2193,9 @@ zh-TW:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2296,7 +2304,7 @@ zh-TW:
   notice_file_not_found: "您試圖存取的頁面不存在或已被移除。"
   notice_forced_logout: "由於超過 %{ttl_time} 分鐘沒有操作，您已被自動登出。"
   notice_internal_server_error: "你試圖前往的頁面發生一個錯誤。如果你一直遇到問題，請聯絡你的 %{app_title} 管理員以得到協助！"
-  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "在此同時，資訊已經被至少一個使用者更新"
   notice_locking_conflict_additional_information: "更新來自於 %{users}"
   notice_locking_conflict_reload_page: "請重新載入頁面，檢查所做的更改並重新套用您的更新。"
@@ -3031,6 +3039,7 @@ zh-TW:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

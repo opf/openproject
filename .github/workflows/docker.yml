@@ -40,7 +40,13 @@ jobs:
             bim_support: false
             target: all-in-one
     steps:
-      - name: Checkout
+      - name: Checkout current release
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/checkout@v3
+      - name: Checkout specific version
+        if: ${{ github.event_name != 'push' }}
+        with:
+          ref: ${{ inputs.version }}
         uses: actions/checkout@v3
       - name: Prepare docker files
         run: |

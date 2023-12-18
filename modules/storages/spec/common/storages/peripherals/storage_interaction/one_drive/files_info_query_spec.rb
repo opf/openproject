@@ -78,7 +78,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
         end
 
         # rubocop:disable RSpec/ExampleLength
-        # rubocop:disable Layout/LineLength
         it 'must return an array of file information when called' do
           result = subject.call(user:, file_ids:)
           expect(result).to be_success
@@ -104,7 +103,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
                            permissions: nil,
                            trashed: false,
-                           location: '/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:'
+                           location: '/Folder with spaces'
                          },
                          {
                            status: 'ok',
@@ -121,7 +120,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
                            permissions: nil,
                            trashed: false,
-                           location: '/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Folder'
+                           location: '/Folder/Document.docx'
                          },
                          {
                            status: 'ok',
@@ -138,7 +137,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
                            permissions: nil,
                            trashed: false,
-                           location: '/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Folder/Subfolder'
+                           location: '/Folder/Subfolder/NextcloudHub.md'
                          }
                        ])
             end,
@@ -146,7 +145,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
           )
         end
         # rubocop:enable RSpec/ExampleLength
-        # rubocop:enable Layout/LineLength
       end
     end
 

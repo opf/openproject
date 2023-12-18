@@ -50,8 +50,7 @@ module Storages::ProjectStorages
     end
 
     def button_links
-      links = [delete_link]
-      links.prepend(edit_link) if project_storage.storage.provider_type_nextcloud?
+      links = [edit_link, delete_link]
       links.prepend(members_connection_status_link) if project_storage.project_folder_automatic?
 
       links

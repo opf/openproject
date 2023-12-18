@@ -21,8 +21,8 @@
 #++
 it:
   plugin_openproject_documents:
-    name: "OpenProject Documents"
-    description: "An OpenProject plugin to allow creation of documents in projects."
+    name: "Documenti OpenProject"
+    description: "Un plugin OpenProject per consentire la creazione di documenti nei progetti."
   activerecord:
     models:
       document: "Documento"

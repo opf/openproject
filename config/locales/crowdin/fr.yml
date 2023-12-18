@@ -201,6 +201,14 @@ fr:
     confirm_destroy_option: "Supprimer une option supprimera toutes ses occurrences (ex. dans les plans de travail). Êtes-vous sûr de vouloir le supprimer ?"
     reorder_alphabetical: "Réorganiser les valeurs par ordre alphabétique"
     reorder_confirmation: "Attention : l'ordre actuel des valeurs disponibles sera perdu. Continuer ?"
+    instructions:
+      is_required: "Marquer le champ personnalisé comme requis. Cela rendra obligatoire de remplir le champ lors de la création ou de la mise à jour des ressources existantes."
+      is_for_all: "Marquer le champ personnalisé comme disponible dans tous les projets existants et nouveaux."
+      searchable: "Inclure les valeurs des champs lors de l'utilisation de la fonctionnalité de recherche globale."
+      editable: "Autoriser les utilisateurs à modifier eux-mêmes le champ"
+      visible: "Rendre le champ visible pour tous les utilisateurs (non-administrateurs) et l'afficher dans le widget des détails du projet dans la vue d'ensemble du projet."
+      is_filter: >
+        Permet au champ personnalisé d'être utilisé dans un filtre dans les vues des lots de travaux. Notez que le champ personnalisé n'apparaîtra dans les vues globales que si l'option "Pour tous les projets" est sélectionnée.
     tab:
       no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
       no_results_content_text: Créer un nouveau champ personnalisé
@@ -393,8 +401,8 @@ fr:
     sharing:
       missing_workflow_waring:
         title: "Flux de travail manquant pour le partage de lots de travaux"
-        message: "Aucun flux de travail configuré pour le rôle 'Éditeur de lots de travaux'. Sans flux de travail, le statut d'un lot de travaux partagé ne peut pas être changé."
-        link_message: "Configurer un flux de travail dans l'administration."
+        message: "Aucun flux de travail n'est configuré pour le rôle 'Éditeur de lots de travaux'. Sans flux de travail, le partage avec l'utilisateur ne permet pas de modifier l'état du lot de travaux. Les flux de travail peuvent être copiés. Sélectionnez un type de source (par exemple 'Tâche') et un rôle de source (par exemple 'Membre'). Sélectionnez ensuite les types cibles. Pour commencer, vous pouvez sélectionner tous les types comme cibles. Enfin, sélectionnez le rôle 'Éditeur de lot de travaux' comme cible et cliquez sur 'Copier'. Après avoir ainsi créé les valeurs par défaut, affinez les flux de travail comme vous le faites pour tous les autres rôles."
+        link_message: "Configurez les flux de travail dans l'administration."
     summary:
       reports:
         category:
@@ -946,7 +954,7 @@ fr:
       custom_field: "Champ personnalisé"
       "doorkeeper/application": "Application OAuth"
       forum: "Forum"
-      global_role: "Global role"
+      global_role: "Rôle global"
       group: "Groupe"
       member: "Membre"
       news: "Actualités"
@@ -1591,7 +1599,7 @@ fr:
   label_administration: "Administration"
   label_advanced_settings: "Paramètres avancés"
   label_age: "Âge"
-  label_ago: "il y a quelques jours"
+  label_ago: "il y a"
   label_all: "tous"
   label_all_projects: "Tous les projets"
   label_all_time: "tout le temps"
@@ -2148,8 +2156,8 @@ fr:
     zero: "aucun projet"
   label_yesterday: "hier"
   label_role_type: "Type"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Rôle dans le projet"
+  label_global_role: "Rôle global"
   label_not_changeable: "(non modifiable)"
   label_global: "Global"
   label_seeded_from_env_warning: Cet enregistrement a été créé grâce à une variable paramètre/environnement. Il n'est pas modifiable via l'interface utilisateur.
@@ -2213,9 +2221,9 @@ fr:
     sharing:
       work_packages:
         allowed_actions: "Vous pouvez %{allowed_actions} ce lot de travaux. Cela peut changer en fonction de votre rôle dans le projet et de vos droits."
-        create_account: "Pour accéder à ce lot de travaux, vous devrez créer et activer un compte %{instance}. "
+        create_account: "Pour accéder à ce paquet de travail, vous aurez besoin de créer et activer un compte sur %{instance}."
         open_work_package: "Ouvrir ce lot de travaux"
-        subject: "Le lot de travaux #%{id} a été partagé avec vous"
+        subject: "Paquet de travail #%{id} a été partagé avec vous"
         enterprise_text: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
         summary:
           user: "%{user} a partagé un lot de travaux avec vous avec les droits %{role_rights}"
@@ -2325,7 +2333,7 @@ fr:
   notice_file_not_found: "La page à laquelle vous essayez d'accéder n'existe pas ou a été supprimée."
   notice_forced_logout: "Vous avez été déconnecté après %{ttl_time} minutes d'inactivité."
   notice_internal_server_error: "Une erreur est survenue sur la page à laquelle vous essayez d'accéder. Si le problème persiste, veuillez contacter votre administrateur %{app_title} pour assistance."
-  notice_work_package_done_ratios_updated: "Les valeurs % complet du lot de travaux mises à jour"
+  notice_work_package_done_ratios_updated: "% de mise à jour terminée"
   notice_locking_conflict: "Cette information a été mise a jour par au moin un autre utilisateur pendant la même session"
   notice_locking_conflict_additional_information: "Le(s) mise(s) à jour(s) ont été faite par %{users}."
   notice_locking_conflict_reload_page: "Veuillez rafraîchir la page, vérifier les changements et rélancer la mise à jour."
@@ -2499,7 +2507,7 @@ fr:
       archived: "Archivé"
   project_module_activity: "Activité"
   project_module_forums: "Forums"
-  project_module_work_package_tracking: "Lots de Travaux"
+  project_module_work_package_tracking: "Lots de travaux"
   project_module_news: "Actualités"
   project_module_repository: "Référentiel"
   project_module_wiki: "Wiki"
@@ -3050,10 +3058,10 @@ fr:
         view_description: "Peut voir ce lot de travaux."
       remove: "Supprimer"
       share: "Partager"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
+      text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
       text_empty_state_description: "Le lot de travaux n'a pas encore été partagé avec personne."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Partagé avec aucun membre"
       text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce lot de travaux."
       text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour pouvoir ajouter d''autres utilisateurs.'
       warning_user_limit_reached: >
@@ -3061,6 +3069,7 @@ fr:
       warning_user_limit_reached_admin: >
         L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour que les utilisateurs externes puissent accéder à ce work package.
       warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels partager ce lot de travaux"
+      warning_locked_user: "Impossible de partager avec %{utilisateur} dont le compte est verrouillé"
       user_details:
         locked: "Utilisateur verrouillé"
         invited: "Invitation envoyée."
@@ -3103,7 +3112,7 @@ fr:
       code_429: "Trop de demandes, Veuillez réessayer ultérieurement."
       code_500: "Une erreur interne s'est produite."
       code_500_outbound_request_failure: "Une requête sortante vers une autre ressource a échoué avec le code de statut %{status_code}."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "La requête ne peut pas être traitée en raison d'un jeton Entreprise invalide ou manquant."
       not_found:
         work_package: "Le lot de travaux que vous cherchez est introuvable ou a été supprimé."
       expected:
@@ -3286,8 +3295,8 @@ fr:
   you: vous
   link: lien
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    name: "Plugins d'authentification OpenProject"
+    description: "Intégration des fournisseurs de stratégie OmniAuth pour l'authentification dans Openproject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML / authentification unique"
+    description: "Ajoute le fournisseur SAML OmniAuth à OpenProject"

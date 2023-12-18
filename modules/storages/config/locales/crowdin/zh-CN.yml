@@ -146,7 +146,7 @@ zh-CN:
           请将该值复制到“重定向 URI ”下的新 Web 重定向 URI。
         missing_client_id_for_redirect_uri: "请填写OAuth 值以生成 URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+          请从所需应用程序和应用注册中复制目录（租户）ID，链接文本为 %{application_link_text}。
         tenant_id_placeholder: "名称或 UUID"
         drive_id: ""
         documentation_link_text: "OneDrive/SharePoint 文件存储文档"

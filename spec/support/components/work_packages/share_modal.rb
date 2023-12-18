@@ -220,6 +220,16 @@ module Components
       alias_method :invite_users, :invite_user
       alias_method :invite_group, :invite_user
 
+      # Augments +invite_user+ by asserting that the modifications to the
+      # share have reflected in the modal's UI and we're able to continue
+      # with our spec without any waits or network related assertions.
+      #
+      # As a side benefit, it just keeps the spec file cleaner.
+      def invite_user!(user, role_name)
+        invite_user(user, role_name)
+        expect_shared_with(user, role_name)
+      end
+
       def search_user(search_string)
         search_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
                             query: search_string,

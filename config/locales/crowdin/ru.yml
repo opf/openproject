@@ -402,8 +402,8 @@ ru:
     sharing:
       missing_workflow_waring:
         title: "Отсутствует рабочий процесс для совместного использования пакета работ"
-        message: "Нет настроенного рабочего процесса для роли 'Редактора пакетов работ'. Без рабочего процесса статус общего пакета работ не может быть изменен."
-        link_message: "Настройка рабочего процесса в администрации."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2276,9 +2276,9 @@ ru:
     sharing:
       work_packages:
         allowed_actions: "Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта."
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Открыть пакет работ"
-        subject: "Вам предоставили общий доступ к пакету работ #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
         summary:
           user: ""
@@ -2387,7 +2387,7 @@ ru:
   notice_file_not_found: "Страница, к которой Вы обратились, не существует или была удалена."
   notice_forced_logout: "Вы автоматически вышли из системы после %{ttl_time} минут бездействия."
   notice_internal_server_error: "На странице, к которой Вы пытаетесь получить доступ, возникла ошибка. Если ошибка повторится, пожалуйста, свяжитесь со своим %{app_title} администратором."
-  notice_work_package_done_ratios_updated: "Work package % Complete values updated."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Информация была обновлена одновременно с вами  по крайней мере одним пользователем."
   notice_locking_conflict_additional_information: "Обновление(-ия) пришли от %{users}."
   notice_locking_conflict_reload_page: "Пожалуйста перезагрузите страницу, пересмотрите изменения и повторно примените Ваши обновления."
