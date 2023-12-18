@@ -1002,7 +1002,7 @@ pt:
           one: "<i>%{count} hora</i>"
           other: "<i>%{count} horas</i>"
         updated: "alterado de %{old_value} para %{value}"
-        logged_for: "Registrado para"
+        logged_for: "Registrado por"
     filter:
       changeset: "Cj de alterações"
       message: "Fóruns"
@@ -2220,9 +2220,9 @@ pt:
     sharing:
       work_packages:
         allowed_actions: "Você pode %{allowed_actions} este pacote de trabalho. Isso pode mudar dependendo da sua função e permissões do projeto."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Para acessar este pacote de trabalho, você terá que criar e ativar uma conta %{instance}. "
         open_work_package: "Abrir pacote de trabalho"
-        subject: "Work package #%{id} was shared with you"
+        subject: "O Pacote de trabalho #{id} foi compartilhado com você"
         enterprise_text: "Compartilhe pacotes de trabalho com usuários que não são membros do projeto."
         summary:
           user: "%{user} compartilhou um pacote de trabalho com você com privilégios de %{role_rights}"
