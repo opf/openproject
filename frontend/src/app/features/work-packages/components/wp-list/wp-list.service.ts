@@ -350,6 +350,11 @@ export class WorkPackagesListService {
   public conditionallyLoadForm(query = this.currentQuery):Promise<QueryFormResource> {
     const currentForm = this.querySpace.queryForm.value;
 
+    if (!query) {
+      return firstValueFrom(this.queryLoading)
+        .then((loaded) => this.conditionallyLoadForm(loaded));
+    }
+
     if (!currentForm || query.$links.update.href !== currentForm.href) {
       return this.loadForm(query);
     }
