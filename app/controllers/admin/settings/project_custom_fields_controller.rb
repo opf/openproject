@@ -107,14 +107,6 @@ module Admin::Settings
 
     private
 
-    def edit_path(id:)
-      admin_settings_project_custom_field_path(id:)
-    end
-
-    def index_path(params = {})
-      admin_settings_project_custom_fields_path(**params)
-    end
-
     def set_sections
       @project_custom_field_sections = ProjectCustomFieldSection
         .includes(custom_fields: :project_custom_field_project_mappings)

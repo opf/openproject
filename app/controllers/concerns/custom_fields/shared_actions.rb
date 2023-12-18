@@ -32,13 +32,19 @@ module CustomFields
 
     included do
       def index_path(params = {})
-        # default path below, can be overridden in the including controller
-        custom_fields_path(**params)
+        if @custom_field.type == 'ProjectCustomField'
+          admin_settings_project_custom_fields_path(**params)
+        else
+          custom_fields_path(**params)
+        end
       end
 
       def edit_path(params = {})
-        # default path below, can be overridden in the including controller
-        edit_custom_field_path(**params)
+        if @custom_field.type == 'ProjectCustomField'
+          admin_settings_project_custom_field_path(**params)
+        else
+          edit_custom_field_path(**params)
+        end
       end
 
       def create
