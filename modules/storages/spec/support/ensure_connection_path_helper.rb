@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,44 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::ProjectStorages
-  class ProjectStorageRepresenter < ::API::Decorators::Single
-    include API::Decorators::DateProperty
-    include API::Decorators::LinkedResource
-
-    defaults render_nil: true
-
-    self_link(title: false)
-
-    property :id
-    date_time_property :created_at
-    date_time_property :updated_at
-    property :project_folder_mode
-
-    link :projectFolder do
-      next if represented.project_folder_id.blank?
-
-      { href: api_v3_paths.storage_file(represented.storage.id, represented.project_folder_id) }
-    end
-
-    link :open do
-      { href: api_v3_paths.project_storage_open(represented.id) }
-    end
-
-    link :openWithConnectionEnsured do
-      { href: represented.open_with_connection_ensured }
-    end
-
-    associated_resource :storage, skip_render: ->(*) { true }, skip_link: ->(*) { false }
-    associated_resource :project, skip_render: ->(*) { true }, skip_link: ->(*) { false }
-    associated_resource :creator,
-                        v3_path: :user,
-                        representer: ::API::V3::Users::UserRepresenter,
-                        skip_render: ->(*) { true },
-                        skip_link: ->(*) { false }
-
-    def _type
-      'ProjectStorage'
-    end
+module EnsureConnectionPathHelper
+  def ensure_connection_path(project_storage)
+    oauth_clients_ensure_connection_path(
+      oauth_client_id: project_storage.storage.oauth_client.client_id,
+      storage_id: project_storage.storage.id,
+      destination_url: open_project_storage_url(
+        protocol: 'https',
+        project_id: project_storage.project.identifier,
+        id: project_storage.id
+      )
+    )
   end
 end
