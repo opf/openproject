@@ -31,7 +31,7 @@ module Grids
     self.table_name = :grid_widgets
 
     belongs_to :grid
-    serialize :options, Hash
+    serialize :options, type: Hash
 
     after_destroy :execute_after_destroy_strategy
 

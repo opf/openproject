@@ -33,7 +33,7 @@ module Query::Timelines
     enum timeline_zoom_level: { days: 0, weeks: 1, months: 2, quarters: 3, years: 4, auto: 5 }
     validates :timeline_zoom_level, inclusion: { in: timeline_zoom_levels.keys }
 
-    serialize :timeline_labels, Hash
+    serialize :timeline_labels, type: Hash
     validate :valid_timeline_labels
 
     def valid_timeline_labels
