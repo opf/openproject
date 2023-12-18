@@ -197,10 +197,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def find_shares
-    @shares = Member.includes(:roles)
-                    .references(:member_roles)
-                    .of_work_package(@work_package)
-                    .merge(MemberRole.only_non_inherited)
+    @shares = load_shares(load_query)
   end
 
   def find_project
@@ -208,11 +205,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def current_visible_member_count
-    @current_visible_member_count ||= Member
-      .joins(:member_roles)
-      .of_work_package(@work_package)
-      .merge(MemberRole.only_non_inherited)
-      .size
+    @current_visible_member_count ||= load_shares(load_query).size
   end
 
   def load_query
