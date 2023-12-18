@@ -26,19 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= content_tag(:div, data: {
-               controller: 'admin--custom-fields',
-               'application-target': 'dynamic',
-               'admin--custom-fields-format-value': @custom_field.field_format
-              }) do %>
-  <%= error_messages_for 'custom_field' %>
+<%= error_messages_for 'custom_field' %>
 
-  <%= labelled_tabular_form_for(@custom_field, **form_config) do |f| %>
-    <%= render partial: 'custom_fields/form', locals: { f: f, custom_field: @custom_field } %>
-    <% if @custom_field.new_record? %>
-      <%= hidden_field_tag 'type', @custom_field.type %>
-    <% end %>
-    <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<%= labelled_tabular_form_for(@custom_field, **form_config) do |f| %>
+  <%= render partial: 'custom_fields/form', locals: { f: f, custom_field: @custom_field } %>
+  <% if @custom_field.new_record? %>
+    <%= hidden_field_tag 'type', @custom_field.type %>
   <% end %>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
 

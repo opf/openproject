@@ -31,16 +31,16 @@ module CustomFields
     extend ActiveSupport::Concern
 
     included do
-      def index_path(params = {})
-        if @custom_field.type == 'ProjectCustomField'
+      def index_path(custom_field, params = {})
+        if custom_field.type == 'ProjectCustomField'
           admin_settings_project_custom_fields_path(**params)
         else
           custom_fields_path(**params)
         end
       end
 
-      def edit_path(params = {})
-        if @custom_field.type == 'ProjectCustomField'
+      def edit_path(custom_field, params = {})
+        if custom_field.type == 'ProjectCustomField'
           admin_settings_project_custom_field_path(**params)
         else
           edit_custom_field_path(**params)
@@ -55,7 +55,7 @@ module CustomFields
         if call.success?
           flash[:notice] = t(:notice_successful_create)
           call_hook(:controller_custom_fields_new_after_save, custom_field: call.result)
-          redirect_to index_path(tab: call.result.class.name)
+          redirect_to index_path(call.result, tab: call.result.class.name)
         else
           @custom_field = call.result || new_custom_field
           render action: 'new'
@@ -74,7 +74,7 @@ module CustomFields
         if call.success?
           flash[:notice] = t(:notice_successful_update)
           call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
-          redirect_back_or_default(edit_path(id: @custom_field.id))
+          redirect_back_or_default(edit_path(@custom_field, id: @custom_field.id))
         else
           render action: 'edit'
         end
@@ -98,7 +98,7 @@ module CustomFields
         rescue StandardError
           flash[:error] = I18n.t(:error_can_not_delete_custom_field)
         end
-        redirect_to index_path(tab: @custom_field.class.name)
+        redirect_to index_path(@custom_field, tab: @custom_field.class.name)
       end
 
       def delete_option
@@ -112,7 +112,7 @@ module CustomFields
           flash[:error] = @custom_option.errors.full_messages
         end
 
-        redirect_to edit_path(id: @custom_field.id)
+        redirect_to edit_path(@custom_field, id: @custom_field.id)
       end
 
       def new_custom_field
