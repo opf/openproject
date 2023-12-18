@@ -196,7 +196,7 @@ In OpenProject, you can choose from several integrations, such as the [Excel syn
 
 ### Meetings
 
-In OpenProject Software, Meetings is defined as a [module](#module) that allows the organization of meetings. The module has to be activated in the [project settings](#project-settings) by a project admin in order to be displayed in the side navigation. [See our user guide for more information on Meeting management in OpenProject](https://www.openproject.org/docs/user-guide/meetings/)
+In OpenProject Software, Meetings is defined as a [module](#module) that allows the organization of meetings. The module has to be activated in the [project settings](#project-settings) by a project admin in order to be displayed in the side navigation. Since the release of OpenProject 13.1, you can choose between the previously used classic meetings and the new dynamic meetings. [See our user guide for more information on Meeting management in OpenProject](https://www.openproject.org/docs/user-guide/meetings/)
 
 ### Member
 
