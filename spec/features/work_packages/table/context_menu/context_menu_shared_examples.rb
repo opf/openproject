@@ -60,13 +60,29 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
     wp_timeline.expect_timeline!(open: false)
 
     open_context_menu.call
-    menu.expect_no_options 'Add predecessor', 'Add follower'
+    menu.expect_no_options 'Add predecessor', 'Add follower, Show relations'
 
     # Copy to other project
     open_context_menu.call
     menu.choose('Copy to other project')
     expect(page).to have_selector('h2', text: I18n.t(:button_copy))
     expect(page).to have_selector('a.work_package', text: "##{work_package.id}")
+  end
+
+  it 'shows extra timeline actions when toggling timeline' do
+    open_context_menu.call
+    # Open timeline
+    wp_timeline.toggle_timeline
+    wp_timeline.expect_timeline!(open: true)
+
+    # Open context menu
+    menu.expect_closed
+    menu.open_for(wp_timeline)
+    menu.expect_options ['Add predecessor', 'Add follower', 'Show relations']
+
+    # Shows relations tab
+    menu.choose('Show relations')
+    expect(page).to have_current_path /details\/#{wp_timeline.id}\/relations/
   end
 
   describe 'creating work packages' do
