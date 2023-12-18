@@ -87,7 +87,15 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call(role_ids: find_role_ids(params[:role_ids]))
 
-    respond_with_update_permission_button
+    find_shares
+
+    if @shares.empty?
+      respond_with_replace_modal
+    elsif @shares.include?(@share)
+      respond_with_update_permission_button
+    else
+      respond_with_remove_share
+    end
   end
 
   def destroy
