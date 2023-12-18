@@ -88,6 +88,11 @@ module Pages
                                       visible: :hidden)
       end
 
+      def expect_gantt_button(disabled: false)
+        expect(page).to have_selector("button#{disabled ? '[disabled]' : ''}",
+                                      text: 'Open as Gantt view')
+      end
+
       def filter_by_active(value)
         set_filter('active',
                    'Active',
@@ -182,15 +187,15 @@ module Pages
 
       def open_filters
         retry_block do
-          click_button('Show/hide filters')
+          page.find('[data-test-selector="project-filter-toggle"]').click
           page.find_field('Add filter', visible: true)
         end
       end
 
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
-        page.within('.menu-drop-down-container') do
-          click_link(item)
+        page.within('.ActionListWrap') do
+          click(item)
         end
       end
 
@@ -218,9 +223,7 @@ module Pages
       end
 
       def navigate_to_new_project_page_from_toolbar_items
-        within '.toolbar-items' do
-          click_on 'New project'
-        end
+        find('[data-test-selector="project-new-button"]').click
       end
 
       private

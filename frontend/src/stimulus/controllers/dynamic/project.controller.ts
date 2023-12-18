@@ -71,9 +71,31 @@ export default class ProjectController extends Controller {
   declare readonly singleDayTargets:HTMLInputElement[];
   declare readonly simpleValueTargets:HTMLInputElement[];
 
-  toggleFilterForm() {
-    this.filterFormToggleTarget.classList.toggle('-active');
-    this.filterFormTarget.classList.toggle('-expanded');
+  static values = {
+    displayFilters: { type: Boolean, default: false },
+  };
+
+  declare displayFiltersValue:boolean;
+
+  toggleDisplayFilters() {
+    this.displayFiltersValue = !this.displayFiltersValue;
+  }
+
+  displayFiltersValueChanged() {
+    this.toggleButtonActive();
+    this.toggleFilterFormVisible();
+  }
+
+  toggleButtonActive() {
+    if (this.displayFiltersValue) {
+      this.filterFormToggleTarget.setAttribute('aria-disabled', 'true');
+    } else {
+      this.filterFormToggleTarget.removeAttribute('aria-disabled');
+    }
+  }
+
+  toggleFilterFormVisible() {
+    this.filterFormTarget.classList.toggle('-expanded', this.displayFiltersValue);
   }
 
   toggleMultiSelect({ params: { filterName } }:{ params:{ filterName:string } }) {

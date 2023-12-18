@@ -1,6 +1,6 @@
 <%= form_tag({},
              method: :get,
-             class: "project-filters #{show_filters_section? ? '-expanded' : ''}",
+             class: "project-filters",
              data: {
                'project-target': 'filterForm',
                action: 'submit->project#sendForm:prevent'
@@ -12,7 +12,7 @@
        data-action="project#toggleFilterForm"></a>
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="advanced-filters--filters">
-      <% allowed_filters(query).each do |filter| %>
+      <% allowed_filters.each do |filter| %>
         <% filter_active = query.find_active_filter(filter.name).present? %>
         <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
 
@@ -65,7 +65,7 @@
                class="filter_rem"
                data-action="click->project#removeFilter"
                data-project-filter-name-param="<%= filter.name %>">
-              <%= op_icon("icon-close advanced-filters--remove-filter-icon", title: I18n.t('js.button_delete')) %>
+              <%= helpers.op_icon("icon-close advanced-filters--remove-filter-icon", title: I18n.t('js.button_delete')) %>
             </a>
           </div>
         </li>
@@ -77,7 +77,7 @@
       <li class="advanced-filters--add-filter">
         <!-- Add filters -->
         <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label ng-binding">
-          <%= op_icon("icon-add icon4") %>
+          <%= helpers.op_icon("icon-add icon4") %>
           <%= t(:label_filter_add) %>:
         </label>
         <label for="add_filter_select" class="hidden-for-sighted ng-binding">
@@ -89,10 +89,10 @@
         <div class="advanced-filters--add-filter-value">
           <%= select_tag 'add_filter_select',
                          options_from_collection_for_select(
-                             allowed_filters(query),
-                             :name,
-                             :human_name,
-                             disabled: query.filters.map(&:name)
+                           allowed_filters,
+                           :name,
+                           :human_name,
+                           disabled: query.filters.map(&:name)
                          ),
                          prompt: t(:actionview_instancetag_blank_option),
                          class: 'advanced-filters--select',
@@ -110,12 +110,12 @@
     </ul>
     <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)%>
       <%=
-      angular_component_tag 'op-enterprise-banner',
-                            inputs: {
-                              collapsible: true,
-                              textMessage: t('ee.upsale.project_filters.description_html'),
-                              moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
-                            }
+        helpers.angular_component_tag 'op-enterprise-banner',
+                                      inputs: {
+                                        collapsible: true,
+                                        textMessage: t('ee.upsale.project_filters.description_html'),
+                                        moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
+                                      }
       %>
     <% end %>
   </fieldset>

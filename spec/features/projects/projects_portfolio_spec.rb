@@ -53,7 +53,7 @@ RSpec.describe 'Projects index page',
       projects_page.open_filters
       projects_page.filter_by_active('yes')
 
-      expect(page).to have_selector('.button.-disabled', text: 'Open as Gantt view', wait: 10)
+      projects_page.expect_gantt_button(disabled: true)
     end
   end
 
@@ -63,7 +63,7 @@ RSpec.describe 'Projects index page',
     it 'disables the button' do
       visit projects_path
 
-      expect(page).to have_selector('.button.-disabled', text: 'Open as Gantt view')
+      projects_page.expect_gantt_button(disabled: true)
     end
   end
 
