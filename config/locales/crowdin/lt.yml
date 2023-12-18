@@ -205,7 +205,7 @@ lt:
       editable: "Leisti keisti lauką patiems naudotojams."
       visible: "Padaryti lauką matomu visiems naudotojams (ne administratoriams) projekto apžvalgoje ir rodomą projekto detalių valdiklyje Projekto apžvalgoje."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        Leisi naudoti savo lauką darbo paketų vaizdų filtruose. Pastebėtina, kad globaliuose vaizduose matysis savi laukai, kuriuose pažymėta „Visiems projektams“.
     tab:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
@@ -3122,7 +3122,7 @@ lt:
       warning_user_limit_reached_admin: >
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       warning_no_selected_user: "Prašome parinkti naudotjus, su kuriais norite dalintis šiuo darbo paketu"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "Naudotojas %{user} yra užrakintas, todėl su juo negalima bendrinti"
       user_details:
         locked: "Užrakintas naudotojas"
         invited: "Pakvietimas išsiųstas. "
