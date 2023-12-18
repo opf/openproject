@@ -12,7 +12,20 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
       end
     else
       options.add_argument('--window-size=1920,1080')
-      options.add_argument('--headless=new')
+      # Our tests are not that stable with the new headless mode, but since
+      # Chrome 120 the old headless mode has browser name
+      # "chrome-headless-shell". This name is not recognized by the current
+      # selenium-webdriver and so some extensions like `execute_cdp` are
+      # missing. This wil be fixed in next selenium-webdriver version. See
+      # https://github.com/SeleniumHQ/selenium/pull/13271 for more information.
+      #
+      # In the meantime, the :chrome_headless_new metadata allows activating the
+      # new headless for tests that need it.
+      if RSpec.current_example.metadata[:chrome_headless_new]
+        options.add_argument('--headless=new')
+      else
+        options.add_argument('--headless=old')
+      end
     end
 
     options.add_argument('--no-sandbox')
