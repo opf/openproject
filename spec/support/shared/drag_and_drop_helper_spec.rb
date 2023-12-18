@@ -63,7 +63,7 @@ def drag_n_drop_element(from:, to:, offset_x: nil, offset_y: nil)
 end
 
 def drag_by_pixel(element:, by_x:, by_y:)
-  scroll_to_element(element)
+  scroll_to_element(element, block: :center)
 
   page
     .driver
