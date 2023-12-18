@@ -134,7 +134,7 @@ module Redmine
 
           def searchable_projects_condition
             projects = if searchable_options[:permission].nil?
-                         Project.visible_by(User.current)
+                         Project.visible(User.current)
                        else
                          Project.allowed_to(User.current, searchable_options[:permission])
                        end

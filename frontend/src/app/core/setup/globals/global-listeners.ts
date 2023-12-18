@@ -63,6 +63,12 @@ export function initializeGlobalListeners():void {
         return;
       }
 
+      // Avoid opening new tab when clicking links while editing in ckeditor
+      if (linkElement.classList.contains('ck-link_selected')) {
+        evt.preventDefault();
+        return;
+      }
+
       const callbacks = [
         openExternalLinksInNewTab,
         performAnchorHijacking,
