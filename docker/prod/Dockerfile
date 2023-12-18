@@ -15,7 +15,7 @@ WORKDIR /app
 
 RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 
-COPY Gemfile Gemfile.modules Gemfile.lock ./
+COPY Gemfile Gemfile.modules Gemfile.lock .ruby-version ./
 COPY modules ./modules
 RUN bundle install
 
@@ -174,8 +174,7 @@ RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
 RUN ln -s /app/docker/prod/setup/.irbrc /home/$APP_USER/
 RUN ln -s /app/docker/prod/setup/.irbrc /root/
 
-COPY Gemfile ./Gemfile
-COPY Gemfile.* ./
+COPY Gemfile Gemfile.* .ruby-version ./
 COPY modules ./modules
 COPY vendor ./vendor
 # some gemspec files of plugins require files in there, notably OpenProject::Version
