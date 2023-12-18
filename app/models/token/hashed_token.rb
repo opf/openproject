@@ -46,7 +46,7 @@ module Token
       # Use a fixed salt for hashing token values.
       # We still want to be able to index the hash value for fast lookups,
       # so we need to determine the hash without knowing the associated user (and thus its salt) first.
-      Digest::SHA256.hexdigest(input + Rails.application.secrets.fetch(:secret_key_base))
+      Digest::SHA256.hexdigest(input + Rails.application.credentials.fetch(:secret_key_base))
     end
     delegate :hash_function, to: :class
 
