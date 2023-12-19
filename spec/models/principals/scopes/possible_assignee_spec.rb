@@ -29,87 +29,95 @@
 require 'spec_helper'
 
 RSpec.describe Principals::Scopes::PossibleAssignee do
-  let(:project) { create(:project) }
-  let(:other_project) { create(:project) }
-  let(:role_assignable) { true }
-  let(:role) { create(:project_role, permissions: (role_assignable ? [:work_package_assigned] : [])) }
-  let(:user_status) { :active }
-  let!(:member_user) do
-    create(:user,
-           status: user_status,
-           member_with_roles: { project => role })
-  end
-  let!(:member_placeholder_user) do
-    create(:placeholder_user, member_with_roles: { project => role })
-  end
-  let!(:member_group) do
-    create(:group, member_with_roles: { project => role })
-  end
-  let!(:other_project_member_user) do
-    create(:group, member_with_roles: { other_project => role })
-  end
+  shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
+
+  shared_let(:assignable_project_role) { create(:project_role, permissions: [:work_package_assigned]) }
+  shared_let(:non_assignable_project_role) { create(:project_role, permissions: []) }
 
   describe '.possible_assignee' do
-    subject { Principal.possible_assignee(project) }
+    context 'when providing Project resources' do
+      subject { Principal.possible_assignee(project) }
 
-    context 'with the role being assignable' do
-      context 'with the user status being active' do
-        it 'returns non locked users, groups and placeholder users that are members' do
-          expect(subject)
-            .to contain_exactly(member_user, member_placeholder_user, member_group)
+      let(:user_status) { :active }
+      let!(:member_user) do
+        create(:user,
+               status: user_status,
+               member_with_roles: { project => role })
+      end
+      let!(:member_placeholder_user) do
+        create(:placeholder_user, member_with_roles: { project => role })
+      end
+      let!(:member_group) do
+        create(:group, member_with_roles: { project => role })
+      end
+      let!(:other_project_member_user) do
+        create(:group, member_with_roles: { other_project => role })
+      end
+
+      context 'with the role being assignable' do
+        let(:role) { assignable_project_role }
+
+        context 'with the user status being active' do
+          it 'returns non locked users, groups and placeholder users that are members' do
+            expect(subject)
+              .to contain_exactly(member_user, member_placeholder_user, member_group)
+          end
+        end
+
+        context 'with the user status being registered' do
+          let(:user_status) { :registered }
+
+          it 'returns non locked users, groups and placeholder users that are members' do
+            expect(subject)
+              .to contain_exactly(member_user, member_placeholder_user, member_group)
+          end
+        end
+
+        context 'with the user status being invited' do
+          let(:user_status) { :invited }
+
+          it 'returns non locked users, groups and placeholder users that are members' do
+            expect(subject)
+              .to contain_exactly(member_user, member_placeholder_user, member_group)
+          end
+        end
+
+        context 'with the user status being locked' do
+          let(:user_status) { :locked }
+
+          it 'returns non locked users, groups and placeholder users that are members' do
+            expect(subject)
+              .to contain_exactly(member_placeholder_user, member_group)
+          end
         end
       end
 
-      context 'with the user status being registered' do
-        let(:user_status) { :registered }
+      context 'with the role not being assignable' do
+        let(:role) { non_assignable_project_role }
 
-        it 'returns non locked users, groups and placeholder users that are members' do
+        it 'returns nothing' do
           expect(subject)
-            .to contain_exactly(member_user, member_placeholder_user, member_group)
+            .to be_empty
         end
       end
 
-      context 'with the user status being invited' do
-        let(:user_status) { :invited }
+      context 'when asking for multiple projects' do
+        subject { Principal.possible_assignee([project, other_project]) }
 
-        it 'returns non locked users, groups and placeholder users that are members' do
-          expect(subject)
-            .to contain_exactly(member_user, member_placeholder_user, member_group)
+        before do
+          create(:member,
+                 principal: member_user,
+                 project: other_project,
+                 roles: [role])
         end
-      end
 
-      context 'with the user status being locked' do
-        let(:user_status) { :locked }
+        let(:role) { assignable_project_role }
 
-        it 'returns non locked users, groups and placeholder users that are members' do
+        it 'returns users assignable in all of the provided projects (intersection)' do
           expect(subject)
-            .to contain_exactly(member_placeholder_user, member_group)
+            .to contain_exactly(member_user)
         end
-      end
-    end
-
-    context 'with the role not being assignable' do
-      let(:role_assignable) { false }
-
-      it 'returns nothing' do
-        expect(subject)
-          .to be_empty
-      end
-    end
-
-    context 'when asking for multiple projects' do
-      subject { Principal.possible_assignee([project, other_project]) }
-
-      before do
-        create(:member,
-               principal: member_user,
-               project: other_project,
-               roles: [role])
-      end
-
-      it 'returns users assignable in all of the provided projects (intersection)' do
-        expect(subject)
-          .to contain_exactly(member_user)
       end
     end
   end
