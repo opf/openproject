@@ -146,7 +146,7 @@ es:
           Por favor, copie este valor a una nueva URI de redirección Web bajo URIs de redirección.
         missing_client_id_for_redirect_uri: "Por favor, rellene los valores de OAuth para generar una URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+          Copie el Directory (tenant) ID de la aplicación deseada y la aplicación registros en %{application_link_text}.
         tenant_id_placeholder: "Nombre o UUID"
         drive_id: "Por favor, copie el ID de la unidad deseada siguiendo los pasos en %{drive_id_link_text}."
         documentation_link_text: "Documentación de almacenamientos de archivos OneDrive/SharePoint"

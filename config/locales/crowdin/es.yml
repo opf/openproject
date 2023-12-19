@@ -398,8 +398,8 @@ es:
     sharing:
       missing_workflow_waring:
         title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        message: "Ningún flujo de trabajo está configurado para el rol 'Editor de paquetes de trabajo'. Sin un flujo de trabajo, el usuario compartido no puede alterar el estado del paquete de trabajo. Los flujos de trabajo pueden ser copiados. Seleccione un tipo de base (por ejemplo, 'Tarea') y el rol de base (por ejemplo, 'Miembro'). Luego seleccione los tipos de destino. Para empezar, puede seleccionar todos los tipos como objetivos. Por último, seleccione el papel de \"Editor de paquetes de trabajo\" como objetivo y presione \"Copiar\". Después de haber creado así los valores predeterminados, ajuste los flujos de trabajo como lo hace para cualquier otro rol."
+        link_message: "Configure un flujo de trabajo en la administración."
     summary:
       reports:
         category:
@@ -2218,9 +2218,9 @@ es:
     sharing:
       work_packages:
         allowed_actions: "Puede %{allowed_actions} este paquete de trabajo. Esto puede cambiar dependiendo del rol y los permisos de su proyecto."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Para acceder a este paquete de trabajo necesitará crear y activar una cuenta en %{instance}. "
         open_work_package: "Abrir paquete de trabajo"
-        subject: "Work package #%{id} was shared with you"
+        subject: "Paquete de trabajo #%{id} fue compartido contigo"
         enterprise_text: "Compartir paquetes de trabajo con usuarios que no son miembros del proyecto."
         summary:
           user: "%{user} ha compartido un paquete de trabajo contigo con permisos de %{role_rights}"
