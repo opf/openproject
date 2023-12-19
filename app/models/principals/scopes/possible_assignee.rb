@@ -39,19 +39,40 @@ module Principals::Scopes
       # * PlaceholderUser
       # * Group
       # User instances need to be non locked (status).
-      # Only principals with a role marked as assignable in the project are returned.
-      # If more than one project is given, the principals need to be assignable in all of the projects (intersection).
-      # @project [Project, [Project]] The project for which eligible candidates are to be searched
+      # Only principals with a role marked as assignable in the project or work package are returned.
+      # If more than one project or work package is given, the principals need to be assignable in all of the
+      # resources (intersection).
+      # @work_package_or_project [WorkPackage, [WorkPackage], Project, [Project]] The resource for which
+      #   eligible candidates are to be searched
       # @return [ActiveRecord::Relation] A scope of eligible candidates
-      def possible_assignee(project)
-        where(
-          id: Member
-              .assignable
-              .of_project(project)
-              .group('user_id')
-              .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).size])
-              .select('user_id')
-        )
+      def possible_assignee(work_package_or_project)
+        if resource_class(work_package_or_project) == WorkPackage
+          where('1=0')
+        elsif resource_class(work_package_or_project) == Project
+          project = work_package_or_project
+          where(
+            id: Member
+                  .assignable
+                  .of_project(project)
+                  .group('user_id')
+                  .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).size])
+                  .select('user_id')
+          )
+        else
+          raise ArgumentError, 'The provided resources must be either WorkPackages or Projects.'
+        end
+      end
+
+      private
+
+      def resource_class(work_package_or_project)
+        work_package_or_project = Array(work_package_or_project)
+
+        if work_package_or_project.all? { _1.instance_of?(WorkPackage) }
+          WorkPackage
+        elsif work_package_or_project.all? { _1.instance_of?(Project) }
+          Project
+        end
       end
     end
   end

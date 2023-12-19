@@ -32,8 +32,13 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
   shared_let(:project) { create(:project) }
   shared_let(:other_project) { create(:project) }
 
+  shared_let(:work_package) { create(:work_package, project:) }
+
   shared_let(:assignable_project_role) { create(:project_role, permissions: [:work_package_assigned]) }
   shared_let(:non_assignable_project_role) { create(:project_role, permissions: []) }
+
+  shared_let(:assignable_work_package_role) { create(:comment_work_package_role) }
+  shared_let(:non_assignable_work_package_role) { create(:view_work_package_role) }
 
   describe '.possible_assignee' do
     context 'when providing Project resources' do
@@ -118,6 +123,37 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
           expect(subject)
             .to contain_exactly(member_user)
         end
+      end
+    end
+
+    context 'when providing WorkPackage resources' do
+      subject { Principal.possible_assignee(work_package) }
+
+      let!(:member_user) do
+        create(:user,
+               status: user_status,
+               member_with_roles: { work_package => role })
+      end
+
+      context 'with the role being assignable' do
+        let(:role) { assignable_work_package_role }
+
+        context 'and the user status being active' do
+          let(:user_status) { :active }
+
+          it 'returns non locked users, groups and placeholder users that are members' do
+            expect(subject)
+              .to be_empty
+          end
+        end
+      end
+    end
+
+    context 'when providing a resource other than a Project or WorkPackage' do
+      subject { Principal.possible_assignee(create(:meeting)) }
+
+      it 'raises an ArgumentError' do
+        expect { subject }.to raise_error(ArgumentError)
       end
     end
   end
