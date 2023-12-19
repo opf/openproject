@@ -141,15 +141,15 @@ lt:
         oauth_client_id: >
           Kopijuoti kliento id iš Azure portalo. Tai reikalinga nukreipimo URI generavimui.
         oauth_client_secret: >
-          In case there is no application client secret under Client credentials, please create a new one.
+          Jei su kliento duomenimis nėra aplikacjos paslapties, prašome tokią sukurti.
         oauth_client_redirect_uri: >
           Prašome nukopijuoti šią reikšmę į naują Tinklo peradresavimo URI prie jūsų Peradresavimo URI.
         missing_client_id_for_redirect_uri: "Prašome užpildyti OAuth reikšmes, kad sugeneruotumėte URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+          Prašome nukopijuoti direktorijos (tiekėjo) ID iš norimos aplikacijos ir App registracijas %{application_link_text}.
         tenant_id_placeholder: "Vardas ar UUID"
-        drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
-        documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        drive_id: "Prašome nukopijuokite ID iš norimo disko sekdami žingsnius %{drive_id_link_text}."
+        documentation_link_text: "OneDrive/SharePoint failų saugyklų dokumentacija"
         copy_redirect_uri: "Kopijuoti peradresavimo ID"
     help_texts:
       project_folder: >
