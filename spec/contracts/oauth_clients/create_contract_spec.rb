@@ -72,6 +72,16 @@ RSpec.describe OAuthClients::CreateContract do
       end
     end
 
+    context 'with blank client ID' do
+      let(:client_id) { '' }
+
+      it 'is invalid, includes `ID` in error message' do
+        expect(contract).not_to be_valid
+
+        expect(contract.errors[:client_id]).to eq(["ID can't be blank."])
+      end
+    end
+
     context 'with integration (polymorphic attribute) linked' do
       let(:integration) { create(:nextcloud_storage) }
 

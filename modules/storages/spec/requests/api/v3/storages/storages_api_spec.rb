@@ -492,7 +492,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
         end
 
         it_behaves_like 'constraint violation' do
-          let(:message) { 'Client can\'t be blank.' }
+          let(:message) { 'Client ID can\'t be blank.' }
         end
       end
     end
