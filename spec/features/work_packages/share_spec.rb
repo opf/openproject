@@ -61,6 +61,7 @@ RSpec.describe 'Work package sharing',
     create(:project_role,
            permissions: %i(view_work_packages
                            view_shared_work_packages
+                           manage_members
                            share_work_packages))
   end
   let(:work_package) do
@@ -75,6 +76,7 @@ RSpec.describe 'Work package sharing',
   end
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:members_page) { Pages::Members.new project.identifier }
 
   current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
 
@@ -249,6 +251,32 @@ RSpec.describe 'Work package sharing',
         share_modal.expect_not_shared_with(non_shared_project_user)
 
         share_modal.expect_shared_count_of(7)
+      end
+
+      visit project_members_path(project)
+
+      aggregate_failures 'Observing the shared members with view permission' do
+        members_page.click_menu_item 'View'
+        expect(members_page).to have_user view_user.name
+        expect(members_page).not_to have_user gilfoyle.name
+        expect(members_page).not_to have_user comment_user.name
+        expect(members_page).not_to have_user dinesh.name
+      end
+
+      aggregate_failures 'Observing the shared members with comment permission' do
+        members_page.click_menu_item 'Comment'
+        expect(members_page).to have_user gilfoyle.name
+        expect(members_page).to have_user comment_user.name
+        expect(members_page).not_to have_user view_user.name
+        expect(members_page).not_to have_user dinesh.name
+      end
+
+      aggregate_failures 'Observing the shared members with edit permission' do
+        members_page.click_menu_item 'Edit'
+        expect(members_page).to have_user dinesh.name
+        expect(members_page).not_to have_user gilfoyle.name
+        expect(members_page).not_to have_user comment_user.name
+        expect(members_page).not_to have_user view_user.name
       end
     end
 

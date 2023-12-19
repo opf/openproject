@@ -103,7 +103,7 @@ module Pages
 
     def has_added_user?(name, visible: true, css: "tr")
       has_text?("Added #{name} to the project") and ((not visible) or
-        has_css?(css, text: user_name_to_text(name)))
+        has_css?(css, text: name))
     end
 
     def has_added_group?(name, visible: true)
@@ -120,7 +120,7 @@ module Pages
     #                                   is why there must be only an edit and no delete button.
     def has_user?(name, roles: nil, group_membership: nil, group: false)
       css = group ? "tr.group" : "tr"
-      has_selector?(css, text: user_name_to_text(name)) &&
+      has_selector?(css, text: name) &&
         (roles.nil? || has_roles?(name, roles, group:)) &&
         (group_membership.nil? || group_membership == has_group_membership?(name))
     end
@@ -152,12 +152,6 @@ module Pages
         end
 
       nodes.map(&:text)
-    end
-
-    def user_name_to_text(name)
-      # the members table shows last name and first name separately
-      # let's just look for the last name
-      name.split(" ").last
     end
 
     def edit_user!(name, add_roles: [], remove_roles: [])

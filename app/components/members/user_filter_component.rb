@@ -62,7 +62,7 @@ module Members
     def status_members_query(status)
       params = {
         project_id: project.id,
-        status:
+        status:,
       }
 
       self.class.filter(params)
@@ -111,9 +111,15 @@ module Members
 
       protected
 
+      def filter_shares(query, role_id)
+        return unless role_id > 0
+
+        query.where(:role_id, '=', role_id)
+      end
+
       def apply_filters(params, query)
         super(params, query)
-        query.where(:only_project_member, '=', 't')
+        filter_shares(query, params[:shared_role_id].to_i) if params.key?(:shared_role_id)
 
         query
       end
