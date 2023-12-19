@@ -36,13 +36,29 @@ module Members
 
     def first_level_menu_items
       [{
-        header: nil,
-        children: [
-          { title: I18n.t('members.menu.all'), href: '' }, # TODO
-          { title: I18n.t('members.menu.locked'), href: '' }, # TODO
-          { title: I18n.t('members.menu.invited'), href: '' } # TODO
-        ]
-      }]
+         header: nil,
+         children: user_status_options
+       }]
+    end
+
+    def user_status_options
+      [
+        {
+          title: I18n.t('members.menu.all'),
+          href: project_members_path,
+          selected: active_filter_count == 0
+        },
+        {
+          title: I18n.t('members.menu.locked'),
+          href: project_members_path(status: :locked),
+          selected: selected?(:status, :locked)
+        },
+        {
+          title: I18n.t('members.menu.invited'),
+          href: project_members_path(status: :invited),
+          selected: selected?(:status, :invited)
+        }
+      ]
     end
 
     def nested_menu_items
@@ -72,7 +88,25 @@ module Members
         .groups
         .order(lastname: :asc)
         .pluck(:id, :lastname)
-        .map { |id, name| { title: name, href: project_members_path(group_id: id) } }
+        .map { |id, name| group_entry(id, name) }
+    end
+
+    def group_entry(id, name)
+      {
+        title: name,
+        href: project_members_path(group_id: id),
+        selected: selected?(:group_id, id)
+      }
+    end
+
+    def selected?(filter_key, value)
+      return false if active_filter_count > 1
+
+      params[filter_key] == value.to_s
+    end
+
+    def active_filter_count
+      @active_filter_count ||= (params.keys & Members::UserFilterComponent.filter_param_keys.map(&:to_s)).count
     end
   end
 end

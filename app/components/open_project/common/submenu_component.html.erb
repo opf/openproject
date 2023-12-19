@@ -6,7 +6,8 @@
         <ul class="op-sidemenu--items">
           <% top_level_sidebar_menu_items.first[:children].each do |menu_item| %>
             <li class="op-sidemenu--item">
-              <a class="op-sidemenu--item-action" href="<%= menu_item[:href] %>">
+              <% selected = menu_item[:selected] ? 'selected' : '' %>
+              <a class="op-sidemenu--item-action <%= selected %>" href="<%= menu_item[:href] %>">
                 <%= menu_item[:title] %>
               </a>
             </li>
@@ -37,7 +38,8 @@
               data-menus--expandable-sidemenu-target="container">
             <% menu_item[:children].each do |child_item| %>
               <li class="op-sidemenu--item">
-                <a class="op-sidemenu--item-action" href="<%= child_item[:href] %>">
+                <% selected = child_item[:selected] ? 'selected' : '' %>
+                <a class="op-sidemenu--item-action <%= selected %>" href="<%= child_item[:href] %>">
                   <%= child_item[:title] %>
                 </a>
               </li>
