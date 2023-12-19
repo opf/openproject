@@ -49,15 +49,7 @@ module Principals::Scopes
         if resource_class(work_package_or_project) == WorkPackage
           on_work_package_where_clause(work_package_or_project)
         elsif resource_class(work_package_or_project) == Project
-          project = work_package_or_project
-          where(
-            id: Member
-                  .assignable
-                  .of_project(project)
-                  .group('user_id')
-                  .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).size])
-                  .select('user_id')
-          )
+          on_project_where_clause(work_package_or_project)
         else
           raise ArgumentError, 'The provided resources must be either WorkPackages or Projects.'
         end
@@ -82,6 +74,17 @@ module Principals::Scopes
                 .of_work_package(work_package)
                 .group('user_id')
                 .having(["COUNT(DISTINCT(project_id, entity_type, entity_id, user_id)) = ?", Array(work_package).size])
+                .select('user_id')
+        )
+      end
+
+      def on_project_where_clause(project)
+        where(
+          id: Member
+                .assignable
+                .of_project(project)
+                .group('user_id')
+                .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).size])
                 .select('user_id')
         )
       end
