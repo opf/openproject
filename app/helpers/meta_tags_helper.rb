@@ -42,6 +42,7 @@ module MetaTagsHelper
         data: {
           locale: I18n.locale,
           defaultLocale: I18n.default_locale,
+          instanceLocale: Setting.default_language,
           firstWeekOfYear: locale_first_week_of_year,
           firstDayOfWeek: locale_first_day_of_week,
           environment: Rails.env,

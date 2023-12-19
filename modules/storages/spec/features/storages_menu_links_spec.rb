@@ -32,6 +32,8 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe 'Storage links in project menu', :js do
+  include EnsureConnectionPathHelper
+
   let!(:storage_configured_linked1) { create(:nextcloud_storage_configured, name: "Storage 1") }
   let!(:project_storage1) { create(:project_storage, project:, storage: storage_configured_linked1) }
   let!(:storage_configured_linked2) { create(:nextcloud_storage_configured, name: "Storage 2") }
@@ -48,24 +50,12 @@ RSpec.describe 'Storage links in project menu', :js do
     visit(project_path(project))
   end
 
-  def href(project_storage)
-    oauth_clients_ensure_connection_path(
-      oauth_client_id: project_storage.storage.oauth_client.client_id,
-      storage_id: project_storage.storage.id,
-      destination_url: open_project_storage_url(
-        protocol: 'https',
-        project_id: project_storage.project.identifier,
-        id: project_storage.id
-      )
-    )
-  end
-
   context 'if user has permission to see storage links' do
     it 'has links to enabled storages' do
       visit(project_path(id: project.id))
 
-      expect(page).to have_link(storage_configured_linked1.name, href: href(project_storage1))
-      expect(page).to have_link(storage_configured_linked2.name, href: href(project_storage2))
+      expect(page).to have_link(storage_configured_linked1.name, href: ensure_connection_path(project_storage1))
+      expect(page).to have_link(storage_configured_linked2.name, href: ensure_connection_path(project_storage2))
       expect(page).not_to have_link(storage_configured_unlinked.name)
       expect(page).not_to have_link(storage_unconfigured_linked.name)
     end
