@@ -180,9 +180,10 @@ class BaseContract < Disposable::Twin
 
   # Traverse ancestor hierarchy to collect contract information.
   # This allows to define attributes on a common base class of two or more contracts.
+  # Reverse merge is important to use the more specific overrides from subclasses.
   def collect_ancestor_attributes(attribute_to_collect)
     combination_method, cleanup_method = if self.class.send(attribute_to_collect).is_a?(Hash)
-                                           %i[merge with_indifferent_access]
+                                           %i[reverse_merge! with_indifferent_access]
                                          else
                                            %i[concat uniq]
                                          end
@@ -198,6 +199,7 @@ class BaseContract < Disposable::Twin
     # similar object from the superclass, every call would alter the memoized object as an unwanted side effect.
     # Not only would that lead to the subclass now having all the attributes of the superclass,
     # but those attributes would also be duplicated so that performance suffers significantly.
+    # `dup` also enables usage of combination methods working in place, e.g. `reverse_merge!`
     attributes = klass.send(attribute_to_collect).dup
 
     while klass.superclass != ::BaseContract
@@ -246,8 +248,8 @@ class BaseContract < Disposable::Twin
       canonical_attribute = attribute.delete_suffix('_id')
 
       permissions = attribute_permissions[canonical_attribute] ||
-                    attribute_permissions["#{canonical_attribute}_id"] ||
-                    attribute_permissions[:default_permission]
+        attribute_permissions["#{canonical_attribute}_id"] ||
+        attribute_permissions[:default_permission]
 
       next unless permissions
 
