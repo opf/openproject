@@ -143,7 +143,7 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
 
           it 'returns non locked users, groups and placeholder users that are members' do
             expect(subject)
-              .to be_empty
+              .to contain_exactly(member_user)
           end
         end
       end
