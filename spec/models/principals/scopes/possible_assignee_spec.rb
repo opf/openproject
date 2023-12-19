@@ -171,6 +171,16 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
           end
         end
       end
+
+      context 'with the role not being assignable' do
+        let(:role) { non_assignable_work_package_role }
+        let(:user_status) { :active }
+
+        it 'returns nothing' do
+          expect(subject)
+            .to be_empty
+        end
+      end
     end
 
     context 'when providing a resource other than a Project or WorkPackage' do
