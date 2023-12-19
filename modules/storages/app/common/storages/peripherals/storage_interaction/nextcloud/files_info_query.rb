@@ -60,15 +60,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def files_info(file_ids, token)
-      httpx = HTTPX.with(headers:
-                           {
-                             'Authorization' => "Bearer #{token.access_token}",
-                             'Accept' => 'application/json',
-                             'Content-Type' => 'application/json',
-                             'OCS-APIRequest' => 'true'
-                           }
-                        )
-      response = httpx.post(Util.join_uri_path(@uri.to_s, FILES_INFO_PATH), json: { fileIds: file_ids })
+      response = Util
+                   .httpx
+                   .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
+                                    'Accept' => 'application/json',
+                                    'Content-Type' => 'application/json',
+                                    'OCS-APIRequest' => 'true' })
+                   .post(Util.join_uri_path(@uri.to_s, FILES_INFO_PATH),
+                         json: { fileIds: file_ids })
 
       case response.status
       when 200

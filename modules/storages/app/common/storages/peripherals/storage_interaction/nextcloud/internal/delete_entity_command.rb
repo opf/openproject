@@ -44,7 +44,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
       response = UTIL
                    .httpx
                    .basic_auth(@username, @password)
-                   .delete(UTIL.join_uri_path(@uri, "remote.php/dav/files",
+                   .delete(UTIL.join_uri_path(@uri,
+                                              "remote.php/dav/files",
                                               CGI.escapeURIComponent(@username),
                                               UTIL.escape_path(location)))
 

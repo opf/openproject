@@ -105,14 +105,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def storage_files(response)
       response.map do |xml|
-        a = Nokogiri::XML(xml)
-              .xpath('//d:response')
-              .to_a
-
-        parent, *files =
-        a.map do |file_element|
-          storage_file(file_element)
-        end
+        parent, *files = Nokogiri::XML(xml)
+                           .xpath('//d:response')
+                           .to_a
+                           .map { |file_element| storage_file(file_element) }
 
         ::Storages::StorageFiles.new(files, parent, ancestors(parent.location))
       end

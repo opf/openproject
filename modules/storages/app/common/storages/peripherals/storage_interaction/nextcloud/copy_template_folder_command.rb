@@ -79,9 +79,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def validate_destination
       ->(urls) do
-        request = Net::HTTP::Head.new(urls[:destination_url])
-        request.initialize_http_header Util.basic_auth_header(@username, @password)
-
         response = Util
                      .httpx
                      .basic_auth(@username, @password)
@@ -100,7 +97,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
     def copy_folder
       ->(urls) do
         response = Util
@@ -110,7 +106,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                               urls[:source_url],
                               headers: {
                                 'Destination' => urls[:destination_url],
-                                'Depth' => 'infinity',
+                                'Depth' => 'infinity'
                               })
 
         case response.status
@@ -127,7 +123,5 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

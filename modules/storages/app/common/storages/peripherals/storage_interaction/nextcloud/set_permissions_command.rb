@@ -81,7 +81,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       response = Util
                    .httpx
-                   .with(debug_level: 1, debug: $stdout)
                    .basic_auth(@username, @password)
                    .request(
                      "PROPPATCH",
