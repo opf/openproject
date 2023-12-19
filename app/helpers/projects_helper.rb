@@ -33,30 +33,6 @@ module ProjectsHelper
     params[:filters].present? && !params.key?(:hide_filters_section)
   end
 
-  def allowed_filters(query)
-    query
-      .available_filters
-      .select { |f| whitelisted_project_filter?(f) }
-      .sort_by(&:human_name)
-  end
-
-  def whitelisted_project_filter?(filter)
-    whitelist = [
-      Queries::Projects::Filters::ActiveFilter,
-      Queries::Projects::Filters::TemplatedFilter,
-      Queries::Projects::Filters::PublicFilter,
-      Queries::Projects::Filters::ProjectStatusFilter,
-      Queries::Projects::Filters::MemberOfFilter,
-      Queries::Projects::Filters::CreatedAtFilter,
-      Queries::Projects::Filters::LatestActivityAtFilter,
-      Queries::Projects::Filters::NameAndIdentifierFilter,
-      Queries::Projects::Filters::TypeFilter
-    ]
-    whitelist << Queries::Filters::Shared::CustomFields::Base if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-
-    whitelist.detect { |clazz| filter.is_a? clazz }
-  end
-
   def no_projects_result_box_params
     if User.current.allowed_globally?(:add_project)
       { action_url: new_project_path, display_action: true }
@@ -288,30 +264,6 @@ module ProjectsHelper
       Projects::CreateContract
     end.new(project, current_user)
        .assignable_parents
-  end
-
-  def gantt_portfolio_query_link(filtered_project_ids)
-    generator = ::Projects::GanttQueryGeneratorService.new(filtered_project_ids)
-    work_packages_path query_props: generator.call
-  end
-
-  def gantt_portfolio_project_ids(project_scope)
-    project_scope
-      .where(active: true)
-      .select(:id)
-      .uniq
-      .pluck(:id)
-  end
-
-  def gantt_portfolio_title
-    title = t('projects.index.open_as_gantt_title')
-
-    if current_user.admin?
-      title << ' '
-      title << t('projects.index.open_as_gantt_title_admin')
-    end
-
-    title
   end
 
   def short_project_description(project, length = 255)

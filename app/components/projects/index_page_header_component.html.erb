@@ -1,0 +1,100 @@
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { t(:label_project_plural) } %>
+
+  <% header.with_actions do %>
+    <% if current_user.allowed_globally?(:add_project) %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: new_project_path,
+              scheme: :primary,
+              size: :medium,
+              aria: { label: I18n.t(:label_project_new) },
+              mr: BUTTON_MARGIN_RIGHT,
+              data: { 'test-selector': 'project-new-button' }
+            )
+          ) do |button|
+            button.with_leading_visual_icon(icon: :plus)
+            Project.model_name.human
+          end
+      %>
+    <% end %>
+
+    <%= render(
+          Primer::Beta::IconButton.new(
+            icon: :filter,
+            size: :medium,
+            aria: { label: t(:label_filters_toggle) },
+            mr: BUTTON_MARGIN_RIGHT,
+            data: { 'project-target': 'filterFormToggle',
+                    'action': 'project#toggleDisplayFilters',
+                    'test-selector': 'project-filter-toggle' }
+          )
+        )
+    %>
+
+    <%= render(
+          Primer::Beta::Button.new(
+            tag: :a,
+            href: activities_path,
+            size: :medium,
+            type: :submit,
+            aria: { label: t(:label_overall_activity) },
+            mr: BUTTON_MARGIN_RIGHT
+          )
+        ) do
+          t(:label_overall_activity)
+        end
+    %>
+
+    <%= render(
+          Primer::Beta::Button.new(
+            tag: :a,
+            href: gantt_portfolio_query_link,
+            size: :medium,
+            disabled: gantt_portfolio_project_ids.empty?,
+            type: :submit,
+            aria: { label: t('projects.index.open_as_gantt') },
+            mr: BUTTON_MARGIN_RIGHT,
+            id: 'projects-index-open-as-gantt',
+            target: '_blank'
+          )
+        ) do |button|
+          button.with_leading_visual_icon(icon: 'op-view-timeline')
+          button.with_trailing_visual_icon(icon: 'link-external')
+          button.with_tooltip(text: gantt_portfolio_title)
+
+          t('projects.index.open_as_gantt')
+        end %>
+
+    <%= render(Primer::Alpha::ActionMenu.new) do |menu|
+      menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
+
+      if current_user.admin?
+        menu.with_item(
+          label: t('button_configure'),
+          href: admin_settings_projects_path,
+          content_arguments: { target: '_blank' }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :gear)
+        end
+      end
+
+      menu.with_item(
+        label: t('js.label_export'),
+        content_arguments: { 'data-show-dialog-id': 'project-export-dialog' }
+      ) do |item|
+        item.with_leading_visual_icon(icon: 'op-file-download')
+      end
+    end
+    %>
+  <% end %>
+<% end %>
+
+<%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
+                                     id: 'project-export-dialog')) do |d|
+  d.with_header(variant: :large)
+  d.with_body do
+    render partial: 'project_export_modal', locals: { query: query }
+  end
+end %>
