@@ -112,6 +112,10 @@ class IndividualPrincipalBaseFilterComponent < ApplicationComponent
     defined?(groups) && groups.present?
   end
 
+  def has_shares?
+    false
+  end
+
   def params
     model
   end

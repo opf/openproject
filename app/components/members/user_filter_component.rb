@@ -38,6 +38,14 @@ module Members
       true
     end
 
+    def has_shares?
+      true
+    end
+
+    def shares
+      @shares ||= self.class.share_options
+    end
+
     ##
     # Adapts the user filter counts to count members as opposed to users.
     def extra_user_status_options
@@ -67,6 +75,38 @@ module Members
     class << self
       def base_query
         Queries::Members::MemberQuery
+      end
+
+      def filter_param_keys
+        super + %i(shared_role_id)
+      end
+
+      def share_options
+        WorkPackageRole
+          .where(builtin: builtin_share_roles)
+          .order(builtin: :asc)
+          .map { |role| [mapped_shared_role_name(role), role.id] }
+      end
+
+      def builtin_share_roles
+        [
+          Role::BUILTIN_WORK_PACKAGE_VIEWER,
+          Role::BUILTIN_WORK_PACKAGE_COMMENTER,
+          Role::BUILTIN_WORK_PACKAGE_EDITOR
+        ].freeze
+      end
+
+      def mapped_shared_role_name(role)
+        case role.builtin
+        when Role::BUILTIN_WORK_PACKAGE_VIEWER
+          I18n.t('work_package.sharing.permissions.view')
+        when Role::BUILTIN_WORK_PACKAGE_COMMENTER
+          I18n.t('work_package.sharing.permissions.comment')
+        when Role::BUILTIN_WORK_PACKAGE_EDITOR
+          I18n.t('work_package.sharing.permissions.edit')
+        else
+          role.name
+        end
       end
 
       protected

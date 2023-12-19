@@ -78,12 +78,9 @@ module Members
     end
 
     def permission_menu_entries
-      # todo
-      [
-        { title: I18n.t('work_package.sharing.permissions.view'), href: '' },
-        { title: I18n.t('work_package.sharing.permissions.comment'), href: '' },
-        { title: I18n.t('work_package.sharing.permissions.edit'), href: '' }
-      ]
+      Members::UserFilterComponent
+        .share_options
+        .map { |name, id| menu_item(:shared_role_id, id, name) }
     end
 
     def project_group_entries
