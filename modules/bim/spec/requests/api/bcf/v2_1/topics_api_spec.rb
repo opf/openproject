@@ -119,7 +119,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           {
             assigned_to: assignee.mail,
             creation_author: work_package.author.mail,
-            creation_date: work_package.created_at.iso8601,
+            creation_date: work_package.created_at.iso8601(3),
             description: work_package.description,
             due_date: work_package.due_date.iso8601,
             guid: bcf_issue.uuid,
@@ -127,7 +127,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
             labels: bcf_issue.labels,
             priority: work_package.priority.name,
             modified_author: current_user.mail,
-            modified_date: work_package.updated_at.iso8601,
+            modified_date: work_package.updated_at.iso8601(3),
             reference_links: [
               api_v3_paths.work_package(work_package.id)
             ],
@@ -167,7 +167,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
             {
               assigned_to: assignee.mail,
               creation_author: work_package.author.mail,
-              creation_date: work_package.created_at.iso8601,
+              creation_date: work_package.created_at.iso8601(3),
               description: work_package.description,
               due_date: work_package.due_date.iso8601,
               guid: bcf_issue.uuid,
@@ -175,7 +175,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
               labels: bcf_issue.labels,
               priority: work_package.priority.name,
               modified_author: current_user.mail,
-              modified_date: work_package.updated_at.iso8601,
+              modified_date: work_package.updated_at.iso8601(3),
               reference_links: [
                 api_v3_paths.work_package(work_package.id)
               ],
@@ -212,7 +212,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         {
           assigned_to: assignee.mail,
           creation_author: work_package.author.mail,
-          creation_date: work_package.created_at.iso8601,
+          creation_date: work_package.created_at.iso8601(3),
           description: work_package.description,
           due_date: work_package.due_date.iso8601,
           guid: bcf_issue.uuid,
@@ -220,7 +220,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           labels: bcf_issue.labels,
           priority: work_package.priority.name,
           modified_author: current_user.mail,
-          modified_date: work_package.updated_at.iso8601,
+          modified_date: work_package.updated_at.iso8601(3),
           reference_links: [
             api_v3_paths.work_package(work_package.id)
           ],
@@ -264,7 +264,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           {
             assigned_to: assignee.mail,
             creation_author: work_package.author.mail,
-            creation_date: work_package.created_at.iso8601,
+            creation_date: work_package.created_at.iso8601(3),
             description: work_package.description,
             due_date: work_package.due_date.iso8601,
             guid: bcf_issue.uuid,
@@ -272,7 +272,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
             labels: bcf_issue.labels,
             priority: work_package.priority.name,
             modified_author: current_user.mail,
-            modified_date: work_package.updated_at.iso8601,
+            modified_date: work_package.updated_at.iso8601(3),
             reference_links: [
               api_v3_paths.work_package(work_package.id)
             ],
@@ -566,9 +566,9 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           due_date: Date.today.iso8601,
           stage:,
           creation_author: edit_member_user.mail,
-          creation_date: work_package&.created_at&.iso8601,
+          creation_date: work_package&.created_at&.iso8601(3),
           modified_author: edit_member_user.mail,
-          modified_date: work_package&.updated_at&.iso8601,
+          modified_date: work_package&.updated_at&.iso8601(3),
           description:,
           authorization: {
             topic_status: [other_status.name, status.name],
@@ -605,9 +605,9 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         due_date: due_date || base&.due_date,
         stage: nil,
         creation_author: creation_author_mail,
-        creation_date: work_package&.created_at&.iso8601,
+        creation_date: work_package&.created_at&.iso8601(3),
         modified_author: modified_author_mail,
-        modified_date: work_package&.updated_at&.iso8601,
+        modified_date: work_package&.updated_at&.iso8601(3),
         description: description || base&.description,
         authorization: {
           topic_status: [(base && base.status.name) || default_status.name],
@@ -817,9 +817,9 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           due_date: Date.today.iso8601,
           stage: nil,
           creation_author: work_package.author.mail,
-          creation_date: work_package&.created_at&.iso8601,
+          creation_date: work_package&.created_at&.iso8601(3),
           modified_author: edit_member_user.mail,
-          modified_date: work_package&.updated_at&.iso8601,
+          modified_date: work_package&.updated_at&.iso8601(3),
           description:,
           authorization: {
             topic_status: [other_status.name, status.name],
@@ -856,9 +856,9 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
             due_date: nil,
             stage: nil,
             creation_author: work_package.author.mail,
-            creation_date: work_package&.created_at&.iso8601,
+            creation_date: work_package&.created_at&.iso8601(3),
             modified_author: edit_member_user.mail,
-            modified_date: reloaded_work_package&.updated_at&.iso8601,
+            modified_date: reloaded_work_package&.updated_at&.iso8601(3),
             description: nil,
             authorization: {
               topic_status: [default_status.name],

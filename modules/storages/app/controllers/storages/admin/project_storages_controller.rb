@@ -73,11 +73,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
                          .result
     @last_project_folders = {}
 
-    if @project_storage.storage.present? && @project_storage.storage.provider_type_one_drive?
-      create
-    else
-      render template: '/storages/project_settings/new'
-    end
+    render template: '/storages/project_settings/new'
   end
 
   # Create a new ProjectStorage object.

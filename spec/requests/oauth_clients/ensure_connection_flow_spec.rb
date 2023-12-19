@@ -80,8 +80,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             context 'when destination_url is the same origin as OP' do
               it 'redirects to storage authorization_uri with oauth_state_* cookie set' do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
-                                                    storage_id: storage.id,
-                                                    destination_url: "#{root_url}123")
+                                                        storage_id: storage.id,
+                                                        destination_url: "#{root_url}123")
 
                 oauth_client = storage.oauth_client
                 expect(last_response.status).to eq(302)
@@ -98,8 +98,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             context 'when destination_url is not the same origin as OP' do
               it 'redirects to storage authorization_uri with oauth_state_* cookie set' do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
-                                                    storage_id: storage.id,
-                                                    destination_url: "#{storage.host}/index.php")
+                                                        storage_id: storage.id,
+                                                        destination_url: "#{storage.host}/index.php")
 
                 oauth_client = storage.oauth_client
                 expect(last_response.status).to eq(302)
@@ -149,8 +149,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             context 'when destination_url is the same origin as OP' do
               it 'redirects to destination_url' do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
-                                                    storage_id: storage.id,
-                                                    destination_url: "#{root_url}123")
+                                                        storage_id: storage.id,
+                                                        destination_url: "#{root_url}123")
 
                 storage.oauth_client
                 expect(last_response.status).to eq(302)
@@ -164,8 +164,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             context 'when destination_url is not the same origin as OP' do
               it 'redirects to root_url' do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
-                                                    storage_id: storage.id,
-                                                    destination_url: "#{storage.host}/index.php")
+                                                        storage_id: storage.id,
+                                                        destination_url: "#{storage.host}/index.php")
 
                 storage.oauth_client
                 expect(last_response.status).to eq(302)

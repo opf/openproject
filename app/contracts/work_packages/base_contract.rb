@@ -450,7 +450,7 @@ module WorkPackages
       workflows = Workflow
                   .from_status(status.id,
                                model.type_id,
-                               users_roles_in_project.map(&:id),
+                               user_roles.map(&:id),
                                user_is_author?,
                                user_was_or_is_assignee?)
 
@@ -465,8 +465,8 @@ module WorkPackages
       model.author == user
     end
 
-    def users_roles_in_project
-      user.roles_for_project(model.project)
+    def user_roles
+      user.roles_for_work_package(model)
     end
 
     # We're in a readonly status and did not move into that status right now.

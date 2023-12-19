@@ -24,4 +24,4 @@ el:
     work_packages:
       properties:
         storyPoints: "Πόντοι Ιστορίας"
-        remainingTime: "Υπολειπόμενες ώρες"
+        remainingTime: "Remaining work"

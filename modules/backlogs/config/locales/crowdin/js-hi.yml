@@ -24,4 +24,4 @@ hi:
     work_packages:
       properties:
         storyPoints: "कहानी अंक"
-        remainingTime: "बाकी बचे घंटे"
+        remainingTime: "Remaining work"

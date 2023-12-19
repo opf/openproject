@@ -38,6 +38,6 @@ time drift between the device and the server is most likely the reason for it.
 
 ## Advanced 2FA using MessageBird, Amazon SNS
 
-At the moment the advanced settings for improved security are only reachable on the by defining [configuration variables](https://www.openproject.org/docs/installation-and-operations/configuration/).
+At the moment the advanced settings for improved security are only reachable on the by defining [configuration variables](../../../installation-and-operations/configuration/).
 
-The how to is explained in the  configuration is explained in the [Two-factor authentication](https://www.openproject.org/docs/installation-and-operations/configuration/#two-factor-authentication) paragraph.
+The how to is explained in the  configuration is explained in the [Two-factor authentication](../../../installation-and-operations/configuration/#two-factor-authentication) paragraph.

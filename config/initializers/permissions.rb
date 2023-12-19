@@ -130,7 +130,8 @@ Rails.application.reloader.to_prepare do
                        'work_packages/shares': %i[index]
                      },
                      permissible_on: :project,
-                     require: :member
+                     require: :member,
+                     contract_actions: { work_package_shares: %i[index] }
 
       map.permission :view_members,
                      { members: [:index] },

@@ -24,4 +24,4 @@ hr:
     work_packages:
       properties:
         storyPoints: "Točke priče"
-        remainingTime: "Preostalo vrijeme"
+        remainingTime: "Remaining work"

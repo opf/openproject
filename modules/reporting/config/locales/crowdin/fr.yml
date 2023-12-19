@@ -21,8 +21,8 @@
 #++
 fr:
   plugin_openproject_reporting:
-    name: "OpenProject Reporting"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
+    name: "Rapports OpenProject"
+    description: "Ce plugin permet de créer des rapports de coûts personnalisés avec filtrage et regroupement."
   button_save_as: "Enregistrer le rapport sous…"
   comments: "Commentaire"
   cost_reports_title: "Temps et coûts"
@@ -47,7 +47,7 @@ fr:
   label_is_project_with_subprojects: "est (y compris les sous-projets)"
   label_work_package_attributes: "Attributs du lot de travaux"
   label_less: "<"
-  label_logged_by_reporting: "Logged by"
+  label_logged_by_reporting: "Saisi par"
   label_money: "Valeur marchande"
   label_month_reporting: "Mois (passé)"
   label_new_report: "Nouveau rapport de coût"

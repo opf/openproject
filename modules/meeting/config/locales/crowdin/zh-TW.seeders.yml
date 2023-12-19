@@ -9,21 +9,21 @@ zh-TW:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: 每週
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: 好消息！
             item_1:
-              title: Updates from development team
+              title: 開發團隊的更新
             item_2:
-              title: Updates from product team
+              title: 產品團隊的更新
             item_3:
-              title: Updates from marketing team
+              title: 行銷團隊的更新
             item_4:
-              title: Updates from sales team
+              title: 銷售團隊的更新
             item_5:
-              title: Review of quarterly goals
+              title: 季度目標回顧
             item_6:
-              title: Core values feedback
+              title: 核心價值反饋
             item_7:
-              title: General topics
+              title: 一般性議題

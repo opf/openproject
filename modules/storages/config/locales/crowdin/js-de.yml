@@ -65,7 +65,7 @@ de:
           other: "%{count} Dateiverknüpfungen erfolgreich erstellt."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded.
+            Ihre Datei (%{fileName}) konnte nicht hochgeladen werden.
           403: >
             Ihre Datei (%{fileName}) konnte aufgrund von Systembeschränkungen nicht hochgeladen werden. Bitte kontaktieren Sie Ihren Administrator für weitere Informationen.
           413: >
@@ -74,7 +74,7 @@ de:
             Ihre Datei (%{fileName}) ist größer als das Speicherkontingent erlaubt. Kontaktieren Sie Ihren Administrator, um dieses Kontingent zu ändern.
           detail:
             nextcloud: >
-              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+              Bitte überprüfen Sie, ob die neueste Version der Nextcloud App "OpenProject Integration" installiert ist und kontaktieren Sie Ihren Administrator für weitere Informationen.
         link_uploaded_file_error: >
           Beim Verknüpfen der kürzlich hochgeladenen Datei '%{fileName}' mit dem Arbeitspaket %{workPackageId} ist ein Fehler aufgetreten.
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"

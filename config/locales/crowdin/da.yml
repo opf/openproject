@@ -97,15 +97,13 @@ da:
     show_preview: "Forhåndsvis tekst"
     add_new: "Tilføj hjælpetekst"
     edit: "Redigér hjælpetekst til %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "LDAP-fejl: %{error_message}"
+    ldap_auth_failed: "Kunne ikke godkendes på LDAP-serveren."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Denne LDAP-formular kræver teknisk viden om din LDAP/Active Directory opsætning.
@@ -166,18 +164,18 @@ da:
     index:
       no_results_title_text: Der er i øjeblikket ingen farver.
       no_results_content_text: Opret en ny farve
-      label_new_color: "New color"
+      label_new_color: "Ny farve"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Ny farve"
+      label_edit_color: "Rediger farve"
     label_no_color: "Ingen farve"
-    label_properties: "Properties"
+    label_properties: "Egenskaber"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Er du sikker på, du vil slette den følgende farve? Typer med denne farve vil ikke blive slettet.
   custom_actions:
     actions:
       name: "Handlinger"
@@ -201,12 +199,21 @@ da:
     confirm_destroy_option: "Sletning af en indstilling vil slette alle dens forekomster (f.eks. i arbejdspakker). Er du sikker på, at du vil slette den?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter.
       no_results_content_text: Oprette en ny brugerdefineret felt
   concatenation:
     single: "eller"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -260,7 +267,7 @@ da:
       types:
         no_results_title_text: Der er i øjeblikket ingen tilgængelige typer.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Aktivér typen "%{type}"'
       versions:
         no_results_title_text: Der er i øjeblikket ingen versioner til projektet.
         no_results_content_text: Create a new version
@@ -392,8 +399,8 @@ da:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -457,20 +464,20 @@ da:
         attribute_name: "Egenskab"
         help_text: "Help text"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Konto"
+        attr_firstname: "Fornavn"
+        attr_lastname: "Efternavn"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
+        attr_mail: "E-mail"
+        base_dn: "DN base"
+        host: "Vært"
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Projektarkiv"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hex kode"
       comment:
         commented: "Kommenterede" #an object that this comment belongs to
       custom_action:
@@ -597,7 +604,7 @@ da:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
-        done_ratio: "Fremskridt (%)"
+        done_ratio: "% Complete"
         duration: "Varighed"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
@@ -611,7 +618,7 @@ da:
         parent_issue: "Overordnet"
         parent_work_package: "Overordnet"
         priority: "Prioritet"
-        progress: "Fremskridt (%)"
+        progress: "% Complete"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Anvendt tid"
@@ -646,7 +653,7 @@ da:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "kan muligvis ikke tilgås."
         error_readonly: "was attempted to be written but is not writable."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Oplysning er opdateret af mindst én anden bruger i mellemtiden."
         email: "is not a valid email address."
         empty: "må ikke være tomt."
         even: "skal være lige."
@@ -969,7 +976,7 @@ da:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Der var problemer med disse felter:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1025,12 +1032,12 @@ da:
     default_columns: "Forudvalgte kolonner"
     description: "Beskrivelse"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Vis totaler"
     due_date: "Finish date"
-    estimated_hours: "Anslået tid"
-    estimated_time: "Anslået tid"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Expires at"
     firstname: "Fornavn"
     group: "Gruppe"
@@ -1281,8 +1288,8 @@ da:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "1 time"
+        other: "%{count} timer"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
@@ -1363,7 +1370,7 @@ da:
   error_can_not_unarchive_project: "Dette projekt kan ikke fjernes fra arkivering: %{errors}"
   error_check_user_and_role: "Vælg venligst en bruger og en rolle."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Farve kan ikke gemmes"
   error_cookie_missing: "The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without."
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1376,7 +1383,7 @@ da:
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Fremgang for arbejdspakken er ikke opdateret."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Arbejdspakken er ikke fundet, eller den hører ikke til dette projekt"
   error_must_be_project_member: "skal være et medlem af projektet"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1388,7 +1395,7 @@ da:
   error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Der opstod en fejl da du forsøgte at tilgå projektarkivet: %{value}"
   error_scm_not_found: "Indholdet eller ændring findes ikke i projektarkivet."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Typen kan ikke gemmes"
   error_unable_delete_status: "Arbejdspakkens status kan ikke slettes da den bruges af mindst én pakke."
   error_unable_delete_default_status: "Det er ikke muligt at slette forhåndsværdien for arbejdspakkens status. Vælg venligst en anden status for arbejdspakken før den nuværende slettes."
   error_unable_to_connect: "Kan ikke forbinde til (%{value})"
@@ -1681,7 +1688,7 @@ da:
   label_confirmation: "Bekræftelse"
   label_contains: "indeholder"
   label_content: "Indhold"
-  label_color_plural: "Colors"
+  label_color_plural: "Farver"
   label_copied: "kopieret"
   label_copy_same_as_target: "Samme som mål"
   label_copy_source: "Kilde"
@@ -1711,7 +1718,7 @@ da:
   label_deleted: "slettet"
   label_deleted_custom_field: "(slettet selvvalgt felt)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(tom)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Faldende"
   label_details: "Detaljer"
@@ -1909,7 +1916,7 @@ da:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "alle"
   label_open_menu: "Åbn menuen"
   label_open_work_packages: "åbn"
   label_open_work_packages_plural: "åbn"
@@ -2047,7 +2054,7 @@ da:
   label_this_week: "denne uge"
   label_this_year: "dette år"
   label_time_entry_plural: "Anvendt tid"
-  label_title: "Title"
+  label_title: "Titel"
   label_projects_menu: "Projekter"
   label_today: "i dag"
   label_top_menu: "Topmenu"
@@ -2056,7 +2063,7 @@ da:
   label_type_new: "Ny type"
   label_type_plural: "Typer"
   label_ui: "Brugergrænseflade"
-  label_update_work_package_done_ratios: "Opdater fremgang for arbejdspakke"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Opdateret %{value} siden"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Opdateret af %{author} %{age} siden"
@@ -2212,9 +2219,9 @@ da:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2248,8 +2255,8 @@ da:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} arbejdspakke(r), der er tilknyttet dig, udløber indenfor de næste %{days} dage:"
   mail_body_group_reminder: '%{count} arbejdspakke(r) som er tildelt "%{group}" har deadline indenfor %{days} dage:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Wiki-siden '%{id}' er blevet tilføjet af %{author}."
+  mail_body_wiki_page_updated: "Wiki-siden '%{id}' er blevet opdateret af %{author}."
   mail_subject_account_activation_request: "%{value} anmodninger om kontoaktivering"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2324,7 +2331,7 @@ da:
   notice_file_not_found: "Den side du prøvede at gå til eksisterer ikke eller er blevet flyttet."
   notice_forced_logout: "Du er blevet automatisk logget ud efter %{ttl_time} minutters inaktivitet."
   notice_internal_server_error: "Der opstod en fejl på siden du prøver at gå til. Hvis du fortsat oplever problemer kontakt venligst din %{app_title} administrator for hjælp."
-  notice_work_package_done_ratios_updated: "Fremgang for arbejdspakke er opdateret."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Oplysning er opdateret af mindst én anden bruger i mellemtiden."
   notice_locking_conflict_additional_information: "Opdatering(en) stammer fra %{users}."
   notice_locking_conflict_reload_page: "Vær venlig at genindlæse siden, gennemgå ændringer og genindsend dine opdateringer."
@@ -2476,7 +2483,9 @@ da:
     default: "-"
   project:
     destroy:
-      confirmation: "Hvis du fortsætter, vil projektet %{identifier} og alle relaterede data blive permanent ødelagt."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Sletning af projektet er en irreversibel handling."
       project_verification: "Angiv projektnavnet %{name}, for at bekræfte sletningen."
       subprojects_confirmation: "Dets underprojekt(-er): %{value} vil ligeledes blive slettet."
@@ -2500,6 +2509,7 @@ da:
   project_module_news: "Nyheder"
   project_module_repository: "Projektarkiv"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2687,10 +2697,10 @@ da:
   setting_file_max_size_displayed: "Maksimal størrelse af tekstfiler, der vises inline"
   setting_host_name: "Værtsnavn"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Beregn fremgang for arbejdspakker med"
-  setting_work_package_done_ratio_field: "Brug arbejdspakkens felt"
-  setting_work_package_done_ratio_status: "Brug arbejdspakkens status"
-  setting_work_package_done_ratio_disabled: "Deaktiver (skjul fremgang)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Vis efter forhåndsopsætning"
   setting_work_package_properties: "Egenskaber for arbejdspakke"
   setting_work_package_startdate_is_adddate: "Brug dags dato som start for nye arbejdspakker"
@@ -3030,29 +3040,33 @@ da:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
+        role: 'Rolle'
         type: 'Type'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Kommentér"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Rediger"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Se"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Fjern"
+      share: "Del"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3095,6 +3109,7 @@ da:
       code_429: "Too many requests. Please try again later."
       code_500: "En intern fejl opstod."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3123,9 +3138,9 @@ da:
         unsupported_context: "Den givne ressource understøttes ikke som korrekt sammenhæng."
         context_object_not_found: "Kan ikke finde ressourcen, der ar angivet som sammenhæng."
       validation:
-        done_ratio: "Andel for udført kan ikke angives for orverordnede arbejdspakker når den er udledt af status, eller når den er slået fra."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Det skønnede timetal kan ikke angives på overordnede arbejdspakker."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Den valgte bruger er ikke tilladt at være '%{property}' for denne arbejdspakke."
         start_date: "Startdato kan ikke angives for overordnede arbejdspakker."
       eprops:

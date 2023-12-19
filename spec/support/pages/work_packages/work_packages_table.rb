@@ -125,7 +125,7 @@ module Pages
 
     def expect_no_work_package_listed
       within(table_container) do
-        expect(page).to have_selector('#empty-row-notification')
+        expect(page).to have_css('#empty-row-notification')
       end
     end
 

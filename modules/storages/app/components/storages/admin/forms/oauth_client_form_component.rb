@@ -52,21 +52,6 @@ module Storages::Admin::Forms
       !oauth_client_configured?
     end
 
-    def submit_button_data_options
-      {}.tap do |data|
-        # For One Drive create action, break from Turbo Frame and follow full page redirect
-        data[:turbo] = false if one_drive_first_time_configuration?
-      end
-    end
-
-    def redirect_uri_or_instructions
-      if oauth_client_configured?
-        oauth_client.redirect_uri
-      else
-        I18n.t("storages.instructions.one_drive.missing_client_id_for_redirect_uri")
-      end
-    end
-
     def storage_provider_credentials_instructions
       I18n.t("storages.instructions.#{storage.short_provider_type}.oauth_configuration",
              application_link_text: send(:"#{storage.short_provider_type}_integration_link")).html_safe
@@ -83,10 +68,6 @@ module Storages::Admin::Forms
       href = Storages::Peripherals::StorageInteraction::Nextcloud::Util
                .join_uri_path(storage.host, 'settings/admin/openproject')
       render(Primer::Beta::Link.new(href:, target:)) { I18n.t('storages.instructions.nextcloud.integration') }
-    end
-
-    def one_drive_first_time_configuration?
-      storage.provider_type_one_drive? && first_time_configuration?
     end
 
     def first_time_configuration?

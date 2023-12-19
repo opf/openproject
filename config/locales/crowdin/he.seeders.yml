@@ -50,15 +50,15 @@ he:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: לא חבר
         item_1:
-          name: Anonymous
+          name: אנונימי
         item_2:
-          name: Member
+          name: חבר
         item_3:
-          name: Reader
+          name: קורא
         item_4:
-          name: Project admin
+          name: מנהל פרוייקט
       global_roles:
         item_0:
           name: Staff and projects manager
@@ -212,7 +212,7 @@ he:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: חבילת עבודה
               item_6:
                 options:
                   name: אבני דרך
@@ -319,42 +319,40 @@ he:
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: קטגוריה 1 (שינוי בהגדרות הפרויקט)
           queries:
             item_0:
-              name: Project plan
+              name: תכנית פרויקט
             item_1:
               name: Product backlog
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: משימות
           boards:
             kanban:
-              name: Kanban board
+              name: לוח קאנבן
             basic:
               name: Task board
               lists:
                 item_0:
-                  name: Wish list
+                  name: רשימת משאלות
                 item_1:
-                  name: Short list
+                  name: רשימה מקוצרת
                 item_2:
-                  name: Priority list for today
+                  name: רשימת עדיפות להיום
                 item_3:
-                  name: Never
+                  name: אף פעם
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: ברוכים הבאים
               item_1:
                 options:
                   name: Getting started
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
                     _Try the following steps:_
 
@@ -370,10 +368,10 @@ he:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: חבילת עבודה
               item_6:
                 options:
-                  name: Project plan
+                  name: תכנית פרויקט
           work_packages:
             item_0:
               subject: New login screen

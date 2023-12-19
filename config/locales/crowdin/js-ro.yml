@@ -34,9 +34,9 @@ ro:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Se încarcă..."
+      not_found: "Niciun articol găsit"
+      type_to_search: "Introduceți textul de căutat"
     autocomplete_select:
       placeholder:
         multi: "Adăugaţi \"%{name}\""
@@ -302,33 +302,33 @@ ro:
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Grafic Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: '-- Fără etichetă --'
+        bar: 'Etichete de bare'
+        left: 'Stânga'
+        right: 'Dreapta'
+        farRight: 'Extrema dreaptă'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Selectați atributele pe care doriți să le afișați în pozițiile respective ale graficului Gantt tot timpul. Țineți cont că atunci când planează deasupra unui element, etichetele sale vor fi afișate în locul acestor atribute.
+      button_activate: 'Grafic Gantt'
+      button_deactivate: 'Grafic Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(nimic)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Faceți click pe oricare dintre pachetele de lucru pentru a crea o legătură. Apăsați Escape pentru a anula.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Mărire"
+        out: "Micșorare"
+        auto: "Mărire"
+        days: "Zile"
+        weeks: "Săptămâni"
+        months: "Luni"
+        quarters: "Trimestre"
+        years: "Ani"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Selectați nivelul inițial de zoom care trebuie afișat atunci când funcția de zoom automat nu este disponibilă.
     general_text_no: "nu"
     general_text_yes: "da"
     general_text_No: "Nu"
@@ -351,7 +351,7 @@ ro:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -966,7 +966,6 @@ ro:
         date: "Dată"
         dueDate: "Data de finalizare"
         duration: "Durată"
-        estimatedTime: "Durata estimată"
         spentTime: "Timp consumat"
         category: "Categorie"
         percentageDone: "Procent realizat"
@@ -1027,7 +1026,7 @@ ro:
         is_parent: "Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați \"Programare manuală\" pentru a stabili datele."
         is_switched_from_manual_to_automatic: "Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru."
       sharing:
-        share: 'Share'
+        share: 'Distribuiți'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

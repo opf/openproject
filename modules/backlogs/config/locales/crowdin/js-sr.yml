@@ -24,4 +24,4 @@ sr:
     work_packages:
       properties:
         storyPoints: "Poeni Priče"
-        remainingTime: "Preostalo časova"
+        remainingTime: "Remaining work"

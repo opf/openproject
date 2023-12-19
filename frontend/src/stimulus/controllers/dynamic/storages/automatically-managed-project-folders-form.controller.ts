@@ -33,16 +33,22 @@ import { Controller } from '@hotwired/stimulus';
 export default class AutomaticallyManagedProjectFoldersFormController extends Controller {
   static targets = [
     'applicationPasswordInput',
+    'submitButton',
   ];
 
   static values = {
     isAutomaticallyManaged: Boolean,
+    doneCompleteLabel: String,
+    doneCompleteWithoutLabel: String,
   };
 
   declare readonly applicationPasswordInputTarget:HTMLElement;
+  declare readonly submitButtonTarget:HTMLElement;
   declare readonly hasApplicationPasswordInputTarget:boolean;
 
   declare isAutomaticallyManagedValue:boolean;
+  declare doneCompleteLabelValue:string;
+  declare doneCompleteWithoutLabelValue:string;
 
   connect():void {
     // On first load if isAutomaticallyManaged is true, show the applicationPasswordInput
@@ -59,9 +65,11 @@ export default class AutomaticallyManagedProjectFoldersFormController extends Co
     }
 
     if (displayApplicationPasswordInput) {
-      this.applicationPasswordInputTarget.style.display = 'flex';
+      this.applicationPasswordInputTarget.classList.remove('d-none');
+      this.submitButtonTarget.textContent = this.doneCompleteLabelValue;
     } else {
-      this.applicationPasswordInputTarget.style.display = 'none';
+      this.applicationPasswordInputTarget.classList.add('d-none');
+      this.submitButtonTarget.textContent = this.doneCompleteWithoutLabelValue;
     }
   }
 }

@@ -33,7 +33,7 @@ module OpTurbo
     def respond_to_with_turbo_streams(&format_block)
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_streams
+          render turbo_stream: turbo_streams, status:
         end
 
         format_block.call(format) if block_given?
@@ -41,19 +41,20 @@ module OpTurbo
     end
     alias_method :respond_with_turbo_streams, :respond_to_with_turbo_streams
 
-    def update_via_turbo_stream(component:)
-      modify_via_turbo_stream(component:, action: :update)
+    def update_via_turbo_stream(component:, status: :ok)
+      modify_via_turbo_stream(component:, action: :update, status:)
     end
 
-    def replace_via_turbo_stream(component:)
-      modify_via_turbo_stream(component:, action: :replace)
+    def replace_via_turbo_stream(component:, status: :ok)
+      modify_via_turbo_stream(component:, action: :replace, status:)
     end
 
-    def remove_via_turbo_stream(component:)
-      modify_via_turbo_stream(component:, action: :remove)
+    def remove_via_turbo_stream(component:, status: :ok)
+      modify_via_turbo_stream(component:, action: :remove, status:)
     end
 
-    def modify_via_turbo_stream(component:, action:)
+    def modify_via_turbo_stream(component:, action:, status:)
+      @status = status
       turbo_streams << component.render_as_turbo_stream(
         view_context:,
         action:
@@ -74,6 +75,10 @@ module OpTurbo
 
     def turbo_streams
       @turbo_streams ||= []
+    end
+
+    def status
+      @status ||= :ok
     end
   end
 end

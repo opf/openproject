@@ -27,7 +27,7 @@ uk:
         creator: "Автор"
         provider_type: "Тип постачальника"
         host: "Хост"
-        tenant: "Tenant"
+        tenant: "ID каталогу (клієнта)"
       storages/file_link:
         origin_id: "Код джерела"
     errors:
@@ -37,7 +37,7 @@ uk:
         storages/project_storage:
           attributes:
             project_folder_mode:
-              mode_unavailable: "is not available for this storage."
+              mode_unavailable: "– недоступно для цього сховища."
         storages/storage:
           attributes:
             host:
@@ -65,6 +65,7 @@ uk:
       done_continue: "Виконано, продовжити "
       done_continue_setup: "Готово – продовжити налаштування"
       done_complete_setup: "Готово – завершити налаштування"
+      complete_without_setup: "Завершити без налаштування"
       edit_automatically_managed_project_folders: "Редагувати папки проєкту з автоматичним керуванням"
       replace_openproject_oauth: "Замінити OpenProject OAuth"
       replace_provider_type_oauth: "Замінити %{provider_type} OAuth"
@@ -76,19 +77,21 @@ uk:
       configure: "Налаштувати"
     file_storage_view:
       general_information: "Загальна інформація"
-      oauth_applications: "OAuth applications"
-      project_folders: "Project folders"
-      storage_provider: "Storage provider"
+      oauth_applications: "Програми OAuth"
+      project_folders: "Папки проєкту"
+      storage_provider: "Постачальник сховища"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "URI переспрямування"
       nextcloud_oauth: "Nextcloud OAuth"
-      automatically_managed_folders: "Automatically managed folders"
+      automatically_managed_folders: "Папки з автоматичним керуванням"
     page_titles:
       file_storages:
-        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
+        subtitle: "Додайте зовнішнє файлове сховище, щоб вивантажувати файли, створювати посилання й керувати файлами в пакетах робіт."
+        delete: "Видалити файлове сховище"
       managed_project_folders:
         title: "Папки проєкту з автоматичним керуванням"
-        subtitle_short: "Let OpenProject create folders per project automatically."
+        subtitle_short: "Дозвольте автоматично створювати папки для кожного проєкту в OpenProject."
         subtitle: >
           Дозвольте OpenProject автоматично створювати папки для проєкту. Радимо зробити це, адже в такому разі кожен учасник команди завжди матиме належні дозволи на доступ.
       project_settings:
@@ -107,9 +110,8 @@ uk:
       host: "Додайте адресу хосту для свого сховища, включно з https://. Її довжина не може перевищувати 255 символів."
       managed_project_folders_application_password: >
         Копіювати це значення з:
-      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
-      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
-      new_storage_link_text: "file storage documentation"
+      managed_project_folders_application_password_caption: "Увімкніть папки з автоматичним керуванням, скопіювавши це значення з %{provider_type_link}."
+      new_storage: "Щою дізнатися більше, ознайомтеся з нашою документацією щодо <a target='_blank' href='%{provider_link}'>налаштування інтеграції файлового сховища %{provider_name}</a>."
       no_storage_set_up: "Файлові сховища поки не створено."
       no_specific_folder: "За замовчуванням кожен користувач, який передасть файл, починатиме роботу у власній головній папці."
       automatic_folder: "Буде автоматично створено кореневу папку для цього проєкту й налаштовано дозволи на доступ для кожного учасника проєкту."
@@ -122,39 +124,48 @@ uk:
       setting_up_storages: "Щоб створити файлові сховища, перейдіть у"
       setting_up_storages_non_admin: "Адміністратори можуть створювати файлові сховища в розділі «Адміністрування» / «Файлові сховища»."
       all_available_storages_already_added: "У проєкт уже додано всі доступні сховища."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
-      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
+      oauth_application_details: "Секретний ключ клієнта стане недоступним, коли ви закриєте це вікно. Скопіюйте ці значення в %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Налаштування інтеграції Nextcloud OpenProject"
       copy_from: "Копіювати це значення з"
       nextcloud:
-        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
-        oauth_configuration: "Copy these values from %{application_link_text}."
-        application_link_text: "application “Integration OpenProject”"
+        provider_configuration: "Перш ніж виконувати налаштування, переконайтеся, що маєте права адміністратора у своєму екземплярі Nextcloud і що встановлено %{application_link_text}."
+        oauth_configuration: "Скопіюйте ці значення з додатка %{application_link_text}."
+        application_link_text: "Integration OpenProject"
         integration: "Адміністрування Nextcloud / OpenProject"
       one_drive:
-        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
-        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
-        application_link_text: "Azure application"
-        integration: "OneDrive/SharePoint"
+        provider_configuration: >
+          Перш ніж виконувати налаштування, переконайтеся, що у вас є права адміністратора в додатку %{application_link_text}, або зверніться до свого адміністратора Microsoft. На порталі вам також знадобиться зареєструвати додаток Azure або скористатися наявним під час автентифікації.
+        oauth_configuration: "Скопіюйте ці значення з потрібного додатка в %{application_link_text}."
+        application_link_text: "Портал Azure"
+        integration: "OneDrive / SharePoint"
         oauth_client_id: >
-          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+          Скопіюйте ідентифікатор клієнта з порталу Azure. Це потрібно, щоб згенерувати URI переспрямування.
         oauth_client_secret: >
-          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
-        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
-        tenant_id: "Please copy the tenant from your Azure application."
-        tenant_id_placeholder: "Name or UUID"
-        drive_id: "Please copy the drive ID from your Azure application."
-        drive_id_placeholder: "UUID or triple ID"
+          Якщо в облікових даних клієнта немає секрету клієнту додатка, створіть його.
+        oauth_client_redirect_uri: >
+          Скопіюйте це значення в новий ідентифікатор URI вебпереспрямуваня в розділі «URI переспрямування».
+        missing_client_id_for_redirect_uri: "Введіть значення OAuth, щоб згенерувати URI"
+        tenant_id: >
+          Скопіюйте ідентифікатор каталога (клієнта) з потрібного додатка й розділу «Реєстрації додатка» в %{application_link_text}.
+        tenant_id_placeholder: "Назва або UUID"
+        drive_id: "Скопіюйте ідентифікатор із потрібного диска, дотримуючись цих вказівок: %{drive_id_link_text}."
+        documentation_link_text: "Документація щодо файлових сховищ OneDrive / SharePoint"
+        copy_redirect_uri: "Копіювати URI переспрямування"
     help_texts:
       project_folder: >
         Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
       oauth_client_incomplete:
-        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
-        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+        nextcloud: "Надайте OpenProject доступ до даних Nextcloud із використанням OAuth."
+        one_drive: "Надайте OpenProject доступ до даних Azure із використанням OAuth для підключення OneDrive / Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Завершіть налаштування за допомогою правильного URI переспрямування."
     delete_warning:
       storage: >
-        Справді видалити це сховище? Це сховище буде також видалено з усіх проєктів, де воно використовувалося. Крім того, буде видалено всі посилання в пакетах робіт на файли, які зберігалися в цьому сховищі.
+        Справді видалити %{file_storage}? Щоб підтвердити цю дію, введіть ім’я сховища в поле нижче, щоб:
+      storage_delete_result_1: "вилучити всі налаштування сховища для всіх проєктів, де воно використовується;"
+      storage_delete_result_2: "вилучити всі посилання з пакетів робіт з усіх проєктів на файли й папки в цьому сховищі."
+      storage_delete_result_3: "Якщо це сховище містить папки проєкту з автоматичним керуванням, цю папку й усі її файли буде остаточно видалено."
       project_storage: >
         Справді видалити %{file_storage} з цього проєкту? Щоб підтвердити цю дію, введіть ім’я сховище в поле нижче, щоб:
       project_storage_delete_result_1: "Вилучіть усі посилання на файли й папки в цьому сховизі з пакетів робіт поточного проєкту."
@@ -162,20 +173,21 @@ uk:
       input_delete_confirmation: "Введіть ім’я файлового сховища %{file_storage}, щоб підтвердити видалення."
       irreversible_notice: "Видалення файлового сховища не можна скасувати."
     storage_list_blank_slate:
-      heading: "You don't have any storages yet."
-      description: "Add a storage to see them here."
+      heading: "У вас ще немає жодного сховища."
+      description: "Додайте сховище, щоб воно з’явилося тут."
+    error_invalid_provider_type: "Виберіть дійсного постачальника сховища."
     label_active: "Активні"
-    label_add_new_storage: "Add new storage"
-    label_delete_storage: "Delete storage"
+    label_add_new_storage: "Додати нове сховище"
+    label_delete_storage: "Видалити сховище"
     label_inactive: "Неактивні"
     label_creator: "Автор"
-    label_provider: "Provider"
+    label_provider: "Постачальник"
     label_file_link: "Посилання на файл"
     label_file_links: "Посилання на файл"
-    label_file_storage: "File storage"
-    label_creation_time: "Creation time"
-    label_completed: "Completed"
-    label_incomplete: "Incomplete"
+    label_file_storage: "Файлове сховище"
+    label_creation_time: "Час створення"
+    label_completed: "Завершено"
+    label_incomplete: "Не завершено"
     label_name: "Назва"
     label_host: "URL-адреса хосту"
     label_managed_project_folders:
@@ -188,25 +200,27 @@ uk:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Докладні відомості про додаток OAuth"
     label_oauth_client_details: "Докладні відомості про клієнт OAuth"
-    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
-    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
-    label_information: "Additional information"
+    label_openproject_oauth_application_id: "Ідентифікатор клієнта OpenProject OAuth"
+    label_openproject_oauth_application_secret: "Секрет клієнта OpenProject OAuth"
+    label_oauth_client_id: "Ідентифікатор клієнта OAuth"
+    label_oauth_client_secret: "Секретний ключ клієнта OAuth"
+    label_information: "Додаткова інформація"
     label_provider_type: "Тип постачальника"
     label_project_folder: "Папка проєкту"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "URI переспрямування"
+    label_uri: "URI"
     label_new_storage: "Нове сховище"
-    label_new_file_storage: "New file storage"
-    label_edit_storage: "Edit storage"
-    label_edit_storage_host: "Edit storage host"
-    label_edit_storage_oauth_client: "Edit storage OAuth client"
-    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
+    label_new_file_storage: "Нове сховище %{provider}"
+    label_edit_storage: "Редагувати сховище"
+    label_edit_storage_host: "Редагувати хост сховища"
+    label_edit_storage_oauth_client: "Редагувати клієнта OAuth сховища"
+    label_show_storage_redirect_uri: "Показати URI переспрямування"
+    label_edit_storage_automatically_managed_folders: "Редагувати папки сховища з автоматичним керуванням"
     label_existing_manual_folder: "Наявна папка з ручним керуванням дозволами"
     label_no_specific_folder: "Немає конкретної папки"
     label_automatic_folder: "Нова папка з автоматичним керуванням дозволами"
     label_no_selected_folder: "Папку не вибрано"
-    label_select_provider: "Select provider"
+    label_select_provider: "Виберіть постачальника"
     label_storage: "Сховище"
     label_storages: "Сховища"
     label_status: "Стан"
@@ -214,7 +228,7 @@ uk:
     member_connection_status:
       connected: "Підключено"
       connected_no_permissions: "Ролі користувача не надано дозволи на доступ до сховища"
-      not_connected: "Not connected. The user should login to the storage via the following %{link}."
+      not_connected: "Не підключено. Користувач має ввійти в сховище за цим посиланням: %{link}."
     no_results: "Сховища поки не створено."
     members_no_results: "Немає учасників."
     provider_types:
@@ -222,12 +236,33 @@ uk:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "наприклад, Nextcloud"
+        label_oauth_client_id: "Ідентифікатор клієнта Nextcloud OAuth"
+        label_oauth_client_secret: "Секрет клієнта Nextcloud OAuth"
       one_drive:
-        name: "OneDrive/SharePoint"
-        name_placeholder: "e.g. OneDrive"
+        name: "OneDrive / SharePoint"
+        name_placeholder: "напр. OneDrive"
+        label_oauth_client_id: "Ідентифікатор (клієнт) додатка Azure OAuth"
+        label_oauth_client_secret: "Значення секрету клієнта Azure OAuth"
     confirm_replace_oauth_application: "Ви впевнені? Усім користувачам знадобиться знову авторизуватися в OpenProject."
     confirm_replace_oauth_client: "Ви впевнені? Усім користувачам знадобиться знову авторизуватися в сховищі."
     oauth_client_details_missing: "Щоб завершити налаштування, додайте облікові дані клієнта OAuth зі свого сховища."
     automatically_managed_project_folder_missing: "Щоб завершити підготовку, налаштуйте папки проєкту з автоматичним керуванням для свого сховища."
     notice_oauth_application_replaced: "Додаток OpenProject OAuth замінено."
-    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    notice_successful_storage_connection: "Сховище підключено. Щоб користуватися ним, активуйте модуль і визначене сховище в налаштуваннях кожного потрібного проєкту."
+    open_project_storage_modal:
+      waiting:
+        a: "Ми налаштовуємо ваші дозволи для папки проєкту."
+        b: "Зачекайте, будь ласка. Це може зайняти деякий час..."
+      success:
+        a: "Налаштування інтеграції завершено"
+        b: "Виконується переспрямування"
+    health:
+      title: "Статус керованих папок"
+      label_pending: "Очікування"
+      label_error: "Помилка"
+      label_healthy: "Справність"
+      checked: "Востаннє перевірено: %{datetime}"
+      since: "з %{datetime}"
+    upsale:
+      title: "Інтеграція OneDrive / SharePoint"
+      description: 'Інтегруйте OneDrive/SharePoint як файлове сховище в OpenProject. Додайте файли й прив’яжіть їх безпосередньо до пакетів робіт у проєкті.'

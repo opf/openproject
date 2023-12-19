@@ -3,7 +3,6 @@ export type OnboardingTourNames = 'prepareBacklogs'|'backlogs'|'taskboard'|'home
 
 export enum ProjectName {
   demo = 'demo',
-  scrum = 'scrum',
 }
 
 function matchingFilter(list:NodeListOf<HTMLElement>, filterFunction:(match:HTMLElement) => boolean):HTMLElement|null {

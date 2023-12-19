@@ -117,7 +117,7 @@ RSpec.describe BasicData::ProjectRoleSeeder do
 
     it 'gives all assignable permissions to the role' do
       expect(Role.find_by(name: 'Project admin').permissions)
-        .to match_array(Roles::CreateContract.new(Role.new, nil).assignable_permissions.map { _1.name.to_sym })
+        .to match_array(Roles::CreateContract.new(Role.new, nil).assignable_permissions(keep_public: true).map { _1.name.to_sym })
     end
   end
 

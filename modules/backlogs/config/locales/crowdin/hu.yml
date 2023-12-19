@@ -27,10 +27,10 @@ hu:
     attributes:
       work_package:
         position: "Pozició"
-        remaining_hours: "Fennmaradó órák"
-        remaining_time: "Fennmaradó órák"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "Story pontok"
         backlogs_work_package_type: "Backlog típus"
     errors:

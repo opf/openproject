@@ -3,7 +3,7 @@ ko:
   plugin_openproject_avatars:
     name: "아바타"
     description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+      이 플러그인을 사용하면 OpenProject 사용자가 아바타로 사용할 사진을 업로드하거나 Gravatar의 등록된 이미지를 사용할 수 있습니다.
   label_avatar: "아바타"
   label_avatar_plural: "아바타"
   label_current_avatar: "현재 아바타"

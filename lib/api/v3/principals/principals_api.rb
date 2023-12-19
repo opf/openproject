@@ -33,7 +33,7 @@ module API
         resource :principals do
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
                  .new(model: Principal,
-                      scope: -> { Principal.visible(current_user).includes(:preference) })
+                      scope: -> { Principal.includes(:preference) })
                  .mount
         end
       end

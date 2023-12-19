@@ -32,7 +32,7 @@ FactoryBot.define do
     confidential { true }
     owner factory: :admin
     owner_type { 'User' }
-    uid { '12345' }
+    sequence(:uid) { |n| "2345678901-#{n}" }
     redirect_uri { 'urn:ietf:wg:oauth:2.0:oob' }
     scopes { 'api_v3' }
   end

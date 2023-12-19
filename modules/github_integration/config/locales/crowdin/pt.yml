@@ -21,7 +21,7 @@
 #++
 pt:
   plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
+    name: "Integração do OpenProject GitHub"
+    description: "Integra o OpenProject e o GitHub para um melhor fluxo de trabalho"
   project_module_github: "GitHub"
   permission_show_github_content: "Exibir conteúdo GitHub"

@@ -94,6 +94,7 @@ module OpenProject::Storages
           OpenProject::Notifications.subscribe(event) do |payload|
             if payload[:project_folder_mode] == :automatic
               ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+              ::Storages::ManageNextcloudIntegrationCronJob.ensure_scheduled!
             end
           end
         end
@@ -157,12 +158,21 @@ module OpenProject::Storages
           User.current.allowed_in_project?(:view_file_links, project)
           project.project_storages.each do |project_storage|
             storage = project_storage.storage
-            href = "/api/v3/project_storages/#{project_storage.id}/open"
-            icon = if storage.provider_type_nextcloud?
-                     'nextcloud-circle'
-                   else
-                     'hosting'
-                   end
+            next unless storage.configured?
+
+            url_helpers = Rails.application.routes.url_helpers
+            open_project_storage_url = url_helpers.open_project_storage_url(
+              host: Setting.host_name,
+              protocol: 'https',
+              project_id: project_storage.project.identifier,
+              id: project_storage.id
+            )
+            href = url_helpers.oauth_clients_ensure_connection_path(
+              oauth_client_id: storage.oauth_client.client_id,
+              storage_id: storage.id,
+              destination_url: open_project_storage_url
+            )
+            icon = storage.provider_type_nextcloud? ? 'nextcloud-circle' : 'hosting'
 
             menu.push(
               :"storage_#{storage.id}",

@@ -115,47 +115,6 @@ module ApplicationHelper
     end
   end
 
-  # Renders flash messages
-  def render_flash_messages
-    messages = flash
-      .reject { |k, _| k.start_with? '_' }
-      .map { |k, v| render_flash_message(k, v) }
-
-    safe_join messages, "\n"
-  end
-
-  def join_flash_messages(messages)
-    if messages.respond_to?(:join)
-      safe_join(messages, '<br />'.html_safe)
-    else
-      messages
-    end
-  end
-
-  def render_flash_message(type, message, html_options = {})
-    if type.to_s == 'notice'
-      type = 'success'
-    end
-    toast_css_classes = ["op-toast -#{type}", html_options.delete(:class)]
-    # Add autohide class to notice flashes if configured
-    if type.to_s == 'success' && User.current.pref.auto_hide_popups?
-      toast_css_classes << 'autohide-toaster'
-    end
-    html_options = { class: toast_css_classes.join(' '), role: 'alert' }.merge(html_options)
-    close_button = content_tag :a, '', class: 'op-toast--close icon-context icon-close',
-                                       title: I18n.t('js.close_popup_title'),
-                                       tabindex: '0'
-    toast = content_tag(:div, join_flash_messages(message), class: 'op-toast--content')
-    content_tag :div, '', class: 'op-toast--wrapper' do
-      content_tag :div, '', class: 'op-toast--casing' do
-        content_tag :div, html_options do
-          concat(close_button)
-          concat(toast)
-        end
-      end
-    end
-  end
-
   # Yields the given block for each project with its level in the tree
   #
   # Wrapper for Project#project_tree
@@ -346,8 +305,8 @@ module ApplicationHelper
     form_for(record, options, &)
   end
 
-  def back_url_hidden_field_tag
-    back_url = params[:back_url] || request.env['HTTP_REFERER']
+  def back_url_hidden_field_tag(use_referer: true)
+    back_url = params[:back_url] || (use_referer ? request.env['HTTP_REFERER'] : nil)
     back_url = CGI.unescape(back_url.to_s)
     hidden_field_tag('back_url', CGI.escape(back_url), id: nil) if back_url.present?
   end

@@ -6,8 +6,7 @@
       method: form_method,
       data: {
         controller: 'storages--oauth-client-form',
-        application_target: 'dynamic',
-        'storages--oauth-client-form-client-id-missing-value': t(:"storages.instructions.one_drive.missing_client_id_for_redirect_uri")
+        application_target: 'dynamic'
       }
     ) do |form|
       flex_layout do |oauth_client_row|
@@ -27,8 +26,7 @@
               client_id_input_options: {
                 data: {
                   'storages--oauth-client-form-target': 'clientId',
-                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled '\
-                          'input->storages--oauth-client-form#setRedirectUriValue'
+                  action: 'input->storages--oauth-client-form#toggleSubmitButtonDisabled'
                 }
               },
               client_secret_input_options: {
@@ -41,25 +39,6 @@
           )
         end
 
-        if storage.provider_type_one_drive?
-          oauth_client_row.with_row(mb: 3) do
-            render(
-              OpenProject::Common::ClipboardCopyComponent.new(
-                name: :oauth_client_redirect_uri,
-                visually_hide_label: false,
-                value_to_copy: redirect_uri_or_instructions,
-                label: I18n.t('storages.label_redirect_uri'),
-                required: true,
-                input_group_options: {
-                  data: {
-                    'storages--oauth-client-form-target': 'redirectUri'
-                  }
-                },
-              )
-            )
-          end
-        end
-
         oauth_client_row.with_row do
           render(
             Storages::Admin::SubmitOrCancelForm.new(
@@ -69,7 +48,7 @@
                 disabled: submit_button_disabled?,
                 data: {
                   'storages--oauth-client-form-target': 'submitButton',
-                }.merge(submit_button_data_options),
+                },
                 test_selector: 'storage-oauth-client-submit-button'
               },
               cancel_button_options: {

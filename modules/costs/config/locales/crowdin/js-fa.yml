@@ -23,10 +23,10 @@ fa:
   js:
     work_packages:
       property_groups:
-        costs: "Costs"
+        costs: "هزینه ها"
       properties:
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
+        overallCosts: "هزینه‌های کلی"
+        spentUnits: "واحد هزینه‌کرد"
+    button_log_costs: "ثبت هزینه‌های واحد"
     label_hour: "hour"
     label_hours: "ساعت"

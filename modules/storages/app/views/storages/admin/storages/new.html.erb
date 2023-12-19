@@ -1,9 +1,15 @@
-<% html_title t(:label_administration), t("project_module_storages"), t('storages.label_new_file_storage') %>
-<% local_assigns[:additional_breadcrumb] = t('storages.label_new_file_storage') %>
+<!-- Standard Ruby view, please see the controller for comments -->
+<%
+  label_new_file_storage = t("storages.label_new_file_storage",
+                              provider: t("storages.provider_types.#{@storage.short_provider_type}.name"))
+%>
+
+<% html_title t(:label_administration), t("project_module_storages"), label_new_file_storage %>
+<% local_assigns[:additional_breadcrumb] = label_new_file_storage %>
 
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title(test_selector: 'storage-name-title') do %>
-    <%= t("storages.label_new_file_storage") %>
+  <% header.with_title(test_selector: 'storage-new-page-header--title') do %>
+    <%= label_new_file_storage %>
   <% end %>
 
   <% header.with_back_button(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) %>
@@ -12,16 +18,14 @@
     <%= t(:project_module_storages) %>
   <% end %>
 
-  <% header.with_description do %>
+  <% header.with_description(test_selector: 'storage-new-page-header--description') do %>
     <%=
-    t("storages.instructions.new_storage",
-      new_storage_link_text: render(
-        Primer::Beta::Link.new(href: ::OpenProject::Static::Links[:storage_docs][:setup][:href], target: '_blank')
-      ) { t("storages.instructions.new_storage_link_text") }
-    ).html_safe
+      t("storages.instructions.new_storage",
+        provider_link: ::OpenProject::Static::Links[:storage_docs][:"#{@storage.short_provider_type}_setup"][:href].html_safe,
+        provider_name: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")
+      ).html_safe
     %>
   <% end %>
-
 <% end %>
 
-<%= render(::Storages::Admin::SelectStorageProviderComponent.new(@storage)) %>
+<%= render(Storages::Admin::StorageViewComponent.new(@storage)) %>

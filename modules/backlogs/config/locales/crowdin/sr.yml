@@ -27,10 +27,10 @@ sr:
     attributes:
       work_package:
         position: "Pozicija"
-        remaining_hours: "Preostalo časova"
-        remaining_time: "Preostalo časova"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         story_points: "Poeni Priče"
         backlogs_work_package_type: "Tip backlog-a"
     errors:
@@ -90,9 +90,9 @@ sr:
   backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"
   backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
   backlogs_sprints: "Sprints"
-  backlogs_story: "Story"
+  backlogs_story: "Priča"
   backlogs_story_type: "Story types"
-  backlogs_task: "Task"
+  backlogs_task: "Zadatak"
   backlogs_task_type: "Task type"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
@@ -133,7 +133,7 @@ sr:
   label_stories_tasks: "Stories/Tasks"
   label_task_board: "Task board"
   label_version_setting: "Versions"
-  label_version: 'Version'
+  label_version: 'Verzija'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "View master backlog"

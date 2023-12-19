@@ -348,8 +348,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
             icon: 'help2',
-            if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) },
-            enterprise_feature: 'attribute_help_texts'
+            if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) }
 
   menu.push :enumerations,
             { controller: '/enumerations' },
@@ -547,7 +546,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
             caption: :label_work_package_plural,
-            icon: 'view-timeline',
+            icon: 'view-list',
             html: {
               id: 'main-menu-work-packages',
               'wp-query-menu': 'wp-query-menu'

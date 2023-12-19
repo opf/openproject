@@ -33,8 +33,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     prepend InstanceMethods
     extend ClassMethods
 
-    before_validation :backlogs_before_validation, if: -> { backlogs_enabled? }
-
     register_journal_formatted_fields(:fraction, 'remaining_hours')
     register_journal_formatted_fields(:fraction, 'derived_remaining_hours')
     register_journal_formatted_fields(:decimal, 'story_points')
@@ -129,15 +127,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def in_backlogs_type?
       backlogs_enabled? && WorkPackage.backlogs_types.include?(type.try(:id))
-    end
-
-    private
-
-    def backlogs_before_validation
-      if type_id == Task.type
-        self.estimated_hours = remaining_hours if estimated_hours.blank? && remaining_hours.present?
-        self.remaining_hours = estimated_hours if remaining_hours.blank? && estimated_hours.present?
-      end
     end
   end
 end

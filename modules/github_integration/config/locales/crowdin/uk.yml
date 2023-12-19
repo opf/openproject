@@ -21,7 +21,7 @@
 #++
 uk:
   plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
+    name: "Інтеграція OpenProject GitHub"
+    description: "Інтегрує OpenProject і GitHub для покращення робочого процесу"
   project_module_github: "GitHub"
   permission_show_github_content: "Показати контент GitHub"

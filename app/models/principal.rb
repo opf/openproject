@@ -49,9 +49,9 @@ class Principal < ApplicationRecord
   has_many :memberships,
            -> {
              includes(:project, :roles)
-               .where(["projects.active = ? OR project_id IS NULL", true])
+               .merge(Member.of_any_project.or(Member.global))
+               .where(["projects.active = ? OR members.project_id IS NULL", true])
                .order(Arel.sql('projects.name ASC'))
-             # haven't been able to produce the order using hashes
            },
            inverse_of: :principal,
            dependent: :nullify,
@@ -80,11 +80,19 @@ class Principal < ApplicationRecord
          :status
 
   scope :in_project, ->(project) {
-    where(id: Member.of(project).select(:user_id))
+    where(id: Member.of_project(project).select(:user_id))
   }
 
   scope :not_in_project, ->(project) {
-    where.not(id: Member.of(project).select(:user_id))
+    where.not(id: Member.of_project(project).select(:user_id))
+  }
+
+  scope :in_anything_in_project, ->(project) {
+    where(id: Member.of_anything_in_project(project).select(:user_id))
+  }
+
+  scope :not_in_anything_in_project, ->(project) {
+    where.not(id: Member.of_anything_in_project(project).select(:user_id))
   }
 
   scope :in_group, ->(group) {
@@ -127,7 +135,7 @@ class Principal < ApplicationRecord
   end
 
   def self.in_visible_project(user = User.current)
-    in_project(Project.visible(user))
+    where(id: Member.of_anything_in_project(Project.visible(user)).select(:user_id))
   end
 
   def self.in_visible_project_or_me(user = User.current)

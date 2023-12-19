@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.2.1'
+ruby file: '.ruby-version'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -209,12 +209,12 @@ gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
 # Lookbook
-gem 'lookbook', '~> 2.1.0'
+gem 'lookbook', '~> 2.2.0'
 
 # Require factory_bot for usage with openproject plugins testing
-gem 'factory_bot', '~> 6.2.0', require: false
+gem 'factory_bot', '~> 6.4.0', require: false
 # require factory_bot_rails for convenience in core development
-gem 'factory_bot_rails', '~> 6.2.0', require: false
+gem 'factory_bot_rails', '~> 6.4.0', require: false
 
 gem 'turbo-rails', "~> 1.1"
 
@@ -225,13 +225,13 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 1.2.0'
+  gem 'test-prof', '~> 1.3.0'
   gem 'turbo_tests', github: "crohr/turbo_tests", ref: "fix/runtime-info"
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 6.0.0', group: :development
+  gem 'rspec-rails', '~> 6.1.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -253,9 +253,11 @@ group :test do
   gem 'rails-controller-testing', '~> 1.0.2'
 
   gem 'capybara', '~> 3.39.0'
+  gem 'capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', branch: 'main'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.15.0'
-  gem 'selenium-webdriver', '~> 4.15.0'
+  gem 'selenium-devtools'
+  gem 'selenium-webdriver', '~> 4.16.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -323,7 +325,7 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem 'brakeman', '~> 6.0.0'
+  gem 'brakeman', '~> 6.1.0'
 end
 
 gem 'bootsnap', '~> 1.17.0', require: false
@@ -370,4 +372,4 @@ end
 
 gem "openproject-octicons", '~>19.8.0'
 gem "openproject-octicons_helper", '~>19.8.0'
-gem "openproject-primer_view_components", '~>0.17.1'
+gem "openproject-primer_view_components", '~>0.18.1'

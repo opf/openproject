@@ -14,7 +14,10 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/list_projects_model.yml'
+            $ref: '../components/schemas/project_collection_model.yml'
+          examples:
+            'simple project collection':
+              $ref: '../components/examples/project_collection.yml'
     '403':
       content:
         application/hal+json:

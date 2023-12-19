@@ -61,16 +61,16 @@ get:
                     _type: User
                     admin: false
                     avatar: https://example.org/users/4/avatar
-                    createdAt: '2015-03-20T12:57:02Z'
+                    createdAt: '2015-03-20T12:57:02.901Z'
                     email: jackie@dicki.org
                     firstName: Danika
                     id: 4
-                    identityUrl: 
+                    identityUrl:
                     lastName: O'Keefe
                     login: Eliza92778
                     name: Danika O'Keefe
                     status: active
-                    updatedAt: '2015-06-16T15:28:14Z'
+                    updatedAt: '2015-06-16T15:28:14.565Z'
                   - _links:
                       delete:
                         href: "/api/v3/users/2"
@@ -93,34 +93,34 @@ get:
                     _type: User
                     admin: false
                     avatar: https://example.org/users/4/avatar
-                    createdAt: '2015-03-20T12:56:55Z'
-                    email: 
+                    createdAt: '2015-03-20T12:56:55.578Z'
+                    email:
                     firstName: Peggie
                     id: 2
-                    identityUrl: 
+                    identityUrl:
                     lastName: Feeney
                     login: Sebastian9686
                     name: Peggie Feeney
                     status: active
-                    updatedAt: '2015-03-20T12:56:55Z'
+                    updatedAt: '2015-03-20T12:56:55.254Z'
                   - _links:
                       self:
                         href: "/api/v3/groups/9"
                         title: The group
                     _type: Group
-                    createdAt: '2015-09-23T11:06:36Z'
+                    createdAt: '2015-09-23T11:06:36.231Z'
                     id: 9
                     name: The group
-                    updatedAt: '2015-09-23T11:06:36Z'
+                    updatedAt: '2015-09-23T11:06:36.231Z'
                   - _links:
                       self:
                         href: "/api/v3/placeholder_users/29"
                         title: UX Designer
                     _type: PlaceholderUser
-                    createdAt: '2018-09-23T11:06:36Z'
+                    createdAt: '2018-09-23T11:06:36.231Z'
                     id: 29
                     name: UX Designer
-                    updatedAt: '2019-10-23T11:06:36Z'
+                    updatedAt: '2019-10-23T11:06:36.231Z'
                 _links:
                   self:
                     href: "/api/v3/principals"

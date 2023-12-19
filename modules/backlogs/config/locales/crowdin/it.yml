@@ -21,16 +21,16 @@
 #++
 it:
   plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+    name: "Backlog di OpenProject"
+    description: "Questo modulo aggiunge funzionalità che consentono ai team agili di lavorare con i progetti OpenProject in Scrum."
   activerecord:
     attributes:
       work_package:
         position: "Posizione"
-        remaining_hours: "Ore rimaste"
-        remaining_time: "Ore rimaste"
-        derived_remaining_hours: "Ore rimanenti derivate"
-        derived_remaining_time: "Ore rimanenti derivate"
+        remaining_hours: "Lavoro rimanente"
+        remaining_time: "Lavoro rimanente"
+        derived_remaining_hours: "Lavoro rimanente derivato"
+        derived_remaining_time: "Lavoro rimanente derivato"
         story_points: "Punti della storia"
         backlogs_work_package_type: "Tipo di backlog"
     errors:

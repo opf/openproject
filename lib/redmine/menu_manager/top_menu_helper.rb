@@ -50,7 +50,16 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_top_menu_search
-    render partial: 'search/mini_form'
+    content_tag :div, class: 'op-app-search' do
+      render_global_search_input
+    end
+  end
+
+  def render_global_search_input
+    angular_component_tag 'opce-global-search',
+                          inputs: {
+                            placeholder: I18n.t('global_search.placeholder', app_title: Setting.app_title)
+                          }
   end
 
   def render_top_menu_right
@@ -77,9 +86,13 @@ module Redmine::MenuManager::TopMenuHelper
 
   def render_notification_top_menu_node
     return ''.html_safe unless User.current.logged?
+    return ''.html_safe if Setting.notifications_hidden?
 
     content_tag('li', class: 'op-app-menu--item', title: I18n.t('mail.notification.center')) do
-      tag('op-in-app-notification-bell')
+      angular_component_tag 'op-in-app-notification-bell',
+                            inputs: {
+                              interval: Setting.notifications_polling_interval
+                            }
     end
   end
 

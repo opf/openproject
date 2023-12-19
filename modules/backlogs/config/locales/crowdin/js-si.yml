@@ -24,4 +24,4 @@ si:
     work_packages:
       properties:
         storyPoints: "කතන්දර කරුණු"
-        remainingTime: "ඉතිරි පැය"
+        remainingTime: "Remaining work"

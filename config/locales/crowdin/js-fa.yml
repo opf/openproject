@@ -35,7 +35,7 @@ fa:
       add_tag: "Add item"
       clear_all: "Clear all"
       loading: "Loading..."
-      not_found: "No items found"
+      not_found: "موردی یافت نشد"
       type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
@@ -52,7 +52,7 @@ fa:
       last_backup: آخرین پشتیبانی گیری
       last_backup_from: آخرین پشتیبانی گیری از
       title: Backup OpenProject
-      options: Options
+      options: گزینه‌ها
       include_attachments: Include attachments
       download_backup: دانلود نسخه پشتیبان گیری
       request_backup: Request backup
@@ -80,7 +80,7 @@ fa:
     button_details_view: "نمای جزییات"
     button_duplicate: "نسخه برداری"
     button_edit: "ویرایش"
-    button_filter: "Filter"
+    button_filter: "فیلتر"
     button_collapse_all: "بستن همه"
     button_expand_all: "باز کردن همه"
     button_advanced_filter: "فیلتر پیشرفته"
@@ -111,7 +111,7 @@ fa:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "تاریخچه ضریب (نرخ) پرداخت"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
@@ -303,26 +303,26 @@ fa:
           two: "دومین شاخص مرتب سازی"
           three: "سومین شاخص مرتب سازی"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'نمودار گانت'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'تنظیمات برچسب'
+        bar: 'برچسب های نوار'
+        left: 'چپ'
+        right: 'راست'
+        farRight: 'منتهای راست'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'نمایش Gant chart'
+      button_deactivate: 'عدم نمایش Gantt chart'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(هیچ)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
         in: "Zoom in"
         out: "Zoom out"
-        auto: "Auto zoom"
+        auto: "بزرگنمایی خودکار"
         days: "Days"
         weeks: "Weeks"
         months: "Months"
@@ -332,8 +332,8 @@ fa:
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "yes"
-    general_text_No: "No"
-    general_text_Yes: "Yes"
+    general_text_No: "نه"
+    general_text_Yes: "بله"
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -352,7 +352,7 @@ fa:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -383,7 +383,7 @@ fa:
     label_ascending: "Ascending"
     label_author: "نویسنده: %{user}"
     label_avatar: "چهرک"
-    label_between: "between"
+    label_between: "بین"
     label_board: "Board"
     label_board_locked: "قفل شده"
     label_board_plural: "Boards"
@@ -400,7 +400,7 @@ fa:
     label_details: "Details"
     label_display: "Display"
     label_cancel_comment: "لغو نظر"
-    label_closed_work_packages: "closed"
+    label_closed_work_packages: "بسته"
     label_collapse: "فرو ریختن"
     label_collapsed: "فروریخته"
     label_collapse_all: "بستن همه"
@@ -425,7 +425,7 @@ fa:
     label_global_roles: "نقش‌های جهانی"
     label_greater_or_equal: ">="
     label_group: 'Group'
-    label_group_by: "Group by"
+    label_group_by: "گروه‌بندی بر اساس"
     label_group_plural: "Groups"
     label_hide_attributes: "نمایش کمتر"
     label_hide_column: "عدم نمایش ستون"
@@ -440,7 +440,7 @@ fa:
     label_latest_activity: "آخرین فعالیت"
     label_last_updated_on: "آخرین به روزرسانی در"
     label_learn_more_link: "Learn more"
-    label_less_or_equal: "<="
+    label_less_or_equal: "=>"
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
     label_mail_notification: "اعلان های ایمیل"
@@ -468,9 +468,9 @@ fa:
     label_previous: "Previous"
     label_per_page: "در هر صفحه:"
     label_please_wait: "شكيبا باشيد"
-    label_project: "Project"
+    label_project: "پروژه"
     label_project_list: "Projects list"
-    label_project_plural: "Projects"
+    label_project_plural: "پروژه‌ها"
     label_visibility_settings: "تنظیمات دیداری"
     label_quote_comment: "Quote this comment"
     label_recent: "Recent"
@@ -513,7 +513,7 @@ fa:
     label_value_derived_from_children: "(value derived from children)"
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
-    label_work_package: "Work package"
+    label_work_package: "بسته کاری"
     label_work_package_parent: "Parent work package"
     label_work_package_plural: "Work packages"
     label_watch: "نگاه کردن"
@@ -770,7 +770,7 @@ fa:
         nevermind: "Nevermind"
       edit:
         form_configuration: "Form Configuration"
-        projects: "Projects"
+        projects: "پروژه‌ها"
         settings: "Settings"
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
@@ -901,7 +901,7 @@ fa:
         show_relations: 'Show relations'
         ignore_non_working_days:
           title: 'Working days only'
-      description_filter: "Filter"
+      description_filter: "فیلتر"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
@@ -911,7 +911,7 @@ fa:
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Add filter"
       label_filter_by_text: "Filter by text"
-      label_options: "Options"
+      label_options: "گزینه‌ها"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
@@ -957,7 +957,7 @@ fa:
         details: "Details"
         people: "افراد"
         estimatesAndTime: "برآورد و زمان"
-        other: "Other"
+        other: "غیره"
       properties:
         assignee: "Assignee"
         author: "نویسنده"
@@ -966,12 +966,11 @@ fa:
         date: "تاریخ"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Estimated time"
         spentTime: "زمان صرف شده"
         category: "Category"
         percentageDone: "Percentage done"
         priority: "اولويت"
-        projectName: "Project"
+        projectName: "پروژه"
         responsible: "مسئول"
         startDate: "Start date"
         status: "Status"
@@ -1001,7 +1000,7 @@ fa:
       query:
         column_names: "ستون‌ها"
         group_by: "دسته بندی نتایج با"
-        group: "Group by"
+        group: "گروه‌بندی بر اساس"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
         sort_ascending: "Sort ascending"
@@ -1027,7 +1026,7 @@ fa:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'به اشتراک گذاری'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1087,7 +1086,7 @@ fa:
         configure_view: "Configure view"
         columns: "ستون‌ها"
         sort_by: "Sort by"
-        group_by: "Group by"
+        group_by: "گروه‌بندی بر اساس"
         display_sums: "Display sums"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
@@ -1099,8 +1098,8 @@ fa:
         share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"
         delete: "حذف"
-      filter: "Filter"
-      unselected_title: "Work package"
+      filter: "فیلتر"
+      unselected_title: "بسته کاری"
       search_query_label: "Search saved views"
     modals:
       label_name: "نام"
@@ -1197,7 +1196,7 @@ fa:
         PlaceholderUser: 'placeholder user'
         invite_principal_to_project: 'دعوت %{principal} به %{project}'
       project:
-        label: 'Project'
+        label: 'پروژه'
         required: 'لطفا یک پروژه انتخاب شود'
         lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
@@ -1207,7 +1206,7 @@ fa:
       type:
         required: 'Please select the type to be invited'
         user:
-          title: 'User'
+          title: 'کاربر'
           description: 'Permissions based on the assigned role in the selected project'
         group:
           title: 'Group'
@@ -1253,11 +1252,11 @@ fa:
         next_button: 'Continue'
     include_projects:
       toggle_title: 'Include projects'
-      title: 'Projects'
+      title: 'پروژه‌ها'
       clear_selection: 'Clear selection'
       apply: 'درخواست'
       selected_filter:
-        all: 'All projects'
+        all: 'همه پروژه‌ها'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'

@@ -97,15 +97,13 @@ fil:
     show_preview: "Preview na teksto"
     add_new: "Magdagdag ng tulong na teksto"
     edit: "I-edit na tulong na teksto para sa %{attribute_caption}"
-    enterprise:
-      description: "Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages."
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_auth_failed: "Hindi maarig mapatunayan sa LDAP-Server."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -168,18 +166,18 @@ fil:
     index:
       no_results_title_text: Walang mga kasulukuyan kulay.
       no_results_content_text: Gumawa ng bagong kulay
-      label_new_color: "New color"
+      label_new_color: "Bagong kulay"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Bagong kulay"
+      label_edit_color: "I-edit ang kulay"
     label_no_color: "No color"
-    label_properties: "Properties"
+    label_properties: "Mga property"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Sigurado ka ba, na gusto mong burahin ang sumusunod na kulay? Ang mga uri gamit ang kulay ay hindi mabubura.
   custom_actions:
     actions:
       name: "Mga aksyon"
@@ -203,12 +201,21 @@ fil:
     confirm_destroy_option: "Kapag nagbubura ng opsyon ay makakabura sa lahat ng mga pangyayari nito (e.g. sa mga package na trabaho). Sigurado ka bang gusto mong burahin ito?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Sa kasalukuyan ay walang mga custom field.
       no_results_content_text: Gumawa ng bagong patlang na custom
   concatenation:
     single: "or"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -262,7 +269,7 @@ fil:
       types:
         no_results_title_text: Sa kasalukuyan ay walang mga uri na available.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Paganahin ang uri "%{type}"'
       versions:
         no_results_title_text: Sa kasalukuyan ay walang mga bersyon para sa proyekto.
         no_results_content_text: Gumawa ng bagong bersyon
@@ -394,8 +401,8 @@ fil:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -459,12 +466,12 @@ fil:
         attribute_name: "Katangian"
         help_text: "Tekstong tulong"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Akawnt"
+        attr_firstname: "Ang katangian ng unang pangalan"
+        attr_lastname: "Ang huling katangian ng apelyido"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
+        attr_mail: "Ang katangian ng Email"
+        base_dn: "Ang Base DN"
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
@@ -599,7 +606,7 @@ fil:
         begin_insertion: "Nagsimula na ang pagpasok"
         begin_deletion: "Nagsimula na ang pagbubura"
         children: "Subelements"
-        done_ratio: "Isinasagawa (%)"
+        done_ratio: "% Complete"
         duration: "Durasyon"
         end_insertion: "Katapusan na"
         end_deletion: "Katapusan ng pagbubura"
@@ -613,7 +620,7 @@ fil:
         parent_issue: "Magulang"
         parent_work_package: "Magulang"
         priority: "Ang prayoridad"
-        progress: "Isinasagawa (%)"
+        progress: "% Complete"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Nauubos na oras"
@@ -648,7 +655,7 @@ fil:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Ang impormasyon ay naka-update sa kahit hindi baba isa o."
         email: "is not a valid email address."
         empty: "hindi pwedeng blanko."
         even: "dapat ay kapareho."
@@ -918,7 +925,7 @@ fil:
             status:
               invalid_on_create: "ay hindi isang balidong estado para sa mga bagong gumagamit."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "hindi nakita"
         member:
           principal_blank: "Mangayring pumili na kahit isang gumagamit o grupo."
           role_blank: "need to be assigned."
@@ -971,7 +978,7 @@ fil:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Mayroon mga problema sa mga sumusnod na mga patlang:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1027,13 +1034,13 @@ fil:
     default_columns: "I-default ang mga hanay"
     description: "Deskripsyon"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Ipakita ang mga sum"
     due_date: "Finish date"
-    estimated_hours: "Tinantyang oras"
-    estimated_time: "Tinantyang oras"
-    expires_at: "Expires at"
+    estimated_hours: "Work"
+    estimated_time: "Work"
+    expires_at: "Matapos sa"
     firstname: "Unang pangalan"
     group: "Grupo"
     groups: "Mga grupo"
@@ -1283,8 +1290,8 @@ fil:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "Isang oras"
+        other: "%{count} mga oras"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
@@ -1365,7 +1372,7 @@ fil:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Mangyaring pumili ng gumagamit at tungkulin."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Ang kulay ay hindi dapat naka-save"
   error_cookie_missing: "Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos na hindi kasama ang."
   error_custom_option_not_found: "Ang opsyon ay hindi umiiral."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1378,7 +1385,7 @@ fil:
   error_pdf_export_too_many_columns: "Masyadong maraming hanay ang napili para sa PDF export. Mangyaring bawasan ang mga bilang ng hanay."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Hindi naka-update ang mga work package done ratio."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Ang work package ay hindi natagpuan o hindi kabilang sa proyektong ito"
   error_must_be_project_member: "dapat ay miyembro ng proyekto"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1390,7 +1397,7 @@ fil:
   error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Isang mali ang naganap nong subukam ang pag-access ng repositoryo: %{value}"
   error_scm_not_found: "Ang entry o rebisyon ay hindi natagpuan sa repositoryo."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Ang mga uri ay hindi mai-save"
   error_unable_delete_status: "Ang estado ng work package ay hindi pwedeng burahin dahil ginamit ito sa kahit isang work package."
   error_unable_delete_default_status: "Hindi mabura ang default estado ng work package. Mangyaring pumili ng ibang estado ng work package bago buburahin ang kasulukuyang isa."
   error_unable_to_connect: "Hindi makakonekta (%{value})"
@@ -1683,7 +1690,7 @@ fil:
   label_confirmation: "Kompirmasyon"
   label_contains: "naglalaman"
   label_content: "Nilalaman"
-  label_color_plural: "Colors"
+  label_color_plural: "Mga kulay"
   label_copied: "kinopya"
   label_copy_same_as_target: "Tulad bilang target"
   label_copy_source: "Pinagkukunan"
@@ -1713,7 +1720,7 @@ fil:
   label_deleted: "binura"
   label_deleted_custom_field: "(binurang custom field)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(walang laman)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Pababa"
   label_details: "Mga detalye"
@@ -2049,7 +2056,7 @@ fil:
   label_this_week: "ngayong semana"
   label_this_year: "ngayong taon"
   label_time_entry_plural: "Nauubos na oras"
-  label_title: "Title"
+  label_title: "Pamagat"
   label_projects_menu: "Mga proyekto"
   label_today: "ngayon"
   label_top_menu: "Itaas na pagpipilian"
@@ -2058,7 +2065,7 @@ fil:
   label_type_new: "Bagong uri"
   label_type_plural: "Mga uri"
   label_ui: "User Interface"
-  label_update_work_package_done_ratios: "I-update ang mga work package done ratio"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "I-update ang nakalipas na %{value}"
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: "Naka-update sa %{author}%{age} na nakalipas"
@@ -2214,9 +2221,9 @@ fil:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2250,8 +2257,8 @@ fil:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package na nakatakaga sa iyo ay dapat isumite sa mga sumusunod na %{days} araw:"
   mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Ang '%{id}' wiking pahina ay naidagdag sa %{author}."
+  mail_body_wiki_page_updated: "Ang '%{id}' wiking pahina ay na i-update sa %{author}."
   mail_subject_account_activation_request: "%{value} kahilingan ng akwant aktibasyon"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2326,7 +2333,7 @@ fil:
   notice_file_not_found: "Ang package na iyong sinusibukan i-access ay hindi umiiral o inalis na."
   notice_forced_logout: "Ikaw ay automatikong naka-log out pagkatapos ng %{ttl_time} ilang minuto ng hindi aktibidad."
   notice_internal_server_error: "Isang error ang naganap sa oahina na gusto mong i-access. Kung nagpatuloy ang mga problema nararansan mo manyaring kontakin ang iyong %{app_title} tagapangasiwa para sa tulong."
-  notice_work_package_done_ratios_updated: "Naka-update ang mga work package done ratio."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Ang impormasyon ay naka-update sa kahit hindi baba isa o."
   notice_locking_conflict_additional_information: "Ang mga update nagmula sa %{users}."
   notice_locking_conflict_reload_page: "Mangyaring i-reload ang pahina na ito, repasuhin ang mga pagbabago at muling i-apply ang iyong mga update."
@@ -2391,7 +2398,7 @@ fil:
   permission_add_work_packages: "Magdagdag ng mga work package"
   permission_add_messages: "Mga post na mensahe"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Magdagdag ng mga nakalakip"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "I-archive ang proyekto"
   permission_create_user: "Create users"
@@ -2478,7 +2485,9 @@ fil:
     default: "-"
   project:
     destroy:
-      confirmation: "Kung gusto mong magpatuloy, ang proyektong %{identifier} at lahat na nakaugnay na data ay mananatiling masira."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Pagbubura ng proyekto ay isang hindi mababawi ang aksyon."
       project_verification: "Isulat ang pangalan ng proyekto %{name} para ma-verify and pagtanggal."
       subprojects_confirmation: "Ito ay ang subproject(mga): %{value} ay maaring matanggal."
@@ -2502,6 +2511,7 @@ fil:
   project_module_news: "Mga balita"
   project_module_repository: "Repositoryo"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2689,10 +2699,10 @@ fil:
   setting_file_max_size_displayed: "Max na laki ng mga tekstong file na ipinapakita inline"
   setting_host_name: "Host name"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Kalkulahin ang work package done rato sa"
-  setting_work_package_done_ratio_field: "Gamitin ang work package field"
-  setting_work_package_done_ratio_status: "Gamitin ang estado ng work package"
-  setting_work_package_done_ratio_disabled: "Hindi pinaga (itago ang proseso)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Ipakiita sa pamamagitan ng default"
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
@@ -3032,29 +3042,33 @@ fil:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Tungkulin'
+        type: 'Uri'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Komento"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "I-edit"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Tingnan"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Tanggalin"
+      share: "Ibahagi"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3097,6 +3111,7 @@ fil:
       code_429: "Too many requests. Please try again later."
       code_500: "Isang internal error ang naganap."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3125,9 +3140,9 @@ fil:
         unsupported_context: "Ang ibinigay na mapagkukunan ay hindi suportado bilang isang konteksto."
         context_object_not_found: "Hindi mahanap ang ibinigay na mapagkukunan bilang konteksto."
       validation:
-        done_ratio: "Hindi mai-set ang natapos na ratio sa gawain ng mga magulang na package, kapag ito ay inferred sa pamamagitan ng estado o kapag ito ay hindi mapagana."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Itinayang mga oras ay hindi mai-set sa mga package ng gawain ng magulang."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Ang piniling gumagamit ay hindi pinahihintulan sa '%{property}' na para sa package ng gawain ng magulang."
         start_date: "Sinimulang petsa ay hindi mai-set sa mga pakete ng gawain ng magulang."
       eprops:

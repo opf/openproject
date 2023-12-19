@@ -39,10 +39,6 @@ module MailNotificationHelper
     notifications_center_url(['details', id, 'activity'])
   end
 
-  def shared_work_package_path(id)
-    work_package_url(id)
-  end
-
   def type_color(type, default_fallback)
     color_id = selected_color(type)
     if color_id

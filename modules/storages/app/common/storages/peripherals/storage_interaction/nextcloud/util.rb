@@ -65,7 +65,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
         on_success: ->(token) do
           connection_manager.request_with_token_refresh(token) { yield token }
         end,
-        on_failure: ->(_) { error(:unauthorized, 'Query could not be created! No access token found!') }
+        on_failure: ->(_) do
+          error(:unauthorized,
+                'Query could not be created! No access token found!',
+                Storages::StorageErrorData.new(source: connection_manager))
+        end
       )
     end
 

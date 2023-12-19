@@ -1,7 +1,7 @@
 it:
   plugin_openproject_openid_connect:
-    name: "OpenProject OpenID Connect"
-    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+    name: "OpenID Connect OpenProject"
+    description: "Aggiunge i provider di strategia OmniAuth OpenID Connect a Openproject."
   logout_warning: >
     Sei stato disconnesso. Il contenuto di qualsiasi modulo che invii potrebbe essere perso. Per favore [accedi].
   activemodel:
@@ -23,7 +23,7 @@ it:
       singular: Provider OpenID
     setting_instructions:
       azure_deprecation_warning: >
-        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
+        L'app Azure configurata punta a un'API deprecata da Azure. Creare una nuova app Azure per garantire la funzionalità in futuro.
       azure_graph_api: >
         Usa l'endpoint userinfo di graph.microsoft.com per richiedere i dati utente. Questa dovrebbe essere l'impostazione predefinita, a meno che non si disponga di un'applicazione Azure precedente.
       azure_tenant_html: >

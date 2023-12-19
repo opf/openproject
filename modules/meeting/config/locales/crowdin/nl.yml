@@ -33,6 +33,9 @@ nl:
         duration: "Duur"
         notes: "Notities"
         participants: "Deelnemers"
+        participant:
+          one: "1 Deelnemer"
+          other: "%{count} Participants"
         participants_attended: "Aanwezigen"
         participants_invited: "Genodigden"
         project: "Project"
@@ -70,7 +73,7 @@ nl:
   label_meeting_new: "Nieuwe vergadering"
   label_meeting_edit: "Vergadering bewerken"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minuten"
+  label_meeting_minutes: "Notulen"
   label_meeting_close: "Sluiten"
   label_meeting_open: "Open"
   label_meeting_agenda_close: "Sluit de agenda om de notulen te beginnen"
@@ -97,6 +100,7 @@ nl:
       invited:
         summary: "%{actor} heeft je een uitnodiging gestuurd voor de meeting %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Vergadering %{title} is verplaatst door %{actor}"
         body: "De vergadering %{title} is opnieuw gepland door %{actor}."
         old_date_time: "Oude datum/tijd"
@@ -107,7 +111,7 @@ nl:
       classic_text: 'Organiseer uw vergadering met een opmaakbare tekstagenda en protocol.'
       structured: 'Dynamisch'
       structured_text: 'Organiseren van uw vergadering als een lijst met agendapunten, eventueel koppelen aan een werkpakket.'
-      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
+      structured_text_copy: 'Een vergadering kopiëren zal momenteel niet de bijbehorende agendapunten kopiëren, alleen de details'
     copied: "Gekopieerd van vergadering #%{id}"
   notice_successful_notification: "Notificatie succesvol verzonden"
   notice_timezone_missing: Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.
@@ -134,7 +138,7 @@ nl:
   text_meeting_minutes_for_meeting: 'minuten voor de vergadering "%{meeting}"'
   text_notificiation_invited: "Deze mail bevat een ics item voor de vergadering hieronder:"
   text_meeting_empty_heading: "Je vergadering is leeg"
-  text_meeting_empty_description_1: "Begin met het toevoegen van agendapunten hieronder. Elk item kan zo eenvoudig zijn als alleen een titel, maar u kunt ook extra gegevens toevoegen, zoals duur, aantekeningen en een verantwoordelijke persoon."
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
   text_meeting_empty_description_2: "Je kunt ook verwijzingen naar bestaande werkpakketten toevoegen. Wanneer je dit doet, zullen gerelateerde notities automatisch zichtbaar zijn in het tabblad \"Vergaderingen\" van het werkpakket."
   label_meeting_empty_action: "Agendapunt toevoegen"
   label_meeting_actions: "Vergadering acties"
@@ -142,7 +146,7 @@ nl:
   label_meeting_delete: "Verwijder vergadering"
   label_meeting_created_by: "Gemaakt door"
   label_meeting_last_updated: "Laatst bijgewerkt"
-  label_agenda_item_undisclosed_wp: "Onbekend werk pakket referentie #%{id}"
+  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Verwijderde verwijzing naar het werkpakket"
   label_agenda_item_actions: "Agenda items acties"
   label_agenda_item_move_to_top: "Verplaats naar top"
@@ -154,13 +158,14 @@ nl:
   label_meeting_details_edit: "Bewerk vergader details"
   label_meeting_state_open: "Openen"
   label_meeting_state_closed: "Gesloten"
-  label_meeting_reopen_action: "Reopen meeting"
-  label_meeting_close_action: "Close meeting"
-  text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
+  label_meeting_reopen_action: "Heropen vergadering"
+  label_meeting_close_action: "Vergadering sluiten"
+  text_meeting_open_description: "Deze vergadering is open. Je kunt agenda-items toevoegen/verwijderen en bewerken naar eigen goeddunken. Na afloop van de vergadering kun je deze sluiten, om te vergrendelen."
   text_meeting_closed_description: "This meeting is closed. You cannot add/remove agenda items anymore."
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Toon alle"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

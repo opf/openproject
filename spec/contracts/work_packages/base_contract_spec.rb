@@ -680,20 +680,14 @@ RSpec.describe WorkPackages::BaseContract do
   describe 'percentage done' do
     it_behaves_like 'a parent unwritable property', :done_ratio
 
-    context 'when done ratio inferred by status' do
-      before do
-        allow(Setting).to receive(:work_package_done_ratio).and_return('status')
-      end
-
+    context 'when % Complete inferred by status',
+            with_settings: { work_package_done_ratio: 'status' } do
       it_behaves_like 'invalid if changed', :done_ratio
     end
 
-    context 'when done ratio disabled' do
+    context 'when % Complete disabled',
+            with_settings: { work_package_done_ratio: 'disabled' } do
       let(:changed_values) { [:done_ratio] }
-
-      before do
-        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
-      end
 
       it_behaves_like 'invalid if changed', :done_ratio
     end
@@ -1044,8 +1038,8 @@ RSpec.describe WorkPackages::BaseContract do
 
     before do
       allow(current_user)
-        .to receive(:roles_for_project)
-         .with(work_package.project)
+        .to receive(:roles_for_work_package)
+         .with(work_package)
          .and_return(roles)
     end
 

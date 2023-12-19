@@ -43,14 +43,14 @@ uk:
           name: Інше
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Редактор пакета робіт
         item_1:
-          name: Work package commenter
+          name: Коментатор пакета робіт
         item_2:
-          name: Work package viewer
+          name: Переглядач пакета робіт
       project_roles:
         item_0:
-          name: Non member
+          name: Не учасник
         item_1:
           name: Невідомий
         item_2:
@@ -132,21 +132,21 @@ uk:
       welcome:
         title: Вітаємо в OpenProject!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject – це провідне програмне забезпечення з відкритим кодом, що підтримує класичне, гібридне, а також гнучке керування проєктами й надає повний контроль над даними.
 
-          Core features and use cases:
+          Ключові функції і застосування:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Керування портфоліо проєктів](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Планування проєктів і їх виконання](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Керування завданнями й відстеження помилок](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Дошки Agile (Scrum і Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Керування вимогами й планування випуску](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Відстеження часу й витрат, бюджети](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Співпраця в командах і документація](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          Представляємо новий рівень керування проєктами.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Для адміністраторів: ви можете змінити цей текст привітання [тут]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Демопроєкт
@@ -354,20 +354,17 @@ uk:
                   text: |
                     Ми раді, що ви приєдналися! Пропонуємо вам дещо підготувати перед початком роботи в OpenProject.
 
-                    Дізнайтеся про найважливіші функції в нашому [Покроковому посібнику]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
-
                     _Виконайте такі дії:_
 
                     1. *Запросіть учасників у свій проєкт*: &rightarrow; виберіть [Учасники]({{opSetting:base_url}}/projects/your-scrum-project/members) на панелі навігації проєктом.
-                    2. *Перегляньте невиконані завдання для свого продукту й спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) на панелі навігації проєктом.
-                    3. *Перегляньте свою дошку завдань*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; натисніть стрілку вправо для спринту &rightarrow; виберіть [Дошка завдань](##sprint:scrum_project__version__sprint_1).
+                    2. *Перегляньте список невиконаних завдань для свого продукту й спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) на панелі навігації проєктом.
+                    3. *Перегляньте дошку завдань*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; натисніть стрілку вправо для спринту &rightarrow; виберіть [Дошка завдань](##sprint:scrum_project__version__sprint_1).
                     4. *Створіть новий пакет робіт*: &rightarrow; виберіть [Пакети робіт &rightarrow; Створити]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Створіть і оновіть план проєкту*: &rightarrow; виберіть [План проєкту](##query:scrum_project__query__project_plan) на панелі навігації проєктом.
                     6. *Створіть вікі-сторінку спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) і відкрийте вікі-сторінку спринту з розкривного меню праворуч у вікні спринту. Ви можете відредагувати [шаблон вікі-сторінки]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) залежно від своїх потреб.
                     7. *Активуйте додаткові модулі*: &rightarrow; виберіть [Налаштування проєкту &rightarrow; Модулі]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Тут ви знайдете наші [Посібники користувача](https://www.openproject.org/docs/user-guide/).
-                    кщо маєте запитання або потребуєте допомоги, зв’яжіться з нами: [support[at]openproject.com](mailto:support@openproject.com).
+                    Тут ви знайдете наші [Посібники користувача](https://www.openproject.org/docs/user-guide/). Якщо маєте запитання або потребуєте допомоги, зв’яжіться з нами: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Пакети робіт

@@ -123,4 +123,73 @@ RSpec.describe Storages::ProjectStorage do
         .backed_by_column_of_type(:enum)
     end
   end
+
+  describe '#open' do
+    let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+    let(:permissions) { %i[] }
+    let(:project_storage) do
+      build(:project_storage,
+            storage:,
+            project_folder_mode:,
+            project_folder_id:,
+            project:)
+    end
+    let(:project_folder_id) { nil }
+
+    context 'when inactive' do
+      let(:project_folder_mode) { 'inactive' }
+
+      it 'opens storage' do
+        expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
+      end
+    end
+
+    context 'when manual' do
+      let(:project_folder_mode) { 'manual' }
+
+      context 'when project_folder_id is missing' do
+        it 'opens storage' do
+          expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
+        end
+      end
+
+      context 'when project_folder_id is present' do
+        let(:project_folder_id) { '123' }
+
+        it 'opens project_folder' do
+          expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/f/123?openfile=1")
+        end
+      end
+    end
+
+    context 'when automatic' do
+      let(:project_folder_mode) { 'automatic' }
+
+      context 'when user has no permissions to read files in storage' do
+        let(:project_folder_mode) { 'automatic' }
+
+        it 'opens storage' do
+          expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
+        end
+      end
+
+      context 'when user has permissions to read files in storage' do
+        let(:permissions) { %i[read_files] }
+
+        context 'when project_folder_id is missing' do
+          it 'opens storage' do
+            expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
+          end
+        end
+
+        context 'when project_folder_id is present' do
+          let(:project_folder_id) { '123' }
+
+          it 'opens project_folder' do
+            expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/f/123?openfile=1")
+          end
+        end
+      end
+    end
+  end
 end

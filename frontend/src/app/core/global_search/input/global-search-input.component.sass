@@ -84,6 +84,8 @@ $search-input-height: 30px
       // The ng-select default theme is overly specific
       // We might want to replace it with our own BEM theme definition
       color: var(--header-item-font-color) !important
+      // Reduce width to ensure placeholder text does not exceed
+      width: calc(100% - 30px)
 
     &.-expanded
       width: $search-input-width-expanded

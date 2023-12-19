@@ -27,8 +27,8 @@ es:
     attributes:
       work_package:
         position: "Posición"
-        remaining_hours: "Horas restantes"
-        remaining_time: "Horas restantes"
+        remaining_hours: "Trabajo restante"
+        remaining_time: "Trabajo restante"
         derived_remaining_hours: "Horas restantes derivadas"
         derived_remaining_time: "Horas restantes derivadas"
         story_points: "Puntos de Historia"

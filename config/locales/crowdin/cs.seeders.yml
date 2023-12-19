@@ -56,12 +56,12 @@ cs:
         item_2:
           name: Člen
         item_3:
-          name: Reader
+          name: Čtenář
         item_4:
           name: Správce projektu
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Manažer zaměstnanců a projektů
     standard:
       priorities:
         item_0:
@@ -160,7 +160,7 @@ cs:
                 In this module you can communicate project news to your team members.
               description: Aktuální novinky
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (bude změněno v nastavení projektu)
           queries:
             item_0:
               name: Plán projektu
@@ -353,8 +353,6 @@ cs:
                   name: Začínáme
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
                     _Try the following steps:_
 

@@ -23,6 +23,9 @@ module Storages::Admin
     end
 
     def configuration_check_label_for(*configs)
+      # do not show the status label, if storage is completely empty (initial state)
+      return if storage.configuration_checks.values.none?
+
       if storage.configuration_checks.slice(*configs.map(&:to_sym)).values.all?
         status_label(I18n.t('storages.label_completed'), scheme: :success, test_selector: "label-#{configs.join('-')}-status")
       else
@@ -35,6 +38,9 @@ module Storages::Admin
     end
 
     def automatically_managed_project_folders_status_label
+      # do not show the status label, if storage is completely empty (initial state)
+      return if storage.configuration_checks.values.none?
+
       test_selector = 'label-managed-project-folders-status'
 
       if storage.automatically_managed?
@@ -57,6 +63,14 @@ module Storages::Admin
         "#{I18n.t('storages.label_oauth_client_id')}: #{storage.oauth_client.client_id}"
       else
         I18n.t("storages.configuration_checks.oauth_client_incomplete.#{storage.short_provider_type}")
+      end
+    end
+
+    def provider_redirect_uri_description
+      if storage.oauth_client
+        "#{I18n.t('storages.label_uri')}: #{storage.oauth_client.redirect_uri}"
+      else
+        I18n.t("storages.configuration_checks.redirect_uri_incomplete.#{storage.short_provider_type}")
       end
     end
   end

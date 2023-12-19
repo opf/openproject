@@ -24,4 +24,4 @@ eu:
     work_packages:
       properties:
         storyPoints: "Story Points"
-        remainingTime: "Geratzen diren orduak"
+        remainingTime: "Remaining work"

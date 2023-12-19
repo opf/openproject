@@ -31,12 +31,10 @@ class WorkPackagePolicy < BasePolicy
 
   def cache(work_package)
     @cache ||= Hash.new do |wp_hash, wp|
-      wp_hash[wp] = Hash.new do |project_hash, project|
-        project_hash[project] = allowed_hash(wp)
-      end
+      wp_hash[wp] = allowed_hash(wp)
     end
 
-    @cache[work_package][work_package.project]
+    @cache[work_package]
   end
 
   def allowed_hash(work_package)

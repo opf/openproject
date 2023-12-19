@@ -33,7 +33,6 @@ module Storages::Storages
 
     def set_default_attributes(_params)
       storage.creator ||= user
-      storage.name ||= derive_default_storage_name
     end
 
     private
@@ -51,7 +50,7 @@ module Storages::Storages
       cloned_param = params.clone
 
       if cloned_param[:host] == ''
-        cloned_param.merge!(host: nil)
+        cloned_param[:host] = nil
       end
 
       cloned_param
@@ -69,15 +68,6 @@ module Storages::Storages
 
     def storage
       model
-    end
-
-    def derive_default_storage_name
-      prefix = I18n.t("storages.default_name")
-      last_id = Storages::Storage.where("name like ?", "#{prefix}%").maximum(:id)
-
-      return prefix if last_id.nil?
-
-      "#{prefix} #{last_id + 1}"
     end
 
     def nextcloud_storage?

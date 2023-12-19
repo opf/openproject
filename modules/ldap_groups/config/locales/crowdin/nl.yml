@@ -6,11 +6,11 @@ nl:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'AFW'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP verbinding'
         sync_users: 'Gebruikers synchroniseren'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filter'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP verbinding'
         group_name_attribute: "Attribuut groepsnaam"
         sync_users: 'Gebruikers synchroniseren'
         base_dn: "Zoek basis DN"

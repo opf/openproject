@@ -24,4 +24,4 @@ hu:
     work_packages:
       properties:
         storyPoints: "Story pontok"
-        remainingTime: "Fennmaradó órák"
+        remainingTime: "Remaining work"

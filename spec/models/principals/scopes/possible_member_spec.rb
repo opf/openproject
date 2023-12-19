@@ -55,6 +55,26 @@ RSpec.describe Principals::Scopes::PossibleMember do
   let!(:member_group) do
     create(:group, member_with_roles: { project => role })
   end
+  let(:view_work_package_role) { create(:view_work_package_role) }
+  let(:work_package) { create(:work_package, project:, author: active_user) }
+  let!(:shared_work_package_with_user) do
+    create(:user) do |user|
+      create(:work_package_member,
+             project:,
+             entity: work_package,
+             user:,
+             roles: [view_work_package_role])
+    end
+  end
+  let!(:shared_work_package_with_group) do
+    create(:group) do |group|
+      create(:work_package_member,
+             project:,
+             entity: work_package,
+             user: group,
+             roles: [view_work_package_role])
+    end
+  end
 
   describe '.possible_member' do
     subject { Principal.possible_member(project) }
@@ -72,7 +92,9 @@ RSpec.describe Principals::Scopes::PossibleMember do
 
       it 'returns non locked users, groups and placeholder users not part of the project yet' do
         expect(subject).to contain_exactly(admin_user, global_manager, active_user, registered_user, invited_user,
-                                           placeholder_user, group, member_in_public_project)
+                                           placeholder_user, group, member_in_public_project,
+                                           shared_work_package_with_user,
+                                           shared_work_package_with_group)
       end
     end
 
@@ -81,7 +103,9 @@ RSpec.describe Principals::Scopes::PossibleMember do
 
       it 'returns non locked users, groups and placeholder users not part of the project yet' do
         expect(subject).to contain_exactly(admin_user, global_manager, active_user, registered_user, invited_user,
-                                           placeholder_user, group, member_in_public_project)
+                                           placeholder_user, group, member_in_public_project,
+                                           shared_work_package_with_user,
+                                           shared_work_package_with_group)
       end
     end
   end

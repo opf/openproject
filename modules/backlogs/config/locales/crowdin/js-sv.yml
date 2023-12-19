@@ -24,4 +24,4 @@ sv:
     work_packages:
       properties:
         storyPoints: "Berättelsepoäng"
-        remainingTime: "Återstående timmar"
+        remainingTime: "Remaining work"

@@ -8,11 +8,6 @@ import {
 import { boardTourSteps } from 'core-app/core/setup/globals/onboarding/tours/boards_tour';
 import { menuTourSteps } from 'core-app/core/setup/globals/onboarding/tours/menu_tour';
 import { homescreenOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/homescreen_tour';
-import {
-  prepareScrumBacklogsTourSteps,
-  scrumBacklogsTourSteps,
-  scrumTaskBoardTourSteps,
-} from 'core-app/core/setup/globals/onboarding/tours/backlogs_tour';
 import { teamPlannerTourSteps } from 'core-app/core/setup/globals/onboarding/tours/team_planners_tour';
 
 require('core-vendor/enjoyhint');
@@ -98,18 +93,6 @@ function mainTour(project:ProjectName = ProjectName.demo) {
 
 export function start(name:OnboardingTourNames, project?:ProjectName):void {
   switch (name) {
-    case 'prepareBacklogs':
-      initializeTour('prepareTaskBoardTour');
-      startTour(prepareScrumBacklogsTourSteps());
-      break;
-    case 'backlogs':
-      initializeTour('startTaskBoardTour');
-      startTour(scrumBacklogsTourSteps());
-      break;
-    case 'taskboard':
-      initializeTour('startMainTourFromBacklogs');
-      startTour(scrumTaskBoardTourSteps());
-      break;
     case 'homescreen':
       initializeTour('startProjectTour');
       startTour(homescreenOnboardingTourSteps());

@@ -14,6 +14,7 @@
                   id: "#{@id}-frame",
                   loading: :lazy,
                   src: @src,
+                  class: 'Overlay-form',
                   data: { 'op-turbo-op-primer-async-dialog-target': "frameElement" }) do
         flex_layout(justify_content: :center) do |flex|
           flex.with_column(my: 5) do

@@ -43,7 +43,13 @@ To synchronize tasks from MS Project to OpenProject, you can export your MS Proj
 
 ## Nextcloud
 
-OpenProject offers integration with Nextcloud for file storage and collaboration. You can find more information about [setting up the integration with Nextcloud](./nextcloud) and [using the integration](../../user-guide/nextcloud-integration/).
+OpenProject offers integration with Nextcloud for file storage and collaboration. You can find more information about [setting up the integration with Nextcloud](./nextcloud) and [using the integration](../../user-guide/file-management/nextcloud-integration/).
+
+## OneDrive/SharePoint (Enterprise add-on)
+
+OpenProject offers an integration with OneDrive/Sharepoint for file storage and collaboration. You can find more information about [setting up the integration with OneDrive/SharePoint](./one-drive) and [using the integration](../../user-guide/file-management/one-drive-integration/).
+
+> **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
 ## Slack
 

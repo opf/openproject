@@ -41,7 +41,7 @@ sl:
       github_actions: Akcije
       pull_requests:
         message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        merged_message: "Zahteva za prenos #%{pr_number} %{pr_link} za %{repository_link} je bila %{pr_state} s strani uporabnika %{github_user_link}."
         referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
         states:
           opened: 'Odprto'

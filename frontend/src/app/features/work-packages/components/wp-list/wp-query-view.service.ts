@@ -45,6 +45,9 @@ export class WorkPackagesQueryViewService {
     if (this.$state.includes('calendar')) {
       return 'work_packages_calendar';
     }
+    if (this.$state.includes('gantt')) {
+      return 'gantt';
+    }
 
     throw new Error('Not on a path defined for query views');
   }

@@ -18,7 +18,7 @@ allOf:
               - $ref: "./link.yml"
               - description: |-
                   This time entry collection
-                  
+
                   **Resource**: TimeEntryCollectionModel
       _embedded:
         type: object
@@ -46,8 +46,8 @@ examples:
             html: "<p>Some comment</p>"
           spentOn: '2015-03-20'
           hours: PT5H
-          createdAt: '2015-03-20T12:56:56Z'
-          updatedAt: '2015-03-20T12:56:56Z'
+          createdAt: '2015-03-20T12:56:56.803Z'
+          updatedAt: '2015-03-20T12:56:56.803Z'
           _links:
             self:
               href: "/api/v3/time_entries/1"
@@ -77,8 +77,8 @@ examples:
             html: "<p>Another comment</p>"
           spentOn: '2015-03-21'
           hours: PT7H
-          createdAt: '2015-03-20T12:56:56Z'
-          updatedAt: '2015-03-20T12:56:56Z'
+          createdAt: '2015-03-20T12:56:56.569Z'
+          updatedAt: '2015-03-20T12:56:56.371Z'
           _links:
             self:
               href: "/api/v3/time_entries/2"

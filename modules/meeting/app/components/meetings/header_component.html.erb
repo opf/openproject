@@ -57,23 +57,7 @@
         end
 
         show_header.with_row do
-          flex_layout(align_items: :center) do |meta_info|
-            meta_info.with_column(mr: 1) do
-              render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_created_by") }
-            end
-
-            meta_info.with_column(mr: 1) do
-              render_author_link
-            end
-
-            meta_info.with_column(mr: 1) do
-              render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_last_updated") }
-            end
-
-            meta_info.with_column do
-              render(Primer::Beta::RelativeTime.new(font_size: :small, color: :subtle, datetime: last_updated_at))
-            end
-          end
+          render(Meetings::HeaderInfolineComponent.new(@meeting))
         end
       end
 
@@ -110,23 +94,7 @@
           end
 
           edit_header.with_row do
-            flex_layout(align_items: :center) do |meta_info|
-              meta_info.with_column(mr: 1) do
-                render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_created_by") }
-              end
-
-              meta_info.with_column(mr: 1) do
-                render_author_link
-              end
-
-              meta_info.with_column(mr: 1) do
-                render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_last_updated") }
-              end
-
-              meta_info.with_column do
-                render(Primer::Beta::RelativeTime.new(font_size: :small, color: :subtle, datetime: last_updated_at))
-              end
-            end
+            render(Meetings::HeaderInfolineComponent.new(@meeting))
           end
         end
       end

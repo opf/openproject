@@ -41,6 +41,7 @@ modules_permissions:
     - :send_meeting_agendas_icalendar
     - :create_meeting_minutes
     - :send_meeting_minutes_notification
+    - :meetings_send_invite
   - role: :default_role_reader
     add:
     - :view_meetings

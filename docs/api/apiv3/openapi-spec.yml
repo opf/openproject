@@ -497,6 +497,8 @@ components:
       $ref: './components/examples/project.yml'
     ProjectBody:
       $ref: './components/examples/project_body.yml'
+    ProjectCollection:
+      $ref: './components/examples/project_collection.yml'
     QueriesModel:
       $ref: './components/examples/queries.yml'
     QueryModel:
@@ -631,8 +633,6 @@ components:
       "$ref": "./components/schemas/list_capabilities_model.yml"
     List_of_NewsModel:
       "$ref": "./components/schemas/list_of_news_model.yml"
-    List_projectsModel:
-      "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
     MarkdownModel:
@@ -675,6 +675,8 @@ components:
       "$ref": "./components/schemas/priorities_model.yml"
     PriorityModel:
       "$ref": "./components/schemas/priority_model.yml"
+    ProjectCollectionModel:
+      "$ref": "./components/schemas/project_collection_model.yml"
     ProjectModel:
       "$ref": "./components/schemas/project_model.yml"
     ProjectStorageCollectionModel:

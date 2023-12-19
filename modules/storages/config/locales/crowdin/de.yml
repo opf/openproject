@@ -5,13 +5,13 @@ de:
     description: "Ermöglicht die Verknüpfung von Arbeitspaketen mit Dateien in externen Speicherorten, wie beispielsweise Nextcloud."
   permission_view_file_links: "Datei-Links anzeigen"
   permission_manage_file_links: "Datei-Links verwalten"
-  permission_manage_storages_in_project: "Datei-Speicher im Projekt verwalten"
+  permission_manage_storages_in_project: "Dateispeicher im Projekt verwalten"
   permission_read_files: "Dateien lesen"
   permission_write_files: "Dateien schreiben"
   permission_create_files: "Dateien erstellen"
   permission_delete_files: "Dateien löschen"
   permission_share_files: "Dateien freigeben"
-  project_module_storages: "Datei-Speicher"
+  project_module_storages: "Dateispeicher"
   errors:
     attributes:
       storage_error:
@@ -27,7 +27,7 @@ de:
         creator: "Ersteller"
         provider_type: "Anbieter-Typ"
         host: "Host"
-        tenant: "Tenant"
+        tenant: "Verzeichnis (Tenant) ID"
       storages/file_link:
         origin_id: "Ursprungs-ID"
     errors:
@@ -37,7 +37,7 @@ de:
         storages/project_storage:
           attributes:
             project_folder_mode:
-              mode_unavailable: "is not available for this storage."
+              mode_unavailable: "ist für diesen Speicher nicht verfügbar."
         storages/storage:
           attributes:
             host:
@@ -62,9 +62,10 @@ de:
     default_name: "Mein Speicherplatz"
     unknown_storage: "Unbekannter Speicher"
     buttons:
-      done_continue: "Done, continue"
+      done_continue: "Fertig, Fortfahren"
       done_continue_setup: "Fertig. Setup fortsetzen"
       done_complete_setup: "Fertig, Einrichtung abgeschlossen"
+      complete_without_setup: "Ohne fortfahren"
       edit_automatically_managed_project_folders: "Automatisch verwaltete Projektordner bearbeiten"
       replace_openproject_oauth: "OpenProject OAuth ersetzen"
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
@@ -81,19 +82,21 @@ de:
       storage_provider: "Speicheranbieter"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "URI umleiten"
       nextcloud_oauth: "Nextcloud OAuth"
-      automatically_managed_folders: "Automatically managed folders"
+      automatically_managed_folders: "Automatisch verwaltete Projektordner"
     page_titles:
       file_storages:
-        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
+        subtitle: "Fügen Sie einen externen Dateispeicher hinzu, um Dateien in Arbeitspaketen hochzuladen, zu verlinken und zu verwalten."
+        delete: "Dateispeicher löschen"
       managed_project_folders:
         title: "Automatisch verwaltete Projektordner"
-        subtitle_short: "Let OpenProject create folders per project automatically."
+        subtitle_short: "Lassen Sie OpenProject Ordner im Dateispeicher automatisch für jedes Projekt anlegen."
         subtitle: >
           Lassen Sie OpenProject Ordner pro Projekt automatisch erstellen. Dies wird empfohlen, da mit dieser Option jedes Teammitglied immer über die richtigen Zugriffsrechte verfügt.
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
-        new: "Einen Datei-Speicher zum Projekt hinzufügen"
+        new: "Einen Dateispeicher zum Projekt hinzufügen"
         edit: "Dateispeicher in diesem Projekt bearbeiten"
         delete: "Dateispeicher löschen"
         members_connection_status: "Verbindungsstatus der Mitglieder"
@@ -107,9 +110,8 @@ de:
       host: "Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
       managed_project_folders_application_password: >
         Diesen Wert kopieren von:
-      managed_project_folders_application_password_caption: "Enable automatic managed folders by copying this value from: %{provider_type_link}."
-      new_storage: "Read our %{new_storage_link_text} for more information about this setup."
-      new_storage_link_text: "file storage documentation"
+      managed_project_folders_application_password_caption: "Automatisch verwaltete Ordner aktivieren, indem Sie diesen Wert kopieren: %{provider_type_link}."
+      new_storage: "Lesen Sie unsere Dokumentation zur <a target='_blank' href='%{provider_link}'>Konfiguration eines %{provider_name} Dateispeichers</a> für weitere Informationen."
       no_storage_set_up: "Es sind noch keine Dateispeicher eingerichtet."
       no_specific_folder: "Standardmäßig startet jeder Benutzer in seinem eigenen Home-Ordner, wenn er eine Datei hochlädt."
       automatic_folder: "Dies wird automatisch einen Stammordner für dieses Projekt erstellen und die Zugriffsberechtigungen für jedes Projektmitglied verwalten."
@@ -117,44 +119,53 @@ de:
       not_logged_into_storage: "Bitte melden Sie sich zunächst an, um einen Projektordner auszuwählen"
       existing_manual_folder: >
         Sie können einen existierenden Ordner als Hauptordner für dieses Projekt definieren. Die Berechtigungen werden jedoch nicht automatisch verwaltet, der Administrator muss manuell sicherstellen, dass relevante Benutzer Zugriff haben. Der ausgewählte Ordner kann von mehreren Projekten verwendet werden.
-      setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"
-      setting_up_additional_storages_non_admin: "Administratoren können zusätzliche Datei-Speicher in Administration / Datei-Speicher einrichten."
+      setting_up_additional_storages: "Um zusätzliche Dateispeicher einzurichten, besuchen Sie bitte"
+      setting_up_additional_storages_non_admin: "Administratoren können zusätzliche Dateispeicher in Administration / Dateispeicher einrichten."
       setting_up_storages: "Zum Einrichten von Dateispeichern besuchen Sie bitte"
-      setting_up_storages_non_admin: "Administratoren können Datei-Speicher in Administration / Datei-Speicher einrichten."
+      setting_up_storages_non_admin: "Administratoren können Dateispeicher in Administration / Dateispeicher einrichten."
       all_available_storages_already_added: "Alle verfügbaren Speicher sind dem Projekt bereits hinzugefügt."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}."
-      oauth_application_details_link_text: "Nextcloud OpenProject Integration settings"
+      oauth_application_details: "Der geheime Client-Schlüssel wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte hierher: %{oauth_application_details_link}."
+      oauth_application_details_link_text: "Nextcloud OpenProject Integrationseinstellungen"
       copy_from: "Diesen Wert kopieren von"
       nextcloud:
-        provider_configuration: "Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup."
-        oauth_configuration: "Copy these values from %{application_link_text}."
-        application_link_text: "application “Integration OpenProject”"
+        provider_configuration: "Bitte stellen Sie sicher, dass Sie Administrationsrechte in Ihrer Nextcloud-Instanz haben und die %{application_link_text} vor dem Setup installiert wurde."
+        oauth_configuration: "Kopieren Sie diese Werte aus der %{application_link_text}."
+        application_link_text: "Anwendung „OpenProject Integration“"
         integration: "Nextcloud Administration / OpenProject"
       one_drive:
-        provider_configuration: "Please make sure you have administration privileges in the %{application_link_text} before doing the setup."
-        oauth_configuration: "Copy these values from the %{application_link_text}. After that, copy the redirect URI back to the %{application_link_text}."
-        application_link_text: "Azure application"
+        provider_configuration: >
+          Bitte stellen Sie sicher, dass Sie Administrationsrechte im %{application_link_text} haben oder kontaktieren Sie Ihren Microsoft-Administrator, bevor Sie die Installation durchführen. Im Portal müssen Sie auch eine Azure-Anwendung registrieren oder eine vorhandene zur Authentifizierung verwenden.
+        oauth_configuration: "Kopieren Sie die Werte der gewünschten Anwendung im %{application_link_text}."
+        application_link_text: "Azure-Portal"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
-          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+          Kopieren Sie die Anwendungs-ID aus dem Azure-Portal. Diese wird benötigt, um die Umleitungs-URI zu generieren.
         oauth_client_secret: >
-          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
-        missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
-        tenant_id: "Please copy the tenant from your Azure application."
-        tenant_id_placeholder: "Name or UUID"
-        drive_id: "Please copy the drive ID from your Azure application."
-        drive_id_placeholder: "UUID or triple ID"
+          Falls kein geheimer Anwendungsschlüssel unter Clientanmeldeinformationen existiert, erstellen Sie bitte einen neuen.
+        oauth_client_redirect_uri: >
+          Bitte kopieren Sie diesen Wert in eine neue Web-Umleitungs-URI unter Umleitungs-URIs.
+        missing_client_id_for_redirect_uri: "Bitte füllen Sie die OAuth-Werte aus, um eine URI zu generieren"
+        tenant_id: >
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+        tenant_id_placeholder: "Name oder UUID"
+        drive_id: "Bitte kopieren Sie die ID des gewünschten Laufwerks, indem Sie den Schritten der %{drive_id_link_text} folgen."
+        documentation_link_text: "OneDrive/SharePoint-Dateispeicherdokumentation"
+        copy_redirect_uri: "Umleitungs-URI kopieren"
     help_texts:
       project_folder: >
         Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
     configuration_checks:
-      incomplete: "Die Einrichtung dieses Speicherplatzes ist unvollständig."
       oauth_client_incomplete:
-        nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
-        one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+        nextcloud: "Erlauben Sie OpenProject Zugriff auf Nextcloud Daten über OAuth."
+        one_drive: "Erlauben Sie OpenProject Zugriff auf Azure-Daten über OAuth, um OneDrive/Sharepoint zu verbinden."
+      redirect_uri_incomplete:
+        one_drive: "Schließen Sie das Setup mit der korrekten Umleitungs-URI ab."
     delete_warning:
       storage: >
-        Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
+        Sind Sie sicher, dass Sie %{file_storage} löschen möchten? Um diese Aktion zu bestätigen, geben Sie bitte den Namen in das untenstehende Feld ein. Daraus folgt:
+      storage_delete_result_1: "Alle eingerichteten Projektdateispeicher, die diesen Dateispeicher verwenden, werden gelöscht."
+      storage_delete_result_2: "Alle Dateiverknüpfungen aus Arbeitspaketen sämtlicher Projekte zu Dateien und Ordnern auf diesem Dateispeicher werden gelöscht."
+      storage_delete_result_3: "Hat dieser Dateispeicher automatisch verwaltete Projektordner, so werden diese und die enthaltenen Dateien permanent gelöscht."
       project_storage: >
         Sind Sie sicher, dass Sie %{file_storage} aus diesem Projekt löschen möchten? Um diese Aktion zu bestätigen, geben Sie bitte den Namen in das untenstehende Feld ein:
       project_storage_delete_result_1: "Entfernen Sie alle Links von Arbeitspaketen dieses Projekts zu Dateien und Ordnern dieses Speichers."
@@ -162,19 +173,20 @@ de:
       input_delete_confirmation: "Geben Sie den Namen %{file_storage} ein, um mit der Löschung fortzufahren."
       irreversible_notice: "Die Löschung des Projekts kann nicht rückgängig gemacht werden."
     storage_list_blank_slate:
-      heading: "You don't have any storages yet."
-      description: "Add a storage to see them here."
+      heading: "Sie haben noch keine Dateispeicher."
+      description: "Fügen Sie einen Dateispeicher hinzu, um ihn hier zu sehen."
+    error_invalid_provider_type: "Bitte wählen Sie einen gültigen Dateispeicheranbieter aus."
     label_active: "Aktiv"
-    label_add_new_storage: "Add new storage"
-    label_delete_storage: "Delete storage"
+    label_add_new_storage: "Neuen Dateispeicher hinzufügen"
+    label_delete_storage: "Dateispeicher löschen"
     label_inactive: "Inaktiv"
     label_creator: "Ersteller"
     label_provider: "Anbieter"
     label_file_link: "Datei-Link"
     label_file_links: "Datei-Links"
-    label_file_storage: "File storage"
+    label_file_storage: "Dateispeicher"
     label_creation_time: "Erstellungszeit"
-    label_completed: "Completed"
+    label_completed: "Abgeschlossen"
     label_incomplete: "Unvollständig"
     label_name: "Name"
     label_host: "Host-URL"
@@ -188,25 +200,27 @@ de:
       one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth Anwendungsdetails"
     label_oauth_client_details: "OAuth-Client-Details"
-    label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
-    label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
+    label_openproject_oauth_application_id: "OpenProject OAuth Anwendungs-ID"
+    label_openproject_oauth_application_secret: "OpenProject OAuth geheimer Anwendungsschlüssel"
+    label_oauth_client_id: "OAuth-Client-ID"
+    label_oauth_client_secret: "OAuth Client Geheimcode"
     label_information: "Zusätzliche Informationen"
     label_provider_type: "Anbieter-Typ"
     label_project_folder: "Projektordner"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "URI umleiten"
+    label_uri: "URI"
     label_new_storage: "Neuer Speicher"
-    label_new_file_storage: "New file storage"
-    label_edit_storage: "Speicherplatz bearbeiten"
-    label_edit_storage_host: "Edit storage host"
-    label_edit_storage_oauth_client: "Edit storage OAuth client"
-    label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
+    label_new_file_storage: "Neuer %{provider} Dateispeicher"
+    label_edit_storage: "Dateispeicher bearbeiten"
+    label_edit_storage_host: "Dateispeicher-Host bearbeiten"
+    label_edit_storage_oauth_client: "Dateispeicher OAuth-Anwendung bearbeiten"
+    label_show_storage_redirect_uri: "Umleitungs-URI anzeigen"
+    label_edit_storage_automatically_managed_folders: "Automatisch verwaltete Projektordner des Dateispeichers bearbeiten"
     label_existing_manual_folder: "Vorhandener Ordner mit manuell verwalteten Berechtigungen"
     label_no_specific_folder: "Kein spezifischer Ordner"
     label_automatic_folder: "Neuer Ordner mit automatisch verwalteten Berechtigungen"
     label_no_selected_folder: "Kein ausgewählter Ordner"
-    label_select_provider: "Select provider"
+    label_select_provider: "Anbieter auswählen"
     label_storage: "Speicher"
     label_storages: "Speicher"
     label_status: "Status"
@@ -214,20 +228,41 @@ de:
     member_connection_status:
       connected: "Verbunden"
       connected_no_permissions: "Benutzerrolle hat keine Speicherberechtigungen"
-      not_connected: "Not connected. The user should login to the storage via the following %{link}."
-    no_results: "Noch keine Speicher eingerichtet."
+      not_connected: "Nicht verbunden. Der Benutzer sollte sich über diesen %{link} anmelden."
+    no_results: "Noch keine Dateispeicher eingerichtet."
     members_no_results: "Keine Mitglieder zum Anzeigen."
     provider_types:
       label: "Anbieter-Typ"
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "z.B. Nextcloud"
+        label_oauth_client_id: "Nextcloud OAuth Anwendungs-ID"
+        label_oauth_client_secret: "Nextcloud OAuth geheimer Anwendungsschlüssel"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "z.B. OneDrive"
+        label_oauth_client_id: "Azure OAuth Anwendungs-ID (Client)"
+        label_oauth_client_secret: "Azure OAuth geheimer Clientschlüssel Wert"
     confirm_replace_oauth_application: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen OpenProject autorisieren."
     confirm_replace_oauth_client: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen den Daten-Speicher autorisieren."
     oauth_client_details_missing: "Um das Setup abzuschließen, fügen Sie bitte die OAuth Client-Anmeldedaten aus Ihrem Speicher hinzu."
     automatically_managed_project_folder_missing: "Um die Einrichtung abzuschließen, konfigurieren Sie bitte die automatish verwalteten Projektordner für Ihren Speicher."
     notice_oauth_application_replaced: "Die OpenProject OAuth-Anwendung wurde erfolgreich ersetzt."
-    notice_successful_storage_connection: "Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it."
+    notice_successful_storage_connection: "Dateispeicher erfolgreich verbunden! Denken Sie daran, das Modul und den spezifischen Dateispeicher in den Projekteinstellungen jedes gewünschten Projekts zu aktivieren, um ihn zu benutzen."
+    open_project_storage_modal:
+      waiting:
+        a: "Wir richten Ihre Berechtigungen für den Projektordner ein."
+        b: "Einen Moment bitte, dies könnte etwas dauern..."
+      success:
+        a: "Einrichtung der Integration abgeschlossen"
+        b: "Sie werden jetzt weitergeleitet"
+    health:
+      title: "Status des verwalteten Ordners"
+      label_pending: "Ausstehend"
+      label_error: "Fehler"
+      label_healthy: "Fehlerfrei"
+      checked: "Zuletzt geprüft %{datetime}"
+      since: "seit %{datetime}"
+    upsale:
+      title: "OneDrive/SharePoint-Integration"
+      description: 'Integrieren Sie Ihren OneDrive/SharePoint als Dateispeicher mit OpenProject. Laden Sie Dateien hoch und verknüpfen Sie diese direkt mit Arbeitspaketen in einem Projekt.'

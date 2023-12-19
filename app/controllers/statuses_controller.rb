@@ -86,7 +86,7 @@ class StatusesController < ApplicationController
     if Status.update_work_package_done_ratios
       flash[:notice] = I18n.t(:notice_work_package_done_ratios_updated)
     else
-      flash[:error] =  I18n.t(:error_work_package_done_ratios_not_updated)
+      flash[:error] = I18n.t(:error_work_package_done_ratios_not_updated)
     end
     redirect_to action: 'index'
   end

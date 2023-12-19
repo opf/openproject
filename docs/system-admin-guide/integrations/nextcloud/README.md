@@ -25,7 +25,7 @@ OpenProject offers close integration with Nextcloud to allow users to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
-> Note: This guide only covers the integration setup. Please go to our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/) to learn more about how to work with the Nextcloud integration.
+> Note: This guide only covers the integration setup. Please go to our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/) to learn more about how to work with the Nextcloud integration.
 
 ## Minimum requirements
 
@@ -165,7 +165,7 @@ Now that the integration is set up, the next step is to make the Nextcloud file 
 
 To do so, navigate to any existing project in your OpenProject instance and click on **Project settings** **→ Modules** and follow the instructions in the [Project settings user guide](../../../user-guide/projects/project-settings/file-storages).
 
-> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
+> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/).
 
 ## Reset OAuth values
 
@@ -196,7 +196,7 @@ Deleting a file storage at an instance level deletes the Nextcloud integration c
 
 ## Using the integration
 
-Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how to link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration guide](../../../user-guide/nextcloud-integration/).
+Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how to link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration guide](../../../user-guide/file-management/nextcloud-integration/).
 
 
 
