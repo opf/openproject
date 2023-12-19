@@ -70,8 +70,11 @@ module Members
     private
 
     def project_roles_entries
-      # todo
-      [{ title: 'ROLE X', href: '' }]
+      ProjectRole
+        .where(id: MemberRole.where(member_id: @project.members.select(:id)).select(:role_id))
+        .distinct
+        .pluck(:id, :name)
+        .map { |id, name| menu_item(:role_id, id, name) }
     end
 
     def permission_menu_entries
@@ -88,14 +91,14 @@ module Members
         .groups
         .order(lastname: :asc)
         .pluck(:id, :lastname)
-        .map { |id, name| group_entry(id, name) }
+        .map { |id, name| menu_item(:group_id, id, name) }
     end
 
-    def group_entry(id, name)
+    def menu_item(filter_key, id, name)
       {
         title: name,
-        href: project_members_path(group_id: id),
-        selected: selected?(:group_id, id)
+        href: project_members_path(filter_key => id),
+        selected: selected?(filter_key, id)
       }
     end
 
