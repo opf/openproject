@@ -161,6 +161,15 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
               .to contain_exactly(member_user, member_placeholder_user, member_group)
           end
         end
+
+        context 'with the user status being locked' do
+          let(:user_status) { :locked }
+
+          it 'returns non locked users, groups and placeholder users that are members' do
+            expect(subject)
+              .to contain_exactly(member_placeholder_user, member_group)
+          end
+        end
       end
     end
 
