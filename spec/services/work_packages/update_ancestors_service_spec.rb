@@ -74,6 +74,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         (statuses.size - 1).downto(0).map do |i|
           create(:work_package,
                  parent:,
+                 subject: "child #{i}",
                  status: statuses[i] == :open ? open_status : closed_status,
                  estimated_hours: estimated_hours[i],
                  done_ratio: done_ratios[i],
@@ -81,7 +82,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      shared_let(:parent) { create(:work_package, status: open_status) }
+      shared_let(:parent) { create(:work_package, subject: 'parent', status: open_status) }
 
       subject do
         # In the call we only use estimated_hours (instead of also adding
@@ -474,16 +475,36 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
   end
 
   describe 'remaining_hours propagation' do
-    shared_let(:parent) { create(:work_package, status: open_status) }
+    shared_let(:parent) { create(:work_package, subject: 'parent', status: open_status) }
+
+    context 'when setting remaining hours of a work package' do
+      before do
+        parent.remaining_hours = 2.0
+      end
+
+      subject(:call_result) do
+        described_class.new(user:, work_package: parent)
+                       .call(%i(remaining_hours))
+      end
+
+      it 'sets its derived value to the same value' do
+        expect { call_result }
+          .to change(parent, :derived_remaining_hours).from(nil).to(2.0)
+        expect(call_result).to be_success
+        expect(call_result.dependent_results).to be_empty
+      end
+    end
 
     context 'for the new ancestors chain' do
       shared_context 'when called with children' do |children_remaining_hours:|
         let(:children) do
           (children_remaining_hours.size - 1).downto(0).map do |i|
             create(:work_package,
+                   subject: "child #{i}",
                    parent:,
                    status: open_status,
-                   remaining_hours: children_remaining_hours[i])
+                   remaining_hours: children_remaining_hours[i],
+                   derived_remaining_hours: children_remaining_hours[i])
           end
         end
         subject(:call_result) do
@@ -506,13 +527,29 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      include_examples 'derived remaining hours',
-                       children_remaining_hours: [0.0, 2.0, nil],
-                       expected_derived_remaining_hours: 2.0
+      context 'with parent having no remaining hours' do
+        include_examples 'derived remaining hours',
+                         children_remaining_hours: [0.0, 2.0, nil],
+                         expected_derived_remaining_hours: 2.0
 
-      include_examples 'derived remaining hours',
-                       children_remaining_hours: [1, 2, 5, 42],
-                       expected_derived_remaining_hours: 50
+        include_examples 'derived remaining hours',
+                         children_remaining_hours: [1, 2, 5, 42],
+                         expected_derived_remaining_hours: 50
+      end
+
+      context 'with parent having 2.0 remaining hours' do
+        before do
+          parent.update(remaining_hours: 2.0)
+        end
+
+        include_examples 'derived remaining hours',
+                         children_remaining_hours: [0.0, 2.0, nil],
+                         expected_derived_remaining_hours: 4.0
+
+        include_examples 'derived remaining hours',
+                         children_remaining_hours: [1, 2, 5, 42],
+                         expected_derived_remaining_hours: 52
+      end
 
       context 'with no remaining hours' do
         include_context('when called with children', children_remaining_hours: [nil, nil, nil])

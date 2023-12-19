@@ -31,9 +31,11 @@ class WorkPackages::UpdateAncestors::Loader
   end
 
   def select
-    ancestors.select do |ancestor|
-      yield ancestor, self
-    end
+    [work_package, *ancestors]
+      .reject(&:destroyed?)
+      .select do |work_package|
+        yield work_package, self
+      end
   end
 
   def descendants_of(queried_work_package)
@@ -160,7 +162,9 @@ class WorkPackages::UpdateAncestors::Loader
   # (when work_package was saved/destroyed)
   # Or the set parent before saving
   def previous_parent_id
-    if work_package.parent_id.nil? && work_package.parent_id_was
+    if work_package.parent_id && work_package.destroyed?
+      work_package.parent_id
+    elsif work_package.parent_id.nil? && work_package.parent_id_was
       work_package.parent_id_was
     else
       previous_change_parent_id
