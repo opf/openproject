@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "members_menu",
+                    src: project_members_menu_path(@project),
+                    target: '_top',
+                    data: { turbo: false },
+                    loading: :lazy do %>
+<% end %>

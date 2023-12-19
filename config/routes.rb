@@ -294,6 +294,10 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    namespace :members do
+      resource :menu
+    end
+
     resource :repository, controller: 'repositories', except: [:new] do
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info
