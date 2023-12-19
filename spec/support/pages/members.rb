@@ -63,6 +63,20 @@ module Pages
       find('.simple-filters--controls input[type=submit]').click
     end
 
+    def expect_menu_item(text, selected: false)
+      if selected
+        expect(page).to have_css('.op-sidemenu--item-action.selected', text:)
+      else
+        expect(page).to have_css('.op-sidemenu--item-action', text:)
+      end
+    end
+
+    def click_menu_item(text)
+      page.within('#menu-sidebar') do
+        click_link text
+      end
+    end
+
     ##
     # Adds the given user to this project.
     #

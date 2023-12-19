@@ -35,10 +35,12 @@ module Members
     end
 
     def first_level_menu_items
-      [{
-         header: nil,
-         children: user_status_options
-       }]
+      [
+        {
+          header: nil,
+          children: user_status_options
+        }
+      ]
     end
 
     def user_status_options
