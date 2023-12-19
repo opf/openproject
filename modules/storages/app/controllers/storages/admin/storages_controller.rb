@@ -188,7 +188,7 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = service_result.result
 
     if service_result.success?
-      render :show_oauth_application
+      render :replace_oauth_application
     else
       render :edit
     end
