@@ -34,9 +34,9 @@ fi:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "Lataa..."
       not_found: "No items found"
-      type_to_search: "Type to search"
+      type_to_search: "Haku"
     autocomplete_select:
       placeholder:
         multi: "Add \"%{name}\"Lisää"
@@ -303,31 +303,31 @@ fi:
           two: "Toinen lajitteluperuste"
           three: "Kolmas lajitteluperuste"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Gantt-kaavio'
       quarter_label: 'Q%{quarter_number}'
       labels:
         title: 'Label configuration'
         bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
+        left: 'Vasen'
+        right: 'Oikea'
         farRight: 'Far right'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
+      button_activate: 'Näytä gantt kaavio'
       button_deactivate: 'Hide Gantt chart'
       filter:
         noneSelection: "(none)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "Lähennä"
+        out: "Loitonna"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
+        days: "Päivää"
+        weeks: "Viikkoa"
+        months: "Kuukautta"
         quarters: "Quarters"
-        years: "Years"
+        years: "Vuotta"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ei"
@@ -1027,7 +1027,7 @@ fi:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Jaa'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1177,7 +1177,7 @@ fi:
       current_project_and_all_descendants: "Tästä projektista + aliprojekteista"
       current_project: "Tästä projektista"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "Haku"
       title:
         all_projects: "kaikki projektit"
         project_and_subprojects: "and all subprojects"

@@ -198,13 +198,21 @@ de:
     confirm_destroy_option: "Löschen eines Werts entfernt alle bereits gesetzten Werte (z.B. bei Arbeitspaketen). Sind Sie sicher, dass Sie den Wert löschen möchten?"
     reorder_alphabetical: "Alphabetisch umsortieren"
     reorder_confirmation: "Warnung: Die aktuelle Reihenfolge der verfügbaren Werte geht verloren. Fortfahren?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Feld darf von den Benutzern selbst bearbeitet werden."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
   concatenation:
     single: "oder"
   global_search:
-    placeholder: "Search in %{app_title}"
+    placeholder: "Suche in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -388,8 +396,8 @@ de:
     sharing:
       missing_workflow_waring:
         title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
-        message: "Kein Workflow für die Rolle 'Arbeitspaket-Bearbeiter' konfiguriert. Ohne diesen Workflow kann der Status eines geteilten Arbeitspakets nicht geändert werden."
-        link_message: "Konfigurieren Sie einen Workflow in der Administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2208,9 +2216,9 @@ de:
     sharing:
       work_packages:
         allowed_actions: "Sie haben auf diesem Arbeitspakte folgende Berechtigungen: %{allowed_actions}. Dies kann sich je nach Ihrer Projektrolle und Berechtigungen ändern."
-        create_account: "Um auf dieses Arbeitspaket zuzugreifen, müssen Sie ein Konto für %{instance} erstellen. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Arbeitspaket öffnen"
-        subject: "Mit Ihnen wurde Arbeitspaket #%{id} geteilt"
+        subject: "Arbeitspaket #%{id} wurde mit Ihnen geteilt"
         enterprise_text: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
         summary:
           user: "%{user} hat Ihnen ein Arbeitspaket mit %{role_rights} Rechten geteilt"
@@ -2400,7 +2408,7 @@ de:
   permission_commit_access: "Lese- und Schreibzugriff auf Projektarchiv (Commit)"
   permission_copy_projects: "Projekte kopieren"
   permission_copy_work_packages: "Arbeitspakete kopieren"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "Backups erstellen"
   permission_delete_work_package_watchers: "Beobachter löschen"
   permission_delete_work_packages: "Arbeitspakete löschen"
   permission_delete_messages: "Forenbeiträge löschen"
@@ -2598,8 +2606,8 @@ de:
       update_timeout: "Speichere die Informationen bzgl. des genutzten Festplattenspeichers eines Projektarchivs für N Minuten.\nErhöhen Sie diesen Wert zur Verbesserung der Performance, da die Erfassung des genutzten Festplattenspeichers Ressourcen-intensiv ist."
       oauth_application_details: "Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:"
       oauth_application_details_link_text: "Zu den Einstellungen gehen"
-      setup_documentation_details: "Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: "
-      setup_documentation_details_link_text: "Datei-Speicher einrichten"
+      setup_documentation_details: "Wenn Sie Hilfe bei der Konfiguration eines neuen Dateispeichers benötigen, konsultieren Sie bitte die Dokumentation: "
+      setup_documentation_details_link_text: "Dateispeicher einrichten"
       show_warning_details: "Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren."
     subversion:
       existing_title: "Vorhandenes Subversion Projektarchiv"
@@ -3032,40 +3040,41 @@ de:
         role: 'Rolle'
         type: 'Typ'
       label_search: "Suche nach einzuladenen Benutzern"
-      label_search_placeholder: "Search by user or email address"
-      label_toggle_all: "Toggle all shares"
+      label_search_placeholder: "Suche nach Benutzer oder E-Mail-Adresse"
+      label_toggle_all: "Alle Freigaben umschalten"
       permissions:
         comment: "Kommentar"
-        comment_description: "Can view and comment this work package."
-        denied: "You don't have permissions to share work packages."
+        comment_description: "Kann dieses Arbeitspaket anzeigen und kommentieren."
+        denied: "Sie haben keine Berechtigung, Arbeitspakete zu teilen."
         edit: "Bearbeiten"
-        edit_description: "Can view, comment and edit this work package."
+        edit_description: "Kann dieses Arbeitspaket ansehen, kommentieren und editieren."
         view: "Ansicht"
-        view_description: "Can view this work package."
+        view_description: "Kann dieses Arbeitspaket ansehen."
       remove: "Entfernen"
       share: "Teilen"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
-      text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
-      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
-      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      text_empty_search_description: "Es gibt keine Benutzer mit den aktuellen Filterkriterien."
+      text_empty_search_header: "Keine passenden Ergebnisse gefunden."
+      text_empty_state_description: "Das Arbeitspaket wurde mit niemandem geteilt."
+      text_empty_state_header: "Keine geteilten Mitglieder."
+      text_user_limit_reached: "Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte kontaktieren Sie einen Administrator, um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können."
+      text_user_limit_reached_admins: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.'
       warning_user_limit_reached: >
-        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+        Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte kontaktieren Sie einen Administrator, um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
       warning_user_limit_reached_admin: >
-        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
-      warning_no_selected_user: "Please select users to share this work package with"
+        Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
+      warning_no_selected_user: "Bitte wählen Sie Benutzer aus, mit denen dieses Arbeitspaket geteilt werden soll"
+      warning_locked_user: "Der Benutzer %{user} ist gesperrt und mit ihm kann nicht geteilt werden"
       user_details:
-        locked: "Locked user"
-        invited: "Invite sent. "
-        resend_invite: "Resend."
-        invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
-        project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
-        additional_privileges_project: "Might have additional privileges (as project member)"
-        additional_privileges_group: "Might have additional privileges (as group member)"
-        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+        locked: "Gesperrte Benutzer"
+        invited: "Einladung gesendet. "
+        resend_invite: "Erneut senden."
+        invite_resent: "Einladung wurde versendet"
+        not_project_member: "Kein Projektmitglied"
+        project_group: "Gruppenmitglieder haben möglicherweise zusätzliche Berechtigungen (als Projektmitglieder)"
+        not_project_group: "Gruppe (Teilen mit allen Mitgliedern)"
+        additional_privileges_project: "hat möglicherweise zusätzliche Berechtigungen (als Projektmitglied)"
+        additional_privileges_group: "hat möglicherweise zusätzliche Berechtigungen (als Gruppenmitglied)"
+        additional_privileges_project_or_group: "hat möglicherweise zusätzliche Berechtigungen (als Projekt- oder Gruppenmitglied)"
   working_days:
     info: >
       Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
@@ -3097,7 +3106,7 @@ de:
       code_429: "Zu viele Anfragen. Bitte versuchen Sie es später erneut."
       code_500: "Ein interner Fehler ist aufgetreten."
       code_500_outbound_request_failure: "Eine ausgehende Anfrage an eine andere Ressource ist mit dem Statuscode %{status_code} fehlgeschlagen."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "Die Anfrage kann wegen ungültigem oder fehlenden Enterprise Token nicht bearbeitet werden."
       not_found:
         work_package: "Das von Ihnen gesuchte Arbeitspaket konnte nicht gefunden werden oder wurde gelöscht."
       expected:
@@ -3278,10 +3287,10 @@ de:
     response:
       unexpected: "Unerwartete Antwort erhalten."
   you: Sie
-  link: link
+  link: Link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration von externen Authentifizierungsanbietern in Openproject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML / Single-Sign An"
+    description: "Fügt den OmniAuth SAML-Anbieter zu OpenProject hinzu"

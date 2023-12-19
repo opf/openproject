@@ -25,8 +25,8 @@ ka:
       property_groups:
         costs: "ხარჯები"
       properties:
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
+        overallCosts: "ჯამური ფასი"
+        spentUnits: "დახარჯული ერთეული"
+    button_log_costs: "ერთეულის ფასის ჟურნალი"
     label_hour: "საათი"
     label_hours: "საათი"

@@ -33,6 +33,7 @@ require_module_spec_helper
 
 RSpec.describe API::V3::ProjectStorages::ProjectStorageRepresenter do
   include API::V3::Utilities::PathHelper
+  include EnsureConnectionPathHelper
 
   let(:user) { build_stubbed(:user) }
 
@@ -84,6 +85,27 @@ RSpec.describe API::V3::ProjectStorages::ProjectStorageRepresenter do
     it_behaves_like 'has an untitled link' do
       let(:link) { 'projectFolder' }
       let(:href) { api_v3_paths.storage_file(project_storage.storage.id, project_storage.project_folder_id) }
+    end
+
+    it_behaves_like 'has an untitled link' do
+      let(:link) { 'open' }
+      let(:href) { api_v3_paths.project_storage_open(project_storage.id) }
+    end
+
+    context 'when storage is not configured' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'openWithConnectionEnsured' }
+        let(:href) { nil }
+      end
+    end
+
+    context 'when storage is not configured' do
+      before { project_storage.storage = create(:nextcloud_storage_configured) }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'openWithConnectionEnsured' }
+        let(:href) { ensure_connection_path(project_storage) }
+      end
     end
   end
 end

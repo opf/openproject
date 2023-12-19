@@ -123,10 +123,12 @@ module Pages
               end
 
               target = page.find_field(name)
+              has_no_css?('.ng-spinner-loader') # wait for possible async loading of options for ng-select
               target.send_keys val
             end
 
             if autocomplete
+              has_no_css?('.ng-spinner-loader') # wait for possible async loading of options for ng-select
               dropdown_el = find('.ng-option', text: val, wait: 5)
               scroll_to_and_click(dropdown_el)
             end

@@ -50,18 +50,18 @@ ro:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Non-membru
         item_1:
-          name: Anonymous
+          name: Anonim
         item_2:
-          name: Member
+          name: Membru
         item_3:
-          name: Reader
+          name: Cititor
         item_4:
-          name: Project admin
+          name: Admin proiect
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Manager de personal și de proiecte
     standard:
       priorities:
         item_0:

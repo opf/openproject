@@ -25,15 +25,15 @@ nl:
       basic: >
         Begin vanaf nul met een leeg bord. Voeg handmatig kaarten en kolommen toe aan dit bord.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Basis kanban stijl board met kolommen voor status zoals Doen, Gereed.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Bord met geautomatiseerde kolommen gebaseerd op toegewezen gebruikers. Ideaal voor verzenden van werkpakketten.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Board met geautomatiseerde kolommen op basis van het versienummer. Ideaal voor het plannen van productontwikkeling.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Bord met geautomatiseerde kolommen voor subprojecten. Werkpakketten naar andere lijsten verplaatsen, werkt het (sub)project dienovereenkomstig bij.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Bord met geautomatiseerde kolommen voor subelementen. Het verslepen van werkpakketten naar andere lijsten werkt de bovenliggende map bij.
     upsale:
       teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      upgrade: 'Nu upgraden'

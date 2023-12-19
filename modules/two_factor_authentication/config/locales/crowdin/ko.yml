@@ -1,9 +1,9 @@
 #English strings go here for Rails i18n
 ko:
   plugin_openproject_two_factor_authentication:
-    name: "OpenProject Two-factor authentication"
+    name: "OpenProject 2단계 인증"
     description: >-
-      This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
+      이 OpenProject 플러그인은 TOTP 표준(Google Authenticator)을 통한 일회용 암호를 사용하거나 SMS 또는 음성 통화를 통해 사용자의 휴대폰으로 전송되는 2단계 인증으로 사용자를 인증합니다.
   activerecord:
     attributes:
       two_factor_authentication/device:

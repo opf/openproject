@@ -269,7 +269,7 @@ module Components
 
       def close
         within_modal do
-          click_button 'Close'
+          page.find("[data-test-selector='op-share-wp-modal--close-icon']").click
         end
       end
 
@@ -386,6 +386,14 @@ module Components
         within modal_element do
           expect(page)
             .to have_text(I18n.t('work_package.sharing.warning_user_limit_reached'))
+        end
+      end
+
+      def expect_error_message(text)
+        within modal_element do
+          expect(page)
+            .to have_css('[data-test-selector="op-share-wp-error-message"]',
+                         text: text)
         end
       end
 

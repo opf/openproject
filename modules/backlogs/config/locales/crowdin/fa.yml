@@ -27,7 +27,7 @@ fa:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "ساعت‌های باقیمانده"
+        remaining_hours: "Remaining hours"
         remaining_time: "Remaining hours"
         derived_remaining_hours: "Derived remaining hours"
         derived_remaining_time: "Derived remaining hours"

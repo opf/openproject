@@ -31,9 +31,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package sharing invited users',
-               :js,
-               with_ee: %i[work_package_sharing],
-               with_flag: { work_package_sharing: true } do
+               :js, :with_cuprite,
+               with_ee: %i[work_package_sharing] do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:editor) { create(:admin, firstname: 'Mr.', lastname: 'Sharer') }
 
@@ -60,8 +59,9 @@ RSpec.describe 'Work package sharing invited users',
     expect(page).to have_current_path '/my/page'
 
     work_package_page.visit!
-    click_button 'Share'
+    work_package_page.click_share_button
 
+    share_modal.expect_open
     # Invite a user that does not exist yet
     share_modal.invite_user('foobar@example.com', 'View')
     # New user is shown in the list of shares

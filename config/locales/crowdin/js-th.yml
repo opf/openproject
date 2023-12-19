@@ -34,8 +34,8 @@ th:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
+      loading: "กำลังโหลด..."
+      not_found: "ไม่พบรายการ "
       type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
@@ -316,18 +316,18 @@ th:
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(ไม่มี)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "ขยาย"
+        out: "ซูมออก"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        days: "วัน"
+        weeks: "สัปดาห์"
+        months: "เดือน"
+        quarters: "ไตรมาส"
+        years: "ปี"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ไม่ใช่"
@@ -1026,7 +1026,7 @@ th:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'แชร์'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1174,7 +1174,7 @@ th:
       current_project_and_all_descendants: "In this project + subprojects"
       current_project: "In this project"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "ค้นหา"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

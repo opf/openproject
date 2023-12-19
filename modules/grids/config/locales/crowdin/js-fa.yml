@@ -36,7 +36,7 @@ fa:
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'تنظیم نشده'
-          finished: 'Finished'
+          finished: 'پایان یافته'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Subprojects'

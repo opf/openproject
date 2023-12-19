@@ -36,7 +36,7 @@ eo:
       clear_all: "Clear all"
       loading: "Loading..."
       not_found: "No items found"
-      type_to_search: "Type to search"
+      type_to_search: "Tajpu por serĉi"
     autocomplete_select:
       placeholder:
         multi: "Aldoni \"%{name}\""
@@ -306,17 +306,17 @@ eo:
       label: 'Gantt chart'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
+        title: 'Etikeda agordo'
+        bar: 'Bretaj etikedoj'
+        left: 'Maldektre'
+        right: 'Dekstre'
         farRight: 'Far right'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(neniu)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:

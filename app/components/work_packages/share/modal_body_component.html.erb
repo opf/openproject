@@ -2,7 +2,7 @@
   component_wrapper(tag: 'turbo-frame') do
     flex_layout(data: { turbo: true }) do |modal_content|
       modal_content.with_row do
-        render(WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package))
+        render(WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package, errors: @errors))
       end
 
       modal_content.with_row(mt: 3,

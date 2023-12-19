@@ -201,6 +201,14 @@ lv:
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Pašlaik nav neviena pielāgota lauka.
       no_results_content_text: Izveidot jaunu pielāgotu lauku
@@ -394,8 +402,8 @@ lv:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -459,15 +467,15 @@ lv:
         attribute_name: "Attribute"
         help_text: "Help text"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        account: "Konts"
+        attr_firstname: "Atribūts FirstName"
+        attr_lastname: "Atribūts LastName"
         attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
+        attr_mail: "E-pasta atribūts"
+        base_dn: "Pamata DN"
+        host: "Serveris"
         onthefly: "Automatic user creation"
-        port: "Port"
+        port: "Ports"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
@@ -1301,9 +1309,9 @@ lv:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        zero: "%{count} hours"
-        one: "1 hour"
-        other: "%{count} hours"
+        zero: "%{count} stundas"
+        one: "%{count} stunda"
+        other: "%{count} stundas"
       x_hours_abbreviated:
         zero: "%{count} hrs"
         one: "1 hr"
@@ -2241,9 +2249,9 @@ lv:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -3065,8 +3073,8 @@ lv:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Loma'
+        type: 'Veids'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3074,12 +3082,12 @@ lv:
         comment: "Comment"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Labot"
         edit_description: "Can view, comment and edit this work package."
         view: "View"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Noņemt"
+      share: "Koplietot"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
@@ -3091,6 +3099,7 @@ lv:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

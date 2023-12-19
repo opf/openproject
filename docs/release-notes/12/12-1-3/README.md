@@ -22,7 +22,7 @@ Unfortunately, that introduced some constraints that caused the following bugs i
 warranting another patch level release. We're sorry for the inconvenience caused.
 
 If you experience bugs in installing or using OpenProject, please help us by reporting them to our community.
-To read how to do this, please see [reporting a bug in OpenProject](https://www.openproject.org/docs/development/report-a-bug/).
+To read how to do this, please see [reporting a bug in OpenProject](../../../development/report-a-bug/).
 
 <!--more-->
 #### Bug fixes and changes

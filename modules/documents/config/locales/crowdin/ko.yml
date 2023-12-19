@@ -21,8 +21,8 @@
 #++
 ko:
   plugin_openproject_documents:
-    name: "OpenProject Documents"
-    description: "An OpenProject plugin to allow creation of documents in projects."
+    name: "OpenProject 문서"
+    description: "프로젝트에서 문서 생성을 허용하는 OpenProject 플러그인입니다."
   activerecord:
     models:
       document: "문서"

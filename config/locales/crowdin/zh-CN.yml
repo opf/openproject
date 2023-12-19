@@ -198,6 +198,14 @@ zh-CN:
     confirm_destroy_option: "删除某个选项将会删除其所有实例 (例如, 在工作包中)。确定要删除？"
     reorder_alphabetical: "按字母顺序重新排序"
     reorder_confirmation: "警告：可用值的当前顺序将丢失。是否继续？"
+    instructions:
+      is_required: "将自定义字段标记为必填项。这将使在创建新资源或更新现有资源时，填写该字段成为强制要求。"
+      is_for_all: "将自定义字段标记为在所有现有项目和新项目中可用。"
+      searchable: "使用全局搜索功能时包含字段值。"
+      editable: "允许用户自行编辑该字段。"
+      visible: "在项目概览中显示所有用户(非管理员)的字段，并显示在项目概览中的项目细节微件中。"
+      is_filter: >
+        允许在工作包视图中使用自定义字段。 请注意，只有选择了“所有项目”时，自定义字段才会显示在全局视图中。
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
@@ -302,7 +310,7 @@ zh-CN:
       member_in_these_groups: "此用户当前是以下组的成员："
       no_results_title_text: 此用户当前不是任何组的成员。
     memberships:
-      no_results_title_text: 该用户当前不是项目的成员。
+      no_results_title_text: 该用户当前非项目成员。
   placeholder_users:
     right_to_manage_members_missing: >
       不允许删除占位符用户。您无权管理任何成员包含占位符用户的项目中的成员。
@@ -388,8 +396,8 @@ zh-CN:
     sharing:
       missing_workflow_waring:
         title: "工作包共享缺少工作流"
-        message: "没有为“工作包编辑器”角色配置的工作流。没有工作流，共享工作包的状态无法改变。"
-        link_message: "在管理中配置一个工作流。"
+        message: "没有为\"工作包编辑者\"角色配置工作流。没有工作流，共享用户就无法更改工作包的状态。工作流可以复制。选择一个源类型（例如\"任务\"）和源角色（例如\"成员\"）。然后选择目标类型。一开始，您可以将所有类型都选择为目标类型。最后，选择\"工作包编辑者\"角色作为目标，然后点击\"复制\"。在创建默认设置之后，像对其他角色一样进行微调，对工作流进行详细调整。"
+        link_message: "在管理中配置工作流。"
     summary:
       reports:
         category:
@@ -2183,7 +2191,7 @@ zh-CN:
         allowed_actions: "你可以 %{allowed_actions} 这个工作包。这可以基于你的项目角色和权限而变化。"
         create_account: "要访问此工作包，您需要创建一个 %{instance} 帐户。"
         open_work_package: "打开工作包"
-        subject: "工作包 %{id} 已被共享给你"
+        subject: "工作包 #%{id} 已被分享给你"
         enterprise_text: "与非此项目成员的用户共享工作包。"
         summary:
           user: "%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包"
@@ -2991,9 +2999,9 @@ zh-CN:
         other: "%{count} 个用户"
       filter:
         project_member: '项目成员'
-        not_project_member: '不是项目成员'
+        not_project_member: '非项目成员'
         project_group: '项目组'
-        not_project_group: '不是项目组'
+        not_project_group: '非项目组'
         role: '角色'
         type: '类型'
       label_search: "搜索要邀请的用户"
@@ -3020,12 +3028,13 @@ zh-CN:
       warning_user_limit_reached_admin: >
         添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此工作包。
       warning_no_selected_user: "请选择要共享此工作包的用户"
+      warning_locked_user: "用户 %{user} 已被锁定且无法被分享"
       user_details:
         locked: "锁定的用户"
         invited: "邀请已发送。 "
         resend_invite: "重新发送。"
         invite_resent: "邀请已重新发送"
-        not_project_member: "不是项目成员"
+        not_project_member: "非项目成员"
         project_group: "组成员可能具有额外的权限（作为项目成员）"
         not_project_group: "组 (与所有成员共享)"
         additional_privileges_project: "可能有额外的权限(作为项目成员)"

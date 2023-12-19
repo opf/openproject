@@ -255,7 +255,8 @@ group :test do
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.15.0'
-  gem 'selenium-webdriver', '~> 4.15.0'
+  gem 'selenium-devtools'
+  gem 'selenium-webdriver', '~> 4.15'
   gem 'capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', branch: 'main'
 
   gem 'fuubar', '~> 2.5.0'

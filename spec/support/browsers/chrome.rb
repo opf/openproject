@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/PerceivedComplexity
-def register_chrome(language, name: :"chrome_#{language}", override_time_zone: nil)
+def register_chrome(language, name: :"chrome_#{language}", headless: 'old', override_time_zone: nil)
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
 
@@ -12,7 +12,7 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
       end
     else
       options.add_argument('--window-size=1920,1080')
-      options.add_argument('--headless')
+      options.add_argument("--headless=#{headless}")
     end
 
     options.add_argument('--no-sandbox')
@@ -95,6 +95,19 @@ Billy.configure do |c|
     c.proxy_port = Capybara.server_port + 1000
   end
 end
+
+# Register Chrome with new headless implementation
+#
+# Our tests are not that stable with the new headless mode, but since
+# Chrome 120 the old headless mode has browser name
+# "chrome-headless-shell". This name is not recognized by the current
+# selenium-webdriver and so some extensions like `execute_cdp` are
+# missing. This wil be fixed in next selenium-webdriver version. See
+# https://github.com/SeleniumHQ/selenium/pull/13271 for more information.
+#
+# In the meantime, registering a :chrome_headless_new driver which uses the
+# `headless=new` flag for tests that need it.
+register_chrome 'en', name: :chrome_headless_new, headless: 'new'
 
 # Register mocking proxy driver
 register_chrome 'en', name: :chrome_billy do |options|

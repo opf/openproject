@@ -102,8 +102,8 @@ el:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Η εργασία ακυρώθηκε λόγω σφάλματος: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "Σφάλμα-LDAP: %{error_message}"
+    ldap_auth_failed: "Δεν ήταν δυνατή η ταυτοποίηση στον LDAP-Server."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Αυτή η φόρμα LDAP απαιτεί τεχνικές γνώσεις για την LDAP / Active Directory εγκατάσταση σας.
@@ -162,18 +162,18 @@ el:
     index:
       no_results_title_text: Προς το παρόν δεν υπάρχουν χρώματα.
       no_results_content_text: Δημιουργία νέου χρώματος
-      label_new_color: "New color"
+      label_new_color: "Νέο χρώμα"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Νέο χρώμα"
+      label_edit_color: "Επεξεργασία χρώματος"
     label_no_color: "Χωρίς χρώμα"
-    label_properties: "Properties"
+    label_properties: "Ιδιότητες"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Είστε βέβαιοι ότι θέλετε να διαγράψετε το ακόλουθο χρώμα; Οι τύπου που χρησιμοποιούν αυτό το χρώμα δεν θα διαγραφούν.
   custom_actions:
     actions:
       name: "Ενέργειες"
@@ -197,6 +197,14 @@ el:
     confirm_destroy_option: "Η διαγραφή μιας επιλογής θα διαγράψει όλα τα περιστατικά της (π.χ. σε πακέτα εργασίας). Είστε βέβαιοι ότι θέλετε να το διαγράψετε;"
     reorder_alphabetical: "Αναδιάταξη τιμών αλφαβητικά"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Προς το παρόν δεν υπάρχουν προσαρμοσμένα πεδία.
       no_results_content_text: Δημιουργία νέου προσαρμοσμένου πεδίου
@@ -257,7 +265,7 @@ el:
       types:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμοι τύποι.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Ενεργοποίηση τύπου "%{type}"'
       versions:
         no_results_title_text: Δεν υπάρχουν προς το παρόν εκδόσεις για το έργο.
         no_results_content_text: Δημιουργήστε μια νέα έκδοση
@@ -389,8 +397,8 @@ el:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -454,20 +462,20 @@ el:
         attribute_name: "Χαρακτηριστικό"
         help_text: "Κείμενο βοήθειας"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        account: "Λογαριασμός"
+        attr_firstname: "Χαρακτηριστικό ονόματος"
+        attr_lastname: "Χαρακτηριστικό επωνύμου"
+        attr_login: "Χαρακτηριστικό ονόματος χρήστη"
+        attr_mail: "Χαρακτηριστικό email"
         base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
+        host: "Διακομιστής"
+        onthefly: "Αυτόματη δημιουργία χρήστη"
+        port: "Θύρα"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Αποθετήριο"
       color:
-        hexcode: "Hex code"
+        hexcode: "Κωδικός Hex"
       comment:
         commented: "Σχολιασμένο" #an object that this comment belongs to
       custom_action:
@@ -563,7 +571,7 @@ el:
         color: "Χρώμα"
       user:
         admin: "Διαχειριστής"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "Σύνδεση LDAP"
         identity_url: "Identity URL"
         current_password: "Τρέχων κωδικός πρόσβασης"
         force_password_change: "Επιβολή αλλαγής κωδικού πρόσβασης στην επόμενη σύνδεση"
@@ -643,7 +651,7 @@ el:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "δεν είναι δυνατή η πρόσβαση."
         error_readonly: "επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Οι πληροφορίες ενημερώθηκαν από τουλάχιστον έναν ακόμα χρήστη στο εν τω μεταξύ."
         email: "is not a valid email address."
         empty: "δεν μπορεί να είναι κενό."
         even: "πρέπει να είναι άρτιος."
@@ -913,7 +921,7 @@ el:
             status:
               invalid_on_create: "δεν είναι έγκυρη κατάσταση για νέους χρήστες."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "δεν βρέθηκε"
         member:
           principal_blank: "Παρακαλούμε επιλέξτε τουλάχιστον ένα χρήστη ή ομάδα."
           role_blank: "πρέπει να ανατεθεί."
@@ -924,7 +932,7 @@ el:
             principal:
               unassignable: "δεν μπορεί να ανατεθεί σε ένα έργο."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
           undeletable_work_packages_attached: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
         status:
           readonly_default_exlusive: "δεν μπορεί να ενεργοποιηθεί για καταστάσεις που είναι επισημασμένες ως προεπιλογές."
@@ -966,7 +974,7 @@ el:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "Υπήρξαν προβλήματα με τα ακόλουθα πεδία:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1028,7 +1036,7 @@ el:
     due_date: "Ημερομηνία λήξης"
     estimated_hours: "Εκτιμώμενος χρόνος"
     estimated_time: "Εκτιμώμενος χρόνος"
-    expires_at: "Expires at"
+    expires_at: "Λήγει στις"
     firstname: "Όνομα"
     group: "Ομάδα"
     groups: "Ομάδες"
@@ -1278,8 +1286,8 @@ el:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "1 ώρα"
+        other: "%{count} ώρες"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
@@ -1290,7 +1298,7 @@ el:
         one: "1 μήνας"
         other: "%{count} μήνες"
       x_years:
-        one: "1 year"
+        one: "1 έτος"
         other: "%{count} years"
       x_seconds:
         one: "1 δευτερόλεπτο"
@@ -1360,7 +1368,7 @@ el:
   error_can_not_unarchive_project: "Αυτό το έργο δεν μπορεί να αρχειοθετηθεί: %{errors}"
   error_check_user_and_role: "Παρακαλούμε επιλέξτε ένα χρήστη και ένα ρόλο."
   error_code: "Σφάλμα %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Το χρώμα δεν ήταν δυνατό να αποθηκευθεί"
   error_cookie_missing: "Τα cookie του OpenProject λείπουν. Παρακαλούμε σιγουρευτείτε ότι τα cookies είναι ενεργοποιημένα, καθώς αυτή η εφαρμογή δεν θα μπορεί να λειτουργήσει σωστά χωρίς αυτά."
   error_custom_option_not_found: "Η επιλογή δεν υπάρχει."
   error_enterprise_activation_user_limit: "Ο λογαριασμός σας δεν ήταν δυνατό να ενεργοποιηθεί (επετεύχθη το όριο χρηστών). Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας για να αποκτήσετε πρόσβαση."
@@ -1385,7 +1393,7 @@ el:
   error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "Παρουσιάστηκε σφάλμα κατά την προσπάθεια πρόσβασης στο αποθετήριο: %{value}"
   error_scm_not_found: "Η καταχώρηση ή η αναθεώρηση δεν βρέθηκε στο αποθετήριο."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Ο τύπος δεν ήταν δυνατό να αποθηκευθεί"
   error_unable_delete_status: "Η κατάσταση του πακέτου εργασίας δεν ήταν δυνατό να διαγραφεί καθώς χρησιμοποιείται σε τουλάχιστον ένα πακέτο εργασίας."
   error_unable_delete_default_status: "Δεν ήταν δυνατή η διαγραφή της προεπιλεγμένης κατάστασης πακέτου εργασίας. Παρακαλούμε επιλέξτε άλλη προεπιλεγμένη κατάσταση πακέτου εργασίας πριν διαγράψετε την τρέχουσα."
   error_unable_to_connect: "Δεν ήταν δυνατή η σύνδεση (%{value})"
@@ -1589,7 +1597,7 @@ el:
   label_age: "Ηλικία"
   label_ago: "ημέρες πριν"
   label_all: "όλα"
-  label_all_projects: "All projects"
+  label_all_projects: "Όλα τα έργα"
   label_all_time: "πάντα"
   label_all_words: "Όλες οι λέξεις"
   label_all_open_wps: "Όλα τα ανοιχτά"
@@ -1616,7 +1624,7 @@ el:
   label_attribute: "Χαρακτηριστικό"
   label_attribute_plural: "Χαρακτηριστικά"
   label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source: "Σύνδεση LDAP"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Ταυτοποίηση"
   label_available_global_roles: "Available global roles"
@@ -1678,7 +1686,7 @@ el:
   label_confirmation: "Επιβεβαίωση"
   label_contains: "περιέχει"
   label_content: "Περιεχόμενο"
-  label_color_plural: "Colors"
+  label_color_plural: "Χρώματα"
   label_copied: "αντιγράφηκε"
   label_copy_same_as_target: "Ίδιο με του στόχου"
   label_copy_source: "Πηγή"
@@ -1708,7 +1716,7 @@ el:
   label_deleted: "διαγραμμένο"
   label_deleted_custom_field: "(διαγραμμένο προσαρμοσμένο πεδίο)"
   label_deleted_custom_option: "(διαγραμμένη επιλογή)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(άδειο)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Φθίνουσα"
   label_details: "Λεπτομέρειες"
@@ -1906,7 +1914,7 @@ el:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "οποιoδήποτε"
   label_open_menu: "Άνοιγμα μενού"
   label_open_work_packages: "ανοιχτό"
   label_open_work_packages_plural: "ανοιχτό"
@@ -2044,7 +2052,7 @@ el:
   label_this_week: "αυτή την εβδομάδα"
   label_this_year: "αυτό το έτος"
   label_time_entry_plural: "Χρόνος που δαπανήθηκε"
-  label_title: "Title"
+  label_title: "Τίτλος"
   label_projects_menu: "Έργα"
   label_today: "σήμερα"
   label_top_menu: "Επάνω μενού"
@@ -2209,9 +2217,9 @@ el:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2245,8 +2253,8 @@ el:
   mail_body_register_ending: "Μείνετε συνδεδεμένοι! Με εκτίμηση,"
   mail_body_reminder: "%{count} πακέτο(τα) εργασίας που έχουν ανατεθεί σε εσάς έχουν προθεσμία στις επόμενες %{days} ημέρες:"
   mail_body_group_reminder: '%{count} πακέτα εργασίας που έχουν ανατεθεί στην ομάδα "%{group}" έχουν προθεσμία στις επόμενες %{days} ημέρες:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Η σελίδα wiki '%{id}' προστέθηκε από τον %{author}."
+  mail_body_wiki_page_updated: "Η σελίδα wiki '%{id}' ενημερώθηκε από τον %{author}."
   mail_subject_account_activation_request: "Αίτηση ενεργοποίησης του λογαριασμού %{value}"
   mail_subject_backup_ready: "Το αντίγραφο ασφαλείας σας είναι έτοιμο"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2385,7 +2393,7 @@ el:
   permission_add_work_packages: "Προσθήκη πακέτων εργασίας"
   permission_add_messages: "Δημοσίευση μηνυμάτων"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Προσθέστε συνημμένα"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Αρχειοθέτηση έργου"
   permission_create_user: "Create users"
@@ -2399,7 +2407,7 @@ el:
   permission_comment_news: "Σχολιασμός νέων"
   permission_commit_access: "Πρόσβαση ανάγνωσης/εγγραφής στο αποθετήριο (δέσμευση)"
   permission_copy_projects: "Αντιγραφή έργων"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Αντιγραφή πακέτων εργασίας"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Διαγραφή παρατηρητών"
   permission_delete_work_packages: "Διαγραφή πακέτων εργασίας"
@@ -2916,7 +2924,7 @@ el:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      public: "Δημοσιεύστε αυτή την προβολή, επιτρέποντας σε άλλους χρήστες να έχουν πρόσβαση στην προβολή σας. Οι χρήστες με δικαίωμα 'Διαχείρισης δημόσιων προβολών' μπορούν να τροποποιήσουν ή να αφαιρέσουν τις δημόσιες αναζητήσεις. Αυτό δεν επηρεάζει την ορατότητα των αποτελεσμάτων πακέτων εργασίας σε αυτή την προβολή και ανάλογα με τα δικαιώματα τους, οι χρήστες μπορεί να βλέπουν διαφορετικά αποτελέσματα."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "πμ"
@@ -3029,20 +3037,20 @@ el:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Ρόλος'
+        type: 'Τύπος'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Σχόλιο"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Επεξεργασία"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Προβολή"
         view_description: "Can view this work package."
-      remove: "Remove"
+      remove: "Αφαίρεση"
       share: "Share"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
@@ -3055,6 +3063,7 @@ el:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "

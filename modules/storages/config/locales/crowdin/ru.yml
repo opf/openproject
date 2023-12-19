@@ -27,7 +27,7 @@ ru:
         creator: "Создатель"
         provider_type: "Тип поставщика"
         host: "Хост"
-        tenant: "Арендатор"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "ID оригинала"
     errors:
@@ -82,6 +82,7 @@ ru:
       storage_provider: "Поставщик хранилища"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "URI перенаправления"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Автоматически управляемые папки"
     page_titles:
@@ -145,10 +146,11 @@ ru:
           Скопируйте это значение в новый Web redirect URI под URI перенаправления.
         missing_client_id_for_redirect_uri: "Пожалуйста, заполните значения OAuth для генерации URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Имя или UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
@@ -156,6 +158,8 @@ ru:
       oauth_client_incomplete:
         nextcloud: "Разрешить OpenProject доступ к данным Nextcloud с помощью OAuth."
         one_drive: "Разрешить OpenProject доступ к данным Azure, используя OAuth для подключения OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить %{file_storage}?  Чтобы подтвердить это действие, введите имя хранилища в поле ниже. Это:
@@ -204,11 +208,13 @@ ru:
     label_provider_type: "Тип поставщика"
     label_project_folder: "Папка проекта"
     label_redirect_uri: "URI перенаправления"
+    label_uri: "URI"
     label_new_storage: "Новое хранилище"
     label_new_file_storage: "Новая %{provider} хранилище"
     label_edit_storage: "Редактировать хранилище"
     label_edit_storage_host: "Изменить узел хранения"
     label_edit_storage_oauth_client: "Редактировать хранилище OAuth клиента"
+    label_show_storage_redirect_uri: "Show redirect URI"
     label_edit_storage_automatically_managed_folders: "Редактирование хранилища автоматически управляемых папок"
     label_existing_manual_folder: "Существующая папка с разрешениями, управляемыми вручную"
     label_no_specific_folder: "Нет конкретной папки"
@@ -255,7 +261,8 @@ ru:
       label_pending: "В ожидании"
       label_error: "Ошибка"
       label_healthy: "Здоровые"
-      checked: "Проверено  %{datetime}"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
     upsale:
       title: "OneDrive/SharePoint integration"
       description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

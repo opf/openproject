@@ -34,9 +34,9 @@ sl:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Nalaganje..."
+      not_found: "Ni najdenih elementov"
+      type_to_search: "Iskalni niz"
     autocomplete_select:
       placeholder:
         multi: "Dodaj \"%{name}\""
@@ -302,33 +302,33 @@ sl:
           two: "Drugo merilo za razvrščanje"
           three: "Tretje merilo za razvrščanje"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Gantogram'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Konfiguracija label'
+        bar: 'Bar labele'
+        left: 'Levo'
+        right: 'Desno'
+        farRight: 'Čisto desno'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Prikaži gantogram'
+      button_deactivate: 'Skrij gantogram'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(brez)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Za ustvarjanje razmerja kliknite kateri koli poudarjen delovni paket. Če želite preklicati, pritisnite escape.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Povečaj"
+        out: "Pomanjšaj"
+        auto: "Samodejna povečava"
+        days: "Dnevi"
+        weeks: "Tednov"
+        months: "Mesecev"
+        quarters: "Četrtletje"
+        years: "let"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Izberite začetno stopnjo povečave, ki naj bo prikazana, ko samodejno povečanje ni na voljo.
     general_text_no: "ne"
     general_text_yes: "da"
     general_text_No: "Ne"
@@ -1182,7 +1182,7 @@ sl:
       current_project_and_all_descendants: "V tem projektu + podprojektu"
       current_project: "V tem projektu"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "Išči"
       title:
         all_projects: "Vsi projekti"
         project_and_subprojects: "in vsi podprojekti"

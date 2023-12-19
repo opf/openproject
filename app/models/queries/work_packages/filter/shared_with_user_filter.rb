@@ -70,9 +70,8 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
   end
 
   def visible_shared_work_packages
-    WorkPackage.joins("JOIN members ON members.entity_id = work_packages.id")
-               .where(members: { entity_type: 'WorkPackage',
-                                 project: visible_projects })
+    WorkPackage.joins("JOIN members ON members.entity_type = 'WorkPackage' AND members.entity_id = work_packages.id")
+               .where(members: { project: visible_projects })
   end
 
   def visible_projects

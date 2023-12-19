@@ -55,7 +55,7 @@ ka:
           Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
         remove_short: "Remove link"
         select: "Select files"
-        select_all: "Select all"
+        select_all: "ყველას მონიშვნა"
         selection:
           zero: "Select files to link"
           one: "Link 1 file"

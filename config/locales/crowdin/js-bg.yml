@@ -34,7 +34,7 @@ bg:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "Зареждане..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -320,14 +320,14 @@ bg:
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "Приближаване"
+        out: "Отдалечаване"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        days: "Дни"
+        weeks: "Седмици"
+        months: "Месеци"
+        quarters: "Tримесечие"
+        years: "Години"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "Не"
@@ -1027,7 +1027,7 @@ bg:
         is_parent: "Датите на този работен пакет се извеждат автоматично от неговите деца. Активирайте „Ръчно планиране“, за да зададете датите."
         is_switched_from_manual_to_automatic: "Датите на този работен пакет може да се наложи да бъдат преизчислени след преминаване от ръчно към автоматично планиране поради връзки с други работни пакети."
       sharing:
-        share: 'Share'
+        share: 'Споделяне'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
@@ -1177,7 +1177,7 @@ bg:
       current_project_and_all_descendants: "In this project + subprojects"
       current_project: "In this project"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "Търсене"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

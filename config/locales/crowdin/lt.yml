@@ -198,13 +198,21 @@ lt:
     confirm_destroy_option: "Ištrinant savybę, visi jos panaudojimai (pvz., darbų paketuose) taip pat bus ištrinti. Ar Jūs tikrai norite ištrinti?"
     reorder_alphabetical: "Perrikiuoti reikšmes alfabeto tvarka"
     reorder_confirmation: "Dėmesio: Dabartinė galimų reikšmių tvarka bus prarasta. Tęsti?"
+    instructions:
+      is_required: "Pažymėti savo lauką kaip privalomą. Taip bus privaloma jį užpildyti kuriant ar atnaujinant esamus resursus."
+      is_for_all: "Pažymėti savo lauką kaip prieinamą visuose esamuose ir naujuose projektuose."
+      searchable: "Įtraukti lauko reikšmes naudojant globalios paieškos funkcionalumą."
+      editable: "Leisti keisti lauką patiems naudotojams."
+      visible: "Padaryti lauką matomu visiems naudotojams (ne administratoriams) projekto apžvalgoje ir rodomą projekto detalių valdiklyje Projekto apžvalgoje."
+      is_filter: >
+        Leisi naudoti savo lauką darbo paketų vaizdų filtruose. Pastebėtina, kad globaliuose vaizduose matysis savi laukai, kuriuose pažymėta „Visiems projektams“.
     tab:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
   concatenation:
     single: "arba"
   global_search:
-    placeholder: "Search in %{app_title}"
+    placeholder: "Ieškoti %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forumas"
@@ -392,8 +400,8 @@ lt:
     sharing:
       missing_workflow_waring:
         title: "Darbo paketo dalinimuisi trūksta darbo proceso"
-        message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas darbo procesas. Be darbo proceso negalima keisti bendrinamo darbo paketo būsenos."
-        link_message: "Konfigūruokite darbo procesą administravime."
+        message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas procesas. Be proceso naudotojas negali pakeisti darbo paketo būsenos. Procesą galima nukopijuoti. Parinkite šaltinio tipą („pvz. „Užduotis“) ir šaltinio vaidmenį (pvz. „Narys“). Tada parinkite paskirties tipus. Pradžiai galėtumėte kaip paskirtį parinkti visus tipus. Galų gale parinkite vaidmenį „Darbo paketų redaktorius“ kaip paskirtį ir spauskite „Kopijuoti“. Taip sukūrę numatytąjį variantą, patikslinkite procesus kaip tai darote su kitais vaidmenimis."
+        link_message: "Konfigūruokite procesus administravime."
     summary:
       reports:
         category:
@@ -2266,9 +2274,9 @@ lt:
     sharing:
       work_packages:
         allowed_actions: "Šiame darbo pakete jums leidžiama %{allowed_actions}. Tai gali keistis priklausomai nuo jūsų vaidmens projekte ir teisių."
-        create_account: "Kas prieitumėte prie šio darbo paketo, jums reikia sukurti %{instance} paskyrą. "
+        create_account: "Kad prieitumėte prie darbo paketo, jums reikės sukurti ir aktyvuoti %{instance}  paskyrą."
         open_work_package: "Atverti darbo paketą"
-        subject: "Su jumis bendrinamas darbo paketas #%{id}"
+        subject: "Su jumis buvo pabendrintas darbo paketas #%{id}"
         enterprise_text: "Dalintis darbo paketais su naudotojais, kurie nėra projekto nariai."
         summary:
           user: "%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}"
@@ -3102,10 +3110,10 @@ lt:
         view_description: "Gali žiūrėti šį darbo paketą."
       remove: "Išimti"
       share: "Dalintis"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "Nėra naudotojų su dabartiniu filtro kriterijumi."
+      text_empty_search_header: "Mes neradome jokių atitinkančių rezultatų."
       text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Nėra bendrinamų narių."
       text_user_limit_reached: "Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo."
       text_user_limit_reached_admins: 'Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad galėtumėte pridėti daugiau naudotojų.'
       warning_user_limit_reached: >
@@ -3113,6 +3121,7 @@ lt:
       warning_user_limit_reached_admin: >
         Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo.
       warning_no_selected_user: "Prašome parinkti naudotjus, su kuriais norite dalintis šiuo darbo paketu"
+      warning_locked_user: "Naudotojas %{user} yra užrakintas, todėl su juo negalima bendrinti"
       user_details:
         locked: "Užrakintas naudotojas"
         invited: "Pakvietimas išsiųstas. "

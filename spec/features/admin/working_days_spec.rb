@@ -183,9 +183,9 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
   describe 'non-working days' do
     shared_let(:non_working_days) do
       [
-        create(:non_working_day),
-        create(:non_working_day),
-        create(:non_working_day)
+        create(:non_working_day, date: Date.new(Date.current.year, 6, 10)),
+        create(:non_working_day, date: Date.new(Date.current.year, 8, 20)),
+        create(:non_working_day, date: Date.new(Date.current.year, 9, 25))
       ]
     end
 

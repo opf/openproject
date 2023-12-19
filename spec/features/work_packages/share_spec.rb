@@ -32,8 +32,7 @@ require 'spec_helper'
 
 RSpec.describe 'Work package sharing',
                :js, :with_cuprite,
-               with_ee: %i[work_package_sharing],
-               with_flag: { work_package_sharing: true } do
+               with_ee: %i[work_package_sharing] do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
   shared_let(:edit_work_package_role) { create(:edit_work_package_role) }
@@ -267,7 +266,6 @@ RSpec.describe 'Work package sharing',
     end
   end
 
-
   context 'when lacking share permission but having the viewing permission' do
     let(:sharer_role) do
       create(:project_role,
@@ -316,16 +314,6 @@ RSpec.describe 'Work package sharing',
     end
   end
 
-  context 'without the feature flag enabled', with_flag: { work_package_sharing: false } do
-    let(:sharer_role) do
-      create(:project_role,
-             permissions: %i(view_work_packages
-                             view_shared_work_packages))
-    end
-
-    it_behaves_like "'Share' button is not rendered"
-  end
-
   context "without the viewing permission" do
     let(:sharer_role) do
       create(:project_role,
@@ -338,6 +326,7 @@ RSpec.describe 'Work package sharing',
   context 'when having global invite permission' do
     let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manager_user }
+    let(:locked_user) { create(:user, mail: 'holly@openproject.com', status: :locked) }
 
     before do
       work_package_page.visit!
@@ -383,6 +372,25 @@ RSpec.describe 'Work package sharing',
       share_modal.remove_user(new_user)
       share_modal.expect_not_shared_with(new_user)
       share_modal.expect_shared_count_of(6)
+    end
+
+    it 'shows an error message when inviting an existing locked user' do
+      share_modal.expect_open
+      share_modal.expect_shared_count_of(6)
+
+      # Try to invite the locked user
+      share_modal.search_user(locked_user.mail)
+
+      # The locked user email is not listed in the result set, instead it can be invited
+      share_modal.expect_ng_option("", 'Send invite to"holly@openproject.com"', results_selector: "body")
+      share_modal.expect_no_ng_option("", locked_user.name, results_selector: "body")
+
+      # Invite the email address
+      share_modal.invite_user(locked_user.mail, 'View')
+
+      # The number of shared people has not changed, but an error message is shown
+      share_modal.expect_shared_count_of(6)
+      share_modal.expect_error_message(I18n.t("work_package.sharing.warning_locked_user", user: locked_user.name))
     end
   end
 

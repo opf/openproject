@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter do
+RSpec.describe API::V3::Queries::Schemas::ProjectMembersFilterDependencyRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }

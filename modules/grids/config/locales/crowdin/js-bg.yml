@@ -36,7 +36,7 @@ bg:
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Не е зададено'
-          finished: 'Finished'
+          finished: 'Завършено'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Подпроекти'

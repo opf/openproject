@@ -41,7 +41,7 @@ ca:
       github_actions: Accions
       pull_requests:
         message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        merged_message: "El \"pull request\" #%{pr_number} %{pr_link} en el %{repository_link} ha estàt %{pr_state} per %{github_user_link}."
         referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
         states:
           opened: 'obert'

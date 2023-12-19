@@ -26,8 +26,8 @@ cs:
         name: "Název"
         creator: "Autor"
         provider_type: "Typ poskytovatele"
-        host: "Host"
-        tenant: "Tenant"
+        host: "Hostitel"
+        tenant: "Directory (tenant) ID"
       storages/file_link:
         origin_id: "Origin ID"
     errors:
@@ -77,17 +77,18 @@ cs:
       configure: "Konfigurace"
     file_storage_view:
       general_information: "Všeobecné informace"
-      oauth_applications: "OAuth applications"
+      oauth_applications: "OAuth aplikace"
       project_folders: "Project folders"
       storage_provider: "Poskytovatel úložiště"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
+      redirect_uri: "Přesměrovat URI"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
       file_storages:
         subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
-        delete: "Delete file storage"
+        delete: "Odstranit úložiště souborů"
       managed_project_folders:
         title: "Automatically managed project folders"
         subtitle_short: "Let OpenProject create folders per project automatically."
@@ -145,10 +146,11 @@ cs:
           Please copy this value to a new Web redirect URI under Redirect URIs.
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
         tenant_id: >
-          Please copy the Directory (tenant) ID from the desired application und App registrations in the %{application_link_text}.
+          Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
@@ -156,6 +158,8 @@ cs:
       oauth_client_incomplete:
         nextcloud: "Allow OpenProject to access Nextcloud data using OAuth."
         one_drive: "Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint."
+      redirect_uri_incomplete:
+        one_drive: "Complete the setup with the correct URI redirection."
     delete_warning:
       storage: >
         Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:
@@ -198,17 +202,19 @@ cs:
     label_oauth_client_details: "Podrobnosti OAuth klienta"
     label_openproject_oauth_application_id: "OpenProject OAuth Client ID"
     label_openproject_oauth_application_secret: "OpenProject OAuth Client Secret"
-    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_id: "OAuth ID klienta"
     label_oauth_client_secret: "OAuth Client Secret"
     label_information: "Další informace"
     label_provider_type: "Typ poskytovatele"
     label_project_folder: "Složka projektu"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "Přesměrovat URI"
+    label_uri: "URI"
     label_new_storage: "Nové úložiště"
     label_new_file_storage: "New %{provider} storage"
     label_edit_storage: ""
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
+    label_show_storage_redirect_uri: "Show redirect URI"
     label_edit_storage_automatically_managed_folders: "Edit storage automatically managed folders"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "Žádná specifická složka"
@@ -252,10 +258,11 @@ cs:
         b: "You are being redirected"
     health:
       title: "Managed folders status"
-      label_pending: "Pending"
-      label_error: "Error"
+      label_pending: "Nevyřízeno"
+      label_error: "Chyba"
       label_healthy: "Healthy"
-      checked: "Checked  %{datetime}"
+      checked: "Last checked %{datetime}"
+      since: "since %{datetime}"
     upsale:
       title: "OneDrive/SharePoint integration"
       description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: One Drive integration
+  title: OneDrive/SharePoint integration
   priority: 800
-description: Using the OneDrive/Sharepoint integration to link/unlink files and folders to work packages, viewing and downloading files and troubleshooting common errors
-keywords: integration, apps, OneDrive, Sharepoint, user
+description: Using the OneDrive/SharePoint integration to link/unlink files and folders to work packages, viewing and downloading files
+keywords: integration, apps, OneDrive, SharePoint, user
 ---
 
-# OneDrive integration (Enterprise add-on)
+# OneDrive/SharePoint integration (Enterprise add-on)
 
 You can use **OneDrive/SharePoint** as an integrated file storage in OpenProject.
 
@@ -19,13 +19,13 @@ This integration makes it possible for you to:
 
 > **Important note**: To be able to use OneDrive/SharePoint as a file storage in your project, the administrator of your instance should first have completed the [OneDrive/SharePoint integration setup](../../../system-admin-guide/integrations/one-drive). Then a project administrator can activate the integrated storage in the [**File storages**](../../projects/project-settings/file-storages/) for a project.
 
-| Topic                                                                                                   | Description                                                         |
-|---------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------|
-| [Connect OpenProject to OneDrive/SharePoint](#connect-your-openproject-and-onedrivesharepoint-accounts) | How to connect your OpenProject project and OneDrive/SharePoint     |
-| [Link files and folders to work packages](#link-files-and-folders-to-work-packages)                     | How to link your files and folders to work packages in OpenProject  |
-| [Upload files from OpenProject](#upload-files-from-openproject)                                         | How to upload files to OneDrive/SharePoint from OpenProject         |
-| [Download, open folders and remove links](#download-open-folders-and-remove-links)                      | How to download and open files and folders and remove links         |
-| [Permissions and access control](#permissions-and-access-control)                                       | Permissions and access control in OneDrive(SharePoint file storage) |
+| Topic                                                        | Description                                                  |
+| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| [Connect OpenProject to OneDrive/SharePoint](#connect-your-openproject-and-onedrivesharepoint-accounts) | How to connect your OpenProject project and OneDrive/SharePoint |
+| [Link files and folders to work packages](#link-files-and-folders-to-work-packages) | How to link your files and folders to work packages in OpenProject |
+| [Upload files from OpenProject](#upload-files-from-openproject) | How to upload files to OneDrive/SharePoint from OpenProject  |
+| [Download, open folders and remove links](#download-open-folders-and-remove-links) | How to download and open files and folders and remove links  |
+| [Permissions and access control](#permissions-and-access-control) | Permissions and access control in OneDrive/SharePoint file storage |
 
 ## Connect your OpenProject and OneDrive/SharePoint accounts
 
@@ -42,7 +42,7 @@ To begin using this integration, you will need to first connect your OpenProject
 
 ## Link files and folders to work packages
 
-In addition to listing files directly attached to a work package, the **Files** tab shows the OneDrive/Sharepoint files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to open or download the file, show the containing folder in SharePoint or remove the link.
+In addition to listing files directly attached to a work package, the **Files** tab shows the OneDrive/SharePoint files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to open or download the file, show the containing folder in SharePoint or remove the link.
 
 To link a SharePoint file to the current work package, you can either:
 
