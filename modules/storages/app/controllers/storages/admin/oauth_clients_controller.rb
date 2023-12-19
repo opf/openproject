@@ -53,7 +53,6 @@ class Storages::Admin::OAuthClientsController < ApplicationController
                       .result
 
     respond_to do |format|
-      format.html
       format.turbo_stream
     end
   end
@@ -66,7 +65,6 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
     service_result.on_failure do
       respond_to do |format|
-        format.html { render :new }
         format.turbo_stream { render :new }
       end
     end
