@@ -43,7 +43,7 @@ Agile project management is an iterative and flexible approach to managing proje
 
 ### Attribute help texts
 
-OpenProject offers Attribute help texts that provide additional information for attributes in work packages and projects. After setting them up they are displayed when users click on the question mark symbol next to custom fields in projects and work packages. [Read more about Attribute help texts in OpenProject](https://www.openproject.org/docs/system-admin-guide/attribute-help-texts/).
+OpenProject offers Attribute help texts that provide additional information for attributes in work packages and projects, incl. custom fields. After setting them up in the Administration they are displayed when users click on the question mark symbol next to this specified attribute for projects and work packages. [Read more about Attribute help texts in OpenProject](https://www.openproject.org/docs/system-admin-guide/attribute-help-texts/).
 
 ### Authentication
 
@@ -60,15 +60,15 @@ In OpenProject, authentication is an important element to guarantee a data prote
 
 ### Backlogs
 
-A backlog in OpenProject is defined as a [plugin](#plugin) that allows to use the backlogs feature in OpenProject. The backlog is a tool in scrum: a list that contains everything needed to achieve a specific outcome. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings) by a project admin. [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum).
+Backlogs is a [module](#module) in OpenProject that brings feautres that support the Scrum methodology in OpenProject, such as a product backlog and sprint backlogs, a task board, estimation of story points, a burndown chart and a Scrum wiki. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings) by a project admin. [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum).
 
-### Baseline (Comparison)
+### Baseline comparison
 
-Baseline is a feature in OpenProject released with version 13.0. It allows users to quickly track changes on [filtered](#filters) work packages table views. [Read more about technical challenges, design and next steps for Baseline in the OpenProject blog](https://www.openproject.org/blog/news-product-team-baseline/).
+Baseline is a feature in OpenProject that allows users to quickly track changes on [filtered](#filters) work packages table views. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status. [Read more about OpenProject's Baseline comparison](https://www.openproject.org/docs/user-guide/work-packages/baseline-comparison/).
 
 ### BIM
 
-BIM stands for Building Information Modeling. In OpenProject, we offer a special plan for users working in the construction industry. On top of the general project management features, OpenProject BIM enables construction teams to better plan, communicate and collaborate in their building projects. [Read the OpenProject BIM guide to get more information](https://www.openproject.org/docs/bim-guide/).
+BIM stands for Building Information Modeling. In OpenProject, we offer a special OpenProject version for users working in the construction industry. On top of the general project management features, OpenProject BIM enables construction teams to better plan, communicate and collaborate in their building projects. [Read the OpenProject BIM guide to get more information](https://www.openproject.org/docs/bim-guide/).
 
 ### Board
 
