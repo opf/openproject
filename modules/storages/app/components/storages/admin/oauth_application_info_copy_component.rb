@@ -61,7 +61,7 @@ module Storages::Admin
     private
 
     def submit_button_path
-      options[:submit_button_path] || edit_admin_settings_storage_path(storage)
+      options[:submit_button_path] || show_oauth_application_admin_settings_storage_path(storage)
     end
   end
 end

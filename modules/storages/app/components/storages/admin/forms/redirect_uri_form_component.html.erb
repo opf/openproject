@@ -3,11 +3,7 @@
     primer_form_with(
       model: oauth_client,
       url: finish_setup_admin_settings_storage_oauth_client_path(storage),
-      method: :post,
-      data: {
-        controller: 'storages--oauth-client-form',
-        application_target: 'dynamic'
-      }
+      method: :post
     ) do |form|
       flex_layout do |oauth_client_row|
         oauth_client_row.with_row(mb: 3) do
@@ -44,10 +40,7 @@
             submit_button_options: {
               disabled: submit_button_disabled? || @options[:is_complete],
               label: I18n.t('storages.buttons.done_complete_setup'),
-              data: {
-                'storages--oauth-client-form-target': 'submitButton',
-                turbo: false
-              },
+              data: { turbo: false },
               test_selector: 'storage-oauth-client-submit-button'
             },
             cancel_button_options: {
