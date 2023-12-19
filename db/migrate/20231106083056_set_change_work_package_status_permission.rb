@@ -29,6 +29,11 @@
 require "#{Rails.root}/db/migrate/migration_utils/permission_adder"
 
 class SetChangeWorkPackageStatusPermission < ActiveRecord::Migration[7.0]
+  # Decouple ActiveRecord model from Migration
+  class MigrationRolePermission < ApplicationRecord
+    self.table_name = 'role_permissions'
+  end
+
   def up
     ::Migration::MigrationUtils::PermissionAdder
       .add(:edit_work_packages,
@@ -36,6 +41,6 @@ class SetChangeWorkPackageStatusPermission < ActiveRecord::Migration[7.0]
   end
 
   def down
-    # nothing to do
+    MigrationRolePermission.where(permission: 'change_work_package_status').delete_all
   end
 end
