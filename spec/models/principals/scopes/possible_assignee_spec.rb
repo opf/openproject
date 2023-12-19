@@ -33,6 +33,7 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
   shared_let(:other_project) { create(:project) }
 
   shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:other_work_package) { create(:work_package, project: other_project) }
 
   shared_let(:assignable_project_role) { create(:project_role, permissions: [:work_package_assigned]) }
   shared_let(:non_assignable_project_role) { create(:project_role, permissions: []) }
@@ -179,6 +180,25 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
         it 'returns nothing' do
           expect(subject)
             .to be_empty
+        end
+      end
+
+      context 'when asking for multiple Work Packages (intersection)' do
+        subject { Principal.possible_assignee([work_package, other_work_package]) }
+
+        before do
+          create(:work_package_member,
+                 principal: member_user,
+                 entity: other_work_package,
+                 roles: [role])
+        end
+
+        let(:role) { assignable_work_package_role }
+        let(:user_status) { :active }
+
+        it 'returns users assignable in all of the provided projects (intersection)' do
+          expect(subject)
+            .to contain_exactly(member_user)
         end
       end
     end
