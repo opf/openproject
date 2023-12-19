@@ -47,15 +47,7 @@ module Principals::Scopes
       # @return [ActiveRecord::Relation] A scope of eligible candidates
       def possible_assignee(work_package_or_project)
         if resource_class(work_package_or_project) == WorkPackage
-          work_package = work_package_or_project
-          where(
-            id: Member
-                  .assignable
-                  .of_work_package(work_package)
-                  .group('user_id')
-                  .having(["COUNT(DISTINCT(project_id, entity_type, entity_id, user_id)) = ?", Array(work_package).size])
-                  .select('user_id')
-          )
+          on_work_package_where_clause(work_package_or_project)
         elsif resource_class(work_package_or_project) == Project
           project = work_package_or_project
           where(
@@ -81,6 +73,17 @@ module Principals::Scopes
         elsif work_package_or_project.all? { _1.instance_of?(Project) }
           Project
         end
+      end
+
+      def on_work_package_where_clause(work_package)
+        where(
+          id: Member
+                .assignable
+                .of_work_package(work_package)
+                .group('user_id')
+                .having(["COUNT(DISTINCT(project_id, entity_type, entity_id, user_id)) = ?", Array(work_package).size])
+                .select('user_id')
+        )
       end
     end
   end
