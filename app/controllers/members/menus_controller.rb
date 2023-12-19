@@ -27,6 +27,8 @@
 #++
 module Members
   class MenusController < ApplicationController
+    before_action :find_project_by_project_id
+
     def show
       @sidebar_menu_items = first_level_menu_items + nested_menu_items
       render layout: nil
@@ -66,8 +68,11 @@ module Members
     end
 
     def project_group_entries
-      # todo
-      [{ title: 'GROUP X', href: '' }]
+      @project
+        .groups
+        .order(lastname: :asc)
+        .pluck(:id, :lastname)
+        .map { |id, name| { title: name, href: project_members_path(group_id: id) } }
     end
   end
 end
