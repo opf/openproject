@@ -38,7 +38,8 @@ FactoryBot.define do
     builtin { Role::BUILTIN_WORK_PACKAGE_VIEWER }
     permissions do
       %i(view_work_packages
-         export_work_packages)
+         export_work_packages
+         show_github_content)
     end
   end
 
@@ -48,9 +49,15 @@ FactoryBot.define do
     permissions do
       %i(view_work_packages
          work_package_assigned
+         add_work_package_attachments
          add_work_package_notes
          edit_own_work_package_notes
-         export_work_packages)
+         export_work_packages
+         view_own_time_entries
+         log_own_time
+         edit_own_time_entries
+         show_github_content
+         view_file_links)
     end
   end
 
@@ -65,7 +72,12 @@ FactoryBot.define do
          edit_own_work_package_notes
          manage_work_package_relations
          copy_work_packages
-         export_work_packages)
+         export_work_packages
+         view_own_time_entries
+         log_own_time
+         edit_own_time_entries
+         show_github_content
+         view_file_links)
     end
   end
 end

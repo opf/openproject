@@ -398,8 +398,8 @@ it:
     sharing:
       missing_workflow_waring:
         title: "Flusso di lavoro mancante per la condivisione di macro-attività"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        message: "Nessun flusso di lavoro è configurato per il ruolo \"Editor di macro-attività\". Senza un flusso di lavoro, la condivisione con l'utente non può alterare lo stato della macro-attività. I flussi di lavoro possono essere copiati. Seleziona un tipo di origine (ad esempio \"Attività\") e un ruolo di origine (ad esempio \"Membro\"). Quindi seleziona i tipi obiettivo. Per cominciare, potresti selezionare tutti i tipi come obiettivi. Infine, seleziona il ruolo \"Editor di macro-attività\" come destinazione e premi \"Copia\". Dopo aver creato le impostazioni predefinite, perfeziona i flussi di lavoro come fai per ogni altro ruolo."
+        link_message: "Configura i flussi di lavoro nell'amministrazione."
     summary:
       reports:
         category:
@@ -2218,9 +2218,9 @@ it:
     sharing:
       work_packages:
         allowed_actions: "Puoi %{allowed_actions} questa macro-attività. Questa impostazione può cambiare a seconda del ruolo e delle autorizzazioni del progetto."
-        create_account: "Per accedere a questa macro-attività è necessario creare e attivare un account %{instance}. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Apri macro-attività"
-        subject: "Ti è stata condivisa la macro-attività #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Condividi macro-attività con utenti che non sono membri del progetto."
         summary:
           user: "%{user} ha condiviso con te una macro-attività con i diritti %{role_rights}"
@@ -2330,7 +2330,7 @@ it:
   notice_file_not_found: "La pagina alla quale stavi tentando di accedere non esiste o è stata rimossa."
   notice_forced_logout: "Sei stato disconnesso automaticamente dopo %{ttl_time} minuti di inattività."
   notice_internal_server_error: "Si è verificato un errore sulla pagina alla quale hai richiesto di accedere. Se continui ad avere problemi per favore contatta il tuo amministratore %{app_title} per ricevere assistenza."
-  notice_work_package_done_ratios_updated: "% complete updated"
+  notice_work_package_done_ratios_updated: "% completamento aggiornata"
   notice_locking_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
   notice_locking_conflict_additional_information: "L'aggiornamento(i) proviene da %{users}."
   notice_locking_conflict_reload_page: "Si prega di ricaricare la pagina, rivedere le modifiche e riapplicare gli aggiornamenti."
@@ -2647,7 +2647,7 @@ it:
     Se la pagina dei documenti è abilitata, puoi ottenere una vista interattiva della documentazione APIv3 sotto <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Whitelist di caricamento di allegati"
   setting_email_delivery_method: "Metodo di invio e-mail"
-  setting_emails_salutation: "Indirizzo utente nelle e-mail con"
+  setting_emails_salutation: "Rivolgiti all'utente nelle e-mail con"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
   setting_smtp_enable_starttls_auto: "Usa automaticamente, se disponibile, STARTTLS"
   setting_smtp_ssl: "Usa connessione SSL"
@@ -3047,19 +3047,19 @@ it:
       label_search_placeholder: "Cerca per utente o indirizzo e-mail"
       label_toggle_all: "Attiva/disattiva tutte le condivisioni"
       permissions:
-        comment: "Commento"
+        comment: "Commentare"
         comment_description: "Può visualizzare e commentare questa macro-attività."
         denied: "Non hai i permessi per condividere macro-attività."
-        edit: "Modifica"
+        edit: "Modificare"
         edit_description: "Può visualizzare, commentare e modificare questa macro-attività."
-        view: "Vedi"
+        view: "Vedere"
         view_description: "Può visualizzare questa macro-attività."
       remove: "Rimuovi"
       share: "Condividi"
       text_empty_search_description: "Non ci sono utenti con i criteri di filtro attuali."
       text_empty_search_header: "Non siamo riusciti a trovare alcun risultato corrispondente."
       text_empty_state_description: "La macro-attività non è stata ancora condivisa con nessuno."
-      text_empty_state_header: "Nessun membro condiviso."
+      text_empty_state_header: "Nessun membro in condivisione."
       text_user_limit_reached: "L'aggiunta di ulteriori utenti supererà il limite attuale. Contatta un amministratore per aumentare il limite di utenti e garantire che gli utenti esterni possano accedere a questa  macro-attività."
       text_user_limit_reached_admins: 'L''aggiunta di ulteriori utenti supererà il limite attuale. <a href="%{upgrade_url}">Aggiorna il tuo piano</a> per aggiungere più utenti.'
       warning_user_limit_reached: >

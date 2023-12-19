@@ -421,7 +421,7 @@ pt:
     label_filename: "Arquivo"
     label_filesize: "Tamanho"
     label_general: "Geral"
-    label_global_roles: "Global roles"
+    label_global_roles: "Funções globais"
     label_greater_or_equal: ">="
     label_group: 'Grupo'
     label_group_by: "Agrupar por"

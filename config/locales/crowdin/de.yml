@@ -202,7 +202,7 @@ de:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_for_all: "Mark the custom field as available in all existing and new projects."
       searchable: "Include the field values when using the global search functionality."
-      editable: "Allow the field to be editable by users themselves."
+      editable: "Feld darf von den Benutzern selbst bearbeitet werden."
       visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
@@ -2216,9 +2216,9 @@ de:
     sharing:
       work_packages:
         allowed_actions: "Sie haben auf diesem Arbeitspakte folgende Berechtigungen: %{allowed_actions}. Dies kann sich je nach Ihrer Projektrolle und Berechtigungen ändern."
-        create_account: "Um auf dieses Arbeitspaket zuzugreifen, müssen Sie ein Konto für %{instance} erstellen und aktivieren."
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Arbeitspaket öffnen"
-        subject: "Mit Ihnen wurde Arbeitspaket #%{id} geteilt"
+        subject: "Arbeitspaket #%{id} wurde mit Ihnen geteilt"
         enterprise_text: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
         summary:
           user: "%{user} hat Ihnen ein Arbeitspaket mit %{role_rights} Rechten geteilt"
@@ -3064,7 +3064,7 @@ de:
       warning_user_limit_reached_admin: >
         Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
       warning_no_selected_user: "Bitte wählen Sie Benutzer aus, mit denen dieses Arbeitspaket geteilt werden soll"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "Der Benutzer %{user} ist gesperrt und mit ihm kann nicht geteilt werden"
       user_details:
         locked: "Gesperrte Benutzer"
         invited: "Einladung gesendet. "

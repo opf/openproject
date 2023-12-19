@@ -138,7 +138,7 @@ it:
   text_meeting_minutes_for_meeting: 'verbali per l''incontro "%{meeting}"'
   text_notificiation_invited: "Questa mail contiene un elemento di riunione ics qui in seguito:"
   text_meeting_empty_heading: "La tua riunione è vuota"
-  text_meeting_empty_description_1: "Inizia con l'aggiunta di elementi dell'ordine del giorno qui sotto. Ogni elemento può essere semplice come solo un titolo, ma è anche possibile aggiungere ulteriori dettagli come durata, note e una persona responsabile."
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
   text_meeting_empty_description_2: "Puoi anche aggiungere riferimenti alle macro-attività esistenti. Quando lo fai, le note correlate saranno automaticamente visibili nella scheda \"Riunioni\" della macro-attività."
   label_meeting_empty_action: "Aggiungi punto all'ordine del giorno"
   label_meeting_actions: "Azioni di riunione"
@@ -146,7 +146,7 @@ it:
   label_meeting_delete: "Annulla la riunione"
   label_meeting_created_by: "Creato da"
   label_meeting_last_updated: "Ultimo aggiornamento"
-  label_agenda_item_undisclosed_wp: "Riferimento della macro-attività non divulgato #%{id}"
+  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Riferimento della macro-attività eliminato"
   label_agenda_item_actions: "Azioni all'ordine del giorno"
   label_agenda_item_move_to_top: "Sposta in cima"

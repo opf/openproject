@@ -57,7 +57,14 @@ module Pages
       def expect_projects_not_listed(*projects)
         within '#project-table' do
           projects.each do |project|
-            expect(page).not_to have_text(project)
+            case project
+            when Project
+              expect(page).not_to have_text(project.name)
+            when String
+              expect(page).not_to have_text(project)
+            else
+              raise ArgumentError, "#{project.inspect} is not a Project or a String"
+            end
           end
         end
       end

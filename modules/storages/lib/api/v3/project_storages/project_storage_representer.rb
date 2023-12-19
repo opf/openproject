@@ -50,6 +50,10 @@ module API::V3::ProjectStorages
       { href: api_v3_paths.project_storage_open(represented.id) }
     end
 
+    link :openWithConnectionEnsured do
+      { href: represented.open_with_connection_ensured }
+    end
+
     associated_resource :storage, skip_render: ->(*) { true }, skip_link: ->(*) { false }
     associated_resource :project, skip_render: ->(*) { true }, skip_link: ->(*) { false }
     associated_resource :creator,

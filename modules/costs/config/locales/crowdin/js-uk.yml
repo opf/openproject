@@ -26,7 +26,7 @@ uk:
         costs: "Витрати"
       properties:
         overallCosts: "Загальні витрати"
-        spentUnits: "Витрачені одиниці"
-    button_log_costs: "Витрати лог-одиниць"
+        spentUnits: "Витрачені частини"
+    button_log_costs: "Витрати на одиницю"
     label_hour: "година"
     label_hours: "годин(и)"

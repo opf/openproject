@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.2.1'
+ruby file: '.ruby-version'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -256,6 +256,7 @@ group :test do
   gem 'capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', branch: 'main'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.15.0'
+  gem 'selenium-devtools'
   gem 'selenium-webdriver', '~> 4.16.0'
 
   gem 'fuubar', '~> 2.5.0'

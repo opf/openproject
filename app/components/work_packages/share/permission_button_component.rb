@@ -74,6 +74,13 @@ module WorkPackages
       def permission_name(value)
         options.select { |option| option[:value] == value }
       end
+
+      def form_inputs(role_id)
+        [].tap do |inputs|
+          inputs << { name: 'role_ids[]', value: role_id }
+          inputs << { name: 'filters', value: params[:filters] } if params[:filters]
+        end
+      end
     end
   end
 end

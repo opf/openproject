@@ -740,7 +740,7 @@ GEM
     paper_trail (12.3.0)
       activerecord (>= 5.2)
       request_store (~> 1.1)
-    parallel (1.23.0)
+    parallel (1.24.0)
     parallel_tests (4.3.0)
       parallel
     parser (3.2.2.4)
@@ -858,7 +858,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rbtree3 (0.7.1)
-    rdoc (6.6.1)
+    rdoc (6.6.2)
       psych (>= 4.0.0)
     recaptcha (5.16.0)
     redcarpet (3.6.0)
@@ -929,10 +929,10 @@ GEM
       activesupport
       rubocop
       rubocop-rspec
-    rubocop-performance (1.19.1)
-      rubocop (>= 1.7.0, < 2.0)
-      rubocop-ast (>= 0.4.0)
-    rubocop-rails (2.22.2)
+    rubocop-performance (1.20.0)
+      rubocop (>= 1.48.1, < 2.0)
+      rubocop-ast (>= 1.30.0, < 2.0)
+    rubocop-rails (2.23.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
@@ -960,6 +960,8 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     secure_headers (6.5.0)
+    selenium-devtools (0.120.0)
+      selenium-webdriver (~> 4.2)
     selenium-webdriver (4.16.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -1236,6 +1238,7 @@ DEPENDENCIES
   rubytree (~> 2.0.0)
   sanitize (~> 6.1.0)
   secure_headers (~> 6.5.0)
+  selenium-devtools
   selenium-webdriver (~> 4.16.0)
   semantic (~> 1.6.1)
   shoulda-context (~> 2.0)
@@ -1268,7 +1271,7 @@ DEPENDENCIES
   with_advisory_lock (~> 5.0.0)
 
 RUBY VERSION
-   ruby 3.2.1p31
+   ruby 3.2.2p53
 
 BUNDLED WITH
-   2.4.7
+   2.4.22

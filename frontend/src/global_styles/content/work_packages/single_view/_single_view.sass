@@ -35,16 +35,26 @@
 
 // -------------------- Header row --------------------
 .wp-show--header-container
-  display: flex
+  display: grid
+  grid-template-columns: auto 1fr auto
+  grid-template-rows: minmax(30px, auto) 1fr
+  grid-template-areas: "breadcrumb breadcrumb breadcrumb" "backButton subject toolbar"
+  align-items: center
+  grid-column-gap: 5px
 
-  .subject-header
-    flex-grow: 1
+  &--breadcrumb
+    grid-area: breadcrumb
+    align-self: baseline
 
-    .inline-edit--display-field
-      white-space: normal
-      overflow-wrap: anywhere
-      word-break: normal
-      line-height: normal
+  &--back-button
+    grid-area: backButton
+
+  &--subject
+    grid-area: subject
+
+  &--toolbar-items
+    grid-area: toolbar
+    margin-bottom: 0
 
 // Subject field
 .wp-new--subject-wrapper

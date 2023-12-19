@@ -31,7 +31,6 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Storages::Admin::GeneralInfoComponent.new(@storage)) %>
 <% end %>
 
-
 <% if @storage.provider_type_nextcloud? %>
   <%= turbo_stream.update :storage_openproject_oauth_section do %>
     <%=
@@ -41,8 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
           storage: @storage,
           submit_button_options: {
             data: { turbo_stream: true }
-          },
-          submit_button_path: new_admin_settings_storage_oauth_client_path(@storage)
+          }
         )
       )
     %>

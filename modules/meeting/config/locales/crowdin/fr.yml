@@ -138,7 +138,7 @@ fr:
   text_meeting_minutes_for_meeting: 'Minutes de la réunion "%{meeting}"'
   text_notificiation_invited: "Cet e-mail contient une entrée ics pour la réunion ci-dessous :"
   text_meeting_empty_heading: "Votre réunion est vide"
-  text_meeting_empty_description_1: "Commencez par ajouter des points à l'ordre du jour ci-dessous. Chaque élément peut être aussi simple qu'un titre, mais vous pouvez également ajouter des détails supplémentaires comme la durée et des notes."
+  text_meeting_empty_description_1: "Démarrez en ajoutant des points à l'ordre du jour ci-dessous. Chaque élément peut être aussi simple qu'un titre, mais vous pouvez également ajouter des détails supplémentaires comme la durée et des notes."
   text_meeting_empty_description_2: "Vous pouvez également ajouter des références aux lots de travaux existants. Les notes connexes seront automatiquement visibles dans l'onglet \"Réunions\" du lot de travaux concerné."
   label_meeting_empty_action: "Ajouter un point d'ordre du jour"
   label_meeting_actions: "Actions pour la réunion"
@@ -146,7 +146,7 @@ fr:
   label_meeting_delete: "Supprimer la réunion"
   label_meeting_created_by: "Créé par"
   label_meeting_last_updated: "Dernière mise à jour"
-  label_agenda_item_undisclosed_wp: "Référence du lot de travaux non divulguée #%{id}"
+  label_agenda_item_undisclosed_wp: "Paquet de travail #%{id} non visible"
   label_agenda_item_deleted_wp: "Référence de lot de travaux supprimée"
   label_agenda_item_actions: "Actions des points de l'ordre du jour"
   label_agenda_item_move_to_top: "Déplacer vers le haut"

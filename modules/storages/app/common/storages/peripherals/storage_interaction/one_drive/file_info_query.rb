@@ -44,11 +44,21 @@ module Storages
           end
 
           def call(user:, file_id:)
+            if file_id.nil?
+              return ServiceResult.failure(
+                result: :error,
+                errors: ::Storages::StorageError.new(code: :error,
+                                                     data: StorageErrorData.new(source: self),
+                                                     log_message: 'File ID can not be nil')
+              )
+            end
+
             @delegate.call(user:, drive_item_id: file_id, fields: FIELDS).map(&storage_file_infos)
           end
 
           private
 
+          # rubocop:disable Metrics/AbcSize
           def storage_file_infos
             ->(json) do
               StorageFileInfo.new(
@@ -66,10 +76,12 @@ module Storages
                 last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
                 last_modified_by_id: json.dig(:lastModifiedBy, :user, :id),
                 permissions: nil,
-                location: json.dig(:parentReference, :path)
+                location: Util.extract_location(json[:parentReference], json[:name])
               )
             end
           end
+
+          # rubocop:enable Metrics/AbcSize
         end
       end
     end
