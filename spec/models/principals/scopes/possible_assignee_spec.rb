@@ -137,6 +137,9 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
       let!(:member_placeholder_user) do
         create(:placeholder_user, member_with_roles: { work_package => role })
       end
+      let!(:member_group) do
+        create(:group, member_with_roles: { work_package => role })
+      end
 
       context 'with the role being assignable' do
         let(:role) { assignable_work_package_role }
@@ -146,7 +149,7 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
 
           it 'returns non locked users, groups and placeholder users that are members' do
             expect(subject)
-              .to contain_exactly(member_user, member_placeholder_user)
+              .to contain_exactly(member_user, member_placeholder_user, member_group)
           end
         end
       end
