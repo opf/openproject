@@ -36,10 +36,9 @@ module OAuthClients
   class CreateService < ::BaseServices::Create
     protected
 
-    def before_perform(params, _service_result)
-      OAuthClient.where(integration: params[:integration]).delete_all
-
-      super
+    def after_validate(params, contract_call)
+      OAuthClient.where(integration: params[:integration]).delete_all if contract_call.success?
+      super(params, contract_call)
     end
   end
 end

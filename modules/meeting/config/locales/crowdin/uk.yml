@@ -140,7 +140,7 @@ uk:
   text_meeting_minutes_for_meeting: 'протокол засідання %{meeting}'
   text_notificiation_invited: "У цьому листі міститься запис ics для зустрічі нижче:"
   text_meeting_empty_heading: "Ваша нарада пуста"
-  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
+  text_meeting_empty_description_1: "Почніть із додавання пунктів розкладу нижче. Кожен елемент може бути таким простим, як назва, але ви також можете додати додаткові деталі, як-от тривалість і примітки."
   text_meeting_empty_description_2: "Ви також можете додати посилання на наявні пакети робіт. У такому разі пов’язані примітки автоматично з’являться на вкладці «Наради» пакета робіт."
   label_meeting_empty_action: "Додати пункт порядку денного"
   label_meeting_actions: "Дії з нарадою"

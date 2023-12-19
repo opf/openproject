@@ -48,10 +48,6 @@ module Storages::Admin::Forms
       storage.persisted? ? edit_admin_settings_storage_path(storage) : admin_settings_storages_path
     end
 
-    def submit_button_disabled?
-      !oauth_client_configured?
-    end
-
     def storage_provider_credentials_instructions
       I18n.t("storages.instructions.#{storage.short_provider_type}.oauth_configuration",
              application_link_text: send(:"#{storage.short_provider_type}_integration_link")).html_safe
@@ -76,10 +72,6 @@ module Storages::Admin::Forms
 
     def default_form_method
       first_time_configuration? ? :post : :patch
-    end
-
-    def oauth_client_configured?
-      oauth_client.present? && oauth_client.client_id.present? && oauth_client.client_secret.present?
     end
   end
 end

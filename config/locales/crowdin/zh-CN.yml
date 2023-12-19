@@ -310,7 +310,7 @@ zh-CN:
       member_in_these_groups: "此用户当前是以下组的成员："
       no_results_title_text: 此用户当前不是任何组的成员。
     memberships:
-      no_results_title_text: 该用户当前不是项目的成员。
+      no_results_title_text: 该用户当前非项目成员。
   placeholder_users:
     right_to_manage_members_missing: >
       不允许删除占位符用户。您无权管理任何成员包含占位符用户的项目中的成员。
@@ -3000,9 +3000,9 @@ zh-CN:
         other: "%{count} 个用户"
       filter:
         project_member: '项目成员'
-        not_project_member: '不是项目成员'
+        not_project_member: '非项目成员'
         project_group: '项目组'
-        not_project_group: '不是项目组'
+        not_project_group: '非项目组'
         role: '角色'
         type: '类型'
       label_search: "搜索要邀请的用户"
@@ -3035,7 +3035,7 @@ zh-CN:
         invited: "邀请已发送。 "
         resend_invite: "重新发送。"
         invite_resent: "邀请已重新发送"
-        not_project_member: "不是项目成员"
+        not_project_member: "非项目成员"
         project_group: "组成员可能具有额外的权限（作为项目成员）"
         not_project_group: "组 (与所有成员共享)"
         additional_privileges_project: "可能有额外的权限(作为项目成员)"

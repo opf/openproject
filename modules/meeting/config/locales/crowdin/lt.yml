@@ -140,7 +140,7 @@ lt:
   text_meeting_minutes_for_meeting: 'pasitarimo „%{meeting}“ minutės'
   text_notificiation_invited: "Šis laiškas turi ics įrašą žemiau nurodytam susitikimui:"
   text_meeting_empty_heading: "Jūsų susitikimas yra tuščias"
-  text_meeting_empty_description_1: "Pradėkite pridėdami darbotvarkės elementus žemiau. Kiekvienas elementas gali būti paprasčiausiai antraštė, bet jūs galite pridėti papildomas detalias, tokias kaip trukmę ir pastabas."
+  text_meeting_empty_description_1: "Pradėkite pridėdami darbotvarkės elementus žemiau. Kiekvienas elementas gali būti paprasčiausiai antraštė, bet jūs galite pridėti papildomas detales, tokias kaip trukmę ir pastabas."
   text_meeting_empty_description_2: "Jūs taipogi galite pridėti nuorodas į esamus darbo paketus. Kai tai padarysite, susijusios pastabos bus automatiškai matomos darbo paketo kortelėje „Susitikimai“."
   label_meeting_empty_action: "Pridėti darbotvarkės klausimą"
   label_meeting_actions: "Susitikimo veiksmai"

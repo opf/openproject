@@ -138,7 +138,7 @@ es:
   text_meeting_minutes_for_meeting: 'minutas para la reunión "%{meeting}"'
   text_notificiation_invited: "El correo electrónico contiene una entrada ics para la reunión siguiente:"
   text_meeting_empty_heading: "Su reunión está vacía"
-  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
+  text_meeting_empty_description_1: "Comience añadiendo elementos de la agenda a continuación. Cada elemento puede ser tan simple como un título, pero también puede agregar detalles adicionales como duración, notas y una persona responsable."
   text_meeting_empty_description_2: "También puede añadir referencias a los paquetes de trabajo existentes. Cuando lo haga, las notas relacionadas serán automáticamente visibles en la pestaña \"Reuniones\" del paquete de trabajo."
   label_meeting_empty_action: "Añadir punto a la agenda"
   label_meeting_actions: "Acciones de reunión"
@@ -146,7 +146,7 @@ es:
   label_meeting_delete: "Eliminar reunión"
   label_meeting_created_by: "Creado por"
   label_meeting_last_updated: "Última actualización"
-  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
+  label_agenda_item_undisclosed_wp: "Paquete de trabajo #%{id} no visible"
   label_agenda_item_deleted_wp: "Referencia de paquete de trabajo eliminada"
   label_agenda_item_actions: "Acciones de elementos de la agenda"
   label_agenda_item_move_to_top: "Arriba de todo"

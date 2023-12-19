@@ -111,7 +111,7 @@ zh-CN:
       managed_project_folders_application_password: >
         从以下位置复制此值：
       managed_project_folders_application_password_caption: "通过从 %{provider_type_link} 复制该值来启用自动管理的文件夹。"
-      new_storage: "请阅读我们关于 <a target='_blank' href='%{provider_link}'> 设置 %{provider_name} 文件存储集成</a>的文档以获取更多信息。"
+      new_storage: "请阅读我们关于 <a target='_blank' href='%{provider_link}'> 设置 %{provider_name} 文件存储集成</a> 的文档以获取更多信息。"
       no_storage_set_up: "尚未设置文件存储。"
       no_specific_folder: "默认情况下，每个用户上传文件时将从自己的主文件夹开始。"
       automatic_folder: "这将自动为此项目创建一个根文件夹，并管理每个项目成员的访问权限。"
