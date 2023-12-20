@@ -1,0 +1,6 @@
+<p class="information-section">
+  <%= helpers.op_icon('icon-info1') %>
+  <%= t(:label_projects_storage_information,
+        count: Project.count,
+        storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
+</p>

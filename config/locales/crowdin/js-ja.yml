@@ -757,6 +757,7 @@ ja:
           last_day: 'Last day'
     text_are_you_sure: "よろしいですか？"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。"

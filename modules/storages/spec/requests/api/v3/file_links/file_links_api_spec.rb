@@ -33,18 +33,7 @@ require_module_spec_helper
 
 RSpec.describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
-
-  def add_permissions(user, *)
-    role = Role.joins(members: :principal).where('users.id': user).first
-    role.add_permission!(*)
-    user.reload # clear user's project_role_cache
-  end
-
-  def remove_permissions(user, *)
-    role = Role.joins(members: :principal).where('users.id': user).first
-    role.remove_permission!(*)
-    user.reload # clear user's project_role_cache
-  end
+  include UserPermissionsHelper
 
   def enable_module(project, modul)
     project.enabled_module_names = project.enabled_module_names + [modul]

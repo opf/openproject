@@ -3319,6 +3319,7 @@ pl:
       oauth_returned_json_error: "OAuth2 zwrócił błąd JSON"
       oauth_returned_http_error: "OAuth2 zwrócił błąd sieciowy"
       oauth_returned_standard_error: "OAuth2 zwrócił błąd wewnętrzny"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 zwrócił niewłaściwy typ tokena, oczekując AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 zgłosił błąd. Skontaktuj się z administratorem systemu."
       oauth_client_not_found: "Nie znaleziono klienta OAuth2 w punkcie końcowym 'callback' (redirect_uri)."

@@ -3228,6 +3228,7 @@ ko:
       oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."
       oauth_returned_http_error: "OAuth2가 네트워크 오류를 반환했습니다."
       oauth_returned_standard_error: "OAuth2가 내부 오류를 반환했습니다."
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2가 잘못된 유형의 토큰을 반환했습니다. AccessToken::Bearer가 필요합니다."
       oauth_issue_contact_admin: "OAuth2가 오류를 보고했습니다. 시스템 관리자에게 문의하세요."
       oauth_client_not_found: "'callback' 엔드포인트(redirect_uri)에서 OAuth2 클라이언트를 찾을 수 없습니다."

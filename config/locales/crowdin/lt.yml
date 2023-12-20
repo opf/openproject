@@ -3317,6 +3317,7 @@ lt:
       oauth_returned_json_error: "OAuth2 grąžino JSON klaidą"
       oauth_returned_http_error: "OAuth2 grąžino tinklo klaidą"
       oauth_returned_standard_error: "OAuth2 grąžino vidinę klaidą"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 grąžino netinkamą žetono tipą, tikėtasi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 grąžino klaidą. Prašome susisiekti su jūsų sistemos administratoriumi."
       oauth_client_not_found: "OAuth2 klientas nerastas „callback“ taške (redirect_uri)."

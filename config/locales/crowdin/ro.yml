@@ -3293,6 +3293,7 @@ ro:
       oauth_returned_json_error: "OAuth2 a returnat o eroare JSON"
       oauth_returned_http_error: "OAuth2 a returnat o eroare de rețea"
       oauth_returned_standard_error: "OAuth2 a returnat o eroare internă"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 a returnat un tip greșit de token, așteptând AccessToken::Purtător"
       oauth_issue_contact_admin: "OAuth2 a raportat o eroare. Vă rugăm să contactați administratorul de sistem."
       oauth_client_not_found: "Clientul OAuth2 nu a fost găsit în endpoint-ul  'callback' (redirect_uri)."

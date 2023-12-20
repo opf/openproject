@@ -756,6 +756,7 @@ de:
           last_day: 'Letzter Tag'
     text_are_you_sure: "Sind Sie sicher?"
     text_data_lost: "Alle eingegebenen Daten gehen verloren."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Der Name %{group} wird mehr als einmal verwendet. Gruppen-Namen müssen eindeutig sein."

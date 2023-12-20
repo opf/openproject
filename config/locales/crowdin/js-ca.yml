@@ -32,8 +32,8 @@ ca:
       draggable_hint: |
         Arrossega a l'editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l'editor seguiran oberts mentre se segueixi arrossegant.
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
+      add_tag: "Afegeix element"
+      clear_all: "Esborra-ho tot"
       loading: "Carregant..."
       not_found: "Elements no trobats"
       type_to_search: "Escriviu per cercar"
@@ -757,6 +757,7 @@ ca:
           last_day: 'Últim dia'
     text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "El nom %{group} ja està en ús. Els noms de grup han de ser únics."

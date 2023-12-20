@@ -759,6 +759,7 @@ lt:
           last_day: 'Paskutinė diena'
     text_are_you_sure: "Ar esate įsitikinę?"
     text_data_lost: "Visa įvesta informacija bus prarasta."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau nei kartą. Grupių pavadinimai privalo būti unikalūs."
