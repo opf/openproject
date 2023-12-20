@@ -59,7 +59,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
       case response.status
-      when 201
+      when 200..299
         ServiceResult.success(message: 'Folder was successfully created.')
       when 405
         if Util.error_text_from_response(response) == 'The resource you tried to create already exists'

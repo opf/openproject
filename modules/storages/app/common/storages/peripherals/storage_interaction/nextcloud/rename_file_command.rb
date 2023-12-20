@@ -58,7 +58,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
       case response.status
-      when 201
+      when 200..299
         ServiceResult.success
       when 404
         Util.error(:not_found, 'Outbound request destination not found', error_data)

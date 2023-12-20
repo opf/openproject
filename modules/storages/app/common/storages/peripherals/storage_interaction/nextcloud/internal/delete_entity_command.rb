@@ -50,7 +50,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
                                               UTIL.escape_path(location)))
 
       case response.status
-      when 204
+      when 200..299
         ServiceResult.success
       when 404
         UTIL.error(:not_found)

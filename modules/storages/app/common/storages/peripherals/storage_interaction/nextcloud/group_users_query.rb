@@ -53,7 +53,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
       case response.status
-      when 200
+      when 200..299
         group_users = Nokogiri::XML(response.body.to_s)
                         .xpath('/ocs/data/users/element')
                         .map(&:text)

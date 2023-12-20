@@ -58,7 +58,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                          }
                        )
           case response.status
-          when 200
+          when 200..299
             ServiceResult.success(result: response)
           when 404
             Util.error(:not_found, 'Outbound request destination not found!', response)

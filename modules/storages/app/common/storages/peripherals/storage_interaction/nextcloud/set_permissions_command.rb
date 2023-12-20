@@ -94,7 +94,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
       case response.status
-      when 207
+      when 200..299
         doc = Nokogiri::XML(response.body.to_s)
         if doc.xpath("/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list").present?
           ServiceResult.success(result: :success)

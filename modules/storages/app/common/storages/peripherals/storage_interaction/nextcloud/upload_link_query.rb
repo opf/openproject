@@ -76,7 +76,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                      json: payload
                    )
       case response.status
-      when 200
+      when 200..299
         # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
         if response.body.present?
           ServiceResult.success(

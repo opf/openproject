@@ -60,7 +60,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
       case response.status
-      when 200
+      when 200..299
         statuscode = Nokogiri::XML(response.body.to_s).xpath('/ocs/meta/statuscode').text
 
         case statuscode

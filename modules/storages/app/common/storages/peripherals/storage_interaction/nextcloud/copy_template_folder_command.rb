@@ -85,7 +85,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                      .head(urls[:destination_url])
 
         case response.status
-        when 200
+        when 200..299
           Util.error(:conflict, 'Destination folder already exists.')
         when 401
           Util.error(:unauthorized, "unauthorized (validate_destination)")
@@ -110,7 +110,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                               })
 
         case response.status
-        when 201
+        when 200..299
           ServiceResult.success(message: 'Folder was successfully copied')
         when 401
           Util.error(:unauthorized, "Unauthorized (copy_folder)")

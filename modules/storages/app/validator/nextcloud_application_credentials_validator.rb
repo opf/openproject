@@ -43,7 +43,7 @@ class NextcloudApplicationCredentialsValidator
                  .basic_auth(contract.username, contract.password)
                  .head(UTIL.join_uri_path(uri, "remote.php/dav"))
     case response.status
-    when 200
+    when 200..299
       true
     when 401
       contract.errors.add(:password, :invalid_password)
