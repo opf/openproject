@@ -82,7 +82,7 @@ ru:
       **Обсуждение переоткрыто:** Обсуждение %{issue_number} [%{issue_title}](%{issue_url}) в [%{repository}](%{repository_url})
       было переоткрыто [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Коммит в MR:** [%{gitlab_user}](%{gitlab_user_url}) закоммитил [%{commit_number}](%{commit_url})
+      **Коммит:** [%{gitlab_user}](%{gitlab_user_url}) закоммитил [%{commit_number}](%{commit_url})
       в [%{repository}](%{repository_url}) %{commit_timestamp}:
 
       %{commit_note}

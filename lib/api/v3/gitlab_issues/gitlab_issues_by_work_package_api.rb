@@ -42,9 +42,9 @@ module API
           get do
             path = api_v3_paths.gitlab_issues_by_work_package(@work_package.id)
             GitlabIssueCollectionRepresenter.new(@gitlab_issues,
-                                                        @gitlab_issues.count,
-                                                        self_link: path,
-                                                        current_user: current_user)
+                                                 @gitlab_issues.count,
+                                                 self_link: path,
+                                                 current_user:)
           end
         end
       end

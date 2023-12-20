@@ -31,35 +31,18 @@
 module OpenProject
   module GitlabIntegration
     module Services
-      class UpsertPipeline
-        include ParamsHelper
-
-        def call(payload, merge_request:)
-          GitlabPipeline.find_or_initialize_by(gitlab_id: payload.object_attributes.iid)
-                        .tap do |pipeline|
-                          pipeline.update!(gitlab_merge_request: merge_request, **extract_params(payload))
-                        end
-        end
-
+      module ParamsHelper
         private
 
-        # Receives the input from the gitlab webhook and translates them
-        # to our internal representation.
-        def extract_params(payload)
-          {
-            gitlab_id: payload.object_attributes.iid,
-            gitlab_html_url: "#{payload.project.web_url}/-/pipelines/#{payload.object_attributes.iid}",
-            project_id: payload.project.id,
-            gitlab_user_avatar_url: avatar_url(payload.user.avatar_url),
-            name: payload.object_attributes.iid,
-            status: payload.object_attributes.status,
-            details_url: "#{payload.project.web_url}/-/commit/#{payload.object_attributes.sha[0..7]}",
-            commit_id: payload.object_attributes.sha[0..7],
-            username: payload.user.name,
-            ci_details: payload.builds,
-            started_at: payload.object_attributes.created_at,
-            completed_at: payload.object_attributes.finished_at
-          }
+        EMPTY_AVATAR_URL = 'https://www.gravatar.com/avatar/?d=mp'
+        EMPTY_DESCRIPTION = 'No description provided'
+
+        def avatar_url(raw_url)
+          raw_url.presence || EMPTY_AVATAR_URL
+        end
+
+        def description(raw_description)
+          raw_description.presence || EMPTY_DESCRIPTION
         end
       end
     end
