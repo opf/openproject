@@ -39,7 +39,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
   end
 
   describe '.debounce' do
-    it 'debounces job with 5 seconds timeframe' do
+    it 'debounces a job within a certain timeframe' do
       ActiveJob::Base.disable_test_adapter
 
       other_handler = Storages::ManageNextcloudIntegrationCronJob.perform_later.provider_job_id
@@ -54,7 +54,12 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
 
       expect(Delayed::Job.count).to eq(6)
 
+      allow(described_class).to receive(:set).and_call_original
+
       1000.times { described_class.debounce }
+
+      # check if debouncing within a thread really works.
+      expect(described_class).to have_received(:set).once
 
       expect(Delayed::Job.count).to eq(4)
       expect(Delayed::Job.pluck(:id)).to include(other_handler,
@@ -68,7 +73,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
           .where("handler LIKE ?", "%job_class: #{described_class}%")
           .last
           .run_at
-      ).to be_within(3.seconds).of(described_class::DEBOUNCE_TIME.from_now)
+      ).to be_within(3.seconds).of(described_class::JOB_DEBOUNCE_TIME.from_now)
     end
   end
 
