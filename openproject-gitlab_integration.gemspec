@@ -32,7 +32,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'openproject-gitlab_integration'
-  s.version     = '2.1.3'
+  s.version     = '2.1.5'
   s.authors     = 'Ben Tey'
   s.email       = 'ben.tey@outlook.com'
   s.homepage    = 'https://github.com/btey/openproject-gitlab-integration'

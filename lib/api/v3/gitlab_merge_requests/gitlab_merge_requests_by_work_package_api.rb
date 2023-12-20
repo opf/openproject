@@ -34,7 +34,7 @@ module API
     module GitlabMergeRequests
       class GitlabMergeRequestsByWorkPackageAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize(:show_gitlab_content, context: @work_package.project)
+          authorize_in_work_package(:show_gitlab_content, work_package: @work_package)
           @gitlab_merge_requests = @work_package.gitlab_merge_requests
         end
 
@@ -44,7 +44,7 @@ module API
             GitlabMergeRequestCollectionRepresenter.new(@gitlab_merge_requests,
                                                         @gitlab_merge_requests.count,
                                                         self_link: path,
-                                                        current_user: current_user)
+                                                        current_user:)
           end
         end
       end

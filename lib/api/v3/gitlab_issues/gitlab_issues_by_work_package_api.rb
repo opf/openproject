@@ -34,7 +34,7 @@ module API
     module GitlabIssues
       class GitlabIssuesByWorkPackageAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize(:show_gitlab_content, context: @work_package.project)
+          authorize_in_work_package(:show_gitlab_content, work_package: @work_package)
           @gitlab_issues = @work_package.gitlab_issues
         end
 
@@ -42,9 +42,9 @@ module API
           get do
             path = api_v3_paths.gitlab_issues_by_work_package(@work_package.id)
             GitlabIssueCollectionRepresenter.new(@gitlab_issues,
-                                                        @gitlab_issues.count,
-                                                        self_link: path,
-                                                        current_user: current_user)
+                                                 @gitlab_issues.count,
+                                                 self_link: path,
+                                                 current_user:)
           end
         end
       end
