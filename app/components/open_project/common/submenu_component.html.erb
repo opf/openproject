@@ -8,7 +8,7 @@
             <li class="op-sidemenu--item">
               <% selected = menu_item[:selected] ? 'selected' : '' %>
               <a class="op-sidemenu--item-action <%= selected %>" href="<%= menu_item[:href] %>">
-                <%= menu_item[:title] %>
+                <span class="op-sidemenu--item-title"><%= menu_item[:title] %></span>
               </a>
             </li>
           <% end %>
@@ -40,7 +40,7 @@
               <li class="op-sidemenu--item">
                 <% selected = child_item[:selected] ? 'selected' : '' %>
                 <a class="op-sidemenu--item-action <%= selected %>" href="<%= child_item[:href] %>">
-                  <%= child_item[:title] %>
+                  <span class="op-sidemenu--item-title"><%= child_item[:title] %></span>
                 </a>
               </li>
             <% end %>
