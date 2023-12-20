@@ -3319,6 +3319,7 @@ ru:
       oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
       oauth_returned_http_error: "OAuth2 вернул ошибку сети"
       oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
       oauth_client_not_found: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."

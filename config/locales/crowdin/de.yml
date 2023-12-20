@@ -3256,6 +3256,7 @@ de:
       oauth_returned_json_error: "OAuth2 meldet einen JSON-Fehler zurück"
       oauth_returned_http_error: "OAuth2 meldet einen Netzwerkfehler zurück"
       oauth_returned_standard_error: "OAuth2 meldet einen internen Fehler zurück"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 hat einen Fehler zurückgemeldet. Es wurde der falsche Tokentyp benutzt. Der richtige Tokentyp ist AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 meldet einen Fehler zurück. Bitte kontaktieren Sie den System-Administrator."
       oauth_client_not_found: "OAuth2-Client nicht im 'callback' Endpunkt gefunden (redirect_uri)."

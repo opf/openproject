@@ -3220,6 +3220,7 @@ id:
       oauth_returned_json_error: "OAuth2 mengembalikan kesalahan JSON"
       oauth_returned_http_error: "OAuth2 mengembalikan kesalahan jaringan"
       oauth_returned_standard_error: "OAuth2 mengembalikan kesalahan internal"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 mengembalikan jenis token yang salah, mengharapkan AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 melaporkan kesalahan. Silakan hubungi administrator sistem Anda."
       oauth_client_not_found: "Klien OAuth2 tidak ditemukan di titik akhir 'panggilan balik' (redirect_uri)."

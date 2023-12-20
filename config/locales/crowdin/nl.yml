@@ -3257,6 +3257,7 @@ nl:
       oauth_returned_json_error: "OAuth2 heeft een JSON-fout teruggestuurd"
       oauth_returned_http_error: "OAuth2 heeft een netwerkfout teruggestuurd"
       oauth_returned_standard_error: "OAuth2 stuurde een interne fout terug"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 gaf een verkeerd type token, verwacht AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 meldt een fout. Neem contact op met uw systeembeheerder."
       oauth_client_not_found: "OAuth2 client niet gevonden in 'callback' eindpunt (redirect_uri)."

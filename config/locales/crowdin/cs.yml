@@ -3322,6 +3322,7 @@ cs:
       oauth_returned_json_error: "OAuth2 vrátil chybu JSON"
       oauth_returned_http_error: "OAuth2 vrátil chybu sítě"
       oauth_returned_standard_error: "OAuth2 vrátil interní chybu"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 vrátil špatný typ tokenu, očekává se AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 nahlásil chybu. Obraťte se na správce systému."
       oauth_client_not_found: "Klient OAuth2 nebyl nalezen v koncovém bodě 'callback' (redirect_uri)."

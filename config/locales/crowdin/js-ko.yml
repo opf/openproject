@@ -756,6 +756,7 @@ ko:
           last_day: '마지막 날'
     text_are_you_sure: "계속하시겠습니까?"
     text_data_lost: "입력한 모든 데이터가 손실됩니다."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다."

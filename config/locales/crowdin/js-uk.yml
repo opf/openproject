@@ -759,6 +759,7 @@ uk:
           last_day: 'Останній день'
     text_are_you_sure: "Ви впевненені?"
     text_data_lost: "Усі введені дані буде втрачено."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} використовується більше одного разу. Назви груп повинні бути унікальними."

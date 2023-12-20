@@ -3257,6 +3257,7 @@ es:
       oauth_returned_json_error: "Hay un error de JSON en el OAuth2 "
       oauth_returned_http_error: "Hay un error de red en el OAuth2 "
       oauth_returned_standard_error: "Hay un error interno en el OAuth2 "
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "Tipo de token incorrecto en el OAuth2, se espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "Hay un error en el OAuth2. Por favor, consulte con el administrador del sistema."
       oauth_client_not_found: "Cliente del OAuth2 no encontrado en el punto final 'callback' (redirect_uri)."

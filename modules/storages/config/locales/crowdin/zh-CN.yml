@@ -137,7 +137,7 @@ zh-CN:
           请确保您在%{application_link_text}具有管理权限，或在进行设置之前与您的 Microsoft 管理员联系。在门户中，您还需要注册一个 Azure 应用程序或使用现有的应用程序进行身份验证。
         oauth_configuration: "从%{application_link_text}中的所需应用程序复制这些值。"
         application_link_text: "Azure 门户"
-        integration: "OneDrive/Sharepoint"
+        integration: "OneDrive/SharePoint"
         oauth_client_id: >
           从 Azure 门户复制客户端 ID。这是生成重定向 URI 所必需的。
         oauth_client_secret: >
@@ -157,7 +157,7 @@ zh-CN:
     configuration_checks:
       oauth_client_incomplete:
         nextcloud: "允许 OpenProject 使用 OAuth 访问 Nextcloud 数据。"
-        one_drive: "允许 OpenProject 使用 OAuth 访问Azure 数据来连接 OneDrive/Sharepoint。"
+        one_drive: "允许 OpenProject 使用 OAuth 访问Azure 数据来连接 OneDrive/SharePoint。"
       redirect_uri_incomplete:
         one_drive: "使用正确的 URI 重定向完成设置。"
     delete_warning:
@@ -239,7 +239,7 @@ zh-CN:
         label_oauth_client_id: "Nextcloud OAuth 客户端 ID"
         label_oauth_client_secret: "Nextcloud OAuth 客户端密钥"
       one_drive:
-        name: "OneDrive/Sharepoint"
+        name: "OneDrive/SharePoint"
         name_placeholder: "例如OneDrive"
         label_oauth_client_id: "Azure OAuth 应用程序 (客户端) ID"
         label_oauth_client_secret: "Azure OAuth 客户端密钥值"
