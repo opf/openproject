@@ -1,8 +1,8 @@
-# /api/v3/projects/{id}/available_assignees
+# /api/v3/work_packages/{id}/available_assignees
 ---
 get:
   parameters:
-  - description: Project id
+  - description: Work package id
     example: '1'
     in: path
     name: id
@@ -64,7 +64,7 @@ get:
                     updatedAt: '2014-05-21T08:51:20.396Z'
                 _links:
                   self:
-                    href: "/api/v3/projects/42/available_assignees"
+                    href: "/api/v3/work_packages/42/available_assignees"
                 _type: Collection
                 count: 2
                 total: 2
@@ -83,13 +83,13 @@ get:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
                 message: You are not allowed to see the assignable users for this
-                  project.
+                  work package.
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** view work packages
 
-        *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
       headers: {}
     '404':
       content:
@@ -101,15 +101,14 @@ get:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified project does not exist.
+                message: The specified work package does not exist.
       description: |-
-        Returned if the project does not exist or the client does not have sufficient permissions to see it.
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
-        **Required permission:** view project
+        **Required permission:** view work packages
       headers: {}
   tags:
   - Work Packages
-  description: Gets a list of users that can be assigned to work packages in the given
-    project.
-  operationId: Project_Available_assignees
-  summary: Project Available assignees
+  description: Gets a list of users that can be assigned to the given work package.
+  operationId: Work_Package_Available_assignees
+  summary: Work Package Available assignees
