@@ -34,6 +34,7 @@ RSpec.describe 'Help menu items',
   let(:user) { create(:admin) }
   let(:help_item) { find('.op-app-help .op-app-menu--item-action') }
   let(:help_menu_dropdown_selector) { '.op-app-menu--dropdown.op-menu' }
+  let(:help_item_additional_resources_dropdown) { find('span[data-menus--help-target="additionalResourcesDropdownHandle"]') }
 
   before do
     login_as user
@@ -47,6 +48,34 @@ RSpec.describe 'Help menu items',
 
       expect(page).to have_selector('.op-app-help .op-menu--item-action',
                                     text: I18n.t('homescreen.links.user_guides'))
+    end
+
+    it 'has a additional resources dropdown menu' do
+      visit home_path
+
+      help_item.click
+
+      expect(page).to have_selector('span[data-menus--help-target="additionalResourcesDropdownHandle"]')
+    end
+
+    it 'hides additional resources behind a dropdown' do
+      visit home_path
+
+      help_item.click
+
+      expect(page).to have_selector('span[data-menus--help-target="additionalResourcesContent"]',
+                                   visible: false)
+    end
+
+    it 'shows additional resources after dropdown click' do
+      visit home_path
+
+      help_item.click
+
+      help_item_additional_resources_dropdown.click
+      
+      expect(page).to have_selector('span[data-menus--help-target="additionalResourcesContent"]')
+
     end
   end
 

@@ -88,6 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= call_hook :view_layouts_base_top_menu %>
         <%= render_top_menu_right %>
       </div>
+      <% content_controller 'menus--help', dynamic: true %>
     </header>
   <% end %>
   <div id="main"

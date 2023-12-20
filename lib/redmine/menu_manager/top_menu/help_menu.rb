@@ -112,33 +112,57 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   end
 
   def render_additional_resources(result)
-    result << content_tag(:li, class: 'op-menu--item') do
-      content_tag :span,
-                  I18n.t('top_menu.additional_resources'),
-                  class: 'op-menu--headline',
-                  title: I18n.t('top_menu.additional_resources')
-    end
+    result << content_tag(:span, 'data-controller': 'menus--help', 'data-application-target': 'dynamic') do
+      items = ''.html_safe
 
-    if OpenProject::Static::Links.has? :impressum
-      result << static_link_item(:impressum)
-    end
+      items << render_additional_resources_dropdown
 
-    result << static_link_item(:data_privacy)
-    result << static_link_item(:digital_accessibility)
-    result << static_link_item(
-      :website,
-      href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-help-menu"
-    )
-    result << static_link_item(
-      :newsletter,
-      href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-help-menu"
-    )
-    result << static_link_item(:blog)
-    result << static_link_item(:release_notes)
-    result << static_link_item(:report_bug)
-    result << static_link_item(:roadmap)
-    result << static_link_item(:crowdin)
-    result << static_link_item(:api_docs)
+      if OpenProject::Static::Links.has? :impressum
+        items << static_link_item(:impressum)
+      end
+
+      items << render_additional_resources_links
+    end
+  end
+
+  def render_additional_resources_links
+    content_tag(:span, 'data-menus--help-target': 'additionalResourcesContent', class: 'op-menu--hide') do
+      links = ''.html_safe
+      links << static_link_item(:data_privacy)
+      links << static_link_item(:digital_accessibility)
+      links << static_link_item(
+        :website,
+        href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-help-menu"
+      )
+      links << static_link_item(
+        :newsletter,
+        href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-help-menu"
+      )
+      links << static_link_item(:blog)
+      links << static_link_item(:release_notes)
+      links << static_link_item(:report_bug)
+      links << static_link_item(:roadmap)
+      links << static_link_item(:crowdin)
+      links << static_link_item(:api_docs)
+    end
+  end
+
+  def render_additional_resources_dropdown
+    content_tag(:li, class: "op-menu--item") do
+      content_tag(:div,
+                  class: 'op-menu--dropdown op-menu--item-action',
+                  'data-menus--help-target': "additionalResourcesDropdown",
+                  'data-action': "click->menus--help#toggleMenuState",
+                  title: I18n.t('top_menu.additional_resources')) do
+                    items = ''.html_safe
+                    items << content_tag(:div,
+                                         I18n.t('top_menu.additional_resources'),
+                                         class: 'op-menu--dropdown-text')
+                    items << content_tag(:span, '',
+                                         class: "icon-small icon-arrow-down1 op-menu--dropdown-icon",
+                                         'data-menus--help-target': 'additionalResourcesDropdownHandle')
+                  end
+    end
   end
 
   def static_link_item(key, options = {})
