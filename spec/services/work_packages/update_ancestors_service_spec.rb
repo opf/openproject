@@ -43,6 +43,26 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
   let(:ignore_non_working_days) { [false, false, false] }
 
   describe 'done_ratio/estimated_hours/remaining_hours propagation' do
+    context 'when setting estimated hours of a work package' do
+      shared_let(:work_package) { create(:work_package, status: open_status) }
+
+      before do
+        work_package.estimated_hours = 2.0
+      end
+
+      subject(:call_result) do
+        described_class.new(user:, work_package:)
+                       .call(%i(estimated_hours))
+      end
+
+      it 'sets its derived value to the same value' do
+        expect { call_result }
+          .to change(work_package, :derived_estimated_hours).from(nil).to(2.0)
+        expect(call_result).to be_success
+        expect(call_result.dependent_results).to be_empty
+      end
+    end
+
     context 'for the new ancestor chain' do
       shared_examples 'attributes of parent having children' do
         before do
@@ -143,6 +163,26 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
         end
+
+        context 'with parent having estimated hours' do
+          before do
+            parent.update(estimated_hours: 5.0)
+          end
+
+          it_behaves_like 'attributes of parent having children' do
+            let(:estimated_hours) do
+              [nil, 2.0, 0.0]
+            end
+
+            # 66.67 rounded - previous wrong result: 100
+            let(:aggregate_done_ratio) do
+              67
+            end
+            let(:aggregate_estimated_hours) do
+              7.0
+            end
+          end
+        end
       end
 
       context 'with some values same for done ratio' do
@@ -219,6 +259,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       shared_let(:sibling_done_ratio) { 50 }
       shared_let(:sibling_estimated_hours) { 7.0 }
       shared_let(:sibling_remaining_hours) { 3.5 }
+      shared_let(:parent_estimated_hours) { 3.0 }
 
       shared_let(:grandparent) do
         create(:work_package,
@@ -227,6 +268,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       shared_let(:parent) do
         create(:work_package,
                subject: 'parent',
+               estimated_hours: parent_estimated_hours,
                parent: grandparent)
       end
       shared_let(:sibling) do
@@ -271,7 +313,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           parent.reload
         end
           .to change(parent, :done_ratio).to(sibling_done_ratio)
-          .and change(parent, :derived_estimated_hours).to(sibling_estimated_hours)
+          .and change(parent, :derived_estimated_hours).to(parent_estimated_hours + sibling_estimated_hours)
           .and change(parent, :derived_remaining_hours).to(sibling_remaining_hours)
       end
 
@@ -281,7 +323,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           grandparent.reload
         end
           .to change(grandparent, :done_ratio).to(sibling_done_ratio)
-          .and change(grandparent, :derived_estimated_hours).to(sibling_estimated_hours)
+          .and change(grandparent, :derived_estimated_hours).to(parent_estimated_hours + sibling_estimated_hours)
           .and change(grandparent, :derived_remaining_hours).to(sibling_remaining_hours)
       end
     end
@@ -291,6 +333,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       shared_let(:done_ratio) { 50 }
       shared_let(:estimated_hours) { 7.0 }
       shared_let(:remaining_hours) { 3.5 }
+      shared_let(:parent_estimated_hours) { 3.0 }
+      shared_let(:parent_remaining_hours) { 1.5 }
 
       shared_let(:grandparent) do
         create(:work_package,
@@ -299,6 +343,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       shared_let(:parent) do
         create(:work_package,
                subject: 'parent',
+               estimated_hours: parent_estimated_hours,
+               remaining_hours: parent_remaining_hours,
                parent: grandparent)
       end
       shared_let(:work_package) do
@@ -327,8 +373,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             parent.reload
           end
             .to change(parent, :done_ratio).to(done_ratio)
-            .and change(parent, :derived_estimated_hours).to(estimated_hours)
-            .and change(parent, :derived_remaining_hours).to(remaining_hours)
+            .and change(parent, :derived_estimated_hours).to(parent_estimated_hours + estimated_hours)
+            .and change(parent, :derived_remaining_hours).to(parent_remaining_hours + remaining_hours)
         end
 
         it 'updates the done_ratio, derived_estimated_hours, and derived_remaining_hours of the new grandparent' do
@@ -337,8 +383,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             grandparent.reload
           end
             .to change(grandparent, :done_ratio).to(done_ratio)
-            .and change(grandparent, :derived_estimated_hours).to(estimated_hours)
-            .and change(grandparent, :derived_remaining_hours).to(remaining_hours)
+            .and change(grandparent, :derived_estimated_hours).to(parent_estimated_hours + estimated_hours)
+            .and change(grandparent, :derived_remaining_hours).to(parent_remaining_hours + remaining_hours)
         end
       end
 

@@ -36,20 +36,14 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def call(attributes)
-    modified = update_current_and_former_ancestors(attributes)
+    updated_work_packages = update_current_and_former_ancestors(attributes)
 
-    modified_ancestors = modified.reject { |wp| initiator?(wp) }
-
-    set_journal_note(modified_ancestors)
-
-    # Do not send notification for parent updates
-    success = Journal::NotificationConfiguration.with(false) do
-      modified.all? { |wp| wp.save(validate: false) }
-    end
+    set_journal_note(ancestors(updated_work_packages))
+    success = save_updated_work_packages(updated_work_packages)
 
     result = ServiceResult.new(success:, result: initiator_work_package)
 
-    modified_ancestors.each do |wp|
+    ancestors(updated_work_packages).each do |wp|
       result.add_dependent!(ServiceResult.new(success: !wp.changed?, result: wp))
     end
 
@@ -62,6 +56,10 @@ class WorkPackages::UpdateAncestorsService
     work_package == initiator_work_package
   end
 
+  def ancestors(work_packages)
+    work_packages.reject { initiator?(_1) }
+  end
+
   def update_current_and_former_ancestors(attributes)
     include_former_ancestors = attributes.intersect?(%i[parent_id parent])
     WorkPackages::UpdateAncestors::Loader
@@ -71,6 +69,18 @@ class WorkPackages::UpdateAncestorsService
 
         ancestor.changed?
       end
+  end
+
+  def save_updated_work_packages(updated_work_packages)
+    updated_initiators, updated_ancestors = updated_work_packages.partition { initiator?(_1) }
+
+    # Send notifications for initiator updates
+    success = updated_initiators.all? { |wp| wp.save(validate: false) }
+    # Do not send notifications for parent updates
+    success &&= Journal::NotificationConfiguration.with(false) do
+      updated_ancestors.all? { |wp| wp.save(validate: false) }
+    end
+    success
   end
 
   def derive_attributes(work_package, loader, attributes)
@@ -178,7 +188,7 @@ class WorkPackages::UpdateAncestorsService
   def derive_estimated_hours(work_package, loader)
     descendants = loader.descendants_of(work_package)
 
-    work_package.derived_estimated_hours = not_zero(all_estimated_hours(descendants).sum.to_f)
+    work_package.derived_estimated_hours = not_zero(all_estimated_hours([work_package] + descendants).sum.to_f)
   end
 
   def derive_remaining_hours(work_package, loader)
