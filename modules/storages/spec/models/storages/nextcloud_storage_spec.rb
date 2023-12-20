@@ -37,6 +37,15 @@ RSpec.describe Storages::NextcloudStorage do
 
   it_behaves_like 'base storage'
 
+  describe '.automatic_management_enabled' do
+    let!(:automatically_managed_storage) { create(:nextcloud_storage, :as_automatically_managed) }
+    let!(:not_automatically_managed_storage) { create(:nextcloud_storage, :as_not_automatically_managed) }
+
+    it 'returns only storages with automatic management enabled' do
+      expect(described_class.automatic_management_enabled).to contain_exactly(automatically_managed_storage)
+    end
+  end
+
   describe '#provider_type?' do
     it { expect(storage).to be_a_provider_type_nextcloud }
     it { expect(storage).not_to be_a_provider_type_one_drive }
@@ -106,7 +115,6 @@ RSpec.describe Storages::NextcloudStorage do
       end
     end
   end
-
 
   describe '#configured?' do
     context 'with a complete configuration' do
@@ -207,8 +215,28 @@ RSpec.describe Storages::NextcloudStorage do
     it_behaves_like 'a stored attribute with default value', :group_folder, 'OpenProject'
   end
 
-  describe '#automatically_managed?' do
+  describe '#automatically_managed' do
     it_behaves_like 'a stored boolean attribute', :automatically_managed
+  end
+
+  describe '#automatic_management_enabled?' do
+    context 'when automatically_managed is true' do
+      let(:storage) { build(:nextcloud_storage, automatically_managed: true) }
+
+      it { expect(storage).to be_automatic_management_enabled }
+    end
+
+    context 'when automatically_managed is false' do
+      let(:storage) { build(:nextcloud_storage, automatically_managed: false) }
+
+      it { expect(storage).not_to be_automatic_management_enabled }
+    end
+
+    context 'when automatically_managed is nil' do
+      let(:storage) { build(:nextcloud_storage, automatically_managed: nil) }
+
+      it { expect(storage.automatic_management_enabled?).to be(false) }
+    end
   end
 
   describe '#automatic_management_new_record?' do

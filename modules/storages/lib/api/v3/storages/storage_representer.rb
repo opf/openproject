@@ -106,7 +106,7 @@ module API::V3::Storages
              getter: ->(represented:, **) {
                break unless represented.provider_type_nextcloud?
 
-               represented.automatically_managed?
+               represented.automatic_management_enabled?
              },
              setter: ->(*) {}
 

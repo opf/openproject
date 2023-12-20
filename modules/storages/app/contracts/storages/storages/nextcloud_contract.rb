@@ -39,27 +39,27 @@ module Storages::Storages
     attribute :automatically_managed
 
     attribute :username
-    validates :username, presence: true, if: :nextcloud_storage_automatically_managed?
+    validates :username, presence: true, if: :nextcloud_storage_automatic_management_enabled?
     validates :username,
               absence: true,
-              unless: -> { nextcloud_storage_automatically_managed? || nextcloud_default_storage_username? }
+              unless: -> { nextcloud_storage_automatic_management_enabled? || nextcloud_default_storage_username? }
 
     attribute :password
-    validates :password, presence: true, if: :nextcloud_storage_automatically_managed?
-    validates :password, absence: true, unless: :nextcloud_storage_automatically_managed?
+    validates :password, presence: true, if: :nextcloud_storage_automatic_management_enabled?
+    validates :password, absence: true, unless: :nextcloud_storage_automatic_management_enabled?
 
     validate do
-      if nextcloud_storage_automatically_managed? && errors.exclude?(:host) && errors.exclude?(:password)
+      if nextcloud_storage_automatic_management_enabled? && errors.exclude?(:host) && errors.exclude?(:password)
         NextcloudApplicationCredentialsValidator.new(self).call
       end
     end
 
     private
 
-    def nextcloud_storage_automatically_managed?
+    def nextcloud_storage_automatic_management_enabled?
       return false unless nextcloud_storage?
 
-      @model.automatically_managed?
+      @model.automatic_management_enabled?
     end
 
     def nextcloud_default_storage_username?

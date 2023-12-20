@@ -39,7 +39,7 @@ module Storages
         timeout_seconds: 0,
         transaction: false
       ) do
-        ::Storages::NextcloudStorage.automatically_managed.includes(:oauth_client).find_each do |storage|
+        ::Storages::NextcloudStorage.automatic_management_enabled.includes(:oauth_client).find_each do |storage|
           result = GroupFolderPropertiesSyncService.call(storage)
           result.match(
             on_success: ->(_) do

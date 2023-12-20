@@ -43,7 +43,7 @@ module Storages::Admin
 
       test_selector = 'label-managed-project-folders-status'
 
-      if storage.automatically_managed?
+      if storage.automatic_management_enabled?
         status_label(I18n.t('storages.label_active'), scheme: :success, test_selector:)
       elsif storage.automatic_management_unspecified?
         status_label(I18n.t('storages.label_incomplete'), scheme: :attention, test_selector:)
