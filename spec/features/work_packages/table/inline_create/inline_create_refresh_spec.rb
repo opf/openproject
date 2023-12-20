@@ -32,7 +32,7 @@ RSpec.describe 'Refreshing in inline-create row', flaky: true, js: true do
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.subject')
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.category')
 
-    columns.add '% Complete'
+    columns.add 'Progress (%)'
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.wp-table--cell-td.percentageDone')
   end
 end

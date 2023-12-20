@@ -110,8 +110,8 @@ RSpec.describe 'Work package index sums', :js do
   it 'calculates sums correctly' do
     wp_table.expect_work_package_listed work_package_1, work_package_2
 
-    # Add work column
-    columns.add 'Work'
+    # Add estimated time column
+    columns.add 'Estimated time'
     # Add int cf column
     columns.add int_cf.name
     # Add float cf column

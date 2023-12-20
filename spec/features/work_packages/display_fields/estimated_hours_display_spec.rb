@@ -66,7 +66,7 @@ RSpec.describe 'Estimated hours display' do
     login_as(user)
   end
 
-  context "with both work and derived work" do
+  context "with both estimated and derived estimated time" do
     let(:hierarchy) do
       [
         {
@@ -77,7 +77,7 @@ RSpec.describe 'Estimated hours display' do
       ]
     end
 
-    it 'work package index', js: true do
+    it 'work package index', :js do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
@@ -86,14 +86,14 @@ RSpec.describe 'Estimated hours display' do
       )
     end
 
-    it 'work package details', js: true do
+    it 'work package details', :js do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Work\n1 h(+3 h)")
+      expect(page).to have_content("Estimated time\n1 h(+3 h)")
     end
   end
 
-  context "with just work" do
+  context "with just estimated time" do
     let(:hierarchy) do
       [
         {
@@ -104,7 +104,7 @@ RSpec.describe 'Estimated hours display' do
       ]
     end
 
-    it 'work package index', js: true do
+    it 'work package index', :js do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
@@ -113,14 +113,14 @@ RSpec.describe 'Estimated hours display' do
       )
     end
 
-    it 'work package details', js: true do
+    it 'work package details', :js do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Work\n1 h")
+      expect(page).to have_content("Estimated time\n1 h")
     end
   end
 
-  context "with just derived work" do
+  context "with just derived estimated time" do
     let(:hierarchy) do
       [
         {
@@ -131,7 +131,7 @@ RSpec.describe 'Estimated hours display' do
       ]
     end
 
-    it 'work package index', js: true do
+    it 'work package index', :js do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
@@ -140,14 +140,14 @@ RSpec.describe 'Estimated hours display' do
       )
     end
 
-    it 'work package details', js: true do
+    it 'work package details', :js do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Work\n0 h(+3 h)")
+      expect(page).to have_content("Estimated time\n0 h(+3 h)")
     end
   end
 
-  context "with neither work nor derived work" do
+  context "with neither estimated nor derived estimated time" do
     let(:hierarchy) do
       [
         {
@@ -158,7 +158,7 @@ RSpec.describe 'Estimated hours display' do
       ]
     end
 
-    it 'work package index', js: true do
+    it 'work package index', :js do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
@@ -167,10 +167,10 @@ RSpec.describe 'Estimated hours display' do
       )
     end
 
-    it 'work package details', js: true do
+    it 'work package details', :js do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Work\n0 h")
+      expect(page).to have_content("Estimated time\n0 h")
     end
   end
 end

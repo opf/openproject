@@ -201,7 +201,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
         # Further fields are tested in the representer specs
         it 'returns the schema for estimated_hours' do
           expected = { type: 'Duration',
-                       name: 'Work',
+                       name: 'Estimated time',
                        required: false,
                        hasDefault: false,
                        writable: false,

@@ -129,15 +129,15 @@ RSpec.describe 'form configuration', :js do
 
         form.expect_group 'estimates_and_time',
                           'Estimates and time',
-                          { key: :estimated_time, translation: 'Work' },
+                          { key: :estimated_time, translation: 'Estimated time' },
                           { key: :spent_time, translation: 'Spent time' },
-                          { key: :remaining_time, translation: 'Remaining work' }
+                          { key: :remaining_time, translation: 'Remaining time' }
 
         form.expect_group 'details',
                           'Details',
                           { key: :category, translation: 'Category' },
                           { key: :date, translation: 'Date' },
-                          { key: :percentage_done, translation: '% Complete' },
+                          { key: :percentage_done, translation: 'Progress (%)' },
                           { key: :priority, translation: 'Priority' },
                           { key: :version, translation: 'Version' }
 
@@ -181,14 +181,14 @@ RSpec.describe 'form configuration', :js do
 
         form.expect_group 'estimates_and_time',
                           'Estimates and time',
-                          { key: :estimated_time, translation: 'Work' },
+                          { key: :estimated_time, translation: 'Estimated time' },
                           { key: :spent_time, translation: 'Spent time' },
-                          { key: :remaining_time, translation: 'Remaining work' }
+                          { key: :remaining_time, translation: 'Remaining time' }
 
         form.expect_group 'Whatever',
                           'Whatever',
                           { key: :date, translation: 'Date' },
-                          { key: :percentage_done, translation: '% Complete' }
+                          { key: :percentage_done, translation: 'Progress (%)' }
 
         form.expect_group 'New Group',
                           'New Group',

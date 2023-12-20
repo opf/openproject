@@ -36,10 +36,10 @@ en:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        remaining_hours: "Remaining time"
+        remaining_time: "Remaining time"
+        derived_remaining_hours: "Derived remaining time"
+        derived_remaining_time: "Derived remaining time"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
 

@@ -47,7 +47,7 @@ RSpec.shared_examples 'module specific query view management' do
       query_menu.expect_menu_entry 'My first query'
 
       # Change the filter again
-      filters.add_filter_by '% Complete', 'is', ['25'], 'percentageDone'
+      filters.add_filter_by 'Progress (%)', 'is', ['25'], 'percentageDone'
       filters.expect_filter_count(initial_filter_count + 2)
 
       # Save as another query

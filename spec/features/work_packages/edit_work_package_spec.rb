@@ -1,8 +1,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'edit work package',
-               js: true do
+RSpec.describe 'edit work package', :js do
   let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages
@@ -117,11 +116,11 @@ RSpec.describe 'edit work package',
       visit!
     end
 
-    it 'does not hide empty % Complete while it is being edited' do
+    it 'does not hide empty Progress (%) while it is being edited' do
       field = wp_page.work_package_field(:percentageDone)
       field.update('0', save: false, expect_failure: true)
 
-      expect(page).to have_text("% Complete")
+      expect(page).to have_text("Progress (%)")
     end
   end
 
@@ -168,10 +167,10 @@ RSpec.describe 'edit work package',
     wp_page.visit!
 
     # Another (empty) journal should exist now
-    expect(page).to have_selector('.op-user-activity--user-name',
-                                  text: work_package.journals.last.user.name,
-                                  wait: 10,
-                                  count: 2)
+    expect(page).to have_css('.op-user-activity--user-name',
+                             text: work_package.journals.last.user.name,
+                             wait: 10,
+                             count: 2)
 
     wp_page.expect_attributes assignee: '-'
 
