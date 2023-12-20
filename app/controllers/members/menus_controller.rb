@@ -89,6 +89,7 @@ module Members
       @project
         .groups
         .order(lastname: :asc)
+        .distinct
         .pluck(:id, :lastname)
         .map { |id, name| menu_item(:group_id, id, name) }
     end
