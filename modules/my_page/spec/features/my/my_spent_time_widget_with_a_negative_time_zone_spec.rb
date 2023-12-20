@@ -31,6 +31,7 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 RSpec.describe 'My spent time widget with a negative time zone', :js,
+               driver: :chrome_headless_new,
                with_settings: { start_of_week: 1 } do
   let(:beginning_of_week) { monday }
   let(:end_of_week) { sunday }

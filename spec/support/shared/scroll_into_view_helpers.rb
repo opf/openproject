@@ -27,9 +27,14 @@
 #++
 
 # Scrolls a native element into view using JS
-def scroll_to_element(element)
+# @param element [Capybara::Node::Element] the element to scroll into view
+# @param block [Symbol] (optional) Defines vertical alignment.
+#   One of `:start`, `:center`, `:end`, or `:nearest`. Defaults to `:start`.
+# @param inline [Symbol] (optional) Defines horizontal alignment.
+#   One of `:start`, `:center`, `:end`, or `:nearest`. Defaults to `:nearest`..
+def scroll_to_element(element, block: :start, inline: :nearest)
   script = <<-JS
-    arguments[0].scrollIntoView(true);
+    arguments[0].scrollIntoView({block: "#{block}", inline: "#{inline}"});
   JS
   if using_cuprite?
     page.driver.execute_script(script, element.native)

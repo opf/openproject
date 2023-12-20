@@ -1,10 +1,11 @@
 <%=
   content_tag("turbo-frame", id: "add-work-package-to-meeting-dialog-frame") do
-    component_wrapper do
+    component_wrapper(class: 'Overlay-form') do
       primer_form_with(
         model: @meeting_agenda_item,
         method: :post,
-        url: work_package_meeting_agenda_items_path(@work_package)
+        url: work_package_meeting_agenda_items_path(@work_package),
+        class: 'Overlay-form'
       ) do |f|
         component_collection do |collection|
           collection.with_component(Primer::Alpha::Dialog::Body.new(test_selector: 'op-add-work-package-to-meeting-dialog-body')) do

@@ -199,13 +199,13 @@ es:
     reorder_alphabetical: "Ordenar los valores alfabéticamente"
     reorder_confirmation: "Advertencia: Se perderá el orden actual de los valores disponibles. ¿Quiere continuar?"
     instructions:
-      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
-      is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Include the field values when using the global search functionality."
-      editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_required: "Marcar el campo personalizado como necesario. Esto hará obligatorio rellenar el campo cuando se creen nuevos o se actualicen los recursos existentes."
+      is_for_all: "Marque el campo personalizado como disponible en todos los proyectos existentes y nuevos."
+      searchable: "Incluye los valores de los campos al usar la funcionalidad de búsqueda global."
+      editable: "Permitir que el campo sea editable por los propios usuarios."
+      visible: "Hacer visible el campo para todos los usuarios (no administradores) en el resumen del proyecto y se muestra en el widget de detalles del proyecto en la vista general del proyecto."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        Permitir que el campo personalizado se utilice como filtro en las vistas de paquetes de trabajo. Tenga en cuenta que solo 'Para todos los proyectos' seleccionados, el campo personalizado se mostrará en vistas globales.
     tab:
       no_results_title_text: Actualmente no hay campos personalizados.
       no_results_content_text: Crear un nuevo campo personalizado
@@ -398,8 +398,8 @@ es:
     sharing:
       missing_workflow_waring:
         title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
-        message: "Ningún flujo de trabajo configurado para el rol 'Editor de paquetes de trabajo'. Sin un flujo de trabajo, el estado de un paquete de trabajo compartido no se puede cambiar."
-        link_message: "Configurar un flujo de trabajo en la administración."
+        message: "Ningún flujo de trabajo está configurado para el rol 'Editor de paquetes de trabajo'. Sin un flujo de trabajo, el usuario compartido no puede alterar el estado del paquete de trabajo. Los flujos de trabajo pueden ser copiados. Seleccione un tipo de base (por ejemplo, 'Tarea') y el rol de base (por ejemplo, 'Miembro'). Luego seleccione los tipos de destino. Para empezar, puede seleccionar todos los tipos como objetivos. Por último, seleccione el papel de \"Editor de paquetes de trabajo\" como objetivo y presione \"Copiar\". Después de haber creado así los valores predeterminados, ajuste los flujos de trabajo como lo hace para cualquier otro rol."
+        link_message: "Configure un flujo de trabajo en la administración."
     summary:
       reports:
         category:
@@ -2220,7 +2220,7 @@ es:
         allowed_actions: "Puede %{allowed_actions} este paquete de trabajo. Esto puede cambiar dependiendo del rol y los permisos de su proyecto."
         create_account: "Para acceder a este paquete de trabajo necesitará crear y activar una cuenta en %{instance}. "
         open_work_package: "Abrir paquete de trabajo"
-        subject: "Se ha compartido contigo el paquete de trabajo #%{id}"
+        subject: "Paquete de trabajo #%{id} fue compartido contigo"
         enterprise_text: "Compartir paquetes de trabajo con usuarios que no son miembros del proyecto."
         summary:
           user: "%{user} ha compartido un paquete de trabajo contigo con permisos de %{role_rights}"
@@ -3064,7 +3064,7 @@ es:
       warning_user_limit_reached_admin: >
         Añadir usuarios adicionales excederá el límite actual. Por favor, <a href="%{upgrade_url}">actualice su plan</a> para asegurar que los usuarios externos puedan acceder a este paquete de trabajo.
       warning_no_selected_user: "Por favor, seleccione usuarios para compartir este paquete de trabajo"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "él usuario %{user} está bloqueado y no se puede compartir con él"
       user_details:
         locked: "Usuario bloqueado"
         invited: "Invitación enviada. "
@@ -3257,6 +3257,7 @@ es:
       oauth_returned_json_error: "Hay un error de JSON en el OAuth2 "
       oauth_returned_http_error: "Hay un error de red en el OAuth2 "
       oauth_returned_standard_error: "Hay un error interno en el OAuth2 "
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "Tipo de token incorrecto en el OAuth2, se espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "Hay un error en el OAuth2. Por favor, consulte con el administrador del sistema."
       oauth_client_not_found: "Cliente del OAuth2 no encontrado en el punto final 'callback' (redirect_uri)."

@@ -401,8 +401,8 @@ fil:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2221,9 +2221,9 @@ fil:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -3260,6 +3260,7 @@ fil:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

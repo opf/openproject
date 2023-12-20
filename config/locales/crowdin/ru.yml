@@ -402,8 +402,8 @@ ru:
     sharing:
       missing_workflow_waring:
         title: "Отсутствует рабочий процесс для совместного использования пакета работ"
-        message: "Нет настроенного рабочего процесса для роли 'Редактора пакетов работ'. Без рабочего процесса статус общего пакета работ не может быть изменен."
-        link_message: "Настройка рабочего процесса в администрации."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -2276,9 +2276,9 @@ ru:
     sharing:
       work_packages:
         allowed_actions: "Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта."
-        create_account: "To access this work package you will need to create and activate an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Открыть пакет работ"
-        subject: "Вам предоставили общий доступ к пакету работ #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
         summary:
           user: ""
@@ -3319,6 +3319,7 @@ ru:
       oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
       oauth_returned_http_error: "OAuth2 вернул ошибку сети"
       oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
       oauth_client_not_found: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."

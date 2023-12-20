@@ -757,6 +757,7 @@ hu:
           last_day: 'Utolsó nap'
     text_are_you_sure: "Biztos vagy benne?"
     text_data_lost: "Az összes adat elveszhet"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."

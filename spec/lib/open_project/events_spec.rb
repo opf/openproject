@@ -36,6 +36,10 @@ RSpec.describe OpenProject::Events do
     )
   end
 
+  before do
+    allow(Storages::ManageNextcloudIntegrationEventsJob).to receive(:debounce)
+  end
+
   %w[
     PROJECT_STORAGE_CREATED
     PROJECT_STORAGE_UPDATED
@@ -48,20 +52,17 @@ RSpec.describe OpenProject::Events do
         let(:payload) { {} }
 
         it do
-          expect { subject }.not_to change(enqueued_jobs, :count)
+          subject
+          expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
         end
       end
 
-      context 'when payload contains automatic project_folder_mpde' do
+      context 'when payload contains automatic project_folder_mode' do
         let(:payload) { { project_folder_mode: :automatic } }
 
         it do
-          expect { subject }.to change(enqueued_jobs, :count).from(0).to(1)
-        end
-
-        it do
           subject
-          expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationEventsJob)
+          expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
         end
 
         it do
@@ -91,12 +92,8 @@ RSpec.describe OpenProject::Events do
       let(:payload) { {} }
 
       it do
-        expect { subject }.to change(enqueued_jobs, :count).from(0).to(1)
-      end
-
-      it do
         subject
-        expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationEventsJob)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
       end
     end
   end
@@ -108,7 +105,8 @@ RSpec.describe OpenProject::Events do
       let(:payload) { {} }
 
       it do
-        expect { subject }.not_to change(enqueued_jobs, :count)
+        subject
+        expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
       end
     end
 
@@ -116,12 +114,8 @@ RSpec.describe OpenProject::Events do
       let(:payload) { { integration_type: 'Storages::Storage' } }
 
       it do
-        expect { subject }.to change(enqueued_jobs, :count).from(0).to(1)
-      end
-
-      it do
         subject
-        expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationEventsJob)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
       end
     end
   end
@@ -133,7 +127,8 @@ RSpec.describe OpenProject::Events do
       let(:payload) { {} }
 
       it do
-        expect { subject }.not_to change(enqueued_jobs, :count)
+        subject
+        expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
       end
     end
 
@@ -141,12 +136,8 @@ RSpec.describe OpenProject::Events do
       let(:payload) { { permissions_diff: [:read_files] } }
 
       it do
-        expect { subject }.to change(enqueued_jobs, :count).from(0).to(1)
-      end
-
-      it do
         subject
-        expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationEventsJob)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
       end
     end
   end
@@ -158,7 +149,8 @@ RSpec.describe OpenProject::Events do
       let(:payload) { {} }
 
       it do
-        expect { subject }.not_to change(enqueued_jobs, :count)
+        subject
+        expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
       end
     end
 
@@ -166,12 +158,8 @@ RSpec.describe OpenProject::Events do
       let(:payload) { { permissions: [:read_files] } }
 
       it do
-        expect { subject }.to change(enqueued_jobs, :count).from(0).to(1)
-      end
-
-      it do
         subject
-        expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationEventsJob)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
       end
     end
   end

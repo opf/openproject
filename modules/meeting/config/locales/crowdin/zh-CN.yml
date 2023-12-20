@@ -137,7 +137,7 @@ zh-CN:
   text_meeting_minutes_for_meeting: '“%{meeting}“会议记录'
   text_notificiation_invited: "此邮件包含以下会议的 ics 条目："
   text_meeting_empty_heading: "您的会议为空"
-  text_meeting_empty_description_1: "从下面开始添加议程事项。每个事项可以简单地只有一个标题，但你也可以添加额外的细节，比如持续时间、备注和负责人。"
+  text_meeting_empty_description_1: "首先在下方添加议程条目。 每个条目都可以简单到只包含一个标题，但您也可以添加更多详细信息，例如持续时间和备注。"
   text_meeting_empty_description_2: "您也可以添加引用到现有工作包。当您这样做时，相关的注释将自动可见于工作包的“会议”选项卡。"
   label_meeting_empty_action: "添加议程项目"
   label_meeting_actions: "会议行动"
@@ -145,7 +145,7 @@ zh-CN:
   label_meeting_delete: "删除会议"
   label_meeting_created_by: "创建者:"
   label_meeting_last_updated: "最后更新"
-  label_agenda_item_undisclosed_wp: "未公开的工作包参考#%{id}"
+  label_agenda_item_undisclosed_wp: "工作包 #%{id} 不可见"
   label_agenda_item_deleted_wp: "已删除工作包引用"
   label_agenda_item_actions: "议程项目行动"
   label_agenda_item_move_to_top: "移至顶部"

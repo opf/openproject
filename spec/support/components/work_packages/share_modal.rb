@@ -269,7 +269,7 @@ module Components
 
       def close
         within_modal do
-          click_button 'Close'
+          page.find("[data-test-selector='op-share-wp-modal--close-icon']").click
         end
       end
 

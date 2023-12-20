@@ -114,8 +114,8 @@ setup_tests() {
 	run_background backend_stuff
 	run_background frontend_stuff
 	# pre-cache browsers and their drivers binaries
-	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser chrome --debug
-	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser firefox --debug
+	run_background $(bundle show selenium-webdriver)/bin/linux/selenium-manager --browser chrome --debug
+	run_background $(bundle show selenium-webdriver)/bin/linux/selenium-manager --browser firefox --debug
 	wait_for_background
 }
 

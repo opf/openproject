@@ -1,7 +1,7 @@
 it:
   plugin_openproject_ldap_groups:
-    name: "OpenProject LDAP groups"
-    description: "Synchronization of LDAP group memberships."
+    name: "Gruppi OpenProject LDAP"
+    description: "Sincronizzazione dei membri del gruppo LDAP."
   activerecord:
     attributes:
       ldap_groups/synchronized_group:

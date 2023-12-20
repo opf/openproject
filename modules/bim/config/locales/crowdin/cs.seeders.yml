@@ -47,7 +47,7 @@ cs:
           name: Clash
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'Vložená tabulka: Děti'
       type_configuration:
         item_0:
           form_configuration:
@@ -61,11 +61,11 @@ cs:
         item_2:
           name: Manažeři BIM
         item_3:
-          name: BIM Modellers
+          name: BIM modeláři
         item_4:
-          name: Lead BIM Coordinators
+          name: Hlavní koordinátoři BIM
         item_5:
-          name: MEP Engineers
+          name: MEP inženýři
         item_6:
           name: Plánovače
         item_7:
@@ -73,22 +73,22 @@ cs:
       welcome:
         title: Vítejte ve verzi BIM OpenProject !
         text: |
-          Checkout the demo projects to get started with some examples.
+          Podívejte se na ukázkové projekty a začněte s nějakými příklady.
 
-          * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
-              * [(Demo) Planning & constructing]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Classical planning and construction management.
-              * [(Demo) Bim project]({{opSetting:base_url}}/projects/demo-bim-project): BIM process and coordination.
-                  * [(Demo) BCF management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF management.
+          * [(Demo) stavební projekt]({{opSetting:base_url}}/projects/demo-construction-project): plánování, proces BIM, řízení BCF, koncipování a výstavba, vše na pohled.
+              * [(Demo) plánování a stavebnictví]({{opSetting:base_url}}/projekty/demo-plánování stavebnictví): Klasické plánování a řízení stavby.
+              * [(Demo) Bim projekt]({{opSetting:base_url}}/projekty/demo-bim-projekt): proces a koordinace BIM.
+                  * [(Demo) řízení BCF]({{opSetting:base_url}}/projects/demo-bcf-management-projekt): správa BCF.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          Můžete také vytvořit prázdný [nový projekt]({{opSetting:base_url}}/projects/new).
 
-          Never stop collaborating. With open source and open mind.
+          Nikdy nepřestat spolupracovat. S otevřeným kódem a otevřenou myslí.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Můžete změnit uvítací text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
           name: "(Demo) Stavební projekt"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Všechny úkoly a dílčí projekty probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
           description: This is a short summary of the goals of this demo construction project.
           news:
             item_0:

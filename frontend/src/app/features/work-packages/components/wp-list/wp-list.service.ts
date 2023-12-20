@@ -36,21 +36,9 @@ import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-reso
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  firstValueFrom,
-  from,
-  Observable,
-  of,
-} from 'rxjs';
+import { firstValueFrom, from, Observable, of } from 'rxjs';
 import { input } from '@openproject/reactivestates';
-import {
-  catchError,
-  mapTo,
-  mergeMap,
-  share,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { catchError, mapTo, mergeMap, share, switchMap, take } from 'rxjs/operators';
 import {
   WorkPackageViewPaginationService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
@@ -359,12 +347,19 @@ export class WorkPackagesListService {
     return this.wpTablePagination.paginationObject;
   }
 
-  private conditionallyLoadForm(query:QueryResource):void {
+  public conditionallyLoadForm(query = this.currentQuery):Promise<QueryFormResource> {
     const currentForm = this.querySpace.queryForm.value;
 
-    if (!currentForm || query.$links.update.href !== currentForm.href) {
-      setTimeout(() => this.loadForm(query), 0);
+    if (!query) {
+      return firstValueFrom(this.queryLoading)
+        .then((loaded) => this.conditionallyLoadForm(loaded));
     }
+
+    if (!currentForm || query.$links.update.href !== currentForm.href) {
+      return this.loadForm(query);
+    }
+
+    return Promise.resolve(currentForm);
   }
 
   public get currentQuery() {
