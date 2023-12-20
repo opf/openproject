@@ -66,6 +66,10 @@ module OpenProject
     # https://community.openproject.org/wp/45463 for details.
     config.load_defaults 5.0
 
+    # Silence the "multiple database warning"
+    # Note that this warning can be removed in the 7.1 upgrade
+    ActiveRecord.suppress_multiple_database_warning = true
+
     # Do not require `belongs_to` associations to be present by default.
     # Rails 5.0+ default is true. Because of history, lots of tests fail when
     # set to true.
