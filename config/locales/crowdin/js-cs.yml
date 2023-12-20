@@ -759,6 +759,7 @@ cs:
           last_day: 'Poslední den'
     text_are_you_sure: "Jste si jisti?"
     text_data_lost: "Všechna zadaná data budou ztracena."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Jméno %{group} je již použito. Jména skupin musí být jedinečná."

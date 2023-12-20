@@ -31,16 +31,16 @@ ca:
           Un fitxer amb el nom "%{fileName}" ja existeix a la ubicació on estàs intentant carregar-lo. Que vols fer?
         directory_not_writeable: "No tens permís per afegir fitxers dins d'aquesta carpeta."
         dragging_many_files: "La càrrega a %{storageType} només permet un fitxer per càrrega."
-        dragging_folder: "The upload to %{storageType} does not support folders."
+        dragging_folder: "Les carpetes no estan permeses a la càrrega a %{storageType}."
         empty_folder: "Aquesta carpeta està buida."
         empty_folder_location_hint: "Fes clic al botó de sota per carregar fitxers a aquesta ubicació."
         file_not_selectable_location: "Seleccionar un fitxer, no és possible en el procés de tria d'ubicació."
         project_folder_no_access: >
           No tens accés a la capeta de projecte. Si us plau, contacta amb el teu administrador per obtenir accés o puja el fitxer en una altra ubicació.
         managed_project_folder_not_available: >
-          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+          Les carpetes gestionades automàticament no s'ha trobat encara. Si us plau, espera una mica i recarrega la pàgina per obtenir les dades més recents i prova-ho de nou.
         managed_project_folder_no_access: >
-          You have no access yet to the managed project folder. Please wait a bit and try again.
+          Encara no tens access a la carpeta de projecte gestionada. Si us plau, espera un moment i prova-ho de nou.
         upload_keep_both: "Conserva els dos"
         upload_replace: "Substitueix"
       file_links:
@@ -65,7 +65,7 @@ ca:
           other: "%{count} enllaços de fitxer creat correctament."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded.
+            El teu fitxer (%{fileName}) no s'ha pogut carregar.
           403: >
             El fitxer (%{fileName}) no s'ha pogut carregar a causa de les restriccions del sistema. Si us plau, contacta el teu administrador per a més informació.
           413: >
@@ -74,7 +74,7 @@ ca:
             El fitxer (%{fileName}) és més gran que la quota d'emmagatzematge permesa. Si us plau, contacta el teu administrador per a modificar aquesta quota.
           detail:
             nextcloud: >
-              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+              Si us plau, comprova l'última versió de l'aplicació Nextcloud "OpenProject Integration" estigui instal·lada i contacta el teu administrador per més informació.
         link_uploaded_file_error: >
           S'ha produït un error en enllaçar els fitxers carregats recentment "%{fileName}" al paquet de treball %{workPackageId}.
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"

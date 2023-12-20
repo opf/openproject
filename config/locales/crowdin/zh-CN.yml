@@ -3221,6 +3221,7 @@ zh-CN:
       oauth_returned_json_error: "OAuth2 返回 JSON 错误"
       oauth_returned_http_error: "OAuth2 返回网络错误"
       oauth_returned_standard_error: "OAuth2 返回内部错误"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 返回了错误类型的令牌，应为 AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 报告错误。请联系您的系统管理员。"
       oauth_client_not_found: "在 'callback' 端点 (redirect_uri) 中找不到 OAuth2 客户端。"

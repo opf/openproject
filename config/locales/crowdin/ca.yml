@@ -3252,6 +3252,7 @@ ca:
       oauth_returned_json_error: "L'OAuth2 retorna un error JSON"
       oauth_returned_http_error: "L'OAuth2 retorna un error de xarxa"
       oauth_returned_standard_error: "L'OAuth2 retorna un error intern"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "L'OAuth2 ha retornat una classe de token invàlida, s'espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "L'OAuth2 reporta un error. Si us plau, contacta amb l'administrador del sistema."
       oauth_client_not_found: "No s'ha trobat el client OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."

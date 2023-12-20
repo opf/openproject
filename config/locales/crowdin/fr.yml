@@ -3262,6 +3262,7 @@ fr:
       oauth_returned_json_error: "OAuth2 a renvoyé une erreur JSON"
       oauth_returned_http_error: "OAuth2 a renvoyé une erreur réseau"
       oauth_returned_standard_error: "OAuth2 a renvoyé une erreur interne"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 a retourné un mauvais type de jeton, AccessToken::Bearer était attendu"
       oauth_issue_contact_admin: "OAuth2 a signalé une erreur. Veuillez contacter votre administrateur système."
       oauth_client_not_found: "Client OAuth2 introuvable dans le point de terminaison « callback » (redirect_uri)."

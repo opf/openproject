@@ -43,11 +43,11 @@ ca:
           name: Altres
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Editor de paquet de treball
         item_1:
-          name: Work package commenter
+          name: Comentador de paquet de treball
         item_2:
-          name: Work package viewer
+          name: Visor de paquet de treball
       project_roles:
         item_0:
           name: No membre

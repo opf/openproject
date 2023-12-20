@@ -756,6 +756,7 @@ tr:
           last_day: 'Son gün'
     text_are_you_sure: "Emin misiniz?"
     text_data_lost: "Girilen tüm veriler silinecek."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri eşsiz olmalıdır."
