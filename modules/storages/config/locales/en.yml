@@ -157,7 +157,6 @@ en:
     label_new_storage: New storage
     label_no_selected_folder: No selected folder
     label_no_specific_folder: No specific folder
-    label_oauth_client_details: OAuth client details
     label_oauth_client_id: OAuth Client ID
     label_openproject_oauth_application_id: OpenProject OAuth Client ID
     label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
@@ -174,7 +173,6 @@ en:
       not_connected: Not connected. The user should login to the storage via the following %{link}.
     members_no_results: No members to display.
     no_results: No storages set up yet.
-    notice_oauth_application_replaced: The OpenProject OAuth application was successfully replaced.
     notice_successful_storage_connection: Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it.
     open_project_storage_modal:
       success:
