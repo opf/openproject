@@ -44,8 +44,8 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     },
     params: {
       query_id: { type: 'opQueryId', dynamic: true },
-      cdate: { type: 'string', dynamic: true },
-      cview: { type: 'string', dynamic: true },
+      cdate: { type: 'string', inherit: false, dynamic: true },
+      cview: { type: 'string', inherit: false, dynamic: true },
       // Use custom encoder/decoder that ensures validity of URL string
       query_props: { type: 'opQueryString' },
     },
