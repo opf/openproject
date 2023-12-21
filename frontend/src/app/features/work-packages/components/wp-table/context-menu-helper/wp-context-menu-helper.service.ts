@@ -73,8 +73,6 @@ export class WorkPackageContextMenuHelperService {
     },
   ];
 
-  private notAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'export-atom'];
-
   constructor(private HookService:HookService,
     private UrlParamsHelper:UrlParamsHelperService,
     private wpViewRepresentation:WorkPackageViewDisplayRepresentationService,
@@ -91,9 +89,13 @@ export class WorkPackageContextMenuHelperService {
     allowedActions = allowedActions.concat(this.getAllowedParentActions(workPackage));
 
     // remove some actions on Gantt
-    if (!!workPackage.addRelation && this.wpViewTimeline.isVisible) {
-      allowedActions.splice(_.findIndex(allowedActions, (f) => this.notAllowedActions.includes(f.key)));
+    if (this.wpViewTimeline.isVisible) {
+      allowedActions = allowedActions.filter((el) => {
+        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'export-atom'];
+        return !(ganttNotAllowedActions.includes(el.key));
+      });
     }
+
     allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
 
     _.each(allowedActions, (allowedAction) => {
@@ -218,6 +220,9 @@ export class WorkPackageContextMenuHelperService {
         text: I18n.t('js.relation_buttons.add_follower'),
         link: 'addRelation',
       });
+    }
+
+    if (this.wpViewTimeline.isVisible) {
       allowedActions.push({
         key: 'relations',
         text: I18n.t('js.relation_buttons.show_relations'),
