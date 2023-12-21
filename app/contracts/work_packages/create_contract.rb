@@ -38,12 +38,7 @@ module WorkPackages
               # Overriding permission from WP base contract to ignore change_work_package_status for creation,
               # because we don't require that permission for writable status during WP creation.
               # Note that nil would not override and [] would ignore the default permission, so we use the default here:
-              permission: :add_work_packages,
-              writable: ->(*) {
-                # If we did not change into the status,
-                # mark unwritable if status and version is closed
-                model.status_id_change || !closed_version_and_status?
-              }
+              permission: :add_work_packages
 
     default_attribute_permission :add_work_packages
 
