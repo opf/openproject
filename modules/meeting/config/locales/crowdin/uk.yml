@@ -173,7 +173,7 @@ uk:
   text_meeting_not_present_anymore: "Цю нараду видалено. Виберіть іншу нараду."
   label_add_work_package_to_meeting_dialog_title: "Додавання пакета робіт до наради"
   label_add_work_package_to_meeting_dialog_button: "Додати до наради"
-  label_meeting_selection_caption: "Цей пакет робіт можна додати лише до майбутніх відкритих нарад."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "Пакет робіт можна додати до однієї або кількох нарад для обговорення. Тут також з’явдяться всі пов’яхані з ним примітки."
   text_agenda_item_no_notes: "Примітки не надано"
   text_agenda_item_not_editable_anymore: "Цей пункт порядку денного більше не можна редагувати."

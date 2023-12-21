@@ -173,7 +173,7 @@ pl:
   text_meeting_not_present_anymore: "To spotkanie zostało usunięte. Wybierz inne spotkanie."
   label_add_work_package_to_meeting_dialog_title: "Dodaj pakiet roboczy do spotkania"
   label_add_work_package_to_meeting_dialog_button: "Dodaj do spotkania"
-  label_meeting_selection_caption: "Można tylko dodać ten pakiet roboczy do otwarcia, nadchodzą spotkania."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "Pakiet roboczy może zostać dodany do jednego lub wielu spotkań w celu omówienia. Wszelkie uwagi dotyczące tego pakietu są również widoczne tutaj."
   text_agenda_item_no_notes: "Brak uwag"
   text_agenda_item_not_editable_anymore: "Tego punktu planu spotkania nie można już edytować."
