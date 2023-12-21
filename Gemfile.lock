@@ -607,7 +607,7 @@ GEM
     ice_cube (0.16.4)
     ice_nine (0.11.2)
     interception (0.5)
-    io-console (0.6.0)
+    io-console (0.7.1)
     irb (1.10.1)
       rdoc
       reline (>= 0.3.8)
