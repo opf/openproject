@@ -295,7 +295,7 @@ OpenProject::Application.routes.draw do
     end
 
     namespace :members do
-      resource :menu
+      resource :menu, only: %[show]
     end
 
     resource :repository, controller: 'repositories', except: [:new] do

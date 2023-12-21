@@ -27,12 +27,15 @@
 #++
 module Members
   class MenusController < ApplicationController
-    before_action :find_project_by_project_id
+    before_action :find_project_by_project_id,
+                  :authorize
 
     def show
       @sidebar_menu_items = first_level_menu_items + nested_menu_items
       render layout: nil
     end
+
+    private
 
     def first_level_menu_items
       [

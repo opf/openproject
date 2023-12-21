@@ -110,7 +110,10 @@ Rails.application.reloader.to_prepare do
                      require: :member
 
       map.permission :manage_members,
-                     { members: %i[index new create update destroy autocomplete_for_member] },
+                     {
+                       members: %i[index new create update destroy autocomplete_for_member menu],
+                       'members/menus': %i[show]
+                     },
                      permissible_on: :project,
                      require: :member,
                      dependencies: :view_members,
@@ -134,7 +137,10 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { work_package_shares: %i[index] }
 
       map.permission :view_members,
-                     { members: [:index] },
+                     {
+                       members: %i[index menu],
+                       'members/menus': %i[show]
+                     },
                      permissible_on: :project,
                      contract_actions: { members: %i[read] }
 
