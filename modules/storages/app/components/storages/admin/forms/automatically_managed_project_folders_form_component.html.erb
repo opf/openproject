@@ -22,7 +22,7 @@
         end
 
         project_folders_form.with_row(mb: 3) do
-          render(Storages::Admin::ManagedProjectFolders::AutomaticallyManagedCheckbox.new(form, storage:))
+          render(Storages::Admin::ManagedProjectFolders::AutomaticManagementCheckbox.new(form, storage:))
         end
 
         project_folders_form.with_row(mb: 3,

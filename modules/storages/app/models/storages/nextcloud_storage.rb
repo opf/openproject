@@ -31,7 +31,7 @@
 module Storages
   class NextcloudStorage < Storage
     PROVIDER_FIELDS_DEFAULTS = {
-      automatically_managed: true,
+      automatic_management_enabled: true,
       username: 'OpenProject'
     }.freeze
 
@@ -56,6 +56,12 @@ module Storages
       )
       super
     end
+
+    def automatic_management_enabled=(value)
+      self.automatically_managed = value
+    end
+
+    alias automatic_management_enabled automatically_managed
 
     def automatic_management_enabled?
       !!automatically_managed
