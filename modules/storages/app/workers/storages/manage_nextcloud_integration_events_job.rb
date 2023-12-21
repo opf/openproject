@@ -30,22 +30,27 @@ module Storages
   class ManageNextcloudIntegrationEventsJob < ApplicationJob
     include ManageNextcloudIntegrationJobMixin
 
-    DEBOUNCE_TIME = 5.seconds.freeze
-    THREAD_KEY = :manage_nextcloud_integration_events_job_debounce_happend_at
+    SINGLE_THREAD_DEBOUNCE_TIME = 4.seconds.freeze
+    MULTI_THREAD_DEBOUNCE_TIME = 5.seconds.freeze
+    KEY = :manage_nextcloud_integration_events_job_debounce_happend_at
 
     queue_with_priority :above_normal
 
-    def self.debounce
-      last_debounce_happend_at = Thread.current[THREAD_KEY]
-      if last_debounce_happend_at.blank? || Time.current > (last_debounce_happend_at + DEBOUNCE_TIME)
-        count = Delayed::Job
-                  .where("handler LIKE ?", "%job_class: #{self}%")
-                  .where(locked_at: nil)
-                  .where('run_at <= ?', DEBOUNCE_TIME.from_now)
-                  .delete_all
-        Rails.logger.info("deleted: #{count} jobs")
-        Thread.current[THREAD_KEY] = Time.current
-        set(wait: DEBOUNCE_TIME).perform_later
+    class << self
+      def debounce
+        unless debounce_happend_in_current_thread_recently?
+          Rails.cache.fetch(KEY, expires_in: MULTI_THREAD_DEBOUNCE_TIME) do
+            set(wait: MULTI_THREAD_DEBOUNCE_TIME).perform_later
+            RequestStore.store[KEY] = Time.current
+          end
+        end
+      end
+
+      private
+
+      def debounce_happend_in_current_thread_recently?
+        timestamp = RequestStore.store[KEY]
+        timestamp.present? && (timestamp + SINGLE_THREAD_DEBOUNCE_TIME) > Time.current
       end
     end
 
