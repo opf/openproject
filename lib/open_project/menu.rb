@@ -28,7 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Menu
-  MenuGroup = Data.define(:header, :children)
-  MenuItem = Data.define(:title, :href, :selected)
+module OpenProject
+  module Menu
+    MenuGroup = Data.define(:header, :children)
+    MenuItem = Data.define(:title, :href, :selected)
+    class << self
+    end
+  end
 end

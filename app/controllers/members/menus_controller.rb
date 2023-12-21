@@ -36,30 +36,29 @@ module Members
 
     def first_level_menu_items
       [
-        Menu::MenuGroup.new(header: nil,
-                            children: user_status_options)
+        OpenProject::Menu::MenuGroup.new(header: nil, children: user_status_options)
       ]
     end
 
     def user_status_options
       [
-        Menu::MenuItem.new(title: I18n.t('members.menu.all'),
-                           href: project_members_path,
-                           selected: active_filter_count == 0),
-        Menu::MenuItem.new(title: I18n.t('members.menu.locked'),
-                           href: project_members_path(status: :locked),
-                           selected: selected?(:status, :locked)),
-        Menu::MenuItem.new(title: I18n.t('members.menu.invited'),
-                           href: project_members_path(status: :invited),
-                           selected: selected?(:status, :invited))
+        OpenProject::Menu::MenuItem.new(title: I18n.t('members.menu.all'),
+                                        href: project_members_path,
+                                        selected: active_filter_count == 0),
+        OpenProject::Menu::MenuItem.new(title: I18n.t('members.menu.locked'),
+                                        href: project_members_path(status: :locked),
+                                        selected: selected?(:status, :locked)),
+        OpenProject::Menu::MenuItem.new(title: I18n.t('members.menu.invited'),
+                                        href: project_members_path(status: :invited),
+                                        selected: selected?(:status, :invited))
       ]
     end
 
     def nested_menu_items
       [
-        Menu::MenuGroup.new(header: I18n.t('members.menu.project_roles'), children: project_roles_entries),
-        Menu::MenuGroup.new(header: I18n.t('members.menu.wp_shares'), children: permission_menu_entries),
-        Menu::MenuGroup.new(header: I18n.t('members.menu.groups'), children: project_group_entries)
+        OpenProject::Menu::MenuGroup.new(header: I18n.t('members.menu.project_roles'), children: project_roles_entries),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t('members.menu.wp_shares'), children: permission_menu_entries),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t('members.menu.groups'), children: project_group_entries)
       ]
     end
 
@@ -89,9 +88,9 @@ module Members
     end
 
     def menu_item(filter_key, id, name)
-      Menu::MenuItem.new(title: name,
-                         href: project_members_path(filter_key => id),
-                         selected: selected?(filter_key, id))
+      OpenProject::Menu::MenuItem.new(title: name,
+                                      href: project_members_path(filter_key => id),
+                                      selected: selected?(filter_key, id))
     end
 
     def selected?(filter_key, value)
