@@ -3,12 +3,12 @@ title: OpenProject 13.2.0
 sidebar_navigation:
     title: 13.2.0
 release_version: 13.2.0
-release_date: 2023-12-21
+release_date: TBD
 ---
 
 # OpenProject 13.2.0
 
-Release date: 2023-12-21
+Release date: TBD
 
 We released [OpenProject 13.2.0](https://community.openproject.com/versions/1979).
 The release contains several bug fixes and we recommend updating to the newest version.
@@ -20,7 +20,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 <!--more-->
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 <!-- update this list when updating the draft -->
 
