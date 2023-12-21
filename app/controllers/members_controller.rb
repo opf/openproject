@@ -142,12 +142,14 @@ class MembersController < ApplicationController
 
   def members_filter_options(roles)
     groups = Group.all.sort
+    shares = WorkPackageRole.all
     status = Members::UserFilterComponent.status_param(params)
 
     {
       groups:,
       roles:,
       status:,
+      shares:,
       clear_url: project_members_path(@project),
       project: @project
     }
@@ -186,7 +188,7 @@ class MembersController < ApplicationController
   end
 
   def index_members
-    filters = params.slice(:name, :group_id, :role_id, :status)
+    filters = params.slice(*Members::UserFilterComponent.filter_param_keys)
     filters[:project_id] = @project.id.to_s
 
     @members_query = Members::UserFilterComponent.query(filters)

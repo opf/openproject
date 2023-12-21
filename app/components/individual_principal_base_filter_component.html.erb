@@ -82,6 +82,24 @@ See COPYRIGHT and LICENSE files for more details.
             %>
         </li>
       <% end %>
+      <% if has_shares? %>
+        <li class="simple-filters--filter">
+          <label class='simple-filters--filter-name' for='shared_role_id'><%= t('members.menu.wp_shares') %>:</label>
+          <%=
+            select_tag(
+              :shared_role_id,
+              options_for_select(
+                shares,
+                params[:shared_role_id]
+              ),
+              {
+                include_blank: true,
+                name: "shared_role_id",
+                class: 'simple-filters--filter-value'
+              })
+          %>
+        </li>
+      <% end %>
       <li class="simple-filters--filter">
         <label class='simple-filters--filter-name' for='name'><%= User.human_attribute_name :name %>:</label>
         <%= text_field_tag 'name', params[:name], class: 'simple-filters--filter-value' %>

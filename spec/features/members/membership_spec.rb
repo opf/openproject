@@ -103,6 +103,40 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
       expect(page).not_to have_selector('.generic-table--sort-header a', text: 'ROLES')
       expect(page).not_to have_selector('.generic-table--sort-header a', text: 'GROUP')
     end
+
+    it 'navigating the menu' do
+      members_page.expect_menu_item 'All', selected: true
+      members_page.expect_menu_item 'Invited'
+      members_page.expect_menu_item 'Locked'
+
+      members_page.expect_menu_item group.name
+      members_page.expect_menu_item 'Manager'
+      members_page.expect_menu_item 'Developer'
+
+      # Viewing invited
+      members_page.click_menu_item 'Invited'
+      expect(members_page).to have_user 'Hannibal Smith'
+      expect(members_page).not_to have_user 'Peter Pan'
+      expect(members_page).not_to have_group group.name
+
+      # Viewing locked
+      members_page.click_menu_item 'Locked'
+      expect(members_page).not_to have_user 'Hannibal Smith'
+      expect(members_page).not_to have_user 'Peter Pan'
+      expect(members_page).not_to have_group group.name
+
+      # Viewing manager role
+      members_page.click_menu_item 'Manager'
+      expect(members_page).to have_user 'Peter Pan'
+      expect(members_page).to have_group group.name
+      expect(members_page).not_to have_user 'Hannibal Smith'
+
+      # Viewing developer role
+      members_page.click_menu_item 'Developer'
+      expect(members_page).to have_user 'Hannibal Smith'
+      expect(members_page).not_to have_user 'Peter Pan'
+      expect(members_page).not_to have_group group.name
+    end
   end
 
   it 'Adding and Removing a Group as Member' do

@@ -42,8 +42,12 @@ class IndividualPrincipalBaseFilterComponent < ApplicationComponent
       query(params).results
     end
 
+    def filter_param_keys
+      %i(name status group_id role_id)
+    end
+
     def filtered?(params)
-      %i(name status group_id role_id).any? { |name| params[name].present? }
+      filter_param_keys.any? { |name| params[name].present? }
     end
 
     def filter_name(query, name)
@@ -106,6 +110,10 @@ class IndividualPrincipalBaseFilterComponent < ApplicationComponent
 
   def has_groups?
     defined?(groups) && groups.present?
+  end
+
+  def has_shares?
+    false
   end
 
   def params
