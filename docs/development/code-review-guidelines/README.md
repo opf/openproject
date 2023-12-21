@@ -135,6 +135,11 @@ Verify that the appropriate tests have been added as documented above.
 
 When testing a feature or change, check out the code test at least the happy paths according to the specification of the ticket.
 
+### Documenting changes right away
+
+If possible, add smaller documentation changes right away.
+
+If there are breaking changes (e.g., to permissions, code relevant for developers), add them to the release notes draft for the release or create a new draft if none exists yet.
 
 
 ## Other
