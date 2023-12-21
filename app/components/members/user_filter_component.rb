@@ -30,6 +30,8 @@
 
 module Members
   class UserFilterComponent < ::UserFilterComponent
+    ALL_SHARED_FILTER_KEY = 'all'
+
     def initially_visible?
       false
     end
@@ -82,10 +84,12 @@ module Members
       end
 
       def share_options
-        WorkPackageRole
+        share_options = WorkPackageRole
           .where(builtin: builtin_share_roles)
           .order(builtin: :asc)
           .map { |role| [mapped_shared_role_name(role), role.id] }
+
+        share_options.unshift([I18n.t('members.filters.all_shares'), ALL_SHARED_FILTER_KEY])
       end
 
       def builtin_share_roles
@@ -112,14 +116,20 @@ module Members
       protected
 
       def filter_shares(query, role_id)
-        return unless role_id > 0
+        if role_id === ALL_SHARED_FILTER_KEY
+          ids = WorkPackageRole
+                  .where(builtin: builtin_share_roles)
+                  .pluck(:id)
 
-        query.where(:role_id, '=', role_id)
+          query.where(:role_id, '=', ids.uniq)
+        elsif role_id.to_i > 0
+          query.where(:role_id, '=', role_id.to_i)
+        end
       end
 
       def apply_filters(params, query)
         super(params, query)
-        filter_shares(query, params[:shared_role_id].to_i) if params.key?(:shared_role_id)
+        filter_shares(query, params[:shared_role_id]) if params.key?(:shared_role_id)
 
         query
       end
