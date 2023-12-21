@@ -574,7 +574,7 @@ GEM
       rack
     gravatar_image_tag (1.2.0)
     hana (1.3.7)
-    hashdiff (1.0.1)
+    hashdiff (1.1.0)
     hashery (2.1.2)
     hashie (3.6.0)
     highline (2.1.0)
