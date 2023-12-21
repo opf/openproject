@@ -59,6 +59,8 @@ class Meeting < ApplicationRecord
       .merge(Project.allowed_to(args.first || User.current, :view_meetings))
   }
 
+  scope :with_agenda_items_duration, -> { all }
+
   acts_as_watchable permission: :view_meetings
 
   acts_as_searchable columns: [

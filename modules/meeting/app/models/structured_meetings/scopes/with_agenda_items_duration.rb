@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,38 +24,39 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Meetings
-  class RowComponent < ::RowComponent
-    def project_name
-      helpers.link_to_project model.project, {}, {}, false
-    end
+module StructuredMeetings::Scopes
+  module WithAgendaItemsDuration
+    extend ActiveSupport::Concern
 
-    def title
-      link_to model.title, meeting_path(model)
-    end
+    class_methods do
+      def with_agenda_items_duration
+        StructuredMeeting
+          .from("#{Meeting.table_name} meetings")
+          .joins("LEFT JOIN (#{agenda_items_sums_sql}) agenda_items_sums ON meetings.id = agenda_items_sums.meeting_id")
+          .select('meetings.*')
+          .select('agenda_items_sums.total_duration AS agenda_items_duration')
+      end
 
-    def type
-      if model.is_a?(StructuredMeeting)
-        I18n.t('meeting.types.structured')
-      else
-        I18n.t('meeting.types.classic')
+      private
+
+      def agenda_items_sums_sql
+        <<~SQL.squish
+          SELECT agenda_items.meeting_id, SUM(agenda_items.duration_in_minutes) AS total_duration
+          FROM #{MeetingAgendaItem.table_name} agenda_items
+          GROUP BY agenda_items.meeting_id
+        SQL
       end
     end
 
-    def start_time
-      safe_join([helpers.format_date(model.start_time), helpers.format_time(model.start_time, false)], " ")
-    end
+    def agenda_items_duration
+      @agenda_items_duration ||= begin
+        value = read_attribute(:agenda_items_duration) ||
+          self.class.with_agenda_items_duration.where(id:).pick('agenda_items_sums.total_duration')
 
-    def duration
-      render(::Meetings::DurationComponent.new(meeting: model))
-    end
-
-    def location
-      helpers.auto_link(model.location,
-                        link: :all,
-                        html: { target: '_blank' })
+        value.to_f
+      end
     end
   end
 end

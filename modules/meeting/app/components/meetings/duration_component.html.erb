@@ -1,0 +1,6 @@
+<%= render(OpenProject::Common::DurationComponent.new(@meeting.duration, :hours, abbreviated: true)) %>
+<% if @meeting.is_a?(StructuredMeeting) && @meeting.duration_exceeded_by_agenda_items? %>
+  <%= render(Primer::Beta::Text.new(color: :danger, font_size: :small)) do %>
+    + <%= I18n.t('datetime.distance_in_words.x_minutes_abbreviated', count: @meeting.duration_exceeded_by_agenda_items_in_minutes.to_i) %>
+  <% end %>
+<% end %>

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -29,35 +27,11 @@
 #++
 
 module Meetings
-  class RowComponent < ::RowComponent
-    def project_name
-      helpers.link_to_project model.project, {}, {}, false
-    end
+  class DurationComponent < ApplicationComponent
+    def initialize(meeting:)
+      super
 
-    def title
-      link_to model.title, meeting_path(model)
-    end
-
-    def type
-      if model.is_a?(StructuredMeeting)
-        I18n.t('meeting.types.structured')
-      else
-        I18n.t('meeting.types.classic')
-      end
-    end
-
-    def start_time
-      safe_join([helpers.format_date(model.start_time), helpers.format_time(model.start_time, false)], " ")
-    end
-
-    def duration
-      render(::Meetings::DurationComponent.new(meeting: model))
-    end
-
-    def location
-      helpers.auto_link(model.location,
-                        link: :all,
-                        html: { target: '_blank' })
+      @meeting = meeting
     end
   end
 end

@@ -29,6 +29,9 @@
 class StructuredMeeting < Meeting
   has_many :agenda_items, dependent: :destroy, foreign_key: 'meeting_id', class_name: 'MeetingAgendaItem'
 
+  include ::Scopes::Scoped
+  scopes :with_agenda_items_duration
+
   # triggered by MeetingAgendaItem#after_create/after_destroy/after_save
   def calculate_agenda_item_time_slots
     current_time = start_time
@@ -66,15 +69,11 @@ class StructuredMeeting < Meeting
     end
   end
 
-  def agenda_items_sum_duration_in_minutes
-    agenda_items.sum(:duration_in_minutes)
-  end
-
   def duration_exceeded_by_agenda_items?
-    agenda_items_sum_duration_in_minutes > (duration * 60)
+    agenda_items_duration > (duration * 60)
   end
 
   def duration_exceeded_by_agenda_items_in_minutes
-    agenda_items_sum_duration_in_minutes - (duration * 60)
+    agenda_items_duration - (duration * 60)
   end
 end

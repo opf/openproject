@@ -257,6 +257,7 @@ class MeetingsController < ApplicationController
   def load_meetings(query)
     query
       .results
+      .with_agenda_items_duration
       .paginate(page: page_param, per_page: per_page_param)
   end
 
