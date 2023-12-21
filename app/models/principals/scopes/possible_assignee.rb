@@ -46,10 +46,13 @@ module Principals::Scopes
       #   eligible candidates are to be searched
       # @return [ActiveRecord::Relation] A scope of eligible candidates
       def possible_assignee(work_package_or_project)
+        work_package_or_project = as_collection(work_package_or_project)
+
         if resource_class(work_package_or_project) == WorkPackage
-          on_work_package_where_clause(work_package_or_project)
+          where(id: on_work_package_user_ids(work_package_or_project))
+            .or(where(id: on_project_user_ids(work_package_or_project.map(&:project_id))))
         elsif resource_class(work_package_or_project) == Project
-          on_project_where_clause(work_package_or_project)
+          where(id: on_project_user_ids(work_package_or_project))
         else
           raise ArgumentError, 'The provided resources must be either WorkPackages or Projects.'
         end
@@ -58,8 +61,6 @@ module Principals::Scopes
       private
 
       def resource_class(work_package_or_project)
-        work_package_or_project = Array(work_package_or_project)
-
         if work_package_or_project.all? { _1.instance_of?(WorkPackage) }
           WorkPackage
         elsif work_package_or_project.all? { _1.instance_of?(Project) }
@@ -67,26 +68,26 @@ module Principals::Scopes
         end
       end
 
-      def on_work_package_where_clause(work_package)
-        where(
-          id: Member
-                .assignable
-                .of_work_package(work_package)
-                .group('user_id')
-                .having(["COUNT(DISTINCT(project_id, entity_type, entity_id, user_id)) = ?", Array(work_package).size])
-                .select('user_id')
-        )
+      def as_collection(resource)
+        Array(resource)
       end
 
-      def on_project_where_clause(project)
-        where(
-          id: Member
-                .assignable
-                .of_project(project)
-                .group('user_id')
-                .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).size])
-                .select('user_id')
-        )
+      def on_work_package_user_ids(work_package)
+        Member
+          .assignable
+          .of_work_package(work_package)
+          .group('user_id')
+          .having(["COUNT(DISTINCT(project_id, entity_type, entity_id, user_id)) = ?", work_package.size])
+          .select('user_id')
+      end
+
+      def on_project_user_ids(project)
+        Member
+          .assignable
+          .of_project(project)
+          .group('user_id')
+          .having(["COUNT(DISTINCT(project_id, user_id)) = ?", project.size])
+          .select('user_id')
       end
     end
   end

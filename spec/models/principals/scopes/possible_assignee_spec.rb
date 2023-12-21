@@ -196,9 +196,27 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
         let(:role) { assignable_work_package_role }
         let(:user_status) { :active }
 
-        it 'returns users assignable in all of the provided projects (intersection)' do
+        it 'returns users assignable in all of the provided work packages (intersection)' do
           expect(subject)
             .to contain_exactly(member_user)
+        end
+      end
+
+      context "when there are members in the work package's project that have an assignable role" do
+        let!(:project_member_user) do
+          create(:user,
+                 status: user_status,
+                 member_with_roles: { project => assignable_project_role })
+        end
+        let(:role) { assignable_work_package_role }
+        let(:user_status) { :active }
+
+        it "returns users assignable in the provided work package and the work package's project" do
+          expect(subject)
+            .to contain_exactly(member_user,
+                                member_placeholder_user,
+                                member_group,
+                                project_member_user)
         end
       end
     end
