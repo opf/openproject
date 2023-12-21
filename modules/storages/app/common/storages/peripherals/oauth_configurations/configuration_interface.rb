@@ -42,9 +42,9 @@ module Storages
 
         def authorization_check_wrapper
           case yield
-          when Net::HTTPSuccess
+          when 200..299
             :success
-          when Net::HTTPForbidden, Net::HTTPUnauthorized
+          when 401, 403
             :refresh_needed
           else
             :error

@@ -45,10 +45,13 @@ module Storages
         end
 
         def authorization_state_check(access_token)
+          util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
+
           authorization_check_wrapper do
-            Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-              http.get('/v1.0/me', { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' })
-            end
+            HTTPX.get(
+              util.join_uri_path(@uri, '/v1.0/me'),
+              headers: { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' }
+            ).status
           end
         end
 
