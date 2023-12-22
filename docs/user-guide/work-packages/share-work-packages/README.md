@@ -20,7 +20,7 @@ To share a work package with a project non-member select the detailed view of a 
 
 A dialogue window will open, showing the list of all users, who this work package has already been shared with. If the work package has not yet been shared, the list will be empty. 
 
-> **Note**: In order to be able to share a work package with non members you need to have specific rights. If you do not see the option to share a work package, please contact your administrator.
+> **Note**: In order to be able to share a work package with non members you need to have been assigned a [global role *create users](./././system-admin-guide/users-permissions/users/#create-users)*. If you do not see the option to share a work package, please contact your administrator.
 
 ![List of users with access to a work package in OpenProject](openproject_user_guide_shared_with_list.png)
 
@@ -46,7 +46,7 @@ Following user roles are available as filters:
 
 ![Filter list of users by user role](openproject_user_guide_sharing_member_role_filter.png)
 
-**Note:** Please keep in mind that users listed after you have applied a filter may have additional permissions. For example if you select the **View** filter, it is possible that a user is listed, which has inherited additional role as part of user group with permissions exceeding the viewing ones.
+> **Note:** Please keep in mind that users listed after you have applied a filter may have additional permissions. For example if you select the **View** filter, it is possible that a user is listed, which has inherited additional role as part of user group with permissions exceeding the viewing ones.
 
 You can search for a user or a group via a user name, group name or an email address. You can either select an existing user from the dropdown menu or enter an email address for an entirely new user, who will receive an invitation to create an account on your instance. 
 
