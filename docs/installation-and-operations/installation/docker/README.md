@@ -450,7 +450,7 @@ All the Dockerfile does is copy your custom plugins gemfile into the image, inst
 To actually build the docker image run:
 
 ```shell
-docker build -t openproject-with-slack .
+docker build --pull -t openproject-with-slack .
 ```
 
 The `-t` option is the tag for your image. You can choose what ever you want.
