@@ -58,6 +58,8 @@ RSpec.describe 'Admin storages',
       it 'renders a list of storages' do
         visit admin_settings_storages_path
 
+        expect(page).to be_axe_clean.within '#content'
+
         expect(page).to have_test_selector('storage-name', text: complete_storage.name)
         expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
         expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
@@ -101,6 +103,8 @@ RSpec.describe 'Admin storages',
     context 'with no storages' do
       it 'renders a blank slate' do
         visit admin_settings_storages_path
+
+        expect(page).to be_axe_clean.within '#content'
 
         # Show Add storage button
         expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
