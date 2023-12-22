@@ -25,7 +25,6 @@ targets:
     <<: *debian
   centos-8: &centos8
     env:
-      - BUNDLE_BUILD__PG="--with-pg-config=/usr/pgsql-13/bin/pg_config"
       - NODE_ENV=production
       - NPM_CONFIG_PRODUCTION=false
     dependencies:

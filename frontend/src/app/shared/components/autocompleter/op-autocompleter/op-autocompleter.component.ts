@@ -360,8 +360,6 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   }
 
   public opened():void { // eslint-disable-line no-unused-vars
-    // Re-search for empty value as search value gets removed
-    this.typeahead?.next('');
     this.repositionDropdown();
     this.open.emit();
   }

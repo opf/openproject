@@ -43,7 +43,7 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
     ) do |select|
       MeetingAgendaItems::CreateContract
         .assignable_meetings(User.current)
-        .where('meetings.start_time >= ?', Time.zone.now)
+        .where("meetings.start_time + (interval '1 hour' * meetings.duration) >= ?", Time.zone.now)
         .find_each do |meeting|
         select.option(
           label: "#{meeting.title} #{format_date(meeting.start_time)} #{format_time(meeting.start_time, false)}",
