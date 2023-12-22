@@ -26,12 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require_relative '../../toasts/expectations'
+
 module Components
   module WorkPackages
     class ContextMenu
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
+      include Toasts::Expectations
 
       def open_for(work_package, card_view: nil)
         # Close
@@ -67,6 +70,15 @@ module Components
 
       def choose(target)
         find("#{selector} .menu-item", text: target, exact_text: true).click
+      end
+
+      def choose_delete_and_confirm_deletion
+        choose 'Delete'
+        # only handle the case where the modal does _not_ ask for descendants deletion confirmation
+        within_modal(I18n.t('js.modals.destroy_work_package.title', label: 'work package')) do
+          click_button 'Delete'
+        end
+        expect_and_dismiss_toaster
       end
 
       def expect_no_options(*options)

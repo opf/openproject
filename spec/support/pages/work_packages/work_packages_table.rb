@@ -295,6 +295,20 @@ module Pages
       work_package_field(work_package, context, attribute)
     end
 
+    # Opens the context menu for the specified work package row.
+    #
+    # It returns a `Components::WorkPackages::ContextMenu` instance which can
+    # be used to interact with the context menu.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    # @return [Components::WorkPackages::ContextMenu] The context menu object.
+    def open_context_menu_for(work_package)
+      expect_work_package_subject(work_package.subject)
+      context_menu = Components::WorkPackages::ContextMenu.new
+      context_menu.open_for work_package
+      context_menu
+    end
+
     # Clicks on the specified setting item in the page context menu.
     #
     # @param label [String] The label of the setting item.
