@@ -73,6 +73,9 @@
         height: 1rem
 
   &.split-time-field
+    display: inline-block
+    width: 100%
+    vertical-align: middle
     white-space: nowrap
 
     // Table specific styles
@@ -87,8 +90,10 @@
     .-separator::before
       content: "·"
       display: inline-block
+      width: 1rem
       padding-left: 0.25rem
       padding-right: 0.25rem
+      text-align: center
 
     .-derived-value
       color: var(--color-fg-muted)
