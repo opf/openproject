@@ -173,7 +173,7 @@ lt:
   text_meeting_not_present_anymore: "Šis susitikimas buvo ištrintas. Prašome parinkti kitą susitikimą."
   label_add_work_package_to_meeting_dialog_title: "Pridėti darbo paketą prie susitikimo"
   label_add_work_package_to_meeting_dialog_button: "Pridėti į susitikimą"
-  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
+  label_meeting_selection_caption: "Šį darbo paketą galima pridėti tik į artėjantį ar vykstantį susitikimą."
   text_add_work_package_to_meeting_description: "Darbo paketą galima pridėti į vieną ar kelis susitikimus diskusijai. Bet kokios su juo susijusios pastabos taipogi bus ten matomos."
   text_agenda_item_no_notes: "Pastabos nepateiktos"
   text_agenda_item_not_editable_anymore: "Šis plano elementas daugiau neberedaguojamas"
