@@ -296,10 +296,13 @@ RSpec.describe 'Open the Meetings tab', :js do
       end
 
       context 'when open, upcoming meetings are visible for the user' do
-        let!(:past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
-        let!(:first_upcoming_meeting) { create(:structured_meeting, project:) }
-        let!(:second_upcoming_meeting) { create(:structured_meeting, project:) }
-        let!(:closed_upcoming_meeting) { create(:structured_meeting, project:, state: :closed) }
+        shared_let(:past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
+        shared_let(:first_upcoming_meeting) { create(:structured_meeting, project:) }
+        shared_let(:second_upcoming_meeting) { create(:structured_meeting, project:) }
+        shared_let(:closed_upcoming_meeting) { create(:structured_meeting, project:, state: :closed) }
+        shared_let(:ongoing_meeting) do
+          create(:structured_meeting, title: 'Ongoing', project:, start_time: 1.hour.ago, duration: 4.0)
+        end
 
         it 'enables the user to add the work package to multiple open, upcoming meetings' do
           work_package_page.visit!
@@ -332,6 +335,16 @@ RSpec.describe 'Open the Meetings tab', :js do
           page.within_test_selector("op-meeting-container-#{second_upcoming_meeting.id}") do
             expect(page).to have_content('A very important note added from the meetings tab to the second meeting!')
           end
+        end
+
+        it 'allows the user to select ongoing meetings' do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.open_add_to_meeting_dialog
+
+          fill_in('meeting_agenda_item_meeting_id', with: ongoing_meeting.title)
+          expect(page).to have_css('.ng-option-marked', text: ongoing_meeting.title)
         end
 
         it 'does not enable the user to select a past meeting' do

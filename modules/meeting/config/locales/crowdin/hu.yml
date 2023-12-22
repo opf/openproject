@@ -171,7 +171,7 @@ hu:
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."
   label_add_work_package_to_meeting_dialog_title: "Add work package to meeting"
   label_add_work_package_to_meeting_dialog_button: "Add to meeting"
-  label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
   text_agenda_item_no_notes: "No notes provided"
   text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."

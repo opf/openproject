@@ -171,7 +171,7 @@ de:
   text_meeting_not_present_anymore: "Dieses Meeting wurde gelöscht. Bitte wählen Sie eine andere Besprechung."
   label_add_work_package_to_meeting_dialog_title: "Arbeitspaket zur Besprechung hinzufügen"
   label_add_work_package_to_meeting_dialog_button: "Zur Besprechung hinzufügen"
-  label_meeting_selection_caption: "Dieses Arbeitspaket kann nur zu offenen, bevorstehenden Meetings hinzugefügt werden."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "Ein Arbeitspaket kann zu mehreren Besprechungen hinzugefügt werden."
   text_agenda_item_no_notes: "Keine Notizen angegeben."
   text_agenda_item_not_editable_anymore: "Dieser Tagesordnungspunkt kann nicht mehr bearbeitet werden."

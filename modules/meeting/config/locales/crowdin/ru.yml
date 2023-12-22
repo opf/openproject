@@ -173,7 +173,7 @@ ru:
   text_meeting_not_present_anymore: "Эта встреча была удалена. Пожалуйста, выберите другую встречу."
   label_add_work_package_to_meeting_dialog_title: "Добавить пакет работ во встречу"
   label_add_work_package_to_meeting_dialog_button: "Добавить во встречу"
-  label_meeting_selection_caption: "Этот пакет работ можно добавить только к открытым предстоящим встречам."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "Пакет работ может быть добавлен к одной или нескольким встречам для обсуждения. Любые заметки об этом также видны здесь."
   text_agenda_item_no_notes: "Примечания отсутствуют"
   text_agenda_item_not_editable_anymore: "Этот пункт повестки дня больше не редактируется."
