@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <span><%= format_time(token.created_at) %></span>
                 </td>
                 <td>
-                  <span><%= format_time(token.created_at + token.expires_in.seconds) %></span>
+                  <span><%= format_time(token.updated_at + token.expires_in.seconds) %></span>
                 </td>
                 <td class="buttons">
                   <%= link_to "",
