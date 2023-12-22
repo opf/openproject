@@ -82,14 +82,14 @@ RSpec.describe 'Estimated hours display' do
       wp_table.expect_work_package_listed child
 
       wp_table.expect_work_package_with_attributes(
-        parent, estimatedTime: "1 hΣ 3 h"
+        parent, estimatedTime: "1 hΣ 4 h"
       )
     end
 
     it 'work package details', :js do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Work\n1 hΣ 3 h")
+      expect(page).to have_content("Work\n1 hΣ 4 h")
     end
   end
 
