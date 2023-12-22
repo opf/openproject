@@ -51,11 +51,11 @@ class Storages::ProjectStorage < ApplicationRecord
   scope :active_nextcloud_automatically_managed, -> do
     automatic
       .active
-      .where(storages: Storages::NextcloudStorage.automatically_managed)
+      .where(storages: Storages::NextcloudStorage.automatic_management_enabled)
   end
 
   def automatic_management_possible?
-    storage.present? && storage.provider_type_nextcloud? && storage.automatically_managed?
+    storage.present? && storage.provider_type_nextcloud? && storage.automatic_management_enabled?
   end
 
   def project_folder_path

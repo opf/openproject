@@ -61,7 +61,7 @@ module Storages::Storages
       # E.g. when setting up a new storage for the first time, passthrough, credentials are set in a later stage.
       return if storage.automatic_management_unspecified?
 
-      unless storage.automatically_managed?
+      unless storage.automatic_management_enabled?
         %w[username password].each { |field| storage.provider_fields.delete(field) }
       end
     end

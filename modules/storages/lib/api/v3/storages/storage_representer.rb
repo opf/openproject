@@ -93,10 +93,10 @@ module API::V3::Storages
              getter: ->(*) {},
              setter: ->(fragment:, represented:, **) {
                if fragment.present?
-                 represented.automatically_managed = true
+                 represented.automatic_management_enabled = true
                  represented.password = fragment
                else
-                 represented.automatically_managed = false
+                 represented.automatic_management_enabled = false
                end
              }
 
@@ -106,7 +106,7 @@ module API::V3::Storages
              getter: ->(represented:, **) {
                break unless represented.provider_type_nextcloud?
 
-               represented.automatically_managed?
+               represented.automatic_management_enabled?
              },
              setter: ->(*) {}
 

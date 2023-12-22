@@ -221,7 +221,7 @@ RSpec.describe 'Admin storages',
 
         aggregate_failures 'Automatically managed project folders' do
           within_test_selector('storage-automatically-managed-project-folders-form') do
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             application_password_input = page.find_by_id('storages_nextcloud_storage_password')
             expect(automatically_managed_switch).to be_checked
             expect(application_password_input.value).to be_empty
@@ -234,7 +234,7 @@ RSpec.describe 'Admin storages',
             # Mock a valid response (=401) for example.com, so the password validation should fail
             mock_nextcloud_application_credentials_validation('https://example.com', password: "1234567890",
                                                                                      response_code: 401)
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             # Clicking submit with application password empty should show an error
@@ -245,7 +245,7 @@ RSpec.describe 'Admin storages',
             # Mock a valid response (=200) for example.com, so the password validation should succeed
             # Fill in application password and submit
             mock_nextcloud_application_credentials_validation('https://example.com', password: "1234567890")
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             click_button('Done, complete setup')
@@ -527,7 +527,7 @@ RSpec.describe 'Admin storages',
           find_test_selector('storage-edit-automatically-managed-project-folders-button').click
 
           within_test_selector('storage-automatically-managed-project-folders-form') do
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             application_password_input = page.find_by_id('storages_nextcloud_storage_password')
             expect(automatically_managed_switch).to be_checked
             expect(application_password_input.value).to be_empty
@@ -540,7 +540,7 @@ RSpec.describe 'Admin storages',
             # Mock a valid response (=401) for example.com, so the password validation should fail
             mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890",
                                                                             response_code: 401)
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             # Clicking submit with application password empty should show an error
@@ -551,7 +551,7 @@ RSpec.describe 'Admin storages',
             # Mock a valid response (=200) for example.com, so the password validation should succeed
             # Fill in application password and submit
             mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890")
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             click_button('Done, complete setup')

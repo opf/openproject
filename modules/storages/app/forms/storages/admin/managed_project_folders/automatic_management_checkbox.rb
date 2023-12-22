@@ -27,12 +27,12 @@
 #++
 
 module Storages::Admin::ManagedProjectFolders
-  class AutomaticallyManagedCheckbox < ApplicationForm
-    form do |automatically_managed_form|
-      automatically_managed_form.check_box(
-        name: :automatically_managed,
+  class AutomaticManagementCheckbox < ApplicationForm
+    form do |automatic_management_form|
+      automatic_management_form.check_box(
+        name: :automatic_management_enabled,
         label: I18n.t(:'storages.label_managed_project_folders.automatically_managed_folders'),
-        checked: @storage.automatically_managed?,
+        checked: @storage.automatic_management_enabled?,
         required: true,
         data: {
           action: 'change->storages--automatically-managed-project-folders-form#updateDisplay'
