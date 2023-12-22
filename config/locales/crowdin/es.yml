@@ -278,6 +278,15 @@ es:
       no_results_content_text: Añadir un miembro a este proyecto
     invite_by_mail: "Enviar invitación a %{mail}"
     send_invite_to: "Enviar invitación a"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "No se pudo restablecer el token de acceso: %{error}"

@@ -277,6 +277,15 @@ el:
       no_results_content_text: Προσθέστε ένα μέλος στο έργο
     invite_by_mail: "Αποστολή πρόσκλησης στο %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Αποτυχία επαναφοράς του token πρόσβασης: %{error}"

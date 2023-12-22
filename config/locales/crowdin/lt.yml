@@ -278,6 +278,15 @@ lt:
       no_results_content_text: Įtraukti narį į projektą
     invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
     send_invite_to: "Siųsti pakvietimą"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"

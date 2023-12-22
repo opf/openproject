@@ -283,6 +283,15 @@ vi:
       no_results_content_text: Thêm một thành viên vào dự án
     invite_by_mail: "Gửi lời mời cho  %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Lỗi cập nhật mã truy cập: %{error}"

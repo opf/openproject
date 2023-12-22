@@ -85,11 +85,11 @@ ru:
       redirect_uri: URI перенаправления
       storage_provider: Поставщик хранилища
     health:
-      checked: Last checked %{datetime}
+      checked: Последняя проверка %{datetime}
       label_error: Ошибка
       label_healthy: Здоровые
       label_pending: В ожидании
-      since: since %{datetime}
+      since: с %{datetime}
       title: Статус управляемых папок
     help_texts:
       project_folder: Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
@@ -115,7 +115,7 @@ ru:
       oauth_application_details_link_text: Настройки интеграции Nextcloud OpenProject
       one_drive:
         application_link_text: Azure portal
-        copy_redirect_uri: Copy redirect URI
+        copy_redirect_uri: Копировать перенаправление URI
         documentation_link_text: OneDrive/SharePoint file storages documentation
         drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
         integration: OneDrive/SharePoint
@@ -162,10 +162,10 @@ ru:
     label_project_folder: Папка проекта
     label_provider: Поставщик
     label_redirect_uri: URI перенаправления
-    label_show_storage_redirect_uri: Show redirect URI
+    label_show_storage_redirect_uri: Показать перенаправление URI
     label_status: Статус
     label_storage: Хранилище
-    label_uri: URI
+    label_uri: URI (ссылка)
     member_connection_status:
       connected: Подключено
       connected_no_permissions: Роль пользователя не имеет разрешения на хранение

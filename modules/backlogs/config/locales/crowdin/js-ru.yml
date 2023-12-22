@@ -24,4 +24,4 @@ ru:
     work_packages:
       properties:
         storyPoints: "Исторические точки"
-        remainingTime: "Remaining work"
+        remainingTime: "Оставшаяся работа"

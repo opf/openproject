@@ -27,8 +27,8 @@ ru:
     attributes:
       work_package:
         position: "Позиция"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
+        remaining_hours: "Оставшаяся работа"
+        remaining_time: "Оставшаяся работа"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         story_points: "Исторические точки"

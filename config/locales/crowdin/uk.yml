@@ -276,6 +276,15 @@ uk:
       no_results_content_text: Додайте учасника до проекту
     invite_by_mail: "Надіслати запрошення на адресу %{mail}"
     send_invite_to: "Надіслати запрошення:"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Не вдалося відновити маркер доступу: %{error}"

@@ -281,6 +281,15 @@ et:
       no_results_content_text: Add a member to the project
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"

@@ -278,6 +278,15 @@ pl:
       no_results_content_text: Dodaj członka projektu
     invite_by_mail: "Wyślij zaproszenie do %{mail}"
     send_invite_to: "Wyślij zaproszenie do"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
