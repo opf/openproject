@@ -111,17 +111,6 @@ RSpec.describe ProjectsHelper do
     end
   end
 
-  describe '#global_menu_items' do
-    subject { global_menu_items.map(&:first) }
-
-    it do
-      expect(subject).to eq([t(:label_all_projects),
-                             t(:label_my_projects),
-                             t(:label_public_projects),
-                             t(:label_archived_projects)])
-    end
-  end
-
   describe '#project_more_menu_items' do
     # need to use refind: true because @allowed_permissions is cached in the instance
     shared_let(:project, refind: true) { create(:project) }
