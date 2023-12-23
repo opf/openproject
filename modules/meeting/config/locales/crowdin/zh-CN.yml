@@ -170,7 +170,7 @@ zh-CN:
   text_meeting_not_present_anymore: "此次会议已被删除。请选择另一次会议。"
   label_add_work_package_to_meeting_dialog_title: "将工作包添加到会议"
   label_add_work_package_to_meeting_dialog_button: "添加到会议"
-  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
+  label_meeting_selection_caption: "只能将此工作包添加到即将举行或正在举行的公开会议。"
   text_add_work_package_to_meeting_description: "一个工作包可以添加到一个或多个会议供讨论。与此相关的任何说明也可在这里看到。"
   text_agenda_item_no_notes: "未提供备注"
   text_agenda_item_not_editable_anymore: "此议程项目已不可编辑。"

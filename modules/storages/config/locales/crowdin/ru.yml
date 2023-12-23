@@ -27,7 +27,7 @@ ru:
         creator: "Создатель"
         provider_type: "Тип поставщика"
         host: "Хост"
-        tenant: "Directory (tenant) ID"
+        tenant: "ID каталога (арендатора)"
       storages/file_link:
         origin_id: "ID оригинала"
     errors:
@@ -159,7 +159,7 @@ ru:
         nextcloud: "Разрешить OpenProject доступ к данным Nextcloud с помощью OAuth."
         one_drive: "Разрешить OpenProject доступ к данным Azure, используя OAuth для подключения OneDrive/Sharepoint."
       redirect_uri_incomplete:
-        one_drive: "Complete the setup with the correct URI redirection."
+        one_drive: "Завершите установку с правильным перенаправлением URI."
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить %{file_storage}?  Чтобы подтвердить это действие, введите имя хранилища в поле ниже. Это:
