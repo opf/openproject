@@ -171,7 +171,7 @@ it:
   text_meeting_not_present_anymore: "Questa riunione è stata eliminata. Seleziona un'altra riunione."
   label_add_work_package_to_meeting_dialog_title: "Aggiungi macro-attività alla riunione"
   label_add_work_package_to_meeting_dialog_button: "Aggiungi alla riunione"
-  label_meeting_selection_caption: "È solo possibile aggiungere questa macro-attività per aprire le prossime riunioni."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "Una macro-attività può essere aggiunta a una o più riunioni per la discussione. Tutte le note che la riguardano sono visibili anche qui."
   text_agenda_item_no_notes: "Nessuna nota fornita"
   text_agenda_item_not_editable_anymore: "Questo punto dell'ordine del giorno non è più modificabile."

@@ -8,7 +8,7 @@ ru:
         host: Хост
         name: Имя
         provider_type: Тип поставщика
-        tenant: Directory (tenant) ID
+        tenant: ID каталога (арендатора)
     errors:
       messages:
         not_linked_to_project: не связан с проектом.
@@ -60,7 +60,7 @@ ru:
         nextcloud: Разрешить OpenProject доступ к данным Nextcloud с помощью OAuth.
         one_drive: Разрешить OpenProject доступ к данным Azure, используя OAuth для подключения OneDrive/Sharepoint.
       redirect_uri_incomplete:
-        one_drive: Complete the setup with the correct URI redirection.
+        one_drive: Завершите установку с правильным перенаправлением URI.
     confirm_replace_oauth_application: Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject.
     confirm_replace_oauth_client: Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище.
     delete_warning:

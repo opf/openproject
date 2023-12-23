@@ -279,14 +279,14 @@ lt:
     invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
     send_invite_to: "Siųsti pakvietimą"
     filters:
-      all_shares: 'All shares'
+      all_shares: 'Visi bendrinimai'
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: 'Visi'
+      invited: 'Pakviesti'
+      locked: 'Užrakinti'
+      project_roles: 'Projekto vaidmenys'
+      wp_shares: 'Darbo paketų bendrinimai'
+      groups: 'Grupės'
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"

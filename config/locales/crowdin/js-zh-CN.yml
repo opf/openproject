@@ -755,7 +755,7 @@ zh-CN:
           last_day: '最后一天'
     text_are_you_sure: "是否确定？"
     text_data_lost: "输入的所有数据将全部丢失。"
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} 写道："
     types:
       attribute_groups:
         error_duplicate_group_name: "名称 %{group} 已多次使用。组名不能重复。"
