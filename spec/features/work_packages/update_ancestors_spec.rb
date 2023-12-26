@@ -102,7 +102,7 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
   context 'when adding another the child' do
     it 'updates the parent work and remaining work values' do
       context_menu = wp_table.open_context_menu_for(parent)
-      context_menu.choose('Create new child')
+      context_menu.choose(I18n.t('js.relation_buttons.add_new_child'))
 
       split_view_create = Pages::SplitWorkPackageCreate.new(project:)
       split_view_create.set_attributes({ subject: 'child 2', estimatedTime: 1, remainingTime: 3 })
@@ -113,6 +113,26 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
       new_child = WorkPackage.last
       expect(parent.derived_estimated_hours).to eq(parent.estimated_hours + child.estimated_hours + new_child.estimated_hours)
       expect(parent.derived_remaining_hours).to eq(parent.remaining_hours + child.remaining_hours + new_child.remaining_hours)
+    end
+  end
+
+  context 'when outdenting and indenting hierarchy of a child' do
+    it 'updates the parent work and remaining work values' do
+      context_menu = wp_table.open_context_menu_for(child)
+      context_menu.choose(I18n.t('js.relation_buttons.hierarchy_outdent'))
+      wp_table.expect_and_dismiss_toaster message: 'Successful update'
+
+      parent.reload
+      expect(parent.derived_estimated_hours).to eq(parent.estimated_hours)
+      expect(parent.derived_remaining_hours).to eq(parent.remaining_hours)
+
+      context_menu = wp_table.open_context_menu_for(child)
+      context_menu.choose(I18n.t('js.relation_buttons.hierarchy_indent'))
+      wp_table.expect_and_dismiss_toaster message: 'Successful update'
+
+      parent.reload
+      expect(parent.derived_estimated_hours).to eq(parent.estimated_hours + child.estimated_hours)
+      expect(parent.derived_remaining_hours).to eq(parent.remaining_hours + child.remaining_hours)
     end
   end
 end
