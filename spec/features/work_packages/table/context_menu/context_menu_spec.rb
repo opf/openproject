@@ -39,7 +39,7 @@ RSpec.describe 'Work package table context menu', :js, :with_cuprite do
         # Open context menu
         menu.expect_closed
         menu.open_for(work_package)
-        menu.expect_options ['Add predecessor', 'Add follower']
+        menu.expect_options 'Add predecessor', 'Add follower'
       end
 
       context 'for multiple selected WPs' do
@@ -57,8 +57,8 @@ RSpec.describe 'Work package table context menu', :js, :with_cuprite do
           find('body').send_keys [:control, 'a']
 
           menu.open_for(work_package)
-          menu.expect_options ['Open details view', 'Open fullscreen view',
-                               'Bulk edit', 'Bulk copy', 'Bulk change of project', 'Bulk delete']
+          menu.expect_options 'Open details view', 'Open fullscreen view',
+                              'Bulk edit', 'Bulk copy', 'Bulk change of project', 'Bulk delete'
         end
       end
     end

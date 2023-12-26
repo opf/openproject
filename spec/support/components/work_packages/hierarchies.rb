@@ -79,11 +79,11 @@ module Components
         context_menu.open_for work_package
 
         if indent
-          context_menu.expect_options ['Indent hierarchy']
+          context_menu.expect_options 'Indent hierarchy'
         end
 
         if outdent
-          context_menu.expect_options ['Outdent hierarchy']
+          context_menu.expect_options 'Outdent hierarchy'
         end
       end
 

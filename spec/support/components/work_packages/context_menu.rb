@@ -61,15 +61,17 @@ module Components
       end
 
       def expect_open
-        expect(page).to have_selector(selector)
+        expect(page).to have_selector(:menu, work_package_context_menu_label)
       end
 
       def expect_closed
-        expect(page).to have_no_selector(selector)
+        expect(page).to have_no_selector(:menu, work_package_context_menu_label)
       end
 
       def choose(target)
-        find("#{selector} .menu-item", text: target, exact_text: true).click
+        within_menu do
+          find(:menuitem, text: target, exact_text: true).click
+        end
       end
 
       def choose_delete_and_confirm_deletion
@@ -83,22 +85,30 @@ module Components
 
       def expect_no_options(*options)
         expect_open
-        options.each do |text|
-          expect(page).to have_no_css("#{selector} .menu-item", text:)
+        within_menu do
+          options.each do |text|
+            expect(page).to have_no_selector(:menuitem, text:)
+          end
         end
       end
 
-      def expect_options(options)
+      def expect_options(*options)
         expect_open
-        options.each do |text|
-          expect(page).to have_css("#{selector} .menu-item", text:)
+        within_menu do
+          options.each do |text|
+            expect(page).to have_selector(:menuitem, text:)
+          end
         end
       end
 
       private
 
-      def selector
-        '#work-package-context-menu'
+      def within_menu(&)
+        within(:menu, work_package_context_menu_label, &)
+      end
+
+      def work_package_context_menu_label
+        I18n.t('js.label_work_package_context_menu')
       end
     end
   end

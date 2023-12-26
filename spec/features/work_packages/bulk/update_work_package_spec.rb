@@ -220,7 +220,7 @@ RSpec.describe 'Bulk update work packages through Rails view', :js, :with_cuprit
 
       it 'does allow to edit' do
         context_menu.open_for work_package
-        context_menu.expect_options ['Bulk edit']
+        context_menu.expect_options 'Bulk edit'
       end
 
       context 'with a project budget' do
@@ -243,7 +243,7 @@ RSpec.describe 'Bulk update work packages through Rails view', :js, :with_cuprit
 
       it 'does not allow to edit' do
         context_menu.open_for work_package
-        context_menu.expect_no_options ['Bulk edit']
+        context_menu.expect_no_options 'Bulk edit'
       end
     end
   end
