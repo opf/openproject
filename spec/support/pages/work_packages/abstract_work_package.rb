@@ -37,6 +37,10 @@ module Pages
       @project = project
     end
 
+    def create_page?
+      is_a?(AbstractWorkPackageCreate)
+    end
+
     def visit_tab!(tab)
       visit path(tab)
     end
@@ -189,15 +193,15 @@ module Pages
       end
     end
 
-    def update_attributes(save: true, **key_value_map)
+    def update_attributes(save: !create_page?, **key_value_map)
       set_attributes(key_value_map, save:)
     end
 
-    def set_attributes(key_value_map, save: true)
+    def set_attributes(key_value_map, save: !create_page?)
       key_value_map.each_with_index.map do |(key, value), index|
         field = work_package_field(key)
         field.update(value, save:)
-        unless index == key_value_map.length - 1
+        if save && (index != key_value_map.length - 1)
           ensure_no_conflicting_modifications
         end
       end
@@ -214,13 +218,13 @@ module Pages
       # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
       # because the status field on the create pages is a simple EditField.
       when :status
-        if is_a?(AbstractWorkPackageCreate)
-          EditField.new container, key
+        if create_page?
+          EditField.new container, key, create_form: true
         else
           WorkPackageStatusField.new container
         end
       else
-        EditField.new container, key
+        EditField.new container, key, create_form: create_page?
       end
     end
 

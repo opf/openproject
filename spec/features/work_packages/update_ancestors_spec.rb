@@ -32,17 +32,26 @@ require 'spec_helper'
 
 RSpec.describe 'Update ancestors', :js, :with_cuprite do
   shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project) }
+  shared_let(:priority) { create(:default_priority) }
+  shared_let(:status) { create(:default_status) }
+  shared_let(:project) { create(:project_with_types) }
+
+  before_all do
+    set_factory_default(:priority, priority)
+    set_factory_default(:project, project)
+    set_factory_default(:project_with_types, project)
+    set_factory_default(:status, status)
+    set_factory_default(:user, user)
+  end
+
   shared_let(:parent) do
     create(:work_package,
-           project:,
            subject: 'parent',
            estimated_hours: 2,
            remaining_hours: 1)
   end
   shared_let(:child) do
     create(:work_package,
-           project:,
            parent:,
            subject: 'child',
            estimated_hours: 6,
@@ -50,8 +59,6 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
   end
   shared_let(:query) do
     create(:query,
-           user:,
-           project:,
            show_hierarchies: true,
            column_names: %i[id estimated_hours remaining_hours subject])
   end
@@ -89,6 +96,23 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
       parent.reload
       expect(parent.derived_estimated_hours).to eq(parent.estimated_hours)
       expect(parent.derived_remaining_hours).to eq(parent.remaining_hours)
+    end
+  end
+
+  context 'when adding another the child' do
+    it 'updates the parent work and remaining work values' do
+      context_menu = wp_table.open_context_menu_for(parent)
+      context_menu.choose('Create new child')
+
+      split_view_create = Pages::SplitWorkPackageCreate.new(project:)
+      split_view_create.set_attributes({ subject: 'child 2', estimatedTime: 1, remainingTime: 3 })
+      split_view_create.save!
+      split_view_create.expect_and_dismiss_toaster message: 'Successful creation'
+
+      parent.reload
+      new_child = WorkPackage.last
+      expect(parent.derived_estimated_hours).to eq(parent.estimated_hours + child.estimated_hours + new_child.estimated_hours)
+      expect(parent.derived_remaining_hours).to eq(parent.remaining_hours + child.remaining_hours + new_child.remaining_hours)
     end
   end
 end

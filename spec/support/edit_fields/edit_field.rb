@@ -10,15 +10,33 @@ class EditField
 
   attr_accessor :field_type
 
+  # Initializes a new EditField object. It represents a work package field on a
+  # work packages table page, a work package view page (split or full), or a
+  # work package creation page (split or full).
+  #
+  # @param context [Object] The context in which the EditField is being used.
+  # @param property_name [Symbol] The name of the property associated with the
+  #   EditField. Generally camel case.
+  # @param selector [String] (optional) The CSS selector used to locate the
+  #   EditField element. if unspecified, the `property_name` is used.
+  # @param create_form [Boolean] (optional) Indicates whether the EditField is
+  #   used in a create form. It changes the way the field is clicked or not to
+  #   activate it on edition. It is `false` by default.
   def initialize(context,
                  property_name,
-                 selector: nil)
+                 selector: nil,
+                 create_form: false)
 
     @property_name = property_name.to_s
     @context = context
     @field_type = derive_field_type
+    @create_form = create_form
 
     @selector = selector || ".inline-edit--container.#{property_name}"
+  end
+
+  def create_form?
+    @create_form
   end
 
   def field_container
@@ -99,7 +117,7 @@ class EditField
   end
 
   def expect_state!(open:)
-    if open
+    if open || create_form?
       expect_active!
     else
       expect_inactive!
@@ -186,7 +204,7 @@ class EditField
     activate!
     scroll_to_element(input_element)
 
-    if field_type.end_with?('-autocompleter')
+    if autocompleter_field?
       if multi
         page.find('.ng-value-label', visible: :all, text: content).sibling('.ng-value-icon').click
       else
@@ -211,10 +229,14 @@ class EditField
     input_element.send_keys text
   end
 
-  ##
-  # Update this attribute while retrying to open the field
-  # if unsuccessful at first.
-  def update(value, save: true, expect_failure: false)
+  # Updates the value of the edit field. It retries if unsuccessful at first.
+  #
+  # @param value [Object] The new value to set.
+  # @param save [Boolean] Whether to save the field after updating. Save happens
+  #   by pressing Enter key. Default is `true` for non-create pages.
+  # @param expect_failure [Boolean] Whether to expect the update to fail. This
+  #   will check if field is still in edit state after save. Default is `false`.
+  def update(value, save: !create_form?, expect_failure: false)
     # Retry to set attributes due to reloading the page after setting
     # an attribute, which may cause an input not to open properly.
     retry_block do
@@ -222,13 +244,13 @@ class EditField
       set_value value
 
       # select fields are saved on change
-      save! if save && !field_type.end_with?('-autocompleter')
+      save! if save && !autocompleter_field?
       expect_state! open: expect_failure
     end
   end
 
   def submit_by_enter
-    if field_type.end_with? '-autocompleter'
+    if autocompleter_field?
       autocomplete_selector.send_keys :return
     else
       input_element.native.send_keys :return
@@ -236,7 +258,7 @@ class EditField
   end
 
   def cancel_by_escape
-    if field_type.end_with? '-autocompleter'
+    if autocompleter_field?
       autocomplete_selector.send_keys :escape
     else
       input_element.native.send_keys :escape
