@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe "API::V3::Projects::AvailableAssigneesAPI" do
+RSpec.describe "API::V3::WorkPackages::AvailableAssigneesAPI" do
   include API::V3::Utilities::PathHelper
 
-  it_behaves_like 'available principals', :assignees do
-    let(:href) { api_v3_paths.available_assignees_in_project(project.id) }
+  it_behaves_like 'available principals', :assignees, work_package_scope: true do
+    let(:href) { api_v3_paths.available_assignees_in_work_package(work_package.id) }
   end
 end

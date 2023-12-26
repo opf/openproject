@@ -28,23 +28,28 @@
 
 require 'rack/test'
 
-RSpec.shared_examples_for 'available principals' do |principals|
+RSpec.shared_examples_for 'available principals' do |principals, work_package_scope: false|
   include API::V3::Utilities::PathHelper
 
   current_user do
     create(:user, member_with_roles: { project => role })
   end
+  let(:shared_with_user) do
+    create(:user, member_with_roles: { work_package => assignable_work_package_role })
+  end
   let(:other_user) do
-    create(:user, member_with_roles: { project => assignable_role })
+    create(:user, member_with_roles: { project => assignable_project_role })
   end
   let(:role) { create(:project_role, permissions:) }
-  let(:assignable_role) { create(:project_role, permissions: assignable_permissions) }
+  let(:assignable_project_role) { create(:project_role, permissions: assignable_permissions) }
+  let(:assignable_work_package_role) { create(:work_package_role, permissions: assignable_permissions) }
   let(:project) { create(:project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:group) do
-    create(:group, member_with_roles: { project => assignable_role })
+    create(:group, member_with_roles: { project => assignable_project_role })
   end
   let(:placeholder_user) do
-    create(:placeholder_user, member_with_roles: { project => assignable_role })
+    create(:placeholder_user, member_with_roles: { project => assignable_project_role })
   end
   let(:permissions) { [:view_work_packages] }
   let(:assignable_permissions) { [:work_package_assigned] }
@@ -72,10 +77,11 @@ RSpec.shared_examples_for 'available principals' do |principals|
       context 'for multiple users' do
         before do
           other_user
+          shared_with_user
           # and the current user
         end
 
-        it_behaves_like "returns available #{principals}", 2, 2, 'User'
+        it_behaves_like "returns available #{principals}", 3, 3, 'User'
       end
 
       context 'if the user lacks the assignable permission' do
@@ -104,6 +110,11 @@ RSpec.shared_examples_for 'available principals' do |principals|
 
     before { get href }
 
-    it_behaves_like 'unauthorized access'
+    if work_package_scope
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
+    else
+      it_behaves_like 'unauthorized access'
+    end
   end
 end

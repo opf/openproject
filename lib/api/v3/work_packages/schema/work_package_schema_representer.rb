@@ -222,8 +222,12 @@ module API
                                    type: 'User',
                                    required: false,
                                    href_callback: ->(*) {
-                                     if represented.project
-                                       api_v3_paths.available_assignees(represented.project_id)
+                                     work_package = represented.work_package
+
+                                     if work_package&.persisted?
+                                       api_v3_paths.available_assignees_in_work_package(represented.id)
+                                     elsif work_package&.project
+                                       api_v3_paths.available_assignees_in_project(represented.project_id)
                                      end
                                    }
 
