@@ -1,0 +1,201 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default
+    headers:
+      User-Agent:
+      - Rack::OAuth2 (2.2.0)
+      Authorization:
+      - Basic NDI2MmRmMmItNzdiYi00OWMyLWE1ZGYtMjgzNTVkYTY3NmQyOlZ3azhRJTdFSlR1UGgucEFqdlBpV0JRQmRURk1ESyU3RUFJd3hiajlfYXhC
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - 8e33aac1-37c1-4017-a9e2-70d8f74ce100
+      X-Ms-Ests-Server:
+      - 2.1.16942.4 - WEULR1 ProdSlices
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=AtEMJGMJ8w1AnAO_C30VjgmkbDoXAQAAADlEHt0OAAAA; expires=Fri, 26-Jan-2024
+        16:13:45 GMT; path=/; secure; HttpOnly; SameSite=None
+      - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
+      - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
+      Date:
+      - Wed, 27 Dec 2023 16:13:44 GMT
+      Content-Length:
+      - '1708'
+    body:
+      encoding: UTF-8
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiJKV1QiLCJub25jZSI6InNyUXA4Z3oweV9aY1ROOUYwMEk3eU84dm5sckcwNGVSYVJ5elE2S0N0OW8iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzAzNjkzMzI1LCJuYmYiOjE3MDM2OTMzMjUsImV4cCI6MTcwMzY5NzIyNSwiYWlvIjoiRTJWZ1lOaDZWT0w3bE1MSUN2ZmZuMmRLZWdYb0FnQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoid2FvempzRTNGMENwNG5EWTkwemhBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.JvHtQ7Z0lBBqfKFi1uw1Tl2VtLSdoXMUeRum8sdBtM0sbFiSJmXLxx0a3NvGr5ylgv0j6SVjot-Sq8MruLm6z9AyP0tXod2mswDzRIi0y69xoxsvkRYB9fRd93jB0GsL1s1OzjVJxErzXZmFlYeJUwhWA6GHrYJqMNCo_FDlQQPczKa7nUbXXqeow-pwC_wXa7gSjn1eCajqbjprWW33UnwNa456rpofffTUbX2XTpoK6rP2k_j8KG-vnwmPQ27d1fpJSOjRO_hY3zy-mqCePp7BKguJDfqNmAVda2mrBMwztCeIpDWzeWn8CgdogXdFP146WLxaGwrRyGECvDM-IA"}'
+  recorded_at: Wed, 27 Dec 2023 16:13:45 GMT
+- request:
+    method: post
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root/children
+    body:
+      encoding: UTF-8
+      string: '{"name":"Földer CreatedBy Çommand","folder":{},"@microsoft.graph.conflictBehavior":"fail"}'
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6InNyUXA4Z3oweV9aY1ROOUYwMEk3eU84dm5sckcwNGVSYVJ5elE2S0N0OW8iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzAzNjkzMzI1LCJuYmYiOjE3MDM2OTMzMjUsImV4cCI6MTcwMzY5NzIyNSwiYWlvIjoiRTJWZ1lOaDZWT0w3bE1MSUN2ZmZuMmRLZWdYb0FnQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoid2FvempzRTNGMENwNG5EWTkwemhBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.JvHtQ7Z0lBBqfKFi1uw1Tl2VtLSdoXMUeRum8sdBtM0sbFiSJmXLxx0a3NvGr5ylgv0j6SVjot-Sq8MruLm6z9AyP0tXod2mswDzRIi0y69xoxsvkRYB9fRd93jB0GsL1s1OzjVJxErzXZmFlYeJUwhWA6GHrYJqMNCo_FDlQQPczKa7nUbXXqeow-pwC_wXa7gSjn1eCajqbjprWW33UnwNa456rpofffTUbX2XTpoK6rP2k_j8KG-vnwmPQ27d1fpJSOjRO_hY3zy-mqCePp7BKguJDfqNmAVda2mrBMwztCeIpDWzeWn8CgdogXdFP146WLxaGwrRyGECvDM-IA
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 409
+      message: Conflict
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 4b652d25-8fa5-41ec-a001-c27fd9644d90
+      Client-Request-Id:
+      - 4b652d25-8fa5-41ec-a001-c27fd9644d90
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"004","RoleInstance":"FR2PEPF000003FC"}}'
+      Date:
+      - Wed, 27 Dec 2023 16:13:45 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"nameAlreadyExists","message":"Name already exists","innerError":{"date":"2023-12-27T16:13:46","request-id":"4b652d25-8fa5-41ec-a001-c27fd9644d90","client-request-id":"4b652d25-8fa5-41ec-a001-c27fd9644d90"}}}'
+  recorded_at: Wed, 27 Dec 2023 16:13:46 GMT
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default
+    headers:
+      User-Agent:
+      - Rack::OAuth2 (2.2.0)
+      Authorization:
+      - Basic NDI2MmRmMmItNzdiYi00OWMyLWE1ZGYtMjgzNTVkYTY3NmQyOlZ3azhRJTdFSlR1UGgucEFqdlBpV0JRQmRURk1ESyU3RUFJd3hiajlfYXhC
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - 9ff3b2f8-1389-46c4-b579-a7768a940701
+      X-Ms-Ests-Server:
+      - 2.1.16942.4 - NEULR1 ProdSlices
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=Ajtke6ah5IhJgG1ocwtAHEikbDoXAQAAADpEHt0OAAAA; expires=Fri, 26-Jan-2024
+        16:13:46 GMT; path=/; secure; HttpOnly; SameSite=None
+      - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
+      - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
+      Date:
+      - Wed, 27 Dec 2023 16:13:46 GMT
+      Content-Length:
+      - '1708'
+    body:
+      encoding: UTF-8
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiJKV1QiLCJub25jZSI6ImVMMFFkWTYyT2lqN3gzTjVoa3BtYWVzWXhfY1lxOTZlNERxSmFBU1paNFUiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzAzNjkzMzI2LCJuYmYiOjE3MDM2OTMzMjYsImV4cCI6MTcwMzY5NzIyNiwiYWlvIjoiRTJWZ1lEaWdPTm1TVjlxMVNFQTQxUExzazU1OUFBPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiLUxMem40a1R4RWExZWFkMmlwUUhBUSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.IinMkUOD6HLjgDei3CSjKexsFsIUt-W2dSf0LZVkT0vGQrMzdDxz5_dqSPtFZj1iL9g26BRvnxXqENNRYV8oTYTXYA33d1Nc7hP8FbSV9fG7-Uv8e3wpgtz6bQVx3BLNwYZMwZ4AARLyjQZeqC8mK4YvutfmgexzdcO2YCgBQ8u5JpeqFn4ytLNSmdcdW6zhsIwOk24k1sGFnSlNVOfMJNRjxm2bPYaN5CxSMHb1iyZImGAcicFPbYsyeiQ4j_s27a02QsucLRriRFVuMfsRHXBtdqlrJHbRBILx4qgh1zzIH40r43nJsM-V8u2jUg4GtLeF4GDuBfzvevdLXoOpXQ"}'
+  recorded_at: Wed, 27 Dec 2023 16:13:46 GMT
+- request:
+    method: post
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root/children
+    body:
+      encoding: UTF-8
+      string: '{"name":"Földer CreatedBy Çommand","folder":{},"@microsoft.graph.conflictBehavior":"fail"}'
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6ImVMMFFkWTYyT2lqN3gzTjVoa3BtYWVzWXhfY1lxOTZlNERxSmFBU1paNFUiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzAzNjkzMzI2LCJuYmYiOjE3MDM2OTMzMjYsImV4cCI6MTcwMzY5NzIyNiwiYWlvIjoiRTJWZ1lEaWdPTm1TVjlxMVNFQTQxUExzazU1OUFBPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiLUxMem40a1R4RWExZWFkMmlwUUhBUSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.IinMkUOD6HLjgDei3CSjKexsFsIUt-W2dSf0LZVkT0vGQrMzdDxz5_dqSPtFZj1iL9g26BRvnxXqENNRYV8oTYTXYA33d1Nc7hP8FbSV9fG7-Uv8e3wpgtz6bQVx3BLNwYZMwZ4AARLyjQZeqC8mK4YvutfmgexzdcO2YCgBQ8u5JpeqFn4ytLNSmdcdW6zhsIwOk24k1sGFnSlNVOfMJNRjxm2bPYaN5CxSMHb1iyZImGAcicFPbYsyeiQ4j_s27a02QsucLRriRFVuMfsRHXBtdqlrJHbRBILx4qgh1zzIH40r43nJsM-V8u2jUg4GtLeF4GDuBfzvevdLXoOpXQ
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 409
+      message: Conflict
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 8ce750d0-7450-4767-8471-12889c33a408
+      Client-Request-Id:
+      - 8ce750d0-7450-4767-8471-12889c33a408
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000160"}}'
+      Date:
+      - Wed, 27 Dec 2023 16:13:45 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"nameAlreadyExists","message":"Name already exists","innerError":{"date":"2023-12-27T16:13:46","request-id":"8ce750d0-7450-4767-8471-12889c33a408","client-request-id":"8ce750d0-7450-4767-8471-12889c33a408"}}}'
+  recorded_at: Wed, 27 Dec 2023 16:13:46 GMT
+recorded_with: VCR 6.2.0

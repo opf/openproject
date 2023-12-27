@@ -63,16 +63,21 @@ module Storages
           end
 
           def handle_response(response)
+            error_data = ::Storages::StorageErrorData.new(source: self, payload: response.body)
+
             case response
             when Net::HTTPSuccess
               upload_url = MultiJson.load(response.body, symbolize_keys: true)[:uploadUrl]
               ServiceResult.success(result: ::Storages::UploadLink.new(URI(upload_url), :put))
             when Net::HTTPNotFound
-              ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
+              ServiceResult.failure(result: :not_found,
+                                    errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
             when Net::HTTPUnauthorized
-              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
             else
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
+              ServiceResult.failure(result: :error,
+                                    errors: ::Storages::StorageError.new(code: :error, data: error_data))
             end
           end
 

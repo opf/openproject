@@ -59,6 +59,14 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
         )
     end
 
+    def using_admin_token(storage)
+      oauth_client = storage.oauth_configuration.basic_rack_oauth_client
+
+      token = oauth_client.access_token!(scope: 'https://graph.microsoft.com/.default')
+
+      yield token
+    end
+
     def extract_location(parent_reference, file_name = '')
       location = parent_reference[:path].gsub(/.*root:/, '')
 
