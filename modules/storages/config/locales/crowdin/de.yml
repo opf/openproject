@@ -124,7 +124,7 @@ de:
         oauth_client_secret: Falls kein geheimer Anwendungsschlüssel unter Clientanmeldeinformationen existiert, erstellen Sie bitte einen neuen.
         oauth_configuration: Kopieren Sie die Werte der gewünschten Anwendung im %{application_link_text}.
         provider_configuration: Bitte stellen Sie sicher, dass Sie Administrationsrechte im %{application_link_text} haben oder kontaktieren Sie Ihren Microsoft-Administrator, bevor Sie die Installation durchführen. Im Portal müssen Sie auch eine Azure-Anwendung registrieren oder eine vorhandene zur Authentifizierung verwenden.
-        tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+        tenant_id: Bitte kopieren Sie die Verzeichnis-ID (Mandant) der gewünschten Anwendung aus den App-Registrierungen im %{application_link_text}.
         tenant_id_placeholder: Name oder UUID
       setting_up_additional_storages: Um zusätzliche Dateispeicher einzurichten, besuchen Sie bitte
       setting_up_additional_storages_non_admin: Administratoren können zusätzliche Dateispeicher in Administration / Dateispeicher einrichten.

@@ -199,11 +199,11 @@ de:
     reorder_alphabetical: "Alphabetisch umsortieren"
     reorder_confirmation: "Warnung: Die aktuelle Reihenfolge der verfügbaren Werte geht verloren. Fortfahren?"
     instructions:
-      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
-      is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Include the field values when using the global search functionality."
+      is_required: "Markieren Sie das benutzerdefinierte Feld nach Bedarf. Dies macht es zwingend erforderlich, das Feld auszufüllen, wenn neue oder aktualisierte Ressourcen erstellt werden."
+      is_for_all: "Markieren Sie das benutzerdefinierte Feld als verfügbar in allen bestehenden und neuen Projekten."
+      searchable: "Fügen Sie die Feldwerte hinzu, wenn Sie die globale Suchfunktion verwenden."
       editable: "Feld darf von den Benutzern selbst bearbeitet werden."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      visible: "Feld für alle Benutzer sichtbar machen (Nicht-Administratoren) in der Projektübersicht und im Projekt-Detail-Widget in der Projektübersicht."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -279,14 +279,14 @@ de:
     invite_by_mail: "Einladung an %{mail} senden"
     send_invite_to: "Einladung senden an"
     filters:
-      all_shares: 'All shares'
+      all_shares: 'Alle Freigaben'
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: 'Alle'
+      invited: 'Eingeladen'
+      locked: 'Gesperrt'
+      project_roles: 'Projektrollen'
+      wp_shares: 'Arbeitspaket-Freigaben'
+      groups: 'Gruppen'
   my:
     access_token:
       failed_to_reset_token: "Zusatztoken konnte nicht zurückgesetzt werden: %{error}"
@@ -405,8 +405,8 @@ de:
     sharing:
       missing_workflow_waring:
         title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        message: "Es ist kein Arbeitsablauf (Workflow) für die Rolle ‚Arbeitspaket-Editor‘ konfiguriert. Ohne einen Arbeitsablauf kann der gemeinsam mit dem Benutzer den Status des Arbeitspakets nicht ändern. Arbeitsabläufe können kopiert werden. Wählen Sie einen Quelltyp (z. B. ‚Task‘) und eine Quell-Rolle (z. B. 'Member'). Wählen Sie dann die Zieltypen aus, um alle Typen als Ziele auszuwählen und schließlich die Rolle ‚Arbeitspaket-Editor‘ als Ziel aus und drücken Sie ‚Kopieren‘. Nachdem Sie die Standardeinstellungen erstellt haben, können Sie die Arbeitsabläufe so einstellen, wie Sie es für jede andere Rolle tun."
+        link_message: "Konfigurieren Sie die Arbeitsabläufe in der Administration."
     summary:
       reports:
         category:
@@ -2225,7 +2225,7 @@ de:
     sharing:
       work_packages:
         allowed_actions: "Sie haben auf diesem Arbeitspakte folgende Berechtigungen: %{allowed_actions}. Dies kann sich je nach Ihrer Projektrolle und Berechtigungen ändern."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Um auf dieses Arbeitspaket zuzugreifen, müssen Sie ein Konto für %{instance} erstellen und aktivieren."
         open_work_package: "Arbeitspaket öffnen"
         subject: "Arbeitspaket #%{id} wurde mit Ihnen geteilt"
         enterprise_text: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
@@ -2337,7 +2337,7 @@ de:
   notice_file_not_found: "Die von Ihnen aufgerufene Seite existiert nicht oder ist verschoben worden."
   notice_forced_logout: "Nach %{ttl_time} Minuten Inaktivität wurden Sie automatisch ausgeloggt."
   notice_internal_server_error: "Auf der von Ihnen aufgerufenen Seite ist ein Fehler aufgetreten. Kontaktieren Sie bitte Ihren %{app_title} Administrator, wenn Sie wiederholt Probleme mit dem Aufrufen der Seite haben."
-  notice_work_package_done_ratios_updated: "% complete updated"
+  notice_work_package_done_ratios_updated: "% vollständig aktualisiert"
   notice_locking_conflict: "Die Informationen wurde zwischenzeitlich von einem anderen Benutzer geändert."
   notice_locking_conflict_additional_information: "Die Änderung(en) wurde(n) durchgeführt von %{users}."
   notice_locking_conflict_reload_page: "Bitte laden Sie die Seite neu, prüfen Sie die Anpassungen und geben Sie Ihre Änderungen noch einmal ein."
@@ -3266,7 +3266,7 @@ de:
       oauth_returned_json_error: "OAuth2 meldet einen JSON-Fehler zurück"
       oauth_returned_http_error: "OAuth2 meldet einen Netzwerkfehler zurück"
       oauth_returned_standard_error: "OAuth2 meldet einen internen Fehler zurück"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "ID darf nicht leer sein."
       wrong_token_type_returned: "OAuth2 hat einen Fehler zurückgemeldet. Es wurde der falsche Tokentyp benutzt. Der richtige Tokentyp ist AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 meldet einen Fehler zurück. Bitte kontaktieren Sie den System-Administrator."
       oauth_client_not_found: "OAuth2-Client nicht im 'callback' Endpunkt gefunden (redirect_uri)."
