@@ -89,7 +89,7 @@ class EditField
   ##
   # Activate the field and check it opened correctly
   def activate!(expect_open: true)
-    retry_block do
+    retry_block(args: { tries: 2 }) do
       unless active?
         SeleniumHubWaiter.wait unless using_cuprite?
         scroll_to_and_click(display_element)
