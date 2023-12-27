@@ -94,7 +94,7 @@ class WorkPackages::UpdateAncestorsService
       # the completion of sub-WPs, as well as the estimated hours
       # as a weight factor. So changes in estimated hours also have
       # to trigger a recalculation of done_ratio.
-      %i[done_ratio estimated_hours] => :derive_done_ratio,
+      %i[done_ratio estimated_hours status status_id] => :derive_done_ratio,
       %i[remaining_hours] => :derive_remaining_hours,
       %i[ignore_non_working_days] => :derive_ignore_non_working_days
     }.each do |derivative_attributes, method|
@@ -212,7 +212,14 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def modified_attributes_justify_derivation?(attributes)
-    attributes.intersect?(%i[estimated_hours done_ratio parent parent_id ignore_non_working_days remaining_hours])
+    attributes.intersect?(%i[
+                            done_ratio
+                            estimated_hours
+                            ignore_non_working_days
+                            parent parent_id
+                            remaining_hours
+                            status status_id
+                          ])
   end
 
   def ignore_non_working_days_of_descendants(ancestor, loader)

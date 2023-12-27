@@ -63,6 +63,39 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
     end
 
+    context 'when setting closed status to a work package' do
+      shared_let(:parent) { create(:work_package) }
+      shared_let(:child) { create(:work_package, parent:, status: open_status) }
+
+      shared_examples 'updates % complete of ancestors' do
+        it 'considers the work package as 100 % complete and sets the % complete value of the ancestors accordingly' do
+          expect do
+            updated_attributes = child.changes.keys.map(&:to_sym)
+            described_class.new(user:, work_package: child)
+              .call(updated_attributes)
+            parent.reload
+          end
+            .to change(parent, :done_ratio).from(0).to(100)
+        end
+      end
+
+      context 'with the status field' do
+        before do
+          child.status = closed_status
+        end
+
+        include_examples 'updates % complete of ancestors'
+      end
+
+      context 'with the status_id field' do
+        before do
+          child.status_id = closed_status.id
+        end
+
+        include_examples 'updates % complete of ancestors'
+      end
+    end
+
     context 'for the new ancestor chain' do
       shared_examples 'attributes of parent having children' do
         before do
