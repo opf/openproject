@@ -81,7 +81,11 @@ RSpec.shared_examples_for 'available principals' do |principals, work_package_sc
           # and the current user
         end
 
-        it_behaves_like "returns available #{principals}", 3, 3, 'User'
+        if work_package_scope
+          it_behaves_like "returns available #{principals}", 3, 3, 'User'
+        else
+          it_behaves_like "returns available #{principals}", 2, 2, 'User'
+        end
       end
 
       context 'if the user lacks the assignable permission' do
