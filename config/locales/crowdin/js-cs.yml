@@ -33,7 +33,7 @@ cs:
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
     autocomplete_ng_select:
       add_tag: "Přidat položku"
-      clear_all: "Clear all"
+      clear_all: "Vymazat vše"
       loading: "Načítání..."
       not_found: "Nenalezeny žádné položky"
       type_to_search: "Zadejte hledaný text"
@@ -612,7 +612,7 @@ cs:
         property_today: 'je dnes'
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        property_is_deleted: 'Smazáno'
         upsale:
           title: 'Upozornění na datum'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
@@ -759,7 +759,7 @@ cs:
           last_day: 'Poslední den'
     text_are_you_sure: "Jste si jisti?"
     text_data_lost: "Všechna zadaná data budou ztracena."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} napsal:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Jméno %{group} je již použito. Jména skupin musí být jedinečná."
@@ -992,7 +992,7 @@ cs:
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
         summary: "Souhrn"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Sdíleno s uživateli"
       jump_marks:
         pagination: "Přejít na stránku tabulky"
         label_pagination: "Kliknutím sem přeskočíte tabulku pracovních balíčků a přejděte na stránku"
@@ -1031,7 +1031,7 @@ cs:
         is_switched_from_manual_to_automatic: "Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky."
       sharing:
         share: 'Sdílet'
-        title: "Share work package"
+        title: "Sdílet pracovní balíček"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

@@ -62,7 +62,7 @@ cs:
     default_name: "Mé úložiště"
     unknown_storage: "Neznámé úložiště"
     buttons:
-      done_continue: "Done, continue"
+      done_continue: "Hotovo, pokračovat"
       done_continue_setup: "Hotovo. Pokračovat v nastavení"
       done_complete_setup: "Hotovo, kompletní nastavení"
       complete_without_setup: "Complete without it"
@@ -78,7 +78,7 @@ cs:
     file_storage_view:
       general_information: "Všeobecné informace"
       oauth_applications: "OAuth aplikace"
-      project_folders: "Project folders"
+      project_folders: "Projektové složky"
       storage_provider: "Poskytovatel úložiště"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
@@ -149,7 +149,7 @@ cs:
           Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: "Name or UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
-        documentation_link_text: "OneDrive/SharePoint file storages documentation"
+        documentation_link_text: "Dokumentace o úložištích OneDrive/SharePoint"
         copy_redirect_uri: "Copy redirect URI"
     help_texts:
       project_folder: >
@@ -173,9 +173,9 @@ cs:
       input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
       irreversible_notice: "Smazání úložiště souborů je nevratná akce."
     storage_list_blank_slate:
-      heading: "You don't have any storages yet."
+      heading: "Zatím nemáte žádné úložiště."
       description: "Add a storage to see them here."
-    error_invalid_provider_type: "Please select a valid storage provider."
+    error_invalid_provider_type: "Vyberte prosím platného poskytovatele úložiště."
     label_active: "Aktivní"
     label_add_new_storage: "Přidat nové úložiště"
     label_delete_storage: "Smazat úložiště"
@@ -252,10 +252,10 @@ cs:
     open_project_storage_modal:
       waiting:
         a: "We are setting up your permissions on the project folder."
-        b: "One moment please, this might take some time..."
+        b: "Prosím vydržte, chvilku to může chvíli trvat..."
       success:
         a: "Integration setup completed"
-        b: "You are being redirected"
+        b: "Nyní jste přesměrováváni"
     health:
       title: "Managed folders status"
       label_pending: "Nevyřízeno"
@@ -265,4 +265,4 @@ cs:
       since: "since %{datetime}"
     upsale:
       title: "OneDrive/SharePoint integration"
-      description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'
+      description: 'Integrujte OneDrive/SharePoint jako úložiště souborů s OpenProject. Nahrávejte soubory a propojte je přímo s pracovními balíčky v projektu.'
