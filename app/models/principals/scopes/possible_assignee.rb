@@ -51,10 +51,8 @@ module Principals::Scopes
         if resource_class(work_package_or_project) == WorkPackage
           where(id: on_work_package_user_ids(work_package_or_project))
             .or(where(id: on_project_user_ids(work_package_or_project.map(&:project_id))))
-        elsif resource_class(work_package_or_project) == Project
-          where(id: on_project_user_ids(work_package_or_project))
         else
-          raise ArgumentError, 'The provided resources must be either WorkPackages or Projects.'
+          where(id: on_project_user_ids(work_package_or_project))
         end
       end
 

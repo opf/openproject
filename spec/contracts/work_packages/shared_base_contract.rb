@@ -49,10 +49,17 @@ RSpec.shared_examples_for 'work package contract' do
   let!(:assignable_assignees_scope) do
     scope = double 'assignable assignees scope'
 
-    allow(Principal)
-      .to receive(:possible_assignee)
-      .with(work_package_project)
-      .and_return scope
+    if work_package.persisted?
+      allow(Principal)
+        .to receive(:possible_assignee)
+              .with(work_package)
+              .and_return scope
+    else
+      allow(Principal)
+        .to receive(:possible_assignee)
+              .with(work_package.project)
+              .and_return scope
+    end
 
     allow(scope)
       .to receive(:exists?) do |hash|

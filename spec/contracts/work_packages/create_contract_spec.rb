@@ -31,7 +31,7 @@ require 'contracts/work_packages/shared_base_contract'
 
 RSpec.describe WorkPackages::CreateContract do
   let(:work_package) do
-    WorkPackage.new(project: work_package_project).tap do |wp|
+    WorkPackage.new(project: work_package_project) do |wp|
       wp.extend(OpenProject::ChangedBySystem)
     end
   end

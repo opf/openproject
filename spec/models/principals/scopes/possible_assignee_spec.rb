@@ -220,13 +220,5 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
         end
       end
     end
-
-    context 'when providing a resource other than a Project or WorkPackage' do
-      subject { Principal.possible_assignee(create(:meeting)) }
-
-      it 'raises an ArgumentError' do
-        expect { subject }.to raise_error(ArgumentError)
-      end
-    end
   end
 end
