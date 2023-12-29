@@ -36,6 +36,7 @@ module OpenProject::GitlabIntegration
       note_hook 
       merge_request_hook
       pipeline_hook
+      system_hook
     ].freeze
 
     # A gitlab webhook happened.
