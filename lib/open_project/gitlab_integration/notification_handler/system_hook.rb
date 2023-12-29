@@ -31,7 +31,7 @@ module OpenProject::GitlabIntegration
   module NotificationHandler
     ##
     # Handles Gitlab commit notifications.
-    class PushHook
+    class SystemHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
       
       def process(payload_params)
