@@ -32,6 +32,7 @@ require_relative './notification_handler/issue_hook'
 require_relative './notification_handler/merge_request_hook'
 require_relative './notification_handler/note_hook'
 require_relative './notification_handler/push_hook'
+require_relative './notification_handler/system_hook'
 
 module OpenProject::GitlabIntegration
 
