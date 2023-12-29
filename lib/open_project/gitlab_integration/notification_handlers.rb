@@ -70,7 +70,7 @@ module OpenProject::GitlabIntegration
         end
       end
 
-      def pipeline_hook(payload)
+      def system_hook(payload)
         with_logging('system_hook') do
           OpenProject::GitlabIntegration::NotificationHandler::SystemHook.new.process(payload)
         end
