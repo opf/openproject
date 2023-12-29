@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,23 +32,27 @@ module Storages
   module Peripherals
     module StorageInteraction
       module OneDrive
-        Queries = Dry::Container::Namespace.new('queries') do
-          namespace('one_drive') do
-            register(:download_link, DownloadLinkQuery)
-            register(:files, FilesQuery)
-            register(:file_info, FileInfoQuery)
-            register(:files_info, FilesInfoQuery)
-            register(:open_file_link, OpenFileLinkQuery)
-            register(:open_storage, OpenStorageQuery)
-            register(:upload_link, UploadLinkQuery)
+        class DeleteFolderCommand
+          def self.call(storage:, location:)
+            new(storage).call(location:)
           end
-        end
 
-        Commands = Dry::Container::Namespace.new('commands') do
-          namespace('one_drive') do
-            register(:create_folder, CreateFolderCommand)
-            register(:delete_folder, DeleteFolderCommand)
-            register(:rename_file, RenameFileCommand)
+          def initialize(storage)
+            @storage = storage
+            @uri = storage.uri
+          end
+
+          def call(location:)
+            Util.using_admin_token(@storage) do |token|
+              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
+                http.delete(
+                  "/v1.0/drives/#{@storage.drive_id}/items/#{location}",
+                  Authorization: "Bearer #{token.access_token}"
+                )
+              end
+
+              ServiceResult.success(result: response.body)
+            end
           end
         end
       end

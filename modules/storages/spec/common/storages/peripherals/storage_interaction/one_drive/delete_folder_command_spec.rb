@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,30 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Peripherals
-    module StorageInteraction
-      module OneDrive
-        Queries = Dry::Container::Namespace.new('queries') do
-          namespace('one_drive') do
-            register(:download_link, DownloadLinkQuery)
-            register(:files, FilesQuery)
-            register(:file_info, FileInfoQuery)
-            register(:files_info, FilesInfoQuery)
-            register(:open_file_link, OpenFileLinkQuery)
-            register(:open_storage, OpenStorageQuery)
-            register(:upload_link, UploadLinkQuery)
-          end
-        end
+require 'spec_helper'
+require_module_spec_helper
 
-        Commands = Dry::Container::Namespace.new('commands') do
-          namespace('one_drive') do
-            register(:create_folder, CreateFolderCommand)
-            register(:delete_folder, DeleteFolderCommand)
-            register(:rename_file, RenameFileCommand)
-          end
-        end
-      end
-    end
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DeleteFolderCommand, :vcr, :webmock do
+  let(:storage) { create(:sharepoint_dev_drive_storage) }
+
+  it 'is registered as commands.one_drive.delete_folder' do
+    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.delete_folder')).to eq(described_class)
+  end
+
+  it '.call requires storage and location as keyword arguments' do
+    expect(described_class).to respond_to(:call)
+
+    method = described_class.method(:call)
+    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq location])
+  end
+
+  it 'deletes a folder', vcr: 'one_drive/delete_folder' do
+    create_result = Storages::Peripherals::Registry
+               .resolve('commands.one_drive.create_folder')
+               .call(storage:, folder_path: 'To Be Deleted Soon')
+
+    folder = create_result.result
+
+    expect(described_class.call(storage:, location: folder.id)).to be_success
   end
 end

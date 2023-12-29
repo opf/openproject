@@ -61,8 +61,9 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
 
     def using_admin_token(storage)
       oauth_client = storage.oauth_configuration.basic_rack_oauth_client
-
-      token = oauth_client.access_token!(scope: 'https://graph.microsoft.com/.default')
+      token = Rails.cache.fetch("storage.#{storage.id}.access_token", expires_in: 50.minutes) do
+        oauth_client.access_token!(scope: 'https://graph.microsoft.com/.default')
+      end
 
       yield token
     end
