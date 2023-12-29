@@ -37,18 +37,35 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
 
   let(:folder_path) { 'Földer CreatedBy Çommand' }
 
+  it 'responds to .call with correct parameters' do
+    expect(described_class).to respond_to(:call)
+
+    method = described_class.method(:call)
+    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq folder_path])
+  end
+
+  it 'is registered as create_folder' do
+    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.create_folder')).to eq(described_class)
+  end
+
   it 'creates a folder and responds with a success', vcr: 'one_drive/create_folder_base' do
     result = described_class.call(storage:, folder_path:)
     expect(result).to be_success
     expect(result.message).to eq("Folder was successfully created.")
 
     expect(result.result.name).to eq(folder_path)
+  ensure
+    if result.success?
+      Storages::Peripherals::Registry
+        .resolve('commands.one_drive.delete_folder')
+        .call(storage:, location: result.result.id)
+    end
   end
 
   context 'when the folder already exists', vcr: 'one_drive/create_folder_already_exists' do
-    before { described_class.call(storage:, folder_path:) }
-
     it 'returns a failure' do
+      original_folder = described_class.call(storage:, folder_path:)
+
       result = described_class.call(storage:, folder_path:)
       expect(result).to be_failure
 
@@ -58,6 +75,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
       error_data = result.errors.data
       error_payload = MultiJson.load(error_data.payload, symbolize_keys: true)
       expect(error_payload.dig(:error, :code)).to eq('nameAlreadyExists')
+    ensure
+      Storages::Peripherals::Registry
+        .resolve('commands.one_drive.delete_folder')
+        .call(storage:, location: original_folder.result.id)
     end
   end
 end
