@@ -314,7 +314,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    appsignal (3.5.0)
+    appsignal (3.5.2)
       rack
     ast (2.4.2)
     attr_required (1.0.1)
@@ -689,7 +689,7 @@ GEM
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.0.2)
       mustermann (>= 1.0.0)
-    net-imap (0.4.8)
+    net-imap (0.4.9)
       date
       net-protocol
     net-ldap (0.18.0)
