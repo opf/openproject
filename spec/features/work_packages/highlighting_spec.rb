@@ -187,6 +187,8 @@ RSpec.describe 'Work Package highlighting fields',
     query.reload
     expect(query.highlighting_mode).to eq(:none)
 
+    wp_table.expect_work_package_listed(wp_1, wp_2)
+
     # Expect highlighted fields in single view even when table disabled
     wp_table.open_full_screen_by_doubleclick wp_1
     expect(page).to have_selector("#{test_selector('op-wp-status-button')} .__hl_background_status_#{status1.id}")
