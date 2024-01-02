@@ -145,21 +145,27 @@ RSpec.describe 'Work package timeline date formatting',
   end
 
   describe 'with US/CA settings',
-           with_settings: { start_of_week: '7', first_week_of_year: '1' } do
+           # According to our documentation:
+           # https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-format
+           with_settings: { start_of_week: '7', first_week_of_year: '6' } do
     let(:current_user) { create(:admin) }
 
     it 'shows english ISO dates' do
       expect(page).to have_selector('.wp-timeline--header-element', text: '01')
       expect(page).to have_selector('.wp-timeline--header-element', text: '02')
 
-      # According to the Canadian locale (https://savvytime.com/week-number/canada/2022)
-      # the first week of the year is the week where 1st of January falls.
-      # If that is last year, then we need to add an offset +1 week to the total number of years.
-      current_year = Date.current.year
-      week_offset = current_year - Date.new(current_year, 1, 1).beginning_of_week.year
+      # The last weekday determines whether there are 52 or 53 weeks
+      # Only if the last day in the year is exactly the day before the day configured to be
+      # the first week of the year's determining weekday are there 52 weeks.
+      weekday_of_last_day = Date.new(Date.current.year, 12, 31).wday
+      number_of_weeks = if weekday_of_last_day == (Setting.first_week_of_year.to_i - 1)
+                          52
+                        else
+                          53
+                        end
 
-      weeks_this_year = Date.new(current_year, 12, 28).cweek + week_offset
-      expect(page).not_to have_selector('.wp-timeline--header-element', text: weeks_this_year + 1)
+      expect(page).to have_css('.wp-timeline--header-element', text: number_of_weeks)
+      expect(page).not_to have_css('.wp-timeline--header-element', text: number_of_weeks + 1)
 
       # expect moment to return week 01 for start date and due date
       expect_date_week work_package.start_date.iso8601, '01'
