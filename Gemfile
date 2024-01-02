@@ -123,7 +123,7 @@ gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
-gem 'rack-protection', '~> 3.1.0'
+gem 'rack-protection', '~> 3.2.0'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
@@ -157,7 +157,7 @@ gem 'prawn', '~> 2.4'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
-gem 'meta-tags', '~> 2.19.0'
+gem 'meta-tags', '~> 2.20.0'
 
 gem "paper_trail", "~> 12.3"
 
@@ -178,7 +178,7 @@ gem 'puma', '~> 6.3', '>= 6.3.1'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
-gem 'nokogiri', '~> 1.15.1'
+gem 'nokogiri', '~> 1.16.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -273,7 +273,7 @@ group :test do
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 5.0', require: nil
+  gem 'shoulda-matchers', '~> 6.0', require: nil
 
   gem 'parallel_tests', '~> 4.0'
 end
