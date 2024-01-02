@@ -317,7 +317,7 @@ GEM
     appsignal (3.5.2)
       rack
     ast (2.4.2)
-    attr_required (1.0.1)
+    attr_required (1.0.2)
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
     awesome_nested_set (3.6.0)
