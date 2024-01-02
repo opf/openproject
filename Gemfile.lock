@@ -969,7 +969,7 @@ GEM
       websocket (~> 1.0)
     semantic (1.6.1)
     shoulda-context (2.0.0)
-    shoulda-matchers (5.3.0)
+    shoulda-matchers (6.0.0)
       activesupport (>= 5.2.0)
     signet (0.18.0)
       addressable (~> 2.8)
@@ -1243,7 +1243,7 @@ DEPENDENCIES
   selenium-webdriver (~> 4.16.0)
   semantic (~> 1.6.1)
   shoulda-context (~> 2.0)
-  shoulda-matchers (~> 5.0)
+  shoulda-matchers (~> 6.0)
   spring
   spring-commands-rspec
   spring-commands-rubocop
