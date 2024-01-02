@@ -7,15 +7,15 @@ ka:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: ლურჯი (მუქი)
         item_1:
           name: ლურჯი
         item_2:
-          name: Blue (light)
+          name: ლურჯი (ღია)
         item_3:
-          name: Green (light)
+          name: მწვანე (ღია)
         item_4:
-          name: Green (dark)
+          name: მწვანე (მუქი)
         item_5:
           name: ყვითელი
         item_6:
@@ -27,11 +27,11 @@ ka:
         item_9:
           name: თეთრი
         item_10:
-          name: Grey (light)
+          name: ნაცრისფერი (ღია)
         item_11:
           name: რუხი
         item_12:
-          name: Grey (dark)
+          name: ნაცრისფერი (მუქი)
         item_13:
           name: შავები
       document_categories:
@@ -50,7 +50,7 @@ ka:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: არა-წევრი
         item_1:
           name: ანონიმური
         item_2:
@@ -58,7 +58,7 @@ ka:
         item_3:
           name: მკითხველი
         item_4:
-          name: Project admin
+          name: პროექტის ადმინისტრატორი
       global_roles:
         item_0:
           name: Staff and projects manager
@@ -90,11 +90,11 @@ ka:
         item_7:
           name: შემუშავებულია
         item_8:
-          name: In testing
+          name: იტესტება
         item_9:
           name: დატესტილი
         item_10:
-          name: Test failed
+          name: ტესტი ჩავარდა
         item_11:
           name: დახურულია
         item_12:
@@ -107,7 +107,7 @@ ka:
         item_1:
           name: სპეციფიკაცია
         item_2:
-          name: Development
+          name: შემუშავება
         item_3:
           name: ტესტირება
         item_4:
@@ -126,7 +126,7 @@ ka:
         item_4:
           name: ეპიკური
         item_5:
-          name: User story
+          name: მომხმარებლის აღწერა
         item_6:
           name: შეცდომა
       welcome:
@@ -149,7 +149,7 @@ ka:
           For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
+          name: საცდელი პროექტი
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo project.
           news:
@@ -172,14 +172,14 @@ ka:
               name: გუნდის მგეგმავი
           boards:
             kanban:
-              name: Kanban board
+              name: კანბანის დაფა
             basic:
-              name: Basic board
+              name: ძირითადი დაფა
               lists:
                 item_0:
                   name: სურვილების სია
                 item_1:
-                  name: Short list
+                  name: მოკლე სია
                 item_2:
                   name: Priority list for today
                 item_3:
@@ -236,7 +236,7 @@ ka:
                 item_2:
                   subject: Setup conference website
             item_2:
-              subject: Conference
+              subject: კონფერენცია
             item_3:
               subject: Follow-up tasks
               children:
@@ -252,7 +252,7 @@ ka:
             item_4:
               subject: End of project
         scrum-project:
-          name: Scrum project
+          name: სქრამ-პროექტი
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
@@ -263,7 +263,7 @@ ka:
                 In this module you can communicate project news to your team members.
           versions:
             item_0:
-              name: Bug Backlog
+              name: შეცდომის ჩამორჩენები
             item_1:
               name: Product Backlog
             item_2:
@@ -331,14 +331,14 @@ ka:
               name: დავალებები
           boards:
             kanban:
-              name: Kanban board
+              name: კანბანის დაფა
             basic:
               name: ამოცანების დაფა
               lists:
                 item_0:
                   name: სურვილების სია
                 item_1:
-                  name: Short list
+                  name: მოკლე სია
                 item_2:
                   name: Priority list for today
                 item_3:
@@ -378,7 +378,7 @@ ka:
             item_1:
               subject: Password reset does not send email
             item_2:
-              subject: New website
+              subject: ახალი ვებგვერდი
               children:
                 item_0:
                   subject: Newsletter registration form
@@ -390,7 +390,7 @@ ka:
                     item_0:
                       subject: Create wireframes for new landing page
             item_3:
-              subject: Contact form
+              subject: კონტაქტის ფორმა
             item_4:
               subject: Feature carousel
               children:
@@ -412,17 +412,17 @@ ka:
             item_10:
               subject: Internal link structure
             item_11:
-              subject: Develop v1.0
+              subject: შემუშავება v1.0
             item_12:
-              subject: Release v1.0
+              subject: რელიზი v1.0
             item_13:
-              subject: Develop v1.1
+              subject: შემუშავება v1.1
             item_14:
-              subject: Release v1.1
+              subject: რელიზი v1.1
             item_15:
-              subject: Develop v2.0
+              subject: შემუშავება v2.0
             item_16:
-              subject: Release v2.0
+              subject: რელიზი v2.0
           wiki: |
             ### Sprint planning meeting
 

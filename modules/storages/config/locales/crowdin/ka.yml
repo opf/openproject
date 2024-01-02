@@ -6,12 +6,12 @@ ka:
   permission_view_file_links: "View file links"
   permission_manage_file_links: "Manage file links"
   permission_manage_storages_in_project: "Manage file storages in project"
-  permission_read_files: "Read files"
-  permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
-  permission_share_files: "Share files"
-  project_module_storages: "File storages"
+  permission_read_files: "ფაილების წაკითხვა"
+  permission_write_files: "ფაილების ჩაწერა"
+  permission_create_files: "ფაილების შექმნა"
+  permission_delete_files: "ფაილების წაშლა"
+  permission_share_files: "ფაილების გაზიარება"
+  project_module_storages: "ფაილების საცავი"
   errors:
     attributes:
       storage_error:
@@ -25,7 +25,7 @@ ka:
       storages/storage:
         name: "სახელი"
         creator: "შემქმნელი"
-        provider_type: "Provider type"
+        provider_type: "მომწოდებლის ტიპი"
         host: "ჰოსტი"
         tenant: "Directory (tenant) ID"
       storages/file_link:
@@ -49,7 +49,7 @@ ka:
               authorization_header_missing: >
                 is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
             password:
-              invalid_password: "is not valid."
+              invalid_password: "არასწორია."
               unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
@@ -59,7 +59,7 @@ ka:
     errors:
       too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
   storages:
-    default_name: "My storage"
+    default_name: "ჩემი საცავი"
     unknown_storage: "Unknown storage"
     buttons:
       done_continue: "Done, continue"
@@ -73,7 +73,7 @@ ka:
       save_and_continue: "Save and continue"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
-      select_folder: "Select folder"
+      select_folder: "აირჩიეთ საქაღალდე"
       configure: "მორგება"
     file_storage_view:
       general_information: "General information"
@@ -82,7 +82,7 @@ ka:
       storage_provider: "Storage provider"
       openproject_oauth: "OpenProject OAuth"
       one_drive_oauth: "Azure OAuth"
-      redirect_uri: "Redirect URI"
+      redirect_uri: "გადამისამართების ბმული"
       nextcloud_oauth: "Nextcloud OAuth"
       automatically_managed_folders: "Automatically managed folders"
     page_titles:
@@ -136,7 +136,7 @@ ka:
         provider_configuration: >
           Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
         oauth_configuration: "Copy these values from the desired application in the %{application_link_text}."
-        application_link_text: "Azure portal"
+        application_link_text: "Azure-ის პორტალი"
         integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
@@ -147,7 +147,7 @@ ka:
         missing_client_id_for_redirect_uri: "Please fill the OAuth values to generate a URI"
         tenant_id: >
           Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
-        tenant_id_placeholder: "Name or UUID"
+        tenant_id_placeholder: "სახელი ან UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
         copy_redirect_uri: "Copy redirect URI"
@@ -183,11 +183,11 @@ ka:
     label_creator: "შემქმნელი"
     label_provider: "მომწოდებელი"
     label_file_link: "ფაილის ბმული"
-    label_file_links: "File links"
-    label_file_storage: "File storage"
-    label_creation_time: "Creation time"
+    label_file_links: "ფაილის ბმულები"
+    label_file_storage: "ფაილების საცავი"
+    label_creation_time: "შექმნის დრო"
     label_completed: "დასრულებულია"
-    label_incomplete: "Incomplete"
+    label_incomplete: "დაუსრულებელი"
     label_name: "სახელი"
     label_host: "ჰოსტის URL"
     label_managed_project_folders:
@@ -205,13 +205,13 @@ ka:
     label_oauth_client_id: "OAuth Client ID"
     label_oauth_client_secret: "OAuth Client Secret"
     label_information: "Additional information"
-    label_provider_type: "Provider type"
+    label_provider_type: "მომწოდებლის ტიპი"
     label_project_folder: "Project folder"
-    label_redirect_uri: "Redirect URI"
+    label_redirect_uri: "გადამისამართების ბმული"
     label_uri: "URI"
-    label_new_storage: "New storage"
+    label_new_storage: "ახალი საცავი"
     label_new_file_storage: "New %{provider} storage"
-    label_edit_storage: "Edit storage"
+    label_edit_storage: "საცავის ჩასწორება"
     label_edit_storage_host: "Edit storage host"
     label_edit_storage_oauth_client: "Edit storage OAuth client"
     label_show_storage_redirect_uri: "Show redirect URI"
@@ -232,7 +232,7 @@ ka:
     no_results: "No storages set up yet."
     members_no_results: "No members to display."
     provider_types:
-      label: "Provider type"
+      label: "მომწოდებლის ტიპი"
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
@@ -240,7 +240,7 @@ ka:
         label_oauth_client_secret: "Nextcloud OAuth Client Secret"
       one_drive:
         name: "OneDrive/SharePoint"
-        name_placeholder: "e.g. OneDrive"
+        name_placeholder: "მაგ. OneDrive"
         label_oauth_client_id: "Azure OAuth Application (client) ID"
         label_oauth_client_secret: "Azure OAuth Client Secret Value"
     confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
@@ -260,7 +260,7 @@ ka:
       title: "Managed folders status"
       label_pending: "დარჩენილია"
       label_error: "შეცდომა"
-      label_healthy: "Healthy"
+      label_healthy: "ჯანმრთელი"
       checked: "Last checked %{datetime}"
       since: "since %{datetime}"
     upsale:

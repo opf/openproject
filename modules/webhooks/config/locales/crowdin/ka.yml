@@ -5,14 +5,14 @@ ka:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
+        url: 'ჩასატვირთი URL'
         secret: 'Signature secret'
         events: 'მოვლენები'
         projects: 'Enabled projects'
       webhooks/log:
-        event_name: 'Event name'
-        url: 'Payload URL'
-        response_code: 'Response code'
+        event_name: 'მოვლენის სახელი'
+        url: 'ჩასატვირთი URL'
+        response_code: 'გამოხმაურების კოდი'
         response_body: 'პასუხი'
     models:
       webhooks/outgoing_webhook: "Outgoing webhook"
@@ -21,11 +21,11 @@ ka:
     plural: ვებჰუკები
     resources:
       time_entry:
-        name: "Time entry"
+        name: "დროს ჩანაწერი"
     outgoing:
       no_results_table: No webhooks have been defined yet.
       label_add_new: Add new webhook
-      label_edit: Edit webhook
+      label_edit: ვებჰუკის ჩასწორება
       label_event_resources: Event resources
       events:
         created: "შეიქმნა"
@@ -42,7 +42,7 @@ ka:
       deliveries:
         no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Recent deliveries'
-        time: 'Delivery time'
+        time: 'მიტანის დრო'
       form:
         introduction: >
           Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
@@ -53,11 +53,11 @@ ka:
           description: >
             When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
         events:
-          title: 'Enabled events'
+          title: 'ჩართული მოვლენები'
         project_ids:
           title: 'Enabled projects'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
+          all: 'ყველა პროექტი'
           selected: 'Selected projects only'
         selected_project_ids:
           title: 'Selected projects'
