@@ -281,14 +281,14 @@ pt:
     invite_by_mail: "Enviar convite para %{mail}"
     send_invite_to: "Enviar convite para"
     filters:
-      all_shares: 'All shares'
+      all_shares: 'Todos os compartilhamentos'
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: 'Todos'
+      invited: 'Convites'
+      locked: 'Trancado'
+      project_roles: 'Papel no projeto'
+      wp_shares: 'Compartilhamento de pacote de trabalho'
+      groups: 'Grupos'
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"

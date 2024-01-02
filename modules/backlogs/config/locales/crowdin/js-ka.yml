@@ -24,4 +24,4 @@ ka:
     work_packages:
       properties:
         storyPoints: "ისტორიული წერტილები"
-        remainingTime: "Remaining work"
+        remainingTime: "დარჩენილი სამუშაო"

@@ -7,7 +7,7 @@ ka:
         creator: შემქმნელი
         host: ჰოსტი
         name: სახელი
-        provider_type: Provider type
+        provider_type: მომწოდებლის ტიპი
         tenant: Directory (tenant) ID
     errors:
       messages:
@@ -30,7 +30,7 @@ ka:
               not_nextcloud_server: is not a Nextcloud server
               op_application_not_installed: appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
             password:
-              invalid_password: is not valid.
+              invalid_password: არასწორია.
               unknown_error: could not be validated. Please check your storage connection and try again.
     models:
       file_link: ფაილი
@@ -38,15 +38,15 @@ ka:
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
-  permission_create_files: Create files
-  permission_delete_files: Delete files
+  permission_create_files: ფაილების შექმნა
+  permission_delete_files: ფაილების წაშლა
   permission_manage_file_links: Manage file links
   permission_manage_storages_in_project: Manage file storages in project
-  permission_read_files: Read files
-  permission_share_files: Share files
+  permission_read_files: ფაილების წაკითხვა
+  permission_share_files: ფაილების გაზიარება
   permission_view_file_links: View file links
-  permission_write_files: Write files
-  project_module_storages: File storages
+  permission_write_files: ფაილების ჩაწერა
+  project_module_storages: ფაილების საცავი
   storages:
     buttons:
       complete_without_setup: Complete without it
@@ -54,7 +54,7 @@ ka:
       done_continue: Done, continue
       replace_provider_type_oauth: Replace %{provider_type} OAuth
       save_and_continue: Save and continue
-      select_folder: Select folder
+      select_folder: აირჩიეთ საქაღალდე
     configuration_checks:
       oauth_client_incomplete:
         nextcloud: Allow OpenProject to access Nextcloud data using OAuth.
@@ -82,12 +82,12 @@ ka:
       one_drive_oauth: Azure OAuth
       openproject_oauth: OpenProject OAuth
       project_folders: Project folders
-      redirect_uri: Redirect URI
+      redirect_uri: გადამისამართების ბმული
       storage_provider: Storage provider
     health:
       checked: Last checked %{datetime}
       label_error: შეცდომა
-      label_healthy: Healthy
+      label_healthy: ჯანმრთელი
       label_pending: დარჩენილია
       since: since %{datetime}
       title: Managed folders status
@@ -114,7 +114,7 @@ ka:
       oauth_application_details: The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}.
       oauth_application_details_link_text: Nextcloud OpenProject Integration settings
       one_drive:
-        application_link_text: Azure portal
+        application_link_text: Azure-ის პორტალი
         copy_redirect_uri: Copy redirect URI
         documentation_link_text: OneDrive/SharePoint file storages documentation
         drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
@@ -125,7 +125,7 @@ ka:
         oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
         provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
         tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
-        tenant_id_placeholder: Name or UUID
+        tenant_id_placeholder: სახელი ან UUID
       setting_up_additional_storages: For setting up additional file storages, please visit
       setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File Storages.
       setting_up_storages: For setting up file storages, please visit
@@ -136,24 +136,24 @@ ka:
     label_add_new_storage: Add new storage
     label_automatic_folder: New folder with automatically managed permissions
     label_completed: დასრულებულია
-    label_creation_time: Creation time
+    label_creation_time: შექმნის დრო
     label_creator: შემქმნელი
     label_delete_storage: Delete storage
-    label_edit_storage: Edit storage
+    label_edit_storage: საცავის ჩასწორება
     label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
     label_edit_storage_host: Edit storage host
     label_edit_storage_oauth_client: Edit storage OAuth client
     label_existing_manual_folder: Existing folder with manually managed permissions
-    label_file_storage: File storage
+    label_file_storage: ფაილების საცავი
     label_host: ჰოსტის URL
     label_inactive: არააქტიური
-    label_incomplete: Incomplete
+    label_incomplete: დაუსრულებელი
     label_managed_project_folders:
       application_password: Application password
       automatically_managed_folders: Automatically managed folders
     label_name: სახელი
     label_new_file_storage: New %{provider} storage
-    label_new_storage: New storage
+    label_new_storage: ახალი საცავი
     label_no_selected_folder: No selected folder
     label_no_specific_folder: No specific folder
     label_oauth_client_id: OAuth Client ID
@@ -161,7 +161,7 @@ ka:
     label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
     label_project_folder: Project folder
     label_provider: მომწოდებელი
-    label_redirect_uri: Redirect URI
+    label_redirect_uri: გადამისამართების ბმული
     label_show_storage_redirect_uri: Show redirect URI
     label_status: სტატუსი
     label_storage: საცავი
@@ -198,7 +198,7 @@ ka:
         subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
         title: Members connection status
     provider_types:
-      label: Provider type
+      label: მომწოდებლის ტიპი
       nextcloud:
         label_oauth_client_id: Nextcloud OAuth Client ID
         label_oauth_client_secret: Nextcloud OAuth Client Secret
@@ -208,7 +208,7 @@ ka:
         label_oauth_client_id: Azure OAuth Application (client) ID
         label_oauth_client_secret: Azure OAuth Client Secret Value
         name: OneDrive/SharePoint
-        name_placeholder: e.g. OneDrive
+        name_placeholder: მაგ. OneDrive
     storage_list_blank_slate:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.
