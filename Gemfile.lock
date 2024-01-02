@@ -809,7 +809,8 @@ GEM
       faraday-follow_redirects
       json-jwt (>= 1.11.0)
       rack (>= 2.1.0)
-    rack-protection (3.1.0)
+    rack-protection (3.2.0)
+      base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
     rack-test (2.1.0)
       rack (>= 1.3)
@@ -1209,7 +1210,7 @@ DEPENDENCIES
   rack-attack (~> 6.7.0)
   rack-cors (~> 2.0.0)
   rack-mini-profiler
-  rack-protection (~> 3.1.0)
+  rack-protection (~> 3.2.0)
   rack-test (~> 2.1.0)
   rack-timeout (~> 0.6.3)
   rack_session_access
