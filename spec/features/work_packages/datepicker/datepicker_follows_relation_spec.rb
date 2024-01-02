@@ -41,8 +41,8 @@ RSpec.describe 'Datepicker logic on follow relationships',
   shared_let(:predecessor) do
     create(:work_package,
            type:, project:,
-           start_date: Date.parse('2023-02-01'),
-           due_date: Date.parse('2023-02-05'))
+           start_date: Date.parse('2024-02-01'),
+           due_date: Date.parse('2024-02-05'))
   end
 
 
@@ -64,21 +64,21 @@ RSpec.describe 'Datepicker logic on follow relationships',
       datepicker.expect_ignore_non_working_days false
       datepicker.expect_scheduling_mode false
 
-      datepicker.show_date '2023-02-05'
-      datepicker.expect_disabled Date.parse('2023-02-05')
-      datepicker.expect_disabled Date.parse('2023-02-04')
-      datepicker.expect_disabled Date.parse('2023-02-03')
-      datepicker.expect_disabled Date.parse('2023-02-02')
-      datepicker.expect_disabled Date.parse('2023-02-01')
+      datepicker.show_date '2024-02-05'
+      datepicker.expect_disabled Date.parse('2024-02-05')
+      datepicker.expect_disabled Date.parse('2024-02-04')
+      datepicker.expect_disabled Date.parse('2024-02-03')
+      datepicker.expect_disabled Date.parse('2024-02-02')
+      datepicker.expect_disabled Date.parse('2024-02-01')
 
       datepicker.toggle_ignore_non_working_days
       datepicker.expect_ignore_non_working_days true
-      datepicker.show_date '2023-02-05'
-      datepicker.expect_disabled Date.parse('2023-02-05')
-      datepicker.expect_disabled Date.parse('2023-02-04')
-      datepicker.expect_disabled Date.parse('2023-02-03')
-      datepicker.expect_disabled Date.parse('2023-02-02')
-      datepicker.expect_disabled Date.parse('2023-02-01')
+      datepicker.show_date '2024-02-05'
+      datepicker.expect_disabled Date.parse('2024-02-05')
+      datepicker.expect_disabled Date.parse('2024-02-04')
+      datepicker.expect_disabled Date.parse('2024-02-03')
+      datepicker.expect_disabled Date.parse('2024-02-02')
+      datepicker.expect_disabled Date.parse('2024-02-01')
     end
   end
 
