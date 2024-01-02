@@ -220,8 +220,6 @@
   &.ui-widget-content
     background: none
     border: none
-    .editor
-      color: var(--body-font-color)
   .ui-dialog-buttonpane.ui-widget-content
     background: none
     background-color: none
@@ -230,17 +228,15 @@
 .ui-dialog-titlebar-close
   overflow: hidden
 
-.dark #task_editor label
-  color: #FFFFFF
+.dark
+  #task_editor label, .subject, .assigned_to_id, div
+    color: #FFFFFF
+    option
+      color: var(--body-font-color)
 
-.light #task_editor label
-  color: #000000
-
-.dark div
-  color: #FFFFFF
-
-.light div
-  color: #000000
+.light
+  #task_editor label, .subject, .assigned_to_id, div
+    color: var(--body-font-color)
 
 /* item editor */
 

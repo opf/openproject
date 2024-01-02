@@ -150,7 +150,7 @@ ru:
         tenant_id_placeholder: "Имя или UUID"
         drive_id: "Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}."
         documentation_link_text: "OneDrive/SharePoint file storages documentation"
-        copy_redirect_uri: "Copy redirect URI"
+        copy_redirect_uri: "Копировать перенаправление URI"
     help_texts:
       project_folder: >
         Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
@@ -208,13 +208,13 @@ ru:
     label_provider_type: "Тип поставщика"
     label_project_folder: "Папка проекта"
     label_redirect_uri: "URI перенаправления"
-    label_uri: "URI"
+    label_uri: "URI (ссылка)"
     label_new_storage: "Новое хранилище"
     label_new_file_storage: "Новая %{provider} хранилище"
     label_edit_storage: "Редактировать хранилище"
     label_edit_storage_host: "Изменить узел хранения"
     label_edit_storage_oauth_client: "Редактировать хранилище OAuth клиента"
-    label_show_storage_redirect_uri: "Show redirect URI"
+    label_show_storage_redirect_uri: "Показать перенаправление URI"
     label_edit_storage_automatically_managed_folders: "Редактирование хранилища автоматически управляемых папок"
     label_existing_manual_folder: "Существующая папка с разрешениями, управляемыми вручную"
     label_no_specific_folder: "Нет конкретной папки"
@@ -261,8 +261,8 @@ ru:
       label_pending: "В ожидании"
       label_error: "Ошибка"
       label_healthy: "Здоровые"
-      checked: "Last checked %{datetime}"
-      since: "since %{datetime}"
+      checked: "Последняя проверка %{datetime}"
+      since: "с %{datetime}"
     upsale:
       title: "OneDrive/SharePoint integration"
       description: 'Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.'

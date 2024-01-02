@@ -43,7 +43,7 @@ module Storages::Admin::Forms
 
     def submit_button_options
       {
-        label: I18n.t("storages.buttons.done_complete_setup"),
+        label: submit_button_label,
         data: { 'storages--automatically-managed-project-folders-form-target': 'submitButton' }.tap do |data_hash|
           # For create action, break from Turbo Frame and follow full page redirect
           data_hash[:turbo] = false if new_record?
@@ -56,6 +56,14 @@ module Storages::Admin::Forms
     end
 
     private
+
+    def submit_button_label
+      if storage.automatically_managed?
+        I18n.t("storages.buttons.done_complete_setup")
+      else
+        I18n.t("storages.buttons.complete_without_setup")
+      end
+    end
 
     def application_password_display_options
       {}.tap do |options_hash|

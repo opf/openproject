@@ -21,8 +21,8 @@
 #++
 uk:
   plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+    name: "Невиконані завдання в OpenProject"
+    description: "Цей модуль додає функції, завдяки яким agile-команди можуть працювати над проєктами Scrum в OpenProject."
   activerecord:
     attributes:
       work_package:
@@ -41,7 +41,7 @@ uk:
               can_only_contain_work_packages_of_current_sprint: "може містити лише ідентифікатори робочих пакетів у поточному спринті."
               must_block_at_least_one_work_package: "повинен містити ідентифікатор принаймні одного ticket-а."
             version_id:
-              task_version_must_be_the_same_as_story_version: "має бути така сама як батьківська версія історії."
+              task_version_must_be_the_same_as_story_version: "Повинно збігатись з версією батьківської історії"
         sprint:
           cannot_end_before_it_starts: "Спринт не може закінчитися, перш ніж він почне працювати."
   backlogs:
@@ -145,7 +145,7 @@ uk:
   points_resolved: "вирішено зафіксованих пунктів"
   points_to_accept: "пунктів не прийнято"
   points_to_resolve: "пункти не вирішені"
-  project_module_backlogs: "Backlogs"
+  project_module_backlogs: "Відставання"
   rb_label_copy_tasks: "Копіювання робочих пакетів"
   rb_label_copy_tasks_all: "Всі"
   rb_label_copy_tasks_none: "Нічого"

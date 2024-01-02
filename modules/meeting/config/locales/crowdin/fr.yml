@@ -22,9 +22,9 @@
 #English strings go here for Rails i18n
 fr:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "Réunion OpenProject"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      Ce module ajoute des fonctionnalités permettant d'organiser des réunions de projet dans OpenProject. Les réunions peuvent être planifiées en sélectionnant des invités du même projet pour y participer. Un ordre du jour peut être créé et envoyé aux invités. Après la réunion, les invités qui étaient présents peuvent être marqués comme participants et un compte-rendu peut être créé et envoyé à tous les participants et invités.
   activerecord:
     attributes:
       meeting:
@@ -100,7 +100,7 @@ fr:
       invited:
         summary: "%{actor} vous a envoyé une invitation pour la réunion %{title}"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: "La réunion %{title} a été reprogrammée"
         summary: "La réunion %{title} a été reprogrammée par %{actor}"
         body: "La réunion %{title} a été reprogrammée par %{actor}."
         old_date_time: "Ancienne date/heure"
@@ -138,7 +138,7 @@ fr:
   text_meeting_minutes_for_meeting: 'Minutes de la réunion "%{meeting}"'
   text_notificiation_invited: "Cet e-mail contient une entrée ics pour la réunion ci-dessous :"
   text_meeting_empty_heading: "Votre réunion est vide"
-  text_meeting_empty_description_1: "Commencez par ajouter des points à l'ordre du jour ci-dessous. Chaque élément peut être aussi simple qu'un titre, mais vous pouvez également ajouter des détails supplémentaires comme la durée et des notes."
+  text_meeting_empty_description_1: "Démarrez en ajoutant des points à l'ordre du jour ci-dessous. Chaque élément peut être aussi simple qu'un titre, mais vous pouvez également ajouter des détails supplémentaires comme la durée et des notes."
   text_meeting_empty_description_2: "Vous pouvez également ajouter des références aux lots de travaux existants. Les notes connexes seront automatiquement visibles dans l'onglet \"Réunions\" du lot de travaux concerné."
   label_meeting_empty_action: "Ajouter un point d'ordre du jour"
   label_meeting_actions: "Actions pour la réunion"
@@ -146,7 +146,7 @@ fr:
   label_meeting_delete: "Supprimer la réunion"
   label_meeting_created_by: "Créé par"
   label_meeting_last_updated: "Dernière mise à jour"
-  label_agenda_item_undisclosed_wp: "Référence du lot de travaux non divulguée #%{id}"
+  label_agenda_item_undisclosed_wp: "Paquet de travail #%{id} non visible"
   label_agenda_item_deleted_wp: "Référence de lot de travaux supprimée"
   label_agenda_item_actions: "Actions des points de l'ordre du jour"
   label_agenda_item_move_to_top: "Déplacer vers le haut"
@@ -171,7 +171,7 @@ fr:
   text_meeting_not_present_anymore: "Cette réunion a été supprimée. Veuillez sélectionner une autre réunion."
   label_add_work_package_to_meeting_dialog_title: "Ajouter ce lot de travaux à une réunion"
   label_add_work_package_to_meeting_dialog_button: "Ajouter à la réunion"
-  label_meeting_selection_caption: "Il n'est possible d'ajouter ce work package qu'aux réunions ouvertes et à venir."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "Un lot de travaux peut être ajouté à une ou plusieurs réunions pour y être discuté. Les éventuelles notes le concernant sont également visibles ici."
   text_agenda_item_no_notes: "Aucune note fournie"
   text_agenda_item_not_editable_anymore: "Ce point d'ordre du jour n'est plus modifiable."

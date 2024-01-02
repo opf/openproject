@@ -21,7 +21,7 @@
 #++
 ko:
   plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
+    name: "OpenProject GitHub 통합"
+    description: "개선된 워크플로를 위해 OpenProject와 GitHub를 통합합니다"
   project_module_github: "GitHub"
   permission_show_github_content: "GitHub 콘텐츠 표시"

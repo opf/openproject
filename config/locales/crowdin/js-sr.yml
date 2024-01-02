@@ -758,6 +758,7 @@ sr:
           last_day: 'Last day'
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."

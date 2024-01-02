@@ -310,6 +310,8 @@ Attention: Please do not confuse the CA for the Nextcloud server's certificate w
 
 #### Error message "Host is not fully set up"
 
+![Host is not fully set up](nextcloud_not_fully_set_up.png)
+
 The integration OpenProject with Nextcloud makes use of authorized HTTP requests between the two servers. The HTTP requests contain a `Authorization` header, containing a `Bearer` access token. Sometimes Nextcloud installations are not fully setup and the HTTP server strips the `Authorization` header, with the consequence that Nextcloud does not know which Nextcloud user is requesting. Run the following command on the command line of your OpenProject server to check that your installation is complete
 
   ```shell
@@ -321,8 +323,19 @@ The integration OpenProject with Nextcloud makes use of authorized HTTP requests
   ```json
   {"user_id":"","authorization_header":foo}
   ```
+  
+  If not, first verify that the app **OpenProject Integration** is installed.  
 
-  If not, first verify that the app **OpenProject Integration** is installed. If that is the case please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
+  If that is the case verify that the mod_rewrite is activated on the Nextcloud server.  
+  To activate mod_rewrite the following commands can be used on the Nextcloud server:
+  ```shell
+  sudo a2enmod rewrite
+  sudo systemctl restart apache2
+  ```
+
+  If that also not work please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
+
+  
 
 #### Project folders are not created or you do not have access
 

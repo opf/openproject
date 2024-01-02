@@ -151,14 +151,6 @@ module OpenProject
         permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
       end
 
-      # def module_enterprise_feature?(name)
-      #   current_module = modules.find { |m| m[:name] == name }
-
-      #   return false if current_module.nil? || current_module[:enterprise_feature].nil?
-
-      #   current_module[:enterprise_feature]
-      # end
-
       def contract_actions_map
         @contract_actions_map ||= permissions.each_with_object({}) do |p, hash|
           next if p.contract_actions.none?

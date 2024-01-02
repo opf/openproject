@@ -648,6 +648,13 @@ module Settings
         default: nil,
         allowed: -> { Role.pluck(:id) }
       },
+      notifications_hidden: {
+        default: false
+      },
+      notifications_polling_interval: {
+        format: :integer,
+        default: 60000
+      },
       oauth_allow_remapping_of_existing_users: {
         description: 'When set to false, prevent users from other identity providers to take over accounts connected ' \
                      'to another identity provider.',

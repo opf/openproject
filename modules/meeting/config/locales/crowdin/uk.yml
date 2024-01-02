@@ -102,7 +102,7 @@ uk:
       invited:
         summary: "%{actor} надіслав запрошення на зустріч %{title}"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: "Запланований час наради %{title} змінено"
         summary: "Зустріч  %{title} перепланована  %{actor}"
         body: "Зустріч  %{title} перепланована  %{actor}"
         old_date_time: "Стара дата/час"
@@ -140,7 +140,7 @@ uk:
   text_meeting_minutes_for_meeting: 'протокол засідання %{meeting}'
   text_notificiation_invited: "У цьому листі міститься запис ics для зустрічі нижче:"
   text_meeting_empty_heading: "Ваша нарада пуста"
-  text_meeting_empty_description_1: "Спочатку додайте пункти порядку денного нижче. Це може бути просто назва, але ви можете ввести такі додаткові дані, як тривалість, приміти й ім’я відповідальної особи."
+  text_meeting_empty_description_1: "Почніть із додавання пунктів розкладу нижче. Кожен елемент може бути таким простим, як назва, але ви також можете додати додаткові деталі, як-от тривалість і примітки."
   text_meeting_empty_description_2: "Ви також можете додати посилання на наявні пакети робіт. У такому разі пов’язані примітки автоматично з’являться на вкладці «Наради» пакета робіт."
   label_meeting_empty_action: "Додати пункт порядку денного"
   label_meeting_actions: "Дії з нарадою"
@@ -148,7 +148,7 @@ uk:
   label_meeting_delete: "Видалити зустріч"
   label_meeting_created_by: "Створено "
   label_meeting_last_updated: "Востаннє оновлено"
-  label_agenda_item_undisclosed_wp: "Посилання на нерозкритий пакет робіт #%{id}"
+  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Посилання на видалений пакет робіт"
   label_agenda_item_actions: "Дії з пунктами порядку денного"
   label_agenda_item_move_to_top: "Помістити на верх"
@@ -173,7 +173,7 @@ uk:
   text_meeting_not_present_anymore: "Цю нараду видалено. Виберіть іншу нараду."
   label_add_work_package_to_meeting_dialog_title: "Додавання пакета робіт до наради"
   label_add_work_package_to_meeting_dialog_button: "Додати до наради"
-  label_meeting_selection_caption: "Цей пакет робіт можна додати лише до майбутніх відкритих нарад."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "Пакет робіт можна додати до однієї або кількох нарад для обговорення. Тут також з’явдяться всі пов’яхані з ним примітки."
   text_agenda_item_no_notes: "Примітки не надано"
   text_agenda_item_not_editable_anymore: "Цей пункт порядку денного більше не можна редагувати."

@@ -758,6 +758,7 @@ ru:
           last_day: 'Последний день'
     text_are_you_sure: "Уверены?"
     text_data_lost: "Все введенные данные будут потеряны."
+    text_user_wrote: "%{value} написал(а):"
     types:
       attribute_groups:
         error_duplicate_group_name: "Имя %{group} используется более одного раза. Имена групп должны быть уникальными."

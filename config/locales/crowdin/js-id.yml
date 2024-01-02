@@ -756,6 +756,7 @@ id:
           last_day: 'Last day'
     text_are_you_sure: "Apakah anda yakin?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nama %{group} digunakan lebih dari satu kali. Nama grup harus unik."

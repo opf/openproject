@@ -11,9 +11,7 @@
       menu.with_item(
         label: I18n.t("storages.provider_types.#{short_provider_type}.name"),
         href: select_provider_admin_settings_storages_path(provider: short_provider_type)
-      ) # do |item|
-        # item.with_trailing_visual_icon(icon: "op-enterprise-addons", classes: "upsale-colored") if show_ee_icon?(provider_type:)
-      # end
+      )
     end
   end
 %>

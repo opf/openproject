@@ -32,6 +32,6 @@ class Queries::Principals::PrincipalQuery < Queries::BaseQuery
   end
 
   def default_scope
-    Principal.not_builtin
+    Principal.visible(User.current).not_builtin
   end
 end

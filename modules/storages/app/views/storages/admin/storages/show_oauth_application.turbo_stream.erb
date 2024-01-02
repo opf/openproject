@@ -27,21 +27,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream.update :storage_general_info_section do %>
-  <%= render(Storages::Admin::GeneralInfoComponent.new(@storage)) %>
+<%= turbo_stream.update :storage_openproject_oauth_section do %>
+  <%= render(Storages::Admin::OAuthApplicationInfoComponent.new(oauth_application: @oauth_application, storage: @storage)) %>
 <% end %>
 
-<%= turbo_stream.update :storage_openproject_oauth_section do %>
-  <%=
-    render(
-      Storages::Admin::OAuthApplicationInfoCopyComponent.new(
-        oauth_application: @oauth_application,
-        storage: @storage,
-        submit_button_options: {
-          data: { turbo_stream: true }
-        },
-        submit_button_path: new_admin_settings_storage_oauth_client_path(@storage)
-      )
-    )
-  %>
+<% if @storage.oauth_client.blank? %>
+  <%= turbo_stream.update :storage_oauth_client_section do %>
+    <%= render(Storages::Admin::Forms::OAuthClientFormComponent.new(oauth_client: @storage.build_oauth_client, storage: @storage)) %>
+  <% end %>
 <% end %>
