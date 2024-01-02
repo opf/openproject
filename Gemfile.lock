@@ -953,7 +953,7 @@ GEM
       nokogiri (>= 1.13.10)
       rexml
     ruby2_keywords (0.0.5)
-    rubytree (2.0.2)
+    rubytree (2.0.3)
       json (~> 2.0, > 2.3.1)
     rubyzip (2.3.2)
     sanitize (6.1.0)
