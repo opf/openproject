@@ -1,3 +1,17 @@
+<%= render(
+  Primer::Beta::IconButton.new(
+    icon: :filter,
+    size: :medium,
+    aria: { label: t(:label_filters_toggle) },
+    mr: 2,
+    mb: 2,
+    data: { 'project-target': 'filterFormToggle',
+            'action': 'project#toggleDisplayFilters',
+            'test-selector': 'project-filter-toggle' }
+  )
+)
+%>
+
 <%= form_tag({},
              method: :get,
              class: "project-filters",

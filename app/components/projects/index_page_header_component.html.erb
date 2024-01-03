@@ -21,19 +21,6 @@
     <% end %>
 
     <%= render(
-          Primer::Beta::IconButton.new(
-            icon: :filter,
-            size: :medium,
-            aria: { label: t(:label_filters_toggle) },
-            mr: BUTTON_MARGIN_RIGHT,
-            data: { 'project-target': 'filterFormToggle',
-                    'action': 'project#toggleDisplayFilters',
-                    'test-selector': 'project-filter-toggle' }
-          )
-        )
-    %>
-
-    <%= render(
           Primer::Beta::Button.new(
             tag: :a,
             href: activities_path,
