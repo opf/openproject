@@ -72,7 +72,6 @@ export default class ProjectFiltersController extends Controller {
   declare displayFiltersValue:boolean;
 
   toggleDisplayFilters() {
-   
     this.displayFiltersValue = !this.displayFiltersValue;
   }
 
@@ -94,7 +93,6 @@ export default class ProjectFiltersController extends Controller {
   }
 
   toggleMultiSelect({ params: { filterName } }:{ params:{ filterName:string } }) {
-   
     const valueContainer = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
     const singleSelect = this.filterValueSelectTargets.find((selectField) => !selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
     const multiSelect = this.filterValueSelectTargets.find((selectField) => selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
@@ -106,7 +104,6 @@ export default class ProjectFiltersController extends Controller {
         const valueToSelect = this.getValueToSelect(singleSelect);
         this.setSelectOptions(multiSelect, valueToSelect);
       }
-
       valueContainer.classList.toggle('multi-value');
     }
   }
@@ -124,11 +121,9 @@ export default class ProjectFiltersController extends Controller {
   addFilter(event:Event) {
     const selectedFilterName = (event.target as HTMLSelectElement).value;
     const selectedFilter = this.filterTargets.find((filter) => filter.getAttribute('filter-name') === selectedFilterName);
-
     if (selectedFilter) {
       selectedFilter.classList.remove('hidden');
     }
-
     this.disableSelection();
     this.reselectPlaceholderOption();
     this.setSpacerVisibility();
@@ -143,14 +138,12 @@ export default class ProjectFiltersController extends Controller {
   }
 
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
-    debugger;
     const filterToRemove = this.filterTargets.find((filter) => filter.getAttribute('filter-name') === filterName);
     filterToRemove?.classList.add('hidden');
 
     const selectOptions = Array.from(this.addFilterSelectTarget.options);
     const removedFilterOption = selectOptions.find((option) => option.value === filterName);
     removedFilterOption?.removeAttribute('disabled');
-
     this.setSpacerVisibility();
   }
 
@@ -306,11 +299,9 @@ export default class ProjectFiltersController extends Controller {
 
       value = [fromValue, toValue];
     }
-
     if (value && value.length > 0) {
       return value;
     }
-
     return null;
   }
 
@@ -325,7 +316,6 @@ export default class ProjectFiltersController extends Controller {
         return value || true;
       }
     }
-
     return null;
   }
 }
