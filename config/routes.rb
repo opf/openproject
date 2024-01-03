@@ -179,6 +179,10 @@ OpenProject::Application.routes.draw do
     delete '/unwatch' => 'watchers#unwatch'
   end
 
+  namespace :projects do
+    resource :menu, only: %[show]
+  end
+
   resources :projects, except: %i[show edit create update] do
     scope module: 'projects' do
       namespace 'settings' do
