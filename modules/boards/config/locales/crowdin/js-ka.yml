@@ -3,23 +3,23 @@ ka:
   js:
     boards:
       create_new: 'Create new board'
-      label_unnamed_board: 'Unnamed board'
-      label_unnamed_list: 'Unnamed list'
-      label_board_type: 'Board type'
+      label_unnamed_board: 'უსახელო დაფა'
+      label_unnamed_list: 'უსახელო სია'
+      label_board_type: 'დაფის ტიპი'
       upsale:
         teaser_text: 'გნებავთ თქვენი საწარმოო პროცესების ავტომატიზაცია Boards-ით? დამატებითი დაფები საწარმოო ვერსიის მოდულია. გადადით ფასიან ვერსიაზე.'
         upgrade: 'ახლავე განაახლე'
       lists:
-        delete: 'Delete list'
+        delete: 'სიის წაშლა'
       version:
         is_locked: 'Version is locked. No items can be added to this version.'
         is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'Show version'
+        close_version: 'ვრსიის დახურვა'
+        open_version: 'ვერსიის გახსნა'
+        lock_version: 'ვერსიის ჩაკეტვა'
+        unlock_version: 'ვერსიის გახსნა'
+        edit_version: 'ვერსიის ჩასწორება'
+        show_version: 'ვერსიის ჩვენება'
         locked: 'ჩაკეტილია'
         closed: 'დახურვა'
       new_board: 'ახალი დაფა'
@@ -32,12 +32,12 @@ ka:
       text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Click to remove this list"
       board_type:
-        text: 'Board type'
+        text: 'დაფის ტიპი'
         free: 'ძირითადი'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Start from scratch with a blank board. Manually add cards and columns to this board.
-        action: 'Action board'
+        action: 'ქმედებების დაფა'
         action_by_attribute: 'Action board (%{attribute})'
         action_text: >
           A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
@@ -55,8 +55,8 @@ ka:
           assignee: შემსრულებელი
           status: სტატუსი
           version: ვერსია
-          subproject: subproject
-          subtasks: parent-child
+          subproject: ქვეპროექტი
+          subtasks: მშობელი-შვილი
         board_type_title:
           assignee: დასაქმებული
           status: სტატუსი

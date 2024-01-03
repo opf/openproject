@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,15 +34,19 @@ import {
   OnDestroy,
   OnInit,
   Output,
-
 } from '@angular/core';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import {
+  WorkPackageViewFiltersService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { Observable } from 'rxjs';
+import { from, merge, Observable } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
+import {
+  WorkPackageFiltersService,
+} from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 
 @Component({
   templateUrl: './filter-container.directive.html',
@@ -66,14 +70,17 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly cdRef:ChangeDetectorRef,
     readonly wpFiltersService:WorkPackageFiltersService,
+    readonly wpListService:WorkPackagesListService,
   ) {
     super();
     this.visible$ = this.wpFiltersService.observeUntil(componentDestroyed(this));
   }
 
   ngOnInit():void {
-    this.wpTableFilters
-      .pristine$()
+    merge(
+      this.wpTableFilters.pristine$(),
+      from(this.wpListService.conditionallyLoadForm()),
+    )
       .pipe(
         this.untilDestroyed(),
       )

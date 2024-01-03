@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -144,7 +144,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     permitted_storage_params.tap do |permitted_params|
       # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
       # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-      permitted_params.merge!(automatically_managed: false) unless permitted_params.key?('automatically_managed')
+      permitted_params.merge!(automatic_management_enabled: false) unless permitted_params.key?('automatic_management_enabled')
     end
   end
 
@@ -153,6 +153,6 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   def permitted_storage_params
     params
       .require(:storages_nextcloud_storage)
-      .permit('automatically_managed', 'password')
+      .permit('automatic_management_enabled', 'password')
   end
 end

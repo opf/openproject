@@ -18,15 +18,15 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: cc286655dfa2ea2b30bf2a149063f42f7081aa3d
-  ref: cc286655dfa2ea2b30bf2a149063f42f7081aa3d
+  revision: bbda8ad0054d465eec01c23fcab5c6d62c7baa44
+  ref: bbda8ad0054d465eec01c23fcab5c6d62c7baa44
   specs:
-    md_to_pdf (0.0.20)
-      commonmarker (~> 0.23)
+    md_to_pdf (0.0.22)
       front_matter_parser (~> 1.0)
-      json-schema (~> 4.0)
+      json-schema (~> 4.1)
+      markly (~> 0.7)
       matrix (~> 0.4)
-      nokogiri (~> 1.15)
+      nokogiri (~> 1.1)
       prawn (~> 2.4)
       prawn-table (~> 0.2)
       text-hyphen (~> 1.5)
@@ -314,25 +314,25 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    appsignal (3.5.0)
+    appsignal (3.5.2)
       rack
     ast (2.4.2)
-    attr_required (1.0.1)
+    attr_required (1.0.2)
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
     awesome_nested_set (3.6.0)
       activerecord (>= 4.0.0, < 7.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.864.0)
-    aws-sdk-core (3.190.0)
+    aws-partitions (1.876.0)
+    aws-sdk-core (3.190.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.74.0)
+    aws-sdk-kms (1.75.0)
       aws-sdk-core (~> 3, >= 3.188.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.141.0)
+    aws-sdk-s3 (1.142.0)
       aws-sdk-core (~> 3, >= 3.189.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.8)
@@ -361,11 +361,12 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
-    bigdecimal (3.1.4)
+    bigdecimal (3.1.5)
     bindata (2.4.15)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
-    brakeman (6.1.0)
+    brakeman (6.1.1)
+      racc
     browser (5.3.1)
     builder (3.2.4)
     byebug (11.1.3)
@@ -418,7 +419,7 @@ GEM
     date_validator (0.12.0)
       activemodel (>= 3)
       activesupport (>= 3)
-    debug (1.9.0)
+    debug (1.9.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
     deckar01-task_list (2.3.3)
@@ -488,13 +489,13 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.105.0)
-    factory_bot (6.4.2)
+    excon (0.108.0)
+    factory_bot (6.4.5)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.4.2)
+    factory_bot_rails (6.4.3)
       factory_bot (~> 6.4)
       railties (>= 5.0.0)
-    faraday (2.7.12)
+    faraday (2.8.1)
       base64
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
@@ -551,7 +552,7 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-gmail_v1 (0.36.0)
+    google-apis-gmail_v1 (0.37.0)
       google-apis-core (>= 0.11.0, < 2.a)
     google-cloud-env (2.1.0)
       faraday (>= 1.0, < 3.a)
@@ -574,9 +575,10 @@ GEM
       rack
     gravatar_image_tag (1.2.0)
     hana (1.3.7)
-    hashdiff (1.0.1)
+    hashdiff (1.1.0)
     hashery (2.1.2)
     hashie (3.6.0)
+    highline (2.1.0)
     html-pipeline (2.14.3)
       activesupport (>= 2)
       nokogiri (>= 1.4)
@@ -590,19 +592,30 @@ GEM
     i18n-js (4.2.3)
       glob (>= 0.4.0)
       i18n
+    i18n-tasks (1.0.13)
+      activesupport (>= 4.0.2)
+      ast (>= 2.1.0)
+      better_html (>= 1.0, < 3.0)
+      erubi
+      highline (>= 2.0.0)
+      i18n
+      parser (>= 3.2.2.1)
+      rails-i18n
+      rainbow (>= 2.2.2, < 4.0)
+      terminal-table (>= 1.5.1)
     icalendar (2.10.1)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
     ice_nine (0.11.2)
     interception (0.5)
-    io-console (0.6.0)
-    irb (1.10.1)
+    io-console (0.7.1)
+    irb (1.11.0)
       rdoc
       reline (>= 0.3.8)
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.7.1)
-    json-jwt (1.16.3)
+    json-jwt (1.16.4)
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
@@ -659,12 +672,13 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.2)
+    markly (0.10.0)
     matrix (0.4.2)
     messagebird-rest (1.4.2)
-    meta-tags (2.19.0)
-      actionpack (>= 3.2.0, < 7.2)
+    meta-tags (2.20.0)
+      actionpack (>= 6.0.0, < 7.2)
     method_source (1.0.0)
-    mime-types (3.5.1)
+    mime-types (3.5.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.1205)
     mini_magick (4.12.0)
@@ -677,7 +691,7 @@ GEM
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.0.2)
       mustermann (>= 1.0.0)
-    net-imap (0.4.7)
+    net-imap (0.4.9)
       date
       net-protocol
     net-ldap (0.18.0)
@@ -688,7 +702,7 @@ GEM
     net-smtp (0.4.0)
       net-protocol
     nio4r (2.7.0)
-    nokogiri (1.15.5)
+    nokogiri (1.16.0)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oj (3.16.3)
@@ -698,13 +712,12 @@ GEM
       omniauth (~> 1.3, >= 1.3.2)
       ruby-saml (~> 1.9)
     open4 (1.3.4)
-    openid_connect (2.2.0)
+    openid_connect (2.2.1)
       activemodel
       attr_required (>= 1.0.0)
       faraday (~> 2.0)
       faraday-follow_redirects
       json-jwt (>= 1.16)
-      net-smtp
       rack-oauth2 (~> 2.2)
       swd (~> 2.0)
       tzinfo
@@ -729,7 +742,7 @@ GEM
       activerecord (>= 5.2)
       request_store (~> 1.1)
     parallel (1.24.0)
-    parallel_tests (4.3.0)
+    parallel_tests (4.4.0)
       parallel
     parser (3.2.2.4)
       ast (~> 2.4.1)
@@ -737,7 +750,7 @@ GEM
     pdf-core (0.9.0)
     pdf-inspector (1.3.0)
       pdf-reader (>= 1.0, < 3.0.a)
-    pdf-reader (2.11.0)
+    pdf-reader (2.12.0)
       Ascii85 (~> 1.0)
       afm (~> 0.2.1)
       hashery (~> 2.0)
@@ -764,7 +777,7 @@ GEM
     pry-rescue (1.5.2)
       interception (>= 0.5)
       pry (>= 0.12.0)
-    psych (5.1.1.1)
+    psych (5.1.2)
       stringio
     public_suffix (5.0.4)
     puffing-billy (4.0.0)
@@ -775,7 +788,7 @@ GEM
       eventmachine_httpserver
       http_parser.rb (~> 0.6.0)
       multi_json
-    puma (6.4.0)
+    puma (6.4.1)
       nio4r (~> 2.0)
     puma-plugin-statsd (2.6.0)
       puma (>= 5.0, < 7)
@@ -790,14 +803,15 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (3.3.0)
       rack (>= 1.2.0)
-    rack-oauth2 (2.2.0)
+    rack-oauth2 (2.2.1)
       activesupport
       attr_required
       faraday (~> 2.0)
       faraday-follow_redirects
       json-jwt (>= 1.11.0)
       rack (>= 2.1.0)
-    rack-protection (3.1.0)
+    rack-protection (3.2.0)
+      base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
     rack-test (2.1.0)
       rack (>= 1.3)
@@ -852,7 +866,7 @@ GEM
     redcarpet (3.6.0)
     redis (5.0.8)
       redis-client (>= 0.17.0)
-    redis-client (0.19.0)
+    redis-client (0.19.1)
       connection_pool
     regexp_parser (2.8.3)
     reline (0.4.1)
@@ -917,10 +931,10 @@ GEM
       activesupport
       rubocop
       rubocop-rspec
-    rubocop-performance (1.20.0)
+    rubocop-performance (1.20.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
-    rubocop-rails (2.23.0)
+    rubocop-rails (2.23.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
@@ -941,7 +955,7 @@ GEM
       nokogiri (>= 1.13.10)
       rexml
     ruby2_keywords (0.0.5)
-    rubytree (2.0.2)
+    rubytree (2.0.3)
       json (~> 2.0, > 2.3.1)
     rubyzip (2.3.2)
     sanitize (6.1.0)
@@ -956,7 +970,7 @@ GEM
       websocket (~> 1.0)
     semantic (1.6.1)
     shoulda-context (2.0.0)
-    shoulda-matchers (5.3.0)
+    shoulda-matchers (6.0.0)
       activesupport (>= 5.2.0)
     signet (0.18.0)
       addressable (~> 2.8)
@@ -988,7 +1002,7 @@ GEM
     stringio (3.1.0)
     structured_warnings (0.4.0)
     svg-graph (2.2.2)
-    swd (2.0.2)
+    swd (2.0.3)
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       faraday (~> 2.0)
@@ -996,6 +1010,8 @@ GEM
     sys-filesystem (1.4.4)
       ffi (~> 1.1)
     table_print (1.5.7)
+    terminal-table (3.0.2)
+      unicode-display_width (>= 1.1.1, < 3)
     test-prof (1.3.1)
     text-hyphen (1.5.0)
     thor (1.3.0)
@@ -1012,7 +1028,7 @@ GEM
       rails (>= 5.0.4)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2023.3)
+    tzinfo-data (1.2023.4)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
     unf (0.1.4)
@@ -1038,7 +1054,7 @@ GEM
       rack (>= 2.0.9)
     warden-basic_auth (0.2.1)
       warden (~> 1.2)
-    webfinger (2.1.2)
+    webfinger (2.1.3)
       activesupport
       faraday (~> 2.0)
       faraday-follow_redirects
@@ -1128,6 +1144,7 @@ DEPENDENCIES
   html-pipeline (~> 2.14.0)
   htmldiff
   i18n-js (~> 4.2.3)
+  i18n-tasks (~> 1.0.13)
   json_schemer (~> 2.1.0)
   json_spec (~> 1.1.4)
   ladle
@@ -1140,12 +1157,12 @@ DEPENDENCIES
   mail (= 2.8.1)
   matrix (~> 0.4.2)
   md_to_pdf!
-  meta-tags (~> 2.19.0)
+  meta-tags (~> 2.20.0)
   mini_magick (~> 4.12.0)
   multi_json (~> 1.15.0)
   my_page!
   net-ldap (~> 0.18.0)
-  nokogiri (~> 1.15.1)
+  nokogiri (~> 1.16.0)
   oj (~> 3.16.0)
   okcomputer (~> 1.18.1)
   omniauth!
@@ -1194,7 +1211,7 @@ DEPENDENCIES
   rack-attack (~> 6.7.0)
   rack-cors (~> 2.0.0)
   rack-mini-profiler
-  rack-protection (~> 3.1.0)
+  rack-protection (~> 3.2.0)
   rack-test (~> 2.1.0)
   rack-timeout (~> 0.6.3)
   rack_session_access
@@ -1227,7 +1244,7 @@ DEPENDENCIES
   selenium-webdriver (~> 4.16.0)
   semantic (~> 1.6.1)
   shoulda-context (~> 2.0)
-  shoulda-matchers (~> 5.0)
+  shoulda-matchers (~> 6.0)
   spring
   spring-commands-rspec
   spring-commands-rubocop

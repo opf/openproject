@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -80,6 +80,24 @@ See COPYRIGHT and LICENSE files for more details.
                 class: 'simple-filters--filter-value'
               })
             %>
+        </li>
+      <% end %>
+      <% if has_shares? %>
+        <li class="simple-filters--filter">
+          <label class='simple-filters--filter-name' for='shared_role_id'><%= t('members.menu.wp_shares') %>:</label>
+          <%=
+            select_tag(
+              :shared_role_id,
+              options_for_select(
+                shares,
+                params[:shared_role_id]
+              ),
+              {
+                include_blank: true,
+                name: "shared_role_id",
+                class: 'simple-filters--filter-value'
+              })
+          %>
         </li>
       <% end %>
       <li class="simple-filters--filter">

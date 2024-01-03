@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -140,7 +140,7 @@ ru:
   text_meeting_minutes_for_meeting: 'Протокол совещания «%{meeting}»'
   text_notificiation_invited: "Это сообщение содержит запись ics для совещания ниже:"
   text_meeting_empty_heading: "Встреча пуста"
-  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
+  text_meeting_empty_description_1: "Начните с добавления пунктов повестки дня ниже. Каждый пункт может быть таким же простым, как заголовок, но вы также можете добавить дополнительные сведения, такие как продолжительность и примечания."
   text_meeting_empty_description_2: "Вы также можете добавить ссылки на существующие пакеты работ. Когда вы это сделаете, соответствующие заметки будут автоматически отображаться на вкладке «Встречи» пакета работ."
   label_meeting_empty_action: "Добавить пункт повестки дня"
   label_meeting_actions: "Действия встречи"
@@ -148,7 +148,7 @@ ru:
   label_meeting_delete: "Удалить встречу"
   label_meeting_created_by: "Автор"
   label_meeting_last_updated: "Обновлено"
-  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
+  label_agenda_item_undisclosed_wp: "Пакет работ #%{id} невидим"
   label_agenda_item_deleted_wp: "Ссылка на удалённый пакет работ"
   label_agenda_item_actions: "Действия по пунктам повестки дня"
   label_agenda_item_move_to_top: "В начало"
@@ -173,7 +173,7 @@ ru:
   text_meeting_not_present_anymore: "Эта встреча была удалена. Пожалуйста, выберите другую встречу."
   label_add_work_package_to_meeting_dialog_title: "Добавить пакет работ во встречу"
   label_add_work_package_to_meeting_dialog_button: "Добавить во встречу"
-  label_meeting_selection_caption: "Этот пакет работ можно добавить только к открытым предстоящим встречам."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "Пакет работ может быть добавлен к одной или нескольким встречам для обсуждения. Любые заметки об этом также видны здесь."
   text_agenda_item_no_notes: "Примечания отсутствуют"
   text_agenda_item_not_editable_anymore: "Этот пункт повестки дня больше не редактируется."

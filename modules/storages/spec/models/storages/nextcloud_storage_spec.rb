@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,15 @@ RSpec.describe Storages::NextcloudStorage do
   let(:storage) { create(:nextcloud_storage) }
 
   it_behaves_like 'base storage'
+
+  describe '.automatic_management_enabled' do
+    let!(:automatically_managed_storage) { create(:nextcloud_storage, :as_automatically_managed) }
+    let!(:not_automatically_managed_storage) { create(:nextcloud_storage, :as_not_automatically_managed) }
+
+    it 'returns only storages with automatic management enabled' do
+      expect(described_class.automatic_management_enabled).to contain_exactly(automatically_managed_storage)
+    end
+  end
 
   describe '#provider_type?' do
     it { expect(storage).to be_a_provider_type_nextcloud }
@@ -106,7 +115,6 @@ RSpec.describe Storages::NextcloudStorage do
       end
     end
   end
-
 
   describe '#configured?' do
     context 'with a complete configuration' do
@@ -207,15 +215,35 @@ RSpec.describe Storages::NextcloudStorage do
     it_behaves_like 'a stored attribute with default value', :group_folder, 'OpenProject'
   end
 
-  describe '#automatically_managed?' do
+  describe '#automatically_managed' do
     it_behaves_like 'a stored boolean attribute', :automatically_managed
+  end
+
+  describe '#automatic_management_enabled?' do
+    context 'when automatic management enabled is true' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: true) }
+
+      it { expect(storage).to be_automatic_management_enabled }
+    end
+
+    context 'when automatic management enabled is false' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: false) }
+
+      it { expect(storage).not_to be_automatic_management_enabled }
+    end
+
+    context 'when automatic management enabled is nil' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: nil) }
+
+      it { expect(storage.automatic_management_enabled?).to be(false) }
+    end
   end
 
   describe '#automatic_management_new_record?' do
     context 'when automatic management has just been specified but not yet persisted' do
       let(:storage) { build_stubbed(:nextcloud_storage, provider_fields: {}) }
 
-      before { storage.automatically_managed = false }
+      before { storage.automatic_management_enabled = false }
 
       it { expect(storage).to be_provider_fields_changed }
       it { expect(storage).to be_automatic_management_new_record }
@@ -237,20 +265,20 @@ RSpec.describe Storages::NextcloudStorage do
   end
 
   describe '#automatic_management_unspecified?' do
-    context 'when automatically_managed is nil' do
-      let(:storage) { build(:nextcloud_storage, automatically_managed: nil) }
+    context 'when automatic management enabled is nil' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: nil) }
 
       it { expect(storage).to be_automatic_management_unspecified }
     end
 
-    context 'when automatically_managed is true' do
-      let(:storage) { build(:nextcloud_storage, automatically_managed: true) }
+    context 'when automatic management enabled is true' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: true) }
 
       it { expect(storage).not_to be_automatic_management_unspecified }
     end
 
-    context 'when automatically_managed is false' do
-      let(:storage) { build(:nextcloud_storage, automatically_managed: false) }
+    context 'when automatic management enabled is false' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: false) }
 
       it { expect(storage).not_to be_automatic_management_unspecified }
     end
@@ -260,7 +288,7 @@ RSpec.describe Storages::NextcloudStorage do
     let(:storage) { build(:nextcloud_storage) }
 
     it 'returns the default values for nextcloud' do
-      expect(storage.provider_fields_defaults).to eq({ automatically_managed: true, username: 'OpenProject' })
+      expect(storage.provider_fields_defaults).to eq({ automatic_management_enabled: true, username: 'OpenProject' })
     end
   end
 end
