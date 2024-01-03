@@ -145,7 +145,7 @@ Redmine::MenuManager.map :global_menu do |menu|
   menu.push :projects_query_select,
             { controller: '/projects', project_id: nil, action: 'index' },
             parent: :projects,
-            partial: 'projects/menu_query_select'
+            partial: 'projects/menus/menu'
 
   # Activity
   menu.push :activity,
