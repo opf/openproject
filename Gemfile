@@ -79,7 +79,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.23.9'
+gem 'commonmarker', '~> 1.0.3'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features

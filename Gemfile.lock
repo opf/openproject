@@ -399,7 +399,8 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     colored2 (4.0.0)
-    commonmarker (0.23.10)
+    commonmarker (1.0.3)
+      rb_sys (~> 0.9)
     compare-xml (0.66)
       nokogiri (~> 1.8)
     concurrent-ruby (1.2.2)
@@ -859,6 +860,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rb_sys (0.9.85)
     rbtree3 (0.7.1)
     rdoc (6.6.2)
       psych (>= 4.0.0)
@@ -1107,7 +1109,7 @@ DEPENDENCIES
   climate_control
   closure_tree (~> 7.4.0)
   colored2
-  commonmarker (~> 0.23.9)
+  commonmarker (~> 1.0.3)
   compare-xml (~> 0.66)
   costs!
   cuprite (~> 0.15.0)
