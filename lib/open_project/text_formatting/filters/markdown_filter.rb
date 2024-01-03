@@ -39,7 +39,7 @@ module OpenProject::TextFormatting
       ##
       # Render markdown to html
       def render_html
-        Commonmarker.to_html(text, options: commonmarker_options)
+        Commonmarker.to_html(text, options: commonmarker_options, plugins: commonmarker_plugins)
                     .tap(&:rstrip!)
       end
 
@@ -51,11 +51,16 @@ module OpenProject::TextFormatting
           parse: { smart: false },
           extension: commonmark_extensions.map { |k| [k, true] }.to_h,
           render: {
-            unsafe_: true, # option is called unsafe_ not unsafe
+            unsafe: true,
+            escape: false,
             github_pre_lang: true,
             hardbreaks: context[:gfm] != false
           }
         }
+      end
+
+      def commonmarker_plugins
+        { syntax_highlighter: nil }
       end
 
       ##
