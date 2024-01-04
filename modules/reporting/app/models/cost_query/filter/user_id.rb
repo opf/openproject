@@ -39,7 +39,6 @@ class CostQuery::Filter::UserId < Report::Filter::Base
     # Map the special 'me' value
     super
         .filter_map { |val| replace_me_value(val) }
-        
   end
 
   def replace_me_value(value)

@@ -79,10 +79,8 @@ module MemberHelper
     !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
   end
 
-  def each_comma_separated(array, &block)
-    array.map do |e|
-      block.call(e)
-    end.flatten
+  def each_comma_separated(array, &)
+    array.map(&).flatten
   end
 
   def transform_array_of_comma_separated_ids(array)

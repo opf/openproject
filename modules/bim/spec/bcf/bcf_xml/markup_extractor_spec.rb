@@ -32,7 +32,7 @@ RSpec.describe OpenProject::Bim::BcfXml::MarkupExtractor do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:file) do
     Rack::Test::UploadedFile.new(
-      File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
+      Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
       'application/octet-stream'
     )
   end
@@ -51,35 +51,35 @@ RSpec.describe OpenProject::Bim::BcfXml::MarkupExtractor do
   end
 
   it '#uuid' do
-    expect(subject.uuid).to be_eql '63E78882-7C6A-4BF7-8982-FC478AFB9C97'
+    expect(subject.uuid).to eql '63E78882-7C6A-4BF7-8982-FC478AFB9C97'
   end
 
   it '#title' do
-    expect(subject.title).to be_eql 'Maximum Content'
+    expect(subject.title).to eql 'Maximum Content'
   end
 
   it '#priority' do
-    expect(subject.priority).to be_eql 'High'
+    expect(subject.priority).to eql 'High'
   end
 
   it '#status' do
-    expect(subject.status).to be_eql 'Open'
+    expect(subject.status).to eql 'Open'
   end
 
   it '#description' do
-    expect(subject.description).to be_eql 'This is a topic with all information present.'
+    expect(subject.description).to eql 'This is a topic with all information present.'
   end
 
   it '#author' do
-    expect(subject.author).to be_eql 'mike@example.com'
+    expect(subject.author).to eql 'mike@example.com'
   end
 
   it '#modified_author' do
-    expect(subject.modified_author).to be_eql 'mike@example.com'
+    expect(subject.modified_author).to eql 'mike@example.com'
   end
 
   it '#assignee' do
-    expect(subject.assignee).to be_eql 'andy@example.com'
+    expect(subject.assignee).to eql 'andy@example.com'
   end
 
   it '#due_date' do

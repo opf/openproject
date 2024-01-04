@@ -62,7 +62,7 @@ RSpec.describe Queries::WorkPackages::Filter::PriorityFilter do
 
       it 'is an array of group values' do
         expect(instance.allowed_values)
-          .to match_array [[priority.name, priority.id.to_s]]
+          .to contain_exactly([priority.name, priority.id.to_s])
       end
     end
 
@@ -86,7 +86,7 @@ RSpec.describe Queries::WorkPackages::Filter::PriorityFilter do
 
       it 'returns an array of priorities' do
         expect(instance.value_objects)
-          .to match_array([priority2])
+          .to contain_exactly(priority2)
       end
     end
   end

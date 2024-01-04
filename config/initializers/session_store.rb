@@ -44,7 +44,7 @@ Rails.application.reloader.to_prepare do
   ##
   # We use our own decorated session model to note the user_id
   # for each session.
-  ActionDispatch::Session::ActiveRecordStore.session_class = ::Sessions::SqlBypass
+  ActionDispatch::Session::ActiveRecordStore.session_class = Sessions::SqlBypass
   # Continue to use marshal serialization to retain symbols and whatnot
   ActiveRecord::SessionStore::Session.serializer = :marshal
 end

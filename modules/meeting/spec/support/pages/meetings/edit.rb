@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative './base'
-require_relative './show'
+require_relative 'base'
+require_relative 'show'
 
 module Pages::Meetings
   class Edit < Base
@@ -44,7 +44,7 @@ module Pages::Meetings
 
     def expect_not_available_participant(user)
       expect(page)
-        .not_to have_field("#{user} invited")
+        .to have_no_field("#{user} invited")
     end
 
     def invite(user)

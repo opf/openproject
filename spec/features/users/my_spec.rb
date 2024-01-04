@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'my', js: true, with_cuprite: true do
+RSpec.describe 'my', :js, :with_cuprite do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     create(:user,
@@ -140,7 +140,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
         it 'API tokens can generated and revoked' do
           visit my_access_token_path
 
-          expect(page).not_to have_content('API tokens are not enabled by the administrator.')
+          expect(page).to have_no_content('API tokens are not enabled by the administrator.')
 
           within '#api-token-section' do
             expect(page).to have_test_selector('api-token-add', text: 'API token')
@@ -193,7 +193,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
         it 'in Access Tokens they can generate and revoke their RSS key' do
           visit my_access_token_path
 
-          expect(page).not_to have_content('RSS tokens are not enabled by the administrator.')
+          expect(page).to have_no_content('RSS tokens are not enabled by the administrator.')
 
           within '#rss-token-section' do
             expect(page).to have_test_selector('rss-token-add', text: 'RSS token')
@@ -263,7 +263,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
           it 'shows iCalendar tokens with their calender and project info' do
             visit my_access_token_path
 
-            expect(page).not_to have_content('To add an iCalendar token') # ...
+            expect(page).to have_no_content('To add an iCalendar token') # ...
 
             within '#icalendar-token-section' do
               [
@@ -277,7 +277,7 @@ RSpec.describe 'my', js: true, with_cuprite: true do
                 expect(page).to have_test_selector("ical-token-row-#{ical_token.id}-name", text: token_name)
                 expect(page).to have_test_selector("ical-token-row-#{ical_token.id}-query-name", text: query.name)
                 expect(page).to have_test_selector("ical-token-row-#{ical_token.id}-project-name",
-                                              text: query.project.name)
+                                                   text: query.project.name)
               end
             end
           end

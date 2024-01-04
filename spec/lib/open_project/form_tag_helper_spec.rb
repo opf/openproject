@@ -234,7 +234,7 @@ Words are important</textarea>
     it_behaves_like 'not wrapped in container', 'submit-container'
 
     it 'outputs element' do
-      expect(html).to have_selector('input[type=submit]')
+      expect(html).to have_css('input[type=submit]')
     end
   end
 

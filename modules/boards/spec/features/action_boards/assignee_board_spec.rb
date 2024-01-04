@@ -27,11 +27,10 @@
 #++
 
 require 'spec_helper'
-require_relative './../support/board_index_page'
-require_relative './../support/board_page'
+require_relative '../support/board_index_page'
+require_relative '../support/board_page'
 
-RSpec.describe 'Assignee action board',
-               js: true,
+RSpec.describe 'Assignee action board', :js,
                with_ee: %i[board_view] do
   let(:bobself_user) do
     create(:user,
@@ -149,7 +148,7 @@ RSpec.describe 'Assignee action board',
 
       # Expect to have changed the avatar
       within_test_selector('op-wp-single-card--content-assignee') do
-        expect(page).to have_selector('.op-avatar_mini', text: 'FB', wait: 10)
+        expect(page).to have_css('.op-avatar_mini', text: 'FB', wait: 10)
       end
 
       work_package.reload
@@ -163,7 +162,7 @@ RSpec.describe 'Assignee action board',
 
       # Expect to have changed the avatar
       within_test_selector('op-wp-single-card--content-assignee') do
-        expect(page).to have_selector('.op-avatar_mini', text: 'GG', wait: 10)
+        expect(page).to have_css('.op-avatar_mini', text: 'GG', wait: 10)
       end
 
       work_package.reload

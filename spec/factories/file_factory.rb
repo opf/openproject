@@ -37,7 +37,7 @@ FactoryBot.define do
     name { 'textfile.txt' }
 
     initialize_with do
-      new "#{Rails.root}/spec/fixtures/files/#{name}"
+      new "#{Rails.root.join("spec/fixtures/files/#{name}")}"
     end
   end
 

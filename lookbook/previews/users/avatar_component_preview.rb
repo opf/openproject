@@ -3,7 +3,6 @@
 module Users
   # @logical_path OpenProject/Users
   class AvatarComponentPreview < Lookbook::Preview
-
     # Renders a user avatar using the OpenProject opce-principal web component
     # @param size select { choices: [default, medium, mini] }
     # @param link toggle

@@ -33,8 +33,8 @@ module Groups
     def initialize(group, current_user:, contract_class: AdminOnlyContract)
       self.model = group
 
-      super user: current_user,
-            contract_class:
+      super(user: current_user,
+            contract_class:)
     end
 
     private

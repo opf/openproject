@@ -141,7 +141,7 @@ module OpenProject
     # config.time_zone = 'Central Time (US & Canada)'
 
     # Add locales from crowdin translations to i18n
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
+    config.i18n.load_path += Dir[Rails.root.join("config/locales/crowdin/*.{rb,yml}").to_s]
     config.i18n.default_locale = :en
 
     # Fall back to default locale

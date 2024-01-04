@@ -86,7 +86,7 @@ class Burndown
     @available_series ||= {}
     s = OpenProject::Backlogs::Burndown::Series.new(data, name, units)
     @available_series[name] = s
-    instance_variable_set("@#{name}", s)
+    instance_variable_set(:"@#{name}", s)
   end
 
   def determine_max

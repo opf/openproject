@@ -23,7 +23,7 @@ class CustomStyle < ApplicationRecord
   end
 
   %i(favicon touch_icon export_logo export_cover logo).each do |name|
-    define_method "#{name}_path" do
+    define_method :"#{name}_path" do
       image = send(name)
 
       if image.readable?
@@ -31,7 +31,7 @@ class CustomStyle < ApplicationRecord
       end
     end
 
-    define_method "remove_#{name}" do
+    define_method :"remove_#{name}" do
       image = send(name)
       image&.remove!
 

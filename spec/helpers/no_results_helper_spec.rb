@@ -37,7 +37,7 @@ RSpec.describe NoResultsHelper do
   describe '#no_results_box' do
     it "contains the just the title" do
       expect(helper.no_results_box).to have_content 'Nothing here!'
-      expect(helper.no_results_box).not_to have_link 'Add some foo'
+      expect(helper.no_results_box).to have_no_link 'Add some foo'
     end
 
     it "contains the title and content link" do

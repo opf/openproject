@@ -96,7 +96,7 @@ RSpec.describe CustomAction do
       stubbed_instance.actions = [CustomActions::Actions::AssignedTo.new(1)]
 
       expect(stubbed_instance.actions.map { |a| [a.key, a.values] })
-        .to match_array [[:assigned_to, [1]]]
+        .to contain_exactly([:assigned_to, [1]])
     end
 
     it 'can be persisted' do
@@ -105,7 +105,7 @@ RSpec.describe CustomAction do
       instance.save!
 
       expect(CustomAction.find(instance.id).actions.map { |a| [a.key, a.values] })
-        .to match_array [[:assigned_to, [1]]]
+        .to contain_exactly([:assigned_to, [1]])
     end
   end
 
@@ -138,8 +138,7 @@ RSpec.describe CustomAction do
                                      CustomActions::Conditions::Role.new(role.id)]
 
       expect(stubbed_instance.conditions.map { |a| [a.key, a.values] })
-        .to match_array [[:status, [status.id]],
-                         [:role, [role.id]]]
+        .to contain_exactly([:status, [status.id]], [:role, [role.id]])
     end
 
     it 'can be persisted' do
@@ -149,8 +148,7 @@ RSpec.describe CustomAction do
       instance.save!
 
       expect(CustomAction.find(instance.id).conditions.map { |a| [a.key, a.values] })
-        .to match_array [[:status, [status.id]],
-                         [:role, [role.id]]]
+        .to contain_exactly([:status, [status.id]], [:role, [role.id]])
     end
 
     it 'existing permissions can be removed' do
@@ -216,10 +214,7 @@ RSpec.describe CustomAction do
   describe '.all_conditions' do
     it 'returns all available conditions with the default value initialized' do
       expect(stubbed_instance.all_conditions.map { |a| [a.key, a.values] })
-        .to match_array [[:status, []],
-                         [:role, []],
-                         [:type, []],
-                         [:project, []]]
+        .to contain_exactly([:status, []], [:role, []], [:type, []], [:project, []])
     end
   end
 end

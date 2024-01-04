@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects#destroy',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Projects#destroy', :js, :with_cuprite do
   let!(:project) { create(:project, name: 'foo', identifier: 'foo') }
   let(:project_page) { Pages::Projects::Destroy.new(project) }
   let(:danger_zone) { DangerZone.new(page) }
@@ -64,7 +62,7 @@ RSpec.describe 'Projects#destroy',
     expect(danger_zone).not_to be_disabled
     danger_zone.danger_button.click
 
-    expect(page).to have_selector '.op-toast.-success', text: I18n.t('projects.delete.scheduled')
+    expect(page).to have_css '.op-toast.-success', text: I18n.t('projects.delete.scheduled')
 
     perform_enqueued_jobs
 

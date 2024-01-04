@@ -28,7 +28,6 @@ require 'spec_helper'
 require_relative 'shared/shared_call_examples'
 require_relative 'shared/shared_setup_context'
 
-
 RSpec.describe Settings::UpdateService do
   include_context 'with update service setup'
 

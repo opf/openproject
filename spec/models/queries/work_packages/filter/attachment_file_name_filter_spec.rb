@@ -53,7 +53,7 @@ RSpec.describe Queries::WorkPackages::Filter::AttachmentFileNameFilter do
           instance.valid_values!
 
           expect(instance.values)
-            .to match_array ['none', 'is', 'changed']
+            .to contain_exactly('none', 'is', 'changed')
         end
       end
 

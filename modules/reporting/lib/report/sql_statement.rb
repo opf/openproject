@@ -214,7 +214,7 @@ class Report::SqlStatement
           if f.size == 2 and f.first.respond_to? :table_name then select field_name_for(f)
           else select(*f)
           end
-        when Hash then select f.map { |k, v| "#{field_name_for v} as #{field_name_for k}" }
+        when Hash then select(f.map { |k, v| "#{field_name_for v} as #{field_name_for k}" })
         when String, Symbol then @select << field_name_for(f)
         when engine::SqlStatement then @select << f.to_s
         else raise ArgumentError, "cannot handle #{f.inspect}"

@@ -1034,7 +1034,7 @@ RSpec.describe WikiController do
           get 'show', params: { id: @other_wiki_menu_item.name, project_id: project.id }
 
           expect(response).to be_successful
-          expect(response.body).to have_selector('.main-menu--children a.selected', count: 0)
+          expect(response.body).to have_css('.main-menu--children a.selected', count: 0)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
@@ -1073,7 +1073,7 @@ RSpec.describe WikiController do
           get 'show', params: { id: child_page.slug, project_id: project.id }
 
           expect(response).to be_successful
-          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
+          expect(response.body).to have_css('#main-menu a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end

@@ -68,7 +68,7 @@ RSpec.describe 'Project attribute help texts', :js, :with_cuprite do
         click_link "Overview"
       end
 
-      expect(page).to have_selector("#{test_selector('op-widget-box--header')} .help-text--entry", wait: 10)
+      expect(page).to have_css("#{test_selector('op-widget-box--header')} .help-text--entry", wait: 10)
 
       # Open help text modal
       modal.open!

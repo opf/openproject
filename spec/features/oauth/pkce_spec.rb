@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'OAuth authorization code flow with PKCE',
-               js: true do
+RSpec.describe 'OAuth authorization code flow with PKCE', :js do
   let!(:user) { create(:user) }
   let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
   let!(:allowed_redirect_uri) { redirect_uri }
@@ -83,11 +82,11 @@ RSpec.describe 'OAuth authorization code flow with PKCE',
     login_with user.login, 'adminADMIN!', visit_signin_path: false
 
     # We get to the authorization screen
-    expect(page).to have_selector('h2', text: 'Authorize Public mobile client')
+    expect(page).to have_css('h2', text: 'Authorize Public mobile client')
 
     # With the correct scope printed
-    expect(page).to have_selector('li strong', text: I18n.t('oauth.scopes.api_v3'))
-    expect(page).to have_selector('li', text: I18n.t('oauth.scopes.api_v3_text'))
+    expect(page).to have_css('li strong', text: I18n.t('oauth.scopes.api_v3'))
+    expect(page).to have_css('li', text: I18n.t('oauth.scopes.api_v3_text'))
 
     SeleniumHubWaiter.wait
     # Authorize
@@ -107,7 +106,7 @@ RSpec.describe 'OAuth authorization code flow with PKCE',
     visit my_account_path
     click_on 'Access token'
 
-    expect(page).to have_selector("#oauth-application-grant-#{app.id}", text: app.name)
-    expect(page).to have_selector('td', text: app.name)
+    expect(page).to have_css("#oauth-application-grant-#{app.id}", text: app.name)
+    expect(page).to have_css('td', text: app.name)
   end
 end

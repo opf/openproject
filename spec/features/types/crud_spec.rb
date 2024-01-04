@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Types', js: true, with_cuprite: true do
+RSpec.describe 'Types', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:existing_role) { create(:project_role) }
@@ -53,7 +53,7 @@ RSpec.describe 'Types', js: true, with_cuprite: true do
     click_button 'Create'
 
     expect(page)
-      .to have_selector('.errorExplanation', text: "Name has already been taken.")
+      .to have_css('.errorExplanation', text: "Name has already been taken.")
 
     # Values are retained
     expect(page)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Reset form configuration', js: true do
+RSpec.describe 'Reset form configuration', :js do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
 
@@ -60,7 +60,7 @@ RSpec.describe 'Reset form configuration', js: true do
       form.expect_attribute(key: cf_identifier)
 
       form.save_changes
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
 
       SeleniumHubWaiter.wait
       form.reset_button.click
@@ -70,8 +70,8 @@ RSpec.describe 'Reset form configuration', js: true do
       # Wait for page reload
       SeleniumHubWaiter.wait
 
-      expect(page).not_to have_selector('.group-head', text: 'NEW GROUP')
-      expect(page).not_to have_selector('.group-head', text: 'OTHER')
+      expect(page).to have_no_css('.group-head', text: 'NEW GROUP')
+      expect(page).to have_no_css('.group-head', text: 'OTHER')
       type.reload
 
       expect(type.custom_field_ids).to be_empty

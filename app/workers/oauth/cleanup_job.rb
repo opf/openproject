@@ -36,7 +36,7 @@ module OAuth
     queue_with_priority :low
 
     def perform
-      super 'doorkeeper:db:cleanup'
+      super('doorkeeper:db:cleanup')
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Cost report showing my own times', js: true do
+RSpec.describe 'Cost report showing my own times', :js do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
   let(:user2) { create(:admin) }
@@ -25,7 +25,7 @@ RSpec.describe 'Cost report showing my own times', js: true do
     let(:current_user) { user }
 
     it 'shows my time' do
-      expect(page).to have_selector('.report', text: '10.0')
+      expect(page).to have_css('.report', text: '10.0')
     end
   end
 
@@ -33,9 +33,9 @@ RSpec.describe 'Cost report showing my own times', js: true do
     let(:current_user) { user2 }
 
     it 'shows my time' do
-      expect(page).not_to have_selector('.report')
-      expect(page).to have_selector('.generic-table--no-results-title')
-      expect(page).not_to have_text '10.0' # 1 EUR x 10
+      expect(page).to have_no_css('.report')
+      expect(page).to have_css('.generic-table--no-results-title')
+      expect(page).to have_no_text '10.0' # 1 EUR x 10
     end
   end
 end

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require_relative './shared_avatar_examples'
+require_relative 'shared_avatar_examples'
 
-RSpec.describe 'User avatar management', js: true do
+RSpec.describe 'User avatar management', :js do
   include Rails.application.routes.url_helpers
 
   let(:user) { create(:admin) }
@@ -48,7 +48,7 @@ RSpec.describe 'User avatar management', js: true do
 
     it 'does not render the user edit tab' do
       visit edit_user_path(user)
-      expect(page).not_to have_selector '#tab-avatar'
+      expect(page).to have_no_css '#tab-avatar'
     end
   end
 end

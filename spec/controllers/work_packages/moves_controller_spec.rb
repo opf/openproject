@@ -481,8 +481,8 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
             end
 
             it 'reports the one child work package' do
-              expect(response.body).to have_selector "a.work_package", count: 2
-              expect(response.body).to have_selector ".contextual-info", text: '(+ One descendant work package)'
+              expect(response.body).to have_css "a.work_package", count: 2
+              expect(response.body).to have_css ".contextual-info", text: '(+ One descendant work package)'
             end
           end
 

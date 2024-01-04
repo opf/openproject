@@ -115,7 +115,7 @@ RSpec.describe SCM::DeleteManagedRepositoryService, skip_if_command_unavailable:
     end
   end
 
-  context 'with managed remote config', webmock: true do
+  context 'with managed remote config', :webmock do
     let(:url) { 'http://myreposerver.example.com/api/' }
     let(:config) do
       {

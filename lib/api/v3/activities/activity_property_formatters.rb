@@ -52,7 +52,6 @@ module API
           journal
             .details
             .filter_map { |d| journal.render_detail(d, html:, activity_page:) }
-            
         end
 
         def journal_note(journal)

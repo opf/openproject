@@ -54,7 +54,7 @@ RSpec.describe Authorization::QueryTransformations do
 
         expect(instance.for(:on)[0].on).to be :on
         expect(instance.for(:on)[0].name).to be :name
-        expect(instance.for(:on)[0].block.call(1, 2, 3)).to match_array [1, 2, 3]
+        expect(instance.for(:on)[0].block.call(1, 2, 3)).to contain_exactly(1, 2, 3)
       end
 
       it 'is nil for another name' do
@@ -94,7 +94,7 @@ RSpec.describe Authorization::QueryTransformations do
 
         expect(instance.for(:on)[1].on).to be :on
         expect(instance.for(:on)[1].name).to be :transformation1
-        expect(instance.for(:on)[1].block.call(1, 2, 3)).to match_array [1, 2, 3]
+        expect(instance.for(:on)[1].block.call(1, 2, 3)).to contain_exactly(1, 2, 3)
       end
     end
   end
@@ -130,7 +130,7 @@ RSpec.describe Authorization::QueryTransformations do
 
         expect(instance.for(:on)[1].on).to be :on
         expect(instance.for(:on)[1].name).to be :transformation1
-        expect(instance.for(:on)[1].block.call(1, 2, 3)).to match_array [1, 2, 3]
+        expect(instance.for(:on)[1].block.call(1, 2, 3)).to contain_exactly(1, 2, 3)
       end
     end
   end

@@ -76,7 +76,7 @@ RSpec.describe Projects::CopyService, 'integration', type: :model do
       query.save!
     end
 
-    it 'will succeed to copy, but add an error for the missing subproject column (Regression #34550)' do
+    it 'succeeds to copy, but add an error for the missing subproject column (Regression #34550)' do
       # Expect to have created to board, but with error
       expect(subject).to be_success
       expect(subject.errors.full_messages).to eq([expected_error])
@@ -101,7 +101,7 @@ RSpec.describe Projects::CopyService, 'integration', type: :model do
     end
 
     describe 'call' do
-      it 'will copy the boards with the order correct' do
+      it 'copies the boards with the order correct' do
         expect(subject).to be_success
 
         expect(board_copies.count).to eq 1

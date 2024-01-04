@@ -148,7 +148,7 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
 
         editor.in_editor do |_container, editable|
           expect(editable).to have_css('img[src*="/api/v3/attachments/"]', wait: 20)
-          expect(editable).not_to have_css('.ck-upload-placeholder-loader')
+          expect(editable).to have_no_css('.ck-upload-placeholder-loader')
         end
 
         sleep 2 unless example.metadata[:with_cuprite]
@@ -216,7 +216,7 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
 
           editor.in_editor do |_container, editable|
             expect(editable).to have_css('img[src*="/api/v3/attachments/"]', wait: 20)
-            expect(editable).not_to have_css('.ck-upload-placeholder-loader')
+            expect(editable).to have_no_css('.ck-upload-placeholder-loader')
           end
 
           sleep 2 unless example.metadata[:with_cuprite]

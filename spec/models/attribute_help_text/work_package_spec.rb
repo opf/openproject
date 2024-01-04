@@ -91,7 +91,7 @@ RSpec.describe AttributeHelpText::WorkPackage do
 
       it 'returns the help text for the static attribute but not the one for the custom field' do
         expect(subject)
-          .to match_array([static_instance])
+          .to contain_exactly(static_instance)
       end
     end
 
@@ -100,7 +100,7 @@ RSpec.describe AttributeHelpText::WorkPackage do
 
       it 'returns the help text for the static and cf attribute' do
         expect(subject)
-          .to match_array([static_instance, cf_instance])
+          .to contain_exactly(static_instance, cf_instance)
       end
     end
 
@@ -146,7 +146,7 @@ RSpec.describe AttributeHelpText::WorkPackage do
 
       it 'returns the help text for the static and active cf attributes' do
         expect(subject)
-          .to match_array([static_instance, cf_instance_active, cf_instance_for_all])
+          .to contain_exactly(static_instance, cf_instance_active, cf_instance_for_all)
       end
     end
   end

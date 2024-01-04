@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe MyController,
-               skip_2fa_stage: true do
+RSpec.describe MyController, :skip_2fa_stage do
   render_views
 
   let(:sso_config) do

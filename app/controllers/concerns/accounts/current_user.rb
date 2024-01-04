@@ -113,6 +113,7 @@ module Accounts::CurrentUser
 
   def current_api_key_user
     return unless Setting.rest_api_enabled? && api_request?
+
     key = api_key_from_request
 
     if key && accept_key_auth_actions.include?(params[:action])

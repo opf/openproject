@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
-RSpec.describe 'Copying a budget', js: true do
+RSpec.describe 'Copying a budget', :js do
   let(:project) { create(:project, enabled_module_names: %i[budgets costs]) }
   let(:current_user) do
     create(:user,
@@ -91,6 +91,6 @@ RSpec.describe 'Copying a budget', js: true do
     budget_page.expect_toast message: 'Successful creation.'
 
     expect(page)
-      .to have_selector('.author', text: current_user.name)
+      .to have_css('.author', text: current_user.name)
   end
 end

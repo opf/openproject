@@ -216,38 +216,29 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
     context 'for the work_package' do
       it 'is its child (as a hash)' do
         expect(instance.descendants_of(work_package))
-          .to match_array([descendants_of_hash(child)])
+          .to contain_exactly(descendants_of_hash(child))
       end
     end
 
     context 'for the parent' do
       it 'is the work package, its child (as a hash) and its sibling (as a hash)' do
         expect(instance.descendants_of(parent))
-          .to match_array([descendants_of_hash(child),
-                           work_package,
-                           descendants_of_hash(sibling)])
+          .to contain_exactly(descendants_of_hash(child), work_package, descendants_of_hash(sibling))
       end
     end
 
     context 'for the grandparent' do
       it 'is the parent, the work package, its child (as a hash) and its sibling (as a hash)' do
         expect(instance.descendants_of(grandparent))
-          .to match_array([parent,
-                           work_package,
-                           descendants_of_hash(child),
-                           descendants_of_hash(sibling)])
+          .to contain_exactly(parent, work_package, descendants_of_hash(child), descendants_of_hash(sibling))
       end
     end
 
     context 'for the grandgrandparent (the root)' do
       it 'is the complete tree, partly as a hash and partly as the preloaded work packages' do
         expect(instance.descendants_of(grandgrandparent))
-          .to match_array([descendants_of_hash(grandparent_sibling),
-                           grandparent,
-                           parent,
-                           work_package,
-                           descendants_of_hash(child),
-                           descendants_of_hash(sibling)])
+          .to contain_exactly(descendants_of_hash(grandparent_sibling), grandparent, parent, work_package,
+                              descendants_of_hash(child), descendants_of_hash(sibling))
       end
     end
   end
@@ -265,30 +256,28 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
     context 'for the work_package' do
       it 'is its child (as a hash)' do
         expect(instance.children_of(work_package))
-          .to match_array([children_of_hash(child)])
+          .to contain_exactly(children_of_hash(child))
       end
     end
 
     context 'for the parent' do
       it 'is the work package and its sibling (as a hash)' do
         expect(instance.children_of(parent))
-          .to match_array([work_package,
-                           children_of_hash(sibling)])
+          .to contain_exactly(work_package, children_of_hash(sibling))
       end
     end
 
     context 'for the grandparent' do
       it 'is the parent' do
         expect(instance.children_of(grandparent))
-          .to match_array([parent])
+          .to contain_exactly(parent)
       end
     end
 
     context 'for the grandgrandparent' do
       it 'is the grandparent and its sibling (as a hash)' do
         expect(instance.children_of(grandgrandparent))
-          .to match_array([children_of_hash(grandparent_sibling),
-                           grandparent])
+          .to contain_exactly(children_of_hash(grandparent_sibling), grandparent)
       end
     end
   end

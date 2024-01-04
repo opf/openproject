@@ -64,7 +64,6 @@ RSpec.describe ForumsController do
       end
     end
 
-
     context 'when login_required', with_settings: { login_required: true } do
       it 'redirects to login' do
         get :index, params: { project_id: 'not found' }
@@ -88,7 +87,6 @@ RSpec.describe ForumsController do
         @controller.instance_variable_set(:@project, project)
       end
     end
-
 
     context 'when login_required', with_settings: { login_required: true } do
       it 'redirects to login' do
@@ -159,7 +157,7 @@ RSpec.describe ForumsController do
     end
   end
 
-  describe '#destroy',  with_settings: { login_required: false } do
+  describe '#destroy', with_settings: { login_required: false } do
     let(:forum_params) { { name: 'my forum', description: 'awesome forum' } }
 
     before do
@@ -170,7 +168,7 @@ RSpec.describe ForumsController do
       end
     end
 
-    it 'will request destruction and redirect' do
+    it 'requests destruction and redirect' do
       expect(forum).to receive(:destroy)
       delete :destroy, params: { project_id: project.id, id: 1 }
       expect(response).to be_redirect
@@ -194,7 +192,7 @@ RSpec.describe ForumsController do
       allow(@controller).to receive(:authorize).and_return(true)
     end
 
-    describe '#higher',  with_settings: { login_required: false } do
+    describe '#higher', with_settings: { login_required: false } do
       let(:move_to) { 'higher' }
 
       before do
@@ -203,9 +201,13 @@ RSpec.describe ForumsController do
                                forum: { move_to: } }
       end
 
-      it do expect(forum_2.reload.position).to eq(1) end
+      it do
+        expect(forum_2.reload.position).to eq(1)
+      end
 
-      it do expect(response).to be_redirect end
+      it do
+        expect(response).to be_redirect
+      end
 
       it do
         expect(response)

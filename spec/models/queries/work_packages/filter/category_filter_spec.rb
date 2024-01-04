@@ -74,7 +74,7 @@ RSpec.describe Queries::WorkPackages::Filter::CategoryFilter do
 
       it 'returns an array of type options' do
         expect(instance.allowed_values)
-          .to match_array [[category.name, category.id.to_s]]
+          .to contain_exactly([category.name, category.id.to_s])
       end
     end
 
@@ -92,7 +92,7 @@ RSpec.describe Queries::WorkPackages::Filter::CategoryFilter do
 
       it 'returns an array of category' do
         expect(instance.value_objects)
-          .to match_array [category2]
+          .to contain_exactly(category2)
       end
     end
 

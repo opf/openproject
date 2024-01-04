@@ -46,11 +46,11 @@ module Components
     end
 
     def expect_closed
-      expect(page).not_to have_selector(selector)
+      expect(page).to have_no_selector(selector)
     end
 
     def expect_empty
-      expect(page).to have_selector("[data-test-selector='op-add-existing-pane--empty-state']")
+      expect(page).to have_css("[data-test-selector='op-add-existing-pane--empty-state']")
     end
 
     def search(term)
@@ -60,10 +60,10 @@ module Components
     def expect_result(work_package, visible: true)
       if visible
         expect(page)
-          .to have_selector("[data-test-selector='op-add-existing-pane--wp-#{work_package.id}']", wait: 10)
+          .to have_css("[data-test-selector='op-add-existing-pane--wp-#{work_package.id}']", wait: 10)
       else
         expect(page)
-          .not_to have_selector("[data-test-selector='op-add-existing-pane--wp-#{work_package.id}']")
+          .to have_no_css("[data-test-selector='op-add-existing-pane--wp-#{work_package.id}']")
       end
     end
 

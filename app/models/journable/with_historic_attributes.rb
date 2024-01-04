@@ -235,6 +235,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     historic_journable = at_timestamp(Timestamp.parse(timestamp))
 
     return unless historic_journable
+
     changes = ::Acts::Journalized::JournableDiffer.changes(__getobj__, historic_journable)
 
     # In the other occurrences of JournableDiffer.association_changes calls, we are using the plural

@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, webmock: true do
+RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, :webmock do
   let(:current_user) { create(:admin) }
   let(:storage) { build(:one_drive_storage) }
 

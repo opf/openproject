@@ -38,7 +38,7 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
       caption: I18n.t("label_meeting_selection_caption"),
       autocomplete_options: {
         multiple: false,
-        decorated: true,
+        decorated: true
       }
     ) do |select|
       MeetingAgendaItems::CreateContract

@@ -35,21 +35,21 @@ RSpec.describe 'delete placeholder user', :js do
     it 'can delete name' do
       visit placeholder_user_path(placeholder_user)
 
-      expect(page).to have_selector '.button', text: 'Delete'
+      expect(page).to have_css '.button', text: 'Delete'
 
       visit edit_placeholder_user_path(placeholder_user)
 
-      expect(page).to have_selector '.button', text: 'Delete'
+      expect(page).to have_css '.button', text: 'Delete'
       click_on 'Delete'
 
       # Expect to be on delete confirmation
-      expect(page).to have_selector('.danger-zone--verification button[disabled]')
+      expect(page).to have_css('.danger-zone--verification button[disabled]')
       fill_in 'name_verification', with: placeholder_user.name
 
-      expect(page).to have_selector('.danger-zone--verification button:not([disabled])')
+      expect(page).to have_css('.danger-zone--verification button:not([disabled])')
       click_on 'Delete'
 
-      expect(page).to have_selector('.op-toast.-info', text: I18n.t(:notice_deletion_scheduled))
+      expect(page).to have_css('.op-toast.-info', text: I18n.t(:notice_deletion_scheduled))
 
       # The user is still there
       placeholder_user.reload
@@ -89,11 +89,11 @@ RSpec.describe 'delete placeholder user', :js do
 
       visit placeholder_user_path(placeholder_user)
 
-      expect(page).to have_selector '.button.-disabled', text: 'Delete'
+      expect(page).to have_css '.button.-disabled', text: 'Delete'
 
       visit edit_placeholder_user_path(placeholder_user)
 
-      expect(page).to have_selector '.button.-disabled', text: 'Delete'
+      expect(page).to have_css '.button.-disabled', text: 'Delete'
     end
   end
 

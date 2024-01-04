@@ -63,7 +63,7 @@ RSpec.describe Notifications::Scopes::UnsentRemindersBefore do
     context 'with a unread and not reminded notification that was created before the time and for the user' do
       it 'returns the notification' do
         expect(scope)
-          .to match_array([notification])
+          .to contain_exactly(notification)
       end
     end
 

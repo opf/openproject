@@ -30,7 +30,7 @@ module ErrorMessageHelper
   include ActionView::Helpers::OutputSafetyHelper
 
   def error_messages_for(object)
-    object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
+    object = instance_variable_get(:"@#{object}") unless object.respond_to?(:to_model)
     object = convert_to_model(object)
     return unless object
 

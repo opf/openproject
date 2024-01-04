@@ -457,6 +457,6 @@ RSpec.shared_examples 'has a project include dropdown', :js, type: :feature do
     dropdown.toggle!
     dropdown.expect_open
     dropdown.search 'Nonexistent'
-    expect(page).not_to have_selector("[data-test-selector='op-project-include--loading']")
+    expect(page).to have_no_css("[data-test-selector='op-project-include--loading']")
   end
 end

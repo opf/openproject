@@ -27,10 +27,10 @@
 #++
 
 require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require_relative 'support/board_index_page'
+require_relative 'support/board_page'
 
-RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Work Package boards spec', :js, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })

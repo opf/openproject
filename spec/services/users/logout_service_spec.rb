@@ -103,7 +103,6 @@ RSpec.describe Users::LogoutService, type: :model do
         expect(Sessions::UserSession.for_user(user).count).to eq(2)
       end
 
-
       describe 'autologin cookie' do
         let!(:token) { create(:autologin_token, user:) }
         let!(:other_token) { create(:autologin_token, user:) }

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Subprojects widget on dashboard', js: true do
+RSpec.describe 'Subprojects widget on dashboard', :js do
   let!(:project) do
     create(:project, parent: parent_project)
   end
@@ -89,15 +89,15 @@ RSpec.describe 'Subprojects widget on dashboard', js: true do
         expect(page)
           .to have_link(child_project.name)
         expect(page)
-          .not_to have_link(archived_child_project.name)
+          .to have_no_link(archived_child_project.name)
         expect(page)
-          .not_to have_link(grandchild_project.name)
+          .to have_no_link(grandchild_project.name)
         expect(page)
-          .not_to have_link(invisible_child_project.name)
+          .to have_no_link(invisible_child_project.name)
         expect(page)
-          .not_to have_link(parent_project.name)
+          .to have_no_link(parent_project.name)
         expect(page)
-          .not_to have_link(project.name)
+          .to have_no_link(project.name)
       end
     end
   end
@@ -115,15 +115,15 @@ RSpec.describe 'Subprojects widget on dashboard', js: true do
         expect(page)
           .to have_link(child_project.name)
         expect(page)
-          .not_to have_link(archived_child_project.name)
+          .to have_no_link(archived_child_project.name)
         expect(page)
-          .not_to have_link(grandchild_project.name)
+          .to have_no_link(grandchild_project.name)
         expect(page)
           .to have_link(invisible_child_project.name) # admins can see projects they are not a member of
         expect(page)
-          .not_to have_link(parent_project.name)
+          .to have_no_link(parent_project.name)
         expect(page)
-          .not_to have_link(project.name)
+          .to have_no_link(project.name)
       end
     end
   end

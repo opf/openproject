@@ -97,7 +97,7 @@ RSpec.shared_examples 'member job' do
     %i[added_project updated_global updated_project].each do |mails|
       allow(MemberMailer)
         .to receive(mails)
-              .and_return(double('mail', deliver_now: nil))  # rubocop:disable RSpec/VerifiedDoubles
+              .and_return(double('mail', deliver_now: nil)) # rubocop:disable RSpec/VerifiedDoubles
     end
   end
 

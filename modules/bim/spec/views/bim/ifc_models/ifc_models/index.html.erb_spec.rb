@@ -96,7 +96,7 @@ RSpec.describe 'bim/ifc_models/ifc_models/index' do
       it 'lists the IFC model with all but the download button' do
         render
         expect(rendered).to have_text('office.ifc')
-        expect(rendered).not_to have_link('Download')
+        expect(rendered).to have_no_link('Download')
         expect(rendered).to have_link('Delete')
         expect(rendered).to have_link('Edit')
       end

@@ -27,10 +27,10 @@
 #++
 
 require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require_relative 'support/board_index_page'
+require_relative 'support/board_page'
 
-RSpec.describe 'Work Package boards updating spec', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Work Package boards updating spec', :js, with_ee: %i[board_view] do
   let(:admin) { create(:admin) }
 
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }

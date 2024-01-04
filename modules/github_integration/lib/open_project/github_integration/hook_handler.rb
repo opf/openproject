@@ -55,7 +55,7 @@ module OpenProject::GithubIntegration
                        'github_event' => event_type,
                        'github_delivery' => event_delivery)
 
-      OpenProject::Notifications.send("github.#{event_type}", payload)
+      OpenProject::Notifications.send(:"github.#{event_type}", payload)
 
       200
     end

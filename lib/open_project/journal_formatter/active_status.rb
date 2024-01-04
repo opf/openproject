@@ -31,7 +31,7 @@ class OpenProject::JournalFormatter::ActiveStatus < JournalFormatter::Base
     label_text = label('project')
     label_text = content_tag(:strong, label_text) if options[:html]
 
-    value = \
+    value =
       if values.last
         I18n.t('activerecord.attributes.project.active_value.true')
       else

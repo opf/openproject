@@ -36,9 +36,9 @@ RSpec.describe Settings::TimeZoneSettingComponent, type: :component do
   it "renders the timezones as options, grouping cities with the same identifier" do
     subject
 
-    expect(page).to have_selector("option[value=\"America/Los_Angeles\"]",
-                                  text: "(UTC-08:00) Pacific Time (US & Canada)")
-    expect(page).to have_selector("option[value=\"Europe/Berlin\"]", text: "(UTC+01:00) Berlin, Copenhagen, Stockholm")
-    expect(page).to have_selector("option[value=\"Asia/Shanghai\"]", text: "(UTC+08:00) Beijing, Chongqing")
+    expect(page).to have_css("option[value=\"America/Los_Angeles\"]",
+                             text: "(UTC-08:00) Pacific Time (US & Canada)")
+    expect(page).to have_css("option[value=\"Europe/Berlin\"]", text: "(UTC+01:00) Berlin, Copenhagen, Stockholm")
+    expect(page).to have_css("option[value=\"Asia/Shanghai\"]", text: "(UTC+08:00) Beijing, Chongqing")
   end
 end

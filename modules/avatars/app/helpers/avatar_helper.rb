@@ -45,8 +45,8 @@ module AvatarHelper
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(principal, size: 'default', hide_name: true, name_classes: '', **options)
-    build_principal_avatar_tag principal, size:, hide_name:, name_classes:, **options
+  def avatar(principal, size: 'default', hide_name: true, name_classes: '', **)
+    build_principal_avatar_tag(principal, size:, hide_name:, name_classes:, **)
   rescue StandardError => e
     Rails.logger.error "Failed to create avatar for #{principal}: #{e}"
     ''.html_safe
@@ -89,8 +89,8 @@ module AvatarHelper
     gravatar_image_url(mail, opts)
   end
 
-  def build_principal_avatar_tag(user, **options)
-    tag_options = merge_default_avatar_options(user, **options)
+  def build_principal_avatar_tag(user, **)
+    tag_options = merge_default_avatar_options(user, **)
 
     principal_type = API::V3::Principals::PrincipalType.for(user)
     principal = {

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Modifying a dashboard which already has widgets for which permissions are lacking', js: true do
+RSpec.describe 'Modifying a dashboard which already has widgets for which permissions are lacking', :js do
   let!(:project) do
     create(:project)
   end
@@ -90,6 +90,6 @@ RSpec.describe 'Modifying a dashboard which already has widgets for which permis
     dashboard_page.visit!
 
     expect(page)
-      .not_to have_selector('.grid--area.-widgeted:nth-of-type(2)')
+      .to have_no_css('.grid--area.-widgeted:nth-of-type(2)')
   end
 end

@@ -61,6 +61,6 @@ RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
     job.perform
 
     expect(Attachment.all)
-      .to match_array([containered_attachment, new_uncontainered_attachment, finished_upload, new_pending_upload])
+      .to contain_exactly(containered_attachment, new_uncontainered_attachment, finished_upload, new_pending_upload)
   end
 end

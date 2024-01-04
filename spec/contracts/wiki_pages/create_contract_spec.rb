@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require_relative 'shared_contract_examples'
 
 RSpec.describe WikiPages::CreateContract do
   it_behaves_like 'wiki page contract' do

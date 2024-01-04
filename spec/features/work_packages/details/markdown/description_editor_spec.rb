@@ -32,7 +32,7 @@ require 'features/work_packages/shared_contexts'
 require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'description inplace editor', js: true, selenium: true do
+RSpec.describe 'description inplace editor', :js, :selenium do
   let(:project) { create(:project_with_types, public: true) }
   let(:property_name) { :description }
   let(:property_title) { 'Description' }
@@ -118,7 +118,7 @@ RSpec.describe 'description inplace editor', js: true, selenium: true do
     let(:user) { create(:user, member_with_roles: { project => role }) }
 
     it 'does not show the field' do
-      expect(page).not_to have_selector('.inline-edit--display-field.description.-editable')
+      expect(page).to have_no_css('.inline-edit--display-field.description.-editable')
 
       field.display_element.click
       field.expect_inactive!

@@ -89,7 +89,7 @@ RSpec.describe IssuePriority do
       priority.transfer_relations(new_priority)
 
       expect(new_priority.work_packages.reload)
-        .to match_array [work_package3, work_package1]
+        .to contain_exactly(work_package3, work_package1)
     end
   end
 

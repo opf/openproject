@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative './20180116065518_add_hierarchy_paths'
+require_relative '20180116065518_add_hierarchy_paths'
 
 class RemoveHierarchyPaths < ActiveRecord::Migration[5.2]
   def up

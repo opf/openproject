@@ -1,4 +1,4 @@
-require_relative './edit_field'
+require_relative 'edit_field'
 
 class WorkPackageStatusField < EditField
   def initialize(context)
@@ -51,6 +51,6 @@ class WorkPackageStatusField < EditField
   end
 
   def expect_inactive!
-    expect(page).not_to have_selector(input_selector)
+    expect(page).to have_no_selector(input_selector)
   end
 end

@@ -34,7 +34,7 @@ module API
 
         def default_instance_generator(model)
           ->(_params) do
-            instance_variable_get("@#{model.name.demodulize.underscore}")
+            instance_variable_get(:"@#{model.name.demodulize.underscore}")
           end
         end
 

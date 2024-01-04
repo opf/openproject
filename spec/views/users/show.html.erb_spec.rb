@@ -51,6 +51,6 @@ RSpec.describe 'users/show' do
   it 'renders the visible custom values' do
     render
 
-    expect(rendered).to have_selector('li', text: 'TextUserCustomField')
+    expect(rendered).to have_css('li', text: 'TextUserCustomField')
   end
 end

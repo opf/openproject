@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Meetings', js: true do
+RSpec.describe 'Meetings', :js do
   let(:project) { create(:project, enabled_module_names: %w[meetings activity]) }
   let(:user) { create(:admin) }
 
@@ -47,9 +47,9 @@ RSpec.describe 'Meetings', js: true do
       check 'Meetings'
       click_on 'Apply'
 
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Minutes: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Agenda: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Meeting: Awesome meeting!')
+      expect(page).to have_css('.op-activity-list--item-title', text: 'Minutes: Awesome meeting!')
+      expect(page).to have_css('.op-activity-list--item-title', text: 'Agenda: Awesome meeting!')
+      expect(page).to have_css('.op-activity-list--item-title', text: 'Meeting: Awesome meeting!')
     end
   end
 end

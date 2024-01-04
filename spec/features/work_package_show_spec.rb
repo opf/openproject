@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package show page', selenium: true do
+RSpec.describe 'Work package show page', :selenium do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package) do
@@ -43,7 +43,7 @@ RSpec.describe 'Work package show page', selenium: true do
     work_package.save!
   end
 
-  it 'all different angular based work package views', js: true do
+  it 'all different angular based work package views', :js do
     wp_page = Pages::FullWorkPackage.new(work_package)
 
     wp_page.visit!

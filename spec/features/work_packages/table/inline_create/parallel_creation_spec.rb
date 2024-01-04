@@ -49,15 +49,15 @@ RSpec.describe 'Parallel work package creation spec', :js do
     new_work_package_in_both 'Some subject', 'My description!'
 
     # Save in inline create
-    expect(page).to have_selector('.wp-inline-create-row')
-    expect(page).to have_selector('.wp--row', count: 1)
+    expect(page).to have_css('.wp-inline-create-row')
+    expect(page).to have_css('.wp--row', count: 1)
 
     subject_field = wp_table.edit_field(nil, :subject)
     subject_field.save!
 
     # There should be one row, and no open inline create row
-    expect(page).to have_selector('.wp--row', count: 1)
-    expect(page).not_to have_selector('.wp-inline-create-row')
+    expect(page).to have_css('.wp--row', count: 1)
+    expect(page).to have_no_css('.wp-inline-create-row')
 
     wp_table.expect_toast(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -81,7 +81,7 @@ RSpec.describe 'Parallel work package creation spec', :js do
     new_work_package_in_both 'New subject', 'New description'
 
     # Inline create still open
-    expect(page).to have_selector('.wp-inline-create-row')
+    expect(page).to have_css('.wp-inline-create-row')
 
     # Save in split screen
     new_split = Pages::SplitWorkPackageCreate.new(project:)
@@ -94,8 +94,8 @@ RSpec.describe 'Parallel work package creation spec', :js do
       message: 'Successful creation.'
     )
     wp_table.dismiss_toaster!
-    expect(page).to have_selector('.wp--row', count: 2)
-    expect(page).not_to have_selector('.wp-inline-create-row')
+    expect(page).to have_css('.wp--row', count: 2)
+    expect(page).to have_no_css('.wp-inline-create-row')
 
     # Get the last work package
     wp2 = WorkPackage.last

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'REST API docs index page', js: true do
+RSpec.describe 'REST API docs index page', :js do
   subject(:visit_docs_page) { visit(api_docs_path) }
 
   context 'with anonymous user' do
@@ -46,7 +46,7 @@ RSpec.describe 'REST API docs index page', js: true do
       visit_docs_page
 
       # web component are harder to test with capybara
-      expect(find("openapi-explorer").shadow_root).to have_selector('#api-title', text: 'OpenProject API V3 (Stable)')
+      expect(find("openapi-explorer").shadow_root).to have_css('#api-title', text: 'OpenProject API V3 (Stable)')
     end
 
     context 'when APIv3 documentation is disabled (from Administration > API > Enable docs page)',

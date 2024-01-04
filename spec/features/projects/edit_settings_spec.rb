@@ -44,8 +44,8 @@ RSpec.describe 'Projects', 'editing settings', :js, :with_cuprite do
   it 'hides the field whose functionality is presented otherwise' do
     visit project_settings_general_path(project.id)
 
-    expect(page).not_to have_text :all, 'Active'
-    expect(page).not_to have_text :all, 'Identifier'
+    expect(page).to have_no_text :all, 'Active'
+    expect(page).to have_no_text :all, 'Identifier'
   end
 
   describe 'identifier edit' do

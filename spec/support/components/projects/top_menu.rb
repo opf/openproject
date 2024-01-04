@@ -59,7 +59,7 @@ module Components
       end
 
       def expect_closed
-        expect(page).not_to have_selector(autocompleter_selector)
+        expect(page).to have_no_selector(autocompleter_selector)
       end
 
       def search(query)
@@ -98,7 +98,7 @@ module Components
 
       def expect_no_result(name)
         within search_results do
-          expect(page).not_to have_selector(autocompleter_item_title_selector, text: name)
+          expect(page).to have_no_selector(autocompleter_item_title_selector, text: name)
         end
       end
 
@@ -110,7 +110,7 @@ module Components
         within search_results do
           hierarchy_selector  = hierarchy_level.times.collect { autocompleter_item_selector }.join(' ')
           expect(page)
-            .to have_selector("#{hierarchy_selector} #{autocompleter_item_title_selector}", text: item_name)
+            .to have_css("#{hierarchy_selector} #{autocompleter_item_title_selector}", text: item_name)
         end
       end
 

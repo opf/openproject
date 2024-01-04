@@ -16,8 +16,8 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
     # Open full view
     open_context_menu.call
     menu.choose('Open fullscreen view')
-    expect(page).to have_selector('.work-packages--show-view .inline-edit--container.subject',
-                                  text: work_package.subject)
+    expect(page).to have_css('.work-packages--show-view .inline-edit--container.subject',
+                             text: work_package.subject)
 
     # Open log time
     open_context_menu.call
@@ -29,16 +29,16 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
     # Open Move
     open_context_menu.call
     menu.choose('Change project')
-    expect(page).to have_selector('h2', text: I18n.t(:button_move))
-    expect(page).to have_selector('a.work_package', text: "##{work_package.id}")
+    expect(page).to have_css('h2', text: I18n.t(:button_move))
+    expect(page).to have_css('a.work_package', text: "##{work_package.id}")
 
     # Open Copy
     open_context_menu.call
     menu.choose('Copy')
     # Split view open in copy state
     expect(page)
-      .to have_selector('.wp-new-top-row',
-                        text: "#{work_package.status.name.capitalize}\n#{work_package.type.name.upcase}")
+      .to have_css('.wp-new-top-row',
+                   text: "#{work_package.status.name.capitalize}\n#{work_package.type.name.upcase}")
     expect(page).to have_field('wp-new-inline-edit--field-subject', with: work_package.subject)
 
     # Open Delete
@@ -50,11 +50,11 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
     # Open create new child
     open_context_menu.call
     menu.choose('Create new child')
-    expect(page).to have_selector('.inline-edit--container.subject input')
+    expect(page).to have_css('.inline-edit--container.subject input')
     expect(current_url).to match(/.*\/create_new\?.*(&)*parent_id=#{work_package.id}/)
 
     find_by_id('work-packages--edit-actions-cancel').click
-    expect(page).not_to have_selector('.inline-edit--container.subject input')
+    expect(page).to have_no_css('.inline-edit--container.subject input')
 
     # Timeline actions only shown when open
     wp_timeline.expect_timeline!(open: false)
@@ -65,8 +65,8 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
     # Copy to other project
     open_context_menu.call
     menu.choose('Copy to other project')
-    expect(page).to have_selector('h2', text: I18n.t(:button_copy))
-    expect(page).to have_selector('a.work_package', text: "##{work_package.id}")
+    expect(page).to have_css('h2', text: I18n.t(:button_copy))
+    expect(page).to have_css('a.work_package', text: "##{work_package.id}")
   end
 
   describe 'creating work packages' do
@@ -76,7 +76,7 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
     it 'can create a new child from the context menu (Regression #33329)' do
       open_context_menu.call
       menu.choose('Create new child')
-      expect(page).to have_selector('.inline-edit--container.subject input')
+      expect(page).to have_css('.inline-edit--container.subject input')
       expect(current_url).to match(/.*\/create_new\?.*(&)*parent_id=#{work_package.id}/)
 
       split_view = Pages::SplitWorkPackageCreate.new project: work_package.project
@@ -87,7 +87,7 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
       subject.submit_by_enter
 
       split_view.expect_and_dismiss_toaster message: 'Successful creation.'
-      expect(page).to have_selector('[data-test-selector="op-wp-breadcrumb"]', text: "Parent:\n#{work_package.subject}")
+      expect(page).to have_css('[data-test-selector="op-wp-breadcrumb"]', text: "Parent:\n#{work_package.subject}")
       wp = WorkPackage.last
       expect(wp.parent).to eq work_package
     end

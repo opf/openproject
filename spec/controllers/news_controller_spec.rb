@@ -70,7 +70,7 @@ RSpec.describe NewsController do
       expect(response).to be_successful
       expect(response).to render_template 'show'
 
-      expect(response.body).to have_selector('h2', text: news.title)
+      expect(response.body).to have_css('h2', text: news.title)
     end
 
     it 'renders show with slug' do
@@ -79,7 +79,7 @@ RSpec.describe NewsController do
       expect(response).to be_successful
       expect(response).to render_template 'show'
 
-      expect(response.body).to have_selector('h2', text: news.title)
+      expect(response.body).to have_css('h2', text: news.title)
     end
 
     it 'renders error if news item is not found' do
@@ -138,7 +138,7 @@ RSpec.describe NewsController do
       expect(assigns(:news)).not_to be_nil
       expect(assigns(:news)).to be_new_record
 
-      expect(response.body).to have_selector('div.op-toast.-error', text: /1 error/)
+      expect(response.body).to have_css('div.op-toast.-error', text: /1 error/)
     end
   end
 

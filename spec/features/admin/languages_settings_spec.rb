@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Languages settings page', cuprite: true, js: true do
+RSpec.describe 'Languages settings page', :cuprite, :js do
   current_user { create(:admin) }
 
   let(:languages_page) { Pages::Admin::SystemSettings::Languages.new }

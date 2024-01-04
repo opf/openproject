@@ -35,7 +35,6 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
 
   let(:file_link_permissions) { %i(view_work_packages view_file_links) }
 
-  # rubocop:disable RSpec/IndexedLet
   let(:role1) { create(:project_role, permissions: file_link_permissions) }
   let(:role2) { create(:project_role, permissions: file_link_permissions) }
 

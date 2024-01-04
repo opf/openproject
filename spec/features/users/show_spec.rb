@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'index users', js: true, with_cuprite: true do
+RSpec.describe 'index users', :js, :with_cuprite do
   current_user { create(:admin) }
 
   let(:index_page) { Pages::Admin::Users::Index.new }
@@ -43,9 +43,9 @@ RSpec.describe 'index users', js: true, with_cuprite: true do
 
     visit user_path(current_user)
 
-    expect(page).to have_selector('li', text: "Project: #{project.name}")
+    expect(page).to have_css('li', text: "Project: #{project.name}")
     expected_work_package_title = "#{work_package.type.name} ##{work_package.id}: #{work_package.subject} " \
                                   "(Project: #{work_package.project.name})"
-    expect(page).to have_selector('li', text: expected_work_package_title)
+    expect(page).to have_css('li', text: expected_work_package_title)
   end
 end

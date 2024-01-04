@@ -57,7 +57,7 @@ RSpec.describe 'Meetings global menu item',
 
     specify '"Upcoming meetings" is the default filter set' do
       within '#main-menu' do
-        expect(page).to have_selector('.selected', text: I18n.t(:label_upcoming_meetings))
+        expect(page).to have_css('.selected', text: I18n.t(:label_upcoming_meetings))
       end
     end
   end
@@ -71,7 +71,7 @@ RSpec.describe 'Meetings global menu item',
 
     it 'does not render' do
       within '#main-menu' do
-        expect(page).not_to have_link(meetings_label)
+        expect(page).to have_no_link(meetings_label)
       end
     end
   end

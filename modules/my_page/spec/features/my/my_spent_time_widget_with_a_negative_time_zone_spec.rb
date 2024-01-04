@@ -86,11 +86,11 @@ RSpec.describe 'My spent time widget with a negative time zone', :js,
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
     aggregate_failures("non-working days are displayed properly") do
-      expect(page).not_to have_css('.fc-day-mon.fc-non-working-day', wait: 0)
+      expect(page).to have_no_css('.fc-day-mon.fc-non-working-day', wait: 0)
       expect(page).to have_css('.fc-day-tue.fc-non-working-day', wait: 0)
-      expect(page).not_to have_css('.fc-day-wed.fc-non-working-day', wait: 0)
-      expect(page).not_to have_css('.fc-day-thu.fc-non-working-day', wait: 0)
-      expect(page).not_to have_css('.fc-day-fri.fc-non-working-day', wait: 0)
+      expect(page).to have_no_css('.fc-day-wed.fc-non-working-day', wait: 0)
+      expect(page).to have_no_css('.fc-day-thu.fc-non-working-day', wait: 0)
+      expect(page).to have_no_css('.fc-day-fri.fc-non-working-day', wait: 0)
       expect(page).to have_css('.fc-day-sat.fc-non-working-day', wait: 0)
       expect(page).to have_css('.fc-day-sun.fc-non-working-day', wait: 0)
     end

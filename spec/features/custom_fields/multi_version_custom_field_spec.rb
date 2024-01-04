@@ -1,7 +1,7 @@
 require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
-RSpec.describe "multi version custom field", js: true do
+RSpec.describe "multi version custom field", :js do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
@@ -67,8 +67,8 @@ RSpec.describe "multi version custom field", js: true do
     wp_page.expect_and_dismiss_toaster(message: "Successful update.")
 
     expect(page).to have_text "Version Old"
-    expect(page).not_to have_text "Version Current"
-    expect(page).not_to have_text "Version Future"
+    expect(page).to have_no_text "Version Current"
+    expect(page).to have_no_text "Version Future"
 
     work_package.reload
 
@@ -105,12 +105,12 @@ RSpec.describe "multi version custom field", js: true do
       click_on "Fix version: Save"
       wp_page.expect_and_dismiss_toaster(message: "Successful update.")
       # .customField<ID> above is required to ignore Assignee and Accountable which are not interesting for us.
-      expect(page).to have_selector(".customField#{custom_field.id} .custom-option", count: 2)
+      expect(page).to have_css(".customField#{custom_field.id} .custom-option", count: 2)
 
       expect(page).to have_text custom_field.name
       expect(page).to have_text "Version Current"
       expect(page).to have_text "Version Future"
-      expect(page).not_to have_text "Version Old"
+      expect(page).to have_no_text "Version Old"
     end
   end
 end

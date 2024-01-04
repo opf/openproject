@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Arbitrary WorkPackage query table widget dashboard', js: true do
+RSpec.describe 'Arbitrary WorkPackage query table widget dashboard', :js do
   let!(:type) { create(:type) }
   let!(:other_type) { create(:type) }
   let!(:priority) { create(:default_priority) }
@@ -98,7 +98,7 @@ RSpec.describe 'Arbitrary WorkPackage query table widget dashboard', js: true do
       # Using it here as a safeguard to govern speed.
       wp_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
       expect(wp_area)
-        .to have_selector('.subject', text: type_work_package.subject)
+        .to have_css('.subject', text: type_work_package.subject)
 
       dashboard_page.add_widget(1, 1, :row, "Work packages table")
 
@@ -108,14 +108,14 @@ RSpec.describe 'Arbitrary WorkPackage query table widget dashboard', js: true do
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
-        .to have_selector('.subject', text: type_work_package.subject, wait: 30)
+        .to have_css('.subject', text: type_work_package.subject, wait: 30)
 
       expect(filter_area.area)
-        .to have_selector('.subject', text: other_type_work_package.subject)
+        .to have_css('.subject', text: other_type_work_package.subject)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: other_project_work_package.subject)
+        .to have_no_css('.subject', text: other_project_work_package.subject)
 
       # User has the ability to modify the query
 
@@ -131,19 +131,19 @@ RSpec.describe 'Arbitrary WorkPackage query table widget dashboard', js: true do
       columns.remove 'Subject'
 
       expect(filter_area.area)
-        .to have_selector('.id', text: type_work_package.id)
+        .to have_css('.id', text: type_work_package.id)
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: type_work_package.subject)
+        .to have_no_css('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .not_to have_selector('.id', text: other_type_work_package.id)
+        .to have_no_css('.id', text: other_type_work_package.id)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: other_project_work_package.subject)
+        .to have_no_css('.subject', text: other_project_work_package.subject)
 
       scroll_to_element(filter_area.area)
       within filter_area.area do
@@ -162,19 +162,19 @@ RSpec.describe 'Arbitrary WorkPackage query table widget dashboard', js: true do
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
       expect(filter_area.area)
-        .to have_selector('.id', text: type_work_package.id)
+        .to have_css('.id', text: type_work_package.id)
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: type_work_package.subject)
+        .to have_no_css('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .not_to have_selector('.id', text: other_type_work_package.id)
+        .to have_no_css('.id', text: other_type_work_package.id)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: other_project_work_package.subject)
+        .to have_no_css('.subject', text: other_project_work_package.subject)
 
       within filter_area.area do
         expect(page).to have_field('editable-toolbar-title', with: 'My WP Filter', wait: 10)

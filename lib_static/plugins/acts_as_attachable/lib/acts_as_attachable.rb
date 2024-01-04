@@ -122,11 +122,11 @@ module Redmine
         end
 
         def view_permission_default
-          "view_#{name.pluralize.underscore}".to_sym
+          :"view_#{name.pluralize.underscore}"
         end
 
         def edit_permission_default
-          "edit_#{name.pluralize.underscore}".to_sym
+          :"edit_#{name.pluralize.underscore}"
         end
 
         def attachable_extract_tsv_option(options)

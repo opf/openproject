@@ -112,7 +112,7 @@ RSpec.describe 'Backlogs', :js, :with_cuprite do
       # inactive types should not be selectable
       # but the user can choose from the active types
       expect(page)
-        .not_to have_css('option', text: inactive_story_type.name)
+        .to have_no_css('option', text: inactive_story_type.name)
 
       select story_type2.name, from: 'type'
 
@@ -133,7 +133,7 @@ RSpec.describe 'Backlogs', :js, :with_cuprite do
     page.driver.refresh
 
     expect(page)
-      .not_to have_content 'Another story'
+      .to have_no_content 'Another story'
 
     expect(page)
       .to have_css '.story:nth-of-type(1)', text: 'The new story'

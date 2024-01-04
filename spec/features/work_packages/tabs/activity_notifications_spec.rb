@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 require 'support/edit_fields/edit_field'
 
-RSpec.describe 'Activity tab notifications', js: true, selenium: true do
+RSpec.describe 'Activity tab notifications', :js, :selenium do
   shared_let(:project) { create(:project_with_types, public: true) }
   shared_let(:work_package) do
     create(:work_package,
@@ -31,7 +31,7 @@ RSpec.describe 'Activity tab notifications', js: true, selenium: true do
 
     it 'shows a notification icon next to activities that have an unread notification' do
       expect(page).to have_test_selector('user-activity-bubble', count: 1)
-      expect(page).to have_selector("[data-qa-activity-number='4'] #{test_selector('user-activity-bubble')}")
+      expect(page).to have_css("[data-qa-activity-number='4'] #{test_selector('user-activity-bubble')}")
     end
 
     it 'shows a button to mark the notifications as read' do

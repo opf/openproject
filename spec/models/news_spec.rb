@@ -57,7 +57,7 @@ RSpec.describe News do
     end
 
     it 'includes news elements from projects where news module is enabled' do
-      expect(described_class.latest).to match_array [news]
+      expect(described_class.latest).to contain_exactly(news)
     end
 
     it "doesn't include news elements from projects where news module is not enabled" do
@@ -71,7 +71,7 @@ RSpec.describe News do
       create(:news, project: private_project)
 
       latest_news = described_class.latest(user: User.anonymous)
-      expect(latest_news).to match_array [news]
+      expect(latest_news).to contain_exactly(news)
     end
 
     it 'limits the number of returned news elements' do

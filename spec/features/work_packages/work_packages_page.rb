@@ -107,7 +107,7 @@ class WorkPackagesPage
 
   def ensure_index_page_loaded
     if Capybara.current_driver == Capybara.javascript_driver
-      expect(page).to have_selector('.work-packages--filters-optional-container.-loaded', visible: :all, wait: 20)
+      expect(page).to have_css('.work-packages--filters-optional-container.-loaded', visible: :all, wait: 20)
     end
   end
 end

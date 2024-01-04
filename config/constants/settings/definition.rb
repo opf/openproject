@@ -206,13 +206,13 @@ module Settings
         description: 'The memcache server host and IP',
         format: :string,
         default: nil,
-        writable: false,
+        writable: false
       },
       cache_redis_url: {
         description: 'URL to the redis cache server',
         format: :string,
         default: nil,
-        writable: false,
+        writable: false
       },
       cache_namespace: {
         format: :string,
@@ -896,7 +896,7 @@ module Settings
       },
       show_product_version: {
         description: 'Show product version information in the administration section',
-        default: true,
+        default: true
       },
       show_pending_migrations_warning: {
         description: 'Enable or disable warning bar in case of pending migrations',

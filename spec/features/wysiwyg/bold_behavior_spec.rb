@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg bold behavior',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Wysiwyg bold behavior', :js, :with_cuprite do
   current_user { create(:admin) }
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
@@ -60,13 +58,13 @@ RSpec.describe 'Wysiwyg bold behavior',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.op-toast.-success')
+        expect(page).to have_css('.op-toast.-success')
 
         within('#content') do
-          expect(page).to have_selector('p') { |node|
+          expect(page).to have_css('p') { |node|
             node.text.include?('some text') && node.text.include?('with bold')
           }
-          expect(page).to have_selector('strong', text: 'with bold')
+          expect(page).to have_css('strong', text: 'with bold')
         end
       end
     end

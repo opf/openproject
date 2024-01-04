@@ -200,7 +200,7 @@ end
 def path_to_cache_key(path)
   path
     .gsub(/\?.*$/, '') # remove query parameter
-    .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/, '') # remove https://.../
+    .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/o, '') # remove https://.../
     .gsub(/\W/, '_') # transform non alphanum chars
 end
 

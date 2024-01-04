@@ -45,7 +45,7 @@ RSpec.describe 'Wiki page - restoring main wiki item' do
     visit project_path(project)
 
     expect(page)
-      .to have_selector('.wiki-menu--main-item')
+      .to have_css('.wiki-menu--main-item')
 
     # Delete all items for some reason
     MenuItems::WikiMenuItem.main_items(project.wiki).destroy_all
@@ -55,7 +55,7 @@ RSpec.describe 'Wiki page - restoring main wiki item' do
     visit project_path(project)
 
     expect(page)
-      .to have_selector('.wiki-menu--main-item')
+      .to have_css('.wiki-menu--main-item')
 
     expect(MenuItems::WikiMenuItem.main_items(project.wiki).count).to eq 1
   end

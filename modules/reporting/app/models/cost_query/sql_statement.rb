@@ -93,7 +93,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
                    })
       # FIXME: build this subquery from a sql_statement
       query.from "(SELECT *, #{typed :text, model.model_name.to_s} AS type FROM #{table}) AS #{table}"
-      send("unify_#{table}", query)
+      send(:"unify_#{table}", query)
     end
   end
 

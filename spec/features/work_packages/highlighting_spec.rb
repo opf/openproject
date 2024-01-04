@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Work Package highlighting fields',
-               js: true,
+RSpec.describe 'Work Package highlighting fields', :js,
                with_ee: %i[conditional_highlighting] do
   let(:user) { create(:admin) }
 
@@ -84,8 +83,8 @@ RSpec.describe 'Work Package highlighting fields',
                                                      "background-color")).to eq('rgba(0, 0, 0, 0)')
 
     ## Overdue
-    expect(wp1_row).to have_selector('.__hl_date_overdue')
-    expect(wp2_row).to have_selector('.__hl_date_due_today')
+    expect(wp1_row).to have_css('.__hl_date_overdue')
+    expect(wp2_row).to have_css('.__hl_date_due_today')
 
     # Highlight only one attribute
     highlighting.switch_inline_attribute_highlight "Priority"
@@ -104,7 +103,7 @@ RSpec.describe 'Work Package highlighting fields',
                                                      "background-color")).to eq('rgba(0, 0, 0, 0)')
 
     ## Status should not have a dot
-    expect(wp1_row).not_to have_selector('.status [class^="__hl_inline_"]')
+    expect(wp1_row).to have_no_css('.status [class^="__hl_inline_"]')
 
     # Highlight multiple attributes
     highlighting.switch_inline_attribute_highlight "Priority", "Status"
@@ -120,8 +119,8 @@ RSpec.describe 'Work Package highlighting fields',
 
     # Highlight entire row by status
     highlighting.switch_entire_row_highlight 'Status'
-    expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_status_#{status1.id}")
-    expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_status_#{status2.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_status_#{status1.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_status_#{status2.id}")
 
     # Unselect all rows to ensure we get the correct background
     find('body').send_keys [:control, 'd']
@@ -138,14 +137,14 @@ RSpec.describe 'Work Package highlighting fields',
     expect(query.highlighting_mode).to eq(:status)
 
     ## This disables any inline styles
-    expect(page).not_to have_selector('[class*="__hl_inline_status"]')
-    expect(page).not_to have_selector('[class*="__hl_inline_priority"]')
-    expect(page).not_to have_selector('[class*="__hl_date"]')
+    expect(page).to have_no_css('[class*="__hl_inline_status"]')
+    expect(page).to have_no_css('[class*="__hl_inline_priority"]')
+    expect(page).to have_no_css('[class*="__hl_date"]')
 
     # Highlight entire row by priority
     highlighting.switch_entire_row_highlight 'Priority'
-    expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
-    expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority_no_color.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority_no_color.id}")
 
     # Remove selection from table row
     find('body').send_keys [:control, 'd']
@@ -157,11 +156,11 @@ RSpec.describe 'Work Package highlighting fields',
 
     # Highlighting is kept even after a hard reload (Regression #30217)
     page.driver.refresh
-    expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
-    expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority_no_color.id}")
-    expect(page).not_to have_selector('[class*="__hl_inline_status"]')
-    expect(page).not_to have_selector('[class*="__hl_inline_priority"]')
-    expect(page).not_to have_selector('[class*="__hl_date"]')
+    expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority_no_color.id}")
+    expect(page).to have_no_css('[class*="__hl_inline_status"]')
+    expect(page).to have_no_css('[class*="__hl_inline_priority"]')
+    expect(page).to have_no_css('[class*="__hl_date"]')
 
     # Save query
     wp_table.save
@@ -170,16 +169,16 @@ RSpec.describe 'Work Package highlighting fields',
     expect(query.highlighting_mode).to eq(:priority)
 
     ## This disables any inline styles
-    expect(page).not_to have_selector('[class*="__hl_inline_status"]')
-    expect(page).not_to have_selector('[class*="__hl_inline_priority"]')
-    expect(page).not_to have_selector('[class*="__hl_date"]')
+    expect(page).to have_no_css('[class*="__hl_inline_status"]')
+    expect(page).to have_no_css('[class*="__hl_inline_priority"]')
+    expect(page).to have_no_css('[class*="__hl_date"]')
 
     # No highlighting
     highlighting.switch_highlighting_mode 'No highlighting'
-    expect(page).not_to have_selector('[class*="__hl_background"]')
-    expect(page).not_to have_selector('[class*="__hl_background_status"]')
-    expect(page).not_to have_selector('[class*="__hl_background_priority"]')
-    expect(page).not_to have_selector('[class*="__hl_date"]')
+    expect(page).to have_no_css('[class*="__hl_background"]')
+    expect(page).to have_no_css('[class*="__hl_background_status"]')
+    expect(page).to have_no_css('[class*="__hl_background_priority"]')
+    expect(page).to have_no_css('[class*="__hl_date"]')
 
     # Save query
     wp_table.save
@@ -191,8 +190,8 @@ RSpec.describe 'Work Package highlighting fields',
 
     # Expect highlighted fields in single view even when table disabled
     wp_table.open_full_screen_by_doubleclick wp_1
-    expect(page).to have_selector("#{test_selector('op-wp-status-button')} .__hl_background_status_#{status1.id}")
-    expect(page).to have_selector(".__hl_inline_priority_#{priority1.id}")
+    expect(page).to have_css("#{test_selector('op-wp-status-button')} .__hl_background_status_#{status1.id}")
+    expect(page).to have_css(".__hl_inline_priority_#{priority1.id}")
   end
 
   it 'correctly parses custom selected inline attributes', :with_cuprite do

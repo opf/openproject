@@ -85,7 +85,7 @@ RSpec.describe "multi select custom values", :js, :with_cuprite do
 
       expect(page).to have_text "groupfoo"
       expect(page).to have_text "PLACEHOLDER"
-      expect(page).not_to have_text "Da Real"
+      expect(page).to have_no_text "Da Real"
 
       work_package.reload
       cvs = work_package
@@ -145,11 +145,11 @@ RSpec.describe "multi select custom values", :js, :with_cuprite do
 
         click_on "Reviewer: Save"
         wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-        expect(page).to have_selector('.custom-option', count: 2)
+        expect(page).to have_css('.custom-option', count: 2)
 
         expect(page).to have_text custom_field.name
         expect(page).to have_text "Billy Nobbler"
-        expect(page).not_to have_text "Anton Lupin"
+        expect(page).to have_no_text "Anton Lupin"
         expect(page).to have_text "Cooper Quatermaine"
       end
     end

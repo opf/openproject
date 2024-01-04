@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "./migration_utils/column"
+require_relative "migration_utils/column"
 
 class RemoveOrphanedTokens < ActiveRecord::Migration[7.0]
   def up

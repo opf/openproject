@@ -34,7 +34,7 @@ module OpenProject
     end
 
     def self.settings_from_yaml
-      if (settings = Rails.root.join('config', 'plugins', 'auth_saml', 'settings.yml')).exist?
+      if (settings = Rails.root.join("config/plugins/auth_saml/settings.yml")).exist?
         Rails.logger.info("[auth_saml] Registering saml integration from settings file")
 
         YAML::load(File.open(settings)).symbolize_keys

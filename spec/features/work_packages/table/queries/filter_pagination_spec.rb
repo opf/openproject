@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Filter updates pagination', js: true do
+RSpec.describe 'Filter updates pagination', :js do
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i[view_work_packages] })
@@ -53,12 +53,12 @@ RSpec.describe 'Filter updates pagination', js: true do
     wp_table.visit!
   end
 
-  it 'will reset page to 1 if changing filter' do
+  it 'resets page to 1 if changing filter' do
     wp_table.expect_work_package_listed work_package_1
     wp_table.ensure_work_package_not_listed! work_package_2
 
     # Expect pagination to be correct
-    expect(page).to have_selector('.op-pagination--item_current', text: '1')
+    expect(page).to have_css('.op-pagination--item_current', text: '1')
 
     # Go to second page
     within('.op-pagination--pages') do
@@ -69,7 +69,7 @@ RSpec.describe 'Filter updates pagination', js: true do
     wp_table.ensure_work_package_not_listed! work_package_1
 
     # Expect pagination to be correct
-    expect(page).to have_selector('.op-pagination--item_current', text: '2')
+    expect(page).to have_css('.op-pagination--item_current', text: '2')
 
     # Change filter to assigned to
     filters.expect_filter_count 1
@@ -81,6 +81,6 @@ RSpec.describe 'Filter updates pagination', js: true do
     wp_table.ensure_work_package_not_listed! work_package_2
 
     # Expect pagination to be back to 1
-    expect(page).to have_selector('.op-pagination--range', text: '1 - 1/1')
+    expect(page).to have_css('.op-pagination--range', text: '1 - 1/1')
   end
 end

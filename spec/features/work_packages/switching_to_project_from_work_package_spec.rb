@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Switching to project from work package', js: true do
+RSpec.describe 'Switching to project from work package', :js do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -22,7 +22,7 @@ RSpec.describe 'Switching to project from work package', js: true do
     wp_table.open_full_screen_by_link work_package
 
     # Follow link to project
-    expect(page).to have_selector('.attributes-group.-project-context')
+    expect(page).to have_css('.attributes-group.-project-context')
     link = find('.attributes-group.-project-context .project-context--switch-link')
     expect(link[:href]).to include(project_path(project.id))
 

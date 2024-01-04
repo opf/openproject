@@ -31,9 +31,7 @@ require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Query menu items',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Query menu items', :js, :with_cuprite do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -95,7 +93,7 @@ RSpec.describe 'Query menu items',
       click_on 'Save'
 
       notification.expect_success('Successful update')
-      expect(page).to have_selector('.op-sidemenu--item', text: query.name)
+      expect(page).to have_css('.op-sidemenu--item', text: query.name)
     end
   end
 
@@ -137,7 +135,7 @@ RSpec.describe 'Query menu items',
     it 'is renaming and reordering the list' do
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
-      expect(page).to have_selector('.op-sidemenu--items li:first-child', text: new_name)
+      expect(page).to have_css('.op-sidemenu--items li:first-child', text: new_name)
     end
   end
 end

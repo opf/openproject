@@ -170,7 +170,7 @@ RSpec.describe CustomStylesController do
       context "when logo is present" do
         let(:custom_style) { build(:custom_style_with_logo) }
 
-        it 'will send a file' do
+        it 'sends a file' do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -231,7 +231,7 @@ RSpec.describe CustomStylesController do
       context "when export logo is present" do
         let(:custom_style) { build(:custom_style_with_export_logo) }
 
-        it 'will send a file' do
+        it 'sends a file' do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -292,7 +292,7 @@ RSpec.describe CustomStylesController do
       context "when export cover is present" do
         let(:custom_style) { build(:custom_style_with_export_cover) }
 
-        it 'will send a file' do
+        it 'sends a file' do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -353,7 +353,7 @@ RSpec.describe CustomStylesController do
       context "when favicon is present" do
         let(:custom_style) { build(:custom_style_with_favicon) }
 
-        it 'will send a file' do
+        it 'sends a file' do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -414,7 +414,7 @@ RSpec.describe CustomStylesController do
       context "when touch icon is present" do
         let(:custom_style) { build(:custom_style_with_touch_icon) }
 
-        it 'will send a file' do
+        it 'sends a file' do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -528,7 +528,7 @@ RSpec.describe CustomStylesController do
           post :update_export_cover_text_color, params:
         end
 
-        it 'it is created' do
+        it 'is created' do
           expect(response).to redirect_to action: :show
         end
       end
@@ -596,7 +596,7 @@ RSpec.describe CustomStylesController do
       context "when logo is present" do
         let(:custom_style) { build(:custom_style_with_logo) }
 
-        it 'will send a file' do
+        it 'sends a file' do
           expect(response).to have_http_status(:ok)
         end
       end

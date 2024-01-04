@@ -114,7 +114,7 @@ class MessagesController < ApplicationController
     if call.success?
       flash[:notice] = t(:notice_successful_update)
       @message.reload
-      redirect_to topic_path(@message.root, r: (@message.parent_id && @message.id))
+      redirect_to topic_path(@message.root, r: @message.parent_id && @message.id)
     else
       render action: 'edit'
     end

@@ -138,7 +138,7 @@ RSpec.describe CustomActions::UpdateService do
                     .map { |a| [a.key, a.values] }
 
       expect(new_actions)
-        .to match_array [[:assigned_to, [2]], [:priority, [3]]]
+        .to contain_exactly([:assigned_to, [2]], [:priority, [3]])
     end
 
     it 'handles unknown actions' do
@@ -149,7 +149,7 @@ RSpec.describe CustomActions::UpdateService do
                     .map { |a| [a.key, a.values] }
 
       expect(new_actions)
-        .to match_array [[:inexistent, ['3']]]
+        .to contain_exactly([:inexistent, ['3']])
     end
 
     it 'updates the conditions' do
@@ -165,7 +165,7 @@ RSpec.describe CustomActions::UpdateService do
                        .map { |a| [a.key, a.values] }
 
       expect(new_conditions)
-        .to match_array [[:status, [new_status.id]]]
+        .to contain_exactly([:status, [new_status.id]])
     end
 
     it 'handles unknown conditions' do
@@ -176,7 +176,7 @@ RSpec.describe CustomActions::UpdateService do
                        .map { |a| [a.key, a.values] }
 
       expect(new_conditions)
-        .to match_array [[:inexistent, [3]]]
+        .to contain_exactly([:inexistent, [3]])
     end
   end
 end

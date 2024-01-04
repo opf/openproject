@@ -37,7 +37,7 @@ end
 # failures
 def retry_block(args: {}, screenshot: false, &block)
   if ENV["RSPEC_RETRY_RETRY_COUNT"] == "0"
-    block.call
+    yield
     return
   end
 

@@ -254,9 +254,9 @@ module Journals
     def association_modifications_sql(association, predecessor)
       <<~SQL
         cleanup_predecessor_#{association} AS (
-          #{send("cleanup_predecessor_#{association}", predecessor)}
+          #{send(:"cleanup_predecessor_#{association}", predecessor)}
         ), insert_#{association} AS (
-          #{send("insert_#{association}_sql")}
+          #{send(:"insert_#{association}_sql")}
         )
       SQL
     end

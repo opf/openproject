@@ -8,6 +8,6 @@ Rails.application.configure do
 
   # Add custom data to event payload
   config.lograge.custom_payload do |controller|
-    ::OpenProject::Logging.extend_payload!({}, { controller: controller })
+    OpenProject::Logging.extend_payload!({}, { controller: })
   end
 end

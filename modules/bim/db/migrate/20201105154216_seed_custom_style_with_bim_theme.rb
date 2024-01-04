@@ -72,7 +72,7 @@ class SeedCustomStyleWithBimTheme < ActiveRecord::Migration[6.0]
   end
 
   def set_custom_style
-    custom_style = (CustomStyle.current || CustomStyle.create!)
+    custom_style = CustomStyle.current || CustomStyle.create!
     custom_style.attributes = { theme: theme[:theme], theme_logo: theme[:logo] }
     custom_style.save!
     custom_style
