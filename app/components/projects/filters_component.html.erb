@@ -1,19 +1,23 @@
 <div data-controller="project-filters"
      data-application-target="dynamic"
      data-project-filters-display-filters-value="<%= helpers.show_filters_section? %>">
-  <%= render(
-    Primer::Beta::IconButton.new(
-      icon: :filter,
-      size: :medium,
-      aria: { label: t(:label_filters_toggle) },
-      mr: 2,
+  <div style="display: flex;">
+    <%= render(
+    Primer::Beta::Button.new(
+      scheme: :secondary,
       mb: 2,
       data: { 'project-filters-target': 'filterFormToggle',
               'action': 'project-filters#toggleDisplayFilters',
               'test-selector': 'project-filter-toggle' }
     )
-  )
-  %>
+    ) { t(:label_filter) }
+    %>
+    <%= text_field_tag :filterText,
+    '',
+    class: 'advanced-filters--text-field -slim',
+    placeholder: t(:label_filter_by_text)
+    %>
+  </div>
 
   <%= form_tag({},
               method: :get,
