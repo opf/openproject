@@ -36,6 +36,7 @@ class AddWorkPackageRoles < ActiveRecord::Migration[7.0]
         view_work_packages
         work_package_assigned
         add_work_package_notes
+        add_work_package_attachments
         edit_own_work_package_notes
         export_work_packages
         view_own_time_entries

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -647,6 +647,13 @@ module Settings
         format: :integer,
         default: nil,
         allowed: -> { Role.pluck(:id) }
+      },
+      notifications_hidden: {
+        default: false
+      },
+      notifications_polling_interval: {
+        format: :integer,
+        default: 60000
       },
       oauth_allow_remapping_of_existing_users: {
         description: 'When set to false, prevent users from other identity providers to take over accounts connected ' \

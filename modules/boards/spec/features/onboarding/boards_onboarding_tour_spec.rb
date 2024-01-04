@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,10 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative './../support/onboarding_steps'
+require_relative '../support/onboarding_steps'
 
-RSpec.describe 'boards onboarding tour',
-               js: true do
+# We decrease the notification polling interval because some portions of the JS code rely on something triggering
+# the Angular change detection. This is usually done by the notification polling, but we don't want to wait
+RSpec.describe 'boards onboarding tour', :js, with_settings: { notifications_polling_interval: 1_000 } do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
     create(:admin,

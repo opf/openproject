@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,6 +89,43 @@ RSpec.describe Principal do
       user.save!
 
       expect(described_class.not_locked.where(id: user.id)).to eq([user])
+    end
+  end
+
+  describe '.memberships' do
+    let(:project_role) { create(:project_role) }
+    let(:global_role) { create(:global_role) }
+    let(:work_package_role) { create(:view_work_package_role) }
+    let(:user) { create(:user) }
+    let!(:active_project_member) do
+      create(:member,
+             principal: user,
+             project: create(:project),
+             roles: [project_role])
+    end
+    let!(:inactive_project_member) do
+      create(:member,
+             principal: user,
+             project: create(:project, active: false),
+             roles: [project_role])
+    end
+    let!(:global_member) do
+      create(:member,
+             principal: user,
+             project: nil,
+             roles: [global_role])
+    end
+    let!(:work_package_member) do
+      create(:work_package_member,
+             principal: user,
+             project: create(:project),
+             entity: create(:work_package),
+             roles: [work_package_role])
+    end
+
+    it 'returns all active projects and global members' do
+      expect(user.memberships)
+        .to contain_exactly(active_project_member, global_member)
     end
   end
 end

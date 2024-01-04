@@ -67,7 +67,7 @@ module Overviews
     }
 
     validations :create, ->(*_args) {
-      if Grids::Overview.where(project_id: model.project_id).exists?
+      if Grids::Overview.exists?(project_id: model.project_id)
         errors.add(:scope, :taken)
       end
     }

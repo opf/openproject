@@ -57,6 +57,7 @@ RSpec.describe 'Projects global menu item', :js, :with_cuprite do
     it 'renders the preset filters' do
       within '#main-menu' do
         expect(page).to have_link text: I18n.t(:label_all_projects)
+        expect(page).to have_link text: I18n.t(:label_my_projects)
         expect(page).to have_link text: I18n.t(:label_public_projects)
         expect(page).to have_link text: I18n.t(:label_archived_projects)
       end

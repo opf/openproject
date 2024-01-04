@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -110,6 +110,10 @@ module Components
         add_filter(name)
 
         set_filter(name, operator, value, selector)
+
+        # Wait for the debounce of the filter input to apply filters
+        # See frontend/src/app/features/work-packages/components/filters/query-filters/query-filters.component.ts:69
+        sleep 0.5
       end
 
       def set_operator(name, operator, selector = nil)

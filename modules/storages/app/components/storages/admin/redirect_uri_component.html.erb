@@ -1,0 +1,30 @@
+<%=
+  grid_layout('op-storage-view--row', tag: :div, align_items: :center) do |grid|
+    grid.with_area(:item, tag: :div, mr: 3) do
+      concat(
+        render(
+          Primer::Beta::Text.new(font_weight: :bold, mr: 1, test_selector: 'storage-redirect-uri-label')
+        ) { I18n.t('storages.file_storage_view.redirect_uri') }
+      )
+      concat(configuration_check_label_for(:storage_oauth_client_configured))
+    end
+
+    grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-redirect-uri-description') do
+      concat(render(Primer::Beta::Text.new) { provider_redirect_uri_description })
+      if storage.oauth_client.present?
+        concat(render(Primer::Beta::ClipboardCopy.new('aria-label': I18n.t('storages.instructions.one_drive.copy_redirect_uri'),
+                                                      value: storage.oauth_client.redirect_uri)))
+      end
+    end
+
+    if editable_storage?
+      grid.with_area(:"icon-button", tag: :div, color: :muted) do
+        flex_layout(justify_content: :flex_end) do |icons_container|
+          icons_container.with_column do
+            render(Primer::Beta::IconButton.new(**show_icon_button_options))
+          end
+        end
+      end
+    end
+  end
+%>

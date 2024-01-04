@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -21,16 +21,16 @@
 #++
 pt:
   plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+    name: "Backlogs OpenProject"
+    description: "Este módulo acrescenta recursos que permitem que as equipes ágeis trabalhem com o OpenProject em projetos Scrum."
   activerecord:
     attributes:
       work_package:
         position: "Posição"
-        remaining_hours: "Horas restantes"
-        remaining_time: "Horas restantes"
-        derived_remaining_hours: "Horas restantes derivadas"
-        derived_remaining_time: "Horas restantes derivadas"
+        remaining_hours: "Trabalho restante"
+        remaining_time: "Trabalho restante"
+        derived_remaining_hours: "Trabalho restante derivado"
+        derived_remaining_time: "Trabalho restante derivado"
         story_points: "Pontos de história"
         backlogs_work_package_type: "Tipo de backlog"
     errors:

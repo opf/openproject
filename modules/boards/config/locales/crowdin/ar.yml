@@ -10,7 +10,7 @@ ar:
     label_board: "لوحة"
     label_boards: "لوحات"
     label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_board_type: "نوع اللوحة"
     board_types:
       free: Basic
       action: "Action board (%{attribute})"
@@ -36,4 +36,4 @@ ar:
         Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
     upsale:
       teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      upgrade: 'الترقية الآن'

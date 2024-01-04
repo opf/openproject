@@ -11,7 +11,7 @@
   ></op-work-package-mark-notification-button>
 
   <wp-share-button [workPackage]="workPackage"
-                   *ngIf="displayShareButton">
+                   *ngIf="displayShareButton$ | async">
   </wp-share-button>
 
   <button class="button dropdown-relative"

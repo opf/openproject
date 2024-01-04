@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -303,31 +303,31 @@ id:
           two: "Kriteria penyortiran kedua"
           three: "Kriteria penyortiran ketiga"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Bagan Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
         title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        bar: 'Label batang'
+        left: 'Kiri'
+        right: 'Kanan'
+        farRight: 'Jauh sekali'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(kosong)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Klik pada bagian terang paket kerja untuk membuat relasi. Tekan escape untuk membatalkan.'
       zoom:
         in: "Zoom in"
         out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        auto: "Zoom otomatis"
+        days: "Hari"
+        weeks: "Minggu"
+        months: "Bulan"
+        quarters: "Kuartal"
+        years: "Tahun"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
@@ -756,6 +756,7 @@ id:
           last_day: 'Last day'
     text_are_you_sure: "Apakah anda yakin?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nama %{group} digunakan lebih dari satu kali. Nama grup harus unik."
@@ -965,7 +966,6 @@ id:
         date: "Tanggal"
         dueDate: "Tanggal selesai"
         duration: "Durasi"
-        estimatedTime: "Estimasi Waktu"
         spentTime: "Durasi"
         category: "Kategori"
         percentageDone: "Persentase selesai"

@@ -76,4 +76,4 @@ Also, at the bottom of the Work package form you can add files via drag and drop
 
 Find out how to [edit existing Work packages](../edit-work-package).
 
-> Note: you can also use [Nextcloud integration](../../nextcloud-integration/#link-files-and-folders-to-work-packages) to upload files to Nextcloud or link already existing files or folders to a work package under the tab **Files**.
+> Note: you can also use [Nextcloud integration](../../file-management/nextcloud-integration/#link-files-and-folders-to-work-packages) to upload files to Nextcloud or link already existing files or folders to a work package under the tab **Files**.

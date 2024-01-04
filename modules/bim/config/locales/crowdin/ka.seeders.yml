@@ -301,7 +301,7 @@ ka:
                     *   The owner is happy with the results
                     *   ...
                 item_1:
-                  subject: Design freeze
+                  subject: დიზაინის გაყინვა
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_5:
               subject: Construction phase
@@ -376,7 +376,7 @@ ka:
                     *   Electrical installation
                     *   ...
                 item_5:
-                  subject: Final touches
+                  subject: ბოლო შტრიხები
                   description: |-
                     ## Goal
 

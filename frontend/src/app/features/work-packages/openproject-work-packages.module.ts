@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -417,7 +417,6 @@ import {
 import {
   WorkPackageShareModalComponent,
 } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
-import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 
 @NgModule({
   imports: [
@@ -695,10 +694,8 @@ import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-el
 export class OpenprojectWorkPackagesModule {
   static bootstrapAttributeGroupsCalled = false;
 
-  constructor(injector:Injector) {
+  constructor(private injector:Injector) {
     OpenprojectWorkPackagesModule.bootstrapAttributeGroups(injector);
-
-    registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
   }
 
   // The static property prevents running the function

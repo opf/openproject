@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,19 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream.update :storage_openproject_oauth_section do %>
-  <%=
-    render(
-      Storages::Admin::OAuthApplicationInfoComponent.new(
-        oauth_application: @oauth_application,
-        storage: @storage,
-      )
-    )
-  %>
-<% end %>
-
-<% if @storage.provider_type_nextcloud? && @storage.oauth_client.blank?  %>
-  <%= turbo_stream.update :storage_oauth_client_section  do %>
-    <%= render(Storages::Admin::Forms::OAuthClientFormComponent.new(oauth_client: @oauth_client, storage: @storage)) %>
-  <% end %>
+<%= turbo_stream.update :storage_oauth_client_section do %>
+  <%= render(Storages::Admin::Forms::OAuthClientFormComponent.new(oauth_client: @oauth_client, storage: @storage)) %>
 <% end %>

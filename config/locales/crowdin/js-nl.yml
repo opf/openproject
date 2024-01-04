@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,9 +34,9 @@ nl:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Laden..."
+      not_found: "Geen items gevonden"
+      type_to_search: "Typ om te zoeken"
     autocomplete_select:
       placeholder:
         multi: "Toevoegen \"%{name}\""
@@ -303,22 +303,22 @@ nl:
           two: "Tweede sorteercriteria"
           three: "Derde sorteercriteria"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Gantt-grafiek'
       quarter_label: 'Q%{quarter_number}'
       labels:
         title: 'Labelconfiguratie'
-        bar: 'Bar labels'
+        bar: 'Bar etiketten'
         left: 'Links'
         right: 'Rechts'
         farRight: 'Uiterst rechts'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Selecteer de attributen die u te allen tijde wilt laten zien in de respectieve posities van het Gantt-diagram. Merk op dat wanneer de muis over een element beweegt, de datum labels worden getoond in plaats van deze eigenschappen.
+      button_activate: 'Toon Gantt-diagram'
+      button_deactivate: 'Verberg Gantt-diagram'
       filter:
         noneSelection: "(geen)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Klik op elk gemarkeerde werkpakket om een relatie te maken. Druk op escape om te annuleren.'
       zoom:
         in: "Inzoomen"
         out: "Uitzoomen"
@@ -329,7 +329,7 @@ nl:
         quarters: "Kwartalen"
         years: "Jaren"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Selecteer het oorspronkelijke zoomniveau dat moet worden weergegeven wanneer autozoom niet beschikbaar is.
     general_text_no: "Nee"
     general_text_yes: "Ja"
     general_text_No: "Nee"
@@ -615,7 +615,7 @@ nl:
         property_is_deleted: 'Is verwijderd'
         upsale:
           title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          description: 'Met datummeldingen wordt u op de hoogte gebracht van de start- of einddatum, zodat u nooit een belangrijke deadline mist of vergeet.'
       facets:
         unread: 'Ongelezen'
         unread_title: 'Toon ongelezen'
@@ -757,6 +757,7 @@ nl:
           last_day: 'Laatste dag'
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "De groep naam %{group} word meer dan één keer gebruikt. Groep namen moeten uniek zijn."
@@ -966,7 +967,6 @@ nl:
         date: "Datum"
         dueDate: "Einddatum"
         duration: "Duur"
-        estimatedTime: "Geschatte tijd"
         spentTime: "Bestede tijd"
         category: "Categorie"
         percentageDone: "Procent klaar"
@@ -1027,7 +1027,7 @@ nl:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Deel'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

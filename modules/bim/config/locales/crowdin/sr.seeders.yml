@@ -22,7 +22,7 @@ sr:
         item_2:
           name: Resolved
         item_3:
-          name: Closed
+          name: Zatvoreno
       time_entry_activities:
         item_0:
           name: Management
@@ -32,7 +32,7 @@ sr:
           name: Other
       types:
         item_0:
-          name: Task
+          name: Zadatak
         item_1:
           name: Milestone
         item_2:

@@ -12,7 +12,7 @@ class OpenProject::XlsExport::XlsViews
     case key.to_sym
     when :units                     then value.to_i
     when :spent_on                  then value
-    when :activity_id               then mapped value, Enumeration, I18n.t(:caption_material_costs)
+    when :activity_id               then mapped value, Enumeration, I18n.t('placeholders.default')
     when :project_id                then project_representation(value)
     when :user_id, :assigned_to_id  then user_representation(value)
     when :work_package_id           then work_package_representation(value)

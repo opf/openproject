@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -65,7 +65,7 @@ fa:
   label_week_reporting: "Week (Spent)"
   label_year_reporting: "Year (Spent)"
   label_count: "Count"
-  label_filter: "Filter"
+  label_filter: "فیلتر"
   label_filter_add: "Add Filter"
   label_filter_plural: "فیلترها"
   label_group_by: "گروه‌بندی بر اساس"
@@ -79,7 +79,7 @@ fa:
   load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
   permission_save_cost_reports: "Save public cost reports"
   permission_save_private_cost_reports: "Save private cost reports"
-  project_module_reporting_module: "Cost reports"
+  project_module_reporting_module: "گزارش هزینه‌ها"
   text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
   toggle_multiselect: "activate/deactivate multiselect"
   units: "واحدها"

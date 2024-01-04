@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -312,7 +312,7 @@ be:
         right: 'Right'
         farRight: 'Far right'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Адзначце атрыбуты, якія будуць паказвацца заўсёды ў адпаведных пазіцыях дыяграмы Ганта. Звярніце ўвагу, што пры навядзенні курсора на элемент, замест гэтых атрыбутаў будуць паказаны яго часавыя меткі.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
@@ -759,6 +759,7 @@ be:
           last_day: 'Last day'
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -968,7 +969,6 @@ be:
         date: "Дата"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
         percentageDone: "Percentage done"

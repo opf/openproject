@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -183,9 +183,9 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
   describe 'non-working days' do
     shared_let(:non_working_days) do
       [
-        create(:non_working_day),
-        create(:non_working_day),
-        create(:non_working_day)
+        create(:non_working_day, date: Date.new(Date.current.year, 6, 10)),
+        create(:non_working_day, date: Date.new(Date.current.year, 8, 20)),
+        create(:non_working_day, date: Date.new(Date.current.year, 9, 25))
       ]
     end
 

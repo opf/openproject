@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,6 +73,13 @@ module WorkPackages
 
       def permission_name(value)
         options.select { |option| option[:value] == value }
+      end
+
+      def form_inputs(role_id)
+        [].tap do |inputs|
+          inputs << { name: 'role_ids[]', value: role_id }
+          inputs << { name: 'filters', value: params[:filters] } if params[:filters]
+        end
       end
     end
   end

@@ -50,15 +50,15 @@ eo:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Ne membro
         item_1:
-          name: Anonymous
+          name: Aanonima
         item_2:
-          name: Member
+          name: Membro
         item_3:
-          name: Reader
+          name: Leganto
         item_4:
-          name: Project admin
+          name: Administranto de la projekto
       global_roles:
         item_0:
           name: Staff and projects manager

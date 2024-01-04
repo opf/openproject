@@ -109,7 +109,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   }
 
   protected initializeStates(query:QueryResource) {
-    void this.loadForm(query);
     super.initializeStates(query);
 
     this.querySpace
@@ -127,29 +126,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       });
   }
 
-  private loadForm(query:QueryResource):Promise<QueryFormResource|undefined> {
-    if (!this.formPromise) {
-      this.formPromise = firstValueFrom(
-        this
-          .apiv3Service
-          .withOptionalProject(this.projectIdentifier)
-          .queries
-          .form
-          .load(query),
-      )
-        .then(([form, _]) => {
-          this.wpStatesInitialization.updateStatesFromForm(query, form);
-          return form;
-        })
-        .catch(() => undefined);
-    }
-
-    return this.formPromise;
-  }
-
   public loadQuery(visible = true, firstPage = false):Promise<QueryResource> {
-    // Ensure we are loading the form.
-    this.formPromise = undefined;
 
     if (this.loadedQuery) {
       const query = this.loadedQuery;

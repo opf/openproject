@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -1037,8 +1037,8 @@ RSpec.describe WorkPackages::BaseContract do
 
     before do
       allow(current_user)
-        .to receive(:roles_for_project)
-         .with(work_package.project)
+        .to receive(:roles_for_work_package)
+         .with(work_package)
          .and_return(roles)
     end
 

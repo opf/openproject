@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ class Project < ApplicationRecord
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w(new).freeze
+  RESERVED_IDENTIFIERS = %w(new menu).freeze
 
   has_many :members, -> {
     # TODO: check whether this should
@@ -150,13 +150,13 @@ class Project < ApplicationRecord
   friendly_id :identifier, use: :finders
 
   include ::Scopes::Scoped
-  scopes :allowed_to
+  scopes :allowed_to,
+         :visible
 
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
   scope :public_projects, -> { where(public: true) }
-  scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
   scope :with_visible_work_packages, ->(user = User.current) do
     where(id: WorkPackage.visible(user).select(:project_id)).or(allowed_to(user, :view_work_packages))
   end
@@ -197,16 +197,6 @@ class Project < ApplicationRecord
 
   def self.selectable_projects
     Project.visible.select { |p| User.current.member_of? p }.sort_by(&:to_s)
-  end
-
-  # Returns all projects the user is allowed to see.
-  #
-  # Employs the :view_project permission to perform the
-  # authorization check as the permission is public, meaning it is granted
-  # to everybody having at least one role in a project regardless of the
-  # role's permissions.
-  def self.visible_by(user = User.current)
-    allowed_to(user, :view_project).or(where(id: WorkPackage.visible(user).select(:project_id)))
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.

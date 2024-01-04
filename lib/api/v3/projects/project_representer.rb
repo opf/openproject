@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,12 @@ module API
         include ::API::Caching::CachedRepresenter
         include API::Decorators::FormattableProperty
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+        def self.current_user_view_allowed_lambda
+          ->(*) { current_user.allowed_in_project?(:view_project, represented) || current_user.allowed_globally?(:add_project) }
+        end
+
+        custom_field_injector cache_if: current_user_view_allowed_lambda
 
         cached_representer disabled: false
 
@@ -182,41 +188,48 @@ module API
         property :active
         property :public
 
-        formattable_property :description
+        formattable_property :description,
+                             cache_if: current_user_view_allowed_lambda
 
         date_time_property :created_at
 
         date_time_property :updated_at
 
         resource :status,
+                 skip_render: ->(*) {
+                   !current_user.allowed_in_project?(:view_project, represented) &&
+                     !current_user.allowed_globally?(:add_project)
+                 },
+                 link_cache_if: current_user_view_allowed_lambda,
                  getter: ->(*) {
-                   next unless represented.status_code
+                           next unless represented.status_code
 
-                   ::API::V3::Projects::Statuses::StatusRepresenter
-                     .create(represented.status_code, current_user:, embed_links:)
-                 },
+                           ::API::V3::Projects::Statuses::StatusRepresenter
+                             .create(represented.status_code, current_user:, embed_links:)
+                         },
                  link: ->(*) {
-                   if represented.status_code
-                     {
-                       href: api_v3_paths.project_status(represented.status_code),
-                       title: I18n.t(:"activerecord.attributes.project.status_codes.#{represented.status_code}",
-                                     default: nil)
-                     }.compact
-                   else
-                     {
-                       href: nil
-                     }
-                   end
-                 },
+                         if represented.status_code
+                           {
+                             href: api_v3_paths.project_status(represented.status_code),
+                             title: I18n.t(:"activerecord.attributes.project.status_codes.#{represented.status_code}",
+                                           default: nil)
+                           }.compact
+                         else
+                           {
+                             href: nil
+                           }
+                         end
+                       },
                  setter: ->(fragment:, represented:, **) {
-                   link = ::API::Decorators::LinkObject.new(represented,
-                                                            path: :project_status,
-                                                            property_name: :status_code,
-                                                            setter: :'status_code=')
-                   link.from_hash(fragment)
-                 }
+                           link = ::API::Decorators::LinkObject.new(represented,
+                                                                    path: :project_status,
+                                                                    property_name: :status_code,
+                                                                    setter: :'status_code=')
+                           link.from_hash(fragment)
+                         }
 
-        formattable_property :status_explanation
+        formattable_property :status_explanation,
+                             cache_if: current_user_view_allowed_lambda
 
         def _type
           'Project'
@@ -224,7 +237,7 @@ module API
 
         self.to_eager_load = [:enabled_modules]
 
-        self.checked_permissions = [:add_work_packages]
+        self.checked_permissions = %i[add_work_packages view_project]
       end
     end
   end

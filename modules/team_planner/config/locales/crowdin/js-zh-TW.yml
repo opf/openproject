@@ -4,7 +4,7 @@ zh-TW:
     team_planner:
       add_existing: '添加現有的'
       add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
+      create_label: '團隊規劃'
       create_title: 'Create new team planner'
       unsaved_title: 'Unnamed team planner'
       no_data: 'Add assignees to set up your team planner.'

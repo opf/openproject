@@ -32,7 +32,7 @@ get:
                     href: "/api/v3/news/1"
                     title: asperiores possimus nam doloribus ab
                 _type: News
-                createdAt: '2015-03-20T12:57:01Z'
+                createdAt: '2015-03-20T12:57:01.601Z'
                 description:
                   format: markdown
                   html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia est

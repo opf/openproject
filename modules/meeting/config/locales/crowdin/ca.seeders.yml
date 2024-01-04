@@ -9,21 +9,21 @@ ca:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: Setmanal
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Bones notícies
             item_1:
-              title: Updates from development team
+              title: Actualitzacions de l'equip de desenvolupament
             item_2:
-              title: Updates from product team
+              title: Actualitzacions de l'equip de producte
             item_3:
-              title: Updates from marketing team
+              title: Actualitzacions de l'equip de màrqueting
             item_4:
-              title: Updates from sales team
+              title: Actualitzacions de l'equip de vendes
             item_5:
-              title: Review of quarterly goals
+              title: Revisió dels objectius quadrimestrals
             item_6:
-              title: Core values feedback
+              title: Opinions dels valors principals
             item_7:
-              title: General topics
+              title: Temes generals

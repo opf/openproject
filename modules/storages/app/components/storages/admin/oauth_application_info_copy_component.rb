@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ module Storages::Admin
     private
 
     def submit_button_path
-      options[:submit_button_path] || edit_admin_settings_storage_path(storage)
+      options[:submit_button_path] || show_oauth_application_admin_settings_storage_path(storage)
     end
   end
 end

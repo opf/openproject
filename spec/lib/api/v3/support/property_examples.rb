@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,12 @@ RSpec.shared_examples_for 'property' do |name|
     expect(subject)
       .to be_json_eql(value.to_json)
       .at_path(name.to_s)
+  end
+end
+
+RSpec.shared_examples_for 'no property' do |name|
+  it "does not have the #{name} property" do
+    expect(subject).not_to have_json_path(name.to_s)
   end
 end
 

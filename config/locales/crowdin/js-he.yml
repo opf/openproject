@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,7 +34,7 @@ he:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "טוען..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -249,7 +249,7 @@ he:
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "שדרג עכשיו"
           button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
@@ -284,7 +284,7 @@ he:
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
     enumeration_activities: "פעילויות (מעקב זמן)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_doc_categories: "קטגוריות מסמכים"
     enumeration_work_package_priorities: "עדיפויות חבילת עבודה"
     filter:
       more_values_not_shown: "There are %{total} more results, search to filter results."
@@ -323,8 +323,8 @@ he:
         in: "Zoom in"
         out: "Zoom out"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
+        days: "ימים"
+        weeks: "שבועות"
         months: "Months"
         quarters: "Quarters"
         years: "Years"
@@ -384,9 +384,9 @@ he:
     label_author: "Author: %{user}"
     label_avatar: "אווטר"
     label_between: "between"
-    label_board: "Board"
+    label_board: "לוח"
     label_board_locked: "נעול"
-    label_board_plural: "Boards"
+    label_board_plural: "לוחות"
     label_board_sticky: "נעוץ"
     label_change: "שנה"
     label_create: "צור"
@@ -515,7 +515,7 @@ he:
     label_warning: "Warning"
     label_work_package: "חבילת עבודה"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work packages"
+    label_work_package_plural: "חבילת עבודה"
     label_watch: "צפה"
     label_watch_work_package: "חבילת שעון עבודה"
     label_watcher_added_successfully: "הצופה נוסף בהצלחה!"
@@ -596,7 +596,7 @@ he:
       reasons:
         mentioned: 'mentioned'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'משויך אל'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'מתוכנן'
@@ -759,6 +759,7 @@ he:
           last_day: 'Last day'
     text_are_you_sure: "האם הינך בטוח?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -968,7 +969,6 @@ he:
         date: "תאריך"
         dueDate: "Finish date"
         duration: "משך זמן"
-        estimatedTime: "זמן משוער"
         spentTime: "זמן שבוזבז"
         category: "קטגוריה"
         percentageDone: "האחוזים הסתיימו"
@@ -1029,7 +1029,7 @@ he:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'שתף'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

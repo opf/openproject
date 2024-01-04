@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,5 +31,12 @@
 module Storages::Admin
   class HealthStatusComponent < ApplicationComponent
     alias_method :storage, :model
+
+    # This method returns the health identifier, description and the time since when the error occurs in a
+    # formatted manner. e.g. "Not found: Outbound request destination not found since 12/07/2023 03:45 PM"
+    def formatted_health_reason
+      "#{storage.health_reason_identifier.tr('_', ' ').strip.capitalize}: #{storage.health_reason_description} " +
+        I18n.t('storages.health.since', datetime: helpers.format_time(storage.health_changed_at))
+    end
   end
 end

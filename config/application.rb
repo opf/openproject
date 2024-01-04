@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,6 +65,10 @@ module OpenProject
     # specific initializers files. See
     # https://community.openproject.org/wp/45463 for details.
     config.load_defaults 5.0
+
+    # Silence the "multiple database warning"
+    # Note that this warning can be removed in the 7.1 upgrade
+    ActiveRecord.suppress_multiple_database_warning = true
 
     # Do not require `belongs_to` associations to be present by default.
     # Rails 5.0+ default is true. Because of history, lots of tests fail when

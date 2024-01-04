@@ -32,14 +32,14 @@ get:
                         title: John Sheppard - j.sheppard
                     _type: User
                     avatar: https://example.org/users/1/avatar
-                    createdAt: '2014-05-21T08:51:20Z'
+                    createdAt: '2014-05-21T08:51:20.396Z'
                     email: shep@mail.com
                     firstName: John
                     id: 1
                     lastName: Sheppard
                     login: j.sheppard
                     status: active
-                    updatedAt: '2014-05-21T08:51:20Z'
+                    updatedAt: '2014-05-21T08:51:20.396Z'
                   - _links:
                       delete:
                         href: "/api/v3/users/2"
@@ -54,14 +54,14 @@ get:
                         title: Jim Sheppard - j.sheppard2
                     _type: User
                     avatar: https://example.org/users/1/avatar
-                    createdAt: '2014-05-21T08:51:20Z'
+                    createdAt: '2014-05-21T08:51:20.396Z'
                     email: shep@mail.net
                     firstName: Jim
                     id: 2
                     lastName: Sheppard
                     login: j.sheppard2
                     status: active
-                    updatedAt: '2014-05-21T08:51:20Z'
+                    updatedAt: '2014-05-21T08:51:20.396Z'
                 _links:
                   self:
                     href: "/api/v3/projects/42/available_responsibles"

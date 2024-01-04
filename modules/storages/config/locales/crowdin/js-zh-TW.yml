@@ -15,7 +15,7 @@ zh-TW:
       choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
-        default: "Storage"
+        default: "儲存空間"
       information:
         connection_error: >
           Some %{storageType} settings are not working. Please contact your %{storageType} administrator.

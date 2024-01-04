@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,7 +34,7 @@ af:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "Laai tans..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -757,6 +757,7 @@ af:
           last_day: 'Last day'
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -966,7 +967,6 @@ af:
         date: "Datum"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Geraamde tyd"
         spentTime: "Tyd gespandeer"
         category: "Kategorie"
         percentageDone: "Percentage done"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,8 @@
 
 require 'spec_helper'
 
-RSpec.describe TimeEntries::Scopes::Visible do
+RSpec.describe TimeEntry, "visible scope" do
   let(:project) { create(:project) }
-  let(:user) do
-    create(:user,
-           member_with_permissions: { project => permissions })
-  end
-  let(:permissions) { [:view_time_entries] }
 
   let(:work_package) do
     create(:work_package,
@@ -68,18 +63,20 @@ RSpec.describe TimeEntries::Scopes::Visible do
     subject { TimeEntry.visible(user) }
 
     context 'for a user having the view_time_entries permission' do
+      let(:user) { create(:user, member_with_permissions: { project => [:view_time_entries] }) }
+
       it 'retrieves all the time entries of projects the user has the permissions in' do
         expect(subject)
-          .to match_array([own_project_time_entry, project_time_entry])
+          .to contain_exactly(own_project_time_entry, project_time_entry)
       end
     end
 
-    context 'for a user having the view_own_time_entries permission' do
-      let(:permissions) { [:view_own_time_entries] }
+    context 'for a user having the view_own_time_entries permission on a work package' do
+      let(:user) { create(:user, member_with_permissions: { work_package => [:view_own_time_entries] }) }
 
       it 'retrieves all the time entries of the user in projects the user has the permissions in' do
         expect(subject)
-          .to match_array([own_project_time_entry])
+          .to contain_exactly(own_project_time_entry)
       end
     end
   end

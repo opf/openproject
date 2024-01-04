@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,7 +34,7 @@ lv:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "Notiek ielāde..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -323,11 +323,11 @@ lv:
         in: "Zoom in"
         out: "Zoom out"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        days: "Diena"
+        weeks: "Nedēļa"
+        months: "Mēnesis"
+        quarters: "Ceturksnis"
+        years: "Gads"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
@@ -758,6 +758,7 @@ lv:
           last_day: 'Last day'
     text_are_you_sure: "Vai esat pārliecināts?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -967,7 +968,6 @@ lv:
         date: "Datums"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Darbietilpības novērtējums"
         spentTime: "Pavadīts laiks"
         category: "Sadaļa"
         percentageDone: "Percentage done"
@@ -1028,7 +1028,7 @@ lv:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Koplietot'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

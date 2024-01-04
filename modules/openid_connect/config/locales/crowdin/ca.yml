@@ -23,10 +23,10 @@ ca:
       singular: Proveïdor d’OpenID
     setting_instructions:
       azure_deprecation_warning: >
-        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
+        L'aplicació d'Azure configurada apunta a una API d'Azure no suportada. Si us plau, crea una nova aplicació d'Azure per assegurar el funcionament en el futur.
       azure_graph_api: >
-        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+        Utilitza el "graph.microsoft.com userinfo endpoint" per demanar "userdata". Aquest hauria de ser el per defecte si no tens cap aplicació Azure anterior.
       azure_tenant_html: >
-        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+        Estableix el "tenant" del teu Azure "endpoint". Això controlarà qui té accés a la instància d'OpenProject. Per a més informació, ves a <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">la nostre quia de connexió Azure OpenID</a>.
       limit_self_registration: >
         Si s'activa, els usuaris només poden registrar-se utilitzant aquest proveïdor en cas que la configuració de registre per part dels propis usuaris ho permet.

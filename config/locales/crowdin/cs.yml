@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -102,8 +102,8 @@ cs:
       error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
       cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "Chyba LDAP: %{error_message}"
+    ldap_auth_failed: "Nelze autentizovat u serveru LDAP."
     back_to_index: "Kliknutím sem se vrátíte do seznamu připojení."
     technical_warning_html: |
       Tento LDAP formulář vyžaduje technické znalosti nastavení LDAP / Active Directory.
@@ -177,7 +177,7 @@ cs:
     label_no_color: "Bez barvy"
     label_properties: "Vlastnosti"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Opravdu chcete odstranit následující barvu? Typy v této barvě nebudou odstraněny.
   custom_actions:
     actions:
       name: "Akce"
@@ -201,12 +201,21 @@ cs:
     confirm_destroy_option: "Smazáním možnosti smažete všechny výskyty (např. v pracovních balíčcích). Opravdu ji chcete odstranit?"
     reorder_alphabetical: "Změnit pořadí abecedně"
     reorder_confirmation: "Varování: Aktuální pořadí dostupných hodnot bude ztraceno. Pokračovat?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: V současné době nejsou žádná vlastní pole.
       no_results_content_text: Vytvořit nové vlastní pole
   concatenation:
     single: "nebo"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Fórum"
@@ -272,6 +281,15 @@ cs:
       no_results_content_text: Přidání člena do projektu
     invite_by_mail: "Poslat pozvánku do %{mail}"
     send_invite_to: "Odeslat pozvánky"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'Vše'
+      invited: 'Pozvané'
+      locked: 'Uzamčeno'
+      project_roles: 'Projektové role'
+      wp_shares: 'Work package shares'
+      groups: 'Skupiny'
   my:
     access_token:
       failed_to_reset_token: "Nepodařilo se obnovit přístupový token: %{error}"
@@ -289,7 +307,7 @@ cs:
     autologins:
       prompt: "Stay logged in for %{num_days}"
     sessions:
-      remembered_devices: "Remembered devices"
+      remembered_devices: "Zapamatovaná zařízení"
       remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Prohlížeč"
@@ -394,8 +412,8 @@ cs:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -465,10 +483,10 @@ cs:
         attr_login: "Atribut uživatelského jména"
         attr_mail: "Email (atribut)"
         base_dn: "Base DN"
-        host: "Host"
+        host: "Hostitel"
         onthefly: "Automatické vytváření uživatele"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "SSL certifikát LDAP serveru"
       changeset:
         repository: "Repozitář"
       color:
@@ -599,7 +617,7 @@ cs:
         begin_insertion: "Začátek vložení"
         begin_deletion: "Začátek odstranění"
         children: "Dílčí prvky"
-        done_ratio: "Průběh (%)"
+        done_ratio: "% Dokončeno"
         duration: "Doba trvání"
         end_insertion: "Konec vložení"
         end_deletion: "Konec odstranění"
@@ -613,7 +631,7 @@ cs:
         parent_issue: "Rodič"
         parent_work_package: "Nadřazený"
         priority: "Priorita"
-        progress: "Průběh (%)"
+        progress: "% Dokončeno"
         readonly: "Pouze pro čtení"
         schedule_manually: "Manuální plánování"
         spent_hours: "Strávený čas"
@@ -648,7 +666,7 @@ cs:
         error_enterprise_only: "%{action} je k dispozici pouze ve vydání OpenProject Enterprise"
         error_unauthorized: "není přístupný."
         error_readonly: "se pokusil být napsán, ale není zapisovatelný."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Informace mezitím aktualizoval alespoň jeden další uživatel."
         email: "není platná e-mailová adresa"
         empty: "nemůže být prázdné."
         even: "musí být sudé."
@@ -927,11 +945,11 @@ cs:
           attributes:
             roles:
               ungrantable: "má nepřiřaditelnou roli."
-              more_than_one: "has more than one role."
+              more_than_one: "má více než jednu roli."
             principal:
               unassignable: "nelze přiřadit k projektu."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
           undeletable_work_packages_attached: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
         status:
           readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
@@ -979,9 +997,9 @@ cs:
   errors:
     header_invalid_fields:
       one: "Došlo k potížím s následujícím polem:"
-      few: "There were problems with the following fields:"
-      many: "There were problems with the following fields:"
-      other: "There were problems with the following fields:"
+      few: "Nastaly prolémy v následujících polích:"
+      many: "Nastaly prolémy v následujících polích:"
+      other: "Nastaly prolémy v následujících polích:"
     header_additional_invalid_fields:
       one: "Navíc došlo k potížím s následujícím polem:"
       few: "Additionally, there were problems with the following fields:"
@@ -1002,7 +1020,7 @@ cs:
       parent_no_longer: "Již není podprojekt projektu"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} hodina"
           few: "%{count} hodin"
           many: "%{count} hodin"
           other: "%{count} hodin"
@@ -1043,13 +1061,13 @@ cs:
     default_columns: "Výchozí sloupce"
     description: "Popis"
     derived_due_date: "Derivované Datum ukončení "
-    derived_estimated_hours: "Derivované předpokládaný čas"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derivované Datum zahájení "
     display_sums: "Zobrazit součty"
     due_date: "Datum dokončení"
-    estimated_hours: "Odhadovaný čas"
-    estimated_time: "Odhadovaný čas"
-    expires_at: "Expires at"
+    estimated_hours: "Práce"
+    estimated_time: "Práce"
+    expires_at: "Vyprší za"
     firstname: "Křestní jméno"
     group: "Skupina"
     groups: "Skupiny"
@@ -1319,15 +1337,15 @@ cs:
         many: "%{count} mins"
         other: "min"
       x_hours:
-        one: "1 hour"
-        few: "%{count} hours"
-        many: "%{count} hours"
-        other: "%{count} hours"
+        one: "1 hodina"
+        few: "%{count} hodin"
+        many: "%{count} hodin"
+        other: "%{count} hodin"
       x_hours_abbreviated:
-        one: "1 hr"
-        few: "%{count} hrs"
-        many: "%{count} hrs"
-        other: "%{count} hrs"
+        one: "1 h"
+        few: "%{count} hodin"
+        many: ""
+        other: ""
       x_weeks:
         one: "1 week"
         few: "%{count} weeks"
@@ -1339,7 +1357,7 @@ cs:
         many: "%{count} měsíců"
         other: "%{count} měsíců"
       x_years:
-        one: "1 year"
+        one: "1 rok"
         few: "%{count} years"
         many: "%{count} years"
         other: "%{count} years"
@@ -1430,7 +1448,7 @@ cs:
   error_pdf_export_too_many_columns: "Příliš mnoho sloupců vybraných pro PDF export. Snižte počet sloupců."
   error_pdf_failed_to_export: "PDF export nelze uložit: %{error}"
   error_token_authenticity: "Nelze ověřit token Cross-Site Request Forgy. Pokusili jste se odeslat data na více prohlížečích nebo kartách? Prosím zavřete všechny panely a zkuste to znovu."
-  error_work_package_done_ratios_not_updated: "Statistiky pokroku pracovního balíčku nebyly aktualizovány."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Pracovný balíček nebyl nalezen, nebo nepatří k tomuto projektu"
   error_must_be_project_member: "musí být členem projektu"
   error_migrations_are_pending: "Vaše instalace OpenProject čeká na migraci databáze. Pravděpodobně jste při poslední aktualizaci zmeškali migrace. Pro správnou aktualizaci vaší instalace prosím zkontrolujte průvodce aktualizací."
@@ -1536,7 +1554,7 @@ cs:
       dates_changed: "Data změněna"
       system_update: "Aktualizace systému OpenProject:"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_predecessor_changed_times: podle změn na předchůdce %{link}
       work_package_parent_changed_times: by changes to parent %{link}
       work_package_children_changed_times: by changes to child %{link}
       work_package_related_changed_times: by changes to related %{link}
@@ -1547,8 +1565,8 @@ cs:
           working: "%{day} je pracovní "
           non_working: "%{day} je nepracovní "
         dates:
-          working: "%{date} is now working"
-          non_working: "%{date} is now non-working"
+          working: "%{date} je pracovní "
+          non_working: "%{date} je nepracovní "
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1576,7 +1594,7 @@ cs:
         action: "Akce"
         expiration: "Vyprší"
       indefinite_expiration: "Nikdy"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      simple_revoke_confirmation: "Opravdu chcete zrušit tento token?"
       api:
         title: "API"
         text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
@@ -1891,8 +1909,8 @@ cs:
   label_custom_export_logo: "Custom export logo"
   label_custom_export_cover: "Custom export cover background"
   label_custom_export_cover_overlay: "Custom export cover background overlay"
-  label_custom_export_cover_text_color: "Text color"
-  label_custom_pdf_export_settings: "Custom PDF export settings"
+  label_custom_export_cover_text_color: "Barva textu"
+  label_custom_pdf_export_settings: "Vlastní nastavení exportu PDF"
   label_custom_favicon: "Vlastní favicon"
   label_custom_touch_icon: "Vlastní ikona dotyku"
   label_logout: "Odhlásit se"
@@ -1963,7 +1981,7 @@ cs:
   label_operator_none: "je prázdný"
   label_operator_equals_or: "je (OR)"
   label_operator_equals_all: "je (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "jakákoliv"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
@@ -2110,7 +2128,7 @@ cs:
   label_type_new: "Nový typ"
   label_type_plural: "Typy"
   label_ui: "Uživatelské rozhraní"
-  label_update_work_package_done_ratios: "Aktualizovat statistiky pracovních balíčků"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Aktualizováno před %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Aktualizováno uživatelem %{author} před %{age}"
@@ -2201,8 +2219,8 @@ cs:
     zero: "Žádné projekty"
   label_yesterday: "včera"
   label_role_type: "Typ"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Projektová role"
+  label_global_role: "Globální role"
   label_not_changeable: "(neměnitelné)"
   label_global: "Globální"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
@@ -2268,9 +2286,9 @@ cs:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
-        open_work_package: "Open work package"
-        subject: "Byl Vám sdílen pracovní balíček #%{id}"
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        open_work_package: "Otevřít pracovní balíček"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} s vámi sdílel pracovní balíček s právy %{role_rights}"
@@ -2304,8 +2322,8 @@ cs:
   mail_body_register_ending: "Zůstaňte ve spojení! S pozdravem,"
   mail_body_reminder: "%{count} pracovních balíčků, které máte přiřazeny, mají termín během následujících %{days} dnů:"
   mail_body_group_reminder: '%{count} pracovních balíčků, které jsou přiřazeny ke skupině "%{group}", má termín splatnosti během následujících %{days} dnů:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Wiki stránka '%{id}' byla přidána uživatelem %{author}."
+  mail_body_wiki_page_updated: "Wiki stránka '%{id}' byla aktualizována uživatelem %{author}."
   mail_subject_account_activation_request: "Žádost o aktivaci účtu %{value}"
   mail_subject_backup_ready: "Vaše záloha je připravena"
   mail_subject_backup_token_reset: "Resetovat token zálohy"
@@ -2379,7 +2397,7 @@ cs:
   notice_file_not_found: "Stránka, kterou se snažíte získat přístup, neexistuje nebo byla odstraněna."
   notice_forced_logout: "Byli jste automaticky odhlášeni po %{ttl_time} minutách nečinnosti."
   notice_internal_server_error: "Nastala chyba na stránce, ke které se pokoušíte přistoupit. Pokud přetrváváte problémy, obraťte se na správce %{app_title}."
-  notice_work_package_done_ratios_updated: "Podíl dokončených pracovních balíčků byl aktualizován."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informace mezitím aktualizoval alespoň jeden další uživatel."
   notice_locking_conflict_additional_information: "Aktualizace pocházely z %{users}."
   notice_locking_conflict_reload_page: "Prosím obnovte stránku, zkontrolujte změny a znovu aplikujte aktualizace."
@@ -2445,7 +2463,7 @@ cs:
   permission_add_work_package_notes: "Přidat poznámky"
   permission_add_work_packages: "Přidat pracovní balíčky"
   permission_add_messages: "Odesílat zprávy"
-  permission_add_project: "Create projects"
+  permission_add_project: "Vytvořit projekty"
   permission_add_work_package_attachments: "Přidat přílohy"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archivovat projekt"
@@ -2461,7 +2479,7 @@ cs:
   permission_commit_access: "Čtěte/zapisovat přístup do repozitáře (commit)"
   permission_copy_projects: "Kopírovat projekty"
   permission_copy_work_packages: "Kopírovat pracovní balíčky"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "Vytvořit zálohy"
   permission_delete_work_package_watchers: "Smazat sledující uživatele"
   permission_delete_work_packages: "Odstranit pracovní balíčky"
   permission_delete_messages: "Odstranit zprávy"
@@ -2503,7 +2521,7 @@ cs:
   permission_protect_wiki_pages: "Ochrana stránky wiki"
   permission_rename_wiki_pages: "Přejmenovat stránky wiki"
   permission_save_queries: "Uložit pohled"
-  permission_search_project: "Search project"
+  permission_search_project: "Hledat projekt"
   permission_select_custom_fields: "Vybrat vlastní pole"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_share_work_packages: "Sdílet pracovní balíčky"
@@ -2534,7 +2552,7 @@ cs:
   project:
     destroy:
       confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
-      project_delete_result_1: "Delete all related data."
+      project_delete_result_1: "Odstranit všechna související data."
       project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Odstranění projektu je nevratná akce."
       project_verification: "Zadejte název projektu %{name} pro potvrzení odstranění."
@@ -2559,6 +2577,7 @@ cs:
   project_module_news: "Novinky"
   project_module_repository: "Repozitář"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2748,10 +2767,10 @@ cs:
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
   setting_host_name: "Název serveru"
   setting_invitation_expiration_days: "Platnost aktivačního e-mailu vyprší po"
-  setting_work_package_done_ratio: "Vypočítat koeficient dokončení úkolu s"
-  setting_work_package_done_ratio_field: "Použít pole pracovního balíčku"
-  setting_work_package_done_ratio_status: "Použít stav pracovního balíčku"
-  setting_work_package_done_ratio_disabled: "Zakázat (Skrýt průběh)"
+  setting_work_package_done_ratio: "Vypočítat % plnění pracovního balíčku z"
+  setting_work_package_done_ratio_field: "Pole pracovního balíčku"
+  setting_work_package_done_ratio_status: "Stav pracovního balíčku"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Zobrazit ve výchozím nastavení"
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
@@ -2813,7 +2832,7 @@ cs:
     brute_force_prevention: "Automatizované blokování uživatelů"
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Pokud jsou nastaveny možnosti buď "%{day_of_week_setting_name}" nebo "%{first_week_setting_name}", druhý je třeba nastavit také aby jste se vyhli nesrovnalostem na frontendu.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
     experimental:
@@ -2977,7 +2996,7 @@ cs:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      public: "Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním 'Spravovat veřejné zobrazení' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky."
       favoured: "Označte toto zobrazení jako oblíbené a přidejte do postranního panelu vlevo."
   time:
     am: "am"
@@ -3084,31 +3103,33 @@ cs:
       title: "Odstranit pracovní balíček"
     sharing:
       count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
+        zero: "0 uživatelů"
+        one: "1 uživatel"
+        other: "%{count} uživatelů"
       filter:
-        project_member: 'Project member'
+        project_member: 'Člen projektu'
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
         role: 'Role'
-        type: 'Type'
+        type: 'Typ'
       label_search: "Search for users to invite"
       label_search_placeholder: "Hledat podle uživatele nebo e-mailové adresy"
       label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Komentář"
-        comment_description: "Can view and comment this work package."
-        denied: "You don't have permissions to share work packages."
+        comment_description: "Může zobrazit a komentovat tento pracovní balíček."
+        denied: "Nemáte oprávnění ke sdílení pracovních balíčků."
         edit: "Upravit"
-        edit_description: "Can view, comment and edit this work package."
+        edit_description: "Může zobrazovat, komentovat a upravovat tento pracovní balíček."
         view: "Zobrazit"
-        view_description: "Can view this work package."
+        view_description: "Může zobrazit tento pracovní balíček."
       remove: "Odebrat"
       share: "Sdílet"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "Nenašli jsme žádné odpovídající výsledky."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3116,12 +3137,13 @@ cs:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
-        locked: "Locked user"
-        invited: "Invite sent. "
-        resend_invite: "Resend."
+        locked: "Uzamčený uživatel"
+        invited: "Pozvánka odeslána"
+        resend_invite: "Znovu odeslat."
         invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
+        not_project_member: "Není členem projektu"
         project_group: "Group members might have additional privileges (as project members)"
         not_project_group: "Group (shared with all members)"
         additional_privileges_project: "Might have additional privileges (as project member)"
@@ -3158,6 +3180,7 @@ cs:
       code_429: "Příliš mnoho dotazů, zkuste to znovu později"
       code_500: "Došlo k vnitřní chybě."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "Pracovní balíček, který hledáte, nebyl nalezen nebo byl odstraněn."
       expected:
@@ -3186,9 +3209,9 @@ cs:
         unsupported_context: "Zadaný dokument není podporován jako kontext."
         context_object_not_found: "Zdroj nelze najít jako kontext."
       validation:
-        done_ratio: "Hotový poměr nelze nastavit na nadřazených pracovních balíčcích, pokud je odvozen ze stavu nebo pokud je zakázán."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Datum ukončení nemůže být nastaveno na nadřazených pracovních balíčcích."
-        estimated_hours: "Předpokládané hodiny nelze nastavit na nadřazených pracovních balíčcích."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Zvolený uživatel nesmí být '%{property}' pro tento pracovní balíček."
         start_date: "Počáteční datum nelze nastavit na nadřazených pracovních balíčcích."
       eprops:
@@ -3309,6 +3332,7 @@ cs:
       oauth_returned_json_error: "OAuth2 vrátil chybu JSON"
       oauth_returned_http_error: "OAuth2 vrátil chybu sítě"
       oauth_returned_standard_error: "OAuth2 vrátil interní chybu"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 vrátil špatný typ tokenu, očekává se AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 nahlásil chybu. Obraťte se na správce systému."
       oauth_client_not_found: "Klient OAuth2 nebyl nalezen v koncovém bodě 'callback' (redirect_uri)."

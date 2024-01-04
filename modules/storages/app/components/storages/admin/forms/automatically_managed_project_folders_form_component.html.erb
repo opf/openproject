@@ -7,7 +7,7 @@
       data: {
         controller: "storages--automatically-managed-project-folders-form",
         'application-target': "dynamic",
-        'storages--automatically-managed-project-folders-form-is-automatically-managed-value': storage.automatically_managed?,
+        'storages--automatically-managed-project-folders-form-is-automatically-managed-value': storage.automatic_management_enabled?,
         'storages--automatically-managed-project-folders-form-done-complete-label-value': I18n.t("storages.buttons.done_complete_setup"),
         'storages--automatically-managed-project-folders-form-done-complete-without-label-value': I18n.t("storages.buttons.complete_without_setup"),
       }
@@ -22,10 +22,12 @@
         end
 
         project_folders_form.with_row(mb: 3) do
-          render(Storages::Admin::ManagedProjectFolders::AutomaticallyManagedCheckbox.new(form, storage:))
+          render(Storages::Admin::ManagedProjectFolders::AutomaticManagementCheckbox.new(form, storage:))
         end
 
-        project_folders_form.with_row(mb: 3, data: { 'storages--automatically-managed-project-folders-form-target': "applicationPasswordInput" }) do
+        project_folders_form.with_row(mb: 3,
+                                      data: { 'storages--automatically-managed-project-folders-form-target': "applicationPasswordInput" },
+                                      **application_password_display_options) do
           render(Storages::Admin::ManagedProjectFolders::ApplicationPasswordInput.new(form, storage:))
         end
 

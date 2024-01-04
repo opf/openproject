@@ -2,20 +2,91 @@
 
 # Runs the given specs multiple times to check if they are reliable.
 #
-# Tests to run are fetched from tmp/spec_examples.txt matching /features/ pattern.
-# Results are stored in tmp/bulk_run
-#     results.txt   summary
-#     logs/*.log    one log file per test run
+# Run with --help for more information
 
 # rubocop:disable Rails
+require 'fileutils'
+require 'optparse'
 require 'ostruct'
 require 'pathname'
-require 'fileutils'
 
 RAILS_ROOT = Pathname.new File.expand_path('../', __dir__)
 RSPEC_EXAMPLE_STATUS_PERSISTENCE_FILE_PATH = RAILS_ROOT.join('tmp/spec_examples.txt')
-RUN_COUNT = ENV['BULK_RUN_COUNT'] ? ENV['BULK_RUN_COUNT'].to_i : 5
 PATTERN = ENV['BULK_RUN_PATTERN'] ? Regexp.new(ENV['BULK_RUN_PATTERN']) : /features/
+
+class Options
+  DEFAULTS = {
+    run_count: ENV['BULK_RUN_COUNT'] ? ENV['BULK_RUN_COUNT'].to_i : 5
+  }.freeze
+
+  BANNER = <<~BANNER.freeze
+    Usage: #{$0} [options] [spec ...]
+
+    Runs the given specs multiple times to check if they are reliable.
+
+    Tests to run are fetched from tmp/spec_examples.txt matching /features/
+    pattern.
+
+    Results are stored in tmp/bulk_run:
+      - results.txt   summary
+      - logs/*.log    one log file per test run
+
+    Options:
+  BANNER
+
+  class << self
+    def options
+      return @options if defined?(@options)
+
+      @options = DEFAULTS.dup
+      parse_options!
+      @options
+    end
+
+    def method_missing(name, *)
+      if DEFAULTS.key?(name)
+        options[name]
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(method_name, include_private = false)
+      DEFAULTS.key?(name) || super
+    end
+
+    def parse_options!
+      options.merge!(parse_args)
+    end
+
+    def parse_args
+      options = {}
+      opt_parser = OptionParser.new do |parser|
+        parser.banner = BANNER
+
+        parser.on("-c", "--run-count COUNT", "number of runs (BULK_RUN_COUNT)") do |count|
+          options[:run_count] = count.to_i
+        end
+
+        parser.on("-h", "--help", "Prints this help") do
+          puts parser
+          exit
+        end
+      end
+      opt_parser.parse!
+      ensure_specs_args_present!(opt_parser)
+      options
+    end
+
+    def ensure_specs_args_present!(parser)
+      if ARGV.empty?
+        puts "Error: missing spec path"
+        puts parser
+        exit 1
+      end
+    end
+  end
+end
 
 def normalized(path)
   path.sub(/^\.\//, '').tr('/', '__').tr('[]:', '_')
@@ -107,9 +178,9 @@ class BulkRunner
     puts "logs: #{bulk_run_dir('logs')}"
     tests.each do |test|
       puts '=' * 80
-      puts "Running #{test.path} #{RUN_COUNT} times"
+      puts "Running #{test.path} #{Options.run_count} times"
       puts '=' * 80
-      RUN_COUNT.times do |i|
+      Options.run_count.times do |i|
         puts " Run #{i} ".center(80, '-')
         run = Run.new(test.path)
         run.output = `DISABLE_PRY=1 CI=true bundle exec rspec '#{run.path}' 2>&1`
@@ -149,6 +220,7 @@ class BulkRunner
   end
 end
 
+Options.options
 bulk_runner = BulkRunner.new
 begin
   bulk_runner.run
