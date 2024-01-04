@@ -575,67 +575,74 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context 'for the new ancestors chain' do
-      shared_context 'when called with children' do |children_remaining_hours:|
-        let(:children) do
-          (children_remaining_hours.size - 1).downto(0).map do |i|
-            create(:work_package,
-                   subject: "child #{i}",
-                   parent:,
-                   status: open_status,
-                   remaining_hours: children_remaining_hours[i],
-                   derived_remaining_hours: children_remaining_hours[i])
-          end
-        end
+      context 'with parent having no remaining work' do
+        let_work_packages(<<~TABLE)
+          hierarchy | remaining work |
+          parent    |                |
+            child1  |             0h |
+            child2  |                |
+            child3  |           2.5h |
+        TABLE
+
         subject(:call_result) do
-          described_class.new(user:, work_package: children.first)
+          described_class.new(user:, work_package: child1)
                          .call(%i(remaining_hours))
         end
-      end
 
-      shared_examples 'derived remaining hours' do |children_remaining_hours:, expected_derived_remaining_hours:|
-        context "for #{children_remaining_hours.count} children with remaining hours being #{children_remaining_hours.inspect}" do
-          include_context('when called with children', children_remaining_hours:)
-
-          it "sets parent derived remaining hours to #{expected_derived_remaining_hours}", :aggregate_failures do
-            expect(call_result).to be_success
-            expect(call_result.dependent_results.map(&:result))
-              .to contain_exactly(parent)
-            expect(call_result.dependent_results.first.result.derived_remaining_hours)
-              .to eq(expected_derived_remaining_hours)
-          end
+        it 'sets parent derived remaining work to the sum of children remaining work' do
+          expect(call_result).to be_success
+          updated_work_packages = call_result.dependent_results.map(&:result)
+          expect_work_packages(updated_work_packages, <<~TABLE)
+            subject | derived remaining work
+            parent  |                   2.5h
+          TABLE
         end
       end
 
-      context 'with parent having no remaining hours' do
-        include_examples 'derived remaining hours',
-                         children_remaining_hours: [0.0, 2.0, nil],
-                         expected_derived_remaining_hours: 2.0
+      context 'with parent having some remaining work' do
+        let_work_packages(<<~TABLE)
+          hierarchy | remaining work |
+          parent    |          5.25h |
+            child1  |             0h |
+            child2  |                |
+            child3  |           2.5h |
+        TABLE
 
-        include_examples 'derived remaining hours',
-                         children_remaining_hours: [1, 2, 5, 42],
-                         expected_derived_remaining_hours: 50
-      end
-
-      context 'with parent having 2.0 remaining hours' do
-        before do
-          parent.update(remaining_hours: 2.0)
+        subject(:call_result) do
+          described_class.new(user:, work_package: child1)
+                         .call(%i(remaining_hours))
         end
 
-        include_examples 'derived remaining hours',
-                         children_remaining_hours: [0.0, 2.0, nil],
-                         expected_derived_remaining_hours: 4.0
-
-        include_examples 'derived remaining hours',
-                         children_remaining_hours: [1, 2, 5, 42],
-                         expected_derived_remaining_hours: 52
+        it 'sets parent derived remaining work to the sum of itself and children remaining work' do
+          expect(call_result).to be_success
+          updated_work_packages = call_result.dependent_results.map(&:result)
+          expect_work_packages(updated_work_packages, <<~TABLE)
+            subject | derived remaining work
+            parent  |                  7.75h
+          TABLE
+        end
       end
 
-      context 'with no remaining hours' do
-        include_context('when called with children', children_remaining_hours: [nil, nil, nil])
+      context 'with parent and children having no remaining work' do
+        let_work_packages(<<~TABLE)
+          hierarchy | remaining work |
+          parent    |                |
+            child1  |                |
+            child2  |                |
+        TABLE
 
-        it 'does not update the parent derived remaining hours' do
+        subject(:call_result) do
+          described_class.new(user:, work_package: child1)
+                         .call(%i(remaining_hours))
+        end
+
+        it 'does not update the parent derived remaining work' do
           expect(call_result).to be_success
           expect(call_result.dependent_results).to be_empty
+          expect_work_packages([parent.reload], <<~TABLE)
+            subject | derived remaining work
+            parent  |
+          TABLE
         end
       end
     end
