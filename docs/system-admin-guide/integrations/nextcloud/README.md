@@ -25,7 +25,7 @@ OpenProject offers close integration with Nextcloud to allow users to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
-> Note: This guide only covers the integration setup. Please go to our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/) to learn more about how to work with the Nextcloud integration.
+> Note: This guide only covers the integration setup. Please go to our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/) to learn more about how to work with the Nextcloud integration.
 
 ## Minimum requirements
 
@@ -165,7 +165,7 @@ Now that the integration is set up, the next step is to make the Nextcloud file 
 
 To do so, navigate to any existing project in your OpenProject instance and click on **Project settings** **→ Modules** and follow the instructions in the [Project settings user guide](../../../user-guide/projects/project-settings/file-storages).
 
-> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
+> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/).
 
 ## Reset OAuth values
 
@@ -196,7 +196,7 @@ Deleting a file storage at an instance level deletes the Nextcloud integration c
 
 ## Using the integration
 
-Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how to link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration guide](../../../user-guide/nextcloud-integration/).
+Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how to link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration guide](../../../user-guide/file-management/nextcloud-integration/).
 
 
 
@@ -310,6 +310,8 @@ Attention: Please do not confuse the CA for the Nextcloud server's certificate w
 
 #### Error message "Host is not fully set up"
 
+![Host is not fully set up](nextcloud_not_fully_set_up.png)
+
 The integration OpenProject with Nextcloud makes use of authorized HTTP requests between the two servers. The HTTP requests contain a `Authorization` header, containing a `Bearer` access token. Sometimes Nextcloud installations are not fully setup and the HTTP server strips the `Authorization` header, with the consequence that Nextcloud does not know which Nextcloud user is requesting. Run the following command on the command line of your OpenProject server to check that your installation is complete
 
   ```shell
@@ -321,8 +323,19 @@ The integration OpenProject with Nextcloud makes use of authorized HTTP requests
   ```json
   {"user_id":"","authorization_header":foo}
   ```
+  
+  If not, first verify that the app **OpenProject Integration** is installed.  
 
-  If not, first verify that the app **OpenProject Integration** is installed. If that is the case please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
+  If that is the case verify that the mod_rewrite is activated on the Nextcloud server.  
+  To activate mod_rewrite the following commands can be used on the Nextcloud server:
+  ```shell
+  sudo a2enmod rewrite
+  sudo systemctl restart apache2
+  ```
+
+  If that also not work please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
+
+  
 
 #### Project folders are not created or you do not have access
 

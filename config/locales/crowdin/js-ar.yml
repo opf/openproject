@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,7 +34,7 @@ ar:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "جاري التحميل..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -316,18 +316,18 @@ ar:
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(بلا)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "تكبير"
+        out: "تصغير"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        days: "أيام"
+        weeks: "أسابيع"
+        months: "أشهر"
+        quarters: "أرباع"
+        years: "السنوات"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "لا"
@@ -352,7 +352,7 @@ ar:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -761,6 +761,7 @@ ar:
           last_day: 'Last day'
     text_are_you_sure: "هل أنت متأكد؟"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -970,7 +971,6 @@ ar:
         date: "التاريخ"
         dueDate: "Finish date"
         duration: "المدّة"
-        estimatedTime: "الوقت المُقّدَّر"
         spentTime: "الوقت المستهلك"
         category: "الفئة"
         percentageDone: "النسبة المئوية المُنجزة"
@@ -1031,7 +1031,7 @@ ar:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'شارك'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

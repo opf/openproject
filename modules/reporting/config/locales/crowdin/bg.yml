@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -61,7 +61,7 @@ bg:
   label_saving: "Saving ..."
   label_spent_on_reporting: "Date (Spent)"
   label_sum: "Sum"
-  label_units: "Units"
+  label_units: "Единици"
   label_week_reporting: "Week (Spent)"
   label_year_reporting: "Year (Spent)"
   label_count: "Count"
@@ -82,7 +82,7 @@ bg:
   project_module_reporting_module: "Cost reports"
   text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
   toggle_multiselect: "activate/deactivate multiselect"
-  units: "Units"
+  units: "Единици"
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
   export:

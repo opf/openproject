@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,25 +48,6 @@ module Storages::Admin::Forms
       storage.persisted? ? edit_admin_settings_storage_path(storage) : admin_settings_storages_path
     end
 
-    def submit_button_disabled?
-      !oauth_client_configured?
-    end
-
-    def submit_button_data_options
-      {}.tap do |data|
-        # For One Drive create action, break from Turbo Frame and follow full page redirect
-        data[:turbo] = false if one_drive_first_time_configuration?
-      end
-    end
-
-    def redirect_uri_or_instructions
-      if oauth_client_configured?
-        oauth_client.redirect_uri
-      else
-        I18n.t("storages.instructions.one_drive.missing_client_id_for_redirect_uri")
-      end
-    end
-
     def storage_provider_credentials_instructions
       I18n.t("storages.instructions.#{storage.short_provider_type}.oauth_configuration",
              application_link_text: send(:"#{storage.short_provider_type}_integration_link")).html_safe
@@ -85,20 +66,12 @@ module Storages::Admin::Forms
       render(Primer::Beta::Link.new(href:, target:)) { I18n.t('storages.instructions.nextcloud.integration') }
     end
 
-    def one_drive_first_time_configuration?
-      storage.provider_type_one_drive? && first_time_configuration?
-    end
-
     def first_time_configuration?
       storage.oauth_client.blank? || storage.oauth_client.new_record?
     end
 
     def default_form_method
       first_time_configuration? ? :post : :patch
-    end
-
-    def oauth_client_configured?
-      oauth_client.present? && oauth_client.client_id.present? && oauth_client.client_secret.present?
     end
   end
 end

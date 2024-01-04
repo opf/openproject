@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -305,8 +305,8 @@ module ApplicationHelper
     form_for(record, options, &)
   end
 
-  def back_url_hidden_field_tag
-    back_url = params[:back_url] || request.env['HTTP_REFERER']
+  def back_url_hidden_field_tag(use_referer: true)
+    back_url = params[:back_url] || (use_referer ? request.env['HTTP_REFERER'] : nil)
     back_url = CGI.unescape(back_url.to_s)
     hidden_field_tag('back_url', CGI.escape(back_url), id: nil) if back_url.present?
   end

@@ -50,18 +50,18 @@ th:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: ผู้ไม่ได้เป็นสมาชิก
         item_1:
-          name: Anonymous
+          name: ไม่ระบุชื่อ
         item_2:
-          name: Member
+          name: สมาชิก
         item_3:
           name: Reader
         item_4:
           name: Project admin
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: พนักงานและผู้จัดการโครงการ
     standard:
       priorities:
         item_0:

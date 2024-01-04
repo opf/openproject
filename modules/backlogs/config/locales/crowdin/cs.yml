@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,10 @@ cs:
     attributes:
       work_package:
         position: "Pozice"
-        remaining_hours: "Zbývající hodiny"
-        remaining_time: "Zbývající hodiny"
-        derived_remaining_hours: "Odvozené zbývající hodiny"
-        derived_remaining_time: "Odvozené zbývající hodiny"
+        remaining_hours: "Zbývající práce"
+        remaining_time: "Zbývající práce"
+        derived_remaining_hours: "Odvozené zbývající práce"
+        derived_remaining_time: "Odvozené zbývající práce"
         story_points: "Body příběhu"
         backlogs_work_package_type: "Typ nevyřízené položky"
     errors:
@@ -100,7 +100,7 @@ cs:
   backlogs_empty_title: "Nejsou definovány žádné verze pro použití v neuzavřených záznamech"
   backlogs_empty_action_text: "Chcete-li začít s nevyřízené položky, vytvořte novou verzi a přiřaďte ji do sloupce nevyřízené položky."
   button_edit_wiki: "Upravit wiki stránku"
-  error_backlogs_task_cannot_be_story: "Nastavení jsou neplatná. Vybraný typ tasku nemůže být také typem příběhu."
+  error_backlogs_task_cannot_be_story: "Nastavení jsou neplatná. Vybraný typ úlohy nemůže být zároveň typem příběhu."
   error_intro_plural: "Došlo k následujícím chybám:"
   error_intro_singular: "Došlo k následující chybě:"
   error_outro: "Před dalším odesláním opravte výše uvedené chyby."

@@ -43,11 +43,11 @@ cs:
           name: Ostatní
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Editor pracovních balíčků
         item_1:
           name: Work package commenter
         item_2:
-          name: Work package viewer
+          name: Prohlížeč pracovních balíčků
       project_roles:
         item_0:
           name: Není člen
@@ -56,12 +56,12 @@ cs:
         item_2:
           name: Člen
         item_3:
-          name: Reader
+          name: Čtenář
         item_4:
           name: Správce projektu
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Manažer zaměstnanců a projektů
     standard:
       priorities:
         item_0:
@@ -160,7 +160,7 @@ cs:
                 In this module you can communicate project news to your team members.
               description: Aktuální novinky
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (bude změněno v nastavení projektu)
           queries:
             item_0:
               name: Plán projektu
@@ -412,15 +412,15 @@ cs:
             item_10:
               subject: Internal link structure
             item_11:
-              subject: Develop v1.0
+              subject: Vyvinout v1.0
             item_12:
-              subject: Release v1.0
+              subject: Vydání v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Vyvinout v1.1
             item_14:
-              subject: Release v1.1
+              subject: Vydání v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Vyvinout v2.0
             item_16:
               subject: Vydání v2.0
           wiki: |

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -102,12 +102,6 @@ RSpec.describe RootSeeder,
       )
       expect(member_role.permissions).not_to include(
         :view_linked_issues # from bim module
-      )
-
-      project_admin_role = root_seeder.seed_data.find_reference(:default_role_project_admin)
-      expect(project_admin_role.permissions).not_to include(
-        :save_cost_reports, # removed by reporting module
-        :save_private_cost_reports # removed by reporting module
       )
     end
 

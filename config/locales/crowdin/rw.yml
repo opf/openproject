@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -201,12 +201,21 @@ rw:
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
   concatenation:
     single: "or"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -272,6 +281,15 @@ rw:
       no_results_content_text: Add a member to the project
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -392,8 +410,8 @@ rw:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -597,7 +615,7 @@ rw:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
-        done_ratio: "Progress (%)"
+        done_ratio: "% Complete"
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
@@ -611,7 +629,7 @@ rw:
         parent_issue: "Parent"
         parent_work_package: "Parent"
         priority: "Priority"
-        progress: "Progress (%)"
+        progress: "% Complete"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Spent time"
@@ -1025,12 +1043,12 @@ rw:
     default_columns: "Default columns"
     description: "Description"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Display Sums"
     due_date: "Finish date"
-    estimated_hours: "Estimated time"
-    estimated_time: "Estimated time"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Expires at"
     firstname: "First name"
     group: "Group"
@@ -1376,7 +1394,7 @@ rw:
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -2056,7 +2074,7 @@ rw:
   label_type_new: "New type"
   label_type_plural: "Types"
   label_ui: "User Interface"
-  label_update_work_package_done_ratios: "Update work package done ratios"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Updated %{value} ago"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
@@ -2212,9 +2230,9 @@ rw:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2324,7 +2342,7 @@ rw:
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "Work package done ratios updated."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
@@ -2476,7 +2494,9 @@ rw:
     default: "-"
   project:
     destroy:
-      confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Deleting the project is an irreversible action."
       project_verification: "Enter the project's name %{name} to verify the deletion."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
@@ -2500,6 +2520,7 @@ rw:
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2689,10 +2710,10 @@ rw:
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate the work package done ratio with"
-  setting_work_package_done_ratio_field: "Use the work package field"
-  setting_work_package_done_ratio_status: "Use the work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the progress)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Display by default"
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
@@ -3047,14 +3068,18 @@ rw:
         view_description: "Can view this work package."
       remove: "Remove"
       share: "Share"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3097,6 +3122,7 @@ rw:
       code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3125,9 +3151,9 @@ rw:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
       eprops:
@@ -3246,6 +3272,7 @@ rw:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

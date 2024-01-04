@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,7 @@ RSpec.describe 'Query selection' do
     it 'shows the saved filters', js: true do
       filters.open
       filters.expect_filter_by 'Assignee', 'is (OR)', ['me']
-      filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
+      filters.expect_filter_by 'Percent Complete', '>=', ['10'], 'percentageDone'
 
       expect(page).to have_selector("#{test_selector('wp-filter-button')} .badge", text: '2')
     end

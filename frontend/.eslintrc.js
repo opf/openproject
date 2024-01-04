@@ -43,11 +43,11 @@ module.exports = {
          */
         "@angular-eslint/directive-selector": [
           "error",
-          { "type": "attribute", "prefix": ["op", "spot"], "style": "camelCase" }
+          {"type": "attribute", "prefix": ["op", "opce"], "style": "camelCase"},
         ],
         "@angular-eslint/component-selector": [
           "error",
-          { "type": "element", "prefix": ["op", "spot"], "style": "kebab-case" }
+          {"type": "element", "prefix": ["op", "opce"], "style": "kebab-case"},
         ],
         "@angular-eslint/component-class-suffix": ["error", { "suffixes": ["Component", "Example"] }],
 

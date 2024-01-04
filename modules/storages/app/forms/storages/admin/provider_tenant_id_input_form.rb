@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,10 +34,20 @@ module Storages::Admin
         label: I18n.t('activerecord.attributes.storages/storage.tenant'),
         visually_hide_label: false,
         required: true,
-        caption: I18n.t("storages.instructions.one_drive.tenant_id"),
-        placeholder: I18n.t("storages.instructions.one_drive.tenant_id_placeholder"),
+        caption: caption.html_safe, # rubocop:disable Rails/OutputSafety
+        placeholder: I18n.t('storages.instructions.one_drive.tenant_id_placeholder'),
         input_width: :large
       )
+    end
+
+    private
+
+    def caption
+      href = ::OpenProject::Static::Links[:storage_docs][:one_drive_oauth_application][:href]
+      I18n.t('storages.instructions.one_drive.tenant_id',
+             application_link_text: render(Primer::Beta::Link.new(href:, target: '_blank')) do
+               I18n.t('storages.instructions.one_drive.application_link_text')
+             end)
     end
   end
 end

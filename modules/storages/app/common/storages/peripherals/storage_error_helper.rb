@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,8 @@ module Storages::Peripherals
         raise API::Errors::BadRequest.new(error.log_message)
       when :forbidden
         raise API::Errors::OutboundRequestForbidden.new
+      when :missing_ee_token_for_one_drive
+        raise API::Errors::EnterpriseTokenMissing.new
       else
         raise API::Errors::InternalError.new(error.log_message)
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -110,8 +110,8 @@ RSpec.describe 'Work package index sums', :js do
   it 'calculates sums correctly' do
     wp_table.expect_work_package_listed work_package_1, work_package_2
 
-    # Add estimated time column
-    columns.add 'Estimated time'
+    # Add work column
+    columns.add 'Work'
     # Add int cf column
     columns.add int_cf.name
     # Add float cf column

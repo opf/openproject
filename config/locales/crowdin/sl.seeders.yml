@@ -50,15 +50,15 @@ sl:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Nečlan
         item_1:
-          name: Anonymous
+          name: Anonimno
         item_2:
-          name: Member
+          name: Član
         item_3:
-          name: Reader
+          name: Bralec
         item_4:
-          name: Project admin
+          name: Skrbnik projekta
       global_roles:
         item_0:
           name: Staff and projects manager

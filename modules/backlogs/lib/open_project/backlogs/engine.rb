@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,8 @@
 #++
 
 require 'open_project/plugins'
-require_relative './patches/api/work_package_representer'
-require_relative './patches/api/work_package_schema_representer'
+require_relative 'patches/api/work_package_representer'
+require_relative 'patches/api/work_package_schema_representer'
 
 module OpenProject::Backlogs
   class Engine < ::Rails::Engine
@@ -132,7 +132,6 @@ module OpenProject::Backlogs
                VersionsController
                Version]
 
-    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :WorkPackages, :UpdateAncestors, :Loader
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :DemoData, :ProjectSeeder
@@ -172,7 +171,7 @@ module OpenProject::Backlogs
                         &::OpenProject::Backlogs::Patches::API::WorkPackageSchemaRepresenter.extension)
 
     add_api_attribute on: :work_package, ar_name: :story_points
-    add_api_attribute on: :work_package, ar_name: :remaining_hours, writable: ->(*) { model.leaf? }
+    add_api_attribute on: :work_package, ar_name: :remaining_hours
 
     add_api_path :backlogs_type do |id|
       # There is no api endpoint for this url

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,8 +32,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
   included do
     prepend InstanceMethods
     extend ClassMethods
-
-    before_validation :backlogs_before_validation, if: -> { backlogs_enabled? }
 
     register_journal_formatted_fields(:fraction, 'remaining_hours')
     register_journal_formatted_fields(:fraction, 'derived_remaining_hours')
@@ -129,15 +127,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def in_backlogs_type?
       backlogs_enabled? && WorkPackage.backlogs_types.include?(type.try(:id))
-    end
-
-    private
-
-    def backlogs_before_validation
-      if type_id == Task.type
-        self.estimated_hours = remaining_hours if estimated_hours.blank? && remaining_hours.present?
-        self.remaining_hours = estimated_hours if remaining_hours.blank? && estimated_hours.present?
-      end
     end
   end
 end

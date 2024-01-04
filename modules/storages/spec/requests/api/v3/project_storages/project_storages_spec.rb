@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,27 +35,25 @@ RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json
   let(:view_permissions) { %i(view_work_packages view_file_links) }
 
   # rubocop:disable RSpec/IndexedLet
-  let(:project1) { create(:project) }
-  let(:project2) { create(:project) }
-  let(:project3) { create(:project) }
-  let(:storage1) { create(:nextcloud_storage) }
-  let(:storage2) { create(:nextcloud_storage) }
-  let(:storage3) { create(:nextcloud_storage) }
-  let!(:project_storage11) { create(:project_storage, project: project1, storage: storage1) }
-  let!(:project_storage12) { create(:project_storage, project: project1, storage: storage2) }
-  let!(:project_storage13) { create(:project_storage, project: project1, storage: storage3) }
-  let!(:project_storage23) { create(:project_storage, project: project2, storage: storage3) }
-  let!(:project_storage21) { create(:project_storage, project: project2, storage: storage1) }
-  let!(:project_storage31) { create(:project_storage, project: project3, storage: storage1) }
+  shared_let(:project1) { create(:project) }
+  shared_let(:project2) { create(:project) }
+  shared_let(:project3) { create(:project) }
+  shared_let(:storage1) { create(:nextcloud_storage) }
+  shared_let(:storage2) { create(:nextcloud_storage) }
+  shared_let(:storage3) { create(:nextcloud_storage) }
+  shared_let(:project_storage11) { create(:project_storage, project: project1, storage: storage1) }
+  shared_let(:project_storage12) { create(:project_storage, project: project1, storage: storage2) }
+  shared_let(:project_storage13) { create(:project_storage, project: project1, storage: storage3) }
+  shared_let(:project_storage23) { create(:project_storage, project: project2, storage: storage3) }
+  shared_let(:project_storage21) { create(:project_storage, project: project2, storage: storage1) }
+  shared_let(:project_storage31) { create(:project_storage, project: project3, storage: storage1) }
   # rubocop:enable RSpec/IndexedLet
 
   subject(:last_response) do
     get path
   end
 
-  before do
-    login_as current_user
-  end
+  before { login_as current_user }
 
   describe 'GET /api/v3/project_storages' do
     let(:path) { api_v3_paths.project_storages }
@@ -267,13 +265,19 @@ RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json
       it_behaves_like 'redirect response'
 
       context 'if project storage has a configured project folder' do
-        let!(:project_storage12) do
-          create(:project_storage,
-                 project: project1,
-                 storage: storage2,
-                 project_folder_id: '1337',
-                 project_folder_mode: 'manual')
+        before(:all) do
+          project_storage12.update(
+            project_folder_id: '1337',
+            project_folder_mode: 'manual'
+          )
         end
+        after(:all) do
+          project_storage12.update(
+            project_folder_id: nil,
+            project_folder_mode: 'inactive'
+          )
+        end
+
         let(:path) { api_v3_paths.project_storage_open(project_storage12.id) }
 
         it_behaves_like 'redirect response' do

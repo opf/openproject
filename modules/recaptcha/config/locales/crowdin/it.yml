@@ -1,8 +1,8 @@
 #English strings go here for Rails i18n
 it:
   plugin_openproject_recaptcha:
-    name: "OpenProject ReCaptcha"
-    description: "This module provides recaptcha checks during login."
+    name: "ReCaptcha OpenProject"
+    description: "Questo modulo fornisce controlli recaptcha durante l'accesso."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Attendi ...'
@@ -10,8 +10,8 @@ it:
     error_captcha: "Il tuo account non può essere verificato. Contatta un amministratore."
     settings:
       website_key: 'Chiave del sito'
-      response_limit: 'Response limit for HCaptcha'
-      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
+      response_limit: 'Limite di risposta per HCaptcha'
+      response_limit_text: 'Il numero massimo di caratteri per trattare la risposta HCaptcha come valida.'
       website_key_text: 'Inserisci la chiave del sito web che hai creato sulla console di amministrazione reCAPTCHA per questo dominio.'
       secret_key: 'Chiave segreta'
       secret_key_text: 'Inserisci la chiave segreta che hai creato sulla console di amministrazione reCAPTCHA.'
@@ -21,4 +21,4 @@ it:
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}
+        reCAPTCHA è un servizio gratuito di Google che può essere abilitato per la tua istanza OpenProject. Se abilitato, verrà visualizzato un modulo captcha al momento dell'accesso per tutti gli utenti che non hanno ancora verificato un captcha. <br/> Consulta il seguente collegamento per maggiori dettagli su reCAPTCHA e le relative versioni e su come creare il sito web e le chiavi segrete: %{recaptcha_link} <br/> HCaptcha è un'alternativa gratuita di Google che puoi utilizzare se lo fai non voglio usare reCAPTCHA. Vedi questo link per maggiori informazioni: %{hcaptcha_link}

@@ -26,6 +26,9 @@ properties:
   identifier:
     type: string
     description: An optional unique identifier to the link object
+  type:
+    type: string
+    description: The MIME-Type of the returned resource.
 
 example:
   href: '/api/v3/work_packages'

@@ -50,15 +50,15 @@ si:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: සාමාජික නොවන
         item_1:
-          name: Anonymous
+          name: නිර්නාමික
         item_2:
-          name: Member
+          name: සාමාජික
         item_3:
-          name: Reader
+          name: පාඨකයා
         item_4:
-          name: Project admin
+          name: ව්යාපෘති පරිපාලක
       global_roles:
         item_0:
           name: Staff and projects manager

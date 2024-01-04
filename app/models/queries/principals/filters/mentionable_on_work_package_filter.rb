@@ -82,7 +82,7 @@ class Queries::Principals::Filters::MentionableOnWorkPackageFilter <
   end
 
   def project_members
-    Member.of(projects)
+    Member.of_project(projects)
           .where(entity: nil)
   end
 

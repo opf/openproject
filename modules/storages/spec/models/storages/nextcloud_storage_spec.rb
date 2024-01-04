@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,15 @@ RSpec.describe Storages::NextcloudStorage do
 
   it_behaves_like 'base storage'
 
+  describe '.automatic_management_enabled' do
+    let!(:automatically_managed_storage) { create(:nextcloud_storage, :as_automatically_managed) }
+    let!(:not_automatically_managed_storage) { create(:nextcloud_storage, :as_not_automatically_managed) }
+
+    it 'returns only storages with automatic management enabled' do
+      expect(described_class.automatic_management_enabled).to contain_exactly(automatically_managed_storage)
+    end
+  end
+
   describe '#provider_type?' do
     it { expect(storage).to be_a_provider_type_nextcloud }
     it { expect(storage).not_to be_a_provider_type_one_drive }
@@ -65,6 +74,45 @@ RSpec.describe Storages::NextcloudStorage do
       end
       expect(storage.health_healthy?).to be(false)
       expect(storage.health_unhealthy?).to be(true)
+    end
+
+    it 'has the correct changed_at and checked_at attributes' do
+      healthy_time = Time.parse '2021-03-14T15:17:00Z'
+      unhealthy_time_a = Time.parse '2023-03-14T00:00:00Z'
+      unhealthy_time_b = Time.parse '2023-03-14T22:22:00Z'
+      unhealthy_time_c = Time.parse '2023-03-14T11:11:00Z'
+      reason_a = "thou_shall_not_pass_error"
+      reason_b = "inception_error"
+
+      Timecop.freeze(healthy_time) do
+        expect do
+          storage.mark_as_healthy
+        end.to(change(storage, :health_changed_at).to(healthy_time)
+                 .and(change(storage, :health_checked_at).to(healthy_time)))
+      end
+
+      Timecop.freeze(unhealthy_time_a) do
+        expect do
+          storage.mark_as_unhealthy(reason: reason_a)
+        end.to(change(storage, :health_changed_at).from(healthy_time).to(unhealthy_time_a)
+                 .and(change(storage, :health_reason).from(nil).to(reason_a))
+                 .and(change(storage, :health_checked_at).from(healthy_time).to(unhealthy_time_a)))
+      end
+
+      Timecop.freeze(unhealthy_time_b) do
+        expect do
+          storage.mark_as_unhealthy(reason: reason_a)
+        end.to(change(storage, :health_checked_at).from(unhealthy_time_a).to(unhealthy_time_b))
+        expect(storage.health_changed_at).to eq(unhealthy_time_a)
+      end
+
+      Timecop.freeze(unhealthy_time_c) do
+        expect do
+          storage.mark_as_unhealthy(reason: reason_b)
+        end.to(change(storage, :health_checked_at).from(unhealthy_time_b).to(unhealthy_time_c)
+                 .and(change(storage, :health_changed_at).from(unhealthy_time_a).to(unhealthy_time_c))
+                 .and(change(storage, :health_reason).from(reason_a).to(reason_b)))
+      end
     end
   end
 
@@ -167,15 +215,35 @@ RSpec.describe Storages::NextcloudStorage do
     it_behaves_like 'a stored attribute with default value', :group_folder, 'OpenProject'
   end
 
-  describe '#automatically_managed?' do
+  describe '#automatically_managed' do
     it_behaves_like 'a stored boolean attribute', :automatically_managed
+  end
+
+  describe '#automatic_management_enabled?' do
+    context 'when automatic management enabled is true' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: true) }
+
+      it { expect(storage).to be_automatic_management_enabled }
+    end
+
+    context 'when automatic management enabled is false' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: false) }
+
+      it { expect(storage).not_to be_automatic_management_enabled }
+    end
+
+    context 'when automatic management enabled is nil' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: nil) }
+
+      it { expect(storage.automatic_management_enabled?).to be(false) }
+    end
   end
 
   describe '#automatic_management_new_record?' do
     context 'when automatic management has just been specified but not yet persisted' do
       let(:storage) { build_stubbed(:nextcloud_storage, provider_fields: {}) }
 
-      before { storage.automatically_managed = false }
+      before { storage.automatic_management_enabled = false }
 
       it { expect(storage).to be_provider_fields_changed }
       it { expect(storage).to be_automatic_management_new_record }
@@ -197,20 +265,20 @@ RSpec.describe Storages::NextcloudStorage do
   end
 
   describe '#automatic_management_unspecified?' do
-    context 'when automatically_managed is nil' do
-      let(:storage) { build(:nextcloud_storage, automatically_managed: nil) }
+    context 'when automatic management enabled is nil' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: nil) }
 
       it { expect(storage).to be_automatic_management_unspecified }
     end
 
-    context 'when automatically_managed is true' do
-      let(:storage) { build(:nextcloud_storage, automatically_managed: true) }
+    context 'when automatic management enabled is true' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: true) }
 
       it { expect(storage).not_to be_automatic_management_unspecified }
     end
 
-    context 'when automatically_managed is false' do
-      let(:storage) { build(:nextcloud_storage, automatically_managed: false) }
+    context 'when automatic management enabled is false' do
+      let(:storage) { build(:nextcloud_storage, automatic_management_enabled: false) }
 
       it { expect(storage).not_to be_automatic_management_unspecified }
     end
@@ -220,7 +288,7 @@ RSpec.describe Storages::NextcloudStorage do
     let(:storage) { build(:nextcloud_storage) }
 
     it 'returns the default values for nextcloud' do
-      expect(storage.provider_fields_defaults).to eq({ automatically_managed: true, username: 'OpenProject' })
+      expect(storage.provider_fields_defaults).to eq({ automatic_management_enabled: true, username: 'OpenProject' })
     end
   end
 end

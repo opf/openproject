@@ -96,7 +96,7 @@ sr:
         item_10:
           name: Test failed
         item_11:
-          name: Closed
+          name: Zatvoreno
         item_12:
           name: On hold
         item_13:
@@ -116,7 +116,7 @@ sr:
           name: Other
       types:
         item_0:
-          name: Task
+          name: Zadatak
         item_1:
           name: Milestone
         item_2:
@@ -324,7 +324,7 @@ sr:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Backlog proizvoda
             item_2:
               name: Sprint 1
             item_3:

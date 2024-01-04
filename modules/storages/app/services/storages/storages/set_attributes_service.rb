@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,6 @@ module Storages::Storages
 
     def set_default_attributes(_params)
       storage.creator ||= user
-      storage.name ||= derive_default_storage_name
     end
 
     private
@@ -51,7 +50,7 @@ module Storages::Storages
       cloned_param = params.clone
 
       if cloned_param[:host] == ''
-        cloned_param.merge!(host: nil)
+        cloned_param[:host] = nil
       end
 
       cloned_param
@@ -62,22 +61,13 @@ module Storages::Storages
       # E.g. when setting up a new storage for the first time, passthrough, credentials are set in a later stage.
       return if storage.automatic_management_unspecified?
 
-      unless storage.automatically_managed?
+      unless storage.automatic_management_enabled?
         %w[username password].each { |field| storage.provider_fields.delete(field) }
       end
     end
 
     def storage
       model
-    end
-
-    def derive_default_storage_name
-      prefix = I18n.t("storages.default_name")
-      last_id = Storages::Storage.where("name like ?", "#{prefix}%").maximum(:id)
-
-      return prefix if last_id.nil?
-
-      "#{prefix} #{last_id + 1}"
     end
 
     def nextcloud_storage?

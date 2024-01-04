@@ -68,6 +68,29 @@
               end
             end
           end
+
+          if @errors.present?
+            invite_form.with_area('errors',
+                                  data: { 'test-selector': 'op-share-wp-error-message' }) do
+              flex_layout do |error_rows|
+                @errors.full_messages.each do |error_message|
+                  error_rows.with_row do
+                    flex_layout do |no_selected_user_row|
+                      no_selected_user_row.with_column(mr: 2) do
+                        render(Primer::Beta::Octicon.new(icon: :'alert-fill', color: :danger))
+                      end
+
+                      no_selected_user_row.with_column do
+                        render(Primer::Beta::Text.new(color: :danger)) do
+                          error_message
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
         end
       end
     else

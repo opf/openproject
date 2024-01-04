@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,9 +34,9 @@ tr:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Yükleniyor..."
+      not_found: "Hiçbir öge bulunamadı"
+      type_to_search: "Aramak için metni yazın"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" ekleyin"
@@ -302,33 +302,33 @@ tr:
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
     gantt_chart:
-      label: 'Gantt chart'
-      quarter_label: 'Q%{quarter_number}'
+      label: 'Gantt görünümü'
+      quarter_label: 'Ç%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Etiket yapılandırma'
+        bar: 'Çubuk etiketleri'
+        left: 'Sol'
+        right: 'Sağ'
+        farRight: 'Uzak sağ'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Her zaman Gantt şemasının ilgili konumlarında gösterilmesini istediğiniz nitelikleri seçin. Bir öğenin üzerine gelindiğinde, bu nitelikler yerine tarih etiketlerinin gösterileceğini unutmayın.
+      button_activate: 'İş-Zaman çizelgesi göster'
+      button_deactivate: 'İş-Zaman çizelgesi gizle.'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(yok)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'İlişki oluşturmak için vurgulanan bir iş paket''ine tıklayın. İptal etmek için escape tuşuna basın.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Yakınlaştır"
+        out: "Uzaklaştır"
+        auto: "Otomatik yakınlaştırma"
+        days: "Gün"
+        weeks: "Hafta"
+        months: "Ay"
+        quarters: "Üç aylık"
+        years: "Yıl"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Otomatik zoom mevcut olmadığında gösterilmesi gereken ilk yakınlaştırma seviyesini seçin.
     general_text_no: "hayır"
     general_text_yes: "evet"
     general_text_No: "Hayır"
@@ -351,7 +351,7 @@ tr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -756,6 +756,7 @@ tr:
           last_day: 'Son gün'
     text_are_you_sure: "Emin misiniz?"
     text_data_lost: "Girilen tüm veriler silinecek."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri eşsiz olmalıdır."
@@ -965,7 +966,6 @@ tr:
         date: "Tarih"
         dueDate: "Bitiş tarihi"
         duration: "Süre"
-        estimatedTime: "Tahmini süre"
         spentTime: "Harcanan zaman"
         category: "Kategori"
         percentageDone: "Tamamlanan yüzde"
@@ -1026,7 +1026,7 @@ tr:
         is_parent: "Bu çalışma paketinin tarihleri otomatik olarak çocuklarından çıkarılır. Tarihleri ayarlamak için 'Manuel zamanlama'yı etkinleştirin."
         is_switched_from_manual_to_automatic: "Bu çalışma paketinin tarihlerinin, diğer çalışma paketleriyle olan ilişkiler nedeniyle manuelden otomatik zamanlamaya geçtikten sonra yeniden hesaplanması gerekebilir."
       sharing:
-        share: 'Share'
+        share: 'Paylaş'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

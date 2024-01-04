@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'form configuration', js: true do
+RSpec.describe 'form configuration', :js do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
 
@@ -63,7 +63,7 @@ RSpec.describe 'form configuration', js: true do
         dialog.expect_open
         dialog.cancel
 
-        expect(page).to have_selector('.group-edit-handler', text: 'WHATEVER')
+        expect(page).to have_css('.group-edit-handler', text: 'WHATEVER')
 
         # Click the dialog again after some time
         # Otherwise this may cause issues due to the animation,
@@ -78,7 +78,7 @@ RSpec.describe 'form configuration', js: true do
         # Wait for page reload
         sleep 1
 
-        expect(page).not_to have_selector('.group-head', text: 'WHATEVER')
+        expect(page).not_to have_css('.group-head', text: 'WHATEVER')
         form.expect_group('details', 'Details')
         form.expect_attribute(key: :assignee)
       end
@@ -91,7 +91,7 @@ RSpec.describe 'form configuration', js: true do
 
         # Save configuration
         form.save_changes
-        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+        expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         form.expect_empty
 
@@ -116,7 +116,7 @@ RSpec.describe 'form configuration', js: true do
         groups = page.all('.attributes-group--header-text').map(&:text)
         expect(groups).to eq []
         expect(page)
-          .to have_selector('.work-packages--details--description', text: work_package.description)
+          .to have_css('.work-packages--details--description', text: work_package.description)
       end
 
       it 'allows modification of the form configuration' do
@@ -129,14 +129,15 @@ RSpec.describe 'form configuration', js: true do
 
         form.expect_group 'estimates_and_time',
                           'Estimates and time',
-                          { key: :estimated_time, translation: 'Estimated time' },
-                          { key: :spent_time, translation: 'Spent time' }
+                          { key: :estimated_time, translation: 'Work' },
+                          { key: :spent_time, translation: 'Spent time' },
+                          { key: :remaining_time, translation: 'Remaining work' }
 
         form.expect_group 'details',
                           'Details',
                           { key: :category, translation: 'Category' },
                           { key: :date, translation: 'Date' },
-                          { key: :percentage_done, translation: 'Progress (%)' },
+                          { key: :percentage_done, translation: '% Complete' },
                           { key: :priority, translation: 'Priority' },
                           { key: :version, translation: 'Version' }
 
@@ -157,8 +158,8 @@ RSpec.describe 'form configuration', js: true do
         input = find('.group-edit-in-place--input')
         input.set('FOOBAR')
         input.send_keys(:escape)
-        expect(page).to have_selector('.group-edit-handler', text: 'COOL STUFF')
-        expect(page).not_to have_selector('.group-edit-handler', text: 'FOOBAR')
+        expect(page).to have_css('.group-edit-handler', text: 'COOL STUFF')
+        expect(page).not_to have_css('.group-edit-handler', text: 'FOOBAR')
 
         # Create new group
         form.add_attribute_group('New Group')
@@ -169,7 +170,7 @@ RSpec.describe 'form configuration', js: true do
 
         # Save configuration
         form.save_changes
-        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+        expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         # Expect configuration to be correct now
         form.expect_no_attribute('assignee', 'Cool Stuff')
@@ -180,13 +181,14 @@ RSpec.describe 'form configuration', js: true do
 
         form.expect_group 'estimates_and_time',
                           'Estimates and time',
-                          { key: :estimated_time, translation: 'Estimated time' },
-                          { key: :spent_time, translation: 'Spent time' }
+                          { key: :estimated_time, translation: 'Work' },
+                          { key: :spent_time, translation: 'Spent time' },
+                          { key: :remaining_time, translation: 'Remaining work' }
 
         form.expect_group 'Whatever',
                           'Whatever',
                           { key: :date, translation: 'Date' },
-                          { key: :percentage_done, translation: 'Progress (%)' }
+                          { key: :percentage_done, translation: '% Complete' }
 
         form.expect_group 'New Group',
                           'New Group',
@@ -233,7 +235,7 @@ RSpec.describe 'form configuration', js: true do
         wp_page.click_create_wp_button(type)
 
         wp_page.expect_group('Estimates and time') do
-          expect(page).to have_selector('.inline-edit--container.estimatedTime')
+          expect(page).to have_css('.inline-edit--container.estimatedTime')
         end
 
         find_by_id('work-packages--edit-actions-cancel').click
@@ -266,7 +268,7 @@ RSpec.describe 'form configuration', js: true do
         form.expect_attribute(key: cf_identifier)
 
         form.save_changes
-        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+        expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
       end
     end
 
@@ -296,7 +298,7 @@ RSpec.describe 'form configuration', js: true do
         form.expect_attribute(key: cf_identifier)
 
         form.save_changes
-        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+        expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
       end
 
       context 'if inactive in project' do

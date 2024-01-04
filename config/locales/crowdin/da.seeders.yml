@@ -50,15 +50,15 @@ da:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Ikke medlem
         item_1:
-          name: Anonymous
+          name: Anonymt
         item_2:
-          name: Member
+          name: Medlem
         item_3:
-          name: Reader
+          name: Læser
         item_4:
-          name: Project admin
+          name: Projektadmin
       global_roles:
         item_0:
           name: Staff and projects manager

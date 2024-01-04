@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Administrating memberships via the project settings', :js do
+RSpec.describe 'Administrating memberships via the project settings', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
-  let(:current_user) do
-    create(:user,
-           member_with_roles: { project => manager })
-  end
-  let!(:project) { create(:project) }
+  shared_let(:project) { create(:project) }
 
-  let!(:peter) do
+  shared_let(:peter) do
     create(:user,
            status: User.statuses[:active],
            firstname: 'Peter',
@@ -44,7 +40,7 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
            mail: 'foo@example.org',
            preferences: { hide_mail: false })
   end
-  let!(:hannibal) do
+  shared_let(:hannibal) do
     create(:user,
            status: User.statuses[:invited],
            firstname: 'Hannibal',
@@ -52,13 +48,14 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
            mail: 'boo@bar.org',
            preferences: { hide_mail: true })
   end
-  let!(:developer_placeholder) { create(:placeholder_user, name: 'Developer 1') }
-  let!(:group) do
+  shared_let(:developer_placeholder) { create(:placeholder_user, name: 'Developer 1') }
+  shared_let(:group) do
     create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
-  let!(:manager) { create(:project_role, name: 'Manager', permissions: [:manage_members]) }
-  let!(:developer) { create(:project_role, name: 'Developer') }
+  shared_let(:manager)   { create(:project_role, name: 'Manager', permissions: [:manage_members]) }
+  shared_let(:developer) { create(:project_role, name: 'Developer') }
+
   let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
   let(:member2) { create(:member, principal: hannibal, project:, roles: [developer]) }
   let(:member3) { create(:member, principal: group, project:, roles: [manager]) }
@@ -67,9 +64,9 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
 
   let(:members_page) { Pages::Members.new project.identifier }
 
-  before do
-    login_as(admin)
+  current_user { admin }
 
+  before do
     members_page.visit!
 
     SeleniumHubWaiter.wait
@@ -105,6 +102,40 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
       # Cannot sort by group, roles or status
       expect(page).not_to have_selector('.generic-table--sort-header a', text: 'ROLES')
       expect(page).not_to have_selector('.generic-table--sort-header a', text: 'GROUP')
+    end
+
+    it 'navigating the menu' do
+      members_page.expect_menu_item 'All', selected: true
+      members_page.expect_menu_item 'Invited'
+      members_page.expect_menu_item 'Locked'
+
+      members_page.expect_menu_item group.name
+      members_page.expect_menu_item 'Manager'
+      members_page.expect_menu_item 'Developer'
+
+      # Viewing invited
+      members_page.click_menu_item 'Invited'
+      expect(members_page).to have_user 'Hannibal Smith'
+      expect(members_page).not_to have_user 'Peter Pan'
+      expect(members_page).not_to have_group group.name
+
+      # Viewing locked
+      members_page.click_menu_item 'Locked'
+      expect(members_page).not_to have_user 'Hannibal Smith'
+      expect(members_page).not_to have_user 'Peter Pan'
+      expect(members_page).not_to have_group group.name
+
+      # Viewing manager role
+      members_page.click_menu_item 'Manager'
+      expect(members_page).to have_user 'Peter Pan'
+      expect(members_page).to have_group group.name
+      expect(members_page).not_to have_user 'Hannibal Smith'
+
+      # Viewing developer role
+      members_page.click_menu_item 'Developer'
+      expect(members_page).to have_user 'Hannibal Smith'
+      expect(members_page).not_to have_user 'Peter Pan'
+      expect(members_page).not_to have_group group.name
     end
   end
 
@@ -158,5 +189,22 @@ RSpec.describe 'Administrating memberships via the project settings', :js do
 
     members_page.search_principal! 'Smith, H'
     expect(members_page).to have_search_result 'Hannibal Smith'
+  end
+
+  context 'with work packages shared' do
+    let(:work_package) { create(:work_package, project:) }
+    let(:view_work_package_role) { create(:view_work_package_role) }
+    let(:member) { create(:member, entity: work_package, principal: peter, project:, roles: [view_work_package_role]) }
+
+    let!(:existing_members) { [member] }
+
+    it 'still allows adding the user the work package is shared with' do
+      members_page.open_new_member!
+
+      SeleniumHubWaiter.wait
+
+      members_page.search_principal! peter.firstname
+      expect(members_page).to have_search_result peter.name
+    end
   end
 end

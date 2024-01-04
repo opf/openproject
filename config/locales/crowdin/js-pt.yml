@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -32,11 +32,11 @@ pt:
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou referenciar um anexo. Campos do editor fechados serão abertos enquanto você continuar arrastando.
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "Adicionar item"
+      clear_all: "Remover tudo"
+      loading: "Carregando..."
+      not_found: "Nenhum item encontrado"
+      type_to_search: "Escreva para pesquisar"
     autocomplete_select:
       placeholder:
         multi: "Adicionar \"%{name}\""
@@ -351,7 +351,7 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                A versão contém vários recursos e melhorias novas: <br> <ul class="%{list_styling_class}"> <li>Compartilhar pacotes de trabalho com usuários e grupos externos que não são membros do projeto (complemento empresarial).</li> <li>Novas reuniões dinâmicas com agendas e minutas vinculadas ao pacotes de trabalho.</li> <li>Vinculação de pacotes de trabalho a arquivos e pastas no OneDrive/SharePoint.</li> <li>Teste de acessibilidade e primeiras melhorias de acordo com as WCAG 2.1 AA, incluindo o modo de alto contraste.</li> <li>Continuação da integração do Sistema Primer Design.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -421,7 +421,7 @@ pt:
     label_filename: "Arquivo"
     label_filesize: "Tamanho"
     label_general: "Geral"
-    label_global_roles: "Global roles"
+    label_global_roles: "Funções globais"
     label_greater_or_equal: ">="
     label_group: 'Grupo'
     label_group_by: "Agrupar por"
@@ -603,7 +603,7 @@ pt:
         processed: 'processado'
         prioritized: 'priorizado'
         dateAlert: 'Alerta de data'
-        shared: 'shared'
+        shared: 'compartilhado'
       date_alerts:
         milestone_date: 'Data de marco'
         overdue: 'Atrasado'
@@ -648,7 +648,7 @@ pt:
         mentioned: 'Mencionado'
         watched: 'Observador'
         date_alert: 'Alerta de data'
-        shared: 'Shared'
+        shared: 'Compartilhado'
       settings:
         change_notification_settings: 'Você pode modificar suas <a target="_blank" href="%{url}">configurações de notificação</a> para se certificar de nunca perder nenhuma atualização importante.'
         title: "Configurações de notificação"
@@ -671,7 +671,7 @@ pt:
             description: 'Receber uma notificação sempre que alguém me mencionar'
           assignee: 'Cessionário'
           responsible: 'Responsável'
-          shared: 'Shared'
+          shared: 'Compartilhado'
           watched: 'Observador'
           work_package_commented: 'Todos os novos comentários'
           work_package_created: 'Novos pacotes de trabalho'
@@ -756,6 +756,7 @@ pt:
           last_day: 'Último dia'
     text_are_you_sure: "Você tem certeza?"
     text_data_lost: "Todos os dados inseridos serão perdidos."
+    text_user_wrote: "%{value} escreveu:"
     types:
       attribute_groups:
         error_duplicate_group_name: "O nome %{group} foi usado mais de uma vez. Nomes de Grupos devem ser únicos."
@@ -965,7 +966,6 @@ pt:
         date: "Data"
         dueDate: "Data de conclusão"
         duration: "Duração"
-        estimatedTime: "Tempo estimado"
         spentTime: "Tempo gasto"
         category: "Categoria"
         percentageDone: "Percentual pronto"
@@ -988,7 +988,7 @@ pt:
         recently_created: "Criado recentemente"
         all_open: "Todos abertos"
         summary: "Sumário"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Compartilhado com usuários"
       jump_marks:
         pagination: "Pular para a tabela de paginação"
         label_pagination: "Clique aqui para pular a tabela de pacotes de trabalho e ir para a paginação"
@@ -1026,11 +1026,11 @@ pt:
         is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Planejamento manual' para definir as datas."
         is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar ser recalculadas após a alteração de planejamento manual para automático devido a relações com outros pacotes de trabalho."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Compartilhar'
+        title: "Compartilhar pacote de trabalho"
+        selected_count: "%{count} selecionado"
         selection:
-          mixed: "Mixed"
+          mixed: "Misturado"
       table:
         configure_button: 'Configurar a tabela de pacote de trabalho'
         summary: "Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho."

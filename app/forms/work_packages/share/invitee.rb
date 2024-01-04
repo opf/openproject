@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,8 @@ module WorkPackages::Share
           },
           url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
           filters: [{ name: 'type', operator: '=', values: %w[User Group] },
-                    { name: 'id', operator: '!', values: [::Queries::Filters::MeValue::KEY] }],
+                    { name: 'id', operator: '!', values: [::Queries::Filters::MeValue::KEY] },
+                    { name: 'status', operator: '=', values: [Principal.statuses[:active], Principal.statuses[:invited]] }],
           searchKey: 'any_name_attribute',
           addTag: User.current.allowed_globally?(:create_user),
           addTagText: I18n.t('members.send_invite_to'),

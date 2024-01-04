@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export const v3ErrorIdentifierQueryInvalid = 'urn:openproject-org:api:v3:errors:InvalidQuery';
 export const v3ErrorIdentifierMultipleErrors = 'urn:openproject-org:api:v3:errors:MultipleErrors';
 export const v3ErrorIdentifierOutboundRequestForbidden = 'urn:openproject-org:api:v3:errors:OutboundRequest:Forbidden';
+export const v3ErrorIdentifierMissingEnterpriseToken = 'urn:openproject-org:api:v3:errors:MissingEnterpriseToken';
 
 export interface IHalErrorBase {
   _type:string;

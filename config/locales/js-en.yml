@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -392,8 +392,8 @@ en:
                 <ul class="%{list_styling_class}">
                   <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li>
                   <li>New dynamic meetings with agendas and minutes linked to work packages.</li>
+                  <li>Link work packages with files and folders in OneDrive/SharePoint.</li>
                   <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li>
-                  <li>Link work packages with files and folders in SharePoint/OneDrive.</li>
                   <li>Continued integration of Primer Design System.</li>
                 </ul>
 
@@ -814,6 +814,7 @@ en:
 
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
 
     types:
       attribute_groups:
@@ -1042,7 +1043,6 @@ en:
         date: "Date"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
         percentageDone: "Percentage done"

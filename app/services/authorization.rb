@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +46,13 @@ module Authorization
 
   # Returns all roles a user has in a certain project, for a specific entity or globally
   def roles(user, context = nil)
+    # Sometimes, and the conditions are unclear, the context is a decorated object.
+    # Most of the times, this would then be a 'WorkPackageEagerLoadingWrapper' instance.
+    # If that is the case, the following code would trip up:
+    # * Member.can_be_member_of would wrongfully state that the context does not fit
+    # * Authorization::UserEntityRolesQuery.query would use the decorator's class name for the sql.
+    context = context.__getobj__ if context.is_a?(SimpleDelegator)
+
     if context.is_a?(Project)
       Authorization::UserProjectRolesQuery.query(user, context)
     elsif Member.can_be_member_of?(context)

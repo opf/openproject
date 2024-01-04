@@ -20,7 +20,7 @@
                  locals: {
                    user: @shared_with_user,
                    summary:,
-                   button_href: shared_work_package_path(@work_package.id),
+                   button_href: @url,
                    button_text: I18n.t(:'mail.sharing.work_packages.open_work_package'),
                  } %>
 
@@ -29,7 +29,8 @@
                    work_package: @work_package,
                    unique_reasons: [:shared],
                    show_count: false,
-                   open_in_browser_path: shared_work_package_path(@work_package.id)
+                   notification_url: @url,
+                   open_in_browser_path: @url
                  } do %>
         <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
           <tr>

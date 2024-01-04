@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,7 +79,7 @@ module API
         def format_datetime(datetime, allow_nil: false)
           return nil if datetime.nil? && allow_nil
 
-          datetime.to_datetime.utc.iso8601
+          datetime.to_datetime.utc.iso8601(3)
         end
 
         def format_duration_from_hours(hours, allow_nil: false)

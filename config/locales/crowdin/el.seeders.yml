@@ -50,18 +50,18 @@ el:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Μη μέλη
         item_1:
-          name: Anonymous
+          name: Ανώνυμος
         item_2:
-          name: Member
+          name: Μέλος
         item_3:
-          name: Reader
+          name: Αναγνώστης
         item_4:
-          name: Project admin
+          name: Διαχειριστής
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Προσωπικό και διαχειριστής έργων
     standard:
       priorities:
         item_0:

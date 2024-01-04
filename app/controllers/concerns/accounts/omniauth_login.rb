@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,8 +47,12 @@ module Accounts::OmniauthLogin
   end
 
   def omniauth_login
-    # Set back url to page the omniauth login link was clicked on
-    params[:back_url] = request.env['omniauth.origin']
+    # Remmember the back_url to redirect to after login
+    # only if we're in a direct login phase, so the user ends up
+    # in the original requested URL after logging in
+    if omniauth_direct_login?
+      params[:back_url] = request.env['omniauth.origin']
+    end
 
     # Extract auth info and perform check / login or activate user
     auth_hash = request.env['omniauth.auth']

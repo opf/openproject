@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,9 +34,9 @@ el:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "Φόρτωση..."
       not_found: "No items found"
-      type_to_search: "Type to search"
+      type_to_search: "Πληκτρολογήστε για αναζήτηση"
     autocomplete_select:
       placeholder:
         multi: "Προσθήκη \"%{name}\""
@@ -302,33 +302,33 @@ el:
           two: "Δεύτερο κριτήριο ταξινόμησης"
           three: "Τρίτο κριτήριο ταξινόμησης"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Διάγραμμα Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Διαμόρφωση ετικέτας'
+        bar: 'Ετικέτες μπάρας'
+        left: 'Αριστερά'
+        right: 'Δεξιά'
+        farRight: 'Πολύ δεξιά'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Εμφάνιση διαγράμματος Gantt'
+      button_deactivate: 'Απόκρυψη διαγράμματος Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(κανένα)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Κάντε κλικ σε οποιοδήποτε πακέτο εργασίας για να δημιουργήσετε τη συσχέτιση. Πατήστε το πλήκτρο escape για ακύρωση.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Μεγέθυνση"
+        out: "Σμίκρυνση"
+        auto: "Αυτόματη μεγέθυνση"
+        days: "Ημέρες"
+        weeks: "Εβδομάδες"
+        months: "Μήνες"
+        quarters: "Τρίμηνα"
+        years: "Χρόνια"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Επιλέξτε το αρχικό επίπεδο μεγέθυνσης που θα πρέπει να εμφανίζεται όταν η αυτόματη μεγέθυνση δεν είναι διαθέσιμη.
     general_text_no: "όχι"
     general_text_yes: "ναι"
     general_text_No: "Όχι"
@@ -351,7 +351,7 @@ el:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -756,6 +756,7 @@ el:
           last_day: 'Last day'
     text_are_you_sure: "Είστε σίγουρος/η;"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Το όνομα %{group} χρησιμοποιείται περισσότερες από μία φορές. Τα ονόματα ομάδων πρέπει να είναι μοναδικά."
@@ -965,7 +966,6 @@ el:
         date: "Ημερομηνία"
         dueDate: "Ημερομηνία λήξης"
         duration: "Διάρκεια"
-        estimatedTime: "Εκτιμώμενος χρόνος"
         spentTime: "Χρόνος που δαπανήθηκε"
         category: "Κατηγορία"
         percentageDone: "Ποσοστό ολοκλήρωσης"

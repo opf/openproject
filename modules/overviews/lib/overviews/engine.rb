@@ -53,6 +53,10 @@ module Overviews
             'overviews/overviews/update_attributes'
           )
 
+        OpenProject::AccessControl.permission(:view_work_packages)
+        .controller_actions
+        .push('overviews/overviews/show')
+
         OpenProject::AccessControl.map do |ac_map|
           ac_map.project_module nil do |map|
             map.permission :manage_overview,

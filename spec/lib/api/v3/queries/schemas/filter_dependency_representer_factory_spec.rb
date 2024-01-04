@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,16 +40,24 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
     context 'assigned to filter' do
       let(:filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
 
-      it 'is a all principals dependency' do
-        expect(subject).to be_a(API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
+      it 'is a all principals with access to project dependency' do
+        expect(subject).to be_a(API::V3::Queries::Schemas::ProjectMembersFilterDependencyRepresenter)
+      end
+    end
+
+    context 'shared with user filter' do
+      let(:filter) { Queries::WorkPackages::Filter::SharedWithUserFilter.create! }
+
+      it 'is a all principals with access to project dependency' do
+        expect(subject).to be_a(API::V3::Queries::Schemas::AccessToProjectFilterDependencyRepresenter)
       end
     end
 
     context 'responsible filter' do
       let(:filter) { Queries::WorkPackages::Filter::ResponsibleFilter.create! }
 
-      it 'is a all principals dependency' do
-        expect(subject).to be_a(API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
+      it 'is a project members dependency' do
+        expect(subject).to be_a(API::V3::Queries::Schemas::ProjectMembersFilterDependencyRepresenter)
       end
     end
 

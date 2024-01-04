@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -351,7 +351,7 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                该发布包含多个新功能和改进：<br> <ul class="%{list_styling_class}"> <li>与项目成员不同的外部用户和组共享工作包（企业附加组件）。</li> <li>新的动态会议，包括与工作包相关的会议议程和会议纪要。</li> <li>根据 WCAG 2.1 AA 进行可访问性测试和初步改进，包括高对比度模式。</li> <li>将工作包与 SharePoint/OneDrive 中的文件和文件夹进行关联。</li> <li>持续集成 Primer 设计系统。</li> </ul>
+                该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>与非项目成员的外部用户和组共享工作包（企业版增值功能）。</li> <li>新的动态会议，包括与工作包相关联的议程和会议纪要。</li> <li>将工作包与 OneDrive/SharePoint 中的文件和文件夹链接。</li> <li>根据WCAG 2.1 AA进行可访问性测试和首次改进，包括高对比度模式。</li> <li>持续集成 Primer 设计系统。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -755,6 +755,7 @@ zh-CN:
           last_day: '最后一天'
     text_are_you_sure: "是否确定？"
     text_data_lost: "输入的所有数据将全部丢失。"
+    text_user_wrote: "%{value} 写道："
     types:
       attribute_groups:
         error_duplicate_group_name: "名称 %{group} 已多次使用。组名不能重复。"
@@ -964,7 +965,6 @@ zh-CN:
         date: "日期"
         dueDate: "完成日期"
         duration: "时长"
-        estimatedTime: "估算工时"
         spentTime: "已耗工时"
         category: "类别"
         percentageDone: "完成百分比"

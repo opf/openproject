@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -32,11 +32,11 @@ pl:
       draggable_hint: |
         Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "Dodaj element"
+      clear_all: "Wyczyść wszystko"
+      loading: "Ładowanie..."
+      not_found: "Nie znaleziono elementów"
+      type_to_search: "Wpisz szukaną frazę"
     autocomplete_select:
       placeholder:
         multi: "Dodaj %{name}"
@@ -352,7 +352,7 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Udostępniaj pakiety robocze zewnętrznym użytkownikom i grupom, nie będącym członkami projektu (dodatek wersji Enterprise).</li> <li>Nowe dynamiczne spotkania z planami spotkań i protokołami powiązanymi z pakietami roboczymi.</li> <li>Powiąż pakiety robocze z plikami i folderami w usłudze OneDrive lub SharePoint.</li> <li>Test dostępności i pierwsze ulepszenia zgodne z WCAG 2.1 AA, w tym tryb dużego kontrastu.</li> <li>Kontynuacja integracji Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -422,7 +422,7 @@ pl:
     label_filename: "Plik"
     label_filesize: "Rozmiar"
     label_general: "Ogólne"
-    label_global_roles: "Global roles"
+    label_global_roles: "Role globalne"
     label_greater_or_equal: "≥"
     label_group: 'Grupa'
     label_group_by: "Grupuj według"
@@ -604,7 +604,7 @@ pl:
         processed: 'przetworzono'
         prioritized: 'priorytetowo'
         dateAlert: 'Alert dotyczący daty'
-        shared: 'shared'
+        shared: 'udostępniono'
       date_alerts:
         milestone_date: 'Data  kamienia milowego'
         overdue: 'Przekroczony termin'
@@ -651,7 +651,7 @@ pl:
         mentioned: 'Wzmianka'
         watched: 'Obserwator'
         date_alert: 'Data ostrzeżenia'
-        shared: 'Shared'
+        shared: 'Udostępniono'
       settings:
         change_notification_settings: 'Możesz zmodyfikować <a target="_blank" href="%{url}">ustawienia powiadomień</a>, aby upewnić się, że nigdy nie przegapisz ważnej aktualizacji.'
         title: "Ustawienia powiadomień"
@@ -674,7 +674,7 @@ pl:
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
           assignee: 'Przypisana osoba'
           responsible: 'Osoba odpowiedzialna'
-          shared: 'Shared'
+          shared: 'Udostępniono'
           watched: 'Obserwator'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'
@@ -759,6 +759,7 @@ pl:
           last_day: 'Ostatni dzień'
     text_are_you_sure: "Jesteś pewny?"
     text_data_lost: "Wszystkie wprowadzone dane zostaną utracone."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup muszą być unikalne."
@@ -968,7 +969,6 @@ pl:
         date: "Data"
         dueDate: "Data zakończenia"
         duration: "Czas trwania"
-        estimatedTime: "Szacowany czas"
         spentTime: "Czas pracy"
         category: "Kategoria"
         percentageDone: "Wykonano procent"
@@ -991,7 +991,7 @@ pl:
         recently_created: "Utworzone niedawno"
         all_open: "Wszystkie otwarte"
         summary: "Podsumowanie"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Udostępnione użytkownikom"
       jump_marks:
         pagination: "Przejdź do stronicowania tabeli"
         label_pagination: "Kliknij tutaj, aby pominąć tablicę zadań i przejść do stronicowania"
@@ -1029,11 +1029,11 @@ pl:
         is_parent: "Daty tego pakietu roboczego są automatycznie odejmowane od jego elementów podrzędnych. Włącz funkcję Planowanie ręczne, aby ustawić daty."
         is_switched_from_manual_to_automatic: "Po przełączeniu planowania z ręcznego na automatyczne konieczne może być ponowne obliczenie dat tego pakietu roboczego ze względu na jego powiązania z innymi pakietami roboczymi."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Udostępnij'
+        title: "Udostępnij pakiet roboczy"
+        selected_count: "Wybrano %{count}"
         selection:
-          mixed: "Mixed"
+          mixed: "Mieszane"
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."

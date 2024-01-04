@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,9 +34,9 @@ si:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "පැටවීම..."
       not_found: "No items found"
-      type_to_search: "Type to search"
+      type_to_search: "සෙවීමට ටයිප් කරන්න"
     autocomplete_select:
       placeholder:
         multi: "එකතු කරන්න \"%{name}”"
@@ -303,33 +303,33 @@ si:
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'ගැන්ට් සටහන'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'ලේබල් වින්යාසය'
+        bar: 'බාර් ලේබල්'
+        left: 'වම'
+        right: 'අයිතිය'
+        farRight: 'ඈත හරි'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Gantt සටහන පෙන්වන්න'
+      button_deactivate: 'Gantt සටහන සඟවන්න'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(කිසිවක් නැත)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'සම්බන්ධතාවය නිර්මාණය කිරීම සඳහා ඕනෑම උද්දීපනය කළ වැඩ පැකේජයක් මත ක්ලික් කරන්න. අවලංගු කිරීමට මාධ්ය ගැලවීම.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "විශාලනය"
+        out: "විශාලනය"
+        auto: "වාහන විශාලනය"
+        days: "දින"
+        weeks: "සති"
+        months: "මාස"
+        quarters: "නිල නිවාස"
+        years: "අවුරුදු"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          ස්වයංසූම් ලබා ගත නොහැකි විට පෙන්විය යුතු ආරම්භක විශාලන මට්ටම තෝරන්න.
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
     general_text_No: "නැත"
@@ -352,7 +352,7 @@ si:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -757,6 +757,7 @@ si:
           last_day: 'Last day'
     text_are_you_sure: "ඔබට විශ්වාසද?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} නම එක් වරකට වඩා භාවිතා වේ. කණ්ඩායම් නම් අද්විතීය විය යුතුය."
@@ -966,7 +967,6 @@ si:
         date: "දිනය"
         dueDate: "අවසන් දිනය"
         duration: "කාල සීමාව"
-        estimatedTime: "ඇස්තමේන්තුගත කාලය"
         spentTime: "වැය කළ කාලය"
         category: "ප්රවර්ගය"
         percentageDone: "ප්රතිශතය සිදු"

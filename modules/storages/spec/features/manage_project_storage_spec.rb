@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,9 +34,10 @@ require_module_spec_helper
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-RSpec.describe(
-  'Activation of storages in projects', :js, :webmock
-) do
+
+# We decrease the notification polling interval because some portions of the JS code rely on something triggering
+# the Angular change detection. This is usually done by the notification polling, but we don't want to wait
+RSpec.describe 'Activation of storages in projects', :js, :webmock, with_settings: { notifications_polling_interval: 1_000 } do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.

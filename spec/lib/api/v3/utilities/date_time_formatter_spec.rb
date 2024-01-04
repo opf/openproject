@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -124,11 +124,11 @@ RSpec.describe API::V3::Utilities::DateTimeFormatter do
 
   describe 'format_datetime' do
     it 'formats dates' do
-      expect(subject.format_datetime(date)).to eq(date.to_datetime.utc.iso8601)
+      expect(subject.format_datetime(date)).to eq(date.to_datetime.utc.iso8601(3))
     end
 
     it 'formats datetimes' do
-      expect(subject.format_datetime(datetime)).to eq(datetime.utc.iso8601)
+      expect(subject.format_datetime(datetime)).to eq(datetime.utc.iso8601(3))
     end
 
     it_behaves_like 'can format nil' do

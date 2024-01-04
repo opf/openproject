@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -32,11 +32,11 @@ uk:
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "Додати елемент"
+      clear_all: "Очистити все"
+      loading: "Завантаження..."
+      not_found: "Елементів не знайдено"
+      type_to_search: "Введіть для пошуку"
     autocomplete_select:
       placeholder:
         multi: "Додати %{name}"
@@ -352,7 +352,7 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Тепер ви можете надавати доступ до пакетів робіт зовнішнім користувачам і групам, які не належать до учасників проєкту (доповнення версії Enterprise).</li> <li>Стали доступними нові динамічні наради з порядком денним і протоколами, пов’язаними з пакетами ротіб.</li> <li>Ви можете прив’язувати до пакетів робіт файли й папки з OneDrive / SharePoint.</li> <li>Додано можливість перевірки функцій доступності за стандартом WCAG 2.1 AA, включно з режимом високого контрасту.</li> <li>Додано можливість безперервної інтеграції із системою Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -422,7 +422,7 @@ uk:
     label_filename: "Файл"
     label_filesize: "Розмір"
     label_general: "Загальні"
-    label_global_roles: "Global roles"
+    label_global_roles: "Глобальні ролі"
     label_greater_or_equal: ">="
     label_group: 'Група'
     label_group_by: "Групувати за"
@@ -604,7 +604,7 @@ uk:
         processed: 'оброблено'
         prioritized: 'надано пріоритет'
         dateAlert: 'Оповіщення про дату'
-        shared: 'shared'
+        shared: 'спільні'
       date_alerts:
         milestone_date: 'Дата віхи'
         overdue: 'Прострочено'
@@ -651,7 +651,7 @@ uk:
         mentioned: 'Згадано'
         watched: 'Спостерігач'
         date_alert: 'Оповіщення про дату'
-        shared: 'Shared'
+        shared: 'Спільні'
       settings:
         change_notification_settings: 'Ви можете змінити <a target="_blank" href="%{url}">налаштування сповіщень</a>, щоб ніколи не пропускати важливі оновлення.'
         title: "Налаштування сповіщень"
@@ -674,7 +674,7 @@ uk:
             description: 'Отримувати сповіщення щоразу, коли хтось згадує мене де завгодно'
           assignee: 'Виконавець'
           responsible: 'Відповідальний'
-          shared: 'Shared'
+          shared: 'Спільні'
           watched: 'Спостерігач'
           work_package_commented: 'Усі нові коментарі'
           work_package_created: 'Нові пакети робіт'
@@ -759,6 +759,7 @@ uk:
           last_day: 'Останній день'
     text_are_you_sure: "Ви впевненені?"
     text_data_lost: "Усі введені дані буде втрачено."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} використовується більше одного разу. Назви груп повинні бути унікальними."
@@ -968,7 +969,6 @@ uk:
         date: "Дата"
         dueDate: "Дата закінчення"
         duration: "Тривалість"
-        estimatedTime: "Час (приблизно)"
         spentTime: "Трудовитрати"
         category: "Категорія"
         percentageDone: "Процент виконання"
@@ -991,7 +991,7 @@ uk:
         recently_created: "Нещодавно створений"
         all_open: "Всі відкрити"
         summary: "Резюме"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Надано доступ користувачам"
       jump_marks:
         pagination: "Перейти до розбиття таблиці на сторінки"
         label_pagination: "Клацніть тут, щоб пропустити пакунки робіт і перейти до розбивки на сторінки"
@@ -1029,11 +1029,11 @@ uk:
         is_parent: "Дати цього пакета робіт автоматично виводяться з його дочірніх елементів. Активуйте «Ручне планування», щоб установити ці дати."
         is_switched_from_manual_to_automatic: "Можливо, дати цього пакета робіт знадобиться перерахувати після переходу з ручного на автоматичне планування через зв’язок з іншими пакетами робіт."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Поширити'
+        title: "Надати доступ до пакета робіт"
+        selected_count: "Вибрано: %{count}"
         selection:
-          mixed: "Mixed"
+          mixed: "Змішані"
       table:
         configure_button: 'Налаштуйте таблицю робочих пакетів'
         summary: "Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт."

@@ -39,8 +39,8 @@ value:
       - id: 1338
         _type: Storage
         name: EmpireSharepoint
-        createdAt: '2022-12-21T13:37:00Z'
-        updatedAt: '2022-12-21T13:37:00Z'
+        createdAt: '2022-12-21T13:37:00.296Z'
+        updatedAt: '2022-12-21T13:37:00.296Z'
         _links:
           self:
             href: /api/v3/storages/1338

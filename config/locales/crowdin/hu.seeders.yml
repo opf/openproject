@@ -50,18 +50,18 @@ hu:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Nem tag
         item_1:
           name: Anonymous
         item_2:
-          name: Member
+          name: Tag
         item_3:
-          name: Reader
+          name: Olvasó
         item_4:
-          name: Project admin
+          name: Projekt admin
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: A vezetőség és a projekt menedzser
     standard:
       priorities:
         item_0:

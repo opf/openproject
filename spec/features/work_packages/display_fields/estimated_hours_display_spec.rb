@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +66,7 @@ RSpec.describe 'Estimated hours display' do
     login_as(user)
   end
 
-  context "with both estimated and derived estimated time" do
+  context "with both work and derived work" do
     let(:hierarchy) do
       [
         {
@@ -89,11 +89,11 @@ RSpec.describe 'Estimated hours display' do
     it 'work package details', js: true do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Estimated time\n1 h(+3 h)")
+      expect(page).to have_content("Work\n1 h(+3 h)")
     end
   end
 
-  context "with just estimated time" do
+  context "with just work" do
     let(:hierarchy) do
       [
         {
@@ -116,11 +116,11 @@ RSpec.describe 'Estimated hours display' do
     it 'work package details', js: true do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Estimated time\n1 h")
+      expect(page).to have_content("Work\n1 h")
     end
   end
 
-  context "with just derived estimated time" do
+  context "with just derived work" do
     let(:hierarchy) do
       [
         {
@@ -143,11 +143,11 @@ RSpec.describe 'Estimated hours display' do
     it 'work package details', js: true do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Estimated time\n0 h(+3 h)")
+      expect(page).to have_content("Work\n0 h(+3 h)")
     end
   end
 
-  context "with neither estimated nor derived estimated time" do
+  context "with neither work nor derived work" do
     let(:hierarchy) do
       [
         {
@@ -170,7 +170,7 @@ RSpec.describe 'Estimated hours display' do
     it 'work package details', js: true do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Estimated time\n0 h")
+      expect(page).to have_content("Work\n0 h")
     end
   end
 end

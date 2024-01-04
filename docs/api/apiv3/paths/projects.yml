@@ -69,7 +69,10 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/list_projects_model.yml'
+            $ref: '../components/schemas/project_collection_model.yml'
+          examples:
+            'simple project collection':
+              $ref: '../components/examples/project_collection.yml'
     '400':
       description: Returned if the client sends invalid request parameters e.g. filters
       content:

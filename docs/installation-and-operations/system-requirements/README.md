@@ -74,9 +74,7 @@ The [package-based installation](../installation/packaged) requires one of the f
 | Debian 10 Buster                |
 | CentOS/RHEL 9.x                 |
 | CentOS/RHEL 8.x                 |
-| CentOS/RHEL 7.x                 |
 | Suse Linux Enterprise Server 15 |
-| Suse Linux Enterprise Server 12 |
 
 The [docker-based installation](../installation/docker) requires a system with Docker installed. Please see the [official Docker page](https://docs.docker.com/install/) for the list of supported systems.
 

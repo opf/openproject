@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,109 +33,12 @@ module ProjectsHelper
     params[:filters].present? && !params.key?(:hide_filters_section)
   end
 
-  def allowed_filters(query)
-    query
-      .available_filters
-      .select { |f| whitelisted_project_filter?(f) }
-      .sort_by(&:human_name)
-  end
-
-  def whitelisted_project_filter?(filter)
-    whitelist = [
-      Queries::Projects::Filters::ActiveFilter,
-      Queries::Projects::Filters::TemplatedFilter,
-      Queries::Projects::Filters::PublicFilter,
-      Queries::Projects::Filters::ProjectStatusFilter,
-      Queries::Projects::Filters::MemberOfFilter,
-      Queries::Projects::Filters::CreatedAtFilter,
-      Queries::Projects::Filters::LatestActivityAtFilter,
-      Queries::Projects::Filters::NameAndIdentifierFilter,
-      Queries::Projects::Filters::TypeFilter
-    ]
-    whitelist << Queries::Filters::Shared::CustomFields::Base if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-
-    whitelist.detect { |clazz| filter.is_a? clazz }
-  end
-
   def no_projects_result_box_params
     if User.current.allowed_globally?(:add_project)
       { action_url: new_project_path, display_action: true }
     else
       {}
     end
-  end
-
-  def global_menu_items
-    [
-      global_menu_all_projects_item,
-      global_menu_my_projects_item,
-      global_menu_public_projects_item,
-      global_menu_archived_projects_item
-    ]
-  end
-
-  def global_menu_all_projects_item
-    path = projects_path
-
-    [
-      t(:label_all_projects),
-      path,
-      { class: global_menu_item_css_class(path),
-        title: t(:label_all_projects) }
-    ]
-  end
-
-  def global_menu_my_projects_item
-    path = projects_path_with_filters(
-      [{ member_of: { operator: '=', values: ['t'] } }]
-    )
-
-    [
-      t(:label_my_projects),
-      path,
-      { class: global_menu_item_css_class(path),
-        title: t(:label_my_projects) }
-    ]
-  end
-
-  def global_menu_public_projects_item
-    path = projects_path_with_filters(
-      [{ public: { operator: '=', values: ['t'] } }]
-    )
-
-    [
-      t(:label_public_projects),
-      path,
-      { class: global_menu_item_css_class(path),
-        title: t(:label_public_projects) }
-    ]
-  end
-
-  def global_menu_archived_projects_item
-    path = projects_path_with_filters(
-      [{ active: { operator: '=', values: ['f'] } }]
-    )
-
-    [
-      t(:label_archived_projects),
-      path,
-      { class: global_menu_item_css_class(path),
-        title: t(:label_archived_projects) }
-    ]
-  end
-
-  def projects_path_with_filters(filters)
-    return projects_path if filters.empty?
-
-    projects_path(filters: filters.to_json, hide_filters_section: true)
-  end
-
-  def global_menu_item_css_class(path)
-    "op-sidemenu--item-action #{global_menu_item_selected(path) ? 'selected' : ''}"
-  end
-
-  def global_menu_item_selected(menu_item_path)
-    menu_item_path == request.fullpath
   end
 
   def project_more_menu_items(project)
@@ -288,30 +191,6 @@ module ProjectsHelper
       Projects::CreateContract
     end.new(project, current_user)
        .assignable_parents
-  end
-
-  def gantt_portfolio_query_link(filtered_project_ids)
-    generator = ::Projects::GanttQueryGeneratorService.new(filtered_project_ids)
-    work_packages_path query_props: generator.call
-  end
-
-  def gantt_portfolio_project_ids(project_scope)
-    project_scope
-      .where(active: true)
-      .select(:id)
-      .uniq
-      .pluck(:id)
-  end
-
-  def gantt_portfolio_title
-    title = t('projects.index.open_as_gantt_title')
-
-    if current_user.admin?
-      title << ' '
-      title << t('projects.index.open_as_gantt_title_admin')
-    end
-
-    title
   end
 
   def short_project_description(project, length = 255)

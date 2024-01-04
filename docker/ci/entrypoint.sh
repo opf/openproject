@@ -107,15 +107,17 @@ setup_tests() {
 	execute_quiet "cp docker/ci/database.yml config/"
 	create_db_cluster
 
-	run_background execute "BUNDLE_JOBS=8 bundle install --quiet && bundle clean --force && echo BUNDLE DONE"
+  execute "gem install bundler --version '${BUNDLER_VERSION}' --no-document"
+
+  run_background execute "BUNDLE_JOBS=8 bundle install --quiet && bundle clean --force && echo BUNDLE DONE"
 	run_background execute "JOBS=8 time npm install --quiet && npm prune --quiet && echo NPM DONE"
 	wait_for_background
 
 	run_background backend_stuff
 	run_background frontend_stuff
 	# pre-cache browsers and their drivers binaries
-	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser chrome --debug
-	run_background $(bundle show selenium)/bin/linux/selenium-manager --browser firefox --debug
+	run_background $(bundle show selenium-webdriver)/bin/linux/selenium-manager --browser chrome --debug
+	run_background $(bundle show selenium-webdriver)/bin/linux/selenium-manager --browser firefox --debug
 	wait_for_background
 }
 

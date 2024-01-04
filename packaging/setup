@@ -14,12 +14,3 @@ cp -f packaging/.npmrc .npmrc
 
 # replace every occurrence of _APP_NAME_ with the corresponding application name we're packaging
 find packaging/ -type f -print0 | xargs -0 sed -i "s|_APP_NAME_|${APP_NAME}|"
-
-# Install newer version of postgresql libs for centos7
-if [ "$TARGET" = 'el:7' ]; then
-  sudo yum remove -y postgresql-devel
-
-  sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-  sudo yum install -y centos-release-scl-rh
-  sudo yum install -y postgresql13-devel
-fi

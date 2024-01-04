@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -105,7 +105,6 @@ import {
 import { CombinedDateEditFieldComponent } from './edit/field-types/combined-date-edit-field.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 
 @NgModule({
   imports: [
@@ -171,8 +170,5 @@ import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-el
 })
 export class OpenprojectFieldsModule {
   constructor(injector:Injector) {
-    registerCustomElement('opce-macro-attribute-value', AttributeValueMacroComponent, { injector });
-    registerCustomElement('opce-macro-attribute-label', AttributeLabelMacroComponent, { injector });
-    registerCustomElement('opce-macro-wp-quickinfo', WorkPackageQuickinfoMacroComponent, { injector });
   }
 }

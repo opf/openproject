@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +33,10 @@
 
       #main
         #content-wrapper
-          padding: 15px
           &.nomenus
             top: 0
-            padding: 0
             width: 100%
             margin-left: 0
-
 
       .work-packages--show-view
         ul#toolbar-items li .wp-create-button .dropdown
@@ -102,22 +99,16 @@
       padding: 8px 0 !important
       font-size: 1rem
 
-
 @media screen and (max-width: $breakpoint-sm)
   .router--work-packages-full-view
     #content
       position: relative
-    .work-packages--show-view
-      padding: 40px 0 0 0
 
-    #toolbar-items
-      position: absolute
-      top: 0
-      right: 0
-      justify-content: flex-end
-
-      .toolbar-item
-        flex-grow: 0
+    .wp-show--header-container
+      grid-template-columns: auto 1fr
+      grid-template-rows: auto auto 1fr
+      grid-template-areas: "backButton toolbar" "breadcrumb breadcrumb" "subject subject"
+      grid-row-gap: 0.5rem
 
     .work-packages-full-view--split-container
       border-top: none
@@ -129,9 +120,8 @@
 
   .router--work-packages-partitioned-split-view
     // Ensure the WP cards can span the complete width on mobile
-    #content-wrapper
+    #content
       padding: 15px 0 !important
 
       .toolbar-container
         margin-left: 15px
-        padding-left: 0px !important

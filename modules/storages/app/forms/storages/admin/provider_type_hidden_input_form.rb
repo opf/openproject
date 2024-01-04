@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,9 @@
 module Storages::Admin
   class ProviderTypeHiddenInputForm < ApplicationForm
     form do |storage_form|
-      storage_form.text_field(
+      storage_form.hidden(
         name: :provider_type,
         label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
-        hidden: true,
         required: true,
         value: @storage.provider_type
       )
