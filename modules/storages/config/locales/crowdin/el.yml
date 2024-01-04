@@ -4,10 +4,10 @@ el:
       storages/file_link:
         origin_id: Origin Id
       storages/storage:
-        creator: Creator
+        creator: Δημιουργός
         host: Διακομιστής
         name: Όνομα
-        provider_type: Provider type
+        provider_type: Τύπος παρόχου
         tenant: Directory (tenant) ID
     errors:
       messages:
@@ -27,19 +27,19 @@ el:
               authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
               cannot_be_connected_to: can not be connected to.
               minimal_nextcloud_version_unmet: does not meet minimal version requirements (must be Nextcloud 23 or higher)
-              not_nextcloud_server: is not a Nextcloud server
+              not_nextcloud_server: δεν είναι εξυπηρετητής Nextcloud
               op_application_not_installed: appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
             password:
               invalid_password: is not valid.
               unknown_error: could not be validated. Please check your storage connection and try again.
     models:
       file_link: Aρχείο
-      storages/storage: Storage
+      storages/storage: Αποθηκευτικός χώρος
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
-  permission_create_files: Create files
-  permission_delete_files: Delete files
+  permission_create_files: Δημιουργία αρχείων
+  permission_delete_files: Διαγραφή αρχείων
   permission_manage_file_links: Manage file links
   permission_manage_storages_in_project: Manage file storages in project
   permission_read_files: Read files

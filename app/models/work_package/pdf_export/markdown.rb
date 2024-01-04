@@ -31,6 +31,7 @@ require 'md_to_pdf/core'
 module WorkPackage::PDFExport::Markdown
   class MD2PDF
     include MarkdownToPDF::Core
+    include MarkdownToPDF::Parser
 
     def initialize(styling_yml)
       @styles = MarkdownToPDF::Styles.new(styling_yml)
@@ -41,9 +42,7 @@ module WorkPackage::PDFExport::Markdown
     def draw_markdown(markdown, pdf, image_loader)
       @pdf = pdf
       @image_loader = image_loader
-      cm_extentions = %i[autolink strikethrough table tagfilter tasklist]
-      cm_parse_option = %i[FOOTNOTES SMART LIBERAL_HTML_TAG STRIKETHROUGH_DOUBLE_TILDE UNSAFE VALIDATE_UTF8]
-      root = CommonMarker.render_doc(markdown, cm_parse_option, cm_extentions)
+      root = parse_markdown(markdown)
       begin
         draw_node(root, pdf_root_options(@styles.page), true)
       rescue Prawn::Errors::CannotFit => e
