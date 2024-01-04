@@ -69,6 +69,12 @@ module Pages
         end
       end
 
+      def expect_sidebar_filter(filter_name, selected: false)
+        within '#main-menu' do
+          expect(page).to have_css(".op-sidemenu--item-action#{selected ? '.selected' : ''}", text: filter_name)
+        end
+      end
+
       def set_sidebar_filter(filter_name)
         within '#main-menu' do
           click_link text: filter_name
@@ -198,9 +204,8 @@ module Pages
 
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
-        page.within('.ActionListWrap') do
-          click(item)
-        end
+
+        find('.ActionListItem', text: item).click
       end
 
       def click_menu_item_of(title, project)
@@ -220,14 +225,18 @@ module Pages
         end
       end
 
-      def navigate_to_new_project_page_from_global_sidebar
-        within '#main-menu' do
-          click_on 'New project'
-        end
+      def navigate_to_new_project_page_from_toolbar_items
+        page.find('[data-test-selector="project-new-button"]').click
       end
 
-      def navigate_to_new_project_page_from_toolbar_items
-        find('[data-test-selector="project-new-button"]').click
+      def save_query(name)
+        click_more_menu_item('Save')
+
+        within '#op-project-list-save-dialog' do
+          fill_in 'Name', with: name
+
+          click_button 'Save'
+        end
       end
 
       private

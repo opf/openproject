@@ -39,6 +39,15 @@
     <%= render(Primer::Alpha::ActionMenu.new) do |menu|
       menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
 
+      if current_user.logged?
+        menu.with_item(
+          label: t('button_save'),
+          content_arguments: { 'data-show-dialog-id': SAVE_MODAL_ID }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :'op-save')
+        end
+      end
+
       if current_user.admin?
         menu.with_item(
           label: t('button_configure'),
@@ -51,7 +60,7 @@
 
       menu.with_item(
         label: t('js.label_export'),
-        content_arguments: { 'data-show-dialog-id': 'project-export-dialog' }
+        content_arguments: { 'data-show-dialog-id': EXPORT_MODAL_ID }
       ) do |item|
         item.with_leading_visual_icon(icon: 'op-file-download')
       end
@@ -60,8 +69,25 @@
   <% end %>
 <% end %>
 
+<%= render(Primer::Alpha::Dialog.new(title: 'Save list', id: SAVE_MODAL_ID)) do |d| %>
+  <% d.with_header(variant: :large) %>
+
+  <%= primer_form_with(url: projects_queries_path) do %>
+
+    <%= hidden_field_tag :filters, params[:filters] %>
+
+    <%= render(Primer::Alpha::Dialog::Body.new) do %>
+      <%= render(Primer::Alpha::TextField.new(name: 'name', label: t(:label_name), required: true, autofocus: true )) %>
+    <% end %>
+
+    <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+      <%= render(Primer::ButtonComponent.new(type: :submit, scheme: :primary, data: { "close-dialog-id": SAVE_MODAL_ID })) { "Save" } %>
+    <% end %>
+  <% end %>
+<% end %>
+
 <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
-                                     id: 'project-export-dialog')) do |d|
+                                     id: EXPORT_MODAL_ID)) do |d|
   d.with_header(variant: :large)
   d.with_body do
     render partial: 'project_export_modal', locals: { query: query }

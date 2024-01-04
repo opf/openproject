@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,36 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::IndexPageHeaderComponent < ApplicationComponent
-  options :projects,
-          :current_user,
-          :query
+class Projects::QueriesController < ApplicationController
+  # TODO authorization
+  def create
+    query = load_query
+    query.name = params[:name]
 
-  BUTTON_MARGIN_RIGHT = 2
-  SAVE_MODAL_ID = 'op-project-list-save-dialog'
-  EXPORT_MODAL_ID = 'op-project-list-export-dialog'
+    query.save
 
-  def gantt_portfolio_query_link
-    generator = ::Projects::GanttQueryGeneratorService.new(gantt_portfolio_project_ids)
-    work_packages_path query_props: generator.call
+    redirect_to projects_path(query_id: query.id)
   end
 
-  def gantt_portfolio_project_ids
-    @gantt_portfolio_project_ids ||= projects
-                                     .where(active: true)
-                                     .select(:id)
-                                     .uniq
-                                     .pluck(:id)
-  end
+  private
 
-  def gantt_portfolio_title
-    title = t('projects.index.open_as_gantt_title')
+  def load_query
+    @query = ParamsToQueryService.new(Project, current_user).call(params)
 
-    if current_user.admin?
-      title << ' '
-      title << t('projects.index.open_as_gantt_title_admin')
-    end
+    # Set default filter on status no filter is provided.
+    @query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE) unless params[:filters]
 
-    title
+    # Order lft if no order is provided.
+    @query.order(lft: :asc) unless params[:sortBy]
+
+    @query
   end
 end

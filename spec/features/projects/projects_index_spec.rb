@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects index page', :js, :with_cuprite,
+RSpec.describe 'Projects index page',
+               :js,
+               :with_cuprite,
                with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
@@ -1151,6 +1153,40 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         expect(page).to have_checked_field(id: 'event_types_project_attributes')
         expect(page).to have_unchecked_field(id: 'event_types_work_packages')
       end
+    end
+  end
+
+  describe 'persisting queries' do
+    current_user { admin }
+
+    let!(:member) { create(:member, principal: admin, project:, roles: [developer]) }
+
+    it 'allows saving and loading persisted filter sets with them being displayed in the sidebar' do
+      projects_page.visit!
+
+      projects_page.open_filters
+      projects_page.filter_by_membership('yes')
+
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project, development_project)
+
+      projects_page.save_query('My saved query')
+
+      projects_page.expect_sidebar_filter('My saved query', selected: false)
+
+      # Opening the default filter again to reset the values
+      projects_page.set_sidebar_filter('All projects')
+
+      projects_page.expect_projects_listed(project, public_project, development_project)
+
+      # Reloading the persisted query will reconstruct filters and columns
+      projects_page.set_sidebar_filter('My saved query')
+
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project, development_project)
+
+      expect(page).to have_css('th', text: 'PUBLIC')
+      expect(page).not_to have_css('th', text: 'STATUS')
     end
   end
 end
