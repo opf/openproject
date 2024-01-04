@@ -8,8 +8,8 @@ el:
   permission_manage_storages_in_project: "Manage file storages in project"
   permission_read_files: "Read files"
   permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
+  permission_create_files: "Δημιουργία αρχείων"
+  permission_delete_files: "Διαγραφή αρχείων"
   permission_share_files: "Share files"
   project_module_storages: "File storages"
   errors:
@@ -20,12 +20,12 @@ el:
   activerecord:
     models:
       file_link: "Aρχείο"
-      storages/storage: "Storage"
+      storages/storage: "Αποθηκευτικός χώρος"
     attributes:
       storages/storage:
         name: "Όνομα"
-        creator: "Creator"
-        provider_type: "Provider type"
+        creator: "Δημιουργός"
+        provider_type: "Τύπος παρόχου"
         host: "Διακομιστής"
         tenant: "Directory (tenant) ID"
       storages/file_link:
@@ -43,7 +43,7 @@ el:
             host:
               cannot_be_connected_to: "can not be connected to."
               minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
-              not_nextcloud_server: "is not a Nextcloud server"
+              not_nextcloud_server: "δεν είναι εξυπηρετητής Nextcloud"
               op_application_not_installed: >
                 appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
               authorization_header_missing: >
