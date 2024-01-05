@@ -60,6 +60,10 @@ module WorkPackages
     attribute :derived_estimated_hours,
               writable: false
 
+    attribute :remaining_hours
+    attribute :derived_remaining_hours,
+              writable: false
+
     attribute :parent_id,
               permission: :manage_subtasks
 

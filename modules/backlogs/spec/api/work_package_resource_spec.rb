@@ -61,10 +61,6 @@ RSpec.describe 'API v3 Work package resource' do
       include_context 'query work package'
 
       it { is_expected.to be_json_eql(work_package.story_points.to_json).at_path('storyPoints') }
-
-      it { is_expected.to be_json_eql('PT5H'.to_json).at_path('remainingTime') }
-
-      it { is_expected.to be_json_eql(nil.to_json).at_path('derivedRemainingTime') }
     end
 
     context 'backlogs deactivated' do
@@ -77,10 +73,6 @@ RSpec.describe 'API v3 Work package resource' do
       it { expect(last_response.status).to be 200 }
 
       it { is_expected.not_to have_json_path('storyPoints') }
-
-      it { is_expected.not_to have_json_path('remainingTime') }
-
-      it { is_expected.not_to have_json_path('derivedRemainingTime') }
     end
   end
 
@@ -104,13 +96,6 @@ RSpec.describe 'API v3 Work package resource' do
 
       it { expect(subject.status).to eq(200) }
       it { expect(subject.body).to be_json_eql(12.to_json).at_path('storyPoints') }
-    end
-
-    describe 'remainingTime' do
-      let(:params) { valid_params.merge(remainingTime: 'PT12H30M') }
-
-      it { expect(subject.status).to eq(200) }
-      it { expect(subject.body).to be_json_eql('PT12H30M'.to_json).at_path('remainingTime') }
     end
   end
 end

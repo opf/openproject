@@ -603,6 +603,26 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'remainingTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'remainingTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.remaining_hours') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+    end
+
+    describe 'derivedRemainingTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'derivedRemainingTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.derived_remaining_hours') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
+
     describe 'spentTime' do
       context 'with the view_time_entries permission' do
         let(:permissions) { %i[edit_work_packages view_time_entries] }

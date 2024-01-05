@@ -80,36 +80,6 @@ RSpec.describe WorkPackage do
         expect(work_package).not_to be_valid
       end
     end
-
-    describe 'remaining hours' do
-      it 'allows empty values' do
-        expect(work_package.remaining_hours).to be_nil
-        expect(work_package).to be_valid
-      end
-
-      it 'allows values greater than or equal to 0' do
-        work_package.remaining_hours = '0'
-        expect(work_package).to be_valid
-
-        work_package.remaining_hours = '1'
-        expect(work_package).to be_valid
-      end
-
-      it 'disallows negative values' do
-        work_package.remaining_hours = '-1'
-        expect(work_package).not_to be_valid
-      end
-
-      it 'disallows string values, that are not numbers' do
-        work_package.remaining_hours = 'abc'
-        expect(work_package).not_to be_valid
-      end
-
-      it 'allows non-integers' do
-        work_package.remaining_hours = '1.3'
-        expect(work_package).to be_valid
-      end
-    end
   end
 
   describe 'definition of done' do

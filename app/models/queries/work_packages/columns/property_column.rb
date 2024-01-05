@@ -113,6 +113,10 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       sortable: "#{WorkPackage.table_name}.estimated_hours",
       summable: true
     },
+    remaining_hours: {
+      sortable: "#{WorkPackage.table_name}.remaining_hours",
+      summable: true
+    },
     spent_hours: {
       sortable: false,
       summable: false

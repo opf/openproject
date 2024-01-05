@@ -30,7 +30,6 @@ module OpenProject::Backlogs::Patches::BaseContractPatch
   extend ActiveSupport::Concern
 
   included do
-    attribute :remaining_hours
     attribute :story_points
 
     validate :validate_has_parents_version

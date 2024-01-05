@@ -29,15 +29,24 @@
 require 'spec_helper'
 
 RSpec.describe WorkPackage do
+  shared_let(:type) { create(:type_standard) }
+  shared_let(:project) { create(:project, types: [type]) }
+  shared_let(:project_archived) { create(:project, :archived) }
+  shared_let(:status) { create(:status) }
+  shared_let(:priority) { create(:priority) }
+  shared_let(:user1) { create(:user) }
+
+  before_all do
+    set_factory_default(:user, user1)
+    set_factory_default(:project, project)
+    set_factory_default(:project_with_types, project)
+  end
+
   let(:stub_work_package) { build_stubbed(:work_package) }
   let(:stub_version) { build_stubbed(:version) }
   let(:stub_project) { build_stubbed(:project) }
-  let(:user) { create(:user) }
+  let(:user) { user1 }
 
-  let(:type) { create(:type_standard) }
-  let(:project) { create(:project, types: [type]) }
-  let(:status) { create(:status) }
-  let(:priority) { create(:priority) }
   let(:work_package) do
     described_class.new.tap do |w|
       w.attributes = { project_id: project.id,
@@ -77,10 +86,9 @@ RSpec.describe WorkPackage do
   describe '.new' do
     context 'type' do
       let(:type2) { create(:type) }
-      let(:project) { create(:project, types: [type, type2]) }
 
       before do
-        project # loads types as well
+        project.types << type2
       end
 
       context 'no project chosen' do
@@ -162,11 +170,11 @@ RSpec.describe WorkPackage do
   end
 
   describe '#category' do
-    let(:user_2) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
+    let(:user2) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
     let(:category) do
       create(:category,
              project:,
-             assigned_to: user_2)
+             assigned_to: user2)
     end
 
     before do
@@ -188,16 +196,12 @@ RSpec.describe WorkPackage do
              roles: [create(:project_role)])
     end
 
-    shared_context 'assign group as responsible' do
-      before { work_package.responsible = group }
-    end
-
-    subject { work_package.valid? }
-
     context 'with group assigned' do
-      include_context 'assign group as responsible'
+      before { work_package.responsible = group }
 
-      it { is_expected.to be_truthy }
+      it 'is valid' do
+        expect(work_package).to be_valid
+      end
     end
   end
 
@@ -237,75 +241,73 @@ RSpec.describe WorkPackage do
 
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
-  end
 
-  describe '#assignable_versions' do
-    let!(:work_package) do
-      wp = create(:work_package,
-                  project:,
-                  version: version_current)
-      # remove changes to version factored into
-      # assignable_versions calculation
-      wp.reload
-      wp
-    end
-    let!(:version_current) do
-      create(:version,
-             status: 'closed',
-             project:)
-    end
-    let!(:version_open) do
-      create(:version,
-             status: 'open',
-             project:)
-    end
-    let!(:version_locked) do
-      create(:version,
-             status: 'locked',
-             project:)
-    end
-    let!(:version_closed) do
-      create(:version,
-             status: 'closed',
-             project:)
-    end
-    let!(:version_other_project) do
-      create(:version,
-             status: 'open')
-    end
+    context 'with many versions' do
+      let!(:work_package) do
+        wp = create(:work_package,
+                    project:,
+                    version: version_current)
+        # remove changes to version factored into
+        # assignable_versions calculation
+        wp.reload
+        wp
+      end
+      let!(:version_current) do
+        create(:version,
+               status: 'closed',
+               project:)
+      end
+      let!(:version_open) do
+        create(:version,
+               status: 'open',
+               project:)
+      end
+      let!(:version_locked) do
+        create(:version,
+               status: 'locked',
+               project:)
+      end
+      let!(:version_closed) do
+        create(:version,
+               status: 'closed',
+               project:)
+      end
+      let!(:version_other_project) do
+        create(:version,
+               status: 'open',
+               project: create(:project))
+      end
 
-    it 'returns all open versions of the project' do
-      expect(work_package.assignable_versions)
-        .to contain_exactly(version_current, version_open)
+      it 'returns all open versions of the project' do
+        expect(work_package.assignable_versions)
+          .to contain_exactly(version_current, version_open)
+      end
     end
   end
 
   describe '#destroy' do
-    let(:time_entry_1) do
+    let!(:time_entry1) do
       create(:time_entry,
              project:,
              work_package:)
     end
-    let(:time_entry_2) do
+    let!(:time_entry2) do
       create(:time_entry,
              project:,
              work_package:)
     end
 
     before do
-      time_entry_1
-      time_entry_2
-
       work_package.destroy
     end
 
-    context 'work package' do
+    describe 'work package' do
       subject { described_class.find_by(id: work_package.id) }
 
       it { is_expected.to be_nil }
     end
 
-    context 'time entries' do
+    describe 'time entries' do
       subject { TimeEntry.find_by(work_package_id: work_package.id) }
 
       it { is_expected.to be_nil }
@@ -317,45 +319,43 @@ RSpec.describe WorkPackage do
   end
 
   describe '#done_ratio' do
-    let(:status_new) do
+    shared_let(:status_new) do
       create(:status,
              name: 'New',
              is_default: true,
              is_closed: false,
              default_done_ratio: 50)
     end
-    let(:status_assigned) do
+    shared_let(:status_assigned) do
       create(:status,
              name: 'Assigned',
              is_default: true,
              is_closed: false,
              default_done_ratio: 0)
     end
-    let(:work_package_1) do
+    shared_let(:work_package1) do
       create(:work_package,
              status: status_new)
     end
-    let(:work_package_2) do
+    shared_let(:work_package2) do
       create(:work_package,
-             project: work_package_1.project,
+             project: work_package1.project,
              status: status_assigned,
              done_ratio: 30)
     end
-
-    before { work_package_2 }
 
     describe '#value' do
       context 'work package field' do
         before { allow(Setting).to receive(:work_package_done_ratio).and_return 'field' }
 
         context 'work package 1' do
-          subject { work_package_1.done_ratio }
+          subject { work_package1.done_ratio }
 
           it { is_expected.to eq(0) }
         end
 
         context 'work package 2' do
-          subject { work_package_2.done_ratio }
+          subject { work_package2.done_ratio }
 
           it { is_expected.to eq(30) }
         end
@@ -365,13 +365,13 @@ RSpec.describe WorkPackage do
         before { allow(Setting).to receive(:work_package_done_ratio).and_return 'status' }
 
         context 'work package 1' do
-          subject { work_package_1.done_ratio }
+          subject { work_package1.done_ratio }
 
           it { is_expected.to eq(50) }
         end
 
         context 'work package 2' do
-          subject { work_package_2.done_ratio }
+          subject { work_package2.done_ratio }
 
           it { is_expected.to eq(0) }
         end
@@ -383,13 +383,13 @@ RSpec.describe WorkPackage do
         before do
           allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
 
-          work_package_1.update_done_ratio_from_status
-          work_package_2.update_done_ratio_from_status
+          work_package1.update_done_ratio_from_status
+          work_package2.update_done_ratio_from_status
         end
 
         it 'does not update the done ratio' do
-          expect(work_package_1.done_ratio).to eq(0)
-          expect(work_package_2.done_ratio).to eq(30)
+          expect(work_package1.done_ratio).to eq(0)
+          expect(work_package2.done_ratio).to eq(30)
         end
       end
 
@@ -397,69 +397,49 @@ RSpec.describe WorkPackage do
         before do
           allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
 
-          work_package_1.update_done_ratio_from_status
-          work_package_2.update_done_ratio_from_status
+          work_package1.update_done_ratio_from_status
+          work_package2.update_done_ratio_from_status
         end
 
         it 'updates the done ratio' do
-          expect(work_package_1.done_ratio).to eq(50)
-          expect(work_package_2.done_ratio).to eq(0)
+          expect(work_package1.done_ratio).to eq(50)
+          expect(work_package2.done_ratio).to eq(0)
         end
       end
     end
   end
 
   describe '#group_by' do
-    let(:type_2) { create(:type) }
-    let(:priority_2) { create(:priority) }
-    let(:project) { create(:project, types: [type, type_2]) }
-    let(:version_1) do
-      create(:version,
-             project:)
-    end
-    let(:version_2) do
-      create(:version,
-             project:)
-    end
-    let(:category_1) do
-      create(:category,
-             project:)
-    end
-    let(:category_2) do
-      create(:category,
-             project:)
-    end
-    let(:user_2) { create(:user) }
+    shared_let(:type2) { create(:type) }
+    shared_let(:priority2) { create(:priority) }
+    shared_let(:project) { create(:project, types: [type, type2]) }
+    shared_let(:version1) { create(:version, project:) }
+    shared_let(:version2) { create(:version, project:) }
+    shared_let(:category1) { create(:category, project:) }
+    shared_let(:category2) { create(:category, project:) }
+    shared_let(:user2) { create(:user) }
 
-    let(:work_package_1) do
+    shared_let(:work_package1) do
       create(:work_package,
-             author: user,
-             assigned_to: user,
-             responsible: user,
+             author: user1,
+             assigned_to: user1,
+             responsible: user1,
              project:,
              type:,
              priority:,
-             version: version_1,
-             category: category_1)
+             version: version1,
+             category: category1)
     end
-    let(:work_package_2) do
+    shared_let(:work_package2) do
       create(:work_package,
-             author: user_2,
-             assigned_to: user_2,
-             responsible: user_2,
+             author: user2,
+             assigned_to: user2,
+             responsible: user2,
              project:,
-             type: type_2,
-             priority: priority_2,
-             version: version_2,
-             category: category_2)
-    end
-
-    before do
-      version_1
-      version_2
-      project.reload
-      work_package_1
-      work_package_2
+             type: type2,
+             priority: priority2,
+             version: version2,
+             category: category2)
     end
 
     shared_examples_for 'group by' do
@@ -519,53 +499,34 @@ RSpec.describe WorkPackage do
     end
 
     context 'by project' do
-      let(:project_2) do
-        create(:project,
-               parent: project)
-      end
+      shared_let(:project2) { create(:project, parent: project) }
+      shared_let(:work_package3) { create(:work_package, project: project2) }
       let(:groups) { described_class.by_author(project) }
-      let(:work_package_3) do
-        create(:work_package,
-               project: project_2)
-      end
-
-      before { work_package_3 }
 
       it_behaves_like 'group by'
     end
   end
 
   describe '#recently_updated' do
-    let(:work_package_1) { create(:work_package) }
-    let(:work_package_2) { create(:work_package) }
+    let!(:work_package1) { create(:work_package) }
+    let!(:work_package2) { create(:work_package) }
 
     before do
-      work_package_1
-      work_package_2
-
       without_timestamping do
-        work_package_1.updated_at = 1.minute.ago
-        work_package_1.save!
+        work_package1.updated_at = 1.minute.ago
+        work_package1.save!
       end
     end
 
     context 'limit' do
       subject { described_class.recently_updated.limit(1).first }
 
-      it { is_expected.to eq(work_package_2) }
+      it { is_expected.to eq(work_package2) }
     end
   end
 
   describe '#on_active_project' do
-    let(:project_archived) do
-      create(:project,
-             active: false)
-    end
-    let!(:work_package) { create(:work_package) }
-    let(:work_package_in_archived_project) do
-      create(:work_package,
-             project: project_archived)
-    end
+    shared_let(:work_package) { create(:work_package, project:) }
 
     subject { described_class.on_active_project.length }
 
@@ -573,7 +534,9 @@ RSpec.describe WorkPackage do
       it { is_expected.to eq(1) }
 
       context 'and one work package in archived projects' do
-        before { work_package_in_archived_project }
+        shared_let(:work_package_in_archived_project) do
+          create(:work_package, project: project_archived)
+        end
 
         it { is_expected.to eq(1) }
       end
@@ -581,25 +544,17 @@ RSpec.describe WorkPackage do
   end
 
   describe '#with_author' do
-    let(:user) { create(:user) }
-    let(:project_archived) do
-      create(:project,
-             active: false)
-    end
-    let!(:work_package) { create(:work_package, author: user) }
-    let(:work_package_in_archived_project) do
-      create(:work_package,
-             project: project_archived,
-             author: user)
-    end
+    shared_let(:work_package) { create(:work_package, project:, author: user1) }
 
-    subject { described_class.with_author(user).length }
+    subject { described_class.with_author(user1).length }
 
     context 'one work package in active projects' do
       it { is_expected.to eq(1) }
 
       context 'and one work package in archived projects' do
-        before { work_package_in_archived_project }
+        shared_let(:work_package_in_archived_project) do
+          create(:work_package, project: project_archived, author: user1)
+        end
 
         it { is_expected.to eq(2) }
       end
@@ -627,10 +582,9 @@ RSpec.describe WorkPackage do
   end
 
   describe '.allowed_target_project_on_move' do
-    let(:project) { create(:project) }
-    let(:role) { create(:project_role, permissions: [:move_work_packages]) }
+    let(:permissions) { [:move_work_packages] }
     let(:user) do
-      create(:user, member_with_roles: { project => role })
+      create(:user, member_with_permissions: { project => permissions })
     end
 
     context 'when having the move_work_packages permission' do
@@ -641,7 +595,7 @@ RSpec.describe WorkPackage do
     end
 
     context 'when lacking the move_work_packages permission' do
-      let(:role) { create(:project_role, permissions: []) }
+      let(:permissions) { [] }
 
       it 'does not return the project' do
         expect(described_class.allowed_target_projects_on_move(user))
@@ -651,10 +605,9 @@ RSpec.describe WorkPackage do
   end
 
   describe '.allowed_target_project_on_create' do
-    let(:project) { create(:project) }
-    let(:role) { create(:project_role, permissions: [:add_work_packages]) }
+    let(:permissions) { [:add_work_packages] }
     let(:user) do
-      create(:user, member_with_roles: { project => role })
+      create(:user, member_with_permissions: { project => permissions })
     end
 
     context 'when having the add_work_packages permission' do
@@ -665,7 +618,7 @@ RSpec.describe WorkPackage do
     end
 
     context 'when lacking the add_work_packages permission' do
-      let(:role) { create(:project_role, permissions: []) }
+      let(:permissions) { [] }
 
       it 'does not return the project' do
         expect(described_class.allowed_target_projects_on_create(user))
@@ -693,26 +646,28 @@ RSpec.describe WorkPackage do
   end
 
   describe 'changed_since' do
-    let!(:work_package) do
+    shared_let(:work_package) do
       Timecop.travel(5.hours.ago) do
-        create(:work_package)
+        create(:work_package, project:)
       end
     end
 
+    subject { described_class.changed_since(since) }
+
     describe 'null' do
-      subject { described_class.changed_since(nil) }
+      let(:since) { nil }
 
       it { expect(subject).to contain_exactly(work_package) }
     end
 
     describe 'now' do
-      subject { described_class.changed_since(DateTime.now) }
+      let(:since) { DateTime.now }
 
       it { expect(subject).to be_empty }
     end
 
     describe 'work package update' do
-      subject { described_class.changed_since(work_package.reload.updated_at) }
+      let(:since) { work_package.reload.updated_at }
 
       it { expect(subject).to contain_exactly(work_package) }
     end
@@ -728,9 +683,13 @@ RSpec.describe WorkPackage do
   end
 
   context 'when destroying with agenda items' do
-    let(:meeting_agenda_items) { create_list(:meeting_agenda_item, 3, work_package:) }
-    let(:other_agenda_item) { create(:meeting_agenda_item, work_package_id: create(:work_package).id) }
-    let(:other_meeting) { other_agenda_item.meeting }
+    shared_let(:work_package) do
+      create(:work_package, project:, type:, status:, priority:)
+    end
+
+    shared_let(:meeting_agenda_items) { create_list(:meeting_agenda_item, 3, work_package:) }
+    shared_let(:other_agenda_item) { create(:meeting_agenda_item, work_package_id: create(:work_package).id) }
+    shared_let(:other_meeting) { other_agenda_item.meeting }
     let(:latest_journals) do
       Journal
         .select('DISTINCT ON (journable_id) *')
@@ -742,8 +701,6 @@ RSpec.describe WorkPackage do
 
     before do
       work_package.save
-      meeting_agenda_items
-      other_agenda_item
       Meeting.find_each(&:save_journals)
     end
 
@@ -776,6 +733,36 @@ RSpec.describe WorkPackage do
             .find_by(agenda_item: other_agenda_item)
             .work_package_id
         }
+    end
+  end
+
+  describe '#remaining_hours' do
+    it 'allows empty values' do
+      expect(work_package.remaining_hours).to be_nil
+      expect(work_package).to be_valid
+    end
+
+    it 'allows values greater than or equal to 0' do
+      work_package.remaining_hours = '0'
+      expect(work_package).to be_valid
+
+      work_package.remaining_hours = '1'
+      expect(work_package).to be_valid
+    end
+
+    it 'disallows negative values' do
+      work_package.remaining_hours = '-1'
+      expect(work_package).not_to be_valid
+    end
+
+    it 'disallows string values, that are not numbers' do
+      work_package.remaining_hours = 'abc'
+      expect(work_package).not_to be_valid
+    end
+
+    it 'allows non-integers' do
+      work_package.remaining_hours = '1.3'
+      expect(work_package).to be_valid
     end
   end
 end
