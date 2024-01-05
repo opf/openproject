@@ -82,7 +82,14 @@ class User < Principal
            inverse_of: :user,
            dependent: :destroy
 
-  has_many :notification_settings, dependent: :destroy
+  has_many :notification_settings,
+           dependent: :destroy
+
+  has_many :project_queries,
+           class_name: 'Queries::Projects::ProjectQuery',
+           inverse_of: :user,
+           dependent: :destroy
+
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query

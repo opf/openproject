@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,28 +24,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Queries
-  module Relations
-    class RelationQuery
-      include ::Queries::BaseQuery
-      include ::Queries::UnpersistedQuery
+module Queries::UnpersistedQuery
+  extend ActiveSupport::Concern
 
-      def self.model
-        Relation
-      end
+  included do
+    attr_accessor :filters,
+                  :orders
+    attr_reader :group_by
 
-      def results
-        # Filters marked to already check visibility free us from the need
-        # to check it here.
-
-        if filters.any?(&:visibility_checked?)
-          super
-        else
-          super.visible
-        end
-      end
+    def initialize(*args)
+      @filters = []
+      @orders = []
+      @group_by = nil
+      @user = args.first[:user] if args&.first
     end
+
+    protected
+
+    attr_accessor :user
+    attr_writer :group_by
   end
 end

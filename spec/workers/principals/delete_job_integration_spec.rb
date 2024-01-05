@@ -214,7 +214,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it { expect(Watcher.find_by(id: watch.id)).to be_nil }
     end
 
-    shared_examples_for 'token handling' do
+    shared_examples_for 'rss token handling' do
       let(:token) do
         Token::RSS.new(user: principal, value: 'loremipsum')
       end
@@ -254,7 +254,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it { expect(Query.find_by(id: query.id)).to be_nil }
     end
 
-    shared_examples_for 'token handling' do
+    shared_examples_for 'backup token handling' do
       let!(:backup_token) do
         create(:backup_token, user: principal)
       end
@@ -308,6 +308,16 @@ RSpec.describe Principals::DeleteJob, type: :model do
         job
 
         expect(CostQuery.find_by(id: query.id)).to be_nil
+      end
+    end
+
+    shared_examples_for 'project query handling' do
+      let!(:query) { create(:project_query, user: principal) }
+
+      it 'removes the query' do
+        job
+
+        expect(Queries::Projects::ProjectQuery.find_by(id: query.id)).to be_nil
       end
     end
 
@@ -455,13 +465,15 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it_behaves_like 'hourly_rate handling'
       it_behaves_like 'member handling'
       it_behaves_like 'watcher handling'
-      it_behaves_like 'token handling'
+      it_behaves_like 'rss token handling'
+      it_behaves_like 'backup token handling'
       it_behaves_like 'notification handling'
       it_behaves_like 'private query handling'
       it_behaves_like 'issue category handling'
       it_behaves_like 'private cost_query handling'
       it_behaves_like 'public cost_query handling'
       it_behaves_like 'cost_query handling'
+      it_behaves_like 'project query handling'
       it_behaves_like 'mention rewriting'
     end
 

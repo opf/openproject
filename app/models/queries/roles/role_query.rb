@@ -26,4 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Roles::RoleQuery < Queries::BaseQuery; end
+class Queries::Roles::RoleQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+end
