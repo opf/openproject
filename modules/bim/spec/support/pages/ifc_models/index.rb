@@ -57,7 +57,7 @@ module Pages
 
           visit!
         else
-          expect(page).not_to have_selector('.button.-alt-highlight', text: 'IFC model')
+          expect(page).to have_no_css('.button.-alt-highlight', text: 'IFC model')
         end
       end
 
@@ -69,14 +69,14 @@ module Pages
       def edit_model_allowed(model_name, allowed)
         row = find_model_table_row model_name
         within row do
-          expect(page).to (allowed ? have_selector('.icon-edit') : have_no_selector('.icon-edit'))
+          expect(page).to (allowed ? have_css('.icon-edit') : have_no_selector('.icon-edit'))
         end
       end
 
       def delete_model_allowed(model_name, allowed)
         row = find_model_table_row model_name
         within row do
-          expect(page).to (allowed ? have_selector('.icon-edit') : have_no_selector('.icon-edit'))
+          expect(page).to (allowed ? have_css('.icon-edit') : have_no_selector('.icon-edit'))
         end
       end
 
@@ -153,7 +153,7 @@ module Pages
       end
 
       def change_model_name(model_name, new_name)
-        expect(page).to have_selector('input[type="file"]')
+        expect(page).to have_css('input[type="file"]')
         expect(page).to have_field('bim_ifc_models_ifc_model[title]', with: model_name)
         fill_in 'bim_ifc_models_ifc_model[title]', with: new_name
       end

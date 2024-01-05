@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'List custom fields edit',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'List custom fields edit', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
 
   before do

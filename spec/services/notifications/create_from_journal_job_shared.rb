@@ -87,7 +87,7 @@ RSpec.shared_context 'with CreateFromJournalJob context' do
               .and_return(ServiceResult.success(result: notification))
 
       expect(call.all_results)
-        .to match_array([notification])
+        .to contain_exactly(notification)
 
       expect(notifications_service)
         .to have_received(:call)

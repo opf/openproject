@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Refreshing in inline-create row', flaky: true, js: true do
+RSpec.describe 'Refreshing in inline-create row', :flaky, :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
@@ -23,16 +23,16 @@ RSpec.describe 'Refreshing in inline-create row', flaky: true, js: true do
   end
 
   it 'correctly updates the set of active columns' do
-    expect(page).to have_selector('.wp--row', count: 0)
+    expect(page).to have_css('.wp--row', count: 0)
 
     wp_table.click_inline_create
-    expect(page).to have_selector('.wp--row', count: 1)
+    expect(page).to have_css('.wp--row', count: 1)
 
-    expect(page).to have_selector('.wp-inline-create-row')
-    expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.subject')
-    expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.category')
+    expect(page).to have_css('.wp-inline-create-row')
+    expect(page).to have_css('.wp-inline-create-row .wp-table--cell-td.subject')
+    expect(page).to have_css('.wp-inline-create-row .wp-table--cell-td.category')
 
     columns.add '% Complete'
-    expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.wp-table--cell-td.percentageDone')
+    expect(page).to have_css('.wp-inline-create-row .wp-table--cell-td.wp-table--cell-td.percentageDone')
   end
 end

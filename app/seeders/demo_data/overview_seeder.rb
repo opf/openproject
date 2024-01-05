@@ -73,7 +73,7 @@ module DemoData
       end
     end
 
-    def query_id_references(overview, widget_options)
+    def query_id_references(_overview, widget_options)
       if widget_options && widget_options['queryId']
         widget_options['queryId'] = with_references(widget_options['queryId'])
       end

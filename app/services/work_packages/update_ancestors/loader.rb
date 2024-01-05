@@ -111,13 +111,13 @@ class WorkPackages::UpdateAncestors::Loader
               .send(relation_type)
               .where.not(id: queried_work_package.id)
 
-    if send("#{relation_type}_joins")
-      scope = scope.joins(send("#{relation_type}_joins"))
+    if send(:"#{relation_type}_joins")
+      scope = scope.joins(send(:"#{relation_type}_joins"))
     end
 
     scope
-      .pluck(*send("selected_#{relation_type}_attributes"))
-      .map { |p| LoaderStruct.new(send("selected_#{relation_type}_attributes").zip(p).to_h) }
+      .pluck(*send(:"selected_#{relation_type}_attributes"))
+      .map { |p| LoaderStruct.new(send(:"selected_#{relation_type}_attributes").zip(p).to_h) }
   end
 
   # Returns the current ancestors sorted by distance (called generations in the table)

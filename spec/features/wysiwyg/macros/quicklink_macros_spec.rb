@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg work package quicklink macros', js: true do
+RSpec.describe 'Wysiwyg work package quicklink macros', :js do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project_with_types) }
   let(:work_package) do
@@ -53,14 +53,14 @@ RSpec.describe 'Wysiwyg work package quicklink macros', js: true do
     # Expect output widget
     within('#content') do
       expect(page).to have_link("##{work_package.id}")
-      expect(page).not_to have_selector('.work-package--quickinfo.preview-trigger')
+      expect(page).to have_no_css('.work-package--quickinfo.preview-trigger')
     end
 
     # Edit page again
     click_on 'Edit'
 
     editor.in_editor do |container,|
-      expect(container).to have_selector('p', text: "##{work_package.id}")
+      expect(container).to have_css('p', text: "##{work_package.id}")
     end
   end
 
@@ -71,17 +71,17 @@ RSpec.describe 'Wysiwyg work package quicklink macros', js: true do
     # Expect output widget
     within('#content') do
       expected_macro_text = "#{work_package.type.name.upcase} ##{work_package.id}: My subject"
-      expect(page).to have_selector('opce-macro-wp-quickinfo', text: expected_macro_text)
-      expect(page).to have_selector('span', text: work_package.type.name.upcase)
-      expect(page).to have_selector('.work-package--quickinfo.preview-trigger', text: "##{work_package.id}")
-      expect(page).to have_selector('span', text: 'My subject')
+      expect(page).to have_css('opce-macro-wp-quickinfo', text: expected_macro_text)
+      expect(page).to have_css('span', text: work_package.type.name.upcase)
+      expect(page).to have_css('.work-package--quickinfo.preview-trigger', text: "##{work_package.id}")
+      expect(page).to have_css('span', text: 'My subject')
     end
 
     # Edit page again
     click_on 'Edit'
 
     editor.in_editor do |container,|
-      expect(container).to have_selector('p', text: "###{work_package.id}")
+      expect(container).to have_css('p', text: "###{work_package.id}")
     end
   end
 
@@ -93,21 +93,21 @@ RSpec.describe 'Wysiwyg work package quicklink macros', js: true do
     within('#content') do
       expected_macro_text = "#{work_package.status.name}#{work_package.type.name.upcase} " \
                             "##{work_package.id}: My subject (01/01/2020 - 02/01/2020)"
-      expect(page).to have_selector('opce-macro-wp-quickinfo', text: expected_macro_text)
-      expect(page).to have_selector('span', text: work_package.status.name)
-      expect(page).to have_selector('span', text: work_package.type.name.upcase)
-      expect(page).to have_selector('.work-package--quickinfo.preview-trigger', text: "##{work_package.id}")
-      expect(page).to have_selector('span', text: 'My subject')
+      expect(page).to have_css('opce-macro-wp-quickinfo', text: expected_macro_text)
+      expect(page).to have_css('span', text: work_package.status.name)
+      expect(page).to have_css('span', text: work_package.type.name.upcase)
+      expect(page).to have_css('.work-package--quickinfo.preview-trigger', text: "##{work_package.id}")
+      expect(page).to have_css('span', text: 'My subject')
       # Dates are being rendered in two nested spans
-      expect(page).to have_selector('span', text: '01/01/2020', count: 2)
-      expect(page).to have_selector('span', text: '02/01/2020', count: 2)
+      expect(page).to have_css('span', text: '01/01/2020', count: 2)
+      expect(page).to have_css('span', text: '02/01/2020', count: 2)
     end
 
     # Edit page again
     click_on 'Edit'
 
     editor.in_editor do |container,|
-      expect(container).to have_selector('p', text: "####{work_package.id}")
+      expect(container).to have_css('p', text: "####{work_package.id}")
     end
   end
 
@@ -162,12 +162,12 @@ RSpec.describe 'Wysiwyg work package quicklink macros', js: true do
     click_on 'Save'
 
     within('#content') do
-      expect(page).to have_selector('opce-macro-wp-quickinfo', text: /No dates$/)
-      expect(page).to have_selector('opce-macro-wp-quickinfo', text: 'Start date only (01/01/2020 - no finish date)')
-      expect(page).to have_selector('opce-macro-wp-quickinfo', text: 'End date only (no start date - 12/31/2020)')
-      expect(page).to have_selector('opce-macro-wp-quickinfo', text: 'Both dates (01/01/2020 - 12/31/2020)')
-      expect(page).to have_selector('opce-macro-wp-quickinfo', text: 'Milestone with date (01/01/2020)')
-      expect(page).to have_selector('opce-macro-wp-quickinfo', text: /Milestone without date$/)
+      expect(page).to have_css('opce-macro-wp-quickinfo', text: /No dates$/)
+      expect(page).to have_css('opce-macro-wp-quickinfo', text: 'Start date only (01/01/2020 - no finish date)')
+      expect(page).to have_css('opce-macro-wp-quickinfo', text: 'End date only (no start date - 12/31/2020)')
+      expect(page).to have_css('opce-macro-wp-quickinfo', text: 'Both dates (01/01/2020 - 12/31/2020)')
+      expect(page).to have_css('opce-macro-wp-quickinfo', text: 'Milestone with date (01/01/2020)')
+      expect(page).to have_css('opce-macro-wp-quickinfo', text: /Milestone without date$/)
     end
   end
 end

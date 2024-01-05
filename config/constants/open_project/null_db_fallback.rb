@@ -60,7 +60,7 @@ module OpenProject
       end
 
       def database_config
-        YAML.load_file(File.join(Rails.root, "config", "database.yml"))[Rails.env]
+        YAML.load_file(Rails.root.join("config/database.yml").to_s)[Rails.env]
       end
     end
   end

@@ -61,7 +61,7 @@ class News < ApplicationRecord
   end
 
   def description=(val)
-    super val.presence || ''
+    super(val.presence || '')
   end
 
   # returns latest news for projects visible by user

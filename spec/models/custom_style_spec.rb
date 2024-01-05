@@ -34,7 +34,7 @@ RSpec.describe CustomStyle do
       let!(:file_path) { custom_style.send(image).file.path }
 
       before do
-        custom_style.send "remove_#{image}"
+        custom_style.send :"remove_#{image}"
       end
 
       it 'deletes the file' do

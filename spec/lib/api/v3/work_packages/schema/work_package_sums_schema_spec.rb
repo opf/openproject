@@ -42,7 +42,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSumsSchema do
       allow(WorkPackageCustomField)
         .to receive(:summable) { [cf1, cf2, cf3] }
 
-      expect(subject.available_custom_fields).to match_array [cf1, cf2, cf3]
+      expect(subject.available_custom_fields).to contain_exactly(cf1, cf2, cf3)
     end
   end
 end

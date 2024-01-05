@@ -89,7 +89,7 @@ RSpec.describe Story do
           story1
         end
 
-        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1) }
       end
 
       describe "WITH two sprints
@@ -103,8 +103,8 @@ RSpec.describe Story do
           story2.save!
         end
 
-        it { expect(Story.backlogs(project, [version.id, version2.id])[version.id]).to match_array([story1]) }
-        it { expect(Story.backlogs(project, [version.id, version2.id])[version2.id]).to match_array([story2]) }
+        it { expect(Story.backlogs(project, [version.id, version2.id])[version.id]).to contain_exactly(story1) }
+        it { expect(Story.backlogs(project, [version.id, version2.id])[version2.id]).to contain_exactly(story2) }
       end
 
       describe "WITH two sprints
@@ -119,7 +119,7 @@ RSpec.describe Story do
           story2.save!
         end
 
-        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1) }
         it { expect(Story.backlogs(project, [version.id])[version2.id]).to be_empty }
       end
 
@@ -141,7 +141,7 @@ RSpec.describe Story do
           story2.save!
         end
 
-        it { expect(Story.backlogs(project, [version.id, version2.id])[version.id]).to match_array([story1]) }
+        it { expect(Story.backlogs(project, [version.id, version2.id])[version.id]).to contain_exactly(story1) }
         it { expect(Story.backlogs(project, [version.id, version2.id])[version2.id]).to be_empty }
       end
 
@@ -158,7 +158,7 @@ RSpec.describe Story do
           story2.save!
         end
 
-        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1) }
       end
 
       describe "WITH one sprint
@@ -170,7 +170,7 @@ RSpec.describe Story do
           story1.save
         end
 
-        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1, story2]) }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1, story2) }
       end
 
       describe "WITH one sprint
@@ -182,7 +182,7 @@ RSpec.describe Story do
           task.save
         end
 
-        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1) }
       end
 
       describe "WITH one sprint
@@ -193,7 +193,7 @@ RSpec.describe Story do
           story1
         end
 
-        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1) }
       end
     end
   end

@@ -34,7 +34,7 @@ def expect_page_reload
 
   yield
 
-  expect(page).to have_selector('body') { |body|
+  expect(page).to have_css('body') { |body|
     Time.parse(body['data-rendered-at']) > current_render
   }
 end

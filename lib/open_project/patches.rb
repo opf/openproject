@@ -33,14 +33,14 @@ module OpenProject
     ##
     # Check against a particular gem version
     # before patching it
-    def patch_gem_version(gem, version, &block)
+    def patch_gem_version(gem, version)
       found_version = Gem.loaded_specs[gem].version
       if found_version > Gem::Version.new(version)
         raise "OpenProject expects to patch gem '#{gem}' at version #{version} " \
               "but found version #{found_version}. Please check whether the patch is still valid."
       end
 
-      block.call
+      yield
     end
   end
 end

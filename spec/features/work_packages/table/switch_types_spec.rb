@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Switching types in work package table', js: true do
+RSpec.describe 'Switching types in work package table', :js do
   let(:user) { create(:admin) }
 
   describe 'switching to required CF' do
@@ -131,7 +131,7 @@ RSpec.describe 'Switching types in work package table', js: true do
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
-      expect(page).not_to have_selector "#{req_text_field.selector} #{req_text_field.display_selector}"
+      expect(page).to have_no_css "#{req_text_field.selector} #{req_text_field.display_selector}"
       expect { req_text_field.display_element }.to raise_error(Capybara::ElementNotFound)
     end
 

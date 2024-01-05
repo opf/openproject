@@ -29,7 +29,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 require_relative 'support/pages/cost_report_page'
 
-RSpec.describe "updating a cost report's cost type", js: true do
+RSpec.describe "updating a cost report's cost type", :js do
   let(:project) { create(:project_with_types, members: { user => create(:project_role) }) }
   let(:user) do
     create(:admin)

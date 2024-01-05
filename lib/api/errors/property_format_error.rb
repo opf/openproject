@@ -41,7 +41,7 @@ module API
                          property:,
                          expected_format:,
                          actual: actual_value)
-        super message
+        super(message)
       end
 
       def details

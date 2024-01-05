@@ -12,7 +12,7 @@ module OpenProject::Recaptcha
              settings: {
                default: {
                  recaptcha_type: ::OpenProject::Recaptcha::TYPE_DISABLED,
-                 response_limit: 5000,
+                 response_limit: 5000
                }
              },
              bundled: true do

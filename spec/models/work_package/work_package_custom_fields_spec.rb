@@ -60,7 +60,7 @@ RSpec.describe WorkPackage do
       def self.change_custom_field_value(work_package, value, save: true)
         val = custom_field.custom_options.find { |co| co.value == value }.try(:id)
 
-        work_package.custom_field_values = { custom_field.id => (val || value) }
+        work_package.custom_field_values = { custom_field.id => val || value }
         work_package.save if save
       end
     end
@@ -168,7 +168,7 @@ RSpec.describe WorkPackage do
 
               it 'stores the symbol' do
                 actual_symbols = work_package.errors.symbols_for(custom_field_key)
-                expect(actual_symbols).to match_array([error_key.to_sym])
+                expect(actual_symbols).to contain_exactly(error_key.to_sym)
               end
             end
 

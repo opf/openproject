@@ -34,8 +34,8 @@ RSpec.describe 'inline create work package', :js do
         wp_table.expect_work_package_listed(existing_wp)
 
         wp_table.click_inline_create
-        expect(page).to have_selector('.wp--row', count: 2)
-        expect(page).to have_selector('.wp-inline-create-row')
+        expect(page).to have_css('.wp--row', count: 2)
+        expect(page).to have_css('.wp-inline-create-row')
         expect(page).to have_focus_on('#wp-new-inline-edit--field-subject')
 
         # Expect subject to be activated
@@ -52,7 +52,7 @@ RSpec.describe 'inline create work package', :js do
         )
 
         # Expect new create row to exist
-        expect(page).to have_selector('.wp--row', count: 2)
+        expect(page).to have_css('.wp--row', count: 2)
         expect(page).to have_button(exact_text: 'Create new work package')
 
         wp_table.click_inline_create
@@ -65,8 +65,8 @@ RSpec.describe 'inline create work package', :js do
         # Callback for adjustments
         callback.call
 
-        expect(page).to have_selector('.wp--row .subject', text: 'Some subject')
-        expect(page).to have_selector('.wp--row .subject', text: 'Another subject')
+        expect(page).to have_css('.wp--row .subject', text: 'Some subject')
+        expect(page).to have_css('.wp--row .subject', text: 'Another subject')
 
         # safeguards
         wp_table.dismiss_toaster!
@@ -75,7 +75,7 @@ RSpec.describe 'inline create work package', :js do
         )
 
         # Expect no inline create open
-        expect(page).not_to have_selector('.wp-inline-create-row')
+        expect(page).to have_no_css('.wp-inline-create-row')
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'inline create work package', :js do
 
       it 'renders the work package, but no create row' do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).not_to have_button(exact_text: 'Create new work package')
+        expect(page).to have_no_button(exact_text: 'Create new work package')
       end
     end
 
@@ -190,8 +190,8 @@ RSpec.describe 'inline create work package', :js do
 
       it 'renders the work packages, but no create' do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).not_to have_button(exact_text: 'Create new work package')
-        expect(page).to have_selector('.add-work-package[disabled]')
+        expect(page).to have_no_button(exact_text: 'Create new work package')
+        expect(page).to have_css('.add-work-package[disabled]')
       end
     end
   end

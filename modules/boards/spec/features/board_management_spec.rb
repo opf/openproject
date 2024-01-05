@@ -27,10 +27,10 @@
 #++
 
 require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require_relative 'support/board_index_page'
+require_relative 'support/board_page'
 
-RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Board management spec', :js, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
@@ -283,7 +283,7 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
 
     it 'does not allow viewing of boards' do
       visit project_work_package_board_path(project, board_view)
-      expect(page).to have_selector('#errorExplanation', text: I18n.t(:notice_not_authorized))
+      expect(page).to have_css('#errorExplanation', text: I18n.t(:notice_not_authorized))
 
       board_index.expect_editable false
     end
@@ -294,7 +294,7 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
 
     it 'does not allow viewing of boards' do
       board_index.visit!
-      expect(page).to have_selector('#errorExplanation', text: I18n.t(:notice_not_authorized))
+      expect(page).to have_css('#errorExplanation', text: I18n.t(:notice_not_authorized))
     end
   end
 end

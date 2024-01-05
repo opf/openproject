@@ -37,9 +37,7 @@ module Users
         model
       end
 
-      def token_data
-        token.data
-      end
+      delegate :data, to: :token, prefix: true
 
       def current?
         token == current_token

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "#{Rails.root}/db/migrate/migration_utils/permission_adder"
+require "#{Rails.root.join('db/migrate/migration_utils/permission_adder')}"
 
 class SetManageBoardPermission < ActiveRecord::Migration[5.2]
   def up

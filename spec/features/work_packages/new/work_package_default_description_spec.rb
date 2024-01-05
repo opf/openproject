@@ -3,7 +3,7 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
-RSpec.describe 'new work package', js: true do
+RSpec.describe 'new work package', :js do
   let(:type_task) { create(:type_task, description: "# New Task template\n\nHello there") }
   let(:type_feature) { create(:type_feature, description: "", is_default: true) }
   let(:type_bug) { create(:type_bug, description: "# New Bug template\n\nGeneral Kenobi") }
@@ -26,17 +26,17 @@ RSpec.describe 'new work package', js: true do
   # Changes in the description shall not be overridden.
   def change_type_and_expect_description(set_project: false)
     if !set_project
-      expect(page).to have_selector('.inline-edit--container.type', text: type_feature.name)
+      expect(page).to have_css('.inline-edit--container.type', text: type_feature.name)
     end
-    expect(page).to have_selector('.inline-edit--container.description', text: '')
+    expect(page).to have_css('.inline-edit--container.description', text: '')
 
     type_field.openSelectField
     type_field.set_value type_task
-    expect(page).to have_selector('.inline-edit--container.description h1', text: 'New Task template')
+    expect(page).to have_css('.inline-edit--container.description h1', text: 'New Task template')
 
     type_field.openSelectField
     type_field.set_value type_bug
-    expect(page).to have_selector('.inline-edit--container.description h1', text: 'New Bug template')
+    expect(page).to have_css('.inline-edit--container.description h1', text: 'New Bug template')
 
     description_field.set_value 'Something different than the default.'
 
@@ -44,13 +44,13 @@ RSpec.describe 'new work package', js: true do
 
     type_field.openSelectField
     type_field.set_value type_task
-    expect(page).to have_selector('.inline-edit--container.description', text: 'Something different than the default.')
+    expect(page).to have_css('.inline-edit--container.description', text: 'Something different than the default.')
 
     sleep 0.1
 
     type_field.openSelectField
     type_field.set_value type_bug
-    expect(page).to have_selector('.inline-edit--container.description', text: 'Something different than the default.')
+    expect(page).to have_css('.inline-edit--container.description', text: 'Something different than the default.')
 
     if set_project
       project_field.openSelectField
@@ -61,7 +61,7 @@ RSpec.describe 'new work package', js: true do
     scroll_to_and_click find_by_id('work-packages--edit-actions-save')
     wp_page.expect_toast message: 'Successful creation.'
 
-    expect(page).to have_selector('.inline-edit--display-field.description', text: 'Something different than the default.')
+    expect(page).to have_css('.inline-edit--display-field.description', text: 'Something different than the default.')
   end
 
   before do

@@ -61,14 +61,14 @@ module Pages
           work_package_prioritized
           work_package_scheduled
         ].each do |type|
-          expect(page).to have_selector("input[type='checkbox'][data-qa-global-notification-type='#{type}']") { |checkbox|
+          expect(page).to have_css("input[type='checkbox'][data-qa-global-notification-type='#{type}']") { |checkbox|
             checkbox.checked? == setting[type]
           }
         end
       end
 
       def expect_project(project)
-        expect(page).to have_selector('th', text: project.name)
+        expect(page).to have_css('th', text: project.name)
       end
 
       def add_project(project)
@@ -99,7 +99,7 @@ module Pages
       end
 
       def expect_no_date_alert_setting(label)
-        expect(page).not_to have_selector(
+        expect(page).to have_no_css(
           "select[data-qa-global-notification-type='op-reminder-settings-#{label}-alerts']"
         )
       end
@@ -121,7 +121,7 @@ module Pages
       end
 
       def expect_no_project_date_alert_setting(label, project)
-        expect(page).not_to have_selector(
+        expect(page).to have_no_css(
           "select[data-qa-project='#{project}'][data-qa-project-notification-type='op-reminder-settings-#{label}-alerts']"
         )
       end

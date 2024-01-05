@@ -97,7 +97,7 @@ module MeetingContentsHelper
     end
   end
 
-  def meeting_content_edit_link(content_type)
+  def meeting_content_edit_link(_content_type)
     content_tag :li, '', class: 'toolbar-item' do
       link_to '',
               class: 'button button--edit-agenda',

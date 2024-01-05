@@ -147,7 +147,7 @@ module WorkPackage::PDFExport::Style
 
     def toc_item(level)
       resolve_font(@styles.dig(:toc, :item)).merge(
-        resolve_font(@styles.dig(:toc, "item_level_#{level}".to_sym))
+        resolve_font(@styles.dig(:toc, :"item_level_#{level}"))
       )
     end
 
@@ -157,7 +157,7 @@ module WorkPackage::PDFExport::Style
 
     def toc_item_margins(level)
       resolve_margin(@styles.dig(:toc, :item)).merge(
-        resolve_margin(@styles.dig(:toc, "item_level_#{level}".to_sym))
+        resolve_margin(@styles.dig(:toc, :"item_level_#{level}"))
       )
     end
 
@@ -167,7 +167,7 @@ module WorkPackage::PDFExport::Style
 
     def wp_subject(level)
       resolve_font(@styles.dig(:work_package, :subject)).merge(
-        resolve_font(@styles.dig(:work_package, "subject_level_#{level}".to_sym))
+        resolve_font(@styles.dig(:work_package, :"subject_level_#{level}"))
       )
     end
 

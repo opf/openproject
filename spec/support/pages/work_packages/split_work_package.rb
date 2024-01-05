@@ -34,7 +34,7 @@ module Pages
     attr_reader :selector
 
     def initialize(work_package, project = nil)
-      super work_package, project
+      super(work_package, project)
       @selector = '.work-packages--details'
     end
 
@@ -44,7 +44,7 @@ module Pages
     end
 
     def expect_closed
-      expect(page).not_to have_selector(@selector)
+      expect(page).to have_no_selector(@selector)
     end
 
     def expect_open

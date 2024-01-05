@@ -31,8 +31,7 @@ require 'spec_helper'
 require_relative '../support/pages/ifc_models/show'
 require_relative '../support/pages/ifc_models/show_default'
 
-RSpec.describe 'BIM filter spec',
-               js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'BIM filter spec', :js, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %w(bim work_package_tracking)) }
   let(:open_status) { create(:status, is_closed: false) }
   let(:closed_status) { create(:status, is_closed: true) }

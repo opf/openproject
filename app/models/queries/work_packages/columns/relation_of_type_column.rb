@@ -34,7 +34,7 @@ class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackag
   end
 
   def name
-    "relations_of_type_#{type[:sym]}".to_sym
+    :"relations_of_type_#{type[:sym]}"
   end
 
   def sym

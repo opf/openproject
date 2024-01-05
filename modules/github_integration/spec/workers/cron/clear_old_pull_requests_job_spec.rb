@@ -48,6 +48,6 @@ RSpec.describe Cron::ClearOldPullRequestsJob, type: :job do
     expect { job.perform }.to change(GithubPullRequest, :count).by(-1).and(change(GithubCheckRun, :count).by(-1))
 
     expect(GithubPullRequest.all)
-      .to match_array([pull_request_with_work_package])
+      .to contain_exactly(pull_request_with_work_package)
   end
 end

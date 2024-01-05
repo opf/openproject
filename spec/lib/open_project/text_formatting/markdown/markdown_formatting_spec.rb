@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './expected_markdown'
+require_relative 'expected_markdown'
 
 RSpec.describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
   it 'modifierses' do
@@ -67,7 +67,7 @@ RSpec.describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     expect_paragraph = options.delete :expect_paragraph
 
     to_test.each do |text, expected|
-      expected = expect_paragraph ? "<p class=\"op-uc-p\">#{expected}</p>" : expected
+      expected = "<p class=\"op-uc-p\">#{expected}</p>" if expect_paragraph
       expect(to_html(text, options)).to be_html_eql expected
     end
   end

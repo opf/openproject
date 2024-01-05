@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'WYSIWYG UI localization',
-               js: true do
+RSpec.describe 'WYSIWYG UI localization', :js do
   let(:user) { create(:admin, language:) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }
@@ -57,7 +56,7 @@ RSpec.describe 'WYSIWYG UI localization',
     let(:language) { :de }
 
     it 'renders the UI in German' do
-      expect(page).to have_selector('.ck-button__label', text: 'Absatz')
+      expect(page).to have_css('.ck-button__label', text: 'Absatz')
     end
   end
 
@@ -65,7 +64,7 @@ RSpec.describe 'WYSIWYG UI localization',
     let(:language) { :en }
 
     it 'renders the UI in English' do
-      expect(page).to have_selector('.ck-button__label', text: 'Paragraph')
+      expect(page).to have_css('.ck-button__label', text: 'Paragraph')
     end
   end
 end

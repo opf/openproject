@@ -30,7 +30,7 @@ FactoryBot.define do
   factory :ldap_auth_source, class: 'LdapAuthSource' do
     name { 'Test LDAP LdapAuthSource' }
     host { '127.0.0.1' }
-    port { 225 }  # a reserved port, should not be in use
+    port { 225 } # a reserved port, should not be in use
     attr_login { 'uid' }
     tls_mode { 'plain_ldap' }
     base_dn { 'dc=example,dc=com' }

@@ -78,7 +78,7 @@ RSpec.describe Notifications::MailService, 'Mentioned integration', type: :model
     expect(assigned_notification.mail_alert_sent).to be false
   end
 
-  it 'will trigger only one mention notification mail when editing attributes afterwards' do
+  it 'triggers only one mention notification mail when editing attributes afterwards' do
     allow(WorkPackageMailer)
       .to receive(:mentioned)
             .and_call_original

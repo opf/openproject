@@ -38,11 +38,11 @@ module Users::PermissionChecks
       entity_name_underscored = entity_model_name.underscore
       entity_class = entity_model_name.constantize
 
-      define_method "allowed_in_#{entity_name_underscored}?" do |permission, entity|
+      define_method :"allowed_in_#{entity_name_underscored}?" do |permission, entity|
         allowed_in_entity?(permission, entity, entity_class)
       end
 
-      define_method "allowed_in_any_#{entity_name_underscored}?" do |permission, in_project: nil|
+      define_method :"allowed_in_any_#{entity_name_underscored}?" do |permission, in_project: nil|
         allowed_in_any_entity?(permission, entity_class, in_project:)
       end
     end

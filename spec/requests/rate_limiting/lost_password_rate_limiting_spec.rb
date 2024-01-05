@@ -31,7 +31,6 @@ require 'spec_helper'
 RSpec.describe 'Rate limiting lost_password',
                :with_rack_attack,
                type: :rails_request do
-
   before do
     allow_any_instance_of(ActionController::Base) # rubocop:disable RSpec/AnyInstance
       .to(receive(:protect_against_forgery?))

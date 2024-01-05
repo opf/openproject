@@ -35,7 +35,7 @@ RSpec.configure do |config|
     WebMock.disable!
   end
 
-  config.around(:example, webmock: true) do |example|
+  config.around(:example, :webmock) do |example|
     # When we enable webmock, no connections other than stubbed ones are allowed.
     # We will exempt:
     # * local connections, since selenium etc. uses localhost to communicate with the browser.

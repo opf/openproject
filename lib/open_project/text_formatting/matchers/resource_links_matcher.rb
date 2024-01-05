@@ -79,7 +79,7 @@ module OpenProject::TextFormatting
           ([[[:space:]](,\-\[>]|^) # Leading string
           (!)? # Escaped marker
           (([a-z0-9\-_]+):)? # Project identifier
-          (#{allowed_prefixes.join("|")})? # prefix
+          (#{allowed_prefixes.join('|')})? # prefix
           (
             (\#+|r)(\d+) # separator and its identifier
             |

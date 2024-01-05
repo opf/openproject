@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe "Pause reminder settings",
-               js: true,
-               with_cuprite: true do
+RSpec.describe "Pause reminder settings", :js, :with_cuprite do
   shared_examples 'pause reminder settings' do
     let(:first) { Time.zone.today.beginning_of_month }
     let(:last) { (Time.zone.today.beginning_of_month + 10.days) }

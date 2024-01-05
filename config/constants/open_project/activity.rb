@@ -41,7 +41,7 @@ module OpenProject
         @providers ||= Hash.new { |h, k| h[k] = Set.new }
       end
 
-      def map(&_block)
+      def map(&)
         yield self
       end
 

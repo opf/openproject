@@ -124,7 +124,6 @@ module SortHelper
         .map { |c, o| [@available_criteria[c], o] }
         .reject { |c, _| c.nil? }
         .filter_map { |c, o| append_direction(Array(c), o) }
-        
     end
 
     def to_query_hash
@@ -142,9 +141,9 @@ module SortHelper
       normalize!
     end
 
-    def add(*args)
+    def add(*)
       r = self.class.new.from_param(to_param)
-      r.add!(*args)
+      r.add!(*)
       r
     end
 

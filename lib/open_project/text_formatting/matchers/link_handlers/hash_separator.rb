@@ -47,7 +47,7 @@ module OpenProject::TextFormatting::Matchers
       #     message#1218 -> Link to message with id 1218
       #
       def call
-        send "render_#{matcher.prefix}"
+        send :"render_#{matcher.prefix}"
       end
 
       def valid_prefix?

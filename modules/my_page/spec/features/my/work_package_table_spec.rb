@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'Arbitrary WorkPackage query table widget on my page', js: true do
+RSpec.describe 'Arbitrary WorkPackage query table widget on my page', :js do
   let!(:type) { create(:type) }
   let!(:other_type) { create(:type) }
   let!(:priority) { create(:default_priority) }
@@ -78,7 +78,7 @@ RSpec.describe 'Arbitrary WorkPackage query table widget on my page', js: true d
       # Using it here as a safeguard to govern speed.
       created_by_me_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
       expect(created_by_me_area.area)
-        .to have_selector('.subject', text: type_work_package.subject)
+        .to have_css('.subject', text: type_work_package.subject)
 
       my_page.add_widget(1, 2, :column, "Work packages table")
 
@@ -94,10 +94,10 @@ RSpec.describe 'Arbitrary WorkPackage query table widget on my page', js: true d
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
-        .to have_selector('.subject', text: type_work_package.subject)
+        .to have_css('.subject', text: type_work_package.subject)
 
       expect(filter_area.area)
-        .to have_selector('.subject', text: other_type_work_package.subject)
+        .to have_css('.subject', text: other_type_work_package.subject)
 
       # User has the ability to modify the query
 
@@ -113,15 +113,15 @@ RSpec.describe 'Arbitrary WorkPackage query table widget on my page', js: true d
       columns.remove 'Subject'
 
       expect(filter_area.area)
-        .to have_selector('.id', text: type_work_package.id)
+        .to have_css('.id', text: type_work_package.id)
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: type_work_package.subject)
+        .to have_no_css('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .not_to have_selector('.id', text: other_type_work_package.id)
+        .to have_no_css('.id', text: other_type_work_package.id)
 
       scroll_to_element(filter_area.area)
       within filter_area.area do
@@ -142,15 +142,15 @@ RSpec.describe 'Arbitrary WorkPackage query table widget on my page', js: true d
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
       expect(filter_area.area)
-        .to have_selector('.id', text: type_work_package.id)
+        .to have_css('.id', text: type_work_package.id)
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: type_work_package.subject)
+        .to have_no_css('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .not_to have_selector('.id', text: other_type_work_package.id)
+        .to have_no_css('.id', text: other_type_work_package.id)
 
       within filter_area.area do
         expect(page).to have_field('editable-toolbar-title', with: 'My WP Filter', wait: 10)

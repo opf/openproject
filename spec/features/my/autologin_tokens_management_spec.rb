@@ -45,7 +45,7 @@ RSpec.describe 'My account autologin tokens management', :js, :with_cuprite do
 
   context 'with autologin disabled', with_settings: { autologin: 0 } do
     it 'does not show tokens' do
-      expect(page).not_to have_text "Remembered devices"
+      expect(page).to have_no_text "Remembered devices"
       expect(page).not_to have_test_selector('Users::AutoLoginTokens::TableComponent')
     end
   end
@@ -58,12 +58,12 @@ RSpec.describe 'My account autologin tokens management', :js, :with_cuprite do
         expect(trs[0]).to have_text('unknown browser')
         expect(trs[0]).to have_text('unknown operating system')
         expect(trs[0]).to have_css('.buttons a')
-        expect(trs[0]).not_to have_css('.icon-yes')
+        expect(trs[0]).to have_no_css('.icon-yes')
         expect(trs[0]).to have_text format_date(1.year.ago + 1.day)
 
         expect(trs[1]).to have_text('Mozilla Firefox (Version 12.3)')
         expect(trs[1]).to have_text('Linux')
-        expect(trs[1]).not_to have_css('.icon-yes')
+        expect(trs[1]).to have_no_css('.icon-yes')
         expect(trs[1]).to have_css('.buttons a')
         expect(trs[1]).to have_text format_date(1.day.from_now)
 

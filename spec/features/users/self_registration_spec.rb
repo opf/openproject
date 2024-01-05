@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'user self registration', js: true, with_cuprite: true do
+RSpec.describe 'user self registration', :js, :with_cuprite do
   let(:admin_password) { 'Test123Test123' }
   let(:admin) { create(:admin, password: admin_password, password_confirmation: admin_password) }
   let(:home_page) { Pages::Home.new }
@@ -55,7 +55,7 @@ RSpec.describe 'user self registration', js: true, with_cuprite: true do
         .to have_content('Your account was created and is now pending administrator approval.')
     end
 
-    it 'allows self registration and activation by an admin', signout_via_visit: true do
+    it 'allows self registration and activation by an admin', :signout_via_visit do
       home_page.visit!
 
       # registration as an anonymous user
@@ -120,7 +120,7 @@ RSpec.describe 'user self registration', js: true, with_cuprite: true do
 
       within '.op-app-header' do
         expect(page)
-          .to have_selector("a[title='#{registered_user.name}']")
+          .to have_css("a[title='#{registered_user.name}']")
       end
     end
   end

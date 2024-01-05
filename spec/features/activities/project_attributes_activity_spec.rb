@@ -88,29 +88,29 @@ RSpec.describe 'Project attributes activity', :js, :with_cuprite do
         .to have_link("Project: #{project.name}")
 
       # own fields
-      expect(page).to have_selector('li', text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
-      expect(page).to have_selector('li', text: 'Description set (Details)')
-      expect(page).to have_selector('li', text: "Project status set to On track")
-      expect(page).to have_selector('li', text: 'Project status description set (Details)')
-      expect(page).to have_selector('li', text: 'Visibility set to public')
-      expect(page).to have_selector('li', text: "No longer subproject of #{parent_project.name}")
-      expect(page).to have_selector('li', text: 'Project unarchived')
-      expect(page).to have_selector('li', text: "Identifier changed from #{previous_project_attributes['identifier']} " \
-                                                "to #{project.identifier}")
-      expect(page).to have_selector('li', text: 'Project marked as template')
+      expect(page).to have_css('li', text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
+      expect(page).to have_css('li', text: 'Description set (Details)')
+      expect(page).to have_css('li', text: "Project status set to On track")
+      expect(page).to have_css('li', text: 'Project status description set (Details)')
+      expect(page).to have_css('li', text: 'Visibility set to public')
+      expect(page).to have_css('li', text: "No longer subproject of #{parent_project.name}")
+      expect(page).to have_css('li', text: 'Project unarchived')
+      expect(page).to have_css('li', text: "Identifier changed from #{previous_project_attributes['identifier']} " \
+                                           "to #{project.identifier}")
+      expect(page).to have_css('li', text: 'Project marked as template')
 
       # custom fields
-      expect(page).to have_selector('li', text: "#{list_project_custom_field.name} " \
-                                                "set to #{project.send(list_project_custom_field.attribute_getter)}")
-      expect(page).to have_selector('li', text: "#{version_project_custom_field.name} " \
-                                                "set to #{old_version.name}, #{next_version.name}")
-      expect(page).to have_selector('li', text: "#{bool_project_custom_field.name} set to Yes")
-      expect(page).to have_selector('li', text: "#{user_project_custom_field.name} set to #{current_user.name}")
-      expect(page).to have_selector('li', text: "#{int_project_custom_field.name} set to 42")
-      expect(page).to have_selector('li', text: "#{float_project_custom_field.name} set to 3.14159")
-      expect(page).to have_selector('li', text: "#{text_project_custom_field.name} set to\na new text CF value")
-      expect(page).to have_selector('li', text: "#{string_project_custom_field.name} set to a new string CF value")
-      expect(page).to have_selector('li', text: "#{date_project_custom_field.name} set to 01/31/2023")
+      expect(page).to have_css('li', text: "#{list_project_custom_field.name} " \
+                                           "set to #{project.send(list_project_custom_field.attribute_getter)}")
+      expect(page).to have_css('li', text: "#{version_project_custom_field.name} " \
+                                           "set to #{old_version.name}, #{next_version.name}")
+      expect(page).to have_css('li', text: "#{bool_project_custom_field.name} set to Yes")
+      expect(page).to have_css('li', text: "#{user_project_custom_field.name} set to #{current_user.name}")
+      expect(page).to have_css('li', text: "#{int_project_custom_field.name} set to 42")
+      expect(page).to have_css('li', text: "#{float_project_custom_field.name} set to 3.14159")
+      expect(page).to have_css('li', text: "#{text_project_custom_field.name} set to\na new text CF value")
+      expect(page).to have_css('li', text: "#{string_project_custom_field.name} set to a new string CF value")
+      expect(page).to have_css('li', text: "#{date_project_custom_field.name} set to 01/31/2023")
     end
   end
 end

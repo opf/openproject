@@ -98,7 +98,7 @@ RSpec.describe 'work package export' do
         filters.open
       end
 
-      it 'shows all work packages with the default filters', js: true do
+      it 'shows all work packages with the default filters', :js do
         export!
 
         expect(subject).to have_text(wp1.description)
@@ -110,7 +110,7 @@ RSpec.describe 'work package export' do
         expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A B A)
       end
 
-      it 'shows all work packages grouped by', js: true do
+      it 'shows all work packages grouped by', :js do
         group_by.enable_via_menu 'Type'
 
         wp_table.expect_work_package_listed(wp1)
@@ -129,8 +129,7 @@ RSpec.describe 'work package export' do
         expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
       end
 
-      it 'shows only the work package with the right progress if filtered this way',
-         js: true do
+      it 'shows only the work package with the right progress if filtered this way', :js do
         filters.add_filter_by '% Complete', 'is', ['25'], 'percentageDone'
 
         sleep 1
@@ -142,11 +141,11 @@ RSpec.describe 'work package export' do
         export!
 
         expect(subject).to have_text(wp1.description)
-        expect(subject).not_to have_text(wp2.description)
-        expect(subject).not_to have_text(wp3.description)
+        expect(subject).to have_no_text(wp2.description)
+        expect(subject).to have_no_text(wp3.description)
       end
 
-      it 'shows only work packages of the filtered type', js: true do
+      it 'shows only work packages of the filtered type', :js do
         filters.add_filter_by 'Type', 'is (OR)', wp3.type.name
 
         expect(page).to have_no_content(wp2.description) # safeguard
@@ -155,12 +154,12 @@ RSpec.describe 'work package export' do
 
         export!
 
-        expect(subject).not_to have_text(wp1.description)
-        expect(subject).not_to have_text(wp2.description)
+        expect(subject).to have_no_text(wp1.description)
+        expect(subject).to have_no_text(wp2.description)
         expect(subject).to have_text(wp3.description)
       end
 
-      it 'exports selected columns', js: true do
+      it 'exports selected columns', :js do
         columns.add '% Complete'
 
         export!
@@ -170,7 +169,7 @@ RSpec.describe 'work package export' do
       end
     end
 
-    describe 'with a manually sorted query', js: true do
+    describe 'with a manually sorted query', :js do
       let(:query) do
         create(:query,
                user: current_user,
@@ -195,7 +194,7 @@ RSpec.describe 'work package export' do
 
         export!
 
-        expect(page).to have_selector('.job-status--modal .icon-checkmark', wait: 10)
+        expect(page).to have_css('.job-status--modal .icon-checkmark', wait: 10)
         expect(page).to have_content('The export has completed successfully.')
 
         expect(subject).to have_text(wp1.description)
@@ -209,7 +208,7 @@ RSpec.describe 'work package export' do
     end
   end
 
-  context 'PDF export', js: true do
+  context 'PDF export', :js do
     let(:export_type) { I18n.t('export.format.pdf_overview_table') }
     let(:query) do
       create(:query,
@@ -242,7 +241,7 @@ RSpec.describe 'work package export' do
 
   # Atom exports are not downloaded. In fact, it is not even a download but rather
   # a feed one can follow.
-  context 'Atom export', js: true do
+  context 'Atom export', :js do
     let(:export_type) { 'Atom' }
 
     context 'with default filter' do

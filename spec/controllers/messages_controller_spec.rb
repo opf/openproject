@@ -54,7 +54,6 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
       let(:project) { create(:public_project) }
       let!(:message) { create(:message, forum:) }
 
-
       context 'when login_required', with_settings: { login_required: true } do
         it 'redirects to login' do
           get :show, params: { project_id: project.id, id: message.id }

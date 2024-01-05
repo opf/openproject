@@ -60,7 +60,7 @@ module Redmine
           # Permission needed to search this model
           unless searchable_options.has_key?(:permission)
             searchable_options[:permission] =
-              "view_#{name.underscore.pluralize}".to_sym
+              :"view_#{name.underscore.pluralize}"
           end
 
           # Should we search custom fields on this model ?

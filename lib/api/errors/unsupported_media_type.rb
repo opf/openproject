@@ -33,7 +33,7 @@ module API
       code 415
 
       def initialize(message)
-        super message
+        super(message)
       end
     end
   end

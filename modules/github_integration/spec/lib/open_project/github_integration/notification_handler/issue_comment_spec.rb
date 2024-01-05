@@ -95,7 +95,7 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::IssueComment
         expect(received_payload.to_h)
           .to eql payload
         expect(work_packages)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
   end

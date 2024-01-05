@@ -43,7 +43,7 @@ RSpec.describe 'Top menu items', :js do
   def expect_no_menu_item(*labels)
     within '.op-app-header' do
       labels.each do |l|
-        expect(page).not_to have_link(l)
+        expect(page).to have_no_link(l)
       end
     end
   end
@@ -53,7 +53,7 @@ RSpec.describe 'Top menu items', :js do
     # the click might be ignored
 
     within '.op-app-menu--item_has-dropdown .op-app-menu--dropdown[aria-expanded=true]' do
-      expect(page).not_to have_css('[style~=overflow]')
+      expect(page).to have_no_css('[style~=overflow]')
 
       page.click_link(title)
     end

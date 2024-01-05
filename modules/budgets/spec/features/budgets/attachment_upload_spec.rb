@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Upload attachment to budget', js: true do
+RSpec.describe 'Upload attachment to budget', :js do
   let(:user) do
     create(:user, member_with_permissions: { project => %i[view_budgets edit_budgets] })
   end
@@ -59,7 +59,7 @@ RSpec.describe 'Upload attachment to budget', js: true do
 
     click_on 'Create'
 
-    expect(page).to have_selector('#content img', count: 1)
+    expect(page).to have_css('#content img', count: 1)
     expect(page).to have_content('Image uploaded on creation')
     attachments_list.expect_attached('image.png')
 
@@ -73,7 +73,7 @@ RSpec.describe 'Upload attachment to budget', js: true do
 
     click_on 'Submit'
 
-    expect(page).to have_selector('#content img', count: 2)
+    expect(page).to have_css('#content img', count: 2)
     expect(page).to have_content('Image uploaded on creation')
     expect(page).to have_content('Image uploaded the second time')
     attachments_list.expect_attached('image.png', count: 2)

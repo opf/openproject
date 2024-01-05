@@ -163,7 +163,7 @@ module Redmine
 
         module ClassMethods
           def acts_as_watchable_permission
-            acts_as_watchable_options[:permission] || "view_#{name.underscore.pluralize}".to_sym
+            acts_as_watchable_options[:permission] || :"view_#{name.underscore.pluralize}"
           end
         end
       end

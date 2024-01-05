@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-require_relative './shared_responses'
+require_relative 'shared_responses'
 
 RSpec.describe 'BCF 2.1 viewpoints resource', content_type: :json do
   include Rack::Test::Methods

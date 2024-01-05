@@ -40,7 +40,7 @@ RSpec.describe 'Login' do
 
   def expect_being_logged_in(user)
     expect(page)
-      .to have_selector("a[title='#{user.name}']")
+      .to have_css("a[title='#{user.name}']")
   end
 
   def expect_not_being_logged_in
@@ -157,7 +157,7 @@ RSpec.describe 'Login' do
       end
     end
 
-    context 'with password expiry', js: true do
+    context 'with password expiry', :js do
       before do
         user.passwords.update_all(created_at: 31.days.ago,
                                   updated_at: 31.days.ago)

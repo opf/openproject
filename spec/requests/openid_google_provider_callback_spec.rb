@@ -90,7 +90,7 @@ RSpec.describe 'OpenID Google provider callback', with_ee: %i[openid_providers] 
     }
   end
 
-  it 'redirects user without errors', webmock: true, with_settings: {
+  it 'redirects user without errors', :webmock, with_settings: {
     plugin_openproject_openid_connect: {
       "providers" => { "google" => { "identifier" => "identifier", "secret" => "secret" } }
     }

@@ -40,7 +40,7 @@ module API
       end
 
       def initialize(errors)
-        super I18n.t('api_v3.errors.multiple_errors')
+        super(I18n.t('api_v3.errors.multiple_errors'))
 
         @errors = errors
       end

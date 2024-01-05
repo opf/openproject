@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_examples'
+require_relative 'shared_examples'
 
 RSpec.describe Grids::CreateContract do
   include_context 'grid contract'
@@ -95,7 +95,7 @@ RSpec.describe Grids::CreateContract do
           .and_return(false)
 
         expect(instance.assignable_values(:widgets, user))
-          .to match_array [:widget1]
+          .to contain_exactly(:widget1)
       end
     end
 

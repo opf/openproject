@@ -56,7 +56,7 @@ module VirtualAttribute
     end
 
     def _define_virtual_attribute_setter(attribute)
-      define_method "#{attribute}=" do |value|
+      define_method :"#{attribute}=" do |value|
         set_virtual_attribute(attribute, value) if send(attribute) != value
         instance_variable_set(:"@#{attribute}_set", true)
         instance_variable_set(:"@#{attribute}", value)

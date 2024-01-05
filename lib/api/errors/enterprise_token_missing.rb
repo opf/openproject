@@ -33,7 +33,7 @@ module API
       code 500
 
       def initialize
-        super I18n.t('api_v3.errors.code_500_missing_enterprise_token')
+        super(I18n.t('api_v3.errors.code_500_missing_enterprise_token'))
       end
     end
   end

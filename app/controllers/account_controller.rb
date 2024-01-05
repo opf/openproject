@@ -203,12 +203,10 @@ class AccountController < ApplicationController
       else
         flash[:error] = I18n.t(:notice_activation_failed)
       end
+    elsif user.active?
+      flash[:notice] = I18n.t(:notice_account_already_activated)
     else
-      if user.active?
-        flash[:notice] = I18n.t(:notice_account_already_activated)
-      else
-        flash[:error] = I18n.t(:notice_activation_failed)
-      end
+      flash[:error] = I18n.t(:notice_activation_failed)
 
     end
 

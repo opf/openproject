@@ -71,7 +71,7 @@ module OpenProject
 
         def initialize(attributes = {})
           %i[name path kind size].each do |attr|
-            send("#{attr}=", attributes[attr])
+            send(:"#{attr}=", attributes[attr])
           end
 
           self.size = size.to_i if size.present?
@@ -105,7 +105,7 @@ module OpenProject
 
         def initialize(attributes = {})
           %i[identifier scmid author time paths revision branch].each do |attr|
-            send("#{attr}=", attributes[attr])
+            send(:"#{attr}=", attributes[attr])
           end
 
           self.name = attributes[:name].presence || identifier

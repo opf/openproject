@@ -45,7 +45,6 @@ class ::Query::SortCriteria < SortHelper::SortCriteria
       .reject { |column, criterion, _| column.nil? || criterion.nil? }
       .map { |column, criterion, order| [column, execute_criterion(criterion), order] }
       .filter_map { |column, criterion, order| append_order(column, Array(criterion), order) }
-      
   end
 
   private

@@ -71,7 +71,7 @@ RSpec.describe GithubPullRequest do
 
     before { pull_request }
 
-    it { is_expected.to match_array([pull_request]) }
+    it { is_expected.to contain_exactly(pull_request) }
 
     context 'when the pr is linked to a work_package' do
       let(:work_packages) { create_list(:work_package, 1) }

@@ -34,7 +34,7 @@ RSpec.describe 'Expire old user sessions' do
 
   before do
     # Delete all previous sesssions
-    ::Sessions::UserSession.delete_all
+    Sessions::UserSession.delete_all
 
     login_with(admin.login, admin_password)
 

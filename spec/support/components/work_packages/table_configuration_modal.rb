@@ -94,11 +94,11 @@ module Components
       end
 
       def expect_closed
-        expect(page).not_to have_selector(selector)
+        expect(page).to have_no_selector(selector)
       end
 
       def expect_disabled_tab(name)
-        expect(page).to have_selector("#{selector} [data-qa-tab-disabled]", text: name.upcase, wait: 10)
+        expect(page).to have_css("#{selector} [data-qa-tab-disabled]", text: name.upcase, wait: 10)
       end
 
       def selected_tab(name)

@@ -52,7 +52,7 @@ class WikiMenuItemsController < ApplicationController
     menu_item = controller.default_menu_item(page)
     return unless menu_item
 
-    "no-menu-item-#{menu_item.menu_identifier}".to_sym
+    :"no-menu-item-#{menu_item.menu_identifier}"
   end
 
   before_action :find_project_by_project_id

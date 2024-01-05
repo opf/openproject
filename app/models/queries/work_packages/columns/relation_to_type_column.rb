@@ -35,7 +35,7 @@ class Queries::WorkPackages::Columns::RelationToTypeColumn < Queries::WorkPackag
   end
 
   def set_name!(type)
-    self.name = "relations_to_type_#{type.id}".to_sym
+    self.name = :"relations_to_type_#{type.id}"
   end
 
   def caption

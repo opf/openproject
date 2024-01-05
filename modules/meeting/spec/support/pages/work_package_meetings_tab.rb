@@ -51,7 +51,7 @@ module Pages
     end
 
     def expect_tab_not_present
-      expect(page).not_to have_css('.op-tab-row--link', text: 'MEETINGS')
+      expect(page).to have_no_css('.op-tab-row--link', text: 'MEETINGS')
     end
 
     def expect_tab_content_rendered
@@ -100,7 +100,7 @@ module Pages
 
     def fill_and_submit_meeting_dialog(meeting, notes)
       fill_in('meeting_agenda_item_meeting_id', with: meeting.title)
-      expect(page).to have_selector('.ng-option-marked', text: meeting.title) # wait for selection
+      expect(page).to have_css('.ng-option-marked', text: meeting.title) # wait for selection
       page.find('.ng-option-marked').click
       page.find('.ck-editor__editable').set(notes)
 

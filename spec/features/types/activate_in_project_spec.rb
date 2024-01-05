@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-RSpec.describe 'types', js: true, with_cuprite: true do
+RSpec.describe 'types', :js, :with_cuprite do
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i(edit_project manage_types add_work_packages view_work_packages) })

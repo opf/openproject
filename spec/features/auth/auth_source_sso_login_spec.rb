@@ -60,6 +60,6 @@ RSpec.describe 'Login with auth source SSO' do
       .to have_current_path my_page_path
 
     expect(page)
-      .to have_selector("a[title='#{user.name}']")
+      .to have_css("a[title='#{user.name}']")
   end
 end

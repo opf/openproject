@@ -66,39 +66,39 @@ RSpec.describe PaginationHelper do
     end
 
     it "is inside a 'pagination' div" do
-      expect(pagination).to have_selector('div.op-pagination')
+      expect(pagination).to have_css('div.op-pagination')
     end
 
     it 'has a next_page reference' do
-      expect(pagination).to have_selector('.op-pagination--item_next')
+      expect(pagination).to have_css('.op-pagination--item_next')
     end
 
     it 'does not have a previous_page reference' do
-      expect(pagination).not_to have_selector('.op-pagination--item_prev')
+      expect(pagination).to have_no_css('.op-pagination--item_prev')
     end
 
     it 'has links to every page except the current one' do
       (1..(total_entries / per_page)).each do |i|
         next if i == current_page
 
-        expect(pagination).to have_selector("a[href='#{work_packages_path(page: i)}']",
-                                            text: Regexp.new("^#{i}$"))
+        expect(pagination).to have_css("a[href='#{work_packages_path(page: i)}']",
+                                       text: Regexp.new("^#{i}$"))
       end
     end
 
     it 'does not have a link to the current page' do
-      expect(pagination).not_to have_selector('a', text: Regexp.new("^#{current_page}$"))
+      expect(pagination).to have_no_css('a', text: Regexp.new("^#{current_page}$"))
     end
 
     it 'has an element for the current page' do
-      expect(pagination).to have_selector('.op-pagination--item_current',
-                                          text: Regexp.new("^#{current_page}$"))
+      expect(pagination).to have_css('.op-pagination--item_current',
+                                     text: Regexp.new("^#{current_page}$"))
     end
 
     it 'shows the range of the entries displayed' do
       range = "(#{(current_page * per_page) - per_page + 1} - " +
               "#{current_page * per_page}/#{total_entries})"
-      expect(pagination).to have_selector('.op-pagination--range', text: range)
+      expect(pagination).to have_css('.op-pagination--range', text: range)
     end
 
     it 'has different urls if the params are specified as options' do
@@ -111,7 +111,7 @@ RSpec.describe PaginationHelper do
 
         href = work_packages_path({ page: i }.merge(params))
 
-        expect(pagination).to have_selector("a[href='#{href}']", text: Regexp.new("^#{i}$"))
+        expect(pagination).to have_css("a[href='#{href}']", text: Regexp.new("^#{i}$"))
       end
     end
 
@@ -120,24 +120,24 @@ RSpec.describe PaginationHelper do
         .to receive(:per_page_options)
         .and_return("#{per_page},#{per_page * 10}")
 
-      expect(pagination).to have_selector('.op-pagination--options')
+      expect(pagination).to have_css('.op-pagination--options')
 
-      expect(pagination).to have_selector('.op-pagination--options .op-pagination--item_current', text: per_page)
+      expect(pagination).to have_css('.op-pagination--options .op-pagination--item_current', text: per_page)
 
       path = work_packages_path(page: current_page, per_page: Setting.per_page_options_array.last)
-      expect(pagination).to have_selector(".op-pagination--options a[href='#{path}']")
+      expect(pagination).to have_css(".op-pagination--options a[href='#{path}']")
     end
 
     describe 'WHEN the first page is the current' do
       let(:current_page) { 1 }
 
       it 'deactivates the previous page link' do
-        expect(pagination).not_to have_selector('.op-pagination--item_prev')
+        expect(pagination).to have_no_css('.op-pagination--item_prev')
       end
 
       it 'has a link to the next page' do
         path = work_packages_path(page: current_page + 1)
-        expect(pagination).to have_selector(".op-pagination--item_next a[href='#{path}']")
+        expect(pagination).to have_css(".op-pagination--item_next a[href='#{path}']")
       end
     end
 
@@ -145,12 +145,12 @@ RSpec.describe PaginationHelper do
       let(:current_page) { (total_entries / per_page) + 1 }
 
       it 'deactivates the next page link' do
-        expect(pagination).not_to have_selector('.op-pagination--item_next')
+        expect(pagination).to have_no_css('.op-pagination--item_next')
       end
 
       it 'has a link to the previous page' do
         path = work_packages_path(page: current_page - 1)
-        expect(pagination).to have_selector(".op-pagination--item_prev a[href='#{path}']")
+        expect(pagination).to have_css(".op-pagination--item_prev a[href='#{path}']")
       end
     end
 
@@ -158,11 +158,11 @@ RSpec.describe PaginationHelper do
       let(:total_entries) { 0 }
 
       it 'shows no pages' do
-        expect(pagination).not_to have_selector('.op-pagination--items .op-pagination--item')
+        expect(pagination).to have_no_css('.op-pagination--items .op-pagination--item')
       end
 
       it 'shows no pagination' do
-        expect(pagination).not_to have_selector('.op-pagination')
+        expect(pagination).to have_no_css('.op-pagination')
       end
     end
   end

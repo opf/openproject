@@ -103,7 +103,7 @@ module OpenProject
         h(truncate(message.subject, length: 60)),
         topic_path_or_url(options.delete(:no_root) ? message : message.root,
                           {
-                            r: (message.parent_id && message.id),
+                            r: message.parent_id && message.id,
                             anchor: (message.parent_id ? "message-#{message.id}" : nil)
                           }.merge(options)),
         html_options

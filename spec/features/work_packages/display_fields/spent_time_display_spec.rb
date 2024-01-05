@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Logging time within the work package view', js: true do
+RSpec.describe 'Logging time within the work package view', :js do
   shared_let(:project) { create(:project) }
   shared_let(:admin) { create(:admin) }
   shared_let(:work_package) { create(:work_package, project:) }
@@ -61,7 +61,7 @@ RSpec.describe 'Logging time within the work package view', js: true do
     if log_for_user
       time_logging_modal.update_field 'user', log_for_user.name
     elsif user_field_visible
-      expect(page).to have_selector('.ng-value-label', text: user.name)
+      expect(page).to have_css('.ng-value-label', text: user.name)
     end
 
     # a click on save creates a time entry
@@ -213,8 +213,8 @@ RSpec.describe 'Logging time within the work package view', js: true do
 
       log_time_via_modal
 
-      expect(page).to have_selector('tr:nth-of-type(1) .wp-table--cell-td.spentTime', text: '1 h')
-      expect(page).to have_selector('tr:nth-of-type(2) .wp-table--cell-td.spentTime', text: '0 h')
+      expect(page).to have_css('tr:nth-of-type(1) .wp-table--cell-td.spentTime', text: '1 h')
+      expect(page).to have_css('tr:nth-of-type(2) .wp-table--cell-td.spentTime', text: '0 h')
     end
   end
 end

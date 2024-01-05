@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects index page',
-               js: true,
-               with_cuprite: true,
+RSpec.describe 'Projects index page', :js, :with_cuprite,
                with_ee: %i[custom_fields_in_projects_list], with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
@@ -86,7 +84,7 @@ RSpec.describe 'Projects index page',
 
       # It has checked all selected settings
       Setting.enabled_projects_columns.each do |name|
-        expect(page).to have_selector(%(input[value="#{name}"]:checked))
+        expect(page).to have_css(%(input[value="#{name}"]:checked))
       end
 
       # Uncheck all selected columns
@@ -98,8 +96,8 @@ RSpec.describe 'Projects index page',
       find('input[value="project_status"]').check
       find(%(input[value="#{string_cf.column_name}"])).check
 
-      expect(page).to have_selector('input[value="project_status"]:checked')
-      expect(page).to have_selector(%(input[value="#{string_cf.column_name}"]:checked))
+      expect(page).to have_css('input[value="project_status"]:checked')
+      expect(page).to have_css(%(input[value="#{string_cf.column_name}"]:checked))
 
       # Edit the project gantt query
       scroll_to_and_click(find('button', text: 'Edit query'))
@@ -122,7 +120,7 @@ RSpec.describe 'Projects index page',
       # Save the page
       scroll_to_and_click(find('.button', text: 'Save'))
 
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.')
 
       RequestStore.clear!
       query = JSON.parse Setting.project_gantt_query
@@ -138,8 +136,8 @@ RSpec.describe 'Projects index page',
       wp_table.expect_work_package_listed work_package_a, work_package_b
 
       # Expect grouped and filtered for both projects
-      expect(page).to have_selector '.group--value', text: 'A'
-      expect(page).to have_selector '.group--value', text: 'B'
+      expect(page).to have_css '.group--value', text: 'A'
+      expect(page).to have_css '.group--value', text: 'B'
 
       # Expect type and project filters
       dropdown.expect_count 2

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Manual sorting of WP table', js: true do
+RSpec.describe 'Manual sorting of WP table', :js do
   let(:user) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -209,25 +209,25 @@ RSpec.describe 'Manual sorting of WP table', js: true do
       end
 
       it 'updates the work packages appropriately' do
-        expect(page).to have_selector('.group--value', text: 'Task (2)')
-        expect(page).to have_selector('.group--value', text: 'Bug (2)')
+        expect(page).to have_css('.group--value', text: 'Task (2)')
+        expect(page).to have_css('.group--value', text: 'Bug (2)')
 
         wp_table.drag_and_drop_work_package from: 0, to: 3
 
-        expect(page).to have_selector('.group--value', text: 'Task (1)')
-        expect(page).to have_selector('.group--value', text: 'Bug (3)')
+        expect(page).to have_css('.group--value', text: 'Task (1)')
+        expect(page).to have_css('.group--value', text: 'Bug (3)')
       end
 
       it 'dragging item with parent does not result in an error (Regression #30832)' do
-        expect(page).to have_selector('.group--value', text: 'Task (2)')
-        expect(page).to have_selector('.group--value', text: 'Bug (2)')
+        expect(page).to have_css('.group--value', text: 'Task (2)')
+        expect(page).to have_css('.group--value', text: 'Bug (2)')
 
         wp_table.drag_and_drop_work_package from: 1, to: 3
 
-        expect(page).to have_selector('.group--value', text: 'Task (1)')
-        expect(page).to have_selector('.group--value', text: 'Bug (3)')
+        expect(page).to have_css('.group--value', text: 'Task (1)')
+        expect(page).to have_css('.group--value', text: 'Bug (3)')
 
-        expect(page).not_to have_selector '.op-toast.error'
+        expect(page).to have_no_css '.op-toast.error'
       end
     end
   end

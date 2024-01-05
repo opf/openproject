@@ -36,7 +36,7 @@ module OpTurbo
           render turbo_stream: turbo_streams, status:
         end
 
-        format_block.call(format) if block_given?
+        yield(format) if format_block
       end
     end
     alias_method :respond_with_turbo_streams, :respond_to_with_turbo_streams

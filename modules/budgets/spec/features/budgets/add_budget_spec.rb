@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
-RSpec.describe 'adding a new budget', js: true do
+RSpec.describe 'adding a new budget', :js do
   let(:project) { create(:project_with_types, members: project_members) }
   let(:user) { create(:admin) }
   let(:project_members) { {} }
@@ -73,8 +73,8 @@ RSpec.describe 'adding a new budget', js: true do
       expect(page).to have_content "Successful creation"
       expect(page).to have_content "My subject"
 
-      expect(page).to have_selector('.material_budget_items td.units', text: '15.00')
-      expect(page).to have_selector('.material_budget_items td', text: 'Foobar')
+      expect(page).to have_css('.material_budget_items td.units', text: '15.00')
+      expect(page).to have_css('.material_budget_items td', text: 'Foobar')
     end
   end
 
@@ -161,13 +161,13 @@ RSpec.describe 'adding a new budget', js: true do
       expect(page).to have_content('Successful creation')
 
       new_budget_page.toggle_unit_costs!
-      expect(page).to have_selector('td.currency', text: '150.00 EUR')
+      expect(page).to have_css('td.currency', text: '150.00 EUR')
       expect(new_budget_page.unit_costs_at(1)).to have_content '150.00 EUR'
       expect(new_budget_page.unit_costs_at(2)).to have_content '100.00 EUR'
       expect(new_budget_page.overall_unit_costs).to have_content '250.00 EUR'
 
       new_budget_page.toggle_labor_costs!
-      expect(page).to have_selector('td.currency', text: '125.00 EUR')
+      expect(page).to have_css('td.currency', text: '125.00 EUR')
       expect(new_budget_page.labor_costs_at(1)).to have_content '125.00 EUR'
       expect(new_budget_page.labor_costs_at(2)).to have_content '50.00 EUR'
       expect(new_budget_page.overall_labor_costs).to have_content '175.00 EUR'

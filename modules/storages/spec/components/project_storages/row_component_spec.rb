@@ -41,7 +41,7 @@ RSpec.describe Storages::ProjectStorages::RowComponent,
 
         render_inline(component)
 
-        expect(page).not_to have_css('a.icon.icon-group')
+        expect(page).to have_no_css('a.icon.icon-group')
         expect(page).to have_css('a.icon.icon-edit')
         expect(page).to have_css('a.icon.icon-delete')
       end

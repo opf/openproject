@@ -54,7 +54,6 @@ class Queries::WorkPackages::Filter::VersionFilter <
 
     values
       .filter_map { |version_id| available_versions[version_id.to_i] }
-      
   end
 
   private

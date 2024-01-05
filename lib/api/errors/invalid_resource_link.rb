@@ -40,7 +40,7 @@ module API
                          expected: expected_i18n,
                          actual: actual_link)
 
-        super message
+        super(message)
       end
     end
   end

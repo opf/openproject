@@ -62,17 +62,17 @@ module Components
       end
 
       def expect_no_hierarchies
-        expect(page).not_to have_selector('.wp-table--hierarchy-span')
+        expect(page).to have_no_css('.wp-table--hierarchy-span')
       end
 
       alias_method :expect_mode_disabled, :expect_no_hierarchies
 
       def expect_mode_enabled
-        expect(page).to have_selector('.wp-table--table-header .icon-hierarchy')
+        expect(page).to have_css('.wp-table--table-header .icon-hierarchy')
       end
 
       def expect_mode_disabled
-        expect(page).to have_selector('.wp-table--table-header .icon-no-hierarchy')
+        expect(page).to have_css('.wp-table--table-header .icon-no-hierarchy')
       end
 
       def expect_indent(work_package, indent: true, outdent: true)
@@ -99,7 +99,7 @@ module Components
 
       def expect_leaf_at(*work_packages)
         work_packages.each do |wp|
-          expect(page).to have_selector(".wp-row-#{wp.id} .wp-table--leaf-indicator")
+          expect(page).to have_css(".wp-row-#{wp.id} .wp-table--leaf-indicator")
         end
       end
 
@@ -110,17 +110,17 @@ module Components
           selector = ".wp-row-#{wp.id} .wp-table--hierarchy-indicator"
 
           if collapsed
-            expect(page).to have_selector("#{selector}#{collapsed_sel}")
+            expect(page).to have_css("#{selector}#{collapsed_sel}")
           else
             expect(page).to have_selector(selector)
-            expect(page).not_to have_selector("#{selector}#{collapsed_sel}")
+            expect(page).to have_no_css("#{selector}#{collapsed_sel}")
           end
         end
       end
 
       def expect_hidden(*work_packages)
         work_packages.each do |wp|
-          expect(page).to have_selector(".wp-row-#{wp.id}", visible: :hidden)
+          expect(page).to have_css(".wp-row-#{wp.id}", visible: :hidden)
         end
       end
 

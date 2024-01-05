@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
-require_relative './create_from_journal_job_shared'
+require_relative 'create_from_journal_job_shared'
 
 RSpec.describe Notifications::CreateFromModelService, 'news', with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:call) do

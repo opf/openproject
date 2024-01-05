@@ -49,7 +49,7 @@ class SCM::CreateLocalRepositoryJob < ApplicationJob
     self.class.ensure_not_existing!(repository)
 
     # Create the repository locally.
-    mode = (config[:mode] || default_mode)
+    mode = config[:mode] || default_mode
 
     # Ensure that chmod receives an octal number
     unless mode.is_a? Integer

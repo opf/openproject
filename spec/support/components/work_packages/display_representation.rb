@@ -49,14 +49,14 @@ module Components
       end
 
       def expect_state(text)
-        expect(page).to have_selector('#wp-view-toggle-button', text:, wait: 10)
+        expect(page).to have_css('#wp-view-toggle-button', text:, wait: 10)
       end
 
       private
 
       def expect_button(forbidden_text)
         expect(page).to have_button('wp-view-toggle-button', disabled: false)
-        expect(page).not_to have_selector('#wp-view-toggle-button', text: forbidden_text)
+        expect(page).to have_no_css('#wp-view-toggle-button', text: forbidden_text)
       end
 
       def select_view(view_name)

@@ -52,13 +52,13 @@ module Pages::Messages
       row = subject.find(:xpath, '..')
 
       within(row) do
-        expect(page).to have_selector('td.replies', text: replies) if replies
-        expect(page).to have_selector('td.last_message', text: last_message) if last_message
+        expect(page).to have_css('td.replies', text: replies) if replies
+        expect(page).to have_css('td.last_message', text: last_message) if last_message
       end
     end
 
     def expect_num_replies(amount)
-      expect(page).to have_selector('td.replies', text: amount)
+      expect(page).to have_css('td.replies', text: amount)
     end
   end
 end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg attribute macros', js: true do
+RSpec.describe 'Wysiwyg attribute macros', :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
   let!(:project) { create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
@@ -81,24 +81,24 @@ RSpec.describe 'Wysiwyg attribute macros', js: true do
 
       click_on 'Save'
 
-      expect(page).to have_selector('.op-toast.-success')
+      expect(page).to have_css('.op-toast.-success')
 
       # Expect output widget
       within('#content') do
-        expect(page).to have_selector('td', text: 'Subject')
-        expect(page).to have_selector('td', text: 'Foo Bar')
-        expect(page).to have_selector('td', text: 'Identifier')
-        expect(page).to have_selector('td', text: 'some-project')
+        expect(page).to have_css('td', text: 'Subject')
+        expect(page).to have_css('td', text: 'Foo Bar')
+        expect(page).to have_css('td', text: 'Identifier')
+        expect(page).to have_css('td', text: 'some-project')
 
-        expect(page).to have_selector('td', text: 'invalid subject Cannot expand macro: Requested resource could not be found')
-        expect(page).to have_selector('td', text: 'invalid project Cannot expand macro: Requested resource could not be found')
+        expect(page).to have_css('td', text: 'invalid subject Cannot expand macro: Requested resource could not be found')
+        expect(page).to have_css('td', text: 'invalid project Cannot expand macro: Requested resource could not be found')
       end
 
       # Edit page again
       click_on 'Edit'
 
       editor.in_editor do |container,|
-        expect(container).to have_selector('tbody td', count: 6)
+        expect(container).to have_css('tbody td', count: 6)
       end
     end
 
@@ -134,10 +134,10 @@ RSpec.describe 'Wysiwyg attribute macros', js: true do
 
         click_on 'Save'
 
-        expect(page).to have_selector('.op-toast.-success')
+        expect(page).to have_css('.op-toast.-success')
 
         within('#content') do
-          expect(page).to have_selector('.custom-option', count: 6)
+          expect(page).to have_css('.custom-option', count: 6)
         end
       end
     end

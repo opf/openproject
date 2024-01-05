@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe "Immediate reminder settings",
-               js: true,
-               with_cuprite: true do
+RSpec.describe "Immediate reminder settings", :js, :with_cuprite do
   shared_examples 'immediate reminder settings' do
     it 'allows to configure the reminder settings' do
       # Save prefs so we can reload them later

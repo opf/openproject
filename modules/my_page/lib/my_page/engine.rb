@@ -7,7 +7,7 @@ module MyPage
     end
 
     initializer 'my_page.conversion' do
-      require Rails.root.join('config', 'constants', 'ar_to_api_conversions')
+      require Rails.root.join("config/constants/ar_to_api_conversions")
 
       Constants::ARToAPIConversions.add('grids/my_page': 'grid')
     end

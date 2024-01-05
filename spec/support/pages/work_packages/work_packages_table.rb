@@ -51,9 +51,9 @@ module Pages
     def expect_work_package_listed(*work_packages)
       within(table_container) do
         work_packages.each do |wp|
-          expect(page).to have_selector(".wp-row-#{wp.id} td.subject",
-                                        text: wp.subject,
-                                        wait: 20)
+          expect(page).to have_css(".wp-row-#{wp.id} td.subject",
+                                   text: wp.subject,
+                                   wait: 20)
         end
       end
     end
@@ -61,7 +61,7 @@ module Pages
     def expect_work_package_with_attributes(work_package, attr_value_hash)
       within(table_container) do
         attr_value_hash.each do |column, value|
-          expect(page).to have_selector(
+          expect(page).to have_css(
             ".wp-row-#{work_package.id} td.#{column}", text: value.to_s, wait: 20
           )
         end
@@ -71,7 +71,7 @@ module Pages
     def expect_sums_row_with_attributes(attr_value_hash)
       within(table_container) do
         attr_value_hash.each do |column, value|
-          expect(page).to have_selector(
+          expect(page).to have_css(
             ".wp-table--sums-row div.#{column}", text: value.to_s, wait: 10
           )
         end
@@ -80,15 +80,15 @@ module Pages
 
     def expect_work_package_subject(subject)
       within(table_container) do
-        expect(page).to have_selector("td.subject",
-                                      text: subject,
-                                      wait: 20)
+        expect(page).to have_css("td.subject",
+                                 text: subject,
+                                 wait: 20)
       end
     end
 
     def expect_work_package_count(count)
       within(table_container) do
-        expect(page).to have_selector(".wp--row", count:, wait: 20)
+        expect(page).to have_css(".wp--row", count:, wait: 20)
       end
     end
 
@@ -107,7 +107,7 @@ module Pages
       retry_block(args: { tries: 3, base_interval: 5 }) do
         within(table_container) do
           work_packages.each do |wp|
-            expect(page).not_to have_selector(".wp-row-#{wp.id} td.subject", text: wp.subject)
+            expect(page).to have_no_css(".wp-row-#{wp.id} td.subject", text: wp.subject)
           end
         end
       end
@@ -134,7 +134,7 @@ module Pages
         expect(page).to have_field('editable-toolbar-title', with: name, wait: 10)
       else
         expect(page)
-          .to have_selector('.toolbar-container', text: name, wait: 10)
+          .to have_css('.toolbar-container', text: name, wait: 10)
       end
     end
 
@@ -142,7 +142,7 @@ module Pages
       page.find('.title-container').click
 
       page.within('#viewSelect') do
-        expect(page).to have_selector('.op-sidemenu--item-action', text: name)
+        expect(page).to have_css('.op-sidemenu--item-action', text: name)
       end
     end
 
@@ -153,7 +153,7 @@ module Pages
       sleep 3
 
       container.find('[data-test-selector="op-wp-inline-create"]').click
-      expect(container).to have_selector('.wp-inline-create-row', wait: 10)
+      expect(container).to have_css('.wp-inline-create-row', wait: 10)
     end
 
     def open_split_view(work_package)

@@ -44,26 +44,26 @@ module Pages
 
         def expect_wp_create_button
           expect(page)
-            .to have_selector('.add-work-package:not([disabled])', text: 'Create')
+            .to have_css('.add-work-package:not([disabled])', text: 'Create')
         end
 
         def expect_wp_create_button_disabled
           expect(page)
-            .to have_selector('.add-work-package[disabled]', text: 'Create')
+            .to have_css('.add-work-package[disabled]', text: 'Create')
         end
 
         def expect_type_available_for_create(type)
           click_wp_create_button
 
           expect(page)
-            .to have_selector('#types-context-menu .menu-item', text: type.name.upcase)
+            .to have_css('#types-context-menu .menu-item', text: type.name.upcase)
         end
 
         def expect_type_not_available_for_create(type)
           click_wp_create_button
 
           expect(page)
-            .not_to have_selector('#types-context-menu .menu-item', text: type.name.upcase)
+            .to have_no_css('#types-context-menu .menu-item', text: type.name.upcase)
         end
 
         private

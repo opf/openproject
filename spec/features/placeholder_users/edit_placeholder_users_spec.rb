@@ -35,13 +35,13 @@ RSpec.describe 'edit placeholder users', :js do
     it 'can edit name' do
       visit edit_placeholder_user_path(placeholder_user)
 
-      expect(page).to have_selector '#placeholder_user_name'
+      expect(page).to have_css '#placeholder_user_name'
 
       fill_in 'placeholder_user[name]', with: 'NewName', fill_options: { clear: :backspace }
 
       click_on 'Save'
 
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.')
 
       placeholder_user.reload
 

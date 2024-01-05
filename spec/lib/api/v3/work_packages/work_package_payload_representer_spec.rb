@@ -279,7 +279,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       shared_examples_for 'linked property with 0 value' do |attribute, association = attribute|
         context "with a 0 for #{attribute}_id" do
           before do
-            work_package.send("#{association}_id=", 0)
+            work_package.send(:"#{association}_id=", 0)
           end
 
           it_behaves_like 'linked property' do

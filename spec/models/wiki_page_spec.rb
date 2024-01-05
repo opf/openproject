@@ -91,7 +91,7 @@ RSpec.describe WikiPage do
     context 'with another default language', with_settings: { default_language: 'de' } do
       let(:wiki_page) { build(:wiki_page, wiki:, title: 'Übersicht') }
 
-      it 'will still use english slug methods' do
+      it 'stills use english slug methods' do
         expect(wiki_page.save).to be true
         expect(wiki_page.slug).to eq 'ubersicht'
       end
@@ -100,7 +100,7 @@ RSpec.describe WikiPage do
     context 'with another I18n.locale set', with_settings: { default_language: 'de' } do
       let(:wiki_page) { build(:wiki_page, wiki:, title: 'Übersicht') }
 
-      it 'will still use english slug methods' do
+      it 'stills use english slug methods' do
         I18n.locale = :de
         expect(wiki_page.save).to be true
         expect(wiki_page.slug).to eq 'ubersicht'
@@ -176,7 +176,7 @@ RSpec.describe WikiPage do
         new_wiki_page.valid?
 
         expect(new_wiki_page.errors.symbols_for(:title))
-          .to match_array [:blank]
+          .to contain_exactly(:blank)
       end
     end
   end
@@ -284,7 +284,7 @@ RSpec.describe WikiPage do
 
     it 'returns all pages for which the user has the \'view_wiki_pages\' permission' do
       expect(described_class.visible(user))
-        .to match_array [wiki_page]
+        .to contain_exactly(wiki_page)
     end
   end
 

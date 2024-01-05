@@ -47,6 +47,7 @@ module Meetings
         end
       end
     end
+
     def render_meeting_attribute_row(icon, &)
       flex_layout(align_items: :center, justify_content: :space_between) do |flex|
         flex.with_column do

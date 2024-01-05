@@ -96,7 +96,7 @@ module Pages
         find('input[name=subject]').native.send_key :return
 
         expect(page)
-          .not_to have_selector('input[name=subject]')
+          .to have_no_css('input[name=subject]')
       end
 
       if story
@@ -111,7 +111,7 @@ module Pages
         find('input[name=name]').native.send_key :return
 
         expect(page)
-          .to have_selector('.start_date.editable')
+          .to have_css('.start_date.editable')
       end
     end
 
@@ -161,12 +161,12 @@ module Pages
 
     def expect_sprint(sprint)
       expect(page)
-        .to have_selector("#sprint_backlogs_container #{backlog_selector(sprint)}")
+        .to have_css("#sprint_backlogs_container #{backlog_selector(sprint)}")
     end
 
     def expect_backlog(sprint)
       expect(page)
-        .to have_selector("#owner_backlogs_container #{backlog_selector(sprint)}")
+        .to have_css("#owner_backlogs_container #{backlog_selector(sprint)}")
     end
 
     def expect_story_in_sprint(story, sprint)
@@ -179,7 +179,7 @@ module Pages
     def expect_story_not_in_sprint(story, sprint)
       within_backlog(sprint) do
         expect(page)
-          .not_to have_selector(story_selector(story).to_s)
+          .to have_no_selector(story_selector(story).to_s)
       end
     end
 
@@ -189,13 +189,13 @@ module Pages
           case key
           when :subject
             expect(page)
-              .to have_selector('div.subject', text: value)
+              .to have_css('div.subject', text: value)
           when :status
             expect(page)
-              .to have_selector('div.status_id', text: value)
+              .to have_css('div.status_id', text: value)
           when :type
             expect(page)
-              .to have_selector('div.type_id', text: value)
+              .to have_css('div.type_id', text: value)
           else
             raise NotImplementedError
           end
@@ -239,7 +239,7 @@ module Pages
         find('.header .menu-trigger').click
 
         expect(page)
-          .to have_selector('.header .backlog-menu .item', text: item_name)
+          .to have_css('.header .backlog-menu .item', text: item_name)
 
         # Close it again for next test
         find('.header .menu-trigger').click

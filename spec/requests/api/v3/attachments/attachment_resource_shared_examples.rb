@@ -536,7 +536,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
     subject(:response) { last_response }
 
     describe '#get' do
-      let(:get_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
+      let(:get_path) { api_v3_paths.send :"attachments_by_#{attachment_type}", container.id }
 
       before do
         create_list(:attachment, 2, container:)
@@ -551,7 +551,7 @@ RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type:
     end
 
     describe '#post' do
-      let(:request_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
+      let(:request_path) { api_v3_paths.send :"attachments_by_#{attachment_type}", container.id }
       let(:request_parts) { { metadata: metadata.to_json, file: } }
       let(:metadata) { { fileName: 'cat.png' } }
       let(:file) { mock_uploaded_file(name: 'original-filename.txt') }

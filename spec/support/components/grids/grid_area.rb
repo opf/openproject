@@ -39,7 +39,7 @@ module Components
         open_menu
 
         within('ul.dropdown-menu') do |element|
-          expect(element).to have_selector('span', text:)
+          expect(element).to have_css('span', text:)
         end
       end
 
@@ -89,7 +89,7 @@ module Components
       def expect_not_resizable
         within area do
           expect(page)
-            .not_to have_selector('.grid--area.-widgeted resizer')
+            .to have_no_css('.grid--area.-widgeted resizer')
         end
       end
 
@@ -98,14 +98,14 @@ module Components
 
         within area do
           expect(page)
-            .not_to have_selector(".grid--area-drag-handle")
+            .to have_no_css(".grid--area-drag-handle")
         end
       end
 
       def expect_not_renameable
         within area do
           expect(page)
-            .to have_selector(".editable-toolbar-title--fixed")
+            .to have_css(".editable-toolbar-title--fixed")
         end
       end
 
@@ -114,7 +114,7 @@ module Components
 
         within area do
           expect(page)
-            .not_to have_selector(".icon-show-more-horizontal")
+            .to have_no_css(".icon-show-more-horizontal")
         end
       end
 
@@ -150,7 +150,7 @@ module Components
           page.find('.op-toast--close').click
         end
 
-        expect(page).not_to have_selector('.op-toast')
+        expect(page).to have_no_css('.op-toast')
       end
     end
   end

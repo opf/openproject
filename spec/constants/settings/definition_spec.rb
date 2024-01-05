@@ -368,12 +368,12 @@ RSpec.describe Settings::Definition, :settings_reset do
         end
       end
 
-      it 'will not handle ENV vars for which no definition exists',
+      it 'does not handle ENV vars for which no definition exists',
          with_env: { 'OPENPROJECT_BOGUS' => '1234' } do
         expect(all[:bogus]).to be_nil
       end
 
-      it 'will handle ENV vars for definitions added after #all was called (e.g. in a module)',
+      it 'handles ENV vars for definitions added after #all was called (e.g. in a module)',
          with_env: { 'OPENPROJECT_BOGUS' => '1' } do
         described_class.add(:bogus, default: 0)
         expect(all[:bogus].value).to eq 1
@@ -485,7 +485,6 @@ RSpec.describe Settings::Definition, :settings_reset do
 
       context 'when overwritten from ENV',
               with_env: { 'OPENPROJECT_SENDMAIL__LOCATION' => 'env location' } do
-
         it 'overrides from ENV' do
           reset(:sendmail_location)
           expect(all[:sendmail_location].value).to eql 'env location'

@@ -28,8 +28,8 @@
 
 class Settings::UpdateService < BaseServices::BaseContracted
   def initialize(user:)
-    super user:,
-          contract_class: Settings::UpdateContract
+    super(user:,
+          contract_class: Settings::UpdateContract)
   end
 
   def persist(call)

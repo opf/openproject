@@ -47,7 +47,7 @@ module Components
     end
 
     def expect_closed
-      expect(page).not_to have_selector(selector)
+      expect(page).to have_no_selector(selector)
     end
 
     def submit_button
@@ -68,10 +68,10 @@ module Components
       end
 
       if should_fail
-        expect(page).to have_selector('.op-toast.-error',
-                                      text: I18n.t(:notice_password_confirmation_failed))
+        expect(page).to have_css('.op-toast.-error',
+                                 text: I18n.t(:notice_password_confirmation_failed))
       else
-        expect(page).not_to have_selector('.op-toast.-error')
+        expect(page).to have_no_css('.op-toast.-error')
       end
     end
   end

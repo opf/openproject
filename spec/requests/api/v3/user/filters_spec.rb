@@ -61,29 +61,29 @@ RSpec.describe 'GET /api/v3/users' do
 
   describe 'status filter' do
     it '=' do
-      expect(filter_users("status", "=", :active)).to match_array ["admin", "h.wurst", "m.mario"]
+      expect(filter_users("status", "=", :active)).to contain_exactly("admin", "h.wurst", "m.mario")
     end
 
     it '!' do
-      expect(filter_users("status", "!", :active)).to match_array ["h.heine"]
+      expect(filter_users("status", "!", :active)).to contain_exactly("h.heine")
     end
   end
 
   describe 'login filter' do
     it '=' do
-      expect(filter_users("login", "=", "admin")).to match_array ["admin"]
+      expect(filter_users("login", "=", "admin")).to contain_exactly("admin")
     end
 
     it '!' do
-      expect(filter_users("login", "!", "admin")).to match_array ["h.wurst", "h.heine", "m.mario"]
+      expect(filter_users("login", "!", "admin")).to contain_exactly("h.wurst", "h.heine", "m.mario")
     end
 
     it '~' do
-      expect(filter_users("login", "~", "h.")).to match_array ["h.wurst", "h.heine"]
+      expect(filter_users("login", "~", "h.")).to contain_exactly("h.wurst", "h.heine")
     end
 
     it '!~' do
-      expect(filter_users("login", "!~", "h.")).to match_array ["admin", "m.mario"]
+      expect(filter_users("login", "!~", "h.")).to contain_exactly("admin", "m.mario")
     end
   end
 end

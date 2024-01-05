@@ -77,7 +77,7 @@ RSpec.describe 'Estimated hours display' do
       ]
     end
 
-    it 'work package index', js: true do
+    it 'work package index', :js do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
@@ -86,7 +86,7 @@ RSpec.describe 'Estimated hours display' do
       )
     end
 
-    it 'work package details', js: true do
+    it 'work package details', :js do
       visit work_package_path(parent.id)
 
       expect(page).to have_content("Work\n1 h(+3 h)")
@@ -104,7 +104,7 @@ RSpec.describe 'Estimated hours display' do
       ]
     end
 
-    it 'work package index', js: true do
+    it 'work package index', :js do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
@@ -113,7 +113,7 @@ RSpec.describe 'Estimated hours display' do
       )
     end
 
-    it 'work package details', js: true do
+    it 'work package details', :js do
       visit work_package_path(parent.id)
 
       expect(page).to have_content("Work\n1 h")
@@ -131,7 +131,7 @@ RSpec.describe 'Estimated hours display' do
       ]
     end
 
-    it 'work package index', js: true do
+    it 'work package index', :js do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
@@ -140,7 +140,7 @@ RSpec.describe 'Estimated hours display' do
       )
     end
 
-    it 'work package details', js: true do
+    it 'work package details', :js do
       visit work_package_path(parent.id)
 
       expect(page).to have_content("Work\n0 h(+3 h)")
@@ -158,7 +158,7 @@ RSpec.describe 'Estimated hours display' do
       ]
     end
 
-    it 'work package index', js: true do
+    it 'work package index', :js do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
@@ -167,7 +167,7 @@ RSpec.describe 'Estimated hours display' do
       )
     end
 
-    it 'work package details', js: true do
+    it 'work package details', :js do
       visit work_package_path(parent.id)
 
       expect(page).to have_content("Work\n0 h")

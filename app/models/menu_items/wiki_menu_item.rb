@@ -44,7 +44,7 @@ class MenuItems::WikiMenuItem < MenuItem
   end
 
   def menu_identifier
-    "wiki-#{slug}".to_sym
+    :"wiki-#{slug}"
   end
 
   def index_page
@@ -68,6 +68,6 @@ class MenuItems::WikiMenuItem < MenuItem
   end
 
   def self.add_entry_item_prefix(identifier)
-    "entry-item-#{identifier}".to_sym
+    :"entry-item-#{identifier}"
   end
 end

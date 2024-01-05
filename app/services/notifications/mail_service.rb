@@ -52,7 +52,7 @@ module Notifications
     end
 
     def strategy
-      @strategy ||= if self.class.const_defined?("#{strategy_model}Strategy")
+      @strategy ||= if self.class.const_defined?(:"#{strategy_model}Strategy")
                       "#{self.class}::#{strategy_model}Strategy".constantize
                     end
     end

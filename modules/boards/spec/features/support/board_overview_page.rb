@@ -37,7 +37,7 @@ module Pages
 
     def expect_global_menu_item_selected
       within '#main-menu' do
-        expect(page).to have_selector('.selected', text: 'Boards')
+        expect(page).to have_css('.selected', text: 'Boards')
       end
     end
   end

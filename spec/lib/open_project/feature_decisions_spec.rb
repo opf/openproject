@@ -49,7 +49,7 @@ RSpec.describe OpenProject::FeatureDecisions, :settings_reset do
       include_context 'when adding without env variable'
 
       it 'is false by default' do
-        expect(described_class.send("#{flag_name}_active?"))
+        expect(described_class.send(:"#{flag_name}_active?"))
           .to be false
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe OpenProject::FeatureDecisions, :settings_reset do
       include_context 'when adding the given feature flag'
 
       it 'is true' do
-        expect(described_class.send("#{flag_name}_active?"))
+        expect(described_class.send(:"#{flag_name}_active?"))
           .to be true
       end
     end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
+RSpec.describe 'Search', :js, with_settings: { per_page_options: '5' } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create(:admin) }
@@ -89,7 +89,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
   def expect_range(param_a, param_b)
     (param_a..param_b).each do |n|
       expect(page).to have_content("No. #{n} WP")
-      expect(page).to have_selector("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
+      expect(page).to have_css("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
     end
   end
 
@@ -131,7 +131,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
       global_search.click_work_package(target_work_package)
 
       expect(page)
-        .to have_selector('.subject', text: target_work_package.subject)
+        .to have_css('.subject', text: target_work_package.subject)
 
       expect(page)
         .to have_current_path project_work_package_path(target_work_package.project, target_work_package, state: 'activity')
@@ -148,7 +148,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
       global_search.submit_with_enter
 
       expect(page)
-        .to have_selector('.subject', text: search_target.subject)
+        .to have_css('.subject', text: search_target.subject)
 
       expect(page)
         .to have_current_path project_work_package_path(search_target.project, search_target, state: 'activity')
@@ -293,7 +293,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
         global_search.submit_in_current_project
 
         # Expect that the "All" tab is selected.
-        expect(page).to have_selector('[data-qa-tab-id="all"][data-qa-tab-selected]')
+        expect(page).to have_css('[data-qa-tab-id="all"][data-qa-tab-selected]')
 
         # Expect that the project scope is set to current_project and no module (this is the "all" tab) is requested.
         expect(current_url).to match(/\/#{project.identifier}\/search\?q=#{query}&scope=current_project$/)
@@ -305,7 +305,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
         expect(current_url).to match(/\/search\?q=#{query}&work_packages=1&scope=current_project$/)
 
         # Expect that the "Work packages" tab is selected.
-        expect(page).to have_selector('[data-qa-tab-id="work_packages"][data-qa-tab-selected]')
+        expect(page).to have_css('[data-qa-tab-id="work_packages"][data-qa-tab-selected]')
 
         table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
         table.expect_work_package_count(5) # because we set the page size to this
@@ -378,7 +378,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
         global_search.submit_in_project_and_subproject_scope
 
         # Expect that the "Work packages" tab is selected.
-        expect(page).to have_selector('[data-qa-tab-id="work_packages"][data-qa-tab-selected]')
+        expect(page).to have_css('[data-qa-tab-id="work_packages"][data-qa-tab-selected]')
 
         expect(page).to have_text "Search for \"#{other_work_package.subject}\" in #{project.name} and all subprojects"
 
@@ -431,7 +431,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
           .to have_content attachment_text
 
         expect(page)
-          .to have_selector(".search-highlight", text: query)
+          .to have_css(".search-highlight", text: query)
 
         page.find('[data-qa-tab-id="work_packages"]').click
 
@@ -463,7 +463,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
       global_search.submit_in_global_scope
 
       within('dt.work_package-note + dd') do
-        expect(page).to have_selector(".description", text: note_two.notes)
+        expect(page).to have_css(".description", text: note_two.notes)
       end
 
       # links to work package with anchor to highlighted note
@@ -492,7 +492,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
           .to have_link(searched_for_project.name)
 
         expect(page)
-          .not_to have_link(other_project.name)
+          .to have_no_link(other_project.name)
       end
     end
   end
@@ -587,7 +587,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
     it 'opens and focuses the global search when you press the [s] hotkey' do
       visit home_path
       page.find('body').send_keys('s')
-      expect(page).to have_selector '[data-qa-search-open="1"]', wait: 10
+      expect(page).to have_css '[data-qa-search-open="1"]', wait: 10
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Cost report showing my own times', js: true do
+RSpec.describe 'Cost report showing my own times', :js do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
   let(:user2) { create(:admin) }
@@ -39,9 +39,9 @@ RSpec.describe 'Cost report showing my own times', js: true do
       check 'query_is_public'
       find_by_id('query-icon-save-button').click
       # wait until the save is complete
-      expect(page).to have_selector('h2', text: 'Query ME value')
+      expect(page).to have_css('h2', text: 'Query ME value')
 
-      expect(page).to have_selector('.report', text: '10.00')
+      expect(page).to have_css('.report', text: '10.00')
 
       report = nil
       retry_block do
@@ -57,8 +57,8 @@ RSpec.describe 'Cost report showing my own times', js: true do
 
       # Create and save cost report
       visit cost_report_path(report.id, project_id: project.identifier)
-      expect(page).not_to have_selector('.report', text: '10.00')
-      expect(page).to have_selector('.report', text: '15.00')
+      expect(page).to have_no_css('.report', text: '10.00')
+      expect(page).to have_css('.report', text: '15.00')
 
       expect(page).to have_field(filter_selector, text: 'me')
     end

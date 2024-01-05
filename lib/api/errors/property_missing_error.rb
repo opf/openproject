@@ -38,7 +38,7 @@ module API
         self.property = property
 
         message = I18n.t('api_v3.errors.missing_property', property:)
-        super message
+        super(message)
       end
 
       def details

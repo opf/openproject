@@ -17,7 +17,7 @@ OpenProject::Application.configure do
       next if duration <= slow_sql_threshold
 
       payload = {
-        duration: duration,
+        duration:,
         time: start.iso8601,
         cached: !!data[:cache],
         sql: data[:sql]
@@ -25,7 +25,7 @@ OpenProject::Application.configure do
 
       sql_log_string = data[:sql].strip.gsub(/(^(\s+)?$\n)/, "")
       OpenProject.logger.warn "Encountered slow SQL (#{payload[:duration]} ms): #{sql_log_string}",
-                              payload: payload,
+                              payload:,
                               # Hash of the query for reference/fingerprinting
                               reference: Digest::SHA1.hexdigest(data[:sql])
     rescue StandardError => e
