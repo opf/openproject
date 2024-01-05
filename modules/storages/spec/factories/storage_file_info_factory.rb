@@ -30,6 +30,7 @@ FactoryBot.define do
   factory :storage_file_info, class: '::Storages::StorageFileInfo' do
     status { "OK" }
     status_code { 200 }
+    sequence(:id) { |n| "20000#{n}" } # rubocop:disable FactoryBot/IdSequence
     sequence(:name) { |n| "file_name_#{n}.txt" }
     last_modified_at { Time.zone.now }
     created_at { Time.zone.now }
