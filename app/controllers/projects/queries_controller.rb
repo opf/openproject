@@ -45,7 +45,7 @@ class Projects::QueriesController < ApplicationController
     # Set default filter on status no filter is provided.
     @query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE) unless params[:filters]
 
-    # Order lft if no order is provided.
+    # Order lft for now
     @query.order(lft: :asc) unless params[:sortBy]
 
     @query

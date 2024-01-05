@@ -33,6 +33,7 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
   belongs_to :user
 
   serialize :filters, Queries::Serialization::Filters.new(self)
+  serialize :orders, Queries::Serialization::Orders.new(self)
 
   def self.model
     Project

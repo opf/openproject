@@ -36,7 +36,7 @@ class ParamsToQueryService
   end
 
   def call(params)
-    query = new_query
+    query = find_query(params)
 
     query = apply_filters(query, params)
     apply_order(query, params)
@@ -45,8 +45,12 @@ class ParamsToQueryService
 
   private
 
-  def new_query
-    query_class.new(user:)
+  def find_query(params)
+    if params[:query_id]
+      query_class.find(params[:query_id])
+    else
+      query_class.new(user:)
+    end
   end
 
   def apply_filters(query, params)

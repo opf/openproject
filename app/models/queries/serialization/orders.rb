@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,28 +25,31 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-#
-module OpenProject
-  module Common
-    class SubmenuComponent < ApplicationComponent
-      def initialize(sidebar_menu_items: nil)
-        super()
-        @sidebar_menu_items = sidebar_menu_items
-      end
 
-      def render?
-        @sidebar_menu_items.present?
-      end
+class Queries::Serialization::Orders
+  include Queries::Orders::AvailableOrders
 
-      def top_level_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.nil? }
-      end
+  def load(serialized_orders)
+    return [] if serialized_orders.nil?
 
-      def nested_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.present? && menu_item.children.any? }
+    serialized_orders.map do |o|
+      order_for(o["attribute"].to_sym).tap do |order|
+        order.direction = o["direction"].to_sym
       end
     end
   end
+
+  def dump(orders)
+    orders.map { |o| { attribute: o.attribute, direction: o.direction } }
+  end
+
+  def orders_register
+    ::Queries::Register.orders[klass]
+  end
+
+  def initialize(klass)
+    @klass = klass
+  end
+
+  attr_reader :klass
 end

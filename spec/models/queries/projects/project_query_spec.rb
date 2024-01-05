@@ -65,5 +65,16 @@ RSpec.describe Queries::Projects::ProjectQuery do
       expect(described_class.find(instance.id).filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
         .to eql [{ field: :active, operator: '=', values: [OpenProject::Database::DB_VALUE_TRUE] }]
     end
+
+    it 'takes sort order' do
+      instance = described_class.new(**properties)
+
+      instance.order(id: :desc)
+
+      instance.save!
+
+      expect(described_class.find(instance.id).orders.map { |o| { o.attribute => o.direction } })
+        .to eql [{ id: :desc }]
+    end
   end
 end

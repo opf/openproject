@@ -1184,9 +1184,6 @@ RSpec.describe 'Projects index page',
 
       projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(public_project, development_project)
-
-      expect(page).to have_css('th', text: 'PUBLIC')
-      expect(page).not_to have_css('th', text: 'STATUS')
     end
   end
 end

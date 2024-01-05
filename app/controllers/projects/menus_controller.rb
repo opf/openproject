@@ -39,21 +39,33 @@ module Projects
 
     def first_level_menu_items
       [
-        OpenProject::Menu::MenuGroup.new(header: nil, children: static_filters)
+        OpenProject::Menu::MenuGroup.new(header: nil,
+                                         children: static_filters),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:'projects.menu.my_private_lists'),
+                                         children: my_filters)
       ]
     end
 
     def static_filters
       [
-        menu_item(I18n.t(:label_all_projects),
+        menu_item(I18n.t(:'projects.sidemenu.all'),
                   []),
-        menu_item(I18n.t(:label_my_projects),
+        menu_item(I18n.t(:'projects.sidemenu.my'),
                   [{ member_of: { operator: '=', values: ['t'] } }]),
-        menu_item(I18n.t(:label_public_projects),
-                  [{ public: { operator: '=', values: ['t'] } }]),
-        menu_item(I18n.t(:label_archived_projects),
+        menu_item(I18n.t(:'projects.sidemenu.archived'),
                   [{ active: { operator: '=', values: ['f'] } }])
       ]
+    end
+
+    def my_filters
+      Queries::Projects::ProjectQuery
+        .where(user: current_user)
+        .order(:name)
+        .map do |query|
+        OpenProject::Menu::MenuItem.new(title: query.name,
+                                        href: projects_path(query_id: query.id, hide_filters_section: true),
+                                        selected: false)
+      end
     end
 
     def menu_item(title, filters)
