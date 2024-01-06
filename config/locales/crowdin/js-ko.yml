@@ -981,6 +981,7 @@ ko:
         updatedAt: "업데이트 날짜"
         versionName: "버전"
         version: "버전"
+        remainingTime: "남은 작업"
       default_queries:
         latest_activity: "최근 활동"
         created_by_me: "내가 만듦"

@@ -983,6 +983,7 @@ lv:
         updatedAt: "Labots"
         versionName: "Versija"
         version: "Versija"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

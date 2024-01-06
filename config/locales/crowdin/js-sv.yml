@@ -981,6 +981,7 @@ sv:
         updatedAt: "Uppdaterat den"
         versionName: "Version"
         version: "Version"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Senaste aktivitet"
         created_by_me: "Skapad av mig"

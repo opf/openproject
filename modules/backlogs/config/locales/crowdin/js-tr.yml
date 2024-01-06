@@ -24,4 +24,3 @@ tr:
     work_packages:
       properties:
         storyPoints: "Hikaye Puanları"
-        remainingTime: "Remaining work"

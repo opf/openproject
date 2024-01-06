@@ -982,6 +982,7 @@ ja:
         updatedAt: "更新日時"
         versionName: "バージョン"
         version: "バージョン"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "最新の活動"
         created_by_me: "私が作成した"

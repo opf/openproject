@@ -27,10 +27,6 @@ ca:
     attributes:
       work_package:
         position: "Posició"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
         story_points: "Punts d'història"
         backlogs_work_package_type: "Tipus de backlog"
     errors:
@@ -68,8 +64,8 @@ ca:
     properties: "Propietats"
     rebuild: "Reconstruir"
     rebuild_positions: "Reconstruir posicions"
-    remaining_hours: "Hores restants"
-    remaining_hours_ideal: "Hores restants (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Diagrama de progrés"
     story: "Història"
     story_points: "Punts d'història"
@@ -151,7 +147,7 @@ ca:
   rb_label_copy_tasks_none: "Cap"
   rb_label_copy_tasks_open: "Obre"
   rb_label_link_to_original: "Incloure l'enllaç a la història original"
-  remaining_hours: "hores restants"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "ritme de progrés necessari (hores)"
   required_burn_rate_points: "ritme de progrés necessari (punts)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

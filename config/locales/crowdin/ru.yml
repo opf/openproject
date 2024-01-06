@@ -281,13 +281,13 @@ ru:
     invite_by_mail: "Отправить приглашение на %{mail}"
     send_invite_to: "Отправить приглашение"
     filters:
-      all_shares: 'All shares'
+      all_shares: 'Все используемое совместно'
     menu:
       all: 'Все'
       invited: 'Приглашённые'
       locked: 'Заблокировано'
       project_roles: 'Роли проекта'
-      wp_shares: 'Work package shares'
+      wp_shares: 'Пакеты работ используемые совместно'
       groups: 'Группы'
   my:
     access_token:
@@ -616,6 +616,8 @@ ru:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
+        derived_remaining_hours: "Производная оставшаяся работа"
+        derived_remaining_time: "Производная оставшаяся работа"
         done_ratio: "% Завершено"
         duration: "Продолжительность"
         end_insertion: "Завершение вставки"
@@ -632,6 +634,8 @@ ru:
         priority: "Приоритет"
         progress: "% Завершено"
         readonly: "Только для чтения"
+        remaining_hours: "Оставшаяся работа"
+        remaining_time: "Оставшаяся работа"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
@@ -2127,7 +2131,7 @@ ru:
   label_type_new: "Новый тип"
   label_type_plural: "Типы"
   label_ui: "Интерфейс пользователя"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
+  label_update_work_package_done_ratios: "Обновить пакет работ % окончательные значения"
   label_updated_time: "Обновлено %{value} назад"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Обновил %{author} %{age} назад"
@@ -2287,7 +2291,7 @@ ru:
         allowed_actions: "Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта."
         create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Открыть пакет работ"
-        subject: "Work package #%{id} was shared with you"
+        subject: "Пакет работ #%{id} был разделен с вами"
         enterprise_text: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
         summary:
           user: ""
@@ -2764,10 +2768,10 @@ ru:
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
   setting_invitation_expiration_days: "Действие письма активации истекает после"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio: "Расчет пакета работ % завершен с помощью"
   setting_work_package_done_ratio_field: "Поле пакета работ"
   setting_work_package_done_ratio_status: "Статус пакета работ"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio_disabled: "Отключить (скрыть % заполненное поле)"
   setting_work_package_list_default_columns: "Отображать по умолчанию"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"

@@ -980,6 +980,7 @@ zh-CN:
         updatedAt: "更新时间"
         versionName: "版本"
         version: "版本"
+        remainingTime: "剩余的工作"
       default_queries:
         latest_activity: "最新活动"
         created_by_me: "我创建的"

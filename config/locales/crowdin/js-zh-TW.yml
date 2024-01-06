@@ -980,6 +980,7 @@ zh-TW:
         updatedAt: "更新於"
         versionName: "版本"
         version: "版本"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "最新活動"
         created_by_me: "由我創建"

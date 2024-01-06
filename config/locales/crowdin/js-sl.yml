@@ -983,6 +983,7 @@ sl:
         updatedAt: "Posodobljeno"
         versionName: "Različica"
         version: "Različica"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Zadnja dejavnost"
         created_by_me: "Ustvaril jaz"

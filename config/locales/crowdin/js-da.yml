@@ -981,6 +981,7 @@ da:
         updatedAt: "Opdateret den"
         versionName: "Version"
         version: "Version"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

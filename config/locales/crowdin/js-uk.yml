@@ -984,6 +984,7 @@ uk:
         updatedAt: "Оновлене"
         versionName: "Версія"
         version: "Версія"
+        remainingTime: "Залишок роботи"
       default_queries:
         latest_activity: "Останні дії"
         created_by_me: "Створений мною"

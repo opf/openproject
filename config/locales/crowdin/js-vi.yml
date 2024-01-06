@@ -980,6 +980,7 @@ vi:
         updatedAt: "Được cập nhật vào lúc"
         versionName: "Phiên bản"
         version: "Phiên bản"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Hoạt động mới nhất"
         created_by_me: "Do tôi tạo ra"

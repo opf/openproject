@@ -982,6 +982,7 @@ it:
         updatedAt: "Aggiornato il"
         versionName: "Versione"
         version: "Versione"
+        remainingTime: "Lavoro rimanente"
       default_queries:
         latest_activity: "Ultima attività"
         created_by_me: "Creato da me"

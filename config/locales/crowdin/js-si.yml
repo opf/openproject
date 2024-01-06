@@ -982,6 +982,7 @@ si:
         updatedAt: "යාවත්කාලීන කරන ලදි"
         versionName: "අනුවාදය"
         version: "අනුවාදය"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "නවතම ක්රියාකාරකම්"
         created_by_me: "මා විසින් නිර්මාණය කරන ලදී"

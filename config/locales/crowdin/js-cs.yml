@@ -984,6 +984,7 @@ cs:
         updatedAt: "Aktualizováno"
         versionName: "Verze"
         version: "Verze"
+        remainingTime: "Zbývající práce"
       default_queries:
         latest_activity: "Poslední aktivita"
         created_by_me: "Vytvořeno mnou"

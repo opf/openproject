@@ -27,10 +27,6 @@ tr:
     attributes:
       work_package:
         position: "Konum"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
         story_points: "Hikaye Puanları"
         backlogs_work_package_type: "Bekleme listesi türü"
     errors:
@@ -68,8 +64,8 @@ tr:
     properties: "Özellikleri"
     rebuild: "Yeniden inşa etmek"
     rebuild_positions: "Pozisyonu yeniden inşa et"
-    remaining_hours: "Kalan saat"
-    remaining_hours_ideal: "Kalan saat (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Açılış tablosu"
     story: "Hikaye"
     story_points: "Hikaye Puanları"
@@ -151,7 +147,7 @@ tr:
   rb_label_copy_tasks_none: "Hiçbiri"
   rb_label_copy_tasks_open: "Aç"
   rb_label_link_to_original: "Orijinal hikayeye bağlantı ekle"
-  remaining_hours: "kalan saatler"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "gerekli yanma oranı (saat)"
   required_burn_rate_points: "gerekli yanma oranı (puan)"
   todo_work_package_description: "%{summary}:%{url}\n%{description}"

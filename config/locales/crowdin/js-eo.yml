@@ -982,6 +982,7 @@ eo:
         updatedAt: "Ĝisdatigita la"
         versionName: "Versio"
         version: "Versio"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Lastaj aktivecoj"
         created_by_me: "Created by me"

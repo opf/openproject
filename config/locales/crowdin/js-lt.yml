@@ -984,6 +984,7 @@ lt:
         updatedAt: "Atnaujinta"
         versionName: "Versija"
         version: "Versija"
+        remainingTime: "Liko darbo"
       default_queries:
         latest_activity: "Paskutinė veikla"
         created_by_me: "Sukūriau pats"

@@ -982,6 +982,7 @@ ro:
         updatedAt: "Actualizat pe"
         versionName: "Versiune"
         version: "Versiune"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Activitate recentă"
         created_by_me: "Creat de mine"

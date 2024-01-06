@@ -982,6 +982,7 @@ hi:
         updatedAt: "पर अद्यतीत"
         versionName: "संस्करण"
         version: "संस्करण"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "मेरे द्वारा सृजनित"

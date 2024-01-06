@@ -982,6 +982,7 @@ ca:
         updatedAt: "Actualitzat el"
         versionName: "Versió"
         version: "Versió"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Última activitat"
         created_by_me: "Creat per mi"

@@ -982,6 +982,7 @@ eu:
         updatedAt: "Updated on"
         versionName: "Bertsioa"
         version: "Bertsioa"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

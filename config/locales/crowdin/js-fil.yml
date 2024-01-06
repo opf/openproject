@@ -982,6 +982,7 @@ fil:
         updatedAt: "Naka-update sa"
         versionName: "Bersyon"
         version: "Bersyon"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

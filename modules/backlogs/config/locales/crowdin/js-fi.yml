@@ -24,4 +24,3 @@ fi:
     work_packages:
       properties:
         storyPoints: "Tarinapisteet"
-        remainingTime: "Remaining work"
