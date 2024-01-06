@@ -2278,7 +2278,7 @@ ru:
         allowed_actions: "Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта."
         create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Открыть пакет работ"
-        subject: "Work package #%{id} was shared with you"
+        subject: "Пакет работ #%{id} был разделен с вами"
         enterprise_text: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
         summary:
           user: ""
