@@ -52,13 +52,7 @@ RSpec.shared_examples_for 'available principals' do |principals, work_package_sc
     create(:placeholder_user, member_with_roles: { project => assignable_project_role })
   end
 
-  let(:permissions) do
-    if work_package_scope
-      %i[edit_work_packages view_work_packages]
-    else
-      %i[add_work_packages]
-    end
-  end
+  let(:permissions) { base_permissions }
 
   let(:assignable_permissions) { [:work_package_assigned] }
 
@@ -74,13 +68,7 @@ RSpec.shared_examples_for 'available principals' do |principals, work_package_sc
     end
 
     describe 'users' do
-      let(:permissions) do
-        if work_package_scope
-          %i[edit_work_packages view_work_packages work_package_assigned]
-        else
-          %i[add_work_packages work_package_assigned]
-        end
-      end
+      let(:permissions) { base_permissions + assignable_permissions }
 
       context 'for a single user' do
         # The current user
@@ -103,13 +91,7 @@ RSpec.shared_examples_for 'available principals' do |principals, work_package_sc
       end
 
       context 'if the user lacks the assignable permission' do
-        let(:permissions) do
-          if work_package_scope
-            %i[edit_work_packages view_work_packages]
-          else
-            %i[add_work_packages]
-          end
-        end
+        let(:permissions) { base_permissions }
 
         it_behaves_like "returns available #{principals}", 0, 0, 'User'
       end
